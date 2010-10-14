@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C8119EAD-2FE4-4B23-B69E-EA12F526B18A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ucpf.Languages</RootNamespace>
+    <AssemblyName>UCPF.Languages</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby">
+      <HintPath>..\lib\IronRuby.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\IronRuby.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries.YAML">
+      <HintPath>..\lib\IronRuby.Libraries.YAML.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Scripting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Paraiba.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Antlr\AntlrAstGenerator.cs" />
+    <Compile Include="Antlr\ANTLRv3Lexer.cs" />
+    <Compile Include="Antlr\ANTLRv3Parser.cs" />
+    <Compile Include="Common\Antlr\AntlrAstGeneratorOld.cs" />
+    <Compile Include="Common\Antlr\AntlrAstGenerator.cs" />
+    <Compile Include="Common\Antlr\AntlrBlockGenerator.cs" />
+    <Compile Include="Common\Antlr\AntlrCodeGenerateHelper.cs" />
+    <Compile Include="Common\Antlr\IXParser.cs" />
+    <Compile Include="Common\Antlr\XmlTreeAdaptor.cs" />
+    <Compile Include="Common\Antlr\XParser.cs" />
+    <Compile Include="Common\Antlr\XParserRuleReturnScope.cs" />
+    <Compile Include="ConfigReader.cs" />
+    <Compile Include="CSharp\CSharpElements.cs" />
+    <Compile Include="C\CElements.cs" />
+    <Compile Include="GlobalInformation.cs" />
+    <Compile Include="Java\JavaElements.cs" />
+    <Compile Include="JavaScript\JavaScriptElements.cs" />
+    <Compile Include="Lua\LuaElements.cs" />
+    <Compile Include="Python2\Python2Elements.cs" />
+    <Compile Include="Python3\Python3CodeGenerator.cs" />
+    <Compile Include="Python3\Python3AstGenerator.cs" />
+    <Compile Include="C\CCodeGenerator.cs" />
+    <Compile Include="C\CLexer.cs" />
+    <Compile Include="C\CParser.cs" />
+    <Compile Include="CSharp\CSharpCodeGenerator.cs" />
+    <Compile Include="CSharp\CSharpAstGeneratorOld.cs" />
+    <Compile Include="CSharp\csLexer.cs" />
+    <Compile Include="CSharp\csParser.cs" />
+    <Compile Include="C\CAstGeneratorOld.cs" />
+    <Compile Include="Java\JavaCodeGenerator.cs" />
+    <Compile Include="Java\JavaLexer.cs" />
+    <Compile Include="Java\JavaParser.cs" />
+    <Compile Include="JavaScript\JavaScriptCodeGenerator.cs" />
+    <Compile Include="JavaScript\JavaScriptLexer.cs" />
+    <Compile Include="JavaScript\JavaScriptParser.cs" />
+    <Compile Include="JavaScript\JavaScriptAstGeneratorOld.cs" />
+    <Compile Include="Java\JavaAstGenerator.cs" />
+    <Compile Include="Lua\LuaCodeGenerator.cs" />
+    <Compile Include="Lua\LuaLexer.cs" />
+    <Compile Include="Lua\LuaParser.cs" />
+    <Compile Include="Lua\LuaAstGeneratorOld.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Python2\Python2CodeGenerator.cs" />
+    <Compile Include="Python2\Python2AstGenerator.cs" />
+    <Compile Include="Ruby\RubyCodeGenerator.cs" />
+    <Compile Include="Ruby\RubyParser.cs" />
+    <Compile Include="Ruby\RubyAstGenerator.cs" />
+    <Compile Include="Ruby\RubyElements.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Antlr\ANTLRv3.g" />
+    <None Include="CSharp\cs.g" />
+    <None Include="C\C.g" />
+    <None Include="JavaScript\JavaScript.g" />
+    <None Include="Java\Java.g" />
+    <None Include="Lua\Lua.g" />
+    <None Include="ParserScripts\Ruby1.8\composite_sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\gauntlet_rubyparser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\racc\parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\ruby2ruby.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\ruby_lexer.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\ruby_parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\ruby_parser_extras.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\sexp.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\stringio.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\strscan.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ParserScripts\Ruby1.8\unique.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Python2\Python.g" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
+      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
+      <Name>Ucpf</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ParserScripts\Python2\ast2xml.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Python3\st2xml.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\ruby2ruby_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\ruby_parser_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\SexpProcessor_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
