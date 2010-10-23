@@ -34,8 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -53,7 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OCPF\Ucpf.csproj">
+    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
     </ProjectReference>
