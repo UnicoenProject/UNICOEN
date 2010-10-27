@@ -1,9 +1,9 @@
-from coverage_manager import *
-statement ( 12125 , 0 ) ; i = 0
-if branchAndCondition ( i == 0 , 12125 , 4 ) :
-	statement ( 12125 , 1 ) ; print ( "test" )
+import CoverageOutput
+CoverageOutput . WriteStatement ( 12125 , 0 , 0 ) ; i = 0
+if CoverageOutput . WritePredicate ( 12125 , 4 , 2 , i == 0 ) :
+	CoverageOutput . WriteStatement ( 12125 , 1 , 0 ) ; print ( "test" )
 while i != 0 :
-	statement ( 12125 , 2 ) ; print ( "test" )
+	CoverageOutput . WriteStatement ( 12125 , 2 , 0 ) ; print ( "test" )
 for x in [ 0 ] :
-	statement ( 12125 , 3 ) ; print ( "test" )
+	CoverageOutput . WriteStatement ( 12125 , 3 , 0 ) ; print ( "test" )
 

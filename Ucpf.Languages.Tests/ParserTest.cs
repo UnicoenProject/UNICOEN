@@ -30,7 +30,7 @@ namespace Ucpf.Languages.Tests
 			}
 		}
 
-		[Test, TestCaseSource("TestCases")]
+		//[Test, TestCaseSource("TestCases")]
 		public void パース結果をファイルに出力できる(string fileName, IAstGenerator astGen)
 		{
 			var path = Path.Combine(DirectoryPath, fileName);

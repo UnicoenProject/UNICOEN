@@ -1,5 +1,5 @@
 #
-# $originalId: parser.rb,v 1.8 2006/07/06 11:42:07 aamine Exp $
+# $Id$
 #
 # Copyright (c) 1999-2006 Minero Aoki
 #
@@ -30,11 +30,11 @@ module Racc
 
   class Parser
 
-    Racc_Runtime_Version = '1.4.5'
-    Racc_Runtime_Revision = '$originalRevision: 1.8 $'.split[1]
+    Racc_Runtime_Version = '1.4.6'
+    Racc_Runtime_Revision = '$Id$'
 
-    Racc_Runtime_Core_Version_R = '1.4.5'
-    Racc_Runtime_Core_Revision_R = '$originalRevision: 1.8 $'.split[1]
+    Racc_Runtime_Core_Version_R = '1.4.6'
+    Racc_Runtime_Core_Revision_R = '$Id$'.split[1]
     begin
       require 'racc/cparse'
     # Racc_Runtime_Core_Version_C  = (defined in extention)
@@ -159,9 +159,6 @@ module Racc
       reduce_n,     use_result,   * = arg
 
       _racc_init_sysvars
-      tok = nil
-      act = nil
-      i = nil
       nerr = 0
 
       catch(:racc_end_parse) {
@@ -189,9 +186,9 @@ module Racc
             ;
           end
 
-          while not (i = action_pointer[@racc_state[-1]]) or
-                not @racc_read_next or
-                @racc_t == 0   # $
+          while !(i = action_pointer[@racc_state[-1]]) ||
+                ! @racc_read_next ||
+                @racc_t == 0  # $
             unless i and i += @racc_t and
                    i >= 0 and
                    act = action_table[i] and

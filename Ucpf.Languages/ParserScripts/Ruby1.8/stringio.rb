@@ -1,83 +1,16 @@
+# ****************************************************************************
 #
-# Limited StringIO if no core lib is available
+# Copyright (c) Microsoft Corporation. 
 #
-begin
-require 'stringio'
-rescue LoadError
-    # StringIO based on code by MoonWolf
-    class StringIO
-        def initialize(string="")
-            @string=string
-            @pos=0
-            @eof=(string.size==0)
-        end
-        def pos
-            @pos
-        end    
-        def eof
-            @eof
-        end
-        alias eof? eof
-        def readline(rs=$/)
-            if @eof
-                raise EOFError
-            else
-                if p = @string[@pos..-1]=~rs
-                    line = @string[@pos,p+1]
-                else
-                    line = @string[@pos..-1]
-                end
-                @pos+=line.size
-                @eof =true if @pos==@string.size
-                $_ = line
-            end
-        end
-        def rewind
-            seek(0,0)
-        end
-        def seek(offset,whence)
-            case whence
-            when 0
-                @pos=offset
-            when 1
-                @pos+=offset
-            when 2
-                @pos=@string.size+offset
-            end
-            @eof=(@pos>=@string.size)
-            0
-        end
-    end
+# This source code is subject to terms and conditions of the Apache License, Version 2.0. A 
+# copy of the license can be found in the License.html file at the root of this distribution. If 
+# you cannot locate the  Apache License, Version 2.0, please send an email to 
+# ironruby@microsoft.com. By using this source code in any fashion, you are agreeing to be bound 
+# by the terms of the Apache License, Version 2.0.
+#
+# You must not remove this notice, or any other, from this software.
+#
+#
+# ****************************************************************************
 
-	#
-	# Class method for creating streams
-	#
-	def YAML.make_stream( io )
-        if String === io
-            io = StringIO.new( io )
-        elsif not IO === io
-            raise YAML::Error, "YAML stream must be an IO or String object."
-        end
-        if YAML::unicode
-            def io.readline
-                YAML.utf_to_internal( readline( @ln_sep ), @utf_encoding )
-            end
-            def io.check_unicode
-                @utf_encoding = YAML.sniff_encoding( read( 4 ) )
-                @ln_sep = YAML.enc_separator( @utf_encoding )
-                seek( -4, IO::SEEK_CUR )
-            end
-		    def io.utf_encoding
-		    	@utf_encoding
-		    end
-            io.check_unicode
-        else
-            def io.utf_encoding
-                :None
-            end
-        end
-        io
-	end
-
-end
-
+load_assembly 'IronRuby.Libraries', 'IronRuby.StandardLibrary.StringIO'

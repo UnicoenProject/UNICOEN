@@ -19,9 +19,9 @@ namespace OpenCodeProcessorFramework.Languages
 			return @"C:\Python31\python.exe";
 		}
 
-		public static string IronRuby()
-		{
-			return @"C:\Program Files\IronRuby 1.1";
-		}
+//		public static string IronRuby()
+//		{
+//			return @"C:\Program Files\IronRuby 1.1";
+//		}
 	}
 }

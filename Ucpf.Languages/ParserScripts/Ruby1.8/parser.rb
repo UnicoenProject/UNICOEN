@@ -71,8 +71,7 @@ end
 def traverse_xml(elem)
   arr = [elem.name.local_name.to_sym]
   for e in elem.elements
-    ret = terminal_node2array_element(e)
-    arr << (ret != false ? ret : traverse_xml(e))
+    arr << terminal_node2array_element(e)
   end
   arr
 end
@@ -93,6 +92,6 @@ def terminal_node2array_element(elem)
   when 'Float'
     elem.value.to_f
   else
-    false
+    traverse_xml(elem)
   end
 end
