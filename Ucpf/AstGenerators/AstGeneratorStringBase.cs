@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using Paraiba.Text;
 
 namespace Ucpf.AstGenerators
 {
@@ -16,7 +17,7 @@ namespace Ucpf.AstGenerators
 
 		public virtual XElement Generate(Stream stream, bool ignoreArrange = false)
 		{
-			using (var reader = new StreamReader(stream)) {
+			using (var reader = new StreamReader(stream, XEncoding.SJIS)) {
 				return Generate(reader, ignoreArrange);
 			}
 		}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Paraiba.Text;
 using Paraiba.Xml;
 using Ucpf.AstGenerators;
 using Ucpf.Plugins;
@@ -30,7 +31,7 @@ namespace Ucpf.Languages.Tests
 			}
 		}
 
-		//[Test, TestCaseSource("TestCases")]
+		[Test, TestCaseSource("TestCases")]
 		public void パース結果をファイルに出力できる(string fileName, IAstGenerator astGen)
 		{
 			var path = Path.Combine(DirectoryPath, fileName);
@@ -49,7 +50,8 @@ namespace Ucpf.Languages.Tests
 			var inpath = Path.Combine(OutputDirectoryPath, Path.GetFileName(fileName) + astGen.ParserName);
 			var r = astGen.GenerateFromFile(path);
 			using (var fs = new FileStream(inpath, FileMode.Open))
-			using (var reader = new StreamReader(fs)) {
+            using (var reader = new StreamReader(fs, XEncoding.SJIS))
+            {
 				Assert.That(r.ToString(), Is.EqualTo(reader.ReadToEnd()));
 			}
 		}

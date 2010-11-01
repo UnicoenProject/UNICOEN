@@ -12,6 +12,7 @@ using OpenCodeProcessorFramework.Languages.Python2;
 using OpenCodeProcessorFramework.Languages.Python3;
 using OpenCodeProcessorFramework.Languages.Ruby;
 using Paraiba.Core;
+using Paraiba.Text;
 using Ucpf.AstGenerators;
 
 namespace Code2Xml.Tests
@@ -57,7 +58,8 @@ namespace Code2Xml.Tests
 			Program.Main(filePaths.Concat(new[] { "-C", "-f", outputPath }).ToArray());
 
 			using (var fs = new FileStream(outputPath, FileMode.Open))
-			using (var reader = new StreamReader(fs)) {
+            using (var reader = new StreamReader(fs, XEncoding.SJIS))
+            {
 				var expected = filePaths
 					.Select(filePath => CAstGeneratorOld.Instance.GenerateFromFile(filePath) + Environment.NewLine)
 					.JoinString();
@@ -78,7 +80,8 @@ namespace Code2Xml.Tests
 				var newPath = Path.Combine(Path.GetDirectoryName(filePath),
 					Path.ChangeExtension(Path.GetFileName(filePath), ".xml"));
 				using (var fs = new FileStream(newPath, FileMode.Open))
-				using (var reader = new StreamReader(fs)) {
+                using (var reader = new StreamReader(fs, XEncoding.SJIS))
+                {
 					var actual = reader.ReadToEnd();
 					var expected = CAstGeneratorOld.Instance.GenerateFromFile(filePath).ToString();
 					Assert.That(actual.StartsWith(expected), Is.True);
@@ -100,7 +103,8 @@ namespace Code2Xml.Tests
 				var newPath = Path.Combine(outputPath,
 					Path.ChangeExtension(Path.GetFileName(filePath), ".xml"));
 				using (var fs = new FileStream(newPath, FileMode.Open))
-				using (var reader = new StreamReader(fs)) {
+                using (var reader = new StreamReader(fs, XEncoding.SJIS))
+                {
 					var actual = reader.ReadToEnd();
 					var expected = CAstGeneratorOld.Instance.GenerateFromFile(filePath).ToString();
 					Assert.That(actual.StartsWith(expected), Is.True);
@@ -125,12 +129,12 @@ namespace Code2Xml.Tests
 			foreach (var filePath in filePaths) {
 				var newPath = Path.Combine(outputPath, Path.GetFileName(filePath));
 				using (var fs = new FileStream(newPath, FileMode.Open))
-				using (var reader = new StreamReader(fs)) {
-					var actual = reader.ReadToEnd();
-					var ast = CAstGeneratorOld.Instance.GenerateFromFile(filePath);
-					var expected = CCodeGenerator.Instance.Generate(ast);
-					Assert.That(actual.StartsWith(expected), Is.True);
-				}
+                using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
+                    var actual = reader.ReadToEnd();
+                    var ast = CAstGeneratorOld.Instance.GenerateFromFile(filePath);
+                    var expected = CCodeGenerator.Instance.Generate(ast);
+                    Assert.That(actual.StartsWith(expected), Is.True);
+                }
 			}
 			Directory.Delete(outputPath, true);
 		}

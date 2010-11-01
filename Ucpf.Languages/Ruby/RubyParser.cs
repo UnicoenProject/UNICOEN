@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Xml.Linq;
+using Paraiba.Text;
 
 namespace OpenCodeProcessorFramework.Languages.Ruby
 {
@@ -32,7 +34,7 @@ namespace OpenCodeProcessorFramework.Languages.Ruby
 		public static XElement ParseCodeFromFile(string fileName)
 		{
 			using (var fs = new FileStream(fileName, FileMode.Open))
-			using (var reader = new StreamReader(fs))
+            using (var reader = new StreamReader(fs, XEncoding.SJIS))
 			{
 				return ParseCodeFromString(reader.ReadToEnd());
 			}
