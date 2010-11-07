@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace OpenCodeProcessorFramework.Languages.Lua
+namespace Ucpf.Languages.Lua
 {
 	public static class LuaElements
 	{

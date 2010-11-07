@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Ucpf.CodeGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.Python2
+namespace Ucpf.Languages.Python2
 {
 	[Export(typeof(ICodeGenerator))]
 	public class Python2CodeGenerator : CodeGenerator

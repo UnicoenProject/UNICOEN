@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Antlr.Runtime.Tree;
 
-namespace OpenCodeProcessorFramework.Languages.Common.Antlr
+namespace Ucpf.Languages.Common.Antlr
 {
 	public interface IXParser
 	{

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace OpenCodeProcessorFramework.Languages.CSharp
+namespace Ucpf.Languages.CSharp
 {
 	public static class CSharpElements
 	{

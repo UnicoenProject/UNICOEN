@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Antlr.Runtime;
-using OpenCodeProcessorFramework.Languages.Common.Antlr;
 using Ucpf.AstGenerators;
+using Ucpf.Languages.Common.Antlr;
+using Ucpf.Languages.Java;
 
-namespace OpenCodeProcessorFramework.Languages.Antlr
+namespace Ucpf.Languages.Antlr
 {
 	[Export(typeof(IAstGenerator))]
 	public class AntlrAstGenerator : AntlrAstGenerator<ANTLRv3Parser>

@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Ucpf.CodeGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.C
+namespace Ucpf.Languages.C
 {
 	[Export(typeof(ICodeGenerator))]
 	public class CCodeGenerator : CodeGenerator

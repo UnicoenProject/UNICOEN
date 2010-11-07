@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Xml.Linq;
 
-namespace OpenCodeProcessorFramework.Languages.Java
+namespace Ucpf.Languages.Java
 {
 	public static class JavaElements
 	{

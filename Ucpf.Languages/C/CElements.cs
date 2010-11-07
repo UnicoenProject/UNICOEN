@@ -3,7 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Xml.Linq;
 
-namespace OpenCodeProcessorFramework.Languages.C
+namespace Ucpf.Languages.C
 {
 	public static class CElements
 	{

@@ -5,10 +5,9 @@
 // Unreachable code detected.
 #pragma warning disable 162
 
-
 using Antlr.Runtime;
 
-namespace OpenCodeProcessorFramework.Languages.Antlr
+namespace Ucpf.Languages.Antlr
 {
 	public partial class ANTLRv3Lexer : Lexer {
 		public const int BACKTRACK_SEMPRED = 35;

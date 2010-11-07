@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Antlr.Runtime;
 
-namespace OpenCodeProcessorFramework.Languages.Common.Antlr
+namespace Ucpf.Languages.Common.Antlr
 {
 	public abstract class XParser : Parser
 	{

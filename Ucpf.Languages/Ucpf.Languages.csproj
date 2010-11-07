@@ -72,14 +72,15 @@
     <Compile Include="Antlr\AntlrAstGenerator.cs" />
     <Compile Include="Antlr\ANTLRv3Lexer.cs" />
     <Compile Include="Antlr\ANTLRv3Parser.cs" />
-    <Compile Include="Common\Antlr\AntlrAstGeneratorOld.cs" />
     <Compile Include="Common\Antlr\AntlrAstGenerator.cs" />
+    <Compile Include="Common\Antlr\AntlrAstGeneratorOld.cs" />
     <Compile Include="Common\Antlr\AntlrBlockGenerator.cs" />
     <Compile Include="Common\Antlr\AntlrCodeGenerateHelper.cs" />
     <Compile Include="Common\Antlr\IXParser.cs" />
     <Compile Include="Common\Antlr\XmlTreeAdaptor.cs" />
     <Compile Include="Common\Antlr\XParser.cs" />
     <Compile Include="Common\Antlr\XParserRuleReturnScope.cs" />
+    <Compile Include="Common\IClass.cs" />
     <Compile Include="ConfigReader.cs" />
     <Compile Include="CSharp\CSharpElements.cs" />
     <Compile Include="C\CElements.cs" />

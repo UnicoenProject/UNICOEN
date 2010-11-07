@@ -5,7 +5,7 @@ using System.Xml.Linq;
 using Ucpf.AstGenerators;
 using Ucpf.Weavers;
 
-namespace OpenCodeProcessorFramework.Languages.Ruby
+namespace Ucpf.Languages.Ruby
 {
 	[Export(typeof(IAstGenerator))]
 	public class RubyAstGenerator : AstGeneratorStringBase

@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using OpenCodeProcessorFramework.Languages.C;
-using OpenCodeProcessorFramework.Languages.CSharp;
-using OpenCodeProcessorFramework.Languages.Java;
-using OpenCodeProcessorFramework.Languages.JavaScript;
-using OpenCodeProcessorFramework.Languages.Lua;
-using OpenCodeProcessorFramework.Languages.Python2;
-using OpenCodeProcessorFramework.Languages.Python3;
-using OpenCodeProcessorFramework.Languages.Ruby;
 using Paraiba.Core;
 using Paraiba.Text;
 using Ucpf.AstGenerators;
+using Ucpf.Languages.C;
+using Ucpf.Languages.CSharp;
+using Ucpf.Languages.Java;
+using Ucpf.Languages.JavaScript;
+using Ucpf.Languages.Lua;
+using Ucpf.Languages.Python2;
+using Ucpf.Languages.Python3;
+using Ucpf.Languages.Ruby;
 
 namespace Code2Xml.Tests
 {

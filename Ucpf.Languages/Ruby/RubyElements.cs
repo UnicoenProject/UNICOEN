@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace OpenCodeProcessorFramework.Languages.Ruby
+namespace Ucpf.Languages.Ruby
 {
 	public static class RubyElements
 	{

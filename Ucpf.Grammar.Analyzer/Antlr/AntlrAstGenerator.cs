@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Antlr.Runtime;
-using OpenCodeProcessorFramework.Languages;
-using OpenCodeProcessorFramework.Languages.Common.Antlr;
 using Ucpf.AstGenerators;
+using Ucpf.Languages;
+using Ucpf.Languages.Common.Antlr;
 
 namespace Ucpf.Grammar.Analyzer.Antlr
 {

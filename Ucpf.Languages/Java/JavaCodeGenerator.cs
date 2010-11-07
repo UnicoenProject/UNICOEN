@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Ucpf.CodeGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.Java
+namespace Ucpf.Languages.Java
 {
 	[Export(typeof(ICodeGenerator))]
 	public class JavaCodeGenerator : CodeGenerator

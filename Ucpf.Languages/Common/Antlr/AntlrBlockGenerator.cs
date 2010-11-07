@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Ucpf.CodeGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.Common.Antlr
+namespace Ucpf.Languages.Common.Antlr
 {
 	public static class AntlrBlockGenerator
 	{

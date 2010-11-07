@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using OpenCodeProcessorFramework.Languages.Python3;
+using Ucpf.Languages.Python3;
 
 namespace Ucpf.Languages.Tests.Python3
 {

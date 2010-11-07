@@ -1,4 +1,4 @@
-﻿namespace OpenCodeProcessorFramework.Languages
+﻿namespace Ucpf.Languages
 {
 	public static class GlobalInformation
 	{

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using OpenCodeProcessorFramework.Languages.Java;
 using Paraiba.Linq;
 using Ucpf.AstGenerators;
 using Ucpf.CodeGenerators;
+using Ucpf.Languages.Java;
 
 namespace Ucpf.Languages.Tests.Temp
 {

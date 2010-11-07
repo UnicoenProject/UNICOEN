@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Xml.Linq;
 using Paraiba.Text;
 
-namespace OpenCodeProcessorFramework.Languages.Ruby
+namespace Ucpf.Languages.Ruby
 {
 	public static class RubyParser
 	{

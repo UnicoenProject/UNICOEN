@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Ucpf.CodeGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.Lua
+namespace Ucpf.Languages.Lua
 {
 	[Export(typeof(ICodeGenerator))]
 	public class LuaCodeGenerator : CodeGenerator

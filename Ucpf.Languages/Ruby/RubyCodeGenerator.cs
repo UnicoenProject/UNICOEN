@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Ucpf.CodeGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.Ruby
+namespace Ucpf.Languages.Ruby
 {
 	[Export(typeof(ICodeGenerator))]
 	public class RubyCodeGenerator : CodeGeneratorBase

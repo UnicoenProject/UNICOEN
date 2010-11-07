@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace OpenCodeProcessorFramework.Languages.JavaScript
+namespace Ucpf.Languages.JavaScript
 {
 	public static class JavaScriptElements
 	{

@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using Ucpf.AstGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.Python2
+namespace Ucpf.Languages.Python2
 {
 	[Export(typeof(IAstGenerator))]
 	public class Python2AstGenerator : ExternalAstGeneratorBase

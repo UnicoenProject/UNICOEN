@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace OpenCodeProcessorFramework.Languages.Python2
+namespace Ucpf.Languages.Python2
 {
 	public static class Python2Elements
 	{

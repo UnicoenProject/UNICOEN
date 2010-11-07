@@ -1,4 +1,4 @@
-﻿using OpenCodeProcessorFramework.Languages.Java;
+﻿using Ucpf.Languages.Java;
 
 namespace Ucpf.Languages.Tests.Temp
 {

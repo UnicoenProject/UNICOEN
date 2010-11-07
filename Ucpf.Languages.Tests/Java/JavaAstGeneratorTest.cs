@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using OpenCodeProcessorFramework.Languages.Common.Antlr;
-using OpenCodeProcessorFramework.Languages.Java;
+using Ucpf.Languages.Common.Antlr;
+using Ucpf.Languages.Java;
 
 namespace Ucpf.Languages.Tests.Java
 {

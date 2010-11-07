@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Ucpf.CodeGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.JavaScript
+namespace Ucpf.Languages.JavaScript
 {
 	[Export(typeof(ICodeGenerator))]
 	public class JavaScriptCodeGenerator : CodeGenerator

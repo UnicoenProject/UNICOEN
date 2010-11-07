@@ -1,7 +1,7 @@
 ﻿using System.Xml.Linq;
 using Antlr.Runtime;
 
-namespace OpenCodeProcessorFramework.Languages.Common.Antlr
+namespace Ucpf.Languages.Common.Antlr
 {
 	public class XParserRuleReturnScope : ParserRuleReturnScope
 	{

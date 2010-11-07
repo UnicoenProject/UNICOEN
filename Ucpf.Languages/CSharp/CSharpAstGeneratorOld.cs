@@ -4,11 +4,11 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Xml.Linq;
 using Antlr.Runtime;
-using OpenCodeProcessorFramework.Languages.Common.Antlr;
 using Ucpf.AstGenerators;
+using Ucpf.Languages.Common.Antlr;
 using Ucpf.Weavers;
 
-namespace OpenCodeProcessorFramework.Languages.CSharp
+namespace Ucpf.Languages.CSharp
 {
 	[Export(typeof(IAstGenerator))]
 	public class CSharpAstGeneratorOld : AntlrAstGeneratorOld<csParser>

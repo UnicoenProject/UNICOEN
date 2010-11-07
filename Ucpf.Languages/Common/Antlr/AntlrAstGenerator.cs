@@ -5,7 +5,7 @@ using System.Xml.Linq;
 using Antlr.Runtime;
 using Ucpf.AstGenerators;
 
-namespace OpenCodeProcessorFramework.Languages.Common.Antlr
+namespace Ucpf.Languages.Common.Antlr
 {
 	public abstract class AntlrAstGenerator<TParser> : IAstGenerator
 	{

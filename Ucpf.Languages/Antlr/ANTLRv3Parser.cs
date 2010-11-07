@@ -5,18 +5,17 @@
 // Unreachable code detected.
 #pragma warning disable 162
 
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Collections;
-using OpenCodeProcessorFramework.Languages.Common.Antlr;
 using Antlr.Runtime.Tree;
+using Ucpf.Languages.Common.Antlr;
 
 /** ANTLR v3 grammar written in ANTLR v3 with AST construction */
-namespace OpenCodeProcessorFramework.Languages.Antlr
+namespace Ucpf.Languages.Antlr
 {
 	public partial class ANTLRv3Parser : Parser
 	{
@@ -226,13 +225,13 @@ namespace OpenCodeProcessorFramework.Languages.Antlr
              
 			}
 
-    protected OpenCodeProcessorFramework.Languages.Common.Antlr.XmlTreeAdaptor adaptor = new OpenCodeProcessorFramework.Languages.Common.Antlr.XmlTreeAdaptor(new List<XElement>(), "TOKEN"); 
+    protected XmlTreeAdaptor adaptor = new XmlTreeAdaptor(new List<XElement>(), "TOKEN"); 
 
    public ITreeAdaptor TreeAdaptor
    {
        get { return this.adaptor; }
        set {
-        this.adaptor = (OpenCodeProcessorFramework.Languages.Common.Antlr.XmlTreeAdaptor)value;
+        this.adaptor = (XmlTreeAdaptor)value;
         }
    } 
 

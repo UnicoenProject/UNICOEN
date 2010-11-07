@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Antlr.Runtime;
-using OpenCodeProcessorFramework.Languages.Common.Antlr;
 using Ucpf.AstGenerators;
+using Ucpf.Languages.Common.Antlr;
 
-namespace OpenCodeProcessorFramework.Languages.Lua
+namespace Ucpf.Languages.Lua
 {
 	[Export(typeof(IAstGenerator))]
 	public class LuaAstGeneratorOld : AntlrAstGeneratorOld<LuaParser>
