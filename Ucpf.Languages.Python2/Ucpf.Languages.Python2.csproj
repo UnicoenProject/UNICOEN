@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{01278298-E1DA-40F8-80A8-FE9C68154241}</ProjectGuid>
+    <ProjectGuid>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ucpf</RootNamespace>
-    <AssemblyName>UCPF</AssemblyName>
+    <RootNamespace>Ucpf.Languages.Python2</RootNamespace>
+    <AssemblyName>Ucpf.Languages.Python2</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,10 +34,6 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Paraiba.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -48,35 +44,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Antlr\AntlrAstGenerator.cs" />
-    <Compile Include="Antlr\AntlrAstGeneratorOld.cs" />
-    <Compile Include="Antlr\AntlrBlockGenerator.cs" />
-    <Compile Include="Antlr\AntlrCodeGenerateHelper.cs" />
-    <Compile Include="Antlr\IXParser.cs" />
-    <Compile Include="Antlr\XmlTreeAdaptor.cs" />
-    <Compile Include="Antlr\XParser.cs" />
-    <Compile Include="Antlr\XParserRuleReturnScope.cs" />
-    <Compile Include="AstGenerators\AstGeneratorStringBase.cs" />
-    <Compile Include="AstGenerators\ExternalAstGeneratorBase.cs" />
-    <Compile Include="AstGenerators\IAstGenerator.cs" />
-    <Compile Include="AstGenerators\AstGeneratorReaderBase.cs" />
-    <Compile Include="CodeGenerators\CodeGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\DefaultCodeGenerator.cs" />
-    <Compile Include="CodeGenerators\ExternalCodeGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\ICodeGenerator.cs" />
-    <Compile Include="ConfigReader.cs" />
-    <Compile Include="GlobalInformation.cs" />
-    <Compile Include="IClass.cs" />
-    <Compile Include="Weavers\Weaver.cs" />
-    <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Python2AstGenerator.cs" />
+    <Compile Include="Python2CodeGenerator.cs" />
+    <Compile Include="Python2Elements.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Python.g" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
+      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
+      <Name>Ucpf</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Script\ast2xml.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

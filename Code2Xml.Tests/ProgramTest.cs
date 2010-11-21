@@ -13,7 +13,6 @@ using Ucpf.Languages.JavaScript;
 using Ucpf.Languages.Lua;
 using Ucpf.Languages.Python2;
 using Ucpf.Languages.Python3;
-using Ucpf.Languages.Ruby;
 
 namespace Code2Xml.Tests
 {
@@ -31,7 +30,7 @@ namespace Code2Xml.Tests
 				yield return new TestCaseData("py", "-Python2", Python2AstGenerator.Instance).Returns(true);
 				yield return new TestCaseData("py", "-Python3", Python3AstGenerator.Instance).Returns(true);
 				yield return new TestCaseData("lua", "-Lua", LuaAstGeneratorOld.Instance).Returns(true);
-				yield return new TestCaseData("rb", "-Ruby", RubyAstGenerator.Instance).Returns(true);
+				//yield return new TestCaseData("rb", "-Ruby", IronRubyAstGenerator.Instance).Returns(true);
 			}
 		}
 

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{01278298-E1DA-40F8-80A8-FE9C68154241}</ProjectGuid>
+    <ProjectGuid>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ucpf</RootNamespace>
-    <AssemblyName>UCPF</AssemblyName>
+    <RootNamespace>Ucpf.Languages.IronRuby</RootNamespace>
+    <AssemblyName>Ucpf.Languages.IronRuby</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,11 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="IronRuby, Version=1.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\IronRuby.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries, Version=1.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\IronRuby.Libraries.dll</HintPath>
+    </Reference>
+    <Reference Include="IronRuby.Libraries.YAML, Version=1.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\IronRuby.Libraries.YAML.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.0.10, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.10, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -48,35 +64,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Antlr\AntlrAstGenerator.cs" />
-    <Compile Include="Antlr\AntlrAstGeneratorOld.cs" />
-    <Compile Include="Antlr\AntlrBlockGenerator.cs" />
-    <Compile Include="Antlr\AntlrCodeGenerateHelper.cs" />
-    <Compile Include="Antlr\IXParser.cs" />
-    <Compile Include="Antlr\XmlTreeAdaptor.cs" />
-    <Compile Include="Antlr\XParser.cs" />
-    <Compile Include="Antlr\XParserRuleReturnScope.cs" />
-    <Compile Include="AstGenerators\AstGeneratorStringBase.cs" />
-    <Compile Include="AstGenerators\ExternalAstGeneratorBase.cs" />
-    <Compile Include="AstGenerators\IAstGenerator.cs" />
-    <Compile Include="AstGenerators\AstGeneratorReaderBase.cs" />
-    <Compile Include="CodeGenerators\CodeGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\DefaultCodeGenerator.cs" />
-    <Compile Include="CodeGenerators\ExternalCodeGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\ICodeGenerator.cs" />
-    <Compile Include="ConfigReader.cs" />
-    <Compile Include="GlobalInformation.cs" />
-    <Compile Include="IClass.cs" />
-    <Compile Include="Weavers\Weaver.cs" />
-    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="IronRubyAstGenerator.cs" />
+    <Compile Include="IronRubyCodeGenerator.cs" />
+    <Compile Include="IronRubyParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RubyElements.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
+      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
+      <Name>Ucpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -65,6 +65,14 @@
     <Compile Include="Temp\SemanticFactory.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ucpf.Languages.Java\Ucpf.Languages.Java.csproj">
+      <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
+      <Name>Ucpf.Languages.Java</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Python3\Ucpf.Languages.Python3.csproj">
+      <Project>{CF31A92F-646A-4155-A280-038AD9B84D0F}</Project>
+      <Name>Ucpf.Languages.Python3</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf\Ucpf.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>

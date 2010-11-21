@@ -69,103 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Antlr\AntlrAstGenerator.cs" />
-    <Compile Include="Antlr\ANTLRv3Lexer.cs" />
-    <Compile Include="Antlr\ANTLRv3Parser.cs" />
-    <Compile Include="Common\Antlr\AntlrAstGenerator.cs" />
-    <Compile Include="Common\Antlr\AntlrAstGeneratorOld.cs" />
-    <Compile Include="Common\Antlr\AntlrBlockGenerator.cs" />
-    <Compile Include="Common\Antlr\AntlrCodeGenerateHelper.cs" />
-    <Compile Include="Common\Antlr\IXParser.cs" />
-    <Compile Include="Common\Antlr\XmlTreeAdaptor.cs" />
-    <Compile Include="Common\Antlr\XParser.cs" />
-    <Compile Include="Common\Antlr\XParserRuleReturnScope.cs" />
-    <Compile Include="Common\IClass.cs" />
-    <Compile Include="ConfigReader.cs" />
-    <Compile Include="CSharp\CSharpElements.cs" />
-    <Compile Include="C\CElements.cs" />
-    <Compile Include="GlobalInformation.cs" />
-    <Compile Include="Java\JavaElements.cs" />
-    <Compile Include="JavaScript\JavaScriptElements.cs" />
-    <Compile Include="Lua\LuaElements.cs" />
-    <Compile Include="Python2\Python2Elements.cs" />
-    <Compile Include="Python3\Python3CodeGenerator.cs" />
-    <Compile Include="Python3\Python3AstGenerator.cs" />
-    <Compile Include="C\CCodeGenerator.cs" />
-    <Compile Include="C\CLexer.cs" />
-    <Compile Include="C\CParser.cs" />
-    <Compile Include="CSharp\CSharpCodeGenerator.cs" />
-    <Compile Include="CSharp\CSharpAstGeneratorOld.cs" />
-    <Compile Include="CSharp\csLexer.cs" />
-    <Compile Include="CSharp\csParser.cs" />
-    <Compile Include="C\CAstGeneratorOld.cs" />
-    <Compile Include="Java\JavaCodeGenerator.cs" />
-    <Compile Include="Java\JavaLexer.cs" />
-    <Compile Include="Java\JavaParser.cs" />
-    <Compile Include="JavaScript\JavaScriptCodeGenerator.cs" />
-    <Compile Include="JavaScript\JavaScriptLexer.cs" />
-    <Compile Include="JavaScript\JavaScriptParser.cs" />
-    <Compile Include="JavaScript\JavaScriptAstGeneratorOld.cs" />
-    <Compile Include="Java\JavaAstGenerator.cs" />
-    <Compile Include="Lua\LuaCodeGenerator.cs" />
-    <Compile Include="Lua\LuaLexer.cs" />
-    <Compile Include="Lua\LuaParser.cs" />
-    <Compile Include="Lua\LuaAstGeneratorOld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Python2\Python2CodeGenerator.cs" />
-    <Compile Include="Python2\Python2AstGenerator.cs" />
-    <Compile Include="Ruby\RubyCodeGenerator.cs" />
-    <Compile Include="Ruby\RubyParser.cs" />
-    <Compile Include="Ruby\RubyAstGenerator.cs" />
-    <Compile Include="Ruby\RubyElements.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Antlr\ANTLRv3.g" />
-    <None Include="CSharp\cs.g" />
-    <None Include="C\C.g" />
-    <None Include="JavaScript\JavaScript.g" />
-    <None Include="Java\Java.g" />
-    <None Include="Lua\Lua.g" />
-    <None Include="ParserScripts\Ruby1.8\composite_sexp_processor.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\gauntlet_rubyparser.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\parser.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\racc\parser.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\ruby2ruby.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\ruby_lexer.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\ruby_parser.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\ruby_parser_extras.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\sexp.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\sexp_processor.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\stringio.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\strscan.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="ParserScripts\Ruby1.8\unique.rb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Python2\Python.g" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf\Ucpf.csproj">
@@ -174,21 +78,108 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ParserScripts\IronRuby\composite_sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\gauntlet_rubyparser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\racc\parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\ruby2ruby.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\ruby2ruby_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\ruby_lexer.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\ruby_parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\ruby_parser_extras.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\ruby_parser_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\sexp.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\SexpProcessor_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\stringio.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\strscan.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRuby\unique.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ParserScripts\Python2\ast2xml.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ParserScripts\Python3\st2xml.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ParserScripts\Ruby1.8\ast_generator.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\code_generator.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\composite_sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\gauntlet_rubyparser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\racc\parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\ruby2ruby.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ParserScripts\Ruby1.8\ruby2ruby_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\ruby_lexer.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\ruby_parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\ruby_parser_extras.rb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ParserScripts\Ruby1.8\ruby_parser_README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ParserScripts\Ruby1.8\sexp.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ParserScripts\Ruby1.8\SexpProcessor_README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ParserScripts\Ruby1.8\sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Ruby1.8\unique.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ParserScripts\Ruby1.9\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

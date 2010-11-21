@@ -60,6 +60,34 @@
       <Project>{6A7D4FEC-8031-4D84-AA07-89C51DC92DC9}</Project>
       <Name>Code2Xml</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.CSharp\Ucpf.Languages.CSharp.csproj">
+      <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
+      <Name>Ucpf.Languages.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">
+      <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
+      <Name>Ucpf.Languages.C</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.JavaScript\Ucpf.Languages.JavaScript.csproj">
+      <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
+      <Name>Ucpf.Languages.JavaScript</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Java\Ucpf.Languages.Java.csproj">
+      <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
+      <Name>Ucpf.Languages.Java</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Lua\Ucpf.Languages.Lua.csproj">
+      <Project>{21169995-DD96-476F-8084-0C8A7EDC1173}</Project>
+      <Name>Ucpf.Languages.Lua</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Python2\Ucpf.Languages.Python2.csproj">
+      <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
+      <Name>Ucpf.Languages.Python2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Python3\Ucpf.Languages.Python3.csproj">
+      <Project>{CF31A92F-646A-4155-A280-038AD9B84D0F}</Project>
+      <Name>Ucpf.Languages.Python3</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf\Ucpf.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
