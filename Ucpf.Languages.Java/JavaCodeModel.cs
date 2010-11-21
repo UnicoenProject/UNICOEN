@@ -40,7 +40,13 @@ namespace Ucpf.Languages.Java
                 return _node.Element("formalParameterList").Elements("Identifier").Select(e => new Variable(e));
             }
         }
-        Block block;
+        Block block
+        {
+            get
+            {
+                return new Block(_node.Element("block"));
+            }
+        }
 
         public FunctionDeclaration(XElement node)
         {
@@ -74,9 +80,28 @@ namespace Ucpf.Languages.Java
         int NumericalValue;
     }
 
-    class Block
+    internal class Block
     {
-        List<Statement> Statements;
+        private XElement _node;
+        /* blockStatement* */
+        IEnumerable<Statement> Statements
+        {
+            get
+            {
+              return  _node.Elements("blockStatement").Select(e => createStatement(e));
+            }
+        }
+        public Block(XElement xElement)
+        {
+            _node = xElement;
+            
+        }
+
+        private Statement createStatement(XElement xElement)
+        {
+            if (xElement.Element("Statement").Value == "if") return new IfStatement();
+            throw new NotImplementedException();
+        }
     }
 
     class Statement
