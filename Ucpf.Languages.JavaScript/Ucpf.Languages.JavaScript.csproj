@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="JavaScriptAstGeneratorOld.cs" />
     <Compile Include="JavaScriptCodeGenerator.cs" />
+    <Compile Include="JavaScriptCodeModel.cs" />
     <Compile Include="JavaScriptElements.cs" />
     <Compile Include="JavaScriptLexer.cs" />
     <Compile Include="JavaScriptParser.cs" />
@@ -63,6 +64,9 @@
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fibonacci.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
