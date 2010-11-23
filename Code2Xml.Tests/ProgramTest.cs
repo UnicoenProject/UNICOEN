@@ -35,7 +35,7 @@ namespace Code2Xml.Tests
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public bool パースできる(string extension, string parserOption, IAstGenerator astGenerator)
+		public bool パースできる(string extension, string parserOption, AstGenerator astGenerator)
 		{
 			var filePath = "../codes/Block3." + extension;
 			var output = new StringWriter();

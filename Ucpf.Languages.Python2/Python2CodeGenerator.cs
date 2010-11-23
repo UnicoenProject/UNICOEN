@@ -4,8 +4,8 @@ using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.Python2
 {
-	[Export(typeof(ICodeGenerator))]
-	public class Python2CodeGenerator : CodeGenerator
+	[Export(typeof(CodeGenerator))]
+	public class Python2CodeGenerator : CodeGeneratorBase
 	{
 		private static Python2CodeGenerator _instance;
 		public static Python2CodeGenerator Instance

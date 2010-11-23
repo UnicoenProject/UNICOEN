@@ -7,7 +7,7 @@ using Ucpf.Languages.Common.Antlr;
 
 namespace Ucpf.Languages.Lua
 {
-	[Export(typeof(IAstGenerator))]
+	[Export(typeof(AstGenerator))]
 	public class LuaAstGeneratorOld : AntlrAstGeneratorOld<LuaParser>
 	{
 		private static LuaAstGeneratorOld _instance;

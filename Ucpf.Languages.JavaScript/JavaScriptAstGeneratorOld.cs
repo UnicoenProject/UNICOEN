@@ -10,7 +10,7 @@ using Ucpf.Weavers;
 
 namespace Ucpf.Languages.JavaScript
 {
-	[Export(typeof(IAstGenerator))]
+	[Export(typeof(AstGenerator))]
 	public class JavaScriptAstGeneratorOld : AntlrAstGeneratorOld<JavaScriptParser>
 	{
 		private static JavaScriptAstGeneratorOld _instance;

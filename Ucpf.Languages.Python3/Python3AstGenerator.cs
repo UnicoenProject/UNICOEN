@@ -4,8 +4,8 @@ using Ucpf.AstGenerators;
 
 namespace Ucpf.Languages.Python3
 {
-	[Export(typeof(IAstGenerator))]
-	public class Python3AstGenerator : ExternalAstGeneratorBase
+	[Export(typeof(AstGenerator))]
+	public class Python3AstGenerator : ExternalAstGenerator
 	{
 		private static Python3AstGenerator _instance;
 		public static Python3AstGenerator Instance
@@ -34,7 +34,7 @@ namespace Ucpf.Languages.Python3
 
 		public override IEnumerable<string> TargetExtensions
 		{
-			get { return GlobalInformation.PythonExtensions; }
+			get { return new[] { ".py" }; }
 		}
 
 		private Python3AstGenerator() { }

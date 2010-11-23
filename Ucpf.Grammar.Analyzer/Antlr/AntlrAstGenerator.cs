@@ -8,7 +8,7 @@ using Ucpf.Languages.Common.Antlr;
 
 namespace Ucpf.Grammar.Analyzer.Antlr
 {
-	[Export(typeof(IAstGenerator))]
+	[Export(typeof(AstGenerator))]
 	public class AntlrAstGenerator : AntlrAstGenerator<ANTLRv3Parser>
 	{
 		private static AntlrAstGenerator _instance;
@@ -26,12 +26,12 @@ namespace Ucpf.Grammar.Analyzer.Antlr
 
 		public override string ParserName
 		{
-			get { return GlobalInformation.AntlrLanguage; }
+			get { return "Antlr"; }
 		}
 
 		public override IEnumerable<string> TargetExtensions
 		{
-			get { return GlobalInformation.AntlrExtensions; }
+			get { return new[] { ".g" }; }
 		}
 
 		protected override ITokenSource CreateTokenSource(ICharStream stream)

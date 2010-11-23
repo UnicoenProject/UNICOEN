@@ -11,7 +11,7 @@ namespace Ucpf.Languages.Tests.Python3
 		public void GenerateFromText()
 		{
 			var code = "CoverageWriter.WriteStatement(" + 1 + "," + 1 + "," + 1 + ")";
-			var node = Python3AstGenerator.Instance.GenerateFromText(code)
+			var node = Python3AstGenerator.Instance.Generate(code)
 				.Descendants("small_stmt")
 				.FirstOrDefault();
 			Assert.That(node, Is.Not.Null);

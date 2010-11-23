@@ -4,8 +4,8 @@ using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.Lua
 {
-	[Export(typeof(ICodeGenerator))]
-	public class LuaCodeGenerator : CodeGenerator
+	[Export(typeof(CodeGenerator))]
+	public class LuaCodeGenerator : CodeGeneratorBase
 	{
 		private static LuaCodeGenerator _instance;
 		public static LuaCodeGenerator Instance

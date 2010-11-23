@@ -4,8 +4,8 @@ using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.CSharp
 {
-	[Export(typeof(ICodeGenerator))]
-	public class CSharpCodeGenerator : CodeGenerator
+	[Export(typeof(CodeGenerator))]
+	public class CSharpCodeGenerator : CodeGeneratorBase
 	{
 		private static CSharpCodeGenerator _instance;
 		public static CSharpCodeGenerator Instance

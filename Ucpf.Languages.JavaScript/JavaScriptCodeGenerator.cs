@@ -4,8 +4,8 @@ using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.JavaScript
 {
-	[Export(typeof(ICodeGenerator))]
-	public class JavaScriptCodeGenerator : CodeGenerator
+	[Export(typeof(CodeGenerator))]
+	public class JavaScriptCodeGenerator : CodeGeneratorBase
 	{
 		private static JavaScriptCodeGenerator _instance;
 		public static JavaScriptCodeGenerator Instance

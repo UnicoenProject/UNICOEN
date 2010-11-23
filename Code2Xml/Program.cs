@@ -2,12 +2,9 @@
 using System.IO;
 using Paraiba.Core;
 
-namespace Code2Xml
-{
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
+namespace Code2Xml {
+	public class Program {
+		public static void Main(string[] args) {
 			string parserName = null;
 			string outputPath = null;
 			var outputType = OutputType.DefaultStream;
@@ -20,34 +17,27 @@ namespace Code2Xml
 					outputPath = args.AtOrDefault(i + 1);
 					if (Directory.Exists(outputPath)) {
 						i++;
-					}
-					else {
+					} else {
 						outputPath = null;
 					}
-				}
-				else if (arg == "-f") {
+				} else if (arg == "-f") {
 					outputType = OutputType.File;
 					outputPath = args.AtOrDefault(i + 1);
 					i++;
-				}
-				else if (arg == "-code") {
+				} else if (arg == "-code") {
 					isCodeGeneration = true;
-				}
-				else if (arg.StartsWith("-")) {
+				} else if (arg.StartsWith("-")) {
 					parserName = parserName ?? arg.Substring(1);
-				}
-				else {
+				} else {
 					filePaths.Add(arg);
 				}
 			}
 
 			if (!isCodeGeneration) {
 				Parser.ParseCodeToXml(filePaths, parserName, outputType, outputPath);
-			}
-			else {
+			} else {
 				Parser.ParseXmlToCode(filePaths, parserName, outputType, outputPath);
 			}
 		}
 	}
 }
-

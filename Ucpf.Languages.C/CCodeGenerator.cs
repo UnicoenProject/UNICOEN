@@ -4,8 +4,8 @@ using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.C
 {
-	[Export(typeof(ICodeGenerator))]
-	public class CCodeGenerator : CodeGenerator
+	[Export(typeof(CodeGenerator))]
+	public class CCodeGenerator : CodeGeneratorBase
 	{
 		private static CCodeGenerator _instance;
 		public static CCodeGenerator Instance

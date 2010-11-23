@@ -6,51 +6,48 @@ using Paraiba.Collections.Generic;
 using Paraiba.Utility;
 using Paraiba.Xml.Linq;
 
-namespace Ucpf.Weavers
-{
-	public static class Weaver
-	{
-		public static void WeaveBefore(XElement node, XElement newNode)
-		{
+namespace Ucpf.Weavers {
+	public static class Weaver {
+		public static void WeaveBefore(XElement node, XElement newNode) {
 			node.AddBeforeSelf(newNode);
 		}
 
-		public static void WeaveBefore(XElement node, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveBefore(XElement node,
+		                               Func<XElement, XElement> createNodeFunc) {
 			node.AddBeforeSelf(createNodeFunc(node));
 		}
 
-		public static void WeaveBefore(IEnumerable<XElement> nodes, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveBefore(IEnumerable<XElement> nodes,
+		                               Func<XElement, XElement> createNodeFunc) {
 			WeaveBefore(nodes.ToList(), createNodeFunc);
 		}
 
-		public static void WeaveBefore(IList<XElement> nodeList, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveBefore(IList<XElement> nodeList,
+		                               Func<XElement, XElement> createNodeFunc) {
 			foreach (var node in nodeList) {
 				WeaveBefore(node, createNodeFunc);
 			}
 		}
 
-		public static void WeaveAfter(XElement node, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveAfter(XElement node,
+		                              Func<XElement, XElement> createNodeFunc) {
 			node.AddAfterSelf(createNodeFunc(node));
 		}
 
-		public static void WeaveAfter(IEnumerable<XElement> nodes, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveAfter(IEnumerable<XElement> nodes,
+		                              Func<XElement, XElement> createNodeFunc) {
 			WeaveAfter(nodes.ToList(), createNodeFunc);
 		}
 
-		public static void WeaveAfter(IList<XElement> nodeList, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveAfter(IList<XElement> nodeList,
+		                              Func<XElement, XElement> createNodeFunc) {
 			foreach (var node in nodeList) {
 				WeaveAfter(node, createNodeFunc);
 			}
 		}
 
-		public static void WeaveAround(XElement node, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveAround(XElement node,
+		                               Func<XElement, XElement> createNodeFunc) {
 			node.AddAfterSelf(createNodeFunc(node));
 			node.Remove();
 
@@ -69,20 +66,20 @@ namespace Ucpf.Weavers
 			//}
 		}
 
-		public static void WeaveAround(IEnumerable<XElement> nodes, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveAround(IEnumerable<XElement> nodes,
+		                               Func<XElement, XElement> createNodeFunc) {
 			WeaveAround(nodes.ToList(), createNodeFunc);
 		}
 
-		public static void WeaveAround(IList<XElement> nodeList, Func<XElement, XElement> createNodeFunc)
-		{
+		public static void WeaveAround(IList<XElement> nodeList,
+		                               Func<XElement, XElement> createNodeFunc) {
 			foreach (var node in nodeList) {
 				WeaveAround(node, createNodeFunc);
 			}
 		}
-	
-		public static void SafeWeaveAround(IEnumerable<XElement> nodes, Func<XElement, XElement> createNodeFunc)
-		{
+
+		public static void SafeWeaveAround(IEnumerable<XElement> nodes,
+		                                   Func<XElement, XElement> createNodeFunc) {
 			var sortedDict = GetElementListsOrderedByDepth(nodes);
 
 			foreach (var list in sortedDict.Values) {
@@ -92,8 +89,9 @@ namespace Ucpf.Weavers
 			}
 		}
 
-		private static SortedDictionary<int, List<XElement>> GetElementListsOrderedByDepth(IEnumerable<XElement> nodes)
-		{
+		private static SortedDictionary<int, List<XElement>>
+			GetElementListsOrderedByDepth(
+			IEnumerable<XElement> nodes) {
 			var cmp = Make.Comparer<int>((v1, v2) => v2 - v1);
 			var sortedDict = new SortedDictionary<int, List<XElement>>(cmp);
 			foreach (var element in nodes) {
