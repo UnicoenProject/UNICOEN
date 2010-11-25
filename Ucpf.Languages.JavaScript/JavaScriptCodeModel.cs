@@ -23,13 +23,18 @@ namespace Ucpf.Languages.JavaScript
                 return _node.Element("formalParameterList").Elements("Identifier").Select(e => new Variable(e)); 
             }
         }
-        Block block;
+        Block block {
+            get 
+            {
+                return new Block(_node.Element("functionBody"));
+            }
+        }
     }
 
     class FunctionInvocation
     {
         String FunctionName;
-        List<Value> Arguments;
+        IEnumerable<Value> Arguments;
     }
 
     class Variable
@@ -54,7 +59,12 @@ namespace Ucpf.Languages.JavaScript
 
     class Block
     {
-        List<Statement> Statements;
+        private XElement _node;
+        IEnumerable<Statement> Statements;
+
+        public Block(XElement xElement) {
+            _node = xElement;
+        }
     }
 
     class Statement
