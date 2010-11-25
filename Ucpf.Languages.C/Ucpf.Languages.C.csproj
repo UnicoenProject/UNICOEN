@@ -48,10 +48,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAstGeneratorOld.cs" />
+    <Compile Include="CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />
+    <Compile Include="CElement.cs" />
     <Compile Include="CElements.cs" />
+    <Compile Include="CExpression.cs" />
+    <Compile Include="CFunction.cs" />
+    <Compile Include="CIfStatement.cs" />
+    <Compile Include="CJumpStatement.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CParser.cs" />
+    <Compile Include="CSelectionStatement.cs" />
+    <Compile Include="CStatement.cs" />
+    <Compile Include="CType.cs" />
+    <Compile Include="CVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +72,12 @@
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fibonacci.c" />
+    <Content Include="fibonacci.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
