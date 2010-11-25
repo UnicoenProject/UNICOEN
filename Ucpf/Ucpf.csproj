@@ -48,25 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Antlr\AntlrAstGenerator.cs" />
-    <Compile Include="Antlr\AntlrAstGeneratorOld.cs" />
-    <Compile Include="Antlr\AntlrBlockGenerator.cs" />
-    <Compile Include="Antlr\AntlrCodeGenerateHelper.cs" />
-    <Compile Include="Antlr\IXParser.cs" />
-    <Compile Include="Antlr\XmlTreeAdaptor.cs" />
-    <Compile Include="Antlr\XParser.cs" />
-    <Compile Include="Antlr\XParserRuleReturnScope.cs" />
-    <Compile Include="AstGenerators\AstGeneratorStringBase.cs" />
-    <Compile Include="AstGenerators\ExternalAstGeneratorBase.cs" />
-    <Compile Include="AstGenerators\IAstGenerator.cs" />
-    <Compile Include="AstGenerators\AstGeneratorReaderBase.cs" />
-    <Compile Include="CodeGenerators\CodeGenerator.cs" />
+    <Compile Include="Languages\Common\Antlr\AntlrAstGenerator.cs" />
+    <Compile Include="Languages\Common\Antlr\AntlrAstGeneratorOld.cs" />
+    <Compile Include="Languages\Common\Antlr\AntlrBlockGenerator.cs" />
+    <Compile Include="Languages\Common\Antlr\AntlrCodeGenerateHelper.cs" />
+    <Compile Include="Languages\Common\Antlr\IXParser.cs" />
+    <Compile Include="Languages\Common\Antlr\XmlTreeAdaptor.cs" />
+    <Compile Include="Languages\Common\Antlr\XParser.cs" />
+    <Compile Include="Languages\Common\Antlr\XParserRuleReturnScope.cs" />
+    <Compile Include="AstGenerators\ExternalAstGenerator.cs" />
+    <Compile Include="AstGenerators\AstGenerator.cs" />
     <Compile Include="CodeGenerators\CodeGeneratorBase.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGenerator.cs" />
-    <Compile Include="CodeGenerators\ExternalCodeGeneratorBase.cs" />
-    <Compile Include="CodeGenerators\ICodeGenerator.cs" />
+    <Compile Include="CodeGenerators\ExternalCodeGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeGenerator.cs" />
     <Compile Include="ConfigReader.cs" />
-    <Compile Include="GlobalInformation.cs" />
     <Compile Include="IClass.cs" />
     <Compile Include="Weavers\Weaver.cs" />
     <Compile Include="Plugins\PluginManager.cs" />

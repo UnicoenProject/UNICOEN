@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="JavaAstGenerator.cs" />
     <Compile Include="JavaCodeGenerator.cs" />
+    <Compile Include="JavaCodeModel.cs" />
     <Compile Include="JavaElements.cs" />
     <Compile Include="JavaLexer.cs" />
     <Compile Include="JavaParser.cs" />
@@ -62,6 +63,14 @@
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Fibonacci.java">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fibonacci.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

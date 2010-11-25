@@ -32,7 +32,7 @@ namespace Ucpf.Languages.Tests
 		}
 
 		//[Test, TestCaseSource("TestCases")]
-		public void パース結果をファイルに出力できる(string fileName, IAstGenerator astGen)
+		public void パース結果をファイルに出力できる(string fileName, AstGenerator astGen)
 		{
 			var path = Path.Combine(DirectoryPath, fileName);
 			var outpath = Path.Combine(OutputDirectoryPath, Path.GetFileName(fileName) + astGen.ParserName);
@@ -44,7 +44,7 @@ namespace Ucpf.Languages.Tests
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void パース結果が変化していない(string fileName, IAstGenerator astGen)
+		public void パース結果が変化していない(string fileName, AstGenerator astGen)
 		{
 			var path = Path.Combine(DirectoryPath, fileName);
 			var inpath = Path.Combine(OutputDirectoryPath, Path.GetFileName(fileName) + astGen.ParserName);
@@ -57,7 +57,7 @@ namespace Ucpf.Languages.Tests
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void 全てのソースコードをパースできる(string fileName, IAstGenerator astGen)
+		public void 全てのソースコードをパースできる(string fileName, AstGenerator astGen)
 		{
 			var path = Path.Combine(DirectoryPath, fileName);
 			var codeGen = PluginManager.CodeGenerators
@@ -65,9 +65,9 @@ namespace Ucpf.Languages.Tests
 
 			var r1 = astGen.GenerateFromFile(path);
 			var c1 = codeGen.Generate(r1);
-			var r2 = astGen.GenerateFromText(c1);
+			var r2 = astGen.Generate(c1);
 			var c2 = codeGen.Generate(r2);
-			var r3 = astGen.GenerateFromText(c2);
+			var r3 = astGen.Generate(c2);
 
 			Assert.IsTrue(XmlUtil.EqualsWithElementAndValue(r2, r3));
 			Assert.AreEqual(c1, c2);

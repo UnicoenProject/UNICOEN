@@ -4,8 +4,8 @@ using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.Java
 {
-	[Export(typeof(ICodeGenerator))]
-	public class JavaCodeGenerator : CodeGenerator
+	[Export(typeof(CodeGenerator))]
+	public class JavaCodeGenerator : CodeGeneratorBase
 	{
 		private static JavaCodeGenerator _instance;
 		public static JavaCodeGenerator Instance

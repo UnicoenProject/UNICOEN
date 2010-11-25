@@ -10,7 +10,7 @@ using Ucpf.Weavers;
 
 namespace Ucpf.Languages.C
 {
-	[Export(typeof(IAstGenerator))]
+	[Export(typeof(AstGenerator))]
 	public class CAstGeneratorOld : AntlrAstGeneratorOld<CParser>
 	{
 		private static CAstGeneratorOld _instance;

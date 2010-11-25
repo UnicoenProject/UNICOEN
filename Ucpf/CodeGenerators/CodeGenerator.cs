@@ -1,91 +1,29 @@
-﻿using System.Text;
+﻿using System.IO;
 using System.Xml.Linq;
 
-namespace Ucpf.CodeGenerators
-{
-	public abstract class CodeGenerator : CodeGeneratorBase
-	{
-		private readonly StringBuilder _builder;
-		private int _depth;
-		private bool _indented;
+namespace Ucpf.CodeGenerators {
+	public abstract class CodeGenerator {
+		public abstract string ParserName { get; }
+		public abstract string DefaultExtension { get; }
 
-		protected CodeGenerator()
-		{
-			_builder = new StringBuilder();
+		public abstract string Generate(XElement root);
+
+		public string Generate(XDocument xdoc) {
+			return Generate(xdoc.Root);
 		}
 
-		protected int Depth
-		{
-			get { return _depth; }
-			set { _depth = value; }
+		public string Generate(TextReader reader) {
+			return Generate(XDocument.Load(reader));
 		}
 
-		protected virtual void Initialize()
-		{
-			_builder.Length = 0;
-			_depth = 0;
-			_indented = false;
+		public string GenerateFromText(string text) {
+			return Generate(XDocument.Parse(text));
 		}
 
-		protected void WriteWord(string str)
-		{
-			if (_indented) {
-				_builder.Append(' ');
+		public string GenerateFromFile(string fileName) {
+			using (var stream = new StreamReader(fileName)) {
+				return Generate(stream);
 			}
-			else {
-				WriteIndent();
-			}
-			_builder.Append(str);
-		}
-
-		protected void WriteWordWithoutWhiteSpace(string str)
-		{
-			if (!_indented) {
-				WriteIndent();
-			}
-			_builder.Append(str);
-		}
-
-		protected void WriteIndent()
-		{
-			for (int i = 0; i < _depth; i++) {
-				_builder.Append('\t');
-			}
-			_indented = true;
-		}
-
-		protected void WriteLine()
-		{
-			_builder.AppendLine();
-			_indented = false;
-		}
-
-		protected void WriteLine(string str)
-		{
-			WriteWord(str);
-			_builder.AppendLine();
-			_indented = false;
-		}
-
-		protected void WalkElement(XContainer element)
-		{
-			foreach (var e in element.Elements()) {
-				if (e.HasElements) {
-					WalkElement(e);
-				}
-				else if (!TreatTerminalSymbol(e) && e.Value != string.Empty) {
-					WriteWord(e.Value);
-				}
-			}
-		}
-
-		protected abstract bool TreatTerminalSymbol(XElement element);
-
-		public override string Generate(XElement root)
-		{
-			Initialize();
-			WalkElement(root);
-			return _builder.ToString();
 		}
 	}
 }

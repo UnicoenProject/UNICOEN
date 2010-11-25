@@ -10,7 +10,7 @@ using Ucpf.Weavers;
 
 namespace Ucpf.Languages.CSharp
 {
-	[Export(typeof(IAstGenerator))]
+	[Export(typeof(AstGenerator))]
 	public class CSharpAstGeneratorOld : AntlrAstGeneratorOld<csParser>
 	{
 		private static CSharpAstGeneratorOld _instance;

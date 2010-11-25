@@ -10,8 +10,8 @@ namespace Ucpf.Languages.Tests.Temp
 	[TestFixture]
 	public class JavaPointcutsTest
 	{
-		private static IAstGenerator _xmlGen;
-		private static ICodeGenerator _codeGen;
+		private static AstGenerator _xmlGen;
+		private static CodeGenerator _codeGen;
 		private static JavaPointcut _pointcut;
 		private const string BaseDirectory = "../codes/";
 		private const string ExtensionName = ".java";

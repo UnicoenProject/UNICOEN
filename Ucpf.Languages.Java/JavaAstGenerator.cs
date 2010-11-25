@@ -10,7 +10,7 @@ using Ucpf.Weavers;
 
 namespace Ucpf.Languages.Java
 {
-	[Export(typeof(IAstGenerator))]
+	[Export(typeof(AstGenerator))]
 	public class JavaAstGenerator : AntlrAstGenerator<JavaParser>
 	{
 		private static JavaAstGenerator _instance;

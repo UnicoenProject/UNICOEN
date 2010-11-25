@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Xml.Linq;
 using Paraiba.Core;
 using Paraiba.IO;
 
-namespace Ucpf.CodeGenerators
-{
-	public abstract class ExternalCodeGeneratorBase : CodeGeneratorBase
-	{
+namespace Ucpf.AstGenerators {
+	public abstract class ExternalAstGenerator : AstGenerator {
 		protected abstract string ProcessorPath { get; }
 
 		protected abstract string[] Arguments { get; }
 
-		protected virtual string WorkingDirectory { get { return ""; } }
+		protected virtual string WorkingDirectory {
+			get { return ""; }
+		}
 
-		public override string Generate(XElement root) {
+		public override XElement Generate(TextReader reader, bool ignoreArrange) {
 			var info = new ProcessStartInfo {
 				FileName = ProcessorPath,
 				Arguments = Arguments.JoinString(" "),
@@ -28,9 +25,9 @@ namespace Ucpf.CodeGenerators
 				WorkingDirectory = WorkingDirectory,
 			};
 			using (var p = Process.Start(info)) {
-				p.StandardInput.Write(root);
+				p.StandardInput.WriteFromStream(reader);
 				p.StandardInput.Close();
-				return p.StandardOutput.ReadToEnd();
+				return XDocument.Load(p.StandardOutput).Root;
 			}
 		}
 	}

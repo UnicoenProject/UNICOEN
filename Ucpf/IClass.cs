@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Ucpf.Languages.Common
-{
+namespace Ucpf.Languages.Common {
 	public interface INamespace {
 		IEnumerable<IClass> Classes { get; }
 	}
@@ -14,8 +10,7 @@ namespace Ucpf.Languages.Common
 		IEnumerable<IMethod> Methods { get; }
 	}
 
-	public interface IClassModifier {
-	}
+	public interface IClassModifier {}
 
 	public interface IMethod {
 		IEnumerable<IMethodModifier> Modifiers { get; }
@@ -23,20 +18,15 @@ namespace Ucpf.Languages.Common
 		IEnumerable<IStatement> Statements { get; }
 	}
 
-	public interface IStatement {
-		
-	}
+	public interface IStatement {}
 
-	public interface IType {
-		
-	}
+	public interface IType {}
 
 	public interface IArgument {
 		IType Type { get; }
 	}
 
-	public interface IMethodModifier {
-	}
+	public interface IMethodModifier {}
 
 	public class Fibonacci {
 		public int Calculate(int n) {

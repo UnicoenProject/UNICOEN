@@ -37,7 +37,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.JavaScript",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.Java", "Ucpf.Languages.Java\Ucpf.Languages.Java.csproj", "{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.Java.Tests", "Ucpf.Languages.Java.Tests\Ucpf.Languages.Java.Tests.csproj", "{DACB2574-1700-4ABB-993B-0DE489CDBB29}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -227,6 +232,16 @@ Global
 		{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

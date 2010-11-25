@@ -48,8 +48,12 @@
     <Compile Include="Python2AstGenerator.cs" />
     <Compile Include="Python2CodeGenerator.cs" />
     <Compile Include="Python2Elements.cs" />
+    <Compile Include="PythonCodeModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="fib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Python.g" />
   </ItemGroup>
   <ItemGroup>

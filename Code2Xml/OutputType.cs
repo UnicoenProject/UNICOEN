@@ -1,7 +1,5 @@
-﻿namespace Code2Xml
-{
-	public enum OutputType
-	{
+﻿namespace Code2Xml {
+	public enum OutputType {
 		DefaultStream,
 		File,
 		Directory,
