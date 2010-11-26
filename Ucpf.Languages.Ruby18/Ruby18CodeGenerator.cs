@@ -5,8 +5,8 @@ using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.Ruby18
 {
-	[Export(typeof(ICodeGenerator))]
-	public class Ruby18CodeGenerator : ExternalCodeGeneratorBase
+	[Export(typeof(CodeGenerator))]
+	public class Ruby18CodeGenerator : ExternalCodeGenerator
 	{
 		private static Ruby18CodeGenerator _instance;
 
