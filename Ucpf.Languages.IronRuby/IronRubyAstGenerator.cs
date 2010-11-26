@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.AstGenerators;
@@ -7,8 +9,8 @@ using Ucpf.Weavers;
 
 namespace Ucpf.Languages.IronRuby
 {
-	[Export(typeof(IAstGenerator))]
-	public class IronRubyAstGenerator : AstGeneratorStringBase
+	[Export(typeof(AstGenerator))]
+	public class IronRubyAstGenerator : AstGenerator
 	{
 		private static IronRubyAstGenerator _instance;
 		public static IronRubyAstGenerator Instance
@@ -28,7 +30,11 @@ namespace Ucpf.Languages.IronRuby
 
 		private IronRubyAstGenerator() { }
 
-		public override XElement GenerateFromText(string text, bool ignoreArrange = false)
+		public override XElement Generate(TextReader reader, bool ignoreArrange) {
+			return Generate(reader.ReadToEnd(), ignoreArrange);
+		}
+
+		public override XElement Generate(string text, bool ignoreArrange)
 		{
 			var ast = IronRubyParser.ParseCodeFromString(text);
 			if (!ignoreArrange) {
