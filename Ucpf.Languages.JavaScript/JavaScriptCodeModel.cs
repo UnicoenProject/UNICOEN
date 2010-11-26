@@ -120,8 +120,8 @@ namespace Ucpf.Languages.JavaScript
 
         private Statement createStatement(XElement xElement)
         {
-            var element = xElement.Element("Statement").Elements().First();
-            if (element.Name.LocalName == "TOKEN" && element.Value == "if") return new IfStatement();
+            //var element = xElement.Element("Statement").Elements().First();
+            //if (element.Name.LocalName == "TOKEN" && element.Value == "if") return new IfStatement(xElement);
             throw new NotImplementedException();
         } 
 
