@@ -97,9 +97,9 @@ namespace Ucpf.Languages.Java
             
         }
 
-        private Statement createStatement(XElement xElement)
-        {
-            if (xElement.Element("Statement").Value == "if") return new IfStatement();
+        private Statement createStatement(XElement xElement) {
+            var element = xElement.Element("Statement").Elements().First();
+            if (element.Name.LocalName == "TOKEN" && element.Value == "if") return new IfStatement();
             throw new NotImplementedException();
         }
     }
