@@ -28,17 +28,27 @@ namespace Ucpf.Languages.JavaScript
                         e.Elements("functionDeclaration").Select(
                             e2 => new FunctionDeclaration(e2))
                     );
-
             }
         }
         public IEnumerable<Statement> Statements
         {
             get 
             {
-                return _rootNode.Elements("statement").Select(e => new Statement(e));
+                return _rootNode.Element("sourceElements").Elements(
+                    "sourceElement")
+                    .SelectMany(e => 
+                        e.Elements("Statement").Select(
+                            e2 => new Statement(e2))
+                    );
             }
         }
     }
+
+    // functionDeclaration
+	// : 'function' LT!* Identifier LT!* formalParameterList LT!* functionBody
+
+    // formalParameterList
+	// : '(' (LT!* Identifier (LT!* ',' LT!* Identifier)*)? LT!* ')'
 
     class FunctionDeclaration
     {
@@ -69,7 +79,8 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    //callExpression
+    // callExpression
+	// : memberExpression LT!* arguments (LT!* callExpressionSuffix)*
     class FunctionInvocation
     {
         String FunctionName;
@@ -96,6 +107,8 @@ namespace Ucpf.Languages.JavaScript
         int NumericalValue;
     }
 
+    // functionBody
+	// : '{' LT!* sourceElements LT!* '}'
     class FunctionBody
     {
         private XElement _node;
