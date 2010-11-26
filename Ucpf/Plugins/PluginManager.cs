@@ -14,9 +14,6 @@ namespace Ucpf.Plugins {
 
 #pragma warning disable 649
 		[ImportMany] private IEnumerable<AstGenerator> _astGenerators;
-#pragma warning restore 649
-
-#pragma warning disable 649
 		[ImportMany] private IEnumerable<CodeGenerator> _codeGenerators;
 #pragma warning restore 649
 
