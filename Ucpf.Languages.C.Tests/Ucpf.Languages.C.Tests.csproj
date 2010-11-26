@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</ProjectGuid>
+    <ProjectGuid>{9C35AFE1-0D1A-4CB9-BC3B-E0EA41FFCF73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ucpf.Languages.C</RootNamespace>
-    <AssemblyName>Ucpf.Languages.C</AssemblyName>
+    <RootNamespace>Ucpf.Languages.C.Tests</RootNamespace>
+    <AssemblyName>Ucpf.Languages.C.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,11 +34,10 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba">
-      <HintPath>..\lib\Paraiba.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,36 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CAstGeneratorOld.cs" />
-    <Compile Include="CBlock.cs" />
-    <Compile Include="CCodeGenerator.cs" />
-    <Compile Include="CElements.cs" />
-    <Compile Include="CExpression.cs" />
-    <Compile Include="CFunction.cs" />
-    <Compile Include="CIfStatement.cs" />
-    <Compile Include="CJumpStatement.cs" />
-    <Compile Include="CLexer.cs" />
-    <Compile Include="CParser.cs" />
-    <Compile Include="CSelectionStatement.cs" />
-    <Compile Include="CStatement.cs" />
-    <Compile Include="CType.cs" />
-    <Compile Include="CVariable.cs" />
+    <Compile Include="CCodeModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C.g" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">
+      <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
+      <Name>Ucpf.Languages.C</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf\Ucpf.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fibonacci.c" />
-    <Content Include="fibonacci.xml">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
