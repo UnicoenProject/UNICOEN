@@ -12,9 +12,13 @@ namespace Ucpf.Plugins {
 	public class PluginManager {
 		private static PluginManager _instance;
 
-		[ImportMany] private readonly IEnumerable<AstGenerator> _astGenerators;
+#pragma warning disable 649
+		[ImportMany] private IEnumerable<AstGenerator> _astGenerators;
+#pragma warning restore 649
 
-		[ImportMany] private readonly IEnumerable<CodeGenerator> _codeGenerators;
+#pragma warning disable 649
+		[ImportMany] private IEnumerable<CodeGenerator> _codeGenerators;
+#pragma warning restore 649
 
 		private PluginManager() {
 			var catalog = new AggregateCatalog();
