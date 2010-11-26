@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace ConsoleApplication3
+namespace Ucpf.Languages.C
 {
 	public class CIfStatement : CStatement
 	{
