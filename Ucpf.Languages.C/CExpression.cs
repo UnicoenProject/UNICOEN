@@ -19,8 +19,6 @@ namespace Ucpf.Languages.C
 			Type = type;
 		}
 
-		ToString(){
-		}
 
 	}
 }
