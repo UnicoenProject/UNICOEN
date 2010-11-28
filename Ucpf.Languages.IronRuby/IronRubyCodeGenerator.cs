@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.Xml.Linq;
 using Ucpf.CodeGenerators;
 
 namespace Ucpf.Languages.IronRuby
 {
-	[Export(typeof(ICodeGenerator))]
-	public class IronRubyCodeGenerator : CodeGeneratorBase
+	[Export(typeof(CodeGenerator))]
+	public class IronRubyCodeGenerator : CodeGenerator
 	{
 		private static IronRubyCodeGenerator _instance;
 		public static IronRubyCodeGenerator Instance
