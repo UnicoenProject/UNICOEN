@@ -27,5 +27,13 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(func.Arguments.ElementAt(0).Type.Name, Is.EqualTo("int"));
 		}
 
+		[Test]
+		public void IF文がうまく拾えている()
+		{
+			var ast = CAstGeneratorOld.Instance.GenerateFromFile("fibonacci.c");
+			var root = ast.Descendants("function_definition").First();
+			var func = new CFunction(root);
+			Assert.That(func.Body.Statements.ElementAt(0).Type, Is.EqualTo("if"));
+		}
 	}
 }
