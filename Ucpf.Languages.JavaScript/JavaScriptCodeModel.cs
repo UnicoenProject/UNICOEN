@@ -126,7 +126,7 @@ namespace Ucpf.Languages.JavaScript
                 return _node.Element("sourceElements").Elements(
                     "sourceElement")
                     .SelectMany(e => 
-                        e.Elements("statement").Select(
+                        e.Elements("functionDeclaration").Select(
                             e2 => new FunctionDeclaration(e2))
                 );
             }
@@ -137,7 +137,7 @@ namespace Ucpf.Languages.JavaScript
                 return _node.Element("sourceElements").Elements(
                     "sourceElement")
                     .SelectMany(e => 
-                        e.Elements("Statement").Select(
+                        e.Elements("statement").Select(
                             e2 => createStatement(e2))
                 );
             }
@@ -194,13 +194,13 @@ namespace Ucpf.Languages.JavaScript
         }
         public Statement TrueBlock {
             get {
-                // want to first "statement" node only
+                // want to get the first "statement" node only
                 return new Statement(_node.Element("statement"));
             }
         }
         public IEnumerable<Statement> ElseBlock {
             get {
-                // want to all "statement" node except the first one
+                // want to get all "statement" node except the first one
                 return _node.Elements("statement").Select(e => new Statement(e)); 
             }
         }
@@ -210,11 +210,14 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
+    // returnStatement
+	// : 'return' expression? (LT | ';')
     class ReturnStatement : Statement
     {
         private XElement _node;
         public Expression ReturnExpression {
             get {
+                // returnStatement has no expression (It means "return;")
                 return new Expression(_node.Element("expression"));
             }
         }
