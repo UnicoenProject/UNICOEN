@@ -37,7 +37,7 @@ namespace Ucpf.Languages.JavaScript
                 return _rootNode.Element("sourceElements").Elements(
                     "sourceElement")
                     .SelectMany(e => 
-                        e.Elements("Statement").Select(
+                        e.Elements("statement").Select(
                             e2 => new Statement(e2))
                     );
             }
@@ -109,32 +109,61 @@ namespace Ucpf.Languages.JavaScript
 
     // functionBody
 	// : '{' LT!* sourceElements LT!* '}'
+
+    // sourceElements
+	// : sourceElement (LT!* sourceElement)*
+	
+    // sourceElement
+	// : functionDeclaration
+	// | statement
     class FunctionBody
     {
         private XElement _node;
-        public IEnumerable<FunctionDeclaration> FunctionDeclaration 
+        public IEnumerable<FunctionDeclaration> FunctionDeclarations 
         {
             get 
             {
-                return _node.Elements("functionDeclaration").Select(e => new FunctionDeclaration(e)); ;
+                return _node.Element("sourceElements").Elements(
+                    "sourceElement")
+                    .SelectMany(e => 
+                        e.Elements("statement").Select(
+                            e2 => new FunctionDeclaration(e2))
+                );
             }
         }
         public IEnumerable<Statement> Statements
         {
             get {
-                _node.Elements("statement")
-                    .Where(
-                        e =>
-                        e.Ancestors().TakeWhile(e2 => e2 != _node).All(
-                            e2 => e2.Name.LocalName != "statement"));
-                return _node.Elements("statement").Select(e => new Statement(e)); ;
+                return _node.Element("sourceElements").Elements(
+                    "sourceElement")
+                    .SelectMany(e => 
+                        e.Elements("Statement").Select(
+                            e2 => createStatement(e2))
+                );
             }
         }
 
+        // statement
+        // : statementBlock
+        // | variableStatement
+        // | emptyStatement
+        // | expressionStatement
+        // | ifStatement
+        // | iterationStatement
+        // | continueStatement
+        // | breakStatement
+        // | returnStatement
+        // | withStatement
+        // | labelledStatement
+        // | switchStatement
+        // | throwStatement
+        // | tryStatement
         private Statement createStatement(XElement xElement)
         {
-            //var element = xElement.Element("Statement").Elements().First();
-            //if (element.Name.LocalName == "TOKEN" && element.Value == "if") return new IfStatement(xElement);
+            // Can "xElement.Element("statement").Elements().First()" get first childNode of statement?
+            var element = xElement.Element("statement").Elements().First();
+            if (element.Name.LocalName == "ifStatement") return new IfStatement(xElement);
+            if (element.Name.LocalName == "returnStatement") return new ReturnStatement(xElement);
             throw new NotImplementedException();
         } 
 
@@ -152,30 +181,54 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class IfStatement : Statement {
-        Expression ConditionalExpression;
-        FunctionBody TrueBlock;
-        FunctionBody ElseBlock;
+    // ifStatement
+	// : 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
+    class IfStatement : Statement 
+    {
+        // Is it need that the declaration of field of "_node" when this class inherit the "Statement" class?
+        private XElement _node;
+        public Expression ConditionalExpression {
+            get  {
+                return new Expression(_node.Element("expression"));
+            }
+        }
+        public Statement TrueBlock {
+            get {
+                // want to first "statement" node only
+                return new Statement(_node.Element("statement"));
+            }
+        }
+        public IEnumerable<Statement> ElseBlock {
+            get {
+                // want to all "statement" node except the first one
+                return _node.Elements("statement").Select(e => new Statement(e)); 
+            }
+        }
         public IfStatement(XElement xElement)
-            : base(xElement)
-        {
-            
+            : base(xElement) {
+            _node = xElement;
         }
     }
 
     class ReturnStatement : Statement
     {
-        Expression ReturnExpression;
+        private XElement _node;
+        public Expression ReturnExpression {
+            get {
+                return new Expression(_node.Element("expression"));
+            }
+        }
         public ReturnStatement(XElement xElement)
-            : base(xElement)
-        {
-            
+            : base(xElement) {
+            _node = xElement;
         }
     }
 
-    class Expression
-    {
-        //nothing
+    class Expression {
+        private XElement _node;
+        public Expression(XElement xElement) {
+            _node = xElement;
+        }
     }
 
     class UnaryExpression : Expression
