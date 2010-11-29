@@ -20,11 +20,16 @@ namespace Ucpf.Languages.C
 		}
 
 		public static CStatement createStatement(XElement node){
-			if (node.FirstAttribute.Value == "selection_statemenet")
+			var judge = node.Descendants("TOKEN").First().Value;
+			switch (judge)
 			{
-				return new CIfStatement();
+				case ("if"):
+					return new CIfStatement(node);
+				case ("return"):
+					return new CJumpStatement(node);
+				default:
+					return new CStatement(node);
 			}
-			else return new CStatement();
 		}
 
 		// constructor

@@ -10,10 +10,12 @@ namespace Ucpf.Languages.C
 	public class CStatement
 	{
 		private XElement _node;		// statement
-		public string Type;
+		public string Type { get; set; }
 
-		public IEnumerable<CExpression> Expressions{
-			get{
+		public IEnumerable<CExpression> Expressions
+		{
+			get
+			{
 				return _node.Descendants("expression")
 					.Select(e => new CExpression(e));
 			}

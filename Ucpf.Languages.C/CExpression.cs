@@ -10,19 +10,15 @@ namespace Ucpf.Languages.C
 	public class CExpression
 	{
 		private XElement _node;
-		public string element
-		{
-			get
-			{
-				return _node.Value;
-			}
-		}
-		
+		public string Type { get; set; }
+
 		// constructor
-		public CExpression(XElement node)
+		public CExpression(XElement node, string type = "")
 		{
 			_node = node;
+			Type = type;
 		}
+
 
 	}
 }
