@@ -231,17 +231,26 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class UnaryExpression : Expression
-    {
+    class UnaryExpression : Expression {
+        private XElement _node;
         Operator Operator;
         Value Value;
+        public UnaryExpression(XElement xElement)
+            : base(xElement) {
+            _node = xElement;
+        }
     }
 
     class BinaryExpression : Expression
     {
+        private XElement _node;
         Operator Operator;
         Value lValue;
         Value rValue;
+        public BinaryExpression(XElement xElement)
+            : base(xElement) {
+            _node = xElement;
+        }
     }
 
     class Operator
