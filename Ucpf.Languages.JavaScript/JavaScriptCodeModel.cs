@@ -201,7 +201,7 @@ namespace Ucpf.Languages.JavaScript
         public IEnumerable<Statement> ElseBlock {
             get {
                 // want to get all "statement" node except the first one
-                return _node.Elements("statement").Select(e => new Statement(e)); 
+                return _node.Elements("statement").Skip(1).Select(e => new Statement(e)); 
             }
         }
         public IfStatement(XElement xElement)
