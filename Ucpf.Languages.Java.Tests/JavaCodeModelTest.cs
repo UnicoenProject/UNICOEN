@@ -14,7 +14,7 @@ namespace Ucpf.Languages.Java.Tests
             var ast = JavaAstGenerator.Instance.GenerateFromFile("fibonacci.java");
             var root = ast.Descendants("methodDeclaration").First();
             var func = new FunctionDeclaration(root);
-            //Assert.That(func.Identifier, Is.EqualTo("fibonacci"));
+            Assert.That(func.Identifier, Is.EqualTo("fibonacci"));
         }
 
     }

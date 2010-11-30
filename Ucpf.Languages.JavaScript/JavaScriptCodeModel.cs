@@ -236,8 +236,8 @@ namespace Ucpf.Languages.JavaScript
 
     class UnaryExpression : Expression {
         private XElement _node;
+        private String name;
         Operator Operator;
-        Value Value;
         public UnaryExpression(XElement xElement)
             : base(xElement) {
             _node = xElement;
@@ -248,9 +248,20 @@ namespace Ucpf.Languages.JavaScript
     {
         private XElement _node;
         Operator Operator;
-        Value lValue;
-        Value rValue;
+        Expression lValue;
+        Expression rValue;
         public BinaryExpression(XElement xElement)
+            : base(xElement) {
+            _node = xElement;
+        }
+    }
+
+    class CallExpression : Expression
+    {
+        private XElement _node;
+        String Identifier;
+        IEnumerable<Expression> Arguments;
+        public CallExpression(XElement xElement)
             : base(xElement) {
             _node = xElement;
         }
