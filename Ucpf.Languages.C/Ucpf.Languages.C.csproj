@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CArgument.cs" />
     <Compile Include="CAstGeneratorOld.cs" />
     <Compile Include="CBinomialExpression.cs" />
     <Compile Include="CBlock.cs" />
@@ -55,8 +56,10 @@
     <Compile Include="CExpression.cs" />
     <Compile Include="CFunction.cs" />
     <Compile Include="CIfStatement.cs" />
+    <Compile Include="CInvocationExpression.cs" />
     <Compile Include="CJumpStatement.cs" />
     <Compile Include="CLexer.cs" />
+    <Compile Include="CNumericArgument.cs" />
     <Compile Include="COperator.cs" />
     <Compile Include="CParser.cs" />
     <Compile Include="CPolynomialExpression.cs" />
@@ -66,6 +69,7 @@
     <Compile Include="CType.cs" />
     <Compile Include="CValue.cs" />
     <Compile Include="CVariable.cs" />
+    <Compile Include="CVariableArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

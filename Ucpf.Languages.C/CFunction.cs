@@ -27,7 +27,7 @@ namespace Ucpf.Languages.C
 				return a.Substring(0, a.Length - b.Length);
 			}
 		}
-		public IEnumerable<CVariable> Arguments
+		public IEnumerable<CVariable> Parameters
 		{
 			get
 			{

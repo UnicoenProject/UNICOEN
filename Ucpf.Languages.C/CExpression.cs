@@ -19,6 +19,9 @@ namespace Ucpf.Languages.C
 			Type = type;
 		}
 
-
+		public override string ToString()
+		{
+			return "aaaa";
+		}
 	}
 }

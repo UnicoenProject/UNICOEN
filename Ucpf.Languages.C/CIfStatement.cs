@@ -11,25 +11,36 @@ namespace Ucpf.Languages.C
 	{
 		private XElement _node;		// statemenet
 
-		public CExpression ConditionalExpression
+		public string ConditionalExpression
 		{
 			get
 			{
-				return new CExpression(_node.Descendants("expression").First());
+				// return new CExpression(_node.Descendants("expression").First());
+				return _node.Descendants("expression").First().Value;
 			}
 		}
 		public CBlock TrueBlock
 		{
 			get
 			{
-				return new CBlock(_node.Descendants("statement").First());
+				var list = _node.Element("selection_statement")
+					.Elements("statement")
+					.First()
+					.Element("compound_statement")
+					.Element("statement_list");
+				return new CBlock(list);
 			}
 		}
 		public CBlock ElseBlock
 		{
 			get
 			{
-				throw new NotImplementedException();
+				var list = _node.Element("selection_statement")
+					.Elements("statement")
+					.ElementAt(1)
+					.Element("compound_statement")
+					.Element("statement_list");
+				return new CBlock(list);
 			}
 		}
 		// constructor
@@ -38,9 +49,6 @@ namespace Ucpf.Languages.C
 			_node = node;
 		}
 
-		public CIfStatement()
-		{
-			_node = null;
-		}
+
 	}
 }

@@ -15,6 +15,12 @@ namespace Ucpf.Languages.C
 		public CValue LeftValue;
 		public CValue RightValue;
 
+		public string ToString()
+		{
+			string res = RightValue.NumericValue.ToString() + Operator.Name + RightValue.NumericValue.ToString();
+			return res;
+		}
+		
 		// constructor
 		public CBinomialExpression(XElement node)
 			: base(node, "bionomial") { }

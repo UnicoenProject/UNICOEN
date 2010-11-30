@@ -7,6 +7,12 @@ namespace Ucpf.Languages.C
 {
 	public class CValue
 	{
-		private string value;
+		public int NumericValue { get; set; }
+
+		// constructor
+		public CValue(Object num)
+		{
+			NumericValue = int.Parse(num.ToString());
+		}
 	}
 }

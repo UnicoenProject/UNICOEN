@@ -12,14 +12,29 @@ namespace Ucpf.Languages.C
 		private XElement _node;		// statement
 		public string Type { get; set; }
 
-		public IEnumerable<CExpression> Expressions
+		public IEnumerable<string> Expressions
 		{
 			get
 			{
+				/*
 				return _node.Descendants("expression")
-					.Select(e => new CExpression(e));
+					.Select(e => createExpression(e));
+				*/
+
+				return _node.Descendants("expression").Select(e => e.Value);
 			}
 		}
+
+		public CExpression createExpression(XElement node)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string ToString()
+		{
+			throw new NotImplementedException();
+		}
+
 
 		// constructor
 		public CStatement(XElement node, string type = "")
@@ -27,9 +42,7 @@ namespace Ucpf.Languages.C
 			_node = node;
 			Type = type;
 		}
-		public CStatement()
-		{
-		}
+
 	}
 }
 /*
