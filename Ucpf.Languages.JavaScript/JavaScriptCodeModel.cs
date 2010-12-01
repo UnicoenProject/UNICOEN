@@ -17,7 +17,7 @@ namespace Ucpf.Languages.JavaScript
 	// : functionDeclaration
 	// | statement
 
-    class Program {
+    public class Program {
         private XElement _rootNode;
         public IEnumerable<FunctionDeclaration> Functions
         {
@@ -50,7 +50,7 @@ namespace Ucpf.Languages.JavaScript
     // formalParameterList
 	// : '(' (LT!* Identifier (LT!* ',' LT!* Identifier)*)? LT!* ')'
 
-    class FunctionDeclaration
+    public class FunctionDeclaration
     {
         private XElement _node;
         public String Identifier
@@ -81,13 +81,13 @@ namespace Ucpf.Languages.JavaScript
 
     // callExpression
 	// : memberExpression LT!* arguments (LT!* callExpressionSuffix)*
-    class FunctionInvocation
+    public class FunctionInvocation
     {
         String FunctionName;
         IEnumerable<Value> Arguments;
     }
 
-    class Variable
+    public class Variable
     {
         String Identifier;
 
@@ -97,12 +97,12 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class Value
+    public class Value
     {
         //nothing
     }
 
-    class Integer : Value
+    public class Integer : Value
     {
         int NumericalValue;
     }
@@ -116,7 +116,7 @@ namespace Ucpf.Languages.JavaScript
     // sourceElement
 	// : functionDeclaration
 	// | statement
-    class FunctionBody
+    public class FunctionBody
     {
         private XElement _node;
         public IEnumerable<FunctionDeclaration> FunctionDeclarations 
@@ -172,7 +172,7 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class Statement 
+    public class Statement 
     {
         private XElement _node;
         public Statement(XElement xElement) 
@@ -183,7 +183,7 @@ namespace Ucpf.Languages.JavaScript
 
     // ifStatement
 	// : 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
-    class IfStatement : Statement 
+    public class IfStatement : Statement 
     {
         // Is it need that the declaration of field of "_node" when this class inherit the "Statement" class?
         private XElement _node;
@@ -212,7 +212,7 @@ namespace Ucpf.Languages.JavaScript
 
     // returnStatement
 	// : 'return' expression? (LT | ';')
-    class ReturnStatement : Statement
+    public class ReturnStatement : Statement
     {
         private XElement _node;
         public Expression ReturnExpression {
@@ -227,14 +227,16 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class Expression {
+    public class Expression
+    {
         private XElement _node;
         public Expression(XElement xElement) {
             _node = xElement;
         }
     }
 
-    class UnaryExpression : Expression {
+    public class UnaryExpression : Expression
+    {
         private XElement _node;
         private String name;
         Operator Operator;
@@ -244,7 +246,7 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class BinaryExpression : Expression
+    public class BinaryExpression : Expression
     {
         private XElement _node;
         Operator Operator;
@@ -256,7 +258,7 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class CallExpression : Expression
+    public class CallExpression : Expression
     {
         private XElement _node;
         String Identifier;
@@ -267,7 +269,7 @@ namespace Ucpf.Languages.JavaScript
         }
     }
 
-    class Operator
+    public class Operator
     {
         String OperatorName;
     }
