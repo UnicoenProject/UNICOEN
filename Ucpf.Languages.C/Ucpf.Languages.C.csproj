@@ -82,7 +82,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fibonacci.c" />
+    <Content Include="fibonacci.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fibonacci.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.C.Tests", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.JavaScript.Tests", "Ucpf.Languages.JavaScript.Tests\Ucpf.Languages.JavaScript.Tests.csproj", "{B2B716A6-D675-4E4F-A415-60CEA3E3D491}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.Python2.Tests", "Ucpf.Languages.Python2.Tests\Ucpf.Languages.Python2.Tests.csproj", "{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -266,6 +268,16 @@ Global
 		{B2B716A6-D675-4E4F-A415-60CEA3E3D491}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B2B716A6-D675-4E4F-A415-60CEA3E3D491}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B2B716A6-D675-4E4F-A415-60CEA3E3D491}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
