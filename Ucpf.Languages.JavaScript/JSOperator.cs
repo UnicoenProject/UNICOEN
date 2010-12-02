@@ -18,5 +18,29 @@ namespace Ucpf.Languages.JavaScript {
         {
             throw new NotImplementedException();
         }
+
+        public static JSOperator CreateOperator(XElement xElement) {
+            if(xElement.Value == "+") {
+                return new JSPlusOperator(xElement);
+            }
+            //TODO implement when false.
+            return null;
+        }
+
+        public static JSOperator CreatePreOperator(XElement xElement) {
+            if(xElement.Value == "++") {
+                return new JSIncreamentBeforeOperator(xElement);
+            }
+            //TODO implement when false.
+            return null;
+        }
+
+        public static JSOperator CreatePostOperator(XElement xElement) {
+            if(xElement.Value == "++") {
+                return null;
+            }
+            //TODO implement when false.
+            return null;
+        }
     }
 }

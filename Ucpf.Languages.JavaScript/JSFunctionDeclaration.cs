@@ -23,11 +23,11 @@ namespace Ucpf.Languages.JavaScript {
                 return _node.Element("Identifier").Value;
             }
         }
-        public IEnumerable<Variable> Parameters
+        public IEnumerable<JSVariable> Parameters
         {
             get
             {
-                return _node.Element("formalParameterList").Elements("Identifier").Select(e => new Variable(e));
+                return _node.Element("formalParameterList").Elements("Identifier").Select(e => new JSVariable(e));
             }
         }
         public JSFunctionBody JsFunctionBody

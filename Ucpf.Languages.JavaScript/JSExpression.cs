@@ -49,12 +49,12 @@ namespace Ucpf.Languages.JavaScript {
                     return
                         new JsUnaryExpression(
                             tempNode.Elements().ElementAt(0),
-                            tempNode.Elements().ElementAt(1));
+                            JSOperator.CreatePostOperator(tempNode.Elements().ElementAt(1)));
                 }
                 return
                     new JsUnaryExpression(
                         targetElement.Elements().ElementAt(1),
-                        targetElement.Elements().ElementAt(0));
+                        JSOperator.CreatePreOperator(targetElement.Elements().ElementAt(0)));
             }
 
             //case Binary
@@ -63,7 +63,7 @@ namespace Ucpf.Languages.JavaScript {
                 return
                     new JSBinaryExpression(
                         targetElement.Elements().ElementAt(0),
-                        targetElement.Elements().ElementAt(1),
+                        JSOperator.CreateOperator(targetElement.Elements().ElementAt(1)),
                         targetElement.Elements().ElementAt(2));
             }
 
