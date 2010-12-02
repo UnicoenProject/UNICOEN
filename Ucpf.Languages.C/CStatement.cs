@@ -12,27 +12,24 @@ namespace Ucpf.Languages.C
 		private XElement _node;		// statement
 		public string Type { get; set; }
 
-		public IEnumerable<string> Expressions
+		public IEnumerable<CExpression> Expressions
 		{
 			get
 			{
-				/*
 				return _node.Descendants("expression")
-					.Select(e => createExpression(e));
-				*/
-
-				return _node.Descendants("expression").Select(e => e.Value);
+					.Select(e => CExpression.CreateExpression(e));
 			}
 		}
 
-		public CExpression createExpression(XElement node)
+		public override string ToString()
 		{
-			throw new NotImplementedException();
-		}
+			string str = "";
+			foreach (CExpression s in Expressions)
+			{
+				str += s.ToString();
+			}
 
-		public string ToString()
-		{
-			throw new NotImplementedException();
+			return str;
 		}
 
 
@@ -45,61 +42,16 @@ namespace Ucpf.Languages.C
 
 	}
 }
+
 /*
-            <selection_statement>
-              <TOKEN startline="2" startpos="1">if</TOKEN>
-              <TOKEN startline="2" startpos="3">(</TOKEN>
-              <expression>
-                <assignment_expression>
-                  <conditional_expression>
-                    <logical_or_expression>
-                      <logical_and_expression>
-                        <inclusive_or_expression>
-                          <exclusive_or_expression>
-                            <and_expression>
-                              <equality_expression>
-                                <relational_expression>
-                                  <shift_expression>
-                                    <additive_expression>
-                                      <multiplicative_expression>
-                                        <cast_expression>
-                                          <unary_expression>
-                                            <postfix_expression>
-                                              <primary_expression>
-                                                <TOKEN startline="2" startpos="4">n</TOKEN>
-                                              </primary_expression>
-                                            </postfix_expression>
-                                          </unary_expression>
-                                        </cast_expression>
-                                      </multiplicative_expression>
-                                    </additive_expression>
-                                  </shift_expression>
-                                  <TOKEN startline="2" startpos="6">&lt;</TOKEN>
-                                  <shift_expression>
-                                    <additive_expression>
-                                      <multiplicative_expression>
-                                        <cast_expression>
-                                          <unary_expression>
-                                            <postfix_expression>
-                                              <primary_expression>
-                                                <constant>
-                                                  <TOKEN startline="2" startpos="8">2</TOKEN>
-                                                </constant>
-                                              </primary_expression>
-                                            </postfix_expression>
-                                          </unary_expression>
-                                        </cast_expression>
-                                      </multiplicative_expression>
-                                    </additive_expression>
-                                  </shift_expression>
-                                </relational_expression>
-                              </equality_expression>
-                            </and_expression>
-                          </exclusive_or_expression>
-                        </inclusive_or_expression>
-                      </logical_and_expression>
-                    </logical_or_expression>
-                  </conditional_expression>
-                </assignment_expression>
-              </expression>
+ * postfix_expression
+	:   primary_expression
+        (   '[' expression ']'
+        |   '(' ')'
+        |   '(' argument_expression_list ')'
+        |   '.' IDENTIFIER
+        |   '->' IDENTIFIER
+        |   '++'
+        |   '--'
+        )*
 */

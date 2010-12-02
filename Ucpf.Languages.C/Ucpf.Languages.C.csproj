@@ -49,20 +49,21 @@
   <ItemGroup>
     <Compile Include="CArgument.cs" />
     <Compile Include="CAstGeneratorOld.cs" />
-    <Compile Include="CBinomialExpression.cs" />
+    <Compile Include="CBinaryExpression.cs" />
     <Compile Include="CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />
     <Compile Include="CElements.cs" />
     <Compile Include="CExpression.cs" />
     <Compile Include="CFunction.cs" />
     <Compile Include="CIfStatement.cs" />
+    <Compile Include="CIncrementAfterOperator.cs" />
     <Compile Include="CInvocationExpression.cs" />
     <Compile Include="CJumpStatement.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CNumericArgument.cs" />
     <Compile Include="COperator.cs" />
     <Compile Include="CParser.cs" />
-    <Compile Include="CPolynomialExpression.cs" />
+    <Compile Include="CUnaryExpression.cs" />
     <Compile Include="CProgram.cs" />
     <Compile Include="CSelectionStatement.cs" />
     <Compile Include="CStatement.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="CValue.cs" />
     <Compile Include="CVariable.cs" />
     <Compile Include="CVariableArgument.cs" />
+    <Compile Include="CIncrementBeforOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +84,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fibonacci.c" />
+    <Content Include="fibonacci.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fibonacci.xml">
       <SubType>Designer</SubType>
     </Content>

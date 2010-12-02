@@ -10,7 +10,7 @@ namespace Ucpf.Languages.C
 	public class CInvocationExpression : CExpression
 	{
 		private XElement _node;
-		// _node :: "expression" ?  maybe not
+		// _node :: "expression"
 
 		public string FunctionName
 		{
@@ -21,13 +21,25 @@ namespace Ucpf.Languages.C
 			}
 		}
 
-		public IEnumerable<CArgument> Arguments
+		public IEnumerable<CExpression> Arguments
 		{
 			get
 			{
-				// return _node.Element("argument_expression").Elements("TOKEN")
+				return _node.Element("argument_expression_list");
 				throw new NotImplementedException();
 			}
+		}
+
+		public override string ToString()
+		{
+			string str = FunctionName + "(";
+			foreach (CExpression ex in Arguments)
+			{
+				str += ex.ToString();
+			}
+			str += ")";
+
+			return str;
 		}
 
 		// constructor
@@ -35,3 +47,4 @@ namespace Ucpf.Languages.C
 			: base(node, "invocation") { }
 	}
 }
+
