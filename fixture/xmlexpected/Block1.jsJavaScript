@@ -3,7 +3,7 @@
     <sourceElement>
       <functionDeclaration>
         <TOKEN startline="1" startpos="0">function</TOKEN>
-        <TOKEN startline="1" startpos="9">func</TOKEN>
+        <Identifier startline="1" startpos="9">func</Identifier>
         <formalParameterList>
           <TOKEN startline="1" startpos="13">(</TOKEN>
           <TOKEN startline="1" startpos="14">)</TOKEN>
@@ -20,7 +20,7 @@
                         <newExpression>
                           <memberExpression>
                             <primaryExpression>
-                              <TOKEN startline="2" startpos="1">i</TOKEN>
+                              <Identifier startline="2" startpos="1">i</Identifier>
                             </primaryExpression>
                           </memberExpression>
                         </newExpression>
@@ -97,7 +97,7 @@
                                                   <newExpression>
                                                     <memberExpression>
                                                       <primaryExpression>
-                                                        <TOKEN startline="4" startpos="5">i</TOKEN>
+                                                        <Identifier startline="4" startpos="5">i</Identifier>
                                                       </primaryExpression>
                                                     </memberExpression>
                                                   </newExpression>
@@ -163,7 +163,7 @@
                                                       <callExpression>
                                                         <memberExpression>
                                                           <primaryExpression>
-                                                            <TOKEN startline="5" startpos="2">alert</TOKEN>
+                                                            <Identifier startline="5" startpos="2">alert</Identifier>
                                                           </primaryExpression>
                                                         </memberExpression>
                                                         <arguments>
@@ -256,7 +256,7 @@
                                                   <newExpression>
                                                     <memberExpression>
                                                       <primaryExpression>
-                                                        <TOKEN startline="7" startpos="8">i</TOKEN>
+                                                        <Identifier startline="7" startpos="8">i</Identifier>
                                                       </primaryExpression>
                                                     </memberExpression>
                                                   </newExpression>
@@ -345,7 +345,7 @@
                                                             <callExpression>
                                                               <memberExpression>
                                                                 <primaryExpression>
-                                                                  <TOKEN startline="9" startpos="2">alert</TOKEN>
+                                                                  <Identifier startline="9" startpos="2">alert</Identifier>
                                                                 </primaryExpression>
                                                               </memberExpression>
                                                               <arguments>
@@ -443,7 +443,7 @@
                                                     <newExpression>
                                                       <memberExpression>
                                                         <primaryExpression>
-                                                          <TOKEN startline="12" startpos="8">i</TOKEN>
+                                                          <Identifier startline="12" startpos="8">i</Identifier>
                                                         </primaryExpression>
                                                       </memberExpression>
                                                     </newExpression>
@@ -509,7 +509,7 @@
                                                         <callExpression>
                                                           <memberExpression>
                                                             <primaryExpression>
-                                                              <TOKEN startline="13" startpos="2">alert</TOKEN>
+                                                              <Identifier startline="13" startpos="2">alert</Identifier>
                                                             </primaryExpression>
                                                           </memberExpression>
                                                           <arguments>
@@ -605,7 +605,7 @@
                                                         <callExpression>
                                                           <memberExpression>
                                                             <primaryExpression>
-                                                              <TOKEN startline="16" startpos="2">alert</TOKEN>
+                                                              <Identifier startline="16" startpos="2">alert</Identifier>
                                                             </primaryExpression>
                                                           </memberExpression>
                                                           <arguments>
@@ -692,7 +692,7 @@
                                                     <newExpression>
                                                       <memberExpression>
                                                         <primaryExpression>
-                                                          <TOKEN startline="17" startpos="8">i</TOKEN>
+                                                          <Identifier startline="17" startpos="8">i</Identifier>
                                                         </primaryExpression>
                                                       </memberExpression>
                                                     </newExpression>
@@ -755,7 +755,7 @@
                             <newExpression>
                               <memberExpression>
                                 <primaryExpression>
-                                  <TOKEN startline="19" startpos="6">i</TOKEN>
+                                  <Identifier startline="19" startpos="6">i</Identifier>
                                 </primaryExpression>
                               </memberExpression>
                             </newExpression>
@@ -825,7 +825,7 @@
                                                     <newExpression>
                                                       <memberExpression>
                                                         <primaryExpression>
-                                                          <TOKEN startline="19" startpos="13">i</TOKEN>
+                                                          <Identifier startline="19" startpos="13">i</Identifier>
                                                         </primaryExpression>
                                                       </memberExpression>
                                                     </newExpression>
@@ -887,7 +887,7 @@
                                                     <newExpression>
                                                       <memberExpression>
                                                         <primaryExpression>
-                                                          <TOKEN startline="19" startpos="20">i</TOKEN>
+                                                          <Identifier startline="19" startpos="20">i</Identifier>
                                                         </primaryExpression>
                                                       </memberExpression>
                                                     </newExpression>
@@ -930,7 +930,7 @@
                                                         <callExpression>
                                                           <memberExpression>
                                                             <primaryExpression>
-                                                              <TOKEN startline="20" startpos="2">alert</TOKEN>
+                                                              <Identifier startline="20" startpos="2">alert</Identifier>
                                                             </primaryExpression>
                                                           </memberExpression>
                                                           <arguments>
@@ -1011,7 +1011,7 @@
                         <newExpression>
                           <memberExpression>
                             <primaryExpression>
-                              <TOKEN startline="22" startpos="6">i</TOKEN>
+                              <Identifier startline="22" startpos="6">i</Identifier>
                             </primaryExpression>
                           </memberExpression>
                         </newExpression>
@@ -1039,7 +1039,7 @@
                                                         <TOKEN startline="22" startpos="11">new</TOKEN>
                                                         <memberExpression>
                                                           <primaryExpression>
-                                                            <TOKEN startline="22" startpos="15">Array</TOKEN>
+                                                            <Identifier startline="22" startpos="15">Array</Identifier>
                                                           </primaryExpression>
                                                         </memberExpression>
                                                         <arguments>
@@ -1086,7 +1086,7 @@
                                                         <callExpression>
                                                           <memberExpression>
                                                             <primaryExpression>
-                                                              <TOKEN startline="23" startpos="2">alert</TOKEN>
+                                                              <Identifier startline="23" startpos="2">alert</Identifier>
                                                             </primaryExpression>
                                                           </memberExpression>
                                                           <arguments>
@@ -1165,7 +1165,7 @@
                         <newExpression>
                           <memberExpression>
                             <primaryExpression>
-                              <TOKEN startline="25" startpos="1">obj</TOKEN>
+                              <Identifier startline="25" startpos="1">obj</Identifier>
                             </primaryExpression>
                           </memberExpression>
                         </newExpression>
@@ -1289,7 +1289,7 @@
                                                   <newExpression>
                                                     <memberExpression>
                                                       <primaryExpression>
-                                                        <TOKEN startline="26" startpos="6">obj</TOKEN>
+                                                        <Identifier startline="26" startpos="6">obj</Identifier>
                                                       </primaryExpression>
                                                     </memberExpression>
                                                   </newExpression>
@@ -1331,7 +1331,7 @@
                                                       <callExpression>
                                                         <memberExpression>
                                                           <primaryExpression>
-                                                            <TOKEN startline="27" startpos="2">alert</TOKEN>
+                                                            <Identifier startline="27" startpos="2">alert</Identifier>
                                                           </primaryExpression>
                                                         </memberExpression>
                                                         <arguments>
@@ -1354,7 +1354,7 @@
                                                                                         <newExpression>
                                                                                           <memberExpression>
                                                                                             <primaryExpression>
-                                                                                              <TOKEN startline="27" startpos="8">a</TOKEN>
+                                                                                              <Identifier startline="27" startpos="8">a</Identifier>
                                                                                             </primaryExpression>
                                                                                           </memberExpression>
                                                                                         </newExpression>

@@ -9,11 +9,11 @@ using Antlr.Runtime.Tree;
 namespace Ucpf.Languages.Common.Antlr
 {
 	public class XmlTreeAdaptor : CommonTreeAdaptor {
-		public object Create(IToken payload, XParserRuleReturnScope parent)
-		{
-			if (payload != null)
-			{
-				var element = new XElement("TOKEN", payload.Text);
+		public object Create(IToken payload, XParserRuleReturnScope parent) {
+			if (payload != null) {
+				var xtoken = payload as XToken;
+				var name = xtoken != null ? xtoken.Name : "TOKEN";
+				var element = new XElement(name, payload.Text);
 				element.SetAttributeValue("startline", payload.Line);
 				element.SetAttributeValue("startpos", payload.CharPositionInLine);
 				parent.Element.Add(element);

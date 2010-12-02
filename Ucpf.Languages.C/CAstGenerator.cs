@@ -11,18 +11,17 @@ using Ucpf.Weavers;
 namespace Ucpf.Languages.C
 {
 	[Export(typeof(AstGenerator))]
-	public class CAstGeneratorOld : AntlrAstGeneratorOld<CParser>
+	public class CAstGenerator : AntlrAstGenerator<CParser>
 	{
-		private static CAstGeneratorOld _instance;
-		public static CAstGeneratorOld Instance
+		private static CAstGenerator _instance;
+		public static CAstGenerator Instance
 		{
-			get { return _instance ?? (_instance = new CAstGeneratorOld()); }
+			get { return _instance ?? (_instance = new CAstGenerator()); }
 		}
 
-		private CAstGeneratorOld() { }
+		private CAstGenerator() { }
 
-		protected override Action<CParser> DefaultParseAction
-		{
+		protected override Func<CParser, XParserRuleReturnScope> DefaultParseFunc {
 			get { return parser => parser.translation_unit(); }
 		}
 

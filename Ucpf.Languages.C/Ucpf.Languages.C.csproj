@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CArgument.cs" />
-    <Compile Include="CAstGeneratorOld.cs" />
+    <Compile Include="CAstGenerator.cs" />
     <Compile Include="CBinomialExpression.cs" />
     <Compile Include="CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />

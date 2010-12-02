@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScriptAstGeneratorOld.cs" />
+    <Compile Include="JavaScriptAstGenerator.cs" />
     <Compile Include="JavaScriptCodeGenerator.cs" />
     <Compile Include="JavaScriptCodeModel.cs" />
     <Compile Include="JavaScriptElements.cs" />

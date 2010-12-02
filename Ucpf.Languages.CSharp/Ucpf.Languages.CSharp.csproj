@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSharpAstGeneratorOld.cs" />
+    <Compile Include="CSharpAstGenerator.cs" />
     <Compile Include="CSharpCodeGenerator.cs" />
     <Compile Include="CSharpElements.cs" />
     <Compile Include="csLexer.cs" />

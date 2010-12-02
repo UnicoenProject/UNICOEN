@@ -52,6 +52,7 @@
     <Compile Include="Languages\Common\Antlr\AntlrAstGeneratorOld.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrBlockGenerator.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrCodeGenerateHelper.cs" />
+    <Compile Include="Languages\Common\Antlr\ExtensionForParser.cs" />
     <Compile Include="Languages\Common\Antlr\IXParser.cs" />
     <Compile Include="Languages\Common\Antlr\XmlTreeAdaptor.cs" />
     <Compile Include="Languages\Common\Antlr\XmlTreeAdaptorOld.cs" />

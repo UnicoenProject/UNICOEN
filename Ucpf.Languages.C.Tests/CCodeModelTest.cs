@@ -11,7 +11,7 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void CFunctionを生成できる()
 		{
-			var ast = CAstGeneratorOld.Instance.GenerateFromFile("fibonacci.c");
+			var ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
 			var root = ast.Descendants("function_definition").First();
 			var func = new CFunction(root);
 			Assert.That(func.Name, Is.EqualTo("fibonacci"));
@@ -20,7 +20,7 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void パラメータリストが正しい()
 		{
-			var ast = CAstGeneratorOld.Instance.GenerateFromFile("fibonacci.c");
+			var ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
 			var root = ast.Descendants("function_definition").First();
 			var func = new CFunction(root);
 			Assert.That(func.Parameters.ElementAt(0).Name, Is.EqualTo("n"));
@@ -30,7 +30,7 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void IF文の条件式が正しい()
 		{
-			var ast = CAstGeneratorOld.Instance.GenerateFromFile("fibonacci.c");
+			var ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
 			var root = ast.Descendants("function_definition").First();
 			var func = new CFunction(root);
 			Assert.That(func.Body.Statements.ElementAt(0).Type, Is.EqualTo("if"));
@@ -40,7 +40,7 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void TrueBlockが正しく生成できる()
 		{
-			var ast = CAstGeneratorOld.Instance.GenerateFromFile("fibonacci.c");
+			var ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
 			var root = ast.Descendants("function_definition").First();
 			var func = new CFunction(root);
 			var firstStatement = ((CIfStatement)(func.Body.Statements.ElementAt(0)))
@@ -54,7 +54,7 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void ElseBlockが正しく生成できる()
 		{
-			var ast = CAstGeneratorOld.Instance.GenerateFromFile("fibonacci.c");
+			var ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
 			var root = ast.Descendants("function_definition").First();
 			var func = new CFunction(root);
 			var firstStatemenet = ((CIfStatement)(func.Body.Statements.ElementAt(0)))

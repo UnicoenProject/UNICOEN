@@ -4,12 +4,12 @@
       <classDeclaration>
         <normalClassDeclaration>
           <modifiers>
-            <TOKEN startline="1" startpos="0">public</TOKEN>
+            <PUBLIC startline="1" startpos="0">public</PUBLIC>
           </modifiers>
-          <TOKEN startline="1" startpos="7">class</TOKEN>
-          <TOKEN startline="1" startpos="13">Block1</TOKEN>
+          <CLASS startline="1" startpos="7">class</CLASS>
+          <IDENTIFIER startline="1" startpos="13">Block1</IDENTIFIER>
           <classBody>
-            <TOKEN startline="2" startpos="0">{</TOKEN>
+            <LBRACE startline="2" startpos="0">{</LBRACE>
             <classBodyDeclaration>
               <memberDecl>
                 <methodDeclaration>
@@ -19,13 +19,13 @@
                       <TOKEN startline="3" startpos="1">int</TOKEN>
                     </primitiveType>
                   </type>
-                  <TOKEN startline="3" startpos="5">method1</TOKEN>
+                  <IDENTIFIER startline="3" startpos="5">method1</IDENTIFIER>
                   <formalParameters>
-                    <TOKEN startline="3" startpos="12">(</TOKEN>
-                    <TOKEN startline="3" startpos="13">)</TOKEN>
+                    <LPAREN startline="3" startpos="12">(</LPAREN>
+                    <RPAREN startline="3" startpos="13">)</RPAREN>
                   </formalParameters>
                   <block>
-                    <TOKEN startline="4" startpos="1">{</TOKEN>
+                    <LBRACE startline="4" startpos="1">{</LBRACE>
                     <blockStatement>
                       <localVariableDeclarationStatement>
                         <localVariableDeclaration>
@@ -36,8 +36,8 @@
                             </primitiveType>
                           </type>
                           <variableDeclarator>
-                            <TOKEN startline="5" startpos="6">i</TOKEN>
-                            <TOKEN startline="5" startpos="8">=</TOKEN>
+                            <IDENTIFIER startline="5" startpos="6">i</IDENTIFIER>
+                            <EQ startline="5" startpos="8">=</EQ>
                             <variableInitializer>
                               <expression>
                                 <conditionalExpression>
@@ -77,14 +77,14 @@
                             </variableInitializer>
                           </variableDeclarator>
                         </localVariableDeclaration>
-                        <TOKEN startline="5" startpos="11">;</TOKEN>
+                        <SEMI startline="5" startpos="11">;</SEMI>
                       </localVariableDeclarationStatement>
                     </blockStatement>
                     <blockStatement>
                       <statement>
-                        <TOKEN startline="7" startpos="2">if</TOKEN>
+                        <IF startline="7" startpos="2">if</IF>
                         <parExpression>
-                          <TOKEN startline="7" startpos="5">(</TOKEN>
+                          <LPAREN startline="7" startpos="5">(</LPAREN>
                           <expression>
                             <conditionalExpression>
                               <conditionalOrExpression>
@@ -101,7 +101,7 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="7" startpos="6">i</TOKEN>
+                                                          <IDENTIFIER startline="7" startpos="6">i</IDENTIFIER>
                                                         </primary>
                                                       </unaryExpressionNotPlusMinus>
                                                     </unaryExpression>
@@ -109,8 +109,8 @@
                                                 </additiveExpression>
                                               </shiftExpression>
                                               <relationalOp>
-                                                <TOKEN startline="7" startpos="8">&lt;</TOKEN>
-                                                <TOKEN startline="7" startpos="9">=</TOKEN>
+                                                <LT startline="7" startpos="8">&lt;</LT>
+                                                <EQ startline="7" startpos="9">=</EQ>
                                               </relationalOp>
                                               <shiftExpression>
                                                 <additiveExpression>
@@ -137,7 +137,7 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="7" startpos="12">)</TOKEN>
+                          <RPAREN startline="7" startpos="12">)</RPAREN>
                         </parExpression>
                         <statement>
                           <expression>
@@ -156,14 +156,14 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="8" startpos="3">System</TOKEN>
-                                                          <TOKEN startline="8" startpos="9">.</TOKEN>
-                                                          <TOKEN startline="8" startpos="10">out</TOKEN>
-                                                          <TOKEN startline="8" startpos="13">.</TOKEN>
-                                                          <TOKEN startline="8" startpos="14">println</TOKEN>
+                                                          <IDENTIFIER startline="8" startpos="3">System</IDENTIFIER>
+                                                          <DOT startline="8" startpos="9">.</DOT>
+                                                          <IDENTIFIER startline="8" startpos="10">out</IDENTIFIER>
+                                                          <DOT startline="8" startpos="13">.</DOT>
+                                                          <IDENTIFIER startline="8" startpos="14">println</IDENTIFIER>
                                                           <identifierSuffix>
                                                             <arguments>
-                                                              <TOKEN startline="8" startpos="21">(</TOKEN>
+                                                              <LPAREN startline="8" startpos="21">(</LPAREN>
                                                               <expressionList>
                                                                 <expression>
                                                                   <conditionalExpression>
@@ -201,7 +201,7 @@
                                                                   </conditionalExpression>
                                                                 </expression>
                                                               </expressionList>
-                                                              <TOKEN startline="8" startpos="25">)</TOKEN>
+                                                              <RPAREN startline="8" startpos="25">)</RPAREN>
                                                             </arguments>
                                                           </identifierSuffix>
                                                         </primary>
@@ -220,15 +220,15 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="8" startpos="26">;</TOKEN>
+                          <SEMI startline="8" startpos="26">;</SEMI>
                         </statement>
                       </statement>
                     </blockStatement>
                     <blockStatement>
                       <statement>
-                        <TOKEN startline="10" startpos="2">if</TOKEN>
+                        <IF startline="10" startpos="2">if</IF>
                         <parExpression>
-                          <TOKEN startline="10" startpos="5">(</TOKEN>
+                          <LPAREN startline="10" startpos="5">(</LPAREN>
                           <expression>
                             <conditionalExpression>
                               <conditionalOrExpression>
@@ -245,7 +245,7 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="10" startpos="6">i</TOKEN>
+                                                          <IDENTIFIER startline="10" startpos="6">i</IDENTIFIER>
                                                         </primary>
                                                       </unaryExpressionNotPlusMinus>
                                                     </unaryExpression>
@@ -282,7 +282,7 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="10" startpos="12">)</TOKEN>
+                          <RPAREN startline="10" startpos="12">)</RPAREN>
                         </parExpression>
                         <statement>
                           <expression>
@@ -301,14 +301,14 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="11" startpos="3">System</TOKEN>
-                                                          <TOKEN startline="11" startpos="9">.</TOKEN>
-                                                          <TOKEN startline="11" startpos="10">out</TOKEN>
-                                                          <TOKEN startline="11" startpos="13">.</TOKEN>
-                                                          <TOKEN startline="11" startpos="14">println</TOKEN>
+                                                          <IDENTIFIER startline="11" startpos="3">System</IDENTIFIER>
+                                                          <DOT startline="11" startpos="9">.</DOT>
+                                                          <IDENTIFIER startline="11" startpos="10">out</IDENTIFIER>
+                                                          <DOT startline="11" startpos="13">.</DOT>
+                                                          <IDENTIFIER startline="11" startpos="14">println</IDENTIFIER>
                                                           <identifierSuffix>
                                                             <arguments>
-                                                              <TOKEN startline="11" startpos="21">(</TOKEN>
+                                                              <LPAREN startline="11" startpos="21">(</LPAREN>
                                                               <expressionList>
                                                                 <expression>
                                                                   <conditionalExpression>
@@ -346,7 +346,7 @@
                                                                   </conditionalExpression>
                                                                 </expression>
                                                               </expressionList>
-                                                              <TOKEN startline="11" startpos="25">)</TOKEN>
+                                                              <RPAREN startline="11" startpos="25">)</RPAREN>
                                                             </arguments>
                                                           </identifierSuffix>
                                                         </primary>
@@ -365,9 +365,9 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="11" startpos="26">;</TOKEN>
+                          <SEMI startline="11" startpos="26">;</SEMI>
                         </statement>
-                        <TOKEN startline="12" startpos="2">else</TOKEN>
+                        <ELSE startline="12" startpos="2">else</ELSE>
                         <statement>
                           <expression>
                             <conditionalExpression>
@@ -385,14 +385,14 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="13" startpos="3">System</TOKEN>
-                                                          <TOKEN startline="13" startpos="9">.</TOKEN>
-                                                          <TOKEN startline="13" startpos="10">out</TOKEN>
-                                                          <TOKEN startline="13" startpos="13">.</TOKEN>
-                                                          <TOKEN startline="13" startpos="14">println</TOKEN>
+                                                          <IDENTIFIER startline="13" startpos="3">System</IDENTIFIER>
+                                                          <DOT startline="13" startpos="9">.</DOT>
+                                                          <IDENTIFIER startline="13" startpos="10">out</IDENTIFIER>
+                                                          <DOT startline="13" startpos="13">.</DOT>
+                                                          <IDENTIFIER startline="13" startpos="14">println</IDENTIFIER>
                                                           <identifierSuffix>
                                                             <arguments>
-                                                              <TOKEN startline="13" startpos="21">(</TOKEN>
+                                                              <LPAREN startline="13" startpos="21">(</LPAREN>
                                                               <expressionList>
                                                                 <expression>
                                                                   <conditionalExpression>
@@ -430,7 +430,7 @@
                                                                   </conditionalExpression>
                                                                 </expression>
                                                               </expressionList>
-                                                              <TOKEN startline="13" startpos="28">)</TOKEN>
+                                                              <RPAREN startline="13" startpos="28">)</RPAREN>
                                                             </arguments>
                                                           </identifierSuffix>
                                                         </primary>
@@ -449,15 +449,15 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="13" startpos="29">;</TOKEN>
+                          <SEMI startline="13" startpos="29">;</SEMI>
                         </statement>
                       </statement>
                     </blockStatement>
                     <blockStatement>
                       <statement>
-                        <TOKEN startline="15" startpos="2">if</TOKEN>
+                        <IF startline="15" startpos="2">if</IF>
                         <parExpression>
-                          <TOKEN startline="15" startpos="5">(</TOKEN>
+                          <LPAREN startline="15" startpos="5">(</LPAREN>
                           <expression>
                             <conditionalExpression>
                               <conditionalOrExpression>
@@ -474,7 +474,7 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="15" startpos="6">i</TOKEN>
+                                                          <IDENTIFIER startline="15" startpos="6">i</IDENTIFIER>
                                                         </primary>
                                                       </unaryExpressionNotPlusMinus>
                                                     </unaryExpression>
@@ -511,7 +511,7 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="15" startpos="12">)</TOKEN>
+                          <RPAREN startline="15" startpos="12">)</RPAREN>
                         </parExpression>
                         <statement>
                           <expression>
@@ -530,14 +530,14 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="16" startpos="3">System</TOKEN>
-                                                          <TOKEN startline="16" startpos="9">.</TOKEN>
-                                                          <TOKEN startline="16" startpos="10">out</TOKEN>
-                                                          <TOKEN startline="16" startpos="13">.</TOKEN>
-                                                          <TOKEN startline="16" startpos="14">println</TOKEN>
+                                                          <IDENTIFIER startline="16" startpos="3">System</IDENTIFIER>
+                                                          <DOT startline="16" startpos="9">.</DOT>
+                                                          <IDENTIFIER startline="16" startpos="10">out</IDENTIFIER>
+                                                          <DOT startline="16" startpos="13">.</DOT>
+                                                          <IDENTIFIER startline="16" startpos="14">println</IDENTIFIER>
                                                           <identifierSuffix>
                                                             <arguments>
-                                                              <TOKEN startline="16" startpos="21">(</TOKEN>
+                                                              <LPAREN startline="16" startpos="21">(</LPAREN>
                                                               <expressionList>
                                                                 <expression>
                                                                   <conditionalExpression>
@@ -575,7 +575,7 @@
                                                                   </conditionalExpression>
                                                                 </expression>
                                                               </expressionList>
-                                                              <TOKEN startline="16" startpos="25">)</TOKEN>
+                                                              <RPAREN startline="16" startpos="25">)</RPAREN>
                                                             </arguments>
                                                           </identifierSuffix>
                                                         </primary>
@@ -594,13 +594,13 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="16" startpos="26">;</TOKEN>
+                          <SEMI startline="16" startpos="26">;</SEMI>
                         </statement>
-                        <TOKEN startline="17" startpos="2">else</TOKEN>
+                        <ELSE startline="17" startpos="2">else</ELSE>
                         <statement>
-                          <TOKEN startline="17" startpos="7">if</TOKEN>
+                          <IF startline="17" startpos="7">if</IF>
                           <parExpression>
-                            <TOKEN startline="17" startpos="10">(</TOKEN>
+                            <LPAREN startline="17" startpos="10">(</LPAREN>
                             <expression>
                               <conditionalExpression>
                                 <conditionalOrExpression>
@@ -617,7 +617,7 @@
                                                       <unaryExpression>
                                                         <unaryExpressionNotPlusMinus>
                                                           <primary>
-                                                            <TOKEN startline="17" startpos="11">i</TOKEN>
+                                                            <IDENTIFIER startline="17" startpos="11">i</IDENTIFIER>
                                                           </primary>
                                                         </unaryExpressionNotPlusMinus>
                                                       </unaryExpression>
@@ -654,7 +654,7 @@
                                 </conditionalOrExpression>
                               </conditionalExpression>
                             </expression>
-                            <TOKEN startline="17" startpos="17">)</TOKEN>
+                            <RPAREN startline="17" startpos="17">)</RPAREN>
                           </parExpression>
                           <statement>
                             <expression>
@@ -673,14 +673,14 @@
                                                       <unaryExpression>
                                                         <unaryExpressionNotPlusMinus>
                                                           <primary>
-                                                            <TOKEN startline="18" startpos="3">System</TOKEN>
-                                                            <TOKEN startline="18" startpos="9">.</TOKEN>
-                                                            <TOKEN startline="18" startpos="10">out</TOKEN>
-                                                            <TOKEN startline="18" startpos="13">.</TOKEN>
-                                                            <TOKEN startline="18" startpos="14">println</TOKEN>
+                                                            <IDENTIFIER startline="18" startpos="3">System</IDENTIFIER>
+                                                            <DOT startline="18" startpos="9">.</DOT>
+                                                            <IDENTIFIER startline="18" startpos="10">out</IDENTIFIER>
+                                                            <DOT startline="18" startpos="13">.</DOT>
+                                                            <IDENTIFIER startline="18" startpos="14">println</IDENTIFIER>
                                                             <identifierSuffix>
                                                               <arguments>
-                                                                <TOKEN startline="18" startpos="21">(</TOKEN>
+                                                                <LPAREN startline="18" startpos="21">(</LPAREN>
                                                                 <expressionList>
                                                                   <expression>
                                                                     <conditionalExpression>
@@ -718,7 +718,7 @@
                                                                     </conditionalExpression>
                                                                   </expression>
                                                                 </expressionList>
-                                                                <TOKEN startline="18" startpos="25">)</TOKEN>
+                                                                <RPAREN startline="18" startpos="25">)</RPAREN>
                                                               </arguments>
                                                             </identifierSuffix>
                                                           </primary>
@@ -737,13 +737,13 @@
                                 </conditionalOrExpression>
                               </conditionalExpression>
                             </expression>
-                            <TOKEN startline="18" startpos="26">;</TOKEN>
+                            <SEMI startline="18" startpos="26">;</SEMI>
                           </statement>
-                          <TOKEN startline="19" startpos="2">else</TOKEN>
+                          <ELSE startline="19" startpos="2">else</ELSE>
                           <statement>
-                            <TOKEN startline="19" startpos="7">if</TOKEN>
+                            <IF startline="19" startpos="7">if</IF>
                             <parExpression>
-                              <TOKEN startline="19" startpos="10">(</TOKEN>
+                              <LPAREN startline="19" startpos="10">(</LPAREN>
                               <expression>
                                 <conditionalExpression>
                                   <conditionalOrExpression>
@@ -760,7 +760,7 @@
                                                         <unaryExpression>
                                                           <unaryExpressionNotPlusMinus>
                                                             <primary>
-                                                              <TOKEN startline="19" startpos="11">i</TOKEN>
+                                                              <IDENTIFIER startline="19" startpos="11">i</IDENTIFIER>
                                                             </primary>
                                                           </unaryExpressionNotPlusMinus>
                                                         </unaryExpression>
@@ -797,7 +797,7 @@
                                   </conditionalOrExpression>
                                 </conditionalExpression>
                               </expression>
-                              <TOKEN startline="19" startpos="17">)</TOKEN>
+                              <RPAREN startline="19" startpos="17">)</RPAREN>
                             </parExpression>
                             <statement>
                               <expression>
@@ -816,14 +816,14 @@
                                                         <unaryExpression>
                                                           <unaryExpressionNotPlusMinus>
                                                             <primary>
-                                                              <TOKEN startline="20" startpos="3">System</TOKEN>
-                                                              <TOKEN startline="20" startpos="9">.</TOKEN>
-                                                              <TOKEN startline="20" startpos="10">out</TOKEN>
-                                                              <TOKEN startline="20" startpos="13">.</TOKEN>
-                                                              <TOKEN startline="20" startpos="14">println</TOKEN>
+                                                              <IDENTIFIER startline="20" startpos="3">System</IDENTIFIER>
+                                                              <DOT startline="20" startpos="9">.</DOT>
+                                                              <IDENTIFIER startline="20" startpos="10">out</IDENTIFIER>
+                                                              <DOT startline="20" startpos="13">.</DOT>
+                                                              <IDENTIFIER startline="20" startpos="14">println</IDENTIFIER>
                                                               <identifierSuffix>
                                                                 <arguments>
-                                                                  <TOKEN startline="20" startpos="21">(</TOKEN>
+                                                                  <LPAREN startline="20" startpos="21">(</LPAREN>
                                                                   <expressionList>
                                                                     <expression>
                                                                       <conditionalExpression>
@@ -861,7 +861,7 @@
                                                                       </conditionalExpression>
                                                                     </expression>
                                                                   </expressionList>
-                                                                  <TOKEN startline="20" startpos="25">)</TOKEN>
+                                                                  <RPAREN startline="20" startpos="25">)</RPAREN>
                                                                 </arguments>
                                                               </identifierSuffix>
                                                             </primary>
@@ -880,9 +880,9 @@
                                   </conditionalOrExpression>
                                 </conditionalExpression>
                               </expression>
-                              <TOKEN startline="20" startpos="26">;</TOKEN>
+                              <SEMI startline="20" startpos="26">;</SEMI>
                             </statement>
-                            <TOKEN startline="21" startpos="2">else</TOKEN>
+                            <ELSE startline="21" startpos="2">else</ELSE>
                             <statement>
                               <expression>
                                 <conditionalExpression>
@@ -900,14 +900,14 @@
                                                         <unaryExpression>
                                                           <unaryExpressionNotPlusMinus>
                                                             <primary>
-                                                              <TOKEN startline="22" startpos="3">System</TOKEN>
-                                                              <TOKEN startline="22" startpos="9">.</TOKEN>
-                                                              <TOKEN startline="22" startpos="10">out</TOKEN>
-                                                              <TOKEN startline="22" startpos="13">.</TOKEN>
-                                                              <TOKEN startline="22" startpos="14">println</TOKEN>
+                                                              <IDENTIFIER startline="22" startpos="3">System</IDENTIFIER>
+                                                              <DOT startline="22" startpos="9">.</DOT>
+                                                              <IDENTIFIER startline="22" startpos="10">out</IDENTIFIER>
+                                                              <DOT startline="22" startpos="13">.</DOT>
+                                                              <IDENTIFIER startline="22" startpos="14">println</IDENTIFIER>
                                                               <identifierSuffix>
                                                                 <arguments>
-                                                                  <TOKEN startline="22" startpos="21">(</TOKEN>
+                                                                  <LPAREN startline="22" startpos="21">(</LPAREN>
                                                                   <expressionList>
                                                                     <expression>
                                                                       <conditionalExpression>
@@ -945,7 +945,7 @@
                                                                       </conditionalExpression>
                                                                     </expression>
                                                                   </expressionList>
-                                                                  <TOKEN startline="22" startpos="28">)</TOKEN>
+                                                                  <RPAREN startline="22" startpos="28">)</RPAREN>
                                                                 </arguments>
                                                               </identifierSuffix>
                                                             </primary>
@@ -964,7 +964,7 @@
                                   </conditionalOrExpression>
                                 </conditionalExpression>
                               </expression>
-                              <TOKEN startline="22" startpos="29">;</TOKEN>
+                              <SEMI startline="22" startpos="29">;</SEMI>
                             </statement>
                           </statement>
                         </statement>
@@ -972,9 +972,9 @@
                     </blockStatement>
                     <blockStatement>
                       <statement>
-                        <TOKEN startline="24" startpos="2">switch</TOKEN>
+                        <SWITCH startline="24" startpos="2">switch</SWITCH>
                         <parExpression>
-                          <TOKEN startline="24" startpos="9">(</TOKEN>
+                          <LPAREN startline="24" startpos="9">(</LPAREN>
                           <expression>
                             <conditionalExpression>
                               <conditionalOrExpression>
@@ -991,7 +991,7 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="24" startpos="10">i</TOKEN>
+                                                          <IDENTIFIER startline="24" startpos="10">i</IDENTIFIER>
                                                         </primary>
                                                       </unaryExpressionNotPlusMinus>
                                                     </unaryExpression>
@@ -1008,13 +1008,13 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="24" startpos="11">)</TOKEN>
+                          <RPAREN startline="24" startpos="11">)</RPAREN>
                         </parExpression>
-                        <TOKEN startline="24" startpos="13">{</TOKEN>
+                        <LBRACE startline="24" startpos="13">{</LBRACE>
                         <switchBlockStatementGroups>
                           <switchBlockStatementGroup>
                             <switchLabel>
-                              <TOKEN startline="25" startpos="2">case</TOKEN>
+                              <CASE startline="25" startpos="2">case</CASE>
                               <expression>
                                 <conditionalExpression>
                                   <conditionalOrExpression>
@@ -1050,7 +1050,7 @@
                                   </conditionalOrExpression>
                                 </conditionalExpression>
                               </expression>
-                              <TOKEN startline="25" startpos="8">:</TOKEN>
+                              <COLON startline="25" startpos="8">:</COLON>
                             </switchLabel>
                             <blockStatement>
                               <statement>
@@ -1070,14 +1070,14 @@
                                                           <unaryExpression>
                                                             <unaryExpressionNotPlusMinus>
                                                               <primary>
-                                                                <TOKEN startline="26" startpos="3">System</TOKEN>
-                                                                <TOKEN startline="26" startpos="9">.</TOKEN>
-                                                                <TOKEN startline="26" startpos="10">out</TOKEN>
-                                                                <TOKEN startline="26" startpos="13">.</TOKEN>
-                                                                <TOKEN startline="26" startpos="14">println</TOKEN>
+                                                                <IDENTIFIER startline="26" startpos="3">System</IDENTIFIER>
+                                                                <DOT startline="26" startpos="9">.</DOT>
+                                                                <IDENTIFIER startline="26" startpos="10">out</IDENTIFIER>
+                                                                <DOT startline="26" startpos="13">.</DOT>
+                                                                <IDENTIFIER startline="26" startpos="14">println</IDENTIFIER>
                                                                 <identifierSuffix>
                                                                   <arguments>
-                                                                    <TOKEN startline="26" startpos="21">(</TOKEN>
+                                                                    <LPAREN startline="26" startpos="21">(</LPAREN>
                                                                     <expressionList>
                                                                       <expression>
                                                                         <conditionalExpression>
@@ -1115,7 +1115,7 @@
                                                                         </conditionalExpression>
                                                                       </expression>
                                                                     </expressionList>
-                                                                    <TOKEN startline="26" startpos="28">)</TOKEN>
+                                                                    <RPAREN startline="26" startpos="28">)</RPAREN>
                                                                   </arguments>
                                                                 </identifierSuffix>
                                                               </primary>
@@ -1134,28 +1134,28 @@
                                     </conditionalOrExpression>
                                   </conditionalExpression>
                                 </expression>
-                                <TOKEN startline="26" startpos="29">;</TOKEN>
+                                <SEMI startline="26" startpos="29">;</SEMI>
                               </statement>
                             </blockStatement>
                             <blockStatement>
                               <statement>
-                                <TOKEN startline="27" startpos="3">break</TOKEN>
-                                <TOKEN startline="27" startpos="8">;</TOKEN>
+                                <BREAK startline="27" startpos="3">break</BREAK>
+                                <SEMI startline="27" startpos="8">;</SEMI>
                               </statement>
                             </blockStatement>
                           </switchBlockStatementGroup>
                         </switchBlockStatementGroups>
-                        <TOKEN startline="28" startpos="2">}</TOKEN>
+                        <RBRACE startline="28" startpos="2">}</RBRACE>
                       </statement>
                     </blockStatement>
                     <blockStatement>
                       <statement>
-                        <TOKEN startline="30" startpos="2">test</TOKEN>
-                        <TOKEN startline="30" startpos="6">:</TOKEN>
+                        <IDENTIFIER startline="30" startpos="2">test</IDENTIFIER>
+                        <COLON startline="30" startpos="6">:</COLON>
                         <statement>
-                          <TOKEN startline="31" startpos="2">while</TOKEN>
+                          <WHILE startline="31" startpos="2">while</WHILE>
                           <parExpression>
-                            <TOKEN startline="31" startpos="8">(</TOKEN>
+                            <LPAREN startline="31" startpos="8">(</LPAREN>
                             <expression>
                               <conditionalExpression>
                                 <conditionalOrExpression>
@@ -1172,7 +1172,7 @@
                                                       <unaryExpression>
                                                         <unaryExpressionNotPlusMinus>
                                                           <primary>
-                                                            <TOKEN startline="31" startpos="9">i</TOKEN>
+                                                            <IDENTIFIER startline="31" startpos="9">i</IDENTIFIER>
                                                           </primary>
                                                         </unaryExpressionNotPlusMinus>
                                                       </unaryExpression>
@@ -1209,7 +1209,7 @@
                                 </conditionalOrExpression>
                               </conditionalExpression>
                             </expression>
-                            <TOKEN startline="31" startpos="15">)</TOKEN>
+                            <RPAREN startline="31" startpos="15">)</RPAREN>
                           </parExpression>
                           <statement>
                             <expression>
@@ -1228,14 +1228,14 @@
                                                       <unaryExpression>
                                                         <unaryExpressionNotPlusMinus>
                                                           <primary>
-                                                            <TOKEN startline="32" startpos="3">System</TOKEN>
-                                                            <TOKEN startline="32" startpos="9">.</TOKEN>
-                                                            <TOKEN startline="32" startpos="10">out</TOKEN>
-                                                            <TOKEN startline="32" startpos="13">.</TOKEN>
-                                                            <TOKEN startline="32" startpos="14">println</TOKEN>
+                                                            <IDENTIFIER startline="32" startpos="3">System</IDENTIFIER>
+                                                            <DOT startline="32" startpos="9">.</DOT>
+                                                            <IDENTIFIER startline="32" startpos="10">out</IDENTIFIER>
+                                                            <DOT startline="32" startpos="13">.</DOT>
+                                                            <IDENTIFIER startline="32" startpos="14">println</IDENTIFIER>
                                                             <identifierSuffix>
                                                               <arguments>
-                                                                <TOKEN startline="32" startpos="21">(</TOKEN>
+                                                                <LPAREN startline="32" startpos="21">(</LPAREN>
                                                                 <expressionList>
                                                                   <expression>
                                                                     <conditionalExpression>
@@ -1273,7 +1273,7 @@
                                                                     </conditionalExpression>
                                                                   </expression>
                                                                 </expressionList>
-                                                                <TOKEN startline="32" startpos="28">)</TOKEN>
+                                                                <RPAREN startline="32" startpos="28">)</RPAREN>
                                                               </arguments>
                                                             </identifierSuffix>
                                                           </primary>
@@ -1292,14 +1292,14 @@
                                 </conditionalOrExpression>
                               </conditionalExpression>
                             </expression>
-                            <TOKEN startline="32" startpos="29">;</TOKEN>
+                            <SEMI startline="32" startpos="29">;</SEMI>
                           </statement>
                         </statement>
                       </statement>
                     </blockStatement>
                     <blockStatement>
                       <statement>
-                        <TOKEN startline="34" startpos="2">do</TOKEN>
+                        <DO startline="34" startpos="2">do</DO>
                         <statement>
                           <expression>
                             <conditionalExpression>
@@ -1317,14 +1317,14 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="35" startpos="3">System</TOKEN>
-                                                          <TOKEN startline="35" startpos="9">.</TOKEN>
-                                                          <TOKEN startline="35" startpos="10">out</TOKEN>
-                                                          <TOKEN startline="35" startpos="13">.</TOKEN>
-                                                          <TOKEN startline="35" startpos="14">println</TOKEN>
+                                                          <IDENTIFIER startline="35" startpos="3">System</IDENTIFIER>
+                                                          <DOT startline="35" startpos="9">.</DOT>
+                                                          <IDENTIFIER startline="35" startpos="10">out</IDENTIFIER>
+                                                          <DOT startline="35" startpos="13">.</DOT>
+                                                          <IDENTIFIER startline="35" startpos="14">println</IDENTIFIER>
                                                           <identifierSuffix>
                                                             <arguments>
-                                                              <TOKEN startline="35" startpos="21">(</TOKEN>
+                                                              <LPAREN startline="35" startpos="21">(</LPAREN>
                                                               <expressionList>
                                                                 <expression>
                                                                   <conditionalExpression>
@@ -1362,7 +1362,7 @@
                                                                   </conditionalExpression>
                                                                 </expression>
                                                               </expressionList>
-                                                              <TOKEN startline="35" startpos="28">)</TOKEN>
+                                                              <RPAREN startline="35" startpos="28">)</RPAREN>
                                                             </arguments>
                                                           </identifierSuffix>
                                                         </primary>
@@ -1381,11 +1381,11 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="35" startpos="29">;</TOKEN>
+                          <SEMI startline="35" startpos="29">;</SEMI>
                         </statement>
-                        <TOKEN startline="36" startpos="2">while</TOKEN>
+                        <WHILE startline="36" startpos="2">while</WHILE>
                         <parExpression>
-                          <TOKEN startline="36" startpos="8">(</TOKEN>
+                          <LPAREN startline="36" startpos="8">(</LPAREN>
                           <expression>
                             <conditionalExpression>
                               <conditionalOrExpression>
@@ -1402,7 +1402,7 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="36" startpos="9">i</TOKEN>
+                                                          <IDENTIFIER startline="36" startpos="9">i</IDENTIFIER>
                                                         </primary>
                                                       </unaryExpressionNotPlusMinus>
                                                     </unaryExpression>
@@ -1439,16 +1439,16 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="36" startpos="15">)</TOKEN>
+                          <RPAREN startline="36" startpos="15">)</RPAREN>
                         </parExpression>
-                        <TOKEN startline="36" startpos="16">;</TOKEN>
+                        <SEMI startline="36" startpos="16">;</SEMI>
                       </statement>
                     </blockStatement>
                     <blockStatement>
                       <statement>
                         <forstatement>
-                          <TOKEN startline="38" startpos="2">for</TOKEN>
-                          <TOKEN startline="38" startpos="6">(</TOKEN>
+                          <FOR startline="38" startpos="2">for</FOR>
+                          <LPAREN startline="38" startpos="6">(</LPAREN>
                           <forInit>
                             <expressionList>
                               <expression>
@@ -1467,7 +1467,7 @@
                                                         <unaryExpression>
                                                           <unaryExpressionNotPlusMinus>
                                                             <primary>
-                                                              <TOKEN startline="38" startpos="7">i</TOKEN>
+                                                              <IDENTIFIER startline="38" startpos="7">i</IDENTIFIER>
                                                             </primary>
                                                           </unaryExpressionNotPlusMinus>
                                                         </unaryExpression>
@@ -1484,7 +1484,7 @@
                                   </conditionalOrExpression>
                                 </conditionalExpression>
                                 <assignmentOperator>
-                                  <TOKEN startline="38" startpos="9">=</TOKEN>
+                                  <EQ startline="38" startpos="9">=</EQ>
                                 </assignmentOperator>
                                 <expression>
                                   <conditionalExpression>
@@ -1524,7 +1524,7 @@
                               </expression>
                             </expressionList>
                           </forInit>
-                          <TOKEN startline="38" startpos="12">;</TOKEN>
+                          <SEMI startline="38" startpos="12">;</SEMI>
                           <expression>
                             <conditionalExpression>
                               <conditionalOrExpression>
@@ -1541,7 +1541,7 @@
                                                     <unaryExpression>
                                                       <unaryExpressionNotPlusMinus>
                                                         <primary>
-                                                          <TOKEN startline="38" startpos="14">i</TOKEN>
+                                                          <IDENTIFIER startline="38" startpos="14">i</IDENTIFIER>
                                                         </primary>
                                                       </unaryExpressionNotPlusMinus>
                                                     </unaryExpression>
@@ -1549,7 +1549,7 @@
                                                 </additiveExpression>
                                               </shiftExpression>
                                               <relationalOp>
-                                                <TOKEN startline="38" startpos="16">&lt;</TOKEN>
+                                                <LT startline="38" startpos="16">&lt;</LT>
                                               </relationalOp>
                                               <shiftExpression>
                                                 <additiveExpression>
@@ -1576,7 +1576,7 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="38" startpos="19">;</TOKEN>
+                          <SEMI startline="38" startpos="19">;</SEMI>
                           <expressionList>
                             <expression>
                               <conditionalExpression>
@@ -1594,7 +1594,7 @@
                                                       <unaryExpression>
                                                         <unaryExpressionNotPlusMinus>
                                                           <primary>
-                                                            <TOKEN startline="38" startpos="21">i</TOKEN>
+                                                            <IDENTIFIER startline="38" startpos="21">i</IDENTIFIER>
                                                           </primary>
                                                           <TOKEN startline="38" startpos="22">++</TOKEN>
                                                         </unaryExpressionNotPlusMinus>
@@ -1613,7 +1613,7 @@
                               </conditionalExpression>
                             </expression>
                           </expressionList>
-                          <TOKEN startline="38" startpos="24">)</TOKEN>
+                          <RPAREN startline="38" startpos="24">)</RPAREN>
                           <statement>
                             <expression>
                               <conditionalExpression>
@@ -1631,14 +1631,14 @@
                                                       <unaryExpression>
                                                         <unaryExpressionNotPlusMinus>
                                                           <primary>
-                                                            <TOKEN startline="39" startpos="3">System</TOKEN>
-                                                            <TOKEN startline="39" startpos="9">.</TOKEN>
-                                                            <TOKEN startline="39" startpos="10">out</TOKEN>
-                                                            <TOKEN startline="39" startpos="13">.</TOKEN>
-                                                            <TOKEN startline="39" startpos="14">println</TOKEN>
+                                                            <IDENTIFIER startline="39" startpos="3">System</IDENTIFIER>
+                                                            <DOT startline="39" startpos="9">.</DOT>
+                                                            <IDENTIFIER startline="39" startpos="10">out</IDENTIFIER>
+                                                            <DOT startline="39" startpos="13">.</DOT>
+                                                            <IDENTIFIER startline="39" startpos="14">println</IDENTIFIER>
                                                             <identifierSuffix>
                                                               <arguments>
-                                                                <TOKEN startline="39" startpos="21">(</TOKEN>
+                                                                <LPAREN startline="39" startpos="21">(</LPAREN>
                                                                 <expressionList>
                                                                   <expression>
                                                                     <conditionalExpression>
@@ -1676,7 +1676,7 @@
                                                                     </conditionalExpression>
                                                                   </expression>
                                                                 </expressionList>
-                                                                <TOKEN startline="39" startpos="28">)</TOKEN>
+                                                                <RPAREN startline="39" startpos="28">)</RPAREN>
                                                               </arguments>
                                                             </identifierSuffix>
                                                           </primary>
@@ -1695,7 +1695,7 @@
                                 </conditionalOrExpression>
                               </conditionalExpression>
                             </expression>
-                            <TOKEN startline="39" startpos="29">;</TOKEN>
+                            <SEMI startline="39" startpos="29">;</SEMI>
                           </statement>
                         </forstatement>
                       </statement>
@@ -1703,16 +1703,16 @@
                     <blockStatement>
                       <statement>
                         <forstatement>
-                          <TOKEN startline="41" startpos="2">for</TOKEN>
-                          <TOKEN startline="41" startpos="6">(</TOKEN>
+                          <FOR startline="41" startpos="2">for</FOR>
+                          <LPAREN startline="41" startpos="6">(</LPAREN>
                           <variableModifiers />
                           <type>
                             <primitiveType>
                               <TOKEN startline="41" startpos="7">int</TOKEN>
                             </primitiveType>
                           </type>
-                          <TOKEN startline="41" startpos="11">j</TOKEN>
-                          <TOKEN startline="41" startpos="13">:</TOKEN>
+                          <IDENTIFIER startline="41" startpos="11">j</IDENTIFIER>
+                          <COLON startline="41" startpos="13">:</COLON>
                           <expression>
                             <conditionalExpression>
                               <conditionalOrExpression>
@@ -1731,16 +1731,16 @@
                                                         <primary>
                                                           <creator>
                                                             <arrayCreator>
-                                                              <TOKEN startline="41" startpos="15">new</TOKEN>
+                                                              <NEW startline="41" startpos="15">new</NEW>
                                                               <createdName>
                                                                 <primitiveType>
                                                                   <TOKEN startline="41" startpos="19">int</TOKEN>
                                                                 </primitiveType>
                                                               </createdName>
-                                                              <TOKEN startline="41" startpos="22">[</TOKEN>
-                                                              <TOKEN startline="41" startpos="23">]</TOKEN>
+                                                              <LBRACKET startline="41" startpos="22">[</LBRACKET>
+                                                              <RBRACKET startline="41" startpos="23">]</RBRACKET>
                                                               <arrayInitializer>
-                                                                <TOKEN startline="41" startpos="25">{</TOKEN>
+                                                                <LBRACE startline="41" startpos="25">{</LBRACE>
                                                                 <variableInitializer>
                                                                   <expression>
                                                                     <conditionalExpression>
@@ -1778,7 +1778,7 @@
                                                                     </conditionalExpression>
                                                                   </expression>
                                                                 </variableInitializer>
-                                                                <TOKEN startline="41" startpos="27">,</TOKEN>
+                                                                <COMMA startline="41" startpos="27">,</COMMA>
                                                                 <variableInitializer>
                                                                   <expression>
                                                                     <conditionalExpression>
@@ -1816,7 +1816,7 @@
                                                                     </conditionalExpression>
                                                                   </expression>
                                                                 </variableInitializer>
-                                                                <TOKEN startline="41" startpos="30">}</TOKEN>
+                                                                <RBRACE startline="41" startpos="30">}</RBRACE>
                                                               </arrayInitializer>
                                                             </arrayCreator>
                                                           </creator>
@@ -1836,7 +1836,7 @@
                               </conditionalOrExpression>
                             </conditionalExpression>
                           </expression>
-                          <TOKEN startline="41" startpos="31">)</TOKEN>
+                          <RPAREN startline="41" startpos="31">)</RPAREN>
                           <statement>
                             <expression>
                               <conditionalExpression>
@@ -1854,14 +1854,14 @@
                                                       <unaryExpression>
                                                         <unaryExpressionNotPlusMinus>
                                                           <primary>
-                                                            <TOKEN startline="42" startpos="3">System</TOKEN>
-                                                            <TOKEN startline="42" startpos="9">.</TOKEN>
-                                                            <TOKEN startline="42" startpos="10">out</TOKEN>
-                                                            <TOKEN startline="42" startpos="13">.</TOKEN>
-                                                            <TOKEN startline="42" startpos="14">println</TOKEN>
+                                                            <IDENTIFIER startline="42" startpos="3">System</IDENTIFIER>
+                                                            <DOT startline="42" startpos="9">.</DOT>
+                                                            <IDENTIFIER startline="42" startpos="10">out</IDENTIFIER>
+                                                            <DOT startline="42" startpos="13">.</DOT>
+                                                            <IDENTIFIER startline="42" startpos="14">println</IDENTIFIER>
                                                             <identifierSuffix>
                                                               <arguments>
-                                                                <TOKEN startline="42" startpos="21">(</TOKEN>
+                                                                <LPAREN startline="42" startpos="21">(</LPAREN>
                                                                 <expressionList>
                                                                   <expression>
                                                                     <conditionalExpression>
@@ -1879,7 +1879,7 @@
                                                                                             <unaryExpression>
                                                                                               <unaryExpressionNotPlusMinus>
                                                                                                 <primary>
-                                                                                                  <TOKEN startline="42" startpos="22">j</TOKEN>
+                                                                                                  <IDENTIFIER startline="42" startpos="22">j</IDENTIFIER>
                                                                                                 </primary>
                                                                                               </unaryExpressionNotPlusMinus>
                                                                                             </unaryExpression>
@@ -1897,7 +1897,7 @@
                                                                     </conditionalExpression>
                                                                   </expression>
                                                                 </expressionList>
-                                                                <TOKEN startline="42" startpos="23">)</TOKEN>
+                                                                <RPAREN startline="42" startpos="23">)</RPAREN>
                                                               </arguments>
                                                             </identifierSuffix>
                                                           </primary>
@@ -1916,14 +1916,14 @@
                                 </conditionalOrExpression>
                               </conditionalExpression>
                             </expression>
-                            <TOKEN startline="42" startpos="24">;</TOKEN>
+                            <SEMI startline="42" startpos="24">;</SEMI>
                           </statement>
                         </forstatement>
                       </statement>
                     </blockStatement>
                     <blockStatement>
                       <statement>
-                        <TOKEN startline="44" startpos="2">return</TOKEN>
+                        <RETURN startline="44" startpos="2">return</RETURN>
                         <expression>
                           <conditionalExpression>
                             <conditionalOrExpression>
@@ -1959,15 +1959,15 @@
                             </conditionalOrExpression>
                           </conditionalExpression>
                         </expression>
-                        <TOKEN startline="44" startpos="10">;</TOKEN>
+                        <SEMI startline="44" startpos="10">;</SEMI>
                       </statement>
                     </blockStatement>
-                    <TOKEN startline="45" startpos="1">}</TOKEN>
+                    <RBRACE startline="45" startpos="1">}</RBRACE>
                   </block>
                 </methodDeclaration>
               </memberDecl>
             </classBodyDeclaration>
-            <TOKEN startline="46" startpos="0">}</TOKEN>
+            <RBRACE startline="46" startpos="0">}</RBRACE>
           </classBody>
         </normalClassDeclaration>
       </classDeclaration>
