@@ -252,17 +252,9 @@
                   </expression>
                   <TOKEN startline="5" startpos="11">)</TOKEN>
                   <statement>
-                    <statementBlock>
-                      <TOKEN startline="1" startpos="0">{</TOKEN>
-                      <statementList>
-                        <statement>
-                          <emptyStatement>
-                            <TOKEN startline="5" startpos="12">;</TOKEN>
-                          </emptyStatement>
-                        </statement>
-                      </statementList>
-                      <TOKEN startline="1" startpos="2">}</TOKEN>
-                    </statementBlock>
+                    <emptyStatement>
+                      <TOKEN startline="5" startpos="12">;</TOKEN>
+                    </emptyStatement>
                   </statement>
                 </ifStatement>
               </statement>
@@ -338,17 +330,9 @@
                     </expression>
                     <TOKEN startline="7" startpos="14">)</TOKEN>
                     <statement>
-                      <statementBlock>
-                        <TOKEN startline="1" startpos="0">{</TOKEN>
-                        <statementList>
-                          <statement>
-                            <emptyStatement>
-                              <TOKEN startline="7" startpos="15">;</TOKEN>
-                            </emptyStatement>
-                          </statement>
-                        </statementList>
-                        <TOKEN startline="1" startpos="2">}</TOKEN>
-                      </statementBlock>
+                      <emptyStatement>
+                        <TOKEN startline="7" startpos="15">;</TOKEN>
+                      </emptyStatement>
                     </statement>
                   </whileStatement>
                 </iterationStatement>
@@ -360,17 +344,9 @@
                   <doWhileStatement>
                     <TOKEN startline="9" startpos="1">do</TOKEN>
                     <statement>
-                      <statementBlock>
-                        <TOKEN startline="1" startpos="0">{</TOKEN>
-                        <statementList>
-                          <statement>
-                            <emptyStatement>
-                              <TOKEN startline="9" startpos="4">;</TOKEN>
-                            </emptyStatement>
-                          </statement>
-                        </statementList>
-                        <TOKEN startline="1" startpos="2">}</TOKEN>
-                      </statementBlock>
+                      <emptyStatement>
+                        <TOKEN startline="9" startpos="4">;</TOKEN>
+                      </emptyStatement>
                     </statement>
                     <TOKEN startline="9" startpos="6">while</TOKEN>
                     <TOKEN startline="9" startpos="12">(</TOKEN>
@@ -611,17 +587,9 @@
                     </expression>
                     <TOKEN startline="11" startpos="23">)</TOKEN>
                     <statement>
-                      <statementBlock>
-                        <TOKEN startline="1" startpos="0">{</TOKEN>
-                        <statementList>
-                          <statement>
-                            <emptyStatement>
-                              <TOKEN startline="11" startpos="24">;</TOKEN>
-                            </emptyStatement>
-                          </statement>
-                        </statementList>
-                        <TOKEN startline="1" startpos="2">}</TOKEN>
-                      </statementBlock>
+                      <emptyStatement>
+                        <TOKEN startline="11" startpos="24">;</TOKEN>
+                      </emptyStatement>
                     </statement>
                   </forStatement>
                 </iterationStatement>
@@ -693,17 +661,9 @@
                     </expression>
                     <TOKEN startline="13" startpos="22">)</TOKEN>
                     <statement>
-                      <statementBlock>
-                        <TOKEN startline="1" startpos="0">{</TOKEN>
-                        <statementList>
-                          <statement>
-                            <emptyStatement>
-                              <TOKEN startline="13" startpos="23">;</TOKEN>
-                            </emptyStatement>
-                          </statement>
-                        </statementList>
-                        <TOKEN startline="1" startpos="2">}</TOKEN>
-                      </statementBlock>
+                      <emptyStatement>
+                        <TOKEN startline="13" startpos="23">;</TOKEN>
+                      </emptyStatement>
                     </statement>
                   </forInStatement>
                 </iterationStatement>
@@ -755,17 +715,9 @@
                   </expression>
                   <TOKEN startline="15" startpos="9">)</TOKEN>
                   <statement>
-                    <statementBlock>
-                      <TOKEN startline="1" startpos="0">{</TOKEN>
-                      <statementList>
-                        <statement>
-                          <emptyStatement>
-                            <TOKEN startline="15" startpos="10">;</TOKEN>
-                          </emptyStatement>
-                        </statement>
-                      </statementList>
-                      <TOKEN startline="1" startpos="2">}</TOKEN>
-                    </statementBlock>
+                    <emptyStatement>
+                      <TOKEN startline="15" startpos="10">;</TOKEN>
+                    </emptyStatement>
                   </statement>
                 </withStatement>
               </statement>

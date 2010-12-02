@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{20AEF32F-0E4F-43CC-932D-59275065DEBA}</ProjectGuid>
+    <ProjectGuid>{DA1B7787-C64F-40B1-A160-BBDD8EC8A7B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Code2Xml.Tests</RootNamespace>
@@ -31,16 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Antlr3.Runtime">
       <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.5.7.10213, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="nunit.framework">
       <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -68,6 +65,10 @@
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
       <Name>Ucpf.Languages.C</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.IronRuby\Ucpf.Languages.IronRuby.csproj">
+      <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
+      <Name>Ucpf.Languages.IronRuby</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.JavaScript\Ucpf.Languages.JavaScript.csproj">
       <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
       <Name>Ucpf.Languages.JavaScript</Name>
@@ -88,13 +89,17 @@
       <Project>{CF31A92F-646A-4155-A280-038AD9B84D0F}</Project>
       <Name>Ucpf.Languages.Python3</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Ruby18\Ucpf.Languages.Ruby18.csproj">
+      <Project>{40A3B8FA-0257-4353-A7E0-038F6F53D4C9}</Project>
+      <Name>Ucpf.Languages.Ruby18</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Ruby19\Ucpf.Languages.Ruby19.csproj">
+      <Project>{5B832F0F-7F75-4B15-AB26-DA6F6EFD7913}</Project>
+      <Name>Ucpf.Languages.Ruby19</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf\Ucpf.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Languages\Ucpf.Languages.csproj">
-      <Project>{C8119EAD-2FE4-4B23-B69E-EA12F526B18A}</Project>
-      <Name>Ucpf.Languages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

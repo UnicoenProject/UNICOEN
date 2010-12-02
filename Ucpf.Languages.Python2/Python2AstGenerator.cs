@@ -15,7 +15,7 @@ namespace Ucpf.Languages.Python2
 
 		private Python2AstGenerator() { }
 
-		private static readonly string[] _arguments = new[] {
+		private static readonly string[] PrivateArguments = new[] {
 			"ParserScripts/Python2/ast2xml.py",
 		};
 
@@ -26,7 +26,7 @@ namespace Ucpf.Languages.Python2
 
 		protected override string[] Arguments
 		{
-			get { return _arguments; }
+			get { return PrivateArguments; }
 		}
 
 		public override string ParserName
