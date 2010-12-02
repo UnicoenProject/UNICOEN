@@ -34,10 +34,6 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Paraiba.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -66,7 +62,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fibonacci.js" />
+    <Content Include="fibonacci.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fibonacci.xml">
       <SubType>Designer</SubType>
     </Content>

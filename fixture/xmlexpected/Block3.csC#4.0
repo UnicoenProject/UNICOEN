@@ -250,17 +250,7 @@
                                       <TOKEN startline="14" startpos="13">)</TOKEN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="1" startpos="0">{</TOKEN>
-                                          <statement_list>
-                                            <statement>
-                                              <embedded_statement>
-                                                <block>
-                                                  <TOKEN startline="14" startpos="15">;</TOKEN>
-                                                </block>
-                                              </embedded_statement>
-                                            </statement>
-                                          </statement_list>
-                                          <TOKEN startline="1" startpos="2">}</TOKEN>
+                                          <TOKEN startline="14" startpos="15">;</TOKEN>
                                         </block>
                                       </embedded_statement>
                                     </if_statement>
@@ -337,17 +327,7 @@
                                       <TOKEN startline="16" startpos="16">)</TOKEN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="1" startpos="0">{</TOKEN>
-                                          <statement_list>
-                                            <statement>
-                                              <embedded_statement>
-                                                <block>
-                                                  <TOKEN startline="16" startpos="18">;</TOKEN>
-                                                </block>
-                                              </embedded_statement>
-                                            </statement>
-                                          </statement_list>
-                                          <TOKEN startline="1" startpos="2">}</TOKEN>
+                                          <TOKEN startline="16" startpos="18">;</TOKEN>
                                         </block>
                                       </embedded_statement>
                                     </while_statement>
@@ -361,17 +341,7 @@
                                       <TOKEN startline="18" startpos="3">do</TOKEN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="1" startpos="0">{</TOKEN>
-                                          <statement_list>
-                                            <statement>
-                                              <embedded_statement>
-                                                <block>
-                                                  <TOKEN startline="18" startpos="6">;</TOKEN>
-                                                </block>
-                                              </embedded_statement>
-                                            </statement>
-                                          </statement_list>
-                                          <TOKEN startline="1" startpos="2">}</TOKEN>
+                                          <TOKEN startline="18" startpos="6">;</TOKEN>
                                         </block>
                                       </embedded_statement>
                                       <TOKEN startline="18" startpos="8">while</TOKEN>
@@ -594,17 +564,7 @@
                                       <TOKEN startline="20" startpos="25">)</TOKEN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="1" startpos="0">{</TOKEN>
-                                          <statement_list>
-                                            <statement>
-                                              <embedded_statement>
-                                                <block>
-                                                  <TOKEN startline="20" startpos="27">;</TOKEN>
-                                                </block>
-                                              </embedded_statement>
-                                            </statement>
-                                          </statement_list>
-                                          <TOKEN startline="1" startpos="2">}</TOKEN>
+                                          <TOKEN startline="20" startpos="27">;</TOKEN>
                                         </block>
                                       </embedded_statement>
                                     </for_statement>
@@ -765,17 +725,7 @@
                                       <TOKEN startline="22" startpos="35">)</TOKEN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="1" startpos="0">{</TOKEN>
-                                          <statement_list>
-                                            <statement>
-                                              <embedded_statement>
-                                                <block>
-                                                  <TOKEN startline="22" startpos="37">;</TOKEN>
-                                                </block>
-                                              </embedded_statement>
-                                            </statement>
-                                          </statement_list>
-                                          <TOKEN startline="1" startpos="2">}</TOKEN>
+                                          <TOKEN startline="22" startpos="37">;</TOKEN>
                                         </block>
                                       </embedded_statement>
                                     </foreach_statement>

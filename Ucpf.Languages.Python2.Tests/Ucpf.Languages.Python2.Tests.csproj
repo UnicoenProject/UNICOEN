@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9C35AFE1-0D1A-4CB9-BC3B-E0EA41FFCF73}</ProjectGuid>
+    <ProjectGuid>{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ucpf.Languages.C.Tests</RootNamespace>
-    <AssemblyName>Ucpf.Languages.C.Tests</AssemblyName>
+    <RootNamespace>Ucpf.Languages.Python2.Tests</RootNamespace>
+    <AssemblyName>Ucpf.Languages.Python2.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,10 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
+    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -46,18 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CCodeModelTest.cs" />
+    <Compile Include="PythonCodeModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">
-      <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
-      <Name>Ucpf.Languages.C</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

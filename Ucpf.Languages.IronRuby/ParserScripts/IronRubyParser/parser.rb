@@ -1,5 +1,8 @@
+require 'ruby_parser'
 require 'ruby2ruby'
-require 'rexml/document'
+require 'System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'
+
+include System::Xml::Linq
 
 class Ruby2Ruby
   def process_block(exp)
@@ -30,14 +33,38 @@ class Ruby2Ruby
   end
 end
 
+@parser = RubyParser.new
 @r2r = Ruby2Ruby.new
+
+def parse_code(text)
+  ret = XDocument.new()
+  traverse(ret, @parser.parse(text.to_s))
+  ret.root
+end
+
+def traverse(parent, exp)
+  elem = XElement.new(XName.get(exp[0].to_s))
+  elem.set_attribute_value(XName.get('startline'), exp.line)
+  parent.add(elem)
+  
+  exp[1..-1].each_with_index do |t, i|
+    case t
+    when Sexp
+      traverse(elem, t)
+    when nil
+      elem.add(XElement.new(XName.get('Nil')))
+    else
+      elem.add(XElement.new(XName.get(t.class.to_s), t.to_s))
+    end
+  end
+end
 
 def parse_xml(root)
   @r2r.process(traverse_xml(root))
 end
 
 def traverse_xml(elem)
-  arr = [elem.name.to_sym]
+  arr = [elem.name.local_name.to_sym]
   for e in elem.elements
     arr << terminal_node2array_element(e)
   end
@@ -45,23 +72,20 @@ def traverse_xml(elem)
 end
 
 def terminal_node2array_element(elem)
-  case elem.name
+  case elem.name.local_name
   when 'Nil'
     nil
   when 'Symbol'
-    elem.text.to_sym
+    elem.value.to_sym
   when 'String'
-    elem.text.to_s
+    elem.value
   when 'Fixnum'
-    elem.text.to_i
+    elem.value.to_i
   when 'Bignum'
-    elem.text.to_i
+    elem.value.to_i
   when 'Float'
-    elem.text.to_f
+    elem.value.to_f
   else
     traverse_xml(elem)
   end
 end
-
-doc = REXML::Document.new STDIN.read()
-print parse_xml(doc.root)

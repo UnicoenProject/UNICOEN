@@ -141,95 +141,87 @@
                           <TOKEN startline="7" startpos="12">)</TOKEN>
                         </parExpression>
                         <statement>
-                          <block>
-                            <TOKEN startline="1" startpos="0">{</TOKEN>
-                            <blockStatement>
-                              <statement>
-                                <expression>
-                                  <conditionalExpression>
-                                    <conditionalOrExpression>
-                                      <conditionalAndExpression>
-                                        <inclusiveOrExpression>
-                                          <exclusiveOrExpression>
-                                            <andExpression>
-                                              <equalityExpression>
-                                                <instanceOfExpression>
-                                                  <relationalExpression>
-                                                    <shiftExpression>
-                                                      <additiveExpression>
-                                                        <multiplicativeExpression>
-                                                          <unaryExpression>
-                                                            <unaryExpressionNotPlusMinus>
-                                                              <primary>
-                                                                <TOKEN startline="8" startpos="3">System</TOKEN>
-                                                                <TOKEN startline="8" startpos="9">.</TOKEN>
-                                                                <TOKEN startline="8" startpos="10">out</TOKEN>
-                                                                <TOKEN startline="8" startpos="13">.</TOKEN>
-                                                                <TOKEN startline="8" startpos="14">println</TOKEN>
-                                                                <identifierSuffix>
-                                                                  <arguments>
-                                                                    <TOKEN startline="8" startpos="21">(</TOKEN>
-                                                                    <expressionList>
-                                                                      <expression>
-                                                                        <conditionalExpression>
-                                                                          <conditionalOrExpression>
-                                                                            <conditionalAndExpression>
-                                                                              <inclusiveOrExpression>
-                                                                                <exclusiveOrExpression>
-                                                                                  <andExpression>
-                                                                                    <equalityExpression>
-                                                                                      <instanceOfExpression>
-                                                                                        <relationalExpression>
-                                                                                          <shiftExpression>
-                                                                                            <additiveExpression>
-                                                                                              <multiplicativeExpression>
-                                                                                                <unaryExpression>
-                                                                                                  <unaryExpressionNotPlusMinus>
-                                                                                                    <primary>
-                                                                                                      <literal>
-                                                                                                        <TOKEN startline="8" startpos="22">"0"</TOKEN>
-                                                                                                      </literal>
-                                                                                                    </primary>
-                                                                                                  </unaryExpressionNotPlusMinus>
-                                                                                                </unaryExpression>
-                                                                                              </multiplicativeExpression>
-                                                                                            </additiveExpression>
-                                                                                          </shiftExpression>
-                                                                                        </relationalExpression>
-                                                                                      </instanceOfExpression>
-                                                                                    </equalityExpression>
-                                                                                  </andExpression>
-                                                                                </exclusiveOrExpression>
-                                                                              </inclusiveOrExpression>
-                                                                            </conditionalAndExpression>
-                                                                          </conditionalOrExpression>
-                                                                        </conditionalExpression>
-                                                                      </expression>
-                                                                    </expressionList>
-                                                                    <TOKEN startline="8" startpos="25">)</TOKEN>
-                                                                  </arguments>
-                                                                </identifierSuffix>
-                                                              </primary>
-                                                            </unaryExpressionNotPlusMinus>
-                                                          </unaryExpression>
-                                                        </multiplicativeExpression>
-                                                      </additiveExpression>
-                                                    </shiftExpression>
-                                                  </relationalExpression>
-                                                </instanceOfExpression>
-                                              </equalityExpression>
-                                            </andExpression>
-                                          </exclusiveOrExpression>
-                                        </inclusiveOrExpression>
-                                      </conditionalAndExpression>
-                                    </conditionalOrExpression>
-                                  </conditionalExpression>
-                                </expression>
-                                <TOKEN startline="8" startpos="26">;</TOKEN>
-                              </statement>
-                            </blockStatement>
-                            <TOKEN startline="1" startpos="33">}</TOKEN>
-                          </block>
+                          <expression>
+                            <conditionalExpression>
+                              <conditionalOrExpression>
+                                <conditionalAndExpression>
+                                  <inclusiveOrExpression>
+                                    <exclusiveOrExpression>
+                                      <andExpression>
+                                        <equalityExpression>
+                                          <instanceOfExpression>
+                                            <relationalExpression>
+                                              <shiftExpression>
+                                                <additiveExpression>
+                                                  <multiplicativeExpression>
+                                                    <unaryExpression>
+                                                      <unaryExpressionNotPlusMinus>
+                                                        <primary>
+                                                          <TOKEN startline="8" startpos="3">System</TOKEN>
+                                                          <TOKEN startline="8" startpos="9">.</TOKEN>
+                                                          <TOKEN startline="8" startpos="10">out</TOKEN>
+                                                          <TOKEN startline="8" startpos="13">.</TOKEN>
+                                                          <TOKEN startline="8" startpos="14">println</TOKEN>
+                                                          <identifierSuffix>
+                                                            <arguments>
+                                                              <TOKEN startline="8" startpos="21">(</TOKEN>
+                                                              <expressionList>
+                                                                <expression>
+                                                                  <conditionalExpression>
+                                                                    <conditionalOrExpression>
+                                                                      <conditionalAndExpression>
+                                                                        <inclusiveOrExpression>
+                                                                          <exclusiveOrExpression>
+                                                                            <andExpression>
+                                                                              <equalityExpression>
+                                                                                <instanceOfExpression>
+                                                                                  <relationalExpression>
+                                                                                    <shiftExpression>
+                                                                                      <additiveExpression>
+                                                                                        <multiplicativeExpression>
+                                                                                          <unaryExpression>
+                                                                                            <unaryExpressionNotPlusMinus>
+                                                                                              <primary>
+                                                                                                <literal>
+                                                                                                  <TOKEN startline="8" startpos="22">"0"</TOKEN>
+                                                                                                </literal>
+                                                                                              </primary>
+                                                                                            </unaryExpressionNotPlusMinus>
+                                                                                          </unaryExpression>
+                                                                                        </multiplicativeExpression>
+                                                                                      </additiveExpression>
+                                                                                    </shiftExpression>
+                                                                                  </relationalExpression>
+                                                                                </instanceOfExpression>
+                                                                              </equalityExpression>
+                                                                            </andExpression>
+                                                                          </exclusiveOrExpression>
+                                                                        </inclusiveOrExpression>
+                                                                      </conditionalAndExpression>
+                                                                    </conditionalOrExpression>
+                                                                  </conditionalExpression>
+                                                                </expression>
+                                                              </expressionList>
+                                                              <TOKEN startline="8" startpos="25">)</TOKEN>
+                                                            </arguments>
+                                                          </identifierSuffix>
+                                                        </primary>
+                                                      </unaryExpressionNotPlusMinus>
+                                                    </unaryExpression>
+                                                  </multiplicativeExpression>
+                                                </additiveExpression>
+                                              </shiftExpression>
+                                            </relationalExpression>
+                                          </instanceOfExpression>
+                                        </equalityExpression>
+                                      </andExpression>
+                                    </exclusiveOrExpression>
+                                  </inclusiveOrExpression>
+                                </conditionalAndExpression>
+                              </conditionalOrExpression>
+                            </conditionalExpression>
+                          </expression>
+                          <TOKEN startline="8" startpos="26">;</TOKEN>
                         </statement>
                       </statement>
                     </blockStatement>

@@ -51,7 +51,7 @@
     <Compile Include="PythonCodeModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fib.py">
+    <None Include="fibonacci.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Python.g" />
@@ -63,8 +63,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Script\ast2xml.py">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="ParserScripts\Python2\ast2xml.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
