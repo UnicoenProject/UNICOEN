@@ -54,6 +54,7 @@
     <Compile Include="Languages\Common\Antlr\AntlrCodeGenerateHelper.cs" />
     <Compile Include="Languages\Common\Antlr\IXParser.cs" />
     <Compile Include="Languages\Common\Antlr\XmlTreeAdaptor.cs" />
+    <Compile Include="Languages\Common\Antlr\XmlTreeAdaptorOld.cs" />
     <Compile Include="Languages\Common\Antlr\XParser.cs" />
     <Compile Include="Languages\Common\Antlr\XParserRuleReturnScope.cs" />
     <Compile Include="AstGenerators\ExternalAstGenerator.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="CodeGenerators\CodeGenerator.cs" />
     <Compile Include="ConfigReader.cs" />
     <Compile Include="IClass.cs" />
+    <Compile Include="Languages\Common\Antlr\XToken.cs" />
     <Compile Include="Weavers\Weaver.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

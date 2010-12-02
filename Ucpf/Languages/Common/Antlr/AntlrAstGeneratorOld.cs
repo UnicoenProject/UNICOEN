@@ -31,7 +31,7 @@ namespace Ucpf.Languages.Common.Antlr {
 			var tokens = new CommonTokenStream(lex);
 			var parser = CreateParser(tokens);
 			parser.LeaveElementName = LeaveElementName;
-			parser.TreeAdaptor = new XmlTreeAdaptor(parser.ElementList, TokenElementName);
+			parser.TreeAdaptor = new XmlTreeAdaptorOld(parser.ElementList, TokenElementName);
 			parseAction(parser); // launch parsing
 
 			var ast = CreateXDocument(parser.ElementList, TokenElementName,

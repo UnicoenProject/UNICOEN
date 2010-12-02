@@ -410,13 +410,13 @@ namespace Ucpf.Languages.Java {
              
 		}
         
-		protected XmlTreeAdaptor adaptor = new XmlTreeAdaptor(new List<XElement>(), "TOKEN");
+		protected XmlTreeAdaptorOld adaptor = new XmlTreeAdaptorOld(new List<XElement>(), "TOKEN");
 
 		public ITreeAdaptor TreeAdaptor
 		{
 			get { return this.adaptor; }
 			set {
-				this.adaptor = (XmlTreeAdaptor)value;
+				this.adaptor = (XmlTreeAdaptorOld)value;
 			}
 		}
 
