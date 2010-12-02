@@ -13,7 +13,7 @@ namespace Ucpf.Languages.Tests.Temp
 		private static AstGenerator _xmlGen;
 		private static CodeGenerator _codeGen;
 		private static JavaPointcut _pointcut;
-		private const string BaseDirectory = "../codes/";
+		private const string BaseDirectory = "../fixture/";
 		private const string ExtensionName = ".java";
 
 		[SetUp]

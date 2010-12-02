@@ -13,8 +13,8 @@ namespace Ucpf.Languages.Tests
 	[TestFixture]
 	public class ParserTest
 	{
-		private const string DirectoryPath = "../codes/";
-		private const string OutputDirectoryPath = "../codes/xmlexpected/";
+		private const string DirectoryPath = "../fixture/";
+		private const string OutputDirectoryPath = "../fixture/xmlexpected/";
 
 		static IEnumerable<TestCaseData> TestCases
 		{

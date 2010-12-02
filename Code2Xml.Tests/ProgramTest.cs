@@ -37,7 +37,7 @@ namespace Code2Xml.Tests
 		[Test, TestCaseSource("TestCases")]
 		public bool パースできる(string extension, string parserOption, AstGenerator astGenerator)
 		{
-			var filePath = "../codes/Block3." + extension;
+			var filePath = "../fixture/Block3." + extension;
 			var output = new StringWriter();
 			Console.SetOut(output);
 
@@ -51,7 +51,7 @@ namespace Code2Xml.Tests
 		[Test]
 		public void パース結果をファイルに出力できる()
 		{
-			var filePaths = new[] { "../codes/Block1.c", "../codes/Block2.c", "../codes/Block3.c" };
+			var filePaths = new[] { "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
 			const string outputPath = "output.txt";
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-f", outputPath }).ToArray());
@@ -71,7 +71,7 @@ namespace Code2Xml.Tests
 		[Test]
 		public void パース結果をディレクトリに出力できる()
 		{
-			var filePaths = new[] { "../codes/Block1.c", "../codes/Block2.c", "../codes/Block3.c" };
+			var filePaths = new[] { "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-d" }).ToArray());
 
@@ -92,7 +92,7 @@ namespace Code2Xml.Tests
 		[Test]
 		public void パース結果を指定ディレクトリに出力できる()
 		{
-			var filePaths = new[] { "../codes/Block1.c", "../codes/Block2.c", "../codes/Block3.c" };
+			var filePaths = new[] { "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
 			const string outputPath = "output";
 			Directory.CreateDirectory(outputPath);
 
@@ -115,7 +115,7 @@ namespace Code2Xml.Tests
 		[Test]
 		public void コードを生成できる()
 		{
-			var filePaths = new[] { "../codes/Block1.c", "../codes/Block2.c", "../codes/Block3.c" };
+			var filePaths = new[] { "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
 			const string outputPath = "output";
 			Directory.CreateDirectory(outputPath);
 
