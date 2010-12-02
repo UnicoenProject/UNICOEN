@@ -13,7 +13,7 @@ namespace Ucpf.Languages.JavaScript.Tests
         {
             var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-            var func = new FunctionDeclaration(root);
+            var func = new JSFunctionDeclaration(root);
             Assert.That(func.Identifier, Is.EqualTo("fibonacci"));
         }
     }

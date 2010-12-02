@@ -34,10 +34,6 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Paraiba.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -49,11 +45,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScriptAstGenerator.cs" />
+    <Compile Include="JSBinaryExpression.cs" />
+    <Compile Include="JSCallExpression.cs" />
+    <Compile Include="JSExpression.cs" />
+    <Compile Include="JSFunctionBody.cs" />
+    <Compile Include="JSFunctionDeclaration.cs" />
     <Compile Include="JavaScriptCodeGenerator.cs" />
-    <Compile Include="JavaScriptCodeModel.cs" />
     <Compile Include="JavaScriptElements.cs" />
     <Compile Include="JavaScriptLexer.cs" />
     <Compile Include="JavaScriptParser.cs" />
+    <Compile Include="JSIfStatement.cs" />
+    <Compile Include="JSIncreamentBeforeOperator.cs" />
+    <Compile Include="JSOperator.cs" />
+    <Compile Include="JSPlusOperator.cs" />
+    <Compile Include="JSPrimaryExpression.cs" />
+    <Compile Include="JSProgram.cs" />
+    <Compile Include="JSReturnStatement.cs" />
+    <Compile Include="JSStatement.cs" />
+    <Compile Include="JSUnaryExpression.cs" />
+    <Compile Include="JSVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
