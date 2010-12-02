@@ -9,15 +9,13 @@ namespace Ucpf.Languages.C
 {
 	public class CInvocationExpression : CExpression
 	{
-		private XElement _node;
-		// _node :: "expression"
+		private XElement _node;		// primary_expression
 
 		public string FunctionName
 		{
 			get
 			{
-				// throw new NotImplementedException();
-				return _node.Element("postfix_expresiion").Value;
+				return _node.Element("TOKEN").Value;
 			}
 		}
 
@@ -25,8 +23,8 @@ namespace Ucpf.Languages.C
 		{
 			get
 			{
-				return _node.Element("argument_expression_list");
-				throw new NotImplementedException();
+				return _node.Element("argument_expression_list").Elements()
+					.Select(e => CreateExpression(e));
 			}
 		}
 
@@ -43,8 +41,10 @@ namespace Ucpf.Languages.C
 		}
 
 		// constructor
-		public CInvocationExpression(XElement node)
-			: base(node, "invocation") { }
+		public CInvocationExpression(XElement node) : base(null, "invocation")
+		{
+			_node = node;
+		}
 	}
 }
 

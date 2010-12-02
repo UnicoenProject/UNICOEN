@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C
 {
 	public class CBinaryExpression : CExpression
 	{
-		private XElement _ope;
+		private COperator _ope;
 		private XElement _left;
 		private XElement _right;
 
@@ -27,22 +27,15 @@ namespace Ucpf.Languages.C
 				return CExpression.CreateExpression(_right);
 			}
 		}
-		public COperator Operator
-		{
-			get
-			{
-				return new COperator(_ope);
-			}
-		}
 
 		public override string ToString()
 		{
-			string res = LeftExpression.ToString() + Operator.ToString() + RightExpression.ToString();
+			string res = LeftExpression.ToString() + _ope.ToString() + RightExpression.ToString();
 			return res;
 		}
 
 		// constructor
-		public CBinaryExpression(XElement left, XElement ope, XElement right)
+		public CBinaryExpression(XElement left, COperator ope, XElement right)
 			: base(null, "bionomial")
 		{
 			_left = left;

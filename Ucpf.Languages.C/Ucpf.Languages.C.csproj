@@ -52,6 +52,9 @@
     <Compile Include="CBinaryExpression.cs" />
     <Compile Include="CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />
+    <Compile Include="CConstant.cs" />
+    <Compile Include="CDecrementAfterOperator.cs" />
+    <Compile Include="CDecrementBeforeOperator.cs" />
     <Compile Include="CElements.cs" />
     <Compile Include="CExpression.cs" />
     <Compile Include="CFunction.cs" />

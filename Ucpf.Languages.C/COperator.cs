@@ -9,34 +9,54 @@ namespace Ucpf.Languages.C
 {
 	public class COperator
 	{
-		private XElement _node;
+		// private XElement _node;
 
-		public COperator Operator
-		{
-			get
-			{
-				return CreateOperator(_node);
-			}
-		}
+		public String Name { get; set; }
 
 		public string ToString()
 		{
-			return Operator.ToString();
+			return Name;
 		}
 
-		public static COperator CreateOperator(XElement node){
-			var ope = node.Element("TOKEN");
-			if(ope != null){
-				switc(judge)
-				
+		public static COperator CreateOperator(XElement node)
+		{
+			return new COperator(node.Value);
+		}
+		public static COperator CreateBeforeOperator(XElement node)
+		{
+			switch (node.Value)
+			{
+				case "++":
+					return new CIncrementBeforOperator();
+				case "--":
+					return new CDecrementBeforeOperator();
+				default :
+					throw new InvalidOperationException();
+			}
+
+
+		}
+		public static COperator CreateAfterOperator(XElement node)
+		{
+			switch (node.Value)
+			{
+				case "++":
+					return new CIncrementAfterOperator();
+				case "--":
+					return new CDecrementAfterOperator();
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
 
 		// constructor
-		public COperator(XElement node)
+		public COperator(string name)
 		{
-			_node = node;
+			Name = name;
 		}
+		public COperator() { }
+
 	}
 }
 

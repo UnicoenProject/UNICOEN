@@ -48,7 +48,7 @@ namespace Ucpf.Languages.C.Tests
 				.Statements
 				.ElementAt(0);
 			Assert.That(firstStatement.Type, Is.EqualTo("jump"));		// assert type
-			Assert.That(firstStatement.Expressions.ElementAt(0).ToString(), Is.EqualTo("n"));		// assert body
+			Assert.That(firstStatement.Expressions.ElementAt(0).Type, Is.EqualTo("n"));		// assert body
 		}
 
 		[Test]
@@ -62,7 +62,7 @@ namespace Ucpf.Languages.C.Tests
 				.Statements
 				.ElementAt(0);
 			Assert.That(firstStatemenet is CJumpStatement);
-			Assert.That(firstStatemenet.Expressions.ElementAt(0).ToString(), Is.EqualTo("fibonacci(n-2)+fibonacci(n-1)"));
+			// Assert.That(firstStatemenet.Expressions.ElementAt(0).ToString(), Is.EqualTo("fibonacci(n-2)+fibonacci(n-1)"));
 		}
 
 	}

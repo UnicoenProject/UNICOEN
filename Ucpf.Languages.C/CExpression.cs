@@ -10,25 +10,24 @@ namespace Ucpf.Languages.C
 	public class CExpression
 	{
 		private XElement _node;
-		// public CExpression xp;
 		public string Type { get; set; }
 
 		public static CExpression CreateExpression(XElement node)
 		{
-			// throw new NotImplementedException("method :: createExpression");
+			/*
+			* TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
+			*/
 
-			// scan node - decendancces - where - count(element) >= 2
-			// fnode is the first node which has more than 2 children nodes or which has only one "TOKEN" node as child node.
-			// fnode.count == 3 => binary
-			// fnode.count == 2 => polynomial
-			// fnode.count == 1 => (terminal)
+
+			// fnode is the first node which has more than 2 children nodes
+			// or which has only one "TOKEN" node as child node.
 			string[] binary_operator = {"*", "/", "%", "+", "-",
 											"<<", ">>", "&", "|", "^", "~",
 											"=", "+=", "-=", "*=", "/=",
 											"<=", "<", ">=", ">", "==", "!=",
 											"&&", "||"};
 			string[] triple_operator = { };
-			string[] unary_operator = {};
+			string[] unary_operator = { };
 
 
 			var fnode =
@@ -38,13 +37,13 @@ namespace Ucpf.Languages.C
 					return cnt > 1 || (cnt == 1 && e.Element("TOKEN") != null);
 				}).First();
 			var ope = fnode.Elements().ElementAt(1);
-			
+
 			// case : binary expression
 			if (binary_operator.Contains(ope.Value))
 			{
 				return new CBinaryExpression(
 					fnode.Elements().ElementAt(0),
-					ope,
+					COperator.CreateOperator(ope),
 					fnode.Elements().ElementAt(2));
 			}
 
@@ -52,20 +51,45 @@ namespace Ucpf.Languages.C
 			else if (fnode.Name.LocalName == "unary_expression")
 			{
 				var sw = fnode.Element("postfix_expression").Element("TOKEN");
-				if (sw != null)
+
+				if (sw != null)		// ex : ++x
 				{
 					return new CUnaryExpression(
-						fnode.Elements().ElementAt(0),
+						COperator.CreateBeforeOperator(fnode.Elements().ElementAt(0)),
 						fnode.Elements().ElementAt(1));
 				}
-				else {
+				else
+				{				// ex : y++
 					return new CUnaryExpression(
-						fnode.Elements().ElementAt(1),
+						COperator.CreateAfterOperator(fnode.Elements().ElementAt(1)),
 						fnode.Elements().ElementAt(0));
 				}
 			}
 
 			// case : primary expression
+			else if (fnode.Name.LocalName == "primary_expression")
+			{
+				if (fnode.Parent.Element("TOKEN").Value == "(")	// method invocation
+				{
+					return new CInvocationExpression(fnode);
+				}
+				else
+				{	// primary :: numeric_constant or variable_name:string
+					// TODO :: distinguish above 2 types when the node names changed
+					var val = fnode.Element("constant");
+					if (val != null)
+					{
+						return new CConstant(val.Value);
+					}
+					else
+					{
+						return new CConstant(fnode.Element("TOKEN").Value);
+					}
+
+				}
+			}
+
+			throw new InvalidOperationException("CrateExpression");
 		}
 
 
@@ -80,7 +104,7 @@ namespace Ucpf.Languages.C
 		public override string ToString()
 		{
 			// return _node.Value;
-			throw new NotImplementedException("To String");
+			throw new NotImplementedException("CreateExpression :: ToString");
 		}
 	}
 }
