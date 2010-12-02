@@ -54,15 +54,8 @@
   <ItemGroup>
     <Compile Include="Java\JavaAstGeneratorTest.cs" />
     <Compile Include="Python3\AstGeneratorTest.cs" />
-    <Compile Include="Temp\JavaPointcutsTest.cs" />
     <Compile Include="ParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Temp\SemanticAnalyzer.cs" />
-    <Compile Include="Temp\JavaExpressionStatement.cs" />
-    <Compile Include="Temp\JavaIfStatement.cs" />
-    <Compile Include="Temp\JavaPointcut.cs" />
-    <Compile Include="Temp\JavaStatement.cs" />
-    <Compile Include="Temp\SemanticFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Languages.Java\Ucpf.Languages.Java.csproj">
@@ -76,10 +69,6 @@
     <ProjectReference Include="..\Ucpf\Ucpf.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Languages\Ucpf.Languages.csproj">
-      <Project>{C8119EAD-2FE4-4B23-B69E-EA12F526B18A}</Project>
-      <Name>Ucpf.Languages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

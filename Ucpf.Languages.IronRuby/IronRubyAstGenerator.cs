@@ -9,7 +9,7 @@ using Ucpf.Weavers;
 
 namespace Ucpf.Languages.IronRuby
 {
-	[Export(typeof(AstGenerator))]
+	//[Export(typeof(AstGenerator))]
 	public class IronRubyAstGenerator : AstGenerator
 	{
 		private static IronRubyAstGenerator _instance;

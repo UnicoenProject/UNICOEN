@@ -134,17 +134,9 @@
               </expression>
               <TOKEN startline="6" startpos="11">)</TOKEN>
               <statement>
-                <compound_statement>
-                  <TOKEN startline="1" startpos="0">{</TOKEN>
-                  <statement_list>
-                    <statement>
-                      <expression_statement>
-                        <TOKEN startline="6" startpos="12">;</TOKEN>
-                      </expression_statement>
-                    </statement>
-                  </statement_list>
-                  <TOKEN startline="1" startpos="2">}</TOKEN>
-                </compound_statement>
+                <expression_statement>
+                  <TOKEN startline="6" startpos="12">;</TOKEN>
+                </expression_statement>
               </statement>
             </selection_statement>
           </statement>
@@ -189,17 +181,9 @@
               </expression>
               <TOKEN startline="8" startpos="9">)</TOKEN>
               <statement>
-                <compound_statement>
-                  <TOKEN startline="1" startpos="0">{</TOKEN>
-                  <statement_list>
-                    <statement>
-                      <expression_statement>
-                        <TOKEN startline="8" startpos="10">;</TOKEN>
-                      </expression_statement>
-                    </statement>
-                  </statement_list>
-                  <TOKEN startline="1" startpos="2">}</TOKEN>
-                </compound_statement>
+                <expression_statement>
+                  <TOKEN startline="8" startpos="10">;</TOKEN>
+                </expression_statement>
               </statement>
             </selection_statement>
           </statement>
@@ -264,17 +248,9 @@
               </expression>
               <TOKEN startline="10" startpos="14">)</TOKEN>
               <statement>
-                <compound_statement>
-                  <TOKEN startline="1" startpos="0">{</TOKEN>
-                  <statement_list>
-                    <statement>
-                      <expression_statement>
-                        <TOKEN startline="10" startpos="15">;</TOKEN>
-                      </expression_statement>
-                    </statement>
-                  </statement_list>
-                  <TOKEN startline="1" startpos="2">}</TOKEN>
-                </compound_statement>
+                <expression_statement>
+                  <TOKEN startline="10" startpos="15">;</TOKEN>
+                </expression_statement>
               </statement>
             </iteration_statement>
           </statement>
@@ -282,17 +258,9 @@
             <iteration_statement>
               <TOKEN startline="12" startpos="1">do</TOKEN>
               <statement>
-                <compound_statement>
-                  <TOKEN startline="1" startpos="0">{</TOKEN>
-                  <statement_list>
-                    <statement>
-                      <expression_statement>
-                        <TOKEN startline="12" startpos="4">;</TOKEN>
-                      </expression_statement>
-                    </statement>
-                  </statement_list>
-                  <TOKEN startline="1" startpos="2">}</TOKEN>
-                </compound_statement>
+                <expression_statement>
+                  <TOKEN startline="12" startpos="4">;</TOKEN>
+                </expression_statement>
               </statement>
               <TOKEN startline="12" startpos="6">while</TOKEN>
               <TOKEN startline="12" startpos="12">(</TOKEN>
@@ -507,17 +475,9 @@
               </expression>
               <TOKEN startline="14" startpos="23">)</TOKEN>
               <statement>
-                <compound_statement>
-                  <TOKEN startline="1" startpos="0">{</TOKEN>
-                  <statement_list>
-                    <statement>
-                      <expression_statement>
-                        <TOKEN startline="14" startpos="24">;</TOKEN>
-                      </expression_statement>
-                    </statement>
-                  </statement_list>
-                  <TOKEN startline="1" startpos="2">}</TOKEN>
-                </compound_statement>
+                <expression_statement>
+                  <TOKEN startline="14" startpos="24">;</TOKEN>
+                </expression_statement>
               </statement>
             </iteration_statement>
           </statement>

@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using Ucpf.AstGenerators;
 
 namespace Ucpf.Languages.Ruby18 {
-	[Export(typeof(AstGenerator))]
+	//[Export(typeof(AstGenerator))]
 	public class Ruby18AstGenerator : ExternalAstGenerator {
 		private static Ruby18AstGenerator _instance;
 

@@ -13,7 +13,7 @@ namespace Ucpf.Languages.Python3
 			get { return _instance ?? (_instance = new Python3AstGenerator()); }
 		}
 
-		private static readonly string[] _arguments = new[] {
+		private static readonly string[] PrivateArguments = new[] {
 			"ParserScripts/Python3/st2xml.py",
 		};
 
@@ -24,7 +24,7 @@ namespace Ucpf.Languages.Python3
 
 		protected override string[] Arguments
 		{
-			get { return _arguments; }
+			get { return PrivateArguments; }
 		}
 
 		public override string ParserName

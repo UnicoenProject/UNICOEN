@@ -139,15 +139,7 @@
                           <TOKEN startline="7" startpos="12">)</TOKEN>
                         </parExpression>
                         <statement>
-                          <block>
-                            <TOKEN startline="1" startpos="0">{</TOKEN>
-                            <blockStatement>
-                              <statement>
-                                <TOKEN startline="7" startpos="14">;</TOKEN>
-                              </statement>
-                            </blockStatement>
-                            <TOKEN startline="1" startpos="2">}</TOKEN>
-                          </block>
+                          <TOKEN startline="7" startpos="14">;</TOKEN>
                         </statement>
                       </statement>
                     </blockStatement>
@@ -212,15 +204,7 @@
                           <TOKEN startline="9" startpos="15">)</TOKEN>
                         </parExpression>
                         <statement>
-                          <block>
-                            <TOKEN startline="1" startpos="0">{</TOKEN>
-                            <blockStatement>
-                              <statement>
-                                <TOKEN startline="9" startpos="17">;</TOKEN>
-                              </statement>
-                            </blockStatement>
-                            <TOKEN startline="1" startpos="2">}</TOKEN>
-                          </block>
+                          <TOKEN startline="9" startpos="17">;</TOKEN>
                         </statement>
                       </statement>
                     </blockStatement>
@@ -228,15 +212,7 @@
                       <statement>
                         <TOKEN startline="11" startpos="2">do</TOKEN>
                         <statement>
-                          <block>
-                            <TOKEN startline="1" startpos="0">{</TOKEN>
-                            <blockStatement>
-                              <statement>
-                                <TOKEN startline="11" startpos="5">;</TOKEN>
-                              </statement>
-                            </blockStatement>
-                            <TOKEN startline="1" startpos="2">}</TOKEN>
-                          </block>
+                          <TOKEN startline="11" startpos="5">;</TOKEN>
                         </statement>
                         <TOKEN startline="11" startpos="7">while</TOKEN>
                         <parExpression>
@@ -470,15 +446,7 @@
                           </expressionList>
                           <TOKEN startline="13" startpos="24">)</TOKEN>
                           <statement>
-                            <block>
-                              <TOKEN startline="1" startpos="0">{</TOKEN>
-                              <blockStatement>
-                                <statement>
-                                  <TOKEN startline="13" startpos="26">;</TOKEN>
-                                </statement>
-                              </blockStatement>
-                              <TOKEN startline="1" startpos="2">}</TOKEN>
-                            </block>
+                            <TOKEN startline="13" startpos="26">;</TOKEN>
                           </statement>
                         </forstatement>
                       </statement>
@@ -621,15 +589,7 @@
                           </expression>
                           <TOKEN startline="15" startpos="31">)</TOKEN>
                           <statement>
-                            <block>
-                              <TOKEN startline="1" startpos="0">{</TOKEN>
-                              <blockStatement>
-                                <statement>
-                                  <TOKEN startline="15" startpos="33">;</TOKEN>
-                                </statement>
-                              </blockStatement>
-                              <TOKEN startline="1" startpos="2">}</TOKEN>
-                            </block>
+                            <TOKEN startline="15" startpos="33">;</TOKEN>
                           </statement>
                         </forstatement>
                       </statement>
