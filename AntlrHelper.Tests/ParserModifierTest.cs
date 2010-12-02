@@ -38,8 +38,14 @@ if (declaration_stack.size()>0&&((declaration_scope)declaration_stack.Peek()).is
 
 		[Test]
 		public void 終端ノード用のメソッドを置き換える() {
-			const string code = @"{string_literal17_tree = (object)adaptor.Create(string_literal17);";
-			const string expected = @"{string_literal17_tree = (object)adaptor.Create(string_literal17, retval);";
+			const string code = @"
+                    	string_literal29=(IToken)Match(input,34,FOLLOW_34_in_type_specifier357); if (state.failed) return retval;
+            	IDENTIFIER38=(IToken)Match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_type_id415); if (state.failed) return retval;
+{string_literal17_tree = (object)adaptor.Create(string_literal17);";
+			const string expected = @"
+                    	string_literal29=(IToken)Match(input,34,FOLLOW_34_in_type_specifier357); if (state.failed) return retval;
+            	IDENTIFIER38=(IToken)new XToken((IToken)Match(input,IDENTIFIER,FOLLOW_IDENTIFIER_in_type_id415), " + "\"IDENTIFIER\"" + @"); if (state.failed) return retval;
+{string_literal17_tree = (object)adaptor.Create(string_literal17, retval);";
 			Assert.That(ParserModifier.ModifyForTerminalNode(code), Is.EqualTo(expected));
 		}
 

@@ -49,14 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Languages\Common\Antlr\AntlrAstGenerator.cs" />
-    <Compile Include="Languages\Common\Antlr\AntlrAstGeneratorOld.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrBlockGenerator.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrCodeGenerateHelper.cs" />
     <Compile Include="Languages\Common\Antlr\ExtensionForParser.cs" />
-    <Compile Include="Languages\Common\Antlr\IXParser.cs" />
     <Compile Include="Languages\Common\Antlr\XmlTreeAdaptor.cs" />
-    <Compile Include="Languages\Common\Antlr\XmlTreeAdaptorOld.cs" />
-    <Compile Include="Languages\Common\Antlr\XParser.cs" />
     <Compile Include="Languages\Common\Antlr\XParserRuleReturnScope.cs" />
     <Compile Include="AstGenerators\ExternalAstGenerator.cs" />
     <Compile Include="AstGenerators\AstGenerator.cs" />
