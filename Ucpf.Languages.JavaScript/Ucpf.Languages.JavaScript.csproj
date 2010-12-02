@@ -44,12 +44,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JSBinaryExpression.cs" />
+    <Compile Include="JSCallExpression.cs" />
+    <Compile Include="JSExpression.cs" />
+    <Compile Include="JSFunctionBody.cs" />
+    <Compile Include="JSFunctionDeclaration.cs" />
     <Compile Include="JavaScriptAstGeneratorOld.cs" />
     <Compile Include="JavaScriptCodeGenerator.cs" />
-    <Compile Include="JavaScriptCodeModel.cs" />
     <Compile Include="JavaScriptElements.cs" />
     <Compile Include="JavaScriptLexer.cs" />
     <Compile Include="JavaScriptParser.cs" />
+    <Compile Include="JSIfStatement.cs" />
+    <Compile Include="JSIncreamentBeforeOperator.cs" />
+    <Compile Include="JSOperator.cs" />
+    <Compile Include="JSPlusOperator.cs" />
+    <Compile Include="JSPrimaryExpression.cs" />
+    <Compile Include="JSProgram.cs" />
+    <Compile Include="JSReturnStatement.cs" />
+    <Compile Include="JSStatement.cs" />
+    <Compile Include="JSUnaryExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
