@@ -10,6 +10,7 @@ namespace Code2Xml {
 			var outputType = OutputType.DefaultStream;
 			var isCodeGeneration = false;
 			var filePaths = new List<string>();
+
 			for (int i = 0; i < args.Length; i++) {
 				var arg = args[i].ToLower();
 				if (arg == "-d") {

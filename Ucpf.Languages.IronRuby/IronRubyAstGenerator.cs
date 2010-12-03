@@ -34,9 +34,9 @@ namespace Ucpf.Languages.IronRuby
 			return Generate(reader.ReadToEnd(), ignoreArrange);
 		}
 
-		public override XElement Generate(string text, bool ignoreArrange)
+		public override XElement Generate(string code, bool ignoreArrange)
 		{
-			var ast = IronRubyParser.ParseCodeFromString(text);
+			var ast = IronRubyParser.ParseCodeFromString(code);
 			if (!ignoreArrange) {
 				Weaver.SafeWeaveAround(GetLackingBlockNodesAround(ast),
 					node => {

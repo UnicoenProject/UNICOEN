@@ -28,7 +28,7 @@ namespace Ucpf.Languages.C.Tests
 		}
 
 		[Test]
-		public void IF文の条件式が正しい()
+		public void If文の条件式が正しい()
 		{
 			var ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
 			var root = ast.Descendants("function_definition").First();

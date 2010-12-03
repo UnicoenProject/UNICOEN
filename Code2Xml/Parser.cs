@@ -36,20 +36,20 @@ namespace Code2Xml {
 			getOutPutFunc.Item2();
 		}
 
-		private static Tuple<Action<string, string>, Action> GetGetOutputFunc(
-			OutputType outputType, string outPath, string outExtension) {
+		private static Tuple<Action<string, string>, Action> GetGetOutputFunc
+				(OutputType outputType, string outPath, string outExtension) {
 			Action<string, string> action1;
 			Action action2;
 			switch (outputType) {
 			case OutputType.DefaultStream:
 				action1 = (inputPath, content) => Console.WriteLine(content);
-				action2 = () => { };
+				action2 = () => { };	// disposer
 				break;
 			case OutputType.File: {
 				var fs = new FileStream(outPath, FileMode.Create);
 				var writer = new StreamWriter(fs);
 				action1 = (inputPath, content) => writer.WriteLine(content);
-				action2 = () => {
+				action2 = () => {		// disposer
 					writer.Close();
 					fs.Close();
 				};
@@ -66,7 +66,7 @@ namespace Code2Xml {
 						}
 					}
 				};
-				action2 = () => { };
+				action2 = () => { };	// disposer
 				break;
 			}
 			default:
