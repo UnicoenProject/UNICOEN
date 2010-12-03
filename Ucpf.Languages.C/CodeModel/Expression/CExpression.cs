@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
+
 namespace Ucpf.Languages.C
 {
 	public class CExpression
@@ -21,30 +22,38 @@ namespace Ucpf.Languages.C
 
 			// fnode is the first node which has more than 2 children nodes
 			// or which has only one "TOKEN" node as child node.
-			string[] binary_operator = {"*", "/", "%", "+", "-",
+			string[] binaryOperator = {"*", "/", "%", "+", "-",
 											"<<", ">>", "&", "|", "^", "~",
 											"=", "+=", "-=", "*=", "/=",
 											"<=", "<", ">=", ">", "==", "!=",
 											"&&", "||"};
-			string[] triple_operator = { };
-			string[] unary_operator = { };
+			// may not be used
+			string[] tripleOperator = { };
+			string[] unaryOperator = { };
 
 
 			var fnode =
 				node.Descendants().Where(e =>
 				{
 					var cnt = (e.Elements()).Count();
-					return cnt > 1 || (cnt == 1 && e.Element("TOKEN") != null);
+					return cnt > 1
+						|| (cnt == 1
+							&& (e.Element("TOKEN") != null
+								|| e.Element("IDENTIFIER") != null));
 				}).First();
-			var ope = fnode.Elements().ElementAt(1);
+			
 
 			// case : binary expression
-			if (binary_operator.Contains(ope.Value))
+			if (fnode.Elements().Count() == 3)
 			{
-				return new CBinaryExpression(
-					fnode.Elements().ElementAt(0),
-					COperator.CreateOperator(ope),
-					fnode.Elements().ElementAt(2));
+				var ope = fnode.Elements().ElementAt(1);
+				if(binaryOperator.Contains(ope.Value))
+				{
+					return new CBinaryExpression(
+						fnode.Elements().ElementAt(0),
+						COperator.CreateOperator(ope),
+						fnode.Elements().ElementAt(2));
+				}
 			}
 
 			// case : unary expression
@@ -66,39 +75,48 @@ namespace Ucpf.Languages.C
 				}
 			}
 
-			// case : primary expression
-			else if (fnode.Name.LocalName == "primary_expression")
-			{
-				if (fnode.Parent.Element("TOKEN").Value == "(")	// method invocation
+			// case : method_invocation
+			else if(fnode.Name.LocalName == "postfix_expression"){
+				var token = fnode.Element("TOKEN");
+
+				if (token != null && token.Value == "(")
 				{
 					return new CInvocationExpression(fnode);
 				}
-				else
-				{	// primary :: numeric_constant or variable_name:string
-					// TODO :: distinguish above 2 types when the node names changed
-					var val = fnode.Element("constant");
-					if (val != null)
-					{
-						return new CConstant(val.Value);
-					}
-					else
-					{
-						return new CConstant(fnode.Element("TOKEN").Value);
-					}
 
+				else
+				{
+					throw new NotImplementedException();
 				}
 			}
 
-			throw new InvalidOperationException("CrateExpression");
+			// case : primary expression :: method_invocation or string
+			else if (fnode.Name.LocalName == "primary_expression")
+			{
+				// primary :: numeric_constant or variable_name:string
+				// TODO :: distinguish above 2 types when the node names changed
+					return new CString(fnode);
+			}
+			
+			// case : numeric constant
+			else if (fnode.Name.LocalName == "constant")
+			{
+				return new CNumber(fnode);
+			}
+
+			throw new InvalidOperationException();
 		}
 
 
 
 		// constructor
-		public CExpression(XElement node, string type = "")
+		protected CExpression(XElement node, string type = "")
 		{
 			_node = node;
 			Type = type;
+		}
+		protected CExpression()
+		{
 		}
 
 		public override string ToString()

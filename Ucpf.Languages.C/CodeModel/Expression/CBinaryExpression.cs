@@ -27,6 +27,14 @@ namespace Ucpf.Languages.C
 				return CExpression.CreateExpression(_right);
 			}
 		}
+		public COperator Operator
+		{
+			get
+			{
+				return _ope;
+			}
+		}
+
 
 		public override string ToString()
 		{
@@ -36,7 +44,7 @@ namespace Ucpf.Languages.C
 
 		// constructor
 		public CBinaryExpression(XElement left, COperator ope, XElement right)
-			: base(null, "bionomial")
+			: base(null, "binary")
 		{
 			_left = left;
 			_ope = ope;

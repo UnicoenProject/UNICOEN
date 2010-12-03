@@ -15,11 +15,11 @@ namespace Ucpf.Languages.C
 			get
 			{
 				return _node.Elements("statement")
-					.Select(e => createStatement(e));
+					.Select(e => CreateStatement(e));
 			}
 		}
 
-		public static CStatement createStatement(XElement node){
+		public static CStatement CreateStatement(XElement node){
 			// -- which is better ?
 			// var judge = node.Descendants("TOKEN").First().Value;
 			var judge = node.Descendants().First().Name.LocalName;

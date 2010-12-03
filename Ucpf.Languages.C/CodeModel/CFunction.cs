@@ -14,17 +14,18 @@ namespace Ucpf.Languages.C
 		{
 			get
 			{
-				return new CType(_node.Element("declaration_specifiers").Element("type_specifier").Value);
-
+				return new CType(
+					_node.Element("declaration_specifiers")
+					.Element("type_specifier")
+					.Element("TOKEN")
+					.Value);
 			}
 		}
 		public string Name
 		{
 			get
 			{
-				string a = _node.Element("declarator").Element("direct_declarator").Value;
-				string b = _node.Element("declarator").Element("direct_declarator").Element("declarator_suffix").Value;
-				return a.Substring(0, a.Length - b.Length);
+				return _node.Element("declarator").Element("direct_declarator").Element("IDENTIFIER").Value;
 			}
 		}
 		public IEnumerable<CVariable> Parameters
@@ -32,8 +33,9 @@ namespace Ucpf.Languages.C
 			get
 			{
 				return _node.Descendants("parameter_list").Elements("parameter_declaration")
-					.Select(e => new CVariable(new CType(e.Element("declaration_specifiers").Element("type_specifier").Value),
-						e.Element("declarator").Element("direct_declarator").Value));
+					.Select(e => new CVariable(
+						new CType(e.Element("declaration_specifiers").Element("type_specifier").Element("TOKEN").Value),
+						e.Element("declarator").Element("direct_declarator").Element("IDENTIFIER").Value));
 			}
 		}
 

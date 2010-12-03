@@ -9,13 +9,13 @@ namespace Ucpf.Languages.C
 {
 	public class CInvocationExpression : CExpression
 	{
-		private XElement _node;		// primary_expression
+		private XElement _node;		// postfix_expression
 
 		public string FunctionName
 		{
 			get
 			{
-				return _node.Element("TOKEN").Value;
+				return _node.Element("primary_expression").Element("IDENTIFIER").Value;
 			}
 		}
 
@@ -23,6 +23,7 @@ namespace Ucpf.Languages.C
 		{
 			get
 			{
+				// suspicious...
 				return _node.Element("argument_expression_list").Elements()
 					.Select(e => CreateExpression(e));
 			}

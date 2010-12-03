@@ -11,12 +11,12 @@ namespace Ucpf.Languages.C
 	{
 		private XElement _node;		// statemenet
 
-		public string ConditionalExpression
+		public CExpression ConditionalExpression
 		{
 			get
 			{
-				// return new CExpression(_node.Descendants("expression").First());
-				return _node.Descendants("expression").First().Value;
+				return CExpression.CreateExpression(_node.Descendants("expression").First());
+				// return _node.Descendants("expression").First().Value;
 			}
 		}
 		public CBlock TrueBlock
