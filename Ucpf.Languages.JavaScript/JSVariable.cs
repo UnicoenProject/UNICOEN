@@ -6,6 +6,7 @@ using System.Xml.Linq;
 
 namespace Ucpf.Languages.JavaScript
 {
+	//TODO not implemented yet
 	public class JSVariable
 	{
 		public JSVariable(XElement xElement) {

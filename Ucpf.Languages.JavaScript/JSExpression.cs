@@ -9,13 +9,14 @@ namespace Ucpf.Languages.JavaScript {
     public class JSExpression
     {
         private XElement _node;
-        public JSExpression(XElement eNode)
+        public JSExpression(XElement xElement)
         {
-            _node = eNode;
+            _node = xElement;
         }
 
         protected JSExpression()
         {
+			//TODO How deal with super class constructor
             throw new NotImplementedException();
         }
 
@@ -25,6 +26,7 @@ namespace Ucpf.Languages.JavaScript {
                 "+", "-", "*", "/", "%"
             };
 
+			//TODO this statement obtains which <expression> or <assimentExpression>?
             var element = xElement.Element("expression").Elements().First();
             var targetElement =
                 element.Descendants().Where(e =>
@@ -46,15 +48,17 @@ namespace Ucpf.Languages.JavaScript {
                 var tempNode = targetElement.Element("postfixExpression");
                 if (tempNode != null && tempNode.Elements().Count() == 2)
                 {
+					//unaryExpression with postfixExpression
                     return
                         new JsUnaryExpression(
                             tempNode.Elements().ElementAt(0),
-                            JSOperator.CreatePostOperator(tempNode.Elements().ElementAt(1)));
+                            JSOperator.CreatePostfixOperator(tempNode.Elements().ElementAt(1)));
                 }
+				//unaryExpression with prefixExpression
                 return
                     new JsUnaryExpression(
                         targetElement.Elements().ElementAt(1),
-                        JSOperator.CreatePreOperator(targetElement.Elements().ElementAt(0)));
+                        JSOperator.CreatePrefixOperator(targetElement.Elements().ElementAt(0)));
             }
 
             //case Binary

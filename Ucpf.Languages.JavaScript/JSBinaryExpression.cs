@@ -3,16 +3,16 @@
 namespace Ucpf.Languages.JavaScript {
     public class JSBinaryExpression : JSExpression
     {
-        XElement _lNode;
-        XElement _rNode;
-        JSExpression lhs
+        private XElement _lNode;
+        private XElement _rNode;
+        public JSExpression Lhs
         {
             get
             {
                 return CreateExpression(_lNode);
             }
         }
-        JSExpression rhs
+        public JSExpression Rhs
         {
             get
             {
@@ -20,15 +20,15 @@ namespace Ucpf.Languages.JavaScript {
             }
         }
 
-        public JSOperator op {
+        public JSOperator Operator {
             private set; get;
         }
 
-        public JSBinaryExpression(XElement firstExpression, JSOperator op, XElement secondExpression)
+        public JSBinaryExpression(XElement leftSideNode, JSOperator op, XElement rightSideNode)
         {
-            _lNode = firstExpression;
-            _rNode = secondExpression;
-            this.op = op;
+            _lNode = leftSideNode;
+            _rNode = rightSideNode;
+            Operator = op;
         }
     }
 }

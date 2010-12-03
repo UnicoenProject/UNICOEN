@@ -5,7 +5,7 @@ namespace Ucpf.Languages.JavaScript {
     public class JSOperator
     {
         XElement _node;
-        String operatorName
+        public String Identifier
         {
             get { return _node.Value; }
         }
@@ -23,19 +23,19 @@ namespace Ucpf.Languages.JavaScript {
             if(xElement.Value == "+") {
                 return new JSPlusOperator(xElement);
             }
-            //TODO implement when false.
+            //TODO implement when value is "-", "*", "/", and so on.
             return null;
         }
 
-        public static JSOperator CreatePreOperator(XElement xElement) {
+        public static JSOperator CreatePrefixOperator(XElement xElement) {
             if(xElement.Value == "++") {
-                return new JSIncreamentBeforeOperator(xElement);
+                return new JSPrefixIncreamentOperator(xElement);
             }
             //TODO implement when false.
             return null;
         }
 
-        public static JSOperator CreatePostOperator(XElement xElement) {
+        public static JSOperator CreatePostfixOperator(XElement xElement) {
             if(xElement.Value == "++") {
                 return null;
             }
