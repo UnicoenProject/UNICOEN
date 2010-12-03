@@ -2,15 +2,15 @@
 using System.Xml.Linq;
 
 namespace Ucpf.Languages.JavaScript {
-    public class IncreamentBeforeOperator : JSOperator
+    public class JSIncreamentBeforeOperator : JSOperator
     {
-        private String _operatorName
+        public String OperatorName
         {
             get
             {
                 return "++";
             }
         }
-        public IncreamentBeforeOperator(XElement _node) : base(_node) { }
+        public JSIncreamentBeforeOperator(XElement _node) : base(_node) { }
     }
 }

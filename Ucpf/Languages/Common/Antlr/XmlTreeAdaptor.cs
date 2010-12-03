@@ -1,31 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 
-namespace Ucpf.Languages.Common.Antlr {
+namespace Ucpf.Languages.Common.Antlr
+{
 	public class XmlTreeAdaptor : CommonTreeAdaptor {
-		private readonly IList<XElement> _elements;
-		private readonly string _tokenElementName;
-
-		public XmlTreeAdaptor(IList<XElement> elements, string tokenElementName) {
-			_elements = elements;
-			_tokenElementName = tokenElementName;
-		}
-
-		public override object Create(IToken payload) {
-			if (payload != null) {
-				var element = new XElement(_tokenElementName, payload.Text);
-				element.SetAttributeValue("startline", payload.Line);
-				element.SetAttributeValue("startpos", payload.CharPositionInLine);
-				_elements.Add(element);
-			}
-			return base.Create(payload);
-		}
-
 		public object Create(IToken payload, XParserRuleReturnScope parent) {
 			if (payload != null) {
-				var element = new XElement(_tokenElementName, payload.Text);
+				var xtoken = payload as XToken;
+				var name = xtoken != null ? xtoken.Name : "TOKEN";
+				var element = new XElement(name, payload.Text);
 				element.SetAttributeValue("startline", payload.Line);
 				element.SetAttributeValue("startpos", payload.CharPositionInLine);
 				parent.Element.Add(element);
@@ -34,7 +22,8 @@ namespace Ucpf.Languages.Common.Antlr {
 		}
 
 		public void AddChild(object t, object child, XParserRuleReturnScope target,
-		                     XParserRuleReturnScope parent) {
+							 XParserRuleReturnScope parent)
+		{
 			parent.Element.Add(target.Element);
 			base.AddChild(t, child);
 		}

@@ -2,70 +2,70 @@
   <using_directives>
     <using_directive>
       <using_namespace_directive>
-        <TOKEN startline="1" startpos="0">using</TOKEN>
+        <USING startline="1" startpos="0">using</USING>
         <namespace_name>
           <namespace_or_type_name>
             <identifier>
-              <TOKEN startline="1" startpos="6">System</TOKEN>
+              <IDENTIFIER startline="1" startpos="6">System</IDENTIFIER>
             </identifier>
           </namespace_or_type_name>
         </namespace_name>
-        <TOKEN startline="1" startpos="12">;</TOKEN>
+        <SEMI startline="1" startpos="12">;</SEMI>
       </using_namespace_directive>
     </using_directive>
     <using_directive>
       <using_namespace_directive>
-        <TOKEN startline="2" startpos="0">using</TOKEN>
+        <USING startline="2" startpos="0">using</USING>
         <namespace_name>
           <namespace_or_type_name>
             <identifier>
-              <TOKEN startline="2" startpos="6">System</TOKEN>
+              <IDENTIFIER startline="2" startpos="6">System</IDENTIFIER>
             </identifier>
-            <TOKEN startline="2" startpos="12">.</TOKEN>
+            <DOT startline="2" startpos="12">.</DOT>
             <identifier>
-              <TOKEN startline="2" startpos="13">Collections</TOKEN>
+              <IDENTIFIER startline="2" startpos="13">Collections</IDENTIFIER>
             </identifier>
-            <TOKEN startline="2" startpos="24">.</TOKEN>
+            <DOT startline="2" startpos="24">.</DOT>
             <identifier>
-              <TOKEN startline="2" startpos="25">Generic</TOKEN>
+              <IDENTIFIER startline="2" startpos="25">Generic</IDENTIFIER>
             </identifier>
           </namespace_or_type_name>
         </namespace_name>
-        <TOKEN startline="2" startpos="32">;</TOKEN>
+        <SEMI startline="2" startpos="32">;</SEMI>
       </using_namespace_directive>
     </using_directive>
     <using_directive>
       <using_namespace_directive>
-        <TOKEN startline="3" startpos="0">using</TOKEN>
+        <USING startline="3" startpos="0">using</USING>
         <namespace_name>
           <namespace_or_type_name>
             <identifier>
-              <TOKEN startline="3" startpos="6">System</TOKEN>
+              <IDENTIFIER startline="3" startpos="6">System</IDENTIFIER>
             </identifier>
-            <TOKEN startline="3" startpos="12">.</TOKEN>
+            <DOT startline="3" startpos="12">.</DOT>
             <identifier>
-              <TOKEN startline="3" startpos="13">Linq</TOKEN>
+              <IDENTIFIER startline="3" startpos="13">Linq</IDENTIFIER>
             </identifier>
           </namespace_or_type_name>
         </namespace_name>
-        <TOKEN startline="3" startpos="17">;</TOKEN>
+        <SEMI startline="3" startpos="17">;</SEMI>
       </using_namespace_directive>
     </using_directive>
     <using_directive>
       <using_namespace_directive>
-        <TOKEN startline="4" startpos="0">using</TOKEN>
+        <USING startline="4" startpos="0">using</USING>
         <namespace_name>
           <namespace_or_type_name>
             <identifier>
-              <TOKEN startline="4" startpos="6">System</TOKEN>
+              <IDENTIFIER startline="4" startpos="6">System</IDENTIFIER>
             </identifier>
-            <TOKEN startline="4" startpos="12">.</TOKEN>
+            <DOT startline="4" startpos="12">.</DOT>
             <identifier>
-              <TOKEN startline="4" startpos="13">Text</TOKEN>
+              <IDENTIFIER startline="4" startpos="13">Text</IDENTIFIER>
             </identifier>
           </namespace_or_type_name>
         </namespace_name>
-        <TOKEN startline="4" startpos="17">;</TOKEN>
+        <SEMI startline="4" startpos="17">;</SEMI>
       </using_namespace_directive>
     </using_directive>
   </using_directives>
@@ -73,7 +73,7 @@
     <TOKEN startline="6" startpos="0">namespace</TOKEN>
     <qualified_identifier>
       <identifier>
-        <TOKEN startline="6" startpos="10">Code2XmlTest</TOKEN>
+        <IDENTIFIER startline="6" startpos="10">Code2XmlTest</IDENTIFIER>
       </identifier>
     </qualified_identifier>
     <namespace_block>
@@ -85,7 +85,7 @@
               <class_declaration>
                 <TOKEN startline="8" startpos="1">class</TOKEN>
                 <identifier>
-                  <TOKEN startline="8" startpos="7">Block3</TOKEN>
+                  <IDENTIFIER startline="8" startpos="7">Block3</IDENTIFIER>
                 </identifier>
                 <class_body>
                   <TOKEN startline="9" startpos="1">{</TOKEN>
@@ -105,13 +105,13 @@
                             <qid>
                               <qid_start>
                                 <identifier>
-                                  <TOKEN startline="10" startpos="14">method3</TOKEN>
+                                  <IDENTIFIER startline="10" startpos="14">method3</IDENTIFIER>
                                 </identifier>
                               </qid_start>
                             </qid>
                           </member_name>
                           <TOKEN startline="10" startpos="21">(</TOKEN>
-                          <TOKEN startline="10" startpos="22">)</TOKEN>
+                          <RPAREN startline="10" startpos="22">)</RPAREN>
                         </method_header>
                         <method_body>
                           <block>
@@ -130,7 +130,7 @@
                                     <local_variable_declarators>
                                       <local_variable_declarator>
                                         <identifier>
-                                          <TOKEN startline="12" startpos="7">i</TOKEN>
+                                          <IDENTIFIER startline="12" startpos="7">i</IDENTIFIER>
                                         </identifier>
                                         <TOKEN startline="12" startpos="9">=</TOKEN>
                                         <local_variable_initializer>
@@ -177,14 +177,14 @@
                                       </local_variable_declarator>
                                     </local_variable_declarators>
                                   </local_variable_declaration>
-                                  <TOKEN startline="12" startpos="12">;</TOKEN>
+                                  <SEMI startline="12" startpos="12">;</SEMI>
                                 </declaration_statement>
                               </statement>
                               <statement>
                                 <embedded_statement>
                                   <selection_statement>
                                     <if_statement>
-                                      <TOKEN startline="14" startpos="3">if</TOKEN>
+                                      <IF startline="14" startpos="3">if</IF>
                                       <TOKEN startline="14" startpos="6">(</TOKEN>
                                       <boolean_expression>
                                         <expression>
@@ -206,7 +206,7 @@
                                                                         <primary_expression>
                                                                           <primary_expression_start>
                                                                             <identifier>
-                                                                              <TOKEN startline="14" startpos="7">i</TOKEN>
+                                                                              <IDENTIFIER startline="14" startpos="7">i</IDENTIFIER>
                                                                             </identifier>
                                                                           </primary_expression_start>
                                                                         </primary_expression>
@@ -247,10 +247,10 @@
                                           </non_assignment_expression>
                                         </expression>
                                       </boolean_expression>
-                                      <TOKEN startline="14" startpos="13">)</TOKEN>
+                                      <RPAREN startline="14" startpos="13">)</RPAREN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="14" startpos="15">;</TOKEN>
+                                          <SEMI startline="14" startpos="15">;</SEMI>
                                         </block>
                                       </embedded_statement>
                                     </if_statement>
@@ -283,7 +283,7 @@
                                                                         <primary_expression>
                                                                           <primary_expression_start>
                                                                             <identifier>
-                                                                              <TOKEN startline="16" startpos="10">i</TOKEN>
+                                                                              <IDENTIFIER startline="16" startpos="10">i</IDENTIFIER>
                                                                             </identifier>
                                                                           </primary_expression_start>
                                                                         </primary_expression>
@@ -324,10 +324,10 @@
                                           </non_assignment_expression>
                                         </expression>
                                       </boolean_expression>
-                                      <TOKEN startline="16" startpos="16">)</TOKEN>
+                                      <RPAREN startline="16" startpos="16">)</RPAREN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="16" startpos="18">;</TOKEN>
+                                          <SEMI startline="16" startpos="18">;</SEMI>
                                         </block>
                                       </embedded_statement>
                                     </while_statement>
@@ -341,7 +341,7 @@
                                       <TOKEN startline="18" startpos="3">do</TOKEN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="18" startpos="6">;</TOKEN>
+                                          <SEMI startline="18" startpos="6">;</SEMI>
                                         </block>
                                       </embedded_statement>
                                       <TOKEN startline="18" startpos="8">while</TOKEN>
@@ -366,7 +366,7 @@
                                                                         <primary_expression>
                                                                           <primary_expression_start>
                                                                             <identifier>
-                                                                              <TOKEN startline="18" startpos="15">i</TOKEN>
+                                                                              <IDENTIFIER startline="18" startpos="15">i</IDENTIFIER>
                                                                             </identifier>
                                                                           </primary_expression_start>
                                                                         </primary_expression>
@@ -407,8 +407,8 @@
                                           </non_assignment_expression>
                                         </expression>
                                       </boolean_expression>
-                                      <TOKEN startline="18" startpos="21">)</TOKEN>
-                                      <TOKEN startline="18" startpos="22">;</TOKEN>
+                                      <RPAREN startline="18" startpos="21">)</RPAREN>
+                                      <SEMI startline="18" startpos="22">;</SEMI>
                                     </do_statement>
                                   </iteration_statement>
                                 </embedded_statement>
@@ -428,7 +428,7 @@
                                                   <primary_expression>
                                                     <primary_expression_start>
                                                       <identifier>
-                                                        <TOKEN startline="20" startpos="8">i</TOKEN>
+                                                        <IDENTIFIER startline="20" startpos="8">i</IDENTIFIER>
                                                       </identifier>
                                                     </primary_expression_start>
                                                   </primary_expression>
@@ -480,7 +480,7 @@
                                           </statement_expression>
                                         </statement_expression_list>
                                       </for_initializer>
-                                      <TOKEN startline="20" startpos="13">;</TOKEN>
+                                      <SEMI startline="20" startpos="13">;</SEMI>
                                       <for_condition>
                                         <boolean_expression>
                                           <expression>
@@ -502,7 +502,7 @@
                                                                           <primary_expression>
                                                                             <primary_expression_start>
                                                                               <identifier>
-                                                                                <TOKEN startline="20" startpos="15">i</TOKEN>
+                                                                                <IDENTIFIER startline="20" startpos="15">i</IDENTIFIER>
                                                                               </identifier>
                                                                             </primary_expression_start>
                                                                           </primary_expression>
@@ -542,7 +542,7 @@
                                           </expression>
                                         </boolean_expression>
                                       </for_condition>
-                                      <TOKEN startline="20" startpos="20">;</TOKEN>
+                                      <SEMI startline="20" startpos="20">;</SEMI>
                                       <for_iterator>
                                         <statement_expression_list>
                                           <statement_expression>
@@ -551,7 +551,7 @@
                                                 <primary_expression>
                                                   <primary_expression_start>
                                                     <identifier>
-                                                      <TOKEN startline="20" startpos="22">i</TOKEN>
+                                                      <IDENTIFIER startline="20" startpos="22">i</IDENTIFIER>
                                                     </identifier>
                                                   </primary_expression_start>
                                                 </primary_expression>
@@ -561,10 +561,10 @@
                                           </statement_expression>
                                         </statement_expression_list>
                                       </for_iterator>
-                                      <TOKEN startline="20" startpos="25">)</TOKEN>
+                                      <RPAREN startline="20" startpos="25">)</RPAREN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="20" startpos="27">;</TOKEN>
+                                          <SEMI startline="20" startpos="27">;</SEMI>
                                         </block>
                                       </embedded_statement>
                                     </for_statement>
@@ -591,7 +591,7 @@
                                         </type>
                                       </local_variable_type>
                                       <identifier>
-                                        <TOKEN startline="22" startpos="16">j</TOKEN>
+                                        <IDENTIFIER startline="22" startpos="16">j</IDENTIFIER>
                                       </identifier>
                                       <TOKEN startline="22" startpos="18">in</TOKEN>
                                       <expression>
@@ -722,10 +722,10 @@
                                           </conditional_expression>
                                         </non_assignment_expression>
                                       </expression>
-                                      <TOKEN startline="22" startpos="35">)</TOKEN>
+                                      <RPAREN startline="22" startpos="35">)</RPAREN>
                                       <embedded_statement>
                                         <block>
-                                          <TOKEN startline="22" startpos="37">;</TOKEN>
+                                          <SEMI startline="22" startpos="37">;</SEMI>
                                         </block>
                                       </embedded_statement>
                                     </foreach_statement>
@@ -740,7 +740,7 @@
                                         <type_name>
                                           <namespace_or_type_name>
                                             <identifier>
-                                              <TOKEN startline="24" startpos="3">Action</TOKEN>
+                                              <IDENTIFIER startline="24" startpos="3">Action</IDENTIFIER>
                                             </identifier>
                                           </namespace_or_type_name>
                                         </type_name>
@@ -749,7 +749,7 @@
                                     <local_variable_declarators>
                                       <local_variable_declarator>
                                         <identifier>
-                                          <TOKEN startline="24" startpos="10">act</TOKEN>
+                                          <IDENTIFIER startline="24" startpos="10">act</IDENTIFIER>
                                         </identifier>
                                         <TOKEN startline="24" startpos="14">=</TOKEN>
                                         <local_variable_initializer>
@@ -759,7 +759,7 @@
                                                 <anonymous_function_signature>
                                                   <explicit_anonymous_function_signature>
                                                     <TOKEN startline="24" startpos="16">(</TOKEN>
-                                                    <TOKEN startline="24" startpos="17">)</TOKEN>
+                                                    <RPAREN startline="24" startpos="17">)</RPAREN>
                                                   </explicit_anonymous_function_signature>
                                                 </anonymous_function_signature>
                                                 <TOKEN startline="24" startpos="19">=&gt;</TOKEN>
@@ -783,7 +783,7 @@
                                                                                   <primary_expression>
                                                                                     <primary_expression_start>
                                                                                       <identifier>
-                                                                                        <TOKEN startline="24" startpos="22">Console</TOKEN>
+                                                                                        <IDENTIFIER startline="24" startpos="22">Console</IDENTIFIER>
                                                                                       </identifier>
                                                                                     </primary_expression_start>
                                                                                     <primary_expression_part>
@@ -792,7 +792,7 @@
                                                                                           <TOKEN startline="24" startpos="29">.</TOKEN>
                                                                                         </access_operator>
                                                                                         <identifier>
-                                                                                          <TOKEN startline="24" startpos="30">WriteLine</TOKEN>
+                                                                                          <IDENTIFIER startline="24" startpos="30">WriteLine</IDENTIFIER>
                                                                                         </identifier>
                                                                                       </access_identifier>
                                                                                       <brackets_or_arguments>
@@ -820,7 +820,7 @@
                                                                                                                                 <primary_expression>
                                                                                                                                   <primary_expression_start>
                                                                                                                                     <identifier>
-                                                                                                                                      <TOKEN startline="24" startpos="40">i</TOKEN>
+                                                                                                                                      <IDENTIFIER startline="24" startpos="40">i</IDENTIFIER>
                                                                                                                                     </identifier>
                                                                                                                                   </primary_expression_start>
                                                                                                                                 </primary_expression>
@@ -843,7 +843,7 @@
                                                                                               </argument_value>
                                                                                             </argument>
                                                                                           </argument_list>
-                                                                                          <TOKEN startline="24" startpos="41">)</TOKEN>
+                                                                                          <RPAREN startline="24" startpos="41">)</RPAREN>
                                                                                         </arguments>
                                                                                       </brackets_or_arguments>
                                                                                     </primary_expression_part>
@@ -872,14 +872,14 @@
                                       </local_variable_declarator>
                                     </local_variable_declarators>
                                   </local_variable_declaration>
-                                  <TOKEN startline="24" startpos="42">;</TOKEN>
+                                  <SEMI startline="24" startpos="42">;</SEMI>
                                 </declaration_statement>
                               </statement>
                               <statement>
                                 <embedded_statement>
                                   <selection_statement>
                                     <if_statement>
-                                      <TOKEN startline="26" startpos="3">if</TOKEN>
+                                      <IF startline="26" startpos="3">if</IF>
                                       <TOKEN startline="26" startpos="6">(</TOKEN>
                                       <boolean_expression>
                                         <expression>
@@ -901,7 +901,7 @@
                                                                         <primary_expression>
                                                                           <primary_expression_start>
                                                                             <identifier>
-                                                                              <TOKEN startline="26" startpos="7">i</TOKEN>
+                                                                              <IDENTIFIER startline="26" startpos="7">i</IDENTIFIER>
                                                                             </identifier>
                                                                           </primary_expression_start>
                                                                         </primary_expression>
@@ -942,7 +942,7 @@
                                           </non_assignment_expression>
                                         </expression>
                                       </boolean_expression>
-                                      <TOKEN startline="26" startpos="13">)</TOKEN>
+                                      <RPAREN startline="26" startpos="13">)</RPAREN>
                                       <embedded_statement>
                                         <block>
                                           <TOKEN startline="27" startpos="3">{</TOKEN>
@@ -978,7 +978,7 @@
                                                                       <primary_expression>
                                                                         <primary_expression_start>
                                                                           <identifier>
-                                                                            <TOKEN startline="30" startpos="11">i</TOKEN>
+                                                                            <IDENTIFIER startline="30" startpos="11">i</IDENTIFIER>
                                                                           </identifier>
                                                                         </primary_expression_start>
                                                                       </primary_expression>
@@ -998,7 +998,7 @@
                                           </conditional_expression>
                                         </non_assignment_expression>
                                       </expression>
-                                      <TOKEN startline="30" startpos="12">)</TOKEN>
+                                      <RPAREN startline="30" startpos="12">)</RPAREN>
                                       <switch_block>
                                         <TOKEN startline="31" startpos="3">{</TOKEN>
                                         <TOKEN startline="32" startpos="3">}</TOKEN>
@@ -1033,7 +1033,7 @@
                                                                         <primary_expression>
                                                                           <primary_expression_start>
                                                                             <identifier>
-                                                                              <TOKEN startline="34" startpos="10">i</TOKEN>
+                                                                              <IDENTIFIER startline="34" startpos="10">i</IDENTIFIER>
                                                                             </identifier>
                                                                           </primary_expression_start>
                                                                         </primary_expression>
@@ -1074,7 +1074,7 @@
                                           </non_assignment_expression>
                                         </expression>
                                       </boolean_expression>
-                                      <TOKEN startline="34" startpos="16">)</TOKEN>
+                                      <RPAREN startline="34" startpos="16">)</RPAREN>
                                       <embedded_statement>
                                         <block>
                                           <TOKEN startline="35" startpos="3">{</TOKEN>
@@ -1118,7 +1118,7 @@
                                                                         <primary_expression>
                                                                           <primary_expression_start>
                                                                             <identifier>
-                                                                              <TOKEN startline="40" startpos="12">i</TOKEN>
+                                                                              <IDENTIFIER startline="40" startpos="12">i</IDENTIFIER>
                                                                             </identifier>
                                                                           </primary_expression_start>
                                                                         </primary_expression>
@@ -1159,8 +1159,8 @@
                                           </non_assignment_expression>
                                         </expression>
                                       </boolean_expression>
-                                      <TOKEN startline="40" startpos="18">)</TOKEN>
-                                      <TOKEN startline="40" startpos="19">;</TOKEN>
+                                      <RPAREN startline="40" startpos="18">)</RPAREN>
+                                      <SEMI startline="40" startpos="19">;</SEMI>
                                     </do_statement>
                                   </iteration_statement>
                                 </embedded_statement>
@@ -1180,7 +1180,7 @@
                                                   <primary_expression>
                                                     <primary_expression_start>
                                                       <identifier>
-                                                        <TOKEN startline="42" startpos="8">i</TOKEN>
+                                                        <IDENTIFIER startline="42" startpos="8">i</IDENTIFIER>
                                                       </identifier>
                                                     </primary_expression_start>
                                                   </primary_expression>
@@ -1232,7 +1232,7 @@
                                           </statement_expression>
                                         </statement_expression_list>
                                       </for_initializer>
-                                      <TOKEN startline="42" startpos="13">;</TOKEN>
+                                      <SEMI startline="42" startpos="13">;</SEMI>
                                       <for_condition>
                                         <boolean_expression>
                                           <expression>
@@ -1254,7 +1254,7 @@
                                                                           <primary_expression>
                                                                             <primary_expression_start>
                                                                               <identifier>
-                                                                                <TOKEN startline="42" startpos="15">i</TOKEN>
+                                                                                <IDENTIFIER startline="42" startpos="15">i</IDENTIFIER>
                                                                               </identifier>
                                                                             </primary_expression_start>
                                                                           </primary_expression>
@@ -1294,7 +1294,7 @@
                                           </expression>
                                         </boolean_expression>
                                       </for_condition>
-                                      <TOKEN startline="42" startpos="20">;</TOKEN>
+                                      <SEMI startline="42" startpos="20">;</SEMI>
                                       <for_iterator>
                                         <statement_expression_list>
                                           <statement_expression>
@@ -1303,7 +1303,7 @@
                                                 <primary_expression>
                                                   <primary_expression_start>
                                                     <identifier>
-                                                      <TOKEN startline="42" startpos="22">i</TOKEN>
+                                                      <IDENTIFIER startline="42" startpos="22">i</IDENTIFIER>
                                                     </identifier>
                                                   </primary_expression_start>
                                                 </primary_expression>
@@ -1313,7 +1313,7 @@
                                           </statement_expression>
                                         </statement_expression_list>
                                       </for_iterator>
-                                      <TOKEN startline="42" startpos="25">)</TOKEN>
+                                      <RPAREN startline="42" startpos="25">)</RPAREN>
                                       <embedded_statement>
                                         <block>
                                           <TOKEN startline="43" startpos="3">{</TOKEN>
@@ -1344,7 +1344,7 @@
                                         </type>
                                       </local_variable_type>
                                       <identifier>
-                                        <TOKEN startline="46" startpos="16">j</TOKEN>
+                                        <IDENTIFIER startline="46" startpos="16">j</IDENTIFIER>
                                       </identifier>
                                       <TOKEN startline="46" startpos="18">in</TOKEN>
                                       <expression>
@@ -1475,7 +1475,7 @@
                                           </conditional_expression>
                                         </non_assignment_expression>
                                       </expression>
-                                      <TOKEN startline="46" startpos="35">)</TOKEN>
+                                      <RPAREN startline="46" startpos="35">)</RPAREN>
                                       <embedded_statement>
                                         <block>
                                           <TOKEN startline="47" startpos="3">{</TOKEN>
@@ -1494,7 +1494,7 @@
                                         <type_name>
                                           <namespace_or_type_name>
                                             <identifier>
-                                              <TOKEN startline="50" startpos="3">Action</TOKEN>
+                                              <IDENTIFIER startline="50" startpos="3">Action</IDENTIFIER>
                                             </identifier>
                                           </namespace_or_type_name>
                                         </type_name>
@@ -1503,7 +1503,7 @@
                                     <local_variable_declarators>
                                       <local_variable_declarator>
                                         <identifier>
-                                          <TOKEN startline="50" startpos="10">act1</TOKEN>
+                                          <IDENTIFIER startline="50" startpos="10">act1</IDENTIFIER>
                                         </identifier>
                                         <TOKEN startline="50" startpos="15">=</TOKEN>
                                         <local_variable_initializer>
@@ -1513,7 +1513,7 @@
                                                 <anonymous_function_signature>
                                                   <explicit_anonymous_function_signature>
                                                     <TOKEN startline="50" startpos="17">(</TOKEN>
-                                                    <TOKEN startline="50" startpos="18">)</TOKEN>
+                                                    <RPAREN startline="50" startpos="18">)</RPAREN>
                                                   </explicit_anonymous_function_signature>
                                                 </anonymous_function_signature>
                                                 <TOKEN startline="50" startpos="20">=&gt;</TOKEN>
@@ -1543,7 +1543,7 @@
                                                                                             <primary_expression>
                                                                                               <primary_expression_start>
                                                                                                 <identifier>
-                                                                                                  <TOKEN startline="51" startpos="4">Console</TOKEN>
+                                                                                                  <IDENTIFIER startline="51" startpos="4">Console</IDENTIFIER>
                                                                                                 </identifier>
                                                                                               </primary_expression_start>
                                                                                               <primary_expression_part>
@@ -1552,7 +1552,7 @@
                                                                                                     <TOKEN startline="51" startpos="11">.</TOKEN>
                                                                                                   </access_operator>
                                                                                                   <identifier>
-                                                                                                    <TOKEN startline="51" startpos="12">WriteLine</TOKEN>
+                                                                                                    <IDENTIFIER startline="51" startpos="12">WriteLine</IDENTIFIER>
                                                                                                   </identifier>
                                                                                                 </access_identifier>
                                                                                                 <brackets_or_arguments>
@@ -1580,7 +1580,7 @@
                                                                                                                                           <primary_expression>
                                                                                                                                             <primary_expression_start>
                                                                                                                                               <identifier>
-                                                                                                                                                <TOKEN startline="51" startpos="22">i</TOKEN>
+                                                                                                                                                <IDENTIFIER startline="51" startpos="22">i</IDENTIFIER>
                                                                                                                                               </identifier>
                                                                                                                                             </primary_expression_start>
                                                                                                                                           </primary_expression>
@@ -1603,7 +1603,7 @@
                                                                                                         </argument_value>
                                                                                                       </argument>
                                                                                                     </argument_list>
-                                                                                                    <TOKEN startline="51" startpos="23">)</TOKEN>
+                                                                                                    <RPAREN startline="51" startpos="23">)</RPAREN>
                                                                                                   </arguments>
                                                                                                 </brackets_or_arguments>
                                                                                               </primary_expression_part>
@@ -1624,7 +1624,7 @@
                                                                 </conditional_expression>
                                                               </non_assignment_expression>
                                                             </expression>
-                                                            <TOKEN startline="51" startpos="24">;</TOKEN>
+                                                            <SEMI startline="51" startpos="24">;</SEMI>
                                                           </expression_statement>
                                                         </embedded_statement>
                                                       </statement>
@@ -1639,7 +1639,7 @@
                                       </local_variable_declarator>
                                     </local_variable_declarators>
                                   </local_variable_declaration>
-                                  <TOKEN startline="52" startpos="4">;</TOKEN>
+                                  <SEMI startline="52" startpos="4">;</SEMI>
                                 </declaration_statement>
                               </statement>
                               <statement>
@@ -1650,7 +1650,7 @@
                                         <type_name>
                                           <namespace_or_type_name>
                                             <identifier>
-                                              <TOKEN startline="54" startpos="3">Action</TOKEN>
+                                              <IDENTIFIER startline="54" startpos="3">Action</IDENTIFIER>
                                             </identifier>
                                           </namespace_or_type_name>
                                         </type_name>
@@ -1659,7 +1659,7 @@
                                     <local_variable_declarators>
                                       <local_variable_declarator>
                                         <identifier>
-                                          <TOKEN startline="54" startpos="10">act2</TOKEN>
+                                          <IDENTIFIER startline="54" startpos="10">act2</IDENTIFIER>
                                         </identifier>
                                         <TOKEN startline="54" startpos="15">=</TOKEN>
                                         <local_variable_initializer>
@@ -1707,7 +1707,7 @@
                                                                                                                         <primary_expression>
                                                                                                                           <primary_expression_start>
                                                                                                                             <identifier>
-                                                                                                                              <TOKEN startline="55" startpos="4">Console</TOKEN>
+                                                                                                                              <IDENTIFIER startline="55" startpos="4">Console</IDENTIFIER>
                                                                                                                             </identifier>
                                                                                                                           </primary_expression_start>
                                                                                                                           <primary_expression_part>
@@ -1716,7 +1716,7 @@
                                                                                                                                 <TOKEN startline="55" startpos="11">.</TOKEN>
                                                                                                                               </access_operator>
                                                                                                                               <identifier>
-                                                                                                                                <TOKEN startline="55" startpos="12">WriteLine</TOKEN>
+                                                                                                                                <IDENTIFIER startline="55" startpos="12">WriteLine</IDENTIFIER>
                                                                                                                               </identifier>
                                                                                                                             </access_identifier>
                                                                                                                             <brackets_or_arguments>
@@ -1744,7 +1744,7 @@
                                                                                                                                                                       <primary_expression>
                                                                                                                                                                         <primary_expression_start>
                                                                                                                                                                           <identifier>
-                                                                                                                                                                            <TOKEN startline="55" startpos="22">i</TOKEN>
+                                                                                                                                                                            <IDENTIFIER startline="55" startpos="22">i</IDENTIFIER>
                                                                                                                                                                           </identifier>
                                                                                                                                                                         </primary_expression_start>
                                                                                                                                                                       </primary_expression>
@@ -1767,7 +1767,7 @@
                                                                                                                                     </argument_value>
                                                                                                                                   </argument>
                                                                                                                                 </argument_list>
-                                                                                                                                <TOKEN startline="55" startpos="23">)</TOKEN>
+                                                                                                                                <RPAREN startline="55" startpos="23">)</RPAREN>
                                                                                                                               </arguments>
                                                                                                                             </brackets_or_arguments>
                                                                                                                           </primary_expression_part>
@@ -1788,7 +1788,7 @@
                                                                                             </conditional_expression>
                                                                                           </non_assignment_expression>
                                                                                         </expression>
-                                                                                        <TOKEN startline="55" startpos="24">;</TOKEN>
+                                                                                        <SEMI startline="55" startpos="24">;</SEMI>
                                                                                       </expression_statement>
                                                                                     </embedded_statement>
                                                                                   </statement>
@@ -1817,7 +1817,7 @@
                                       </local_variable_declarator>
                                     </local_variable_declarators>
                                   </local_variable_declaration>
-                                  <TOKEN startline="56" startpos="4">;</TOKEN>
+                                  <SEMI startline="56" startpos="4">;</SEMI>
                                 </declaration_statement>
                               </statement>
                             </statement_list>

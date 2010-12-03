@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LuaAstGeneratorOld.cs" />
+    <Compile Include="LuaAstGenerator.cs" />
     <Compile Include="LuaCodeGenerator.cs" />
     <Compile Include="LuaElements.cs" />
     <Compile Include="LuaLexer.cs" />

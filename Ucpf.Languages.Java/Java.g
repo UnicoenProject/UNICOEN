@@ -1,6 +1,4 @@
 /*
- Changed by Kazunori Sakamoto in order to output AST as XML format on C# December 2009.
-
  [The "BSD licence"]
  Copyright (c) 2007-2008 Terence Parr
  All rights reserved.
@@ -293,27 +291,11 @@ options {
     language=CSharp2;
 }
 
-@header
-{
-	using System.Collections.Generic;
-	using System.Text;
-	using System.Xml.Linq;
-}
-
-@members
-{
-	private readonly IList<XElement> Elements = new List<XElement>();
-	public IList<XElement> ElementList { get { return Elements; } }
-	public string LeaveElementName { get; set; }
-}
-
 /********************************************************************************************
                           Parser section
 *********************************************************************************************/
            
-compilationUnit
-@init { const string elementName = "compilationUnit"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+compilationUnit 
     :   (   (annotations
             )?
             packageDeclaration
@@ -324,16 +306,12 @@ compilationUnit
         )*
     ;
 
-packageDeclaration
-@init { const string elementName = "packageDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+packageDeclaration 
     :   'package' qualifiedName
         ';'
     ;
 
-importDeclaration
-@init { const string elementName = "importDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+importDeclaration  
     :   'import' 
         ('static'
         )?
@@ -350,32 +328,24 @@ importDeclaration
         ';'
     ;
 
-qualifiedImportName
-@init { const string elementName = "qualifiedImportName"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+qualifiedImportName 
     :   IDENTIFIER
         ('.' IDENTIFIER
         )*
     ;
 
-typeDeclaration
-@init { const string elementName = "typeDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeDeclaration 
     :   classOrInterfaceDeclaration
     |   ';'
     ;
 
-classOrInterfaceDeclaration
-@init { const string elementName = "classOrInterfaceDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+classOrInterfaceDeclaration 
     :    classDeclaration
     |   interfaceDeclaration
     ;
     
   
-modifiers
-@init { const string elementName = "modifiers"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+modifiers  
     :
     (    annotation
     |   'public'
@@ -393,25 +363,19 @@ modifiers
     ;
 
 
-variableModifiers
-@init { const string elementName = "variableModifiers"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+variableModifiers 
     :   (   'final'
         |   annotation
         )*
     ;
     
 
-classDeclaration
-@init { const string elementName = "classDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+classDeclaration 
     :   normalClassDeclaration
     |   enumDeclaration
     ;
 
-normalClassDeclaration
-@init { const string elementName = "normalClassDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+normalClassDeclaration 
     :   modifiers  'class' IDENTIFIER
         (typeParameters
         )?
@@ -423,9 +387,7 @@ normalClassDeclaration
     ;
 
 
-typeParameters
-@init { const string elementName = "typeParameters"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeParameters 
     :   '<'
             typeParameter
             (',' typeParameter
@@ -433,27 +395,21 @@ typeParameters
         '>'
     ;
 
-typeParameter
-@init { const string elementName = "typeParameter"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeParameter 
     :   IDENTIFIER
         ('extends' typeBound
         )?
     ;
 
 
-typeBound
-@init { const string elementName = "typeBound"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeBound 
     :   type
         ('&' type
         )*
     ;
 
 
-enumDeclaration
-@init { const string elementName = "enumDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+enumDeclaration 
     :   modifiers 
         ('enum'
         ) 
@@ -464,9 +420,7 @@ enumDeclaration
     ;
     
 
-enumBody
-@init { const string elementName = "enumBody"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+enumBody 
     :   '{'
         (enumConstants
         )? 
@@ -476,9 +430,7 @@ enumBody
         '}'
     ;
 
-enumConstants
-@init { const string elementName = "enumConstants"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+enumConstants 
     :   enumConstant
         (',' enumConstant
         )*
@@ -488,9 +440,7 @@ enumConstants
  * NOTE: here differs from the javac grammar, missing TypeArguments.
  * EnumeratorDeclaration = AnnotationsOpt [TypeArguments] IDENTIFIER [ Arguments ] [ "{" ClassBody "}" ]
  */
-enumConstant
-@init { const string elementName = "enumConstant"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+enumConstant 
     :   (annotations
         )?
         IDENTIFIER
@@ -502,24 +452,18 @@ enumConstant
         an anonymous class, where constructor isn't allowed, have to add this check*/
     ;
 
-enumBodyDeclarations
-@init { const string elementName = "enumBodyDeclarations"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+enumBodyDeclarations 
     :   ';' 
         (classBodyDeclaration
         )*
     ;
 
-interfaceDeclaration
-@init { const string elementName = "interfaceDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+interfaceDeclaration 
     :   normalInterfaceDeclaration
     |   annotationTypeDeclaration
     ;
     
-normalInterfaceDeclaration
-@init { const string elementName = "normalInterfaceDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+normalInterfaceDeclaration 
     :   modifiers 'interface' IDENTIFIER
         (typeParameters
         )?
@@ -528,35 +472,27 @@ normalInterfaceDeclaration
         interfaceBody
     ;
 
-typeList
-@init { const string elementName = "typeList"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeList 
     :   type
         (',' type
         )*
     ;
 
-classBody
-@init { const string elementName = "classBody"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+classBody 
     :   '{' 
         (classBodyDeclaration
         )* 
         '}'
     ;
 
-interfaceBody
-@init { const string elementName = "interfaceBody"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+interfaceBody 
     :   '{' 
         (interfaceBodyDeclaration
         )* 
         '}'
     ;
 
-classBodyDeclaration
-@init { const string elementName = "classBodyDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+classBodyDeclaration 
     :   ';'
     |   ('static'
         )? 
@@ -564,9 +500,7 @@ classBodyDeclaration
     |   memberDecl
     ;
 
-memberDecl
-@init { const string elementName = "memberDecl"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+memberDecl 
     :    fieldDeclaration
     |    methodDeclaration
     |    classDeclaration
@@ -574,9 +508,7 @@ memberDecl
     ;
 
 
-methodDeclaration
-@init { const string elementName = "methodDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+methodDeclaration 
     :
         /* For constructor, return type is null, name is 'init' */
          modifiers
@@ -611,9 +543,7 @@ methodDeclaration
     ;
 
 
-fieldDeclaration
-@init { const string elementName = "fieldDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+fieldDeclaration 
     :   modifiers
         type
         variableDeclarator
@@ -622,9 +552,7 @@ fieldDeclaration
         ';'
     ;
 
-variableDeclarator
-@init { const string elementName = "variableDeclarator"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+variableDeclarator 
     :   IDENTIFIER
         ('[' ']'
         )*
@@ -635,9 +563,7 @@ variableDeclarator
 /**
  *TODO: add predicates
  */
-interfaceBodyDeclaration
-@init { const string elementName = "interfaceBodyDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+interfaceBodyDeclaration 
     :
         interfaceFieldDeclaration
     |   interfaceMethodDeclaration
@@ -646,9 +572,7 @@ interfaceBodyDeclaration
     |   ';'
     ;
 
-interfaceMethodDeclaration
-@init { const string elementName = "interfaceMethodDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+interfaceMethodDeclaration 
     :   modifiers
         (typeParameters
         )?
@@ -668,9 +592,7 @@ interfaceMethodDeclaration
  * an initializer, while an interface field does, or judge by the returned value.
  * But this gives better diagnostic message, or antlr won't predict this rule.
  */
-interfaceFieldDeclaration
-@init { const string elementName = "interfaceFieldDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+interfaceFieldDeclaration 
     :   modifiers type variableDeclarator
         (',' variableDeclarator
         )*
@@ -678,9 +600,7 @@ interfaceFieldDeclaration
     ;
 
 
-type
-@init { const string elementName = "type"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+type 
     :   classOrInterfaceType
         ('[' ']'
         )*
@@ -690,9 +610,7 @@ type
     ;
 
 
-classOrInterfaceType
-@init { const string elementName = "classOrInterfaceType"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+classOrInterfaceType 
     :   IDENTIFIER
         (typeArguments
         )?
@@ -702,9 +620,7 @@ classOrInterfaceType
         )*
     ;
 
-primitiveType
-@init { const string elementName = "primitiveType"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+primitiveType  
     :   'boolean'
     |   'char'
     |   'byte'
@@ -715,18 +631,14 @@ primitiveType
     |   'double'
     ;
 
-typeArguments
-@init { const string elementName = "typeArguments"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeArguments 
     :   '<' typeArgument
         (',' typeArgument
         )* 
         '>'
     ;
 
-typeArgument
-@init { const string elementName = "typeArgument"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeArgument 
     :   type
     |   '?'
         (
@@ -737,26 +649,20 @@ typeArgument
         )?
     ;
 
-qualifiedNameList
-@init { const string elementName = "qualifiedNameList"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+qualifiedNameList 
     :   qualifiedName
         (',' qualifiedName
         )*
     ;
 
-formalParameters
-@init { const string elementName = "formalParameters"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+formalParameters 
     :   '('
         (formalParameterDecls
         )? 
         ')'
     ;
 
-formalParameterDecls
-@init { const string elementName = "formalParameterDecls"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+formalParameterDecls 
     :   ellipsisParameterDecl
     |   normalParameterDecl
         (',' normalParameterDecl
@@ -767,26 +673,20 @@ formalParameterDecls
         ellipsisParameterDecl
     ;
 
-normalParameterDecl
-@init { const string elementName = "normalParameterDecl"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+normalParameterDecl 
     :   variableModifiers type IDENTIFIER
         ('[' ']'
         )*
     ;
 
-ellipsisParameterDecl
-@init { const string elementName = "ellipsisParameterDecl"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+ellipsisParameterDecl 
     :   variableModifiers
         type  '...'
         IDENTIFIER
     ;
 
 
-explicitConstructorInvocation
-@init { const string elementName = "explicitConstructorInvocation"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+explicitConstructorInvocation 
     :   (nonWildcardTypeArguments
         )?     //NOTE: the position of Identifier 'super' is set to the type args position here
         ('this'
@@ -802,17 +702,13 @@ explicitConstructorInvocation
         arguments ';'
     ;
 
-qualifiedName
-@init { const string elementName = "qualifiedName"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+qualifiedName 
     :   IDENTIFIER
         ('.' IDENTIFIER
         )*
     ;
 
-annotations
-@init { const string elementName = "annotations"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+annotations 
     :   (annotation
         )+
     ;
@@ -821,9 +717,7 @@ annotations
  *  Using an annotation. 
  * '@' is flaged in modifier
  */
-annotation
-@init { const string elementName = "annotation"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+annotation 
     :   '@' qualifiedName
         (   '('   
                   (   elementValuePairs
@@ -833,31 +727,23 @@ annotation
         )?
     ;
 
-elementValuePairs
-@init { const string elementName = "elementValuePairs"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+elementValuePairs 
     :   elementValuePair
         (',' elementValuePair
         )*
     ;
 
-elementValuePair
-@init { const string elementName = "elementValuePair"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+elementValuePair 
     :   IDENTIFIER '=' elementValue
     ;
 
-elementValue
-@init { const string elementName = "elementValue"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+elementValue 
     :   conditionalExpression
     |   annotation
     |   elementValueArrayInitializer
     ;
 
-elementValueArrayInitializer
-@init { const string elementName = "elementValueArrayInitializer"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+elementValueArrayInitializer 
     :   '{'
         (elementValue
             (',' elementValue
@@ -869,9 +755,7 @@ elementValueArrayInitializer
 /**
  * Annotation declaration.
  */
-annotationTypeDeclaration
-@init { const string elementName = "annotationTypeDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+annotationTypeDeclaration 
     :   modifiers '@'
         'interface'
         IDENTIFIER
@@ -879,9 +763,7 @@ annotationTypeDeclaration
     ;
 
 
-annotationTypeBody
-@init { const string elementName = "annotationTypeBody"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+annotationTypeBody 
     :   '{' 
         (annotationTypeElementDeclaration
         )* 
@@ -891,9 +773,7 @@ annotationTypeBody
 /**
  * NOTE: here use interfaceFieldDeclaration for field declared inside annotation. they are sytactically the same.
  */
-annotationTypeElementDeclaration
-@init { const string elementName = "annotationTypeElementDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+annotationTypeElementDeclaration 
     :   annotationMethodDeclaration
     |   interfaceFieldDeclaration
     |   normalClassDeclaration
@@ -903,18 +783,14 @@ annotationTypeElementDeclaration
     |   ';'
     ;
 
-annotationMethodDeclaration
-@init { const string elementName = "annotationMethodDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+annotationMethodDeclaration 
     :   modifiers type IDENTIFIER
         '(' ')' ('default' elementValue
                 )?
         ';'
         ;
 
-block
-@init { const string elementName = "block"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+block 
     :   '{'
         (blockStatement
         )*
@@ -945,34 +821,26 @@ staticBlock returns [JCBlock tree]
         )* '}'
     ;
 */
-blockStatement
-@init { const string elementName = "blockStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+blockStatement 
     :   localVariableDeclarationStatement
     |   classOrInterfaceDeclaration
     |   statement
     ;
 
 
-localVariableDeclarationStatement
-@init { const string elementName = "localVariableDeclarationStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+localVariableDeclarationStatement 
     :   localVariableDeclaration
         ';'
     ;
 
-localVariableDeclaration
-@init { const string elementName = "localVariableDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+localVariableDeclaration 
     :   variableModifiers type
         variableDeclarator
         (',' variableDeclarator
         )*
     ;
 
-statement
-@init { const string elementName = "statement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+statement 
     :   block
             
     |   ('assert'
@@ -1000,32 +868,24 @@ statement
 
     ;
 
-switchBlockStatementGroups
-@init { const string elementName = "switchBlockStatementGroups"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+switchBlockStatementGroups 
     :   (switchBlockStatementGroup )*
     ;
 
-switchBlockStatementGroup
-@init { const string elementName = "switchBlockStatementGroup"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+switchBlockStatementGroup 
     :
         switchLabel
         (blockStatement
         )*
     ;
 
-switchLabel
-@init { const string elementName = "switchLabel"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+switchLabel 
     :   'case' expression ':'
     |   'default' ':'
     ;
 
 
-trystatement
-@init { const string elementName = "trystatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+trystatement 
     :   'try' block
         (   catches 'finally' block
         |   catches
@@ -1033,32 +893,24 @@ trystatement
         )
      ;
 
-catches
-@init { const string elementName = "catches"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+catches 
     :   catchClause
         (catchClause
         )*
     ;
 
-catchClause
-@init { const string elementName = "catchClause"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+catchClause 
     :   'catch' '(' formalParameter
         ')' block 
     ;
 
-formalParameter
-@init { const string elementName = "formalParameter"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+formalParameter 
     :   variableModifiers type IDENTIFIER
         ('[' ']'
         )*
     ;
 
-forstatement
-@init { const string elementName = "forstatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+forstatement 
     :   
         // enhanced for loop
         'for' '(' variableModifiers type IDENTIFIER ':' 
@@ -1074,40 +926,30 @@ forstatement
                 )? ')' statement
     ;
 
-forInit
-@init { const string elementName = "forInit"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+forInit 
     :   localVariableDeclaration
     |   expressionList
     ;
 
-parExpression
-@init { const string elementName = "parExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+parExpression 
     :   '(' expression ')'
     ;
 
-expressionList
-@init { const string elementName = "expressionList"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+expressionList 
     :   expression
         (',' expression
         )*
     ;
 
 
-expression
-@init { const string elementName = "expression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+expression 
     :   conditionalExpression
         (assignmentOperator expression
         )?
     ;
 
 
-assignmentOperator
-@init { const string elementName = "assignmentOperator"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+assignmentOperator 
     :   '='
     |   '+='
     |   '-='
@@ -1123,57 +965,43 @@ assignmentOperator
     ;
 
 
-conditionalExpression
-@init { const string elementName = "conditionalExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+conditionalExpression 
     :   conditionalOrExpression
         ('?' expression ':' conditionalExpression
         )?
     ;
 
-conditionalOrExpression
-@init { const string elementName = "conditionalOrExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+conditionalOrExpression 
     :   conditionalAndExpression
         ('||' conditionalAndExpression
         )*
     ;
 
-conditionalAndExpression
-@init { const string elementName = "conditionalAndExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+conditionalAndExpression 
     :   inclusiveOrExpression
         ('&&' inclusiveOrExpression
         )*
     ;
 
-inclusiveOrExpression
-@init { const string elementName = "inclusiveOrExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+inclusiveOrExpression 
     :   exclusiveOrExpression
         ('|' exclusiveOrExpression
         )*
     ;
 
-exclusiveOrExpression
-@init { const string elementName = "exclusiveOrExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+exclusiveOrExpression 
     :   andExpression
         ('^' andExpression
         )*
     ;
 
-andExpression
-@init { const string elementName = "andExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+andExpression 
     :   equalityExpression
         ('&' equalityExpression
         )*
     ;
 
-equalityExpression
-@init { const string elementName = "equalityExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+equalityExpression 
     :   instanceOfExpression
         (   
             (   '=='
@@ -1183,52 +1011,40 @@ equalityExpression
         )*
     ;
 
-instanceOfExpression
-@init { const string elementName = "instanceOfExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+instanceOfExpression 
     :   relationalExpression
         ('instanceof' type
         )?
     ;
 
-relationalExpression
-@init { const string elementName = "relationalExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+relationalExpression 
     :   shiftExpression
         (relationalOp shiftExpression
         )*
     ;
 
-relationalOp
-@init { const string elementName = "relationalOp"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+relationalOp 
     :    '<' '='
     |    '>' '='
     |   '<'
     |   '>'
     ;
 
-shiftExpression
-@init { const string elementName = "shiftExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+shiftExpression 
     :   additiveExpression
         (shiftOp additiveExpression
         )*
     ;
 
 
-shiftOp
-@init { const string elementName = "shiftOp"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+shiftOp 
     :    '<' '<'
     |    '>' '>' '>'
     |    '>' '>'
     ;
 
 
-additiveExpression
-@init { const string elementName = "additiveExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+additiveExpression 
     :   multiplicativeExpression
         (   
             (   '+'
@@ -1238,9 +1054,7 @@ additiveExpression
          )*
     ;
 
-multiplicativeExpression
-@init { const string elementName = "multiplicativeExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+multiplicativeExpression 
     :
         unaryExpression
         (   
@@ -1256,9 +1070,7 @@ multiplicativeExpression
  * NOTE: for '+' and '-', if the next token is int or long interal, then it's not a unary expression.
  *       it's a literal with signed value. INTLTERAL AND LONG LITERAL are added here for this.
  */
-unaryExpression
-@init { const string elementName = "unaryExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+unaryExpression 
     :   '+'  unaryExpression
     |   '-' unaryExpression
     |   '++' unaryExpression
@@ -1266,9 +1078,7 @@ unaryExpression
     |   unaryExpressionNotPlusMinus
     ;
 
-unaryExpressionNotPlusMinus
-@init { const string elementName = "unaryExpressionNotPlusMinus"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+unaryExpressionNotPlusMinus 
     :   '~' unaryExpression
     |   '!' unaryExpression
     |   castExpression
@@ -1280,9 +1090,7 @@ unaryExpressionNotPlusMinus
         )?
     ;
 
-castExpression
-@init { const string elementName = "castExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+castExpression 
     :   '(' primitiveType ')' unaryExpression
     |   '(' type ')' unaryExpressionNotPlusMinus
     ;
@@ -1290,9 +1098,7 @@ castExpression
 /**
  * have to use scope here, parameter passing isn't well supported in antlr.
  */
-primary
-@init { const string elementName = "primary"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+primary 
     :   parExpression            
     |   'this'
         ('.' IDENTIFIER
@@ -1316,9 +1122,7 @@ primary
     ;
     
 
-superSuffix
-@init { const string elementName = "superSuffix"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+superSuffix  
     :   arguments
     |   '.' (typeArguments
         )?
@@ -1328,9 +1132,7 @@ superSuffix
     ;
 
 
-identifierSuffix
-@init { const string elementName = "identifierSuffix"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+identifierSuffix 
     :   ('[' ']'
         )+
         '.' 'class'
@@ -1345,9 +1147,7 @@ identifierSuffix
     ;
 
 
-selector
-@init { const string elementName = "selector"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+selector  
     :   '.' IDENTIFIER
         (arguments
         )?
@@ -1358,17 +1158,13 @@ selector
     |   '[' expression ']'
     ;
 
-creator
-@init { const string elementName = "creator"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+creator 
     :   'new' nonWildcardTypeArguments classOrInterfaceType classCreatorRest
     |   'new' classOrInterfaceType classCreatorRest
     |   arrayCreator
     ;
 
-arrayCreator
-@init { const string elementName = "arrayCreator"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+arrayCreator 
     :   'new' createdName
         '[' ']'
         ('[' ']'
@@ -1385,16 +1181,12 @@ arrayCreator
         )*
     ;
 
-variableInitializer
-@init { const string elementName = "variableInitializer"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+variableInitializer 
     :   arrayInitializer
     |   expression
     ;
 
-arrayInitializer
-@init { const string elementName = "arrayInitializer"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+arrayInitializer 
     :   '{' 
             (variableInitializer
                 (',' variableInitializer
@@ -1405,16 +1197,12 @@ arrayInitializer
     ;
 
 
-createdName
-@init { const string elementName = "createdName"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+createdName 
     :   classOrInterfaceType
     |   primitiveType
     ;
 
-innerCreator
-@init { const string elementName = "innerCreator"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+innerCreator  
     :   '.' 'new'
         (nonWildcardTypeArguments
         )?
@@ -1425,32 +1213,24 @@ innerCreator
     ;
 
 
-classCreatorRest
-@init { const string elementName = "classCreatorRest"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+classCreatorRest 
     :   arguments
         (classBody
         )?
     ;
 
 
-nonWildcardTypeArguments
-@init { const string elementName = "nonWildcardTypeArguments"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+nonWildcardTypeArguments 
     :   '<' typeList
         '>'
     ;
 
-arguments
-@init { const string elementName = "arguments"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+arguments 
     :   '(' (expressionList
         )? ')'
     ;
 
-literal
-@init { const string elementName = "literal"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+literal 
     :   INTLITERAL
     |   LONGLITERAL
     |   FLOATLITERAL
@@ -1466,51 +1246,35 @@ literal
  * These are headers help to make syntatical predicates, not necessary but helps to make grammar faster.
  */
  
-classHeader
-@init { const string elementName = "classHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+classHeader 
     :   modifiers 'class' IDENTIFIER
     ;
 
-enumHeader
-@init { const string elementName = "enumHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+enumHeader 
     :   modifiers ('enum'|IDENTIFIER) IDENTIFIER
     ;
 
-interfaceHeader
-@init { const string elementName = "interfaceHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+interfaceHeader 
     :   modifiers 'interface' IDENTIFIER
     ;
 
-annotationHeader
-@init { const string elementName = "annotationHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+annotationHeader 
     :   modifiers '@' 'interface' IDENTIFIER
     ;
 
-typeHeader
-@init { const string elementName = "typeHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+typeHeader 
     :   modifiers ('class'|'enum'|('@' ? 'interface')) IDENTIFIER
     ;
 
-methodHeader
-@init { const string elementName = "methodHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+methodHeader 
     :   modifiers typeParameters? (type|'void')? IDENTIFIER '('
     ;
 
-fieldHeader
-@init { const string elementName = "fieldHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+fieldHeader 
     :   modifiers type IDENTIFIER ('['']')* ('='|','|';')
     ;
 
-localVariableHeader
-@init { const string elementName = "localVariableHeader"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
+localVariableHeader 
     :   variableModifiers type IDENTIFIER ('['']')* ('='|','|';')
     ;
 
@@ -1638,13 +1402,13 @@ WS
         |    '\n'
         ) 
             {
-                Skip();
+                skip();
             }          
     ;
     
 COMMENT
          @init{
-            bool isJavaDoc = false;
+            boolean isJavaDoc = false;
         }
     :   '/*'
             {
@@ -1658,7 +1422,7 @@ COMMENT
                 if(isJavaDoc==true){
                     $channel=HIDDEN;
                 }else{
-                    Skip();
+                    skip();
                 }
             }
     ;
@@ -1666,11 +1430,11 @@ COMMENT
 LINE_COMMENT
     :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
             {
-                Skip();
+                skip();
             }
     |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
             {
-                Skip();
+                skip();
             }
     ;   
         

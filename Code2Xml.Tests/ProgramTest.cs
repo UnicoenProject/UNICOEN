@@ -24,13 +24,13 @@ namespace Code2Xml.Tests
         		{
         			get
         			{
-        				yield return new TestCaseData("c", "-C", CAstGeneratorOld.Instance).Returns(true);
-        				yield return new TestCaseData("cs", "-C#", CSharpAstGeneratorOld.Instance).Returns(true);
+        				yield return new TestCaseData("c", "-C", CAstGenerator.Instance).Returns(true);
+        				yield return new TestCaseData("cs", "-C#", CSharpAstGenerator.Instance).Returns(true);
         				yield return new TestCaseData("java", "-Java", JavaAstGenerator.Instance).Returns(true);
-        				yield return new TestCaseData("js", "-JavaScript", JavaScriptAstGeneratorOld.Instance).Returns(true);
+        				yield return new TestCaseData("js", "-JavaScript", JavaScriptAstGenerator.Instance).Returns(true);
         				yield return new TestCaseData("py", "-Python2", Python2AstGenerator.Instance).Returns(true);
         				yield return new TestCaseData("py", "-Python3", Python3AstGenerator.Instance).Returns(true);
-        				yield return new TestCaseData("lua", "-Lua", LuaAstGeneratorOld.Instance).Returns(true);
+        				yield return new TestCaseData("lua", "-Lua", LuaAstGenerator.Instance).Returns(true);
                         //yield return new TestCaseData("rb", "-Ruby", IronRubyAstGenerator.Instance).Returns(true);
         			}
         		}
@@ -61,7 +61,7 @@ namespace Code2Xml.Tests
             using (var reader = new StreamReader(fs, XEncoding.SJIS))
             {
                 var expected = filePaths
-                    .Select(filePath => CAstGeneratorOld.Instance.GenerateFromFile(filePath) + Environment.NewLine)
+                    .Select(filePath => CAstGenerator.Instance.GenerateFromFile(filePath) + Environment.NewLine)
                     .JoinString();
                 var actual = reader.ReadToEnd();
                 Assert.That(actual, Is.EqualTo(expected));
@@ -84,7 +84,7 @@ namespace Code2Xml.Tests
                 using (var reader = new StreamReader(fs, XEncoding.SJIS))
                 {
                     var actual = reader.ReadToEnd();
-                    var expected = CAstGeneratorOld.Instance.GenerateFromFile(filePath).ToString();
+                    var expected = CAstGenerator.Instance.GenerateFromFile(filePath).ToString();
                     Assert.That(actual.StartsWith(expected), Is.True);
                 }
                 File.Delete(newPath);
@@ -108,7 +108,7 @@ namespace Code2Xml.Tests
                 using (var reader = new StreamReader(fs, XEncoding.SJIS))
                 {
                     var actual = reader.ReadToEnd();
-                    var expected = CAstGeneratorOld.Instance.GenerateFromFile(filePath).ToString();
+                    var expected = CAstGenerator.Instance.GenerateFromFile(filePath).ToString();
                     Assert.That(actual.StartsWith(expected), Is.True);
                 }
             }
@@ -135,7 +135,7 @@ namespace Code2Xml.Tests
                 using (var reader = new StreamReader(fs, XEncoding.SJIS))
                 {
                     var actual = reader.ReadToEnd();
-                    var ast = CAstGeneratorOld.Instance.GenerateFromFile(filePath);
+                    var ast = CAstGenerator.Instance.GenerateFromFile(filePath);
                     var expected = CCodeGenerator.Instance.Generate(ast);
                     Assert.That(actual.StartsWith(expected), Is.True);
                 }

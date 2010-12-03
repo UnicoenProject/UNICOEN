@@ -13,68 +13,38 @@ options
 	language=CSharp2;
 }
 
-@header
-{
-	using System.Collections.Generic;
-	using System.Text;
-	using System.Xml.Linq;
-}
-
-@members
-{
-	private readonly IList<XElement> Elements = new List<XElement>();
-	public IList<XElement> ElementList { get { return Elements; } }
-	public string LeaveElementName { get; set; }
-}
-
 program
-@init { const string elementName = "program"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: LT!* sourceElements LT!* EOF!
 	;
 	
 sourceElements
-@init { const string elementName = "sourceElements"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: sourceElement (LT!* sourceElement)*
 	;
 	
 sourceElement
-@init { const string elementName = "sourceElement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: functionDeclaration
 	| statement
 	;
 	
 // functions
 functionDeclaration
-@init { const string elementName = "functionDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'function' LT!* Identifier LT!* formalParameterList LT!* functionBody
 	;
 	
 functionExpression
-@init { const string elementName = "functionExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'function' LT!* Identifier? LT!* formalParameterList LT!* functionBody
 	;
 	
 formalParameterList
-@init { const string elementName = "formalParameterList"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '(' (LT!* Identifier (LT!* ',' LT!* Identifier)*)? LT!* ')'
 	;
 
 functionBody
-@init { const string elementName = "functionBody"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '{' LT!* sourceElements LT!* '}'
 	;
 
 // statements
 statement
-@init { const string elementName = "statement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: statementBlock
 	| variableStatement
 	| emptyStatement
@@ -92,80 +62,54 @@ statement
 	;
 	
 statementBlock
-@init { const string elementName = "statementBlock"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '{' LT!* statementList? LT!* '}'
 	;
 	
 statementList
-@init { const string elementName = "statementList"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: statement (LT!* statement)*
 	;
 	
 variableStatement
-@init { const string elementName = "variableStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'var' LT!* variableDeclarationList (LT | ';')
 	;
 	
 variableDeclarationList
-@init { const string elementName = "variableDeclarationList"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: variableDeclaration (LT!* ',' LT!* variableDeclaration)*
 	;
 	
 variableDeclarationListNoIn
-@init { const string elementName = "variableDeclarationListNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: variableDeclarationNoIn (LT!* ',' LT!* variableDeclarationNoIn)*
 	;
 	
 variableDeclaration
-@init { const string elementName = "variableDeclaration"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: Identifier LT!* initialiser?
 	;
 	
 variableDeclarationNoIn
-@init { const string elementName = "variableDeclarationNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: Identifier LT!* initialiserNoIn?
 	;
 	
 initialiser
-@init { const string elementName = "initialiser"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '=' LT!* assignmentExpression
 	;
 	
 initialiserNoIn
-@init { const string elementName = "initialiserNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '=' LT!* assignmentExpressionNoIn
 	;
 	
 emptyStatement
-@init { const string elementName = "emptyStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: ';'
 	;
 	
 expressionStatement
-@init { const string elementName = "expressionStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: expression (LT | ';')
 	;
 	
 ifStatement
-@init { const string elementName = "ifStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
 	;
 	
 iterationStatement
-@init { const string elementName = "iterationStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: doWhileStatement
 	| whileStatement
 	| forStatement
@@ -173,343 +117,233 @@ iterationStatement
 	;
 	
 doWhileStatement
-@init { const string elementName = "doWhileStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';')
 	;
 	
 whileStatement
-@init { const string elementName = "whileStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'while' LT!* '(' LT!* expression LT!* ')' LT!* statement
 	;
 	
 forStatement
-@init { const string elementName = "forStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'for' LT!* '(' (LT!* forStatementInitialiserPart)? LT!* ';' (LT!* expression)? LT!* ';' (LT!* expression)? LT!* ')' LT!* statement
 	;
 	
 forStatementInitialiserPart
-@init { const string elementName = "forStatementInitialiserPart"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: expressionNoIn
 	| 'var' LT!* variableDeclarationListNoIn
 	;
 	
 forInStatement
-@init { const string elementName = "forInStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'for' LT!* '(' LT!* forInStatementInitialiserPart LT!* 'in' LT!* expression LT!* ')' LT!* statement
 	;
 	
 forInStatementInitialiserPart
-@init { const string elementName = "forInStatementInitialiserPart"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: leftHandSideExpression
 	| 'var' LT!* variableDeclarationNoIn
 	;
 
 continueStatement
-@init { const string elementName = "continueStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'continue' Identifier? (LT | ';')
 	;
 
 breakStatement
-@init { const string elementName = "breakStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'break' Identifier? (LT | ';')
 	;
 
 returnStatement
-@init { const string elementName = "returnStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'return' expression? (LT | ';')
 	;
 	
 withStatement
-@init { const string elementName = "withStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'with' LT!* '(' LT!* expression LT!* ')' LT!* statement
 	;
 
 labelledStatement
-@init { const string elementName = "labelledStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: Identifier LT!* ':' LT!* statement
 	;
 	
 switchStatement
-@init { const string elementName = "switchStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'switch' LT!* '(' LT!* expression LT!* ')' LT!* caseBlock
 	;
 	
 caseBlock
-@init { const string elementName = "caseBlock"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '{' (LT!* caseClause)* (LT!* defaultClause (LT!* caseClause)*)? LT!* '}'
 	;
 
 caseClause
-@init { const string elementName = "caseClause"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'case' LT!* expression LT!* ':' LT!* statementList?
 	;
 	
 defaultClause
-@init { const string elementName = "defaultClause"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'default' LT!* ':' LT!* statementList?
 	;
 	
 throwStatement
-@init { const string elementName = "throwStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'throw' expression (LT | ';')
 	;
 
 tryStatement
-@init { const string elementName = "tryStatement"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'try' LT!* statementBlock LT!* (finallyClause | catchClause (LT!* finallyClause)?)
 	;
        
 catchClause
-@init { const string elementName = "catchClause"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'catch' LT!* '(' LT!* Identifier LT!* ')' LT!* statementBlock
 	;
 	
 finallyClause
-@init { const string elementName = "finallyClause"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'finally' LT!* statementBlock
 	;
 
 // expressions
 expression
-@init { const string elementName = "expression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: assignmentExpression (LT!* ',' LT!* assignmentExpression)*
 	;
 	
 expressionNoIn
-@init { const string elementName = "expressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: assignmentExpressionNoIn (LT!* ',' LT!* assignmentExpressionNoIn)*
 	;
 	
 assignmentExpression
-@init { const string elementName = "assignmentExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: conditionalExpression
 	| leftHandSideExpression LT!* assignmentOperator LT!* assignmentExpression
 	;
 	
 assignmentExpressionNoIn
-@init { const string elementName = "assignmentExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: conditionalExpressionNoIn
 	| leftHandSideExpression LT!* assignmentOperator LT!* assignmentExpressionNoIn
 	;
 	
 leftHandSideExpression
-@init { const string elementName = "leftHandSideExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: callExpression
 	| newExpression
 	;
 	
 newExpression
-@init { const string elementName = "newExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: memberExpression
 	| 'new' LT!* newExpression
 	;
 	
 memberExpression
-@init { const string elementName = "memberExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: (primaryExpression | functionExpression | 'new' LT!* memberExpression LT!* arguments) (LT!* memberExpressionSuffix)*
 	;
 	
 memberExpressionSuffix
-@init { const string elementName = "memberExpressionSuffix"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: indexSuffix
 	| propertyReferenceSuffix
 	;
 
 callExpression
-@init { const string elementName = "callExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: memberExpression LT!* arguments (LT!* callExpressionSuffix)*
 	;
 	
 callExpressionSuffix
-@init { const string elementName = "callExpressionSuffix"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: arguments
 	| indexSuffix
 	| propertyReferenceSuffix
 	;
 
 arguments
-@init { const string elementName = "arguments"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* ')'
 	;
 	
 indexSuffix
-@init { const string elementName = "indexSuffix"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '[' LT!* expression LT!* ']'
 	;	
 	
 propertyReferenceSuffix
-@init { const string elementName = "propertyReferenceSuffix"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '.' LT!* Identifier
 	;
 	
 assignmentOperator
-@init { const string elementName = "assignmentOperator"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '=' | '*=' | '/=' | '%=' | '+=' | '-=' | '<<=' | '>>=' | '>>>=' | '&=' | '^=' | '|='
 	;
 
 conditionalExpression
-@init { const string elementName = "conditionalExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: logicalORExpression (LT!* '?' LT!* assignmentExpression LT!* ':' LT!* assignmentExpression)?
 	;
 
 conditionalExpressionNoIn
-@init { const string elementName = "conditionalExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: logicalORExpressionNoIn (LT!* '?' LT!* assignmentExpressionNoIn LT!* ':' LT!* assignmentExpressionNoIn)?
 	;
 
 logicalORExpression
-@init { const string elementName = "logicalORExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: logicalANDExpression (LT!* '||' LT!* logicalANDExpression)*
 	;
 	
 logicalORExpressionNoIn
-@init { const string elementName = "logicalORExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: logicalANDExpressionNoIn (LT!* '||' LT!* logicalANDExpressionNoIn)*
 	;
 	
 logicalANDExpression
-@init { const string elementName = "logicalANDExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: bitwiseORExpression (LT!* '&&' LT!* bitwiseORExpression)*
 	;
 	
 logicalANDExpressionNoIn
-@init { const string elementName = "logicalANDExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: bitwiseORExpressionNoIn (LT!* '&&' LT!* bitwiseORExpressionNoIn)*
 	;
 	
 bitwiseORExpression
-@init { const string elementName = "bitwiseORExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: bitwiseXORExpression (LT!* '|' LT!* bitwiseXORExpression)*
 	;
 	
 bitwiseORExpressionNoIn
-@init { const string elementName = "bitwiseORExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: bitwiseXORExpressionNoIn (LT!* '|' LT!* bitwiseXORExpressionNoIn)*
 	;
 	
 bitwiseXORExpression
-@init { const string elementName = "bitwiseXORExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: bitwiseANDExpression (LT!* '^' LT!* bitwiseANDExpression)*
 	;
 	
 bitwiseXORExpressionNoIn
-@init { const string elementName = "bitwiseXORExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: bitwiseANDExpressionNoIn (LT!* '^' LT!* bitwiseANDExpressionNoIn)*
 	;
 	
 bitwiseANDExpression
-@init { const string elementName = "bitwiseANDExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: equalityExpression (LT!* '&' LT!* equalityExpression)*
 	;
 	
 bitwiseANDExpressionNoIn
-@init { const string elementName = "bitwiseANDExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: equalityExpressionNoIn (LT!* '&' LT!* equalityExpressionNoIn)*
 	;
 	
 equalityExpression
-@init { const string elementName = "equalityExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: relationalExpression (LT!* ('==' | '!=' | '===' | '!==') LT!* relationalExpression)*
 	;
 
 equalityExpressionNoIn
-@init { const string elementName = "equalityExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: relationalExpressionNoIn (LT!* ('==' | '!=' | '===' | '!==') LT!* relationalExpressionNoIn)*
 	;
 	
 relationalExpression
-@init { const string elementName = "relationalExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: shiftExpression (LT!* ('<' | '>' | '<=' | '>=' | 'instanceof' | 'in') LT!* shiftExpression)*
 	;
 
 relationalExpressionNoIn
-@init { const string elementName = "relationalExpressionNoIn"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: shiftExpression (LT!* ('<' | '>' | '<=' | '>=' | 'instanceof') LT!* shiftExpression)*
 	;
 
 shiftExpression
-@init { const string elementName = "shiftExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: additiveExpression (LT!* ('<<' | '>>' | '>>>') LT!* additiveExpression)*
 	;
 
 additiveExpression
-@init { const string elementName = "additiveExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: multiplicativeExpression (LT!* ('+' | '-') LT!* multiplicativeExpression)*
 	;
 
 multiplicativeExpression
-@init { const string elementName = "multiplicativeExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: unaryExpression (LT!* ('*' | '/' | '%') LT!* unaryExpression)*
 	;
 
 unaryExpression
-@init { const string elementName = "unaryExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: postfixExpression
 	| ('delete' | 'void' | 'typeof' | '++' | '--' | '+' | '-' | '~' | '!') unaryExpression
 	;
 	
 postfixExpression
-@init { const string elementName = "postfixExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: leftHandSideExpression ('++' | '--')?
 	;
 
 primaryExpression
-@init { const string elementName = "primaryExpression"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'this'
 	| Identifier
 	| literal
@@ -520,27 +354,19 @@ primaryExpression
 	
 // arrayLiteral definition.
 arrayLiteral
-@init { const string elementName = "arrayLiteral"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* ']'
 	;
        
 // objectLiteral definition.
 objectLiteral
-@init { const string elementName = "objectLiteral"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: '{' LT!* propertyNameAndValue (LT!* ',' LT!* propertyNameAndValue)* LT!* '}'
 	;
 	
 propertyNameAndValue
-@init { const string elementName = "propertyNameAndValue"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: propertyName LT!* ':' LT!* assignmentExpression
 	;
 
 propertyName
-@init { const string elementName = "propertyName"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: Identifier
 	| StringLiteral
 	| NumericLiteral
@@ -548,8 +374,6 @@ propertyName
 
 // primitive literal definition.
 literal
-@init { const string elementName = "literal"; var elementsIndex = Elements.Count; Elements.Add(null); }
-@after { Elements[elementsIndex] = new XElement(elementName); Elements.Add(new XElement(LeaveElementName)); }
 	: 'null'
 	| 'true'
 	| 'false'

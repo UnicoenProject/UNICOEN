@@ -11,18 +11,17 @@ using Ucpf.Weavers;
 namespace Ucpf.Languages.CSharp
 {
 	[Export(typeof(AstGenerator))]
-	public class CSharpAstGeneratorOld : AntlrAstGeneratorOld<csParser>
+	public class CSharpAstGenerator : AntlrAstGenerator<csParser>
 	{
-		private static CSharpAstGeneratorOld _instance;
-		public static CSharpAstGeneratorOld Instance
+		private static CSharpAstGenerator _instance;
+		public static CSharpAstGenerator Instance
 		{
-			get { return _instance ?? (_instance = new CSharpAstGeneratorOld()); }
+			get { return _instance ?? (_instance = new CSharpAstGenerator()); }
 		}
 
-		private CSharpAstGeneratorOld() { }
+		private CSharpAstGenerator() { }
 
-		protected override Action<csParser> DefaultParseAction
-		{
+		protected override Func<csParser, XParserRuleReturnScope> DefaultParseFunc {
 			get { return parser => parser.compilation_unit(); }
 		}
 

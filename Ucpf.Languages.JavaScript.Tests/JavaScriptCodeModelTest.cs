@@ -11,7 +11,7 @@ namespace Ucpf.Languages.JavaScript.Tests
         [Test]
         public void FunctionDeclarationを生成する()
         {
-            var ast = JavaScriptAstGeneratorOld.Instance.GenerateFromFile("fibonacci.js");
+            var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
             var func = new JSFunctionDeclaration(root);
             Assert.That(func.Identifier, Is.EqualTo("fibonacci"));

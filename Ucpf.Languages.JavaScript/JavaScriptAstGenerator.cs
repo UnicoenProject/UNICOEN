@@ -11,18 +11,17 @@ using Ucpf.Weavers;
 namespace Ucpf.Languages.JavaScript
 {
 	[Export(typeof(AstGenerator))]
-	public class JavaScriptAstGeneratorOld : AntlrAstGeneratorOld<JavaScriptParser>
+	public class JavaScriptAstGenerator : AntlrAstGenerator<JavaScriptParser>
 	{
-		private static JavaScriptAstGeneratorOld _instance;
-		public static JavaScriptAstGeneratorOld Instance
+		private static JavaScriptAstGenerator _instance;
+		public static JavaScriptAstGenerator Instance
 		{
-			get { return _instance ?? (_instance = new JavaScriptAstGeneratorOld()); }
+			get { return _instance ?? (_instance = new JavaScriptAstGenerator()); }
 		}
 
-		private JavaScriptAstGeneratorOld() { }
+		private JavaScriptAstGenerator() { }
 
-		protected override Action<JavaScriptParser> DefaultParseAction
-		{
+		protected override Func<JavaScriptParser, XParserRuleReturnScope> DefaultParseFunc {
 			get { return parser => parser.program(); }
 		}
 

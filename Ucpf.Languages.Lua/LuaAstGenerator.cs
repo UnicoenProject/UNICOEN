@@ -8,18 +8,17 @@ using Ucpf.Languages.Common.Antlr;
 namespace Ucpf.Languages.Lua
 {
 	[Export(typeof(AstGenerator))]
-	public class LuaAstGeneratorOld : AntlrAstGeneratorOld<LuaParser>
+	public class LuaAstGenerator : AntlrAstGenerator<LuaParser>
 	{
-		private static LuaAstGeneratorOld _instance;
-		public static LuaAstGeneratorOld Instance
+		private static LuaAstGenerator _instance;
+		public static LuaAstGenerator Instance
 		{
-			get { return _instance ?? (_instance = new LuaAstGeneratorOld()); }
+			get { return _instance ?? (_instance = new LuaAstGenerator()); }
 		}
 
-		private LuaAstGeneratorOld() { }
+		private LuaAstGenerator() { }
 
-		protected override Action<LuaParser> DefaultParseAction
-		{
+		protected override Func<LuaParser, XParserRuleReturnScope> DefaultParseFunc {
 			get { return parser => parser.chunk(); }
 		}
 

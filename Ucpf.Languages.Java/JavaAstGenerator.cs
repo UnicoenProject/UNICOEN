@@ -50,9 +50,7 @@ namespace Ucpf.Languages.Java
 
 		protected override JavaParser CreateParser(ITokenStream tokenStream)
 		{
-			var ret = new JavaParser(tokenStream);
-			ret.LeaveElementName = "LEAVE";
-			return ret;
+			return new JavaParser(tokenStream);
 		}
 
 		private static IEnumerable<XElement> GetLackingBlockNodes(XElement root)

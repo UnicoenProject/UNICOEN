@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</ProjectGuid>
+    <ProjectGuid>{3DAA1220-DCE2-4AB9-ADE5-C716C9A1169C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ucpf.Languages.JavaScript</RootNamespace>
-    <AssemblyName>Ucpf.Languages.JavaScript</AssemblyName>
+    <RootNamespace>AntlrHelper.Tests</RootNamespace>
+    <AssemblyName>AntlrHelper.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,11 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,44 +44,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScriptAstGenerator.cs" />
-    <Compile Include="JSBinaryExpression.cs" />
-    <Compile Include="JSCallExpression.cs" />
-    <Compile Include="JSExpression.cs" />
-    <Compile Include="JSFunctionBody.cs" />
-    <Compile Include="JSFunctionDeclaration.cs" />
-    <Compile Include="JavaScriptCodeGenerator.cs" />
-    <Compile Include="JavaScriptElements.cs" />
-    <Compile Include="JavaScriptLexer.cs" />
-    <Compile Include="JavaScriptParser.cs" />
-    <Compile Include="JSIfStatement.cs" />
-    <Compile Include="JSIncreamentBeforeOperator.cs" />
-    <Compile Include="JSOperator.cs" />
-    <Compile Include="JSPlusOperator.cs" />
-    <Compile Include="JSPrimaryExpression.cs" />
-    <Compile Include="JSProgram.cs" />
-    <Compile Include="JSReturnStatement.cs" />
-    <Compile Include="JSStatement.cs" />
-    <Compile Include="JSUnaryExpression.cs" />
-    <Compile Include="JSVariable.cs" />
+    <Compile Include="LexerModifierTest.cs" />
+    <Compile Include="ParserModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="JavaScript.g" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf</Name>
+    <ProjectReference Include="..\AntlrHelper\AntlrHelper.csproj">
+      <Project>{DE900438-C110-4482-9F22-6CC0BC902B01}</Project>
+      <Name>AntlrHelper</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fibonacci.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fibonacci.xml">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

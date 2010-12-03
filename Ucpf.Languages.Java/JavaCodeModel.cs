@@ -22,7 +22,7 @@ namespace Ucpf.Languages.Java
         {
             get
             {
-                return _node.Element("Identifier").Value;
+                return _node.Element("IDENTIFIER").Value;
             }
         }
         public String ReturnType

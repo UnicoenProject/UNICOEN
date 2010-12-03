@@ -55,14 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Antlr2\NewANTLRv3Lexer.cs" />
-    <Compile Include="Antlr2\NewANTLRv3Parser.cs" />
-    <Compile Include="Antlr\AntlrParser.cs" />
-    <Compile Include="Antlr\ANTLRv3Lexer.cs" />
-    <Compile Include="Antlr\ANTLRv3Parser.cs" />
-    <Compile Include="Antlr\ANTLRv3Tree.cs" />
-    <Compile Include="Antlr\CommonTreeExtension.cs" />
-    <Compile Include="Antlr\AntlrAstGenerator.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,10 +77,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Antlr2\NewANTLRv3.g" />
-    <None Include="Antlr2\NewANTLRv3.tokens" />
-    <None Include="Antlr\ANTLRv3.g" />
-    <None Include="Antlr\ANTLRv3Tree.g" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

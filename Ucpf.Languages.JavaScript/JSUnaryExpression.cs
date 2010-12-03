@@ -11,27 +11,22 @@ namespace Ucpf.Languages.JavaScript {
     public class JsUnaryExpression : JSExpression
     {
         private XElement _expressionNode;
-        private XElement _operatorNode;
-        JSExpression expression
+        public JSExpression Expression
         {
             get
             {
                 return CreateExpression(_expressionNode);
             }
         }
-        JSOperator op
-        {
-            get
-            {
-                //How distinguish PRE or POST?
-                return new JSOperator(_operatorNode);
-            }
+        
+        public JSOperator Op {
+            private set; get;
         }
-        public JsUnaryExpression(XElement eNode, XElement opNode)
+        public JsUnaryExpression(XElement eNode, JSOperator op)
             : base(eNode)
         {
             _expressionNode = eNode;
-            _operatorNode = opNode;
+            this.Op = op;
         }
     }
 }

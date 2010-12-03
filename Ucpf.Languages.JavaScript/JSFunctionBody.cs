@@ -37,7 +37,7 @@ namespace Ucpf.Languages.JavaScript {
                     "sourceElement")
                     .SelectMany(e =>
                                 e.Elements("statement").Select(
-                                    e2 => JSStatement.createStatement(e2))
+                                    e2 => JSStatement.CreateStatement(e2))
                     );
             }
         }

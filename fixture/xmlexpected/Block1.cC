@@ -8,7 +8,7 @@
       </declaration_specifiers>
       <declarator>
         <direct_declarator>
-          <TOKEN startline="3" startpos="4">main</TOKEN>
+          <IDENTIFIER startline="3" startpos="4">main</IDENTIFIER>
           <declarator_suffix>
             <TOKEN startline="3" startpos="8">(</TOKEN>
             <TOKEN startline="3" startpos="9">)</TOKEN>
@@ -27,7 +27,7 @@
             <init_declarator>
               <declarator>
                 <direct_declarator>
-                  <TOKEN startline="4" startpos="5">i</TOKEN>
+                  <IDENTIFIER startline="4" startpos="5">i</IDENTIFIER>
                 </direct_declarator>
               </declarator>
               <TOKEN startline="4" startpos="7">=</TOKEN>
@@ -94,7 +94,7 @@
                                           <unary_expression>
                                             <postfix_expression>
                                               <primary_expression>
-                                                <TOKEN startline="6" startpos="5">i</TOKEN>
+                                                <IDENTIFIER startline="6" startpos="5">i</IDENTIFIER>
                                               </primary_expression>
                                             </postfix_expression>
                                           </unary_expression>
@@ -152,7 +152,7 @@
                                               <unary_expression>
                                                 <postfix_expression>
                                                   <primary_expression>
-                                                    <TOKEN startline="7" startpos="2">printf</TOKEN>
+                                                    <IDENTIFIER startline="7" startpos="2">printf</IDENTIFIER>
                                                   </primary_expression>
                                                   <TOKEN startline="7" startpos="8">(</TOKEN>
                                                   <argument_expression_list>
@@ -235,7 +235,7 @@
                                           <unary_expression>
                                             <postfix_expression>
                                               <primary_expression>
-                                                <TOKEN startline="9" startpos="5">i</TOKEN>
+                                                <IDENTIFIER startline="9" startpos="5">i</IDENTIFIER>
                                               </primary_expression>
                                             </postfix_expression>
                                           </unary_expression>
@@ -297,7 +297,7 @@
                                                                             <unary_expression>
                                                                               <postfix_expression>
                                                                                 <primary_expression>
-                                                                                  <TOKEN startline="9" startpos="16">i</TOKEN>
+                                                                                  <IDENTIFIER startline="9" startpos="16">i</IDENTIFIER>
                                                                                 </primary_expression>
                                                                               </postfix_expression>
                                                                             </unary_expression>
@@ -343,7 +343,7 @@
                                                                             <unary_expression>
                                                                               <postfix_expression>
                                                                                 <primary_expression>
-                                                                                  <TOKEN startline="9" startpos="26">i</TOKEN>
+                                                                                  <IDENTIFIER startline="9" startpos="26">i</IDENTIFIER>
                                                                                 </primary_expression>
                                                                               </postfix_expression>
                                                                             </unary_expression>
@@ -419,7 +419,7 @@
                                               <unary_expression>
                                                 <postfix_expression>
                                                   <primary_expression>
-                                                    <TOKEN startline="10" startpos="2">printf</TOKEN>
+                                                    <IDENTIFIER startline="10" startpos="2">printf</IDENTIFIER>
                                                   </primary_expression>
                                                   <TOKEN startline="10" startpos="8">(</TOKEN>
                                                   <argument_expression_list>
@@ -502,7 +502,7 @@
                                           <unary_expression>
                                             <postfix_expression>
                                               <primary_expression>
-                                                <TOKEN startline="12" startpos="8">i</TOKEN>
+                                                <IDENTIFIER startline="12" startpos="8">i</IDENTIFIER>
                                               </primary_expression>
                                             </postfix_expression>
                                           </unary_expression>
@@ -579,7 +579,7 @@
                                                   <unary_expression>
                                                     <postfix_expression>
                                                       <primary_expression>
-                                                        <TOKEN startline="14" startpos="2">printf</TOKEN>
+                                                        <IDENTIFIER startline="14" startpos="2">printf</IDENTIFIER>
                                                       </primary_expression>
                                                       <TOKEN startline="14" startpos="8">(</TOKEN>
                                                       <argument_expression_list>
@@ -664,7 +664,7 @@
                                           <unary_expression>
                                             <postfix_expression>
                                               <primary_expression>
-                                                <TOKEN startline="16" startpos="8">i</TOKEN>
+                                                <IDENTIFIER startline="16" startpos="8">i</IDENTIFIER>
                                               </primary_expression>
                                             </postfix_expression>
                                           </unary_expression>
@@ -722,7 +722,7 @@
                                               <unary_expression>
                                                 <postfix_expression>
                                                   <primary_expression>
-                                                    <TOKEN startline="17" startpos="2">printf</TOKEN>
+                                                    <IDENTIFIER startline="17" startpos="2">printf</IDENTIFIER>
                                                   </primary_expression>
                                                   <TOKEN startline="17" startpos="8">(</TOKEN>
                                                   <argument_expression_list>
@@ -806,7 +806,7 @@
                                               <unary_expression>
                                                 <postfix_expression>
                                                   <primary_expression>
-                                                    <TOKEN startline="20" startpos="2">printf</TOKEN>
+                                                    <IDENTIFIER startline="20" startpos="2">printf</IDENTIFIER>
                                                   </primary_expression>
                                                   <TOKEN startline="20" startpos="8">(</TOKEN>
                                                   <argument_expression_list>
@@ -885,7 +885,7 @@
                                           <unary_expression>
                                             <postfix_expression>
                                               <primary_expression>
-                                                <TOKEN startline="21" startpos="8">i</TOKEN>
+                                                <IDENTIFIER startline="21" startpos="8">i</IDENTIFIER>
                                               </primary_expression>
                                             </postfix_expression>
                                           </unary_expression>
@@ -938,7 +938,7 @@
                       <unary_expression>
                         <postfix_expression>
                           <primary_expression>
-                            <TOKEN startline="23" startpos="6">i</TOKEN>
+                            <IDENTIFIER startline="23" startpos="6">i</IDENTIFIER>
                           </primary_expression>
                         </postfix_expression>
                       </unary_expression>
@@ -1003,7 +1003,7 @@
                                             <unary_expression>
                                               <postfix_expression>
                                                 <primary_expression>
-                                                  <TOKEN startline="23" startpos="13">i</TOKEN>
+                                                  <IDENTIFIER startline="23" startpos="13">i</IDENTIFIER>
                                                 </primary_expression>
                                               </postfix_expression>
                                             </unary_expression>
@@ -1058,7 +1058,7 @@
                                           <unary_expression>
                                             <postfix_expression>
                                               <primary_expression>
-                                                <TOKEN startline="23" startpos="20">i</TOKEN>
+                                                <IDENTIFIER startline="23" startpos="20">i</IDENTIFIER>
                                               </primary_expression>
                                               <TOKEN startline="23" startpos="21">++</TOKEN>
                                             </postfix_expression>
@@ -1097,7 +1097,7 @@
                                               <unary_expression>
                                                 <postfix_expression>
                                                   <primary_expression>
-                                                    <TOKEN startline="24" startpos="2">printf</TOKEN>
+                                                    <IDENTIFIER startline="24" startpos="2">printf</IDENTIFIER>
                                                   </primary_expression>
                                                   <TOKEN startline="24" startpos="8">(</TOKEN>
                                                   <argument_expression_list>
