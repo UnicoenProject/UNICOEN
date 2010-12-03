@@ -30,7 +30,7 @@ namespace Ucpf.Languages.JavaScript {
                 return _node.Element("formalParameterList").Elements("Identifier").Select(e => new JSVariable(e));
             }
         }
-        public JSFunctionBody JsFunctionBody
+        public JSFunctionBody FunctionBody
         {
             get
             {

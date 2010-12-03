@@ -8,7 +8,7 @@ namespace Ucpf.Languages.JavaScript {
     // : 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
     public class JSIfStatement : JSStatement
     {
-        // Is it need that the declaration of field of "_node" when this class inherit the "Statement" class?
+        //TODO Is it need that the declaration of field of "_node" when this class inherit the "Statement" class?
         private XElement _node;
         public JSExpression ConditionalExpression
         {
@@ -21,7 +21,6 @@ namespace Ucpf.Languages.JavaScript {
         {
             get
             {
-                // want to get the first "statement" node only
                 return new JSStatement(_node.Element("statement"));
             }
         }
@@ -29,7 +28,6 @@ namespace Ucpf.Languages.JavaScript {
         {
             get
             {
-                // want to get all "statement" node except the first one
                 return _node.Elements("statement").Skip(1).Select(e => new JSStatement(e));
             }
         }

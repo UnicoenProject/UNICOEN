@@ -55,7 +55,7 @@
     <Compile Include="JavaScriptLexer.cs" />
     <Compile Include="JavaScriptParser.cs" />
     <Compile Include="JSIfStatement.cs" />
-    <Compile Include="JSIncreamentBeforeOperator.cs" />
+    <Compile Include="JSPrefixIncreamentOperator.cs" />
     <Compile Include="JSOperator.cs" />
     <Compile Include="JSPlusOperator.cs" />
     <Compile Include="JSPrimaryExpression.cs" />

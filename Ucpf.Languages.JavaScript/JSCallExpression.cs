@@ -2,16 +2,30 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace Ucpf.Languages.JavaScript {
-    public class JSCallExpression : JSExpression
-    {
-        private XElement _node;
-        String Identifier;
-        IEnumerable<JSExpression> Arguments;
-        public JSCallExpression(XElement xElement)
-            : base(xElement)
-        {
-            _node = xElement;
-        }
-    }
+namespace Ucpf.Languages.JavaScript
+{
+	//TODO implementation is not complete
+	public class JSCallExpression : JSExpression
+	{
+		private XElement _node;
+		public String Identifier
+		{
+			get
+			{
+				return null;
+			}
+		}
+		public IEnumerable<JSExpression> Arguments
+		{
+			get 
+			{
+				return null;
+			}
+		}
+		public JSCallExpression(XElement xElement)
+			: base(xElement)
+		{
+			_node = xElement;
+		}
+	}
 }

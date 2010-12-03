@@ -11,7 +11,7 @@ namespace Ucpf.Languages.JavaScript {
         {
             get
             {
-                // returnStatement may have no expression (It means "return;")
+                //TODO ReturnStatement may have no expression (It means "return;")
                 return JSExpression.CreateExpression(_node.Element("expression"));
             }
         }

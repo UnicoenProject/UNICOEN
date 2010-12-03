@@ -10,23 +10,23 @@ namespace Ucpf.Languages.JavaScript {
 	// : leftHandSideExpression ('++' | '--')?
     public class JsUnaryExpression : JSExpression
     {
-        private XElement _expressionNode;
+        private XElement _node;
         public JSExpression Expression
         {
             get
             {
-                return CreateExpression(_expressionNode);
+                return CreateExpression(_node);
             }
         }
         
         public JSOperator Op {
             private set; get;
         }
-        public JsUnaryExpression(XElement eNode, JSOperator op)
-            : base(eNode)
+        public JsUnaryExpression(XElement expressionNode, JSOperator operatorNode)
+            : base(expressionNode)
         {
-            _expressionNode = eNode;
-            this.Op = op;
+            _node = expressionNode;
+            Op = operatorNode;
         }
     }
 }

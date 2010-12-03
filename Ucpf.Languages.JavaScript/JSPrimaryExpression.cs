@@ -5,16 +5,16 @@ namespace Ucpf.Languages.JavaScript {
     public class JSPrimaryExpression : JSExpression
     {
         private XElement _node;
-        String Identifier
+        public String Identifier
         {
             get
             {
                 return _node.Value;
             }
         }
-        public JSPrimaryExpression(XElement value)
+        public JSPrimaryExpression(XElement xElement)
         {
-            _node = value;
+            _node = xElement;
         }
     }
 }
