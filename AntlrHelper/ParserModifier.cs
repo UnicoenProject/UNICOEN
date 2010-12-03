@@ -17,6 +17,8 @@ namespace AntlrHelper
 		private static readonly Regex MatchRegex = new Regex(@"Match\(input,([^\d][^,]*),[^)]*\)");
 
 		public static void Modify(string path) {
+			Contract.Requires(path != null);
+
 			string code;
 			using (var reader = new StreamReader(path, XEncoding.SJIS)) {
 				code = reader.ReadToEnd();
@@ -34,25 +36,34 @@ namespace AntlrHelper
 		}
 
 		public static string ModifyFromJavaToCSharp(string code) {
+			Contract.Requires(code != null);
+
 			return SystemOutRegex.Replace(code, "");
 		}
 
 		public static string ModifyCommonTreeAdaptorRegex(string code) {
+			Contract.Requires(code != null);
+
 			return code
 				.Replace("ITreeAdaptor", "XmlTreeAdaptor")
 				.Replace("CommonTreeAdaptor", "XmlTreeAdaptor");
 		}
 
 		public static string ModifyReturnScope(string code) {
+			Contract.Requires(code != null);
+
 			return code.Replace(": ParserRuleReturnScope", ": XParserRuleReturnScope");
 		}
 
 		public static string ModifyForNonTerminalNode(string code) {
+			Contract.Requires(code != null);
+
 			return NonTerminalRegex.Replace(code, @"adaptor.AddChild($1, $2.Tree, $2, retval)");
 		}
 
 		public static string ModifyForTerminalNode(string code) {
-			Contract.Requires<InvalidOperationException>(!new Regex(@"adaptor\.Create\(([^)]*),").IsMatch(code));
+			Contract.Requires(!new Regex(@"adaptor\.Create\(([^)]*),").IsMatch(code));
+
 			code = MatchRegex.Replace(code, "new XToken((IToken)$0, \"$1\")");
 			return TerminalRegex.Replace(code, @"adaptor.Create($1, retval)");
 		}

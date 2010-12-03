@@ -87,10 +87,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeModel\fibonacci.c">
+    <Content Include="fibonacci.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="CodeModel\fibonacci.xml">
+    <Content Include="fibonacci.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

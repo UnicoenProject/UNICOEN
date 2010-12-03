@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.Text;
 using System.Xml.Linq;
 
 namespace Ucpf.CodeGenerators {
+	[ContractClass(typeof(CodeGeneratorBaseContract))]
 	public abstract class CodeGeneratorBase : CodeGenerator {
 		private readonly StringBuilder _builder;
 		private int _depth;
@@ -23,6 +26,7 @@ namespace Ucpf.CodeGenerators {
 		}
 
 		protected void WriteWord(string str) {
+			Contract.Requires(str != null);
 			if (_indented) {
 				_builder.Append(' ');
 			} else {
@@ -32,6 +36,7 @@ namespace Ucpf.CodeGenerators {
 		}
 
 		protected void WriteWordWithoutWhiteSpace(string str) {
+			Contract.Requires(str != null);
 			if (!_indented) {
 				WriteIndent();
 			}
@@ -51,12 +56,14 @@ namespace Ucpf.CodeGenerators {
 		}
 
 		protected void WriteLine(string str) {
+			Contract.Requires(str != null);
 			WriteWord(str);
 			_builder.AppendLine();
 			_indented = false;
 		}
 
 		protected void WalkElement(XContainer element) {
+			Contract.Requires(element != null);
 			foreach (var e in element.Elements()) {
 				if (e.HasElements) {
 					WalkElement(e);
@@ -69,9 +76,19 @@ namespace Ucpf.CodeGenerators {
 		protected abstract bool TreatTerminalSymbol(XElement element);
 
 		public override string Generate(XElement root) {
+			Contract.Requires(root != null);
+			Contract.Ensures(Contract.Result<string>() != null);
 			Initialize();
 			WalkElement(root);
 			return _builder.ToString();
+		}
+	}
+
+	[ContractClassFor(typeof(CodeGeneratorBase))]
+	abstract class CodeGeneratorBaseContract : CodeGeneratorBase {
+		protected override bool TreatTerminalSymbol(XElement element) {
+			Contract.Requires(element != null);
+			throw new NotImplementedException();
 		}
 	}
 }

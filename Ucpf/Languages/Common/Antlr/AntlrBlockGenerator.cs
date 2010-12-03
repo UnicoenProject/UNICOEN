@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Linq;
 using Ucpf.CodeGenerators;
@@ -9,6 +10,11 @@ namespace Ucpf.Languages.Common.Antlr {
 		                                         AntlrAstGenerator<TParser> astGen,
 		                                         string leftToken = "{",
 		                                         string rightToken = "}") {
+			Contract.Requires(node != null);
+			Contract.Requires(astGen != null);
+			Contract.Requires(leftToken != null);
+			Contract.Requires(rightToken != null);
+			Contract.Ensures(Contract.Result<XElement>() != null);
 			return Generate(node, astGen, DefaultCodeGenerator.Instance, leftToken,
 				rightToken);
 		}
@@ -18,6 +24,12 @@ namespace Ucpf.Languages.Common.Antlr {
 		                                         CodeGenerator codeGen,
 		                                         string leftToken = "{",
 		                                         string rightToken = "}") {
+			Contract.Requires(node != null);
+			Contract.Requires(astGen != null);
+			Contract.Requires(codeGen != null);
+			Contract.Requires(leftToken != null);
+			Contract.Requires(rightToken != null);
+			Contract.Ensures(Contract.Result<XElement>() != null);
 			var code = codeGen.Generate(node);
 			if (code.StartsWith(leftToken)) {
 				return node;

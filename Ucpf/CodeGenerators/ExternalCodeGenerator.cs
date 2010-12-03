@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Xml.Linq;
 using Paraiba.Core;
 
@@ -9,7 +10,10 @@ namespace Ucpf.CodeGenerators {
 		protected abstract string[] Arguments { get; }
 
 		protected virtual string WorkingDirectory {
-			get { return ""; }
+			get {
+				Contract.Ensures(Contract.Result<string>() != null);
+				return "";
+			}
 		}
 
 		public override string Generate(XElement root) {
