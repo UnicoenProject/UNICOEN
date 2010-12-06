@@ -16,8 +16,10 @@ namespace Ucpf.Languages.C
 		public static CExpression CreateExpression(XElement node)
 		{
 			/*
-			* TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
-			*/
+			 * TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
+			 * 
+			 * Suspicious :: is swiching order correct ?
+			 * */
 
 
 			// fnode is the first node which has more than 2 children nodes
@@ -42,19 +44,20 @@ namespace Ucpf.Languages.C
 								|| e.Element("IDENTIFIER") != null));
 				}).First();
 			
-
-			// case : binary expression
-			if (fnode.Elements().Count() == 3)
+			// case : primary expression :: method_invocation or string
+			if (fnode.Name.LocalName == "primary_expression")
 			{
-				var ope = fnode.Elements().ElementAt(1);
-				if(binaryOperator.Contains(ope.Value))
-				{
-					return new CBinaryExpression(
-						fnode.Elements().ElementAt(0),
-						COperator.CreateOperator(ope),
-						fnode.Elements().ElementAt(2));
-				}
+				// primary :: numeric_constant or variable_name:string
+				return new CString(fnode);
 			}
+			
+			// case : numeric constant
+			else if (fnode.Name.LocalName == "constant")
+			{
+				return new CNumber(fnode);
+			}
+
+			
 
 			// case : unary expression
 			else if (fnode.Name.LocalName == "unary_expression")
@@ -75,6 +78,19 @@ namespace Ucpf.Languages.C
 				}
 			}
 
+			// case : binary expression
+			// else if (fnode.Elements().Count() == 3)
+			// {
+				var ope = fnode.Elements().ElementAt(1);
+				if (ope != null && binaryOperator.Contains(ope.Value))
+				{
+					return new CBinaryExpression(
+						fnode.Elements().ElementAt(0),
+						COperator.CreateOperator(ope),
+						fnode.Elements().ElementAt(2));
+				}
+			// }	
+				
 			// case : method_invocation
 			else if(fnode.Name.LocalName == "postfix_expression"){
 				var token = fnode.Element("TOKEN");
@@ -84,24 +100,11 @@ namespace Ucpf.Languages.C
 					return new CInvocationExpression(fnode);
 				}
 
+				// TODO :: array reference expression etc...
 				else
 				{
 					throw new NotImplementedException();
 				}
-			}
-
-			// case : primary expression :: method_invocation or string
-			else if (fnode.Name.LocalName == "primary_expression")
-			{
-				// primary :: numeric_constant or variable_name:string
-				// TODO :: distinguish above 2 types when the node names changed
-					return new CString(fnode);
-			}
-			
-			// case : numeric constant
-			else if (fnode.Name.LocalName == "constant")
-			{
-				return new CNumber(fnode);
 			}
 
 			throw new InvalidOperationException();

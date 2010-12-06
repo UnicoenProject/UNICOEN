@@ -9,13 +9,13 @@ namespace Ucpf.Languages.C
 {
 	public class CIfStatement : CStatement
 	{
-		private XElement _node;		// statemenet
+		private XElement _ifnode;		// statemenet
 
 		public CExpression ConditionalExpression
 		{
 			get
 			{
-				return CExpression.CreateExpression(_node.Descendants("expression").First());
+				return CExpression.CreateExpression(_ifnode.Descendants("expression").First());
 				// return _node.Descendants("expression").First().Value;
 			}
 		}
@@ -23,7 +23,7 @@ namespace Ucpf.Languages.C
 		{
 			get
 			{
-				var list = _node.Element("selection_statement")
+				var list = _ifnode.Element("selection_statement")
 					.Elements("statement")
 					.First()
 					.Element("compound_statement")
@@ -35,7 +35,7 @@ namespace Ucpf.Languages.C
 		{
 			get
 			{
-				var list = _node.Element("selection_statement")
+				var list = _ifnode.Element("selection_statement")
 					.Elements("statement")
 					.ElementAt(1)
 					.Element("compound_statement")
@@ -44,9 +44,8 @@ namespace Ucpf.Languages.C
 			}
 		}
 		// constructor
-		public CIfStatement(XElement node) : base(node, "if")
-		{
-			_node = node;
+		public CIfStatement(XElement node){
+			_ifnode = node;
 		}
 
 

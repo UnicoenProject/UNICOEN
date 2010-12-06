@@ -11,6 +11,10 @@ namespace Ucpf.Languages.C
 	// not needed??
 	public class CSelectionStatement : CStatement
 	{
-		public CSelectionStatement(XElement node) : base(node, "selection"){}
+		private XElement _node;
+		public CSelectionStatement(XElement node)
+		{
+			_node = node;
+		}
 	}
 }

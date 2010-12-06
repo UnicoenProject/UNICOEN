@@ -9,7 +9,6 @@ namespace Ucpf.Languages.C
 {
 	public class CJumpStatement : CStatement
 	{
-		public CJumpStatement(XElement node) : base(node, "jump") { }
-
+		public CJumpStatement(XElement node) : base(node) { }
 	}
 }

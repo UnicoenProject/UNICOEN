@@ -39,8 +39,8 @@ namespace Ucpf.Languages.C.Tests
 		{
 			CIfStatement ifStatement = (CIfStatement)func.Body.Statements.ElementAt(0);
 			CBinaryExpression conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
-			Assert.That(ifStatement.Type, Is.EqualTo("if"));
-			Assert.That(conditionalExpression.Type, Is.EqualTo("binary"));
+			Assert.That(ifStatement is CIfStatement);
+			Assert.That(conditionalExpression is CBinaryExpression);
 			CExpression leftExp = conditionalExpression.LeftExpression;
 			CExpression rightExp = conditionalExpression.RightExpression;
 			COperator ope = conditionalExpression.Operator;
@@ -59,7 +59,7 @@ namespace Ucpf.Languages.C.Tests
 				.TrueBlock
 				.Statements
 				.ElementAt(0);
-			Assert.That(firstStatement.Type, Is.EqualTo("jump"));		// assert type
+			Assert.That(firstStatement is CJumpStatement);		// assert type
 			Assert.That(firstStatement.Expressions.ElementAt(0).ToString(), Is.EqualTo("n"));		// assert body
 		}
 
@@ -75,6 +75,7 @@ namespace Ucpf.Languages.C.Tests
 			CExpression leftExpression = exp.LeftExpression;
 			CExpression rightExpression = exp.RightExpression;
 
+			// assert whether left / right expression are 'MethodInvocation'
 			Assert.That(leftExpression is CInvocationExpression);
 			Assert.That(rightExpression is CInvocationExpression);
 
@@ -93,6 +94,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(rightArg.LeftExpression.ToString(), Is.EqualTo("n"));
 			Assert.That(rightArg.Operator.ToString(), Is.EqualTo("-"));
 			Assert.That(rightArg.RightExpression.ToString(), Is.EqualTo("1"));
+			Assert.That(rightArg.RightExpression is CNumber);
 
 			Assert.That(exp.ToString(), Is.EqualTo("fibonacci(n-2)+fibonacci(n-1)"));
 

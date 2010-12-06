@@ -34,11 +34,12 @@ namespace Ucpf.Languages.C
 
 
 		// constructor
-		public CStatement(XElement node, string type = "")
+		public CStatement(XElement node)
 		{
 			_node = node;
-			Type = type;
 		}
+		// deligate procedure and root_node to subclasses
+		public CStatement() { }
 
 	}
 }

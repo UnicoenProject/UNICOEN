@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
+
 namespace Ucpf.Languages.C
 {
 	public class COperator
@@ -13,14 +14,31 @@ namespace Ucpf.Languages.C
 
 		public String Name { get; set; }
 
-		public string ToString()
+		public override string ToString()
 		{
 			return Name;
 		}
 
 		public static COperator CreateOperator(XElement node)
 		{
-			return new COperator(node.Value);
+			var ope = node.Value;
+			switch (ope)
+			{
+				// Arithmetic Operator :: +, -, *, /
+				// The names are correct ?
+				case "+":
+					return new CPlusOperator();
+				case "-":
+					return new CMinusOperator();
+				case "*":
+					return new CMultiOperator();
+				case "/":
+					return new CDivOperator();
+				case "%":
+					return new CModOperator();
+				default :
+					return new COperator(ope);
+			}
 		}
 		public static COperator CreateBeforeOperator(XElement node)
 		{

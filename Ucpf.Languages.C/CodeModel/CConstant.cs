@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C
 	{
 		public string Name { get; set; }
 
-		public string ToString()
+		public override string ToString()
 		{
 			return Name;
 		}

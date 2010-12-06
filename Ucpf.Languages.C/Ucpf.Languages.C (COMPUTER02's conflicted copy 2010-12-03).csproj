@@ -53,19 +53,11 @@
     <Compile Include="CodeModel\CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />
     <Compile Include="CodeModel\CConstant.cs" />
-    <Compile Include="CodeModel\Expression\PrimaryExpression\CNumber.cs" />
-    <Compile Include="CodeModel\Expression\PrimaryExpression\CPrimaryExpression.cs" />
-    <Compile Include="CodeModel\Expression\PrimaryExpression\CString.cs" />
     <Compile Include="CodeModel\Operator\CDecrementAfterOperator.cs" />
     <Compile Include="CodeModel\Operator\CDecrementBeforeOperator.cs" />
     <Compile Include="CElements.cs" />
     <Compile Include="CodeModel\Expression\CExpression.cs" />
     <Compile Include="CodeModel\CFunction.cs" />
-    <Compile Include="CodeModel\Operator\CDivOperator.cs" />
-    <Compile Include="CodeModel\Operator\CMinusOperator.cs" />
-    <Compile Include="CodeModel\Operator\CModOperator.cs" />
-    <Compile Include="CodeModel\Operator\CMultiOperator.cs" />
-    <Compile Include="CodeModel\Operator\CPlusOperator.cs" />
     <Compile Include="CodeModel\Statement\CIfStatement.cs" />
     <Compile Include="CodeModel\Operator\CIncrementAfterOperator.cs" />
     <Compile Include="CodeModel\Expression\CInvocationExpression.cs" />
@@ -76,9 +68,12 @@
     <Compile Include="CParser.cs" />
     <Compile Include="CodeModel\Expression\CUnaryExpression.cs" />
     <Compile Include="CodeModel\CProgram.cs" />
+    <Compile Include="CodeModel\Statement\CSelectionStatement.cs" />
     <Compile Include="CodeModel\Statement\CStatement.cs" />
     <Compile Include="CodeModel\CType.cs" />
+    <Compile Include="CodeModel\CValue.cs" />
     <Compile Include="CodeModel\CVariable.cs" />
+    <Compile Include="CodeModel\CVariableArgument.cs" />
     <Compile Include="CodeModel\Operator\CIncrementBeforOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -92,13 +87,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeModel\fibonacci.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="CodeModel\fibonacci.c">
+    <Content Include="fibonacci.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="CodeModel\fibonacci_.xml">
+    <Content Include="fibonacci.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
