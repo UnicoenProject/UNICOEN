@@ -7,37 +7,19 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CBlock
 	{
-		private XElement _node;		// statement_list
-		public IEnumerable<CStatement> Statements
-		{
-			get
-			{
-				return _node.Elements("statement")
-					.Select(e => CreateStatement(e));
-			}
+		public IList<CStatement> Statements { get; private set; }
+
+		// constructor for parsing AST
+		public CBlock(XElement node) {
+			Statements = node.Elements("statement")
+				.Select(CStatement.Create)
+				.ToList();
 		}
 
-		public static CStatement CreateStatement(XElement node){
-			// -- which is better ?
-			// var judge = node.Descendants("TOKEN").First().Value;
-			var judge = node.Descendants().First().Name.LocalName;
-			switch (judge)
-			{
-				case ("selection_statement"):
-					return new CIfStatement(node);
-				case ("jump_statement"):
-					return new CJumpStatement(node);
-				default:
-					return new CStatement(node);
-			}
+		// constructor for constructing programaticaly
+		public CBlock() {
+			Statements = new List<CStatement>();
 		}
-
-		// constructor
-		public CBlock(XElement node)
-		{
-			_node = node;
-		}
-
 	}
 }
 /*

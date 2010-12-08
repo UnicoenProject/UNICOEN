@@ -12,7 +12,7 @@ namespace Ucpf.Languages.C.CodeModel.Expressions
 		{
 			get
 			{
-				return CExpression.CreateExpression(_exp);
+				return CExpression.Create(_exp);
 			}
 		}
 
