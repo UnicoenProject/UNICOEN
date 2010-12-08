@@ -47,6 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CCodeModelTest.cs" />
+    <Compile Include="CCodeModelTest_Fact.cs" />
+    <Compile Include="CModelToTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

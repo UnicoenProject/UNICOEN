@@ -35,14 +35,16 @@ namespace Ucpf.Languages.C
 			foreach (CExpression ex in Arguments)
 			{
 				str += ex.ToString();
+				str += ",";
 			}
+			str = str.Substring(0, str.Length - 1);
 			str += ")";
 
 			return str;
 		}
 
 		// constructor
-		public CInvocationExpression(XElement node) : base(null, "invocation")
+		public CInvocationExpression(XElement node)
 		{
 			_node = node;
 		}

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CDecrementBeforeOperator : COperator
+	public class CLeftShiftOperator : CShiftOperator
 	{
-		public CDecrementBeforeOperator() : base("--") { }
+		public CLeftShiftOperator() : base("<<") { }
 	}
 }

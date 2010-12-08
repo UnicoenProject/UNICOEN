@@ -27,7 +27,6 @@ namespace Ucpf.Languages.C
 
 		// constructor
 		public CUnaryExpression(COperator ope, XElement exp)
-			: base(null, "unary")
 		{
 			_ope = ope;
 			_exp = exp;

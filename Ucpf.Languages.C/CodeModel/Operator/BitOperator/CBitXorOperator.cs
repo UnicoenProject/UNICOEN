@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CMultiOperator : COperator
+	public class CBitXorOperator : CBitOperator
 	{
-		public CMultiOperator() : base("*") { }
+		// constructor
+		public CBitXorOperator() : base("^") { }
 	}
 }

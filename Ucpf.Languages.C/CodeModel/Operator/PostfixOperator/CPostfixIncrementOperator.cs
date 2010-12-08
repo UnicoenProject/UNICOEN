@@ -5,14 +5,8 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CDecrementAfterOperator : COperator
+	public class CPostfixIncrementOperator : CPostfixOperator
 	{
-		public string Name
-		{
-			get
-			{
-				return "--";
-			}
-		}
+		public CPostfixIncrementOperator() : base("++") { }
 	}
 }

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CIncrementBeforOperator : COperator
+	public class CMinusOperator : CArithmeticOperator
 	{
-		public CIncrementBeforOperator() : base("++") { }
+		public CMinusOperator() : base("-") { }
 	}
 }

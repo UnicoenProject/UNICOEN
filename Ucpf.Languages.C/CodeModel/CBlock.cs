@@ -15,24 +15,11 @@ namespace Ucpf.Languages.C
 			get
 			{
 				return _node.Elements("statement")
-					.Select(e => CreateStatement(e));
+					.Select(e => CStatement.CreateStatement(e));
 			}
 		}
 
-		public static CStatement CreateStatement(XElement node){
-			// -- which is better ?
-			// var judge = node.Descendants("TOKEN").First().Value;
-			var judge = node.Descendants().First().Name.LocalName;
-			switch (judge)
-			{
-				case ("selection_statement"):
-					return new CIfStatement(node);
-				case ("jump_statement"):
-					return new CJumpStatement(node);
-				default:
-					return new CStatement(node);
-			}
-		}
+		
 
 		// constructor
 		public CBlock(XElement node)

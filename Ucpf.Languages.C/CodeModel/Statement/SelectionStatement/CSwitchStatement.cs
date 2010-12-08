@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CMinusOperator : COperator
+	public class CSwitchStatement : CSelectionStatement
 	{
-		public CMinusOperator() : base("-") { }
 	}
 }

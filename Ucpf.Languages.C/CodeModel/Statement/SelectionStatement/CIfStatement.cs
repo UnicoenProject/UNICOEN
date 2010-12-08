@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace Ucpf.Languages.C
 {
-	public class CIfStatement : CStatement
+	public class CIfStatement : CSelectionStatement
 	{
 		private XElement _ifnode;		// statemenet
 

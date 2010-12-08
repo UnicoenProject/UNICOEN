@@ -5,9 +5,8 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CPlusOperator : COperator
+	public class CDivOperator: CArithmeticOperator
 	{
-		// constructor
-		public CPlusOperator() : base("+") { }
+		public CDivOperator() : base("/") { }
 	}
 }

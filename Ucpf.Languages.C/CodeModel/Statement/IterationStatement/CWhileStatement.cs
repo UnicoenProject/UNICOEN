@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CModOperator : COperator
+	public class CWhileStatement : CIterationStatement
 	{
-		public CModOperator() : base("%") { }
 	}
 }

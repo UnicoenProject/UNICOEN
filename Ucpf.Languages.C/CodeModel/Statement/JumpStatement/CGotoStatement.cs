@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CIncrementAfterOperator : COperator
+	public class CGotoStatement : CJumpStatement
 	{
-		public CIncrementAfterOperator() : base("++") { }
 	}
 }

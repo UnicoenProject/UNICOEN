@@ -10,6 +10,15 @@ namespace Ucpf.Languages.C
 {
 	public class COperator
 	{
+		public static string[] arithmeticOperators		= { "+", "-", "*", "/", "%" };
+		public static string[] bitOperators				= { "&", "|", "^", "~" };
+		public static string[] shiftOperators			= { "<<",	">>" };
+		public static string[] comparisonOperators		= { "<=", "<", ">=", ">", "==", "!=" };
+		public static string[] logicalOperators			= { "&&", "||" };
+		public static string[] assignmentOperators		= { "=", "+=", "-=", "*=", "/=" }; // TODO :: research and implement
+
+		// private XElement ope;
+
 		// private XElement _node;
 
 		public String Name { get; set; }
@@ -21,68 +30,74 @@ namespace Ucpf.Languages.C
 
 		public static COperator CreateOperator(XElement node)
 		{
-			var ope = node.Value;
-			switch (ope)
+			// TODO :: Move and make Create***Operator method
+			var opeName = node.Value;
+			if (arithmeticOperators.Contains(opeName))
 			{
-				// Arithmetic Operator :: +, -, *, /
-				// The names are correct ?
-				case "+":
-					return new CPlusOperator();
-				case "-":
-					return new CMinusOperator();
-				case "*":
-					return new CMultiOperator();
-				case "/":
-					return new CDivOperator();
-				case "%":
-					return new CModOperator();
-				default :
-					return new COperator(ope);
+				return CArithmeticOperator.CreateArithmeticOperator(node);
 			}
+			else if (bitOperators.Contains(opeName))
+			{
+				return CBitOperator.CreateBitOperator(node);
+			}
+			else if (shiftOperators.Contains(opeName))
+			{
+				return CShiftOperator.CreateShiftOperator(node);
+			}
+			else if (comparisonOperators.Contains(opeName))
+			{
+				return CComparisonOperator.CreateComparisonOperator(node);
+			}
+			else if (logicalOperators.Contains(opeName))
+			{
+				return CLogicalOperator.CreateLogicalOperator(node);
+			}
+			else if (assignmentOperators.Contains(opeName))
+			{
+				return CAssignmentOperator.CreateAssignmentOperator(node);
+			}
+			// else return new COperator(opeName);			// TODO :: change to throwing "InvalidOperationException"
+			throw new InvalidOperationException();
 		}
-		public static COperator CreateBeforeOperator(XElement node)
+
+
+		public static COperator CreatePrefixOperator(XElement node)
 		{
+			// TODO :: move below switching to subclasses
 			switch (node.Value)
 			{
 				case "++":
-					return new CIncrementBeforOperator();
+					return new CPrefixIncrementOperator();
 				case "--":
-					return new CDecrementBeforeOperator();
+					return new CPrefixDecrementOperator();
 				default :
 					throw new InvalidOperationException();
 			}
-
-
 		}
-		public static COperator CreateAfterOperator(XElement node)
+
+		public static COperator CreatePostfixOperator(XElement node)
 		{
+			// TODO :: move below switching to subclasses
 			switch (node.Value)
 			{
 				case "++":
-					return new CIncrementAfterOperator();
+					return new CPostfixIncrementOperator();
 				case "--":
-					return new CDecrementAfterOperator();
+					return new CPostfixDecrementOperator();
 				default:
 					throw new InvalidOperationException();
 			}
 		}
 
 
-		// constructor
-		public COperator(string name)
+		// constructor :: calling from outer classes is prohibitted.
+		protected COperator(string name)
 		{
 			Name = name;
 		}
-		public COperator() { }
+		// TODO :: (maybe) delete below constructor
+		protected COperator() { }
+
 
 	}
 }
-
-/*
- * Binary Operator of C
- * arithmetic operator :: * / % + -
- * bit operator :: << >> & | ^ ~
- * substitution operator :: =,+=,-=,*=,/= 
- * comparison operator :: <=, <, >=, >, ==, != 
- * logical oeprator :: && ||
-*/

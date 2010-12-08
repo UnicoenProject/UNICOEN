@@ -7,8 +7,9 @@ using System.Xml.Linq;
 
 namespace Ucpf.Languages.C
 {
-	public class CJumpStatement : CStatement
+	public class CLogicalOrOperator : CLogicalOperator
 	{
-		public CJumpStatement(XElement node) : base(node) { }
+		// constructor
+		public CLogicalOrOperator() : base("||") { }
 	}
 }

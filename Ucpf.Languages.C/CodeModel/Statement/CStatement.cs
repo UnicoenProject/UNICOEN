@@ -32,6 +32,25 @@ namespace Ucpf.Languages.C
 			return str;
 		}
 
+		public static CStatement CreateStatement(XElement node)
+		{
+			// -- which is better ?
+			// var judge = node.Descendants("TOKEN").First().Value;
+			var judge = node.Descendants().First().Name.LocalName;
+			switch (judge)
+			{
+				case ("selection_statement"):
+					return CSelectionStatement.CreateSelectionStatement(node);
+				case ("jump_statement"):
+					return new CReturnStatement(node);
+				case ("iteration_statement") :
+					// return CIterationStatement.CreateStatement(node);
+					throw new NotImplementedException();
+				default:
+					return new CStatement(node);
+			}
+		}
+
 
 		// constructor
 		public CStatement(XElement node)

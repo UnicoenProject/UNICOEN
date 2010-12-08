@@ -44,7 +44,6 @@ namespace Ucpf.Languages.C
 
 		// constructor
 		public CBinaryExpression(XElement left, COperator ope, XElement right)
-			: base(null, "binary")
 		{
 			_left = left;
 			_ope = ope;

@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	class CProgram
+	public class CModOperator : CArithmeticOperator
 	{
+		public CModOperator() : base("%") { }
 	}
 }

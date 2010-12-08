@@ -11,7 +11,6 @@ namespace Ucpf.Languages.C
 	public class CExpression
 	{
 		private XElement _node;
-		public string Type { get; set; }
 
 		public static CExpression CreateExpression(XElement node)
 		{
@@ -67,13 +66,13 @@ namespace Ucpf.Languages.C
 				if (sw != null)		// ex : ++x
 				{
 					return new CUnaryExpression(
-						COperator.CreateBeforeOperator(fnode.Elements().ElementAt(0)),
+						COperator.CreatePrefixOperator(fnode.Elements().ElementAt(0)),
 						fnode.Elements().ElementAt(1));
 				}
 				else
 				{				// ex : y++
 					return new CUnaryExpression(
-						COperator.CreateAfterOperator(fnode.Elements().ElementAt(1)),
+						COperator.CreatePostfixOperator(fnode.Elements().ElementAt(1)),
 						fnode.Elements().ElementAt(0));
 				}
 			}
@@ -113,19 +112,13 @@ namespace Ucpf.Languages.C
 
 
 		// constructor
-		protected CExpression(XElement node, string type = "")
+		protected CExpression(XElement node)
 		{
 			_node = node;
-			Type = type;
 		}
 		protected CExpression()
 		{
 		}
 
-		public override string ToString()
-		{
-			// return _node.Value;
-			throw new NotImplementedException("CreateExpression :: ToString");
-		}
 	}
 }

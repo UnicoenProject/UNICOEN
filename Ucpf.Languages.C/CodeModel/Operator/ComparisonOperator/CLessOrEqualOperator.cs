@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Ucpf.Languages.C
 {
-	public class CDivOperator: COperator
+	public class CLessOrEqualOperator : CComparisonOperator
 	{
-		public CDivOperator() : base("/") { }
+		// constructor
+		public CLessOrEqualOperator() : base("<=") { }
 	}
 }
