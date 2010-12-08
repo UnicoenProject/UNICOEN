@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.Languages.JavaScript.CodeModel.Statements;
 
-namespace Ucpf.Languages.JavaScript {
+namespace Ucpf.Languages.JavaScript.CodeModel {
 
     // functionBody
     // : '{' LT!* sourceElements LT!* '}'

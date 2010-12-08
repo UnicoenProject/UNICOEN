@@ -5,45 +5,56 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Ucpf.Languages.C.CodeModel;
+using Ucpf.Languages.C.CodeModel.Expressions;
+using Ucpf.Languages.C.CodeModel.Expressions.PrimaryExpressions;
+using Ucpf.Languages.C.CodeModel.Statements;
 
 namespace Ucpf.Languages.C.Tests
 {
 	public class CCodeModelTest
 	{
-		// function definition : public-static fields
-		public static XElement ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
-		public static XElement root = ast.Descendants("function_definition").First();
-		CFunction func = new CFunction(root);
+		// function definition : private fields
+		private XElement _ast;
+		private XElement _root;
+		private CFunction _func;
+
+		[SetUp]
+		public void SetUp() {
+			_ast = CAstGenerator.Instance.GenerateFromFile("fibonacci.c");
+			_root = _ast.Descendants("function_definition").First();
+			_func = new CFunction(_root);
+		}
 		
 		[Test]
 		public void メソッド返却値タイプが正しい()
 		{
-			Assert.That(func.ReturnType.Name, Is.EqualTo("int"));
+			Assert.That(_func.ReturnType.Name, Is.EqualTo("int"));
 		}
+
 		[Test]
 		public void メソッド名が正しい()
 		{
-			Assert.That(func.Name, Is.EqualTo("fibonacci"));
+			Assert.That(_func.Name, Is.EqualTo("fibonacci"));
 		}
 
 		// test whether the first parameter equals to (int, "n")
 		[Test]
 		public void パラメータリストが正しい()
 		{
-			Assert.That(func.Parameters.ElementAt(0).Name, Is.EqualTo("n"));
-			Assert.That(func.Parameters.ElementAt(0).Type.Name, Is.EqualTo("int"));
+			Assert.That(_func.Parameters.ElementAt(0).Name, Is.EqualTo("n"));
+			Assert.That(_func.Parameters.ElementAt(0).Type.Name, Is.EqualTo("int"));
 		}
 
 		[Test]
-		public void IF文の条件式が正しい()
+		public void If文の条件式が正しい()
 		{
-			CIfStatement ifStatement = (CIfStatement)func.Body.Statements.ElementAt(0);
-			CBinaryExpression conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
-			Assert.That(ifStatement is CIfStatement);
-			Assert.That(conditionalExpression is CBinaryExpression);
-			CExpression leftExp = conditionalExpression.LeftExpression;
-			CExpression rightExp = conditionalExpression.RightExpression;
-			COperator ope = conditionalExpression.Operator;
+			// キャストに失敗すると例外が発生してテストも失敗
+			var ifStatement = (CIfStatement)_func.Body.Statements.ElementAt(0);
+			var conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
+			var leftExp = conditionalExpression.LeftExpression;
+			var rightExp = conditionalExpression.RightExpression;
+			var ope = conditionalExpression.Operator;
 			
 			Assert.That(ope.ToString(), Is.EqualTo("<"));
 			Assert.That(leftExp.ToString(), Is.EqualTo("n"));
@@ -55,7 +66,7 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void TrueBlockが正しく生成できる()
 		{
-			var firstStatement = ((CIfStatement)(func.Body.Statements.ElementAt(0)))
+			var firstStatement = ((CIfStatement)(_func.Body.Statements.ElementAt(0)))
 				.TrueBlock
 				.Statements
 				.ElementAt(0);
@@ -66,14 +77,14 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void ElseBlockが正しく生成できる()
 		{
-			var firstStatemenet = ((CIfStatement)(func.Body.Statements.ElementAt(0)))
+			var firstStatemenet = ((CIfStatement)(_func.Body.Statements.ElementAt(0)))
 				.ElseBlock
 				.Statements
 				.ElementAt(0);
-			CBinaryExpression exp = (CBinaryExpression)firstStatemenet.Expressions.ElementAt(0);
+			var exp = (CBinaryExpression)firstStatemenet.Expressions.ElementAt(0);
 			Assert.That(firstStatemenet is CJumpStatement);
-			CExpression leftExpression = exp.LeftExpression;
-			CExpression rightExpression = exp.RightExpression;
+			var leftExpression = exp.LeftExpression;
+			var rightExpression = exp.RightExpression;
 
 			// assert whether left / right expression are 'MethodInvocation'
 			Assert.That(leftExpression is CInvocationExpression);

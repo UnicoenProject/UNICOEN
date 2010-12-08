@@ -1,0 +1,11 @@
+﻿using Ucpf.CodeModel.Expressions;
+
+namespace Ucpf.CodeModel.Statements
+{
+	public interface IIfStatement : IStatement
+	{
+		IExpression Condition { get; set; }
+		IBlock TrueBlock { get; set; }
+		IBlock FalseBlock { get; set; }
+	}
+}

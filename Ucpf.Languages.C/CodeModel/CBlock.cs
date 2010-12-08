@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
+using Ucpf.Languages.C.CodeModel.Statements;
 
-namespace Ucpf.Languages.C
+namespace Ucpf.Languages.C.CodeModel
 {
 	public class CBlock
 	{

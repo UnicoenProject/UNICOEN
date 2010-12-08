@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Ucpf.Languages.C.CodeModel.Expressions;
 
-namespace Ucpf.Languages.C
+namespace Ucpf.Languages.C.CodeModel
 {
 	public class CConstant : CExpression
 	{

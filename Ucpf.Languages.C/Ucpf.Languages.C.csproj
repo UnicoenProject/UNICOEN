@@ -49,37 +49,37 @@
   <ItemGroup>
     <Compile Include="CodeModel\CArgument.cs" />
     <Compile Include="CAstGenerator.cs" />
-    <Compile Include="CodeModel\Expression\CBinaryExpression.cs" />
+    <Compile Include="CodeModel\Expressions\CBinaryExpression.cs" />
     <Compile Include="CodeModel\CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />
     <Compile Include="CodeModel\CConstant.cs" />
-    <Compile Include="CodeModel\Expression\PrimaryExpression\CNumber.cs" />
-    <Compile Include="CodeModel\Expression\PrimaryExpression\CPrimaryExpression.cs" />
-    <Compile Include="CodeModel\Expression\PrimaryExpression\CString.cs" />
-    <Compile Include="CodeModel\Operator\CDecrementAfterOperator.cs" />
-    <Compile Include="CodeModel\Operator\CDecrementBeforeOperator.cs" />
+    <Compile Include="CodeModel\Expressions\PrimaryExpressions\CNumber.cs" />
+    <Compile Include="CodeModel\Expressions\PrimaryExpressions\CPrimaryExpression.cs" />
+    <Compile Include="CodeModel\Expressions\PrimaryExpressions\CString.cs" />
+    <Compile Include="CodeModel\Operators\CDecrementAfterOperator.cs" />
+    <Compile Include="CodeModel\Operators\CDecrementBeforeOperator.cs" />
     <Compile Include="CElements.cs" />
-    <Compile Include="CodeModel\Expression\CExpression.cs" />
+    <Compile Include="CodeModel\Expressions\CExpression.cs" />
     <Compile Include="CodeModel\CFunction.cs" />
-    <Compile Include="CodeModel\Operator\CDivOperator.cs" />
-    <Compile Include="CodeModel\Operator\CMinusOperator.cs" />
-    <Compile Include="CodeModel\Operator\CModOperator.cs" />
-    <Compile Include="CodeModel\Operator\CMultiOperator.cs" />
-    <Compile Include="CodeModel\Operator\CPlusOperator.cs" />
-    <Compile Include="CodeModel\Statement\CIfStatement.cs" />
-    <Compile Include="CodeModel\Operator\CIncrementAfterOperator.cs" />
-    <Compile Include="CodeModel\Expression\CInvocationExpression.cs" />
-    <Compile Include="CodeModel\Statement\CJumpStatement.cs" />
+    <Compile Include="CodeModel\Operators\CDivOperator.cs" />
+    <Compile Include="CodeModel\Operators\CMinusOperator.cs" />
+    <Compile Include="CodeModel\Operators\CModOperator.cs" />
+    <Compile Include="CodeModel\Operators\CMultiOperator.cs" />
+    <Compile Include="CodeModel\Operators\CPlusOperator.cs" />
+    <Compile Include="CodeModel\Statements\CIfStatement.cs" />
+    <Compile Include="CodeModel\Operators\CIncrementAfterOperator.cs" />
+    <Compile Include="CodeModel\Expressions\CInvocationExpression.cs" />
+    <Compile Include="CodeModel\Statements\CJumpStatement.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CodeModel\CNumericArgument.cs" />
-    <Compile Include="CodeModel\Operator\COperator.cs" />
+    <Compile Include="CodeModel\Operators\COperator.cs" />
     <Compile Include="CParser.cs" />
-    <Compile Include="CodeModel\Expression\CUnaryExpression.cs" />
+    <Compile Include="CodeModel\Expressions\CUnaryExpression.cs" />
     <Compile Include="CodeModel\CProgram.cs" />
-    <Compile Include="CodeModel\Statement\CStatement.cs" />
+    <Compile Include="CodeModel\Statements\CStatement.cs" />
     <Compile Include="CodeModel\CType.cs" />
     <Compile Include="CodeModel\CVariable.cs" />
-    <Compile Include="CodeModel\Operator\CIncrementBeforOperator.cs" />
+    <Compile Include="CodeModel\Operators\CIncrementBeforOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,13 +92,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeModel\fibonacci.xml">
+    <Content Include="fibonacci.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="CodeModel\fibonacci.c">
+    <Content Include="fibonacci.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="CodeModel\fibonacci_.xml">
+    <Content Include="fibonacci_.xml">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

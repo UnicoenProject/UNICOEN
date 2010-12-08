@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Ucpf.Languages.JavaScript {
+namespace Ucpf.Languages.JavaScript.CodeModel {
 
     // functionDeclaration
     // : 'function' LT!* Identifier LT!* formalParameterList LT!* functionBody

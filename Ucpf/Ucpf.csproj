@@ -72,6 +72,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeModelToCode\ICodeModeToCode.cs" />
+    <Compile Include="CodeModel\ICodeElement.cs" />
+    <Compile Include="CodeModel\Statements\IReturn.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrAstGenerator.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrBlockGenerator.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrCodeGenerateHelper.cs" />
@@ -86,10 +89,25 @@
     <Compile Include="CodeGenerators\CodeGenerator.cs" />
     <Compile Include="ConfigReader.cs" />
     <Compile Include="Languages\Common\Antlr\XToken.cs" />
+    <Compile Include="CodeModel\Expressions\IBinaryExpression.cs" />
+    <Compile Include="CodeModel\Expressions\ICallExpression.cs" />
+    <Compile Include="CodeModel\Expressions\IExpression.cs" />
+    <Compile Include="CodeModel\Expressions\ITernaryExpression.cs" />
+    <Compile Include="CodeModel\Expressions\IUnaryExpression.cs" />
+    <Compile Include="CodeModel\IBlock.cs" />
+    <Compile Include="CodeModel\Operators\IAddOperator.cs" />
+    <Compile Include="CodeModel\Operators\IDivOperator.cs" />
+    <Compile Include="CodeModel\Operators\IMulOperator.cs" />
+    <Compile Include="CodeModel\Operators\IOperator.cs" />
+    <Compile Include="CodeModel\Operators\ISubOperator.cs" />
+    <Compile Include="CodeModel\Operators\ISubstitutionOperator.cs" />
+    <Compile Include="CodeModel\Statements\IIfStatement.cs" />
+    <Compile Include="CodeModel\Statements\IStatement.cs" />
     <Compile Include="Weavers\Weaver.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
