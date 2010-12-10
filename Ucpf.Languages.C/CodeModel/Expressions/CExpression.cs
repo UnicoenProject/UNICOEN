@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-
 namespace Ucpf.Languages.C.CodeModel
 {
 	public class CExpression
