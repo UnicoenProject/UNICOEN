@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Ucpf.Languages.C
+namespace Ucpf.Languages.C.CodeModel
 {
 	public class CStatement
 	{
@@ -17,7 +17,7 @@ namespace Ucpf.Languages.C
 			get
 			{
 				return _node.Descendants("expression")
-					.Select(e => CExpression.CreateExpression(e));
+					.Select(e => CExpression.Create(e));
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace Ucpf.Languages.C
 			return str;
 		}
 
-		public static CStatement CreateStatement(XElement node)
+		public static CStatement Create(XElement node)
 		{
 			// -- which is better ?
 			// var judge = node.Descendants("TOKEN").First().Value;
@@ -60,6 +60,9 @@ namespace Ucpf.Languages.C
 		// deligate procedure and root_node to subclasses
 		public CStatement() { }
 
+		public void Accept(CCodeModelToCode conv) {
+			conv.Generate(this);
+		}
 	}
 }
 

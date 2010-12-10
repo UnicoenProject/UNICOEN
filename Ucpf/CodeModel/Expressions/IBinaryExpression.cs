@@ -6,7 +6,7 @@ namespace Ucpf.CodeModel.Expressions
 	public interface IBinaryExpression
 	{
 		IOperator Operator { get; set; }
-		IExpression Lhs { get; set; }
-		IExpression Rhs { get; set; }
+		IExpression LeftHandSide { get; set; }
+		IExpression RightHandSide { get; set; }
 	}
 }

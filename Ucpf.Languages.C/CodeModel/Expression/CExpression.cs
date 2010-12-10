@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 
 
-namespace Ucpf.Languages.C
+namespace Ucpf.Languages.C.CodeModel
 {
 	public class CExpression
 	{
@@ -120,13 +120,12 @@ namespace Ucpf.Languages.C
 		{
 		}
 
-<<<<<<< HEAD:Ucpf.Languages.C/CodeModel/Expression/CExpression.cs
-=======
+
 		public override string ToString()
 		{
 			// return _node.Value;
 			throw new NotImplementedException("Create :: ToString");
 		}
->>>>>>> ddcfec659d8afa41895c869f0bb92008571f18db:Ucpf.Languages.C/CodeModel/Expressions/CExpression.cs
+
 	}
 }

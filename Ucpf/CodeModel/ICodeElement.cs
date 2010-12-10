@@ -7,6 +7,6 @@ using Ucpf.CodeModelToCode;
 namespace Ucpf.CodeModel
 {
 	public interface ICodeElement {
-		string Generate(ICodeModeToCode conv);
+		void Accept(ICodeModelToCode conv);
 	}
 }

@@ -45,29 +45,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScriptAstGenerator.cs" />
-    <Compile Include="CodeModel\JSBinaryExpression.cs" />
-    <Compile Include="CodeModel\JSCallExpression.cs" />
-    <Compile Include="CodeModel\JSExpression.cs" />
+    <Compile Include="CodeModel\Expressions\JSBinaryExpression.cs" />
+    <Compile Include="CodeModel\Expressions\JSCallExpression.cs" />
+    <Compile Include="CodeModel\Expressions\JSExpression.cs" />
     <Compile Include="CodeModel\JSFunctionBody.cs" />
     <Compile Include="CodeModel\JSFunctionDeclaration.cs" />
     <Compile Include="JavaScriptCodeGenerator.cs" />
     <Compile Include="JavaScriptElements.cs" />
     <Compile Include="JavaScriptLexer.cs" />
     <Compile Include="JavaScriptParser.cs" />
-    <Compile Include="CodeModel\JSIfStatement.cs" />
-    <Compile Include="CodeModel\JSPrefixIncreamentOperator.cs" />
-    <Compile Include="CodeModel\JSOperator.cs" />
-    <Compile Include="CodeModel\JSPlusOperator.cs" />
-    <Compile Include="CodeModel\JSPrimaryExpression.cs" />
+    <Compile Include="CodeModel\Statements\JSIfStatement.cs" />
+    <Compile Include="CodeModel\Operators\JSPrefixIncreamentOperator.cs" />
+    <Compile Include="CodeModel\Operators\JSOperator.cs" />
+    <Compile Include="CodeModel\Operators\JSPlusOperator.cs" />
+    <Compile Include="CodeModel\Expressions\JSPrimaryExpression.cs" />
     <Compile Include="CodeModel\JSProgram.cs" />
-    <Compile Include="CodeModel\JSReturnStatement.cs" />
-    <Compile Include="CodeModel\JSStatement.cs" />
-    <Compile Include="CodeModel\JSUnaryExpression.cs" />
+    <Compile Include="CodeModel\Statements\JSReturnStatement.cs" />
+    <Compile Include="CodeModel\Statements\JSStatement.cs" />
+    <Compile Include="CodeModel\Expressions\JSUnaryExpression.cs" />
     <Compile Include="CodeModel\JSVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="JavaScript.g" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ using Ucpf.CodeModel.Operators;
 
 namespace Ucpf.CodeModelToCode
 {
-	public interface ICodeModeToCode {
-		string GenerateBinaryExpression(IExpression lhs, IOperator op, IExpression rhs);
+	public interface ICodeModelToCode {
+		void GenerateBinaryExpression(IBinaryExpression bin);
 	}
 }

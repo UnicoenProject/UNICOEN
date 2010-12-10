@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Xml.Linq;
+using Ucpf.Languages.C.CodeModel;
 
 namespace Ucpf.Languages.C.Tests
 {

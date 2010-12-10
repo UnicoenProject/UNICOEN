@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace Ucpf.Languages.Java.Tests
 {
+	[TestFixture]
 	public class JavaAstGeneratorTest
 	{
 		[Test]

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Languages.C.CodeModel.Statements;
+using Ucpf.CodeModel;
+using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
@@ -19,6 +21,10 @@ namespace Ucpf.Languages.C.CodeModel
 		// constructor for constructing programmatically
 		public CBlock() {
 			Statements = new List<CStatement>();
+		}
+
+		public void Accept(CCodeModelToCode conv) {
+			conv.Generate(this);
 		}
 	}
 }

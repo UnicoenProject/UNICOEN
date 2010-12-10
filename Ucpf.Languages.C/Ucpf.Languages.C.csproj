@@ -12,6 +12,7 @@
     <AssemblyName>Ucpf.Languages.C</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,29 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,14 +72,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CAstGenerator.cs" />
-    <Compile Include="CModelToCode.cs" />
-    <Compile Include="CodeModel\Expression\CAssignmentExpression.cs" />
-    <Compile Include="CodeModel\Expression\CBinaryExpression.cs" />
+    <Compile Include="CodeModel\CCodeModelToCode.cs" />
+    <Compile Include="CodeModel\CModelToCode.cs" />
     <Compile Include="CodeModel\CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />
+    <Compile Include="CodeModel\Expression\CAssignmentExpression.cs" />
+    <Compile Include="CodeModel\Expression\CBinaryExpression.cs" />
+    <Compile Include="CodeModel\Expression\CExpression.cs" />
+    <Compile Include="CodeModel\Expression\CInvocationExpression.cs" />
+    <Compile Include="CodeModel\Expression\CUnaryExpression.cs" />
     <Compile Include="CodeModel\Expression\PrimaryExpression\CNumber.cs" />
     <Compile Include="CodeModel\Expression\PrimaryExpression\CPrimaryExpression.cs" />
     <Compile Include="CodeModel\Expression\PrimaryExpression\CString.cs" />
+    <Compile Include="CElements.cs" />
+    <Compile Include="CodeModel\CFunction.cs" />
+    <Compile Include="CodeModel\Operator\ArithmeticOperator\CArithmeticOperator.cs" />
+    <Compile Include="CodeModel\Operator\ArithmeticOperator\CDivOperator.cs" />
+    <Compile Include="CodeModel\Operator\ArithmeticOperator\CMinusOperator.cs" />
+    <Compile Include="CodeModel\Operator\ArithmeticOperator\CModOperator.cs" />
+    <Compile Include="CodeModel\Operator\ArithmeticOperator\CMultiOperator.cs" />
+    <Compile Include="CodeModel\Operator\ArithmeticOperator\CPlusOperator.cs" />
     <Compile Include="CodeModel\Operator\AssignmentOperator\CAssignmentOperator.cs" />
     <Compile Include="CodeModel\Operator\AssignmentOperator\CPrimaryAssignmentOperator.cs" />
     <Compile Include="CodeModel\Operator\BitOperator\CBitAndOperator.cs" />
@@ -70,52 +106,38 @@
     <Compile Include="CodeModel\Operator\ComparisonOperator\CLessOperator.cs" />
     <Compile Include="CodeModel\Operator\ComparisonOperator\CLessOrEqualOperator.cs" />
     <Compile Include="CodeModel\Operator\ComparisonOperator\CNotEqualOperator.cs" />
+    <Compile Include="CodeModel\Operator\COperator.cs" />
     <Compile Include="CodeModel\Operator\LogicalOperator\CLogicalAndOperator.cs" />
     <Compile Include="CodeModel\Operator\LogicalOperator\CLogicalOperator.cs" />
     <Compile Include="CodeModel\Operator\LogicalOperator\CLogicalOrOperator.cs" />
     <Compile Include="CodeModel\Operator\PostfixOperator\CPostfixDecrementOperator.cs" />
+    <Compile Include="CodeModel\Operator\PostfixOperator\CPostfixIncrementOperator.cs" />
     <Compile Include="CodeModel\Operator\PostfixOperator\CPostfixOperator.cs" />
     <Compile Include="CodeModel\Operator\PrefixOperator\CPrefixDecrementOperator.cs" />
-    <Compile Include="CElements.cs" />
-    <Compile Include="CodeModel\Expression\CExpression.cs" />
-    <Compile Include="CodeModel\CFunction.cs" />
-    <Compile Include="CodeModel\Operator\ArithmeticOperator\CDivOperator.cs" />
-    <Compile Include="CodeModel\Operator\ArithmeticOperator\CMinusOperator.cs" />
-    <Compile Include="CodeModel\Operator\ArithmeticOperator\CModOperator.cs" />
-    <Compile Include="CodeModel\Operator\ArithmeticOperator\CMultiOperator.cs" />
-    <Compile Include="CodeModel\Operator\ArithmeticOperator\CArithmeticOperator.cs" />
-    <Compile Include="CodeModel\Operator\ArithmeticOperator\CPlusOperator.cs" />
+    <Compile Include="CodeModel\Operator\PrefixOperator\CPrefixIncrementOperator.cs" />
     <Compile Include="CodeModel\Operator\PrefixOperator\CPrefixOperator.cs" />
     <Compile Include="CodeModel\Operator\ShiftOperator\CLeftShiftOperator.cs" />
     <Compile Include="CodeModel\Operator\ShiftOperator\CRightShiftOperator.cs" />
     <Compile Include="CodeModel\Operator\ShiftOperator\CShiftOperator.cs" />
+    <Compile Include="CLexer.cs" />
+    <Compile Include="CodeModel\Statement\CStatement.cs" />
     <Compile Include="CodeModel\Statement\IterationStatement\CForStatement.cs" />
+    <Compile Include="CodeModel\Statement\IterationStatement\CIterationStatement.cs" />
     <Compile Include="CodeModel\Statement\IterationStatement\CWhileStatement.cs" />
     <Compile Include="CodeModel\Statement\JumpStatement\CGotoStatement.cs" />
     <Compile Include="CodeModel\Statement\JumpStatement\CJumpStatement.cs" />
-    <Compile Include="CodeModel\Statement\SelectionStatement\CIfStatement.cs" />
-    <Compile Include="CodeModel\Operator\PostfixOperator\CPostfixIncrementOperator.cs" />
-    <Compile Include="CodeModel\Expression\CInvocationExpression.cs" />
-    <Compile Include="CodeModel\Statement\IterationStatement\CIterationStatement.cs" />
     <Compile Include="CodeModel\Statement\JumpStatement\CReturnStatement.cs" />
-    <Compile Include="CLexer.cs" />
-    <Compile Include="CodeModel\Operator\COperator.cs" />
+    <Compile Include="CodeModel\Statement\SelectionStatement\CIfStatement.cs" />
     <Compile Include="CodeModel\Statement\SelectionStatement\CSelectionStatement.cs" />
     <Compile Include="CodeModel\Statement\SelectionStatement\CSwitchStatement.cs" />
     <Compile Include="CParser.cs" />
-    <Compile Include="CodeModel\Expression\CUnaryExpression.cs" />
-    <Compile Include="CodeModel\Statement\CStatement.cs" />
+    <Compile Include="CodeModel\CProgram.cs" />
     <Compile Include="CodeModel\CType.cs" />
     <Compile Include="CodeModel\CVariable.cs" />
-    <Compile Include="CodeModel\Operator\PrefixOperator\CPrefixIncrementOperator.cs" />
-    <Compile Include="Memo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="C.g" />
-    <None Include="fact.c">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf\Ucpf.csproj">
@@ -124,12 +146,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fact.xml" />
+    <Content Include="fact.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fact.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fibonacci.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="fibonacci.c">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fibonacci_.xml">
       <SubType>Designer</SubType>

@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CCodeModelTest.cs" />
-    <Compile Include="CCodeModelTest_Fact.cs" />
+    <Compile Include="CCodeModelTestForFibonacci.cs" />
+    <Compile Include="CCodeModelTestForFact.cs" />
     <Compile Include="CModelToTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
