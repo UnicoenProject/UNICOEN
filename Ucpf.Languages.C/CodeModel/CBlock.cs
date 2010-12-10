@@ -16,7 +16,7 @@ namespace Ucpf.Languages.C.CodeModel
 				.ToList();
 		}
 
-		// constructor for constructing programaticaly
+		// constructor for constructing programmatically
 		public CBlock() {
 			Statements = new List<CStatement>();
 		}
