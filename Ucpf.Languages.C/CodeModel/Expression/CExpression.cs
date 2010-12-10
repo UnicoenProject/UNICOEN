@@ -12,7 +12,7 @@ namespace Ucpf.Languages.C
 	{
 		private XElement _node;
 
-		public static CExpression CreateExpression(XElement node)
+		public static CExpression Create(XElement node)
 		{
 			/*
 			 * TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
@@ -120,5 +120,13 @@ namespace Ucpf.Languages.C
 		{
 		}
 
+<<<<<<< HEAD:Ucpf.Languages.C/CodeModel/Expression/CExpression.cs
+=======
+		public override string ToString()
+		{
+			// return _node.Value;
+			throw new NotImplementedException("Create :: ToString");
+		}
+>>>>>>> ddcfec659d8afa41895c869f0bb92008571f18db:Ucpf.Languages.C/CodeModel/Expressions/CExpression.cs
 	}
 }

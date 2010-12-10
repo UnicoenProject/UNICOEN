@@ -15,7 +15,7 @@ namespace Ucpf.Languages.C
 		{
 			get
 			{
-				return CExpression.CreateExpression(_ifnode.Descendants("expression").First());
+				return CExpression.Create(_ifnode.Descendants("expression").First());
 				// return _node.Descendants("expression").First().Value;
 			}
 		}

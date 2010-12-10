@@ -17,14 +17,14 @@ namespace Ucpf.Languages.C
 		{
 			get
 			{
-				return CExpression.CreateExpression(_left);
+				return CExpression.Create(_left);
 			}
 		}
 		public CExpression RightExpression
 		{
 			get
 			{
-				return CExpression.CreateExpression(_right);
+				return CExpression.Create(_right);
 			}
 		}
 		public COperator Operator
