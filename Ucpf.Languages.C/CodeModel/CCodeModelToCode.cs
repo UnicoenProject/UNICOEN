@@ -44,25 +44,26 @@ namespace Ucpf.Languages.C.CodeModel {
 		// Block
 		public void Generate(CBlock block)
 		{
-			// start_paren
-			WriteLine();
 			_writer.Write(Tabs(_depth));
-			
 			_writer.Write("{");
 			WriteLine();
 			_depth++;
+
+			var line = "";
+			
 			foreach (var stmt in block.Statements)
 			{
+				_writer.Write(line);
 				_writer.Write(Tabs(_depth));
 				stmt.Accept(this);
-				WriteLine();
+				line = "\n";
 			}
 			 _depth--;
 
 			// end_paren
 			_writer.Write(Tabs(_depth));
 			_writer.Write("}");
-
+			WriteLine();
 		}
 
 		// Statement
@@ -81,19 +82,18 @@ namespace Ucpf.Languages.C.CodeModel {
 		// IfStatement
 		public void Generate(CIfStatement stmt)
 		{
-
 			// ConditionalExpression
 			_writer.Write("if (");
 			stmt.ConditionalExpression.Accept(this);
 			_writer.Write(")");
-
+			WriteLine();
+			
 			// TrueBlock
 			stmt.TrueBlock.Accept(this);
 
-			WriteLine();
-
 			// ElseBlock
 			_writer.Write("else");
+			WriteLine();
 			stmt.ElseBlock.Accept(this);
 		}
 
@@ -116,6 +116,7 @@ namespace Ucpf.Languages.C.CodeModel {
 		{
 			var comma = "";
 
+			// Signature
 			func.ReturnType.Accept(this);
 			WriteSpace();
 			_writer.Write(func.Name);
@@ -126,7 +127,9 @@ namespace Ucpf.Languages.C.CodeModel {
 				comma = ", ";
 			}
 			_writer.Write(")");
+			WriteLine();
 
+			// Body
 			func.Body.Accept(this);
 		}
 
@@ -144,6 +147,8 @@ namespace Ucpf.Languages.C.CodeModel {
 			_writer.Write(variable.Name);
 		}
 
+
+		#region Expression
 		// Expression
 		public void Generate(CExpression exp)
 		{
@@ -235,6 +240,8 @@ namespace Ucpf.Languages.C.CodeModel {
 		{
 			throw new NotImplementedException();
 		}
+
+		#endregion
 
 		// Operator
 		public void Generate(COperator ope)
