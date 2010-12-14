@@ -22,7 +22,7 @@ namespace Ucpf.Languages.C.Tests
 			_writer = new StringWriter();
 			_cmtc = new CCodeModelToCode(_writer, 0);
 			_func = new CFunction(
-						CAstGenerator.Instance.GenerateFromFile("fibonacci.c")
+						CAstGenerator.Instance.GenerateFromFile("fact.c")
 						.Descendants("function_definition")
 						.First());		
 		}
