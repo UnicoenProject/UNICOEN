@@ -9,25 +9,22 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CInvocationExpression : CExpression
 	{
-		private XElement _node;		// postfix_expression
+		// properties
+		public string FunctionName { get; private set; }
+		public List<CExpression> Arguments { get; private set; }
 
-		public string FunctionName
+		// constructor
+		public CInvocationExpression(XElement node)
 		{
-			get
-			{
-				return _node.Element("primary_expression").Element("IDENTIFIER").Value;
-			}
-		}
+			// FunctionName
+			FunctionName = node.Element("primary_expression").Element("IDENTIFIER").Value;
 
-		public IEnumerable<CExpression> Arguments
-		{
-			get
-			{
-				// suspicious...
-				return _node.Element("argument_expression_list").Elements()
-					.Select(e => Create(e));
-			}
+			// Arguments
+			Arguments = node.Element("argument_expression_list").Elements()
+					.Select(e => Create(e))
+					.ToList();
 		}
+		
 
 		public override string ToString()
 		{
@@ -43,11 +40,14 @@ namespace Ucpf.Languages.C.CodeModel
 			return str;
 		}
 
-		// constructor
-		public CInvocationExpression(XElement node)
+
+		// acceptor
+		public new void Accept(CCodeModelToCode conv)
 		{
-			_node = node;
+			conv.Generate(this);
 		}
+
+
 	}
 }
 

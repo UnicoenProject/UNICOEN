@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CLogicalOperator : COperator
 	{
-		public static CLogicalOperator CreateLogicalOperator(XElement opeNode)
+		public static new CLogicalOperator Create(XElement opeNode)
 		{
 			var sw = opeNode.Value;
 			switch (sw)

@@ -12,7 +12,7 @@ namespace Ucpf.Languages.C.CodeModel
 		// constructor
 		public CBitOperator(string name) : base(name) { }
 
-		public static CBitOperator CreateBitOperator(XElement opeNode)
+		public static new CBitOperator Create(XElement opeNode)
 		{
 			var sw = opeNode.Value;
 			switch (sw)

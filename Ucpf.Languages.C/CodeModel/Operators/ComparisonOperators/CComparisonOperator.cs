@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CComparisonOperator : COperator
 	{
-		public static CComparisonOperator CreateComparisonOperator(XElement opeNode)
+		public static new CComparisonOperator Create(XElement opeNode)
 		{
 			var sw = opeNode.Value;
 

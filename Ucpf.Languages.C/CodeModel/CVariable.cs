@@ -11,5 +11,12 @@
 			Name = name;
 			Type = type;
 		}
+
+		// acceptor
+		public void Accept(CCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
+
 	}
 }

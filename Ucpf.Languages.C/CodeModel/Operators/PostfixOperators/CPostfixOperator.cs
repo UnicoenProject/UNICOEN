@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CPostfixOperator : COperator
 	{
-		public static CPostfixOperator CreatePostfixOperator(XElement opeNode)
+		public static new CPostfixOperator Create(XElement opeNode)
 		{
 			var sw = opeNode.Value;
 			switch (sw)

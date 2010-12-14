@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CShiftOperator : COperator
 	{
-		public static CShiftOperator CreateShiftOperator(XElement opeNode)
+		public static new CShiftOperator Create(XElement opeNode)
 		{
 			var sw = opeNode.Value;
 			switch (sw)
