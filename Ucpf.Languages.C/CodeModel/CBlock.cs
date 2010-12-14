@@ -23,6 +23,7 @@ namespace Ucpf.Languages.C.CodeModel
 			Statements = new List<CStatement>();
 		}
 
+		// acceptor
 		public void Accept(CCodeModelToCode conv) {
 			conv.Generate(this);
 		}

@@ -11,7 +11,7 @@ namespace Ucpf.Languages.C.CodeModel
 	{
 		public CArithmeticOperator(string name) : base(name) { }
 
-		public static CArithmeticOperator CreateArithmeticOperator(XElement opeNode)
+		public static new CArithmeticOperator Create(XElement opeNode)
 		{
 			var sw = opeNode.Value;
 

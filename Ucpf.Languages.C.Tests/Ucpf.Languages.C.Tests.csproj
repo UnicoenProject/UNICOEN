@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="CCodeModelTestForFibonacci.cs" />
     <Compile Include="CCodeModelTestForFact.cs" />
-    <Compile Include="CModelToTest.cs" />
+    <Compile Include="CCodeModelToCodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

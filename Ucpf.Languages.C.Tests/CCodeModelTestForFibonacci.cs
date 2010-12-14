@@ -52,7 +52,6 @@ namespace Ucpf.Languages.C.Tests
 			CExpression leftExp = conditionalExpression.LeftExpression;
 			CExpression rightExp = conditionalExpression.RightExpression;
 			COperator ope = conditionalExpression.Operator;
-			
 			Assert.That(ope is CLessOperator);
 			Assert.That(leftExp.ToString(), Is.EqualTo("n"));
 			Assert.That(rightExp.ToString(), Is.EqualTo("2"));

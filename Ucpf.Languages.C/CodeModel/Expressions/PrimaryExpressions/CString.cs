@@ -9,25 +9,27 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CString : CPrimaryExpression
 	{
-		private XElement _node;
+		public override string Body { get; set; }
 
-		public string Body
+		// constructor
+		public CString(XElement node)
 		{
-			get
-			{
-				return _node.Element("IDENTIFIER").Value;
-			}
+			Body = node.Element("IDENTIFIER").Value;
 		}
 
+		// for temporary test
+		public CString(string s)
+		{
+			Body = s;
+		}
+
+		
+		
 		public override string ToString()
 		{
 			return Body;
 		}
 
-		// constructor
-		public CString(XElement node)
-		{
-			_node = node;
-		}
+
 	}
 }

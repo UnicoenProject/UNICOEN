@@ -9,45 +9,31 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CBinaryExpression : CExpression
 	{
-		private COperator _ope;
-		private XElement _left;
-		private XElement _right;
+		// properties
+		public CExpression LeftExpression { get; private set; }
+		public CExpression RightExpression { get; private set; }
+		public COperator Operator { get; private set; }
 
-		public CExpression LeftExpression
+
+		// constructor
+		public CBinaryExpression(XElement leftNode, COperator ope, XElement rightNode)
 		{
-			get
-			{
-				return CExpression.Create(_left);
-			}
-		}
-		public CExpression RightExpression
-		{
-			get
-			{
-				return CExpression.Create(_right);
-			}
-		}
-		public COperator Operator
-		{
-			get
-			{
-				return _ope;
-			}
+			LeftExpression = CExpression.Create(leftNode);
+			RightExpression = CExpression.Create(rightNode);
+			Operator = ope;
 		}
 
 
 		public override string ToString()
 		{
-			string res = LeftExpression.ToString() + _ope.ToString() + RightExpression.ToString();
+			string res = LeftExpression.ToString() + Operator.ToString() + RightExpression.ToString();
 			return res;
 		}
 
-		// constructor
-		public CBinaryExpression(XElement left, COperator ope, XElement right)
+		// acceptor
+		public new void Accept(CCodeModelToCode conv)
 		{
-			_left = left;
-			_ope = ope;
-			_right = right;
+			conv.Generate(this);
 		}
 	}
 }

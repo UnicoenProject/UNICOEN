@@ -9,17 +9,20 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CStatement
 	{
-		private XElement _node;		// statement
-		public string Type { get; set; }
+		// properties
+		public List<CExpression> Expressions { get; private set; }
 
-		public IEnumerable<CExpression> Expressions
+		// constructor for parsing AST
+		public CStatement(XElement node)
 		{
-			get
-			{
-				return _node.Descendants("expression")
-					.Select(e => CExpression.Create(e));
-			}
+			Expressions = node.Descendants("expression")
+				.Select(e => CExpression.Create(e))
+				.ToList();
 		}
+		// constructor for deligating to subclasses
+		public CStatement() { }
+
+		
 
 		public override string ToString()
 		{
@@ -52,14 +55,7 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 
-		// constructor
-		public CStatement(XElement node)
-		{
-			_node = node;
-		}
-		// deligate procedure and root_node to subclasses
-		public CStatement() { }
-
+		// acceptor
 		public void Accept(CCodeModelToCode conv) {
 			conv.Generate(this);
 		}

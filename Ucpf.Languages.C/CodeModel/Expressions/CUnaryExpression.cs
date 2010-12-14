@@ -9,27 +9,29 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CUnaryExpression : CExpression
 	{
-		private COperator _ope;
-		private XElement _exp;
+		// properties
+		public COperator Operator { get; private set; }
+		public CExpression Expression { get; private set; }
 
-		public CExpression Expression
+		// constructor
+		public CUnaryExpression(COperator ope, XElement expNode)
 		{
-			get
-			{
-				return CExpression.Create(_exp);
-			}
+			Operator = ope;
+			Expression = CExpression.Create(expNode);
 		}
+
+
 
 		public override string ToString()
 		{
-			return _ope.ToString() + Expression.ToString();
+			return Operator.ToString() + Expression.ToString();
 		}
 
-		// constructor
-		public CUnaryExpression(COperator ope, XElement exp)
+		// acceptor
+		public new void Accept(CCodeModelToCode conv)
 		{
-			_ope = ope;
-			_exp = exp;
+			conv.Generate(this);
 		}
+
 	}
 }

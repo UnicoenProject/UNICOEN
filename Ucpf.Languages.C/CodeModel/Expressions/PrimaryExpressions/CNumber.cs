@@ -9,13 +9,18 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CNumber : CPrimaryExpression
 	{
-		private XElement _node;
-		public string Body
+		public override string Body { get; set; }
+
+		// constructor
+		public CNumber(XElement node)
 		{
-			get
-			{
-				return _node.Value;
-			}
+			Body = node.Value; ;
+		}
+
+		// for temporary test
+		public CNumber(int n)
+		{
+			Body = n.ToString();
 		}
 
 		public override string ToString()
@@ -23,10 +28,6 @@ namespace Ucpf.Languages.C.CodeModel
 			return Body;
 		}
 
-		// constructor
-		public CNumber(XElement node)
-		{
-			_node = node;
-		}
+
 	}
 }

@@ -9,45 +9,34 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CIfStatement : CSelectionStatement
 	{
-		private XElement _ifnode;		// statemenet
+		// properties
+		public CExpression ConditionalExpression {get; private set;}
+		public CBlock TrueBlock{get; private set;}
+		public CBlock ElseBlock { get; private set; }
 
-		public CExpression ConditionalExpression
-		{
-			get
-			{
-				return CExpression.Create(_ifnode.Descendants("expression").First());
-				// return _node.Descendants("expression").First().Value;
-			}
-		}
-		public CBlock TrueBlock
-		{
-			get
-			{
-				var list = _ifnode.Element("selection_statement")
+		// constructor for parsing AST
+		public CIfStatement(XElement ifNode)
+		{	
+			// ConditionalExpression
+			ConditionalExpression = CExpression.Create(ifNode.Descendants("expression").First());
+			
+			// TrueBlock
+			var trueList = ifNode.Element("selection_statement")
 					.Elements("statement")
 					.First()
 					.Element("compound_statement")
 					.Element("statement_list");
-				return new CBlock(list);
-			}
-		}
-		public CBlock ElseBlock
-		{
-			get
-			{
-				var list = _ifnode.Element("selection_statement")
+			TrueBlock = new CBlock(trueList);
+
+			// ElseBlock
+			var elseList = ifNode.Element("selection_statement")
 					.Elements("statement")
 					.ElementAt(1)
 					.Element("compound_statement")
 					.Element("statement_list");
-				return new CBlock(list);
-			}
+			ElseBlock = new CBlock(elseList);
+			
 		}
-		// constructor
-		public CIfStatement(XElement node){
-			_ifnode = node;
-		}
-
-
+		
 	}
 }

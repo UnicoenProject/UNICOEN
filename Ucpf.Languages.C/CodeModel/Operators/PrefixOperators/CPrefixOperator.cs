@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CPrefixOperator : COperator
 	{
-		public static CPrefixOperator CreatePrefixOperator(XElement opeNode)
+		public static new CPrefixOperator Create(XElement opeNode)
 		{
 			var sw = opeNode.Value;
 			switch (sw)

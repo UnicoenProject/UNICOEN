@@ -9,7 +9,8 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CExpression
 	{
-		private XElement _node;
+		// constructor
+		protected CExpression() { }
 
 		public static CExpression Create(XElement node)
 		{
@@ -65,13 +66,13 @@ namespace Ucpf.Languages.C.CodeModel
 				if (sw != null)		// ex : ++x
 				{
 					return new CUnaryExpression(
-						COperator.CreatePrefixOperator(fnode.Elements().ElementAt(0)),
+						CPrefixOperator.Create(fnode.Elements().ElementAt(0)),
 						fnode.Elements().ElementAt(1));
 				}
 				else
 				{				// ex : y++
 					return new CUnaryExpression(
-						COperator.CreatePostfixOperator(fnode.Elements().ElementAt(1)),
+						CPostfixOperator.Create(fnode.Elements().ElementAt(1)),
 						fnode.Elements().ElementAt(0));
 				}
 			}
@@ -84,7 +85,7 @@ namespace Ucpf.Languages.C.CodeModel
 				{
 					return new CBinaryExpression(
 						fnode.Elements().ElementAt(0),
-						COperator.CreateOperator(ope),
+						COperator.Create(ope),
 						fnode.Elements().ElementAt(2));
 				}
 			// }	
@@ -109,21 +110,16 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 
-
-		// constructor
-		protected CExpression(XElement node)
-		{
-			_node = node;
-		}
-		protected CExpression()
-		{
-		}
-
-
 		public override string ToString()
 		{
 			// return _node.Value;
 			throw new NotImplementedException("Create :: ToString");
+		}
+
+		// acceptor
+		public void Accept(CCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 
 	}

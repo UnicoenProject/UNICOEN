@@ -9,5 +9,11 @@
 		{
 			Name = name;
 		}
+
+		// acceptor
+		public void Accept(CCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }

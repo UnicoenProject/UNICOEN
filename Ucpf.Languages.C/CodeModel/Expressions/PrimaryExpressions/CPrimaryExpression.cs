@@ -5,11 +5,19 @@ using System.Text;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CPrimaryExpression : CExpression
+	public abstract class CPrimaryExpression : CExpression
 	{
-		// constcuctor
+		// properties
+		public abstract string Body { get; set; }
+
 		public CPrimaryExpression()
 		{
+		}
+
+		// acceptor
+		public new void Accept(CCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 	}
 }

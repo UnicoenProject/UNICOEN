@@ -16,9 +16,16 @@ namespace Ucpf.Languages.C.CodeModel
 		public static string[] logicalOperators			= { "&&", "||" };
 		public static string[] assignmentOperators		= { "=", "+=", "-=", "*=", "/=" }; // TODO :: research and implement
 
-		// private XElement ope;
 
-		// private XElement _node;
+		// constructor :: calling from outer classes is prohibitted.
+		protected COperator(string name)
+		{
+			Name = name;
+		}
+		// TODO :: (maybe) delete below constructor
+		protected COperator() { }
+
+
 
 		public String Name { get; set; }
 
@@ -27,39 +34,45 @@ namespace Ucpf.Languages.C.CodeModel
 			return Name;
 		}
 
-		public static COperator CreateOperator(XElement node)
+		public static COperator Create(XElement node)
 		{
 			// TODO :: Move and make Create***Operator method
 			var opeName = node.Value;
 			if (arithmeticOperators.Contains(opeName))
 			{
-				return CArithmeticOperator.CreateArithmeticOperator(node);
+				return CArithmeticOperator.Create(node);
 			}
 			else if (bitOperators.Contains(opeName))
 			{
-				return CBitOperator.CreateBitOperator(node);
+				return CBitOperator.Create(node);
 			}
 			else if (shiftOperators.Contains(opeName))
 			{
-				return CShiftOperator.CreateShiftOperator(node);
+				return CShiftOperator.Create(node);
 			}
 			else if (comparisonOperators.Contains(opeName))
 			{
-				return CComparisonOperator.CreateComparisonOperator(node);
+				return CComparisonOperator.Create(node);
 			}
 			else if (logicalOperators.Contains(opeName))
 			{
-				return CLogicalOperator.CreateLogicalOperator(node);
+				return CLogicalOperator.Create(node);
 			}
 			else if (assignmentOperators.Contains(opeName))
 			{
 				return CAssignmentOperator.CreateAssignmentOperator(node);
 			}
-			// else return new COperator(opeName);			// TODO :: change to throwing "InvalidOperationException"
+			// else return new COperator(opeName);			// TODO :: delete this switching branch
 			throw new InvalidOperationException();
 		}
 
+		public void Accept(CCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 
+		// 2 methods below are maybe unnecessary. After confirming tests, delete these.
+		/*
 		public static COperator CreatePrefixOperator(XElement node)
 		{
 			// TODO :: move below switching to subclasses
@@ -87,15 +100,7 @@ namespace Ucpf.Languages.C.CodeModel
 					throw new InvalidOperationException();
 			}
 		}
-
-
-		// constructor :: calling from outer classes is prohibitted.
-		protected COperator(string name)
-		{
-			Name = name;
-		}
-		// TODO :: (maybe) delete below constructor
-		protected COperator() { }
+		*/
 
 
 	}

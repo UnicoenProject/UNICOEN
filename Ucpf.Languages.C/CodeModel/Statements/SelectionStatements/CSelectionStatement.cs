@@ -14,13 +14,14 @@ namespace Ucpf.Languages.C.CodeModel
 			// SelectionStatement is consisted of IfStatement and SwitchStatement
 			// node :: statement
 			var sw = node.Element("selection_statement").Elements("TOKEN").First().Value;
-			switch(sw){
-				case "if" :
+			switch (sw)
+			{
+				case "if":
 					return new CIfStatement(node);
-				case "switch" : 
+				case "switch":
 					throw new NotImplementedException();
-					// return new CSwitchStatement(node)
-				default :
+				// return new CSwitchStatement(node)
+				default:
 					throw new InvalidOperationException();
 			}
 		}
