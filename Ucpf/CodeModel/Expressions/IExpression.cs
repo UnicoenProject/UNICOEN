@@ -1,4 +1,4 @@
-﻿namespace Ucpf.CodeModel.Expressions
+﻿namespace Ucpf.CodeModel
 {
 	public interface IExpression : ICodeElement
 	{

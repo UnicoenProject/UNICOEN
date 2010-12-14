@@ -1,10 +1,8 @@
-﻿using Ucpf.CodeModel.Operators;
-
-namespace Ucpf.CodeModel.Expressions
+﻿namespace Ucpf.CodeModel
 {
 	public interface IUnaryExpression
 	{
-		IOperator Operator { get; set; }
+		IUnaryOperator Operator { get; set; }
 		IExpression Term { get; set; }
 	}
 }

@@ -1,6 +1,4 @@
-﻿using Ucpf.CodeModel.Expressions;
-
-namespace Ucpf.CodeModel.Statements
+﻿namespace Ucpf.CodeModel
 {
 	public interface IIfStatement : IStatement
 	{

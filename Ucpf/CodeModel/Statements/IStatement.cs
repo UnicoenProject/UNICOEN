@@ -1,4 +1,4 @@
-﻿namespace Ucpf.CodeModel.Statements
+﻿namespace Ucpf.CodeModel
 {
 	public interface IStatement : ICodeElement
 	{

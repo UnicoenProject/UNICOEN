@@ -74,6 +74,9 @@
   <ItemGroup>
     <Compile Include="CodeModelToCode\ICodeModelToCode.cs" />
     <Compile Include="CodeModel\ICodeElement.cs" />
+    <Compile Include="CodeModel\Operators\BinaryOperatorType.cs" />
+    <Compile Include="CodeModel\Operators\IUnaryOperator.cs" />
+    <Compile Include="CodeModel\Operators\UnaryOperatorType.cs" />
     <Compile Include="CodeModel\Statements\IReturn.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrAstGenerator.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrBlockGenerator.cs" />
@@ -95,12 +98,7 @@
     <Compile Include="CodeModel\Expressions\ITernaryExpression.cs" />
     <Compile Include="CodeModel\Expressions\IUnaryExpression.cs" />
     <Compile Include="CodeModel\IBlock.cs" />
-    <Compile Include="CodeModel\Operators\IAddOperator.cs" />
-    <Compile Include="CodeModel\Operators\IDivOperator.cs" />
-    <Compile Include="CodeModel\Operators\IMulOperator.cs" />
-    <Compile Include="CodeModel\Operators\IOperator.cs" />
-    <Compile Include="CodeModel\Operators\ISubOperator.cs" />
-    <Compile Include="CodeModel\Operators\ISubstitutionOperator.cs" />
+    <Compile Include="CodeModel\Operators\IBinaryOperator.cs" />
     <Compile Include="CodeModel\Statements\IIfStatement.cs" />
     <Compile Include="CodeModel\Statements\IStatement.cs" />
     <Compile Include="Weavers\Weaver.cs" />

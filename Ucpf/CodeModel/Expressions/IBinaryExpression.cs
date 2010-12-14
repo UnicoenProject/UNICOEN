@@ -1,11 +1,10 @@
-﻿using Ucpf.CodeModel.Operators;
-using Ucpf.CodeModelToCode;
+﻿using Ucpf.CodeModelToCode;
 
-namespace Ucpf.CodeModel.Expressions
+namespace Ucpf.CodeModel
 {
 	public interface IBinaryExpression
 	{
-		IOperator Operator { get; set; }
+		IBinaryOperator Operator { get; set; }
 		IExpression LeftHandSide { get; set; }
 		IExpression RightHandSide { get; set; }
 	}

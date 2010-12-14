@@ -99,6 +99,7 @@
     <Compile Include="CodeModel\Operators\BitOperators\CBitOrOperator.cs" />
     <Compile Include="CodeModel\Operators\BitOperators\CBitReverseOperator.cs" />
     <Compile Include="CodeModel\Operators\BitOperators\CBitXorOperator.cs" />
+    <Compile Include="CodeModel\Operators\CBinaryOperator.cs" />
     <Compile Include="CodeModel\Operators\ComparisonOperators\CComparisonOperator.cs" />
     <Compile Include="CodeModel\Operators\ComparisonOperators\CEqualOperator.cs" />
     <Compile Include="CodeModel\Operators\ComparisonOperators\CGreaterOperator.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="CodeModel\Operators\ComparisonOperators\CLessOrEqualOperator.cs" />
     <Compile Include="CodeModel\Operators\ComparisonOperators\CNotEqualOperator.cs" />
     <Compile Include="CodeModel\Operators\COperator.cs" />
+    <Compile Include="CodeModel\Operators\CUnaryOperator.cs" />
     <Compile Include="CodeModel\Operators\LogicalOperators\CLogicalAndOperator.cs" />
     <Compile Include="CodeModel\Operators\LogicalOperators\CLogicalOperator.cs" />
     <Compile Include="CodeModel\Operators\LogicalOperators\CLogicalOrOperator.cs" />
