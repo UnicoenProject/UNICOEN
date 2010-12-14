@@ -7,8 +7,7 @@ using System.Xml.Linq;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CArithmeticOperator : COperator
-	{
+	public class CArithmeticOperator : COperator {
 		public CArithmeticOperator(string name) : base(name) { }
 
 		public static CArithmeticOperator CreateArithmeticOperator(XElement opeNode)

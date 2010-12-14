@@ -9,6 +9,6 @@ using Ucpf.CodeModel.Operators;
 namespace Ucpf.CodeModelToCode
 {
 	public interface ICodeModelToCode {
-		void GenerateBinaryExpression(IBinaryExpression bin);
+		void Generate(IBinaryExpression bin);
 	}
 }
