@@ -34,38 +34,6 @@ namespace Ucpf.Languages.C.CodeModel
 			return Name;
 		}
 
-		public static COperator Create(XElement node)
-		{
-			// TODO :: Move and make Create***Operator method
-			var opeName = node.Value;
-			if (arithmeticOperators.Contains(opeName))
-			{
-				return CArithmeticOperator.Create(node);
-			}
-			else if (bitOperators.Contains(opeName))
-			{
-				return CBitOperator.Create(node);
-			}
-			else if (shiftOperators.Contains(opeName))
-			{
-				return CShiftOperator.Create(node);
-			}
-			else if (comparisonOperators.Contains(opeName))
-			{
-				return CComparisonOperator.Create(node);
-			}
-			else if (logicalOperators.Contains(opeName))
-			{
-				return CLogicalOperator.Create(node);
-			}
-			else if (assignmentOperators.Contains(opeName))
-			{
-				return CAssignmentOperator.CreateAssignmentOperator(node);
-			}
-			// else return new COperator(opeName);			// TODO :: delete this switching branch
-			throw new InvalidOperationException();
-		}
-
 		public void Accept(CCodeModelToCode conv)
 		{
 			conv.Generate(this);

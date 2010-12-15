@@ -45,13 +45,11 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void IF文の条件式が正しい()
 		{
-			CIfStatement ifStatement = (CIfStatement)_function.Body.Statements.ElementAt(0);
-			CBinaryExpression conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
-			Assert.That(ifStatement is CIfStatement);
-			Assert.That(conditionalExpression is CBinaryExpression);
-			CExpression leftExp = conditionalExpression.LeftExpression;
-			CExpression rightExp = conditionalExpression.RightExpression;
-			COperator ope = conditionalExpression.Operator;
+			var ifStatement = (CIfStatement)_function.Body.Statements.ElementAt(0);
+			var conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
+			var leftExp = conditionalExpression.LeftExpression;
+			var rightExp = conditionalExpression.RightExpression;
+			var ope = conditionalExpression.Operator;
 			Assert.That(ope is CLessOperator);
 			Assert.That(leftExp.ToString(), Is.EqualTo("n"));
 			Assert.That(rightExp.ToString(), Is.EqualTo("2"));
@@ -77,10 +75,10 @@ namespace Ucpf.Languages.C.Tests
 				.ElseBlock
 				.Statements
 				.ElementAt(0);
-			CBinaryExpression exp = (CBinaryExpression)firstStatemenet.Expressions.ElementAt(0);
+			var exp = (CBinaryExpression)firstStatemenet.Expressions.ElementAt(0);
 			Assert.That(firstStatemenet is CReturnStatement);
-			CExpression leftExpression = exp.LeftExpression;
-			CExpression rightExpression = exp.RightExpression;
+			var leftExpression = exp.LeftExpression;
+			var rightExpression = exp.RightExpression;
 
 			// assert whether left / right expression are 'MethodInvocation'
 			Assert.That(leftExpression is CInvocationExpression);

@@ -12,22 +12,19 @@ namespace Ucpf.Languages.C.CodeModel
 		// properties
 		public CExpression LeftExpression { get; private set; }
 		public CExpression RightExpression { get; private set; }
-		public COperator Operator { get; private set; }
-
+		public CBinaryOperator Operator { get; private set; }
 
 		// constructor
-		public CBinaryExpression(XElement leftNode, COperator ope, XElement rightNode)
+		public CBinaryExpression(XElement leftNode, CBinaryOperator ope, XElement rightNode)
 		{
 			LeftExpression = CExpression.Create(leftNode);
 			RightExpression = CExpression.Create(rightNode);
 			Operator = ope;
 		}
 
-
 		public override string ToString()
 		{
-			string res = LeftExpression.ToString() + Operator.ToString() + RightExpression.ToString();
-			return res;
+			return LeftExpression.ToString() + Operator + RightExpression;
 		}
 
 		// acceptor

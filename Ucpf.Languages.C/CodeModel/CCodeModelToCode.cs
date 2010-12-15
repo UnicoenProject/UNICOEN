@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.IO;
+using Ucpf.CodeModel;
+using Ucpf.CodeModelToCode;
 
 // TODO :: extract "pre_procedure" as a method
 namespace Ucpf.Languages.C.CodeModel {
-	public class CCodeModelToCode {
-		private TextWriter _writer;
+	public class CCodeModelToCode : ICodeModelToCode {
+		private readonly TextWriter _writer;
 		private int _depth;
 
 		// constructor
@@ -188,13 +190,13 @@ namespace Ucpf.Languages.C.CodeModel {
 		}
 
 		// BinaryExpression
-		public void Generate(CBinaryExpression bExp)
+		public void Generate(IBinaryExpression exp)
 		{
-			bExp.LeftExpression.Accept(this);
+			exp.LeftHandSide.Accept(this);
 			WriteSpace();
-			bExp.Operator.Accept(this);
+			exp.Operator.Accept(this);
 			WriteSpace();
-			bExp.RightExpression.Accept(this);
+			exp.RightHandSide.Accept(this);
 		}
 
 		// InvocationExpression
@@ -247,6 +249,58 @@ namespace Ucpf.Languages.C.CodeModel {
 		public void Generate(COperator ope)
 		{
 			_writer.Write(ope.Name);
+		}
+
+		public void Generate(IBinaryOperator op) {
+			switch (op.Type) {
+			case BinaryOperatorType.Addition:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.Subtraction:
+				_writer.Write("-");
+				break;
+			case BinaryOperatorType.Multiplication:
+				_writer.Write("*");
+				break;
+			case BinaryOperatorType.Division:
+				_writer.Write("/");
+				break;
+			case BinaryOperatorType.Modulo:
+				_writer.Write("%");
+				break;
+			case BinaryOperatorType.Assignment:
+				_writer.Write("=");
+				break;
+			case BinaryOperatorType.LeftShift:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.RightShift:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.LeftRotate:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.RightRotate:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.Greater:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.GreaterEqual:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.Lesser:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.LesserEqual:
+				_writer.Write("+");
+				break;
+			case BinaryOperatorType.Equal:
+				_writer.Write("+");
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 }
