@@ -10,5 +10,6 @@ namespace Ucpf.CodeModelToCode
 	public interface ICodeModelToCode {
 		void Generate(IBinaryExpression bin);
 		void Generate(IBinaryOperator op);
+		void Generate(IUnaryOperator op);
 	}
 }

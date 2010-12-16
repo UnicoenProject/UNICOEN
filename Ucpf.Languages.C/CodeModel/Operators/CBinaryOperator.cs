@@ -10,14 +10,14 @@ using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CBinaryOperator : IBinaryOperator
+	public class CBinaryOperator//  : IBinaryOperator
 	{
 		public CBinaryOperator(string sign, BinaryOperatorType type) {
 			Sign = sign;
 			Type = type;
 		}
 
-		public void Accept(ICodeModelToCode conv) {
+		public void Accept(CCodeModelToCode conv) {
 			conv.Generate(this);
 		}
 
@@ -59,7 +59,6 @@ namespace Ucpf.Languages.C.CodeModel
 			opeHash["&"] = BinaryOperatorType.BitAnd;
 			opeHash["|"] = BinaryOperatorType.BitOr;
 			opeHash["^"] = BinaryOperatorType.BitXor;
-			opeHash["~"] = BinaryOperatorType.BitReverse;
 			// Assignment
 			opeHash["="] = BinaryOperatorType.Assignment;
 			// TODO :: implement other 'compound' assignment operator (e.g. +=

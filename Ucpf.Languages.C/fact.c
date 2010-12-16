@@ -3,6 +3,6 @@ int fact(int n){
 		return 1;
 	}
 	else{
-		return n * fact(n - 2);
+		return n * fact(n - 1);
 	}
 }

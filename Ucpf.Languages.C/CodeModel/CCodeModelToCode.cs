@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Ucpf.CodeModel;
 using Ucpf.CodeModelToCode;
 
 // TODO :: extract "pre_procedure" as a method
 namespace Ucpf.Languages.C.CodeModel {
-	public class CCodeModelToCode : ICodeModelToCode {
+	public class CCodeModelToCode{ // : ICodeModelToCode {
 		private readonly TextWriter _writer;
 		private int _depth;
 
@@ -48,7 +51,7 @@ namespace Ucpf.Languages.C.CodeModel {
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
-			WriteLine();
+			// WriteLine();
 			_depth++;
 
 			var line = "";
@@ -56,52 +59,62 @@ namespace Ucpf.Languages.C.CodeModel {
 			foreach (var stmt in block.Statements)
 			{
 				_writer.Write(line);
-				_writer.Write(Tabs(_depth));
 				stmt.Accept(this);
 				line = "\n";
 			}
 			 _depth--;
-
+			 // WriteLine();
 			// end_paren
 			_writer.Write(Tabs(_depth));
 			_writer.Write("}");
-			WriteLine();
+			// WriteLine();
 		}
 
 		// Statement
 		public void Generate(CStatement stmt)
 		{
+			WriteLine();
+			
 			if (stmt is CIfStatement)
 			{
+				
 				Generate((CIfStatement)stmt);
 			}
 			else if (stmt is CReturnStatement)
 			{
+				_writer.Write(Tabs(_depth));
 				Generate((CReturnStatement)stmt);
 			}
+			WriteLine();
 		}
 
 		// IfStatement
 		public void Generate(CIfStatement stmt)
 		{
+			// _writer.WriteLine("IFSTMNT");
 			// ConditionalExpression
+			_writer.Write(Tabs(_depth));
 			_writer.Write("if (");
 			stmt.ConditionalExpression.Accept(this);
 			_writer.Write(")");
 			WriteLine();
-			
+			_writer.Flush();
 			// TrueBlock
+			// _writer.WriteLine("TRUE");
 			stmt.TrueBlock.Accept(this);
 
 			// ElseBlock
-			_writer.Write("else");
+			// _writer.WriteLine("ELSE");
 			WriteLine();
+			_writer.Write(Tabs(_depth));
+			_writer.WriteLine("else");
 			stmt.ElseBlock.Accept(this);
 		}
 
 		// ReturnStatement
 		public void Generate(CReturnStatement stmt)
 		{
+			// _writer.WriteLine("RETURNSTMT");
 			_writer.Write("return");
 			WriteSpace();
 
@@ -190,13 +203,13 @@ namespace Ucpf.Languages.C.CodeModel {
 		}
 
 		// BinaryExpression
-		public void Generate(IBinaryExpression exp)
+		public void Generate(CBinaryExpression exp)
 		{
-			exp.LeftHandSide.Accept(this);
+			exp.LeftExpression.Accept(this);
 			WriteSpace();
 			exp.Operator.Accept(this);
 			WriteSpace();
-			exp.RightHandSide.Accept(this);
+			exp.RightExpression.Accept(this);
 		}
 
 		// InvocationExpression
@@ -220,16 +233,21 @@ namespace Ucpf.Languages.C.CodeModel {
 		public void Generate(CUnaryExpression exp)
 		{
 			var ope = exp.Operator;
-			
-			if (ope is CPrefixOperator)			// e.g. ++x
+			var opeType = ope.Type;
+
+			// TODO :: MODIFY FOLLOWING 2 VARIABLE AND SWITCHING!!!
+			UnaryOperatorType[] postfixOperators = { UnaryOperatorType.PostfixIncrement, UnaryOperatorType.PostfixDecrement };
+			UnaryOperatorType[] unaryOperators = (UnaryOperatorType[])Enum.GetValues(typeof(UnaryOperatorType));
+
+			if (postfixOperators.Contains(opeType))			// e.g. x++
 			{
-				ope.Accept(this);
 				exp.Accept(this);
+				ope.Accept(this);
 			}
-			else if (ope is CPostfixOperator)	// e.g. y++
+			else if (unaryOperators.Contains(opeType))	// e.g. y++
 			{
-				exp.Accept(this);
 				ope.Accept(this);
+				exp.Accept(this);
 			}
 			else
 			{
@@ -251,8 +269,45 @@ namespace Ucpf.Languages.C.CodeModel {
 			_writer.Write(ope.Name);
 		}
 
+		// UnaryOperator
+		public void Generate(CUnaryOperator op)
+		{
+			var sw = op.Type;
+			switch (sw)
+			{
+				case UnaryOperatorType.PrefixIncrement:
+				case UnaryOperatorType.PostfixIncrement:
+					_writer.Write("++");
+					break;
+				case UnaryOperatorType.PrefixDecrement:
+				case UnaryOperatorType.PostfixDecrement:
+					_writer.Write("--");
+					break;
+				case UnaryOperatorType.Plus:
+					_writer.Write("+");
+					break;
+				case UnaryOperatorType.Minus:
+					_writer.Write("-");
+					break;
+				case UnaryOperatorType.Not:
+					_writer.Write("!");
+					break;
+				case UnaryOperatorType.BitReverse:
+					_writer.Write("~");
+					break;
+				case UnaryOperatorType.Address:
+					_writer.Write("&");
+					break;
+				case UnaryOperatorType.Indirect:
+					_writer.Write("*");
+					break;
+				default:
+					throw new InvalidOperationException();
+			}
+		}
 
-		public void Generate(IBinaryOperator op) {
+		// BinaryOperator
+		public void Generate(CBinaryOperator op) {
 			switch (op.Type) {
 				// Arithmetic
 				case BinaryOperatorType.Addition:
@@ -318,9 +373,6 @@ namespace Ucpf.Languages.C.CodeModel {
 					break;
 				case BinaryOperatorType.BitXor:
 					_writer.Write("^");
-					break;
-				case BinaryOperatorType.BitReverse:
-					_writer.Write("~");
 					break;
 				// Assignment
 				case BinaryOperatorType.Assignment:

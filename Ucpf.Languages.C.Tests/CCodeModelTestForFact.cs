@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Ucpf.CodeModel;
 using Ucpf.Languages.C.CodeModel;
 
 namespace Ucpf.Languages.C.Tests
@@ -49,10 +50,10 @@ namespace Ucpf.Languages.C.Tests
 			var rightExp = conditionalExpression.RightExpression;
 			var ope = conditionalExpression.Operator;
 			
-			Assert.That(ope.ToString(), Is.EqualTo("=="));
+			Assert.That(ope.Type, Is.EqualTo(BinaryOperatorType.LesserEqual));
 			Assert.That(leftExp.ToString(), Is.EqualTo("n"));
 			Assert.That(rightExp.ToString(), Is.EqualTo("1"));
-			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n==1"));
+			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n<=1"));
 
 		}
 
@@ -84,7 +85,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(rightExpression is CInvocationExpression);
 
 			Assert.That(leftExpression.ToString(), Is.EqualTo("n"));
-			Assert.That(ope is CMultiOperator);
+			Assert.That(ope.Type, Is.EqualTo(BinaryOperatorType.Multiplication));
 
 			var rightFuncName = ((CInvocationExpression)rightExpression).FunctionName;
 			var rightArg = (CBinaryExpression)((CInvocationExpression)rightExpression).Arguments.ElementAt(0);

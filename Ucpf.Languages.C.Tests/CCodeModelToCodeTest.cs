@@ -22,7 +22,7 @@ namespace Ucpf.Languages.C.Tests
 			_writer = new StringWriter();
 			_cmtc = new CCodeModelToCode(_writer, 0);
 			_func = new CFunction(
-						CAstGenerator.Instance.GenerateFromFile("fact.c")
+						CAstGenerator.Instance.GenerateFromFile("fibonacci.c")
 						.Descendants("function_definition")
 						.First());		
 		}
@@ -40,8 +40,9 @@ namespace Ucpf.Languages.C.Tests
 		{
 			CIfStatement ifStatement = (CIfStatement)_func.Body.Statements.ElementAt(0);
 			CBinaryExpression conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
+			
 			_cmtc.Generate(conditionalExpression);
-			Assert.That(_writer.ToString(), Is.EqualTo("n<2"));
+			Assert.That(_writer.ToString(), Is.EqualTo("n < 2"));
 			
 		}
 		[Test]

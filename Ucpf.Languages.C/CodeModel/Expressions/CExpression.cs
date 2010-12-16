@@ -65,14 +65,16 @@ namespace Ucpf.Languages.C.CodeModel
 
 				if (sw != null)		// ex : ++x
 				{
+					var opeNode = fnode.Elements().ElementAt(0);
 					return new CUnaryExpression(
-						CPrefixOperator.Create(fnode.Elements().ElementAt(0)),
+						CUnaryOperator.Create(opeNode),
 						fnode.Elements().ElementAt(1));
 				}
-				else
-				{				// ex : y++
+				else // ex : y++
+				{
+					var opeNode = fnode.Elements().ElementAt(1);
 					return new CUnaryExpression(
-						CPostfixOperator.Create(fnode.Elements().ElementAt(1)),
+						CUnaryOperator.CreatePost(opeNode),
 						fnode.Elements().ElementAt(0));
 				}
 			}

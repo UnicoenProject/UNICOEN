@@ -10,17 +10,15 @@ namespace Ucpf.Languages.C.CodeModel
 	public class CUnaryExpression : CExpression
 	{
 		// properties
-		public COperator Operator { get; private set; }
+		public CUnaryOperator Operator { get; private set; }
 		public CExpression Expression { get; private set; }
 
 		// constructor
-		public CUnaryExpression(COperator ope, XElement expNode)
+		public CUnaryExpression(CUnaryOperator ope, XElement expNode)
 		{
 			Operator = ope;
 			Expression = CExpression.Create(expNode);
 		}
-
-
 
 		public override string ToString()
 		{
