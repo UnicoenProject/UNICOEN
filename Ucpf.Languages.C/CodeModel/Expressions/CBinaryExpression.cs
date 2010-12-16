@@ -24,7 +24,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		public override string ToString()
 		{
-			return LeftExpression.ToString() + Operator + RightExpression;
+			return LeftExpression.ToString() + Operator.ToString() + RightExpression.ToString(); ;
 		}
 
 		// acceptor

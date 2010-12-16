@@ -26,7 +26,6 @@ namespace Ucpf.Languages.C.CodeModel
 		protected COperator() { }
 
 
-
 		public String Name { get; set; }
 
 		public override string ToString()
@@ -39,37 +38,7 @@ namespace Ucpf.Languages.C.CodeModel
 			conv.Generate(this);
 		}
 
-		// 2 methods below are maybe unnecessary. After confirming tests, delete these.
-		/*
-		public static COperator CreatePrefixOperator(XElement node)
-		{
-			// TODO :: move below switching to subclasses
-			switch (node.Value)
-			{
-				case "++":
-					return new CPrefixIncrementOperator();
-				case "--":
-					return new CPrefixDecrementOperator();
-				default :
-					throw new InvalidOperationException();
-			}
-		}
-
-		public static COperator CreatePostfixOperator(XElement node)
-		{
-			// TODO :: move below switching to subclasses
-			switch (node.Value)
-			{
-				case "++":
-					return new CPostfixIncrementOperator();
-				case "--":
-					return new CPostfixDecrementOperator();
-				default:
-					throw new InvalidOperationException();
-			}
-		}
-		*/
-
+		
 
 	}
 }

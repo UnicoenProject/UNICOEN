@@ -251,55 +251,84 @@ namespace Ucpf.Languages.C.CodeModel {
 			_writer.Write(ope.Name);
 		}
 
+
 		public void Generate(IBinaryOperator op) {
 			switch (op.Type) {
-			case BinaryOperatorType.Addition:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.Subtraction:
-				_writer.Write("-");
-				break;
-			case BinaryOperatorType.Multiplication:
-				_writer.Write("*");
-				break;
-			case BinaryOperatorType.Division:
-				_writer.Write("/");
-				break;
-			case BinaryOperatorType.Modulo:
-				_writer.Write("%");
-				break;
-			case BinaryOperatorType.Assignment:
-				_writer.Write("=");
-				break;
-			case BinaryOperatorType.LeftShift:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.RightShift:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.LeftRotate:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.RightRotate:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.Greater:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.GreaterEqual:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.Lesser:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.LesserEqual:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.Equal:
-				_writer.Write("+");
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
+				// Arithmetic
+				case BinaryOperatorType.Addition:
+					_writer.Write("+");
+					break;
+				case BinaryOperatorType.Subtraction:
+					_writer.Write("-");
+					break;
+				case BinaryOperatorType.Multiplication:
+					_writer.Write("*");
+					break;
+				case BinaryOperatorType.Division:
+					_writer.Write("/");
+					break;
+				case BinaryOperatorType.Modulo:
+					_writer.Write("%");
+					break;
+				// Shift
+				case BinaryOperatorType.LeftShift:
+					_writer.Write("<<");
+					break;
+				case BinaryOperatorType.RightShift:
+					_writer.Write(">>");
+					break;
+				case BinaryOperatorType.LeftRotate:
+					_writer.Write("<<<");
+					break;
+				case BinaryOperatorType.RightRotate:
+					_writer.Write(">>>");
+					break;
+				// Comparison
+				case BinaryOperatorType.Greater:
+					_writer.Write(">");
+					break;
+				case BinaryOperatorType.GreaterEqual:
+					_writer.Write(">=");
+					break;
+				case BinaryOperatorType.Lesser:
+					_writer.Write("<");
+					break;
+				case BinaryOperatorType.LesserEqual:
+					_writer.Write("<=");
+					break;
+				case BinaryOperatorType.Equal:
+					_writer.Write("==");
+					break;
+				case BinaryOperatorType.NotEqual:
+					_writer.Write("!=");
+					break;
+				// Logical
+				case BinaryOperatorType.LogicalAnd:
+					_writer.Write("&&");
+					break;
+				case BinaryOperatorType.LogicalOr:
+					_writer.Write("||");
+					break;
+				// Bit
+				case BinaryOperatorType.BitAnd:
+					_writer.Write("&");
+					break;
+				case BinaryOperatorType.BitOr:
+					_writer.Write("|");
+					break;
+				case BinaryOperatorType.BitXor:
+					_writer.Write("^");
+					break;
+				case BinaryOperatorType.BitReverse:
+					_writer.Write("~");
+					break;
+				// Assignment
+				case BinaryOperatorType.Assignment:
+					_writer.Write("=");
+					break;
+				// TODO :: Implement other 'compound' assignment operator
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 		}
 	}

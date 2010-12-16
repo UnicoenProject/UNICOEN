@@ -6,7 +6,6 @@
 		Multiplication,
 		Division,
 		Modulo,
-		Assignment,
 		// Shift
 		LeftShift,		// <<< in Java
 		RightShift,		// nothing in Java
@@ -18,5 +17,16 @@
 		Lesser,
 		LesserEqual,
 		Equal,
+		NotEqual,
+		// Logical
+		LogicalAnd,
+		LogicalOr,
+		// Bit
+		BitAnd,			// &
+		BitOr,			// |
+		BitXor,			// ^
+		// Assignment
+		Assignment,
+		// TODO :: add other 'compound' assignment operator (e.g. +=
 	}
 }

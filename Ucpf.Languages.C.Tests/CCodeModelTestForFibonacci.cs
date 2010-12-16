@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Ucpf.CodeModel;
 using Ucpf.Languages.C.CodeModel;
 
 namespace Ucpf.Languages.C.Tests
@@ -50,7 +51,9 @@ namespace Ucpf.Languages.C.Tests
 			var leftExp = conditionalExpression.LeftExpression;
 			var rightExp = conditionalExpression.RightExpression;
 			var ope = conditionalExpression.Operator;
-			Assert.That(ope is CLessOperator);
+			
+			Assert.That(ope.Sign, Is.EqualTo("<"));
+			Assert.That(ope.Type, Is.EqualTo(BinaryOperatorType.Lesser));
 			Assert.That(leftExp.ToString(), Is.EqualTo("n"));
 			Assert.That(rightExp.ToString(), Is.EqualTo("2"));
 			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n<2"));
@@ -89,7 +92,7 @@ namespace Ucpf.Languages.C.Tests
 
 			Assert.That(leftFuncName, Is.EqualTo("fibonacci"));
 			Assert.That(leftArg.LeftExpression.ToString(), Is.EqualTo("n"));
-			Assert.That(leftArg.Operator is CMinusOperator);
+			Assert.That(leftArg.Operator.Type, Is.EqualTo(BinaryOperatorType.Subtraction));
 			Assert.That(leftArg.RightExpression.ToString(), Is.EqualTo("2"));
 
 			var rightFuncName = ((CInvocationExpression)rightExpression).FunctionName;
@@ -97,7 +100,7 @@ namespace Ucpf.Languages.C.Tests
 
 			Assert.That(rightFuncName, Is.EqualTo("fibonacci"));
 			Assert.That(rightArg.LeftExpression.ToString(), Is.EqualTo("n"));
-			Assert.That(rightArg.Operator is CMinusOperator);
+			Assert.That(rightArg.Operator.Type, Is.EqualTo(BinaryOperatorType.Subtraction));
 			Assert.That(rightArg.RightExpression.ToString(), Is.EqualTo("1"));
 			Assert.That(rightArg.RightExpression is CNumber);
 
