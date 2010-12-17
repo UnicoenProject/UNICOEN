@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeModel\JSCodeModelToCode.cs" />
     <Compile Include="JavaScriptAstGenerator.cs" />
     <Compile Include="CodeModel\Expressions\JSBinaryExpression.cs" />
     <Compile Include="CodeModel\Expressions\JSCallExpression.cs" />
@@ -55,9 +56,9 @@
     <Compile Include="JavaScriptLexer.cs" />
     <Compile Include="JavaScriptParser.cs" />
     <Compile Include="CodeModel\Statements\JSIfStatement.cs" />
-    <Compile Include="CodeModel\Operators\JSPrefixIncreamentOperator.cs" />
+    <Compile Include="CodeModel\Operators\JSBinaryOperator.cs" />
     <Compile Include="CodeModel\Operators\JSOperator.cs" />
-    <Compile Include="CodeModel\Operators\JSPlusOperator.cs" />
+    <Compile Include="CodeModel\Operators\JSUnaryOperator.cs" />
     <Compile Include="CodeModel\Expressions\JSPrimaryExpression.cs" />
     <Compile Include="CodeModel\JSProgram.cs" />
     <Compile Include="CodeModel\Statements\JSReturnStatement.cs" />
