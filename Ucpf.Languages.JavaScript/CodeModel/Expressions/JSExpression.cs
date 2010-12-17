@@ -8,7 +8,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// expression
 	// : assignmentExpression (LT!* ',' LT!* assignmentExpression)*
 	public class JSExpression {
-		private XElement _node;
+		private readonly XElement _node;
 
 		//constructor
 		public JSExpression(XElement xElement) {
@@ -27,9 +27,9 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			};
 
 			//TODO this statement obtains which <expression> or <assimentExpression>?
-			var element = node.Element("expression").Elements().First();
+			//var element = node.Element("expression").Elements().First();
 			var targetElement =
-				element.Descendants().Where(e => {
+				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
 					return c > 1 || (c == 1 && e.Element("TOKEN") != null);
 				}).First();
@@ -39,9 +39,15 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 				return new JSPrimaryExpression(targetElement);
 			}
 
-			//case Unary
+			//case CallExpression
+			if (targetElement.Name.LocalName == "callExpression") {
+				return new JSCallExpression(targetElement);
+			
+			}
+
+			//case UnaryExpression
 			// public UnaryExpression(XElement expression, XElement op)
-			if (targetElement.Name.LocalName == "UnaryExpression") {
+			if (targetElement.Name.LocalName == "unaryExpression") {
 				var tempNode = targetElement.Element("postfixExpression");
 				if (tempNode != null && tempNode.Elements().Count() == 2) {
 					//unaryExpression with postfixExpression
@@ -57,7 +63,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 						JSUnaryOperator.CreatePrefixOperator(targetElement.Elements().ElementAt(0)));
 			}
 
-			//case Binary
+			//case BinaryExpression
 			if (binaryOperator.Contains(targetElement.Elements().ElementAt(1).Value)) {
 				return
 					new JSBinaryExpression(

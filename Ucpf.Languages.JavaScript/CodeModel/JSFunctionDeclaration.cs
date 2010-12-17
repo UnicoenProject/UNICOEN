@@ -13,26 +13,24 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// callExpression
 	// : memberExpression LT!* arguments (LT!* callExpressionSuffix)*
 	public class JSFunctionDeclaration {
-		private readonly XElement _node;
 
-		public JSFunctionDeclaration(XElement xElement) {
-			_node = xElement;
+		//constructor
+		public JSFunctionDeclaration(XElement node) {
+			Identifier = node.Element("Identifier").Value;
+			Parameters = node.Element("formalParameterList").Elements("Identifier")
+				.Select(e => new JSVariable(e));
+			FunctionBody = new JSFunctionBody(node.Element("functionBody"));
 		}
 
-		public String Identifier {
-			get { return _node.Element("Identifier").Value; }
-		}
+		//field
+		public String Identifier { get; private set; }
+		public IEnumerable<JSVariable> Parameters { get; private set; }
+		public JSFunctionBody FunctionBody { get; private set; }
 
-		public IEnumerable<JSVariable> Parameters {
-			get {
-				return
-					_node.Element("formalParameterList").Elements("Identifier").Select(
-						e => new JSVariable(e));
-			}
-		}
-
-		public JSFunctionBody FunctionBody {
-			get { return new JSFunctionBody(_node.Element("functionBody")); }
+		//fucntion
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 	}
 }

@@ -36,5 +36,30 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		{
 			throw new NotImplementedException();
 		}
+
+		internal void Generate(JSStatement jSStatement)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal void Generate(JSFunctionBody jSFunctionBody)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal void Generate(JSFunctionDeclaration jSFunctionDeclaration)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal void Generate(JSProgram jSProgram)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal void Generate(JSVariable jSVariable)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

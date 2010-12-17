@@ -14,32 +14,31 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// : functionDeclaration
 	// | statement
 	public class JSProgram {
-		private readonly XElement _rootNode;
 
-		public JSProgram(XElement rootNode) {
-			_rootNode = rootNode;
-		}
-
-		public IEnumerable<JSFunctionDeclaration> Functions {
-			get {
-				return _rootNode.Element("sourceElements").Elements(
+		//constructor
+		public JSProgram(XElement node) {
+			Functions = node.Element("sourceElements").Elements(
 					"sourceElement")
 					.SelectMany(e =>
 					            e.Elements("functionDeclaration").Select(
 					            	e2 => new JSFunctionDeclaration(e2))
 					);
-			}
-		}
-
-		public IEnumerable<JSStatement> Statements {
-			get {
-				return _rootNode.Element("sourceElements").Elements(
+			Statements = node.Element("sourceElements").Elements(
 					"sourceElement")
 					.SelectMany(e =>
 					            e.Elements("statement").Select(
 					            	e2 => new JSStatement(e2))
 					);
-			}
+		}
+
+		//field
+		public IEnumerable<JSFunctionDeclaration> Functions { get; private set; }
+		public IEnumerable<JSStatement> Statements { get; private set; }
+	
+		//function
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 	}
 }
