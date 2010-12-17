@@ -25,6 +25,9 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			if ( name == "+") {
 				type = BinaryOperatorType.Addition;
 			}
+			else if ( name == "<") {
+				type = BinaryOperatorType.Lesser;
+			}
 			else {
 				throw new InvalidOperationException();
 			}

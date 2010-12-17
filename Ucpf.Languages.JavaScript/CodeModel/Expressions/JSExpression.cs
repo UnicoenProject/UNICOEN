@@ -17,22 +17,27 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 		protected JSExpression() {
 			//TODO How deal with super class constructor
-			throw new NotImplementedException();
 		}
 
 		//function
 		public static JSExpression CreateExpression(XElement node) {
 			String[] binaryOperator = {
-				"+", "-", "*", "/", "%"
+				"+", "-", "*", "/", "%", "<", ">"
 			};
 
 			//TODO this statement obtains which <expression> or <assimentExpression>?
 			//var element = node.Element("expression").Elements().First();
-			var targetElement =
+			var tmp =
 				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
 					return c > 1 || (c == 1 && e.Element("TOKEN") != null);
-				}).First();
+				});
+			//TODO sometime, tmp may be empty list...
+			if(tmp.Count() == 0) {
+				Console.Write("null");
+				throw new NullReferenceException();
+			}
+			var targetElement = tmp.First();	
 
 			//case TOKEN
 			if (targetElement.Elements().Count() == 1) {

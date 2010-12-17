@@ -28,15 +28,16 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 		//function
 		public static JSStatement CreateStatement(XElement xElement) {
-			var element = xElement.Element("statement").Elements().First();
+			var element = xElement.Elements().First();
+			Console.Write(element.Value);
 
 			//case IfStatement
 			if (element.Name.LocalName == "ifStatement")
-				return new JSIfStatement(xElement);
+				return new JSIfStatement(element);
 
 			//case ReturnStatement
 			if (element.Name.LocalName == "returnStatement")
-				return new JSReturnStatement(xElement);
+				return new JSReturnStatement(element);
 
 			//case error
 			throw new NotImplementedException();

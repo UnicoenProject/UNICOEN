@@ -5,7 +5,12 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	public class JSVariable {
 
 		//constructor
-		public JSVariable(XElement xElement) {}
+		public JSVariable(XElement node) {
+			Name = node.Value;
+		}
+		
+		//field
+		public string Name { get; private set; }
 
 		//function
 		public void Accept(JSCodeModelToCode conv)
