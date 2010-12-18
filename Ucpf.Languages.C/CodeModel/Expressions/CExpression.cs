@@ -67,14 +67,14 @@ namespace Ucpf.Languages.C.CodeModel
 				{
 					var opeNode = fnode.Elements().ElementAt(0);
 					return new CUnaryExpression(
-						CUnaryOperator.Create(opeNode),
+						CUnaryOperator.CreatePrefix(opeNode),
 						fnode.Elements().ElementAt(1));
 				}
 				else // ex : y++
 				{
 					var opeNode = fnode.Elements().ElementAt(1);
 					return new CUnaryExpression(
-						CUnaryOperator.CreatePost(opeNode),
+						CUnaryOperator.CreatePostfix(opeNode),
 						fnode.Elements().ElementAt(0));
 				}
 			}

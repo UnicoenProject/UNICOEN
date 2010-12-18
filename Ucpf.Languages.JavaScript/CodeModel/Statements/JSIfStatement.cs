@@ -7,24 +7,23 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// ifStatement
 	// : 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
 	public class JSIfStatement : JSStatement {
-		//TODO Is it need that the declaration of field of "_node" when this class inherit the "Statement" class?
-		private readonly XElement _node;
 
-		public JSIfStatement(XElement xElement)
-			: base(xElement) {
-			_node = xElement;
+		//constructor
+		public JSIfStatement(XElement node) : base(node) {
+			ConditionalExpression = JSExpression.CreateExpression(node.Element("expression"));
+			TrueBlock = new JSStatement(node.Element("statement"));
+			ElseBlock = node.Elements("statement").Skip(1).Select(e => new JSStatement(e));
 		}
 
-		public JSExpression ConditionalExpression {
-			get { return JSExpression.CreateExpression(_node.Element("expression")); }
-		}
+		//field
+		public JSExpression ConditionalExpression { get; private set; }
+		public JSStatement TrueBlock { get; private set; }
+		public IEnumerable<JSStatement> ElseBlock { get; private set; }
 
-		public JSStatement TrueBlock {
-			get { return new JSStatement(_node.Element("statement")); }
-		}
-
-		public IEnumerable<JSStatement> ElseBlock {
-			get { return _node.Elements("statement").Skip(1).Select(e => new JSStatement(e)); }
+		//function
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 	}
 }

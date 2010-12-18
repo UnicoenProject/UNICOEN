@@ -2,15 +2,21 @@
 using System.Xml.Linq;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
-	public class JSPrimaryExpression : JSExpression {
-		private readonly XElement _node;
 
-		public JSPrimaryExpression(XElement xElement) {
-			_node = xElement;
+	public class JSPrimaryExpression : JSExpression {
+
+		//constructor
+		public JSPrimaryExpression(XElement node) {
+			Identifier = node.Value;
 		}
 
-		public String Identifier {
-			get { return _node.Value; }
+		//field
+		public String Identifier { get; private set;}
+	
+		//function
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 	}
 }

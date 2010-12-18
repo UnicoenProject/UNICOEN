@@ -28,51 +28,36 @@ namespace Ucpf.Languages.C.CodeModel
 		// properties
 		public string Sign { get; private set; }
 		public UnaryOperatorType Type { get; private set; }
+		private static readonly IDictionary<string, UnaryOperatorType> Sign2Type;
 
-		public static CUnaryOperator Create(XElement opeNode)
-		{
-			var opeHash = new Hashtable();
-
-			opeHash["++"] = UnaryOperatorType.PrefixIncrement;
-			opeHash["--"] = UnaryOperatorType.PrefixDecrement;
-			opeHash["+"] = UnaryOperatorType.Plus;
-			opeHash["-"] = UnaryOperatorType.Minus;
-			opeHash["!"] = UnaryOperatorType.Not;
-			opeHash["~"] = UnaryOperatorType.BitReverse;
-			opeHash["&"] = UnaryOperatorType.Address;
-			opeHash["*"] = UnaryOperatorType.Indirect;
-
-			var opeSign = opeNode.Value;
-			var opeType = opeHash[opeSign];
-			if (opeType != null)
-			{
-				return new CUnaryOperator(opeSign, (UnaryOperatorType)opeType);
-			}
-			else
-			{
-				throw new InvalidOperationException();
-			}
-
+		static CUnaryOperator() {
+			Sign2Type = new Dictionary<string, UnaryOperatorType>();
+			Sign2Type["++"] = UnaryOperatorType.PrefixIncrement;
+			Sign2Type["--"] = UnaryOperatorType.PrefixDecrement;
+			Sign2Type["+"] = UnaryOperatorType.Plus;
+			Sign2Type["-"] = UnaryOperatorType.Minus;
+			Sign2Type["!"] = UnaryOperatorType.Not;
+			Sign2Type["~"] = UnaryOperatorType.BitReverse;
+			Sign2Type["&"] = UnaryOperatorType.Address;
+			Sign2Type["*"] = UnaryOperatorType.Indirect;
 		}
 
-		public static CUnaryOperator CreatePost(XElement opeNode)
+		public static CUnaryOperator CreatePrefix(XElement node)
 		{
-			var opeHash = new Hashtable();
+			var sign = node.Value;
+			var type = Sign2Type[sign];
+			return new CUnaryOperator(sign, type);
+		}
 
-			opeHash["++"] = UnaryOperatorType.PostfixIncrement;
-			opeHash["--"] = UnaryOperatorType.PostfixDecrement;
-
-			// should the following procedure be extracted to a method?? 
-			var opeSign = opeNode.Value;
-			var opeType = opeHash[opeSign];
-			if (opeType != null)
-			{
-				return new CUnaryOperator(opeSign, (UnaryOperatorType)opeType);
-			}
-			else
-			{
-				throw new InvalidOperationException();
-			}
+		public static CUnaryOperator CreatePostfix(XElement node)
+		{
+			// TODO: fix format setting
+			var sign = node.Value;
+			var type =
+				sign == "++" ? UnaryOperatorType.PostfixIncrement
+					: sign == "--" ? UnaryOperatorType.PostfixDecrement
+					  	: Sign2Type[sign];
+			return new CUnaryOperator(sign, type);
 		}
 
 	}

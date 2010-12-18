@@ -2,25 +2,26 @@
 using Ucpf.Languages.JavaScript.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
-	public class JSBinaryExpression : JSExpression {
-		private readonly XElement _lNode;
-		private readonly XElement _rNode;
 
-		public JSBinaryExpression(XElement leftSideNode, JSOperator op,
-		                          XElement rightSideNode) {
-			_lNode = leftSideNode;
-			_rNode = rightSideNode;
+	public class JSBinaryExpression : JSExpression {
+
+		//constructor
+		public JSBinaryExpression(XElement leftSideNode, JSBinaryOperator op, XElement rightSideNode) {
+			Lhs = JSExpression.CreateExpression(leftSideNode);
+			Rhs = JSExpression.CreateExpression(rightSideNode);
 			Operator = op;
 		}
 
-		public JSExpression Lhs {
-			get { return CreateExpression(_lNode); }
+		//field
+		public JSExpression Lhs { get; private set; }
+		public JSExpression Rhs { get; private set; }
+		public JSBinaryOperator Operator { get; private set; }
+
+		//function
+		public new void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 
-		public JSExpression Rhs {
-			get { return CreateExpression(_rNode); }
-		}
-
-		public JSOperator Operator { private set; get; }
 	}
 }

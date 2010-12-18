@@ -5,18 +5,19 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// returnStatement
 	// : 'return' expression? (LT | ';')
 	public class JSReturnStatement : JSStatement {
-		private readonly XElement _node;
 
-		public JSReturnStatement(XElement xElement)
-			: base(xElement) {
-			_node = xElement;
+		//constructor
+		public JSReturnStatement(XElement node)	: base(node) {
+			ReturnExpression = JSExpression.CreateExpression(node.Element("expression"));
 		}
 
-		public JSExpression ReturnExpression {
-			get {
-				//TODO ReturnStatement may have no expression (It means "return;")
-				return JSExpression.CreateExpression(_node.Element("expression"));
-			}
+		//field
+		public JSExpression ReturnExpression { get; private set; }
+		
+		//function
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 	}
 }

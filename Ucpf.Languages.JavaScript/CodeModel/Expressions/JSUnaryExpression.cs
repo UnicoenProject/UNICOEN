@@ -8,19 +8,22 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 	// postfixExpression
 	// : leftHandSideExpression ('++' | '--')?
-	public class JsUnaryExpression : JSExpression {
-		private readonly XElement _node;
+	public class JSUnaryExpression : JSExpression {
 
-		public JsUnaryExpression(XElement expressionNode, JSOperator operatorNode)
-			: base(expressionNode) {
-			_node = expressionNode;
-			Op = operatorNode;
+		//constructor
+		public JSUnaryExpression(XElement expressionNode, JSUnaryOperator op) {
+			Expression = JSExpression.CreateExpression(expressionNode);
+			Operator = op;
 		}
 
-		public JSExpression Expression {
-			get { return CreateExpression(_node); }
-		}
+		//field
+		public JSExpression Expression { get; private set;}
+		public JSUnaryOperator Operator {  get; private set; }
 
-		public JSOperator Op { private set; get; }
+		//function
+		public new void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }
