@@ -25,58 +25,48 @@ namespace Ucpf.Languages.C.CodeModel
 
 		public BinaryOperatorType Type { get; private set; }
 
+		private static readonly IDictionary<string, BinaryOperatorType> Sign2Type;
+
+		static CBinaryOperator() {
+			Sign2Type = new Dictionary<string, BinaryOperatorType>();
+			// Arithmetic
+			Sign2Type["+"]	= BinaryOperatorType.Addition;
+			Sign2Type["-"]	= BinaryOperatorType.Subtraction;
+			Sign2Type["*"]	= BinaryOperatorType.Multiplication;
+			Sign2Type["/"]	= BinaryOperatorType.Division;
+			Sign2Type["%"]	= BinaryOperatorType.Modulo;
+			// Comparison
+			Sign2Type["<"]	= BinaryOperatorType.Lesser;
+			Sign2Type["<="] = BinaryOperatorType.LesserEqual;
+			Sign2Type[">"] = BinaryOperatorType.Greater;
+			Sign2Type[">="] = BinaryOperatorType.GreaterEqual;
+			Sign2Type["=="] = BinaryOperatorType.Equal;
+			Sign2Type["!="] = BinaryOperatorType.NotEqual;
+			// Shift
+			Sign2Type["<<"] = BinaryOperatorType.LeftShift;
+			Sign2Type[">>"] = BinaryOperatorType.RightShift;
+			// Logical
+			Sign2Type["&&"] = BinaryOperatorType.LogicalAnd;
+			Sign2Type["||"] = BinaryOperatorType.LogicalOr;
+			// Bit
+			Sign2Type["&"] = BinaryOperatorType.BitAnd;
+			Sign2Type["|"] = BinaryOperatorType.BitOr;
+			Sign2Type["^"] = BinaryOperatorType.BitXor;
+			// Assignment
+			Sign2Type["="] = BinaryOperatorType.Assignment;
+			// TODO :: implement other 'compound' assignment operator (e.g. +=
+		}
+
 		public override string ToString()
 		{
 			return Sign;
 		}
 
-
-		public static CBinaryOperator Create(XElement opeNode)
+		public static CBinaryOperator Create(XElement node)
 		{
-			Hashtable opeHash = new Hashtable();
-
-			// TODO :: create hash table for generating Operator instance efficiently
-			// Arithmetic
-			opeHash["+"]	= BinaryOperatorType.Addition;
-			opeHash["-"]	= BinaryOperatorType.Subtraction;
-			opeHash["*"]	= BinaryOperatorType.Multiplication;
-			opeHash["/"]	= BinaryOperatorType.Division;
-			opeHash["%"]	= BinaryOperatorType.Modulo;
-			// Comparison
-			opeHash["<"]	= BinaryOperatorType.Lesser;
-			opeHash["<="] = BinaryOperatorType.LesserEqual;
-			opeHash[">"] = BinaryOperatorType.Greater;
-			opeHash[">="] = BinaryOperatorType.GreaterEqual;
-			opeHash["=="] = BinaryOperatorType.Equal;
-			opeHash["!="] = BinaryOperatorType.NotEqual;
-			// Shift
-			opeHash["<<"] = BinaryOperatorType.LeftShift;
-			opeHash[">>"] = BinaryOperatorType.RightShift;
-			// Logical
-			opeHash["&&"] = BinaryOperatorType.LogicalAnd;
-			opeHash["||"] = BinaryOperatorType.LogicalOr;
-			// Bit
-			opeHash["&"] = BinaryOperatorType.BitAnd;
-			opeHash["|"] = BinaryOperatorType.BitOr;
-			opeHash["^"] = BinaryOperatorType.BitXor;
-			// Assignment
-			opeHash["="] = BinaryOperatorType.Assignment;
-			// TODO :: implement other 'compound' assignment operator (e.g. +=
-
-
-			var opeSign = opeNode.Value;
-			var opeType = opeHash[opeSign];
-			
-			if (opeType != null)
-			{
-				return new CBinaryOperator(opeSign, (BinaryOperatorType)opeType);
-			}
-			else
-			{
-				throw new InvalidOperationException();
-			}
-
-			
+			var sign = node.Value;
+			var type = Sign2Type[sign];
+			return new CBinaryOperator(sign, type);
 		}
 	}
 }
