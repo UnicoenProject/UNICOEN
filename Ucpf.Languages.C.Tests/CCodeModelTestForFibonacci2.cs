@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using NUnit.Framework;
+using Ucpf.CodeModel;
+using Ucpf.Languages.C.CodeModel;
+
+namespace Ucpf.Languages.C.Tests
+{
+	[TestFixture]
+	public class CCodeModelTestForFibonacci2 {
+		private CFunction _function;
+
+		[SetUp]
+		public void SetUp() {
+			_function = new CFunction(
+				CAstGenerator.Instance.GenerateFromFile("fibonacci2.c")
+				.Descendants("function_definition")
+				.First());
+		}
+		
+		[Test]
+		public void メソッド返却値タイプが正しい()
+		{
+			Assert.That(_function.ReturnType.Name, Is.EqualTo("int"));
+		}
+
+		[Test]
+		public void メソッド名が正しい()
+		{
+			Assert.That(_function.Name, Is.EqualTo("fibonacci2"));
+		}
+
+		// test whether the first parameter equals to (int, "n")
+		[Test]
+		public void パラメータリストが正しい()
+		{
+			var fstParam = _function.Parameters.ElementAt(0);
+			Assert.That(fstParam.Name, Is.EqualTo("n"));
+			Assert.That(fstParam.Type.Name, Is.EqualTo("int"));
+		}
+
+		[Test]
+		public void 最初のIF文の条件式が正しい()
+		{
+			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
+			var conditionalExpression = ifStmt.ConditionalExpression;
+			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n<0"));
+		}
+		[Test]
+		public void ふたつめのIF文の条件式が正しい(){
+			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
+			var elseBlock = ifStmt.ElseBlock;
+			var ifStmt2 = (CIfStatement)elseBlock.Statements.ElementAt(0);
+			var conditionalExpression = ifStmt2.ConditionalExpression;
+			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n==1||n==2"));
+		}
+
+		[Test]
+		public void ひとつめのTrueBlockが正しく生成できる()
+		{
+			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
+			var trueBlock = ifStmt.TrueBlock;
+			var stmt = trueBlock.Statements.ElementAt(0);
+			Assert.That(stmt.Expressions.ElementAt(0) is CInvocationExpression);
+			Assert.That(stmt.ToString(), Is.EqualTo("printf(\"aaaa\")"));
+		}
+
+		[Test]
+		public void ふたつめのTrueBlockが正しく生成できる()
+		{
+			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
+			var ifStmt2 = (CIfStatement)ifStmt.ElseBlock.Statements.ElementAt(0);
+			var trueBlock = ifStmt2.TrueBlock;
+			var stmt = trueBlock.Statements.ElementAt(0); 
+			var exp = stmt.Expressions.ElementAt(0);
+			Assert.That(stmt is CReturnStatement);
+			Assert.That(exp.ToString(), Is.EqualTo("1"));
+		}
+
+		[Test]
+		public void ElseBlockが正しく生成できる()
+		{
+			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
+			var ifStmt2 = (CIfStatement)ifStmt.ElseBlock.Statements.ElementAt(0);
+			var elseBlock = ifStmt2.ElseBlock;
+			var stmt = elseBlock.Statements.ElementAt(0);
+			var exp = stmt.Expressions.ElementAt(0);
+
+			Assert.That(stmt is CReturnStatement);
+			// Assert.That(stmt.ToString(), Is.EqualTo(""));			// (passed)
+			Assert.That(stmt.Expressions.ElementAt(0) is CBinaryExpression);
+			Assert.That(stmt.Expressions.ElementAt(0).ToString(), Is.EqualTo("fibonacci2(n-1)+fibonacci2(n-2)"));
+		}
+
+	}
+}

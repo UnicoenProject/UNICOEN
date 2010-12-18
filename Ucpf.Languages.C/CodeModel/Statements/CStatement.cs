@@ -22,7 +22,6 @@ namespace Ucpf.Languages.C.CodeModel
 		// constructor for deligating to subclasses
 		public CStatement() { }
 
-		
 
 		public override string ToString()
 		{
@@ -31,7 +30,6 @@ namespace Ucpf.Languages.C.CodeModel
 			{
 				str += s.ToString();
 			}
-
 			return str;
 		}
 
@@ -43,7 +41,7 @@ namespace Ucpf.Languages.C.CodeModel
 			switch (judge)
 			{
 				case ("selection_statement"):
-					return CSelectionStatement.CreateSelectionStatement(node);
+					return CSelectionStatement.Create(node);
 				case ("jump_statement"):
 					return new CReturnStatement(node);
 				case ("iteration_statement") :

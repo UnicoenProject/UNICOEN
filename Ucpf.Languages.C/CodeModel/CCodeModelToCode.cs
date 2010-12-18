@@ -51,7 +51,6 @@ namespace Ucpf.Languages.C.CodeModel {
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
-			// WriteLine();
 			_depth++;
 
 			var line = "";
@@ -63,11 +62,8 @@ namespace Ucpf.Languages.C.CodeModel {
 				line = "\n";
 			}
 			 _depth--;
-			 // WriteLine();
-			// end_paren
 			_writer.Write(Tabs(_depth));
 			_writer.Write("}");
-			// WriteLine();
 		}
 
 		// Statement
@@ -77,13 +73,19 @@ namespace Ucpf.Languages.C.CodeModel {
 			
 			if (stmt is CIfStatement)
 			{
-				
 				Generate((CIfStatement)stmt);
 			}
 			else if (stmt is CReturnStatement)
 			{
-				_writer.Write(Tabs(_depth));
 				Generate((CReturnStatement)stmt);
+			}
+			else
+			{
+				foreach (CExpression exp in stmt.Expressions)
+				{
+					_writer.Write(Tabs(_depth));
+					exp.Accept(this);
+				}
 			}
 			WriteLine();
 		}
@@ -91,30 +93,31 @@ namespace Ucpf.Languages.C.CodeModel {
 		// IfStatement
 		public void Generate(CIfStatement stmt)
 		{
-			// _writer.WriteLine("IFSTMNT");
-			// ConditionalExpression
 			_writer.Write(Tabs(_depth));
 			_writer.Write("if (");
 			stmt.ConditionalExpression.Accept(this);
 			_writer.Write(")");
 			WriteLine();
-			_writer.Flush();
+			// _writer.Flush();
+			
 			// TrueBlock
-			// _writer.WriteLine("TRUE");
 			stmt.TrueBlock.Accept(this);
 
 			// ElseBlock
-			// _writer.WriteLine("ELSE");
-			WriteLine();
-			_writer.Write(Tabs(_depth));
-			_writer.WriteLine("else");
-			stmt.ElseBlock.Accept(this);
+			var elseBlock = stmt.ElseBlock;
+			if(elseBlock != null)
+			{
+				WriteLine();
+				_writer.Write(Tabs(_depth));
+				_writer.WriteLine("else");
+				elseBlock.Accept(this);
+			}
 		}
 
 		// ReturnStatement
 		public void Generate(CReturnStatement stmt)
 		{
-			// _writer.WriteLine("RETURNSTMT");
+			_writer.Write(Tabs(_depth));
 			_writer.Write("return");
 			WriteSpace();
 
@@ -263,11 +266,6 @@ namespace Ucpf.Languages.C.CodeModel {
 
 		#endregion
 
-		// Operator
-		public void Generate(COperator ope)
-		{
-			_writer.Write(ope.Name);
-		}
 
 		// UnaryOperator
 		public void Generate(CUnaryOperator op)

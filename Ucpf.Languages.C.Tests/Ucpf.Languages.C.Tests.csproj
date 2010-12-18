@@ -50,6 +50,9 @@
     <Compile Include="CCodeModelTestForFact.cs" />
     <Compile Include="CCodeModelToCodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CCodeModelToCodeTestForTest.cs" />
+    <Compile Include="CCodeModelTestForTest.cs" />
+    <Compile Include="CCodeModelTestForFibonacci2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">

@@ -10,7 +10,7 @@ using System.IO;
 namespace Ucpf.Languages.C.Tests
 {
 	[TestFixture]
-	public class CCodeModelToCodeTestForTest
+	public class CCodeModelToCodeTest
 	{
 		private CCodeModelToCode _cmtc;
 		private StringWriter _writer;
@@ -22,7 +22,7 @@ namespace Ucpf.Languages.C.Tests
 			_writer = new StringWriter();
 			_cmtc = new CCodeModelToCode(_writer, 0);
 			_func = new CFunction(
-						CAstGenerator.Instance.GenerateFromFile("fibonacci.c")
+						CAstGenerator.Instance.GenerateFromFile("fibonacci2.c")
 						.Descendants("function_definition")
 						.First());		
 		}
@@ -35,7 +35,6 @@ namespace Ucpf.Languages.C.Tests
 			var actual = _writer.ToString();
 			Assert.That(actual, Is.EqualTo("int"));
 		}
-
 		[Test]
 		public void 二項演算式を正しくコードに変換できる()
 		{
@@ -44,8 +43,8 @@ namespace Ucpf.Languages.C.Tests
 			
 			_cmtc.Generate(conditionalExpression);
 			Assert.That(_writer.ToString(), Is.EqualTo("n < 2"));
+			
 		}
-
 		[Test]
 		public void ブロックを正しくコードに変換できる()
 		{
@@ -67,6 +66,7 @@ namespace Ucpf.Languages.C.Tests
 
 			// DebugPrint
 			System.Diagnostics.Debug.WriteLine(actual);
+
 		}
 
 	}
