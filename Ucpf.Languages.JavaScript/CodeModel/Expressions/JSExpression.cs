@@ -30,11 +30,11 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			var tmp =
 				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
-					return c > 1 || (c == 1 && e.Element("TOKEN") != null);
+					return c > 1 || (c == 1 && e.Element("Identifier") != null) || (c == 1 && e.Element("TOKEN") != null);
 				});
 			//TODO sometime, tmp may be empty list...
 			if(tmp.Count() == 0) {
-				Console.Write("null");
+				Console.Write(node);
 				throw new NullReferenceException();
 			}
 			var targetElement = tmp.First();	
@@ -84,6 +84,11 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
+		}
+
+		public override string ToString()
+		{
+			return _node.Value;
 		}
 	}
 }

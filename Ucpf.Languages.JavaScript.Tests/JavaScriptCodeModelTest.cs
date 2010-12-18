@@ -20,7 +20,7 @@ namespace Ucpf.Languages.JavaScript.Tests
         }
 
 		[Test]
-		public void 一番最初に宣言されている関数のパラメータが正しく取得できる() {
+		public void 一番最初に宣言されている関数のパラメータを取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
             var func = new JSFunctionDeclaration(root);
@@ -29,15 +29,36 @@ namespace Ucpf.Languages.JavaScript.Tests
 		}
 
 		[Test]
-		public void if文の条件式が正しく取得できる() {
+		public void if文の条件式を取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunctionDeclaration(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
 			var cond = (JSBinaryExpression)ifst.ConditionalExpression;
-			var op   = cond.Operator;
-			Assert.That(op, Is.EqualTo("<"));
+			Assert.That(cond.ToString(), Is.EqualTo("n<2"));
+		}
+		
+		[Test]
+		public void 関数内のステートメントを取得する() {
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+            var root = ast.Descendants("functionDeclaration").First();
+			var func = new JSFunctionDeclaration(root);
+			var body = func.FunctionBody;
+			var stat = body.Statements;
+			var str1 = stat.ElementAt(0);
+			Assert.That(str1.ToString(), Is.EqualTo("n<2"));
+		}
+
+		[Test]
+		public void 一番最初のreturn文を取得する() {
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+            var root = ast.Descendants("functionDeclaration").First();
+			var func = new JSFunctionDeclaration(root);
+			var body = func.FunctionBody;
+			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
+			var ret  = ifst.TrueBlock;
+			Assert.That(ret.GetType(), Is.EqualTo(typeof(JSReturnStatement)));
 		}
     }
 }
