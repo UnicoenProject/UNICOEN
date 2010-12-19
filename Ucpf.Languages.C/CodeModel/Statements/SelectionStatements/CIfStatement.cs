@@ -7,11 +7,21 @@ using System.Xml.Linq;
 
 namespace Ucpf.Languages.C.CodeModel
 {
+	public class CElseIfBlock : CBlock
+	{
+		public CExpression ConditionalExpression { get; set; }
+
+		public CElseIfBlock(CExpression conditionalExpression, XElement statementNode) : base(statementNode){
+			ConditionalExpression = conditionalExpression;
+		}
+	}
+
 	public class CIfStatement : CSelectionStatement
 	{
 		// properties
 		public CExpression ConditionalExpression { get; private set; }
 		public CBlock TrueBlock { get; private set; }
+		public List<CElseIfBlock> ElseIfBlocks { get; private set; }
 		public CBlock ElseBlock { get; private set; }
 
 		// constructor for parsing AST
@@ -29,22 +39,47 @@ namespace Ucpf.Languages.C.CodeModel
 					.Element("statement_list");
 			TrueBlock = new CBlock(trueList);
 
-			// ElseBlock
+			// ElseIfBlock
 			if (topNode.Count() > 1)
 			{
 				var elseNode = topNode.ElementAt(1);
 
-				// 'else'
-				if (elseNode.Element("compound_statement") != null)
+				var node = elseNode;
+				var elseifblocks = new List<CElseIfBlock>();
+				
+				while (node != null && 
+					node.Element("selection_statement") != null &&
+					node.Element("selection_statement").Element("TOKEN") != null &&
+					node.Element("selection_statement").Element("TOKEN").Value == "if")
 				{
-					ElseBlock = new CBlock(elseNode.Element("compound_statement")
+					var conditionalExpression = CExpression.Create(node.Descendants("expression").First());
+					var statementNode = node.Element("selection_statement")
+						.Element("statement").Element("compound_statement")
+						.Element("statement_list");
+					var addElement = new CElseIfBlock(conditionalExpression, statementNode);
+					elseifblocks.Add(addElement);
+
+					if (node.Element("selection_statement") != null && node.Element("selection_statement").Elements("statement").Count() > 1)
+					{
+						node = node.Element("selection_statement").Elements("statement").ElementAt(1);
+					}
+					else
+					{
+						break;
+					}
+				}
+				
+				
+
+				ElseIfBlocks = elseifblocks;
+
+				// 'else'
+				if (node != null && node.Element("compound_statement") != null)
+				{
+					ElseBlock = new CBlock(node.Element("compound_statement")
 												.Element("statement_list"));
 				}
-				// 'else if'
-				else
-				{
-					ElseBlock = new CBlock(elseNode);
-				}
+
 			}
 
 			else

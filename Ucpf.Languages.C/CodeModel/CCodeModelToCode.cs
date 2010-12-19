@@ -8,8 +8,10 @@ using Ucpf.CodeModel;
 using Ucpf.CodeModelToCode;
 
 // TODO :: extract "pre_procedure" as a method
-namespace Ucpf.Languages.C.CodeModel {
-	public class CCodeModelToCode{ // : ICodeModelToCode {
+namespace Ucpf.Languages.C.CodeModel
+{
+	public class CCodeModelToCode
+	{ // : ICodeModelToCode {
 		private readonly TextWriter _writer;
 		private int _depth;
 
@@ -54,14 +56,14 @@ namespace Ucpf.Languages.C.CodeModel {
 			_depth++;
 
 			var line = "";
-			
+
 			foreach (var stmt in block.Statements)
 			{
 				_writer.Write(line);
 				stmt.Accept(this);
 				line = "\n";
 			}
-			 _depth--;
+			_depth--;
 			_writer.Write(Tabs(_depth));
 			_writer.Write("}");
 		}
@@ -70,7 +72,7 @@ namespace Ucpf.Languages.C.CodeModel {
 		public void Generate(CStatement stmt)
 		{
 			WriteLine();
-			
+
 			if (stmt is CIfStatement)
 			{
 				Generate((CIfStatement)stmt);
@@ -86,9 +88,11 @@ namespace Ucpf.Languages.C.CodeModel {
 					_writer.Write(Tabs(_depth));
 					exp.Accept(this);
 				}
+				_writer.Write(";");
 			}
 			WriteLine();
 		}
+
 
 		// IfStatement
 		public void Generate(CIfStatement stmt)
@@ -99,19 +103,36 @@ namespace Ucpf.Languages.C.CodeModel {
 			_writer.Write(")");
 			WriteLine();
 			// _writer.Flush();
-			
+
 			// TrueBlock
 			stmt.TrueBlock.Accept(this);
 
-			// ElseBlock
-			var elseBlock = stmt.ElseBlock;
-			if(elseBlock != null)
+			// ElseIfBlock
+			if (stmt.ElseIfBlocks != null)
 			{
 				WriteLine();
-				_writer.Write(Tabs(_depth));
-				_writer.WriteLine("else");
-				elseBlock.Accept(this);
+				foreach (CElseIfBlock elm in stmt.ElseIfBlocks)
+				{
+					_writer.Write(Tabs(_depth));
+					_writer.Write("else if (");
+					elm.ConditionalExpression.Accept(this);
+					_writer.Write(")");
+					WriteLine();
+					elm.Accept(this);
+				}
+				WriteLine();
 			}
+
+			// ElseBlock
+			if (stmt.ElseBlock != null)
+			{
+				_writer.Write(Tabs(_depth));
+				_writer.Write("else");
+				WriteLine();
+				stmt.ElseBlock.Accept(this);
+			}
+
+
 		}
 
 		// ReturnStatement
@@ -139,7 +160,8 @@ namespace Ucpf.Languages.C.CodeModel {
 			WriteSpace();
 			_writer.Write(func.Name);
 			_writer.Write("(");
-			foreach(CVariable prm in func.Parameters){
+			foreach (CVariable prm in func.Parameters)
+			{
 				_writer.Write(comma);
 				prm.Accept(this);
 				comma = ", ";
@@ -195,10 +217,8 @@ namespace Ucpf.Languages.C.CodeModel {
 				throw new InvalidOperationException();
 			}
 
-			// adding ";" is deligated to submethods
-
 		}
-		
+
 		// PrimaryExpression
 		public void Generate(CPrimaryExpression pExp)
 		{
@@ -305,8 +325,10 @@ namespace Ucpf.Languages.C.CodeModel {
 		}
 
 		// BinaryOperator
-		public void Generate(CBinaryOperator op) {
-			switch (op.Type) {
+		public void Generate(CBinaryOperator op)
+		{
+			switch (op.Type)
+			{
 				// Arithmetic
 				case BinaryOperatorType.Addition:
 					_writer.Write("+");

@@ -53,14 +53,13 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void ふたつめのIF文の条件式が正しい(){
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
-			var elseBlock = ifStmt.ElseBlock;
-			var ifStmt2 = (CIfStatement)elseBlock.Statements.ElementAt(0);
-			var conditionalExpression = ifStmt2.ConditionalExpression;
+			var elseifBlocks = ifStmt.ElseIfBlocks;
+			var conditionalExpression = elseifBlocks.ElementAt(0).ConditionalExpression;
 			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n==1||n==2"));
 		}
 
 		[Test]
-		public void ひとつめのTrueBlockが正しく生成できる()
+		public void TrueBlockが正しく生成できる()
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
 			var trueBlock = ifStmt.TrueBlock;
@@ -70,12 +69,11 @@ namespace Ucpf.Languages.C.Tests
 		}
 
 		[Test]
-		public void ふたつめのTrueBlockが正しく生成できる()
+		public void ElseIfBlockが正しく生成できる()
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
-			var ifStmt2 = (CIfStatement)ifStmt.ElseBlock.Statements.ElementAt(0);
-			var trueBlock = ifStmt2.TrueBlock;
-			var stmt = trueBlock.Statements.ElementAt(0); 
+			var elseifBlocks = ifStmt.ElseIfBlocks;
+			var stmt = elseifBlocks.ElementAt(0).Statements.ElementAt(0);
 			var exp = stmt.Expressions.ElementAt(0);
 			Assert.That(stmt is CReturnStatement);
 			Assert.That(exp.ToString(), Is.EqualTo("1"));
@@ -85,8 +83,7 @@ namespace Ucpf.Languages.C.Tests
 		public void ElseBlockが正しく生成できる()
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
-			var ifStmt2 = (CIfStatement)ifStmt.ElseBlock.Statements.ElementAt(0);
-			var elseBlock = ifStmt2.ElseBlock;
+			var elseBlock = ifStmt.ElseBlock;
 			var stmt = elseBlock.Statements.ElementAt(0);
 			var exp = stmt.Expressions.ElementAt(0);
 
@@ -95,6 +92,5 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(stmt.Expressions.ElementAt(0) is CBinaryExpression);
 			Assert.That(stmt.Expressions.ElementAt(0).ToString(), Is.EqualTo("fibonacci2(n-1)+fibonacci2(n-2)"));
 		}
-
 	}
 }
