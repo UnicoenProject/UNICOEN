@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CFunction
+	public class CFunction : IFunction
 	{
 		// properties
 		public CType ReturnType { get; private set; }
 		public string Name { get; private set; }
-		public List<CVariable> Parameters { get; private set; }
+		public IList<IVariable> Parameters { get; private set; }
 		public CBlock Body { get; private set; }
 
 
@@ -42,6 +43,56 @@ namespace Ucpf.Languages.C.CodeModel
 		public void Accept(CCodeModelToCode conv)
 		{
 			conv.Generate(this);
+		}
+
+
+
+		IType IFunction.ReturnType
+		{
+			get
+			{
+				return ReturnType;
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
+
+		string IFunction.Name
+		{
+			get
+			{
+				return Name;
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
+
+		IList<IVariable> IFunction.Parameters
+		{
+			get
+			{
+				return Parameters;
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
+
+		IBlock IFunction.Body
+		{
+			get
+			{
+				return Body;
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
 		}
 	}
 }

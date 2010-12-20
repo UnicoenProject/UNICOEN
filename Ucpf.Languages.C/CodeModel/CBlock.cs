@@ -7,7 +7,7 @@ using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CBlock
+	public class CBlock : IBlock
 	{
 		public IList<CStatement> Statements { get; private set; }
 
@@ -40,6 +40,21 @@ namespace Ucpf.Languages.C.CodeModel
 		// acceptor
 		public void Accept(CCodeModelToCode conv) {
 			conv.Generate(this);
+		}
+
+
+
+		IList<IStatement> IBlock.Statements
+		{
+			get
+			{
+				return Statements;
+			}
+		}
+
+		void ICodeElement.Accept(ICodeModelToCode conv)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

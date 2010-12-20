@@ -1,6 +1,8 @@
-﻿namespace Ucpf.Languages.C.CodeModel
+﻿using Ucpf.CodeModel;
+
+namespace Ucpf.Languages.C.CodeModel
 {
-	public class CType
+	public class CType : IType
 	{
 		public string Name { get; set; }
 
