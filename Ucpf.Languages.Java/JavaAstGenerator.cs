@@ -36,13 +36,6 @@ namespace Ucpf.Languages.Java
 			get { return new[] { ".java" }; }
 		}
 
-		protected override void ArrangeAst(XElement ast)
-		{
-			var nodes = GetLackingBlockNodes(ast);
-			Weaver.SafeWeaveAround(nodes,
-				node => AntlrBlockGenerator.Generate(node, this));
-		}
-
 		protected override ITokenSource CreateTokenSource(ICharStream stream)
 		{
 			return new JavaLexer(stream);
@@ -51,22 +44,6 @@ namespace Ucpf.Languages.Java
 		protected override JavaParser CreateParser(ITokenStream tokenStream)
 		{
 			return new JavaParser(tokenStream);
-		}
-
-		private static IEnumerable<XElement> GetLackingBlockNodes(XElement root)
-		{
-			var ifs = JavaElements.If(root)
-				.SelectMany(JavaElements.IfAndElseProcesses);
-			var whiles = JavaElements.While(root)
-				.Select(JavaElements.WhileProcess);
-			var dos = JavaElements.DoWhile(root)
-				.Select(JavaElements.DoWhileProcess);
-			var fors = JavaElements.For(root)
-				.Select(JavaElements.ForProcess);
-
-			return ifs.Concat(whiles)
-				.Concat(dos)
-				.Concat(fors);
 		}
 	}
 }

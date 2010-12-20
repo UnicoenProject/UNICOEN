@@ -57,7 +57,7 @@ namespace Ucpf.Languages.Tests
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void 全てのソースコードをパースできる(string fileName, AstGenerator astGen)
+		public void 構文木生成とコード生成を二回繰り返してもコードが変化しない(string fileName, AstGenerator astGen)
 		{
 			var path = Path.Combine(DirectoryPath, fileName);
 			var codeGen = PluginManager.CodeGenerators

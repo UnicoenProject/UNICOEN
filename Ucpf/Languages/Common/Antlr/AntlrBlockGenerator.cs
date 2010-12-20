@@ -35,7 +35,7 @@ namespace Ucpf.Languages.Common.Antlr {
 				return node;
 			}
 			var newNode = astGen.Generate(leftToken + code + rightToken,
-				node.Name.LocalName, true);
+				node.Name.LocalName);
 			foreach (
 				var t in
 					node.Descendants("TOKEN").Zip(newNode.Descendants("TOKEN").Skip(1))) {

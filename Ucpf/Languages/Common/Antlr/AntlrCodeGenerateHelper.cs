@@ -15,7 +15,7 @@ namespace Ucpf.Languages.Common.Antlr {
 			Contract.Ensures(Contract.Result<XElement>() != null);
 			var oldcode = codeGen.Generate(node);
 			var code = beforeCode + oldcode + afterCode;
-			return astGen.Generate(code, node.Name.LocalName, true);
+			return astGen.Generate(code, node.Name.LocalName);
 		}
 	}
 }

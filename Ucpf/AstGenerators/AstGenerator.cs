@@ -10,34 +10,19 @@ namespace Ucpf.AstGenerators {
 		public abstract string ParserName { get; }
 		public abstract IEnumerable<string> TargetExtensions { get; }
 
-		public XElement Generate(TextReader reader) {
-			Contract.Requires(reader != null);
-			return Generate(reader, true);
-		}
-
-		public XElement Generate(string code) {
-			Contract.Requires(code != null);
-			return Generate(code, true);
-		}
-
 		public XElement GenerateFromFile(string path) {
 			Contract.Requires(path != null);
-			return GenerateFromFile(path, true);
-		}
-
-		public XElement GenerateFromFile(string path, bool ignoreArrange) {
-			Contract.Requires(path != null);
 			using (var reader = new StreamReader(path)) {
-				return Generate(reader, ignoreArrange);
+				return Generate(reader);
 			}
 		}
 
-		public abstract XElement Generate(TextReader reader, bool ignoreArrange);
+		public abstract XElement Generate(TextReader reader);
 
-		public virtual XElement Generate(string code, bool ignoreArrange) {
+		public virtual XElement Generate(string code) {
 			Contract.Requires(code != null);
 			using (var reader = new StringReader(code)) {
-				return Generate(reader, ignoreArrange);
+				return Generate(reader);
 			}
 		}
 	}
@@ -62,7 +47,7 @@ namespace Ucpf.AstGenerators {
 			}
 		}
 
-		public override XElement Generate(TextReader reader, bool ignoreArrange)
+		public override XElement Generate(TextReader reader)
 		{
 			Contract.Requires(reader != null);
 			throw new System.NotImplementedException();

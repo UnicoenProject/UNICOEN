@@ -30,25 +30,23 @@ namespace Ucpf.Languages.IronRuby
 
 		private IronRubyAstGenerator() { }
 
-		public override XElement Generate(TextReader reader, bool ignoreArrange) {
-			return Generate(reader.ReadToEnd(), ignoreArrange);
+		public override XElement Generate(TextReader reader) {
+			return Generate(reader.ReadToEnd());
 		}
 
-		public override XElement Generate(string code, bool ignoreArrange)
+		public override XElement Generate(string code)
 		{
 			var ast = IronRubyParser.ParseCodeFromString(code);
-			if (!ignoreArrange) {
-				Weaver.SafeWeaveAround(GetLackingBlockNodesAround(ast),
-					node => {
-						if (node.Name.LocalName == "block")
-							return node;
-						return node.Name.LocalName != "Nil"
-							? new XElement("block", node)
-							: new XElement("block");
-					});
-				Weaver.WeaveAfter(GetLackingBlockNodesAfter(ast),
-					node => new XElement("block"));
-			}
+			Weaver.SafeWeaveAround(GetLackingBlockNodesAround(ast),
+				node => {
+					if (node.Name.LocalName == "block")
+						return node;
+					return node.Name.LocalName != "Nil"
+						? new XElement("block", node)
+						: new XElement("block");
+				});
+			Weaver.WeaveAfter(GetLackingBlockNodesAfter(ast),
+				node => new XElement("block"));
 			return ast;
 		}
 

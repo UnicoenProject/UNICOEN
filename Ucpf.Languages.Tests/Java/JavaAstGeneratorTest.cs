@@ -12,7 +12,7 @@ namespace Ucpf.Languages.Tests.Java
 		{
 			var code = "i = 0;";
 			XParserRuleReturnScope r = null;
-			var ast = JavaAstGenerator.Instance.Generate(code, p => r = p.statement(), true);
+			var ast = JavaAstGenerator.Instance.Generate(code, p => r = p.statement());
 			Assert.That(r.Element.ToString(), Is.EqualTo(ast.ToString()));
 		}
 
@@ -21,7 +21,7 @@ namespace Ucpf.Languages.Tests.Java
 		{
 			var code = "{ int i = 0; i = i + 1; }";
 			XParserRuleReturnScope r = null;
-			var ast = JavaAstGenerator.Instance.Generate(code, p => r = p.block(), true);
+			var ast = JavaAstGenerator.Instance.Generate(code, p => r = p.block());
 			Assert.That(r.Element.ToString(), Is.EqualTo(ast.ToString()));
 		}
 
@@ -40,7 +40,7 @@ class Test {
 }
 ";
 			XParserRuleReturnScope r = null;
-			var ast = JavaAstGenerator.Instance.Generate(code, p => r = p.compilationUnit(), true);
+			var ast = JavaAstGenerator.Instance.Generate(code, p => r = p.compilationUnit());
 			Assert.That(r.Element.ToString(), Is.EqualTo(ast.ToString()));
 		}
 	}

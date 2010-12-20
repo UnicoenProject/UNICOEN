@@ -35,7 +35,7 @@ namespace Ucpf.Languages.JavaScript
 			get { return new[] { ".js" }; }
 		}
 
-		protected override void ArrangeAst(XElement ast)
+		public void ArrangeAst(XElement ast)
 		{
 			var nodes = GetLackingBlockNodes(ast);
 			Weaver.SafeWeaveAround(nodes,

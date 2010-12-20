@@ -35,13 +35,6 @@ namespace Ucpf.Languages.C
 			get { return new[] { ".c" }; }
 		}
 
-		protected override void ArrangeAst(XElement ast)
-		{
-			var nodes = GetLackingBlockNodes(ast);
-			Weaver.SafeWeaveAround(nodes,
-				node => AntlrBlockGenerator.Generate(node, this));
-		}
-
 		protected override ITokenSource CreateTokenSource(ICharStream stream)
 		{
 			return new CLexer(stream);
@@ -50,16 +43,6 @@ namespace Ucpf.Languages.C
 		protected override CParser CreateParser(ITokenStream tokenStream)
 		{
 			return new CParser(tokenStream);
-		}
-
-		private static IEnumerable<XElement> GetLackingBlockNodes(XElement root)
-		{
-			var loops = CElements.Loop(root)
-				.Select(CElements.LoopProcess);
-			var selections = CElements.Selection(root)
-				.SelectMany(CElements.SelectionProcesses);
-
-			return loops.Concat(selections);
 		}
 	}
 }

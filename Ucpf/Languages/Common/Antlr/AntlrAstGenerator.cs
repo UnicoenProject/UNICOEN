@@ -11,50 +11,32 @@ namespace Ucpf.Languages.Common.Antlr {
 	public abstract class AntlrAstGenerator<TParser> : AstGenerator {
 		protected abstract Func<TParser, XParserRuleReturnScope> DefaultParseFunc { get; }
 
-		protected virtual void ArrangeAst(XElement root) {
-			Contract.Requires(root != null);
-		}
-
 		protected abstract ITokenSource CreateTokenSource(ICharStream stream);
 
 		protected abstract TParser CreateParser(ITokenStream tokenStream);
 
 		private XElement Generate(ICharStream stream,
-		                          Func<TParser, XParserRuleReturnScope> parseFunc,
-		                          bool ignoreArrange) {
+		                          Func<TParser, XParserRuleReturnScope> parseFunc) {
 			var lex = CreateTokenSource(stream);
 			var tokens = new CommonTokenStream(lex);
 			var parser = CreateParser(tokens);
 
 			// launch parsing
-			var ast = parseFunc(parser).Element;
-			if (!ignoreArrange) {
-				ArrangeAst(ast);
-			}
-			return ast;
+			return parseFunc(parser).Element;
 		}
 
-		private XElement Generate(ICharStream stream, string nodeName,
-		                          bool ignoreArrange) {
+		private XElement Generate(ICharStream stream, string nodeName) {
 			return Generate(stream,
 				p =>
 				(XParserRuleReturnScope)
-				p.GetType().GetMethod(nodeName).Invoke(p, null),
-				ignoreArrange);
+				p.GetType().GetMethod(nodeName).Invoke(p, null));
 		}
 
 		public XElement Generate(string code, string nodeName) {
 			Contract.Requires(code != null);
 			Contract.Requires(nodeName != null);
 			Contract.Ensures(Contract.Result<XElement>() != null);
-			return Generate(code, nodeName, true);
-		}
-
-		public XElement Generate(string code, string nodeName, bool ignoreArrange) {
-			Contract.Requires(code != null);
-			Contract.Requires(nodeName != null);
-			Contract.Ensures(Contract.Result<XElement>() != null);
-			return Generate(new ANTLRStringStream(code), nodeName, ignoreArrange);
+			return Generate(new ANTLRStringStream(code), nodeName);
 		}
 
 		public XElement Generate(string code,
@@ -62,30 +44,21 @@ namespace Ucpf.Languages.Common.Antlr {
 			Contract.Requires(code != null);
 			Contract.Requires(parseAction != null);
 			Contract.Ensures(Contract.Result<XElement>() != null);
-			return Generate(code, parseAction, true);
+			return Generate(new ANTLRStringStream(code), parseAction);
 		}
 
-		public XElement Generate(string code,
-		                         Func<TParser, XParserRuleReturnScope> parseAction,
-		                         bool ignoreArrange) {
-			Contract.Requires(code != null);
-			Contract.Requires(parseAction != null);
-			Contract.Ensures(Contract.Result<XElement>() != null);
-			return Generate(new ANTLRStringStream(code), parseAction, ignoreArrange);
-		}
-
-		private XElement Generate(ICharStream stream, bool ignoreArrange) {
+		private XElement Generate(ICharStream stream) {
 			Contract.Requires(stream != null);
 			Contract.Ensures(Contract.Result<XElement>() != null);
-			return Generate(stream, DefaultParseFunc, ignoreArrange);
+			return Generate(stream, DefaultParseFunc);
 		}
 
-		public override XElement Generate(TextReader reader, bool ignoreArrange) {
-			return Generate(new ANTLRReaderStream(reader), ignoreArrange);
+		public override XElement Generate(TextReader reader) {
+			return Generate(new ANTLRReaderStream(reader));
 		}
 
-		public override XElement Generate(string code, bool ignoreArrange) {
-			return Generate(new ANTLRStringStream(code), ignoreArrange);
+		public override XElement Generate(string code) {
+			return Generate(new ANTLRStringStream(code));
 		}
 	}
 

@@ -19,7 +19,7 @@ namespace Ucpf.AstGenerators {
 			}
 		}
 
-		public override XElement Generate(TextReader reader, bool ignoreArrange) {
+		public override XElement Generate(TextReader reader) {
 			var info = new ProcessStartInfo {
 				FileName = ProcessorPath,
 				Arguments = Arguments.JoinString(" "),
