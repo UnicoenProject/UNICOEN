@@ -32,7 +32,7 @@ namespace Ucpf.Languages.C.CodeModel
 								var type = new CType(e.Element("declaration_specifiers").Element("type_specifier").Element("TOKEN").Value);
 								var name = e.Element("declarator").Element("direct_declarator").Element("IDENTIFIER").Value;
 								return new CVariable(type, name);
-							}).ToList();
+							}).Cast<IVariable>().ToList();
 
 			// Body
 			Body = new CBlock(node.Element("compound_statement").Element("statement_list"));
