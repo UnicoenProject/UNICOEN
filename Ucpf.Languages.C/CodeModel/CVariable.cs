@@ -1,9 +1,10 @@
-﻿namespace Ucpf.Languages.C.CodeModel
+﻿using Ucpf.CodeModel;
+namespace Ucpf.Languages.C.CodeModel
 {
-	public class CVariable
+	public class CVariable : IVariable
 	{
-		public string Name;
-		public CType Type;
+		public string Name { get; private set; }
+		public CType Type { get; private set; }
 
 		// constructor
 		public CVariable(CType type, string name)
@@ -18,5 +19,29 @@
 			conv.Generate(this);
 		}
 
+
+		string IVariable.Name
+		{
+			get
+			{
+				return Name;
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
+
+		IType IVariable.Type
+		{
+			get
+			{
+				return Type;
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
 	}
 }

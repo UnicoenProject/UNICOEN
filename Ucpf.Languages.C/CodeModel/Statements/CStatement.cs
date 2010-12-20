@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CStatement
+	public class CStatement : IStatement
 	{
 		// properties
 		public List<CExpression> Expressions { get; private set; }
@@ -56,6 +57,11 @@ namespace Ucpf.Languages.C.CodeModel
 		// acceptor
 		public void Accept(CCodeModelToCode conv) {
 			conv.Generate(this);
+		}
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
