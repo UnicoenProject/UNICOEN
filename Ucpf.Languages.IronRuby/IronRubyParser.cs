@@ -13,11 +13,11 @@ namespace Ucpf.Languages.IronRuby
 			var engine = Ruby.CreateEngine();
 			// ir.exe.config を参照のこと
 			engine.SetSearchPaths(new[] {
-				@"ParserScripts\Ruby1.8",
+				@"ParserScripts\IronRubyParser",
 			});
 
 			var scope = engine.CreateScope();
-			var source = engine.CreateScriptSourceFromFile(@"ParserScripts\Ruby1.8\parser.rb");
+			var source = engine.CreateScriptSourceFromFile(@"ParserScripts\IronRubyParser\parser.rb");
 			source.Execute(scope);
 			ParseCodeFunc = scope.GetVariable<Func<string, XElement>>("parse_code");
 			ParseXmlFunc = scope.GetVariable<Func<XElement, string>>("parse_xml");
