@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CExpression
+	public abstract class CExpression
 	{
 		// constructor
 		protected CExpression() { }
