@@ -2,7 +2,7 @@
 
 namespace Ucpf.CodeModel
 {
-	public interface IBinaryExpression
+	public interface IBinaryExpression : IExpression
 	{
 		IBinaryOperator Operator { get; set; }
 		IExpression LeftHandSide { get; set; }

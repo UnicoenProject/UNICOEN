@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CBinaryExpression : CExpression
+	public class CBinaryExpression : CExpression, IBinaryExpression
 	{
 		// properties
 		public CExpression LeftExpression { get; private set; }
@@ -32,5 +33,54 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			conv.Generate(this);
 		}
+
+		#region IBinaryExpression メンバー
+
+		IBinaryOperator IBinaryExpression.Operator
+		{
+			get
+			{
+				return Operator;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		IExpression IBinaryExpression.LeftHandSide
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		IExpression IBinaryExpression.RightHandSide
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		#endregion
+
+		#region ICodeElement メンバー
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }
