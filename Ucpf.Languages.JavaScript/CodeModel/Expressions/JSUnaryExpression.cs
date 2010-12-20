@@ -25,5 +25,11 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		{
 			conv.Generate(this);
 		}
+
+		public override string ToString()
+		{
+			//TODO must consider prefix or postfix
+			return Operator.ToString() + Expression.ToString();
+		}
 	}
 }

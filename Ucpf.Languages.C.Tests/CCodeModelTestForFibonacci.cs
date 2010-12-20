@@ -17,13 +17,14 @@ namespace Ucpf.Languages.C.Tests
 		private CFunction _function;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			_function = new CFunction(
 				CAstGenerator.Instance.GenerateFromFile("fibonacci.c")
 				.Descendants("function_definition")
-				.First());			
+				.First());
 		}
-		
+
 		[Test]
 		public void メソッド返却値タイプが正しい()
 		{
@@ -51,7 +52,7 @@ namespace Ucpf.Languages.C.Tests
 			var leftExp = conditionalExpression.LeftExpression;
 			var rightExp = conditionalExpression.RightExpression;
 			var ope = conditionalExpression.Operator;
-			
+
 			Assert.That(ope.Sign, Is.EqualTo("<"));
 			Assert.That(ope.Type, Is.EqualTo(BinaryOperatorType.Lesser));
 			Assert.That(leftExp.ToString(), Is.EqualTo("n"));

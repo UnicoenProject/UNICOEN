@@ -29,13 +29,17 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		//function
 		public static JSStatement CreateStatement(XElement xElement) {
 			var element = xElement.Elements().First();
-			Console.Write(element.Value);
 
-			//case IfStatement
+			//case statementBlock
+			//TODO implement "statementBlock"
+			if (element.Name.LocalName == "statementBlock")
+				return null;
+
+			//case ifStatement
 			if (element.Name.LocalName == "ifStatement")
 				return new JSIfStatement(element);
 
-			//case ReturnStatement
+			//case returnStatement
 			if (element.Name.LocalName == "returnStatement")
 				return new JSReturnStatement(element);
 
@@ -46,6 +50,11 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
+		}
+
+		public override string ToString()
+		{
+			return _node.Value;
 		}
 	}
 }

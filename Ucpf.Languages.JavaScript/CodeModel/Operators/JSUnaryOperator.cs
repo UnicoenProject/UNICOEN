@@ -49,5 +49,10 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
+		public override string ToString()
+		{
+			return Sign;
+		}
+
 	}
 }

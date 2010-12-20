@@ -36,5 +36,14 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
+		public override string  ToString()
+		{
+			var argumentList = "";
+			foreach(JSExpression arg in Arguments) {
+				argumentList += arg.ToString();
+			}
+ 			return Identifier + "(" + argumentList + ")";
+		}
+
 	}
 }

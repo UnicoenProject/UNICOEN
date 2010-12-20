@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CSelectionStatement : CStatement
 	{
-		public static CSelectionStatement CreateSelectionStatement(XElement node)
+		public static new CSelectionStatement Create(XElement node)
 		{
 			// SelectionStatement is consisted of IfStatement and SwitchStatement
 			// node :: statement

@@ -87,7 +87,6 @@
     <Compile Include="CElements.cs" />
     <Compile Include="CodeModel\CFunction.cs" />
     <Compile Include="CodeModel\Operators\CBinaryOperator.cs" />
-    <Compile Include="CodeModel\Operators\COperator.cs" />
     <Compile Include="CodeModel\Operators\CUnaryOperator.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CodeModel\Statements\CStatement.cs" />
@@ -128,8 +127,17 @@
     <Content Include="fibonacci.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="fibonacci2.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fibonacci2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fibonacci_.xml">
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="test.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />

@@ -13,9 +13,23 @@ namespace Ucpf.Languages.C.CodeModel
 
 		// constructor for parsing AST
 		public CBlock(XElement node) {
-			Statements = node.Elements("statement")
-				.Select(CStatement.Create)
-				.ToList();
+			var sw = node.Name.LocalName;
+			switch (sw)
+			{
+				case "statement_list":		// for compound statement
+					Statements = node.Elements("statement")
+									.Select(CStatement.Create)
+									.ToList();
+					break;
+				case "statement":			// for regarding single statement as block
+					List<CStatement> result = new List<CStatement>();
+					result.Add(CStatement.Create(node));
+					Statements = result;
+					break;
+				default:
+					throw new InvalidOperationException("CBlock");
+			}
+		
 		}
 
 		// constructor for constructing programmatically

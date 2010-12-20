@@ -8,8 +8,10 @@ using Ucpf.CodeModel;
 using Ucpf.CodeModelToCode;
 
 // TODO :: extract "pre_procedure" as a method
-namespace Ucpf.Languages.C.CodeModel {
-	public class CCodeModelToCode{ // : ICodeModelToCode {
+namespace Ucpf.Languages.C.CodeModel
+{
+	public class CCodeModelToCode
+	{ // : ICodeModelToCode {
 		private readonly TextWriter _writer;
 		private int _depth;
 
@@ -51,70 +53,92 @@ namespace Ucpf.Languages.C.CodeModel {
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
-			// WriteLine();
 			_depth++;
 
 			var line = "";
-			
+
 			foreach (var stmt in block.Statements)
 			{
 				_writer.Write(line);
 				stmt.Accept(this);
 				line = "\n";
 			}
-			 _depth--;
-			 // WriteLine();
-			// end_paren
+			_depth--;
 			_writer.Write(Tabs(_depth));
 			_writer.Write("}");
-			// WriteLine();
 		}
 
 		// Statement
 		public void Generate(CStatement stmt)
 		{
 			WriteLine();
-			
+
 			if (stmt is CIfStatement)
 			{
-				
 				Generate((CIfStatement)stmt);
 			}
 			else if (stmt is CReturnStatement)
 			{
-				_writer.Write(Tabs(_depth));
 				Generate((CReturnStatement)stmt);
+			}
+			else
+			{
+				foreach (CExpression exp in stmt.Expressions)
+				{
+					_writer.Write(Tabs(_depth));
+					exp.Accept(this);
+				}
+				_writer.Write(";");
 			}
 			WriteLine();
 		}
 
+
 		// IfStatement
 		public void Generate(CIfStatement stmt)
 		{
-			// _writer.WriteLine("IFSTMNT");
-			// ConditionalExpression
 			_writer.Write(Tabs(_depth));
 			_writer.Write("if (");
 			stmt.ConditionalExpression.Accept(this);
 			_writer.Write(")");
 			WriteLine();
-			_writer.Flush();
+			// _writer.Flush();
+
 			// TrueBlock
-			// _writer.WriteLine("TRUE");
 			stmt.TrueBlock.Accept(this);
 
+			// ElseIfBlock
+			if (stmt.ElseIfBlocks != null)
+			{
+				WriteLine();
+				foreach (CElseIfBlock elm in stmt.ElseIfBlocks)
+				{
+					_writer.Write(Tabs(_depth));
+					_writer.Write("else if (");
+					elm.ConditionalExpression.Accept(this);
+					_writer.Write(")");
+					WriteLine();
+					elm.Accept(this);
+				}
+				WriteLine();
+			}
+
 			// ElseBlock
-			// _writer.WriteLine("ELSE");
-			WriteLine();
-			_writer.Write(Tabs(_depth));
-			_writer.WriteLine("else");
-			stmt.ElseBlock.Accept(this);
+			if (stmt.ElseBlock != null)
+			{
+				_writer.Write(Tabs(_depth));
+				_writer.Write("else");
+				WriteLine();
+				stmt.ElseBlock.Accept(this);
+			}
+
+
 		}
 
 		// ReturnStatement
 		public void Generate(CReturnStatement stmt)
 		{
-			// _writer.WriteLine("RETURNSTMT");
+			_writer.Write(Tabs(_depth));
 			_writer.Write("return");
 			WriteSpace();
 
@@ -136,7 +160,8 @@ namespace Ucpf.Languages.C.CodeModel {
 			WriteSpace();
 			_writer.Write(func.Name);
 			_writer.Write("(");
-			foreach(CVariable prm in func.Parameters){
+			foreach (CVariable prm in func.Parameters)
+			{
 				_writer.Write(comma);
 				prm.Accept(this);
 				comma = ", ";
@@ -192,10 +217,8 @@ namespace Ucpf.Languages.C.CodeModel {
 				throw new InvalidOperationException();
 			}
 
-			// adding ";" is deligated to submethods
-
 		}
-		
+
 		// PrimaryExpression
 		public void Generate(CPrimaryExpression pExp)
 		{
@@ -263,11 +286,6 @@ namespace Ucpf.Languages.C.CodeModel {
 
 		#endregion
 
-		// Operator
-		public void Generate(COperator ope)
-		{
-			_writer.Write(ope.Name);
-		}
 
 		// UnaryOperator
 		public void Generate(CUnaryOperator op)
@@ -307,8 +325,10 @@ namespace Ucpf.Languages.C.CodeModel {
 		}
 
 		// BinaryOperator
-		public void Generate(CBinaryOperator op) {
-			switch (op.Type) {
+		public void Generate(CBinaryOperator op)
+		{
+			switch (op.Type)
+			{
 				// Arithmetic
 				case BinaryOperatorType.Addition:
 					_writer.Write("+");

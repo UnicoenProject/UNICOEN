@@ -23,5 +23,9 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
+		public override string ToString() {
+			return Lhs.ToString() + Operator.Sign + Rhs.ToString();
+		}
+
 	}
 }

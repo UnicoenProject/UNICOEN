@@ -87,7 +87,7 @@ namespace Ucpf.Languages.C.CodeModel
 				{
 					return new CBinaryExpression(
 						fnode.Elements().ElementAt(0),
-						CBinaryOperator.Create(ope), // TODO: COperator.Create(ope)
+						CBinaryOperator.Create(ope),
 						fnode.Elements().ElementAt(2));
 				}
 			// }	
