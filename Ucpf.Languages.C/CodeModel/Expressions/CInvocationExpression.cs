@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
+using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CInvocationExpression : CExpression
+	public class CInvocationExpression : CExpression, ICallExpression
 	{
 		// properties
-		public string FunctionName { get; private set; }
-		public List<CExpression> Arguments { get; private set; }
+		public string FunctionName { get; set; }
+		public IList<IExpression> Arguments { get; private set; }
 
 		// constructor
 		public CInvocationExpression(XElement node)
@@ -21,7 +23,8 @@ namespace Ucpf.Languages.C.CodeModel
 
 			// Arguments
 			Arguments = node.Element("argument_expression_list").Elements()
-					.Select(e => Create(e))
+					.Select(Create)
+					.Cast<IExpression>()
 					.ToList();
 		}
 		
@@ -40,14 +43,11 @@ namespace Ucpf.Languages.C.CodeModel
 			return str;
 		}
 
-
 		// acceptor
-		public new void Accept(CCodeModelToCode conv)
+		public void Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
-
-
 	}
 }
 

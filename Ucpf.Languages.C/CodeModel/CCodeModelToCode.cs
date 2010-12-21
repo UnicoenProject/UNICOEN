@@ -245,7 +245,7 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			// [FuncName] '(' [Argument]* ');'
 			var comma = "";
-			_writer.Write(exp.CallName);
+			_writer.Write(exp.FunctionName);
 			_writer.Write("(");
 			foreach (CExpression e in exp.Arguments)
 			{

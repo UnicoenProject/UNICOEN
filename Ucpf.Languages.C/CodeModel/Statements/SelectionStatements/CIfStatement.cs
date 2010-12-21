@@ -60,8 +60,6 @@ namespace Ucpf.Languages.C.CodeModel
 						break;
 					}
 				}
-				
-				
 
 				ElseIfBlocks = elseifblocks;
 

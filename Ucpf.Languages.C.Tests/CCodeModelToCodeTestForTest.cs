@@ -63,6 +63,10 @@ namespace Ucpf.Languages.C.Tests
 		{
 			_cmtc.Generate(_func);
 			var actual = _writer.ToString();
+//			string expexted;
+//			using (var reader = new StreamReader("expected")) {
+//				expexted = reader.ReadToEnd();
+//			}
 
 			// DebugPrint
 			System.Diagnostics.Debug.WriteLine(actual);
