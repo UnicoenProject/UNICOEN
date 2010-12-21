@@ -227,14 +227,12 @@ namespace Ucpf.Languages.C.CodeModel
 		// PrimaryExpression
 		public void Generate(ITernaryExpression pExp)
 		{
-			Console.WriteLine("pExpression");
 			_writer.Write(pExp.Body);
 		}
 
 		// BinaryExpression
 		public void Generate(IBinaryExpression exp)
 		{
-			Console.WriteLine("bExpression");
 			exp.LeftHandSide.Accept(this);
 			WriteSpace();
 			exp.Operator.Accept(this);
@@ -245,7 +243,6 @@ namespace Ucpf.Languages.C.CodeModel
 		// InvocationExpression
 		public void Generate(ICallExpression exp)
 		{
-			Console.WriteLine("cExpression");
 			// [FuncName] '(' [Argument]* ');'
 			var comma = "";
 			_writer.Write(exp.CallName);
@@ -263,7 +260,6 @@ namespace Ucpf.Languages.C.CodeModel
 		// UnaryExpression
 		public void Generate(IUnaryExpression exp)
 		{
-			Console.WriteLine("uExpression");
 			var ope = exp.Operator;
 			var opeType = ope.Type;
 
