@@ -94,5 +94,10 @@ namespace Ucpf.Languages.C.CodeModel
 				throw new System.NotImplementedException();
 			}
 		}
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }

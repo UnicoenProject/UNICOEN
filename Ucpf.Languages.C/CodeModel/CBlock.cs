@@ -9,7 +9,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CBlock : IBlock
 	{
-		public IList<CStatement> Statements { get; private set; }
+		public IList<IStatement> Statements { get; private set; }
 
 		// constructor for parsing AST
 		public CBlock(XElement node) {
@@ -19,11 +19,12 @@ namespace Ucpf.Languages.C.CodeModel
 				case "statement_list":		// for compound statement
 					Statements = node.Elements("statement")
 									.Select(CStatement.Create)
+									.Cast<IStatement>()
 									.ToList();
 					break;
 				case "statement":			// for regarding single statement as block
-					List<CStatement> result = new List<CStatement>();
-					result.Add(CStatement.Create(node));
+					List<IStatement> result = new List<IStatement>();
+					result.Add((IStatement)(CStatement.Create(node)));
 					Statements = result;
 					break;
 				default:
@@ -34,7 +35,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		// constructor for constructing programmatically
 		public CBlock() {
-			Statements = new List<CStatement>();
+			Statements = new List<IStatement>();
 		}
 
 		// acceptor
@@ -54,7 +55,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		void ICodeElement.Accept(ICodeModelToCode conv)
 		{
-			throw new NotImplementedException();
+			conv.Generate(this);
 		}
 	}
 }

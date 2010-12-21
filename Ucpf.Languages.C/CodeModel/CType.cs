@@ -17,5 +17,22 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			conv.Generate(this);
 		}
+
+		string IType.Name
+		{
+			get
+			{
+				return Name;
+			}
+			set
+			{
+				throw new System.NotImplementedException();
+			}
+		}
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }

@@ -10,8 +10,8 @@ using Ucpf.CodeModelToCode;
 // TODO :: extract "pre_procedure" as a method
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CCodeModelToCode
-	{ // : ICodeModelToCode {
+	public class CCodeModelToCode : ICodeModelToCode
+	{
 		private readonly TextWriter _writer;
 		private int _depth;
 
@@ -49,7 +49,7 @@ namespace Ucpf.Languages.C.CodeModel
 		#endregion
 
 		// Block
-		public void Generate(CBlock block)
+		public void Generate(IBlock block)
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
@@ -69,21 +69,21 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// Statement
-		public void Generate(CStatement stmt)
+		public void Generate(IStatement stmt)
 		{
 			WriteLine();
 
-			if (stmt is CIfStatement)
+			if (stmt is IIfStatement)
 			{
-				Generate((CIfStatement)stmt);
+				Generate((IIfStatement)stmt);
 			}
-			else if (stmt is CReturnStatement)
+			else if (stmt is IReturnStatement)
 			{
-				Generate((CReturnStatement)stmt);
+				Generate((IReturnStatement)stmt);
 			}
 			else
 			{
-				foreach (CExpression exp in stmt.Expressions)
+				foreach (IExpression exp in stmt.Expressions)
 				{
 					_writer.Write(Tabs(_depth));
 					exp.Accept(this);
@@ -95,11 +95,11 @@ namespace Ucpf.Languages.C.CodeModel
 
 
 		// IfStatement
-		public void Generate(CIfStatement stmt)
+		public void Generate(IIfStatement stmt)
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("if (");
-			stmt.ConditionalExpression.Accept(this);
+			stmt.Condition.Accept(this);
 			_writer.Write(")");
 			WriteLine();
 			// _writer.Flush();
@@ -108,10 +108,11 @@ namespace Ucpf.Languages.C.CodeModel
 			stmt.TrueBlock.Accept(this);
 
 			// ElseIfBlock
-			if (stmt.ElseIfBlocks != null)
+			if (stmt.FalseBlock != null)
 			{
 				WriteLine();
-				foreach (CElseIfBlock elm in stmt.ElseIfBlocks)
+				// TODO :: how treat the ElseIfBlock????
+				foreach (CElseIfBlock elm in ((CIfStatement)stmt).ElseIfBlocks)
 				{
 					_writer.Write(Tabs(_depth));
 					_writer.Write("else if (");
@@ -124,19 +125,19 @@ namespace Ucpf.Languages.C.CodeModel
 			}
 
 			// ElseBlock
-			if (stmt.ElseBlock != null)
+			if (stmt.FalseBlock != null)
 			{
 				_writer.Write(Tabs(_depth));
 				_writer.Write("else");
 				WriteLine();
-				stmt.ElseBlock.Accept(this);
+				stmt.FalseBlock.Accept(this);
 			}
 
 
 		}
 
 		// ReturnStatement
-		public void Generate(CReturnStatement stmt)
+		public void Generate(IReturnStatement stmt)
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("return");
@@ -151,7 +152,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		// Function
 		// [ReturnType] [FuncName] '(' ([Type] [Name])* ')'
-		public void Generate(CFunction func)
+		public void Generate(IFunction func)
 		{
 			var comma = "";
 
@@ -174,13 +175,13 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// Type
-		public void Generate(CType type)
+		public void Generate(IType type)
 		{
 			_writer.Write(type.Name);
 		}
 
 		// Variable
-		public void Generate(CVariable variable)
+		public void Generate(IVariable variable)
 		{
 			variable.Type.Accept(this);
 			WriteSpace();
@@ -190,57 +191,64 @@ namespace Ucpf.Languages.C.CodeModel
 
 		#region Expression
 		// Expression
-		public void Generate(CExpression exp)
+		public void Generate(IExpression exp)
 		{
-			if (exp is CPrimaryExpression)
+			/*
+			if (exp is ITernaryExpression)
 			{
-				Generate((CPrimaryExpression)exp);
+				Generate((ITernaryExpression)exp);
 			}
-			else if (exp is CBinaryExpression)
+			else if (exp is IBinaryExpression)
 			{
-				Generate((CBinaryExpression)exp);
+				Generate((IBinaryExpression)exp);
 			}
-			else if (exp is CUnaryExpression)
+			else if (exp is IUnaryExpression)
 			{
-				Generate((CUnaryExpression)exp);
+				Generate((IUnaryExpression)exp);
 			}
-			else if (exp is CInvocationExpression)
+			else if (exp is ICallExpression)
 			{
-				Generate((CInvocationExpression)exp);
+				Generate((ICallExpression)exp);
 			}
-			else if (exp is CAssignmentExpression)
+			else if (exp is IAssignmentExpression)
 			{
-				Generate((CAssignmentExpression)exp);
+				Generate((IAssignmentExpression)exp);
 			}
 			else
 			{
-				throw new InvalidOperationException();
+				// throw new InvalidOperationException();
 			}
+			 * */
+
+			exp.Accept(this);
 
 		}
 
 		// PrimaryExpression
-		public void Generate(CPrimaryExpression pExp)
+		public void Generate(ITernaryExpression pExp)
 		{
+			Console.WriteLine("pExpression");
 			_writer.Write(pExp.Body);
 		}
 
 		// BinaryExpression
-		public void Generate(CBinaryExpression exp)
+		public void Generate(IBinaryExpression exp)
 		{
-			exp.LeftExpression.Accept(this);
+			Console.WriteLine("bExpression");
+			exp.LeftHandSide.Accept(this);
 			WriteSpace();
 			exp.Operator.Accept(this);
 			WriteSpace();
-			exp.RightExpression.Accept(this);
+			exp.RightHandSide.Accept(this);
 		}
 
 		// InvocationExpression
-		public void Generate(CInvocationExpression exp)
+		public void Generate(ICallExpression exp)
 		{
+			Console.WriteLine("cExpression");
 			// [FuncName] '(' [Argument]* ');'
 			var comma = "";
-			_writer.Write(exp.FunctionName);
+			_writer.Write(exp.CallName);
 			_writer.Write("(");
 			foreach (CExpression e in exp.Arguments)
 			{
@@ -253,8 +261,9 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// UnaryExpression
-		public void Generate(CUnaryExpression exp)
+		public void Generate(IUnaryExpression exp)
 		{
+			Console.WriteLine("uExpression");
 			var ope = exp.Operator;
 			var opeType = ope.Type;
 
@@ -279,7 +288,7 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// AssignmentExpression
-		public void Generate(CAssignmentExpression exp)
+		public void Generate(IAssignmentExpression exp)
 		{
 			throw new NotImplementedException();
 		}
@@ -288,7 +297,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 
 		// UnaryOperator
-		public void Generate(CUnaryOperator op)
+		public void Generate(IUnaryOperator op)
 		{
 			var sw = op.Type;
 			switch (sw)
@@ -325,7 +334,7 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// BinaryOperator
-		public void Generate(CBinaryOperator op)
+		public void Generate(IBinaryOperator op)
 		{
 			switch (op.Type)
 			{

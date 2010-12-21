@@ -73,7 +73,6 @@
   <ItemGroup>
     <Compile Include="CAstGenerator.cs" />
     <Compile Include="CodeModel\CCodeModelToCode.cs" />
-    <Compile Include="CodeModel\CModelToCode.cs" />
     <Compile Include="CodeModel\CBlock.cs" />
     <Compile Include="CCodeGenerator.cs" />
     <Compile Include="CodeModel\Expressions\CAssignmentExpression.cs" />
@@ -96,6 +95,7 @@
     <Compile Include="CodeModel\Statements\JumpStatements\CGotoStatement.cs" />
     <Compile Include="CodeModel\Statements\JumpStatements\CJumpStatement.cs" />
     <Compile Include="CodeModel\Statements\JumpStatements\CReturnStatement.cs" />
+    <Compile Include="CodeModel\Statements\SelectionStatements\CElseIfBlock.cs" />
     <Compile Include="CodeModel\Statements\SelectionStatements\CIfStatement.cs" />
     <Compile Include="CodeModel\Statements\SelectionStatements\CSelectionStatement.cs" />
     <Compile Include="CodeModel\Statements\SelectionStatements\CSwitchStatement.cs" />

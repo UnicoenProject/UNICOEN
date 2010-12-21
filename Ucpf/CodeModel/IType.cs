@@ -2,7 +2,7 @@
 
 namespace Ucpf.CodeModel
 {
-	public interface IType
+	public interface IType : ICodeElement
 	{
 		string Name { get; set; }
 	}

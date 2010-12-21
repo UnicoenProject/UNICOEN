@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public abstract class CExpression
+	public abstract class CExpression : IExpression
 	{
 		// constructor
 		protected CExpression() { }
@@ -124,5 +125,10 @@ namespace Ucpf.Languages.C.CodeModel
 			conv.Generate(this);
 		}
 
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }

@@ -11,13 +11,14 @@ namespace Ucpf.Languages.C.CodeModel
 	public class CStatement : IStatement
 	{
 		// properties
-		public List<CExpression> Expressions { get; private set; }
+		public List<IExpression> Expressions { get; private set; }
 
 		// constructor for parsing AST
 		public CStatement(XElement node)
 		{
 			Expressions = node.Descendants("expression")
 				.Select(e => CExpression.Create(e))
+				.Cast<IExpression>()
 				.ToList();
 		}
 		// constructor for deligating to subclasses
@@ -62,6 +63,18 @@ namespace Ucpf.Languages.C.CodeModel
 		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
 		{
 			throw new NotImplementedException();
+		}
+
+		IList<IExpression> IStatement.Expressions
+		{
+			get
+			{
+				return Expressions;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
 		}
 	}
 }

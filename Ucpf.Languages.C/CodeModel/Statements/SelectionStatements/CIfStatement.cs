@@ -4,19 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CElseIfBlock : CBlock
-	{
-		public CExpression ConditionalExpression { get; set; }
-
-		public CElseIfBlock(CExpression conditionalExpression, XElement statementNode) : base(statementNode){
-			ConditionalExpression = conditionalExpression;
-		}
-	}
-
-	public class CIfStatement : CSelectionStatement
+		public class CIfStatement : CSelectionStatement, IIfStatement
 	{
 		// properties
 		public CExpression ConditionalExpression { get; private set; }
@@ -89,5 +81,58 @@ namespace Ucpf.Languages.C.CodeModel
 
 		}
 
+
+		IExpression IIfStatement.Condition
+		{
+			get
+			{
+				return ConditionalExpression;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		IBlock IIfStatement.TrueBlock
+		{
+			get
+			{
+				return TrueBlock;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		IBlock IIfStatement.FalseBlock
+		{
+			get
+			{
+				return ElseBlock;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		IList<IExpression> IStatement.Expressions
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }

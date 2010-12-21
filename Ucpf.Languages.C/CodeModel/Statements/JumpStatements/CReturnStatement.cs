@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CReturnStatement : CJumpStatement
+	public class CReturnStatement : CJumpStatement, IReturnStatement
 	{
 		public CReturnStatement(XElement node) : base(node) { }
 
@@ -21,5 +22,28 @@ namespace Ucpf.Languages.C.CodeModel
 			return str;
 		}
 
+
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
+
+		IExpression IReturnStatement.Return
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		IList<IExpression> IStatement.Expressions
+		{
+			get
+			{
+				return Expressions;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

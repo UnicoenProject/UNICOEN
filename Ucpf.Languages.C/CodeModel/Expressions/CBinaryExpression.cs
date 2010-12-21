@@ -52,7 +52,7 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return LeftExpression;
 			}
 			set
 			{
@@ -64,7 +64,7 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return RightExpression;
 			}
 			set
 			{
@@ -78,7 +78,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
 		{
-			throw new NotImplementedException();
+			conv.Generate(this);
 		}
 
 		#endregion

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CUnaryExpression : CExpression
+	public class CUnaryExpression : CExpression, IUnaryExpression
 	{
 		// properties
 		public CUnaryOperator Operator { get; private set; }
@@ -31,5 +32,34 @@ namespace Ucpf.Languages.C.CodeModel
 			conv.Generate(this);
 		}
 
+
+		IUnaryOperator IUnaryExpression.Operator
+		{
+			get
+			{
+				return Operator;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		IExpression IUnaryExpression.Term
+		{
+			get
+			{
+				return Expression;
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }
