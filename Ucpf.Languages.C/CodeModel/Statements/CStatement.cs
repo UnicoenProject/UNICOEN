@@ -10,6 +10,7 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CStatement : IStatement
 	{
+		/*
 		// properties
 		public List<IExpression> Expressions { get; private set; }
 
@@ -21,19 +22,11 @@ namespace Ucpf.Languages.C.CodeModel
 				.Cast<IExpression>()
 				.ToList();
 		}
+		*/
+
+
 		// constructor for deligating to subclasses
 		public CStatement() { }
-
-
-		public override string ToString()
-		{
-			string str = "";
-			foreach (CExpression s in Expressions)
-			{
-				str += s.ToString();
-			}
-			return str;
-		}
 
 		public static CStatement Create(XElement node)
 		{
@@ -49,8 +42,10 @@ namespace Ucpf.Languages.C.CodeModel
 				case ("iteration_statement") :
 					// return CIterationStatement.CreateStatement(node);
 					throw new NotImplementedException();
+				case ("expression_statement") :
+					return CExpressionStatement.Create(node);
 				default:
-					return new CStatement(node);
+					throw new InvalidOperationException();
 			}
 		}
 
@@ -65,17 +60,7 @@ namespace Ucpf.Languages.C.CodeModel
 			throw new NotImplementedException();
 		}
 
-		IList<IExpression> IStatement.Expressions
-		{
-			get
-			{
-				return Expressions;
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+
 	}
 }
 

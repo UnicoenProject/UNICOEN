@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Ucpf.CodeModel
 {
-	public interface IReturnStatement : IStatement
+	public interface IElseIfBlock : IBlock
 	{
-		IExpression Expression { get; }
+		IExpression ConditionalExpression { get; set; }
 	}
 }

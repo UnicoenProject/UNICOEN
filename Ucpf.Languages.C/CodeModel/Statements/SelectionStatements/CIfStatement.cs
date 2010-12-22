@@ -13,7 +13,7 @@ namespace Ucpf.Languages.C.CodeModel
 		// properties
 		public CExpression ConditionalExpression { get; private set; }
 		public CBlock TrueBlock { get; private set; }
-		public List<CElseIfBlock> ElseIfBlocks { get; private set; }
+		public IList<IElseIfBlock> ElseIfBlocks { get; private set; }
 		public CBlock ElseBlock { get; private set; }
 
 		// constructor for parsing AST
@@ -25,11 +25,19 @@ namespace Ucpf.Languages.C.CodeModel
 							.Elements("statement");
 
 			// TrueBlock
-			var trueList = topNode
+			var compoundStatementNode = topNode
 					.First()
-					.Element("compound_statement")
-					.Element("statement_list");
-			TrueBlock = new CBlock(trueList);
+					.Element("compound_statement");
+			// if(con){ [statement]* }
+			if (compoundStatementNode != null)					
+			{
+				TrueBlock = new CBlock(compoundStatementNode.Element("statement_list"));
+			}
+			// if(con) [expression_statement]
+			else
+			{
+				TrueBlock = new CBlock(topNode.First());
+			}
 
 			// ElseIfBlock
 			if (topNode.Count() > 1)
@@ -37,7 +45,7 @@ namespace Ucpf.Languages.C.CodeModel
 				var elseNode = topNode.ElementAt(1);
 
 				var node = elseNode;
-				var elseifblocks = new List<CElseIfBlock>();
+				var elseifblocks = new List<IElseIfBlock>();
 				
 				while (node != null && 
 					node.Element("selection_statement") != null &&
@@ -49,7 +57,7 @@ namespace Ucpf.Languages.C.CodeModel
 						.Element("statement").Element("compound_statement")
 						.Element("statement_list");
 					var addElement = new CElseIfBlock(conditionalExpression, statementNode);
-					elseifblocks.Add(addElement);
+					elseifblocks.Add((IElseIfBlock)addElement);
 
 					if (node.Element("selection_statement") != null && node.Element("selection_statement").Elements("statement").Count() > 1)
 					{
@@ -116,21 +124,22 @@ namespace Ucpf.Languages.C.CodeModel
 			}
 		}
 
-		IList<IExpression> IStatement.Expressions
+		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
+
+
+		IList<IElseIfBlock> IIfStatement.ElseIfBlocks
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return ElseIfBlocks;
 			}
 			set
 			{
 				throw new NotImplementedException();
 			}
-		}
-
-		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
-		{
-			conv.Generate(this);
 		}
 	}
 }

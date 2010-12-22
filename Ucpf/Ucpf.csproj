@@ -81,6 +81,9 @@
     <Compile Include="CodeModel\Operators\BinaryOperatorType.cs" />
     <Compile Include="CodeModel\Operators\IUnaryOperator.cs" />
     <Compile Include="CodeModel\Operators\UnaryOperatorType.cs" />
+    <Compile Include="CodeModel\Statements\IElseIfBlock.cs" />
+    <Compile Include="CodeModel\Statements\IEmptyStatement.cs" />
+    <Compile Include="CodeModel\Statements\IExpressionStatement.cs" />
     <Compile Include="CodeModel\Statements\IReturnStatement.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrAstGenerator.cs" />
     <Compile Include="Languages\Common\Antlr\AntlrBlockGenerator.cs" />

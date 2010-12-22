@@ -9,6 +9,6 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CGotoStatement : CJumpStatement
 	{
-		public CGotoStatement(XElement node) : base(node) { }
+		public CGotoStatement(XElement node) { }
 	}
 }

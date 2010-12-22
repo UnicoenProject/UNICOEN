@@ -63,8 +63,8 @@ namespace Ucpf.Languages.C.Tests
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
 			var trueBlock = ifStmt.TrueBlock;
-			var stmt = trueBlock.Statements.ElementAt(0);
-			Assert.That(stmt.Expressions.ElementAt(0) is CInvocationExpression);
+			var stmt = trueBlock.Statements.ElementAt(0) as CInvocationExpression;
+			// Assert.That(stmt.Expression is CInvocationExpression);
 			Assert.That(stmt.ToString(), Is.EqualTo("printf(\"aaaa\")"));
 		}
 
@@ -74,8 +74,7 @@ namespace Ucpf.Languages.C.Tests
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
 			var elseifBlocks = ifStmt.ElseIfBlocks;
 			var stmt = elseifBlocks.ElementAt(0).Statements.ElementAt(0);
-			var exp = stmt.Expressions.ElementAt(0);
-			Assert.That(stmt is CReturnStatement);
+			var exp = ((CReturnStatement)stmt).Expression;
 			Assert.That(exp.ToString(), Is.EqualTo("1"));
 		}
 
@@ -84,13 +83,12 @@ namespace Ucpf.Languages.C.Tests
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
 			var elseBlock = ifStmt.ElseBlock;
-			var stmt = elseBlock.Statements.ElementAt(0);
-			var exp = stmt.Expressions.ElementAt(0);
+			var stmt = elseBlock.Statements.ElementAt(0) as CReturnStatement;
+			var exp = stmt.Expression;
 
-			Assert.That(stmt is CReturnStatement);
 			// Assert.That(stmt.ToString(), Is.EqualTo(""));			// (passed)
-			Assert.That(stmt.Expressions.ElementAt(0) is CBinaryExpression);
-			Assert.That(stmt.Expressions.ElementAt(0).ToString(), Is.EqualTo("fibonacci2(n-1)+fibonacci2(n-2)"));
+			// Assert.That(stmt.Expression is CBinaryExpression);
+			Assert.That(stmt.ToString(), Is.EqualTo("fibonacci2(n-1)+fibonacci2(n-2)"));
 		}
 	}
 }

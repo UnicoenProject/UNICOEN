@@ -51,8 +51,10 @@ namespace Ucpf.Languages.C.CodeModel
 		// Block
 		public void Generate(IBlock block)
 		{
+			WriteLine();
 			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
+			WriteLine();
 			_depth++;
 
 			var line = "";
@@ -64,15 +66,16 @@ namespace Ucpf.Languages.C.CodeModel
 				line = "\n";
 			}
 			_depth--;
+			WriteLine();
 			_writer.Write(Tabs(_depth));
-			_writer.Write("}");
+			_writer.Write("}\n");
 		}
 
 		// Statement
 		public void Generate(IStatement stmt)
 		{
 			WriteLine();
-
+			/*
 			if (stmt is IIfStatement)
 			{
 				Generate((IIfStatement)stmt);
@@ -90,6 +93,9 @@ namespace Ucpf.Languages.C.CodeModel
 				}
 				_writer.Write(";");
 			}
+			*/
+			stmt.Accept(this);
+
 			WriteLine();
 		}
 
@@ -101,7 +107,6 @@ namespace Ucpf.Languages.C.CodeModel
 			_writer.Write("if (");
 			stmt.Condition.Accept(this);
 			_writer.Write(")");
-			WriteLine();
 			// _writer.Flush();
 
 			// TrueBlock
@@ -112,13 +117,12 @@ namespace Ucpf.Languages.C.CodeModel
 			{
 				WriteLine();
 				// TODO :: how treat the ElseIfBlock????
-				foreach (CElseIfBlock elm in ((CIfStatement)stmt).ElseIfBlocks)
+				foreach (var elm in stmt.ElseIfBlocks)
 				{
 					_writer.Write(Tabs(_depth));
 					_writer.Write("else if (");
 					elm.ConditionalExpression.Accept(this);
 					_writer.Write(")");
-					WriteLine();
 					elm.Accept(this);
 				}
 				WriteLine();
@@ -129,7 +133,6 @@ namespace Ucpf.Languages.C.CodeModel
 			{
 				_writer.Write(Tabs(_depth));
 				_writer.Write("else");
-				WriteLine();
 				stmt.FalseBlock.Accept(this);
 			}
 
@@ -143,10 +146,27 @@ namespace Ucpf.Languages.C.CodeModel
 			_writer.Write("return");
 			WriteSpace();
 
-			foreach (CExpression exp in stmt.Expressions)
+			stmt.Expression.Accept(this);
+			_writer.Write(";");
+		}
+
+		// Expression Statement
+		public void Generate(IExpressionStatement stmt)
+		{
+			if (stmt is IEmptyStatement)
 			{
-				exp.Accept(this);
+				Generate((IEmptyStatement) stmt);
 			}
+			else
+			{
+				_writer.Write(Tabs(_depth));
+				stmt.Expression.Accept(this);
+				_writer.Write(";");
+			}
+		}
+		public void Generate(IEmptyStatement stmt)
+		{
+			_writer.Write(Tabs(_depth));
 			_writer.Write(";");
 		}
 
@@ -168,7 +188,6 @@ namespace Ucpf.Languages.C.CodeModel
 				comma = ", ";
 			}
 			_writer.Write(")");
-			WriteLine();
 
 			// Body
 			func.Body.Accept(this);
@@ -193,35 +212,7 @@ namespace Ucpf.Languages.C.CodeModel
 		// Expression
 		public void Generate(IExpression exp)
 		{
-			/*
-			if (exp is ITernaryExpression)
-			{
-				Generate((ITernaryExpression)exp);
-			}
-			else if (exp is IBinaryExpression)
-			{
-				Generate((IBinaryExpression)exp);
-			}
-			else if (exp is IUnaryExpression)
-			{
-				Generate((IUnaryExpression)exp);
-			}
-			else if (exp is ICallExpression)
-			{
-				Generate((ICallExpression)exp);
-			}
-			else if (exp is IAssignmentExpression)
-			{
-				Generate((IAssignmentExpression)exp);
-			}
-			else
-			{
-				// throw new InvalidOperationException();
-			}
-			 * */
-
 			exp.Accept(this);
-
 		}
 
 		// PrimaryExpression

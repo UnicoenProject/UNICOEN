@@ -10,15 +10,19 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CReturnStatement : CJumpStatement, IReturnStatement
 	{
-		public CReturnStatement(XElement node) : base(node) { }
+		// constructor
+		public CReturnStatement(XElement node)
+		{
+			var expNode = node.Descendants("expression").First();
+			Expression = CExpression.Create(expNode);
+		}
+
+		// properties
+		public CExpression Expression { get; set; }
 
 		public override string ToString()
 		{
-			string str = "return ";
-			foreach (CExpression s in Expressions)
-			{
-				str += s.ToString();
-			}
+			string str = "return " + Expression.ToString();
 			return str;
 		}
 
@@ -29,21 +33,11 @@ namespace Ucpf.Languages.C.CodeModel
 			conv.Generate(this);
 		}
 
-		IExpression IReturnStatement.Return
+		IExpression IReturnStatement.Expression
 		{
-			get { throw new NotImplementedException(); }
+			get { return Expression; }
 		}
 
-		IList<IExpression> IStatement.Expressions
-		{
-			get
-			{
-				return Expressions;
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+
 	}
 }

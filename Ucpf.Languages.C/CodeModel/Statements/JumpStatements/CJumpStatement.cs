@@ -14,6 +14,5 @@ namespace Ucpf.Languages.C.CodeModel
 			throw new NotImplementedException();
 		}
 
-		public CJumpStatement(XElement node) : base(node){ }
 	}
 }

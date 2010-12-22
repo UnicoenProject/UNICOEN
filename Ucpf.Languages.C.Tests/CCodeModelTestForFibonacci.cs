@@ -67,9 +67,10 @@ namespace Ucpf.Languages.C.Tests
 			var firstStatement = ((CIfStatement)(_function.Body.Statements.ElementAt(0)))
 				.TrueBlock
 				.Statements
-				.ElementAt(0);
-			Assert.That(firstStatement is CReturnStatement);		// assert type
-			Assert.That(firstStatement.Expressions.ElementAt(0).ToString(), Is.EqualTo("n"));		// assert body
+				.ElementAt(0)
+				as CReturnStatement;
+			// Assert.That(firstStatement is CReturnStatement);		// assert type
+			Assert.That(firstStatement.Expression.ToString(), Is.EqualTo("n"));		// assert body
 		}
 
 		[Test]
@@ -78,9 +79,10 @@ namespace Ucpf.Languages.C.Tests
 			var firstStatemenet = ((CIfStatement)(_function.Body.Statements.ElementAt(0)))
 				.ElseBlock
 				.Statements
-				.ElementAt(0);
-			var exp = (CBinaryExpression)firstStatemenet.Expressions.ElementAt(0);
-			Assert.That(firstStatemenet is CReturnStatement);
+				.ElementAt(0)
+				as CReturnStatement;
+			var exp = firstStatemenet.Expression as CBinaryExpression;
+			// Assert.That(firstStatemenet is CReturnStatement);
 			var leftExpression = exp.LeftExpression;
 			var rightExpression = exp.RightExpression;
 

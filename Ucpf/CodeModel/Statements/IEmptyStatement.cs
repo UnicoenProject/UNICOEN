@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Ucpf.CodeModel
 {
-	public interface IReturnStatement : IStatement
+	public interface IEmptyStatement : IExpressionStatement
 	{
-		IExpression Expression { get; }
 	}
 }

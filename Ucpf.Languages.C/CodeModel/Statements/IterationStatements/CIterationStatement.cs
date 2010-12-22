@@ -9,6 +9,6 @@ namespace Ucpf.Languages.C.CodeModel
 {
 	public class CIterationStatement : CStatement
 	{
-		public CIterationStatement(XElement node) : base(node) { }
+		public CIterationStatement(XElement node) { }
 	}
 }

@@ -26,7 +26,9 @@ namespace Ucpf.CodeModelToCode
 		void Generate(IStatement stmt);
 		void Generate(IIfStatement stmt);
 		void Generate(IReturnStatement stmt);
-		
+		void Generate(IExpressionStatement stmt);
+		void Generate(IEmptyStatement stmt);
+
 		// Block
 		void Generate(IBlock block);
 

@@ -89,6 +89,8 @@
     <Compile Include="CodeModel\Operators\CUnaryOperator.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CodeModel\Statements\CStatement.cs" />
+    <Compile Include="CodeModel\Statements\ExpressionStatements\CEmptyStatement.cs" />
+    <Compile Include="CodeModel\Statements\ExpressionStatements\CExpressionStatement.cs" />
     <Compile Include="CodeModel\Statements\IterationStatements\CForStatement.cs" />
     <Compile Include="CodeModel\Statements\IterationStatements\CIterationStatement.cs" />
     <Compile Include="CodeModel\Statements\IterationStatements\CWhileStatement.cs" />
@@ -115,6 +117,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="empty.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="fact.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
