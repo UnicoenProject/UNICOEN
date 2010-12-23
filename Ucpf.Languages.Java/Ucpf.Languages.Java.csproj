@@ -59,9 +59,9 @@
     <None Include="Java.g" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
+    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf</Name>
+      <Name>Ucpf.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

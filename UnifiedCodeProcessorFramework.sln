@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf", "Ucpf\Ucpf.csproj", "{01278298-E1DA-40F8-80A8-FE9C68154241}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Common", "Ucpf.Common\Ucpf.Common.csproj", "{01278298-E1DA-40F8-80A8-FE9C68154241}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Grammar", "Ucpf.Grammar\Ucpf.Grammar.csproj", "{520D7BE7-8792-4FD3-827B-EA81EA838E74}"
 EndProject
@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntlrHelper", "AntlrHelper\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AntlrHelper.Tests", "AntlrHelper.Tests\AntlrHelper.Tests.csproj", "{3DAA1220-DCE2-4AB9-ADE5-C716C9A1169C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Tests", "Ucpf.Tests\Ucpf.Tests.csproj", "{A8E01172-723F-4F92-9B7C-31D8F8716AF3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Common.Tests", "Ucpf.Common.Tests\Ucpf.Common.Tests.csproj", "{A8E01172-723F-4F92-9B7C-31D8F8716AF3}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

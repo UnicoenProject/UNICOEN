@@ -97,9 +97,9 @@
       <Project>{5B832F0F-7F75-4B15-AB26-DA6F6EFD7913}</Project>
       <Name>Ucpf.Languages.Ruby19</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
+    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf</Name>
+      <Name>Ucpf.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

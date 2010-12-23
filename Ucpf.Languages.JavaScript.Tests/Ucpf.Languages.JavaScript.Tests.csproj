@@ -54,9 +54,9 @@
       <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
       <Name>Ucpf.Languages.JavaScript</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
+    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf</Name>
+      <Name>Ucpf.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

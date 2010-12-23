@@ -60,9 +60,9 @@
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
       <Name>Ucpf.Languages.C</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf\Ucpf.csproj">
+    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf</Name>
+      <Name>Ucpf.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

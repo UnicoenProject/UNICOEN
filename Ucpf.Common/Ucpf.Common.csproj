@@ -8,8 +8,8 @@
     <ProjectGuid>{01278298-E1DA-40F8-80A8-FE9C68154241}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ucpf</RootNamespace>
-    <AssemblyName>Ucpf</AssemblyName>
+    <RootNamespace>Ucpf.Common</RootNamespace>
+    <AssemblyName>Ucpf.Common</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
