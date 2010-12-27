@@ -29,7 +29,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		}
 
 		[Test]
-		public void if文の条件式を取得する() {
+		public void If文の条件式を取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunctionDeclaration(root);
@@ -47,7 +47,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 			var body = func.FunctionBody;
 			var stat = body.Statements;
 			var str1 = stat.ElementAt(0);
-			Assert.That(str1.ToString(), Is.EqualTo("n<2"));
+			Assert.That(str1.GetType(), Is.EqualTo(typeof(JSIfStatement)));
 		}
 
 		[Test]
@@ -57,7 +57,8 @@ namespace Ucpf.Languages.JavaScript.Tests
 			var func = new JSFunctionDeclaration(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var ret  = ifst.TrueBlock;
+			var trbl = (JSBlock)ifst.TrueBlock;
+			var ret  = trbl.Statements.First();
 			Assert.That(ret.GetType(), Is.EqualTo(typeof(JSReturnStatement)));
 		}
     }
