@@ -17,7 +17,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		public JSBlock(XElement xElement) : base(xElement) {
 			//TODO null check
 			Statements = xElement.Element("statementList").Elements("statement")
-				.Select(e => CreateStatement(e));
+				.Select(e => JSStatement.CreateStatement(e));
 		}
 
 		//field
