@@ -31,9 +31,8 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			var element = xElement.Elements().First();
 
 			//case statementBlock
-			//TODO implement "statementBlock"
 			if (element.Name.LocalName == "statementBlock")
-				return null;
+				return new JSBlock(element);
 
 			//case ifStatement
 			if (element.Name.LocalName == "ifStatement")

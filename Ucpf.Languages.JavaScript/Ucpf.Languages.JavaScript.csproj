@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeModel\JSCodeModelToCode.cs" />
+    <Compile Include="CodeModel\Statements\JSBlock.cs" />
     <Compile Include="JavaScriptAstGenerator.cs" />
     <Compile Include="CodeModel\Expressions\JSBinaryExpression.cs" />
     <Compile Include="CodeModel\Expressions\JSCallExpression.cs" />
