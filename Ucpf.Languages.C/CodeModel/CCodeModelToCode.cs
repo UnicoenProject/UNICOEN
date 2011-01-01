@@ -7,7 +7,6 @@ using System.Text;
 using Ucpf.CodeModel;
 using Ucpf.CodeModelToCode;
 
-// TODO :: extract "pre_procedure" as a method
 namespace Ucpf.Languages.C.CodeModel
 {
 	public class CCodeModelToCode : ICodeModelToCode
@@ -113,10 +112,9 @@ namespace Ucpf.Languages.C.CodeModel
 			stmt.TrueBlock.Accept(this);
 
 			// ElseIfBlock
-			if (stmt.FalseBlock != null)
+			if (stmt.ElseIfBlocks.Count != 0)
 			{
 				WriteLine();
-				// TODO :: how treat the ElseIfBlock????
 				foreach (var elm in stmt.ElseIfBlocks)
 				{
 					_writer.Write(Tabs(_depth));
@@ -238,7 +236,7 @@ namespace Ucpf.Languages.C.CodeModel
 			var comma = "";
 			_writer.Write(exp.FunctionName);
 			_writer.Write("(");
-			foreach (CExpression e in exp.Arguments)
+			foreach (IExpression e in exp.Arguments)
 			{
 				_writer.Write(comma);
 				e.Accept(this);
@@ -284,8 +282,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 
 		// UnaryOperator
-		public void Generate(IUnaryOperator op)
-		{
+		public void Generate(IUnaryOperator op) {
 			var sw = op.Type;
 			switch (sw)
 			{
