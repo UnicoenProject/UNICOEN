@@ -109,6 +109,9 @@ namespace Ucpf.Languages.Ruby18
 			_writer.Write(exp.Body);
 		}
 
+		public void Generate(IAssignmentExpression exp) {
+			throw new NotImplementedException();
+		}
 
 		public void Generate(IBinaryOperator op)
 		{
@@ -118,6 +121,10 @@ namespace Ucpf.Languages.Ruby18
 		public void Generate(IUnaryOperator op)
 		{
 			// _writer.Write(op.);
+		}
+
+		public void Generate(IAssignmentOperator op) {
+			throw new NotImplementedException();
 		}
 
 		public void Generate(IStatement stmt)

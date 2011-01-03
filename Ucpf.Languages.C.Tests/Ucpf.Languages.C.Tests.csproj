@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CCodeModelTestForAssignment.cs" />
     <Compile Include="CCodeModelTestForEmpty.cs" />
     <Compile Include="CCodeModelTestForFibonacci.cs" />
     <Compile Include="CCodeModelTestForFact.cs" />

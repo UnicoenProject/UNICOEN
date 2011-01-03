@@ -153,7 +153,7 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			if (stmt is IEmptyStatement)
 			{
-				Generate((IEmptyStatement) stmt);
+				Generate((IEmptyStatement)stmt);
 			}
 			else
 			{
@@ -219,6 +219,7 @@ namespace Ucpf.Languages.C.CodeModel
 			_writer.Write(pExp.Body);
 		}
 
+
 		// BinaryExpression
 		public void Generate(IBinaryExpression exp)
 		{
@@ -247,42 +248,49 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// UnaryExpression
-		public void Generate(IUnaryExpression exp)
-		{
+		public void Generate(IUnaryExpression exp) {
+			var term = exp.Term;
 			var ope = exp.Operator;
 			var opeType = ope.Type;
 
-			// TODO :: MODIFY FOLLOWING 2 VARIABLE AND SWITCHING!!!
+			// TODO :: MODIFY FOLLOWING 2 VARIABLE AND SWITCHING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			UnaryOperatorType[] postfixOperators = { UnaryOperatorType.PostfixIncrement, UnaryOperatorType.PostfixDecrement };
-			UnaryOperatorType[] unaryOperators = (UnaryOperatorType[])Enum.GetValues(typeof(UnaryOperatorType));
+			// UnaryOperatorType[] unaryOperators = (UnaryOperatorType[])Enum.GetValues(typeof(UnaryOperatorType));
 
-			if (postfixOperators.Contains(opeType))			// e.g. x++
+			if (opeType == UnaryOperatorType.PostfixIncrement || opeType == UnaryOperatorType.PostfixDecrement)			// e.g. x++
 			{
-				exp.Accept(this);
+				term.Accept(this);
 				ope.Accept(this);
 			}
-			else if (unaryOperators.Contains(opeType))	// e.g. y++
+			else// if (unaryOperators.Contains(opeType))	// e.g. y++
 			{
 				ope.Accept(this);
-				exp.Accept(this);
+				term.Accept(this);
 			}
+			/*
 			else
 			{
 				throw new InvalidOperationException();
 			}
+			 * */
 		}
 
 		// AssignmentExpression
 		public void Generate(IAssignmentExpression exp)
 		{
-			throw new NotImplementedException();
+			exp.LValue.Accept(this);
+			WriteSpace();
+			exp.Operator.Accept(this);
+			WriteSpace();
+			exp.RExpression.Accept(this);
 		}
 
 		#endregion
 
-
+		#region Operator
 		// UnaryOperator
-		public void Generate(IUnaryOperator op) {
+		public void Generate(IUnaryOperator op)
+		{
 			var sw = op.Type;
 			switch (sw)
 			{
@@ -396,5 +404,31 @@ namespace Ucpf.Languages.C.CodeModel
 					throw new ArgumentOutOfRangeException();
 			}
 		}
+
+		// Assignment
+		public void Generate(IAssignmentOperator op)
+		{
+			var sw = op.Type;
+
+			switch (sw)
+			{
+				case AssignmentOperatorType.SimpleAssignment:
+					_writer.Write("=");
+					break;
+				case AssignmentOperatorType.PlusAssignment:
+					_writer.Write("+=");
+					break;
+				case AssignmentOperatorType.MinusAssignment:
+					_writer.Write("-=");
+					break;
+				case AssignmentOperatorType.MultiAssignment:
+					_writer.Write("*=");
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		#endregion
 	}
 }

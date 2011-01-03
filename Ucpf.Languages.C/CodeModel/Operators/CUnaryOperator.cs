@@ -73,7 +73,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		void ICodeElement.Accept(ICodeModelToCode conv)
 		{
-			throw new NotImplementedException();
+			conv.Generate(this);
 		}
 	}
 }

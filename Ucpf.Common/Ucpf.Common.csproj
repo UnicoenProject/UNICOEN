@@ -78,7 +78,9 @@
     <Compile Include="CodeModel\IFunction.cs" />
     <Compile Include="CodeModel\IType.cs" />
     <Compile Include="CodeModel\IVariable.cs" />
+    <Compile Include="CodeModel\Operators\AssignmentOperatorType.cs" />
     <Compile Include="CodeModel\Operators\BinaryOperatorType.cs" />
+    <Compile Include="CodeModel\Operators\IAssignmentOperator.cs" />
     <Compile Include="CodeModel\Operators\IUnaryOperator.cs" />
     <Compile Include="CodeModel\Operators\UnaryOperatorType.cs" />
     <Compile Include="CodeModel\Statements\IElseIfBlock.cs" />

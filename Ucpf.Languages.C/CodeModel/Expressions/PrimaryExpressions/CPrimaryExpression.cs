@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
@@ -13,6 +14,18 @@ namespace Ucpf.Languages.C.CodeModel
 
 		public CPrimaryExpression()
 		{
+		}
+
+		public new static CPrimaryExpression Create(XElement expNode) {
+			if(expNode.Element("IDENTIFIER") != null) {
+				return new CString(expNode);
+			}
+			else if(expNode.Element("constant") != null) {
+				return new CNumber(expNode);
+			}
+			else {
+				throw new InvalidOperationException();
+			}
 		}
 
 		// acceptor
