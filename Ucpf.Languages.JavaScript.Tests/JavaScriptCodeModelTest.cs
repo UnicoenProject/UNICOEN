@@ -74,5 +74,46 @@ namespace Ucpf.Languages.JavaScript.Tests
 			var exp  = ret.ReturnExpression;
 			Assert.That(exp.ToString(), Is.EqualTo("fibonacci(n-1)+fibonacci(n-2)"));
 		}
+
+		[Test]
+		public void 呼び出す関数の名前を取得する() {
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+            var root = ast.Descendants("functionDeclaration").First();
+			var func = new JSFunctionDeclaration(root);
+			var body = func.FunctionBody;
+			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
+			var elbl = (JSBlock)ifst.ElseBlock.First();
+			var ret  = (JSReturnStatement)elbl.Statements.First();
+			var exp  = (JSBinaryExpression)ret.ReturnExpression;
+			var call = (JSCallExpression)exp.Lhs;
+			Assert.That(call.Identifier, Is.EqualTo("fibonacci"));
+		}
+
+		[Test]
+		public void  呼び出す関数の引数を取得する() {
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+            var root = ast.Descendants("functionDeclaration").First();
+			var func = new JSFunctionDeclaration(root);
+			var body = func.FunctionBody;
+			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
+			var elbl = (JSBlock)ifst.ElseBlock.First();
+			var ret  = (JSReturnStatement)elbl.Statements.First();
+			var exp  = (JSBinaryExpression)ret.ReturnExpression;
+			var call = (JSCallExpression)exp.Lhs;
+			Assert.That(call.Arguments.First().ToString(), Is.EqualTo("n-1"));
+		}
+
+		[Test]
+		public void 二項演算子を取得する() {
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+            var root = ast.Descendants("functionDeclaration").First();
+			var func = new JSFunctionDeclaration(root);
+			var body = func.FunctionBody;
+			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
+			var elbl = (JSBlock)ifst.ElseBlock.First();
+			var ret  = (JSReturnStatement)elbl.Statements.First();
+			var exp  = (JSBinaryExpression)ret.ReturnExpression;
+			Assert.That(exp.Operator.Sign, Is.EqualTo("+"));
+		}
     }
 }
