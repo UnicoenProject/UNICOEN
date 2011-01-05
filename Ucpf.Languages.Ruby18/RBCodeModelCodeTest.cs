@@ -11,9 +11,9 @@ using Ucpf.Languages.C.CodeModel;
 namespace Ucpf.Languages.Ruby18
 {
 	[TestFixture]
-	public class RBCodeModelCodeTest
+	public class RbCodeModelCodeTest
 	{
-		private RBCodeModelToCode _rmtc;
+		private RbCodeModelToCode _rmtc;
 		private StringWriter _writer;
 		private CFunction _func;
 
@@ -21,7 +21,7 @@ namespace Ucpf.Languages.Ruby18
 		public void SetUp()
 		{
 			_writer = new StringWriter();
-			_rmtc = new RBCodeModelToCode(_writer, 0);
+			_rmtc = new RbCodeModelToCode(_writer, 0);
 			_func = new CFunction(
 						CAstGenerator.Instance.GenerateFromFile("fibonacci2.c")
 						.Descendants("function_definition")

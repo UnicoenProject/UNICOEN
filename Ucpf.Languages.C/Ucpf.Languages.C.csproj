@@ -87,6 +87,7 @@
     <Compile Include="CodeModel\CFunction.cs" />
     <Compile Include="CodeModel\Operators\CAssignmentOperator.cs" />
     <Compile Include="CodeModel\Operators\CBinaryOperator.cs" />
+    <Compile Include="CodeModel\Operators\COperator.cs" />
     <Compile Include="CodeModel\Operators\CUnaryOperator.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CodeModel\Statements\CStatement.cs" />
@@ -113,6 +114,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="C.g" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">

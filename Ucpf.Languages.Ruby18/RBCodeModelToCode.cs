@@ -11,13 +11,13 @@ using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.Ruby18
 {
-	public class RBCodeModelToCode : ICodeModelToCode
+	public class RbCodeModelToCode : ICodeModelToCode
 	{
 		private readonly TextWriter _writer;
 		private int _depth;
 
 		// constructor
-		public RBCodeModelToCode(TextWriter writer, int depth)
+		public RbCodeModelToCode(TextWriter writer, int depth)
 		{
 			_writer = writer;
 			_depth = depth;
@@ -85,14 +85,21 @@ namespace Ucpf.Languages.Ruby18
 
 		public void Generate(IUnaryExpression exp)
 		{
-			throw new NotImplementedException();
+			exp.Term.Accept(this);
+			exp.Operator.Accept(this);
 		}
 
 		public void Generate(ICallExpression exp)
 		{
 			var comma = "";
-			_writer.Write(exp.FunctionName);
-			
+			var funcName = exp.FunctionName;
+
+			if(funcName == "printf") {
+				funcName = "echo";
+			}
+
+			_writer.Write(funcName);
+
 			// paren and comma can be omitted
 			_writer.Write("(");
 			foreach (var e in exp.Arguments)
@@ -109,8 +116,54 @@ namespace Ucpf.Languages.Ruby18
 			_writer.Write(exp.Body);
 		}
 
-		public void Generate(IAssignmentExpression exp) {
-			throw new NotImplementedException();
+		public void Generate(IAssignmentExpression exp)
+		{
+			var sw = exp.Operator.Type;
+			var lValue = exp.LValue;
+			var rValue = exp.RExpression;
+
+			lValue.Accept(this);
+			WriteSpace();
+			_writer.Write("=");
+			WriteSpace();
+
+			// **Ruby does not support multiple assignment(e.g +=)
+			// the expression 'a (OP)= b' completely equals to 'a = a (OP) b'
+			switch (sw)
+			{
+				case AssignmentOperatorType.SimpleAssignment:
+					rValue.Accept(this);
+					break;
+				case AssignmentOperatorType.PlusAssignment:
+					lValue.Accept(this);
+					
+					WriteSpace();
+					_writer.Write("+");
+					WriteSpace();
+					
+					rValue.Accept(this);
+					break;
+				case AssignmentOperatorType.MinusAssignment:
+					lValue.Accept(this);
+
+					WriteSpace();
+					_writer.Write("-");
+					WriteSpace();
+
+					rValue.Accept(this);
+					break;
+				case AssignmentOperatorType.MultiAssignment:
+					lValue.Accept(this);
+					
+					WriteSpace();
+					_writer.Write("*");
+					WriteSpace();
+
+					rValue.Accept(this);
+					break;
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
 		public void Generate(IBinaryOperator op)
@@ -123,7 +176,8 @@ namespace Ucpf.Languages.Ruby18
 			// _writer.Write(op.);
 		}
 
-		public void Generate(IAssignmentOperator op) {
+		public void Generate(IAssignmentOperator op)
+		{
 			throw new NotImplementedException();
 		}
 
@@ -192,7 +246,8 @@ namespace Ucpf.Languages.Ruby18
 			}
 		}
 
-		public void Generate(IEmptyStatement stmt) {
+		public void Generate(IEmptyStatement stmt)
+		{
 			return;
 		}
 
@@ -213,7 +268,8 @@ namespace Ucpf.Languages.Ruby18
 			WriteLine();
 		}
 
-		public void Generate(IType type) {
+		public void Generate(IType type)
+		{
 			// print nothing
 			return;
 		}

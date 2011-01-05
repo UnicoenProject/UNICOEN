@@ -9,7 +9,7 @@ using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CAssignmentOperator : IAssignmentOperator
+	public class CAssignmentOperator : COperator, IAssignmentOperator
 	{
 		public string Sign { get; private set; }
 		public AssignmentOperatorType Type { get; private set; }

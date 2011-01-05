@@ -10,7 +10,7 @@ using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CBinaryOperator : IBinaryOperator
+	public class CBinaryOperator : COperator, IBinaryOperator
 	{
 		public CBinaryOperator(string sign, BinaryOperatorType type) {
 			Sign = sign;

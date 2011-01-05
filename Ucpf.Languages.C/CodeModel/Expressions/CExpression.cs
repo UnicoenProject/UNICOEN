@@ -14,7 +14,7 @@ namespace Ucpf.Languages.C.CodeModel
 		// constructor
 		protected CExpression() { }
 
-		public static CExpression Create(XElement node)
+		public static CExpression Create(XElement expNode)
 		{
 			/*
 			 * TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
@@ -36,7 +36,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 
 			var fnode =
-				node.Descendants().Where(e =>
+				expNode.Descendants().Where(e =>
 				{
 					var cnt = (e.Elements()).Count();
 					return cnt > 1
