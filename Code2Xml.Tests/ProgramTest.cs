@@ -26,7 +26,6 @@ namespace Code2Xml.Tests {
 				var langs = new[] {
 					new { Name = "C", Opt = "-C" },
 					new { Name = "CSharp", Opt = "-C#" },
-					new { Name = "IronRuby", Opt = "-IronRuby" },
 					new { Name = "Java", Opt = "-Java"},
 					new { Name = "JavaScript", Opt = "-JavaScript"},
 					new { Name = "Lua", Opt = "-Lua"},

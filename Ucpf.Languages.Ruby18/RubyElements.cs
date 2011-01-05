@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Ucpf.Languages.IronRuby
+namespace Ucpf.Languages.Ruby18
 {
 	public static class RubyElements
 	{

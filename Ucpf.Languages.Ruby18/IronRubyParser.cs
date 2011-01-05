@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Xml.Linq;
 using IronRuby;
-using IronRuby.Builtins;
 using Paraiba.Text;
 
-namespace Ucpf.Languages.IronRuby
+namespace Ucpf.Languages.Ruby18
 {
 	public static class IronRubyParser
 	{

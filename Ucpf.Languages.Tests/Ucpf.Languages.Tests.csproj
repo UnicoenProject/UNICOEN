@@ -70,9 +70,9 @@
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
       <Name>Ucpf.Languages.C</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Languages.IronRuby\Ucpf.Languages.IronRuby.csproj">
+    <ProjectReference Include="..\Ucpf.Languages.IronRuby\Ucpf.Languages.Ruby18.csproj">
       <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
-      <Name>Ucpf.Languages.IronRuby</Name>
+      <Name>Ucpf.Languages.Ruby18</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.JavaScript\Ucpf.Languages.JavaScript.csproj">
       <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
@@ -97,10 +97,6 @@
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Languages.Ruby18\Ucpf.Languages.Ruby18.csproj">
-      <Project>{40A3B8FA-0257-4353-A7E0-038F6F53D4C9}</Project>
-      <Name>Ucpf.Languages.Ruby18</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
