@@ -11,17 +11,19 @@ using Ucpf.Languages.C.CodeModel;
 namespace Ucpf.Languages.C.Tests
 {
 	[TestFixture]
-	public partial class CCodeModelTestForFibonacci2 {
+	public class CCodeModelTestForAssignment
+	{
 		private CFunction _function;
 
 		[SetUp]
-		public void SetUp() {
+		public void SetUp()
+		{
 			_function = new CFunction(
-				CAstGenerator.Instance.GenerateFromFile("fibonacci2.c")
+				CAstGenerator.Instance.GenerateFromFile("assignment.c")
 				.Descendants("function_definition")
 				.First());
 		}
-		
+
 		[Test]
 		public void メソッド返却値タイプが正しい()
 		{
@@ -31,7 +33,7 @@ namespace Ucpf.Languages.C.Tests
 		[Test]
 		public void メソッド名が正しい()
 		{
-			Assert.That(_function.Name, Is.EqualTo("fibonacci2"));
+			Assert.That(_function.Name, Is.EqualTo("assignment"));
 		}
 
 		// test whether the first parameter equals to (int, "n")
@@ -48,10 +50,11 @@ namespace Ucpf.Languages.C.Tests
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
 			var conditionalExpression = ifStmt.ConditionalExpression;
-			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n<0"));
+			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n==1"));
 		}
 		[Test]
-		public void ふたつめのIF文の条件式が正しい(){
+		public void ふたつめのIF文の条件式が正しい()
+		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
 			var elseifBlocks = ifStmt.ElseIfBlocks;
 			var conditionalExpression = elseifBlocks.ElementAt(0).ConditionalExpression;
@@ -63,9 +66,10 @@ namespace Ucpf.Languages.C.Tests
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
 			var trueBlock = ifStmt.TrueBlock;
-			var stmt = trueBlock.Statements.ElementAt(0) as CInvocationExpression;
-			// Assert.That(stmt.Expression is CInvocationExpression);
-			Assert.That(stmt.ToString(), Is.EqualTo("printf(\"aaaa\")"));
+			var stmt = trueBlock.Statements.ElementAt(0) as CExpressionStatement;
+			var exp = stmt.Expression as CAssignmentExpression;
+			var ope = exp.Operator;
+			Assert.That(exp.ToString(), Is.EqualTo(""));
 		}
 
 		[Test]

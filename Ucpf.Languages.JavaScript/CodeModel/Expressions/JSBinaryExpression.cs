@@ -18,7 +18,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public JSBinaryOperator Operator { get; private set; }
 
 		//function
-		public new void Accept(JSCodeModelToCode conv)
+		public override void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

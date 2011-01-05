@@ -47,6 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeModel\Expressions\JavaBinaryExpression.cs" />
+    <Compile Include="CodeModel\Expressions\JavaExpression.cs" />
+    <Compile Include="CodeModel\Expressions\JavaPrimary.cs" />
+    <Compile Include="CodeModel\Expressions\JavaUnaryExpression.cs" />
+    <Compile Include="CodeModel\JavaBlock.cs" />
+    <Compile Include="CodeModel\JavaFunction.cs" />
+    <Compile Include="CodeModel\JavaVariable.cs" />
+    <Compile Include="CodeModel\Operators\JavaOperator.cs" />
+    <Compile Include="CodeModel\Statements\JavaIfStatement.cs" />
+    <Compile Include="CodeModel\Statements\JavaReturnStatement.cs" />
+    <Compile Include="CodeModel\Statements\JavaStatement.cs" />
     <Compile Include="JavaAstGenerator.cs" />
     <Compile Include="JavaCodeGenerator.cs" />
     <Compile Include="JavaCodeModel.cs" />
@@ -54,6 +65,7 @@
     <Compile Include="JavaLexer.cs" />
     <Compile Include="JavaParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Java.g" />
@@ -72,6 +84,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -42,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RbCodeModelCodeTest.cs" />
+    <Compile Include="RbCodeModelToCode.cs" />
     <Compile Include="Ruby18AstGenerator.cs" />
     <Compile Include="Ruby18CodeGenerator.cs" />
   </ItemGroup>
@@ -49,6 +52,10 @@
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">
+      <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
+      <Name>Ucpf.Languages.C</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

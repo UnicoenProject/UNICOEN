@@ -18,12 +18,13 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 			//Identifier
 			Identifier = node.Descendants().Where(e => {
-				return e.Value == "Identifier";
+				return e.Name.LocalName == "Identifier";
 			}).First().Value;
 
+			//TODO want to ignore TOKEN under "arguments"
 			//Arguments
-			Arguments = node.Element("arguments").Elements()
-				.Select(e => CreateExpression(e));
+			Arguments = node.Element("arguments").Elements().Where(e => e.Name.LocalName != "TOKEN")
+				.Select(e2 => JSExpression.CreateExpression(e2));
 		}
 
 		//field
@@ -31,7 +32,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public IEnumerable<JSExpression> Arguments { get; private set;}
 
 		//function
-		public new void Accept(JSCodeModelToCode conv)
+		public override void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

@@ -12,7 +12,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public JSIfStatement(XElement node) : base(node) {
 			ConditionalExpression = JSExpression.CreateExpression(node.Element("expression"));
 			TrueBlock = JSStatement.CreateStatement(node.Element("statement"));
-			ElseBlock = node.Elements("statement").Skip(1).Select(e => new JSStatement(e));
+			ElseBlock = node.Elements("statement").Skip(1).Select(e => JSStatement.CreateStatement(e));
 		}
 
 		//field
@@ -21,7 +21,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public IEnumerable<JSStatement> ElseBlock { get; private set; }
 
 		//function
-		public void Accept(JSCodeModelToCode conv)
+		public override void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

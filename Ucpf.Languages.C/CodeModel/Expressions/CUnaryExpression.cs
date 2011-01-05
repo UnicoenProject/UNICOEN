@@ -12,18 +12,24 @@ namespace Ucpf.Languages.C.CodeModel
 	{
 		// properties
 		public CUnaryOperator Operator { get; private set; }
-		public CExpression Expression { get; private set; }
+		public CExpression Term { get; private set; }
 
 		// constructor
 		public CUnaryExpression(CUnaryOperator ope, XElement expNode)
 		{
 			Operator = ope;
-			Expression = CExpression.Create(expNode);
+			if (expNode.Name.LocalName == "primary_expression")
+			{
+				Term = CPrimaryExpression.Create(expNode);
+			}
+			else {
+				Term = CExpression.Create(expNode);
+			}
 		}
 
 		public override string ToString()
 		{
-			return Operator.ToString() + Expression.ToString();
+			return Operator.ToString() + Term.ToString();
 		}
 
 		// acceptor
@@ -49,7 +55,7 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			get
 			{
-				return Expression;
+				return Term;
 			}
 			set
 			{

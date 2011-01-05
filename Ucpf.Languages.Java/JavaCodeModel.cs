@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Ucpf.Languages.Java.CodeModel;
 
 namespace Ucpf.Languages.Java
 {
-
+    /*
     public class FunctionDeclaration
     {
         private XElement _node;
@@ -53,13 +54,16 @@ namespace Ucpf.Languages.Java
             _node = node;
         }
     }
-
+     * */
+    /*
     class FunctionInvocation
     {
         String FunctionName;
         List<Value> Arguments;
     }
+     */
 
+    /*
     class Variable
     {
         String Identifier;
@@ -69,6 +73,7 @@ namespace Ucpf.Languages.Java
             throw new NotImplementedException();
         }
     }
+     */
 
     class Value
     {
@@ -79,11 +84,11 @@ namespace Ucpf.Languages.Java
     {
         int NumericalValue;
     }
-
+    /*
     internal class Block
     {
         private XElement _node;
-        /* blockStatement* */
+        // blockStatement
         IEnumerable<Statement> Statements
         {
             get
@@ -103,44 +108,54 @@ namespace Ucpf.Languages.Java
             throw new NotImplementedException();
         }
     }
+    */
 
+    /*
     class Statement
     {
         //nothing
-    }
+    }*/
 
+    /*
     class IfStatement : Statement
     {
         Expression ConditionalExpression;
         Block TrueBlock;
         Block ElseBlock;
-    }
+    }*/
 
+    /*
     class ReturnStatement : Statement
     {
         Expression ReturnExpression;
     }
+     */
 
+    /*
     class Expression
     {
         //nothing
     }
-
+     */
+    /*
     class UnaryExpression : Expression
     {
         Operator Operator;
         Value Value;
     }
-
+     */
+    /*
     class BinaryExpression : Expression
     {
         Operator Operator;
         Value lValue;
         Value rValue;
     }
-
+    */
+    /*
     class Operator
     {
         String OperatorName;
     }
+     * */
 }

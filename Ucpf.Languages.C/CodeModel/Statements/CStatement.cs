@@ -28,22 +28,22 @@ namespace Ucpf.Languages.C.CodeModel
 		// constructor for deligating to subclasses
 		public CStatement() { }
 
-		public static CStatement Create(XElement node)
+		public static CStatement Create(XElement stmtNode)
 		{
 			// -- which is better ?
 			// var judge = node.Descendants("TOKEN").First().Value;
-			var judge = node.Descendants().First().Name.LocalName;
+			var judge = stmtNode.Descendants().First().Name.LocalName;
 			switch (judge)
 			{
 				case ("selection_statement"):
-					return CSelectionStatement.Create(node);
+					return CSelectionStatement.Create(stmtNode);
 				case ("jump_statement"):
-					return new CReturnStatement(node);
+					return new CReturnStatement(stmtNode);
 				case ("iteration_statement") :
 					// return CIterationStatement.CreateStatement(node);
 					throw new NotImplementedException();
 				case ("expression_statement") :
-					return CExpressionStatement.Create(node);
+					return CExpressionStatement.Create(stmtNode);
 				default:
 					throw new InvalidOperationException();
 			}

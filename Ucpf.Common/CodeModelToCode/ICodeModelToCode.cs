@@ -17,10 +17,12 @@ namespace Ucpf.CodeModelToCode
 		void Generate(IUnaryExpression exp);
 		void Generate(ICallExpression exp);
 		void Generate(ITernaryExpression exp);
+		void Generate(IAssignmentExpression exp);
 
 		// Operator
 		void Generate(IBinaryOperator op);
 		void Generate(IUnaryOperator op);
+		void Generate(IAssignmentOperator op);
 		
 		// Statement
 		void Generate(IStatement stmt);
@@ -39,5 +41,7 @@ namespace Ucpf.CodeModelToCode
 		void Generate(IVariable variable);
 
 
+
+		
 	}
 }

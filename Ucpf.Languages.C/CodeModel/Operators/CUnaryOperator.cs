@@ -10,7 +10,7 @@ using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CUnaryOperator : IUnaryOperator
+	public class CUnaryOperator : COperator, IUnaryOperator
 	{
 		// constructor
 		public CUnaryOperator(string sign, UnaryOperatorType type)
@@ -73,7 +73,8 @@ namespace Ucpf.Languages.C.CodeModel
 
 		void ICodeElement.Accept(ICodeModelToCode conv)
 		{
-			throw new NotImplementedException();
+			conv.Generate(this);
 		}
 	}
+
 }

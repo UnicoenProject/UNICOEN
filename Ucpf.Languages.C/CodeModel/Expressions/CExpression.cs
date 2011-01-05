@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using Ucpf.CodeModel;
@@ -13,7 +14,7 @@ namespace Ucpf.Languages.C.CodeModel
 		// constructor
 		protected CExpression() { }
 
-		public static CExpression Create(XElement node)
+		public static CExpression Create(XElement expNode)
 		{
 			/*
 			 * TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
@@ -35,7 +36,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 
 			var fnode =
-				node.Descendants().Where(e =>
+				expNode.Descendants().Where(e =>
 				{
 					var cnt = (e.Elements()).Count();
 					return cnt > 1
@@ -43,73 +44,70 @@ namespace Ucpf.Languages.C.CodeModel
 							&& (e.Element("TOKEN") != null
 								|| e.Element("IDENTIFIER") != null));
 				}).First();
-			
+
+			// TODO : the 'if-elseif' switching below must be converted into 'switch-case' switching
+
 			// case : primary expression :: method_invocation or string
-			if (fnode.Name.LocalName == "primary_expression")
+			var nodeName = fnode.Name.LocalName;
+
+			switch (nodeName)
 			{
 				// primary :: numeric_constant or variable_name:string
-				return new CString(fnode);
-			}
-			
-			// case : numeric constant
-			else if (fnode.Name.LocalName == "constant")
-			{
-				return new CNumber(fnode);
-			}
+				case "primary_expression":
+					return new CString(fnode);
 
-			
+				// case : assisgnment(e.g. a = 3)
+				case "assignment_expression":
+					var elements = fnode.Elements();
+					var lNode = elements.ElementAt(0);
+					var aOpeNode = elements.ElementAt(1);
+					var rNode = elements.ElementAt(2);
+					return new CAssignmentExpression(
+						lNode,
+						CAssignmentOperator.Create(aOpeNode),
+						rNode);
+				// case : numeric constant))
+				case "constant":
+					return new CNumber(fnode);
 
-			// case : unary expression
-			else if (fnode.Name.LocalName == "unary_expression")
-			{
-				var sw = fnode.Element("postfix_expression").Element("TOKEN");
-
-				if (sw != null)		// ex : ++x
-				{
-					var opeNode = fnode.Elements().ElementAt(0);
+				// case : unary expression
+				case "prefix_expression":
+					// var sw = fnode.Element("postfix_expression").Element("TOKEN");
+					var preOpeNode = fnode.Elements().ElementAt(0);
 					return new CUnaryExpression(
-						CUnaryOperator.CreatePrefix(opeNode),
+						CUnaryOperator.CreatePrefix(preOpeNode),
 						fnode.Elements().ElementAt(1));
-				}
-				else // ex : y++
-				{
-					var opeNode = fnode.Elements().ElementAt(1);
+
+				case "postfix_expression":
+					var token = fnode.Element("TOKEN");
+					// case : method_invocation
+					if (token != null && token.Value == "(")
+					{
+						return new CInvocationExpression(fnode);
+					}
+
+					// case : postfix expression (e.g. y++
+					var postOpeNode = fnode.Elements().ElementAt(1);
 					return new CUnaryExpression(
-						CUnaryOperator.CreatePostfix(opeNode),
+						CUnaryOperator.CreatePostfix(postOpeNode),
 						fnode.Elements().ElementAt(0));
-				}
+					// TODO :: array reference expression etc...
 			}
 
 			// case : binary expression
 			// else if (fnode.Elements().Count() == 3)
 			// {
-				var ope = fnode.Elements().ElementAt(1);
-				if (ope != null && binaryOperator.Contains(ope.Value))
-				{
-					return new CBinaryExpression(
-						fnode.Elements().ElementAt(0),
-						CBinaryOperator.Create(ope),
-						fnode.Elements().ElementAt(2));
-				}
-			// }	
-				
-			// case : method_invocation
-			else if(fnode.Name.LocalName == "postfix_expression"){
-				var token = fnode.Element("TOKEN");
-
-				if (token != null && token.Value == "(")
-				{
-					return new CInvocationExpression(fnode);
-				}
-
-				// TODO :: array reference expression etc...
-				else
-				{
-					throw new NotImplementedException();
-				}
+			var ope = fnode.Elements().ElementAt(1);
+			if (ope != null && binaryOperator.Contains(ope.Value))
+			{
+				return new CBinaryExpression(
+					fnode.Elements().ElementAt(0),
+					CBinaryOperator.Create(ope),
+					fnode.Elements().ElementAt(2));
 			}
-
+			// }	
 			throw new InvalidOperationException();
+
 		}
 
 

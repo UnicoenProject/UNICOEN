@@ -85,7 +85,9 @@
     <Compile Include="CodeModel\Expressions\PrimaryExpressions\CString.cs" />
     <Compile Include="CElements.cs" />
     <Compile Include="CodeModel\CFunction.cs" />
+    <Compile Include="CodeModel\Operators\CAssignmentOperator.cs" />
     <Compile Include="CodeModel\Operators\CBinaryOperator.cs" />
+    <Compile Include="CodeModel\Operators\COperator.cs" />
     <Compile Include="CodeModel\Operators\CUnaryOperator.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CodeModel\Statements\CStatement.cs" />
@@ -108,7 +110,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assignment.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="C.g" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
@@ -117,6 +123,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assignment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="empty.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
