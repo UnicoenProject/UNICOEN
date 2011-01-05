@@ -21,7 +21,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public IEnumerable<JSStatement> ElseBlock { get; private set; }
 
 		//function
-		public void Accept(JSCodeModelToCode conv)
+		public override void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

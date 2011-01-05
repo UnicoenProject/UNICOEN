@@ -32,7 +32,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public IEnumerable<JSExpression> Arguments { get; private set;}
 
 		//function
-		public new void Accept(JSCodeModelToCode conv)
+		public override void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

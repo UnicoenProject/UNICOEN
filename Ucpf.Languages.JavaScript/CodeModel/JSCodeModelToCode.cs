@@ -18,6 +18,13 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		}
 
 		//utility functions
+		public string Tabs(int depth) {
+			var tabs = "";
+			for(int i = 0; i < depth; i++) {
+				tabs += "\t";
+			}
+			return tabs;
+		}
 
 		public void WriteSpace() {
 			_writer.Write(" ");
@@ -32,7 +39,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		public void Generate(JSFunctionBody jsFunctionBody)
 		{
 			WriteLine();
-			//tabs
+			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
 			WriteLine();
 			_depth++;
@@ -56,7 +63,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 
 			_depth--;
 			WriteLine();
-			//tabs
+			_writer.Write(Tabs(_depth));
 			_writer.Write("}\n");
 		}
 
@@ -69,8 +76,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		//IfStatement
 		public void Generate(JSIfStatement jsIfStatement)
 		{
-			WriteLine();
-			//tabs
+			_writer.Write(Tabs(_depth));
 			_writer.Write("if(");
 			jsIfStatement.ConditionalExpression.Accept(this);
 			_writer.Write(")");
@@ -80,7 +86,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 
 			//ElseBlock
 			foreach (var statement in jsIfStatement.ElseBlock) {
-				//tabs
+				_writer.Write(Tabs(_depth));
 				_writer.Write("else");
 				statement.Accept(this);
 			}
@@ -89,8 +95,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		//ReturnStatement
 		public void Generate(JSReturnStatement jsReturnStatement) 
 		{
-			WriteLine();
-			//tabs
+			_writer.Write(Tabs(_depth));
 			_writer.Write("return");
 			WriteSpace();
 
@@ -102,7 +107,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		public  void Generate(JSBlock jsBlock)
 		{
 			WriteLine();
-			//tabs
+			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
 			WriteLine();
 			_depth++;
@@ -118,7 +123,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 
 			_depth--;
 			WriteLine();
-			//tabs
+			_writer.Write(Tabs(_depth));
 			_writer.Write("}\n");
 		}
 

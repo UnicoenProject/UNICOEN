@@ -81,7 +81,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			throw new NotImplementedException();
 		}
 
-		public void Accept(JSCodeModelToCode conv)
+		public virtual void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
