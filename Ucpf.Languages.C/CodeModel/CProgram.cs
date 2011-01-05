@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
+using Ucpf.Common.CodeModel;
 using Ucpf.Languages.C.CodeModel;
 
 namespace Ucpf.Languages.C.CodeModel
