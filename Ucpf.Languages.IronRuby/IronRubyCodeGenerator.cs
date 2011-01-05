@@ -5,7 +5,7 @@ using Ucpf.Common.CodeGenerators;
 
 namespace Ucpf.Languages.IronRuby
 {
-	//[Export(typeof(CodeGenerator))]
+	[Export(typeof(CodeGenerator))]
 	public class IronRubyCodeGenerator : CodeGenerator
 	{
 		private static IronRubyCodeGenerator _instance;

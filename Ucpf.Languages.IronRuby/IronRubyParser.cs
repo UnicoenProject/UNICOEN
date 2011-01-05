@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using System.Xml.Linq;
 using IronRuby;
+using IronRuby.Builtins;
 using Paraiba.Text;
 
 namespace Ucpf.Languages.IronRuby
@@ -26,15 +28,12 @@ namespace Ucpf.Languages.IronRuby
 		private static readonly Func<string, XElement> ParseCodeFunc;
 		private static readonly Func<XElement, string> ParseXmlFunc;
 
-		public static XElement ParseCodeFromString(string content)
-		{
+		public static XElement ParseCodeFromString(string content) {
 			return ParseCodeFunc(content);
 		}
 
-		public static XElement ParseCodeFromFile(string fileName)
-		{
-			using (var fs = new FileStream(fileName, FileMode.Open))
-            using (var reader = new StreamReader(fs, XEncoding.SJIS))
+		public static XElement ParseCodeFromFile(string fileName) {
+			using (var reader = new StreamReader(fileName, XEncoding.SJIS))
 			{
 				return ParseCodeFromString(reader.ReadToEnd());
 			}

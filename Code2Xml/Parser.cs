@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Paraiba.Text;
 using Ucpf.Common.Plugins;
 
 namespace Code2Xml {
@@ -46,12 +47,10 @@ namespace Code2Xml {
 				action2 = () => { };	// disposer
 				break;
 			case OutputType.File: {
-				var fs = new FileStream(outPath, FileMode.Create);
-				var writer = new StreamWriter(fs);
+				var writer = new StreamWriter(outPath, false, XEncoding.SJIS);
 				action1 = (inputPath, content) => writer.WriteLine(content);
 				action2 = () => {		// disposer
 					writer.Close();
-					fs.Close();
 				};
 				break;
 			}
@@ -60,10 +59,8 @@ namespace Code2Xml {
 					var newPath = Path.Combine(
 						outPath ?? Path.GetDirectoryName(inputPath),
 						Path.GetFileNameWithoutExtension(inputPath) + outExtension);
-					using (var fs = new FileStream(newPath, FileMode.Create)) {
-						using (var writer = new StreamWriter(fs)) {
-							writer.WriteLine(content);
-						}
+					using (var writer = new StreamWriter(newPath, false, XEncoding.SJIS)) {
+						writer.WriteLine(content);
 					}
 				};
 				action2 = () => { };	// disposer

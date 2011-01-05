@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Paraiba.Text;
 using Paraiba.Xml;
 using Ucpf.Common.AstGenerators;
 using Ucpf.Common.CodeGenerators;
@@ -46,7 +47,7 @@ namespace Ucpf.Languages.Tests {
 				Settings.GetXmlExpectationDirPath(lang),
 				Path.GetFileName(path));
 			var r = astGen.GenerateFromFile(path);
-			using (var reader = new StreamReader(expPath)) {
+			using (var reader = new StreamReader(expPath, XEncoding.SJIS)) {
 				Assert.That(r.ToString(), Is.EqualTo(reader.ReadToEnd()));
 			}
 		}
@@ -57,7 +58,7 @@ namespace Ucpf.Languages.Tests {
 			var outputDirPath = Settings.GetOutputDirPath(lang);
 			var outPath = Path.Combine(outputDirPath, Path.GetFileName(path));
 			var r = astGen.GenerateFromFile(path);
-			using (var writer = new StreamWriter(outPath)) {
+			using (var writer = new StreamWriter(outPath, false, XEncoding.SJIS)) {
 				writer.Write(r.ToString());
 			}
 		}

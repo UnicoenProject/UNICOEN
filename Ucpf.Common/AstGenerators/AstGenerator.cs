@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Paraiba.Text;
 
 namespace Ucpf.Common.AstGenerators {
 	[ContractClass(typeof(AstGeneratorContract))]
@@ -12,7 +13,8 @@ namespace Ucpf.Common.AstGenerators {
 
 		public XElement GenerateFromFile(string path) {
 			Contract.Requires(path != null);
-			using (var reader = new StreamReader(path)) {
+			// TODO: fix encoding
+			using (var reader = new StreamReader(path, XEncoding.SJIS)) {
 				return Generate(reader);
 			}
 		}

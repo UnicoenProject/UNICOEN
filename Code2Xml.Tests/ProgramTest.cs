@@ -62,8 +62,7 @@ namespace Code2Xml.Tests {
 
 			foreach (var filePath in filePaths) {
 				var newPath = Path.Combine(outputPath, Path.GetFileName(filePath));
-				using (var fs = new FileStream(newPath, FileMode.Open))
-				using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
+				using (var reader = new StreamReader(newPath, XEncoding.SJIS)) {
 					var actual = reader.ReadToEnd();
 					var ast = CAstGenerator.Instance.GenerateFromFile(filePath);
 					var expected = CCodeGenerator.Instance.Generate(ast);
@@ -97,13 +96,11 @@ namespace Code2Xml.Tests {
 			foreach (var filePath in filePaths) {
 				var newPath = Path.Combine(Path.GetDirectoryName(filePath),
 					Path.ChangeExtension(Path.GetFileName(filePath), ".xml"));
-				using (var fs = new FileStream(newPath, FileMode.Open)) {
-					using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
-						var actual = reader.ReadToEnd();
-						var expected =
-							CAstGenerator.Instance.GenerateFromFile(filePath).ToString();
-						Assert.That(actual.StartsWith(expected), Is.True);
-					}
+				using (var reader = new StreamReader(newPath, XEncoding.SJIS)) {
+					var actual = reader.ReadToEnd();
+					var expected =
+						CAstGenerator.Instance.GenerateFromFile(filePath).ToString();
+					Assert.That(actual.StartsWith(expected), Is.True);
 				}
 				File.Delete(newPath);
 			}
@@ -118,16 +115,14 @@ namespace Code2Xml.Tests {
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-f", outputFilePath }).ToArray());
 
-			using (var fs = new FileStream(outputFilePath, FileMode.Open)) {
-				using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
-					var expected = filePaths
-						.Select(
-							filePath =>
-							CAstGenerator.Instance.GenerateFromFile(filePath) + Environment.NewLine)
-						.JoinString();
-					var actual = reader.ReadToEnd();
-					Assert.That(actual, Is.EqualTo(expected));
-				}
+			using (var reader = new StreamReader(outputFilePath, XEncoding.SJIS)) {
+				var expected = filePaths
+					.Select(
+						filePath =>
+						CAstGenerator.Instance.GenerateFromFile(filePath) + Environment.NewLine)
+					.JoinString();
+				var actual = reader.ReadToEnd();
+				Assert.That(actual, Is.EqualTo(expected));
 			}
 			File.Delete(outputFilePath);
 		}
@@ -144,13 +139,11 @@ namespace Code2Xml.Tests {
 			foreach (var filePath in filePaths) {
 				var newPath = Path.Combine(outputPath,
 					Path.ChangeExtension(Path.GetFileName(filePath), ".xml"));
-				using (var fs = new FileStream(newPath, FileMode.Open)) {
-					using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
-						var actual = reader.ReadToEnd();
-						var expected =
-							CAstGenerator.Instance.GenerateFromFile(filePath).ToString();
-						Assert.That(actual.StartsWith(expected), Is.True);
-					}
+				using (var reader = new StreamReader(newPath, XEncoding.SJIS)) {
+					var actual = reader.ReadToEnd();
+					var expected =
+						CAstGenerator.Instance.GenerateFromFile(filePath).ToString();
+					Assert.That(actual.StartsWith(expected), Is.True);
 				}
 			}
 			Directory.Delete(outputPath, true);

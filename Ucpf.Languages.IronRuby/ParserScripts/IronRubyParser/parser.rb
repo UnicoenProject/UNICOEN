@@ -38,7 +38,7 @@ end
 
 def parse_code(text)
   ret = XDocument.new()
-  traverse(ret, @parser.parse(text.to_s))
+  traverse(ret, @parser.parse(text.to_s.force_encoding('ascii-8bit')))
   ret.root
 end
 
@@ -54,13 +54,15 @@ def traverse(parent, exp)
     when nil
       elem.add(XElement.new(XName.get('Nil')))
     else
-      elem.add(XElement.new(XName.get(t.class.to_s), t.to_s))
+      elem.add(XElement.new(XName.get(t.class.to_s),
+        System::Text::Encoding.UTF8.GetString(t.to_s.ToByteArray)))
     end
   end
 end
 
 def parse_xml(root)
-  @r2r.process(traverse_xml(root))
+  System::Text::Encoding.UTF8.GetString(
+    @r2r.process(traverse_xml(root)).ToByteArray)
 end
 
 def traverse_xml(elem)
@@ -78,7 +80,7 @@ def terminal_node2array_element(elem)
   when 'Symbol'
     elem.value.to_sym
   when 'String'
-    elem.value
+    elem.value.to_s.force_encoding('ascii-8bit')
   when 'Fixnum'
     elem.value.to_i
   when 'Bignum'
