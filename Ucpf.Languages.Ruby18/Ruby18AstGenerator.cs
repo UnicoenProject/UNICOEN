@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using Ucpf.AstGenerators;
+using Ucpf.Common;
+using Ucpf.Common.AstGenerators;
 
 namespace Ucpf.Languages.Ruby18 {
 	//[Export(typeof(AstGenerator))]

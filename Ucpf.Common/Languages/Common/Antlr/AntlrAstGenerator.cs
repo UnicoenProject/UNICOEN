@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Xml.Linq;
 using Antlr.Runtime;
-using Ucpf.AstGenerators;
+using Ucpf.Common.AstGenerators;
 
-namespace Ucpf.Languages.Common.Antlr {
+namespace Ucpf.Common.Languages.Common.Antlr {
 	[ContractClass(typeof(AntlrAstGeneratorContract<>))]
 	public abstract class AntlrAstGenerator<TParser> : AstGenerator {
 		protected abstract Func<TParser, XParserRuleReturnScope> DefaultParseFunc { get; }

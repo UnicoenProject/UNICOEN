@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Ucpf.CodeModel;
+﻿using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModel.Statements;
 
-namespace Ucpf.CodeModelToCode
+namespace Ucpf.Common.CodeModelToCode
 {
 	public interface ICodeModelToCode {
 		// Function

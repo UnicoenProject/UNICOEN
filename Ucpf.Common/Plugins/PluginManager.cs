@@ -5,10 +5,10 @@ using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
 using Paraiba.Linq;
-using Ucpf.AstGenerators;
-using Ucpf.CodeGenerators;
+using Ucpf.Common.AstGenerators;
+using Ucpf.Common.CodeGenerators;
 
-namespace Ucpf.Plugins {
+namespace Ucpf.Common.Plugins {
 	public class PluginManager {
 		private static PluginManager _instance;
 

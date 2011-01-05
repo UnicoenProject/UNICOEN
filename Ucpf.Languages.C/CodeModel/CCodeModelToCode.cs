@@ -4,8 +4,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ucpf.CodeModel;
-using Ucpf.CodeModelToCode;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {

@@ -5,7 +5,9 @@ using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
 using Paraiba.Text;
-using Ucpf.AstGenerators;
+using Ucpf.Common.AstGenerators;
+using Ucpf.Common.Plugins;
+using Ucpf.Common.Tests;
 using Ucpf.Languages.C;
 using Ucpf.Languages.CSharp;
 using Ucpf.Languages.Java;
@@ -17,35 +19,40 @@ using Ucpf.Languages.Python3;
 namespace Code2Xml.Tests {
 	[TestFixture]
 	public class ProgramTest {
+		private static string CLanguageName = "C";
+
 		private static IEnumerable<TestCaseData> TestCases {
 			get {
-				yield return
-					new TestCaseData("c", "-C", CAstGenerator.Instance).Returns(true);
-				yield return
-					new TestCaseData("cs", "-C#", CSharpAstGenerator.Instance).Returns(true);
-				yield return
-					new TestCaseData("java", "-Java", JavaAstGenerator.Instance).Returns(true);
-				yield return
-					new TestCaseData("js", "-JavaScript", JavaScriptAstGenerator.Instance).
-						Returns(true);
-				yield return
-					new TestCaseData("py", "-Python2", Python2AstGenerator.Instance).Returns(
-						true);
-				yield return
-					new TestCaseData("py", "-Python3", Python3AstGenerator.Instance).Returns(
-						true);
-				yield return
-					new TestCaseData("lua", "-Lua", LuaAstGenerator.Instance).Returns(true);
-				//yield return new TestCaseData("rb", "-Ruby", IronRubyAstGenerator.Instance).Returns(true);
+				var langs = new[] {
+					new { Name = "C", Opt = "-C" },
+					new { Name = "CSharp", Opt = "-C#" },
+					new { Name = "IronRuby", Opt = "-IronRuby" },
+					new { Name = "Java", Opt = "-Java"},
+					new { Name = "JavaScript", Opt = "-JavaScript"},
+					new { Name = "Lua", Opt = "-Lua"},
+					new { Name = "Python2", Opt = "-Python2"},
+					new { Name = "Python3", Opt = "-Python3"},
+					new { Name = "Ruby18", Opt = "-Ruby18"},
+					new { Name = "Ruby19", Opt = "-Ruby19"},
+				};
+				return langs
+					.SelectMany(
+						lang => Directory.EnumerateFiles(Settings.GetInputDirPath(lang.Name))
+									.Select(path => new { Name = lang.Name, Opt = lang.Opt, Path = path }))
+					.Select(p =>
+							new TestCaseData(p.Path, p.Opt,
+								PluginManager.AstGenerators.FirstOrDefault(
+									o => o.GetType().Name == p.Name + "AstGenerator")))
+					.Where(t => t.Arguments[2] != null);
 			}
 		}
 
 		[Test]
 		public void コードを生成できる() {
-			var filePaths = new[]
-			{ "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
-			const string outputPath = "output";
-			Directory.CreateDirectory(outputPath);
+			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
+			var filePaths = names
+				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
+			var outputPath = Settings.GetOutputDirPath(CLanguageName);
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-d", outputPath }).ToArray());
 			Program.Main(filePaths
@@ -55,36 +62,35 @@ namespace Code2Xml.Tests {
 
 			foreach (var filePath in filePaths) {
 				var newPath = Path.Combine(outputPath, Path.GetFileName(filePath));
-				using (var fs = new FileStream(newPath, FileMode.Open)) {
-					using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
-						var actual = reader.ReadToEnd();
-						var ast = CAstGenerator.Instance.GenerateFromFile(filePath);
-						var expected = CCodeGenerator.Instance.Generate(ast);
-						Assert.That(actual.StartsWith(expected), Is.True);
-					}
+				using (var fs = new FileStream(newPath, FileMode.Open))
+				using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
+					var actual = reader.ReadToEnd();
+					var ast = CAstGenerator.Instance.GenerateFromFile(filePath);
+					var expected = CCodeGenerator.Instance.Generate(ast);
+					Assert.That(actual.StartsWith(expected), Is.True);
 				}
 			}
 			Directory.Delete(outputPath, true);
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public bool パースできる(string extension, string parserOption,
-		                   AstGenerator astGenerator) {
-			var filePath = "../fixture/Block3." + extension;
-			var output = new StringWriter();
-			Console.SetOut(output);
+		public void パースできる(string filePath, string option, AstGenerator astGen) {
+			using (var output = new StringWriter()) {
+				Console.SetOut(output);
 
-			Program.Main(new[] { filePath, parserOption });
+				Program.Main(new[] { filePath, option });
 
-			var actual = output.ToString();
-			var expected = astGenerator.GenerateFromFile(filePath).ToString();
-			return actual.StartsWith(expected);
+				var actual = output.ToString();
+				var expected = astGen.GenerateFromFile(filePath).ToString();
+				Assert.That(actual.StartsWith(expected), Is.True);
+			}
 		}
 
 		[Test]
 		public void パース結果をディレクトリに出力できる() {
-			var filePaths = new[]
-			{ "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
+			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
+			var filePaths = names
+				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-d" }).ToArray());
 
@@ -105,13 +111,14 @@ namespace Code2Xml.Tests {
 
 		[Test]
 		public void パース結果をファイルに出力できる() {
-			var filePaths = new[]
-			{ "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
-			const string outputPath = "output.txt";
+			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
+			var filePaths = names
+				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
+			const string outputFilePath = "output.txt";
 
-			Program.Main(filePaths.Concat(new[] { "-C", "-f", outputPath }).ToArray());
+			Program.Main(filePaths.Concat(new[] { "-C", "-f", outputFilePath }).ToArray());
 
-			using (var fs = new FileStream(outputPath, FileMode.Open)) {
+			using (var fs = new FileStream(outputFilePath, FileMode.Open)) {
 				using (var reader = new StreamReader(fs, XEncoding.SJIS)) {
 					var expected = filePaths
 						.Select(
@@ -122,15 +129,15 @@ namespace Code2Xml.Tests {
 					Assert.That(actual, Is.EqualTo(expected));
 				}
 			}
-			File.Delete(outputPath);
+			File.Delete(outputFilePath);
 		}
 
 		[Test]
 		public void パース結果を指定ディレクトリに出力できる() {
-			var filePaths = new[]
-			{ "../fixture/Block1.c", "../fixture/Block2.c", "../fixture/Block3.c" };
-			const string outputPath = "output";
-			Directory.CreateDirectory(outputPath);
+			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
+			var filePaths = names
+				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
+			var outputPath = Settings.GetOutputDirPath(CLanguageName);
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-d", outputPath }).ToArray());
 

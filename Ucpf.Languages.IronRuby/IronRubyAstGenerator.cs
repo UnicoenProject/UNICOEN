@@ -4,8 +4,8 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.AstGenerators;
-using Ucpf.Weavers;
+using Ucpf.Common.AstGenerators;
+using Ucpf.Common.Weavers;
 
 namespace Ucpf.Languages.IronRuby
 {

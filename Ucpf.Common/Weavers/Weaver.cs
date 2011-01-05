@@ -6,7 +6,7 @@ using Paraiba.Collections.Generic;
 using Paraiba.Utility;
 using Paraiba.Xml.Linq;
 
-namespace Ucpf.Weavers {
+namespace Ucpf.Common.Weavers {
 	public static class Weaver {
 		public static void WeaveBefore(XElement node, XElement newNode) {
 			node.AddBeforeSelf(newNode);

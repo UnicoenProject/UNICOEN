@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
+using Ucpf.Common.CodeModel.Operators;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 

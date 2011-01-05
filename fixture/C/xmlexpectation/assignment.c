@@ -8,31 +8,31 @@
       </declaration_specifiers>
       <declarator>
         <direct_declarator>
-          <IDENTIFIER startline="1" startpos="4">foo</IDENTIFIER>
+          <IDENTIFIER startline="1" startpos="4">assignment</IDENTIFIER>
           <declarator_suffix>
-            <TOKEN startline="1" startpos="7">(</TOKEN>
+            <TOKEN startline="1" startpos="14">(</TOKEN>
             <parameter_type_list>
               <parameter_list>
                 <parameter_declaration>
                   <declaration_specifiers>
                     <type_specifier>
-                      <TOKEN startline="1" startpos="8">int</TOKEN>
+                      <TOKEN startline="1" startpos="15">int</TOKEN>
                     </type_specifier>
                   </declaration_specifiers>
                   <declarator>
                     <direct_declarator>
-                      <IDENTIFIER startline="1" startpos="12">n</IDENTIFIER>
+                      <IDENTIFIER startline="1" startpos="19">n</IDENTIFIER>
                     </direct_declarator>
                   </declarator>
                 </parameter_declaration>
               </parameter_list>
             </parameter_type_list>
-            <TOKEN startline="1" startpos="13">)</TOKEN>
+            <TOKEN startline="1" startpos="20">)</TOKEN>
           </declarator_suffix>
         </direct_declarator>
       </declarator>
       <compound_statement>
-        <TOKEN startline="1" startpos="14">{</TOKEN>
+        <TOKEN startline="1" startpos="21">{</TOKEN>
         <statement_list>
           <statement>
             <selection_statement>

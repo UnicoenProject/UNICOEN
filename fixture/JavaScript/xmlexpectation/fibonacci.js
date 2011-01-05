@@ -3,10 +3,10 @@
     <sourceElement>
       <functionDeclaration>
         <TOKEN startline="1" startpos="0">function</TOKEN>
-        <TOKEN startline="1" startpos="9">fibonacci</TOKEN>
+        <Identifier startline="1" startpos="9">fibonacci</Identifier>
         <formalParameterList>
           <TOKEN startline="1" startpos="18">(</TOKEN>
-          <TOKEN startline="1" startpos="19">n</TOKEN>
+          <Identifier startline="1" startpos="19">n</Identifier>
           <TOKEN startline="1" startpos="20">)</TOKEN>
         </formalParameterList>
         <functionBody>
@@ -36,7 +36,7 @@
                                                   <newExpression>
                                                     <memberExpression>
                                                       <primaryExpression>
-                                                        <TOKEN startline="2" startpos="4">n</TOKEN>
+                                                        <Identifier startline="2" startpos="4">n</Identifier>
                                                       </primaryExpression>
                                                     </memberExpression>
                                                   </newExpression>
@@ -105,7 +105,7 @@
                                                             <newExpression>
                                                               <memberExpression>
                                                                 <primaryExpression>
-                                                                  <TOKEN startline="3" startpos="9">n</TOKEN>
+                                                                  <Identifier startline="3" startpos="9">n</Identifier>
                                                                 </primaryExpression>
                                                               </memberExpression>
                                                             </newExpression>
@@ -159,7 +159,7 @@
                                                             <callExpression>
                                                               <memberExpression>
                                                                 <primaryExpression>
-                                                                  <TOKEN startline="6" startpos="9">fibonacci</TOKEN>
+                                                                  <Identifier startline="6" startpos="9">fibonacci</Identifier>
                                                                 </primaryExpression>
                                                               </memberExpression>
                                                               <arguments>
@@ -182,7 +182,7 @@
                                                                                               <newExpression>
                                                                                                 <memberExpression>
                                                                                                   <primaryExpression>
-                                                                                                    <TOKEN startline="6" startpos="19">n</TOKEN>
+                                                                                                    <Identifier startline="6" startpos="19">n</Identifier>
                                                                                                   </primaryExpression>
                                                                                                 </memberExpression>
                                                                                               </newExpression>
@@ -234,7 +234,7 @@
                                                             <callExpression>
                                                               <memberExpression>
                                                                 <primaryExpression>
-                                                                  <TOKEN startline="6" startpos="28">fibonacci</TOKEN>
+                                                                  <Identifier startline="6" startpos="28">fibonacci</Identifier>
                                                                 </primaryExpression>
                                                               </memberExpression>
                                                               <arguments>
@@ -257,7 +257,7 @@
                                                                                               <newExpression>
                                                                                                 <memberExpression>
                                                                                                   <primaryExpression>
-                                                                                                    <TOKEN startline="6" startpos="38">n</TOKEN>
+                                                                                                    <Identifier startline="6" startpos="38">n</Identifier>
                                                                                                   </primaryExpression>
                                                                                                 </memberExpression>
                                                                                               </newExpression>

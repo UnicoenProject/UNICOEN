@@ -7,7 +7,7 @@ namespace Ucpf.Languages.Java.CodeModel.Expressions
 {
     class JavaUnaryExpression : JavaExpression
     {
-        Operator Operator;
+        JavaOperator Operator;
         Value Value;
     }
 }

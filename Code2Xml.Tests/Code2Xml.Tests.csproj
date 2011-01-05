@@ -57,6 +57,10 @@
       <Project>{6A7D4FEC-8031-4D84-AA07-89C51DC92DC9}</Project>
       <Name>Code2Xml</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Common.Tests\Ucpf.Common.Tests.csproj">
+      <Project>{A8E01172-723F-4F92-9B7C-31D8F8716AF3}</Project>
+      <Name>Ucpf.Common.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.CSharp\Ucpf.Languages.CSharp.csproj">
       <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
       <Name>Ucpf.Languages.CSharp</Name>

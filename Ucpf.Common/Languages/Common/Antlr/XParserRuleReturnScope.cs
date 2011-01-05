@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using Antlr.Runtime;
 
-namespace Ucpf.Languages.Common.Antlr {
+namespace Ucpf.Common.Languages.Common.Antlr {
 	public class XParserRuleReturnScope : ParserRuleReturnScope {
 		public XParserRuleReturnScope() {
 			Element = new XElement(GetNodeName());

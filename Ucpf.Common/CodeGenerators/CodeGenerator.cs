@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Xml.Linq;
 
-namespace Ucpf.CodeGenerators {
+namespace Ucpf.Common.CodeGenerators {
 	[ContractClass(typeof(CodeGeneratorContract))]
 	public abstract class CodeGenerator {
 		public abstract string ParserName { get; }

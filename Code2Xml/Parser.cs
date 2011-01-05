@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Ucpf.Plugins;
+using Ucpf.Common.Plugins;
 
 namespace Code2Xml {
 	public static class Parser {

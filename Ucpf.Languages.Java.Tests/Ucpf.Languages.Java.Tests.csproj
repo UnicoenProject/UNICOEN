@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ucpf.Common.Tests\Ucpf.Common.Tests.csproj">
+      <Project>{A8E01172-723F-4F92-9B7C-31D8F8716AF3}</Project>
+      <Name>Ucpf.Common.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.Java\Ucpf.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Ucpf.Languages.Java</Name>

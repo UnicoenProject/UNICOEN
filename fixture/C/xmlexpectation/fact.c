@@ -8,31 +8,31 @@
       </declaration_specifiers>
       <declarator>
         <direct_declarator>
-          <IDENTIFIER startline="1" startpos="4">fibonacci</IDENTIFIER>
+          <IDENTIFIER startline="1" startpos="4">fact</IDENTIFIER>
           <declarator_suffix>
-            <TOKEN startline="1" startpos="13">(</TOKEN>
+            <TOKEN startline="1" startpos="8">(</TOKEN>
             <parameter_type_list>
               <parameter_list>
                 <parameter_declaration>
                   <declaration_specifiers>
                     <type_specifier>
-                      <TOKEN startline="1" startpos="14">int</TOKEN>
+                      <TOKEN startline="1" startpos="9">int</TOKEN>
                     </type_specifier>
                   </declaration_specifiers>
                   <declarator>
                     <direct_declarator>
-                      <IDENTIFIER startline="1" startpos="18">n</IDENTIFIER>
+                      <IDENTIFIER startline="1" startpos="13">n</IDENTIFIER>
                     </direct_declarator>
                   </declarator>
                 </parameter_declaration>
               </parameter_list>
             </parameter_type_list>
-            <TOKEN startline="1" startpos="19">)</TOKEN>
+            <TOKEN startline="1" startpos="14">)</TOKEN>
           </declarator_suffix>
         </direct_declarator>
       </declarator>
       <compound_statement>
-        <TOKEN startline="1" startpos="20">{</TOKEN>
+        <TOKEN startline="1" startpos="15">{</TOKEN>
         <statement_list>
           <statement>
             <selection_statement>
@@ -63,7 +63,7 @@
                                       </multiplicative_expression>
                                     </additive_expression>
                                   </shift_expression>
-                                  <TOKEN startline="2" startpos="6">&lt;</TOKEN>
+                                  <TOKEN startline="2" startpos="6">&lt;=</TOKEN>
                                   <shift_expression>
                                     <additive_expression>
                                       <multiplicative_expression>
@@ -72,7 +72,7 @@
                                             <postfix_expression>
                                               <primary_expression>
                                                 <constant>
-                                                  <TOKEN startline="2" startpos="8">2</TOKEN>
+                                                  <TOKEN startline="2" startpos="9">1</TOKEN>
                                                 </constant>
                                               </primary_expression>
                                             </postfix_expression>
@@ -91,10 +91,10 @@
                   </conditional_expression>
                 </assignment_expression>
               </expression>
-              <TOKEN startline="2" startpos="9">)</TOKEN>
+              <TOKEN startline="2" startpos="10">)</TOKEN>
               <statement>
                 <compound_statement>
-                  <TOKEN startline="2" startpos="10">{</TOKEN>
+                  <TOKEN startline="2" startpos="11">{</TOKEN>
                   <statement_list>
                     <statement>
                       <jump_statement>
@@ -116,7 +116,9 @@
                                                     <unary_expression>
                                                       <postfix_expression>
                                                         <primary_expression>
-                                                          <IDENTIFIER startline="3" startpos="9">n</IDENTIFIER>
+                                                          <constant>
+                                                            <TOKEN startline="3" startpos="9">1</TOKEN>
+                                                          </constant>
                                                         </primary_expression>
                                                       </postfix_expression>
                                                     </unary_expression>
@@ -166,72 +168,19 @@
                                                     <unary_expression>
                                                       <postfix_expression>
                                                         <primary_expression>
-                                                          <IDENTIFIER startline="6" startpos="9">fibonacci</IDENTIFIER>
+                                                          <IDENTIFIER startline="6" startpos="9">n</IDENTIFIER>
                                                         </primary_expression>
-                                                        <TOKEN startline="6" startpos="18">(</TOKEN>
-                                                        <argument_expression_list>
-                                                          <assignment_expression>
-                                                            <conditional_expression>
-                                                              <logical_or_expression>
-                                                                <logical_and_expression>
-                                                                  <inclusive_or_expression>
-                                                                    <exclusive_or_expression>
-                                                                      <and_expression>
-                                                                        <equality_expression>
-                                                                          <relational_expression>
-                                                                            <shift_expression>
-                                                                              <additive_expression>
-                                                                                <multiplicative_expression>
-                                                                                  <cast_expression>
-                                                                                    <unary_expression>
-                                                                                      <postfix_expression>
-                                                                                        <primary_expression>
-                                                                                          <IDENTIFIER startline="6" startpos="19">n</IDENTIFIER>
-                                                                                        </primary_expression>
-                                                                                      </postfix_expression>
-                                                                                    </unary_expression>
-                                                                                  </cast_expression>
-                                                                                </multiplicative_expression>
-                                                                                <TOKEN startline="6" startpos="21">-</TOKEN>
-                                                                                <multiplicative_expression>
-                                                                                  <cast_expression>
-                                                                                    <unary_expression>
-                                                                                      <postfix_expression>
-                                                                                        <primary_expression>
-                                                                                          <constant>
-                                                                                            <TOKEN startline="6" startpos="23">2</TOKEN>
-                                                                                          </constant>
-                                                                                        </primary_expression>
-                                                                                      </postfix_expression>
-                                                                                    </unary_expression>
-                                                                                  </cast_expression>
-                                                                                </multiplicative_expression>
-                                                                              </additive_expression>
-                                                                            </shift_expression>
-                                                                          </relational_expression>
-                                                                        </equality_expression>
-                                                                      </and_expression>
-                                                                    </exclusive_or_expression>
-                                                                  </inclusive_or_expression>
-                                                                </logical_and_expression>
-                                                              </logical_or_expression>
-                                                            </conditional_expression>
-                                                          </assignment_expression>
-                                                        </argument_expression_list>
-                                                        <TOKEN startline="6" startpos="24">)</TOKEN>
                                                       </postfix_expression>
                                                     </unary_expression>
                                                   </cast_expression>
-                                                </multiplicative_expression>
-                                                <TOKEN startline="6" startpos="26">+</TOKEN>
-                                                <multiplicative_expression>
+                                                  <TOKEN startline="6" startpos="11">*</TOKEN>
                                                   <cast_expression>
                                                     <unary_expression>
                                                       <postfix_expression>
                                                         <primary_expression>
-                                                          <IDENTIFIER startline="6" startpos="28">fibonacci</IDENTIFIER>
+                                                          <IDENTIFIER startline="6" startpos="13">fact</IDENTIFIER>
                                                         </primary_expression>
-                                                        <TOKEN startline="6" startpos="37">(</TOKEN>
+                                                        <TOKEN startline="6" startpos="17">(</TOKEN>
                                                         <argument_expression_list>
                                                           <assignment_expression>
                                                             <conditional_expression>
@@ -249,20 +198,20 @@
                                                                                     <unary_expression>
                                                                                       <postfix_expression>
                                                                                         <primary_expression>
-                                                                                          <IDENTIFIER startline="6" startpos="38">n</IDENTIFIER>
+                                                                                          <IDENTIFIER startline="6" startpos="18">n</IDENTIFIER>
                                                                                         </primary_expression>
                                                                                       </postfix_expression>
                                                                                     </unary_expression>
                                                                                   </cast_expression>
                                                                                 </multiplicative_expression>
-                                                                                <TOKEN startline="6" startpos="40">-</TOKEN>
+                                                                                <TOKEN startline="6" startpos="20">-</TOKEN>
                                                                                 <multiplicative_expression>
                                                                                   <cast_expression>
                                                                                     <unary_expression>
                                                                                       <postfix_expression>
                                                                                         <primary_expression>
                                                                                           <constant>
-                                                                                            <TOKEN startline="6" startpos="42">1</TOKEN>
+                                                                                            <TOKEN startline="6" startpos="22">1</TOKEN>
                                                                                           </constant>
                                                                                         </primary_expression>
                                                                                       </postfix_expression>
@@ -281,7 +230,7 @@
                                                             </conditional_expression>
                                                           </assignment_expression>
                                                         </argument_expression_list>
-                                                        <TOKEN startline="6" startpos="43">)</TOKEN>
+                                                        <TOKEN startline="6" startpos="23">)</TOKEN>
                                                       </postfix_expression>
                                                     </unary_expression>
                                                   </cast_expression>
@@ -298,7 +247,7 @@
                             </conditional_expression>
                           </assignment_expression>
                         </expression>
-                        <TOKEN startline="6" startpos="44">;</TOKEN>
+                        <TOKEN startline="6" startpos="24">;</TOKEN>
                       </jump_statement>
                     </statement>
                   </statement_list>

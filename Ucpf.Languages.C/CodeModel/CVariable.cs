@@ -1,4 +1,5 @@
-﻿using Ucpf.CodeModel;
+﻿using Ucpf.Common.CodeModel;
+
 namespace Ucpf.Languages.C.CodeModel
 {
 	public class CVariable : IVariable

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Antlr.Runtime;
-using Ucpf.AstGenerators;
-using Ucpf.Languages.Common.Antlr;
+using Ucpf.Common.AstGenerators;
+using Ucpf.Common.Languages.Common.Antlr;
 
 namespace Ucpf.Languages.Lua
 {

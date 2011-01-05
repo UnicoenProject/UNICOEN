@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-namespace Ucpf.CodeModel
+﻿namespace Ucpf.Common.CodeModel.Statements
 {
 	public interface IStatement : ICodeElement
 	{

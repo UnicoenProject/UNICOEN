@@ -1,4 +1,4 @@
-﻿namespace Ucpf.Languages {
+﻿namespace Ucpf.Common {
 	public static class ConfigReader {
 		public static string Python2() {
 			return @"C:\Python27\python.exe";

@@ -10,11 +10,11 @@ namespace Ucpf.Languages.Java.CodeModel
     {
         private XElement _node;
         /* blockStatement* */
-        IEnumerable<Statement> Statements
+        IEnumerable<JavaStatement> Statements
         {
-            get
-            {
-                return _node.Elements("blockStatement").Select(e => createStatement(e));
+            get {
+				throw new NotImplementedException();
+				return _node.Elements("blockStatement").Select(e => createStatement(e));
             }
         }
         public Block(XElement xElement)
@@ -23,7 +23,7 @@ namespace Ucpf.Languages.Java.CodeModel
 
         }
 
-        private Statement createStatement(XElement xElement)
+        private JavaStatement createStatement(XElement xElement)
         {
             var element = xElement.Element("Statement").Elements().First();
             if (element.Name.LocalName == "TOKEN" && element.Value == "if") return new IfStatement();

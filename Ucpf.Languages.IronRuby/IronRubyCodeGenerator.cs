@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.Xml.Linq;
-using Ucpf.CodeGenerators;
+using Ucpf.Common.CodeGenerators;
 
 namespace Ucpf.Languages.IronRuby
 {

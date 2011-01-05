@@ -5,7 +5,7 @@ using System.Xml.Linq;
 using Paraiba.Core;
 using Paraiba.IO;
 
-namespace Ucpf.AstGenerators {
+namespace Ucpf.Common.AstGenerators {
 	[ContractClass(typeof(ExternalAstGeneratorContract))]
 	public abstract class ExternalAstGenerator : AstGenerator {
 		protected abstract string ProcessorPath { get; }

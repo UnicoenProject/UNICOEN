@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Linq;
-using Ucpf.CodeGenerators;
+using Ucpf.Common.CodeGenerators;
 
-namespace Ucpf.Languages.Common.Antlr {
+namespace Ucpf.Common.Languages.Common.Antlr {
 	public static class AntlrBlockGenerator {
 		public static XElement Generate<TParser>(XElement node,
 		                                         AntlrAstGenerator<TParser> astGen,

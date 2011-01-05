@@ -1,7 +1,7 @@
 using System;
 using System.Xml.Linq;
 
-namespace Ucpf.CodeGenerators {
+namespace Ucpf.Common.CodeGenerators {
 	public class DefaultCodeGenerator : CodeGeneratorBase {
 		private static DefaultCodeGenerator _instance;
 

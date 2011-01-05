@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Ucpf.AstGenerators {
+namespace Ucpf.Common.AstGenerators {
 	[ContractClass(typeof(AstGeneratorContract))]
 	public abstract class AstGenerator {
 		public abstract string ParserName { get; }

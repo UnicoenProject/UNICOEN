@@ -1,4 +1,4 @@
-﻿namespace Ucpf.CodeModel
+﻿namespace Ucpf.Common.CodeModel.Expressions
 {
 	public interface ITernaryExpression : IExpression
 	{
