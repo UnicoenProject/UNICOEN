@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
+using Ucpf.CodeModelToCode;
 using Ucpf.Languages.JavaScript.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 
 	// expression
 	// : assignmentExpression (LT!* ',' LT!* assignmentExpression)*
-	public class JSExpression {
+	public class JSExpression : IExpression{
 		private readonly XElement _node;
 
 		//constructor
@@ -86,9 +88,14 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
+		void ICodeElement.Accept(ICodeModelToCode conv) {
+			conv.Generate(this);
+		}
+
 		public override string ToString()
 		{
 			return _node.Value;
 		}
+
 	}
 }

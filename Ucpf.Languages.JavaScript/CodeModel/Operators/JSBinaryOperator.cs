@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Xml.Linq;
 using Ucpf.CodeModel;
+using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 
-	public class JSBinaryOperator {
+	public class JSBinaryOperator : IBinaryOperator{
 
 		//constructor
 		public JSBinaryOperator(string sign, BinaryOperatorType type){
@@ -42,9 +43,14 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
+		void ICodeElement.Accept(ICodeModelToCode conv) {
+			conv.Generate(this);
+		}
+
 		public override string ToString()
 		{
 			return Sign;
 		}
+
 	}
 }

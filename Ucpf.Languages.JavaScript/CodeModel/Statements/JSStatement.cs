@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
+using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	// statement
@@ -18,7 +20,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// | switchStatement
 	// | throwStatement
 	// | tryStatement
-	public class JSStatement {
+	public class JSStatement : IStatement{
 		private XElement _node;
 
 		//constructor
@@ -51,9 +53,14 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
+		void ICodeElement.Accept(ICodeModelToCode conv) {
+			conv.Generate(this);
+		}
+
 		public override string ToString()
 		{
 			return _node.Value;
 		}
+
 	}
 }

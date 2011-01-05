@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Xml.Linq;
 using Ucpf.CodeModel;
+using Ucpf.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 
-	public class JSUnaryOperator {
+	public class JSUnaryOperator : IUnaryOperator{
 
 		//constructor
 		public JSUnaryOperator(string sign, UnaryOperatorType type) {
@@ -46,6 +47,10 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		}
 
 		public void Accept(JSCodeModelToCode conv) {
+			conv.Generate(this);
+		}
+		
+		void ICodeElement.Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
 

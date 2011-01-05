@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	//TODO implementation is not complete
@@ -11,7 +12,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 	// arguments
 	// : '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* ')'
-	public class JSCallExpression : JSExpression {
+	public class JSCallExpression : JSExpression, ICallExpression {
 
 		//constructor
 		public JSCallExpression(XElement node) {
@@ -24,12 +25,27 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			//TODO want to ignore TOKEN under "arguments"
 			//Arguments
 			Arguments = node.Element("arguments").Elements().Where(e => e.Name.LocalName != "TOKEN")
-				.Select(e2 => JSExpression.CreateExpression(e2));
+				.Select(e2 => JSExpression.CreateExpression(e2)).Cast<IExpression>().ToList();
 		}
 
 		//field
 		public String Identifier { get; private set; }
-		public IEnumerable<JSExpression> Arguments { get; private set;}
+		public IList<IExpression> Arguments { get; private set;}
+
+		string ICallExpression.FunctionName {
+			get {
+				return Identifier;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+
+		IList<IExpression> ICallExpression.Arguments {
+			get {
+				return Arguments;
+			}
+		}
 
 		//function
 		public override void Accept(JSCodeModelToCode conv)

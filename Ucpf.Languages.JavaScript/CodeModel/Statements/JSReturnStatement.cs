@@ -1,10 +1,12 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
+using Ucpf.CodeModel;
 using Ucpf.Languages.JavaScript.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	// returnStatement
 	// : 'return' expression? (LT | ';')
-	public class JSReturnStatement : JSStatement {
+	public class JSReturnStatement : JSStatement, IReturnStatement {
 
 		//constructor
 		public JSReturnStatement(XElement node)	: base(node) {
@@ -14,6 +16,12 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		//field
 		public JSExpression ReturnExpression { get; private set; }
 		
+		IExpression IReturnStatement.Expression {
+			get {
+				return ReturnExpression;
+			}
+		}
+
 		//function
 		public override void Accept(JSCodeModelToCode conv)
 		{
@@ -24,5 +32,6 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		{
 			return "return" + ReturnExpression.ToString();
 		}
+		
 	}
 }

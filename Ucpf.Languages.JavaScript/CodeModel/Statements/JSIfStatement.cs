@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.CodeModel;
 using Ucpf.Languages.JavaScript.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	// ifStatement
 	// : 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
-	public class JSIfStatement : JSStatement {
+	public class JSIfStatement : JSStatement, IIfStatement {
 
 		//constructor
 		public JSIfStatement(XElement node) : base(node) {
@@ -19,6 +21,43 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		public JSExpression ConditionalExpression { get; private set; }
 		public JSStatement TrueBlock { get; private set; }
 		public IEnumerable<JSStatement> ElseBlock { get; private set; }
+
+		IExpression IIfStatement.Condition {
+			get {
+				return ConditionalExpression;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+
+		//TODO consider that TrueBlock is not always "IBlock" in JS.
+		IBlock IIfStatement.TrueBlock {
+			get {
+				return (IBlock)TrueBlock;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+
+		IBlock IIfStatement.FalseBlock {
+			get {
+				return null;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+
+		IList<IElseIfBlock> IIfStatement.ElseIfBlocks {
+			get {
+				throw new NotImplementedException();
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
 
 		//function
 		public override void Accept(JSCodeModelToCode conv)

@@ -1,4 +1,6 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
+using Ucpf.CodeModel;
 using Ucpf.Languages.JavaScript.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
@@ -8,7 +10,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 	// postfixExpression
 	// : leftHandSideExpression ('++' | '--')?
-	public class JSUnaryExpression : JSExpression {
+	public class JSUnaryExpression : JSExpression, IUnaryExpression {
 
 		//constructor
 		public JSUnaryExpression(XElement expressionNode, JSUnaryOperator op) {
@@ -19,6 +21,24 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		//field
 		public JSExpression Expression { get; private set;}
 		public JSUnaryOperator Operator {  get; private set; }
+
+		IExpression IUnaryExpression.Term {
+			get {
+				return Expression;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+
+		IUnaryOperator IUnaryExpression.Operator {
+			get {
+				return Operator;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
 
 		//function
 		public override void Accept(JSCodeModelToCode conv)
@@ -31,5 +51,6 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			//TODO must consider prefix or postfix
 			return Operator.ToString() + Expression.ToString();
 		}
+	
 	}
 }
