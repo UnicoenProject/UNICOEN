@@ -17,7 +17,6 @@ namespace Ucpf.Languages.Tests {
 				var names = new[] {
 					"C",
 					"CSharp",
-					"IronRuby",
 					"Java",
 					"JavaScript",
 					"Lua",

@@ -69,7 +69,7 @@
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
       <Name>Ucpf.Languages.C</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Languages.IronRuby\Ucpf.Languages.Ruby18.csproj">
+    <ProjectReference Include="..\Ucpf.Languages.Ruby18\Ucpf.Languages.Ruby18.csproj">
       <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
       <Name>Ucpf.Languages.Ruby18</Name>
     </ProjectReference>
