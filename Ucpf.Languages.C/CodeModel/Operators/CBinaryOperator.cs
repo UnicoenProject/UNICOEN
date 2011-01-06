@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.CodeModelToCode;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CBinaryOperator : IBinaryOperator
+	public class CBinaryOperator : COperator, IBinaryOperator
 	{
 		public CBinaryOperator(string sign, BinaryOperatorType type) {
 			Sign = sign;

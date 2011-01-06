@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel
 {
@@ -30,6 +32,10 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			conv.Generate(this);
 		}
 
+		void ICodeElement.Accept(ICodeModelToCode conv) {
+			conv.Generate(this);
+		}
+
 		public override string ToString() {
 			string str = null;
 			foreach (var stat in Statements) {
@@ -37,5 +43,6 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			}
 			return str;
 		}
+
 	}
 }

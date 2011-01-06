@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics.Contracts;
 using System.Xml.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 
-namespace Ucpf.Languages.Common.Antlr
+namespace Ucpf.Common.Languages.Common.Antlr
 {
 	public class XmlTreeAdaptor : CommonTreeAdaptor {
 		public object Create(IToken payload, XParserRuleReturnScope parent) {

@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Text;
 using System.Xml.Linq;
 
-namespace Ucpf.CodeGenerators {
+namespace Ucpf.Common.CodeGenerators {
 	[ContractClass(typeof(CodeGeneratorBaseContract))]
 	public abstract class CodeGeneratorBase : CodeGenerator {
 		private readonly StringBuilder _builder;

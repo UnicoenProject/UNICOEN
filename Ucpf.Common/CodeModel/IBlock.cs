@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Ucpf.Common.CodeModel.Statements;
 
-namespace Ucpf.CodeModel
+namespace Ucpf.Common.CodeModel
 {
 	public interface IBlock : ICodeElement
 	{

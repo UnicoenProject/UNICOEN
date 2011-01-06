@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Xml.Linq;
+using Ucpf.Common.Tests;
 using Ucpf.Languages.C.CodeModel;
 using System.IO;
 
@@ -15,6 +16,8 @@ namespace Ucpf.Languages.C.Tests
 		private CCodeModelToCode _cmtc;
 		private StringWriter _writer;
 		private CFunction _func;
+		private static readonly string InputPath =
+			Path.Combine(Settings.GetInputDirPath("C"), "fibonacci.c");
 
 		[SetUp]
 		public void SetUp()
@@ -22,7 +25,7 @@ namespace Ucpf.Languages.C.Tests
 			_writer = new StringWriter();
 			_cmtc = new CCodeModelToCode(_writer, 0);
 			_func = new CFunction(
-						CAstGenerator.Instance.GenerateFromFile("fibonacci.c")
+						CAstGenerator.Instance.GenerateFromFile(InputPath)
 						.Descendants("function_definition")
 						.First());		
 		}

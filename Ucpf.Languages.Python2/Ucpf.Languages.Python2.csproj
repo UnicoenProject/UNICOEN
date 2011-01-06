@@ -51,9 +51,6 @@
     <Compile Include="PythonCodeModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fibonacci.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Python.g" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ namespace Ucpf.Languages.Java.CodeModel.Expressions
 {
     class javaBinaryExpression : JavaExpression
     {
-        Operator Operator;
+        JavaOperator Operator;
         Value lValue;
         Value rValue;
     }

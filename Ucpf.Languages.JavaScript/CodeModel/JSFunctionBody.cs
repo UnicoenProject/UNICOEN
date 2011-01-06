@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.CodeModelToCode;
-using Ucpf.Languages.JavaScript.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	// functionBody
@@ -51,7 +50,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		}
 
 		void ICodeElement.Accept(ICodeModelToCode conv) {
-			throw new NotImplementedException();
+			conv.Generate(this);
 		}
 
 	}

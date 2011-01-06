@@ -3,7 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Xml.Linq;
 using Paraiba.Core;
 
-namespace Ucpf.CodeGenerators {
+namespace Ucpf.Common.CodeGenerators {
 	public abstract class ExternalCodeGenerator : CodeGenerator {
 		protected abstract string ProcessorPath { get; }
 

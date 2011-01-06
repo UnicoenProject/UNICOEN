@@ -81,6 +81,7 @@
     <Compile Include="CodeModel\Operators\AssignmentOperatorType.cs" />
     <Compile Include="CodeModel\Operators\BinaryOperatorType.cs" />
     <Compile Include="CodeModel\Operators\IAssignmentOperator.cs" />
+    <Compile Include="CodeModel\Operators\IOperator.cs" />
     <Compile Include="CodeModel\Operators\IUnaryOperator.cs" />
     <Compile Include="CodeModel\Operators\UnaryOperatorType.cs" />
     <Compile Include="CodeModel\Statements\IElseIfBlock.cs" />

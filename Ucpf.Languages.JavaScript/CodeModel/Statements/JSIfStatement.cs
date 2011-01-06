@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.Languages.JavaScript.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	// ifStatement
@@ -65,11 +67,16 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
+		void ICodeElement.Accept(ICodeModelToCode conv) {
+			conv.Generate(this);
+		}
+
 		public override string ToString()
 		{
 			return "if(" + ConditionalExpression.ToString() + ") {"
 				+ TrueBlock.ToString() + "} else {"
 				+ ElseBlock.ToString() + "}";
 		}
+
 	}
 }

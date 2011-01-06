@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Antlr.Runtime;
 using Antlr.Runtime.Collections;
 
-namespace Ucpf.Languages.Common.Antlr
+namespace Ucpf.Common.Languages.Common.Antlr
 {
 	public class Set : HashSet<object> {}
 

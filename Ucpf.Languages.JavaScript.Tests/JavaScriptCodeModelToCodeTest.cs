@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Ucpf.Common.Tests;
 using Ucpf.Languages.JavaScript.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.Tests
@@ -14,6 +15,9 @@ namespace Ucpf.Languages.JavaScript.Tests
 		private JSCodeModelToCode _generator;
 		private StringWriter _writer;
 		private JSFunctionDeclaration _func;
+		private static readonly string InputPath =
+			Path.Combine(Settings.GetInputDirPath("JavaScript"), "fibonacci.js");
+		
 
 		[SetUp]
 		public void SetUp() 
@@ -21,7 +25,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 			_writer = new StringWriter();
 			_generator = new JSCodeModelToCode(_writer, 0);
 
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
             _func = new JSFunctionDeclaration(root);
 		}

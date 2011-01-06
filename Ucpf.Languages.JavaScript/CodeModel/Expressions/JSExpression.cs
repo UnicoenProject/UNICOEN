@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.CodeModelToCode;
-using Ucpf.Languages.JavaScript.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 

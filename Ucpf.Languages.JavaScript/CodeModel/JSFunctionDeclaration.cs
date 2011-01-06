@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.CodeModelToCode;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	// functionDeclaration
@@ -58,9 +58,10 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			}
 		}
 
+		//TODO this cast is OK?
 		IBlock IFunction.Body {
 			get {
-				return FunctionBody;
+				return (IBlock)FunctionBody;
 			}
 			set {
 				throw new NotImplementedException();
@@ -73,7 +74,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			conv.Generate(this);
 		}
 
-		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv) {
+		void ICodeElement.Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
 	}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Ucpf.CodeModel;
+using Ucpf.Common.CodeModel.Operators;
 
 namespace Ucpf.Languages.JavaScript.CodeModel
 {

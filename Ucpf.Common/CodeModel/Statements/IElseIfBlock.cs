@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Ucpf.Common.CodeModel.Expressions;
 
-namespace Ucpf.CodeModel
+namespace Ucpf.Common.CodeModel.Statements
 {
 	public interface IElseIfBlock : IBlock
 	{

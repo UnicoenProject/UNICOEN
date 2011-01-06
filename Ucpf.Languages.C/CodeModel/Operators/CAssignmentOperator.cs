@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.CodeModelToCode;
-
+using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CAssignmentOperator : IAssignmentOperator
+	public class CAssignmentOperator : COperator, IAssignmentOperator
 	{
 		public string Sign { get; private set; }
 		public AssignmentOperatorType Type { get; private set; }

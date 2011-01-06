@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.Languages.JavaScript.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModel.Operators;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	// unaryExpression

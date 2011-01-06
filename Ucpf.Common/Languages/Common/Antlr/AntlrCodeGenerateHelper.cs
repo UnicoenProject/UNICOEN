@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Xml.Linq;
-using Ucpf.CodeGenerators;
+using Ucpf.Common.CodeGenerators;
 
-namespace Ucpf.Languages.Common.Antlr {
+namespace Ucpf.Common.Languages.Common.Antlr {
 	public static class AntlrCodeGenerateHelper {
 		public static XElement WrapNode<T>(XElement node, AntlrAstGenerator<T> astGen,
 		                                   CodeGenerator codeGen,

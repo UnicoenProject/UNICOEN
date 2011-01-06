@@ -4,9 +4,9 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Xml.Linq;
 using Antlr.Runtime;
-using Ucpf.AstGenerators;
-using Ucpf.Languages.Common.Antlr;
-using Ucpf.Weavers;
+using Ucpf.Common.AstGenerators;
+using Ucpf.Common.Languages.Common.Antlr;
+using Ucpf.Common.Weavers;
 
 namespace Ucpf.Languages.CSharp
 {

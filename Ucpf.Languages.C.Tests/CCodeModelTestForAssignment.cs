@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Ucpf.CodeModel;
+using Ucpf.Common.Tests;
 using Ucpf.Languages.C.CodeModel;
 
 namespace Ucpf.Languages.C.Tests
@@ -14,12 +15,14 @@ namespace Ucpf.Languages.C.Tests
 	public class CCodeModelTestForAssignment
 	{
 		private CFunction _function;
+		private static readonly string InputPath =
+			Path.Combine(Settings.GetInputDirPath("C"), "assignment.c");
 
 		[SetUp]
 		public void SetUp()
 		{
 			_function = new CFunction(
-				CAstGenerator.Instance.GenerateFromFile("assignment.c")
+				CAstGenerator.Instance.GenerateFromFile(InputPath)
 				.Descendants("function_definition")
 				.First());
 		}

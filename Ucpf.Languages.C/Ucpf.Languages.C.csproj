@@ -87,6 +87,7 @@
     <Compile Include="CodeModel\CFunction.cs" />
     <Compile Include="CodeModel\Operators\CAssignmentOperator.cs" />
     <Compile Include="CodeModel\Operators\CBinaryOperator.cs" />
+    <Compile Include="CodeModel\Operators\COperator.cs" />
     <Compile Include="CodeModel\Operators\CUnaryOperator.cs" />
     <Compile Include="CLexer.cs" />
     <Compile Include="CodeModel\Statements\CStatement.cs" />
@@ -109,9 +110,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assignment.c">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="C.g" />
   </ItemGroup>
   <ItemGroup>
@@ -119,38 +117,6 @@
       <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
       <Name>Ucpf.Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="assignment.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="empty.c">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fact.c">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fact.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fibonacci.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="fibonacci.c">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fibonacci2.c">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fibonacci2.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="fibonacci_.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="test.c">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

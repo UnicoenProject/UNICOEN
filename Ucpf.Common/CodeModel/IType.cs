@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Ucpf.CodeModel
+﻿namespace Ucpf.Common.CodeModel
 {
 	public interface IType : ICodeElement
 	{

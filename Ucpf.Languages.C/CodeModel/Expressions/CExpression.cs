@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
@@ -14,7 +16,7 @@ namespace Ucpf.Languages.C.CodeModel
 		// constructor
 		protected CExpression() { }
 
-		public static CExpression Create(XElement node)
+		public static CExpression Create(XElement expNode)
 		{
 			/*
 			 * TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
@@ -36,7 +38,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 
 			var fnode =
-				node.Descendants().Where(e =>
+				expNode.Descendants().Where(e =>
 				{
 					var cnt = (e.Elements()).Count();
 					return cnt > 1
@@ -124,7 +126,7 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 
-		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		void ICodeElement.Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

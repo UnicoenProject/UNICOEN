@@ -1,68 +1,72 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Text;
 using Paraiba.Xml;
-using Ucpf.AstGenerators;
-using Ucpf.Plugins;
+using Ucpf.Common.AstGenerators;
+using Ucpf.Common.CodeGenerators;
+using Ucpf.Common.Plugins;
+using Ucpf.Common.Tests;
 
-namespace Ucpf.Languages.Tests
-{
+namespace Ucpf.Languages.Tests {
 	[TestFixture]
-	public class ParserTest
-	{
-		private const string DirectoryPath = "../fixture/";
-		private const string OutputDirectoryPath = "../fixture/xmlexpected/";
-
-		static IEnumerable<TestCaseData> TestCases
-		{
-			get
-			{
-				return Directory.EnumerateFiles(DirectoryPath)
-					.SelectMany(path => {
-						var ext = Path.GetExtension(path);
-						return PluginManager.AstGenerators
-							.Where(a => a.TargetExtensions.Contains(ext))
-							.Select(a => Tuple.Create(path, a));
-					})
-					.Select(t => new TestCaseData(t.Item1, t.Item2));
-			}
-		}
-
-		//[Test, TestCaseSource("TestCases")]
-		public void パース結果をファイルに出力できる(string fileName, AstGenerator astGen)
-		{
-			var path = Path.Combine(DirectoryPath, fileName);
-			var outpath = Path.Combine(OutputDirectoryPath, Path.GetFileName(fileName) + astGen.ParserName);
-			var r = astGen.GenerateFromFile(path);
-			using (var fs = new FileStream(outpath, FileMode.Create))
-			using (var writer = new StreamWriter(fs)) {
-				writer.Write(r.ToString());
+	public class ParserTest {
+		private static IEnumerable<TestCaseData> TestCases {
+			get {
+				var names = new[] {
+					"C",
+					"CSharp",
+					"IronRuby",
+					"Java",
+					"JavaScript",
+					"Lua",
+					"Python2",
+					"Python3",
+					"Ruby18",
+					"Ruby19",
+				};
+				return names
+					.SelectMany(
+						name => Directory.EnumerateFiles(Settings.GetInputDirPath(name))
+						        	.Select(path => new { Name = name, Path = path }))
+					.Select(p =>
+					        new TestCaseData(p.Name, p.Path,
+					        	PluginManager.AstGenerators.FirstOrDefault(
+					        		o => o.GetType().Name == p.Name + "AstGenerator"),
+					        	PluginManager.CodeGenerators.FirstOrDefault(
+					        		o => o.GetType().Name == p.Name + "CodeGenerator")))
+					.Where(t => t.Arguments[2] != null);
 			}
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void パース結果が変化していない(string fileName, AstGenerator astGen)
-		{
-			var path = Path.Combine(DirectoryPath, fileName);
-			var inpath = Path.Combine(OutputDirectoryPath, Path.GetFileName(fileName) + astGen.ParserName);
+		public void パース結果が変化していない(string lang, string path, AstGenerator astGen,
+		                          CodeGenerator codeGen) {
+			var expPath = Path.Combine(
+				Settings.GetXmlExpectationDirPath(lang),
+				Path.GetFileName(path));
 			var r = astGen.GenerateFromFile(path);
-			using (var fs = new FileStream(inpath, FileMode.Open))
-            using (var reader = new StreamReader(fs, XEncoding.SJIS))
-            {
+			using (var reader = new StreamReader(expPath, XEncoding.SJIS)) {
 				Assert.That(r.ToString(), Is.EqualTo(reader.ReadToEnd()));
 			}
 		}
 
 		[Test, TestCaseSource("TestCases")]
-		public void 構文木生成とコード生成を二回繰り返してもコードが変化しない(string fileName, AstGenerator astGen)
-		{
-			var path = Path.Combine(DirectoryPath, fileName);
-			var codeGen = PluginManager.CodeGenerators
-				.First(c => c.ParserName == astGen.ParserName);
+		public void パース結果をファイルに出力できる(string lang, string path, AstGenerator astGen,
+		                             CodeGenerator codeGen) {
+			var outputDirPath = Settings.GetOutputDirPath(lang);
+			var outPath = Path.Combine(outputDirPath, Path.GetFileName(path));
+			var r = astGen.GenerateFromFile(path);
+			using (var writer = new StreamWriter(outPath, false, XEncoding.SJIS)) {
+				writer.Write(r.ToString());
+			}
+		}
 
+		[Test, TestCaseSource("TestCases")]
+		public void 構文木生成とコード生成を二回繰り返してもコードが変化しない(string lang, string path,
+		                                          AstGenerator astGen,
+		                                          CodeGenerator codeGen) {
 			var r1 = astGen.GenerateFromFile(path);
 			var c1 = codeGen.Generate(r1);
 			var r2 = astGen.Generate(c1);

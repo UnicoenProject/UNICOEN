@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Ucpf.Common.Tests;
 using Ucpf.Languages.JavaScript.CodeModel;
 
 namespace Ucpf.Languages.JavaScript.Tests
@@ -10,10 +12,13 @@ namespace Ucpf.Languages.JavaScript.Tests
 	[TestFixture]
     public class JavaScriptCodeModelTest
     {
-        [Test]
+		private static readonly string InputPath =
+			Path.Combine(Settings.GetInputDirPath("JavaScript"), "fibonacci.js");
+		
+		[Test]
         public void 一番最初に宣言されている関数名を取得する()
         {
-            var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
             var func = new JSFunctionDeclaration(root);
             Assert.That(func.Identifier, Is.EqualTo("fibonacci"));

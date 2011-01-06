@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
@@ -76,7 +79,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		#region ICodeElement メンバー
 
-		void ICodeElement.Accept(CodeModelToCode.ICodeModelToCode conv)
+		void ICodeElement.Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

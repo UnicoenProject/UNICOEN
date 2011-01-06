@@ -2,8 +2,9 @@
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Xml.Linq;
+using Paraiba.Text;
 
-namespace Ucpf.CodeGenerators {
+namespace Ucpf.Common.CodeGenerators {
 	[ContractClass(typeof(CodeGeneratorContract))]
 	public abstract class CodeGenerator {
 		public abstract string ParserName { get; }
@@ -32,7 +33,8 @@ namespace Ucpf.CodeGenerators {
 		public string GenerateFromFile(string fileName) {
 			Contract.Requires(fileName != null);
 			Contract.Ensures(Contract.Result<string>() != null);
-			using (var stream = new StreamReader(fileName)) {
+			// TODO: fix encoding
+			using (var stream = new StreamReader(fileName, XEncoding.SJIS)) {
 				return Generate(stream);
 			}
 		}

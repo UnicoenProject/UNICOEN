@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
-using Ucpf.CodeModelToCode;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
-	public class CUnaryOperator : IUnaryOperator
+	public class CUnaryOperator : COperator, IUnaryOperator
 	{
 		// constructor
 		public CUnaryOperator(string sign, UnaryOperatorType type)
@@ -76,4 +77,5 @@ namespace Ucpf.Languages.C.CodeModel
 			conv.Generate(this);
 		}
 	}
+
 }

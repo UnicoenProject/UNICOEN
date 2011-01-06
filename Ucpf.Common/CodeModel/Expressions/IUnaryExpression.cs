@@ -1,4 +1,6 @@
-﻿namespace Ucpf.CodeModel
+﻿using Ucpf.Common.CodeModel.Operators;
+
+namespace Ucpf.Common.CodeModel.Expressions
 {
 	public interface IUnaryExpression : IExpression
 	{

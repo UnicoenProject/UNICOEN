@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Antlr.Runtime;
+﻿using Antlr.Runtime;
 
-namespace Ucpf.Languages.Common.Antlr
+namespace Ucpf.Common.Languages.Common.Antlr
 {
 	public class XToken : IToken {
 		private readonly IToken _token;

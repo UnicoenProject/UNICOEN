@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
 	//TODO implementation is not complete
@@ -50,6 +52,10 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		//function
 		public override void Accept(JSCodeModelToCode conv)
 		{
+			conv.Generate(this);
+		}
+
+		void ICodeElement.Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
 
