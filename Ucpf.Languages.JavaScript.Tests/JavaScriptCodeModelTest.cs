@@ -16,8 +16,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 			Path.Combine(Settings.GetInputDirPath("JavaScript"), "fibonacci.js");
 		
 		[Test]
-        public void 一番最初に宣言されている関数名を取得する()
-        {
+        public void 一番最初に宣言されている関数名を取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
             var func = new JSFunctionDeclaration(root);

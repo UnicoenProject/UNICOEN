@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel.Expressions;
 using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel
 {
-	public class JSCodeModelToCode {
+	public class JSCodeModelToCode : ICodeModelToCode {
 		private readonly TextWriter _writer;
 		private int _depth;
 
@@ -36,7 +40,8 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 
 		//generate functions
 		//FunctionBody
-		public void Generate(JSFunctionBody jsFunctionBody)
+/*
+		public void Generate(IBlock jsFunctionBody)
 		{
 			WriteLine();
 			_writer.Write(Tabs(_depth));
@@ -48,11 +53,11 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 
 			//TODO how deal with the actual order of functionDeclarations and statements
 			//write functionDeclarations
-			foreach (var declaration in jsFunctionBody.FunctionDeclarations) {
-				_writer.Write(line);
-				declaration.Accept(this);
-				line = "\n";
-			}
+//			foreach (var declaration in jsFunctionBody.FunctionDeclarations) {
+//				_writer.Write(line);
+//				declaration.Accept(this);
+//				line = "\n";
+//			}
 
 			//write statements
 			foreach (var statement in jsFunctionBody.Statements) {
@@ -66,45 +71,58 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			_writer.Write(Tabs(_depth));
 			_writer.Write("}\n");
 		}
-
+*/
 		//Statement
-		public void Generate(JSStatement jsStatement)
+		public void Generate(IAssignmentOperator op) {
+			throw new NotImplementedException();
+		}
+
+		public void Generate(IStatement jsStatement)
 		{
 			jsStatement.Accept(this);
 		}
 
 		//IfStatement
-		public void Generate(JSIfStatement jsIfStatement)
+		public void Generate(IIfStatement jsIfStatement)
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("if(");
-			jsIfStatement.ConditionalExpression.Accept(this);
+			jsIfStatement.Condition.Accept(this);
 			_writer.Write(")");
 
 			//TrueBlock
 			jsIfStatement.TrueBlock.Accept(this);
 
+			//TODO need to adjust for IIfStatement
 			//ElseBlock
-			foreach (var statement in jsIfStatement.ElseBlock) {
-				_writer.Write(Tabs(_depth));
-				_writer.Write("else");
-				statement.Accept(this);
-			}
+//			foreach (var statement in jsIfStatement.ElseBlock) {
+//				_writer.Write(Tabs(_depth));
+//				_writer.Write("else");
+//				statement.Accept(this);
+//			}
 		}
 
 		//ReturnStatement
-		public void Generate(JSReturnStatement jsReturnStatement) 
+		public void Generate(IReturnStatement jsReturnStatement) 
 		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("return");
 			WriteSpace();
 
-			jsReturnStatement.ReturnExpression.Accept(this);
+			jsReturnStatement.Expression.Accept(this);
 			_writer.Write(";");
 		}
 
+		public void Generate(IExpressionStatement stmt) {
+			throw new NotImplementedException();
+		}
+
+		public void Generate(IEmptyStatement stmt) {
+			throw new NotImplementedException();
+		}
+
 		//Block
-		public  void Generate(JSBlock jsBlock)
+		public void Generate(IBlock jsBlock)
 		{
 			WriteLine();
 			_writer.Write(Tabs(_depth));
@@ -127,36 +145,40 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			_writer.Write("}\n");
 		}
 
+		public void Generate(IType type) {
+			throw new NotImplementedException();
+		}
+
 		//Function
 		// : 'function' LT!* Identifier LT!* formalParameterList LT!* functionBody
-		public void Generate(JSFunctionDeclaration jsFunctionDeclaration) 
+		public void Generate(IFunction jsFunctionDeclaration) 
 		{
 			_writer.Write("function");
 			WriteSpace();
 
-			_writer.Write(jsFunctionDeclaration.Identifier);
+			_writer.Write(jsFunctionDeclaration.Name);
 			WriteSpace();
 
 			var comma = "";
 			_writer.Write("(");
-			foreach (var param in jsFunctionDeclaration.Parameters) {
+			foreach (JSVariable param in jsFunctionDeclaration.Parameters) {
 				_writer.Write(comma);
 				param.Accept(this);
 				comma = ",";
 			}
 			_writer.Write(")");
 
-			jsFunctionDeclaration.FunctionBody.Accept(this);
+			jsFunctionDeclaration.Body.Accept(this);
 		}
 
 		//Variable
-		public void Generate(JSVariable jsVariable)
+		public void Generate(IVariable jsVariable)
 		{
 			_writer.Write(jsVariable.Name);
 		}
 
 		//Expression
-		public void Generate(JSExpression jsExpression)
+		public void Generate(IExpression jsExpression)
 		{
 			jsExpression.Accept(this);
 		}
@@ -168,19 +190,19 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		}
 
 		//BinaryExpression
-		public void Generate(JSBinaryExpression jsBinaryExpression)
+		public void Generate(IBinaryExpression jsBinaryExpression)
 		{
-			jsBinaryExpression.Lhs.Accept(this);
+			jsBinaryExpression.LeftHandSide.Accept(this);
 			WriteSpace();
 			jsBinaryExpression.Operator.Accept(this);
 			WriteSpace();
-			jsBinaryExpression.Rhs.Accept(this);
+			jsBinaryExpression.RightHandSide.Accept(this);
 		}
 
 		//CallExpression
-		public void Generate(JSCallExpression jsCallExpression) 
+		public void Generate(ICallExpression jsCallExpression) 
 		{
-			_writer.Write(jsCallExpression.Identifier);
+			_writer.Write(jsCallExpression.FunctionName);
 			_writer.Write("(");
 
 			var comma = "";
@@ -193,20 +215,28 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			_writer.Write(")");
 		}
 
+		public void Generate(ITernaryExpression exp) {
+			throw new NotImplementedException();
+		}
+
+		public void Generate(IAssignmentExpression exp) {
+			throw new NotImplementedException();
+		}
+
 		//UnaryExpression
-		public void Generate(JSUnaryExpression jsUnaryExpression)
+		public void Generate(IUnaryExpression jsUnaryExpression)
 		{
 			var opType = jsUnaryExpression.Operator.Type;
 
 			if(opType == UnaryOperatorType.PostfixDecrement || opType == UnaryOperatorType.PostfixIncrement) 
 			{
-				jsUnaryExpression.Expression.Accept(this);
+				jsUnaryExpression.Term.Accept(this);
 				jsUnaryExpression.Operator.Accept(this);
 			}
 			else
 			{
 				jsUnaryExpression.Operator.Accept(this);
-				jsUnaryExpression.Expression.Accept(this);
+				jsUnaryExpression.Term.Accept(this);
 			}
 		}
 
@@ -217,13 +247,13 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		}
 
 		//UnaryOperator
-		public void Generate(JSUnaryOperator jsUnaryOperator)
+		public void Generate(IUnaryOperator jsUnaryOperator)
 		{
 			_writer.Write(jsUnaryOperator.Sign);
 		}
 
 		//BinaryOperator
-		public void Generate(JSBinaryOperator jsBinaryOperator)
+		public void Generate(IBinaryOperator jsBinaryOperator)
 		{
 			_writer.Write(jsBinaryOperator.Sign);
 		}

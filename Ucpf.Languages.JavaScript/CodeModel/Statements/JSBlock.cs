@@ -27,10 +27,12 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		public IList<IStatement> Statements { get; private set; }
 
 		//function
+		
 		public override void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
+		
 
 		void ICodeElement.Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
