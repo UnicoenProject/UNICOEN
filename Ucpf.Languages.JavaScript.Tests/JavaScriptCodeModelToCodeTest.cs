@@ -14,7 +14,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 	{
 		private JSCodeModelToCode _generator;
 		private StringWriter _writer;
-		private JSFunctionDeclaration _func;
+		private JSFunction _func;
 		private static readonly string InputPath =
 			Path.Combine(Settings.GetInputDirPath("JavaScript"), "fibonacci.js");
 		
@@ -27,7 +27,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
-            _func = new JSFunctionDeclaration(root);
+            _func = new JSFunction(root);
 		}
 
 		[Test]

@@ -5,7 +5,8 @@ using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModel.Statements;
 using Ucpf.Common.CodeModelToCode;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
+namespace Ucpf.Languages.JavaScript.CodeModel
+{
 	// statement
 	// : statementBlock
 	// | variableStatement
@@ -21,13 +22,11 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// | switchStatement
 	// | throwStatement
 	// | tryStatement
-	public class JSStatement : IStatement{
-		private XElement _node;
 
+	public class JSStatement : IStatement
+	{
 		//constructor
-		public JSStatement(XElement xElement) {
-			_node = xElement;
-		}
+		public JSStatement() { }
 
 		//function
 		public static JSStatement CreateStatement(XElement xElement) {
@@ -60,8 +59,8 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 		public override string ToString()
 		{
-			return _node.Value;
+			//return _node.Value;
+			throw new NotImplementedException();
 		}
-
 	}
 }

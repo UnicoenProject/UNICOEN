@@ -14,30 +14,26 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 	
     // statementList
 	// : statement (LT!* statement)*
+
 	public class JSBlock : JSStatement, IBlock
 	{
+		//property
+		public IList<IStatement> Statements { get; private set; }
+
 		//constructor
-		public JSBlock(XElement xElement) : base(xElement) {
+		public JSBlock(XElement xElement)
+		{
 			//TODO null check
 			Statements = xElement.Element("statementList").Elements("statement")
 				.Select(e => JSStatement.CreateStatement(e)).Cast<IStatement>().ToList();
 		}
 
-		//field
-		public IList<IStatement> Statements { get; private set; }
-
 		//function
-		
 		public override void Accept(JSCodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
 		
-
-		void ICodeElement.Accept(ICodeModelToCode conv) {
-			conv.Generate(this);
-		}
-
 		public override string ToString() {
 			string str = null;
 			foreach (var stat in Statements) {
@@ -46,5 +42,18 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			return str;
 		}
 
+		//Common-Interface
+		IList<IStatement> IBlock.Statements
+		{
+			get
+			{
+				return Statements;
+			}
+		}
+
+		void ICodeElement.Accept(ICodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 	}
 }

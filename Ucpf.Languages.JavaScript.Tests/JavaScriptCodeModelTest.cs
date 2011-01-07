@@ -19,7 +19,7 @@ namespace Ucpf.Languages.JavaScript.Tests
         public void 一番最初に宣言されている関数名を取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
-            var func = new JSFunctionDeclaration(root);
+            var func = new JSFunction(root);
             Assert.That(func.Identifier, Is.EqualTo("fibonacci"));
         }
 
@@ -27,7 +27,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void 一番最初に宣言されている関数のパラメータを取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-            var func = new JSFunctionDeclaration(root);
+            var func = new JSFunction(root);
 			var param = func.Parameters;
             Assert.That(param.ElementAt(0).Name, Is.EqualTo("n"));
 		}
@@ -36,7 +36,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void If文の条件式を取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunctionDeclaration(root);
+			var func = new JSFunction(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
 			var cond = (JSBinaryExpression)ifst.ConditionalExpression;
@@ -47,7 +47,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void 関数内のステートメントを取得する() {
 			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunctionDeclaration(root);
+			var func = new JSFunction(root);
 			var body = func.FunctionBody;
 			var stat = body.Statements;
 			var str1 = stat.ElementAt(0);
@@ -58,7 +58,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void 一番最初のreturn文を取得する() {
 			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunctionDeclaration(root);
+			var func = new JSFunction(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
 			var trbl = (JSBlock)ifst.TrueBlock;
@@ -70,7 +70,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void 返却される式を取得する() {
 			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunctionDeclaration(root);
+			var func = new JSFunction(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
 			var elbl = (JSBlock)ifst.ElseBlock.First();
@@ -83,7 +83,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void 呼び出す関数の名前を取得する() {
 			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunctionDeclaration(root);
+			var func = new JSFunction(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
 			var elbl = (JSBlock)ifst.ElseBlock.First();
@@ -97,7 +97,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void  呼び出す関数の引数を取得する() {
 			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunctionDeclaration(root);
+			var func = new JSFunction(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
 			var elbl = (JSBlock)ifst.ElseBlock.First();
@@ -111,7 +111,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		public void 二項演算子を取得する() {
 			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
             var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunctionDeclaration(root);
+			var func = new JSFunction(root);
 			var body = func.FunctionBody;
 			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
 			var elbl = (JSBlock)ifst.ElseBlock.First();

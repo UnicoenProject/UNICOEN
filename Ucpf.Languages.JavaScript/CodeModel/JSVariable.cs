@@ -2,19 +2,27 @@
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
-	//TODO not implemented yet
-	public class JSVariable : IVariable{
+namespace Ucpf.Languages.JavaScript.CodeModel
+{
+	public class JSVariable : IVariable
+	{
+		//property
+		public string Name { get; private set; }
 
+		//TODO Which select: how to get name "in constructor" or "as parameter". 
 		//constructor
 		public JSVariable(XElement node) {
 			Name = node.Value;
 		}
 		
-		//field
-		public string Name { get; private set; }
+		//function
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 
-		IType IVariable.Type {
+		//Common-Interface
+		IType IVariable.Type { //JavaScript has no explicit type modifier. 
 			get {
 				return null;
 			}
@@ -31,13 +39,6 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 				throw new NotImplementedException();
 			}
 		}
-
-		//function
-		public void Accept(JSCodeModelToCode conv)
-		{
-			conv.Generate(this);
-		}
-
 
 	}
 }

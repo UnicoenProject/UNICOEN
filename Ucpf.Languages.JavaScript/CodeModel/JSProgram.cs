@@ -21,18 +21,18 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 					"sourceElement")
 					.SelectMany(e =>
 					            e.Elements("functionDeclaration").Select(
-					            	e2 => new JSFunctionDeclaration(e2))
+					            	e2 => new JSFunction(e2))
 					);
 			Statements = node.Element("sourceElements").Elements(
 					"sourceElement")
 					.SelectMany(e =>
 					            e.Elements("statement").Select(
-					            	e2 => new JSStatement(e2))
+					            	e2 => JSStatement.CreateStatement(e2))
 					);
 		}
 
 		//field
-		public IEnumerable<JSFunctionDeclaration> Functions { get; private set; }
+		public IEnumerable<JSFunction> Functions { get; private set; }
 		public IEnumerable<JSStatement> Statements { get; private set; }
 	
 		//function

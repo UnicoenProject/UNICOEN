@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Xml.Linq;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
-
-	public class JSPrimaryExpression : JSExpression {
+namespace Ucpf.Languages.JavaScript.CodeModel 
+{
+	//TODO implement some Common-Interface
+	public class JSPrimaryExpression : JSExpression 
+	{
+		//property
+		public String Identifier { get; private set;}
 
 		//constructor
-		public JSPrimaryExpression(XElement node) {
+		public JSPrimaryExpression(XElement node) 
+		{
 			Identifier = node.Value;
 		}
 
-		//field
-		public String Identifier { get; private set;}
-	
 		//function
 		public override void Accept(JSCodeModelToCode conv)
 		{

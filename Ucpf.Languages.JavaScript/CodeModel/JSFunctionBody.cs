@@ -5,7 +5,8 @@ using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModel.Statements;
 using Ucpf.Common.CodeModelToCode;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
+namespace Ucpf.Languages.JavaScript.CodeModel 
+{
 	// functionBody
 	// : '{' LT!* sourceElements LT!* '}'
 
@@ -15,7 +16,12 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 	// sourceElement
 	// : functionDeclaration
 	// | statement
-	public class JSFunctionBody : IBlock{
+
+	public class JSFunctionBody : IBlock
+	{
+		//properties
+		public IList<IFunction> FunctionDeclarations { get; private set; }
+		public IList<IStatement> Statements { get; private set; }
 
 		//constructor
 		public JSFunctionBody(XElement node) {
@@ -23,7 +29,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 					"sourceElement")
 					.SelectMany(e =>
 					            e.Elements("functionDeclaration").Select(
-					            	e2 => new JSFunctionDeclaration(e2))
+					            	e2 => new JSFunction(e2))
 					).Cast<IFunction>().ToList();
 			Statements = node.Element("sourceElements").Elements(
 					"sourceElement")
@@ -33,21 +39,20 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 					).Cast<IStatement>().ToList();
 		}
 
-		//field
-		public IList<IFunction> FunctionDeclarations { get; private set; }
-		public IList<IStatement> Statements { get; private set; }
+		//function
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 
+		//Common-Interface
 		IList<IStatement> IBlock.Statements {
 			get {
 				return Statements;
 			}
 		}
 
-		//function
-		public void Accept(JSCodeModelToCode conv)
-		{
-			conv.Generate(this);
-		}
+		//TODO How deal with FunctionDeclarations?
 
 		void ICodeElement.Accept(ICodeModelToCode conv) {
 			conv.Generate(this);

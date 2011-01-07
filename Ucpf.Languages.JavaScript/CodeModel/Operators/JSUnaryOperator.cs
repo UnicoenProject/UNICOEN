@@ -4,25 +4,27 @@ using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModel.Operators;
 using Ucpf.Common.CodeModelToCode;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
-
-	public class JSUnaryOperator : IUnaryOperator{
-
+namespace Ucpf.Languages.JavaScript.CodeModel 
+{
+	public class JSUnaryOperator : IUnaryOperator
+	{
+		//properties
+		public string Sign { get; private set; }
+		public UnaryOperatorType Type { get; private set; }
+	
 		//constructor
-		public JSUnaryOperator(string sign, UnaryOperatorType type) {
+		public JSUnaryOperator(string sign, UnaryOperatorType type) 
+		{
 			Sign = sign;
 			Type = type;
 		}
-
-		//field
-		public string Sign { get; private set; }
-		public UnaryOperatorType Type { get; private set; }
 
 		//function
 		public static JSUnaryOperator CreatePrefixOperator(XElement node) {
 			string name = node.Value;
 			UnaryOperatorType type;
 
+			//TODO implement more OperationType cases
 			if ( name == "++") {
 				type = UnaryOperatorType.PrefixIncrement;
 			}

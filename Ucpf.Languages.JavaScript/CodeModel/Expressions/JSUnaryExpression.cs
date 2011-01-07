@@ -1,43 +1,30 @@
 ﻿using System;
 using System.Xml.Linq;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModel.Expressions;
 using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModelToCode;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
+namespace Ucpf.Languages.JavaScript.CodeModel 
+{
 	// unaryExpression
 	// : postfixExpression
 	// | ('delete' | 'void' | 'typeof' | '++' | '--' | '+' | '-' | '~' | '!') unaryExpression
 
 	// postfixExpression
 	// : leftHandSideExpression ('++' | '--')?
-	public class JSUnaryExpression : JSExpression, IUnaryExpression {
 
-		//constructor
-		public JSUnaryExpression(XElement expressionNode, JSUnaryOperator op) {
-			Expression = JSExpression.CreateExpression(expressionNode);
-			Operator = op;
-		}
-
-		//field
+	public class JSUnaryExpression : JSExpression, IUnaryExpression 
+	{
+		//properties
 		public JSExpression Expression { get; private set;}
 		public JSUnaryOperator Operator {  get; private set; }
-
-		IExpression IUnaryExpression.Term {
-			get {
-				return Expression;
-			}
-			set {
-				throw new NotImplementedException();
-			}
-		}
-
-		IUnaryOperator IUnaryExpression.Operator {
-			get {
-				return Operator;
-			}
-			set {
-				throw new NotImplementedException();
-			}
+		
+		//constructor
+		public JSUnaryExpression(XElement expressionNode, JSUnaryOperator op) 
+		{
+			Expression = JSExpression.CreateExpression(expressionNode);
+			Operator = op;
 		}
 
 		//function
@@ -51,6 +38,31 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			//TODO must consider prefix or postfix
 			return Operator.ToString() + Expression.ToString();
 		}
-	
+
+		//Common-Interface
+		IExpression IUnaryExpression.Term
+		{
+			get {
+				return Expression;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+
+		IUnaryOperator IUnaryExpression.Operator 
+		{
+			get {
+				return Operator;
+			}
+			set {
+				throw new NotImplementedException();
+			}
+		}
+
+		void ICodeElement.Accept(ICodeModelToCode conv) 
+		{
+			conv.Generate(this);
+		}
 	}
 }

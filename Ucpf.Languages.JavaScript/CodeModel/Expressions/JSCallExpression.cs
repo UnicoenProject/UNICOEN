@@ -14,11 +14,16 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 	// arguments
 	// : '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* ')'
-	public class JSCallExpression : JSExpression, ICallExpression {
 
+	public class JSCallExpression : JSExpression, ICallExpression 
+	{
+		//properties
+		public String Identifier { get; private set; }
+		public IList<IExpression> Arguments { get; private set;}
+	
 		//constructor
-		public JSCallExpression(XElement node) {
-
+		public JSCallExpression(XElement node)
+		{
 			//Identifier
 			Identifier = node.Descendants().Where(e => {
 				return e.Name.LocalName == "Identifier";
@@ -30,10 +35,22 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 				.Select(e2 => JSExpression.CreateExpression(e2)).Cast<IExpression>().ToList();
 		}
 
-		//field
-		public String Identifier { get; private set; }
-		public IList<IExpression> Arguments { get; private set;}
+		//function
+		public override void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 
+		public override string ToString()
+		{
+			var argumentList = "";
+			foreach(JSExpression arg in Arguments) {
+				argumentList += arg.ToString();
+			}
+ 			return Identifier + "(" + argumentList + ")";
+		}
+
+		//Common-Interface
 		string ICallExpression.FunctionName {
 			get {
 				return Identifier;
@@ -49,24 +66,8 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			}
 		}
 
-		//function
-		public override void Accept(JSCodeModelToCode conv)
-		{
-			conv.Generate(this);
-		}
-
 		void ICodeElement.Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
-
-		public override string  ToString()
-		{
-			var argumentList = "";
-			foreach(JSExpression arg in Arguments) {
-				argumentList += arg.ToString();
-			}
- 			return Identifier + "(" + argumentList + ")";
-		}
-
 	}
 }

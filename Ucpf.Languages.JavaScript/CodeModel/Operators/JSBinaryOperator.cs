@@ -4,36 +4,39 @@ using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModel.Operators;
 using Ucpf.Common.CodeModelToCode;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
-
-	public class JSBinaryOperator : IBinaryOperator{
-
+namespace Ucpf.Languages.JavaScript.CodeModel
+{
+	public class JSBinaryOperator : IBinaryOperator
+	{
+		//properties
+		public string Sign { get; private set; }
+		public BinaryOperatorType Type { get; private set; }
+		
 		//constructor
-		public JSBinaryOperator(string sign, BinaryOperatorType type){
+		public JSBinaryOperator(string sign, BinaryOperatorType type)
+		{
 			Sign = sign;
 			Type = type;
 		}
 
-		//field
-		public string Sign { get; private set; }
-		public BinaryOperatorType Type { get; private set; }
-
 		//function
 		public static JSBinaryOperator Create(XElement node) {
 			
+			//TODO implement more OperatorType cases
 			string name = node.Value;
 			BinaryOperatorType type;
 
-			if ( name == "+") {
+			switch (name) {
+			case "+":
 				type = BinaryOperatorType.Addition;
-			}
-			else if ( name == "-") {
+				break;
+			case "-":
 				type = BinaryOperatorType.Subtraction;
-			}
-			else if ( name == "<") {
+				break;
+			case "<":
 				type = BinaryOperatorType.Lesser;
-			}
-			else {
+				break;
+			default:
 				throw new InvalidOperationException();
 			}
 

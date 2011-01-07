@@ -51,7 +51,7 @@
     <Compile Include="CodeModel\Expressions\JSCallExpression.cs" />
     <Compile Include="CodeModel\Expressions\JSExpression.cs" />
     <Compile Include="CodeModel\JSFunctionBody.cs" />
-    <Compile Include="CodeModel\JSFunctionDeclaration.cs" />
+    <Compile Include="CodeModel\JSFunction.cs" />
     <Compile Include="JavaScriptCodeGenerator.cs" />
     <Compile Include="JavaScriptElements.cs" />
     <Compile Include="JavaScriptLexer.cs" />

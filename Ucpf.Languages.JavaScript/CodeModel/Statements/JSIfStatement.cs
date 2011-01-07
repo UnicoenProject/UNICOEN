@@ -7,23 +7,42 @@ using Ucpf.Common.CodeModel.Expressions;
 using Ucpf.Common.CodeModel.Statements;
 using Ucpf.Common.CodeModelToCode;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
+namespace Ucpf.Languages.JavaScript.CodeModel 
+{
 	// ifStatement
 	// : 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
-	public class JSIfStatement : JSStatement, IIfStatement {
 
-		//constructor
-		public JSIfStatement(XElement node) : base(node) {
-			ConditionalExpression = JSExpression.CreateExpression(node.Element("expression"));
-			TrueBlock = JSStatement.CreateStatement(node.Element("statement"));
-			ElseBlock = node.Elements("statement").Skip(1).Select(e => JSStatement.CreateStatement(e));
-		}
-
-		//field
+	public class JSIfStatement : JSStatement, IIfStatement
+	{
+		//properties
 		public JSExpression ConditionalExpression { get; private set; }
 		public JSStatement TrueBlock { get; private set; }
-		public IEnumerable<JSStatement> ElseBlock { get; private set; }
+		public IList<IStatement> ElseBlock { get; private set; }
 
+		//constructor
+		public JSIfStatement(XElement node) 
+		{
+			//TODO implement "if else" block
+			ConditionalExpression = JSExpression.CreateExpression(node.Element("expression"));
+			TrueBlock = JSStatement.CreateStatement(node.Element("statement"));
+			ElseBlock = node.Elements("statement").Skip(1)
+				.Select(e => JSStatement.CreateStatement(e)).Cast<IStatement>().ToList();
+		}
+
+		//function
+		public override void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
+
+		public override string ToString()
+		{
+			return "if(" + ConditionalExpression.ToString() + ") {"
+				+ TrueBlock.ToString() + "} else {"
+				+ ElseBlock.ToString() + "}";
+		}
+
+		//Common-Interface
 		IExpression IIfStatement.Condition {
 			get {
 				return ConditionalExpression;
@@ -61,22 +80,8 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			}
 		}
 
-		//function
-		public override void Accept(JSCodeModelToCode conv)
-		{
-			conv.Generate(this);
-		}
-
 		void ICodeElement.Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
-
-		public override string ToString()
-		{
-			return "if(" + ConditionalExpression.ToString() + ") {"
-				+ TrueBlock.ToString() + "} else {"
-				+ ElseBlock.ToString() + "}";
-		}
-
 	}
 }

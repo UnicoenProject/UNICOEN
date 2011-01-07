@@ -5,40 +5,35 @@ using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModel.Expressions;
 using Ucpf.Common.CodeModelToCode;
 
-namespace Ucpf.Languages.JavaScript.CodeModel {
-
+namespace Ucpf.Languages.JavaScript.CodeModel
+{
 	// expression
 	// : assignmentExpression (LT!* ',' LT!* assignmentExpression)*
-	public class JSExpression : IExpression{
-		private readonly XElement _node;
 
+	public class JSExpression : IExpression
+	{
 		//constructor
-		public JSExpression(XElement xElement) {
-			_node = xElement;
-		}
-
-		protected JSExpression() {
-			//TODO How deal with super class constructor
-		}
+		protected JSExpression() { }
 
 		//function
-		public static JSExpression CreateExpression(XElement node) {
+		public static JSExpression CreateExpression(XElement node) 
+		{
 			String[] binaryOperator = {
 				"+", "-", "*", "/", "%", "<", ">"
 			};
 
-			//TODO this statement obtains which <expression> or <assimentExpression>?
-			//var element = node.Element("expression").Elements().First();
 			var tmp =
 				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
 					return c > 1 || (c == 1 && e.Element("Identifier") != null) || (c == 1 && e.Element("TOKEN") != null);
 				});
-			//TODO sometime, tmp may be empty list...
+
+			//sometime, tmp may be empty list...?
 			if(tmp.Count() == 0) {
 				Console.Write(node);
 				throw new NullReferenceException();
 			}
+
 			var targetElement = tmp.First();	
 
 			//case TOKEN
@@ -52,8 +47,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			
 			}
 
-			//case UnaryExpression
-			// public UnaryExpression(XElement expression, XElement op)
+			//case UnaryExpression (public UnaryExpression(XElement expression, XElement op))
 			if (targetElement.Name.LocalName == "unaryExpression") {
 				var tempNode = targetElement.Element("postfixExpression");
 				if (tempNode != null && tempNode.Elements().Count() == 2) {
@@ -79,7 +73,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 						targetElement.Elements().ElementAt(2));
 			}
 
-			//TODO implement error case
+			//TODO implement other cases
 			throw new NotImplementedException();
 		}
 
@@ -94,7 +88,8 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 
 		public override string ToString()
 		{
-			return _node.Value;
+			// return _node.Value;
+			throw new NotImplementedException("Create :: ToString");
 		}
 
 	}

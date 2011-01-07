@@ -6,32 +6,37 @@ using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
+
 	// functionDeclaration
 	// : 'function' LT!* Identifier LT!* formalParameterList LT!* functionBody
 
 	// formalParameterList
 	// : '(' (LT!* Identifier (LT!* ',' LT!* Identifier)*)? LT!* ')'
 
-	// callExpression
-	// : memberExpression LT!* arguments (LT!* callExpressionSuffix)*
-	public class JSFunctionDeclaration : IFunction{
+	public class JSFunction : IFunction 
+	{
+		//properties
+		public String Identifier { get; private set; }
+		public IList<IVariable> Parameters { get; private set; }
+		public JSFunctionBody FunctionBody { get; private set; }
 
 		//constructor
-		public JSFunctionDeclaration(XElement node) {
+		public JSFunction(XElement node) 
+		{
 			Identifier = node.Element("Identifier").Value;
 			Parameters = node.Element("formalParameterList").Elements("Identifier")
 				.Select(e => new JSVariable(e)).Cast<IVariable>().ToList();
 			FunctionBody = new JSFunctionBody(node.Element("functionBody"));
 		}
 
-		//properties
-		public String Identifier { get; private set; }
-		public IList<IVariable> Parameters { get; private set; }
-		public JSFunctionBody FunctionBody { get; private set; }
+		//function
+		public void Accept(JSCodeModelToCode conv)
+		{
+			conv.Generate(this);
+		}
 
-
-		//JavaScript has no explicit type modifier.
-		IType IFunction.ReturnType {
+		//Comonn-Interface
+		IType IFunction.ReturnType { //JavaScript has no explicit type modifier.
 			get {
 				return null;
 			}
@@ -61,21 +66,17 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		//TODO this cast is OK?
 		IBlock IFunction.Body {
 			get {
-				return (IBlock)FunctionBody;
+				return FunctionBody;
 			}
 			set {
 				throw new NotImplementedException();
 			}
 		}
 
-		//fucntion
-		public void Accept(JSCodeModelToCode conv)
+		void ICodeElement.Accept(ICodeModelToCode conv) 
 		{
 			conv.Generate(this);
 		}
 
-		void ICodeElement.Accept(ICodeModelToCode conv) {
-			conv.Generate(this);
-		}
 	}
 }
