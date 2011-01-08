@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Expressions;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
@@ -36,8 +35,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		}
 
 		//function
-		public override void Accept(JSCodeModelToCode conv)
-		{
+		public override void Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
 
@@ -64,10 +62,6 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 			get {
 				return Arguments;
 			}
-		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv) {
-			conv.Generate(this);
 		}
 	}
 }

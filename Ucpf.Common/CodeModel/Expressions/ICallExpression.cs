@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ucpf.Common.CodeModel.Expressions
+namespace Ucpf.Common.CodeModel
 {
 	// OOPと非OOPの差異の吸収方法
 	public interface ICallExpression : IExpression {

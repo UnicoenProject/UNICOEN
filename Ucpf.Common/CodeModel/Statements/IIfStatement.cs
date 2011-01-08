@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModel;
 
-namespace Ucpf.Common.CodeModel.Statements
+namespace Ucpf.Common.CodeModel
 {
 	public interface IIfStatement : IStatement
 	{

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel
@@ -48,12 +48,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			throw new NotImplementedException();
 		}
 
-		public virtual void Accept(JSCodeModelToCode conv)
-		{
-			conv.Generate(this);
-		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv) {
+		public virtual void Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
 

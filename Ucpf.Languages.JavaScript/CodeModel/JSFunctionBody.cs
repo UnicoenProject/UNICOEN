@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel 
@@ -40,7 +40,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		}
 
 		//function
-		public void Accept(JSCodeModelToCode conv)
+		public void Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
@@ -53,10 +53,5 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		}
 
 		//TODO How deal with FunctionDeclarations?
-
-		void ICodeElement.Accept(ICodeModelToCode conv) {
-			conv.Generate(this);
-		}
-
 	}
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
@@ -18,7 +18,7 @@ namespace Ucpf.Languages.C.CodeModel
 			Type = type;
 		}
 
-		public void Accept(CCodeModelToCode conv) {
+		public void Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
 
@@ -69,14 +69,5 @@ namespace Ucpf.Languages.C.CodeModel
 			var type = Sign2Type[sign];
 			return new CBinaryOperator(sign, type);
 		}
-
-		#region ICodeElement メンバー
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			conv.Generate(this);
-		}
-
-		#endregion
 	}
 }

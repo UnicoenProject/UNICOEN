@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Expressions;
-using Ucpf.Common.CodeModel.Operators;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel {
@@ -23,7 +21,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		}
 
 		//function
-		public override void Accept(JSCodeModelToCode conv)
+		public override void Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
@@ -59,10 +57,5 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 				throw new NotImplementedException();
 			}
 		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv) {
-			conv.Generate(this);
-		}
-
 	}
 }

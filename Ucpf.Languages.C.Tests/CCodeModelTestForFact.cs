@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Ucpf.Common.CodeModel.Operators;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.C.CodeModel;
 

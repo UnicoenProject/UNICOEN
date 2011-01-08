@@ -6,7 +6,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Operators;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
@@ -21,7 +20,7 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// acceptor
-		public void Accept(CCodeModelToCode conv)
+		public void Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
@@ -71,11 +70,5 @@ namespace Ucpf.Languages.C.CodeModel
 		{
 			get { return Type; }
 		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			conv.Generate(this);
-		}
 	}
-
 }

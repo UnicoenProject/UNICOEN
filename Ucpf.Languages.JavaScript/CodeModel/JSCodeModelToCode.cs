@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Expressions;
-using Ucpf.Common.CodeModel.Operators;
-using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel
@@ -238,12 +238,6 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 				jsUnaryExpression.Operator.Accept(this);
 				jsUnaryExpression.Term.Accept(this);
 			}
-		}
-
-		//Operator
-		public void Generate(JSOperator jsOperator)
-		{
-			jsOperator.Accept(this);
 		}
 
 		//UnaryOperator

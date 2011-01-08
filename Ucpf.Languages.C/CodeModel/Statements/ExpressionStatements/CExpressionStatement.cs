@@ -5,8 +5,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Expressions;
-using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
@@ -38,7 +38,7 @@ namespace Ucpf.Languages.C.CodeModel
 
 		public override string ToString()
 		{
-			return Expression.ToString() + ";";
+			return Expression + ";";
 		}
 
 
@@ -52,11 +52,6 @@ namespace Ucpf.Languages.C.CodeModel
 			{
 				throw new NotImplementedException();
 			}
-		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			conv.Generate(this);
 		}
 	}
 }

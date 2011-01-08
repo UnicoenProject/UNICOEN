@@ -1,4 +1,4 @@
-﻿namespace Ucpf.Common.CodeModel.Operators {
+﻿namespace Ucpf.Common.CodeModel {
 	public enum BinaryOperatorType {
 		// Arithmetic
 		Addition,

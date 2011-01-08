@@ -1,6 +1,6 @@
-﻿using Ucpf.Common.CodeModel.Operators;
+﻿using Ucpf.Common.CodeModel;
 
-namespace Ucpf.Common.CodeModel.Expressions
+namespace Ucpf.Common.CodeModel
 {
 	public interface IBinaryExpression : IExpression
 	{

@@ -14,8 +14,7 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// acceptor
-		public void Accept(CCodeModelToCode conv)
-		{
+		public void Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
 
@@ -29,11 +28,6 @@ namespace Ucpf.Languages.C.CodeModel
 			{
 				throw new System.NotImplementedException();
 			}
-		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			conv.Generate(this);
 		}
 	}
 }

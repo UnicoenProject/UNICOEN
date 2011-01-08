@@ -1,4 +1,4 @@
-﻿namespace Ucpf.Common.CodeModel.Statements
+﻿namespace Ucpf.Common.CodeModel
 {
 	public interface IEmptyStatement : IExpressionStatement
 	{

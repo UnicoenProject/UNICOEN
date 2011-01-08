@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel
@@ -29,9 +29,9 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		}
 
 		//function
-		public override void Accept(JSCodeModelToCode conv)
+		public override void Accept(ICodeModelToCode conv)
 		{
-			conv.Generate(this);
+			conv.Generate((IBlock)this);
 		}
 		
 		public override string ToString() {
@@ -49,11 +49,6 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 			{
 				return Statements;
 			}
-		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			conv.Generate(this);
 		}
 	}
 }

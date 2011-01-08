@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.JavaScript.CodeModel
 {
@@ -16,7 +17,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel
 		}
 		
 		//function
-		public void Accept(JSCodeModelToCode conv)
+		public void Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}

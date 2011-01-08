@@ -30,7 +30,7 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 		}
 
 		//function
-		public void Accept(JSCodeModelToCode conv)
+		public void Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
@@ -72,11 +72,5 @@ namespace Ucpf.Languages.JavaScript.CodeModel {
 				throw new NotImplementedException();
 			}
 		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv) 
-		{
-			conv.Generate(this);
-		}
-
 	}
 }

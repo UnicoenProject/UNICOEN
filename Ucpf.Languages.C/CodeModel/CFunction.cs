@@ -41,12 +41,9 @@ namespace Ucpf.Languages.C.CodeModel
 		         
 		
 		// acceptor
-		public void Accept(CCodeModelToCode conv)
-		{
+		public void Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
-
-
 
 		IType IFunction.ReturnType
 		{
@@ -94,11 +91,6 @@ namespace Ucpf.Languages.C.CodeModel
 			{
 				throw new System.NotImplementedException();
 			}
-		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			conv.Generate(this);
 		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Expressions;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
@@ -31,7 +31,7 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// acceptor
-		public new void Accept(CCodeModelToCode conv)
+		public void Accept(ICodeModelToCode conv)
 		{
 			conv.Generate(this);
 		}
@@ -46,11 +46,6 @@ namespace Ucpf.Languages.C.CodeModel
 			{
 				throw new NotImplementedException();
 			}
-		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			conv.Generate(this);
 		}
 	}
 }

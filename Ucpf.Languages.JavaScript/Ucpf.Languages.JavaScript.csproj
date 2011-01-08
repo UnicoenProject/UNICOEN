@@ -58,7 +58,6 @@
     <Compile Include="JavaScriptParser.cs" />
     <Compile Include="CodeModel\Statements\JSIfStatement.cs" />
     <Compile Include="CodeModel\Operators\JSBinaryOperator.cs" />
-    <Compile Include="CodeModel\Operators\JSOperator.cs" />
     <Compile Include="CodeModel\Operators\JSUnaryOperator.cs" />
     <Compile Include="CodeModel\Expressions\JSPrimaryExpression.cs" />
     <Compile Include="CodeModel\JSProgram.cs" />

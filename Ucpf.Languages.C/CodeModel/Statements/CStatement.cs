@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Ucpf.Common.CodeModel;
-using Ucpf.Common.CodeModel.Statements;
+using Ucpf.Common.CodeModel;
 using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
@@ -51,18 +51,10 @@ namespace Ucpf.Languages.C.CodeModel
 			}
 		}
 
-
 		// acceptor
-		public void Accept(CCodeModelToCode conv) {
+		public virtual void Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
-
-		void ICodeElement.Accept(ICodeModelToCode conv)
-		{
-			throw new NotImplementedException();
-		}
-
-
 	}
 }
 

@@ -1,4 +1,5 @@
 ﻿using Ucpf.Common.CodeModel;
+using Ucpf.Common.CodeModelToCode;
 
 namespace Ucpf.Languages.C.CodeModel
 {
@@ -15,11 +16,9 @@ namespace Ucpf.Languages.C.CodeModel
 		}
 
 		// acceptor
-		public void Accept(CCodeModelToCode conv)
-		{
+		public void Accept(ICodeModelToCode conv) {
 			conv.Generate(this);
 		}
-
 
 		string IVariable.Name
 		{
