@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScriptCodeModelTest.cs" />
-    <Compile Include="JavaScriptCodeModelToCodeTest.cs" />
+    <Compile Include="JavaScriptModelTest.cs" />
+    <Compile Include="JavaScriptModelToCodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

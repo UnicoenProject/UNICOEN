@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using System.Xml.Linq;
 using Ucpf.Common.Tests;
-using Ucpf.Languages.C.CodeModel;
+using Ucpf.Languages.C.Model;
 using System.IO;
 
 namespace Ucpf.Languages.C.Tests
@@ -13,7 +13,7 @@ namespace Ucpf.Languages.C.Tests
 	[TestFixture]
 	public class CCodeModelToCodeTest
 	{
-		private CCodeModelToCode _cmtc;
+		private CModelToCode _cmtc;
 		private StringWriter _writer;
 		private CFunction _func;
 		private static readonly string InputPath =
@@ -23,7 +23,7 @@ namespace Ucpf.Languages.C.Tests
 		public void SetUp()
 		{
 			_writer = new StringWriter();
-			_cmtc = new CCodeModelToCode(_writer, 0);
+			_cmtc = new CModelToCode(_writer, 0);
 			_func = new CFunction(
 						CAstGenerator.Instance.GenerateFromFile(InputPath)
 						.Descendants("function_definition")

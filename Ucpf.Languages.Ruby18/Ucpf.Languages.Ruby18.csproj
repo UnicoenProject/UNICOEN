@@ -64,6 +64,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\RubyModelToCode.cs" />
+    <Compile Include="Model\RubyFunction.cs" />
+    <Compile Include="Model\RubyVariable.cs" />
     <Compile Include="Ruby18AstGenerator.cs" />
     <Compile Include="Ruby18CodeGenerator.cs" />
     <Compile Include="IronRubyParser.cs" />

@@ -7,7 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Tests;
-using Ucpf.Languages.C.CodeModel;
+using Ucpf.Languages.C.Model;
 
 namespace Ucpf.Languages.C.Tests
 {
