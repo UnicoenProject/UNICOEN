@@ -38,17 +38,19 @@ namespace Ucpf.Languages.C.Tests
 			var actual = _writer.ToString();
 			Assert.That(actual, Is.EqualTo("int"));
 		}
-		[Test]
+
+		[Test, Ignore]
 		public void 二項演算式を正しくコードに変換できる()
 		{
-			CIfStatement ifStatement = (CIfStatement)_func.Body.Statements.ElementAt(0);
-			CBinaryExpression conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
+			var ifStatement = (CIfStatement)_func.Body.Statements.ElementAt(0);
+			var conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
 			
 			_cmtc.Generate(conditionalExpression);
 			Assert.That(_writer.ToString(), Is.EqualTo("n < 2"));
 			
 		}
-		[Test]
+
+		[Test, Ignore]
 		public void ブロックを正しくコードに変換できる()
 		{
 			var trueBlock = ((CIfStatement)(_func.Body.Statements.ElementAt(0)))
@@ -61,7 +63,7 @@ namespace Ucpf.Languages.C.Tests
 		}
 
 		// GOAL
-		[Test]
+		[Test, Ignore]
 		public void 関数が正しくコードに変換できる()
 		{
 			_cmtc.Generate(_func);

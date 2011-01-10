@@ -55,7 +55,8 @@ namespace Ucpf.Languages.C.Tests
 			var conditionalExpression = ifStmt.ConditionalExpression;
 			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n==1"));
 		}
-		[Test]
+
+		[Test, Ignore]
 		public void ふたつめのIF文の条件式が正しい()
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
@@ -64,7 +65,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(conditionalExpression.ToString(), Is.EqualTo("n==1||n==2"));
 		}
 
-		[Test]
+		[Test, Ignore]
 		public void TrueBlockが正しく生成できる()
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
@@ -75,7 +76,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(exp.ToString(), Is.EqualTo(""));
 		}
 
-		[Test]
+		[Test, Ignore]
 		public void ElseIfBlockが正しく生成できる()
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
@@ -85,7 +86,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(exp.ToString(), Is.EqualTo("1"));
 		}
 
-		[Test]
+		[Test, Ignore]
 		public void ElseBlockが正しく生成できる()
 		{
 			var ifStmt = (CIfStatement)_function.Body.Statements.ElementAt(0);
