@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -49,7 +49,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -81,7 +81,6 @@
     <Compile Include="Model\Operators\AssignmentOperatorType.cs" />
     <Compile Include="Model\Operators\BinaryOperatorType.cs" />
     <Compile Include="Model\Operators\IAssignmentOperator.cs" />
-    <Compile Include="Model\Operators\IOperator.cs" />
     <Compile Include="Model\Operators\IUnaryOperator.cs" />
     <Compile Include="Model\Operators\UnaryOperatorType.cs" />
     <Compile Include="Model\Statements\IElseIfBlock.cs" />

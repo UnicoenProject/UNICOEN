@@ -6,7 +6,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
 namespace Ucpf.Languages.C.Model

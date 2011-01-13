@@ -90,8 +90,7 @@ namespace Ucpf.Common.Weavers {
 		}
 
 		private static SortedDictionary<int, List<XElement>>
-			GetElementListsOrderedByDepth(
-			IEnumerable<XElement> nodes) {
+			GetElementListsOrderedByDepth(IEnumerable<XElement> nodes) {
 			var cmp = Make.Comparer<int>((v1, v2) => v2 - v1);
 			var sortedDict = new SortedDictionary<int, List<XElement>>(cmp);
 			foreach (var element in nodes) {
