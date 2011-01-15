@@ -8,7 +8,7 @@ namespace Ucpf.Grammar.Analyzer
 {
 	public partial class MainWindow : Form
 	{
-		private const int maxRepeat = 2;
+		private const int MaxRepeat = 2;
 		private IDictionary<Symbol, ISymbol> _symbolTable;
 
 		public MainWindow()
@@ -56,17 +56,17 @@ namespace Ucpf.Grammar.Analyzer
 				var symbol = _symbolTable.GetValueOrDefault(node.Symbol);
 				if (symbol == null)
 					return;
-				var count = symbol.GetCount(maxRepeat);
+				var count = symbol.GetCount(MaxRepeat);
 				var replaceSymbol = _symbolTable[node.Symbol];
 				for (int i = 0; i < count; i++) {
-					var text = replaceSymbol.Expand(i, maxRepeat)
+					var text = replaceSymbol.Expand(i, MaxRepeat)
 						.JoinString(" ");
 					node.Nodes.Add(new SymbolNode(text));
 				}
 			}
 			else {
 				var replaceSymbol = _symbolTable[parent.Symbol];
-				var symbols = replaceSymbol.Expand(node.Index, maxRepeat);
+				var symbols = replaceSymbol.Expand(node.Index, MaxRepeat);
 				foreach (var symbol in symbols) {
 					node.Nodes.Add(new SymbolNode(symbol, _symbolTable));
 				}

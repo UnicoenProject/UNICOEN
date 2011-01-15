@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
-using Ucpf.Common.Model;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
 namespace Ucpf.Languages.JavaScript.Model 

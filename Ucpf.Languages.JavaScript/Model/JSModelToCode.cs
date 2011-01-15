@@ -4,9 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Ucpf.Common.Model;
-using Ucpf.Common.Model;
-using Ucpf.Common.Model;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
 namespace Ucpf.Languages.JavaScript.Model

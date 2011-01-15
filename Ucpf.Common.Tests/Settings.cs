@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ucpf.Common.Tests {
 	public static class Settings {
-		public static string FixtureDirPath = Path.Combine("..", "fixture");
+		public static string FixtureDirPath = Path.Combine("..", "..", "fixture");
 		public static string ExpectationName = "expectation";
 		public static string InputName = "input";
 		public static string FailedInputName = "failed_input";
