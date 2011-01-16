@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Xml.Linq;
+using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
 namespace Ucpf.Languages.JavaScript.Model 
 {
 	//TODO implement some Common-Interface
-	public class JSPrimaryExpression : JSExpression 
+	public class JSPrimaryExpression : JSExpression, IPrimaryExpression
 	{
 		//property
 		public String Identifier { get; private set;}
@@ -25,5 +26,14 @@ namespace Ucpf.Languages.JavaScript.Model
 		{
 			return Identifier;
 		}
+
+		//Common-Interface
+		string IPrimaryExpression.Name {
+			get {
+				return Identifier;
+			}
+			set { throw new NotImplementedException(); }
+		}
+
 	}
 }

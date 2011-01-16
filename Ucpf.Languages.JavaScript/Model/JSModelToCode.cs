@@ -212,6 +212,10 @@ namespace Ucpf.Languages.JavaScript.Model
 			_writer.Write(")");
 		}
 
+		public void Generate(IPrimaryExpression exp) {
+			_writer.Write(exp.Name);
+		}
+
 		public void Generate(ITernaryExpression exp) {
 			throw new NotImplementedException();
 		}

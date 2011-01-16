@@ -10,6 +10,7 @@ namespace Ucpf.Common.ModelToCode {
 		void Generate(IBinaryExpression exp);
 		void Generate(IUnaryExpression exp);
 		void Generate(ICallExpression exp);
+		void Generate(IPrimaryExpression exp);
 		void Generate(ITernaryExpression exp);
 		void Generate(IAssignmentExpression exp);
 

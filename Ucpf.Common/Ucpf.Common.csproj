@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="ModelToCode\IModelToCode.cs" />
     <Compile Include="Model\Expressions\IAssignmentExpression.cs" />
+    <Compile Include="Model\Expressions\IPrimaryExpression.cs" />
     <Compile Include="Model\ICodeElement.cs" />
     <Compile Include="Model\IFunction.cs" />
     <Compile Include="Model\IType.cs" />

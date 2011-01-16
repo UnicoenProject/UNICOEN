@@ -25,7 +25,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 		[Test]
 		public void 一番最初に宣言されている関数のパラメータを取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
             var func = new JSFunction(root);
 			var param = func.Parameters;
@@ -34,7 +34,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 		[Test]
 		public void If文の条件式を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunction(root);
 			var body = func.FunctionBody;
@@ -45,7 +45,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 		
 		[Test]
 		public void 関数内のステートメントを取得する() {
-			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunction(root);
 			var body = func.FunctionBody;
@@ -56,7 +56,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 		[Test]
 		public void 一番最初のreturn文を取得する() {
-			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunction(root);
 			var body = func.FunctionBody;
@@ -68,7 +68,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 		[Test]
 		public void 返却される式を取得する() {
-			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunction(root);
 			var body = func.FunctionBody;
@@ -81,7 +81,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 		[Test]
 		public void 呼び出す関数の名前を取得する() {
-			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunction(root);
 			var body = func.FunctionBody;
@@ -95,7 +95,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 		[Test]
 		public void  呼び出す関数の引数を取得する() {
-			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunction(root);
 			var body = func.FunctionBody;
@@ -109,7 +109,7 @@ namespace Ucpf.Languages.JavaScript.Tests
 
 		[Test]
 		public void 二項演算子を取得する() {
-			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile("fibonacci.js");
+			var ast  = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
             var root = ast.Descendants("functionDeclaration").First();
 			var func = new JSFunction(root);
 			var body = func.FunctionBody;
