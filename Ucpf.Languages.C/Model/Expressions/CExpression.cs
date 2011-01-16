@@ -56,7 +56,7 @@ namespace Ucpf.Languages.C.Model
 			{
 				// primary :: numeric_constant or variable_name:string
 				case "primary_expression":
-					return new CString(fnode);
+					return new CPrimaryExpression(fnode);
 
 				// case : assisgnment(e.g. a = 3)
 				case "assignment_expression":
@@ -70,7 +70,7 @@ namespace Ucpf.Languages.C.Model
 						rNode);
 				// case : numeric constant))
 				case "constant":
-					return new CNumber(fnode);
+					return new CPrimaryExpression(fnode);
 
 				// case : unary expression
 				case "prefix_expression":
@@ -116,7 +116,8 @@ namespace Ucpf.Languages.C.Model
 		public override string ToString()
 		{
 			// return _node.Value;
-			throw new NotImplementedException("Create :: ToString");
+			// throw new NotImplementedException("Create :: ToString");
+			return "";
 		}
 
 		// acceptor

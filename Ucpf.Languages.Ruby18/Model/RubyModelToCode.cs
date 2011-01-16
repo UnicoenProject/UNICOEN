@@ -58,6 +58,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			exp.Accept(this);
 		}
 
+
 		public void Generate(IBinaryExpression exp) {
 			exp.LeftHandSide.Accept(this);
 			WriteSpace();
@@ -90,8 +91,12 @@ namespace Ucpf.Languages.Ruby18.Model {
 			_writer.Write(")");
 		}
 
+		public void Generate(IPrimaryExpression exp) {
+			_writer.Write(exp.Name);
+		}
+
 		public void Generate(ITernaryExpression exp) {
-			_writer.Write(exp.Body);
+			throw new NotImplementedException();
 		}
 
 		public void Generate(IAssignmentExpression exp) {

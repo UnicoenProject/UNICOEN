@@ -18,7 +18,7 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 	public class CCodeModelToCodeTestForFibonacci
 	{
 		private CModelToCode _cmtc;
-		private RubyModelToCode _rmtc;
+		private JSModelToCode _rmtc;
 		private StringWriter _rwriter;
 		private CFunction _func;
 
@@ -29,7 +29,7 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 		public void SetUp()
 		{
 			_rwriter = new StringWriter();
-			_rmtc = new RubyModelToCode(_rwriter, 0);
+			_rmtc = new	JSModelToCode(_rwriter, 0);
 			_func = new CFunction(
 						CAstGenerator.Instance.GenerateFromFile(InputPath)
 						.Descendants("function_definition")

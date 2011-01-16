@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-
+/*
 namespace Ucpf.Languages.C.Model
 {
 	public class CNumber : CPrimaryExpression
@@ -31,3 +31,4 @@ namespace Ucpf.Languages.C.Model
 
 	}
 }
+ * */

@@ -9,25 +9,15 @@ using Ucpf.Common.ModelToCode;
 
 namespace Ucpf.Languages.C.Model
 {
-	public abstract class CPrimaryExpression : CExpression, ITernaryExpression
+	public class CPrimaryExpression : CExpression, IPrimaryExpression
 	{
+		// TODO :: remove the subclasses such as 'CNumber' and 'CString'
+
 		// properties
-		public abstract string Body { get; set; }
+		public string Body { get; set; }
 
-		public CPrimaryExpression()
-		{
-		}
-
-		public new static CPrimaryExpression Create(XElement expNode) {
-			if(expNode.Element("IDENTIFIER") != null) {
-				return new CString(expNode);
-			}
-			else if(expNode.Element("constant") != null) {
-				return new CNumber(expNode);
-			}
-			else {
-				throw new InvalidOperationException();
-			}
+		public CPrimaryExpression(XElement expNode) {
+			Body = expNode.Value;
 		}
 
 		// acceptor
@@ -36,7 +26,13 @@ namespace Ucpf.Languages.C.Model
 			conv.Generate(this);
 		}
 
-		string ITernaryExpression.Body
+		public override string ToString() {
+			return Body;
+		}
+
+	
+
+		string IPrimaryExpression.Name
 		{
 			get
 			{
@@ -46,6 +42,11 @@ namespace Ucpf.Languages.C.Model
 			{
 				throw new NotImplementedException();
 			}
+		}
+
+		void ICodeElement.Accept(IModelToCode conv)
+		{
+			conv.Generate(this);
 		}
 	}
 }
