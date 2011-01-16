@@ -52,7 +52,7 @@ namespace Ucpf.Languages.C.Model
 		}
 
 		// acceptor
-		public virtual void Accept(IModelToCode conv) {
+		public void Accept(IModelToCode conv) {
 			conv.Generate(this);
 		}
 	}

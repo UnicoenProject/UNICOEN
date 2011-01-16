@@ -3,6 +3,7 @@ using System.IO;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
+
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelToCode : IModelToCode {
 		private readonly TextWriter _writer;
@@ -75,9 +76,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			var comma = "";
 			var funcName = exp.FunctionName;
 
-			if (funcName == "printf") {
-				funcName = "echo";
-			}
+			// ** semantic translate **  :: change method name
 
 			_writer.Write(funcName);
 

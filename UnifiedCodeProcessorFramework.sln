@@ -49,6 +49,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Common.Tests", "Ucpf.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.Ruby18.Tests", "Ucpf.Languages.Ruby18.Tests\Ucpf.Languages.Ruby18.Tests.csproj", "{AB1123F1-190E-407D-B165-7AE919EE4812}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.C.CodeTranslation", "Ucpf.Languages.C.CodeTranslate\Ucpf.Languages.C.CodeTranslation.csproj", "{5847465C-35F5-4F53-9590-9927B601EA3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.C.CodeTranslation.Test", "Ucpf.Languages.C.CodeTranslation.Test\Ucpf.Languages.C.CodeTranslation.Test.csproj", "{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -302,6 +306,26 @@ Global
 		{AB1123F1-190E-407D-B165-7AE919EE4812}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AB1123F1-190E-407D-B165-7AE919EE4812}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AB1123F1-190E-407D-B165-7AE919EE4812}.Release|x86.ActiveCfg = Release|Any CPU
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Debug|x86.ActiveCfg = Debug|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Debug|x86.Build.0 = Debug|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Release|Any CPU.ActiveCfg = Release|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Release|x86.ActiveCfg = Release|x86
+		{5847465C-35F5-4F53-9590-9927B601EA3A}.Release|x86.Build.0 = Release|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Debug|x86.ActiveCfg = Debug|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Debug|x86.Build.0 = Debug|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|Any CPU.ActiveCfg = Release|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|x86.ActiveCfg = Release|x86
+		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -41,6 +41,11 @@ namespace Ucpf.Languages.C.Model
 			return Expression + ";";
 		}
 
+		public void Accept(IModelToCode conv)
+		{
+			conv.Generate(this);
+		}
+
 
 		IExpression IExpressionStatement.Expression
 		{
