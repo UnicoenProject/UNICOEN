@@ -13,13 +13,21 @@ namespace Ucpf.Languages.C.Model
 	{
 		private readonly TextWriter _writer;
 		private int _depth;
+		private CMethodTransRule _rule;
 
 		// constructor
-		public CModelToCode(TextWriter writer, int depth)
+		public CModelToCode(TextWriter writer, int depth, CMethodTransRule rule)
 		{
 			_writer = writer;
 			_depth = depth;
+			_rule = rule;
 		}
+
+		public CModelToCode(TextWriter writer, int depth)
+			: this(writer, depth, null) { }
+
+
+
 
 		#region UtilityFunctions
 
@@ -45,6 +53,12 @@ namespace Ucpf.Languages.C.Model
 		{
 			_writer.Write("\n");
 		}
+
+		public void WriteLineComment(string str)
+		{
+			_writer.Write("// " + str);
+		}
+
 		#endregion
 
 		// Block
@@ -73,26 +87,10 @@ namespace Ucpf.Languages.C.Model
 		// Statement
 		public void Generate(IStatement stmt)
 		{
+			// deligate to subclasses
+
 			WriteLine();
-			/*
-			if (stmt is IIfStatement)
-			{
-				Generate((IIfStatement)stmt);
-			}
-			else if (stmt is IReturnStatement)
-			{
-				Generate((IReturnStatement)stmt);
-			}
-			else
-			{
-				foreach (IExpression exp in stmt.Expressions)
-				{
-					_writer.Write(Tabs(_depth));
-					exp.Accept(this);
-				}
-				_writer.Write(";");
-			}
-			*/
+
 			stmt.Accept(this);
 
 			WriteLine();
@@ -112,19 +110,24 @@ namespace Ucpf.Languages.C.Model
 			stmt.TrueBlock.Accept(this);
 
 			// ElseIfBlock
-			if (stmt.ElseIfBlocks.Count != 0)
+			try
 			{
-				WriteLine();
-				foreach (var elm in stmt.ElseIfBlocks)
+				if (stmt.ElseIfBlocks.Count != 0)
 				{
-					_writer.Write(Tabs(_depth));
-					_writer.Write("else if (");
-					elm.ConditionalExpression.Accept(this);
-					_writer.Write(")");
-					elm.Accept(this);
+					WriteLine();
+					foreach (var elm in stmt.ElseIfBlocks)
+					{
+						_writer.Write(Tabs(_depth));
+						_writer.Write("else if (");
+						elm.ConditionalExpression.Accept(this);
+						_writer.Write(")");
+						elm.Accept(this);
+					}
+					WriteLine();
 				}
-				WriteLine();
 			}
+			catch (NotImplementedException e) { }
+
 
 			// ElseBlock
 			if (stmt.FalseBlock != null)
@@ -162,6 +165,8 @@ namespace Ucpf.Languages.C.Model
 				_writer.Write(";");
 			}
 		}
+
+		// Empty Statement
 		public void Generate(IEmptyStatement stmt)
 		{
 			_writer.Write(Tabs(_depth));
@@ -175,11 +180,23 @@ namespace Ucpf.Languages.C.Model
 			var comma = "";
 
 			// Signature
-			func.ReturnType.Accept(this);
+			var returnType = func.ReturnType;
+
+			if (returnType == null)
+			{
+				WriteLineComment("Specify type !!");
+				WriteLine();
+			}
+			else
+			{
+				func.ReturnType.Accept(this);
+			}
+
 			WriteSpace();
 			_writer.Write(func.Name);
 			_writer.Write("(");
-			foreach (CVariable prm in func.Parameters)
+
+			foreach (IVariable prm in func.Parameters)
 			{
 				_writer.Write(comma);
 				prm.Accept(this);
@@ -191,16 +208,26 @@ namespace Ucpf.Languages.C.Model
 			func.Body.Accept(this);
 		}
 
+
+
 		// Type
 		public void Generate(IType type)
 		{
+			if (type == null)
+			{
+				return;
+			}
 			_writer.Write(type.Name);
 		}
 
 		// Variable
 		public void Generate(IVariable variable)
 		{
-			variable.Type.Accept(this);
+			try
+			{
+				variable.Type.Accept(this);
+			}
+			catch (NullReferenceException e) { }
 			WriteSpace();
 			_writer.Write(variable.Name);
 		}
@@ -219,12 +246,10 @@ namespace Ucpf.Languages.C.Model
 			_writer.Write(pExp.Name);
 		}
 
-		public void Generate(ITernaryExpression exp) {
-			throw  new NotImplementedException();
+		public void Generate(ITernaryExpression exp)
+		{
+			throw new NotImplementedException();
 		}
-
-
-
 
 		// BinaryExpression
 		public void Generate(IBinaryExpression exp)
@@ -241,7 +266,29 @@ namespace Ucpf.Languages.C.Model
 		{
 			// [FuncName] '(' [Argument]* ');'
 			var comma = "";
-			_writer.Write(exp.FunctionName);
+
+			// apply rules
+			var funcName = exp.FunctionName;
+
+			if (_rule != null)
+			{
+				var rules = _rule.Rules;
+				foreach (var rule in rules)
+				{
+					var keys = rule.Keys;
+
+					if (keys.Contains(funcName))
+					{
+						funcName = rule[funcName];
+					}
+
+				}
+			}
+
+			// functio name
+			_writer.Write(funcName);
+
+			// arguments
 			_writer.Write("(");
 			foreach (IExpression e in exp.Arguments)
 			{
@@ -254,7 +301,8 @@ namespace Ucpf.Languages.C.Model
 		}
 
 		// UnaryExpression
-		public void Generate(IUnaryExpression exp) {
+		public void Generate(IUnaryExpression exp)
+		{
 			var term = exp.Term;
 			var ope = exp.Operator;
 			var opeType = ope.Type;
@@ -436,5 +484,17 @@ namespace Ucpf.Languages.C.Model
 		}
 
 		#endregion
+	}
+
+	// TODO :: split below class 
+	public abstract class CRule { }
+	public class CMethodTransRule : CRule
+	{
+		// constructor
+		public CMethodTransRule(List<Dictionary<string, string>> ruleList) {
+			Rules = ruleList;
+		}
+
+		public List<Dictionary<string, string>> Rules { get; set; }
 	}
 }

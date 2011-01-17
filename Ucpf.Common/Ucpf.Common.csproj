@@ -106,7 +106,7 @@
     <Compile Include="Model\Expressions\ICallExpression.cs" />
     <Compile Include="Model\Expressions\IExpression.cs" />
     <Compile Include="Model\Expressions\ITernaryExpression.cs" />
-    <Compile Include="Model\Expressions\IUnaryExpression.cs" />
+    <Compile Include="Model\Operators\IUnaryExpression.cs" />
     <Compile Include="Model\IBlock.cs" />
     <Compile Include="Model\Operators\IBinaryOperator.cs" />
     <Compile Include="Model\Statements\IIfStatement.cs" />

@@ -8,6 +8,7 @@ using Ucpf.Common.Model;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.C;
 using Ucpf.Languages.C.Model;
+using Ucpf.Languages.JavaScript;
 using Ucpf.Languages.JavaScript.Model;
 using Ucpf.Languages.Ruby18.Model;
 using Ucpf.Languages.C.CodeTranslation;
@@ -17,22 +18,40 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 	[TestFixture]
 	public class CCodeModelToCodeTestForFibonacci
 	{
-		private CModelToCode _cmtc;
-		private JSModelToCode _rmtc;
-		private StringWriter _rwriter;
-		private CFunction _func;
+		private CModelToCode _cm2c;
+		private JSModelToCode _jsm2c;
+		private RubyModelToCode _rm2c;
 
-		private static readonly string InputPath =
+		private StringWriter _rwriter, _jswriter, _cwriter;
+		private CFunction _cfunc;
+		private JSFunction _jsfunc; 
+
+		private static readonly string CInputPath =
 			Path.Combine(Settings.GetInputDirPath("C"), "fibonacci.c");
+
+		private static readonly string JSInputPath =
+			Path.Combine(Settings.GetInputDirPath("JavaScript"), "fibonacci.js");
 
 		[SetUp]
 		public void SetUp()
 		{
+			_jswriter = new StringWriter();
 			_rwriter = new StringWriter();
-			_rmtc = new	JSModelToCode(_rwriter, 0);
-			_func = new CFunction(
-						CAstGenerator.Instance.GenerateFromFile(InputPath)
+			_cwriter = new StringWriter();
+
+			_jsm2c = new JSModelToCode(_jswriter, 0);
+			_cm2c = new CModelToCode(_cwriter, 0);
+			_rm2c = new RubyModelToCode(_rwriter, 0);
+			
+
+			_cfunc = new CFunction(
+						CAstGenerator.Instance.GenerateFromFile(CInputPath)
 						.Descendants("function_definition")
+						.First());
+
+			_jsfunc = new JSFunction(
+				JavaScriptAstGenerator.Instance.GenerateFromFile(JSInputPath)
+						.Descendants("functionDeclaration")
 						.First());
 		}
 
@@ -40,7 +59,7 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 		[Test]
 		public void CからRubyにシンタクスレベルの変換ができる()
 		{
-			_rmtc.Generate(_func);
+			_rm2c.Generate(_cfunc);
 			var actual = _rwriter.ToString();
 
 			// DebugPrint
@@ -48,8 +67,48 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 		}
 
 		[Test]
-		public void CからRubyにセマンティクスレベルの変換ができる() {
+		public void CからJSにシンタクスレベルの変換ができる() {
+			_jsm2c.Generate(_cfunc);
+			var actual = _jswriter.ToString();
+
+			// DebugPrint
+			System.Diagnostics.Debug.WriteLine(actual);
 		}
 
+		[Test]
+		public void JSからCにシンタクスレベルの変換ができる() {
+			_cm2c.Generate(_jsfunc);
+			var actual = _cwriter.ToString();
+
+			// DebugPrint
+			System.Diagnostics.Debug.WriteLine(actual);
+		}
+
+		[Test]
+		public void CからCにセマンティクスレベルを考慮した出力ができる() {
+			
+			var testMethodIntoC = new Dictionary<string, string>();
+
+			testMethodIntoC["CU_ASSERT_NOT_EQUAL"] = "CU_ASSERT_NOT_EQUAL";
+			testMethodIntoC["assertEquals"] = "CU_ASSERT_NOT_EQUAL";
+			testMethodIntoC["assert_equal"] = "CU_ASSERT_NOT_EQUAL";
+			testMethodIntoC["assertEquals"] = "CU_ASSERT_NOT_EQUAL";
+
+
+			var rules = new List<Dictionary<string, string>>();
+			rules.Add(testMethodIntoC);
+
+			CMethodTransRule methodTransRule = new CMethodTransRule(rules);
+
+			// model to code with rules
+			var _cm2cwr = new CModelToCode(_cwriter, 0, methodTransRule);
+			_cm2cwr.Generate(_cfunc);
+
+			var actual = _cwriter.ToString();
+
+			// DebugPrint
+			System.Diagnostics.Debug.WriteLine(actual);
+
+		}
 	}
 }
