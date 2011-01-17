@@ -16,11 +16,11 @@ namespace Ucpf.Languages.JavaScript.Tests
 		private StringWriter _writer;
 		private JSFunction _func;
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("JavaScript"), "fibonacci.js");
+			Fixture.GetInputPath("JavaScript", "fibonacci.js");
 
 		//for C
 		private static readonly string CInputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "fibonacci.c");
+			Fixture.GetInputPath("C", "fibonacci.c");
 		private CFunction _function;
 
 		[SetUp]

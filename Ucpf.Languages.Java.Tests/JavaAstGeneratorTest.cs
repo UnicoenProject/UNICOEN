@@ -12,7 +12,7 @@ namespace Ucpf.Languages.Java.Tests
 	public class JavaAstGeneratorTest
 	{
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetFailedInputDirPath("Java"), "fibonacci.java");
+			Path.Combine(Fixture.GetFailedInputPath("Java"), "fibonacci.java");
 
 		[Test, Ignore]
 		public void ユニコード文字の入ったコードをパースできる() {

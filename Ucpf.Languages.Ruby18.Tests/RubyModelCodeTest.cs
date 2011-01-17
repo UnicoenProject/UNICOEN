@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using System.IO;
+using Ucpf.Common.Tests;
 using Ucpf.Languages.C;
 using Ucpf.Languages.C.Model;
 using Ucpf.Languages.Ruby18.Model;
@@ -17,7 +18,8 @@ namespace Ucpf.Languages.Ruby18.Tests {
 			_writer = new StringWriter();
 			_rmtc = new RubyModelToCode(_writer, 0);
 			_func = new CFunction(
-						CAstGenerator.Instance.GenerateFromFile("fibonacci2.c")
+						CAstGenerator.Instance.GenerateFromFile(
+							Fixture.GetInputPath("C", "fibonacci2.c"))
 						.Descendants("function_definition")
 						.First());
 		}

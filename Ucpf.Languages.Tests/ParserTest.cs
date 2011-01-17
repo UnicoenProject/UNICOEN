@@ -28,7 +28,7 @@ namespace Ucpf.Languages.Tests {
 				};
 				return names
 					.SelectMany(
-						name => Directory.EnumerateFiles(Settings.GetInputDirPath(name))
+						name => Directory.EnumerateFiles(Fixture.GetInputPath(name))
 						        	.Select(path => new { Name = name, Path = path }))
 					.Select(p =>
 					        new TestCaseData(p.Name, p.Path,
@@ -43,9 +43,7 @@ namespace Ucpf.Languages.Tests {
 		[Test, TestCaseSource("TestCases")]
 		public void パース結果が変化していない(string lang, string path, AstGenerator astGen,
 		                          CodeGenerator codeGen) {
-			var expPath = Path.Combine(
-				Settings.GetXmlExpectationDirPath(lang),
-				Path.GetFileName(path));
+			var expPath = Fixture.GetXmlExpectationPath(lang, Path.GetFileName(path));
 			var r = astGen.GenerateFromFile(path);
 			using (var reader = new StreamReader(expPath, XEncoding.SJIS)) {
 				Assert.That(r.ToString(), Is.EqualTo(reader.ReadToEnd()));
@@ -55,8 +53,7 @@ namespace Ucpf.Languages.Tests {
 		[Test, TestCaseSource("TestCases")]
 		public void パース結果をファイルに出力できる(string lang, string path, AstGenerator astGen,
 		                             CodeGenerator codeGen) {
-			var outputDirPath = Settings.GetOutputDirPath(lang);
-			var outPath = Path.Combine(outputDirPath, Path.GetFileName(path));
+			var outPath = Fixture.GetOutputFilePath(lang, Path.GetFileName(path));
 			var r = astGen.GenerateFromFile(path);
 			using (var writer = new StreamWriter(outPath, false, XEncoding.SJIS)) {
 				writer.Write(r.ToString());

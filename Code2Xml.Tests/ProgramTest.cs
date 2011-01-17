@@ -36,7 +36,7 @@ namespace Code2Xml.Tests {
 				};
 				return langs
 					.SelectMany(
-						lang => Directory.EnumerateFiles(Settings.GetInputDirPath(lang.Name))
+						lang => Directory.EnumerateFiles(Fixture.GetInputPath(lang.Name))
 									.Select(path => new { Name = lang.Name, Opt = lang.Opt, Path = path }))
 					.Select(p =>
 							new TestCaseData(p.Path, p.Opt,
@@ -50,8 +50,8 @@ namespace Code2Xml.Tests {
 		public void コードを生成できる() {
 			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
 			var filePaths = names
-				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
-			var outputPath = Settings.GetOutputDirPath(CLanguageName);
+				.Select(n => Fixture.GetInputPath(CLanguageName, n));
+			var outputPath = Fixture.GetOutputDirPath(CLanguageName);
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-d", outputPath }).ToArray());
 			Program.Main(filePaths
@@ -73,6 +73,8 @@ namespace Code2Xml.Tests {
 
 		[Test, TestCaseSource("TestCases")]
 		public void パースできる(string filePath, string option, AstGenerator astGen) {
+			if (filePath.EndsWith("ruby2ruby_test.rb"))
+				filePath = filePath;
 			using (var output = new StringWriter()) {
 				Console.SetOut(output);
 
@@ -88,7 +90,7 @@ namespace Code2Xml.Tests {
 		public void パース結果をディレクトリに出力できる() {
 			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
 			var filePaths = names
-				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
+				.Select(n => Fixture.GetInputPath(CLanguageName, n));
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-d" }).ToArray());
 
@@ -109,7 +111,7 @@ namespace Code2Xml.Tests {
 		public void パース結果をファイルに出力できる() {
 			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
 			var filePaths = names
-				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
+				.Select(n => Fixture.GetInputPath(CLanguageName, n));
 			const string outputFilePath = "output.txt";
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-f", outputFilePath }).ToArray());
@@ -130,8 +132,8 @@ namespace Code2Xml.Tests {
 		public void パース結果を指定ディレクトリに出力できる() {
 			var names = new[] { "Block1.c", "Block2.c", "Block3.c" };
 			var filePaths = names
-				.Select(n => Path.Combine(Settings.GetInputDirPath(CLanguageName), n));
-			var outputPath = Settings.GetOutputDirPath(CLanguageName);
+				.Select(n => Fixture.GetInputPath(CLanguageName, n));
+			var outputPath = Fixture.GetOutputDirPath(CLanguageName);
 
 			Program.Main(filePaths.Concat(new[] { "-C", "-d", outputPath }).ToArray());
 

@@ -18,7 +18,7 @@ namespace Ucpf.Languages.C.Tests
 		// function definition : public-static fields
 		private CFunction _function;
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "fibonacci.c");
+			Fixture.GetInputPath("C", "fibonacci.c");
 
 		[SetUp]
 		public void SetUp()

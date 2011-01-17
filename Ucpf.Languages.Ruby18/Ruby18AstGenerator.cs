@@ -19,7 +19,7 @@ namespace Ucpf.Languages.Ruby18
 
 		public override string ParserName
 		{
-			get { return "Ruby1.8"; }
+			get { return "Ruby18"; }
 		}
 
 		public override IEnumerable<string> TargetExtensions

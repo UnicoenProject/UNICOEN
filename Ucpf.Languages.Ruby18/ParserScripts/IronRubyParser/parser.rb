@@ -33,12 +33,11 @@ class Ruby2Ruby
   end
 end
 
-@parser = RubyParser.new
 @r2r = Ruby2Ruby.new
 
 def parse_code(text)
-  ret = XDocument.new()
-  traverse(ret, @parser.parse(text.to_s.force_encoding('ascii-8bit')))
+  ret = XDocument.new
+  traverse(ret, RubyParser.new.parse(text.to_s.force_encoding('ascii-8bit')))
   ret.root
 end
 
