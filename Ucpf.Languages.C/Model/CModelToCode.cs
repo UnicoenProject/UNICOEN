@@ -214,10 +214,16 @@ namespace Ucpf.Languages.C.Model
 		}
 
 		// PrimaryExpression
-		public void Generate(ITernaryExpression pExp)
+		public void Generate(IPrimaryExpression pExp)
 		{
-			_writer.Write(pExp.Body);
+			_writer.Write(pExp.Name);
 		}
+
+		public void Generate(ITernaryExpression exp) {
+			throw  new NotImplementedException();
+		}
+
+
 
 
 		// BinaryExpression

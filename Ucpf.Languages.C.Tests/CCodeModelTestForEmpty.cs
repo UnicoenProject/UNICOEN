@@ -10,7 +10,8 @@ using System.IO;
 
 namespace Ucpf.Languages.C.Tests
 {
-	class CCodeModelTestForEmpty
+	[TestFixture]
+	public class CCodeModelTestForEmpty
 	{
 		private CModelToCode _cmtc;
 		private StringWriter _writer;

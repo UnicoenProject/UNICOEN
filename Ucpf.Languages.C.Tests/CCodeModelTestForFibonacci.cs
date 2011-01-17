@@ -109,7 +109,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(rightArg.LeftExpression.ToString(), Is.EqualTo("n"));
 			Assert.That(rightArg.Operator.Type, Is.EqualTo(BinaryOperatorType.Subtraction));
 			Assert.That(rightArg.RightExpression.ToString(), Is.EqualTo("1"));
-			Assert.That(rightArg.RightExpression is CNumber);
+			// Assert.That(rightArg.RightExpression is CNumber);
 
 			Assert.That(exp.ToString(), Is.EqualTo("fibonacci(n-2)+fibonacci(n-1)"));
 

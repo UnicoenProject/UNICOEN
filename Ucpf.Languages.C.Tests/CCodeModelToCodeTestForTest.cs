@@ -39,14 +39,14 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(actual, Is.EqualTo("int"));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void 二項演算式を正しくコードに変換できる()
 		{
 			var ifStatement = (CIfStatement)_func.Body.Statements.ElementAt(0);
 			var conditionalExpression = (CBinaryExpression)ifStatement.ConditionalExpression;
 			
 			_cmtc.Generate(conditionalExpression);
-			Assert.That(_writer.ToString(), Is.EqualTo("n < 2"));
+			Assert.That(_writer.ToString(), Is.EqualTo("n == 1"));
 			
 		}
 

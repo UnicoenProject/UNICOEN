@@ -2,18 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B2B716A6-D675-4E4F-A415-60CEA3E3D491}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ucpf.Languages.JavaScript.Tests</RootNamespace>
-    <AssemblyName>Ucpf.Languages.JavaScript.Tests</AssemblyName>
+    <RootNamespace>Ucpf.Languages.C.CodeTranslation.Test</RootNamespace>
+    <AssemblyName>Ucpf.Languages.C.CodeTranslation.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,7 +24,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\bin\Release\</OutputPath>
@@ -31,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -46,14 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScriptModelTest.cs" />
-    <Compile Include="JavaScriptModelToCodeTest.cs" />
+    <Compile Include="CodeTransTestForFibonacci.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common.Tests\Ucpf.Common.Tests.csproj">
       <Project>{A8E01172-723F-4F92-9B7C-31D8F8716AF3}</Project>
       <Name>Ucpf.Common.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
+      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
+      <Name>Ucpf.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
@@ -63,9 +67,9 @@
       <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
       <Name>Ucpf.Languages.JavaScript</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
+    <ProjectReference Include="..\Ucpf.Languages.Ruby18\Ucpf.Languages.Ruby18.csproj">
+      <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
+      <Name>Ucpf.Languages.Ruby18</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

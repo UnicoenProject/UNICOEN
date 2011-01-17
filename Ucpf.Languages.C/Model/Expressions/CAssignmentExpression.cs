@@ -10,6 +10,7 @@ namespace Ucpf.Languages.C.Model
 {
 	public class CAssignmentExpression : CExpression, IAssignmentExpression
 	{
+		// TODO :: delete assignment expression and move to BinaryExpression
 		/*
 		assignment_expression
 		: lvalue assignment_operator assignment_expression

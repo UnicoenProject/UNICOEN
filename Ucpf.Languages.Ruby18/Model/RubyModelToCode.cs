@@ -3,6 +3,7 @@ using System.IO;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
+
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelToCode : IModelToCode {
 		private readonly TextWriter _writer;
@@ -57,6 +58,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			exp.Accept(this);
 		}
 
+
 		public void Generate(IBinaryExpression exp) {
 			exp.LeftHandSide.Accept(this);
 			WriteSpace();
@@ -75,9 +77,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			var comma = "";
 			var funcName = exp.FunctionName;
 
-			if (funcName == "printf") {
-				funcName = "echo";
-			}
+			// ** semantic translate **  :: change method name
 
 			_writer.Write(funcName);
 
@@ -91,8 +91,12 @@ namespace Ucpf.Languages.Ruby18.Model {
 			_writer.Write(")");
 		}
 
+		public void Generate(IPrimaryExpression exp) {
+			_writer.Write(exp.Name);
+		}
+
 		public void Generate(ITernaryExpression exp) {
-			_writer.Write(exp.Body);
+			throw new NotImplementedException();
 		}
 
 		public void Generate(IAssignmentExpression exp) {

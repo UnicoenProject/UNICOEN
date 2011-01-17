@@ -23,7 +23,7 @@ namespace Ucpf.Languages.C.Model
 			Operator = ope;
 			if (expNode.Name.LocalName == "primary_expression")
 			{
-				Term = CPrimaryExpression.Create(expNode);
+				Term = new CPrimaryExpression(expNode);
 			}
 			else {
 				Term = CExpression.Create(expNode);

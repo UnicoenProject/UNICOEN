@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Tests;
+using Ucpf.Languages.C;
+using Ucpf.Languages.C.Model;
 using Ucpf.Languages.JavaScript.Model;
 
 namespace Ucpf.Languages.JavaScript.Tests
@@ -17,7 +17,11 @@ namespace Ucpf.Languages.JavaScript.Tests
 		private JSFunction _func;
 		private static readonly string InputPath =
 			Fixture.GetInputPath("JavaScript", "fibonacci.js");
-		
+
+		//for C
+		private static readonly string CInputPath =
+			Fixture.GetInputPath("C", "fibonacci.c");
+		private CFunction _function;
 
 		[SetUp]
 		public void SetUp() 
@@ -30,13 +34,23 @@ namespace Ucpf.Languages.JavaScript.Tests
             _func = new JSFunction(root);
 		}
 
-		[Test]
+		[Test,Ignore]
 		public void 関数が正しくコードに変換できる() 
 		{
 			_generator.Generate(_func);
 			Console.Write(_writer.ToString());
 			//Assert.That(_writer.ToString(), Is.EqualTo("hoge"));
 		}
-
+		
+		[Test]
+		public void CコードをJSコードに変換できる()
+		{
+			_function = new CFunction(
+						CAstGenerator.Instance.GenerateFromFile(CInputPath)
+						.Descendants("function_definition")
+						.First());
+			_generator.Generate(_function);
+			Console.Write(_writer.ToString());
+		}
 	}
 }

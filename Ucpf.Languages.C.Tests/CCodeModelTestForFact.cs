@@ -100,7 +100,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(rightArg.LeftExpression.ToString(), Is.EqualTo("n"));
 			Assert.That(rightArg.Operator.ToString(), Is.EqualTo("-"));
 			Assert.That(rightArg.RightExpression.ToString(), Is.EqualTo("1"));
-			Assert.That(rightArg.RightExpression is CNumber);
+			Assert.That(rightArg.RightExpression is CPrimaryExpression);
 
 			Assert.That(exp.ToString(), Is.EqualTo("n*fact(n-1)"));
 		}

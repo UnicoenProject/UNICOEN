@@ -158,7 +158,7 @@ namespace Ucpf.Languages.JavaScript.Model
 
 			var comma = "";
 			_writer.Write("(");
-			foreach (JSVariable param in jsFunctionDeclaration.Parameters) {
+			foreach (IVariable param in jsFunctionDeclaration.Parameters) {
 				_writer.Write(comma);
 				param.Accept(this);
 				comma = ",";
@@ -210,6 +210,10 @@ namespace Ucpf.Languages.JavaScript.Model
 			}
 
 			_writer.Write(")");
+		}
+
+		public void Generate(IPrimaryExpression exp) {
+			_writer.Write(exp.Name);
 		}
 
 		public void Generate(ITernaryExpression exp) {

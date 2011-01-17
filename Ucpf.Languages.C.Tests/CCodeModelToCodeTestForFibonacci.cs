@@ -11,7 +11,7 @@ using System.IO;
 namespace Ucpf.Languages.C.Tests
 {
 	[TestFixture]
-	public class CCodeModelToCodeTestForTest
+	public class CCodeModelToCodeTestForFibonacci
 	{
 		private CModelToCode _cmtc;
 		private StringWriter _writer;
