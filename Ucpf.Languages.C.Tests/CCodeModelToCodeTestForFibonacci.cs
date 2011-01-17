@@ -49,7 +49,7 @@ namespace Ucpf.Languages.C.Tests
 			Assert.That(_writer.ToString(), Is.EqualTo("n < 2"));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void ブロックを正しくコードに変換できる()
 		{
 			var trueBlock = ((CIfStatement)(_func.Body.Statements.ElementAt(0)))
@@ -62,7 +62,7 @@ namespace Ucpf.Languages.C.Tests
 		}
 
 		// GOAL
-		[Test, Ignore]
+		[Test]
 		public void 関数が正しくコードに変換できる()
 		{
 			_cmtc.Generate(_func);
