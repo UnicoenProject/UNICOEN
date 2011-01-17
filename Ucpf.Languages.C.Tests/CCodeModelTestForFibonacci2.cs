@@ -15,7 +15,7 @@ namespace Ucpf.Languages.C.Tests
 	public partial class CCodeModelTestForFibonacci2 {
 		private CFunction _function;
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "fibonacci2.c");
+			Fixture.GetInputPath("C", "fibonacci2.c");
 
 		[SetUp]
 		public void SetUp() {

@@ -16,7 +16,7 @@ namespace Ucpf.Languages.C.Tests
 	{
 		private CFunction _function;
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "assignment.c");
+			Fixture.GetInputPath("C", "assignment.c");
 
 		[SetUp]
 		public void SetUp()

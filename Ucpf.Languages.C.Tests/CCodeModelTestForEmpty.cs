@@ -16,7 +16,7 @@ namespace Ucpf.Languages.C.Tests
 		private StringWriter _writer;
 		private CFunction _func;
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "empty.c");
+			Fixture.GetInputPath("C", "empty.c");
 
 		[SetUp]
 		public void SetUp()

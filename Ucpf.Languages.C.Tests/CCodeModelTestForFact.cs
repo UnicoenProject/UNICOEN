@@ -16,7 +16,7 @@ namespace Ucpf.Languages.C.Tests
 	public class CCodeModelTestForFact {
 		private CFunction _function;
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "fact.c");
+			Fixture.GetInputPath("C", "fact.c");
 
 		[SetUp]
 		public void SetUp() {

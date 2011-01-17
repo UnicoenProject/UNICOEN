@@ -15,7 +15,7 @@ namespace Ucpf.Languages.C.Tests
 	public class CCodeModelTestForTest {
 		private CFunction _function;
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "test.c");
+			Fixture.GetInputPath("C", "test.c");
 
 		[SetUp]
 		public void SetUp() {

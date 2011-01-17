@@ -13,7 +13,7 @@ namespace Ucpf.Languages.Java.Tests
     public class JavaCodeModelTest
     {
 		private static readonly string InputPath =
-			Path.Combine(Settings.GetInputDirPath("Java"), "fibonacci.java");
+			Fixture.GetInputPath("Java", "fibonacci.java");
 
 		[Test]
         public void JavaFunctionを生成できる()
