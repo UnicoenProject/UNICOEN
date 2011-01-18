@@ -1,7 +1,4 @@
-﻿using Ucpf.Common.Model;
-
-namespace Ucpf.Common.Model
-{
+﻿namespace Ucpf.Common.Model {
 	public interface IAssignmentExpression : IExpression {
 		IAssignmentOperator Operator { get; set; }
 		IExpression LValue { get; set; }

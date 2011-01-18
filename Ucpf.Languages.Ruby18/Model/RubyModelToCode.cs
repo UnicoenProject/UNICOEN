@@ -3,7 +3,6 @@ using System.IO;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelToCode : IModelToCode {
 		private readonly TextWriter _writer;
@@ -32,10 +31,14 @@ namespace Ucpf.Languages.Ruby18.Model {
 		public void WriteSpace() {
 			_writer.Write(" ");
 		}
+
 		public void WriteLine() {
 			_writer.Write("\n");
 		}
+
 		#endregion
+
+		#region IModelToCode Members
 
 		public void Generate(IFunction func) {
 			_writer.Write("def ");
@@ -58,7 +61,6 @@ namespace Ucpf.Languages.Ruby18.Model {
 			exp.Accept(this);
 		}
 
-
 		public void Generate(IBinaryExpression exp) {
 			exp.LeftHandSide.Accept(this);
 			WriteSpace();
@@ -66,7 +68,6 @@ namespace Ucpf.Languages.Ruby18.Model {
 			WriteSpace();
 			exp.RightHandSide.Accept(this);
 		}
-
 
 		public void Generate(IUnaryExpression exp) {
 			exp.Term.Accept(this);
@@ -113,37 +114,37 @@ namespace Ucpf.Languages.Ruby18.Model {
 			// the expression 'a (OP)= b' completely equals to 'a = a (OP) b'
 			switch (sw) {
 			case AssignmentOperatorType.SimpleAssignment:
-			rValue.Accept(this);
-			break;
+				rValue.Accept(this);
+				break;
 			case AssignmentOperatorType.PlusAssignment:
-			lValue.Accept(this);
+				lValue.Accept(this);
 
-			WriteSpace();
-			_writer.Write("+");
-			WriteSpace();
+				WriteSpace();
+				_writer.Write("+");
+				WriteSpace();
 
-			rValue.Accept(this);
-			break;
+				rValue.Accept(this);
+				break;
 			case AssignmentOperatorType.MinusAssignment:
-			lValue.Accept(this);
+				lValue.Accept(this);
 
-			WriteSpace();
-			_writer.Write("-");
-			WriteSpace();
+				WriteSpace();
+				_writer.Write("-");
+				WriteSpace();
 
-			rValue.Accept(this);
-			break;
+				rValue.Accept(this);
+				break;
 			case AssignmentOperatorType.MultiAssignment:
-			lValue.Accept(this);
+				lValue.Accept(this);
 
-			WriteSpace();
-			_writer.Write("*");
-			WriteSpace();
+				WriteSpace();
+				_writer.Write("*");
+				WriteSpace();
 
-			rValue.Accept(this);
-			break;
+				rValue.Accept(this);
+				break;
 			default:
-			throw new InvalidOperationException();
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -199,7 +200,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 
 		public void Generate(IReturnStatement stmt) {
 			_writer.Write(Tabs(_depth));
-			_writer.Write("return");			// can be omitted
+			_writer.Write("return"); // can be omitted
 			WriteSpace();
 
 			stmt.Expression.Accept(this);
@@ -238,9 +239,10 @@ namespace Ucpf.Languages.Ruby18.Model {
 			return;
 		}
 
-
 		public void Generate(IVariable variable) {
 			_writer.Write(variable.Name);
 		}
+
+		#endregion
 	}
 }

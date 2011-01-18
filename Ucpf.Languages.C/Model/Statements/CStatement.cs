@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public class CStatement : IStatement
-	{
+namespace Ucpf.Languages.C.Model {
+	public class CStatement : IStatement {
 		/*
 		// properties
 		public List<IExpression> Expressions { get; private set; }
@@ -26,34 +20,35 @@ namespace Ucpf.Languages.C.Model
 		}
 		*/
 
-
 		// constructor for deligating to subclasses
-		public CStatement() { }
 
-		public static CStatement Create(XElement stmtNode)
-		{
+		// acceptor
+
+		#region IStatement Members
+
+		public void Accept(IModelToCode conv) {
+			conv.Generate(this);
+		}
+
+		#endregion
+
+		public static CStatement Create(XElement stmtNode) {
 			// -- which is better ?
 			// var judge = node.Descendants("TOKEN").First().Value;
 			var judge = stmtNode.Descendants().First().Name.LocalName;
-			switch (judge)
-			{
-				case ("selection_statement"):
-					return CSelectionStatement.Create(stmtNode);
-				case ("jump_statement"):
-					return new CReturnStatement(stmtNode);
-				case ("iteration_statement") :
-					// return CIterationStatement.CreateStatement(node);
-					throw new NotImplementedException();
-				case ("expression_statement") :
-					return CExpressionStatement.Create(stmtNode);
-				default:
-					throw new InvalidOperationException();
+			switch (judge) {
+			case ("selection_statement"):
+				return CSelectionStatement.Create(stmtNode);
+			case ("jump_statement"):
+				return new CReturnStatement(stmtNode);
+			case ("iteration_statement"):
+				// return CIterationStatement.CreateStatement(node);
+				throw new NotImplementedException();
+			case ("expression_statement"):
+				return CExpressionStatement.Create(stmtNode);
+			default:
+				throw new InvalidOperationException();
 			}
-		}
-
-		// acceptor
-		public void Accept(IModelToCode conv) {
-			conv.Generate(this);
 		}
 	}
 }

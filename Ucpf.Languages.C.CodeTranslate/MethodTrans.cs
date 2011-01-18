@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
 using Ucpf.Common.Model;
 
-
-namespace Ucpf.Languages.C.CodeTranslation
-{
-	public class MethodTrans
-	{
-		public static string Trans(IFunction func, string inputLang, string outputLang)
-		{
+namespace Ucpf.Languages.C.CodeTranslation {
+	public class MethodTrans {
+		public static string Trans(IFunction func, string inputLang, string outputLang) {
 			var cTable = new Hashtable();
 			var jsTable = new Hashtable();
 			var rbTable = new Hashtable();
@@ -30,19 +22,15 @@ namespace Ucpf.Languages.C.CodeTranslation
 			jsTable["print"] = "assert_equal";
 			rbTable["print"] = "puts";
 
-
 			var funcName = func.Name;
 			var inTable = lang2Table[inputLang] as Hashtable;
 			var outTable = lang2Table[outputLang] as Hashtable;
 
-			foreach (DictionaryEntry elm in inTable)
-			{
-				if (elm.Value as string == funcName)
-				{
+			foreach (DictionaryEntry elm in inTable) {
+				if (elm.Value as string == funcName) {
 					var findKey = elm.Key as string;
 					return outTable[findKey] as string;
 				}
-
 			}
 
 			return funcName;

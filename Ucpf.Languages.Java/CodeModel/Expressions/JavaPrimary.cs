@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Ucpf.Languages.Java.CodeModel.Expressions
-{
-    // function invocation
-    class JavaPrimary : JavaExpression
-    {
-        String FunctionName;
-        List<Value> Arguments;
-    }
- /**
+namespace Ucpf.Languages.Java.CodeModel.Expressions {
+	// function invocation
+	internal class JavaPrimary : JavaExpression {
+		private List<Value> Arguments;
+		private String FunctionName;
+	}
+
+	/**
  * have to use scope here, parameter passing isn't well supported in antlr.
  *
 primary 

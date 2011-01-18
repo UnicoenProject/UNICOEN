@@ -41,7 +41,7 @@ namespace Ucpf.Common.CodeGenerators {
 	}
 
 	[ContractClassFor(typeof(CodeGenerator))]
-	abstract class CodeGeneratorContract : CodeGenerator {
+	internal abstract class CodeGeneratorContract : CodeGenerator {
 		public override string ParserName {
 			get {
 				Contract.Ensures(Contract.Result<string>() != null);

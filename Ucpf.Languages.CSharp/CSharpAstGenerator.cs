@@ -8,52 +8,44 @@ using Ucpf.Common.AstGenerators;
 using Ucpf.Common.Languages.Common.Antlr;
 using Ucpf.Common.Weavers;
 
-namespace Ucpf.Languages.CSharp
-{
+namespace Ucpf.Languages.CSharp {
 	[Export(typeof(AstGenerator))]
-	public class CSharpAstGenerator : AntlrAstGenerator<csParser>
-	{
+	public class CSharpAstGenerator : AntlrAstGenerator<csParser> {
 		private static CSharpAstGenerator _instance;
-		public static CSharpAstGenerator Instance
-		{
+
+		private CSharpAstGenerator() {}
+
+		public static CSharpAstGenerator Instance {
 			get { return _instance ?? (_instance = new CSharpAstGenerator()); }
 		}
-
-		private CSharpAstGenerator() { }
 
 		protected override Func<csParser, XParserRuleReturnScope> DefaultParseFunc {
 			get { return parser => parser.compilation_unit(); }
 		}
 
-		public override string ParserName
-		{
+		public override string ParserName {
 			get { return "C#4.0"; }
 		}
 
-		public override IEnumerable<string> TargetExtensions
-		{
+		public override IEnumerable<string> TargetExtensions {
 			get { return new[] { ".cs" }; }
 		}
 
-		public void ArrangeAst(XElement ast)
-		{
+		public void ArrangeAst(XElement ast) {
 			var nodes = GetLackingBlockNodes(ast);
 			Weaver.SafeWeaveAround(nodes,
 				node => AntlrBlockGenerator.Generate(node, this));
 		}
 
-		protected override ITokenSource CreateTokenSource(ICharStream stream)
-		{
+		protected override ITokenSource CreateTokenSource(ICharStream stream) {
 			return new csLexer(stream);
 		}
 
-		protected override csParser CreateParser(ITokenStream tokenStream)
-		{
+		protected override csParser CreateParser(ITokenStream tokenStream) {
 			return new csParser(tokenStream);
 		}
 
-		private static IEnumerable<XElement> GetLackingBlockNodes(XElement root)
-		{
+		private static IEnumerable<XElement> GetLackingBlockNodes(XElement root) {
 			var ifs = CSharpElements.If(root)
 				.Select(CSharpElements.IfProcess);
 			var whiles = CSharpElements.While(root)

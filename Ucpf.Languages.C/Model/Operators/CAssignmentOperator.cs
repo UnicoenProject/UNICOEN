@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public class CAssignmentOperator : COperator, IAssignmentOperator
-	{
-		public string Sign { get; private set; }
-		public AssignmentOperatorType Type { get; private set; }
-
-		public CAssignmentOperator(string sign, AssignmentOperatorType type) {
-			Sign = sign;
-			Type = type;
-		}
-
+namespace Ucpf.Languages.C.Model {
+	public class CAssignmentOperator : COperator, IAssignmentOperator {
 		private static readonly IDictionary<string, AssignmentOperatorType> Sign2Type;
 
 		static CAssignmentOperator() {
@@ -29,20 +16,30 @@ namespace Ucpf.Languages.C.Model
 			Sign2Type["*="] = AssignmentOperatorType.MultiAssignment;
 		}
 
-		public override string ToString()
-		{
-			return Sign;
+		public CAssignmentOperator(string sign, AssignmentOperatorType type) {
+			Sign = sign;
+			Type = type;
 		}
 
-		public static CAssignmentOperator Create(XElement node)
-		{
-			var sign = node.Value;
-			var type = Sign2Type[sign];
-			return new CAssignmentOperator(sign, type);
-		}
+		#region IAssignmentOperator Members
+
+		public string Sign { get; private set; }
+		public AssignmentOperatorType Type { get; private set; }
 
 		public void Accept(IModelToCode conv) {
 			conv.Generate(this);
+		}
+
+		#endregion
+
+		public override string ToString() {
+			return Sign;
+		}
+
+		public static CAssignmentOperator Create(XElement node) {
+			var sign = node.Value;
+			var type = Sign2Type[sign];
+			return new CAssignmentOperator(sign, type);
 		}
 	}
 }

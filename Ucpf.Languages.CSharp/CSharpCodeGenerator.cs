@@ -2,33 +2,27 @@
 using System.Xml.Linq;
 using Ucpf.Common.CodeGenerators;
 
-namespace Ucpf.Languages.CSharp
-{
+namespace Ucpf.Languages.CSharp {
 	[Export(typeof(CodeGenerator))]
-	public class CSharpCodeGenerator : CodeGeneratorBase
-	{
+	public class CSharpCodeGenerator : CodeGeneratorBase {
 		private static CSharpCodeGenerator _instance;
-		public static CSharpCodeGenerator Instance
-		{
+
+		private CSharpCodeGenerator() {}
+
+		public static CSharpCodeGenerator Instance {
 			get { return _instance ?? (_instance = new CSharpCodeGenerator()); }
 		}
 
-		private CSharpCodeGenerator() { }
-
-		public override string ParserName
-		{
+		public override string ParserName {
 			get { return "C#4.0"; }
 		}
 
-		public override string DefaultExtension
-		{
+		public override string DefaultExtension {
 			get { return new[] { ".cs" }[0]; }
 		}
 
-		protected override bool TreatTerminalSymbol(XElement element)
-		{
-			switch (element.Value)
-			{
+		protected override bool TreatTerminalSymbol(XElement element) {
+			switch (element.Value) {
 			case ";":
 				WriteLine(";");
 				break;
@@ -51,5 +45,3 @@ namespace Ucpf.Languages.CSharp
 		}
 	}
 }
-
-

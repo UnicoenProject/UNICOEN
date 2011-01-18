@@ -62,10 +62,12 @@ namespace Ucpf.Common.Languages.Common.Antlr {
 	}
 
 	[ContractClassFor(typeof(AntlrAstGenerator<>))]
-	abstract class AntlrAstGeneratorContract<TParser> : AntlrAstGenerator<TParser> {
+	internal abstract class AntlrAstGeneratorContract<TParser>
+		: AntlrAstGenerator<TParser> {
 		protected override Func<TParser, XParserRuleReturnScope> DefaultParseFunc {
 			get {
-				Contract.Ensures(Contract.Result<Func<TParser, XParserRuleReturnScope>>() != null);
+				Contract.Ensures(Contract.Result<Func<TParser, XParserRuleReturnScope>>() !=
+				                 null);
 				throw new NotImplementedException();
 			}
 		}
@@ -81,5 +83,5 @@ namespace Ucpf.Common.Languages.Common.Antlr {
 			Contract.Ensures(Contract.Result<TParser>() != null);
 			throw new NotImplementedException();
 		}
-	}
+		}
 }

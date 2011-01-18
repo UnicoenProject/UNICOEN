@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Xml.Linq;
@@ -38,21 +39,18 @@ namespace Ucpf.Common.AstGenerators {
 	}
 
 	[ContractClassFor(typeof(ExternalAstGenerator))]
-	abstract class ExternalAstGeneratorContract : ExternalAstGenerator {
-
-		protected override string ProcessorPath
-		{
+	internal abstract class ExternalAstGeneratorContract : ExternalAstGenerator {
+		protected override string ProcessorPath {
 			get {
 				Contract.Ensures(Contract.Result<string>() != null);
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 		}
 
-		protected override string[] Arguments
-		{
+		protected override string[] Arguments {
 			get {
 				Contract.Ensures(Contract.Result<string[]>() != null);
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 		}
 	}

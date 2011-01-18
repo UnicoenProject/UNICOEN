@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
-using Antlr.Runtime;
 
-namespace Ucpf.Grammar.Analyzer
-{
-	static class Program
-	{
+namespace Ucpf.Grammar.Analyzer {
+	internal static class Program {
 		/// <summary>
-		/// The main entry point for the application.
+		///   The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
-		{
+		private static void Main() {
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new MainWindow());

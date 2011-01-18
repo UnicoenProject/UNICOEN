@@ -1,23 +1,20 @@
 ﻿using System.Collections.Generic;
 
-namespace Ucpf.Grammar
-{
-	public class RepeatSymbol : ISymbol
-	{
+namespace Ucpf.Grammar {
+	public class RepeatSymbol : ISymbol {
 		private readonly ISymbol _symbol;
 
-		public RepeatSymbol(ISymbol symbol)
-		{
+		public RepeatSymbol(ISymbol symbol) {
 			_symbol = symbol;
 		}
 
-		public int GetCount(int maxRepeat)
-		{
+		#region ISymbol Members
+
+		public int GetCount(int maxRepeat) {
 			return 1 + _symbol.GetCount(maxRepeat) * maxRepeat;
 		}
 
-		public IEnumerable<Symbol> Expand(int index, int maxRepeat)
-		{
+		public IEnumerable<Symbol> Expand(int index, int maxRepeat) {
 			if (index == 0)
 				yield break;
 			index--;
@@ -29,8 +26,9 @@ namespace Ucpf.Grammar
 			} while (index >= 0);
 		}
 
-		public override string ToString()
-		{
+		#endregion
+
+		public override string ToString() {
 			return _symbol + "*";
 		}
 	}

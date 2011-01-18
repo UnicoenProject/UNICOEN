@@ -2,8 +2,7 @@
 using Antlr.Runtime;
 using Antlr.Runtime.Collections;
 
-namespace Ucpf.Common.Languages.Common.Antlr
-{
+namespace Ucpf.Common.Languages.Common.Antlr {
 	public class Set : HashSet<object> {}
 
 	public class HashSet : Set {}
@@ -15,17 +14,16 @@ namespace Ucpf.Common.Languages.Common.Antlr
 			_value = value;
 		}
 
-		public static implicit operator bool (boolean value) {
+		public static implicit operator bool(boolean value) {
 			return value._value;
-		}	
+		}
 
-		public static implicit operator boolean (bool value) {
+		public static implicit operator boolean(bool value) {
 			return new boolean(value);
 		}
 	}
 
-	public static class ExtensionForParser
-	{
+	public static class ExtensionForParser {
 		public static object get(this StackList stack, int i) {
 			return stack[i];
 		}

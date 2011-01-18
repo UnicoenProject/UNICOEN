@@ -3,20 +3,26 @@ using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.JavaScript.Model 
-{
-	public class JSUnaryOperator : IUnaryOperator
-	{
+namespace Ucpf.Languages.JavaScript.Model {
+	public class JSUnaryOperator : IUnaryOperator {
 		//properties
-		public string Sign { get; private set; }
-		public UnaryOperatorType Type { get; private set; }
-	
-		//constructor
-		public JSUnaryOperator(string sign, UnaryOperatorType type) 
-		{
+		public JSUnaryOperator(string sign, UnaryOperatorType type) {
 			Sign = sign;
 			Type = type;
 		}
+
+		#region IUnaryOperator Members
+
+		public string Sign { get; private set; }
+		public UnaryOperatorType Type { get; private set; }
+
+		void ICodeElement.Accept(IModelToCode conv) {
+			conv.Generate(this);
+		}
+
+		#endregion
+
+		//constructor
 
 		//function
 		public static JSUnaryOperator CreatePrefixOperator(XElement node) {
@@ -24,10 +30,9 @@ namespace Ucpf.Languages.JavaScript.Model
 			UnaryOperatorType type;
 
 			//TODO implement more OperationType cases
-			if ( name == "++") {
+			if (name == "++") {
 				type = UnaryOperatorType.PrefixIncrement;
-			}
-			else {
+			} else {
 				throw new InvalidOperationException();
 			}
 
@@ -38,10 +43,9 @@ namespace Ucpf.Languages.JavaScript.Model
 			string name = node.Value;
 			UnaryOperatorType type;
 
-			if ( name == "++") {
+			if (name == "++") {
 				type = UnaryOperatorType.PostfixIncrement;
-			}
-			else {
+			} else {
 				throw new InvalidOperationException();
 			}
 
@@ -51,15 +55,9 @@ namespace Ucpf.Languages.JavaScript.Model
 		public void Accept(JSModelToCode conv) {
 			conv.Generate(this);
 		}
-		
-		void ICodeElement.Accept(IModelToCode conv) {
-			conv.Generate(this);
-		}
 
-		public override string ToString()
-		{
+		public override string ToString() {
 			return Sign;
 		}
-
 	}
 }

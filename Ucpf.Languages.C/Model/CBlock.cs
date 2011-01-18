@@ -5,32 +5,26 @@ using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public class CBlock : IBlock
-	{
-		public IList<IStatement> Statements { get; private set; }
-
+namespace Ucpf.Languages.C.Model {
+	public class CBlock : IBlock {
 		// constructor for parsing AST
 		public CBlock(XElement node) {
 			var sw = node.Name.LocalName;
-			switch (sw)
-			{
-				case "statement_list":		// for compound statement
-					Statements = node.Elements("statement")
-									.Select(CStatement.Create)
-									.Cast<IStatement>()
-									.ToList();
-					break;
-				case "statement":			// for regarding single statement as block
-					List<IStatement> result = new List<IStatement>();
-					result.Add((IStatement)(CStatement.Create(node)));
-					Statements = result;
-					break;
-				default:
-					throw new InvalidOperationException("CBlock");
+			switch (sw) {
+			case "statement_list": // for compound statement
+				Statements = node.Elements("statement")
+					.Select(CStatement.Create)
+					.Cast<IStatement>()
+					.ToList();
+				break;
+			case "statement": // for regarding single statement as block
+				List<IStatement> result = new List<IStatement>();
+				result.Add((CStatement.Create(node)));
+				Statements = result;
+				break;
+			default:
+				throw new InvalidOperationException("CBlock");
 			}
-		
 		}
 
 		// constructor for constructing programmatically
@@ -38,20 +32,24 @@ namespace Ucpf.Languages.C.Model
 			Statements = new List<IStatement>();
 		}
 
+		public IList<IStatement> Statements { get; private set; }
+
 		// acceptor
+
+		#region IBlock Members
+
 		public void Accept(IModelToCode conv) {
 			conv.Generate(this);
 		}
 
-		IList<IStatement> IBlock.Statements
-		{
-			get
-			{
-				return Statements;
-			}
+		IList<IStatement> IBlock.Statements {
+			get { return Statements; }
 		}
+
+		#endregion
 	}
 }
+
 /*
 statement
 	: labeled_statement

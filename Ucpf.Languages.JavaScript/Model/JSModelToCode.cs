@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.JavaScript.Model
-{
+namespace Ucpf.Languages.JavaScript.Model {
 	public class JSModelToCode : IModelToCode {
 		private readonly TextWriter _writer;
 		private int _depth;
@@ -19,25 +15,10 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		//utility functions
-		public string Tabs(int depth) {
-			var tabs = "";
-			for(int i = 0; i < depth; i++) {
-				tabs += "\t";
-			}
-			return tabs;
-		}
-
-		public void WriteSpace() {
-			_writer.Write(" ");
-		}
-
-		public void WriteLine() {
-			_writer.Write("\n");
-		}
 
 		//generate functions
 		//FunctionBody
-/*
+		/*
 		public void Generate(IBlock jsFunctionBody)
 		{
 			WriteLine();
@@ -70,18 +51,19 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 */
 		//Statement
+
+		#region IModelToCode Members
+
 		public void Generate(IAssignmentOperator op) {
 			throw new NotImplementedException();
 		}
 
-		public void Generate(IStatement jsStatement)
-		{
+		public void Generate(IStatement jsStatement) {
 			jsStatement.Accept(this);
 		}
 
 		//IfStatement
-		public void Generate(IIfStatement jsIfStatement)
-		{
+		public void Generate(IIfStatement jsIfStatement) {
 			_writer.Write(Tabs(_depth));
 			_writer.Write("if(");
 			jsIfStatement.Condition.Accept(this);
@@ -92,16 +74,15 @@ namespace Ucpf.Languages.JavaScript.Model
 
 			//TODO need to adjust for IIfStatement
 			//ElseBlock
-//			foreach (var statement in jsIfStatement.ElseBlock) {
-//				_writer.Write(Tabs(_depth));
-//				_writer.Write("else");
-//				statement.Accept(this);
-//			}
+			//			foreach (var statement in jsIfStatement.ElseBlock) {
+			//				_writer.Write(Tabs(_depth));
+			//				_writer.Write("else");
+			//				statement.Accept(this);
+			//			}
 		}
 
 		//ReturnStatement
-		public void Generate(IReturnStatement jsReturnStatement) 
-		{
+		public void Generate(IReturnStatement jsReturnStatement) {
 			_writer.Write(Tabs(_depth));
 			_writer.Write("return");
 			WriteSpace();
@@ -119,8 +100,7 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		//Block
-		public void Generate(IBlock jsBlock)
-		{
+		public void Generate(IBlock jsBlock) {
 			WriteLine();
 			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
@@ -148,8 +128,7 @@ namespace Ucpf.Languages.JavaScript.Model
 
 		//Function
 		// : 'function' LT!* Identifier LT!* formalParameterList LT!* functionBody
-		public void Generate(IFunction jsFunctionDeclaration) 
-		{
+		public void Generate(IFunction jsFunctionDeclaration) {
 			_writer.Write("function");
 			WriteSpace();
 
@@ -169,26 +148,19 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		//Variable
-		public void Generate(IVariable jsVariable)
-		{
+		public void Generate(IVariable jsVariable) {
 			_writer.Write(jsVariable.Name);
 		}
 
 		//Expression
-		public void Generate(IExpression jsExpression)
-		{
+		public void Generate(IExpression jsExpression) {
 			jsExpression.Accept(this);
 		}
 
 		//PrimaryExpression
-		public void Generate(JSPrimaryExpression jsPrimaryExpression)
-		{
-			_writer.Write(jsPrimaryExpression.Identifier);
-		}
 
 		//BinaryExpression
-		public void Generate(IBinaryExpression jsBinaryExpression)
-		{
+		public void Generate(IBinaryExpression jsBinaryExpression) {
 			jsBinaryExpression.LeftHandSide.Accept(this);
 			WriteSpace();
 			jsBinaryExpression.Operator.Accept(this);
@@ -197,8 +169,7 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		//CallExpression
-		public void Generate(ICallExpression jsCallExpression) 
-		{
+		public void Generate(ICallExpression jsCallExpression) {
 			_writer.Write(jsCallExpression.FunctionName);
 			_writer.Write("(");
 
@@ -225,39 +196,54 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		//UnaryExpression
-		public void Generate(IUnaryExpression jsUnaryExpression)
-		{
+		public void Generate(IUnaryExpression jsUnaryExpression) {
 			var opType = jsUnaryExpression.Operator.Type;
 
-			if(opType == UnaryOperatorType.PostfixDecrement || opType == UnaryOperatorType.PostfixIncrement) 
-			{
+			if (opType == UnaryOperatorType.PostfixDecrement ||
+			    opType == UnaryOperatorType.PostfixIncrement) {
 				jsUnaryExpression.Term.Accept(this);
 				jsUnaryExpression.Operator.Accept(this);
-			}
-			else
-			{
+			} else {
 				jsUnaryExpression.Operator.Accept(this);
 				jsUnaryExpression.Term.Accept(this);
 			}
 		}
 
 		//UnaryOperator
-		public void Generate(IUnaryOperator jsUnaryOperator)
-		{
+		public void Generate(IUnaryOperator jsUnaryOperator) {
 			_writer.Write(jsUnaryOperator.Sign);
 		}
 
 		//BinaryOperator
-		public void Generate(IBinaryOperator jsBinaryOperator)
-		{
+		public void Generate(IBinaryOperator jsBinaryOperator) {
 			_writer.Write(jsBinaryOperator.Sign);
 		}
 
-		//Program
-		public void Generate(JSProgram jsProgram)
-		{
-			throw new NotImplementedException();
+		#endregion
+
+		public string Tabs(int depth) {
+			var tabs = "";
+			for (int i = 0; i < depth; i++) {
+				tabs += "\t";
+			}
+			return tabs;
 		}
 
+		public void WriteSpace() {
+			_writer.Write(" ");
+		}
+
+		public void WriteLine() {
+			_writer.Write("\n");
+		}
+
+		public void Generate(JSPrimaryExpression jsPrimaryExpression) {
+			_writer.Write(jsPrimaryExpression.Identifier);
+		}
+
+		//Program
+		public void Generate(JSProgram jsProgram) {
+			throw new NotImplementedException();
+		}
 	}
 }

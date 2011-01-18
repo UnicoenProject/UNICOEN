@@ -4,19 +4,25 @@ using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.JavaScript.Model
-{
+namespace Ucpf.Languages.JavaScript.Model {
 	// expression
 	// : assignmentExpression (LT!* ',' LT!* assignmentExpression)*
 
-	public class JSExpression : IExpression
-	{
+	public class JSExpression : IExpression {
 		//constructor
-		protected JSExpression() { }
+		protected JSExpression() {}
 
 		//function
-		public static JSExpression CreateExpression(XElement node) 
-		{
+
+		#region IExpression Members
+
+		public virtual void Accept(IModelToCode conv) {
+			conv.Generate(this);
+		}
+
+		#endregion
+
+		public static JSExpression CreateExpression(XElement node) {
 			String[] binaryOperator = {
 				"+", "-", "*", "/", "%", "<", ">"
 			};
@@ -24,16 +30,17 @@ namespace Ucpf.Languages.JavaScript.Model
 			var tmp =
 				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
-					return c > 1 || (c == 1 && e.Element("Identifier") != null) || (c == 1 && e.Element("TOKEN") != null);
+					return c > 1 || (c == 1 && e.Element("Identifier") != null) ||
+					       (c == 1 && e.Element("TOKEN") != null);
 				});
 
 			//sometime, tmp may be empty list...?
-			if(tmp.Count() == 0) {
+			if (tmp.Count() == 0) {
 				Console.Write(node);
 				throw new NullReferenceException();
 			}
 
-			var targetElement = tmp.First();	
+			var targetElement = tmp.First();
 
 			//case TOKEN
 			if (targetElement.Elements().Count() == 1) {
@@ -43,7 +50,6 @@ namespace Ucpf.Languages.JavaScript.Model
 			//case CallExpression
 			if (targetElement.Name.LocalName == "callExpression") {
 				return new JSCallExpression(targetElement);
-			
 			}
 
 			//case UnaryExpression (public UnaryExpression(XElement expression, XElement op))
@@ -76,16 +82,9 @@ namespace Ucpf.Languages.JavaScript.Model
 			throw new NotImplementedException();
 		}
 
-		public virtual void Accept(IModelToCode conv)
-		{
-			conv.Generate(this);
-		}
-
-		public override string ToString()
-		{
+		public override string ToString() {
 			// return _node.Value;
 			throw new NotImplementedException("Create :: ToString");
 		}
-
 	}
 }

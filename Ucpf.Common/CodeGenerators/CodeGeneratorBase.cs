@@ -85,7 +85,7 @@ namespace Ucpf.Common.CodeGenerators {
 	}
 
 	[ContractClassFor(typeof(CodeGeneratorBase))]
-	abstract class CodeGeneratorBaseContract : CodeGeneratorBase {
+	internal abstract class CodeGeneratorBaseContract : CodeGeneratorBase {
 		protected override bool TreatTerminalSymbol(XElement element) {
 			Contract.Requires(element != null);
 			throw new NotImplementedException();

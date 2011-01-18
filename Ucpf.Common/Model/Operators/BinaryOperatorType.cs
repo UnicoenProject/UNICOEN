@@ -7,10 +7,10 @@
 		Division,
 		Modulo,
 		// Shift
-		LeftShift,		// <<< in Java
-		RightShift,		// nothing in Java
-		LeftRotate,		// << in Java
-		RightRotate,	// >> in Java
+		LeftShift, // <<< in Java
+		RightShift, // nothing in Java
+		LeftRotate, // << in Java
+		RightRotate, // >> in Java
 		// Comparison
 		Greater,
 		GreaterEqual,
@@ -22,9 +22,9 @@
 		LogicalAnd,
 		LogicalOr,
 		// Bit
-		BitAnd,			// &
-		BitOr,			// |
-		BitXor,			// ^
+		BitAnd, // &
+		BitOr, // |
+		BitXor, // ^
 		// Assignment
 		Assignment,
 		// TODO :: add other 'compound' assignment operator (e.g. +=

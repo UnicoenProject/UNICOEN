@@ -2,33 +2,27 @@
 using System.Xml.Linq;
 using Ucpf.Common.CodeGenerators;
 
-namespace Ucpf.Languages.C
-{
+namespace Ucpf.Languages.C {
 	[Export(typeof(CodeGenerator))]
-	public class CCodeGenerator : CodeGeneratorBase
-	{
+	public class CCodeGenerator : CodeGeneratorBase {
 		private static CCodeGenerator _instance;
-		public static CCodeGenerator Instance
-		{
+
+		private CCodeGenerator() {}
+
+		public static CCodeGenerator Instance {
 			get { return _instance ?? (_instance = new CCodeGenerator()); }
 		}
 
-		private CCodeGenerator() { }
-
-		public override string ParserName
-		{
+		public override string ParserName {
 			get { return "C"; }
 		}
 
-		public override string DefaultExtension
-		{
+		public override string DefaultExtension {
 			get { return new[] { ".c" }[0]; }
 		}
 
-		protected override bool TreatTerminalSymbol(XElement element)
-		{
-			switch (element.Value)
-			{
+		protected override bool TreatTerminalSymbol(XElement element) {
+			switch (element.Value) {
 			case ";":
 				WriteLine(";");
 				break;
@@ -51,5 +45,3 @@ namespace Ucpf.Languages.C
 		}
 	}
 }
-
-

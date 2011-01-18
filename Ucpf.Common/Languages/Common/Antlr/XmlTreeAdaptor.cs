@@ -3,8 +3,7 @@ using System.Xml.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 
-namespace Ucpf.Common.Languages.Common.Antlr
-{
+namespace Ucpf.Common.Languages.Common.Antlr {
 	public class XmlTreeAdaptor : CommonTreeAdaptor {
 		public object Create(IToken payload, XParserRuleReturnScope parent) {
 			Contract.Requires(parent != null);
@@ -20,8 +19,7 @@ namespace Ucpf.Common.Languages.Common.Antlr
 		}
 
 		public void AddChild(object t, object child, XParserRuleReturnScope target,
-							 XParserRuleReturnScope parent)
-		{
+		                     XParserRuleReturnScope parent) {
 			Contract.Requires(parent != null);
 			parent.Element.Add(target.Element);
 			base.AddChild(t, child);

@@ -1,50 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Xml;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public abstract class CExpression : IExpression
-	{
+namespace Ucpf.Languages.C.Model {
+	public abstract class CExpression : IExpression {
 		// constructor
-		protected CExpression() { }
 
-		public static CExpression Create(XElement expNode)
-		{
+		#region IExpression Members
+
+		public virtual void Accept(IModelToCode conv) {
+			conv.Generate(this);
+		}
+
+		#endregion
+
+		public static CExpression Create(XElement expNode) {
 			/*
 			 * TODO :: implement array reference expressions (ary[]) and dot(.) / arrow(->) operations
 			 * 
 			 * Suspicious :: is swiching order correct ?
 			 * */
 
-
 			// fnode is the first node which has more than 2 children nodes
 			// or which has only one "TOKEN" node as child node.
-			string[] binaryOperator = {"*", "/", "%", "+", "-",
-											"<<", ">>", "&", "|", "^", "~",
-											"=", "+=", "-=", "*=", "/=",
-											"<=", "<", ">=", ">", "==", "!=",
-											"&&", "||"};
+			string[] binaryOperator = {
+				"*", "/", "%", "+", "-",
+				"<<", ">>", "&", "|", "^", "~",
+				"=", "+=", "-=", "*=", "/=",
+				"<=", "<", ">=", ">", "==", "!=",
+				"&&", "||"
+			};
 			// may not be used
 			string[] tripleOperator = { };
 			string[] unaryOperator = { };
 
-
 			var fnode =
-				expNode.Descendants().Where(e =>
-				{
+				expNode.Descendants().Where(e => {
 					var cnt = (e.Elements()).Count();
 					return cnt > 1
-						|| (cnt == 1
-							&& (e.Element("TOKEN") != null
-								|| e.Element("IDENTIFIER") != null));
+					       || (cnt == 1
+					           && (e.Element("TOKEN") != null
+					               || e.Element("IDENTIFIER") != null));
 				}).First();
 
 			// TODO : the 'if-elseif' switching below must be converted into 'switch-case' switching
@@ -52,56 +50,53 @@ namespace Ucpf.Languages.C.Model
 			// case : primary expression :: method_invocation or string
 			var nodeName = fnode.Name.LocalName;
 
-			switch (nodeName)
-			{
+			switch (nodeName) {
 				// primary :: numeric_constant or variable_name:string
-				case "primary_expression":
-					return new CPrimaryExpression(fnode);
+			case "primary_expression":
+				return new CPrimaryExpression(fnode);
 
 				// case : assisgnment(e.g. a = 3)
-				case "assignment_expression":
-					var elements = fnode.Elements();
-					var lNode = elements.ElementAt(0);
-					var aOpeNode = elements.ElementAt(1);
-					var rNode = elements.ElementAt(2);
-					return new CAssignmentExpression(
-						lNode,
-						CAssignmentOperator.Create(aOpeNode),
-						rNode);
+			case "assignment_expression":
+				var elements = fnode.Elements();
+				var lNode = elements.ElementAt(0);
+				var aOpeNode = elements.ElementAt(1);
+				var rNode = elements.ElementAt(2);
+				return new CAssignmentExpression(
+					lNode,
+					CAssignmentOperator.Create(aOpeNode),
+					rNode);
 				// case : numeric constant))
-				case "constant":
-					return new CPrimaryExpression(fnode);
+			case "constant":
+				return new CPrimaryExpression(fnode);
 
 				// case : unary expression
-				case "prefix_expression":
-					// var sw = fnode.Element("postfix_expression").Element("TOKEN");
-					var preOpeNode = fnode.Elements().ElementAt(0);
-					return new CUnaryExpression(
-						CUnaryOperator.CreatePrefix(preOpeNode),
-						fnode.Elements().ElementAt(1));
+			case "prefix_expression":
+				// var sw = fnode.Element("postfix_expression").Element("TOKEN");
+				var preOpeNode = fnode.Elements().ElementAt(0);
+				return new CUnaryExpression(
+					CUnaryOperator.CreatePrefix(preOpeNode),
+					fnode.Elements().ElementAt(1));
 
-				case "postfix_expression":
-					var token = fnode.Element("TOKEN");
-					// case : method_invocation
-					if (token != null && token.Value == "(")
-					{
-						return new CInvocationExpression(fnode);
-					}
+			case "postfix_expression":
+				var token = fnode.Element("TOKEN");
+				// case : method_invocation
+				if (token != null && token.Value == "(") {
+					return new CInvocationExpression(fnode);
+				}
 
-					// case : postfix expression (e.g. y++
-					var postOpeNode = fnode.Elements().ElementAt(1);
-					return new CUnaryExpression(
-						CUnaryOperator.CreatePostfix(postOpeNode),
-						fnode.Elements().ElementAt(0));
-					// TODO :: array reference expression etc...
+				// case : postfix expression (e.g. y++
+				var postOpeNode = fnode.Elements().ElementAt(1);
+				return new CUnaryExpression(
+					CUnaryOperator.CreatePostfix(postOpeNode),
+					fnode.Elements().ElementAt(0));
+				// TODO :: array reference expression etc...
 			}
 
 			// case : binary expression
 			// else if (fnode.Elements().Count() == 3)
 			// {
 			var ope = fnode.Elements().ElementAt(1);
-			if (ope != null && binaryOperator.Contains(ope.Value))
-			{
+			if (ope != null && binaryOperator.Contains(ope.Value)) {
 				return new CBinaryExpression(
 					fnode.Elements().ElementAt(0),
 					CBinaryOperator.Create(ope),
@@ -109,21 +104,14 @@ namespace Ucpf.Languages.C.Model
 			}
 			// }	
 			throw new InvalidOperationException();
-
 		}
 
-
-		public override string ToString()
-		{
+		public override string ToString() {
 			// return _node.Value;
 			// throw new NotImplementedException("Create :: ToString");
 			return "";
 		}
 
 		// acceptor
-		public virtual void Accept(IModelToCode conv)
-		{
-			conv.Generate(this);
-		}
 	}
 }

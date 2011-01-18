@@ -8,52 +8,45 @@ using Ucpf.Common.AstGenerators;
 using Ucpf.Common.Languages.Common.Antlr;
 using Ucpf.Common.Weavers;
 
-namespace Ucpf.Languages.JavaScript
-{
+namespace Ucpf.Languages.JavaScript {
 	[Export(typeof(AstGenerator))]
-	public class JavaScriptAstGenerator : AntlrAstGenerator<JavaScriptParser>
-	{
+	public class JavaScriptAstGenerator : AntlrAstGenerator<JavaScriptParser> {
 		private static JavaScriptAstGenerator _instance;
-		public static JavaScriptAstGenerator Instance
-		{
+
+		private JavaScriptAstGenerator() {}
+
+		public static JavaScriptAstGenerator Instance {
 			get { return _instance ?? (_instance = new JavaScriptAstGenerator()); }
 		}
 
-		private JavaScriptAstGenerator() { }
-
-		protected override Func<JavaScriptParser, XParserRuleReturnScope> DefaultParseFunc {
+		protected override Func<JavaScriptParser, XParserRuleReturnScope>
+			DefaultParseFunc {
 			get { return parser => parser.program(); }
 		}
 
-		public override string ParserName
-		{
+		public override string ParserName {
 			get { return "JavaScript"; }
 		}
 
-		public override IEnumerable<string> TargetExtensions
-		{
+		public override IEnumerable<string> TargetExtensions {
 			get { return new[] { ".js" }; }
 		}
 
-		public void ArrangeAst(XElement ast)
-		{
+		public void ArrangeAst(XElement ast) {
 			var nodes = GetLackingBlockNodes(ast);
 			Weaver.SafeWeaveAround(nodes,
 				node => AntlrBlockGenerator.Generate(node, this));
 		}
 
-		protected override ITokenSource CreateTokenSource(ICharStream stream)
-		{
+		protected override ITokenSource CreateTokenSource(ICharStream stream) {
 			return new JavaScriptLexer(stream);
 		}
 
-		protected override JavaScriptParser CreateParser(ITokenStream tokenStream)
-		{
+		protected override JavaScriptParser CreateParser(ITokenStream tokenStream) {
 			return new JavaScriptParser(tokenStream);
 		}
 
-		private static IEnumerable<XElement> GetLackingBlockNodes(XElement root)
-		{
+		private static IEnumerable<XElement> GetLackingBlockNodes(XElement root) {
 			var ifs = JavaScriptElements.If(root)
 				.SelectMany(JavaScriptElements.IfAndElseProcesses);
 			var whiles = JavaScriptElements.While(root)
