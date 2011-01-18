@@ -72,6 +72,11 @@ namespace Ucpf.Languages.JavaScript.Model {
 			//TrueBlock
 			jsIfStatement.TrueBlock.Accept(this);
 
+			//FalseBlock
+			_writer.Write(Tabs(_depth));
+			_writer.Write("else");
+			jsIfStatement.FalseBlock.Accept(this);
+
 			//TODO need to adjust for IIfStatement
 			//ElseBlock
 			//			foreach (var statement in jsIfStatement.ElseBlock) {

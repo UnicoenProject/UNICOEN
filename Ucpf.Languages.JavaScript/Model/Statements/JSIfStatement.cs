@@ -47,7 +47,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		IBlock IIfStatement.FalseBlock {
-			get { return null; }
+			get { return (IBlock)ElseBlock.First(); }
 			set { throw new NotImplementedException(); }
 		}
 
