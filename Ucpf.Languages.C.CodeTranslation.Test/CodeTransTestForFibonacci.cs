@@ -27,10 +27,10 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 		private JSFunction _jsfunc; 
 
 		private static readonly string CInputPath =
-			Path.Combine(Settings.GetInputDirPath("C"), "fibonacci.c");
+			Fixture.GetInputPath("C", "fibonacci.c");
 
 		private static readonly string JSInputPath =
-			Path.Combine(Settings.GetInputDirPath("JavaScript"), "fibonacci.js");
+			Fixture.GetInputPath("JavaScript", "fibonacci.js");
 
 		[SetUp]
 		public void SetUp()
