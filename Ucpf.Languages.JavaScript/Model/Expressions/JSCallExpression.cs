@@ -14,54 +14,52 @@ namespace Ucpf.Languages.JavaScript.Model {
 	// arguments
 	// : '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* ')'
 
-	public class JSCallExpression : JSExpression, ICallExpression 
-	{
+	public class JSCallExpression : JSExpression, ICallExpression {
 		//properties
-		public String Identifier { get; private set; }
-		public IList<IExpression> Arguments { get; private set;}
-	
-		//constructor
-		public JSCallExpression(XElement node)
-		{
+		public JSCallExpression(XElement node) {
 			//Identifier
-			Identifier = node.Descendants().Where(e => {
-				return e.Name.LocalName == "Identifier";
-			}).First().Value;
+			Identifier =
+				node.Descendants().Where(e => { return e.Name.LocalName == "Identifier"; }).
+					First().Value;
 
 			//TODO want to ignore TOKEN under "arguments"
 			//Arguments
-			Arguments = node.Element("arguments").Elements().Where(e => e.Name.LocalName != "TOKEN")
-				.Select(e2 => JSExpression.CreateExpression(e2)).Cast<IExpression>().ToList();
+			Arguments =
+				node.Element("arguments").Elements().Where(e => e.Name.LocalName != "TOKEN")
+					.Select(e2 => CreateExpression(e2)).Cast<IExpression>().ToList();
 		}
 
+		public String Identifier { get; private set; }
+		public IList<IExpression> Arguments { get; private set; }
+
+		//constructor
+
 		//function
+
+		#region ICallExpression Members
+
 		public override void Accept(IModelToCode conv) {
 			conv.Generate(this);
 		}
 
-		public override string ToString()
-		{
-			var argumentList = "";
-			foreach(JSExpression arg in Arguments) {
-				argumentList += arg.ToString();
-			}
- 			return Identifier + "(" + argumentList + ")";
-		}
-
 		//Common-Interface
 		string ICallExpression.FunctionName {
-			get {
-				return Identifier;
-			}
-			set {
-				throw new NotImplementedException();
-			}
+			get { return Identifier; }
+			set { throw new NotImplementedException(); }
 		}
 
 		IList<IExpression> ICallExpression.Arguments {
-			get {
-				return Arguments;
+			get { return Arguments; }
+		}
+
+		#endregion
+
+		public override string ToString() {
+			var argumentList = "";
+			foreach (JSExpression arg in Arguments) {
+				argumentList += arg.ToString();
 			}
+			return Identifier + "(" + argumentList + ")";
 		}
 	}
 }

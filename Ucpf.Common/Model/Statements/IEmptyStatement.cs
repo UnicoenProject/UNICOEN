@@ -1,6 +1,3 @@
-﻿namespace Ucpf.Common.Model
-{
-	public interface IEmptyStatement : IExpressionStatement
-	{
-	}
+﻿namespace Ucpf.Common.Model {
+	public interface IEmptyStatement : IExpressionStatement {}
 }

@@ -3,43 +3,35 @@ using System.ComponentModel.Composition;
 using Ucpf.Common;
 using Ucpf.Common.AstGenerators;
 
-namespace Ucpf.Languages.Python2
-{
+namespace Ucpf.Languages.Python2 {
 	[Export(typeof(AstGenerator))]
-	public class Python2AstGenerator : ExternalAstGenerator
-	{
+	public class Python2AstGenerator : ExternalAstGenerator {
 		private static Python2AstGenerator _instance;
-		public static Python2AstGenerator Instance
-		{
-			get { return _instance ?? (_instance = new Python2AstGenerator()); }
-		}
-
-		private Python2AstGenerator() { }
 
 		private static readonly string[] PrivateArguments = new[] {
 			"ParserScripts/Python2/ast2xml.py",
 		};
 
-		protected override string ProcessorPath
-		{
+		private Python2AstGenerator() {}
+
+		public static Python2AstGenerator Instance {
+			get { return _instance ?? (_instance = new Python2AstGenerator()); }
+		}
+
+		protected override string ProcessorPath {
 			get { return ConfigReader.Python2(); }
 		}
 
-		protected override string[] Arguments
-		{
+		protected override string[] Arguments {
 			get { return PrivateArguments; }
 		}
 
-		public override string ParserName
-		{
+		public override string ParserName {
 			get { return "Python2"; }
 		}
 
-		public override IEnumerable<string> TargetExtensions
-		{
+		public override IEnumerable<string> TargetExtensions {
 			get { return new[] { ".py" }; }
 		}
 	}
 }
-
-

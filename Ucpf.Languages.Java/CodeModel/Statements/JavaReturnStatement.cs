@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ucpf.Languages.Java.CodeModel.Expressions;
+﻿using Ucpf.Languages.Java.CodeModel.Expressions;
 
-namespace Ucpf.Languages.Java.CodeModel
-{
-    public class JavaReturnStatement : JavaStatement
-    {
-        JavaExpression ReturnExpression;
-    }
+namespace Ucpf.Languages.Java.CodeModel {
+	public class JavaReturnStatement : JavaStatement {
+		private JavaExpression ReturnExpression;
+	}
 }

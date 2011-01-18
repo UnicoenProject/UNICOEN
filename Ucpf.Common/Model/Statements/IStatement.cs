@@ -1,6 +1,3 @@
-﻿namespace Ucpf.Common.Model
-{
-	public interface IStatement : ICodeElement
-	{
-	}
+﻿namespace Ucpf.Common.Model {
+	public interface IStatement : ICodeElement {}
 }

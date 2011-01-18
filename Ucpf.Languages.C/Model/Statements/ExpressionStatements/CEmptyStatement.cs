@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ucpf.Common.Model;
+﻿using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public class CEmptyStatement : CExpressionStatement, IEmptyStatement
-	{
-		public CEmptyStatement()
-		{
-		}
+namespace Ucpf.Languages.C.Model {
+	public class CEmptyStatement : CExpressionStatement, IEmptyStatement {
+		#region IEmptyStatement Members
 
-		public override string ToString()
-		{
-			return ";";
-		}
-
-		public void Accept(IModelToCode conv)
-		{
+		public void Accept(IModelToCode conv) {
 			conv.Generate(this);
+		}
+
+		#endregion
+
+		public override string ToString() {
+			return ";";
 		}
 	}
 }

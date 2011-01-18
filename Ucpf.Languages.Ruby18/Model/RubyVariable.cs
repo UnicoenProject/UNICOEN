@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
@@ -14,6 +11,8 @@ namespace Ucpf.Languages.Ruby18.Model {
 			Name = symbol.Value;
 		}
 
+		#region IVariable Members
+
 		public void Accept(IModelToCode conv) {
 			conv.Generate(this);
 		}
@@ -24,5 +23,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			get { return null; }
 			set { new NotSupportedException(); }
 		}
+
+		#endregion
 	}
 }

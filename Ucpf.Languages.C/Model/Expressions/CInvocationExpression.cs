@@ -1,39 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public class CInvocationExpression : CExpression, ICallExpression
-	{
+namespace Ucpf.Languages.C.Model {
+	public class CInvocationExpression : CExpression, ICallExpression {
 		// properties
-		public string FunctionName { get; set; }
-		public IList<IExpression> Arguments { get; private set; }
-
-		// constructor
-		public CInvocationExpression(XElement node)
-		{
+		public CInvocationExpression(XElement node) {
 			// FunctionName
 			FunctionName = node.Element("primary_expression").Element("IDENTIFIER").Value;
 
 			// Arguments
 			Arguments = node.Element("argument_expression_list").Elements()
-					.Select(Create)
-					.Cast<IExpression>()
-					.ToList();
+				.Select(Create)
+				.Cast<IExpression>()
+				.ToList();
 		}
-		
 
-		public override string ToString()
-		{
+		#region ICallExpression Members
+
+		public string FunctionName { get; set; }
+		public IList<IExpression> Arguments { get; private set; }
+
+		// constructor
+
+		// acceptor
+		public override void Accept(IModelToCode conv) {
+			conv.Generate(this);
+		}
+
+		#endregion
+
+		public override string ToString() {
 			string str = FunctionName + "(";
-			foreach (CExpression ex in Arguments)
-			{
+			foreach (CExpression ex in Arguments) {
 				str += ex.ToString();
 				str += ",";
 			}
@@ -42,12 +43,5 @@ namespace Ucpf.Languages.C.Model
 
 			return str;
 		}
-
-		// acceptor
-		public override void Accept(IModelToCode conv)
-		{
-			conv.Generate(this);
-		}
 	}
 }
-

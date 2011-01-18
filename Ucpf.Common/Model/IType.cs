@@ -1,7 +1,5 @@
-﻿namespace Ucpf.Common.Model
-{
-	public interface IType : ICodeElement
-	{
+﻿namespace Ucpf.Common.Model {
+	public interface IType : ICodeElement {
 		string Name { get; set; }
 	}
 }

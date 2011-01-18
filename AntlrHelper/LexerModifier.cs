@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Paraiba.Text;
 
-namespace AntlrHelper
-{
+namespace AntlrHelper {
 	public static class LexerModifier {
 		public static void Modify(string path) {
 			Contract.Requires(path != null);

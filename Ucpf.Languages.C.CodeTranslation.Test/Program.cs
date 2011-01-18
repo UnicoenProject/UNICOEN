@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ucpf.Languages.C.CodeTranslation.Test
-{
-	class Program
-	{
-		static void Main(string[] args)
-		{
-		}
+﻿namespace Ucpf.Languages.C.CodeTranslation.Test {
+	internal class Program {
+		private static void Main(string[] args) {}
 	}
 }

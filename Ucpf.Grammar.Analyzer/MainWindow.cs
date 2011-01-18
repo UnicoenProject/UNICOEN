@@ -4,20 +4,16 @@ using System.Windows.Forms;
 using Paraiba.Collections.Generic;
 using Paraiba.Core;
 
-namespace Ucpf.Grammar.Analyzer
-{
-	public partial class MainWindow : Form
-	{
+namespace Ucpf.Grammar.Analyzer {
+	public partial class MainWindow : Form {
 		private const int MaxRepeat = 2;
 		private IDictionary<Symbol, ISymbol> _symbolTable;
 
-		public MainWindow()
-		{
+		public MainWindow() {
 			InitializeComponent();
 		}
 
-		public void PrintGrammar(IDictionary<Symbol, ISymbol> symbolTable)
-		{
+		public void PrintGrammar(IDictionary<Symbol, ISymbol> symbolTable) {
 			_symbolTable = symbolTable;
 			foreach (var symbol in symbolTable.Keys) {
 				var node = new SymbolNode(symbol, _symbolTable);
@@ -26,8 +22,7 @@ namespace Ucpf.Grammar.Analyzer
 			}
 		}
 
-		private void GrammarAnalyzer_Load(object sender, EventArgs ea)
-		{
+		private void GrammarAnalyzer_Load(object sender, EventArgs ea) {
 			var a = new Symbol("A");
 			var b = new Symbol("B");
 			var c = new Symbol("C");
@@ -43,13 +38,12 @@ namespace Ucpf.Grammar.Analyzer
 				new OrSymbol(e, f)
 				);
 			var table = new Dictionary<Symbol, ISymbol> {
-			    { a, exp },
+				{ a, exp },
 			};
 			PrintGrammar(table);
 		}
 
-		private void AddChild(SymbolNode parent, SymbolNode node)
-		{
+		private void AddChild(SymbolNode parent, SymbolNode node) {
 			node.ChildAdded = true;
 
 			if (node.Symbol != null) {
@@ -63,8 +57,7 @@ namespace Ucpf.Grammar.Analyzer
 						.JoinString(" ");
 					node.Nodes.Add(new SymbolNode(text));
 				}
-			}
-			else {
+			} else {
 				var replaceSymbol = _symbolTable[parent.Symbol];
 				var symbols = replaceSymbol.Expand(node.Index, MaxRepeat);
 				foreach (var symbol in symbols) {
@@ -73,8 +66,7 @@ namespace Ucpf.Grammar.Analyzer
 			}
 		}
 
-		private void tvGrammar_BeforeExpand(object sender, TreeViewCancelEventArgs e)
-		{
+		private void tvGrammar_BeforeExpand(object sender, TreeViewCancelEventArgs e) {
 			var node = (SymbolNode)e.Node;
 			foreach (SymbolNode child in node.Nodes) {
 				if (child.ChildAdded)

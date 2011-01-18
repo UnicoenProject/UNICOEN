@@ -9,12 +9,6 @@ using Ucpf.Common.AstGenerators;
 using Ucpf.Common.Plugins;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.C;
-using Ucpf.Languages.CSharp;
-using Ucpf.Languages.Java;
-using Ucpf.Languages.JavaScript;
-using Ucpf.Languages.Lua;
-using Ucpf.Languages.Python2;
-using Ucpf.Languages.Python3;
 
 namespace Code2Xml.Tests {
 	[TestFixture]
@@ -26,22 +20,22 @@ namespace Code2Xml.Tests {
 				var langs = new[] {
 					new { Name = "C", Opt = "-C" },
 					new { Name = "CSharp", Opt = "-C#" },
-					new { Name = "Java", Opt = "-Java"},
-					new { Name = "JavaScript", Opt = "-JavaScript"},
-					new { Name = "Lua", Opt = "-Lua"},
-					new { Name = "Python2", Opt = "-Python2"},
-					new { Name = "Python3", Opt = "-Python3"},
-					new { Name = "Ruby18", Opt = "-Ruby18"},
-					new { Name = "Ruby19", Opt = "-Ruby19"},
+					new { Name = "Java", Opt = "-Java" },
+					new { Name = "JavaScript", Opt = "-JavaScript" },
+					new { Name = "Lua", Opt = "-Lua" },
+					new { Name = "Python2", Opt = "-Python2" },
+					new { Name = "Python3", Opt = "-Python3" },
+					new { Name = "Ruby18", Opt = "-Ruby18" },
+					new { Name = "Ruby19", Opt = "-Ruby19" },
 				};
 				return langs
 					.SelectMany(
 						lang => Directory.EnumerateFiles(Fixture.GetInputPath(lang.Name))
-									.Select(path => new { Name = lang.Name, Opt = lang.Opt, Path = path }))
+						        	.Select(path => new { lang.Name, lang.Opt, Path = path }))
 					.Select(p =>
-							new TestCaseData(p.Path, p.Opt,
-								PluginManager.AstGenerators.FirstOrDefault(
-									o => o.GetType().Name == p.Name + "AstGenerator")))
+					        new TestCaseData(p.Path, p.Opt,
+					        	PluginManager.AstGenerators.FirstOrDefault(
+					        		o => o.GetType().Name == p.Name + "AstGenerator")))
 					.Where(t => t.Arguments[2] != null);
 			}
 		}

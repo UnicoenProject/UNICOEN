@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
+﻿using System.Diagnostics.Contracts;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Paraiba.Text;
 
-namespace AntlrHelper
-{
-	public static class ParserModifier
-	{
-		private static readonly Regex SystemOutRegex = new Regex(@"System\.out\.println[^;]+;");
-		private static readonly Regex NonTerminalRegex = new Regex(@"adaptor\.AddChild\(([^,]*), (.*)\.Tree\)");
-		private static readonly Regex TerminalRegex = new Regex(@"adaptor\.Create\(([^),]*)\)");
-		private static readonly Regex MatchRegex = new Regex(@"Match\(input,([^\d][^,]*),[^)]*\)");
+namespace AntlrHelper {
+	public static class ParserModifier {
+		private static readonly Regex SystemOutRegex =
+			new Regex(@"System\.out\.println[^;]+;");
+
+		private static readonly Regex NonTerminalRegex =
+			new Regex(@"adaptor\.AddChild\(([^,]*), (.*)\.Tree\)");
+
+		private static readonly Regex TerminalRegex =
+			new Regex(@"adaptor\.Create\(([^),]*)\)");
+
+		private static readonly Regex MatchRegex =
+			new Regex(@"Match\(input,([^\d][^,]*),[^)]*\)");
 
 		public static void Modify(string path) {
 			Contract.Requires(path != null);
@@ -58,7 +59,8 @@ namespace AntlrHelper
 		public static string ModifyForNonTerminalNode(string code) {
 			Contract.Requires(code != null);
 
-			return NonTerminalRegex.Replace(code, @"adaptor.AddChild($1, $2.Tree, $2, retval)");
+			return NonTerminalRegex.Replace(code,
+				@"adaptor.AddChild($1, $2.Tree, $2, retval)");
 		}
 
 		public static string ModifyForTerminalNode(string code) {

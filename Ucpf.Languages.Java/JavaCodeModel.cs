@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using Ucpf.Languages.Java.CodeModel;
-
-namespace Ucpf.Languages.Java
-{
-    /*
+﻿namespace Ucpf.Languages.Java {
+	/*
     public class FunctionDeclaration
     {
         private XElement _node;
@@ -55,7 +47,7 @@ namespace Ucpf.Languages.Java
         }
     }
      * */
-    /*
+	/*
     class FunctionInvocation
     {
         String FunctionName;
@@ -63,7 +55,7 @@ namespace Ucpf.Languages.Java
     }
      */
 
-    /*
+	/*
     class Variable
     {
         String Identifier;
@@ -75,16 +67,15 @@ namespace Ucpf.Languages.Java
     }
      */
 
-    class Value
-    {
-        //nothing
-    }
+	internal class Value {
+		//nothing
+	}
 
-    class Integer : Value
-    {
-        int NumericalValue;
-    }
-    /*
+	internal class Integer : Value {
+		private int NumericalValue;
+	}
+
+	/*
     internal class Block
     {
         private XElement _node;
@@ -110,13 +101,13 @@ namespace Ucpf.Languages.Java
     }
     */
 
-    /*
+	/*
     class Statement
     {
         //nothing
     }*/
 
-    /*
+	/*
     class IfStatement : Statement
     {
         Expression ConditionalExpression;
@@ -124,27 +115,27 @@ namespace Ucpf.Languages.Java
         Block ElseBlock;
     }*/
 
-    /*
+	/*
     class ReturnStatement : Statement
     {
         Expression ReturnExpression;
     }
      */
 
-    /*
+	/*
     class Expression
     {
         //nothing
     }
      */
-    /*
+	/*
     class UnaryExpression : Expression
     {
         Operator Operator;
         Value Value;
     }
      */
-    /*
+	/*
     class BinaryExpression : Expression
     {
         Operator Operator;
@@ -152,7 +143,7 @@ namespace Ucpf.Languages.Java
         Value rValue;
     }
     */
-    /*
+	/*
     class Operator
     {
         String OperatorName;

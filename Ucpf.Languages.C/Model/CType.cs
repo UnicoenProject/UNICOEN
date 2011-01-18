@@ -1,33 +1,29 @@
-﻿using Ucpf.Common.Model;
+﻿using System;
+using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public class CType : IType
-	{
-		public string Name { get; set; }
-
+namespace Ucpf.Languages.C.Model {
+	public class CType : IType {
 		// constructor
-		public CType(string name)
-		{
+		public CType(string name) {
 			Name = name;
 		}
 
+		public string Name { get; set; }
+
 		// acceptor
+
+		#region IType Members
+
 		public void Accept(IModelToCode conv) {
 			conv.Generate(this);
 		}
 
-		string IType.Name
-		{
-			get
-			{
-				return Name;
-			}
-			set
-			{
-				throw new System.NotImplementedException();
-			}
+		string IType.Name {
+			get { return Name; }
+			set { throw new NotImplementedException(); }
 		}
+
+		#endregion
 	}
 }

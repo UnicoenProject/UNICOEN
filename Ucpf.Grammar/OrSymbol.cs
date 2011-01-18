@@ -2,29 +2,24 @@
 using System.Linq;
 using Paraiba.Core;
 
-namespace Ucpf.Grammar
-{
-	public class OrSymbol : ISymbol
-	{
+namespace Ucpf.Grammar {
+	public class OrSymbol : ISymbol {
 		private readonly IEnumerable<ISymbol> _symbols;
 
-		public OrSymbol(IEnumerable<ISymbol> symbols)
-		{
+		public OrSymbol(IEnumerable<ISymbol> symbols) {
 			_symbols = symbols;
 		}
 
 		public OrSymbol(params ISymbol[] symbols)
-			: this((IEnumerable<ISymbol>)symbols)
-		{
-		}
+			: this((IEnumerable<ISymbol>)symbols) {}
 
-		public int GetCount(int maxRepeat)
-		{
+		#region ISymbol Members
+
+		public int GetCount(int maxRepeat) {
 			return _symbols.Sum(s => s.GetCount(maxRepeat));
 		}
 
-		public IEnumerable<Symbol> Expand(int index, int maxRepeat)
-		{
+		public IEnumerable<Symbol> Expand(int index, int maxRepeat) {
 			foreach (var symbol in _symbols) {
 				var count = symbol.GetCount(maxRepeat);
 				if (index < count) {
@@ -35,8 +30,9 @@ namespace Ucpf.Grammar
 			return null;
 		}
 
-		public override string ToString()
-		{
+		#endregion
+
+		public override string ToString() {
 			return "(" + _symbols.JoinString(" | ") + ")";
 		}
 	}

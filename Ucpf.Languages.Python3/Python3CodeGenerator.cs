@@ -2,31 +2,26 @@
 using System.Xml.Linq;
 using Ucpf.Common.CodeGenerators;
 
-namespace Ucpf.Languages.Python3
-{
+namespace Ucpf.Languages.Python3 {
 	[Export(typeof(CodeGenerator))]
-	public class Python3CodeGenerator : CodeGeneratorBase
-	{
+	public class Python3CodeGenerator : CodeGeneratorBase {
 		private static Python3CodeGenerator _instance;
-		public static Python3CodeGenerator Instance
-		{
+
+		private Python3CodeGenerator() {}
+
+		public static Python3CodeGenerator Instance {
 			get { return _instance ?? (_instance = new Python3CodeGenerator()); }
 		}
 
-		private Python3CodeGenerator() { }
-
-		public override string ParserName
-		{
+		public override string ParserName {
 			get { return "Python3"; }
 		}
 
-		public override string DefaultExtension
-		{
+		public override string DefaultExtension {
 			get { return new[] { ".py" }[0]; }
 		}
 
-		protected override bool TreatTerminalSymbol(XElement element)
-		{
+		protected override bool TreatTerminalSymbol(XElement element) {
 			switch (element.Name.LocalName) {
 			case "NEWLINE":
 				WriteLine();
@@ -48,5 +43,3 @@ namespace Ucpf.Languages.Python3
 		}
 	}
 }
-
-

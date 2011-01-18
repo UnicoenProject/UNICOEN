@@ -4,7 +4,7 @@ namespace Ucpf.Common.ModelToCode {
 	public interface IModelToCode {
 		// Function
 		void Generate(IFunction func);
-		
+
 		// Expression
 		void Generate(IExpression exp);
 		void Generate(IBinaryExpression exp);
@@ -18,7 +18,7 @@ namespace Ucpf.Common.ModelToCode {
 		void Generate(IBinaryOperator op);
 		void Generate(IUnaryOperator op);
 		void Generate(IAssignmentOperator op);
-		
+
 		// Statement
 		void Generate(IStatement stmt);
 		void Generate(IIfStatement stmt);

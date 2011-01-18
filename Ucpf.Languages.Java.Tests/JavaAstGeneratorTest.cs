@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using NUnit.Framework;
 using Ucpf.Common.Tests;
 
-namespace Ucpf.Languages.Java.Tests
-{
+namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
-	public class JavaAstGeneratorTest
-	{
+	public class JavaAstGeneratorTest {
 		private static readonly string InputPath =
 			Path.Combine(Fixture.GetFailedInputPath("Java"), "fibonacci.java");
 

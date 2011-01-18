@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using NUnit.Framework;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.C;
 using Ucpf.Languages.C.Model;
@@ -9,20 +10,24 @@ using Ucpf.Languages.Ruby18.Model;
 namespace Ucpf.Languages.Ruby18.Tests {
 	[TestFixture]
 	public class RubyModelCodeTest {
-		private RubyModelToCode _rmtc;
-		private StringWriter _writer;
-		private CFunction _func;
+		#region Setup/Teardown
 
 		[SetUp]
 		public void SetUp() {
 			_writer = new StringWriter();
 			_rmtc = new RubyModelToCode(_writer, 0);
 			_func = new CFunction(
-						CAstGenerator.Instance.GenerateFromFile(
-							Fixture.GetInputPath("C", "fibonacci2.c"))
-						.Descendants("function_definition")
-						.First());
+				CAstGenerator.Instance.GenerateFromFile(
+					Fixture.GetInputPath("C", "fibonacci2.c"))
+					.Descendants("function_definition")
+					.First());
 		}
+
+		#endregion
+
+		private RubyModelToCode _rmtc;
+		private StringWriter _writer;
+		private CFunction _func;
 
 		[Test]
 		public void 型を正しくコードに変換できる() {
@@ -42,8 +47,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 			//			}
 
 			// DebugPrint
-			System.Diagnostics.Debug.WriteLine(actual);
-
+			Debug.WriteLine(actual);
 		}
 	}
 }

@@ -1,53 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.JavaScript.Model
-{
+namespace Ucpf.Languages.JavaScript.Model {
 	// statementBlock
 	// : '{' LT!* statementList? LT!* '}'
-	
-    // statementList
+
+	// statementList
 	// : statement (LT!* statement)*
 
-	public class JSBlock : JSStatement, IBlock
-	{
+	public class JSBlock : JSStatement, IBlock {
 		//property
-		public IList<IStatement> Statements { get; private set; }
 
 		//constructor
-		public JSBlock(XElement xElement)
-		{
+		public JSBlock(XElement xElement) {
 			//TODO null check
 			Statements = xElement.Element("statementList").Elements("statement")
-				.Select(e => JSStatement.CreateStatement(e)).Cast<IStatement>().ToList();
+				.Select(e => CreateStatement(e)).Cast<IStatement>().ToList();
 		}
 
+		public IList<IStatement> Statements { get; private set; }
+
 		//function
-		public override void Accept(IModelToCode conv)
-		{
+
+		#region IBlock Members
+
+		public override void Accept(IModelToCode conv) {
 			conv.Generate((IBlock)this);
 		}
-		
+
+		//Common-Interface
+		IList<IStatement> IBlock.Statements {
+			get { return Statements; }
+		}
+
+		#endregion
+
 		public override string ToString() {
 			string str = null;
 			foreach (var stat in Statements) {
 				str += stat.ToString();
 			}
 			return str;
-		}
-
-		//Common-Interface
-		IList<IStatement> IBlock.Statements
-		{
-			get
-			{
-				return Statements;
-			}
 		}
 	}
 }

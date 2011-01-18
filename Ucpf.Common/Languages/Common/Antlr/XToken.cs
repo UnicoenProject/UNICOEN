@@ -1,7 +1,6 @@
 ﻿using Antlr.Runtime;
 
-namespace Ucpf.Common.Languages.Common.Antlr
-{
+namespace Ucpf.Common.Languages.Common.Antlr {
 	public class XToken : IToken {
 		private readonly IToken _token;
 
@@ -11,6 +10,8 @@ namespace Ucpf.Common.Languages.Common.Antlr
 		}
 
 		public string Name { private set; get; }
+
+		#region IToken Members
 
 		public int Type {
 			get { return _token.Type; }
@@ -41,5 +42,7 @@ namespace Ucpf.Common.Languages.Common.Antlr
 			get { return _token.Text; }
 			set { _token.Text = value; }
 		}
+
+		#endregion
 	}
 }

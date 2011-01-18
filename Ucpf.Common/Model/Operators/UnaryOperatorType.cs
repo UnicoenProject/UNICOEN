@@ -1,18 +1,17 @@
 ﻿namespace Ucpf.Common.Model {
-	public enum UnaryOperatorType
-	{
+	public enum UnaryOperatorType {
 		PrefixIncrement,
 		PrefixDecrement,
 		PostfixIncrement,
 		PostfixDecrement,
 		Plus,
 		Minus,
-		Not,				// LogicalReverse??
-		BitReverse,			// "~"
+		Not, // LogicalReverse??
+		BitReverse, // "~"
 
 		// used especially in C
-		Address,			// &
-		Indirect,			// *
+		Address, // &
+		Indirect, // *
 		Sizeof,
 	}
 }

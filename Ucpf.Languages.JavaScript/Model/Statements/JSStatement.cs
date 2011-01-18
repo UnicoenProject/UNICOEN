@@ -4,8 +4,7 @@ using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.JavaScript.Model
-{
+namespace Ucpf.Languages.JavaScript.Model {
 	// statement
 	// : statementBlock
 	// | variableStatement
@@ -22,12 +21,19 @@ namespace Ucpf.Languages.JavaScript.Model
 	// | throwStatement
 	// | tryStatement
 
-	public class JSStatement : IStatement
-	{
+	public class JSStatement : IStatement {
 		//constructor
-		public JSStatement() { }
 
 		//function
+
+		#region IStatement Members
+
+		public virtual void Accept(IModelToCode conv) {
+			conv.Generate(this);
+		}
+
+		#endregion
+
 		public static JSStatement CreateStatement(XElement xElement) {
 			var element = xElement.Elements().First();
 
@@ -47,12 +53,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			throw new NotImplementedException();
 		}
 
-		public virtual void Accept(IModelToCode conv) {
-			conv.Generate(this);
-		}
-
-		public override string ToString()
-		{
+		public override string ToString() {
 			//return _node.Value;
 			throw new NotImplementedException();
 		}

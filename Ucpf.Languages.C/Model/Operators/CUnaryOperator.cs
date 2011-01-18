@@ -1,33 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Xml;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
 
-namespace Ucpf.Languages.C.Model
-{
-	public class CUnaryOperator : COperator, IUnaryOperator
-	{
+namespace Ucpf.Languages.C.Model {
+	public class CUnaryOperator : COperator, IUnaryOperator {
 		// constructor
-		public CUnaryOperator(string sign, UnaryOperatorType type)
-		{
-			Sign = sign;
-			Type = type;
-		}
-
-		// acceptor
-		public void Accept(IModelToCode conv)
-		{
-			conv.Generate(this);
-		}
-
-		// properties
-		public string Sign { get; private set; }
-		public UnaryOperatorType Type { get; private set; }
 		private static readonly IDictionary<string, UnaryOperatorType> Sign2Type;
 
 		static CUnaryOperator() {
@@ -42,15 +20,40 @@ namespace Ucpf.Languages.C.Model
 			Sign2Type["*"] = UnaryOperatorType.Indirect;
 		}
 
-		public static CUnaryOperator CreatePrefix(XElement node)
-		{
+		public CUnaryOperator(string sign, UnaryOperatorType type) {
+			Sign = sign;
+			Type = type;
+		}
+
+		// acceptor
+
+		// properties
+		public string Sign { get; private set; }
+		public UnaryOperatorType Type { get; private set; }
+
+		#region IUnaryOperator Members
+
+		public void Accept(IModelToCode conv) {
+			conv.Generate(this);
+		}
+
+		string IUnaryOperator.Sign {
+			get { return Sign; }
+		}
+
+		UnaryOperatorType IUnaryOperator.Type {
+			get { return Type; }
+		}
+
+		#endregion
+
+		public static CUnaryOperator CreatePrefix(XElement node) {
 			var sign = node.Value;
 			var type = Sign2Type[sign];
 			return new CUnaryOperator(sign, type);
 		}
 
-		public static CUnaryOperator CreatePostfix(XElement node)
-		{
+		public static CUnaryOperator CreatePostfix(XElement node) {
 			// TODO: fix format setting
 			var sign = node.Value;
 			var type =
@@ -58,17 +61,6 @@ namespace Ucpf.Languages.C.Model
 					: sign == "--" ? UnaryOperatorType.PostfixDecrement
 					  	: Sign2Type[sign];
 			return new CUnaryOperator(sign, type);
-		}
-
-
-		string IUnaryOperator.Sign
-		{
-			get { return Sign; }
-		}
-
-		UnaryOperatorType IUnaryOperator.Type
-		{
-			get { return Type; }
 		}
 	}
 }

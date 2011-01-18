@@ -1,6 +1,3 @@
-﻿namespace Ucpf.Common.Model
-{
-	public interface IExpression : ICodeElement
-	{
-	}
+﻿namespace Ucpf.Common.Model {
+	public interface IExpression : ICodeElement {}
 }

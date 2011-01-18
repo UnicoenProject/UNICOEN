@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
-namespace AntlrHelper.Tests
-{
-	public class LexerModifierTest
-	{
+namespace AntlrHelper.Tests {
+	public class LexerModifierTest {
 		[Test]
 		public void JavaコードをCSharpコードに変換できる() {
 			const string code =
@@ -15,7 +9,6 @@ namespace AntlrHelper.Tests
 			const string expected =
 				"       Skip();";
 			Assert.That(LexerModifier.ModifyFromJavaToCSharp(code), Is.EqualTo(expected));
-
 		}
 	}
 }

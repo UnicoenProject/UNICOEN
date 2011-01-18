@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Paraiba.Text;
 
@@ -31,29 +31,25 @@ namespace Ucpf.Common.AstGenerators {
 	}
 
 	[ContractClassFor(typeof(AstGenerator))]
-	abstract class AstGeneratorContract : AstGenerator {
-
-		public override string ParserName
-		{
+	internal abstract class AstGeneratorContract : AstGenerator {
+		public override string ParserName {
 			get {
 				Contract.Ensures(Contract.Result<string>() != null);
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 		}
 
-		public override IEnumerable<string> TargetExtensions
-		{
+		public override IEnumerable<string> TargetExtensions {
 			get {
 				Contract.Ensures(Contract.Result<IEnumerable<string>>() != null);
 				Contract.Ensures(Contract.Result<IEnumerable<string>>().Count() > 0);
-				throw new System.NotImplementedException();
+				throw new NotImplementedException();
 			}
 		}
 
-		public override XElement Generate(TextReader reader)
-		{
+		public override XElement Generate(TextReader reader) {
 			Contract.Requires(reader != null);
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 	}
 }
