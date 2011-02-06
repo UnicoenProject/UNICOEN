@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PythonFibonacciTest.cs" />
     <Compile Include="PythonLiteralTest.cs" />
     <Compile Include="PythonModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
