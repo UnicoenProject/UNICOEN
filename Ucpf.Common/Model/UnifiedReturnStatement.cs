@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ucpf.Common.Model
 {
-    public class UnifiedReturnStatement : UnifiedStatement
+    public class UnifiedReturnStatement : UnifiedExpression
     {
     }
 }
