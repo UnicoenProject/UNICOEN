@@ -14,7 +14,8 @@ namespace Ucpf.Languages.Java.Tests
     [TestFixture]
     public class JavaParseLiteralTest
     {
-        [Test, Ignore]
+        [Test]
+      //  [Ignore]
         [TestCase("'1'", "1")]
         [TestCase("\"1\"", "1")]
         //TODO: [TestCase("\"#{1}\"", "1")]
