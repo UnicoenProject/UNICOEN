@@ -103,6 +103,15 @@
     <Compile Include="Model\Literals\UnifiedIntegerLiteral.cs" />
     <Compile Include="Model\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Literals\UnifiedStringLiteral.cs" />
+    <Compile Include="Model\UnifiedBlock.cs" />
+    <Compile Include="Model\UnifiedCall.cs" />
+    <Compile Include="Model\UnifiedFunction.cs" />
+    <Compile Include="Model\UnifiedIfStatement.cs" />
+    <Compile Include="Model\UnifiedParameter.cs" />
+    <Compile Include="Model\UnifiedReturnStatement.cs" />
+    <Compile Include="Model\UnifiedStatement.cs" />
+    <Compile Include="Model\UnifiedVariable.cs" />
+    <Compile Include="Model\UnifiledBinaryExpression.cs" />
     <Compile Include="OldModel\Expressions\IAssignmentExpression.cs" />
     <Compile Include="OldModel\Expressions\IPrimaryExpression.cs" />
     <Compile Include="OldModel\ICodeElement.cs" />
