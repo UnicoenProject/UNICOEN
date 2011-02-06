@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\PythonModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Python2AstGenerator.cs" />
     <Compile Include="Python2CodeGenerator.cs" />

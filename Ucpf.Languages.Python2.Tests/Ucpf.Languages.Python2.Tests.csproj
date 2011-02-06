@@ -44,8 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PythonLiteralTest.cs" />
     <Compile Include="PythonModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
+      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
+      <Name>Ucpf.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Python2\Ucpf.Languages.Python2.csproj">
+      <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
+      <Name>Ucpf.Languages.Python2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
