@@ -81,6 +81,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -96,6 +97,7 @@
     <Compile Include="IronRubyParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubyElements.cs" />
+    <Compile Include="Model\RubyModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">

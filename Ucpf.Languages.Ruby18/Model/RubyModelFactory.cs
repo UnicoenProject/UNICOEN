@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using Microsoft.Scripting.Math;
 using Ucpf.Common.Model;
 
-namespace Ucpf.Languages.Ruby18.Tests {
+namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelFactory {
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {

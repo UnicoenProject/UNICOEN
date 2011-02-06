@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
+using Ucpf.Languages.Ruby18.Model;
 
 namespace Ucpf.Languages.Ruby18.Tests {
 	[TestFixture]
