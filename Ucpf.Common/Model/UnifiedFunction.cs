@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Ucpf.Common.Model
 {
-    public class UnifiedFunction
+    public class UnifiedFunction : UnifiedExpression
     {
+		public string Name { get; set; }
+		public UnifiedParameterCollection Parameters { get; set; }
+		public UnifiedBlock Block { get; set; }
     }
 }

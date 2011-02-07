@@ -7,5 +7,6 @@ namespace Ucpf.Common.Model
 {
     public class UnifiedParameter
     {
+		public string Name { get; set; }
     }
 }
