@@ -1,5 +1,5 @@
 ﻿namespace Ucpf.Common.Model {
-	public class UnifiedLiteral {
+	public class UnifiedLiteral : UnifiedExpression {
 		public string Value { get; set; }
 	}
 }

@@ -5,18 +5,18 @@ using System.Linq;
 using System.Text;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedBlock  : IEnumerable<UnifiedExpression>{
-		private readonly IList<UnifiedExpression> _statements = new List<UnifiedExpression>();
+	public class UnifiedBlock  : IEnumerable<UnifiedStatement>{
+		private readonly IList<UnifiedStatement> _statements = new List<UnifiedStatement>();
 
-		public UnifiedExpression this[int index] {
+		public UnifiedStatement this[int index] {
 			get { return _statements[index]; }
 		}
 
-		public void Add(UnifiedExpression stmt) {
+		public void Add(UnifiedStatement stmt) {
 			_statements.Add(stmt);
 		}
 
-		public IEnumerator<UnifiedExpression> GetEnumerator() {
+		public IEnumerator<UnifiedStatement> GetEnumerator() {
 			return _statements.GetEnumerator();
 		}
 

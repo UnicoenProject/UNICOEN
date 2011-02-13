@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ucpf.Common.Model
-{
-    public class UnifiedVariable
-    {
-    }
+namespace Ucpf.Common.Model {
+	public class UnifiedVariable : UnifiedExpression {
+		public string Name { get; set; }
+
+		public UnifiedVariable() { }
+
+		public UnifiedVariable(string name) {
+			this.Name = name;
+		}
+	}
 }
