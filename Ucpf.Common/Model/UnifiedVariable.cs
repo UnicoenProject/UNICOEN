@@ -7,6 +7,7 @@ namespace Ucpf.Common.Model {
 	public class UnifiedVariable : UnifiedExpression {
 		public string Name { get; set; }
 
+		// TODO: 不要では？
 		public UnifiedVariable() { }
 
 		public UnifiedVariable(string name) {

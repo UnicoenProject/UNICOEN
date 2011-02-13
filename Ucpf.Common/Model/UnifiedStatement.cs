@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 
 namespace Ucpf.Common.Model {
-	public abstract class UnifiedStatement {
+	public abstract class UnifiedStatement : UnifiedElement {
 	}
 }
