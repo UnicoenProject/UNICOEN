@@ -8,6 +8,11 @@ namespace Ucpf.Common.Model {
 	public class UnifiedBlock  : IEnumerable<UnifiedStatement>{
 		private readonly IList<UnifiedStatement> _statements = new List<UnifiedStatement>();
 
+		public bool StructuralEqual(UnifiedBlock that) {
+			throw new NotImplementedException();
+		}
+
+
 		public UnifiedStatement this[int index] {
 			get { return _statements[index]; }
 		}

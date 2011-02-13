@@ -15,5 +15,9 @@ namespace Ucpf.Languages.Python2.Model {
 				Value = "1"
 			};
 		}
+
+		public static UnifiedBlock CreateBlock(XElement elem) {
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
+using Ucpf.Languages.Python2.Model;
 
 namespace Ucpf.Languages.Python2.Tests {
 
@@ -85,8 +86,11 @@ print fib(20)
 
 		#endregion
 
-		[Test]
-		void TestFibonacci() {
+		[Test, Ignore]
+		public void TestFibonacci() {
+			var xml = Python2AstGenerator.Instance.Generate(TestCode);
+			var model = PythonModelFactory.CreateBlock(xml);
+			Assert.IsTrue(model.StructuralEqual(ExpectedModel));
 		}
 	}
 }
