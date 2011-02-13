@@ -109,7 +109,7 @@
     <Compile Include="Model\UnifiedBlock.cs" />
     <Compile Include="Model\UnifiedCall.cs" />
     <Compile Include="Model\UnifiedExpressionStatement.cs" />
-    <Compile Include="Model\UnifiedFunction.cs" />
+    <Compile Include="Model\UnifiedDefineFunction.cs" />
     <Compile Include="Model\UnifiedIf.cs" />
     <Compile Include="Model\UnifiedParameter.cs" />
     <Compile Include="Model\UnifiedParameterCollection.cs" />
