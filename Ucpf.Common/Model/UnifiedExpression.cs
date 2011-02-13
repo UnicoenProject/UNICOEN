@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Ucpf.Common.Model
 {
-	public abstract class UnifiedExpression
+	public abstract class UnifiedExpression : UnifiedElement
 	{
-
-
 		public static implicit operator UnifiedStatement(UnifiedExpression expr) {
 			return new UnifiedExpressionStatement(expr);
 		}

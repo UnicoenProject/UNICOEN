@@ -108,6 +108,8 @@
     <Compile Include="Model\UnifiedBinaryExpression.cs" />
     <Compile Include="Model\UnifiedBlock.cs" />
     <Compile Include="Model\UnifiedCall.cs" />
+    <Compile Include="Model\UnifiedElement.cs" />
+    <Compile Include="Model\UnifiedStructuralEqualityComparer.cs" />
     <Compile Include="Model\UnifiedExpressionStatement.cs" />
     <Compile Include="Model\UnifiedDefineFunction.cs" />
     <Compile Include="Model\UnifiedIf.cs" />

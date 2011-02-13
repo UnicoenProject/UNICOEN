@@ -44,5 +44,9 @@ namespace Ucpf.Languages.Ruby18.Model {
 				TypedValue = Decimal.Parse(node.Value)
 			};
 		}
+
+		public static UnifiedReturn CreateReturn(XElement node) {
+			throw new NotImplementedException();
+		}
 	}
 }
