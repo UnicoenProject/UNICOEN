@@ -21,6 +21,10 @@ namespace Ucpf.Common.AstGenerators {
 		}
 
 		public override XElement Generate(TextReader reader) {
+			if (File.Exists(ProcessorPath) == false) {
+				var msg = "This system requires installing " + ParserName;
+				throw new InvalidOperationException(msg);
+			}
 			var info = new ProcessStartInfo {
 				FileName = ProcessorPath,
 				Arguments = Arguments.JoinString(" "),
