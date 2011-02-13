@@ -10,7 +10,7 @@ namespace Ucpf.Languages.Python2.Tests {
 	[TestFixture]
 	public class PythonLiteralTest {
 
-		[Test]
+		[Test, Ignore]
 		[TestCase("'1'", "1")]
 		[TestCase("\"1\"", "1")]
 		public void ParseStringLiteral(string code, string expectation) {
