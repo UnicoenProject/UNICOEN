@@ -4,7 +4,6 @@ using System.Numerics;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 
-
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 

@@ -6,9 +6,9 @@ using Ucpf.Common.Model;
 
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelFactory {
-
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
-			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
+			Contract.Requires(node.Name.LocalName == "true" ||
+			                  node.Name.LocalName == "false");
 			return new UnifiedBooleanLiteral {
 				TypedValue = node.Name.LocalName == "true"
 				             	? UnifiedBoolean.True : UnifiedBoolean.False,

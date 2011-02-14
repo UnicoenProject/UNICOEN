@@ -32,7 +32,7 @@ print fib(20)
 					Block = new UnifiedBlock {
 						new UnifiedIf {
 							Condition = new UnifiedBinaryExpression {
-								Operator = "<=",
+								Operator = new UnifiedBinaryOperator("<=", BinaryOperatorType.GreaterEqual),
 								LeftHandSide = new UnifiedVariable("n"),
 								RightHandSide = new UnifiedIntegerLiteral(1),
 							},
@@ -44,12 +44,12 @@ print fib(20)
 							FalseBlock = new UnifiedBlock {
 								new UnifiedReturn {
 									Value = new UnifiedBinaryExpression {
-										Operator = "+",
+										Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 										LeftHandSide = new UnifiedCall {
 											Function = new UnifiedVariable("fib"),
 											Arguments = new UnifiedArgumentCollection {
 												new UnifiedBinaryExpression {
-													Operator = "-",
+													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(1)
 												}
@@ -59,7 +59,7 @@ print fib(20)
 											Function = new UnifiedVariable("fib"),
 											Arguments = new UnifiedArgumentCollection {
 												new UnifiedBinaryExpression {
-													Operator = "-",
+													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(2)
 												}

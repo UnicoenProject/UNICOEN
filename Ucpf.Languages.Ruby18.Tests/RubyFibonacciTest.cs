@@ -7,6 +7,7 @@ using Ucpf.Common.Model;
 using Ucpf.Languages.Ruby18.Model;
 
 namespace Ucpf.Languages.Ruby18.Tests {
+	[TestFixture]
 	public class RubyFibonacciTest {
 		[Test]
 		public void ParseReturn() {
@@ -16,7 +17,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 				Value = new UnifiedVariable("n"),
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(UnifiedStructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -28,7 +29,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 				Arguments = new UnifiedArgumentCollection()
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(UnifiedStructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparer.Instance));
 		}
 
 	}
