@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel;
 
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyFunction : IFunction {

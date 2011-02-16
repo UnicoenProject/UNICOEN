@@ -48,6 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AstGenerators\JavaAstGenerator.cs" />
+    <Compile Include="AstGenerators\JavaLexer.cs" />
+    <Compile Include="AstGenerators\JavaParser.cs" />
+    <Compile Include="CodeGenerators\JavaCodeGenerator.cs" />
     <Compile Include="CodeModel\Expressions\JavaBinaryExpression.cs" />
     <Compile Include="CodeModel\Expressions\JavaExpression.cs" />
     <Compile Include="CodeModel\Expressions\JavaPrimary.cs" />
@@ -59,17 +63,12 @@
     <Compile Include="CodeModel\Statements\JavaIfStatement.cs" />
     <Compile Include="CodeModel\Statements\JavaReturnStatement.cs" />
     <Compile Include="CodeModel\Statements\JavaStatement.cs" />
-    <Compile Include="JavaAstGenerator.cs" />
-    <Compile Include="JavaCodeGenerator.cs" />
-    <Compile Include="JavaCodeModel.cs" />
-    <Compile Include="JavaElements.cs" />
-    <Compile Include="JavaLexer.cs" />
-    <Compile Include="JavaParser.cs" />
+    <Compile Include="CodeModel\JavaCodeModel.cs" />
     <Compile Include="Model\JavaModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Java.g" />
+    <None Include="AstGenerators\Java.g" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">

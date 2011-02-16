@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel;
+using Ucpf.Common.OldModel.Expressions;
+using Ucpf.Common.OldModel.Statements;
+using Ucpf.Languages.JavaScript.Model.Expressions;
 
-namespace Ucpf.Languages.JavaScript.Model {
+namespace Ucpf.Languages.JavaScript.Model.Statements {
 	// ifStatement
 	// : 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
 

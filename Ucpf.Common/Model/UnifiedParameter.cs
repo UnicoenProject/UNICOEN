@@ -8,8 +8,8 @@ namespace Ucpf.Common.Model {
 
 		public string Name { get; set; }
 
-		public UnifiedParameter() { }
-		public UnifiedParameter(string name) { this.Name = name; }
-
+		public UnifiedParameter(string name) {
+			this.Name = name;
+		}
 	}
 }

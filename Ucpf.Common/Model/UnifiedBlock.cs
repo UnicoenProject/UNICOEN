@@ -5,13 +5,16 @@ using System.Linq;
 using System.Text;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedBlock : IEnumerable<UnifiedStatement>{
-		private readonly IList<UnifiedStatement> _statements = new List<UnifiedStatement>();
+	public class UnifiedBlock : IEnumerable<UnifiedStatement> {
+		private readonly List<UnifiedStatement> _statements;
 
-		public bool StructuralEqual(UnifiedBlock that) {
-			throw new NotImplementedException();
+		public UnifiedBlock() {
+			_statements = new List<UnifiedStatement>();
 		}
 
+		public UnifiedBlock(IEnumerable<UnifiedStatement> statements) {
+			_statements = statements.ToList();
+		}
 
 		public UnifiedStatement this[int index] {
 			get { return _statements[index]; }

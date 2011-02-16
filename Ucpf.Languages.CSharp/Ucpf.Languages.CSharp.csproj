@@ -48,15 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSharpAstGenerator.cs" />
-    <Compile Include="CSharpCodeGenerator.cs" />
-    <Compile Include="CSharpElements.cs" />
-    <Compile Include="csLexer.cs" />
-    <Compile Include="csParser.cs" />
+    <Compile Include="AstGenerators\CSharpAstGenerator.cs" />
+    <Compile Include="AstGenerators\csLexer.cs" />
+    <Compile Include="AstGenerators\csParser.cs" />
+    <Compile Include="CodeGenerators\CSharpCodeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cs.g" />
+    <None Include="AstGenerators\cs.g" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">

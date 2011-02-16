@@ -3,7 +3,10 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Tests;
+using Ucpf.Languages.C.AstGenerators;
 using Ucpf.Languages.C.Model;
+using Ucpf.Languages.C.Model.Expressions;
+using Ucpf.Languages.C.Model.Statements.SelectionStatements;
 
 namespace Ucpf.Languages.C.Tests {
 	[TestFixture]

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Expressions;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Expressions {
 	public class CInvocationExpression : CExpression, ICallExpression {
 		// properties
 		public CInvocationExpression(XElement node) {

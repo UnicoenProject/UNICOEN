@@ -1,4 +1,4 @@
-﻿namespace Ucpf.Languages.Java.CodeModel {
+﻿namespace Ucpf.Languages.Java.CodeModel.Statements {
 	public class JavaStatement {}
 
 	/*

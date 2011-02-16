@@ -8,7 +8,15 @@ namespace Ucpf.Common.Model {
 
 	public class UnifiedArgumentCollection : IEnumerable<UnifiedArgument> {
 
-		private readonly List<UnifiedArgument> _args = new List<UnifiedArgument>();
+		private readonly List<UnifiedArgument> _args;
+
+		public UnifiedArgumentCollection() {
+			_args = new List<UnifiedArgument>();
+		}
+
+		public UnifiedArgumentCollection(IEnumerable<UnifiedArgument> args) {
+			_args = args.ToList();
+		}
 
 		public void Add(UnifiedArgument arg) {
 			_args.Add(arg);

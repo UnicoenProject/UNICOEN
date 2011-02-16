@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Expressions;
 
-namespace Ucpf.Languages.JavaScript.Model {
+namespace Ucpf.Languages.JavaScript.Model.Expressions {
 	//TODO implementation is not complete
 
 	// callExpression

@@ -94,10 +94,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CAstGenerator.cs" />
+    <Compile Include="AstGenerators\CAstGenerator.cs" />
+    <Compile Include="AstGenerators\CElements.cs" />
+    <Compile Include="AstGenerators\CLexer.cs" />
+    <Compile Include="AstGenerators\CParser.cs" />
+    <Compile Include="CodeGenerators\CCodeGenerator.cs" />
     <Compile Include="Model\CModelToCode.cs" />
     <Compile Include="Model\CBlock.cs" />
-    <Compile Include="CCodeGenerator.cs" />
     <Compile Include="Model\Expressions\CAssignmentExpression.cs" />
     <Compile Include="Model\Expressions\CBinaryExpression.cs" />
     <Compile Include="Model\Expressions\CExpression.cs" />
@@ -106,13 +109,11 @@
     <Compile Include="Model\Expressions\PrimaryExpressions\CNumber.cs" />
     <Compile Include="Model\Expressions\PrimaryExpressions\CPrimaryExpression.cs" />
     <Compile Include="Model\Expressions\PrimaryExpressions\CString.cs" />
-    <Compile Include="CElements.cs" />
     <Compile Include="Model\CFunction.cs" />
     <Compile Include="Model\Operators\CAssignmentOperator.cs" />
     <Compile Include="Model\Operators\CBinaryOperator.cs" />
     <Compile Include="Model\Operators\COperator.cs" />
     <Compile Include="Model\Operators\CUnaryOperator.cs" />
-    <Compile Include="CLexer.cs" />
     <Compile Include="Model\Statements\CStatement.cs" />
     <Compile Include="Model\Statements\ExpressionStatements\CEmptyStatement.cs" />
     <Compile Include="Model\Statements\ExpressionStatements\CExpressionStatement.cs" />
@@ -126,14 +127,13 @@
     <Compile Include="Model\Statements\SelectionStatements\CIfStatement.cs" />
     <Compile Include="Model\Statements\SelectionStatements\CSelectionStatement.cs" />
     <Compile Include="Model\Statements\SelectionStatements\CSwitchStatement.cs" />
-    <Compile Include="CParser.cs" />
     <Compile Include="Model\CProgram.cs" />
     <Compile Include="Model\CType.cs" />
     <Compile Include="Model\CVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="C.g" />
+    <None Include="AstGenerators\C.g" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">

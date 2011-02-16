@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Statements.IterationStatements {
 	public class CForStatement : CIterationStatement {
 		public CForStatement(XElement node) : base(node) {}
 	}

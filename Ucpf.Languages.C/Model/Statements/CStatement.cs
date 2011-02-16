@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Statements;
+using Ucpf.Languages.C.Model.Statements.ExpressionStatements;
+using Ucpf.Languages.C.Model.Statements.JumpStatements;
+using Ucpf.Languages.C.Model.Statements.SelectionStatements;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Statements {
 	public class CStatement : IStatement {
 		/*
 		// properties

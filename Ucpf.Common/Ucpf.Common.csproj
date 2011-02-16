@@ -96,6 +96,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Antlr\AntlrNodeGenerator.cs" />
+    <Compile Include="Antlr\ExtensionForParser.cs" />
+    <Compile Include="Antlr\XmlTreeAdaptor.cs" />
+    <Compile Include="Antlr\XParserRuleReturnScope.cs" />
+    <Compile Include="Antlr\XToken.cs" />
+    <Compile Include="AstGenerators\AntlrAstGenerator.cs" />
     <Compile Include="ModelToCode\IModelToCode.cs" />
     <Compile Include="Model\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Literals\UnifiedBooleanLiteral.cs" />
@@ -138,20 +144,12 @@
     <Compile Include="OldModel\Statements\IEmptyStatement.cs" />
     <Compile Include="OldModel\Statements\IExpressionStatement.cs" />
     <Compile Include="OldModel\Statements\IReturnStatement.cs" />
-    <Compile Include="Languages\Common\Antlr\AntlrAstGenerator.cs" />
-    <Compile Include="Languages\Common\Antlr\AntlrBlockGenerator.cs" />
-    <Compile Include="Languages\Common\Antlr\AntlrCodeGenerateHelper.cs" />
-    <Compile Include="Languages\Common\Antlr\ExtensionForParser.cs" />
-    <Compile Include="Languages\Common\Antlr\XmlTreeAdaptor.cs" />
-    <Compile Include="Languages\Common\Antlr\XParserRuleReturnScope.cs" />
     <Compile Include="AstGenerators\ExternalAstGenerator.cs" />
     <Compile Include="AstGenerators\AstGenerator.cs" />
     <Compile Include="CodeGenerators\CodeGeneratorBase.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGenerator.cs" />
     <Compile Include="CodeGenerators\ExternalCodeGenerator.cs" />
     <Compile Include="CodeGenerators\CodeGenerator.cs" />
-    <Compile Include="ConfigReader.cs" />
-    <Compile Include="Languages\Common\Antlr\XToken.cs" />
     <Compile Include="OldModel\Expressions\IBinaryExpression.cs" />
     <Compile Include="OldModel\Expressions\ICallExpression.cs" />
     <Compile Include="OldModel\Expressions\IExpression.cs" />
@@ -161,7 +159,7 @@
     <Compile Include="OldModel\Operators\IBinaryOperator.cs" />
     <Compile Include="OldModel\Statements\IIfStatement.cs" />
     <Compile Include="OldModel\Statements\IStatement.cs" />
-    <Compile Include="Weavers\Weaver.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

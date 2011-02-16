@@ -14,10 +14,21 @@ namespace Ucpf.Common.Model {
 			return StructuralEquals(x, y);
 		}
 
-		public int GetHashCode(object obj) {
-			return obj.GetType().GetProperties(BindingFlags.Public)
-				.Select(prop => prop.GetValue(obj, null).GetHashCode())
-				.Aggregate((o1, o2) => o1 * 11 ^ o2 * 17);
+		public int GetHashCode(object x) {
+			var xs = x as IEnumerable;
+			if (xs != null) {
+				return xs.Cast<object>().Aggregate(0,
+					(v, o) => v ^ o.GetHashCode() * 11);
+			}
+
+			var type = x.GetType();
+			if (!type.IsEnum && type.Namespace.StartsWith("Ucpf.Common.Model")) {
+				return x.GetType().GetProperties()
+					.Select(prop => prop.GetValue(x, null).GetHashCode())
+					.Aggregate(0, (v, o) => v ^ o.GetHashCode() * 11);
+			}
+
+			return x.GetHashCode();
 		}
 
 		#endregion
@@ -33,10 +44,6 @@ namespace Ucpf.Common.Model {
 			var type = x.GetType();
 			if (!type.Equals(y.GetType()))
 				return false;
-
-			if (type.Name == "UnifiedArgumentCollection") {
-				type = type;
-			}
 
 			var xs = x as IEnumerable;
 			if (xs != null) {

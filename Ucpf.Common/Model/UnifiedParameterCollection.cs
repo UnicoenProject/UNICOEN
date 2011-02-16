@@ -8,7 +8,15 @@ namespace Ucpf.Common.Model {
 
 	public class UnifiedParameterCollection :IEnumerable<UnifiedParameter> {
 
-		private readonly List<UnifiedParameter> _parameters = new List<UnifiedParameter>();
+		private readonly List<UnifiedParameter> _parameters;
+
+		public UnifiedParameterCollection() {
+			_parameters = new List<UnifiedParameter>();
+		}
+
+		public UnifiedParameterCollection(IEnumerable<UnifiedParameter> parameters) {
+			_parameters = parameters.ToList();
+		}
 
 		public void Add(UnifiedParameter param) {
 			_parameters.Add(param);

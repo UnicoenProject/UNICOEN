@@ -41,9 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AstGenerators\Python3AstGenerator.cs" />
+    <Compile Include="CodeGenerators\Python3CodeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Python3AstGenerator.cs" />
-    <Compile Include="Python3CodeGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">

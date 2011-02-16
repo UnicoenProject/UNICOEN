@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Ucpf.Common.Model;
+using Ucpf.Common.OldModel;
 
 namespace Ucpf.Languages.C.CodeTranslation {
 	public class MethodTrans {

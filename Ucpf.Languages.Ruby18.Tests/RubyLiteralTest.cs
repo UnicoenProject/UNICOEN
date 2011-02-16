@@ -1,6 +1,8 @@
 ﻿using System.Numerics;
 using NUnit.Framework;
 using Ucpf.Common.Model;
+using Ucpf.Common.Model;
+using Ucpf.Languages.Ruby18.AstGenerators;
 using Ucpf.Languages.Ruby18.Model;
 
 namespace Ucpf.Languages.Ruby18.Tests {
@@ -27,7 +29,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 		[TestCase("1", 1)]
 		public void ParseIntegerLiteral(string code, int expectation) {
 			var ast = Ruby18AstGenerator.Instance.Generate(code);
-			var lit = RubyModelFactory.CreateIntegerLiteral(ast);
+			var lit = RubyModelFactory.CreateLiteral(ast) as UnifiedIntegerLiteral;
 			Assert.That(lit.TypedValue, Is.EqualTo((BigInteger)expectation));
 		}
 

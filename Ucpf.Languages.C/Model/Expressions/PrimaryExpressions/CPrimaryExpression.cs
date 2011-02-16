@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel;
+using Ucpf.Common.OldModel.Expressions;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Expressions.PrimaryExpressions {
 	public class CPrimaryExpression : CExpression, IPrimaryExpression {
 		// TODO :: remove the subclasses such as 'CNumber' and 'CString'
 

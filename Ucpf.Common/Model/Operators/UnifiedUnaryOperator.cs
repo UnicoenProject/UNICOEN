@@ -1,4 +1,4 @@
-﻿using Ucpf.Common.ModelToCode;
+﻿using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedUnaryOperator {

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
+using Ucpf.Common.Model;
+using Ucpf.Common.Model;
+using Ucpf.Common.OldModel.Operators;
+using Ucpf.Languages.Python2.AstGenerators;
 using Ucpf.Languages.Python2.Model;
 
 namespace Ucpf.Languages.Python2.Tests {

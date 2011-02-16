@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
+using Ucpf.Common.Model;
+using Ucpf.Common.Model;
+using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Common.Tests {
 	[TestFixture]

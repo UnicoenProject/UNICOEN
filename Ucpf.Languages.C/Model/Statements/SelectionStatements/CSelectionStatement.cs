@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Statements.SelectionStatements {
 	public class CSelectionStatement : CStatement {
 		public new static CSelectionStatement Create(XElement node) {
 			// SelectionStatement is consisted of IfStatement and SwitchStatement

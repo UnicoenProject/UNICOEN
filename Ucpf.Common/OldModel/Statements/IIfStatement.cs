@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Ucpf.Common.OldModel.Expressions;
 
-namespace Ucpf.Common.Model {
+namespace Ucpf.Common.OldModel.Statements {
 	public interface IIfStatement : IStatement {
 		IExpression Condition { get; set; }
 		IBlock TrueBlock { get; set; }

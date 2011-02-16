@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Expressions;
 
-namespace Ucpf.Languages.JavaScript.Model {
+namespace Ucpf.Languages.JavaScript.Model.Expressions {
 	//TODO implement some Common-Interface
 	public class JSPrimaryExpression : JSExpression, IPrimaryExpression {
 		//property
