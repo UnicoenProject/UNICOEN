@@ -18,6 +18,10 @@ namespace Ucpf.Languages.Ruby18.Model {
 			Sign2Type["*"] = BinaryOperatorType.Multiplication;
 			Sign2Type["/"] = BinaryOperatorType.Division;
 			Sign2Type["%"] = BinaryOperatorType.Modulo;
+			Sign2Type["<"] = BinaryOperatorType.Lesser;
+			Sign2Type["<="] = BinaryOperatorType.LesserEqual;
+			Sign2Type[">"] = BinaryOperatorType.Greater;
+			Sign2Type[">="] = BinaryOperatorType.GreaterEqual;
 		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
@@ -86,6 +90,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 		}
 
 		public static UnifiedExpression CreateExpression(XElement node) {
+			var elems = node.Elements();
 			switch (node.Name.LocalName) {
 			case "lit":
 				return CreateLiteral(node);
@@ -93,16 +98,25 @@ namespace Ucpf.Languages.Ruby18.Model {
 				return new UnifiedVariable(node.Value);
 			case "call":
 				return CreateCall(node);
+			case "if":
+				return new UnifiedIf {
+					Condition = CreateExpression(elems.ElementAt(0)),
+					TrueBlock = CreateBlock(elems.ElementAt(1)),
+					FalseBlock = CreateBlock(elems.ElementAt(2)),
+				};
 			}
 			throw new NotImplementedException();
 		}
 
 		public static UnifiedStatement CreateStatement(XElement node) {
+			var elems = node.Elements();
 			switch (node.Name.LocalName) {
 			case "return":
 				return new UnifiedReturn(
-					CreateExpression(node.Elements().First()));
+					CreateExpression(elems.First()));
 			}
+			return new UnifiedExpressionStatement(
+				CreateExpression(node));
 			throw new NotImplementedException();
 		}
 
@@ -114,11 +128,16 @@ namespace Ucpf.Languages.Ruby18.Model {
 				Parameters = new UnifiedParameterCollection(
 					elems.ElementAt(1).Elements()
 						.Select(e => new UnifiedParameter(e.Value))),
-				Block = new UnifiedBlock(
-					elems.ElementAt(2).Elements().First().Elements()
-						.Where(e => e.Name.LocalName != "nil")
-						.Select(CreateStatement)),
+				Block = CreateBlock(elems.ElementAt(2).Elements().First()),
 			};
+		}
+
+		private static UnifiedBlock CreateBlock(XElement node) {
+			Contract.Requires(node.Name.LocalName == "block");
+			return new UnifiedBlock(
+				node.Elements()
+					.Where(e => e.Name.LocalName != "nil")
+					.Select(CreateStatement));
 		}
 	}
 }

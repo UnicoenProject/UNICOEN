@@ -111,6 +111,45 @@ end");
 		}
 
 		[Test]
+		public void ParseIf() {
+			var ast =
+				Ruby18AstGenerator.Instance.Generate(
+					@"
+def fibonacci(n)
+  if (n < 2)
+    return n
+  else
+    return 0
+  end
+end
+");
+			var actual = RubyModelFactory.CreateDefineFunction(ast);
+			var expectation = new UnifiedDefineFunction {
+				Name = "fibonacci",
+				Parameters = new UnifiedParameterCollection {
+					new UnifiedParameter("n"),
+				},
+				Block = new UnifiedBlock {
+					new UnifiedExpressionStatement(new UnifiedIf {
+						Condition = new UnifiedBinaryExpression {
+							LeftHandSide = new UnifiedVariable("n"),
+							Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
+							RightHandSide = new UnifiedIntegerLiteral(2),
+						},
+						TrueBlock = new UnifiedBlock {
+							new UnifiedReturn(new UnifiedVariable("n")),
+						},
+						FalseBlock = new UnifiedBlock {
+							new UnifiedReturn(new UnifiedIntegerLiteral(0)),
+						},
+					}),
+				},
+			};
+			Assert.That(actual, Is.EqualTo(expectation)
+				.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
 		public void ParseFibonacci() {
 			var ast =
 				Ruby18AstGenerator.Instance.Generate(
@@ -119,7 +158,7 @@ def fibonacci(n)
   if (n < 2)
     return n
   else
-    fibonacci(n - 1) + fibonacci(n - 2)
+    return fibonacci(n - 1) + fibonacci(n - 2)
   end
 end
 ");
