@@ -4,6 +4,7 @@ using System.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.C;
+using Ucpf.Languages.C.AstGenerators;
 using Ucpf.Languages.C.Model;
 using Ucpf.Languages.Ruby18.Model;
 

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
-using Ucpf.Common.Languages.Common.Antlr;
+using Ucpf.Common.Antlr;
 using Ucpf.Languages.Java;
+using Ucpf.Languages.Java.AstGenerators;
 
 namespace Ucpf.Languages.Tests.Java {
 	[TestFixture]

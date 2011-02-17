@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Tests;
+using Ucpf.Languages.Java.AstGenerators;
 using Ucpf.Languages.Java.CodeModel;
 
 namespace Ucpf.Languages.Java.Tests {

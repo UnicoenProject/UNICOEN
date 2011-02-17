@@ -2,6 +2,11 @@
 using System.IO;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel;
+using Ucpf.Common.OldModel.Expressions;
+using Ucpf.Common.OldModel.Operators;
+using Ucpf.Common.OldModel.Statements;
+using Ucpf.Languages.JavaScript.Model.Expressions;
 
 namespace Ucpf.Languages.JavaScript.Model {
 	public class JSModelToCode : IModelToCode {

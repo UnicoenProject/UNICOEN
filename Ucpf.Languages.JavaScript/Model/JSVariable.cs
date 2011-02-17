@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel;
 
 namespace Ucpf.Languages.JavaScript.Model {
 	public class JSVariable : IVariable {

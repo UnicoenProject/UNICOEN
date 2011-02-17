@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel;
+using Ucpf.Common.OldModel.Operators;
 
-namespace Ucpf.Languages.JavaScript.Model {
+namespace Ucpf.Languages.JavaScript.Model.Operators {
 	public class JSBinaryOperator : IBinaryOperator {
 		//properties
 		public JSBinaryOperator(string sign, BinaryOperatorType type) {

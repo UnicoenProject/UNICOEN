@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Expressions;
+using Ucpf.Common.OldModel.Statements;
+using Ucpf.Languages.C.Model.Expressions;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Statements.JumpStatements {
 	public class CReturnStatement : CJumpStatement, IReturnStatement {
 		// constructor
 		public CReturnStatement(XElement node) {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
+using Ucpf.Common.OldModel;
 
 namespace Ucpf.Languages.C.Model {
 	public class CProgram {

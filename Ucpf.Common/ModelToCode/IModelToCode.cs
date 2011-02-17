@@ -1,4 +1,8 @@
 ﻿using Ucpf.Common.Model;
+using Ucpf.Common.OldModel;
+using Ucpf.Common.OldModel.Expressions;
+using Ucpf.Common.OldModel.Operators;
+using Ucpf.Common.OldModel.Statements;
 
 namespace Ucpf.Common.ModelToCode {
 	public interface IModelToCode {

@@ -9,6 +9,8 @@ using Ucpf.Common.AstGenerators;
 using Ucpf.Common.Plugins;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.C;
+using Ucpf.Languages.C.AstGenerators;
+using Ucpf.Languages.C.CodeGenerators;
 
 namespace Code2Xml.Tests {
 	[TestFixture]

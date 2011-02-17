@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Expressions;
+using Ucpf.Common.OldModel.Operators;
+using Ucpf.Languages.C.Model.Operators;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Expressions {
 	public class CAssignmentExpression : CExpression, IAssignmentExpression {
 		// TODO :: delete assignment expression and move to BinaryExpression
 		/*

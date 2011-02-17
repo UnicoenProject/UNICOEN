@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Tests;
+using Ucpf.Languages.JavaScript.AstGenerators;
 using Ucpf.Languages.JavaScript.Model;
+using Ucpf.Languages.JavaScript.Model.Expressions;
+using Ucpf.Languages.JavaScript.Model.Statements;
 
 namespace Ucpf.Languages.JavaScript.Tests {
 	[TestFixture]

@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel;
+using Ucpf.Common.OldModel.Expressions;
+using Ucpf.Common.OldModel.Operators;
+using Ucpf.Common.OldModel.Statements;
 
 namespace Ucpf.Languages.C.Model
 {

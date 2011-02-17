@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Operators;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Operators {
 	public class CUnaryOperator : COperator, IUnaryOperator {
 		// constructor
 		private static readonly IDictionary<string, UnaryOperatorType> Sign2Type;

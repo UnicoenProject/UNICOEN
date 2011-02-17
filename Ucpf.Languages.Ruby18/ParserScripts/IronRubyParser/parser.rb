@@ -51,7 +51,7 @@ def traverse(parent, exp)
     when Sexp
       traverse(elem, t)
     when nil
-      elem.add(XElement.new(XName.get('Nil')))
+      elem.add(XElement.new(XName.get('nil')))
     else
       elem.add(XElement.new(XName.get(t.class.to_s),
         System::Text::Encoding.UTF8.GetString(t.to_s.ToByteArray)))
@@ -74,7 +74,7 @@ end
 
 def terminal_node2array_element(elem)
   case elem.name.local_name
-  when 'Nil'
+  when 'nil'
     nil
   when 'Symbol'
     elem.value.to_sym

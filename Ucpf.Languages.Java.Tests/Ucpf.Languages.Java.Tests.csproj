@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,7 @@
   <ItemGroup>
     <Compile Include="JavaAstGeneratorTest.cs" />
     <Compile Include="JavaCodeModelTest.cs" />
+    <Compile Include="JavaLiteralTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

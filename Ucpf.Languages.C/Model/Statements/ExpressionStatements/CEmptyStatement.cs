@@ -1,7 +1,7 @@
-﻿using Ucpf.Common.Model;
-using Ucpf.Common.ModelToCode;
+﻿using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Statements;
 
-namespace Ucpf.Languages.C.Model {
+namespace Ucpf.Languages.C.Model.Statements.ExpressionStatements {
 	public class CEmptyStatement : CExpressionStatement, IEmptyStatement {
 		#region IEmptyStatement Members
 

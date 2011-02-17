@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.ModelToCode;
+using Ucpf.Common.OldModel.Expressions;
+using Ucpf.Languages.JavaScript.Model.Operators;
 
-namespace Ucpf.Languages.JavaScript.Model {
+namespace Ucpf.Languages.JavaScript.Model.Expressions {
 	// expression
 	// : assignmentExpression (LT!* ',' LT!* assignmentExpression)*
 
