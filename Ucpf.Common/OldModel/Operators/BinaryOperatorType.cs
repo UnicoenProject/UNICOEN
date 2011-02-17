@@ -12,10 +12,10 @@
 		LeftRotate, // << in Java
 		RightRotate, // >> in Java
 		// Comparison
-		Greater,
-		GreaterEqual,
-		Lesser,
-		LesserEqual,
+		Greater,		/// >
+		GreaterEqual,	/// >=
+		Lesser,			/// <
+		LesserEqual,	/// <=
 		Equal,
 		NotEqual,
 		// Logical

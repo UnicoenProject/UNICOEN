@@ -40,13 +40,10 @@ print fib(20)
 								RightHandSide = new UnifiedIntegerLiteral(1),
 							},
 							TrueBlock = new UnifiedBlock {
-								new UnifiedReturn {
-									Value = new UnifiedVariable("n")
-								}
+								new UnifiedReturn(new UnifiedVariable("n")),
 							},
 							FalseBlock = new UnifiedBlock {
-								new UnifiedReturn {
-									Value = new UnifiedBinaryExpression {
+								new UnifiedReturn(new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 										LeftHandSide = new UnifiedCall {
 											Function = new UnifiedVariable("fib"),
@@ -68,8 +65,7 @@ print fib(20)
 												}
 											}
 										}
-									}
-								}
+								}),
 							}
 						}
 					}
@@ -93,7 +89,8 @@ print fib(20)
 		public void TestFibonacci() {
 			var xml = Python2AstGenerator.Instance.Generate(TestCode);
 			var model = PythonModelFactory.CreateBlock(xml);
-			Assert.IsTrue(model.StructuralEqual(ExpectedModel));
+			Assert.That(model, Is.EqualTo(ExpectedModel)
+				.Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }

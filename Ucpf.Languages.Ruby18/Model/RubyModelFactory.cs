@@ -1,12 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Scripting.Math;
 using Ucpf.Common.Model;
+using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelFactory {
+		private static readonly Dictionary<string, BinaryOperatorType> Sign2Type;
+
+		static RubyModelFactory() {
+			Sign2Type = new Dictionary<string, BinaryOperatorType>();
+			Sign2Type["+"] = BinaryOperatorType.Addition;
+			Sign2Type["-"] = BinaryOperatorType.Subtraction;
+			Sign2Type["*"] = BinaryOperatorType.Multiplication;
+			Sign2Type["/"] = BinaryOperatorType.Division;
+			Sign2Type["%"] = BinaryOperatorType.Modulo;
+		}
+
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "true" ||
 			                  node.Name.LocalName == "false");
@@ -28,9 +41,8 @@ namespace Ucpf.Languages.Ruby18.Model {
 			if (node.Name.LocalName == "lit") {
 				switch (node.Elements().First().Name.LocalName) {
 				case "Fixnum":
-					return new UnifiedIntegerLiteral {
-						TypedValue = BigInteger.Parse(node.Value)
-					};
+					return new UnifiedIntegerLiteral(
+						BigInteger.Parse(node.Value));
 				}
 			}
 			return new UnifiedLiteral {
@@ -45,6 +57,34 @@ namespace Ucpf.Languages.Ruby18.Model {
 			};
 		}
 
+		public static UnifiedBinaryOperator CreateOperator(string sign) {
+			BinaryOperatorType result;
+			return Sign2Type.TryGetValue(sign, out result)
+				? new UnifiedBinaryOperator(sign, result) : null;
+		}
+
+		public static UnifiedExpression CreateCall(XElement node) {
+			Contract.Requires(node.Name.LocalName == "call");
+			var funcName = node.Elements().ElementAt(1).Value;
+			if (node.Elements().ElementAt(2).Elements().Count() == 1) {
+				var @operator = CreateOperator(funcName);
+				if (@operator != null) {
+					return new UnifiedBinaryExpression {
+						LeftHandSide = CreateExpression(node.Elements().First()),
+						Operator = @operator,
+						RightHandSide =
+							CreateExpression(node.Elements().ElementAt(2).Elements().First()),
+					};
+				}
+			}
+			return new UnifiedCall {
+				Function = new UnifiedVariable(funcName),
+				Arguments = new UnifiedArgumentCollection(
+					node.Elements().ElementAt(2).Elements()
+						.Select(e => (UnifiedArgument)CreateExpression(e))),
+			};
+		}
+
 		public static UnifiedExpression CreateExpression(XElement node) {
 			switch (node.Name.LocalName) {
 			case "lit":
@@ -52,12 +92,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			case "lvar":
 				return new UnifiedVariable(node.Value);
 			case "call":
-				return new UnifiedCall {
-					Function = new UnifiedVariable(node.Elements().ElementAt(1).Value),
-					Arguments = new UnifiedArgumentCollection(
-						node.Elements().ElementAt(2).Elements()
-							.Select(e => (UnifiedArgument)CreateExpression(e))),
-				};
+				return CreateCall(node);
 			}
 			throw new NotImplementedException();
 		}
@@ -65,9 +100,8 @@ namespace Ucpf.Languages.Ruby18.Model {
 		public static UnifiedStatement CreateStatement(XElement node) {
 			switch (node.Name.LocalName) {
 			case "return":
-				return new UnifiedReturn {
-					Value = CreateExpression(node.Elements().First())
-				};
+				return new UnifiedReturn(
+					CreateExpression(node.Elements().First()));
 			}
 			throw new NotImplementedException();
 		}

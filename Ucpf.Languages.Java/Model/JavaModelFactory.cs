@@ -34,9 +34,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedIntegerLiteral CreateIntegerLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
-			return new UnifiedIntegerLiteral {
-				TypedValue = BigInteger.Parse(node.Value)
-			};
+			return new UnifiedIntegerLiteral(BigInteger.Parse(node.Value));
 		}
 
 		public static UnifiedDecimalLiteral CreateDecimalLiteral(XElement node) {
