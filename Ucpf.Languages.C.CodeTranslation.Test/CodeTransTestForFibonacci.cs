@@ -85,6 +85,31 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 		}
 
 		[Test]
+		public void JSからCに型補完を伴ってセマンティクスレベルの変換できる() {
+			var variable = new Dictionary<string, string>();
+			var function = new Dictionary<string, string>();
+			var type = new Dictionary<string, string>();
+
+			// variable["n"] = "int";
+			function["fibonacci"] = "int";
+
+			var rules = new Dictionary<string, Dictionary<string, string>>();
+			rules["variable"] = variable;
+			rules["function"] = function;
+
+			var typeTransRule = new CTypeTransRule(rules);
+
+			
+			var _cm2cwr = new CModelToCode(_cwriter, 0, typeTransRule);
+			_cm2cwr.Generate(_jsfunc);
+			
+			var actual = _cwriter.ToString();
+
+			// DebugPrint
+			System.Diagnostics.Debug.WriteLine(actual);
+		}
+
+		[Test]
 		public void CからCにセマンティクスレベルを考慮した出力ができる() {
 			
 			var testMethodIntoC = new Dictionary<string, string>();
@@ -92,13 +117,13 @@ namespace Ucpf.Languages.C.CodeTranslation.Test
 			testMethodIntoC["CU_ASSERT_NOT_EQUAL"] = "CU_ASSERT_NOT_EQUAL";
 			testMethodIntoC["assertEquals"] = "CU_ASSERT_NOT_EQUAL";
 			testMethodIntoC["assert_equal"] = "CU_ASSERT_NOT_EQUAL";
-			testMethodIntoC["assertEquals"] = "CU_ASSERT_NOT_EQUAL";
+			testMethodIntoC["fibonacci"] = "CU_ASSERT_NOT_EQUAL";
 
 
 			var rules = new List<Dictionary<string, string>>();
 			rules.Add(testMethodIntoC);
 
-			CMethodTransRule methodTransRule = new CMethodTransRule(rules);
+			var methodTransRule = new CMethodTransRule(rules);
 
 			// model to code with rules
 			var _cm2cwr = new CModelToCode(_cwriter, 0, methodTransRule);
