@@ -64,7 +64,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 		public static UnifiedBinaryOperator CreateOperator(string sign) {
 			BinaryOperatorType result;
 			return Sign2Type.TryGetValue(sign, out result)
-				? new UnifiedBinaryOperator(sign, result) : null;
+			       	? new UnifiedBinaryOperator(sign, result) : null;
 		}
 
 		public static UnifiedExpression CreateCall(XElement node) {
