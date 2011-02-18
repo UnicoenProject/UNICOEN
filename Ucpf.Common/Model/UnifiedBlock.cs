@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Ucpf.Common.Visitors;
+
 namespace Ucpf.Common.Model {
-	public class UnifiedBlock : IEnumerable<UnifiedStatement> {
+	public class UnifiedBlock : UnifiedElement, IEnumerable<UnifiedStatement> {
 		private readonly List<UnifiedStatement> _statements;
 
 		public UnifiedBlock() {
@@ -30,6 +32,10 @@ namespace Ucpf.Common.Model {
 
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
+		}
+
+		public override void Accept(IUnifiedModelVisitor conv) {
+			conv.Visit(this);
 		}
 	}
 }

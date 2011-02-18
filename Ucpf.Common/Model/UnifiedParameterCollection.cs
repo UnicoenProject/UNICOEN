@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Ucpf.Common.Visitors;
+
 namespace Ucpf.Common.Model {
 
-	public class UnifiedParameterCollection :IEnumerable<UnifiedParameter> {
+	public class UnifiedParameterCollection : UnifiedElement, IEnumerable<UnifiedParameter> {
 
 		private readonly List<UnifiedParameter> _parameters;
 
@@ -28,6 +30,10 @@ namespace Ucpf.Common.Model {
 
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
+		}
+
+		public override void Accept(IUnifiedModelVisitor conv) {
+			conv.Visit(this);
 		}
 	}
 }

@@ -48,7 +48,7 @@ print fib(20)
 										LeftHandSide = new UnifiedCall {
 											Function = new UnifiedVariable("fib"),
 											Arguments = new UnifiedArgumentCollection {
-												new UnifiedBinaryExpression {
+												(UnifiedArgument)new UnifiedBinaryExpression {
 													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(1)
@@ -58,7 +58,7 @@ print fib(20)
 										RightHandSide = new UnifiedCall {
 											Function = new UnifiedVariable("fib"),
 											Arguments = new UnifiedArgumentCollection {
-												new UnifiedBinaryExpression {
+												(UnifiedArgument)new UnifiedBinaryExpression {
 													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(2)
@@ -73,10 +73,10 @@ print fib(20)
 				new UnifiedCall {
 					Function = new UnifiedVariable("print"),
 					Arguments = new UnifiedArgumentCollection {
-						new UnifiedCall {
+						(UnifiedArgument)new UnifiedCall {
 							Function = new UnifiedVariable("fib"),
 							Arguments = new UnifiedArgumentCollection {
-								new UnifiedIntegerLiteral(20)
+								(UnifiedArgument)new UnifiedIntegerLiteral(20),
 							}
 						}
 					}

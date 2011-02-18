@@ -1,4 +1,5 @@
-﻿using Ucpf.Common.ModelToCode;
+﻿
+using Ucpf.Common.Visitors;
 
 namespace Ucpf.Common.OldModel {
 	public interface ICodeElement {

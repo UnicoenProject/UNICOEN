@@ -50,6 +50,7 @@
     <Compile Include="Fixture.cs" />
     <Compile Include="StructuralEqualityComparerTestForPrimitive.cs" />
     <Compile Include="StructuralEqualityComparerTestForUnified.cs" />
+    <Compile Include="Visitors\UnifiedModelToXmlTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">

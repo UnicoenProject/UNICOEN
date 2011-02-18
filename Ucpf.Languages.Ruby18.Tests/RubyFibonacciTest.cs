@@ -13,7 +13,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 				Arguments = new UnifiedArgumentCollection {
 					decrement == null
 						? (UnifiedArgument)new UnifiedVariable("n")
-						: new UnifiedBinaryExpression {
+						: (UnifiedArgument)new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator =
 						  	new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),

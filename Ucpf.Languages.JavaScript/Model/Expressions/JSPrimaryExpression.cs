@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Xml.Linq;
-using Ucpf.Common.ModelToCode;
 using Ucpf.Common.OldModel.Expressions;
+
+using Ucpf.Common.Visitors;
 
 namespace Ucpf.Languages.JavaScript.Model.Expressions {
 	//TODO implement some Common-Interface
