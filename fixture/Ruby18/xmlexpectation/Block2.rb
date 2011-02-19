@@ -19,7 +19,7 @@
     </call>
     <block>
       <call startline="5">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="5">
           <str startline="4">
@@ -44,7 +44,7 @@
     </call>
     <block>
       <call startline="8">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="8">
           <str startline="7">
@@ -66,7 +66,7 @@
         </lit>
       </array>
       <call startline="13">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="13">
           <str startline="12">
@@ -75,7 +75,7 @@
         </arglist>
       </call>
     </when>
-    <Nil />
+    <nil />
   </case>
   <until startline="15">
     <call startline="15">
@@ -91,7 +91,7 @@
     </call>
     <block>
       <call startline="17">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="17">
           <str startline="16">
@@ -116,7 +116,7 @@
     </call>
     <block>
       <call startline="21">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="21">
           <str startline="20">
@@ -134,7 +134,7 @@
     </lasgn>
     <block>
       <call startline="25">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="25">
           <str startline="24">
@@ -146,14 +146,14 @@
   </for>
   <iter startline="27">
     <call startline="29">
-      <Nil />
+      <nil />
       <Symbol>loop</Symbol>
       <arglist startline="29" />
     </call>
-    <Nil />
+    <nil />
     <block>
       <call startline="29">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="29">
           <str startline="28">
@@ -165,14 +165,14 @@
   </iter>
   <iter startline="31">
     <call startline="33">
-      <Nil />
+      <nil />
       <Symbol>loop</Symbol>
       <arglist startline="33" />
     </call>
-    <Nil />
+    <nil />
     <block>
       <call startline="33">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="33">
           <str startline="32">
@@ -193,7 +193,7 @@
     </lasgn>
     <block>
       <call startline="37">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="37">
           <str startline="36">
@@ -214,7 +214,7 @@
     </lasgn>
     <block>
       <call startline="41">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="41">
           <str startline="40">
@@ -226,7 +226,7 @@
   </iter>
   <iter startline="43">
     <call startline="45">
-      <Nil />
+      <nil />
       <Symbol>lambda</Symbol>
       <arglist startline="45" />
     </call>
@@ -235,7 +235,7 @@
     </lasgn>
     <block>
       <call startline="45">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="45">
           <str startline="44">
@@ -247,7 +247,7 @@
   </iter>
   <iter startline="47">
     <call startline="49">
-      <Nil />
+      <nil />
       <Symbol>lambda</Symbol>
       <arglist startline="49" />
     </call>
@@ -256,7 +256,7 @@
     </lasgn>
     <block>
       <call startline="49">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="49">
           <str startline="48">

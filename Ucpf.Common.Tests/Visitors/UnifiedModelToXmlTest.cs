@@ -54,7 +54,7 @@ namespace Ucpf.Common.Tests.Visitors {
 </UnifiedDefineFunction>
 ");
 			_toXml.Visit(model);
-			Assert.That(_toXml.Root, Is.EqualTo(expectation));
+			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
 		[Test]
@@ -81,7 +81,7 @@ namespace Ucpf.Common.Tests.Visitors {
 </UnifiedDefineFunction>
 ");
 			_toXml.Visit(model);
-			Assert.That(_toXml.Root, Is.EqualTo(expectation));
+			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
 		[Test]
@@ -105,7 +105,9 @@ namespace Ucpf.Common.Tests.Visitors {
 			<UnifiedCall>
 				<UnifiedVariable Name = ""fibonacci"" />
 				<UnifiedArgumentCollection>
-					<UnifiedVariable Name = ""n"" />
+					<UnifiedArgument>
+						<UnifiedVariable Name = ""n"" />
+					</UnifiedArgument>
 				</UnifiedArgumentCollection>
 			</UnifiedCall>
 		</UnifiedReturn>
@@ -113,7 +115,7 @@ namespace Ucpf.Common.Tests.Visitors {
 </UnifiedDefineFunction>
 ");
 			_toXml.Visit(model);
-			Assert.That(_toXml.Root, Is.EqualTo(expectation));
+			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
 		[Test]
@@ -141,16 +143,28 @@ namespace Ucpf.Common.Tests.Visitors {
 		<UnifiedReturn>
 			<UnifiedBinaryExpression>
 				<UnifiedCall>
-					<UnifiedVariable Name = ""fibonacci"" />
+					<UnifiedVariable Name=""fibonacci"" />
 					<UnifiedArgumentCollection>
-						<UnifiedVariable Name = ""n"" />
+						<UnifiedArgument>
+							<UnifiedBinaryExpression>
+								<UnifiedVariable Name=""n"" />
+								<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
+								<UnifiedIntegerLiteral TypedValue=""1"" />
+							</UnifiedBinaryExpression>
+						</UnifiedArgument>
 					</UnifiedArgumentCollection>
 				</UnifiedCall>
-				<UnifiedBinaryOperator Sign = ""+"", Type = ""Addition"">
+				<UnifiedBinaryOperator Sign = ""+"" Type = ""Addition"" />
 				<UnifiedCall>
-					<UnifiedVariable Name = ""fibonacci"" />
+					<UnifiedVariable Name=""fibonacci"" />
 					<UnifiedArgumentCollection>
-						<UnifiedVariable Name = ""n"" />
+						<UnifiedArgument>
+							<UnifiedBinaryExpression>
+								<UnifiedVariable Name=""n"" />
+								<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
+								<UnifiedIntegerLiteral TypedValue=""2"" />
+							</UnifiedBinaryExpression>
+						</UnifiedArgument>
 					</UnifiedArgumentCollection>
 				</UnifiedCall>
 			</UnifiedBinaryExpression>
@@ -159,7 +173,7 @@ namespace Ucpf.Common.Tests.Visitors {
 </UnifiedDefineFunction>
 ");
 			_toXml.Visit(model);
-			Assert.That(_toXml.Root, Is.EqualTo(expectation));
+			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
 		[Test]
@@ -195,7 +209,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			<UnifiedIf>
 				<UnifiedBinaryExpression>
 					<UnifiedVariable Name = ""n"" />
-					<UnifiedBinaryOperator Sign = ""<"", Type = ""Lesser"">
+					<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
 					<UnifiedIntegerLiteral TypedValue = ""2"" />
 				</UnifiedBinaryExpression>
 				<UnifiedBlock>
@@ -214,7 +228,7 @@ namespace Ucpf.Common.Tests.Visitors {
 </UnifiedDefineFunction>
 ");
 			_toXml.Visit(model);
-			Assert.That(_toXml.Root, Is.EqualTo(expectation));
+			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
 		[Test]
@@ -255,7 +269,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			<UnifiedIf>
 				<UnifiedBinaryExpression>
 					<UnifiedVariable Name = ""n"" />
-					<UnifiedBinaryOperator Sign = ""<"", Type = ""Lesser"">
+					<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
 					<UnifiedIntegerLiteral TypedValue = ""2"" />
 				</UnifiedBinaryExpression>
 				<UnifiedBlock>
@@ -267,16 +281,28 @@ namespace Ucpf.Common.Tests.Visitors {
 					<UnifiedReturn>
 						<UnifiedBinaryExpression>
 							<UnifiedCall>
-								<UnifiedVariable Name = ""fibonacci"" />
+								<UnifiedVariable Name=""fibonacci"" />
 								<UnifiedArgumentCollection>
-									<UnifiedVariable Name = ""n"" />
+									<UnifiedArgument>
+										<UnifiedBinaryExpression>
+											<UnifiedVariable Name=""n"" />
+											<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
+											<UnifiedIntegerLiteral TypedValue=""1"" />
+										</UnifiedBinaryExpression>
+									</UnifiedArgument>
 								</UnifiedArgumentCollection>
 							</UnifiedCall>
-							<UnifiedBinaryOperator Sign = ""+"", Type = ""Addition"">
+							<UnifiedBinaryOperator Sign = ""+"" Type = ""Addition"" />
 							<UnifiedCall>
-								<UnifiedVariable Name = ""fibonacci"" />
+								<UnifiedVariable Name=""fibonacci"" />
 								<UnifiedArgumentCollection>
-									<UnifiedVariable Name = ""n"" />
+									<UnifiedArgument>
+										<UnifiedBinaryExpression>
+											<UnifiedVariable Name=""n"" />
+											<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
+											<UnifiedIntegerLiteral TypedValue=""2"" />
+										</UnifiedBinaryExpression>
+									</UnifiedArgument>
 								</UnifiedArgumentCollection>
 							</UnifiedCall>
 						</UnifiedBinaryExpression>
@@ -288,7 +314,7 @@ namespace Ucpf.Common.Tests.Visitors {
 </UnifiedDefineFunction>
 ");
 			_toXml.Visit(model);
-			Assert.That(_toXml.Root, Is.EqualTo(expectation));
+			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 	}
 }

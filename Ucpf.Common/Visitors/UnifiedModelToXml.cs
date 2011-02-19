@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 
 namespace Ucpf.Common.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
 		private readonly XDocument _document;
-		private Stack<XElement> _targets;
+		private readonly Stack<XElement> _targets;
+		private XElement _root;
 
-		public XElement Root { get; private set; }
+		public XElement Result {
+			get { return _root.Elements().First(); }
+		}
 
 		public UnifiedModelToXml() {
 			_document = new XDocument();
+			_targets = new Stack<XElement>();
 			RestartVisit();
 		}
 
@@ -23,7 +28,7 @@ namespace Ucpf.Common.Visitors {
 		public void RestartVisit(XElement root) {
 			_targets.Clear();
 			_targets.Push(root);
-			Root = root;
+			_root = root;
 		}
 
 		public void Visit<T>(UnifiedTypedLiteral<T> element) {
@@ -33,14 +38,14 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedLiteral element) {
-			Contract.Requires(element.GetType().Name != "UnifiedLiteral");
+			Contract.Requires(element.GetType().Name == "UnifiedLiteral");
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("Value", element.Value);
 			_targets.Peek().Add(xe);
 		}
 
 		public void Visit(UnifiedBinaryOperator element) {
-			Contract.Requires(element.GetType().Name != "UnifiedBinaryOperator");
+			Contract.Requires(element.GetType().Name == "UnifiedBinaryOperator");
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("Sign", element.Sign);
 			xe.SetAttributeValue("Type", element.Type);
@@ -48,7 +53,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedUnaryOperator element) {
-			Contract.Requires(element.GetType().Name != "UnifiedUnaryOperator");
+			Contract.Requires(element.GetType().Name == "UnifiedUnaryOperator");
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("Sign", element.Sign);
 			xe.SetAttributeValue("Type", element.Type);
@@ -56,7 +61,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedArgument element) {
-			Contract.Requires(element.GetType().Name != "UnifiedArgument");
+			Contract.Requires(element.GetType().Name == "UnifiedArgument");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			Visit(element.Value);
@@ -65,7 +70,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedArgumentCollection element) {
-			Contract.Requires(element.GetType().Name != "UnifiedArgumentCollection");
+			Contract.Requires(element.GetType().Name == "UnifiedArgumentCollection");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
@@ -76,7 +81,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedBinaryExpression element) {
-			Contract.Requires(element.GetType().Name != "UnifiedBinaryExpression");
+			Contract.Requires(element.GetType().Name == "UnifiedBinaryExpression");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			Visit(element.LeftHandSide);
@@ -111,7 +116,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedBlock element) {
-			Contract.Requires(element.GetType().Name != "UnifiedBlock");
+			Contract.Requires(element.GetType().Name == "UnifiedBlock");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
@@ -134,17 +139,17 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedCall element) {
-			Contract.Requires(element.GetType().Name != "UnifiedCall");
+			Contract.Requires(element.GetType().Name == "UnifiedCall");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			Visit(element.Arguments);
 			Visit(element.Function);
+			Visit(element.Arguments);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
 
 		public void Visit(UnifiedDefineFunction element) {
-			Contract.Requires(element.GetType().Name != "UnifiedDefineFunction");
+			Contract.Requires(element.GetType().Name == "UnifiedDefineFunction");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
@@ -155,7 +160,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedExpressionStatement element) {
-			Contract.Requires(element.GetType().Name != "UnifiedExpressionStatement");
+			Contract.Requires(element.GetType().Name == "UnifiedExpressionStatement");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			Visit(element.Expression);
@@ -164,7 +169,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedIf element) {
-			Contract.Requires(element.GetType().Name != "UnifiedIf");
+			Contract.Requires(element.GetType().Name == "UnifiedIf");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			Visit(element.Condition);
@@ -175,7 +180,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedParameter element) {
-			Contract.Requires(element.GetType().Name != "UnifiedParameter");
+			Contract.Requires(element.GetType().Name == "UnifiedParameter");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
@@ -184,7 +189,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedParameterCollection element) {
-			Contract.Requires(element.GetType().Name != "UnifiedParameterCollection");
+			Contract.Requires(element.GetType().Name == "UnifiedParameterCollection");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
@@ -195,7 +200,7 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedReturn element) {
-			Contract.Requires(element.GetType().Name != "UnifiedReturn");
+			Contract.Requires(element.GetType().Name == "UnifiedReturn");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			Visit(element.Value);
@@ -204,10 +209,10 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedVariable element) {
-			Contract.Requires(element.GetType().Name != "UnifiedVariable");
+			Contract.Requires(element.GetType().Name == "UnifiedVariable");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			xe.SetAttributeValue("Name", xe.Name);
+			xe.SetAttributeValue("Name", element.Name);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}

@@ -46,7 +46,7 @@
         </lit>
       </array>
       <call startline="9">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="9">
           <str startline="8">
@@ -55,7 +55,7 @@
         </arglist>
       </call>
     </when>
-    <Nil />
+    <nil />
   </case>
   <until startline="11">
     <call startline="11">
@@ -96,20 +96,20 @@
   </for>
   <iter startline="14">
     <call startline="14">
-      <Nil />
+      <nil />
       <Symbol>loop</Symbol>
       <arglist startline="14" />
     </call>
-    <Nil />
+    <nil />
     <block />
   </iter>
   <iter startline="15">
     <call startline="15">
-      <Nil />
+      <nil />
       <Symbol>loop</Symbol>
       <arglist startline="15" />
     </call>
-    <Nil />
+    <nil />
     <block />
   </iter>
   <iter startline="16">
@@ -136,7 +136,7 @@
   </iter>
   <iter startline="18">
     <call startline="18">
-      <Nil />
+      <nil />
       <Symbol>lambda</Symbol>
       <arglist startline="18" />
     </call>
@@ -147,7 +147,7 @@
   </iter>
   <iter startline="19">
     <call startline="19">
-      <Nil />
+      <nil />
       <Symbol>lambda</Symbol>
       <arglist startline="19" />
     </call>
@@ -202,9 +202,9 @@
           <Fixnum>0</Fixnum>
         </lit>
       </array>
-      <Nil />
+      <nil />
     </when>
-    <Nil />
+    <nil />
   </case>
   <until startline="33">
     <call startline="33">
@@ -245,20 +245,20 @@
   </for>
   <iter startline="42">
     <call startline="43">
-      <Nil />
+      <nil />
       <Symbol>loop</Symbol>
       <arglist startline="43" />
     </call>
-    <Nil />
+    <nil />
     <block />
   </iter>
   <iter startline="45">
     <call startline="46">
-      <Nil />
+      <nil />
       <Symbol>loop</Symbol>
       <arglist startline="46" />
     </call>
-    <Nil />
+    <nil />
     <block />
   </iter>
   <iter startline="48">
@@ -285,7 +285,7 @@
   </iter>
   <iter startline="54">
     <call startline="55">
-      <Nil />
+      <nil />
       <Symbol>lambda</Symbol>
       <arglist startline="55" />
     </call>
@@ -296,7 +296,7 @@
   </iter>
   <iter startline="57">
     <call startline="58">
-      <Nil />
+      <nil />
       <Symbol>lambda</Symbol>
       <arglist startline="58" />
     </call>
