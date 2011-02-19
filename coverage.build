@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="UnitTestCoverage" default="coverage" basedir=".">
+
+  <!-- ========================================================== -->
+  <!-- 定義値 -->
+  <!-- ========================================================== -->
+  <property name="coverage.dir" value="coverage"/>
+  <property name="partcover.home" value="C:/Program Files/PartCover/PartCover .NET 4.0"/>
+  <property name="nunit.home" value="C:/Program Files/NUnit 2.5.9/bin/net-2.0"/>
+  <property name="reportgenerator.home" value="C:/Users/exKAZUu/Documents/My Dropbox/Private/Tools/Development/ReportGenerator/bin"/>
+  <property name="partcover.target" value="AntlrHelper.Tests.dll Code2Xml.Tests.dll Ucpf.Common.Tests.dll Ucpf.Grammar.Tests.dll Ucpf.Languages.C.Tests.dll Ucpf.Languages.Java.Tests.dll Ucpf.Languages.JavaScript.Tests.dll Ucpf.Languages.Python2.Tests.dll Ucpf.Languages.Ruby18.Tests.dll Ucpf.Languages.Tests.dll"/>
+  <property name="partcover.include" value="--include [Ucpf.*]*"/>
+  <property name="partcover.exclude" value="--exclude [*.Tests]* --exclude [*]*.Properties.*"/>
+  <property name="partcover.out" value="coverage.xml"/>
+  
+  <!-- ========================================================== -->
+  <!-- NAntタスク実行順序 -->
+  <!-- ========================================================== -->
+  <target name="coverage">
+    <call target="clean" />
+    <call target="partCover" />
+    <call target="reportGenerator" />
+  </target>
+  
+  <!-- ========================================================== -->
+  <!-- ディレクトリをクリア -->
+  <!-- ========================================================== -->
+  <target name="clean">
+    <delete dir="${coverage.dir}" />
+    <mkdir dir="${coverage.dir}" />
+  </target>
+  
+  <!-- ========================================================== -->
+  <!-- PartCover実行 -->
+  <!-- ========================================================== -->
+  <target name="partCover">
+    <exec program="${partcover.home}/PartCover.exe">
+      <arg value="--target" />
+      <arg value="${nunit.home}/nunit-console.exe" />
+      <arg value="--target-args" />
+      <arg value="${partcover.target}" />
+      <arg value="--target-work-dir" />
+      <arg file="${bin.dir}" />
+      <arg value="--output" />
+      <arg value="${coverage.dir}/${partcover.out}" />
+      <arg value="${partcover.include}" />
+      <arg value="${partcover.exclude}" />
+    </exec>
+    <!-- テスト結果XMLをコピー -->
+    <copy file="${bin.dir}/TestResult.xml" tofile="${report.dir}/TestResult.xml" />
+  </target>
+
+  <!-- ========================================================== -->
+  <!-- ReportGenerator実行 -->
+  <!-- ========================================================== -->
+  <target name="reportGenerator">
+    <exec program="${reportgenerator.home}/bin/reportGenerator.exe">
+      <arg file="${coverage.dir}/${partcover.out}" />
+      <arg file="${coverage.dir}" />
+    </exec>
+  </target>
+  
+</project>
