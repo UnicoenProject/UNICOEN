@@ -99,8 +99,12 @@
     <Compile Include="AstGenerators\CLexer.cs" />
     <Compile Include="AstGenerators\CParser.cs" />
     <Compile Include="CodeGenerators\CCodeGenerator.cs" />
+    <Compile Include="Model\CEntireTypeTransRule.cs" />
+    <Compile Include="Model\CMethodTransRule.cs" />
     <Compile Include="Model\CModelToCode.cs" />
     <Compile Include="Model\CBlock.cs" />
+    <Compile Include="Model\CRule.cs" />
+    <Compile Include="Model\CTypeTransRule.cs" />
     <Compile Include="Model\Expressions\CAssignmentExpression.cs" />
     <Compile Include="Model\Expressions\CBinaryExpression.cs" />
     <Compile Include="Model\Expressions\CExpression.cs" />

@@ -2,7 +2,11 @@
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+<<<<<<< HEAD
 using Ucpf.Common.Model;
+=======
+using Ucpf.Common.ModelToCode;
+>>>>>>> master
 using Ucpf.Common.OldModel;
 using Ucpf.Common.OldModel.Expressions;
 using Ucpf.Common.OldModel.Operators;
