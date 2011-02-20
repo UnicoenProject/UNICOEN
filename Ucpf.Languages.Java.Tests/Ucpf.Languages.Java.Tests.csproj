@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaFibonacciTest.cs" />
     <Compile Include="JavaAstGeneratorTest.cs" />
     <Compile Include="JavaCodeModelTest.cs" />
     <Compile Include="JavaLiteralTest.cs" />
