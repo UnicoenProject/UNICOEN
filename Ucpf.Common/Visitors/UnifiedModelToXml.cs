@@ -7,7 +7,6 @@ using Ucpf.Common.Model;
 
 namespace Ucpf.Common.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
-		private readonly XDocument _document;
 		private readonly Stack<XElement> _targets;
 		private XElement _root;
 
@@ -16,7 +15,6 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public UnifiedModelToXml() {
-			_document = new XDocument();
 			_targets = new Stack<XElement>();
 			RestartVisit();
 		}
