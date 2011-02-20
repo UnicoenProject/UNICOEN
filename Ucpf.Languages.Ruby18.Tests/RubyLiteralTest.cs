@@ -1,7 +1,6 @@
 ﻿using System.Numerics;
 using NUnit.Framework;
 using Ucpf.Common.Model;
-using Ucpf.Common.Model;
 using Ucpf.Languages.Ruby18.AstGenerators;
 using Ucpf.Languages.Ruby18.Model;
 

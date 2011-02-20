@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Xml.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Model;
@@ -12,7 +8,6 @@ namespace Ucpf.Common.Tests.Visitors {
 	[TestFixture]
 	public class UnifiedModelToXmlTest {
 		private UnifiedModelToXml _toXml;
-		private StringWriter _writer;
 
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
@@ -22,8 +17,7 @@ namespace Ucpf.Common.Tests.Visitors {
 						? (UnifiedArgument)new UnifiedVariable("n")
 						: (UnifiedArgument)new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator =
-						  	new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+							Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
 							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
 						}
 				},
@@ -32,7 +26,6 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[SetUp]
 		public void SetUp() {
-			_writer = new StringWriter();
 			_toXml = new UnifiedModelToXml();
 		}
 
@@ -45,7 +38,9 @@ namespace Ucpf.Common.Tests.Visitors {
 				},
 				Block = new UnifiedBlock(),
 			};
-			var expectation = XDocument.Parse(@"
+			var expectation =
+				XDocument.Parse(
+					@"
 <UnifiedDefineFunction Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
@@ -68,7 +63,9 @@ namespace Ucpf.Common.Tests.Visitors {
 					new UnifiedReturn(new UnifiedVariable("n")),
 				},
 			};
-			var expectation = XDocument.Parse(@"
+			var expectation =
+				XDocument.Parse(
+					@"
 <UnifiedDefineFunction Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
@@ -95,7 +92,9 @@ namespace Ucpf.Common.Tests.Visitors {
 					new UnifiedReturn(CreateCall(null)),
 				},
 			};
-			var expectation = XDocument.Parse(@"
+			var expectation =
+				XDocument.Parse(
+					@"
 <UnifiedDefineFunction Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
@@ -134,7 +133,9 @@ namespace Ucpf.Common.Tests.Visitors {
 						})
 				},
 			};
-			var expectation = XDocument.Parse(@"
+			var expectation =
+				XDocument.Parse(
+					@"
 <UnifiedDefineFunction Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
@@ -199,7 +200,9 @@ namespace Ucpf.Common.Tests.Visitors {
 					}),
 				},
 			};
-			var expectation = XDocument.Parse(@"
+			var expectation =
+				XDocument.Parse(
+					@"
 <UnifiedDefineFunction Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
@@ -259,7 +262,9 @@ namespace Ucpf.Common.Tests.Visitors {
 					}),
 				},
 			};
-			var expectation = XDocument.Parse(@"
+			var expectation =
+				XDocument.Parse(
+					@"
 <UnifiedDefineFunction Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />

@@ -15,8 +15,8 @@ namespace Ucpf.Languages.Ruby18.Tests {
 						? (UnifiedArgument)new UnifiedVariable("n")
 						: (UnifiedArgument)new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator =
-						  	new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+							Operator = new UnifiedBinaryOperator("-",
+						                   	BinaryOperatorType.Subtraction),
 							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
 						}
 				},

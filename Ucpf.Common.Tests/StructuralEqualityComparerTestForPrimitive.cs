@@ -143,15 +143,18 @@ namespace Ucpf.Common.Tests {
 
 		[Test]
 		public void compares_equal_intListLists() {
-			var o1 = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
-			var o2 = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
+			var o1 = new List<List<int>>
+			{ new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
+			var o2 = new List<List<int>>
+			{ new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
 		}
 
 		[Test]
 		public void compares_same_intListLists() {
-			var o1 = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
+			var o1 = new List<List<int>>
+			{ new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
 			var o2 = o1;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -159,16 +162,20 @@ namespace Ucpf.Common.Tests {
 
 		[Test]
 		public void compares_different_intListLists() {
-			var o1 = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
-			var o2 = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 3, 4 } };
+			var o1 = new List<List<int>>
+			{ new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
+			var o2 = new List<List<int>>
+			{ new List<int> { 1, 2 }, new List<int> { 1, 3, 4 } };
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);
 		}
 
 		[Test]
 		public void compares_intListLists_subintListLists() {
-			var o1 = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
-			var o2 = new List<List<int>> { new List<int> { 1, 2 }, new List<int> { 1, 2 } };
+			var o1 = new List<List<int>>
+			{ new List<int> { 1, 2 }, new List<int> { 1, 2, 4 } };
+			var o2 = new List<List<int>>
+			{ new List<int> { 1, 2 }, new List<int> { 1, 2 } };
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);
 		}
