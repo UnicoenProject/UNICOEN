@@ -9,21 +9,30 @@ namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 
 		public static UnifiedDefineFunction CreateDefineFunction(XElement node) {
-			return new UnifiedDefineFunction() {
+			return new UnifiedDefineFunction {
 				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value),
 				ReturnType = node.Element("Type").Elements().ElementAt(0).Value,
 				Name = node.Element("IDENTIFIER").Value,
 				Parameters =
-					createUnifiedParameterCollection(node.Element("formalParameterList")),
-				Block = createBlock(node.Element("block"))
+					CreateParameterCollection(node.Element("formalParameterList")),
+				Block = CreateBlock(node.Element("block"))
 			};
 		}
 
-		private static UnifiedBlock createBlock(XElement element) {
+		private static UnifiedBlock CreateBlock(XElement xElement) {
+			var element = xElement.Element("Statement").Elements().First();
+			var unifiedBlock = new UnifiedBlock ();
+			if (element.Name.LocalName == "TOKEN" && element.Value == "if") {
+				unifiedBlock.Add(CreateIfStatement());
+			}
 			throw new NotImplementedException();
 		}
 
-		private static UnifiedParameterCollection createUnifiedParameterCollection(XElement element) {
+		private static UnifiedIf CreateIfStatement() {
+			throw new NotImplementedException();
+		}
+
+		private static UnifiedParameterCollection CreateParameterCollection(XElement element) {
 			throw new NotImplementedException();
 		}
 
