@@ -7,6 +7,8 @@ using Ucpf.Common.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedDefineFunction : UnifiedStatement {
+		public IEnumerable<String> Modifiers { get; set; }
+		public String ReturnType { get; set; }
 		public string Name { get; set; }
 		public UnifiedParameterCollection Parameters { get; set; }
 		public UnifiedBlock Block { get; set; }

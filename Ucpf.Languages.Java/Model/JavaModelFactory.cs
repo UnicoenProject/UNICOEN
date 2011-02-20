@@ -1,12 +1,31 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 using Ucpf.Common.Model;
 
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
+
+		public static UnifiedDefineFunction CreateDefineFunction(XElement node) {
+			return new UnifiedDefineFunction() {
+				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value),
+				ReturnType = node.Element("Type").Elements().ElementAt(0).Value,
+				Name = node.Element("IDENTIFIER").Value,
+				Parameters =
+					createUnifiedParameterCollection(node.Element("formalParameterList")),
+				Block = createBlock(node.Element("block"))
+			};
+		}
+
+		private static UnifiedBlock createBlock(XElement element) {
+			throw new NotImplementedException();
+		}
+
+		private static UnifiedParameterCollection createUnifiedParameterCollection(XElement element) {
+			throw new NotImplementedException();
+		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
