@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.OldModel.Operators;
+using Ucpf.Common.OldModel.Statements;
 
 namespace Ucpf.Languages.JavaScript.Model
 {
@@ -157,16 +158,48 @@ namespace Ucpf.Languages.JavaScript.Model
 
 		#region Statement
 
+		public static UnifiedStatement CreateStatement(XElement node) {
+			var element = node.Elements().First();
+
+			//case statementBlock
+			if (element.Name.LocalName == "statementBlock")
+				return CreateBlock(element);
+
+			//case ifStatement
+			if (element.Name.LocalName == "ifStatement")
+				return CreateIf(element);
+
+			//case returnStatement
+			if (element.Name.LocalName == "returnStatement")
+				return CreateReturn(element);
+
+			//case error
+			throw new NotImplementedException();
+		}
+
 		public static  UnifiedBlock CreateBlock(XElement node) {
-			return null;
+			//TODO null check
+			return new UnifiedBlock(
+				node.Element("statementList").Elements("statement")
+				.Select(e => CreateStatement(e)).Cast<UnifiedStatement>().ToList()
+				);
 		}
 
 		public static  UnifiedIf CreateIf(XElement node) {
-			return null;
+			return new UnifiedIf {
+				//TODO UnifiedBlock isn't extended UnifiedStatement
+				//TODO consider how deal with else block
+				//TODO consider this cast is OK?
+				Condition = CreateExpression(node.Element("expression")),
+				TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
+				FalseBlock = (UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
+			};
 		}
 
 		public static  UnifiedReturn CreateReturn(XElement node) {
-			return null;
+			return new UnifiedReturn {
+				Value = CreateExpression(node.Element("expression"))
+			};
 		}
 
 		#endregion
@@ -174,12 +207,22 @@ namespace Ucpf.Languages.JavaScript.Model
 		#region Function
 
 		public static UnifiedDefineFunction CreateFunction(XElement node) {
-			return null;
+			return new UnifiedDefineFunction {
+				Name = node.Element("Identifier").Value,
+				Block = CreateBlock(node.Element("functionBody")),
+				Parameters = CreateParameterCollection(node)
+			};
 		}
 
-		//TODO or Argument?
-		public static UnifiedVariable CreateVariable(XElement node) {
-			return null;
+		public static UnifiedParameterCollection CreateParameterCollection(XElement node) {
+			return new UnifiedParameterCollection(
+				node.Element("formalParameterList").Elements("Identifier")
+				.Select(e => CreateParameter(e))
+				);
+		}
+
+		public static UnifiedParameter CreateParameter(XElement node) {
+			return new UnifiedParameter(node.Value);
 		}
 	
 		#endregion

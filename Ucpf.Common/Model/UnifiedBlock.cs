@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedBlock : IEnumerable<UnifiedStatement> {
+	 public class UnifiedBlock : UnifiedStatement, IEnumerable<UnifiedStatement> {
 		private readonly List<UnifiedStatement> _statements;
 
 		public UnifiedBlock() {
