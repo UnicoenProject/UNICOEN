@@ -5,7 +5,7 @@
 		}
 
 		public static string Python3() {
-			return @"C:\Python31\python.exe";
+			return @"C:\Python32\python.exe";
 		}
 
 		public static string Ruby19() {

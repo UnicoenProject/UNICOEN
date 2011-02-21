@@ -3,73 +3,69 @@
     <simple_stmt>
       <small_stmt>
         <expr_stmt>
-          <testlist>
+          <testlist_star_expr>
             <test>
               <or_test>
                 <and_test>
                   <not_test>
                     <comparison>
-                      <star_expr>
-                        <expr>
-                          <xor_expr>
-                            <and_expr>
-                              <shift_expr>
-                                <arith_expr>
-                                  <term>
-                                    <factor>
-                                      <power>
-                                        <atom>
-                                          <NAME startline="1" endline="1">i</NAME>
-                                        </atom>
-                                      </power>
-                                    </factor>
-                                  </term>
-                                </arith_expr>
-                              </shift_expr>
-                            </and_expr>
-                          </xor_expr>
-                        </expr>
-                      </star_expr>
+                      <expr>
+                        <xor_expr>
+                          <and_expr>
+                            <shift_expr>
+                              <arith_expr>
+                                <term>
+                                  <factor>
+                                    <power>
+                                      <atom>
+                                        <NAME startline="1" endline="1">i</NAME>
+                                      </atom>
+                                    </power>
+                                  </factor>
+                                </term>
+                              </arith_expr>
+                            </shift_expr>
+                          </and_expr>
+                        </xor_expr>
+                      </expr>
                     </comparison>
                   </not_test>
                 </and_test>
               </or_test>
             </test>
-          </testlist>
+          </testlist_star_expr>
           <EQUAL startline="1" endline="1">=</EQUAL>
-          <testlist>
+          <testlist_star_expr>
             <test>
               <or_test>
                 <and_test>
                   <not_test>
                     <comparison>
-                      <star_expr>
-                        <expr>
-                          <xor_expr>
-                            <and_expr>
-                              <shift_expr>
-                                <arith_expr>
-                                  <term>
-                                    <factor>
-                                      <power>
-                                        <atom>
-                                          <NUMBER startline="1" endline="1">0</NUMBER>
-                                        </atom>
-                                      </power>
-                                    </factor>
-                                  </term>
-                                </arith_expr>
-                              </shift_expr>
-                            </and_expr>
-                          </xor_expr>
-                        </expr>
-                      </star_expr>
+                      <expr>
+                        <xor_expr>
+                          <and_expr>
+                            <shift_expr>
+                              <arith_expr>
+                                <term>
+                                  <factor>
+                                    <power>
+                                      <atom>
+                                        <NUMBER startline="1" endline="1">0</NUMBER>
+                                      </atom>
+                                    </power>
+                                  </factor>
+                                </term>
+                              </arith_expr>
+                            </shift_expr>
+                          </and_expr>
+                        </xor_expr>
+                      </expr>
                     </comparison>
                   </not_test>
                 </and_test>
               </or_test>
             </test>
-          </testlist>
+          </testlist_star_expr>
         </expr_stmt>
       </small_stmt>
       <NEWLINE startline="1" endline="1"></NEWLINE>
@@ -84,51 +80,47 @@
             <and_test>
               <not_test>
                 <comparison>
-                  <star_expr>
-                    <expr>
-                      <xor_expr>
-                        <and_expr>
-                          <shift_expr>
-                            <arith_expr>
-                              <term>
-                                <factor>
-                                  <power>
-                                    <atom>
-                                      <NAME startline="2" endline="2">i</NAME>
-                                    </atom>
-                                  </power>
-                                </factor>
-                              </term>
-                            </arith_expr>
-                          </shift_expr>
-                        </and_expr>
-                      </xor_expr>
-                    </expr>
-                  </star_expr>
+                  <expr>
+                    <xor_expr>
+                      <and_expr>
+                        <shift_expr>
+                          <arith_expr>
+                            <term>
+                              <factor>
+                                <power>
+                                  <atom>
+                                    <NAME startline="2" endline="2">i</NAME>
+                                  </atom>
+                                </power>
+                              </factor>
+                            </term>
+                          </arith_expr>
+                        </shift_expr>
+                      </and_expr>
+                    </xor_expr>
+                  </expr>
                   <comp_op>
                     <EQEQUAL startline="2" endline="2">==</EQEQUAL>
                   </comp_op>
-                  <star_expr>
-                    <expr>
-                      <xor_expr>
-                        <and_expr>
-                          <shift_expr>
-                            <arith_expr>
-                              <term>
-                                <factor>
-                                  <power>
-                                    <atom>
-                                      <NUMBER startline="2" endline="2">0</NUMBER>
-                                    </atom>
-                                  </power>
-                                </factor>
-                              </term>
-                            </arith_expr>
-                          </shift_expr>
-                        </and_expr>
-                      </xor_expr>
-                    </expr>
-                  </star_expr>
+                  <expr>
+                    <xor_expr>
+                      <and_expr>
+                        <shift_expr>
+                          <arith_expr>
+                            <term>
+                              <factor>
+                                <power>
+                                  <atom>
+                                    <NUMBER startline="2" endline="2">0</NUMBER>
+                                  </atom>
+                                </power>
+                              </factor>
+                            </term>
+                          </arith_expr>
+                        </shift_expr>
+                      </and_expr>
+                    </xor_expr>
+                  </expr>
                 </comparison>
               </not_test>
             </and_test>
@@ -142,78 +134,74 @@
             <simple_stmt>
               <small_stmt>
                 <expr_stmt>
-                  <testlist>
+                  <testlist_star_expr>
                     <test>
                       <or_test>
                         <and_test>
                           <not_test>
                             <comparison>
-                              <star_expr>
-                                <expr>
-                                  <xor_expr>
-                                    <and_expr>
-                                      <shift_expr>
-                                        <arith_expr>
-                                          <term>
-                                            <factor>
-                                              <power>
-                                                <atom>
-                                                  <NAME startline="3" endline="3">print</NAME>
-                                                </atom>
-                                                <trailer>
-                                                  <LPAR startline="3" endline="3">(</LPAR>
-                                                  <arglist>
-                                                    <argument>
-                                                      <test>
-                                                        <or_test>
-                                                          <and_test>
-                                                            <not_test>
-                                                              <comparison>
-                                                                <star_expr>
-                                                                  <expr>
-                                                                    <xor_expr>
-                                                                      <and_expr>
-                                                                        <shift_expr>
-                                                                          <arith_expr>
-                                                                            <term>
-                                                                              <factor>
-                                                                                <power>
-                                                                                  <atom>
-                                                                                    <STRING startline="3" endline="3">"test"</STRING>
-                                                                                  </atom>
-                                                                                </power>
-                                                                              </factor>
-                                                                            </term>
-                                                                          </arith_expr>
-                                                                        </shift_expr>
-                                                                      </and_expr>
-                                                                    </xor_expr>
-                                                                  </expr>
-                                                                </star_expr>
-                                                              </comparison>
-                                                            </not_test>
-                                                          </and_test>
-                                                        </or_test>
-                                                      </test>
-                                                    </argument>
-                                                  </arglist>
-                                                  <RPAR startline="3" endline="3">)</RPAR>
-                                                </trailer>
-                                              </power>
-                                            </factor>
-                                          </term>
-                                        </arith_expr>
-                                      </shift_expr>
-                                    </and_expr>
-                                  </xor_expr>
-                                </expr>
-                              </star_expr>
+                              <expr>
+                                <xor_expr>
+                                  <and_expr>
+                                    <shift_expr>
+                                      <arith_expr>
+                                        <term>
+                                          <factor>
+                                            <power>
+                                              <atom>
+                                                <NAME startline="3" endline="3">print</NAME>
+                                              </atom>
+                                              <trailer>
+                                                <LPAR startline="3" endline="3">(</LPAR>
+                                                <arglist>
+                                                  <argument>
+                                                    <test>
+                                                      <or_test>
+                                                        <and_test>
+                                                          <not_test>
+                                                            <comparison>
+                                                              <expr>
+                                                                <xor_expr>
+                                                                  <and_expr>
+                                                                    <shift_expr>
+                                                                      <arith_expr>
+                                                                        <term>
+                                                                          <factor>
+                                                                            <power>
+                                                                              <atom>
+                                                                                <STRING startline="3" endline="3">"test"</STRING>
+                                                                              </atom>
+                                                                            </power>
+                                                                          </factor>
+                                                                        </term>
+                                                                      </arith_expr>
+                                                                    </shift_expr>
+                                                                  </and_expr>
+                                                                </xor_expr>
+                                                              </expr>
+                                                            </comparison>
+                                                          </not_test>
+                                                        </and_test>
+                                                      </or_test>
+                                                    </test>
+                                                  </argument>
+                                                </arglist>
+                                                <RPAR startline="3" endline="3">)</RPAR>
+                                              </trailer>
+                                            </power>
+                                          </factor>
+                                        </term>
+                                      </arith_expr>
+                                    </shift_expr>
+                                  </and_expr>
+                                </xor_expr>
+                              </expr>
                             </comparison>
                           </not_test>
                         </and_test>
                       </or_test>
                     </test>
-                  </testlist>
+                  </testlist_star_expr>
                 </expr_stmt>
               </small_stmt>
               <NEWLINE startline="3" endline="3"></NEWLINE>
@@ -233,51 +221,47 @@
             <and_test>
               <not_test>
                 <comparison>
-                  <star_expr>
-                    <expr>
-                      <xor_expr>
-                        <and_expr>
-                          <shift_expr>
-                            <arith_expr>
-                              <term>
-                                <factor>
-                                  <power>
-                                    <atom>
-                                      <NAME startline="4" endline="4">i</NAME>
-                                    </atom>
-                                  </power>
-                                </factor>
-                              </term>
-                            </arith_expr>
-                          </shift_expr>
-                        </and_expr>
-                      </xor_expr>
-                    </expr>
-                  </star_expr>
+                  <expr>
+                    <xor_expr>
+                      <and_expr>
+                        <shift_expr>
+                          <arith_expr>
+                            <term>
+                              <factor>
+                                <power>
+                                  <atom>
+                                    <NAME startline="4" endline="4">i</NAME>
+                                  </atom>
+                                </power>
+                              </factor>
+                            </term>
+                          </arith_expr>
+                        </shift_expr>
+                      </and_expr>
+                    </xor_expr>
+                  </expr>
                   <comp_op>
                     <NOTEQUAL startline="4" endline="4">!=</NOTEQUAL>
                   </comp_op>
-                  <star_expr>
-                    <expr>
-                      <xor_expr>
-                        <and_expr>
-                          <shift_expr>
-                            <arith_expr>
-                              <term>
-                                <factor>
-                                  <power>
-                                    <atom>
-                                      <NUMBER startline="4" endline="4">0</NUMBER>
-                                    </atom>
-                                  </power>
-                                </factor>
-                              </term>
-                            </arith_expr>
-                          </shift_expr>
-                        </and_expr>
-                      </xor_expr>
-                    </expr>
-                  </star_expr>
+                  <expr>
+                    <xor_expr>
+                      <and_expr>
+                        <shift_expr>
+                          <arith_expr>
+                            <term>
+                              <factor>
+                                <power>
+                                  <atom>
+                                    <NUMBER startline="4" endline="4">0</NUMBER>
+                                  </atom>
+                                </power>
+                              </factor>
+                            </term>
+                          </arith_expr>
+                        </shift_expr>
+                      </and_expr>
+                    </xor_expr>
+                  </expr>
                 </comparison>
               </not_test>
             </and_test>
@@ -291,78 +275,74 @@
             <simple_stmt>
               <small_stmt>
                 <expr_stmt>
-                  <testlist>
+                  <testlist_star_expr>
                     <test>
                       <or_test>
                         <and_test>
                           <not_test>
                             <comparison>
-                              <star_expr>
-                                <expr>
-                                  <xor_expr>
-                                    <and_expr>
-                                      <shift_expr>
-                                        <arith_expr>
-                                          <term>
-                                            <factor>
-                                              <power>
-                                                <atom>
-                                                  <NAME startline="5" endline="5">print</NAME>
-                                                </atom>
-                                                <trailer>
-                                                  <LPAR startline="5" endline="5">(</LPAR>
-                                                  <arglist>
-                                                    <argument>
-                                                      <test>
-                                                        <or_test>
-                                                          <and_test>
-                                                            <not_test>
-                                                              <comparison>
-                                                                <star_expr>
-                                                                  <expr>
-                                                                    <xor_expr>
-                                                                      <and_expr>
-                                                                        <shift_expr>
-                                                                          <arith_expr>
-                                                                            <term>
-                                                                              <factor>
-                                                                                <power>
-                                                                                  <atom>
-                                                                                    <STRING startline="5" endline="5">"test"</STRING>
-                                                                                  </atom>
-                                                                                </power>
-                                                                              </factor>
-                                                                            </term>
-                                                                          </arith_expr>
-                                                                        </shift_expr>
-                                                                      </and_expr>
-                                                                    </xor_expr>
-                                                                  </expr>
-                                                                </star_expr>
-                                                              </comparison>
-                                                            </not_test>
-                                                          </and_test>
-                                                        </or_test>
-                                                      </test>
-                                                    </argument>
-                                                  </arglist>
-                                                  <RPAR startline="5" endline="5">)</RPAR>
-                                                </trailer>
-                                              </power>
-                                            </factor>
-                                          </term>
-                                        </arith_expr>
-                                      </shift_expr>
-                                    </and_expr>
-                                  </xor_expr>
-                                </expr>
-                              </star_expr>
+                              <expr>
+                                <xor_expr>
+                                  <and_expr>
+                                    <shift_expr>
+                                      <arith_expr>
+                                        <term>
+                                          <factor>
+                                            <power>
+                                              <atom>
+                                                <NAME startline="5" endline="5">print</NAME>
+                                              </atom>
+                                              <trailer>
+                                                <LPAR startline="5" endline="5">(</LPAR>
+                                                <arglist>
+                                                  <argument>
+                                                    <test>
+                                                      <or_test>
+                                                        <and_test>
+                                                          <not_test>
+                                                            <comparison>
+                                                              <expr>
+                                                                <xor_expr>
+                                                                  <and_expr>
+                                                                    <shift_expr>
+                                                                      <arith_expr>
+                                                                        <term>
+                                                                          <factor>
+                                                                            <power>
+                                                                              <atom>
+                                                                                <STRING startline="5" endline="5">"test"</STRING>
+                                                                              </atom>
+                                                                            </power>
+                                                                          </factor>
+                                                                        </term>
+                                                                      </arith_expr>
+                                                                    </shift_expr>
+                                                                  </and_expr>
+                                                                </xor_expr>
+                                                              </expr>
+                                                            </comparison>
+                                                          </not_test>
+                                                        </and_test>
+                                                      </or_test>
+                                                    </test>
+                                                  </argument>
+                                                </arglist>
+                                                <RPAR startline="5" endline="5">)</RPAR>
+                                              </trailer>
+                                            </power>
+                                          </factor>
+                                        </term>
+                                      </arith_expr>
+                                    </shift_expr>
+                                  </and_expr>
+                                </xor_expr>
+                              </expr>
                             </comparison>
                           </not_test>
                         </and_test>
                       </or_test>
                     </test>
-                  </testlist>
+                  </testlist_star_expr>
                 </expr_stmt>
               </small_stmt>
               <NEWLINE startline="5" endline="5"></NEWLINE>
@@ -378,27 +358,25 @@
       <for_stmt>
         <NAME startline="6" endline="6">for</NAME>
         <exprlist>
-          <star_expr>
-            <expr>
-              <xor_expr>
-                <and_expr>
-                  <shift_expr>
-                    <arith_expr>
-                      <term>
-                        <factor>
-                          <power>
-                            <atom>
-                              <NAME startline="6" endline="6">x</NAME>
-                            </atom>
-                          </power>
-                        </factor>
-                      </term>
-                    </arith_expr>
-                  </shift_expr>
-                </and_expr>
-              </xor_expr>
-            </expr>
-          </star_expr>
+          <expr>
+            <xor_expr>
+              <and_expr>
+                <shift_expr>
+                  <arith_expr>
+                    <term>
+                      <factor>
+                        <power>
+                          <atom>
+                            <NAME startline="6" endline="6">x</NAME>
+                          </atom>
+                        </power>
+                      </factor>
+                    </term>
+                  </arith_expr>
+                </shift_expr>
+              </and_expr>
+            </xor_expr>
+          </expr>
         </exprlist>
         <NAME startline="6" endline="6">in</NAME>
         <testlist>
@@ -407,61 +385,57 @@
               <and_test>
                 <not_test>
                   <comparison>
-                    <star_expr>
-                      <expr>
-                        <xor_expr>
-                          <and_expr>
-                            <shift_expr>
-                              <arith_expr>
-                                <term>
-                                  <factor>
-                                    <power>
-                                      <atom>
-                                        <LSQB startline="6" endline="6">[</LSQB>
-                                        <testlist_comp>
-                                          <test>
-                                            <or_test>
-                                              <and_test>
-                                                <not_test>
-                                                  <comparison>
-                                                    <star_expr>
-                                                      <expr>
-                                                        <xor_expr>
-                                                          <and_expr>
-                                                            <shift_expr>
-                                                              <arith_expr>
-                                                                <term>
-                                                                  <factor>
-                                                                    <power>
-                                                                      <atom>
-                                                                        <NUMBER startline="6" endline="6">0</NUMBER>
-                                                                      </atom>
-                                                                    </power>
-                                                                  </factor>
-                                                                </term>
-                                                              </arith_expr>
-                                                            </shift_expr>
-                                                          </and_expr>
-                                                        </xor_expr>
-                                                      </expr>
-                                                    </star_expr>
-                                                  </comparison>
-                                                </not_test>
-                                              </and_test>
-                                            </or_test>
-                                          </test>
-                                        </testlist_comp>
-                                        <RSQB startline="6" endline="6">]</RSQB>
-                                      </atom>
-                                    </power>
-                                  </factor>
-                                </term>
-                              </arith_expr>
-                            </shift_expr>
-                          </and_expr>
-                        </xor_expr>
-                      </expr>
-                    </star_expr>
+                    <expr>
+                      <xor_expr>
+                        <and_expr>
+                          <shift_expr>
+                            <arith_expr>
+                              <term>
+                                <factor>
+                                  <power>
+                                    <atom>
+                                      <LSQB startline="6" endline="6">[</LSQB>
+                                      <testlist_comp>
+                                        <test>
+                                          <or_test>
+                                            <and_test>
+                                              <not_test>
+                                                <comparison>
+                                                  <expr>
+                                                    <xor_expr>
+                                                      <and_expr>
+                                                        <shift_expr>
+                                                          <arith_expr>
+                                                            <term>
+                                                              <factor>
+                                                                <power>
+                                                                  <atom>
+                                                                    <NUMBER startline="6" endline="6">0</NUMBER>
+                                                                  </atom>
+                                                                </power>
+                                                              </factor>
+                                                            </term>
+                                                          </arith_expr>
+                                                        </shift_expr>
+                                                      </and_expr>
+                                                    </xor_expr>
+                                                  </expr>
+                                                </comparison>
+                                              </not_test>
+                                            </and_test>
+                                          </or_test>
+                                        </test>
+                                      </testlist_comp>
+                                      <RSQB startline="6" endline="6">]</RSQB>
+                                    </atom>
+                                  </power>
+                                </factor>
+                              </term>
+                            </arith_expr>
+                          </shift_expr>
+                        </and_expr>
+                      </xor_expr>
+                    </expr>
                   </comparison>
                 </not_test>
               </and_test>
@@ -476,88 +450,84 @@
             <simple_stmt>
               <small_stmt>
                 <expr_stmt>
-                  <testlist>
+                  <testlist_star_expr>
                     <test>
                       <or_test>
                         <and_test>
                           <not_test>
                             <comparison>
-                              <star_expr>
-                                <expr>
-                                  <xor_expr>
-                                    <and_expr>
-                                      <shift_expr>
-                                        <arith_expr>
-                                          <term>
-                                            <factor>
-                                              <power>
-                                                <atom>
-                                                  <NAME startline="7" endline="7">print</NAME>
-                                                </atom>
-                                                <trailer>
-                                                  <LPAR startline="7" endline="7">(</LPAR>
-                                                  <arglist>
-                                                    <argument>
-                                                      <test>
-                                                        <or_test>
-                                                          <and_test>
-                                                            <not_test>
-                                                              <comparison>
-                                                                <star_expr>
-                                                                  <expr>
-                                                                    <xor_expr>
-                                                                      <and_expr>
-                                                                        <shift_expr>
-                                                                          <arith_expr>
-                                                                            <term>
-                                                                              <factor>
-                                                                                <power>
-                                                                                  <atom>
-                                                                                    <STRING startline="7" endline="7">"test"</STRING>
-                                                                                  </atom>
-                                                                                </power>
-                                                                              </factor>
-                                                                            </term>
-                                                                          </arith_expr>
-                                                                        </shift_expr>
-                                                                      </and_expr>
-                                                                    </xor_expr>
-                                                                  </expr>
-                                                                </star_expr>
-                                                              </comparison>
-                                                            </not_test>
-                                                          </and_test>
-                                                        </or_test>
-                                                      </test>
-                                                    </argument>
-                                                  </arglist>
-                                                  <RPAR startline="7" endline="7">)</RPAR>
-                                                </trailer>
-                                              </power>
-                                            </factor>
-                                          </term>
-                                        </arith_expr>
-                                      </shift_expr>
-                                    </and_expr>
-                                  </xor_expr>
-                                </expr>
-                              </star_expr>
+                              <expr>
+                                <xor_expr>
+                                  <and_expr>
+                                    <shift_expr>
+                                      <arith_expr>
+                                        <term>
+                                          <factor>
+                                            <power>
+                                              <atom>
+                                                <NAME startline="7" endline="7">print</NAME>
+                                              </atom>
+                                              <trailer>
+                                                <LPAR startline="7" endline="7">(</LPAR>
+                                                <arglist>
+                                                  <argument>
+                                                    <test>
+                                                      <or_test>
+                                                        <and_test>
+                                                          <not_test>
+                                                            <comparison>
+                                                              <expr>
+                                                                <xor_expr>
+                                                                  <and_expr>
+                                                                    <shift_expr>
+                                                                      <arith_expr>
+                                                                        <term>
+                                                                          <factor>
+                                                                            <power>
+                                                                              <atom>
+                                                                                <STRING startline="7" endline="7">"test"</STRING>
+                                                                              </atom>
+                                                                            </power>
+                                                                          </factor>
+                                                                        </term>
+                                                                      </arith_expr>
+                                                                    </shift_expr>
+                                                                  </and_expr>
+                                                                </xor_expr>
+                                                              </expr>
+                                                            </comparison>
+                                                          </not_test>
+                                                        </and_test>
+                                                      </or_test>
+                                                    </test>
+                                                  </argument>
+                                                </arglist>
+                                                <RPAR startline="7" endline="7">)</RPAR>
+                                              </trailer>
+                                            </power>
+                                          </factor>
+                                        </term>
+                                      </arith_expr>
+                                    </shift_expr>
+                                  </and_expr>
+                                </xor_expr>
+                              </expr>
                             </comparison>
                           </not_test>
                         </and_test>
                       </or_test>
                     </test>
-                  </testlist>
+                  </testlist_star_expr>
                 </expr_stmt>
               </small_stmt>
               <NEWLINE startline="7" endline="7"></NEWLINE>
             </simple_stmt>
           </stmt>
-          <DEDENT startline="8" endline="7"></DEDENT>
+          <DEDENT startline="8" endline="8"></DEDENT>
         </suite>
       </for_stmt>
     </compound_stmt>
   </stmt>
-  <NEWLINE startline="7" endline="7"></NEWLINE>
-  <ENDMARKER startline="8" endline="7"></ENDMARKER>
+  <NEWLINE startline="8" endline="8"></NEWLINE>
+  <ENDMARKER startline="9" endline="8"></ENDMARKER>
 </file_input>
