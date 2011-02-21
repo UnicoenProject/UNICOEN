@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="UnitTestProject" default="build" basedir=".">
+
+  <!-- ========================================================== -->
+  <!-- 定義値 -->
+  <!-- ========================================================== -->
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <property name="bin.dir" value="bin/nant"/>
+  <property name="report.dir" value="report"/>
+  
+  <!-- ========================================================== -->
+  <!-- NAntタスク実行順序 -->
+  <!-- ========================================================== -->
+  <target name="build">
+    <call target="clean" />
+    <call target="compile" />
+  </target>
+  <target name="build-unitTest">
+    <call target="build" />
+    <call target="unitTest" />
+  </target>
+  <target name="build-unitTest-coverage">
+    <call target="build" />
+    <nant buildfile="coverage.build" target="coverage" />
+  </target>
+  
+  <!-- ========================================================== -->
+  <!-- ディレクトリをクリア -->
+  <!-- ========================================================== -->
+  <target name="clean">
+    <delete dir="${bin.dir}" />
+    <delete dir="${report.dir}" />
+    <mkdir dir="${bin.dir}" />
+    <mkdir dir="${report.dir}" />
+  </target>
+  
+  <!-- ========================================================== -->
+  <!-- コンパイル -->
+  <!-- ========================================================== -->
+  <target name="compile">
+    <msbuild verbosity="Minimal">
+      <property name="Configuration" value="Release" />
+      <property name="OutputPath" value="..\${bin.dir}"/>
+    </msbuild>
+  </target>
+  
+  <!-- ========================================================== -->
+  <!-- ユニットテスト実行 -->
+  <!-- ========================================================== -->
+  <target name="unitTest">
+     <nunit2 failonerror="false" verbose="true">
+       <formatter usefile="true" type="Xml" extension=".xml" outputdir="${report.dir}"/>
+       <test>
+         <assemblies basedir="${bin.dir}">
+           <include name="*Tests.dll"/>
+         </assemblies>
+       </test>
+     </nunit2>
+  </target>
+  
+</project>
