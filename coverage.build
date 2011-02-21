@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="UnitTestCoverage" default="coverage" basedir=".">
+<project name="UnitTestCoverage" default="unitTest-coverage" basedir=".">
 
   <!-- ========================================================== -->
   <!-- 定義値 -->
@@ -7,7 +7,7 @@
   <property name="coverage.dir" value="coverage"/>
   <property name="partcover.home" value="C:/Program Files/PartCover/PartCover .NET 4.0"/>
   <property name="nunit.home" value="C:/Program Files/NUnit 2.5.9/bin/net-2.0"/>
-  <property name="reportgenerator.home" value="C:/Users/exKAZUu/Documents/My Dropbox/Private/Tools/Development/ReportGenerator/bin"/>
+  <property name="reportgenerator.home" value="C:/Users/exKAZUu/Dropbox/Private/Tools/Development/ReportGenerator"/>
   <property name="partcover.target" value="AntlrHelper.Tests.dll Code2Xml.Tests.dll Ucpf.Common.Tests.dll Ucpf.Grammar.Tests.dll Ucpf.Languages.C.Tests.dll Ucpf.Languages.Java.Tests.dll Ucpf.Languages.JavaScript.Tests.dll Ucpf.Languages.Python2.Tests.dll Ucpf.Languages.Ruby18.Tests.dll Ucpf.Languages.Tests.dll"/>
   <property name="partcover.include" value="[Ucpf.*]*"/>
   <property name="partcover.exclude1" value="[*.Tests]*"/>
@@ -17,7 +17,7 @@
   <!-- ========================================================== -->
   <!-- NAntタスク実行順序 -->
   <!-- ========================================================== -->
-  <target name="coverage">
+  <target name="unitTest-coverage">
     <call target="clean" />
     <call target="partCover" />
     <call target="reportGenerator" />
@@ -59,7 +59,7 @@
   <!-- ReportGenerator実行 -->
   <!-- ========================================================== -->
   <target name="reportGenerator">
-    <exec program="${reportgenerator.home}/bin/reportGenerator.exe">
+    <exec program="${reportgenerator.home}/bin/ReportGenerator.exe">
       <arg file="${coverage.dir}/${partcover.out}" />
       <arg file="${coverage.dir}" />
     </exec>

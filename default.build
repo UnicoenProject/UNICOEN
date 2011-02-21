@@ -15,13 +15,13 @@
     <call target="clean" />
     <call target="compile" />
   </target>
-  <target name="build-unitTest">
+  <target name="test">
     <call target="build" />
     <call target="unitTest" />
   </target>
-  <target name="build-unitTest-coverage">
+  <target name="coverage">
     <call target="build" />
-    <nant buildfile="coverage.build" target="coverage" />
+    <nant buildfile="coverage.build" target="unitTest-coverage" />
   </target>
   
   <!-- ========================================================== -->
