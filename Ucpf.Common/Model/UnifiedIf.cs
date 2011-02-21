@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ucpf.Common.Model
 {
-	public class UnifiedIf : UnifiedExpression
+	public class UnifiedIf : UnifiedStatement
 	{
 		public UnifiedExpression Condition { get; set; }
 		public UnifiedBlock TrueBlock { get; set; }

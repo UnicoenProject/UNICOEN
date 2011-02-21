@@ -3,7 +3,6 @@ using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.OldModel.Operators;
-using Ucpf.Common.OldModel.Statements;
 
 namespace Ucpf.Languages.JavaScript.Model
 {
@@ -12,10 +11,18 @@ namespace Ucpf.Languages.JavaScript.Model
 		#region Expression
 
 		public static UnifiedExpression CreateExpression(XElement node) {
-				String[] binaryOperator = {
+			
+			String[] binaryOperator = {
 				"+", "-", "*", "/", "%", "<", ">"
 			};
 
+			/* 
+			 * in descendants of <expression> node, if
+			 * it has more than 2 child-node OR
+			 * it has only one child whose name is <Identifier> OR
+			 * it has only one child whose name is <TOKEN> 
+			 * these are some actual expression
+			*/
 			var tmp =
 				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
@@ -23,7 +30,7 @@ namespace Ucpf.Languages.JavaScript.Model
 					       (c == 1 && e.Element("TOKEN") != null);
 				});
 
-			//sometime, tmp may be empty list...?
+			//Ensure that node has some expression
 			if (tmp.Count() == 0) {
 				Console.Write(node);
 				throw new NullReferenceException();
@@ -181,8 +188,18 @@ namespace Ucpf.Languages.JavaScript.Model
 			//TODO null check
 			return new UnifiedBlock(
 				node.Element("statementList").Elements("statement")
-				.Select(e => CreateStatement(e)).Cast<UnifiedStatement>().ToList()
+					.Select(e => CreateStatement(e)).ToList()
 				);
+		}
+
+		public static UnifiedBlock CreateFunctionBody(XElement node) {
+			return new UnifiedBlock(
+				node.Element("sourceElements").Elements("sourceElement")
+					.SelectMany(e =>
+					            e.Elements("statement").Select(
+					            	e2 => CreateStatement(e2))
+									).ToList()
+					);
 		}
 
 		public static  UnifiedIf CreateIf(XElement node) {
@@ -209,7 +226,7 @@ namespace Ucpf.Languages.JavaScript.Model
 		public static UnifiedDefineFunction CreateFunction(XElement node) {
 			return new UnifiedDefineFunction {
 				Name = node.Element("Identifier").Value,
-				Block = CreateBlock(node.Element("functionBody")),
+				Block = CreateFunctionBody(node.Element("functionBody")),
 				Parameters = CreateParameterCollection(node)
 			};
 		}

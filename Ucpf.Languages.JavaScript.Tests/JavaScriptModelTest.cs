@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NUnit.Framework;
+using Ucpf.Common.Model;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.JavaScript.AstGenerators;
 using Ucpf.Languages.JavaScript.Model;
@@ -16,10 +18,10 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		public void If文の条件式を取得する() {
 			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
 			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var cond = (JSBinaryExpression)ifst.ConditionalExpression;
+			var func = JSModelFactory.CreateFunction(root);//new JSFunction(root);
+			var body = func.Block;
+			var ifst = (UnifiedIf)body.GetEnumerator().Current;//(JSIfStatement)body.Statements.ElementAt(0);
+			var cond = (UnifiedBinaryExpression)ifst.Condition;//(JSBinaryExpression)ifst.ConditionalExpression;
 			Assert.That(cond.ToString(), Is.EqualTo("n<2"));
 		}
 
