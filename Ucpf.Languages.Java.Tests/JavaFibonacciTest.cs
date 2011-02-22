@@ -8,6 +8,7 @@ using Ucpf.Common.OldModel.Operators;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.Java.AstGenerators;
 using Ucpf.Languages.Java.CodeModel;
+using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
@@ -28,6 +29,25 @@ namespace Ucpf.Languages.Java.Tests {
 						}
 				},
 			};
+		}
+
+		[Test]
+		public void CreateDefineFunction() {
+			var ast =
+				JavaAstGenerator.Instance.Generate("public static int fibonacci(int n){}", p => p.methodDeclaration());
+			var actual = JavaModelFactory.CreateDefineFunction(ast);
+			var modifiers = new List<String>();
+			modifiers.Add("public");
+			modifiers.Add("static");
+			var expectation = new UnifiedFunctionDefinition {
+				Modifiers = modifiers,
+				ReturnType = "int",
+				Name = "fibonacci",
+				Parameters = new UnifiedParameterCollection(),
+				Block = new UnifiedBlock(),
+
+			};
+			Assert.That(actual, Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }
