@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ucpf.Common.Visitors;
 
 namespace Ucpf.Common.Model {
 	public abstract class UnifiedExpression : UnifiedElement {
 		public UnifiedStatement ToStatement() {
 			return new UnifiedExpressionStatement(this);
+		}
+
+		public override string ToString() {
+			return UnifiedModelToXml.ToXml(this).ToString();
 		}
 	}
 }
