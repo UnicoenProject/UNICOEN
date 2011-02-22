@@ -20,7 +20,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var root = ast.Descendants("functionDeclaration").First();
 			var func = JSModelFactory.CreateFunction(root);//new JSFunction(root);
 			var body = func.Block;
-			var ifst = (UnifiedIf)body.GetEnumerator().Current;//(JSIfStatement)body.Statements.ElementAt(0);
+			var ifst = (UnifiedIf)body.First();//(JSIfStatement)body.Statements.ElementAt(0);
 			var cond = (UnifiedBinaryExpression)ifst.Condition;//(JSBinaryExpression)ifst.ConditionalExpression;
 			Assert.That(cond.ToString(), Is.EqualTo("n<2"));
 		}
