@@ -26,8 +26,9 @@ def fib(n):
 print fib(20)
 ";
 
-		private static readonly UnifiedBlock ExpectedModel = new UnifiedBlock {
-				new UnifiedDefineFunction {
+		private static readonly UnifiedBlock ExpectedModel =
+			new UnifiedBlock {
+				new UnifiedFunctionDefinition {
 					Name = "fib",
 					Parameters = new UnifiedParameterCollection {
 						new UnifiedParameter("n")
@@ -67,9 +68,9 @@ print fib(20)
 										}
 								}),
 							}
-						}
+						}.ToStatement()
 					}
-				},
+				}.ToStatement(),
 				new UnifiedCall {
 					Function = new UnifiedVariable("print"),
 					Arguments = new UnifiedArgumentCollection {
@@ -80,7 +81,7 @@ print fib(20)
 							}
 						}
 					}
-				}
+				}.ToStatement()
 			};
 
 		#endregion

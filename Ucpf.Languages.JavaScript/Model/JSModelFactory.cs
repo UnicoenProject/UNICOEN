@@ -227,8 +227,8 @@ namespace Ucpf.Languages.JavaScript.Model
 
 		#region Function
 
-		public static UnifiedDefineFunction CreateFunction(XElement node) {
-			return new UnifiedDefineFunction {
+		public static UnifiedFunctionDefinition CreateFunction(XElement node) {
+			return new UnifiedFunctionDefinition {
 				Name = node.Element("Identifier").Value,
 				Block = CreateFunctionBody(node.Element("functionBody")),
 				Parameters = CreateParameterCollection(node)

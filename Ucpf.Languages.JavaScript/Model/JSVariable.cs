@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
+using Ucpf.Common.Model.Visitors;
 using Ucpf.Common.OldModel;
-
-using Ucpf.Common.Visitors;
 
 namespace Ucpf.Languages.JavaScript.Model {
 	public class JSVariable : IVariable {

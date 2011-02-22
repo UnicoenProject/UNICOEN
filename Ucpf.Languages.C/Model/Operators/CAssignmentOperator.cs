@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Linq;
+using Ucpf.Common.Model.Visitors;
+using Ucpf.Common.OldModel;
 using Ucpf.Common.OldModel.Operators;
-
-using Ucpf.Common.Visitors;
 
 namespace Ucpf.Languages.C.Model.Operators {
 	public class CAssignmentOperator : COperator, IAssignmentOperator {

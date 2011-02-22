@@ -24,12 +24,12 @@ namespace Ucpf.Languages.Ruby18.Tests {
 		}
 
 		[Test]
-		public void ParseDefineFunction() {
+		public void CreateDefineFunction() {
 			var ast = Ruby18AstGenerator.Instance.Generate(@"
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -41,14 +41,14 @@ end");
 		}
 
 		[Test]
-		public void ParseReturn() {
+		public void CreateReturn() {
 			var ast =
 				Ruby18AstGenerator.Instance.Generate(@"
 def fibonacci(n)
 	return n
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -62,7 +62,7 @@ end");
 		}
 
 		[Test]
-		public void ParseFunctionCall() {
+		public void CreateFunctionCall() {
 			var ast =
 				Ruby18AstGenerator.Instance.Generate(
 					@"
@@ -70,7 +70,7 @@ def fibonacci(n)
 	return fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -84,7 +84,7 @@ end");
 		}
 
 		[Test]
-		public void ParseFunctionCall2() {
+		public void CreateFunctionCall2() {
 			var ast =
 				Ruby18AstGenerator.Instance.Generate(
 					@"
@@ -92,7 +92,7 @@ def fibonacci(n)
 	return fibonacci(n - 1) + fibonacci(n - 2)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -111,20 +111,20 @@ end");
 		}
 
 		[Test]
-		public void ParseIf() {
+		public void CreateIf() {
 			var ast =
 				Ruby18AstGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
-  if (n < 2)
-    return n
-  else
-    return 0
-  end
+	if (n < 2)
+		return n
+	else
+		return 0
+	end
 end
 ");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -150,20 +150,20 @@ end
 		}
 
 		[Test]
-		public void ParseFibonacci() {
+		public void CreateFibonacci() {
 			var ast =
 				Ruby18AstGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
-  if (n < 2)
-    return n
-  else
-    return fibonacci(n - 1) + fibonacci(n - 2)
-  end
+	if (n < 2)
+		return n
+	else
+		return fibonacci(n - 1) + fibonacci(n - 2)
+	end
 end
 ");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),

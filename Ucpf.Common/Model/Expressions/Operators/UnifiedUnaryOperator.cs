@@ -1,6 +1,5 @@
-﻿using Ucpf.Common.OldModel.Operators;
-
-using Ucpf.Common.Visitors;
+﻿using Ucpf.Common.Model.Visitors;
+using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedUnaryOperator : UnifiedElement {
@@ -12,8 +11,12 @@ namespace Ucpf.Common.Model {
 			Type = type;
 		}
 
-		public override void Accept(IUnifiedModelVisitor conv) {
-			conv.Visit(this);
+		public override void Accept(IUnifiedModelVisitor visitor) {
+			visitor.Visit(this);
+		}
+
+		public override string ToString() {
+			return UnifiedModelToXml.ToXml(this).ToString();
 		}
 	}
 }

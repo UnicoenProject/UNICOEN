@@ -8,8 +8,8 @@ using Ucpf.Common.Model;
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 
-		public static UnifiedDefineFunction CreateDefineFunction(XElement node) {
-			return new UnifiedDefineFunction {
+		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
+			return new UnifiedFunctionDefinition {
 				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value),
 				ReturnType = node.Element("Type").Elements().ElementAt(0).Value,
 				Name = node.Element("IDENTIFIER").Value,
@@ -23,7 +23,7 @@ namespace Ucpf.Languages.Java.Model {
 			var element = xElement.Element("Statement").Elements().First();
 			var unifiedBlock = new UnifiedBlock ();
 			if (element.Name.LocalName == "TOKEN" && element.Value == "if") {
-				unifiedBlock.Add(CreateIfStatement());
+				unifiedBlock.Add(CreateIfStatement().ToStatement());
 			}
 			throw new NotImplementedException();
 		}
