@@ -20,7 +20,6 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			_func = JSModelFactory.CreateFunction(_root);
 		}
 
-
 		private XElement _ast;
 		private XElement _root;
 		private UnifiedFunctionDefinition _func;
