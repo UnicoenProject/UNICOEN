@@ -1,4 +1,4 @@
-﻿using Ucpf.Common.Visitors;
+﻿using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedTypedLiteral<T> : UnifiedLiteral {

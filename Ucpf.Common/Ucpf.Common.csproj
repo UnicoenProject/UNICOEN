@@ -103,9 +103,9 @@
     <Compile Include="Antlr\XToken.cs" />
     <Compile Include="AstGenerators\AntlrAstGenerator.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
-    <Compile Include="Visitors\IModelToCode.cs" />
-    <Compile Include="Visitors\IUnifiedModelVisitor.cs" />
-    <Compile Include="Visitors\UnifiedModelToXml.cs" />
+    <Compile Include="OldModel\IModelToCode.cs" />
+    <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
+    <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />
@@ -124,7 +124,7 @@
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\StructuralEqualityComparer.cs" />
     <Compile Include="Model\Statements\UnifiedExpressionStatement.cs" />
-    <Compile Include="Model\Statements\UnifiedDefineFunction.cs" />
+    <Compile Include="Model\Statements\UnifiedFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedIf.cs" />
     <Compile Include="Model\UnifiedParameter.cs" />
     <Compile Include="Model\UnifiedParameterCollection.cs" />
