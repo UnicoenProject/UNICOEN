@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
+using Ucpf.Common.OldModel.Operators;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.Java.AstGenerators;
 using Ucpf.Languages.Java.CodeModel;
 
-namespace Ucpf.Languages.Java.Tests
-{
+namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaFibonacciTest {
-		/*
+
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
 				Function = new UnifiedVariable("fibonacci"),
@@ -22,11 +22,12 @@ namespace Ucpf.Languages.Java.Tests
 						: (UnifiedArgument)new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator =
-						  	new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+						                   	new UnifiedBinaryOperator("-",
+						                   	BinaryOperatorType.Subtraction),
 							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
 						}
 				},
 			};
-		 */
 		}
+	}
 }
