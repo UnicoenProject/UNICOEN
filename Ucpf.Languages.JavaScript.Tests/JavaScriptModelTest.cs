@@ -73,7 +73,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var expectation = new UnifiedReturn {
 				Value = new UnifiedLiteral {
 					Value = "n"
-				});
+				}
+			};
 
 			Assert.That(returnStmt, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparer.Instance));
