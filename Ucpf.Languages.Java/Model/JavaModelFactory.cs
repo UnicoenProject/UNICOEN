@@ -8,32 +8,51 @@ using Ucpf.Common.Model;
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 
-		public static UnifiedDefineFunction CreateDefineFunction(XElement node) {
-			return new UnifiedDefineFunction {
-				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value),
-				ReturnType = node.Element("Type").Elements().ElementAt(0).Value,
-				Name = node.Element("IDENTIFIER").Value,
-				Parameters =
-					CreateParameterCollection(node.Element("formalParameterList")),
-				Block = CreateBlock(node.Element("block"))
+		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
+			var modifiers = new UnifiedModifierCollection(node.Element("modifiers")
+				.Elements().Select(e => new UnifiedModifier() { Name = e.Value } ));
+			var returnType = node.Element("type").Elements().ElementAt(0).Value;
+			var name = node.Element("IDENTIFIER").Value;
+			var parameter = CreateParameterCollection(node.Element("formalParameters"));
+			var block = new UnifiedBlock();
+
+			return new UnifiedFunctionDefinition {
+				Modifiers = modifiers,
+				ReturnType = returnType,
+				Name = name,
+				Parameters = parameter,
+				Block = block
 			};
 		}
 
 		private static UnifiedBlock CreateBlock(XElement xElement) {
-			var element = xElement.Element("Statement").Elements().First();
-			var unifiedBlock = new UnifiedBlock ();
-			if (element.Name.LocalName == "TOKEN" && element.Value == "if") {
-				unifiedBlock.Add(CreateIfStatement());
+			var unifiedBlock = new UnifiedBlock();
+
+			var element = xElement.Element("blockStatement")
+				.Element("statement");
+
+			if (element.Elements().First().Name.LocalName == "TOKEN" 
+				&& element.Elements().First().Value == "if") {
+				unifiedBlock.Add(CreateIfExpression(element).ToStatement());
 			}
-			throw new NotImplementedException();
+			throw new NotImplementedException("in CreateBlock");
 		}
 
-		private static UnifiedIf CreateIfStatement() {
+		private static UnifiedIf CreateIfExpression(XElement xElement) {
 			throw new NotImplementedException();
 		}
 
 		private static UnifiedParameterCollection CreateParameterCollection(XElement element) {
-			throw new NotImplementedException();
+
+			return new UnifiedParameterCollection(
+				element.Element("formalParameterDecls")
+					.Elements("normalParameterDecl")
+					.Select(e => new UnifiedParameter() {
+						Modifier = new UnifiedModifier(),
+						Type = e.Element("type").Elements().First().Value,
+						Name = e.Element("IDENTIFIER").Value
+					}));
+			// throw new NotImplementedException();
 		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {

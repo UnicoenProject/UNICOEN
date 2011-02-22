@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Xml.Linq;
+using Ucpf.Common.Model.Visitors;
+using Ucpf.Common.OldModel;
 using Ucpf.Common.OldModel.Expressions;
 using Ucpf.Common.OldModel.Operators;
-
-using Ucpf.Common.Visitors;
 using Ucpf.Languages.C.Model.Operators;
 
 namespace Ucpf.Languages.C.Model.Expressions {

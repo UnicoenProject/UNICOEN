@@ -1,8 +1,8 @@
 using System.Xml.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Model;
+using Ucpf.Common.Model.Visitors;
 using Ucpf.Common.OldModel.Operators;
-using Ucpf.Common.Visitors;
 
 namespace Ucpf.Common.Tests.Visitors {
 	[TestFixture]
@@ -31,22 +31,22 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateDefineFunction() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock(),
 			};
 			var expectation =
 				XDocument.Parse(
 					@"
-<UnifiedDefineFunction Name = ""fibonacci"">
+<UnifiedFunctionDefinition Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
 	<UnifiedBlock/>
-</UnifiedDefineFunction>
+</UnifiedFunctionDefinition>
 ");
 			_toXml.Visit(model);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
@@ -54,19 +54,21 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateReturn() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(new UnifiedVariable("n")),
+					new UnifiedReturn {
+						Value = new UnifiedVariable("n")
+					}
 				},
 			};
 			var expectation =
 				XDocument.Parse(
 					@"
-<UnifiedDefineFunction Name = ""fibonacci"">
+<UnifiedFunctionDefinition Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
@@ -75,7 +77,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			<UnifiedVariable Name = ""n"" />
 		</UnifiedReturn>
 	</UnifiedBlock>
-</UnifiedDefineFunction>
+</UnifiedFunctionDefinition>
 ");
 			_toXml.Visit(model);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
@@ -83,19 +85,21 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateFunctionCall() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(CreateCall(null)),
+					new UnifiedReturn {
+						Value = CreateCall(null)
+					}
 				},
 			};
 			var expectation =
 				XDocument.Parse(
 					@"
-<UnifiedDefineFunction Name = ""fibonacci"">
+<UnifiedFunctionDefinition Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
@@ -111,7 +115,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			</UnifiedCall>
 		</UnifiedReturn>
 	</UnifiedBlock>
-</UnifiedDefineFunction>
+</UnifiedFunctionDefinition>
 ");
 			_toXml.Visit(model);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
@@ -119,24 +123,25 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateFunctionCall2() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(
-						new UnifiedBinaryExpression {
+					new UnifiedReturn {
+						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
 							Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 							RightHandSide = CreateCall(2),
-						})
+						}
+					}
 				},
 			};
 			var expectation =
 				XDocument.Parse(
 					@"
-<UnifiedDefineFunction Name = ""fibonacci"">
+<UnifiedFunctionDefinition Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
@@ -171,7 +176,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			</UnifiedBinaryExpression>
 		</UnifiedReturn>
 	</UnifiedBlock>
-</UnifiedDefineFunction>
+</UnifiedFunctionDefinition>
 ");
 			_toXml.Visit(model);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
@@ -179,10 +184,10 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateIf() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
 					new UnifiedExpressionStatement(new UnifiedIf {
@@ -192,10 +197,10 @@ namespace Ucpf.Common.Tests.Visitors {
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedVariable("n")),
+							new UnifiedReturn{ Value = new UnifiedVariable("n") }
 						},
 						FalseBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedIntegerLiteral(0)),
+							new UnifiedReturn{ Value = new UnifiedIntegerLiteral(0) }
 						},
 					}),
 				},
@@ -203,7 +208,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			var expectation =
 				XDocument.Parse(
 					@"
-<UnifiedDefineFunction Name = ""fibonacci"">
+<UnifiedFunctionDefinition Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
@@ -228,7 +233,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			</UnifiedIf>
 		</UnifiedExpressionStatement>
 	</UnifiedBlock>
-</UnifiedDefineFunction>
+</UnifiedFunctionDefinition>
 ");
 			_toXml.Visit(model);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
@@ -236,10 +241,10 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateFibonacci() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
 					new UnifiedExpressionStatement(new UnifiedIf {
@@ -249,15 +254,16 @@ namespace Ucpf.Common.Tests.Visitors {
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedVariable("n")),
+							new UnifiedReturn { Value = new UnifiedVariable("n") }
 						},
 						FalseBlock = new UnifiedBlock {
-							new UnifiedReturn(
-								new UnifiedBinaryExpression {
+							new UnifiedReturn {
+								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
 									Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 									RightHandSide = CreateCall(2),
-								})
+								}
+							}
 						},
 					}),
 				},
@@ -265,7 +271,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			var expectation =
 				XDocument.Parse(
 					@"
-<UnifiedDefineFunction Name = ""fibonacci"">
+<UnifiedFunctionDefinition Name = ""fibonacci"">
 	<UnifiedParameterCollection>
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
@@ -316,7 +322,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			</UnifiedIf>
 		</UnifiedExpressionStatement>
 	</UnifiedBlock>
-</UnifiedDefineFunction>
+</UnifiedFunctionDefinition>
 ");
 			_toXml.Visit(model);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));

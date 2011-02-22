@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ucpf.Common.Model;
-
-using Ucpf.Common.Visitors;
+using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedBinaryExpression : UnifiedExpression {
@@ -12,8 +11,8 @@ namespace Ucpf.Common.Model {
 		public UnifiedExpression LeftHandSide { get; set; }
 		public UnifiedExpression RightHandSide { get; set; }
 
-		public override void Accept(IUnifiedModelVisitor conv) {
-			conv.Visit(this);
+		public override void Accept(IUnifiedModelVisitor visitor) {
+			visitor.Visit(this);
 		}
 	}
 }

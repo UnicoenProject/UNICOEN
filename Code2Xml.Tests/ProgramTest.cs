@@ -8,7 +8,6 @@ using Paraiba.Text;
 using Ucpf.Common.AstGenerators;
 using Ucpf.Common.Plugins;
 using Ucpf.Common.Tests;
-using Ucpf.Languages.C;
 using Ucpf.Languages.C.AstGenerators;
 using Ucpf.Languages.C.CodeGenerators;
 
@@ -28,7 +27,7 @@ namespace Code2Xml.Tests {
 					new { Name = "Python2", Opt = "-Python2" },
 					new { Name = "Python3", Opt = "-Python3" },
 					new { Name = "Ruby18", Opt = "-Ruby18" },
-					new { Name = "Ruby19", Opt = "-Ruby19" },
+					//new { Name = "Ruby19", Opt = "-Ruby19" },
 				};
 				return langs
 					.SelectMany(
@@ -69,8 +68,6 @@ namespace Code2Xml.Tests {
 
 		[Test, TestCaseSource("TestCases")]
 		public void パースできる(string filePath, string option, AstGenerator astGen) {
-			if (filePath.EndsWith("ruby2ruby_test.rb"))
-				filePath = filePath;
 			using (var output = new StringWriter()) {
 				Console.SetOut(output);
 

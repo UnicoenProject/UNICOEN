@@ -1,9 +1,8 @@
-﻿using Ucpf.Common.OldModel;
-using Ucpf.Common.OldModel.Expressions;
+﻿using Ucpf.Common.OldModel.Expressions;
 using Ucpf.Common.OldModel.Operators;
 using Ucpf.Common.OldModel.Statements;
 
-namespace Ucpf.Common.Visitors {
+namespace Ucpf.Common.OldModel {
 	public interface IModelToCode {
 		// Function
 		void Generate(IFunction func);
