@@ -69,9 +69,10 @@ namespace Ucpf.Languages.Tests {
 			var r2 = astGen.Generate(c1);
 			var c2 = codeGen.Generate(r2);
 			var r3 = astGen.Generate(c2);
+			var c3 = codeGen.Generate(r3);
 
 			Assert.IsTrue(XmlUtil.EqualsWithElementAndValue(r2, r3));
-			Assert.AreEqual(c1, c2);
+			Assert.AreEqual(c2, c3);
 		}
 	}
 }
