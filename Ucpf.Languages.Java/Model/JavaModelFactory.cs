@@ -11,7 +11,7 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedDefineFunction CreateDefineFunction(XElement node) {
 			return new UnifiedDefineFunction {
 				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value),
-				ReturnType = node.Element("Type").Elements().ElementAt(0).Value,
+				ReturnType = node.Element("type").Elements().ElementAt(0).Value,
 				Name = node.Element("IDENTIFIER").Value,
 				Parameters =
 					CreateParameterCollection(node.Element("formalParameterList")),
@@ -20,15 +20,18 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		private static UnifiedBlock CreateBlock(XElement xElement) {
-			var element = xElement.Element("Statement").Elements().First();
-			var unifiedBlock = new UnifiedBlock ();
-			if (element.Name.LocalName == "TOKEN" && element.Value == "if") {
-				unifiedBlock.Add(CreateIfExpression().ToStatement());
+			var unifiedBlock = new UnifiedBlock();
+
+			var element = xElement.Element("blockStatement")
+				.Element("statement");
+			if (element.Elements().First().Name.LocalName == "TOKEN" 
+				&& element.Elements().First().Value == "if") {
+				unifiedBlock.Add(CreateIfExpression(element).ToStatement());
 			}
 			throw new NotImplementedException("in CreateBlock");
 		}
 
-		private static UnifiedIf CreateIfExpression() {
+		private static UnifiedIf CreateIfExpression(XElement xElement) {
 			throw new NotImplementedException();
 		}
 
