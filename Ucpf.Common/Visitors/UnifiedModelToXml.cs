@@ -10,6 +10,12 @@ namespace Ucpf.Common.Visitors {
 		private readonly Stack<XElement> _targets;
 		private XElement _root;
 
+		public static XElement ToXml(UnifiedElement element) {
+			var toXml = new UnifiedModelToXml();
+			element.Accept(toXml);
+			return toXml.Result;
+		}
+
 		public XElement Result {
 			get { return _root.Elements().First(); }
 		}

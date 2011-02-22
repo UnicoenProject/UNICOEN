@@ -14,5 +14,9 @@ namespace Ucpf.Common.Model {
 		public override void Accept(IUnifiedModelVisitor conv) {
 			conv.Visit(this);
 		}
+
+		public override string ToString() {
+			return UnifiedModelToXml.ToXml(this).ToString();
+		}
 	}
 }
