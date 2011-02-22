@@ -32,7 +32,7 @@ namespace Ucpf.Languages.C.Tests {
 		private static readonly string InputPath =
 			Fixture.GetInputPath("C", "fibonacci.c");
 
-		[Test]
+		[Test, Ignore]
 		public void ブロックを正しくコードに変換できる() {
 			var trueBlock = ((CIfStatement)(_func.Body.Statements.ElementAt(0)))
 				.TrueBlock;

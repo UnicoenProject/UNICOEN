@@ -24,7 +24,7 @@ namespace Ucpf.Languages.Tests {
 					"Python2",
 					"Python3",
 					"Ruby18",
-					"Ruby19",
+					//"Ruby19",
 				};
 				return names
 					.SelectMany(
