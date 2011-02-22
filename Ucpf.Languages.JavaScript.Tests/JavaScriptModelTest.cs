@@ -206,6 +206,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var body = func.Block;
 			var str1 = body.First();
 
+
 			Assert.That(str1.GetType(), Is.EqualTo(typeof(UnifiedExpressionStatement)));
 		}
 	}
