@@ -103,6 +103,10 @@
     <Compile Include="Antlr\XToken.cs" />
     <Compile Include="AstGenerators\AntlrAstGenerator.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
+    <Compile Include="Model\Expressions\UnifiedClassDefinition.cs" />
+    <Compile Include="Model\UnifiedModifier.cs" />
+    <Compile Include="Model\UnifiedNamespace.cs" />
+    <Compile Include="Model\UnifiedImport.cs" />
     <Compile Include="OldModel\IModelToCode.cs" />
     <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
     <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
@@ -165,6 +169,8 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\UnifiedElementCollection.cs" />
+    <Compile Include="Model\UnifiedModifierCollection.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

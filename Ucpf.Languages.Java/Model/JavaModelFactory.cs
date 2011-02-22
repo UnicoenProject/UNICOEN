@@ -9,11 +9,11 @@ namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
-			var modifiers = node.Element("modifiers").Elements().Select(e => e.Value);
+			var modifiers = new UnifiedModifierCollection(node.Element("modifiers").Elements().Select(e => new UnifiedModifier(){Name = e.Value}));
 			var returnType = node.Element("type").Elements().ElementAt(0).Value;
 			var name = node.Element("IDENTIFIER").Value;
 			var parameter = CreateParameterCollection(node.Element("formalParameterList"));
-			var block = new UnifiedBlock(); // CreateBlock(node.Element("block"));
+			var block = new UnifiedBlock();
 
 			return new UnifiedFunctionDefinition {
 				Modifiers = modifiers,

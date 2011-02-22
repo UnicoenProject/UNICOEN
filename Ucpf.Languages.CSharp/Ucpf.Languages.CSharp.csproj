@@ -52,6 +52,7 @@
     <Compile Include="AstGenerators\csLexer.cs" />
     <Compile Include="AstGenerators\csParser.cs" />
     <Compile Include="CodeGenerators\CSharpCodeGenerator.cs" />
+    <Compile Include="CSharpModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

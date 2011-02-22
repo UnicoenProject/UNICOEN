@@ -1,10 +1,11 @@
 ﻿using System.Linq;
+using System.Xml.Linq;
 using NUnit.Framework;
+using Ucpf.Common.Model;
+using Ucpf.Common.OldModel.Operators;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.JavaScript.AstGenerators;
 using Ucpf.Languages.JavaScript.Model;
-using Ucpf.Languages.JavaScript.Model.Expressions;
-using Ucpf.Languages.JavaScript.Model.Statements;
 
 namespace Ucpf.Languages.JavaScript.Tests {
 	[TestFixture]
@@ -12,109 +13,187 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		private static readonly string InputPath =
 			Fixture.GetInputPath("JavaScript", "fibonacci.js");
 
-		[Test, Ignore]
-		public void If文の条件式を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var cond = (JSBinaryExpression)ifst.ConditionalExpression;
-			Assert.That(cond.ToString(), Is.EqualTo("n<2"));
+		[SetUp]
+		public void SetUp() {
+			_ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
+			_root = _ast.Descendants("functionDeclaration").First();
+			_func = JSModelFactory.CreateFunction(_root);
 		}
 
-		[Test, Ignore]
+		private XElement _ast;
+		private XElement _root;
+		private UnifiedFunctionDefinition _func;
+
+		[Test]
+		public void If文の条件式を取得する() {
+			//actual
+			var block   = _func.Block;
+			var expStmt = (UnifiedExpressionStatement)block.First();
+			var ifStmt  = (UnifiedIf)expStmt.Expression;
+			var cond    = ifStmt.Condition;
+
+			//expectation
+			var expectation = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedLiteral { Value = "n" },
+				Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
+				RightHandSide = new UnifiedLiteral { Value = "2" },
+			};
+
+			Assert.That(cond, Is.EqualTo(expectation)
+				.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
 		public void 一番最初に宣言されている関数のパラメータを取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var param = func.Parameters;
-			Assert.That(param.ElementAt(0).Name, Is.EqualTo("n"));
+			//actual
+			var firstParam = _func.Parameters.First();
+
+			//expectation
+			var expectation = new UnifiedParameter { Name = "n" };
+
+			Assert.That(firstParam, Is.EqualTo(expectation)
+				.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
 		public void 一番最初に宣言されている関数名を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			Assert.That(func.Identifier, Is.EqualTo("fibonacci"));
+			Assert.That(_func.Name, Is.EqualTo("fibonacci"));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void 一番最初のreturn文を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var trbl = (JSBlock)ifst.TrueBlock;
-			var ret = trbl.Statements.First();
-			Assert.That(ret.GetType(), Is.EqualTo(typeof(JSReturnStatement)));
+			//actual
+			var block      = _func.Block;
+			var expStmt    = (UnifiedExpressionStatement)block.First();
+			var ifStmt     = (UnifiedIf)expStmt.Expression;
+			var tBlock     = ifStmt.TrueBlock;
+			var returnStmt = tBlock.First();
+
+			//expectation
+			var expectation = new UnifiedReturn {
+				Value = new UnifiedLiteral {
+					Value = "n"
+				}
+			};
+
+			Assert.That(returnStmt, Is.EqualTo(expectation)
+				.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void 二項演算子を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var elbl = (JSBlock)ifst.ElseBlock.First();
-			var ret = (JSReturnStatement)elbl.Statements.First();
-			var exp = (JSBinaryExpression)ret.ReturnExpression;
-			Assert.That(exp.Operator.Sign, Is.EqualTo("+"));
+			//actual
+			var block       = _func.Block;
+			var expStmt     = (UnifiedExpressionStatement)block.First();
+			var ifStmt      = (UnifiedIf)expStmt.Expression;
+			var fBlock      = ifStmt.FalseBlock;
+			var returnStmt  = (UnifiedReturn)fBlock.First();
+			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
+
+			Assert.That(binaryExp.Operator.Sign, Is.EqualTo("+"));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void 呼び出す関数の名前を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var elbl = (JSBlock)ifst.ElseBlock.First();
-			var ret = (JSReturnStatement)elbl.Statements.First();
-			var exp = (JSBinaryExpression)ret.ReturnExpression;
-			var call = (JSCallExpression)exp.Lhs;
-			Assert.That(call.Identifier, Is.EqualTo("fibonacci"));
+			//actual
+			var block       = _func.Block;
+			var expStmt     = (UnifiedExpressionStatement)block.First();
+			var ifStmt      = (UnifiedIf)expStmt.Expression;
+			var fBlock      = ifStmt.FalseBlock;
+			var returnStmt  = (UnifiedReturn)fBlock.First();
+			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
+			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
+			var identifier  = (UnifiedLiteral)callExp.Function;
+
+			Assert.That(identifier.Value, Is.EqualTo("fibonacci"));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void 呼び出す関数の引数を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var elbl = (JSBlock)ifst.ElseBlock.First();
-			var ret = (JSReturnStatement)elbl.Statements.First();
-			var exp = (JSBinaryExpression)ret.ReturnExpression;
-			var call = (JSCallExpression)exp.Lhs;
-			Assert.That(call.Arguments.First().ToString(), Is.EqualTo("n-1"));
+			var block       = _func.Block;
+			var expStmt     = (UnifiedExpressionStatement)block.First();
+			var ifStmt      = (UnifiedIf)expStmt.Expression;
+			var fBlock      = ifStmt.FalseBlock;
+			var returnStmt  = (UnifiedReturn)fBlock.First();
+			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
+			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
+			var firstArg    = callExp.Arguments.First().Value;
+
+			//expectation
+			var expectation = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedLiteral { Value = "n" },
+				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+				RightHandSide = new UnifiedLiteral { Value = "1" },
+			};
+
+			Assert.That(firstArg, Is.EqualTo(expectation)
+				.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void 返却される式を取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var ifst = (JSIfStatement)body.Statements.ElementAt(0);
-			var elbl = (JSBlock)ifst.ElseBlock.First();
-			var ret = (JSReturnStatement)elbl.Statements.First();
-			var exp = ret.ReturnExpression;
-			Assert.That(exp.ToString(), Is.EqualTo("fibonacci(n-1)+fibonacci(n-2)"));
+			//actual
+			var block      = _func.Block;
+			var expStmt    = (UnifiedExpressionStatement)block.First();
+			var ifStmt     = (UnifiedIf)expStmt.Expression;
+			var fBlock     = ifStmt.FalseBlock;
+			var returnStmt = (UnifiedReturn)fBlock.First();
+			var binaryExp  = (UnifiedBinaryExpression)returnStmt.Value;
+
+			//expectation
+			var expectation = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedCall {
+					Arguments = new UnifiedArgumentCollection {
+						new UnifiedArgument {
+							Value = new UnifiedBinaryExpression {
+								LeftHandSide = new UnifiedLiteral {
+									Value = "n"
+								},
+								Operator =
+									new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+								RightHandSide = new UnifiedLiteral {
+									Value = "1"
+								}
+							}
+						}
+					},
+					Function = new UnifiedLiteral {
+						Value = "fibonacci"
+					}
+				},
+				Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+				RightHandSide = new UnifiedCall {
+					Arguments = new UnifiedArgumentCollection {
+						new UnifiedArgument {
+							Value = new UnifiedBinaryExpression {
+								LeftHandSide = new UnifiedLiteral {
+									Value = "n"
+								},
+								Operator =
+									new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+								RightHandSide = new UnifiedLiteral {
+									Value = "2"
+								}
+							}
+						}
+					},
+					Function = new UnifiedLiteral {
+						Value = "fibonacci"
+					}
+				},
+			};
+
+			Assert.That(binaryExp, Is.EqualTo(expectation)
+				.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void 関数内のステートメントを取得する() {
-			var ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
-			var root = ast.Descendants("functionDeclaration").First();
-			var func = new JSFunction(root);
-			var body = func.FunctionBody;
-			var stat = body.Statements;
-			var str1 = stat.ElementAt(0);
-			Assert.That(str1.GetType(), Is.EqualTo(typeof(JSIfStatement)));
+			//actual
+			var block     = _func.Block;
+			var firstStmt = block.First();
+
+			Assert.That(firstStmt.GetType(), Is.EqualTo(typeof(UnifiedExpressionStatement)));
 		}
 	}
 }

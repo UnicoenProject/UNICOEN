@@ -32,7 +32,7 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock(),
 			};
@@ -51,10 +51,10 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(new UnifiedVariable("n")),
+					new UnifiedReturn{ Value = new UnifiedVariable("n")}
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -73,10 +73,10 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(CreateCall(null)),
+					new UnifiedReturn{ Value = CreateCall(null)}
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -95,16 +95,17 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(
-						new UnifiedBinaryExpression {
+					new UnifiedReturn{
+						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
 							Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 							RightHandSide = CreateCall(2),
-						})
-				},
+						}
+					}
+				}
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparer.Instance));
@@ -127,7 +128,7 @@ end
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
 					new UnifiedExpressionStatement(new UnifiedIf {
@@ -137,10 +138,14 @@ end
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedVariable("n")),
+							new UnifiedReturn{
+								Value = new UnifiedVariable("n")
+							}
 						},
 						FalseBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedIntegerLiteral(0)),
+							new UnifiedReturn {
+								Value = new UnifiedIntegerLiteral(0)
+							}
 						},
 					}),
 				},
@@ -166,7 +171,7 @@ end
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
 					new UnifiedExpressionStatement(new UnifiedIf {
@@ -176,15 +181,16 @@ end
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedVariable("n")),
+							new UnifiedReturn{ Value = new UnifiedVariable("n") }
 						},
 						FalseBlock = new UnifiedBlock {
-							new UnifiedReturn(
-								new UnifiedBinaryExpression {
+							new UnifiedReturn {
+								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
 									Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 									RightHandSide = CreateCall(2),
-								})
+								}
+							}
 						},
 					}),
 				},

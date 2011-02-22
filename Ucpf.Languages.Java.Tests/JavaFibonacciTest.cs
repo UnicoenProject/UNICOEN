@@ -36,9 +36,14 @@ namespace Ucpf.Languages.Java.Tests {
 			var ast =
 				JavaAstGenerator.Instance.Generate("public static int fibonacci(int n){}", p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
-			var modifiers = new List<String>();
-			modifiers.Add("public");
-			modifiers.Add("static");
+			var modifiers = new UnifiedModifierCollection() {
+				new UnifiedModifier() {
+					Name = "public"
+				},
+				new UnifiedModifier() {
+					Name = "static"
+				}
+			};
 			var expectation = new UnifiedFunctionDefinition {
 				Modifiers = modifiers,
 				ReturnType = "int",

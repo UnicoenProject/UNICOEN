@@ -6,7 +6,7 @@ using System.Text;
 using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedBlock : UnifiedElement, IEnumerable<UnifiedStatement> {
+	 public class UnifiedBlock : UnifiedStatement, IEnumerable<UnifiedStatement> {
 		private readonly List<UnifiedStatement> _statements;
 
 		public UnifiedBlock() {
