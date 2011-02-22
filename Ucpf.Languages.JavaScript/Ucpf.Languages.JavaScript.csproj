@@ -48,10 +48,10 @@
     <Compile Include="AstGenerators\JavaScriptLexer.cs" />
     <Compile Include="AstGenerators\JavaScriptParser.cs" />
     <Compile Include="CodeGenerators\JavaScriptCodeGenerator.cs" />
+    <Compile Include="Model\Expressions\JSCallExpression.cs" />
     <Compile Include="Model\JSModelToCode.cs" />
     <Compile Include="Model\Statements\JSBlock.cs" />
     <Compile Include="Model\Expressions\JSBinaryExpression.cs" />
-    <Compile Include="Model\Expressions\JSCallExpression.cs" />
     <Compile Include="Model\Expressions\JSExpression.cs" />
     <Compile Include="Model\JSFunctionBody.cs" />
     <Compile Include="Model\JSFunction.cs" />

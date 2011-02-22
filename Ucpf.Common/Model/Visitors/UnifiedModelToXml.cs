@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 
-namespace Ucpf.Common.Visitors {
+namespace Ucpf.Common.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
 		private readonly Stack<XElement> _targets;
 		private XElement _root;
@@ -116,8 +114,8 @@ namespace Ucpf.Common.Visitors {
 			_targets.Peek().Add(xe);
 		}
 
-		public void Visit(UnifiedDefineFunction element) {
-			Contract.Requires(element.GetType().Name == "UnifiedDefineFunction");
+		public void Visit(UnifiedFunctionDefinition element) {
+			Contract.Requires(element.GetType().Name == "UnifiedFunctionDefinition");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);

@@ -1,6 +1,5 @@
 ﻿using System;
-
-using Ucpf.Common.Visitors;
+using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedLiteral : UnifiedExpression {
@@ -8,8 +7,8 @@ namespace Ucpf.Common.Model {
 		// 例：整数型しか存在しない言語におけるDecimalLiteral
 		public string Value { get; set; }
 
-		public override void Accept(IUnifiedModelVisitor conv) {
-			conv.Visit(this);
+		public override void Accept(IUnifiedModelVisitor visitor) {
+			visitor.Visit(this);
 		}
 
 		public override string ToString() {

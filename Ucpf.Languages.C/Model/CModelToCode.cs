@@ -2,12 +2,11 @@
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using Ucpf.Common.Model.Visitors;
 using Ucpf.Common.OldModel;
 using Ucpf.Common.OldModel.Expressions;
 using Ucpf.Common.OldModel.Operators;
 using Ucpf.Common.OldModel.Statements;
-
-using Ucpf.Common.Visitors;
 
 namespace Ucpf.Languages.C.Model
 {

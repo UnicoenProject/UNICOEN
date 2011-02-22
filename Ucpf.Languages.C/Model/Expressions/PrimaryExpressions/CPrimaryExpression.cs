@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Xml.Linq;
+using Ucpf.Common.Model.Visitors;
 using Ucpf.Common.OldModel;
 using Ucpf.Common.OldModel.Expressions;
-
-using Ucpf.Common.Visitors;
 
 namespace Ucpf.Languages.C.Model.Expressions.PrimaryExpressions {
 	public class CPrimaryExpression : CExpression, IPrimaryExpression {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ucpf.Common.Visitors;
+using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public sealed class UnifiedExpressionStatement : UnifiedStatement {
@@ -13,8 +13,8 @@ namespace Ucpf.Common.Model {
 			this.Expression = expr;
 		}
 
-		public override void Accept(IUnifiedModelVisitor conv) {
-			conv.Visit(this);
+		public override void Accept(IUnifiedModelVisitor visitor) {
+			visitor.Visit(this);
 		}
 
 		public override string ToString() {
