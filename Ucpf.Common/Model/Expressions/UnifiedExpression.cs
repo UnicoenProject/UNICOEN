@@ -9,9 +9,5 @@ namespace Ucpf.Common.Model {
 		public UnifiedStatement ToStatement() {
 			return new UnifiedExpressionStatement(this);
 		}
-
-		public override string ToString() {
-			return UnifiedModelToXml.ToXml(this).ToString();
-		}
 	}
 }

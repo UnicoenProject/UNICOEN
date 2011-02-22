@@ -36,9 +36,5 @@ namespace Ucpf.Common.Model {
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
-
-		public override string ToString() {
-			return UnifiedModelToXml.ToXml(this).ToString();
-		}
 	}
 }

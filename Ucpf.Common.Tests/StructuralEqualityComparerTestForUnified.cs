@@ -34,6 +34,49 @@ namespace Ucpf.Common.Tests {
 		}
 
 		[Test]
+		public void compares_different_expressions_containing_null() {
+			var o1 = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedVariable("n"),
+				Operator = null,
+				RightHandSide = new UnifiedIntegerLiteral(1),
+			};
+			var o2 = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedVariable("n"),
+				Operator = new UnifiedBinaryOperator(null, BinaryOperatorType.Addition),
+				RightHandSide = new UnifiedIntegerLiteral(1),
+			};
+			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
+				Is.False);
+		}
+		[Test]
+		public void compares_equal_expressions_containing_null() {
+			var o1 = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedVariable("n"),
+				Operator = null,
+				RightHandSide = new UnifiedIntegerLiteral(1),
+			};
+			var o2 = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedVariable("n"),
+				Operator = null,
+				RightHandSide = new UnifiedIntegerLiteral(1),
+			};
+			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
+				Is.True);
+		}
+
+		[Test]
+		public void compares_same_expressions_containing_null() {
+			var o2 = new UnifiedBinaryExpression {
+				LeftHandSide = new UnifiedVariable("n"),
+				Operator = null,
+				RightHandSide = new UnifiedIntegerLiteral(1),
+			};
+			var o1 = o2;
+			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
+				Is.True);
+		}
+
+		[Test]
 		public void compares_different_expressions() {
 			var o1 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
