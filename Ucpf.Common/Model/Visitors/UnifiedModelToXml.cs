@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
 
-namespace Ucpf.Common.Visitors {
+namespace Ucpf.Common.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
 		private readonly Stack<XElement> _targets;
 		private XElement _root;
+
+		public static XElement ToXml(UnifiedElement element) {
+			var toXml = new UnifiedModelToXml();
+			element.Accept(toXml);
+			return toXml.Result;
+		}
 
 		public XElement Result {
 			get { return _root.Elements().First(); }
@@ -62,7 +66,7 @@ namespace Ucpf.Common.Visitors {
 			Contract.Requires(element.GetType().Name == "UnifiedArgument");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			Visit(element.Value);
+			element.Value.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
@@ -72,7 +76,7 @@ namespace Ucpf.Common.Visitors {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
-				Visit(e);
+				e.Accept(this);
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
@@ -82,35 +86,11 @@ namespace Ucpf.Common.Visitors {
 			Contract.Requires(element.GetType().Name == "UnifiedBinaryExpression");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			Visit(element.LeftHandSide);
-			Visit(element.Operator);
-			Visit(element.RightHandSide);
+			element.LeftHandSide.Accept(this);
+			element.Operator.Accept(this);
+			element.RightHandSide.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
-		}
-
-		public void Visit(UnifiedExpression element) {
-			if (element is UnifiedBinaryExpression) {
-				Visit((UnifiedBinaryExpression)element);
-			} else if (element is UnifiedCall) {
-				Visit((UnifiedCall)element);
-			} else if (element is UnifiedIf) {
-				Visit((UnifiedIf)element);
-			} else if (element is UnifiedVariable) {
-				Visit((UnifiedVariable)element);
-			} else if (element is UnifiedStringLiteral) {
-				Visit((UnifiedStringLiteral)element);
-			} else if (element is UnifiedBooleanLiteral) {
-				Visit((UnifiedBooleanLiteral)element);
-			} else if (element is UnifiedDecimalLiteral) {
-				Visit((UnifiedDecimalLiteral)element);
-			} else if (element is UnifiedIntegerLiteral) {
-				Visit((UnifiedIntegerLiteral)element);
-			} else if (element is UnifiedLiteral) {
-				Visit((UnifiedLiteral)element);
-			} else {
-				throw new NotImplementedException();
-			}
 		}
 
 		public void Visit(UnifiedBlock element) {
@@ -118,41 +98,29 @@ namespace Ucpf.Common.Visitors {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
-				Visit(e);
+				e.Accept(this);
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
-		}
-
-		public void Visit(UnifiedStatement element) {
-			if (element is UnifiedFunctionDefinition) {
-				Visit((UnifiedFunctionDefinition)element);
-			} else if (element is UnifiedExpressionStatement) {
-				Visit((UnifiedExpressionStatement)element);
-			} else if (element is UnifiedReturn) {
-				Visit((UnifiedReturn)element);
-			} else {
-				throw new NotImplementedException();
-			}
 		}
 
 		public void Visit(UnifiedCall element) {
 			Contract.Requires(element.GetType().Name == "UnifiedCall");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			Visit(element.Function);
-			Visit(element.Arguments);
+			element.Function.Accept(this);
+			element.Arguments.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
 
 		public void Visit(UnifiedFunctionDefinition element) {
-			Contract.Requires(element.GetType().Name == "UnifiedDefineFunction");
+			Contract.Requires(element.GetType().Name == "UnifiedFunctionDefinition");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
-			Visit(element.Parameters);
-			Visit(element.Block);
+			element.Parameters.Accept(this);
+			element.Block.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
@@ -161,7 +129,7 @@ namespace Ucpf.Common.Visitors {
 			Contract.Requires(element.GetType().Name == "UnifiedExpressionStatement");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			Visit(element.Expression);
+			element.Expression.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
@@ -170,9 +138,9 @@ namespace Ucpf.Common.Visitors {
 			Contract.Requires(element.GetType().Name == "UnifiedIf");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			Visit(element.Condition);
-			Visit(element.TrueBlock);
-			Visit(element.FalseBlock);
+			element.Condition.Accept(this);
+			element.TrueBlock.Accept(this);
+			element.FalseBlock.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
@@ -191,7 +159,7 @@ namespace Ucpf.Common.Visitors {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
-				Visit(e);
+				e.Accept(this);
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
@@ -201,7 +169,7 @@ namespace Ucpf.Common.Visitors {
 			Contract.Requires(element.GetType().Name == "UnifiedReturn");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			Visit(element.Value);
+			element.Value.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}

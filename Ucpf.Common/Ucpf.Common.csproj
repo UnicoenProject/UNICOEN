@@ -106,9 +106,9 @@
     <Compile Include="Model\Expressions\UnifiedClassDefinition.cs" />
     <Compile Include="Model\UnifiedNamespace.cs" />
     <Compile Include="Model\UnifiedImport.cs" />
-    <Compile Include="Visitors\IModelToCode.cs" />
-    <Compile Include="Visitors\IUnifiedModelVisitor.cs" />
-    <Compile Include="Visitors\UnifiedModelToXml.cs" />
+    <Compile Include="OldModel\IModelToCode.cs" />
+    <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
+    <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />

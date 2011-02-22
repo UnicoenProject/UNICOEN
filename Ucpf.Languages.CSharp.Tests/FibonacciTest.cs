@@ -42,7 +42,9 @@ class Klass {
 									RightHandSide = new UnifiedIntegerLiteral(1)
 								},
 								TrueBlock = new UnifiedBlock {
-									new UnifiedReturn(new UnifiedVariable("n"))
+									new UnifiedReturn{
+										Value = new UnifiedVariable("n")
+									}
 								},
 								FalseBlock = new UnifiedBlock {
 									new UnifiedReturn {
@@ -71,9 +73,9 @@ class Klass {
 									}
 									}
 								}
-							}
+							}.ToStatement()
 						}
-        			}
+        			}.ToStatement()
         		}
 			};
 		}

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Ucpf.Common.Visitors;
+using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedFunctionDefinition : UnifiedStatement {
+	public class UnifiedFunctionDefinition : UnifiedExpression {
 		public string[] Modifiers { get; set; }
 		public string ReturnType { get; set; }
 		public string Name { get; set; }
@@ -15,6 +14,10 @@ namespace Ucpf.Common.Model {
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public override string ToString() {
+			return UnifiedModelToXml.ToXml(this).ToString();
 		}
 	}
 }

@@ -26,11 +26,12 @@ def fib(n):
 print fib(20)
 ";
 
-		private static readonly UnifiedBlock ExpectedModel = new UnifiedBlock {
+		private static readonly UnifiedBlock ExpectedModel =
+			new UnifiedBlock {
 				new UnifiedFunctionDefinition {
 					Name = "fib",
 					Parameters = new UnifiedParameterCollection {
-						new UnifiedParameter("n")
+						new UnifiedParameter{ Name = "n" }
 					},
 					Block = new UnifiedBlock {
 						new UnifiedIf {
@@ -40,10 +41,13 @@ print fib(20)
 								RightHandSide = new UnifiedIntegerLiteral(1),
 							},
 							TrueBlock = new UnifiedBlock {
-								new UnifiedReturn(new UnifiedVariable("n")),
+								new UnifiedReturn {
+									Value = new UnifiedVariable("n")
+								}
 							},
 							FalseBlock = new UnifiedBlock {
-								new UnifiedReturn(new UnifiedBinaryExpression {
+								new UnifiedReturn {
+									Value	= new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 										LeftHandSide = new UnifiedCall {
 											Function = new UnifiedVariable("fib"),
@@ -65,11 +69,12 @@ print fib(20)
 												}
 											}
 										}
-								}),
+									}
+								}
 							}
-						}
+						}.ToStatement()
 					}
-				},
+				}.ToStatement(),
 				new UnifiedCall {
 					Function = new UnifiedVariable("print"),
 					Arguments = new UnifiedArgumentCollection {
@@ -80,7 +85,7 @@ print fib(20)
 							}
 						}
 					}
-				}
+				}.ToStatement()
 			};
 
 		#endregion
