@@ -23,12 +23,12 @@ namespace Ucpf.Languages.Java.Model {
 			var element = xElement.Element("Statement").Elements().First();
 			var unifiedBlock = new UnifiedBlock ();
 			if (element.Name.LocalName == "TOKEN" && element.Value == "if") {
-				unifiedBlock.Add(CreateIfStatement());
+				unifiedBlock.Add(CreateIfExpression());
 			}
-			throw new NotImplementedException();
+			throw new NotImplementedException("in CreateBlock");
 		}
 
-		private static UnifiedIf CreateIfStatement() {
+		private static UnifiedIf CreateIfExpression() {
 			throw new NotImplementedException();
 		}
 
