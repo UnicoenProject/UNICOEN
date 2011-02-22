@@ -13,7 +13,6 @@ using Ucpf.Languages.Java.Model;
 namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaFibonacciTest {
-
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
 				Function = new UnifiedVariable("fibonacci"),
@@ -34,25 +33,31 @@ namespace Ucpf.Languages.Java.Tests {
 		[Test]
 		public void CreateDefineFunction() {
 			var ast =
-				JavaAstGenerator.Instance.Generate("public static int fibonacci(int n){}", p => p.methodDeclaration());
+				JavaAstGenerator.Instance.Generate("public static int fibonacci(int n){}",
+					p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
-			var modifiers = new UnifiedModifierCollection() {
-				new UnifiedModifier() {
-					Name = "public"
-				},
-				new UnifiedModifier() {
-					Name = "static"
-				}
-			};
 			var expectation = new UnifiedFunctionDefinition {
-				Modifiers = modifiers,
+				Modifiers = new UnifiedModifierCollection() {
+					new UnifiedModifier() {
+						Name = "public"
+					},
+					new UnifiedModifier() {
+						Name = "static"
+					}
+				},
 				ReturnType = "int",
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection(),
+				Parameters = new UnifiedParameterCollection() {
+					new UnifiedParameter() {
+						Modifier = new UnifiedModifier(),
+						Name = "n",
+						Type = "int"
+					}
+				},
 				Block = new UnifiedBlock(),
-
 			};
-			Assert.That(actual, Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+			Assert.That(actual,
+				Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }
