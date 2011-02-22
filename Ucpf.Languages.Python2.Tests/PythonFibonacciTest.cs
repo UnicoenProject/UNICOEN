@@ -67,7 +67,7 @@ print fib(20)
 										}
 								}),
 							}
-						}
+						}.ToStatement()
 					}
 				},
 				new UnifiedCall {
@@ -80,7 +80,7 @@ print fib(20)
 							}
 						}
 					}
-				}
+				}.ToStatement()
 			};
 
 		#endregion
