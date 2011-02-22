@@ -82,10 +82,11 @@ namespace Ucpf.Languages.JavaScript.Model
 			var identifier =
 				node.Descendants().Where(
 				e => { return e.Name.LocalName == "Identifier"; }).First().Value;
-			var arguments =
-				node.Element("arguments").Elements().Where(e => e.Name.LocalName != "TOKEN")
-					.Select(e2 => CreateExpression(e2)).ToList();
-			return new UnifiedCall();
+
+			return new UnifiedCall {
+				Arguments = CreateArgumentCollection(node),
+				Function = new UnifiedVariable(identifier)
+			};
 		}
 
 		public static UnifiedExpression CreatePostfixUnaryExpression(XElement node) {
@@ -202,21 +203,24 @@ namespace Ucpf.Languages.JavaScript.Model
 					);
 		}
 
-		public static  UnifiedIf CreateIf(XElement node) {
-			return new UnifiedIf {
-				//TODO UnifiedBlock isn't extended UnifiedStatement
-				//TODO consider how deal with else block
-				//TODO consider this cast is OK?
-				Condition = CreateExpression(node.Element("expression")),
-				TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
-				FalseBlock = (UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
-			};
+		public static UnifiedExpressionStatement CreateIf(XElement node) {
+			return new UnifiedExpressionStatement(
+				new UnifiedIf {
+					//TODO UnifiedBlock isn't extended UnifiedStatement
+					//TODO consider how deal with else block
+					//TODO consider this cast is OK?
+					Condition = CreateExpression(node.Element("expression")),
+					TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
+					FalseBlock =
+						(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
+				});
 		}
 
 		public static  UnifiedReturn CreateReturn(XElement node) {
-			return new UnifiedReturn {
-				Value = CreateExpression(node.Element("expression"))
-			};
+			return new UnifiedReturn(CreateExpression(node.Element("expression")));
+			//return new UnifiedReturn {
+			//	Value = CreateExpression(node.Element("expression"))
+			//};
 		}
 
 		#endregion
@@ -228,6 +232,19 @@ namespace Ucpf.Languages.JavaScript.Model
 				Name = node.Element("Identifier").Value,
 				Block = CreateFunctionBody(node.Element("functionBody")),
 				Parameters = CreateParameterCollection(node)
+			};
+		}
+
+		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node) {
+			return new UnifiedArgumentCollection(
+				node.Element("arguments").Elements().Where(e => e.Name.LocalName != "TOKEN")
+					.Select(e2 => CreateArgument(e2))
+			);
+		}
+
+		public static UnifiedArgument CreateArgument(XElement node) {
+			return new UnifiedArgument {
+				Value = CreateExpression(node)
 			};
 		}
 

@@ -7,7 +7,7 @@ using Ucpf.Common.Visitors;
 
 namespace Ucpf.Common.Model
 {
-	public class UnifiedIf : UnifiedStatement
+	public class UnifiedIf : UnifiedExpression
 	{
 		public UnifiedExpression Condition { get; set; }
 		public UnifiedBlock TrueBlock { get; set; }
