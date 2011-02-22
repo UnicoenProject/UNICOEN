@@ -34,9 +34,9 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
-				LeftHandSide = new UnifiedLiteral {Value = "n"},
+				LeftHandSide = new UnifiedLiteral { Value = "n" },
 				Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
-				RightHandSide = new UnifiedLiteral {Value = "2"},
+				RightHandSide = new UnifiedLiteral { Value = "2" },
 			};
 
 			Assert.That(cond, Is.EqualTo(expectation)
@@ -49,7 +49,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var firstParam = _func.Parameters.First();
 
 			//expectation
-			var expectation = new UnifiedParameter("n");
+			var expectation = new UnifiedParameter { Name = "n" };
 
 			Assert.That(firstParam, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparer.Instance));
@@ -70,8 +70,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var returnStmt = tBlock.First();
 
 			//expectation
-			var expectation = new UnifiedReturn(
-				new UnifiedLiteral {
+			var expectation = new UnifiedReturn {
+				Value = new UnifiedLiteral {
 					Value = "n"
 				});
 
@@ -120,9 +120,9 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
-				LeftHandSide = new UnifiedLiteral {Value = "n"},
+				LeftHandSide = new UnifiedLiteral { Value = "n" },
 				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
-				RightHandSide = new UnifiedLiteral {Value = "1"},
+				RightHandSide = new UnifiedLiteral { Value = "1" },
 			};
 
 			Assert.That(firstArg, Is.EqualTo(expectation)

@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.C.CodeTransl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.C.CodeTranslation.Test", "Ucpf.Languages.C.CodeTranslation.Test\Ucpf.Languages.C.CodeTranslation.Test.csproj", "{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.CSharp.Tests", "Ucpf.Languages.CSharp.Tests\Ucpf.Languages.CSharp.Tests.csproj", "{CBE372FD-4C31-4BDB-B704-49A5C3349A35}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -326,6 +328,16 @@ Global
 		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|Mixed Platforms.Build.0 = Release|x86
 		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|x86.ActiveCfg = Release|x86
 		{F61A04B9-79D8-4B28-84FE-83BB60DD7C17}.Release|x86.Build.0 = Release|x86
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

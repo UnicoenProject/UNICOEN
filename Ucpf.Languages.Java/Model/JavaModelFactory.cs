@@ -10,7 +10,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			return new UnifiedFunctionDefinition {
-				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value),
+				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value).ToArray(),
 				ReturnType = node.Element("type").Elements().ElementAt(0).Value,
 				Name = node.Element("IDENTIFIER").Value,
 				Parameters =

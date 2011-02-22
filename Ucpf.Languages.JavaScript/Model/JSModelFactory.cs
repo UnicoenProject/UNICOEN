@@ -4,14 +4,12 @@ using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.OldModel.Operators;
 
-namespace Ucpf.Languages.JavaScript.Model
-{
-	public class JSModelFactory
-	{
+namespace Ucpf.Languages.JavaScript.Model {
+	public class JSModelFactory {
 		#region Expression
 
 		public static UnifiedExpression CreateExpression(XElement node) {
-			
+
 			String[] binaryOperator = {
 				"+", "-", "*", "/", "%", "<", ">"
 			};
@@ -27,7 +25,7 @@ namespace Ucpf.Languages.JavaScript.Model
 				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
 					return c > 1 || (c == 1 && e.Element("Identifier") != null) ||
-					       (c == 1 && e.Element("TOKEN") != null);
+						   (c == 1 && e.Element("TOKEN") != null);
 				});
 
 			//Ensure that node has some expression
@@ -211,7 +209,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			throw new NotImplementedException();
 		}
 
-		public static  UnifiedBlock CreateBlock(XElement node) {
+		public static UnifiedBlock CreateBlock(XElement node) {
 			return new UnifiedBlock(
 				node.Element("statementList").Elements("statement")
 					.Select(e => CreateStatement(e)).ToList()
@@ -222,8 +220,8 @@ namespace Ucpf.Languages.JavaScript.Model
 			return new UnifiedBlock(
 				node.Element("sourceElements").Elements("sourceElement")
 					.SelectMany(e =>
-					            e.Elements("statement").Select(
-					            	e2 => CreateStatement(e2))
+								e.Elements("statement").Select(
+									e2 => CreateStatement(e2))
 									).ToList()
 					);
 		}
@@ -238,8 +236,10 @@ namespace Ucpf.Languages.JavaScript.Model
 				});
 		}
 
-		public static  UnifiedReturn CreateReturn(XElement node) {
-			return new UnifiedReturn(CreateExpression(node.Element("expression")));
+		public static UnifiedReturn CreateReturn(XElement node) {
+			return new UnifiedReturn {
+				Value = CreateExpression(node.Element("expression"))
+			};
 		}
 
 		#endregion
@@ -275,9 +275,9 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		public static UnifiedParameter CreateParameter(XElement node) {
-			return new UnifiedParameter(node.Value);
+			return new UnifiedParameter { Name = node.Value };
 		}
-	
+
 		#endregion
 	}
 }

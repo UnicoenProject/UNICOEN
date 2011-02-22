@@ -6,8 +6,8 @@ using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedFunctionDefinition : UnifiedExpression {
-		public IEnumerable<String> Modifiers { get; set; }
-		public String ReturnType { get; set; }
+		public string[] Modifiers { get; set; }
+		public string ReturnType { get; set; }
 		public string Name { get; set; }
 		public UnifiedParameterCollection Parameters { get; set; }
 		public UnifiedBlock Block { get; set; }

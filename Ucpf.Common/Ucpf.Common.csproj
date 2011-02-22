@@ -103,6 +103,9 @@
     <Compile Include="Antlr\XToken.cs" />
     <Compile Include="AstGenerators\AntlrAstGenerator.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
+    <Compile Include="Model\Expressions\UnifiedClassDefinition.cs" />
+    <Compile Include="Model\UnifiedNamespace.cs" />
+    <Compile Include="Model\UnifiedImport.cs" />
     <Compile Include="OldModel\IModelToCode.cs" />
     <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
     <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
