@@ -9,10 +9,11 @@ namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
-			var modifiers = new UnifiedModifierCollection(node.Element("modifiers").Elements().Select(e => new UnifiedModifier(){Name = e.Value}));
+			var modifiers = new UnifiedModifierCollection(node.Element("modifiers")
+				.Elements().Select(e => new UnifiedModifier() { Name = e.Value } ));
 			var returnType = node.Element("type").Elements().ElementAt(0).Value;
 			var name = node.Element("IDENTIFIER").Value;
-			var parameter = CreateParameterCollection(node.Element("formalParameterList"));
+			var parameter = CreateParameterCollection(node.Element("formalParameters"));
 			var block = new UnifiedBlock();
 
 			return new UnifiedFunctionDefinition {
@@ -42,7 +43,15 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		private static UnifiedParameterCollection CreateParameterCollection(XElement element) {
-			return new UnifiedParameterCollection();
+
+			return new UnifiedParameterCollection(
+				element.Element("formalParameterDecls")
+					.Elements("normalParameterDecl")
+					.Select(e => new UnifiedParameter() {
+						Modifier = new UnifiedModifier(),
+						Type = e.Element("type").Elements().First().Value,
+						Name = e.Element("IDENTIFIER").Value
+					}));
 			// throw new NotImplementedException();
 		}
 
