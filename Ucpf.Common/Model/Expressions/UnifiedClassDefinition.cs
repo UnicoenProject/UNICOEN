@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Ucpf.Common.Visitors;
 
-namespace Ucpf.Common.Model {
-	public class UnifiedParameter : UnifiedElement {
+namespace Ucpf.Common.Model.Expressions {
+
+	public class UnifiedClassDefinition : UnifiedElement{
 
 		public string Name { get; set; }
-		public string Type { get; set; }
+		public UnifiedBlock Body { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor conv) {
-			conv.Visit(this);
+			throw new NotImplementedException();
 		}
 	}
 }
