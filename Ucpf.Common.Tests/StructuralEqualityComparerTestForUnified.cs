@@ -177,7 +177,9 @@ namespace Ucpf.Common.Tests {
 						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
-				new UnifiedReturn(new UnifiedIntegerLiteral(2)),
+				new UnifiedReturn{
+					Value = new UnifiedIntegerLiteral(2)
+				}
 			};
 			var o2 = new UnifiedBlock {
 				new UnifiedExpressionStatement(
@@ -186,7 +188,7 @@ namespace Ucpf.Common.Tests {
 						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
-				new UnifiedReturn(new UnifiedIntegerLiteral(2)),
+				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }
 			};
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -201,7 +203,7 @@ namespace Ucpf.Common.Tests {
 						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
-				new UnifiedReturn(new UnifiedIntegerLiteral(2)),
+				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }
 			};
 			var o2 = o1;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
@@ -217,7 +219,7 @@ namespace Ucpf.Common.Tests {
 						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
-				new UnifiedReturn(new UnifiedIntegerLiteral(2)),
+				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }
 			};
 			var o2 = new UnifiedBlock {
 				new UnifiedExpressionStatement(
@@ -226,7 +228,7 @@ namespace Ucpf.Common.Tests {
 						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(2),
 					}),
-				new UnifiedReturn(new UnifiedIntegerLiteral(2)),
+				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }
 			};
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);

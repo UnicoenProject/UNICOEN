@@ -34,7 +34,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock(),
 			};
@@ -57,10 +57,12 @@ namespace Ucpf.Common.Tests.Visitors {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(new UnifiedVariable("n")),
+					new UnifiedReturn {
+						Value = new UnifiedVariable("n")
+					}
 				},
 			};
 			var expectation =
@@ -86,10 +88,12 @@ namespace Ucpf.Common.Tests.Visitors {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(CreateCall(null)),
+					new UnifiedReturn {
+						Value = CreateCall(null)
+					}
 				},
 			};
 			var expectation =
@@ -122,15 +126,16 @@ namespace Ucpf.Common.Tests.Visitors {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn(
-						new UnifiedBinaryExpression {
+					new UnifiedReturn {
+						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
 							Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 							RightHandSide = CreateCall(2),
-						})
+						}
+					}
 				},
 			};
 			var expectation =
@@ -182,7 +187,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
 					new UnifiedExpressionStatement(new UnifiedIf {
@@ -192,10 +197,10 @@ namespace Ucpf.Common.Tests.Visitors {
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedVariable("n")),
+							new UnifiedReturn{ Value = new UnifiedVariable("n") }
 						},
 						FalseBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedIntegerLiteral(0)),
+							new UnifiedReturn{ Value = new UnifiedIntegerLiteral(0) }
 						},
 					}),
 				},
@@ -239,7 +244,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
-					new UnifiedParameter("n"),
+					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
 					new UnifiedExpressionStatement(new UnifiedIf {
@@ -249,15 +254,16 @@ namespace Ucpf.Common.Tests.Visitors {
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn(new UnifiedVariable("n")),
+							new UnifiedReturn { Value = new UnifiedVariable("n") }
 						},
 						FalseBlock = new UnifiedBlock {
-							new UnifiedReturn(
-								new UnifiedBinaryExpression {
+							new UnifiedReturn {
+								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
 									Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
 									RightHandSide = CreateCall(2),
-								})
+								}
+							}
 						},
 					}),
 				},

@@ -7,29 +7,11 @@ using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 
-	public class UnifiedArgumentCollection : UnifiedElement, IEnumerable<UnifiedArgument> {
+	public class UnifiedArgumentCollection : UnifiedElementCollection<UnifiedArgument> {
 
-		private readonly List<UnifiedArgument> _args;
+		public UnifiedArgumentCollection() { }
 
-		public UnifiedArgumentCollection() {
-			_args = new List<UnifiedArgument>();
-		}
-
-		public UnifiedArgumentCollection(IEnumerable<UnifiedArgument> args) {
-			_args = args.ToList();
-		}
-
-		public void Add(UnifiedArgument arg) {
-			_args.Add(arg);
-		}
-
-		public IEnumerator<UnifiedArgument> GetEnumerator() {
-			return _args.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
-		}
+		public UnifiedArgumentCollection(IEnumerable<UnifiedArgument> elements) : base (elements) { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

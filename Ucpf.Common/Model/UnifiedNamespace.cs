@@ -5,13 +5,12 @@ using System.Text;
 using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedParameter : UnifiedElement {
-
+	public class UnifiedNamespace : UnifiedElement {
 		public string Name { get; set; }
-		public string Type { get; set; }
+		public UnifiedBlock Body { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
-			visitor.Visit(this);
+			throw new NotImplementedException();
 		}
 	}
 }

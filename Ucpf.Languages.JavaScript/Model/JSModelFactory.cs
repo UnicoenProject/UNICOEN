@@ -4,14 +4,12 @@ using System.Xml.Linq;
 using Ucpf.Common.Model;
 using Ucpf.Common.OldModel.Operators;
 
-namespace Ucpf.Languages.JavaScript.Model
-{
-	public class JSModelFactory
-	{
+namespace Ucpf.Languages.JavaScript.Model {
+	public class JSModelFactory {
 		#region Expression
 
 		public static UnifiedExpression CreateExpression(XElement node) {
-			
+
 			String[] binaryOperator = {
 				"+", "-", "*", "/", "%", "<", ">"
 			};
@@ -23,46 +21,45 @@ namespace Ucpf.Languages.JavaScript.Model
 			 * it has only one child whose name is <TOKEN> 
 			 * these are some actual expression
 			*/
-			var tmp =
+			var expressionList =
 				node.Descendants().Where(e => {
 					var c = e.Elements().Count();
 					return c > 1 || (c == 1 && e.Element("Identifier") != null) ||
-					       (c == 1 && e.Element("TOKEN") != null);
+						   (c == 1 && e.Element("TOKEN") != null);
 				});
 
 			//Ensure that node has some expression
-			if (tmp.Count() == 0) {
+			if (expressionList.Count() == 0) {
 				Console.Write(node);
 				throw new NullReferenceException();
 			}
 
-			var targetElement = tmp.First();
+			var topExpressionElement = expressionList.First();
 
-			//case TOKEN
-			if (targetElement.Elements().Count() == 1) {
-				//TODO change -> literal?
-				return CreatePrimaryExpression(targetElement);
+			//case PrimaryExpression: Identifier or TOKEN
+			if (topExpressionElement.Elements().Count() == 1) {
+				return CreateLiteral(topExpressionElement);
 			}
 
 			//case CallExpression
-			if (targetElement.Name.LocalName == "callExpression") {
-				return CreateCallExpression(targetElement);
+			if (topExpressionElement.Name.LocalName == "callExpression") {
+				return CreateCallExpression(topExpressionElement);
 			}
 
 			//case UnaryExpression (public UnaryExpression(XElement expression, XElement op))
-			if (targetElement.Name.LocalName == "unaryExpression") {
-				var tempNode = targetElement.Element("postfixExpression");
+			if (topExpressionElement.Name.LocalName == "unaryExpression") {
+				var tempNode = topExpressionElement.Element("postfixExpression");
 				if (tempNode != null && tempNode.Elements().Count() == 2) {
 					//unaryExpression with postfixExpression
 					return CreatePostfixUnaryExpression(tempNode);
 				}
 				//unaryExpression with prefixExpression
-				return CreatePrefixUnaryExpression(targetElement);
+				return CreatePrefixUnaryExpression(topExpressionElement);
 			}
 
 			//case BinaryExpression
-			if (binaryOperator.Contains(targetElement.Elements().ElementAt(1).Value)) {
-				return CreateBinaryExpression(targetElement);
+			if (binaryOperator.Contains(topExpressionElement.Elements().ElementAt(1).Value)) {
+				return CreateBinaryExpression(topExpressionElement);
 			}
 
 			//TODO implement other cases
@@ -78,14 +75,11 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		public static UnifiedCall CreateCallExpression(XElement node) {
-			//TODO consider UnifiedCall has Expression. Isn't it Identifier?
-			var identifier =
-				node.Descendants().Where(
-				e => { return e.Name.LocalName == "Identifier"; }).First().Value;
-
 			return new UnifiedCall {
 				Arguments = CreateArgumentCollection(node),
-				Function = new UnifiedVariable(identifier)
+				Function = CreateExpression(node)
+				//Function = new UnifiedVariable(identifier)
+				//TODO consider: function identifier should to be which Variable or Literal
 			};
 		}
 
@@ -101,8 +95,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			return null;
 		}
 
-		//TODO consider Primaryexpression: change to Literal?
-		public static UnifiedExpression CreatePrimaryExpression(XElement node) {
+		public static UnifiedExpression CreateLiteral(XElement node) {
 			return new UnifiedLiteral() {
 				Value = node.Value
 			};
@@ -117,9 +110,14 @@ namespace Ucpf.Languages.JavaScript.Model
 			UnaryOperatorType type;
 
 			//TODO implement more OperationType cases
-			if (name == "++") {
-				type = UnaryOperatorType.PrefixIncrement;
-			} else {
+			switch (name) {
+			case "++":
+					type = UnaryOperatorType.PrefixIncrement;
+					break;
+			case "--":
+					type = UnaryOperatorType.PrefixDecrement;
+					break;
+			default:
 				throw new InvalidOperationException();
 			}
 
@@ -130,9 +128,14 @@ namespace Ucpf.Languages.JavaScript.Model
 			var name = node.Value;
 			UnaryOperatorType type;
 
-			if (name == "++") {
-				type = UnaryOperatorType.PostfixIncrement;
-			} else {
+			switch (name) {
+			case "++":
+					type = UnaryOperatorType.PostfixIncrement;
+					break;
+			case "--":
+					type = UnaryOperatorType.PostfixDecrement;
+					break;
+			default:
 				throw new InvalidOperationException();
 			}
 
@@ -145,17 +148,38 @@ namespace Ucpf.Languages.JavaScript.Model
 			UnifiedBinaryOperatorType type;
 
 			switch (name) {
-			case "+":
-				type = UnifiedBinaryOperatorType.Addition;
-				break;
-			case "-":
-				type = UnifiedBinaryOperatorType.Subtraction;
-				break;
-			case "<":
-				type = UnifiedBinaryOperatorType.Lesser;
-				break;
-			default:
-				throw new InvalidOperationException();
+				//Arithmetic
+				case "+": type = UnifiedBinaryOperatorType.Addition; break;
+				case "-": type = UnifiedBinaryOperatorType.Subtraction; break;
+				case "*": type = UnifiedBinaryOperatorType.Multiplication; break;
+				case "/": type = UnifiedBinaryOperatorType.Division; break;
+				case "%": type = UnifiedBinaryOperatorType.Modulo; break;
+				//Shift
+				case "<<": type = UnifiedBinaryOperatorType.LeftShift; break;
+				case ">>": type = UnifiedBinaryOperatorType.RightShift; break;
+				//Comparison
+				case ">": type = UnifiedBinaryOperatorType.Greater; break;
+				case ">=": type = UnifiedBinaryOperatorType.GreaterEqual; break;
+				case "<": type = UnifiedBinaryOperatorType.Lesser; break;
+				case "<=": type = UnifiedBinaryOperatorType.LesserEqual; break;
+				case "==": type = UnifiedBinaryOperatorType.Equal; break;
+				case "!=": type = UnifiedBinaryOperatorType.NotEqual; break;
+				//Logocal
+				case "&&": type = UnifiedBinaryOperatorType.LogicalAnd; break;
+				case "||": type = UnifiedBinaryOperatorType.LogicalOr; break;
+				//Bit
+				case "&": type = UnifiedBinaryOperatorType.BitAnd; break;
+				case "|": type = UnifiedBinaryOperatorType.BitOr; break;
+				case "^": type = UnifiedBinaryOperatorType.BitXor; break;
+				//Assignment
+				case "=": type = UnifiedBinaryOperatorType.Assignment; break;
+				case "+=": type = UnifiedBinaryOperatorType.AddAssignment; break;
+				case "-=": type = UnifiedBinaryOperatorType.SubAssignment; break;
+				case "*=": type = UnifiedBinaryOperatorType.MulAssignment; break;
+				case "/=": type = UnifiedBinaryOperatorType.DivAssignment; break;
+				case "%=": type = UnifiedBinaryOperatorType.ModAssignment; break;
+				default:
+					throw new InvalidOperationException();
 			}
 
 			//TODO second parameter is BinaryOperatorType? UnifiedBinaryOperatorType?
@@ -185,8 +209,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			throw new NotImplementedException();
 		}
 
-		public static  UnifiedBlock CreateBlock(XElement node) {
-			//TODO null check
+		public static UnifiedBlock CreateBlock(XElement node) {
 			return new UnifiedBlock(
 				node.Element("statementList").Elements("statement")
 					.Select(e => CreateStatement(e)).ToList()
@@ -197,8 +220,8 @@ namespace Ucpf.Languages.JavaScript.Model
 			return new UnifiedBlock(
 				node.Element("sourceElements").Elements("sourceElement")
 					.SelectMany(e =>
-					            e.Elements("statement").Select(
-					            	e2 => CreateStatement(e2))
+								e.Elements("statement").Select(
+									e2 => CreateStatement(e2))
 									).ToList()
 					);
 		}
@@ -206,21 +229,17 @@ namespace Ucpf.Languages.JavaScript.Model
 		public static UnifiedExpressionStatement CreateIf(XElement node) {
 			return new UnifiedExpressionStatement(
 				new UnifiedIf {
-					//TODO UnifiedBlock isn't extended UnifiedStatement
 					//TODO consider how deal with else block
-					//TODO consider this cast is OK?
 					Condition = CreateExpression(node.Element("expression")),
 					TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
-					FalseBlock =
-						(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
+					FalseBlock =(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
 				});
 		}
 
-		public static  UnifiedReturn CreateReturn(XElement node) {
-			return new UnifiedReturn(CreateExpression(node.Element("expression")));
-			//return new UnifiedReturn {
-			//	Value = CreateExpression(node.Element("expression"))
-			//};
+		public static UnifiedReturn CreateReturn(XElement node) {
+			return new UnifiedReturn {
+				Value = CreateExpression(node.Element("expression"))
+			};
 		}
 
 		#endregion
@@ -256,9 +275,9 @@ namespace Ucpf.Languages.JavaScript.Model
 		}
 
 		public static UnifiedParameter CreateParameter(XElement node) {
-			return new UnifiedParameter(node.Value);
+			return new UnifiedParameter { Name = node.Value };
 		}
-	
+
 		#endregion
 	}
 }

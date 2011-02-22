@@ -7,29 +7,11 @@ using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 
-	public class UnifiedParameterCollection : UnifiedElement, IEnumerable<UnifiedParameter> {
+	public class UnifiedParameterCollection : UnifiedElementCollection<UnifiedParameter>{
 
-		private readonly List<UnifiedParameter> _parameters;
+		public UnifiedParameterCollection() { }
 
-		public UnifiedParameterCollection() {
-			_parameters = new List<UnifiedParameter>();
-		}
-
-		public UnifiedParameterCollection(IEnumerable<UnifiedParameter> parameters) {
-			_parameters = parameters.ToList();
-		}
-
-		public void Add(UnifiedParameter param) {
-			_parameters.Add(param);
-		}
-
-		public IEnumerator<UnifiedParameter> GetEnumerator() {
-			return _parameters.GetEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
-		}
+		public UnifiedParameterCollection(IEnumerable<UnifiedParameter> elements) : base (elements) { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

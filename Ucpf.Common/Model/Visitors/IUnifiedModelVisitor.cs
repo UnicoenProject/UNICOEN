@@ -16,5 +16,7 @@
 		void Visit(UnifiedParameterCollection element);
 		void Visit(UnifiedReturn element);
 		void Visit(UnifiedVariable element);
+		void Visit(UnifiedModifier element);
+		void Visit(UnifiedModifierCollection element);
 	}
 }

@@ -9,13 +9,18 @@ namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
+			var modifiers = new UnifiedModifierCollection(node.Element("modifiers").Elements().Select(e => new UnifiedModifier(){Name = e.Value}));
+			var returnType = node.Element("type").Elements().ElementAt(0).Value;
+			var name = node.Element("IDENTIFIER").Value;
+			var parameter = CreateParameterCollection(node.Element("formalParameterList"));
+			var block = new UnifiedBlock();
+
 			return new UnifiedFunctionDefinition {
-				Modifiers = node.Element("modifiers").Elements().Select(e => e.Value),
-				ReturnType = node.Element("type").Elements().ElementAt(0).Value,
-				Name = node.Element("IDENTIFIER").Value,
-				Parameters =
-					CreateParameterCollection(node.Element("formalParameterList")),
-				Block = CreateBlock(node.Element("block"))
+				Modifiers = modifiers,
+				ReturnType = returnType,
+				Name = name,
+				Parameters = parameter,
+				Block = block
 			};
 		}
 
@@ -37,7 +42,8 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		private static UnifiedParameterCollection CreateParameterCollection(XElement element) {
-			throw new NotImplementedException();
+			return new UnifiedParameterCollection();
+			// throw new NotImplementedException();
 		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
