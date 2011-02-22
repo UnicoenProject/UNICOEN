@@ -11,7 +11,7 @@ namespace Ucpf.Common.Visitors {
 		void Visit(UnifiedBinaryExpression element);
 		void Visit(UnifiedBlock element);
 		void Visit(UnifiedCall element);
-		void Visit(UnifiedDefineFunction element);
+		void Visit(UnifiedFunctionDefinition element);
 		void Visit(UnifiedExpressionStatement element);
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);

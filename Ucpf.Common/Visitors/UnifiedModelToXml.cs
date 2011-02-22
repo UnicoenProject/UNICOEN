@@ -125,8 +125,8 @@ namespace Ucpf.Common.Visitors {
 		}
 
 		public void Visit(UnifiedStatement element) {
-			if (element is UnifiedDefineFunction) {
-				Visit((UnifiedDefineFunction)element);
+			if (element is UnifiedFunctionDefinition) {
+				Visit((UnifiedFunctionDefinition)element);
 			} else if (element is UnifiedExpressionStatement) {
 				Visit((UnifiedExpressionStatement)element);
 			} else if (element is UnifiedReturn) {
@@ -146,7 +146,7 @@ namespace Ucpf.Common.Visitors {
 			_targets.Peek().Add(xe);
 		}
 
-		public void Visit(UnifiedDefineFunction element) {
+		public void Visit(UnifiedFunctionDefinition element) {
 			Contract.Requires(element.GetType().Name == "UnifiedDefineFunction");
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);

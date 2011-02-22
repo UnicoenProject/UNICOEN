@@ -31,7 +31,7 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateDefineFunction() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -54,7 +54,7 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateReturn() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -83,7 +83,7 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateFunctionCall() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -119,7 +119,7 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateFunctionCall2() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -179,7 +179,7 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateIf() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -236,7 +236,7 @@ namespace Ucpf.Common.Tests.Visitors {
 
 		[Test]
 		public void GenerateFibonacci() {
-			var model = new UnifiedDefineFunction {
+			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),

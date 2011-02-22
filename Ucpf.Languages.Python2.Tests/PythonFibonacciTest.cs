@@ -27,7 +27,7 @@ print fib(20)
 ";
 
 		private static readonly UnifiedBlock ExpectedModel = new UnifiedBlock {
-				new UnifiedDefineFunction {
+				new UnifiedFunctionDefinition {
 					Name = "fib",
 					Parameters = new UnifiedParameterCollection {
 						new UnifiedParameter("n")

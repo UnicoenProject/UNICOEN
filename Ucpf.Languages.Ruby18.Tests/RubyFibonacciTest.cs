@@ -29,7 +29,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -48,7 +48,7 @@ def fibonacci(n)
 	return n
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -70,7 +70,7 @@ def fibonacci(n)
 	return fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -92,7 +92,7 @@ def fibonacci(n)
 	return fibonacci(n - 1) + fibonacci(n - 2)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -124,7 +124,7 @@ def fibonacci(n)
 end
 ");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
@@ -163,7 +163,7 @@ def fibonacci(n)
 end
 ");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedDefineFunction {
+			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection {
 					new UnifiedParameter("n"),
