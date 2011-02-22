@@ -24,6 +24,7 @@ namespace Ucpf.Languages.Java.Model {
 
 			var element = xElement.Element("blockStatement")
 				.Element("statement");
+
 			if (element.Elements().First().Name.LocalName == "TOKEN" 
 				&& element.Elements().First().Value == "if") {
 				unifiedBlock.Add(CreateIfExpression(element).ToStatement());
