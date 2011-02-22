@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
+using Ucpf.Common.Model.Visitors;
 using Ucpf.Common.OldModel;
-
-using Ucpf.Common.Visitors;
 
 namespace Ucpf.Languages.C.Model {
 	public class CFunction : IFunction {

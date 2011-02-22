@@ -120,10 +120,10 @@ namespace Ucpf.Languages.Ruby18.Model {
 			throw new NotImplementedException();
 		}
 
-		public static UnifiedDefineFunction CreateDefineFunction(XElement node) {
+		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
-			return new UnifiedDefineFunction {
+			return new UnifiedFunctionDefinition {
 				Name = elems.First().Value,
 				Parameters = new UnifiedParameterCollection(
 					elems.ElementAt(1).Elements()

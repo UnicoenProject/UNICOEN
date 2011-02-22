@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
+using Ucpf.Common.Model.Visitors;
 using Ucpf.Common.OldModel;
 using Ucpf.Common.OldModel.Statements;
-
-using Ucpf.Common.Visitors;
 using Ucpf.Languages.C.Model.Statements;
 
 namespace Ucpf.Languages.C.Model {
