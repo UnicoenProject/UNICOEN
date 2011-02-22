@@ -1,54 +1,61 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using Ucpf.Common.Model;
-using Ucpf.Common.ModelToCode;
 using Ucpf.Common.OldModel;
 using Ucpf.Common.OldModel.Expressions;
 using Ucpf.Common.OldModel.Operators;
 using Ucpf.Common.OldModel.Statements;
 
-namespace Ucpf.Languages.C.Model {
-	public class CModelToCode : IModelToCode {
-		private readonly CMethodTransRule _rule;
+using Ucpf.Common.Visitors;
+
+namespace Ucpf.Languages.C.Model
+{
+	public class CModelToCode : IModelToCode
+	{
+		private readonly CRule _rule;
 		private readonly TextWriter _writer;
 		private int _depth;
 
 		// constructor
-		public CModelToCode(TextWriter writer, int depth, CMethodTransRule rule) {
+		public CModelToCode(TextWriter writer, int depth, CRule rule)
+		{
 			_writer = writer;
 			_depth = depth;
 			_rule = rule;
 		}
 
 		public CModelToCode(TextWriter writer, int depth)
-			: this(writer, depth, null) {}
+			: this(writer, depth, null) { }
 
 		#region UtilityFunctions
 
 		// print tabs 'depth' times.
-		public static string Tabs(int depth) {
+		public static string Tabs(int depth)
+		{
 			// proper way to set exception
 			Contract.Requires<InvalidOperationException>(depth >= 0);
 
 			var tabs = "";
-			for (int i = 0; i < depth; i++) {
+			for (int i = 0; i < depth; i++)
+			{
 				tabs += "\t";
 			}
 			return tabs;
 		}
 
-		public void WriteSpace() {
+		public void WriteSpace()
+		{
 			_writer.Write(" ");
 		}
 
-		public void WriteLine() {
+		public void WriteLine()
+		{
 			_writer.Write("\n");
 		}
 
-		public void WriteLineComment(string str) {
+		public void WriteLineComment(string str)
+		{
 			_writer.Write("// " + str);
 		}
 
@@ -58,7 +65,8 @@ namespace Ucpf.Languages.C.Model {
 
 		#region IModelToCode Members
 
-		public void Generate(IBlock block) {
+		public void Generate(IBlock block)
+		{
 			WriteLine();
 			_writer.Write(Tabs(_depth));
 			_writer.Write("{");
@@ -67,7 +75,8 @@ namespace Ucpf.Languages.C.Model {
 
 			var line = "";
 
-			foreach (var stmt in block.Statements) {
+			foreach (var stmt in block.Statements)
+			{
 				_writer.Write(line);
 				stmt.Accept(this);
 				line = "\n";
@@ -79,7 +88,8 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// Statement
-		public void Generate(IStatement stmt) {
+		public void Generate(IStatement stmt)
+		{
 			// deligate to subclasses
 
 			WriteLine();
@@ -90,7 +100,8 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// IfStatement
-		public void Generate(IIfStatement stmt) {
+		public void Generate(IIfStatement stmt)
+		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("if (");
 			stmt.Condition.Accept(this);
@@ -101,10 +112,13 @@ namespace Ucpf.Languages.C.Model {
 			stmt.TrueBlock.Accept(this);
 
 			// ElseIfBlock
-			try {
-				if (stmt.ElseIfBlocks.Count != 0) {
+			try
+			{
+				if (stmt.ElseIfBlocks.Count != 0)
+				{
 					WriteLine();
-					foreach (var elm in stmt.ElseIfBlocks) {
+					foreach (var elm in stmt.ElseIfBlocks)
+					{
 						_writer.Write(Tabs(_depth));
 						_writer.Write("else if (");
 						elm.ConditionalExpression.Accept(this);
@@ -113,10 +127,12 @@ namespace Ucpf.Languages.C.Model {
 					}
 					WriteLine();
 				}
-			} catch (NotImplementedException e) {}
+			}
+			catch (NotImplementedException e) { }
 
 			// ElseBlock
-			if (stmt.FalseBlock != null) {
+			if (stmt.FalseBlock != null)
+			{
 				_writer.Write(Tabs(_depth));
 				_writer.Write("else");
 				stmt.FalseBlock.Accept(this);
@@ -124,7 +140,8 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// ReturnStatement
-		public void Generate(IReturnStatement stmt) {
+		public void Generate(IReturnStatement stmt)
+		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write("return");
 			WriteSpace();
@@ -134,10 +151,14 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// Expression Statement
-		public void Generate(IExpressionStatement stmt) {
-			if (stmt is IEmptyStatement) {
+		public void Generate(IExpressionStatement stmt)
+		{
+			if (stmt is IEmptyStatement)
+			{
 				Generate((IEmptyStatement)stmt);
-			} else {
+			}
+			else
+			{
 				_writer.Write(Tabs(_depth));
 				stmt.Expression.Accept(this);
 				_writer.Write(";");
@@ -145,31 +166,44 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// Empty Statement
-		public void Generate(IEmptyStatement stmt) {
+		public void Generate(IEmptyStatement stmt)
+		{
 			_writer.Write(Tabs(_depth));
 			_writer.Write(";");
 		}
 
 		// Function
 		// [ReturnType] [FuncName] '(' ([Type] [Name])* ')'
-		public void Generate(IFunction func) {
+		public void Generate(IFunction func)
+		{
 			var comma = "";
 
 			// Signature
 			var returnType = func.ReturnType;
 
-			if (returnType == null) {
+			if (_rule != null && _rule.Type == "TypeTrans")
+			{
+				returnType = new CType(((CTypeTransRule)_rule).MethodReturnTypeRules[func.Name]);
+			}
+
+
+			if (returnType == null)
+			{
 				WriteLineComment("Specify type !!");
 				WriteLine();
-			} else {
-				func.ReturnType.Accept(this);
+			}
+			else
+			{
+				// func.ReturnType.Accept(this);
+				returnType.Accept(this);
 			}
 
 			WriteSpace();
 			_writer.Write(func.Name);
 			_writer.Write("(");
 
-			foreach (IVariable prm in func.Parameters) {
+			foreach (IVariable prm in func.Parameters)
+			{
 				_writer.Write(comma);
 				prm.Accept(this);
 				comma = ", ";
@@ -181,18 +215,43 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// Type
-		public void Generate(IType type) {
-			if (type == null) {
+		public void Generate(IType type)
+		{
+			if (type == null)
+			{
 				return;
 			}
 			_writer.Write(type.Name);
 		}
 
 		// Variable
-		public void Generate(IVariable variable) {
+		public void Generate(IVariable variable)
+		{
+			var varName = variable.Name;
 			try {
-				variable.Type.Accept(this);
-			} catch (NullReferenceException e) {}
+				var type = variable.Type;
+
+				// apply rules
+				if (_rule != null && _rule.Type == "TypeTrans")
+				{
+					var rule = _rule as CTypeTransRule;
+					try {
+						type = new CType(rule.VariableTypeRules[varName]);
+					}
+					catch(System.Collections.Generic.KeyNotFoundException e) {
+						type = null;
+					}
+				}
+
+				if(type == null) {
+					type = new CType("?TYPE?");
+				}
+
+				type.Accept(this);
+
+			}
+			catch (NullReferenceException e) { }
+
 			WriteSpace();
 			_writer.Write(variable.Name);
 		}
@@ -202,21 +261,25 @@ namespace Ucpf.Languages.C.Model {
 		#region Expression
 
 		// Expression
-		public void Generate(IExpression exp) {
+		public void Generate(IExpression exp)
+		{
 			exp.Accept(this);
 		}
 
 		// PrimaryExpression
-		public void Generate(IPrimaryExpression pExp) {
+		public void Generate(IPrimaryExpression pExp)
+		{
 			_writer.Write(pExp.Name);
 		}
 
-		public void Generate(ITernaryExpression exp) {
+		public void Generate(ITernaryExpression exp)
+		{
 			throw new NotImplementedException();
 		}
 
 		// BinaryExpression
-		public void Generate(IBinaryExpression exp) {
+		public void Generate(IBinaryExpression exp)
+		{
 			exp.LeftHandSide.Accept(this);
 			WriteSpace();
 			exp.Operator.Accept(this);
@@ -225,30 +288,37 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// InvocationExpression
-		public void Generate(ICallExpression exp) {
+		public void Generate(ICallExpression exp)
+		{
 			// [FuncName] '(' [Argument]* ');'
 			var comma = "";
 
 			// apply rules
 			var funcName = exp.FunctionName;
 
-			if (_rule != null) {
-				var rules = _rule.Rules;
-				foreach (var rule in rules) {
+			if (_rule != null && _rule.Type == "MethodNameTrans")
+			{
+				var r = _rule as CMethodTransRule;
+				var rules = r.Rules;
+				foreach (var rule in rules)
+				{
 					var keys = rule.Keys;
 
-					if (keys.Contains(funcName)) {
+					if (keys.Contains(funcName))
+					{
 						funcName = rule[funcName];
 					}
 				}
 			}
+
 
 			// functio name
 			_writer.Write(funcName);
 
 			// arguments
 			_writer.Write("(");
-			foreach (IExpression e in exp.Arguments) {
+			foreach (IExpression e in exp.Arguments)
+			{
 				_writer.Write(comma);
 				e.Accept(this);
 				comma = ", ";
@@ -257,7 +327,8 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// UnaryExpression
-		public void Generate(IUnaryExpression exp) {
+		public void Generate(IUnaryExpression exp)
+		{
 			var term = exp.Term;
 			var ope = exp.Operator;
 			var opeType = ope.Type;
@@ -270,11 +341,12 @@ namespace Ucpf.Languages.C.Model {
 			// UnaryOperatorType[] unaryOperators = (UnaryOperatorType[])Enum.GetValues(typeof(UnaryOperatorType));
 
 			if (opeType == UnaryOperatorType.PostfixIncrement ||
-			    opeType == UnaryOperatorType.PostfixDecrement) // e.g. x++
+				opeType == UnaryOperatorType.PostfixDecrement) // e.g. x++
 			{
 				term.Accept(this);
 				ope.Accept(this);
-			} else // if (unaryOperators.Contains(opeType))	// e.g. y++
+			}
+			else // if (unaryOperators.Contains(opeType))	// e.g. y++
 			{
 				ope.Accept(this);
 				term.Accept(this);
@@ -288,7 +360,8 @@ namespace Ucpf.Languages.C.Model {
 		}
 
 		// AssignmentExpression
-		public void Generate(IAssignmentExpression exp) {
+		public void Generate(IAssignmentExpression exp)
+		{
 			exp.LValue.Accept(this);
 			WriteSpace();
 			exp.Operator.Accept(this);
@@ -301,152 +374,146 @@ namespace Ucpf.Languages.C.Model {
 		#region Operator
 
 		// UnaryOperator
-		public void Generate(IUnaryOperator op) {
+		public void Generate(IUnaryOperator op)
+		{
 			var sw = op.Type;
-			switch (sw) {
-			case UnaryOperatorType.PrefixIncrement:
-			case UnaryOperatorType.PostfixIncrement:
-				_writer.Write("++");
-				break;
-			case UnaryOperatorType.PrefixDecrement:
-			case UnaryOperatorType.PostfixDecrement:
-				_writer.Write("--");
-				break;
-			case UnaryOperatorType.Plus:
-				_writer.Write("+");
-				break;
-			case UnaryOperatorType.Minus:
-				_writer.Write("-");
-				break;
-			case UnaryOperatorType.Not:
-				_writer.Write("!");
-				break;
-			case UnaryOperatorType.BitReverse:
-				_writer.Write("~");
-				break;
-			case UnaryOperatorType.Address:
-				_writer.Write("&");
-				break;
-			case UnaryOperatorType.Indirect:
-				_writer.Write("*");
-				break;
-			default:
-				throw new InvalidOperationException();
+			switch (sw)
+			{
+				case UnaryOperatorType.PrefixIncrement:
+				case UnaryOperatorType.PostfixIncrement:
+					_writer.Write("++");
+					break;
+				case UnaryOperatorType.PrefixDecrement:
+				case UnaryOperatorType.PostfixDecrement:
+					_writer.Write("--");
+					break;
+				case UnaryOperatorType.Plus:
+					_writer.Write("+");
+					break;
+				case UnaryOperatorType.Minus:
+					_writer.Write("-");
+					break;
+				case UnaryOperatorType.Not:
+					_writer.Write("!");
+					break;
+				case UnaryOperatorType.BitReverse:
+					_writer.Write("~");
+					break;
+				case UnaryOperatorType.Address:
+					_writer.Write("&");
+					break;
+				case UnaryOperatorType.Indirect:
+					_writer.Write("*");
+					break;
+				default:
+					throw new InvalidOperationException();
 			}
 		}
 
 		// BinaryOperator
-		public void Generate(IBinaryOperator op) {
-			switch (op.Type) {
+		public void Generate(IBinaryOperator op)
+		{
+			switch (op.Type)
+			{
 				// Arithmetic
-			case BinaryOperatorType.Addition:
-				_writer.Write("+");
-				break;
-			case BinaryOperatorType.Subtraction:
-				_writer.Write("-");
-				break;
-			case BinaryOperatorType.Multiplication:
-				_writer.Write("*");
-				break;
-			case BinaryOperatorType.Division:
-				_writer.Write("/");
-				break;
-			case BinaryOperatorType.Modulo:
-				_writer.Write("%");
-				break;
+				case BinaryOperatorType.Addition:
+					_writer.Write("+");
+					break;
+				case BinaryOperatorType.Subtraction:
+					_writer.Write("-");
+					break;
+				case BinaryOperatorType.Multiplication:
+					_writer.Write("*");
+					break;
+				case BinaryOperatorType.Division:
+					_writer.Write("/");
+					break;
+				case BinaryOperatorType.Modulo:
+					_writer.Write("%");
+					break;
 				// Shift
-			case BinaryOperatorType.LeftShift:
-				_writer.Write("<<");
-				break;
-			case BinaryOperatorType.RightShift:
-				_writer.Write(">>");
-				break;
-			case BinaryOperatorType.LeftRotate:
-				_writer.Write("<<<");
-				break;
-			case BinaryOperatorType.RightRotate:
-				_writer.Write(">>>");
-				break;
+				case BinaryOperatorType.LeftShift:
+					_writer.Write("<<");
+					break;
+				case BinaryOperatorType.RightShift:
+					_writer.Write(">>");
+					break;
+				case BinaryOperatorType.LeftRotate:
+					_writer.Write("<<<");
+					break;
+				case BinaryOperatorType.RightRotate:
+					_writer.Write(">>>");
+					break;
 				// Comparison
-			case BinaryOperatorType.Greater:
-				_writer.Write(">");
-				break;
-			case BinaryOperatorType.GreaterEqual:
-				_writer.Write(">=");
-				break;
-			case BinaryOperatorType.Lesser:
-				_writer.Write("<");
-				break;
-			case BinaryOperatorType.LesserEqual:
-				_writer.Write("<=");
-				break;
-			case BinaryOperatorType.Equal:
-				_writer.Write("==");
-				break;
-			case BinaryOperatorType.NotEqual:
-				_writer.Write("!=");
-				break;
+				case BinaryOperatorType.Greater:
+					_writer.Write(">");
+					break;
+				case BinaryOperatorType.GreaterEqual:
+					_writer.Write(">=");
+					break;
+				case BinaryOperatorType.Lesser:
+					_writer.Write("<");
+					break;
+				case BinaryOperatorType.LesserEqual:
+					_writer.Write("<=");
+					break;
+				case BinaryOperatorType.Equal:
+					_writer.Write("==");
+					break;
+				case BinaryOperatorType.NotEqual:
+					_writer.Write("!=");
+					break;
 				// Logical
-			case BinaryOperatorType.LogicalAnd:
-				_writer.Write("&&");
-				break;
-			case BinaryOperatorType.LogicalOr:
-				_writer.Write("||");
-				break;
+				case BinaryOperatorType.LogicalAnd:
+					_writer.Write("&&");
+					break;
+				case BinaryOperatorType.LogicalOr:
+					_writer.Write("||");
+					break;
 				// Bit
-			case BinaryOperatorType.BitAnd:
-				_writer.Write("&");
-				break;
-			case BinaryOperatorType.BitOr:
-				_writer.Write("|");
-				break;
-			case BinaryOperatorType.BitXor:
-				_writer.Write("^");
-				break;
+				case BinaryOperatorType.BitAnd:
+					_writer.Write("&");
+					break;
+				case BinaryOperatorType.BitOr:
+					_writer.Write("|");
+					break;
+				case BinaryOperatorType.BitXor:
+					_writer.Write("^");
+					break;
 				// Assignment
-			case BinaryOperatorType.Assignment:
-				_writer.Write("=");
-				break;
+				case BinaryOperatorType.Assignment:
+					_writer.Write("=");
+					break;
 				// TODO :: Implement other 'compound' assignment operator
-			default:
-				throw new ArgumentOutOfRangeException();
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 		}
 
 		// Assignment
-		public void Generate(IAssignmentOperator op) {
+		public void Generate(IAssignmentOperator op)
+		{
 			var sw = op.Type;
 
-			switch (sw) {
-			case AssignmentOperatorType.SimpleAssignment:
-				_writer.Write("=");
-				break;
-			case AssignmentOperatorType.PlusAssignment:
-				_writer.Write("+=");
-				break;
-			case AssignmentOperatorType.MinusAssignment:
-				_writer.Write("-=");
-				break;
-			case AssignmentOperatorType.MultiAssignment:
-				_writer.Write("*=");
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
+			switch (sw)
+			{
+				case AssignmentOperatorType.SimpleAssignment:
+					_writer.Write("=");
+					break;
+				case AssignmentOperatorType.PlusAssignment:
+					_writer.Write("+=");
+					break;
+				case AssignmentOperatorType.MinusAssignment:
+					_writer.Write("-=");
+					break;
+				case AssignmentOperatorType.MultiAssignment:
+					_writer.Write("*=");
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
 			}
 		}
 
 		#endregion
-	}
-
-	// TODO :: split below class 
-	public abstract class CRule {}
-
-	public class CMethodTransRule : CRule {
-		// constructor
-		public CMethodTransRule(List<Dictionary<string, string>> ruleList) {
-			Rules = ruleList;
-		}
-
-		public List<Dictionary<string, string>> Rules { get; set; }
 	}
 }

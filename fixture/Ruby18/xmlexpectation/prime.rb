@@ -471,7 +471,7 @@
               </call>
               <block>
                 <call startline="37">
-                  <Nil />
+                  <nil />
                   <Symbol>puts</Symbol>
                   <arglist startline="37">
                     <call startline="37">
@@ -532,7 +532,7 @@
       <lasgn startline="44">
         <Symbol>table</Symbol>
         <call startline="44">
-          <Nil />
+          <nil />
           <Symbol>prime_table</Symbol>
           <arglist startline="44">
             <lvar startline="44">
@@ -544,7 +544,7 @@
       <lasgn startline="45">
         <Symbol>primes</Symbol>
         <call startline="45">
-          <Nil />
+          <nil />
           <Symbol>prime_list</Symbol>
           <arglist startline="45">
             <lvar startline="45">
@@ -569,7 +569,7 @@
           <call startline="48">
             <call startline="48">
               <call startline="48">
-                <Nil />
+                <nil />
                 <Symbol>gets</Symbol>
                 <arglist startline="48" />
               </call>
@@ -601,7 +601,7 @@
             <block />
             <block>
               <call startline="49">
-                <Nil />
+                <nil />
                 <Symbol>puts</Symbol>
                 <arglist startline="49" />
               </call>
@@ -621,7 +621,7 @@
                 <call startline="50">
                   <call startline="50">
                     <call startline="50">
-                      <Nil />
+                      <nil />
                       <Symbol>gets</Symbol>
                       <arglist startline="50" />
                     </call>
@@ -660,7 +660,7 @@
             </call>
             <block>
               <call startline="51">
-                <Nil />
+                <nil />
                 <Symbol>puts</Symbol>
                 <arglist startline="51">
                   <lit startline="51">
@@ -761,7 +761,7 @@
             </call>
             <block>
               <call startline="57">
-                <Nil />
+                <nil />
                 <Symbol>show_primes</Symbol>
                 <arglist startline="57">
                   <lvar startline="57">
@@ -794,7 +794,7 @@
                 </call>
                 <block startline="60">
                   <call startline="60">
-                    <Nil />
+                    <nil />
                     <Symbol>show_primes</Symbol>
                     <arglist startline="60">
                       <lvar startline="60">
@@ -869,7 +869,7 @@
               <lasgn startline="64">
                 <Symbol>result</Symbol>
                 <call startline="64">
-                  <Nil />
+                  <nil />
                   <Symbol>prime_check_table</Symbol>
                   <arglist startline="64">
                     <lvar startline="64">
@@ -885,7 +885,7 @@
                 </call>
               </lasgn>
               <call startline="65">
-                <Nil />
+                <nil />
                 <Symbol>show_primes</Symbol>
                 <arglist startline="65">
                   <lit startline="65">
@@ -934,7 +934,7 @@
         </lit>
       </array>
       <call startline="74">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="74">
           <str startline="73">
@@ -950,7 +950,7 @@
         </lit>
       </array>
       <call startline="76">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="76">
           <str startline="75">
@@ -960,7 +960,7 @@
       </call>
     </when>
     <call startline="78">
-      <Nil />
+      <nil />
       <Symbol>p</Symbol>
       <arglist startline="78">
         <str startline="77">
@@ -1006,7 +1006,7 @@
     </call>
     <block startline="82">
       <call startline="82">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="82">
           <str startline="82">
@@ -1015,7 +1015,7 @@
         </arglist>
       </call>
       <call startline="82">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="82">
           <str startline="82">
@@ -1039,7 +1039,7 @@
       </arglist>
     </call>
     <call startline="83">
-      <Nil />
+      <nil />
       <Symbol>p</Symbol>
       <arglist startline="83">
         <str startline="83">
@@ -1063,7 +1063,7 @@
     </call>
     <block>
       <call startline="87">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="87">
           <str startline="86">
@@ -1081,7 +1081,7 @@
     </lasgn>
     <block>
       <call startline="91">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="91">
           <str startline="90">
@@ -1097,7 +1097,7 @@
     <scope startline="95">
       <block startline="95">
         <call startline="95">
-          <Nil />
+          <nil />
           <Symbol>p</Symbol>
           <arglist startline="95">
             <str startline="94">
@@ -1119,7 +1119,7 @@
     </lasgn>
     <block>
       <call startline="99">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="99">
           <lvar startline="99">
@@ -1140,7 +1140,7 @@
     </lasgn>
     <block>
       <call startline="103">
-        <Nil />
+        <nil />
         <Symbol>p</Symbol>
         <arglist startline="103">
           <lvar startline="103">

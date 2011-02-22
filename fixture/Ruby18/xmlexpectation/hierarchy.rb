@@ -1,7 +1,7 @@
 <block startline="1">
   <class startline="1">
     <Symbol>A</Symbol>
-    <Nil />
+    <nil />
     <scope startline="4">
       <defn startline="2">
         <Symbol>a</Symbol>
@@ -30,7 +30,7 @@
   </module>
   <class startline="11">
     <Symbol>C</Symbol>
-    <Nil />
+    <nil />
     <scope startline="16">
       <module startline="12">
         <Symbol>CC</Symbol>
