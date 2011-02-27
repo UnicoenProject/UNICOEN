@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Ucpf.Common.Model.Visitors;
 
-namespace Ucpf.Common.Model.Expressions {
+namespace Ucpf.Common.Model {
 
 	public class UnifiedClassDefinition : UnifiedElement{
 

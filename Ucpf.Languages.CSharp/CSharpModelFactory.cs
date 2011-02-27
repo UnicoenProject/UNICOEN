@@ -1,25 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using ICSharpCode.NRefactory;
+using ICSharpCode.NRefactory.Ast;
 using Ucpf.Common.Model;
-using Ucpf.Languages.CSharp.AstGenerators;
+using ICSharpCode.NRefactory.Parser;
 
 namespace Ucpf.Languages.CSharp {
 
 	public class CSharpModelFactory {
 
-		public static UnifiedBlock CreateModel(string code) {
-			var xml = CSharpAstGenerator.Instance.Generate(code);
-			var facotry = new CSharpModelFactory();
-			return facotry.CreateModel(xml);
+		public static UnifiedElement CreateModel(string code) {
+			var reader = new StringReader(code);
+			using (var parser = ParserFactory.CreateParser(SupportedLanguage.CSharp, reader)) {
+				parser.Parse();
+				var unit = parser.CompilationUnit;
+				var visitor = new Translator();
+				return unit.AcceptVisitor(visitor, null) as UnifiedElement;
+			}
 		}
-
-		public UnifiedBlock CreateModel(XElement elem) {
-			throw new NotImplementedException();
-
-		}
-
 	}
+
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
-using Ucpf.Common.Model.Expressions;
 using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Languages.CSharp.Tests {
@@ -12,8 +11,9 @@ namespace Ucpf.Languages.CSharp.Tests {
 	[TestFixture]
 	public class FibonacciTest {
 
-		public void Test() {
-			var code = @"
+		#region data
+
+		const string Code = @"
 class Klass {
 	public static int Fibonacci(int n) {
 		if (n <= 1)
@@ -23,9 +23,9 @@ class Klass {
 	}
 }
 ";
-			var model = new UnifiedClassDefinition {
-				Name = "Klass",
-				Body = new UnifiedBlock {
+		private static UnifiedClassDefinition Model = new UnifiedClassDefinition {
+			Name = "Klass",
+			Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
 						Name = "Fibonacci",
 						ReturnType = "int",
@@ -82,11 +82,62 @@ class Klass {
 								}
 							}.ToStatement()
 						}
-        			}.ToStatement()
-        		}
-			};
+					}.ToStatement()
+				}
+		};
+
+		#endregion
+
+		[Test]
+		public void Test() {
+			var actual = CSharpModelFactory.CreateModel(Code);
+			var expected = Model;
+			Assert.That(actual,
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 
+		[Test]
+		public void ClassDeclareTest() {
+			const string code = "class Klass{}";
+			var expected = new UnifiedClassDefinition { Name = "Klass", Body = new UnifiedBlock() };
+			var actual = CSharpModelFactory.CreateModel(code);
+			Assert.That(actual,
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+		}
 
+		[Test]
+		public void FuncDecTest() {
+			const string code =
+				@"
+class Klass {
+	public static void Fibonacci(int n) {
+	}
+}
+";
+			var expected = new UnifiedClassDefinition {
+				Name = "Klass",
+				Body = new UnifiedBlock {
+					new UnifiedFunctionDefinition {
+						Name = "Fibonacci",
+						ReturnType = "void",
+						Modifiers = new UnifiedModifierCollection() {
+							new UnifiedModifier() {
+								Name = "public"
+							},
+							new UnifiedModifier() {
+								Name = "static"
+							}
+						},
+						Parameters = new UnifiedParameterCollection {
+							new UnifiedParameter { Type = "int", Name = "n" }
+						},
+						Block = new UnifiedBlock()
+					}.ToStatement()
+				}
+			};
+			var actual = CSharpModelFactory.CreateModel(code);
+			Assert.That(actual,
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+		}
 	}
 }
