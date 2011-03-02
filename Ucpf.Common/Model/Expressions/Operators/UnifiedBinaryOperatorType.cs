@@ -7,10 +7,10 @@
 		Division,
 		Modulo,
 		// Shift
-		LeftShift,			// <<< in Java
-		RightShift,			// nothing in Java
-		LeftRotate,			// << in Java
-		RightRotate,		// >> in Java
+		LeftShift,			// ex) logical << in Java
+		RightShift,			// ex) logical >>> in Java
+		LeftRotate,			// ex) arithmetic nothing
+		RightRotate,		// ex) arithmetic >> in Java
 		// Comparison
 		Greater,
 		GreaterEqual,
@@ -19,8 +19,8 @@
 		Equal,
 		NotEqual,
 		// Logical
-		LogicalAnd,
-		LogicalOr,
+		LogicalAnd,			// &&
+		LogicalOr,			// ||
 		// Bit
 		BitAnd,				// &
 		BitOr,				// |
