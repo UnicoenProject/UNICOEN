@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.Common.Model.Expressions;
 
 namespace Ucpf.Common.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
@@ -186,6 +187,10 @@ namespace Ucpf.Common.Model.Visitors {
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedExpressionCollection element) {
 			throw new NotImplementedException();
 		}
 	}

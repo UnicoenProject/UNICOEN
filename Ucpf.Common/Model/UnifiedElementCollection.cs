@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ucpf.Common.Model;
 using Ucpf.Common.Model.Visitors;
 
-namespace Ucpf.Common {
+namespace Ucpf.Common.Model {
 	public abstract class UnifiedElementCollection <TElement> 
-	    :UnifiedElement, IEnumerable<TElement>
+	    : UnifiedElement, IEnumerable<TElement>
 		              where TElement : UnifiedElement{
 
 		private readonly List<TElement> _elements;
@@ -17,8 +16,8 @@ namespace Ucpf.Common {
 			_elements = new List<TElement>();
 		}
 
-		protected UnifiedElementCollection(IEnumerable<TElement> elements) {
-			_elements = elements.ToList();
+		protected UnifiedElementCollection(IEnumerable<TElement> args) {
+			_elements = args.ToList();
 		}
 
 		public void Add(TElement element) {
@@ -32,7 +31,6 @@ namespace Ucpf.Common {
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
-
 
 		public override string ToString() {
 			return UnifiedModelToXml.ToXml(this).ToString();

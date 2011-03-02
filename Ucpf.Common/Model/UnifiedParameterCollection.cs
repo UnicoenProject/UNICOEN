@@ -11,7 +11,7 @@ namespace Ucpf.Common.Model {
 
 		public UnifiedParameterCollection() { }
 
-		public UnifiedParameterCollection(IEnumerable<UnifiedParameter> elements) : base (elements) { }
+		public UnifiedParameterCollection(IEnumerable<UnifiedParameter> parameters) : base(parameters) { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

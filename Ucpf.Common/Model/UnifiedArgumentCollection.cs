@@ -11,7 +11,7 @@ namespace Ucpf.Common.Model {
 
 		public UnifiedArgumentCollection() { }
 
-		public UnifiedArgumentCollection(IEnumerable<UnifiedArgument> elements) : base (elements) { }
+		public UnifiedArgumentCollection(IEnumerable<UnifiedArgument> args) : base (args) { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

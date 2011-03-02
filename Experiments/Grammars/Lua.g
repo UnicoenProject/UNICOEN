@@ -7,7 +7,7 @@ options {
 
 tokens {
 	NOTHING;	//
-	UN_EXP;		// UnaryExpression
+	UN_EXP;	// UnaryExpression
 	BIN_EXP;	// BinaryExpression
 	ASSIGN_OP;	// BinaryOperator
 	BLOCK;		// Block
@@ -19,7 +19,7 @@ tokens {
 	VAR_DEC;	// VariableDeclaration
 	IF;		// IfExpression
 	EXP_LIST;	// ExpressionCollection
-	RETURN;		// ReturnExpression
+	RETURN;	// ReturnExpression
 	BREAK;		// NreakExpression
 	VARIABLE;	// Variable
 	TRUE;
@@ -32,6 +32,8 @@ tokens {
 	PROPERTY;
 	ARG_LIST;
 	ARG;
+	PARAM_LIST;
+	PARAM;
 	// operators
 	ADD;
 	SUB;
@@ -66,11 +68,13 @@ stat
 		-> ^(FOR_RANGE NAME $start $end $step block)
 	| 'for' namelist 'in' explist 'do' block 'end'
 		-> ^(FOR_EACH namelist explist block)
-	| 'function' funcname funcbody
-		-> ^(FUNC_DEC funcname funcbody)	// TODO
-	| 'local' 'function' NAME funcbody
-		-> ^(FUNC_DEC NAME funcbody)		// TODO
-	| 'local' namelist ('=' explist)?
+	| 'function' funcname '(' parlist ')' block 'end'
+		-> ^(FUNC_DEC funcname parlist block)
+	| 'local' 'function' NAME '(' parlist ')' block 'end'
+		-> ^(FUNC_DEC NAME parlist block)
+	| 'local' namelist
+		-> ^(VAR_DEC namelist)
+	| 'local' namelist '=' explist
 		-> ^(VAR_DEC namelist explist)
 	;
 
@@ -87,8 +91,8 @@ else_body
 	;
 
 laststat
-	: 'return' (explist)?
-		-> ^(RETURN explist)
+	: 'return' explist?
+		-> ^(RETURN explist?)
 	| 'break'
 		-> ^(BREAK)
 	;
@@ -100,7 +104,12 @@ funcname
 var
 	: NAME
 		-> ^(VARIABLE NAME)
-	| prefixexp ('[' exp ']' | '.' NAME)
+	| prefixexp
+		('[' exp ']'
+			-> ^(ARRAY prefixexp exp)
+		| '.' NAME
+			-> ^(PROPERTY prefixexp NAME)
+		)
 	;
 
 varlist
@@ -126,25 +135,25 @@ explist
 
 exp2
 	:
-	(/*'nil'
+	('nil'
 		-> NIL
 	| 'false'
 		-> FALSE
 	| 'true'
-		-> TRUE*/
+		-> TRUE
 	| number
 		-> number
-	/*| string
+	| string
 		-> string
 	| '...'
-		-> ^(VARIABLE '...')*/
-	/*| function
+		-> ^(VARIABLE '...')
+	| 'function' '(' parlist? ')' block 'end'
 		-> function
 	| prefixexp
-		-> prefixexp*/
-	//| tableconstructor
-	//	-> tableconstructor
-	//| ('-' | 'not' | '#') exp
+		-> prefixexp
+	| tableconstructor
+		-> tableconstructor
+	| ('-' | 'not' | '#') exp
 	)
 	;
 	
@@ -154,10 +163,6 @@ exp	:
 		-> ^(BIN_EXP $exp binop $e2)
 	)*
 	;
-	
-nameAndArgs
-	:
-	(':' NAME)? args;
 
 nameOrExp
 	: NAME
@@ -166,43 +171,40 @@ nameOrExp
 		-> exp
 	;
 
-nameOrExpAndSuffix
-	: (n1=nameOrExp -> $n1)
-	('[' exp ']'
-		-> ^(ARRAY $nameOrExpAndSuffix exp)
-	| '.' NAME 
-		-> ^(PROPERTY $nameOrExpAndSuffix NAME)
-	)*
-	;
-
-arg 	:	
-	'(' number ')'
-	;
-
 functioncall
 	:
-	nameOrExpAndSuffix
-	('[' exp ']' | '.' NAME | nameAndArgs)* nameAndArgs
-	//(n1=nameOrExpAndSuffix->$n1)
-	//(('[' exp ']' | '.' NAME )* nameAndArgs)+
+	(nameOrExp -> nameOrExp) 
+	(
+		('[' e2=exp ']'
+			-> ^(ARRAY $functioncall $e2)
+		| '.' NAME 
+			-> ^(PROPERTY $functioncall NAME)
+		)*
+		args
+			-> ^(CALL $functioncall args)
+		| ':' NAME args
+			-> ^(CALL ^(PROPERTY $functioncall NAME) args)
+	)+
 	;
 
 prefixexp
 	:
 	(nameOrExp -> nameOrExp) 
-	( '[' e2=exp ']'
-		-> ^(ARRAY $prefixexp $e2)
-	| '.' NAME 
-		-> ^(PROPERTY $prefixexp NAME)
-	| args
-		-> ^(CALL $prefixexp args)
-	| ':' NAME args
-		-> ^(CALL ^(PROPERTY $prefixexp NAME) args)
+	(
+		('[' e2=exp ']'
+			-> ^(ARRAY $functioncall $e2)
+		| '.' NAME 
+			-> ^(PROPERTY $functioncall NAME)
+		)*
+		args
+			-> ^(CALL $functioncall args)
+		| ':' NAME args
+			-> ^(CALL ^(PROPERTY $functioncall NAME) args)
 	)*
 	;
 
 args
-	:  '(' explist? ')'
+	: '(' explist? ')'
 		-> ^(ARG_LIST explist)
 	| tableconstructor
 		-> ^(ARG_LIST ^(ARG tableconstructor))
@@ -210,17 +212,10 @@ args
 		-> ^(ARG_LIST ^(ARG string))
 	;
 
-function
-	: 'function' funcbody
-	;
-
-funcbody
-	: '(' parlist? ')' block 'end'
-	;
-
 parlist
 	: namelist (',' '...')?
 	| '...'
+	|
 	;
 
 tableconstructor

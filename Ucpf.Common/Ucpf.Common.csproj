@@ -104,6 +104,7 @@
     <Compile Include="AstGenerators\AntlrAstGenerator.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
     <Compile Include="Model\Expressions\UnifiedClassDefinition.cs" />
+    <Compile Include="Model\Expressions\UnifiedExpressionCollection.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\UnifiedNamespace.cs" />
     <Compile Include="Model\UnifiedImport.cs" />
