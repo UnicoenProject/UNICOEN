@@ -17,7 +17,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			_source = File.ReadAllText(path);
 		}
 
-		[Test]
+		[Ignore, Test]
 		public void CreateClassDefinition() {
 			var actual = CSharpModelFactory.CreateModel(_source);
 			var expected = new UnifiedClassDefinition {

@@ -10,7 +10,7 @@ public class Student {
 	}
 	
 	public static void main(String[] args) {
-		Student[] students = new Student[4];
+		Student[] students = new Student[2];
 		students[0] = new Student("Tom");
 		students[1] = new Student("Anna");
 		

@@ -6,10 +6,10 @@
 		PostfixDecrement,
 		Plus,
 		Minus,
-		Not,				// !
-		BitReverse,			// ~
-		Address,			// & in C
-		Indirect,			// * in C
+		Not, // !
+		BitReverse, // ~
+		Address, // & in C
+		Indirect, // * in C
 		Sizeof,
 	}
 }

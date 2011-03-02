@@ -128,14 +128,12 @@
     <Compile Include="Model\Expressions\UnifiedCall.cs" />
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\StructuralEqualityComparer.cs" />
-    <Compile Include="Model\Statements\UnifiedExpressionStatement.cs" />
-    <Compile Include="Model\Statements\UnifiedFunctionDefinition.cs" />
+    <Compile Include="Model\Expressions\UnifiedFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedIf.cs" />
     <Compile Include="Model\UnifiedParameter.cs" />
     <Compile Include="Model\UnifiedParameterCollection.cs" />
-    <Compile Include="Model\Statements\UnifiedReturn.cs" />
+    <Compile Include="Model\Expressions\UnifiedReturn.cs" />
     <Compile Include="Model\Expressions\UnifiedExpression.cs" />
-    <Compile Include="Model\Statements\UnifiedStatement.cs" />
     <Compile Include="Model\Expressions\UnifiedVariable.cs" />
     <Compile Include="OldModel\Expressions\IAssignmentExpression.cs" />
     <Compile Include="OldModel\Expressions\IPrimaryExpression.cs" />
