@@ -35,7 +35,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedLiteral { Value = "n" },
-				Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
+				Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
 				RightHandSide = new UnifiedLiteral { Value = "2" },
 			};
 
@@ -122,7 +122,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedLiteral { Value = "n" },
-				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 				RightHandSide = new UnifiedLiteral { Value = "1" },
 			};
 
@@ -150,7 +150,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 									Value = "n"
 								},
 								Operator =
-									new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+									new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 								RightHandSide = new UnifiedLiteral {
 									Value = "1"
 								}
@@ -161,7 +161,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 						Value = "fibonacci"
 					}
 				},
-				Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+				Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 				RightHandSide = new UnifiedCall {
 					Arguments = new UnifiedArgumentCollection {
 						new UnifiedArgument {
@@ -170,7 +170,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 									Value = "n"
 								},
 								Operator =
-									new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+									new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 								RightHandSide = new UnifiedLiteral {
 									Value = "2"
 								}

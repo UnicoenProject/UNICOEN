@@ -16,7 +16,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 						: (UnifiedArgument)new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator = new UnifiedBinaryOperator("-",
-						                   	BinaryOperatorType.Subtraction),
+						                   	UnifiedBinaryOperatorType.Subtraction),
 							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
 						}
 				},
@@ -101,7 +101,7 @@ end");
 					new UnifiedReturn{
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
-							Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+							Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 							RightHandSide = CreateCall(2),
 						}
 					}
@@ -134,7 +134,7 @@ end
 					new UnifiedExpressionStatement(new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
@@ -177,7 +177,7 @@ end
 					new UnifiedExpressionStatement(new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
@@ -187,7 +187,7 @@ end
 							new UnifiedReturn {
 								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
-									Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+									Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 									RightHandSide = CreateCall(2),
 								}
 							}

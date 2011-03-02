@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Languages.JavaScript.Model {
 	public class JSModelFactory {
@@ -107,15 +106,15 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 		public static UnifiedUnaryOperator CreatePrefixUnaryOperator(XElement node) {
 			var name = node.Value;
-			UnaryOperatorType type;
+			UnifiedUnaryOperatorType type;
 
 			//TODO implement more OperationType cases
 			switch (name) {
 			case "++":
-					type = UnaryOperatorType.PrefixIncrement;
+					type = UnifiedUnaryOperatorType.PrefixIncrement;
 					break;
 			case "--":
-					type = UnaryOperatorType.PrefixDecrement;
+					type = UnifiedUnaryOperatorType.PrefixDecrement;
 					break;
 			default:
 				throw new InvalidOperationException();
@@ -126,14 +125,14 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 		public static UnifiedUnaryOperator CreatePostfixUnaryOperator(XElement node) {
 			var name = node.Value;
-			UnaryOperatorType type;
+			UnifiedUnaryOperatorType type;
 
 			switch (name) {
 			case "++":
-					type = UnaryOperatorType.PostfixIncrement;
+					type = UnifiedUnaryOperatorType.PostfixIncrement;
 					break;
 			case "--":
-					type = UnaryOperatorType.PostfixDecrement;
+					type = UnifiedUnaryOperatorType.PostfixDecrement;
 					break;
 			default:
 				throw new InvalidOperationException();
@@ -183,7 +182,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			}
 
 			//TODO second parameter is BinaryOperatorType? UnifiedBinaryOperatorType?
-			return new UnifiedBinaryOperator(name, (BinaryOperatorType)type);
+			return new UnifiedBinaryOperator(name, type);
 		}
 
 		#endregion

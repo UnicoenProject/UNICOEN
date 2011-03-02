@@ -1,12 +1,11 @@
 ﻿using Ucpf.Common.Model.Visitors;
-using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedUnaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
-		public UnaryOperatorType Type { get; private set; }
+		public UnifiedUnaryOperatorType Type { get; private set; }
 
-		public UnifiedUnaryOperator(string sign, UnaryOperatorType type) {
+		public UnifiedUnaryOperator(string sign, UnifiedUnaryOperatorType type) {
 			Sign = sign;
 			Type = type;
 		}
