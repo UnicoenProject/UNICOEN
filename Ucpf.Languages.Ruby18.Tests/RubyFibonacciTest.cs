@@ -9,12 +9,12 @@ namespace Ucpf.Languages.Ruby18.Tests {
 	public class RubyFibonacciTest {
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
-				Function = new UnifiedVariable("fibonacci"),
+				Function = UnifiedVariable.Create("fibonacci"),
 				Arguments = new UnifiedArgumentCollection {
 					decrement == null
-						? (UnifiedArgument)new UnifiedVariable("n")
+						? (UnifiedArgument)UnifiedVariable.Create("n")
 						: (UnifiedArgument)new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
+							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator = new UnifiedBinaryOperator("-",
 						                   	UnifiedBinaryOperatorType.Subtraction),
 							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
@@ -54,7 +54,7 @@ end");
 					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedReturn{ Value = new UnifiedVariable("n")}
+					new UnifiedReturn{ Value = UnifiedVariable.Create("n")}
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -133,13 +133,13 @@ end
 				Block = new UnifiedBlock {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
+							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
 							new UnifiedReturn{
-								Value = new UnifiedVariable("n")
+								Value = UnifiedVariable.Create("n")
 							}
 						},
 						FalseBlock = new UnifiedBlock {
@@ -176,12 +176,12 @@ end
 				Block = new UnifiedBlock {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
+							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn{ Value = new UnifiedVariable("n") }
+							new UnifiedReturn{ Value = UnifiedVariable.Create("n") }
 						},
 						FalseBlock = new UnifiedBlock {
 							new UnifiedReturn {

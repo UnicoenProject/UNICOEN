@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model.Expressions;
 
 namespace Ucpf.Common.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
@@ -37,12 +36,6 @@ namespace Ucpf.Common.Model.Visitors {
 		public void Visit<T>(UnifiedTypedLiteral<T> element) {
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("TypedValue", element.TypedValue);
-			_targets.Peek().Add(xe);
-		}
-
-		public void Visit(UnifiedLiteral element) {
-			var xe = new XElement(element.GetType().Name);
-			xe.SetAttributeValue("Value", element.Value);
 			_targets.Peek().Add(xe);
 		}
 
@@ -181,7 +174,31 @@ namespace Ucpf.Common.Model.Visitors {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedExpressionCollection element) {
+		public void Visit(UnifiedImport element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedConstructorDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedProgram element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedClassDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedVariableDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedNew element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedLiteral element) {
 			throw new NotImplementedException();
 		}
 	}

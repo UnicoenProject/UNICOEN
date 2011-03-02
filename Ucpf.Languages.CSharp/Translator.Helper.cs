@@ -46,18 +46,18 @@ namespace Ucpf.Languages.CSharp {
 			return ret;
 		}
 
-		private static string GetTypeName(TypeReference type) {
+		private static UnifiedType GetTypeName(TypeReference type) {
 			if (type.IsKeyword) {
 				switch (type.Type) {
-					case "System.Int32":
-						return "int";
-					case "System.Void":
-						return "void";
-					case "Sytem.String":
-						return "string";
+				case "System.Int32":
+					return new UnifiedType { Name = "int" };
+				case "System.Void":
+					return new UnifiedType { Name = "void" };
+				case "Sytem.String":
+					return new UnifiedType { Name = "string" };
 				}
 			}
-			return type.Type;
+			return new UnifiedType { Name = type.Type };
 		}
 
 		private static UnifiedBlock ToBlock(IEnumerable<object> contents) {

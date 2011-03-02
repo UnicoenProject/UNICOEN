@@ -2,11 +2,11 @@
 
 namespace Ucpf.Common.Model {
 	public class UnifiedVariable : UnifiedExpression {
-		public string Name { get; set; }
-
-		public UnifiedVariable(string name) {
-			Name = name;
+		public static UnifiedVariable Create(string name) {
+			return new UnifiedVariable { Name = name };
 		}
+
+		public string Name { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

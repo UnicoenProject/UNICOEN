@@ -6,8 +6,8 @@ using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common {
 	public abstract class UnifiedElementCollection<TElement>
-		: UnifiedElement, IEnumerable<TElement>
-		where TElement : UnifiedElement {
+			: UnifiedElement, IEnumerable<TElement>
+			where TElement : UnifiedElement {
 		private readonly List<TElement> _elements;
 
 		protected UnifiedElementCollection() {
@@ -33,5 +33,5 @@ namespace Ucpf.Common {
 		public override string ToString() {
 			return UnifiedModelToXml.ToXml(this).ToString();
 		}
-		}
+	}
 }

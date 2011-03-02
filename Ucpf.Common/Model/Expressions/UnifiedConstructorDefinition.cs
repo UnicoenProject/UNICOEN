@@ -1,10 +1,8 @@
 ﻿using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedFunctionDefinition : UnifiedExpression {
+	public class UnifiedConstructorDefinition : UnifiedExpression {
 		public UnifiedModifierCollection Modifiers { get; set; }
-		public UnifiedType ReturnType { get; set; }
-		public string Name { get; set; }
 		public UnifiedParameterCollection Parameters { get; set; }
 		public UnifiedBlock Block { get; set; }
 
