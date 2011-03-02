@@ -15,12 +15,12 @@ namespace Ucpf.Languages.Java.Tests {
 	public class JavaFibonacciTest {
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
-				Function = new UnifiedVariable("fibonacci"),
+				Function = UnifiedVariable.Create("fibonacci"),
 				Arguments = new UnifiedArgumentCollection {
 					decrement == null
-						? (UnifiedArgument)new UnifiedVariable("n")
+						? (UnifiedArgument)UnifiedVariable.Create("n")
 						: (UnifiedArgument)new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
+							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator =
 						                   	new UnifiedBinaryOperator("-",
 						                   	UnifiedBinaryOperatorType.Subtraction),
@@ -45,13 +45,13 @@ namespace Ucpf.Languages.Java.Tests {
 						Name = "static"
 					}
 				},
-				ReturnType = "int",
+				ReturnType = new UnifiedType { Name = "int" },
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection() {
 					new UnifiedParameter() {
 						Modifier = new UnifiedModifier(),
 						Name = "n",
-						Type = "int"
+						Type = new UnifiedType { Name = "int"},
 					}
 				},
 				Block = new UnifiedBlock(),

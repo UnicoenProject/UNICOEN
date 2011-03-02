@@ -18,7 +18,7 @@ namespace Ucpf.Languages.Java.Model {
 
 			return new UnifiedFunctionDefinition {
 				Modifiers = modifiers,
-				ReturnType = returnType,
+				ReturnType = new UnifiedType { Name = returnType },
 				Name = name,
 				Parameters = parameter,
 				Block = block
@@ -49,7 +49,7 @@ namespace Ucpf.Languages.Java.Model {
 					.Elements("normalParameterDecl")
 					.Select(e => new UnifiedParameter() {
 						Modifier = new UnifiedModifier(),
-						Type = e.Element("type").Elements().First().Value,
+						Type = new UnifiedType { Name = e.Element("type").Elements().First().Value },
 						Name = e.Element("IDENTIFIER").Value
 					}));
 			// throw new NotImplementedException();
@@ -67,14 +67,6 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "str");
 			return new UnifiedStringLiteral {
-				Value = node.Value,
-			};
-		}
-
-		public static UnifiedLiteral CreateLiteral(XElement node) {
-			// TODO: change to helper method
-			Contract.Requires(node.Name.LocalName == "lit");
-			return new UnifiedLiteral {
 				Value = node.Value,
 			};
 		}

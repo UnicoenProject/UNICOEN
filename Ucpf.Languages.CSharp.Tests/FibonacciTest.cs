@@ -27,7 +27,7 @@ class Klass {
 			Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
 						Name = "Fibonacci",
-						ReturnType = "int",
+						ReturnType = new UnifiedType { Name = "int"},
 						Modifiers = new UnifiedModifierCollection {
 							new UnifiedModifier {
 								Name = "public"
@@ -37,19 +37,19 @@ class Klass {
 							}
 						},
 						Parameters = new UnifiedParameterCollection {
-							new UnifiedParameter { Type = "int", Name = "n" }
+							new UnifiedParameter { Type = new UnifiedType { Name = "int"}, Name = "n" }
 						},
 						Block = new UnifiedBlock {
 							new UnifiedIf {
 								Condition = new UnifiedBinaryExpression {
 									Operator =
 										new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LesserEqual),
-									LeftHandSide = new UnifiedVariable("n"),
+									LeftHandSide = UnifiedVariable.Create("n"),
 									RightHandSide = new UnifiedIntegerLiteral(1)
 								},
 								TrueBlock = new UnifiedBlock {
 									new UnifiedReturn{
-										Value = new UnifiedVariable("n")
+										Value = UnifiedVariable.Create("n")
 									}
 								},
 								FalseBlock = new UnifiedBlock {
@@ -57,21 +57,21 @@ class Klass {
 										Value =  new UnifiedBinaryExpression {
 											Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 											LeftHandSide = new UnifiedCall {
-												Function = new UnifiedVariable("Fibonacci"),
+												Function = UnifiedVariable.Create("Fibonacci"),
 												Arguments = new UnifiedArgumentCollection {
 													new UnifiedArgument{ Value = new UnifiedBinaryExpression {
 														Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-														LeftHandSide = new UnifiedVariable("n"),
+														LeftHandSide = UnifiedVariable.Create("n"),
 														RightHandSide = new UnifiedIntegerLiteral(1)
 													}}
 												}
 											},
 											RightHandSide = new UnifiedCall {
-												Function = new UnifiedVariable("Fibonacci"),
+												Function = UnifiedVariable.Create("Fibonacci"),
 												Arguments = new UnifiedArgumentCollection {
 													new UnifiedArgument{ Value = new UnifiedBinaryExpression {
 														Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-														LeftHandSide = new UnifiedVariable("n"),
+														LeftHandSide = UnifiedVariable.Create("n"),
 														RightHandSide = new UnifiedIntegerLiteral(2)
 													}}
 												}
@@ -118,7 +118,7 @@ class Klass {
 				Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
 						Name = "Fibonacci",
-						ReturnType = "void",
+						ReturnType = new UnifiedType { Name = "void"},
 						Modifiers = new UnifiedModifierCollection() {
 							new UnifiedModifier {
 								Name = "public"
@@ -128,7 +128,7 @@ class Klass {
 							}
 						},
 						Parameters = new UnifiedParameterCollection {
-							new UnifiedParameter { Type = "int", Name = "n" }
+							new UnifiedParameter { Type = new UnifiedType { Name = "int"}, Name = "n" }
 						},
 						Block = new UnifiedBlock()
 					}

@@ -102,11 +102,18 @@
     <Compile Include="Antlr\XParserRuleReturnScope.cs" />
     <Compile Include="Antlr\XToken.cs" />
     <Compile Include="AstGenerators\AntlrAstGenerator.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
     <Compile Include="Model\Expressions\UnifiedClassDefinition.cs" />
+    <Compile Include="Model\Expressions\UnifiedConstructorDefinition.cs" />
+    <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
+    <Compile Include="Model\Expressions\UnifiedNew.cs" />
+    <Compile Include="Model\Expressions\UnifiedType.cs" />
+    <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\UnifiedNamespace.cs" />
     <Compile Include="Model\UnifiedImport.cs" />
+    <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="OldModel\IModelToCode.cs" />
     <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
     <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
@@ -114,7 +121,6 @@
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteral.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />

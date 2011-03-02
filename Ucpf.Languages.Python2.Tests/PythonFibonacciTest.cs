@@ -34,12 +34,12 @@ print fib(20)
 						new UnifiedIf {
 							Condition = new UnifiedBinaryExpression {
 								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterEqual),
-								LeftHandSide = new UnifiedVariable("n"),
+								LeftHandSide = UnifiedVariable.Create("n"),
 								RightHandSide = new UnifiedIntegerLiteral(1),
 							},
 							TrueBlock = new UnifiedBlock {
 								new UnifiedReturn {
-									Value = new UnifiedVariable("n")
+									Value = UnifiedVariable.Create("n")
 								}
 							},
 							FalseBlock = new UnifiedBlock {
@@ -47,21 +47,21 @@ print fib(20)
 									Value	= new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 										LeftHandSide = new UnifiedCall {
-											Function = new UnifiedVariable("fib"),
+											Function = UnifiedVariable.Create("fib"),
 											Arguments = new UnifiedArgumentCollection {
 												(UnifiedArgument)new UnifiedBinaryExpression {
 													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-													LeftHandSide = new UnifiedVariable("n"),
+													LeftHandSide = UnifiedVariable.Create("n"),
 													RightHandSide = new UnifiedIntegerLiteral(1)
 												}
 											}
 										},
 										RightHandSide = new UnifiedCall {
-											Function = new UnifiedVariable("fib"),
+											Function = UnifiedVariable.Create("fib"),
 											Arguments = new UnifiedArgumentCollection {
 												(UnifiedArgument)new UnifiedBinaryExpression {
 													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-													LeftHandSide = new UnifiedVariable("n"),
+													LeftHandSide = UnifiedVariable.Create("n"),
 													RightHandSide = new UnifiedIntegerLiteral(2)
 												}
 											}
@@ -73,10 +73,10 @@ print fib(20)
 					}
 				},
 				new UnifiedCall {
-					Function = new UnifiedVariable("print"),
+					Function = UnifiedVariable.Create("print"),
 					Arguments = new UnifiedArgumentCollection {
 						(UnifiedArgument)new UnifiedCall {
-							Function = new UnifiedVariable("fib"),
+							Function = UnifiedVariable.Create("fib"),
 							Arguments = new UnifiedArgumentCollection {
 								(UnifiedArgument)new UnifiedIntegerLiteral(20),
 							}

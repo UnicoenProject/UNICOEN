@@ -82,7 +82,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 				}
 			}
 			return new UnifiedCall {
-				Function = new UnifiedVariable(funcName),
+				Function = UnifiedVariable.Create(funcName),
 				Arguments = new UnifiedArgumentCollection(
 					node.Elements().ElementAt(2).Elements()
 						.Select(e => (UnifiedArgument)CreateExpression(e))),
@@ -95,7 +95,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			case "lit":
 				return CreateLiteral(node);
 			case "lvar":
-				return new UnifiedVariable(node.Value);
+				return UnifiedVariable.Create(node.Value);
 			case "call":
 				return CreateCall(node);
 			case "if":

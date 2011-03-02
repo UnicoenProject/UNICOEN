@@ -1,4 +1,5 @@
-﻿using Ucpf.Common.Model.Visitors;
+﻿using System;
+using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedModifier : UnifiedElement {
@@ -10,6 +11,10 @@ namespace Ucpf.Common.Model {
 
 		public override string ToString() {
 			return UnifiedModelToXml.ToXml(this).ToString();
+		}
+
+		public static UnifiedModifier Create(string name) {
+			return new UnifiedModifier { Name = name };
 		}
 	}
 }

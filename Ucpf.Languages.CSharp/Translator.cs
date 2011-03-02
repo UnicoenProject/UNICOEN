@@ -224,7 +224,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitIdentifierExpression(IdentifierExpression ident, object data) {
-			return new UnifiedVariable(ident.Identifier);
+			return UnifiedVariable.Create(ident.Identifier);
 		}
 
 		public object VisitIfElseStatement(IfElseStatement stmt, object data) {

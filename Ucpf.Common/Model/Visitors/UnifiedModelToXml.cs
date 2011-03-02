@@ -39,12 +39,6 @@ namespace Ucpf.Common.Model.Visitors {
 			_targets.Peek().Add(xe);
 		}
 
-		public void Visit(UnifiedLiteral element) {
-			var xe = new XElement(element.GetType().Name);
-			xe.SetAttributeValue("Value", element.Value);
-			_targets.Peek().Add(xe);
-		}
-
 		public void Visit(UnifiedBinaryOperator element) {
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("Sign", element.Sign);
@@ -177,6 +171,34 @@ namespace Ucpf.Common.Model.Visitors {
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedImport element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedConstructorDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedProgram element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedClassDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedVariableDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedNew element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedLiteral element) {
 			throw new NotImplementedException();
 		}
 	}
