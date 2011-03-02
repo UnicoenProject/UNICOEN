@@ -13,7 +13,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		private string _source;
 
 		public StudentTest() {
-			var path = Fixture.GetInputPath("CSharp", "student.rb");
+			var path = Fixture.GetInputPath("CSharp", "student.cs");
 			_source = File.ReadAllText(path);
 		}
 
