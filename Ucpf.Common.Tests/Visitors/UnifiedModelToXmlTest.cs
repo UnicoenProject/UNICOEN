@@ -190,7 +190,7 @@ namespace Ucpf.Common.Tests.Visitors {
 					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedExpressionStatement(new UnifiedIf {
+					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
@@ -202,7 +202,7 @@ namespace Ucpf.Common.Tests.Visitors {
 						FalseBlock = new UnifiedBlock {
 							new UnifiedReturn{ Value = new UnifiedIntegerLiteral(0) }
 						},
-					}),
+					},
 				},
 			};
 			var expectation =
@@ -213,25 +213,23 @@ namespace Ucpf.Common.Tests.Visitors {
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
 	<UnifiedBlock>
-		<UnifiedExpressionStatement>
-			<UnifiedIf>
-				<UnifiedBinaryExpression>
+		<UnifiedIf>
+			<UnifiedBinaryExpression>
+				<UnifiedVariable Name = ""n"" />
+				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
+				<UnifiedIntegerLiteral TypedValue = ""2"" />
+			</UnifiedBinaryExpression>
+			<UnifiedBlock>
+				<UnifiedReturn>
 					<UnifiedVariable Name = ""n"" />
-					<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
-					<UnifiedIntegerLiteral TypedValue = ""2"" />
-				</UnifiedBinaryExpression>
-				<UnifiedBlock>
-					<UnifiedReturn>
-						<UnifiedVariable Name = ""n"" />
-					</UnifiedReturn>
-				</UnifiedBlock>
-				<UnifiedBlock>
-					<UnifiedReturn>
-						<UnifiedIntegerLiteral TypedValue = ""0"" />
-					</UnifiedReturn>
-				</UnifiedBlock>
-			</UnifiedIf>
-		</UnifiedExpressionStatement>
+				</UnifiedReturn>
+			</UnifiedBlock>
+			<UnifiedBlock>
+				<UnifiedReturn>
+					<UnifiedIntegerLiteral TypedValue = ""0"" />
+				</UnifiedReturn>
+			</UnifiedBlock>
+		</UnifiedIf>
 	</UnifiedBlock>
 </UnifiedFunctionDefinition>
 ");
@@ -247,7 +245,7 @@ namespace Ucpf.Common.Tests.Visitors {
 					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedExpressionStatement(new UnifiedIf {
+					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
@@ -265,7 +263,7 @@ namespace Ucpf.Common.Tests.Visitors {
 								}
 							}
 						},
-					}),
+					},
 				},
 			};
 			var expectation =
@@ -276,51 +274,49 @@ namespace Ucpf.Common.Tests.Visitors {
 		<UnifiedParameter Name = ""n"" />
 	</UnifiedParameterCollection>
 	<UnifiedBlock>
-		<UnifiedExpressionStatement>
-			<UnifiedIf>
-				<UnifiedBinaryExpression>
+		<UnifiedIf>
+			<UnifiedBinaryExpression>
+				<UnifiedVariable Name = ""n"" />
+				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
+				<UnifiedIntegerLiteral TypedValue = ""2"" />
+			</UnifiedBinaryExpression>
+			<UnifiedBlock>
+				<UnifiedReturn>
 					<UnifiedVariable Name = ""n"" />
-					<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
-					<UnifiedIntegerLiteral TypedValue = ""2"" />
-				</UnifiedBinaryExpression>
-				<UnifiedBlock>
-					<UnifiedReturn>
-						<UnifiedVariable Name = ""n"" />
-					</UnifiedReturn>
-				</UnifiedBlock>
-				<UnifiedBlock>
-					<UnifiedReturn>
-						<UnifiedBinaryExpression>
-							<UnifiedCall>
-								<UnifiedVariable Name=""fibonacci"" />
-								<UnifiedArgumentCollection>
-									<UnifiedArgument>
-										<UnifiedBinaryExpression>
-											<UnifiedVariable Name=""n"" />
-											<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
-											<UnifiedIntegerLiteral TypedValue=""1"" />
-										</UnifiedBinaryExpression>
-									</UnifiedArgument>
-								</UnifiedArgumentCollection>
-							</UnifiedCall>
-							<UnifiedBinaryOperator Sign = ""+"" Type = ""Addition"" />
-							<UnifiedCall>
-								<UnifiedVariable Name=""fibonacci"" />
-								<UnifiedArgumentCollection>
-									<UnifiedArgument>
-										<UnifiedBinaryExpression>
-											<UnifiedVariable Name=""n"" />
-											<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
-											<UnifiedIntegerLiteral TypedValue=""2"" />
-										</UnifiedBinaryExpression>
-									</UnifiedArgument>
-								</UnifiedArgumentCollection>
-							</UnifiedCall>
-						</UnifiedBinaryExpression>
-					</UnifiedReturn>
-				</UnifiedBlock>
-			</UnifiedIf>
-		</UnifiedExpressionStatement>
+				</UnifiedReturn>
+			</UnifiedBlock>
+			<UnifiedBlock>
+				<UnifiedReturn>
+					<UnifiedBinaryExpression>
+						<UnifiedCall>
+							<UnifiedVariable Name=""fibonacci"" />
+							<UnifiedArgumentCollection>
+								<UnifiedArgument>
+									<UnifiedBinaryExpression>
+										<UnifiedVariable Name=""n"" />
+										<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
+										<UnifiedIntegerLiteral TypedValue=""1"" />
+									</UnifiedBinaryExpression>
+								</UnifiedArgument>
+							</UnifiedArgumentCollection>
+						</UnifiedCall>
+						<UnifiedBinaryOperator Sign = ""+"" Type = ""Addition"" />
+						<UnifiedCall>
+							<UnifiedVariable Name=""fibonacci"" />
+							<UnifiedArgumentCollection>
+								<UnifiedArgument>
+									<UnifiedBinaryExpression>
+										<UnifiedVariable Name=""n"" />
+										<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
+										<UnifiedIntegerLiteral TypedValue=""2"" />
+									</UnifiedBinaryExpression>
+								</UnifiedArgument>
+							</UnifiedArgumentCollection>
+						</UnifiedCall>
+					</UnifiedBinaryExpression>
+				</UnifiedReturn>
+			</UnifiedBlock>
+		</UnifiedIf>
 	</UnifiedBlock>
 </UnifiedFunctionDefinition>
 ");

@@ -10,7 +10,6 @@
 		void Visit(UnifiedBlock element);
 		void Visit(UnifiedCall element);
 		void Visit(UnifiedFunctionDefinition element);
-		void Visit(UnifiedExpressionStatement element);
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);
 		void Visit(UnifiedParameterCollection element);

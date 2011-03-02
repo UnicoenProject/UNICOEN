@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Ucpf.Common.Model.Visitors;
 
@@ -10,7 +7,8 @@ namespace Ucpf.Common.Model {
 	public abstract class UnifiedElement {
 		public abstract void Accept(IUnifiedModelVisitor visitor);
 
-		private static void Write(object obj, string content, StringBuilder buffer, int depth) {
+		private static void Write(object obj, string content, StringBuilder buffer,
+		                          int depth) {
 			for (int i = 0; i < depth; i++) {
 				buffer.Append("  ");
 			}
@@ -23,15 +21,18 @@ namespace Ucpf.Common.Model {
 			}
 		}
 
-		private static void WriteTypeWithoutContent(object obj, StringBuilder buffer, int depth) {
+		private static void WriteTypeWithoutContent(object obj, StringBuilder buffer,
+		                                            int depth) {
 			Write(obj, "", buffer, depth);
 		}
 
-		private static void WriteTypeAndContent(object obj, StringBuilder buffer, int depth) {
+		private static void WriteTypeAndContent(object obj, StringBuilder buffer,
+		                                        int depth) {
 			Write(obj, obj + "", buffer, depth);
 		}
 
-		private static void WriteUnifiedElement(UnifiedElement elem, StringBuilder buffer, int depth) {
+		private static void WriteUnifiedElement(UnifiedElement elem,
+		                                        StringBuilder buffer, int depth) {
 			WriteTypeWithoutContent(elem, buffer, depth);
 			// write items of enumerable
 			var seq = elem as IEnumerable;
@@ -49,7 +50,8 @@ namespace Ucpf.Common.Model {
 			}
 		}
 
-		private static void WriteNonUnifiedElement(object obj, StringBuilder buffer, int depth) {
+		private static void WriteNonUnifiedElement(object obj, StringBuilder buffer,
+		                                           int depth) {
 			var seq = obj as IEnumerable;
 			if (!(seq is string) && seq != null) {
 				WriteTypeWithoutContent(obj, buffer, depth);
@@ -61,7 +63,8 @@ namespace Ucpf.Common.Model {
 			}
 		}
 
-		private static void ToStringRecursively(object obj, StringBuilder buffer, int depth) {
+		private static void ToStringRecursively(object obj, StringBuilder buffer,
+		                                        int depth) {
 			var elem = obj as UnifiedElement;
 			if (elem != null) {
 				WriteUnifiedElement(elem, buffer, depth);

@@ -55,33 +55,33 @@ class Klass {
 								FalseBlock = new UnifiedBlock {
 									new UnifiedReturn {
 										Value =  new UnifiedBinaryExpression {
-										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
-										LeftHandSide = new UnifiedCall {
-											Function = new UnifiedVariable("Fibonacci"),
-											Arguments = new UnifiedArgumentCollection {
-												new UnifiedArgument{ Value = new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-													LeftHandSide = new UnifiedVariable("n"),
-													RightHandSide = new UnifiedIntegerLiteral(1)
-												}}
-											}
-										},
-										RightHandSide = new UnifiedCall {
-											Function = new UnifiedVariable("Fibonacci"),
-											Arguments = new UnifiedArgumentCollection {
-												new UnifiedArgument{ Value = new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-													LeftHandSide = new UnifiedVariable("n"),
-													RightHandSide = new UnifiedIntegerLiteral(2)
-												}}
+											Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
+											LeftHandSide = new UnifiedCall {
+												Function = new UnifiedVariable("Fibonacci"),
+												Arguments = new UnifiedArgumentCollection {
+													new UnifiedArgument{ Value = new UnifiedBinaryExpression {
+														Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
+														LeftHandSide = new UnifiedVariable("n"),
+														RightHandSide = new UnifiedIntegerLiteral(1)
+													}}
+												}
+											},
+											RightHandSide = new UnifiedCall {
+												Function = new UnifiedVariable("Fibonacci"),
+												Arguments = new UnifiedArgumentCollection {
+													new UnifiedArgument{ Value = new UnifiedBinaryExpression {
+														Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
+														LeftHandSide = new UnifiedVariable("n"),
+														RightHandSide = new UnifiedIntegerLiteral(2)
+													}}
+												}
 											}
 										}
 									}
-									}
 								}
-							}.ToStatement()
+							}
 						}
-					}.ToStatement()
+					}
 				}
 		};
 
@@ -120,10 +120,10 @@ class Klass {
 						Name = "Fibonacci",
 						ReturnType = "void",
 						Modifiers = new UnifiedModifierCollection() {
-							new UnifiedModifier() {
+							new UnifiedModifier {
 								Name = "public"
 							},
-							new UnifiedModifier() {
+							new UnifiedModifier {
 								Name = "static"
 							}
 						},
@@ -131,7 +131,7 @@ class Klass {
 							new UnifiedParameter { Type = "int", Name = "n" }
 						},
 						Block = new UnifiedBlock()
-					}.ToStatement()
+					}
 				}
 			};
 			var actual = CSharpModelFactory.CreateModel(code);

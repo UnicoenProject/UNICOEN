@@ -69,9 +69,9 @@ print fib(20)
 									}
 								}
 							}
-						}.ToStatement()
+						}
 					}
-				}.ToStatement(),
+				},
 				new UnifiedCall {
 					Function = new UnifiedVariable("print"),
 					Arguments = new UnifiedArgumentCollection {
@@ -82,7 +82,7 @@ print fib(20)
 							}
 						}
 					}
-				}.ToStatement()
+				}
 			};
 
 		#endregion

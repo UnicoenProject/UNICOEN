@@ -189,7 +189,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 		#region Statement
 
-		public static UnifiedStatement CreateStatement(XElement node) {
+		public static UnifiedExpression CreateStatement(XElement node) {
 			var element = node.Elements().First();
 
 			//case statementBlock
@@ -211,7 +211,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		public static UnifiedBlock CreateBlock(XElement node) {
 			return new UnifiedBlock(
 				node.Element("statementList").Elements("statement")
-					.Select(e => CreateStatement(e)).ToList()
+					.Select(CreateStatement).ToList()
 				);
 		}
 
@@ -220,19 +220,18 @@ namespace Ucpf.Languages.JavaScript.Model {
 				node.Element("sourceElements").Elements("sourceElement")
 					.SelectMany(e =>
 								e.Elements("statement").Select(
-									e2 => CreateStatement(e2))
+									CreateStatement)
 									).ToList()
 					);
 		}
 
-		public static UnifiedExpressionStatement CreateIf(XElement node) {
-			return new UnifiedExpressionStatement(
-				new UnifiedIf {
+		public static UnifiedExpression CreateIf(XElement node) {
+			return new UnifiedIf {
 					//TODO consider how deal with else block
 					Condition = CreateExpression(node.Element("expression")),
 					TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
 					FalseBlock =(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
-				});
+				};
 		}
 
 		public static UnifiedReturn CreateReturn(XElement node) {
