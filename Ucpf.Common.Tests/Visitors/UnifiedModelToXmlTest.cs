@@ -17,7 +17,7 @@ namespace Ucpf.Common.Tests.Visitors {
 						? (UnifiedArgument)new UnifiedVariable("n")
 						: (UnifiedArgument)new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
 						}
 				},
@@ -132,7 +132,7 @@ namespace Ucpf.Common.Tests.Visitors {
 					new UnifiedReturn {
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
-							Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+							Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 							RightHandSide = CreateCall(2),
 						}
 					}
@@ -193,7 +193,7 @@ namespace Ucpf.Common.Tests.Visitors {
 					new UnifiedExpressionStatement(new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
@@ -250,7 +250,7 @@ namespace Ucpf.Common.Tests.Visitors {
 					new UnifiedExpressionStatement(new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
 							RightHandSide = new UnifiedIntegerLiteral(2),
 						},
 						TrueBlock = new UnifiedBlock {
@@ -260,7 +260,7 @@ namespace Ucpf.Common.Tests.Visitors {
 							new UnifiedReturn {
 								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
-									Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+									Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 									RightHandSide = CreateCall(2),
 								}
 							}

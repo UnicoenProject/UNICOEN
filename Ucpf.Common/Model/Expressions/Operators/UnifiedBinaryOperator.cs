@@ -1,12 +1,11 @@
 ﻿using Ucpf.Common.Model.Visitors;
-using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedBinaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
-		public BinaryOperatorType Type { get; private set; }
+		public UnifiedBinaryOperatorType Type { get; private set; }
 
-		public UnifiedBinaryOperator(string sign, BinaryOperatorType type) {
+		public UnifiedBinaryOperator(string sign, UnifiedBinaryOperatorType type) {
 			Sign = sign;
 			Type = type;
 		}

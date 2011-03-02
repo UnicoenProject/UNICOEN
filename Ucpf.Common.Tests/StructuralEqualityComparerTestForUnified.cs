@@ -9,12 +9,12 @@ namespace Ucpf.Common.Tests {
 		public void compares_equal_expressions() {
 			var o1 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
-				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 				RightHandSide = new UnifiedIntegerLiteral(1),
 			};
 			var o2 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
-				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 				RightHandSide = new UnifiedIntegerLiteral(1),
 			};
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
@@ -25,7 +25,7 @@ namespace Ucpf.Common.Tests {
 		public void compares_same_expressions() {
 			var o2 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
-				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 				RightHandSide = new UnifiedIntegerLiteral(1),
 			};
 			var o1 = o2;
@@ -42,7 +42,7 @@ namespace Ucpf.Common.Tests {
 			};
 			var o2 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
-				Operator = new UnifiedBinaryOperator(null, BinaryOperatorType.Addition),
+				Operator = new UnifiedBinaryOperator(null, UnifiedBinaryOperatorType.Addition),
 				RightHandSide = new UnifiedIntegerLiteral(1),
 			};
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
@@ -80,12 +80,12 @@ namespace Ucpf.Common.Tests {
 		public void compares_different_expressions() {
 			var o1 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
-				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Addition),
+				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Addition),
 				RightHandSide = new UnifiedIntegerLiteral(1),
 			};
 			var o2 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
-				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 				RightHandSide = new UnifiedIntegerLiteral(1),
 			};
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
@@ -101,7 +101,7 @@ namespace Ucpf.Common.Tests {
 					new UnifiedArgument {
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Addition),
+							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Addition),
 							RightHandSide = new UnifiedIntegerLiteral(1),
 						}
 					},
@@ -114,7 +114,7 @@ namespace Ucpf.Common.Tests {
 					new UnifiedArgument {
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Addition),
+							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Addition),
 							RightHandSide = new UnifiedIntegerLiteral(1),
 						}
 					},
@@ -128,7 +128,7 @@ namespace Ucpf.Common.Tests {
 		public void compares_same_calls() {
 			var o2 = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedVariable("n"),
-				Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 				RightHandSide = new UnifiedIntegerLiteral(1),
 			};
 			var o1 = o2;
@@ -145,7 +145,7 @@ namespace Ucpf.Common.Tests {
 					new UnifiedArgument {
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Addition),
+							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Addition),
 							RightHandSide = new UnifiedIntegerLiteral(1),
 						}
 					},
@@ -158,7 +158,7 @@ namespace Ucpf.Common.Tests {
 					new UnifiedArgument {
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n2"),
-							Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Addition),
+							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Addition),
 							RightHandSide = new UnifiedIntegerLiteral(1),
 						}
 					},
@@ -174,7 +174,7 @@ namespace Ucpf.Common.Tests {
 				new UnifiedExpressionStatement(
 					new UnifiedBinaryExpression {
 						LeftHandSide = new UnifiedVariable("n"),
-						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
+						Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
 				new UnifiedReturn{
@@ -185,7 +185,7 @@ namespace Ucpf.Common.Tests {
 				new UnifiedExpressionStatement(
 					new UnifiedBinaryExpression {
 						LeftHandSide = new UnifiedVariable("n"),
-						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
+						Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
 				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }
@@ -200,7 +200,7 @@ namespace Ucpf.Common.Tests {
 				new UnifiedExpressionStatement(
 					new UnifiedBinaryExpression {
 						LeftHandSide = new UnifiedVariable("n"),
-						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
+						Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
 				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }
@@ -216,7 +216,7 @@ namespace Ucpf.Common.Tests {
 				new UnifiedExpressionStatement(
 					new UnifiedBinaryExpression {
 						LeftHandSide = new UnifiedVariable("n"),
-						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
+						Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(1),
 					}),
 				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }
@@ -225,7 +225,7 @@ namespace Ucpf.Common.Tests {
 				new UnifiedExpressionStatement(
 					new UnifiedBinaryExpression {
 						LeftHandSide = new UnifiedVariable("n"),
-						Operator = new UnifiedBinaryOperator("=", BinaryOperatorType.Assignment),
+						Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
 						RightHandSide = new UnifiedIntegerLiteral(2),
 					}),
 				new UnifiedReturn{ Value = new UnifiedIntegerLiteral(2) }

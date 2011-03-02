@@ -127,7 +127,7 @@ namespace Ucpf.Languages.C.Model
 					WriteLine();
 				}
 			}
-			catch (NotImplementedException e) { }
+			catch (NotImplementedException) { }
 
 			// ElseBlock
 			if (stmt.FalseBlock != null)
@@ -237,7 +237,7 @@ namespace Ucpf.Languages.C.Model
 					try {
 						type = new CType(rule.VariableTypeRules[varName]);
 					}
-					catch(System.Collections.Generic.KeyNotFoundException e) {
+					catch(System.Collections.Generic.KeyNotFoundException) {
 						type = null;
 					}
 				}
@@ -249,7 +249,7 @@ namespace Ucpf.Languages.C.Model
 				type.Accept(this);
 
 			}
-			catch (NullReferenceException e) { }
+			catch (NullReferenceException) { }
 
 			WriteSpace();
 			_writer.Write(variable.Name);

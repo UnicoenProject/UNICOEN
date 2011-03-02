@@ -6,7 +6,6 @@ using System.Numerics;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
-using Ucpf.Common.Model;
 using Ucpf.Languages.Java.AstGenerators;
 using Ucpf.Languages.Java.Model;
 

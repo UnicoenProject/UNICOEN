@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
 
 namespace Ucpf.Languages.CSharp.Tests {
 
@@ -29,11 +28,11 @@ class Klass {
 					new UnifiedFunctionDefinition {
 						Name = "Fibonacci",
 						ReturnType = "int",
-						Modifiers = new UnifiedModifierCollection() {
-							new UnifiedModifier() {
+						Modifiers = new UnifiedModifierCollection {
+							new UnifiedModifier {
 								Name = "public"
 							},
-							new UnifiedModifier() {
+							new UnifiedModifier {
 								Name = "static"
 							}
 						},
@@ -44,7 +43,7 @@ class Klass {
 							new UnifiedIf {
 								Condition = new UnifiedBinaryExpression {
 									Operator =
-										new UnifiedBinaryOperator("<=", BinaryOperatorType.LesserEqual),
+										new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LesserEqual),
 									LeftHandSide = new UnifiedVariable("n"),
 									RightHandSide = new UnifiedIntegerLiteral(1)
 								},
@@ -56,12 +55,12 @@ class Klass {
 								FalseBlock = new UnifiedBlock {
 									new UnifiedReturn {
 										Value =  new UnifiedBinaryExpression {
-										Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 										LeftHandSide = new UnifiedCall {
 											Function = new UnifiedVariable("Fibonacci"),
 											Arguments = new UnifiedArgumentCollection {
 												new UnifiedArgument{ Value = new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(1)
 												}}
@@ -71,7 +70,7 @@ class Klass {
 											Function = new UnifiedVariable("Fibonacci"),
 											Arguments = new UnifiedArgumentCollection {
 												new UnifiedArgument{ Value = new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(2)
 												}}

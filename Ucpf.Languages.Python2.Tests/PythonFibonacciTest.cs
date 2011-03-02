@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Common.Model;
-using Ucpf.Common.Model;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
 using Ucpf.Languages.Python2.AstGenerators;
 using Ucpf.Languages.Python2.Model;
 
@@ -36,7 +33,7 @@ print fib(20)
 					Block = new UnifiedBlock {
 						new UnifiedIf {
 							Condition = new UnifiedBinaryExpression {
-								Operator = new UnifiedBinaryOperator("<=", BinaryOperatorType.GreaterEqual),
+								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterEqual),
 								LeftHandSide = new UnifiedVariable("n"),
 								RightHandSide = new UnifiedIntegerLiteral(1),
 							},
@@ -48,12 +45,12 @@ print fib(20)
 							FalseBlock = new UnifiedBlock {
 								new UnifiedReturn {
 									Value	= new UnifiedBinaryExpression {
-										Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 										LeftHandSide = new UnifiedCall {
 											Function = new UnifiedVariable("fib"),
 											Arguments = new UnifiedArgumentCollection {
 												(UnifiedArgument)new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(1)
 												}
@@ -63,7 +60,7 @@ print fib(20)
 											Function = new UnifiedVariable("fib"),
 											Arguments = new UnifiedArgumentCollection {
 												(UnifiedArgument)new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
+													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 													LeftHandSide = new UnifiedVariable("n"),
 													RightHandSide = new UnifiedIntegerLiteral(2)
 												}

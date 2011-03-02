@@ -7,25 +7,23 @@ using Ucpf.Common.Model;
 
 namespace Ucpf.Languages.CSharp {
 
-	using UnifiedOperatorType = Common.OldModel.Operators.BinaryOperatorType;
-
 	partial class Translator {
 
 		private static UnifiedBinaryOperator ConvertOperator(BinaryOperatorType type) {
 			switch (type) {
 				case BinaryOperatorType.Add:
-					return new UnifiedBinaryOperator("+", UnifiedOperatorType.Addition);
+					return new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition);
 				case BinaryOperatorType.Subtract:
-					return new UnifiedBinaryOperator("-", UnifiedOperatorType.Subtraction);
+					return new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction);
 
 				case BinaryOperatorType.LessThan:
-					return new UnifiedBinaryOperator("<", UnifiedOperatorType.Lesser);
+					return new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser);
 				case BinaryOperatorType.LessThanOrEqual:
-					return new UnifiedBinaryOperator("<=", UnifiedOperatorType.LesserEqual);
+					return new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LesserEqual);
 				case BinaryOperatorType.GreaterThan:
-					return new UnifiedBinaryOperator(">", UnifiedOperatorType.Greater);
+					return new UnifiedBinaryOperator(">", UnifiedBinaryOperatorType.Greater);
 				case BinaryOperatorType.GreaterThanOrEqual:
-					return new UnifiedBinaryOperator(">=", UnifiedOperatorType.GreaterEqual);
+					return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterEqual);
 			}
 			return null;
 		}

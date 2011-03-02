@@ -23,7 +23,7 @@ namespace Ucpf.Languages.Java.Tests {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator =
 						                   	new UnifiedBinaryOperator("-",
-						                   	BinaryOperatorType.Subtraction),
+						                   	UnifiedBinaryOperatorType.Subtraction),
 							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
 						}
 				},
