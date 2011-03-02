@@ -1,6 +1,4 @@
-
 public class Student {
-	
 	private String _name;
 	
 	public Student(String name) {
@@ -12,12 +10,15 @@ public class Student {
 	}
 	
 	public static void main(String[] args) {
-		Student[] list = new Student[4];
-		list[0] = new Student("Tom");
-		list[1] = new Student("Anna");
+		Student[] students = new Student[4];
+		students[0] = new Student("Tom");
+		students[1] = new Student("Anna");
 		
-		for(int i = 0; i < 2; i++) {
-			System.out.println(list[i].getName());
+		for (int i = 0; i < 2; i++) {
+			System.out.println(students[i].getName());
+		}
+		for (Student student : students) {
+			System.out.println(student.getName());
 		}
 	}
 }
