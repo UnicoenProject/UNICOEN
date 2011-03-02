@@ -131,7 +131,7 @@ end
 					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedExpressionStatement(new UnifiedIf {
+					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
@@ -147,7 +147,7 @@ end
 								Value = new UnifiedIntegerLiteral(0)
 							}
 						},
-					}),
+					},
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -174,7 +174,7 @@ end
 					new UnifiedParameter{ Name = "n" }
 				},
 				Block = new UnifiedBlock {
-					new UnifiedExpressionStatement(new UnifiedIf {
+					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = new UnifiedVariable("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
@@ -192,7 +192,7 @@ end
 								}
 							}
 						},
-					}),
+					},
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)

@@ -16,7 +16,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			_source = File.ReadAllText(path);
 		}
 
-		[Test]
+		[Ignore, Test]
 		public void CreateClassDefinition() {
 			
 		}

@@ -2,7 +2,6 @@
 using System.Xml.Linq;
 using NUnit.Framework;
 using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
 using Ucpf.Common.Tests;
 using Ucpf.Languages.JavaScript.AstGenerators;
 using Ucpf.Languages.JavaScript.Model;
@@ -28,8 +27,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		public void If文の条件式を取得する() {
 			//actual
 			var block   = _func.Block;
-			var expStmt = (UnifiedExpressionStatement)block.First();
-			var ifStmt  = (UnifiedIf)expStmt.Expression;
+			var expStmt = block.First();
+			var ifStmt  = (UnifiedIf)expStmt;
 			var cond    = ifStmt.Condition;
 
 			//expectation
@@ -64,8 +63,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		public void 一番最初のreturn文を取得する() {
 			//actual
 			var block      = _func.Block;
-			var expStmt    = (UnifiedExpressionStatement)block.First();
-			var ifStmt     = (UnifiedIf)expStmt.Expression;
+			var expStmt    = block.First();
+			var ifStmt     = (UnifiedIf)expStmt;
 			var tBlock     = ifStmt.TrueBlock;
 			var returnStmt = tBlock.First();
 
@@ -84,8 +83,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		public void 二項演算子を取得する() {
 			//actual
 			var block       = _func.Block;
-			var expStmt     = (UnifiedExpressionStatement)block.First();
-			var ifStmt      = (UnifiedIf)expStmt.Expression;
+			var expStmt     = block.First();
+			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBlock;
 			var returnStmt  = (UnifiedReturn)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
@@ -97,8 +96,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		public void 呼び出す関数の名前を取得する() {
 			//actual
 			var block       = _func.Block;
-			var expStmt     = (UnifiedExpressionStatement)block.First();
-			var ifStmt      = (UnifiedIf)expStmt.Expression;
+			var expStmt     = block.First();
+			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBlock;
 			var returnStmt  = (UnifiedReturn)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
@@ -111,8 +110,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void 呼び出す関数の引数を取得する() {
 			var block       = _func.Block;
-			var expStmt     = (UnifiedExpressionStatement)block.First();
-			var ifStmt      = (UnifiedIf)expStmt.Expression;
+			var expStmt     = block.First();
+			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBlock;
 			var returnStmt  = (UnifiedReturn)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
@@ -134,8 +133,8 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		public void 返却される式を取得する() {
 			//actual
 			var block      = _func.Block;
-			var expStmt    = (UnifiedExpressionStatement)block.First();
-			var ifStmt     = (UnifiedIf)expStmt.Expression;
+			var expStmt    = block.First();
+			var ifStmt     = (UnifiedIf)expStmt;
 			var fBlock     = ifStmt.FalseBlock;
 			var returnStmt = (UnifiedReturn)fBlock.First();
 			var binaryExp  = (UnifiedBinaryExpression)returnStmt.Value;
@@ -193,7 +192,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block     = _func.Block;
 			var firstStmt = block.First();
 
-			Assert.That(firstStmt.GetType(), Is.EqualTo(typeof(UnifiedExpressionStatement)));
+			Assert.That(firstStmt, Is.InstanceOf<UnifiedExpression>());
 		}
 	}
 }

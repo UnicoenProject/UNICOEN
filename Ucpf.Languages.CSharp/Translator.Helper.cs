@@ -63,15 +63,12 @@ namespace Ucpf.Languages.CSharp {
 		private static UnifiedBlock ToBlock(IEnumerable<object> contents) {
 			var block = new UnifiedBlock();
 			foreach (var item in contents) {
-				var stmt = item as UnifiedStatement;
-				if (stmt != null) {
-					block.Add(stmt);
-					continue;
-				}
 				var expr = item as UnifiedExpression;
 				if (expr != null) {
-					block.Add(new UnifiedExpressionStatement(expr));
+					block.Add(expr);
+					continue;
 				}
+				throw new NotImplementedException();
 			}
 			return block;
 		}

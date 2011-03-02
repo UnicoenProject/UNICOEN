@@ -33,7 +33,7 @@ namespace Ucpf.Languages.Java.Model {
 
 			if (element.Elements().First().Name.LocalName == "TOKEN" 
 				&& element.Elements().First().Value == "if") {
-				unifiedBlock.Add(CreateIfExpression(element).ToStatement());
+				unifiedBlock.Add(CreateIfExpression(element));
 			}
 			throw new NotImplementedException("in CreateBlock");
 		}

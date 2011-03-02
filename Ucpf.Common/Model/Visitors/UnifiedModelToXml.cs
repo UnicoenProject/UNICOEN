@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -113,14 +112,6 @@ namespace Ucpf.Common.Model.Visitors {
 			xe.SetAttributeValue("Name", element.Name);
 			element.Parameters.Accept(this);
 			element.Block.Accept(this);
-			_targets.Pop();
-			_targets.Peek().Add(xe);
-		}
-
-		public void Visit(UnifiedExpressionStatement element) {
-			var xe = new XElement(element.GetType().Name);
-			_targets.Push(xe);
-			element.Expression.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}

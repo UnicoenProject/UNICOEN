@@ -1,5 +1,4 @@
-﻿using System;
-using Ucpf.Common.Model.Visitors;
+﻿using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedLiteral : UnifiedExpression {
