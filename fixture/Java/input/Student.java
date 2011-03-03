@@ -15,10 +15,10 @@ public class Student {
 		students[1] = new Student("Anna");
 		
 		for (int i = 0; i < 2; i++) {
-			System.out.println(students[i].getName());
+			write(students[i].getName());
 		}
 		for (Student student : students) {
-			System.out.println(student.getName());
+			write(student.getName());
 		}
 	}
 }

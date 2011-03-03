@@ -28,9 +28,8 @@ namespace Ucpf.Languages.Ruby18.Model {
 			Contract.Requires(node.Name.LocalName == "true" ||
 							  node.Name.LocalName == "false");
 			return new UnifiedBooleanLiteral {
-				TypedValue = node.Name.LocalName == "true"
+				Value = node.Name.LocalName == "true"
 								? UnifiedBoolean.True : UnifiedBoolean.False,
-				Value = node.Value,
 			};
 		}
 
@@ -45,19 +44,17 @@ namespace Ucpf.Languages.Ruby18.Model {
 			if (node.Name.LocalName == "lit") {
 				switch (node.Elements().First().Name.LocalName) {
 					case "Fixnum":
-						return new UnifiedIntegerLiteral(
+						return UnifiedIntegerLiteral.Create(
 							BigInteger.Parse(node.Value));
 				}
 			}
-			return new UnifiedLiteral {
-				Value = node.Value,
-			};
+			throw new NotImplementedException();
 		}
 
 		public static UnifiedDecimalLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
 			return new UnifiedDecimalLiteral {
-				TypedValue = Decimal.Parse(node.Value)
+				Value = Decimal.Parse(node.Value)
 			};
 		}
 
@@ -85,7 +82,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 				Function = UnifiedVariable.Create(funcName),
 				Arguments = new UnifiedArgumentCollection(
 					node.Elements().ElementAt(2).Elements()
-						.Select(e => (UnifiedArgument)CreateExpression(e))),
+						.Select(e => UnifiedArgument.Create(CreateExpression(e)))),
 			};
 		}
 

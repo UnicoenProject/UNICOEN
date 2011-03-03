@@ -33,9 +33,9 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
-				LeftHandSide = new UnifiedLiteral { Value = "n" },
+				LeftHandSide = UnifiedVariable.Create("n"),
 				Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
-				RightHandSide = new UnifiedLiteral { Value = "2" },
+				RightHandSide = UnifiedIntegerLiteral.Create(2),
 			};
 
 			Assert.That(cond, Is.EqualTo(expectation)
@@ -70,9 +70,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 			//expectation
 			var expectation = new UnifiedReturn {
-				Value = new UnifiedLiteral {
-					Value = "n"
-				}
+				Value = UnifiedVariable.Create("n"),
 			};
 
 			Assert.That(returnStmt, Is.EqualTo(expectation)
@@ -102,9 +100,9 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var returnStmt  = (UnifiedReturn)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
-			var identifier  = (UnifiedLiteral)callExp.Function;
+			var identifier  = (UnifiedVariable)callExp.Function;
 
-			Assert.That(identifier.Value, Is.EqualTo("fibonacci"));
+			Assert.That(identifier.Name, Is.EqualTo("fibonacci"));
 		}
 
 		[Test]
@@ -120,9 +118,9 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
-				LeftHandSide = new UnifiedLiteral { Value = "n" },
+				LeftHandSide = UnifiedVariable.Create("n"),
 				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-				RightHandSide = new UnifiedLiteral { Value = "1" },
+				RightHandSide = UnifiedIntegerLiteral.Create(1),
 			};
 
 			Assert.That(firstArg, Is.EqualTo(expectation)
@@ -142,43 +140,31 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
 				LeftHandSide = new UnifiedCall {
-					Arguments = new UnifiedArgumentCollection {
+					Arguments = {
 						new UnifiedArgument {
 							Value = new UnifiedBinaryExpression {
-								LeftHandSide = new UnifiedLiteral {
-									Value = "n"
-								},
+								LeftHandSide = UnifiedVariable.Create("n"),
 								Operator =
 									new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-								RightHandSide = new UnifiedLiteral {
-									Value = "1"
-								}
+								RightHandSide = UnifiedIntegerLiteral.Create(1)
 							}
 						}
 					},
-					Function = new UnifiedLiteral {
-						Value = "fibonacci"
-					}
+					Function = UnifiedVariable.Create("fibonacci"),
 				},
 				Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 				RightHandSide = new UnifiedCall {
-					Arguments = new UnifiedArgumentCollection {
+					Arguments = {
 						new UnifiedArgument {
 							Value = new UnifiedBinaryExpression {
-								LeftHandSide = new UnifiedLiteral {
-									Value = "n"
-								},
+								LeftHandSide = UnifiedVariable.Create("n"),
 								Operator =
 									new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-								RightHandSide = new UnifiedLiteral {
-									Value = "2"
-								}
+								RightHandSide = UnifiedIntegerLiteral.Create(2)
 							}
 						}
 					},
-					Function = new UnifiedLiteral {
-						Value = "fibonacci"
-					}
+					Function = UnifiedVariable.Create("fibonacci"),
 				},
 			};
 

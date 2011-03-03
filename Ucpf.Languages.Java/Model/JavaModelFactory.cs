@@ -58,9 +58,8 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
 			return new UnifiedBooleanLiteral {
-				TypedValue = node.Name.LocalName == "true"
+				Value = node.Name.LocalName == "true"
 				             	? UnifiedBoolean.True : UnifiedBoolean.False,
-				Value = node.Value,
 			};
 		}
 
@@ -73,13 +72,13 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedIntegerLiteral CreateIntegerLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
-			return new UnifiedIntegerLiteral(BigInteger.Parse(node.Value));
+			return UnifiedIntegerLiteral.Create(BigInteger.Parse(node.Value));
 		}
 
 		public static UnifiedDecimalLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
 			return new UnifiedDecimalLiteral {
-				TypedValue = Decimal.Parse(node.Value)
+				Value = Decimal.Parse(node.Value)
 			};
 		}
 	}

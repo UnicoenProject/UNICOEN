@@ -9,10 +9,6 @@ namespace Ucpf.Common.Model {
 			visitor.Visit(this);
 		}
 
-		public override string ToString() {
-			return UnifiedModelToXml.ToXml(this).ToString();
-		}
-
 		public static UnifiedModifier Create(string name) {
 			return new UnifiedModifier { Name = name };
 		}

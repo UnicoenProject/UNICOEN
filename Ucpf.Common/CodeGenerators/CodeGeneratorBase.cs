@@ -76,8 +76,6 @@ namespace Ucpf.Common.CodeGenerators {
 		protected abstract bool TreatTerminalSymbol(XElement element);
 
 		public override string Generate(XElement root) {
-			Contract.Requires(root != null);
-			Contract.Ensures(Contract.Result<string>() != null);
 			Initialize();
 			WalkElement(root);
 			return _builder.ToString();

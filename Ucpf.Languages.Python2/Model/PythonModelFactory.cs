@@ -6,7 +6,7 @@ namespace Ucpf.Languages.Python2.Model {
 	public class PythonModelFactory {
 		public static UnifiedStringLiteral CreateStringLiteral(XElement ast) {
 			return new UnifiedStringLiteral {
-				TypedValue = "1"
+				Value = "1"
 			};
 		}
 

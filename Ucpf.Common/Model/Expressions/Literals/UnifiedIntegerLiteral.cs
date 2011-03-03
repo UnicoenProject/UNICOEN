@@ -9,15 +9,13 @@ namespace Ucpf.Common.Model {
 
 		public static UnifiedIntegerLiteral Create(int value) {
 			return new UnifiedIntegerLiteral {
-				Value = value.ToString(),
-				TypedValue = value,
+				Value = value,
 			};
 		}
 
 		public static UnifiedIntegerLiteral Create(BigInteger value) {
 			return new UnifiedIntegerLiteral {
-				Value = value.ToString(),
-				TypedValue = value,
+				Value = value,
 			};
 		}
 	}

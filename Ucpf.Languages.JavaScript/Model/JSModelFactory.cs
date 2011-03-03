@@ -95,9 +95,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedExpression CreateLiteral(XElement node) {
-			return new UnifiedLiteral() {
-				Value = node.Value
-			};
+			throw new NotImplementedException();
 		}
 
 		#endregion

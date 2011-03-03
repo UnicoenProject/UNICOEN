@@ -29,9 +29,5 @@ namespace Ucpf.Common {
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
-
-		public override string ToString() {
-			return UnifiedModelToXml.ToXml(this).ToString();
-		}
 	}
 }
