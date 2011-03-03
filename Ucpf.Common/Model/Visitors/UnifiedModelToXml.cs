@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.Common.Model.Expressions;
 
 namespace Ucpf.Common.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
@@ -199,6 +200,22 @@ namespace Ucpf.Common.Model.Visitors {
 		}
 
 		public void Visit(UnifiedLiteral element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedArrayNew element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedFor element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedForeach element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedUnaryExpression element) {
 			throw new NotImplementedException();
 		}
 	}

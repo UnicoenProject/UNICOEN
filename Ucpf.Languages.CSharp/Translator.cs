@@ -299,7 +299,7 @@ namespace Ucpf.Languages.CSharp {
 				Name = method.Name,
 				Modifiers = ConvertModifiler(method.Modifier),
 				Parameters = parameters,
-				ReturnType = GetTypeName(method.TypeReference),
+				Type = GetTypeName(method.TypeReference),
 				Block = VisitBlockStatement(method.Body, data) as UnifiedBlock
 			};
 		}

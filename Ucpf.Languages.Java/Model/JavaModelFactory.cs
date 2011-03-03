@@ -18,7 +18,7 @@ namespace Ucpf.Languages.Java.Model {
 
 			return new UnifiedFunctionDefinition {
 				Modifiers = modifiers,
-				ReturnType = new UnifiedType { Name = returnType },
+				Type = new UnifiedType { Name = returnType },
 				Name = name,
 				Parameters = parameter,
 				Block = block

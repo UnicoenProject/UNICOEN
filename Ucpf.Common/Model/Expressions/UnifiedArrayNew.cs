@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ucpf.Common.Model.Visitors;
+﻿using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedNew : UnifiedExpression {
+	public class UnifiedArrayNew : UnifiedExpression {
 		public UnifiedType Type { get; set; }
 		public UnifiedArgumentCollection Arguments { get; set; }
 
