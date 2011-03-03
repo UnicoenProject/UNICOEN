@@ -129,8 +129,8 @@ namelist
 explist
 	: exp
 		-> exp
-	| exp (',' exp)+
-		-> ^(EXP_LIST exp+)
+	| exp (',' exp)*
+		-> ^(EXP_LIST exp*)
 	;
 
 exp2
@@ -148,7 +148,7 @@ exp2
 	| '...'
 		-> ^(VARIABLE '...')
 	| 'function' '(' parlist? ')' block 'end'
-		-> function
+		-> ^(FUNC_DEC parlist block)
 	| prefixexp
 		-> prefixexp
 	| tableconstructor
@@ -213,9 +213,12 @@ args
 	;
 
 parlist
-	: namelist (',' '...')?
-	| '...'
+	: n1=NAME (',' n2=NAME)* (',' n3='...')?
+		-> ^(PARAM_LIST ^(PARAM $n1) ^(PARAM $n2)* ^(PARAM $n3)?)
+	| n='...'
+		-> ^(PARAM_LIST ^(PARAM $n))
 	|
+		-> ^(PARAM_LIST)
 	;
 
 tableconstructor
