@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Ucpf.Common.Model.Visitors;
 
-namespace Ucpf.Common.Model {
-	public class UnifiedNew : UnifiedExpression {
-		public UnifiedType Type { get; set; }
-		public UnifiedArgumentCollection Arguments { get; set; }
+namespace Ucpf.Common.Model.Expressions {
+	public class UnifiedUnaryExpression : UnifiedExpression {
+		public UnifiedUnaryOperator Operator { get; set; }
+		public UnifiedExpression Operand { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

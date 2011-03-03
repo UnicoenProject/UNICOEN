@@ -18,6 +18,15 @@ namespace Ucpf.Languages.CSharp.Tests {
 				RightHandSide = rhs,
 			};
 		}
+
+		public static UnifiedBinaryExpression CreateLesserExpression(UnifiedExpression lhs, UnifiedExpression rhs) {
+			return new UnifiedBinaryExpression {
+				LeftHandSide = lhs,
+				Operator =
+					new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+				RightHandSide = rhs,
+			};
+		}
 	}
 
 	[TestFixture]
@@ -39,12 +48,12 @@ namespace Ucpf.Languages.CSharp.Tests {
 				},
 				new UnifiedClassDefinition {
 					Name = "Student",
-					Body = new UnifiedBlock {
+					Body =  {
 						new UnifiedVariableDefinition {
 							Modifiers = {
 								UnifiedModifier.Create("public"),
 							},
-							Type = new UnifiedType { Name = "string" },
+							Type = UnifiedType.Create("String"),
 							Name = "_name",
 						},
 						new UnifiedConstructorDefinition {
@@ -53,7 +62,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							},
 							Parameters = {
 								new UnifiedParameter {
-									Type = new UnifiedType { Name = "string" },
+									Type = UnifiedType.Create("String"),
 									Name = "name",
 								}
 							},
@@ -66,7 +75,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							Modifiers = {
 								UnifiedModifier.Create("public"),
 							},
-							ReturnType = new UnifiedType { Name = "string" },
+							Type = UnifiedType.Create("String"),
 							Name = "getName",
 							Block = {
 								new UnifiedReturn {
@@ -79,63 +88,57 @@ namespace Ucpf.Languages.CSharp.Tests {
 								UnifiedModifier.Create("public"),
 								UnifiedModifier.Create("static"),
 							},
-							ReturnType = new UnifiedType { Name = "void" },
+							Type = UnifiedType.Create("void"),
 							Name = "main",
 							Block = {
 								new UnifiedVariableDefinition {
-									Type = new UnifiedType { Name = "Student[]" },
+									Type = UnifiedType.Create("Student[]"),
 									Name = "students",
-									InitialValue = new UnifiedNew {
-										Name = "Student",
+									InitialValue = new UnifiedArrayNew {
+										Type = UnifiedType.Create("Student"),
 										Arguments = {
-											new UnifiedArgument {
-												Value = new UnifiedIntegerLiteral(2),
-											},
+											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(2)),
 										},
 									},
 								},
 								CSharpModelFactoryHelper.CreateAssignExpression(
 									new UnifiedIndexer {
 										Arguments = {
-											new UnifiedArgument { Value = new UnifiedIntegerLiteral(0) }
+											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)),
 										},
-										Target = new UnifiedVariable {
-											Name = "students"
-										},
+										Target = UnifiedVariable.Create("students"),
 									},
 									new UnifiedNew {
-										Name = "Student",
+										Type = UnifiedType.Create("Student"),
 										Arguments = {
-											new UnifiedArgument {
-												Value = new UnifiedStringLiteral {
-													TypedValue = "Tom"
-												},
-											},
+											UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom")),
 										},
 									}
 									),
 								CSharpModelFactoryHelper.CreateAssignExpression(
 									new UnifiedIndexer {
 										Arguments = {
-											new UnifiedArgument { Value = new UnifiedIntegerLiteral(1) }
+											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)),
 										},
-										Target = new UnifiedVariable {
-											Name = "students"
-										},
+										Target = UnifiedVariable.Create("students"),
 									},
 									new UnifiedNew {
-										Name = "Student",
+										Type = UnifiedType.Create("Student"),
 										Arguments = {
-											new UnifiedArgument {
-												Value = new UnifiedStringLiteral {
-													TypedValue = "Anna",
-													Value = "Anna",
-												},
-											},
+											UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna")),
 										},
 									}
 									),
-								new UnifiedReturn { Value = UnifiedVariable.Create("_name") },
+								new UnifiedFor {
+									Initializer = new UnifiedVariableDefinition {
+										Type = UnifiedType.Create("int"),
+										Name = "i",
+										InitialValue = UnifiedIntegerLiteral.Create(0),
+									},
+									Condition = CSharpModelFactoryHelper.CreateLesserExpression(
+										UnifiedVariable.Create("i"), UnifiedIntegerLiteral.Create(2)),
+									Step = ,
+								}
 							}
 						},
 					}

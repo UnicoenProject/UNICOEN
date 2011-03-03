@@ -45,7 +45,7 @@ namespace Ucpf.Languages.Java.Tests {
 						Name = "static"
 					}
 				},
-				ReturnType = new UnifiedType { Name = "int" },
+				Type = new UnifiedType { Name = "int" },
 				Name = "fibonacci",
 				Parameters = new UnifiedParameterCollection() {
 					new UnifiedParameter() {

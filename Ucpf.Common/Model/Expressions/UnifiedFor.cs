@@ -5,9 +5,10 @@ using System.Text;
 using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
-	public class UnifiedNew : UnifiedExpression {
-		public UnifiedType Type { get; set; }
-		public UnifiedArgumentCollection Arguments { get; set; }
+	public class UnifiedFor : UnifiedExpression {
+		public UnifiedExpression Initializer { get; set; }
+		public UnifiedExpression Condition { get; set; }
+		public UnifiedExpression Step { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

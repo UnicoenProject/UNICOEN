@@ -3,16 +3,22 @@ using Ucpf.Common.Model.Visitors;
 
 namespace Ucpf.Common.Model {
 	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
-		public UnifiedIntegerLiteral(int value) {
-			TypedValue = value;
-		}
-
-		public UnifiedIntegerLiteral(BigInteger value) {
-			TypedValue = value;
-		}
-
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public static UnifiedIntegerLiteral Create(int value) {
+			return new UnifiedIntegerLiteral {
+				Value = value.ToString(),
+				TypedValue = value,
+			};
+		}
+
+		public static UnifiedIntegerLiteral Create(BigInteger value) {
+			return new UnifiedIntegerLiteral {
+				Value = value.ToString(),
+				TypedValue = value,
+			};
 		}
 	}
 }

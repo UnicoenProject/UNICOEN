@@ -104,11 +104,15 @@
     <Compile Include="AstGenerators\AntlrAstGenerator.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
+    <Compile Include="Model\Expressions\UnifiedArrayNew.cs" />
     <Compile Include="Model\Expressions\UnifiedClassDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedConstructorDefinition.cs" />
+    <Compile Include="Model\Expressions\UnifiedFor.cs" />
+    <Compile Include="Model\Expressions\UnifiedForeach.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
     <Compile Include="Model\Expressions\UnifiedType.cs" />
+    <Compile Include="Model\Expressions\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\UnifiedNamespace.cs" />

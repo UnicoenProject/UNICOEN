@@ -27,7 +27,7 @@ class Klass {
 			Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
 						Name = "Fibonacci",
-						ReturnType = new UnifiedType { Name = "int"},
+						Type = new UnifiedType { Name = "int"},
 						Modifiers = new UnifiedModifierCollection {
 							new UnifiedModifier {
 								Name = "public"
@@ -118,7 +118,7 @@ class Klass {
 				Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
 						Name = "Fibonacci",
-						ReturnType = new UnifiedType { Name = "void"},
+						Type = new UnifiedType { Name = "void"},
 						Modifiers = new UnifiedModifierCollection() {
 							new UnifiedModifier {
 								Name = "public"
