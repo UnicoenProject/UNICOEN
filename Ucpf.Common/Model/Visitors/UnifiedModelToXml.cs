@@ -36,7 +36,7 @@ namespace Ucpf.Common.Model.Visitors {
 
 		public void Visit<T>(UnifiedTypedLiteral<T> element) {
 			var xe = new XElement(element.GetType().Name);
-			xe.SetAttributeValue("TypedValue", element.TypedValue);
+			xe.SetAttributeValue("Value", element.Value);
 			_targets.Peek().Add(xe);
 		}
 
@@ -216,6 +216,10 @@ namespace Ucpf.Common.Model.Visitors {
 		}
 
 		public void Visit(UnifiedUnaryExpression element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedProperty element) {
 			throw new NotImplementedException();
 		}
 	}

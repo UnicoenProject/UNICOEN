@@ -16,16 +16,16 @@ namespace Ucpf.Languages.Java.Tests {
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
 				Function = UnifiedVariable.Create("fibonacci"),
-				Arguments = new UnifiedArgumentCollection {
+				Arguments = {
 					decrement == null
-						? (UnifiedArgument)UnifiedVariable.Create("n")
-						: (UnifiedArgument)new UnifiedBinaryExpression {
+						? UnifiedArgument.Create(UnifiedVariable.Create("n"))
+						: UnifiedArgument.Create(new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator =
 						                   	new UnifiedBinaryOperator("-",
 						                   	UnifiedBinaryOperatorType.Subtraction),
-							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
-						}
+							RightHandSide = UnifiedIntegerLiteral.Create((int)decrement),
+						})
 				},
 			};
 		}
@@ -37,7 +37,7 @@ namespace Ucpf.Languages.Java.Tests {
 					p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
-				Modifiers = new UnifiedModifierCollection() {
+				Modifiers = {
 					new UnifiedModifier() {
 						Name = "public"
 					},
@@ -47,7 +47,7 @@ namespace Ucpf.Languages.Java.Tests {
 				},
 				Type = new UnifiedType { Name = "int" },
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection() {
+				Parameters = {
 					new UnifiedParameter() {
 						Modifier = new UnifiedModifier(),
 						Name = "n",

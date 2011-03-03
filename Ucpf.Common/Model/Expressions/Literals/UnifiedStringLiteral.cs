@@ -8,7 +8,7 @@ namespace Ucpf.Common.Model {
 
 		public static UnifiedStringLiteral Create(string value) {
 			return new UnifiedStringLiteral {
-				TypedValue = value,
+				Value = value,
 			};
 		}
 	}

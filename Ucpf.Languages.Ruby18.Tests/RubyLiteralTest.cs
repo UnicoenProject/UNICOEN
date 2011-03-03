@@ -13,7 +13,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 		public void ParseBooleanLiteral(string code, UnifiedBoolean expectation) {
 			var ast = Ruby18AstGenerator.Instance.Generate(code);
 			var lit = RubyModelFactory.CreateBooleanLiteral(ast);
-			Assert.That(lit.TypedValue, Is.EqualTo(expectation));
+			Assert.That(lit.Value, Is.EqualTo(expectation));
 		}
 
 		[Test]
@@ -21,7 +21,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 		public void ParseDecimalLiteral(string code, double expectation) {
 			var ast = Ruby18AstGenerator.Instance.Generate(code);
 			var lit = RubyModelFactory.CreateDecimalLiteral(ast);
-			Assert.That(lit.TypedValue, Is.EqualTo((decimal)expectation));
+			Assert.That(lit.Value, Is.EqualTo((decimal)expectation));
 		}
 
 		[Test]
@@ -29,7 +29,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 		public void ParseIntegerLiteral(string code, int expectation) {
 			var ast = Ruby18AstGenerator.Instance.Generate(code);
 			var lit = RubyModelFactory.CreateLiteral(ast) as UnifiedIntegerLiteral;
-			Assert.That(lit.TypedValue, Is.EqualTo((BigInteger)expectation));
+			Assert.That(lit.Value, Is.EqualTo((BigInteger)expectation));
 		}
 
 		[Test]

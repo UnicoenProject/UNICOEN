@@ -9,6 +9,7 @@ namespace Ucpf.Common.Model {
 		public UnifiedExpression Initializer { get; set; }
 		public UnifiedExpression Condition { get; set; }
 		public UnifiedExpression Step { get; set; }
+		public UnifiedBlock Block { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

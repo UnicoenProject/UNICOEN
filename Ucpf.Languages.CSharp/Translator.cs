@@ -347,7 +347,7 @@ namespace Ucpf.Languages.CSharp {
 			switch (primitive.LiteralFormat) {
 				case LiteralFormat.DecimalNumber:
 					if (primitive.Value is int) {
-						return new UnifiedIntegerLiteral((int)primitive.Value);
+						return UnifiedIntegerLiteral.Create((int)primitive.Value);
 					}
 					break;
 			}

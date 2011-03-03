@@ -9,7 +9,7 @@ namespace Ucpf.Common.Model {
 
 		#region IEqualityComparer<object> Members
 
-		public bool Equals(object x, object y) {
+		bool IEqualityComparer<object>.Equals(object x, object y) {
 			return StructuralEquals(x, y);
 		}
 

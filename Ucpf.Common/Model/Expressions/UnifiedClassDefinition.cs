@@ -6,6 +6,10 @@ namespace Ucpf.Common.Model {
 		public string Name { get; set; }
 		public UnifiedBlock Body { get; set; }
 
+		public UnifiedClassDefinition() {
+			Body = new UnifiedBlock();
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

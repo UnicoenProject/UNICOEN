@@ -6,6 +6,12 @@ namespace Ucpf.Common.Model {
 		public UnifiedParameterCollection Parameters { get; set; }
 		public UnifiedBlock Block { get; set; }
 
+		public UnifiedConstructorDefinition() {
+			Modifiers = new UnifiedModifierCollection();
+			Parameters = new UnifiedParameterCollection();
+			Block = new UnifiedBlock();
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

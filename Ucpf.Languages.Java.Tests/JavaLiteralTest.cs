@@ -35,7 +35,7 @@ namespace Ucpf.Languages.Java.Tests
         {
             var ast = JavaAstGenerator.Instance.Generate(code);
             var lit = JavaModelFactory.CreateBooleanLiteral(ast);
-            Assert.That(lit.TypedValue, Is.EqualTo(expectation));
+            Assert.That(lit.Value, Is.EqualTo(expectation));
         }
 
         [Test, Ignore]
@@ -44,7 +44,7 @@ namespace Ucpf.Languages.Java.Tests
         {
             var ast = JavaAstGenerator.Instance.Generate(code);
             var lit = JavaModelFactory.CreateIntegerLiteral(ast);
-            Assert.That(lit.TypedValue, Is.EqualTo((BigInteger)expectation));
+            Assert.That(lit.Value, Is.EqualTo((BigInteger)expectation));
         }
 
         [Test, Ignore]
@@ -53,7 +53,7 @@ namespace Ucpf.Languages.Java.Tests
         {
             var ast = JavaAstGenerator.Instance.Generate(code);
             var lit = JavaModelFactory.CreateDecimalLiteral(ast);
-            Assert.That(lit.TypedValue, Is.EqualTo((decimal)expectation));
+            Assert.That(lit.Value, Is.EqualTo((decimal)expectation));
         }
     }
 }

@@ -29,5 +29,6 @@ namespace Ucpf.Common.Model.Visitors {
 		void Visit(UnifiedFor element);
 		void Visit(UnifiedForeach element);
 		void Visit(UnifiedUnaryExpression element);
+		void Visit(UnifiedProperty element);
 	}
 }

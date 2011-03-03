@@ -8,7 +8,7 @@ public class Student {
 	public String getName() {
 		return _name;
 	}
-
+	
 	public static void main(String[] args) {
 		Student[] students = new Student[2];
 		students[0] = new Student("Tom");
@@ -18,7 +18,7 @@ public class Student {
 			write(students[i].getName());
 		}
 		foreach (Student student in students) {
-			Console.WriteLine(student.getName());
+			write(student.getName());
 		}
 	}
 }

@@ -12,14 +12,14 @@ namespace Ucpf.Common.Tests.Visitors {
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
 				Function = UnifiedVariable.Create("fibonacci"),
-				Arguments = new UnifiedArgumentCollection {
+				Arguments = {
 					decrement == null
-						? (UnifiedArgument)UnifiedVariable.Create("n")
-						: (UnifiedArgument)new UnifiedBinaryExpression {
+						? UnifiedArgument.Create(UnifiedVariable.Create("n"))
+						: UnifiedArgument.Create(new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
-							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
-						}
+							RightHandSide = UnifiedIntegerLiteral.Create((int)decrement),
+						})
 				},
 			};
 		}
@@ -33,7 +33,7 @@ namespace Ucpf.Common.Tests.Visitors {
 		public void GenerateDefineFunction() {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
 				Block = new UnifiedBlock(),
@@ -56,10 +56,10 @@ namespace Ucpf.Common.Tests.Visitors {
 		public void GenerateReturn() {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
-				Block = new UnifiedBlock {
+				Block = {
 					new UnifiedReturn {
 						Value = UnifiedVariable.Create("n")
 					}
@@ -87,10 +87,10 @@ namespace Ucpf.Common.Tests.Visitors {
 		public void GenerateFunctionCall() {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
-				Block = new UnifiedBlock {
+				Block = {
 					new UnifiedReturn {
 						Value = CreateCall(null)
 					}
@@ -125,10 +125,10 @@ namespace Ucpf.Common.Tests.Visitors {
 		public void GenerateFunctionCall2() {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
-				Block = new UnifiedBlock {
+				Block = {
 					new UnifiedReturn {
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
@@ -155,7 +155,7 @@ namespace Ucpf.Common.Tests.Visitors {
 							<UnifiedBinaryExpression>
 								<UnifiedVariable Name=""n"" />
 								<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
-								<UnifiedIntegerLiteral TypedValue=""1"" />
+								<UnifiedIntegerLiteral Value=""1"" />
 							</UnifiedBinaryExpression>
 						</UnifiedArgument>
 					</UnifiedArgumentCollection>
@@ -168,7 +168,7 @@ namespace Ucpf.Common.Tests.Visitors {
 							<UnifiedBinaryExpression>
 								<UnifiedVariable Name=""n"" />
 								<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
-								<UnifiedIntegerLiteral TypedValue=""2"" />
+								<UnifiedIntegerLiteral Value=""2"" />
 							</UnifiedBinaryExpression>
 						</UnifiedArgument>
 					</UnifiedArgumentCollection>
@@ -186,21 +186,21 @@ namespace Ucpf.Common.Tests.Visitors {
 		public void GenerateIf() {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock {
+				Block = {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
-							RightHandSide = new UnifiedIntegerLiteral(2),
+							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = new UnifiedBlock {
+						TrueBlock = {
 							new UnifiedReturn{ Value = UnifiedVariable.Create("n") }
 						},
-						FalseBlock = new UnifiedBlock {
-							new UnifiedReturn{ Value = new UnifiedIntegerLiteral(0) }
+						FalseBlock = {
+							new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(0) }
 						},
 					},
 				},
@@ -217,7 +217,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			<UnifiedBinaryExpression>
 				<UnifiedVariable Name = ""n"" />
 				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
-				<UnifiedIntegerLiteral TypedValue = ""2"" />
+				<UnifiedIntegerLiteral Value = ""2"" />
 			</UnifiedBinaryExpression>
 			<UnifiedBlock>
 				<UnifiedReturn>
@@ -226,7 +226,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			</UnifiedBlock>
 			<UnifiedBlock>
 				<UnifiedReturn>
-					<UnifiedIntegerLiteral TypedValue = ""0"" />
+					<UnifiedIntegerLiteral Value = ""0"" />
 				</UnifiedReturn>
 			</UnifiedBlock>
 		</UnifiedIf>
@@ -241,20 +241,20 @@ namespace Ucpf.Common.Tests.Visitors {
 		public void GenerateFibonacci() {
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock {
+				Block = {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
-							RightHandSide = new UnifiedIntegerLiteral(2),
+							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = new UnifiedBlock {
+						TrueBlock = {
 							new UnifiedReturn { Value = UnifiedVariable.Create("n") }
 						},
-						FalseBlock = new UnifiedBlock {
+						FalseBlock = {
 							new UnifiedReturn {
 								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
@@ -278,7 +278,7 @@ namespace Ucpf.Common.Tests.Visitors {
 			<UnifiedBinaryExpression>
 				<UnifiedVariable Name = ""n"" />
 				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
-				<UnifiedIntegerLiteral TypedValue = ""2"" />
+				<UnifiedIntegerLiteral Value = ""2"" />
 			</UnifiedBinaryExpression>
 			<UnifiedBlock>
 				<UnifiedReturn>
@@ -295,7 +295,7 @@ namespace Ucpf.Common.Tests.Visitors {
 									<UnifiedBinaryExpression>
 										<UnifiedVariable Name=""n"" />
 										<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
-										<UnifiedIntegerLiteral TypedValue=""1"" />
+										<UnifiedIntegerLiteral Value=""1"" />
 									</UnifiedBinaryExpression>
 								</UnifiedArgument>
 							</UnifiedArgumentCollection>
@@ -308,7 +308,7 @@ namespace Ucpf.Common.Tests.Visitors {
 									<UnifiedBinaryExpression>
 										<UnifiedVariable Name=""n"" />
 										<UnifiedBinaryOperator Sign=""-"" Type=""Subtraction"" />
-										<UnifiedIntegerLiteral TypedValue=""2"" />
+										<UnifiedIntegerLiteral Value=""2"" />
 									</UnifiedBinaryExpression>
 								</UnifiedArgument>
 							</UnifiedArgumentCollection>

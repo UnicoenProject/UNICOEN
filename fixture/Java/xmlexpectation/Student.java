@@ -808,14 +808,10 @@
                                                             <unaryExpression>
                                                               <unaryExpressionNotPlusMinus>
                                                                 <primary>
-                                                                  <IDENTIFIER startline="18" startpos="3">System</IDENTIFIER>
-                                                                  <DOT startline="18" startpos="9">.</DOT>
-                                                                  <IDENTIFIER startline="18" startpos="10">out</IDENTIFIER>
-                                                                  <DOT startline="18" startpos="13">.</DOT>
-                                                                  <IDENTIFIER startline="18" startpos="14">println</IDENTIFIER>
+                                                                  <IDENTIFIER startline="18" startpos="3">write</IDENTIFIER>
                                                                   <identifierSuffix>
                                                                     <arguments>
-                                                                      <LPAREN startline="18" startpos="21">(</LPAREN>
+                                                                      <LPAREN startline="18" startpos="8">(</LPAREN>
                                                                       <expressionList>
                                                                         <expression>
                                                                           <conditionalExpression>
@@ -833,9 +829,9 @@
                                                                                                   <unaryExpression>
                                                                                                     <unaryExpressionNotPlusMinus>
                                                                                                       <primary>
-                                                                                                        <IDENTIFIER startline="18" startpos="22">students</IDENTIFIER>
+                                                                                                        <IDENTIFIER startline="18" startpos="9">students</IDENTIFIER>
                                                                                                         <identifierSuffix>
-                                                                                                          <LBRACKET startline="18" startpos="30">[</LBRACKET>
+                                                                                                          <LBRACKET startline="18" startpos="17">[</LBRACKET>
                                                                                                           <expression>
                                                                                                             <conditionalExpression>
                                                                                                               <conditionalOrExpression>
@@ -852,7 +848,7 @@
                                                                                                                                     <unaryExpression>
                                                                                                                                       <unaryExpressionNotPlusMinus>
                                                                                                                                         <primary>
-                                                                                                                                          <IDENTIFIER startline="18" startpos="31">i</IDENTIFIER>
+                                                                                                                                          <IDENTIFIER startline="18" startpos="18">i</IDENTIFIER>
                                                                                                                                         </primary>
                                                                                                                                       </unaryExpressionNotPlusMinus>
                                                                                                                                     </unaryExpression>
@@ -869,15 +865,15 @@
                                                                                                               </conditionalOrExpression>
                                                                                                             </conditionalExpression>
                                                                                                           </expression>
-                                                                                                          <RBRACKET startline="18" startpos="32">]</RBRACKET>
+                                                                                                          <RBRACKET startline="18" startpos="19">]</RBRACKET>
                                                                                                         </identifierSuffix>
                                                                                                       </primary>
                                                                                                       <selector>
-                                                                                                        <DOT startline="18" startpos="33">.</DOT>
-                                                                                                        <IDENTIFIER startline="18" startpos="34">getName</IDENTIFIER>
+                                                                                                        <DOT startline="18" startpos="20">.</DOT>
+                                                                                                        <IDENTIFIER startline="18" startpos="21">getName</IDENTIFIER>
                                                                                                         <arguments>
-                                                                                                          <LPAREN startline="18" startpos="41">(</LPAREN>
-                                                                                                          <RPAREN startline="18" startpos="42">)</RPAREN>
+                                                                                                          <LPAREN startline="18" startpos="28">(</LPAREN>
+                                                                                                          <RPAREN startline="18" startpos="29">)</RPAREN>
                                                                                                         </arguments>
                                                                                                       </selector>
                                                                                                     </unaryExpressionNotPlusMinus>
@@ -896,7 +892,7 @@
                                                                           </conditionalExpression>
                                                                         </expression>
                                                                       </expressionList>
-                                                                      <RPAREN startline="18" startpos="43">)</RPAREN>
+                                                                      <RPAREN startline="18" startpos="30">)</RPAREN>
                                                                     </arguments>
                                                                   </identifierSuffix>
                                                                 </primary>
@@ -915,7 +911,7 @@
                                       </conditionalOrExpression>
                                     </conditionalExpression>
                                   </expression>
-                                  <SEMI startline="18" startpos="44">;</SEMI>
+                                  <SEMI startline="18" startpos="31">;</SEMI>
                                 </statement>
                               </blockStatement>
                               <RBRACE startline="19" startpos="2">}</RBRACE>
@@ -992,14 +988,10 @@
                                                             <unaryExpression>
                                                               <unaryExpressionNotPlusMinus>
                                                                 <primary>
-                                                                  <IDENTIFIER startline="21" startpos="3">System</IDENTIFIER>
-                                                                  <DOT startline="21" startpos="9">.</DOT>
-                                                                  <IDENTIFIER startline="21" startpos="10">out</IDENTIFIER>
-                                                                  <DOT startline="21" startpos="13">.</DOT>
-                                                                  <IDENTIFIER startline="21" startpos="14">println</IDENTIFIER>
+                                                                  <IDENTIFIER startline="21" startpos="3">write</IDENTIFIER>
                                                                   <identifierSuffix>
                                                                     <arguments>
-                                                                      <LPAREN startline="21" startpos="21">(</LPAREN>
+                                                                      <LPAREN startline="21" startpos="8">(</LPAREN>
                                                                       <expressionList>
                                                                         <expression>
                                                                           <conditionalExpression>
@@ -1017,13 +1009,13 @@
                                                                                                   <unaryExpression>
                                                                                                     <unaryExpressionNotPlusMinus>
                                                                                                       <primary>
-                                                                                                        <IDENTIFIER startline="21" startpos="22">student</IDENTIFIER>
-                                                                                                        <DOT startline="21" startpos="29">.</DOT>
-                                                                                                        <IDENTIFIER startline="21" startpos="30">getName</IDENTIFIER>
+                                                                                                        <IDENTIFIER startline="21" startpos="9">student</IDENTIFIER>
+                                                                                                        <DOT startline="21" startpos="16">.</DOT>
+                                                                                                        <IDENTIFIER startline="21" startpos="17">getName</IDENTIFIER>
                                                                                                         <identifierSuffix>
                                                                                                           <arguments>
-                                                                                                            <LPAREN startline="21" startpos="37">(</LPAREN>
-                                                                                                            <RPAREN startline="21" startpos="38">)</RPAREN>
+                                                                                                            <LPAREN startline="21" startpos="24">(</LPAREN>
+                                                                                                            <RPAREN startline="21" startpos="25">)</RPAREN>
                                                                                                           </arguments>
                                                                                                         </identifierSuffix>
                                                                                                       </primary>
@@ -1043,7 +1035,7 @@
                                                                           </conditionalExpression>
                                                                         </expression>
                                                                       </expressionList>
-                                                                      <RPAREN startline="21" startpos="39">)</RPAREN>
+                                                                      <RPAREN startline="21" startpos="26">)</RPAREN>
                                                                     </arguments>
                                                                   </identifierSuffix>
                                                                 </primary>
@@ -1062,7 +1054,7 @@
                                       </conditionalOrExpression>
                                     </conditionalExpression>
                                   </expression>
-                                  <SEMI startline="21" startpos="40">;</SEMI>
+                                  <SEMI startline="21" startpos="27">;</SEMI>
                                 </statement>
                               </blockStatement>
                               <RBRACE startline="22" startpos="2">}</RBRACE>

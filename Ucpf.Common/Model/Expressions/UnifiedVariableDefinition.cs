@@ -11,6 +11,10 @@ namespace Ucpf.Common.Model {
 		public string Name { get; set; }
 		public UnifiedExpression InitialValue { get; set; }
 
+		public UnifiedVariableDefinition() {
+			Modifiers = new UnifiedModifierCollection();
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

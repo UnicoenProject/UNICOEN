@@ -27,43 +27,43 @@ print fib(20)
 			new UnifiedBlock {
 				new UnifiedFunctionDefinition {
 					Name = "fib",
-					Parameters = new UnifiedParameterCollection {
+					Parameters = {
 						new UnifiedParameter{ Name = "n" }
 					},
-					Block = new UnifiedBlock {
+					Block = {
 						new UnifiedIf {
 							Condition = new UnifiedBinaryExpression {
 								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterEqual),
 								LeftHandSide = UnifiedVariable.Create("n"),
-								RightHandSide = new UnifiedIntegerLiteral(1),
+								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
-							TrueBlock = new UnifiedBlock {
+							TrueBlock = {
 								new UnifiedReturn {
 									Value = UnifiedVariable.Create("n")
 								}
 							},
-							FalseBlock = new UnifiedBlock {
+							FalseBlock = {
 								new UnifiedReturn {
 									Value	= new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition),
 										LeftHandSide = new UnifiedCall {
 											Function = UnifiedVariable.Create("fib"),
-											Arguments = new UnifiedArgumentCollection {
-												(UnifiedArgument)new UnifiedBinaryExpression {
+											Arguments = {
+												UnifiedArgument.Create(new UnifiedBinaryExpression {
 													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 													LeftHandSide = UnifiedVariable.Create("n"),
-													RightHandSide = new UnifiedIntegerLiteral(1)
-												}
+													RightHandSide = UnifiedIntegerLiteral.Create(1)
+												})
 											}
 										},
 										RightHandSide = new UnifiedCall {
 											Function = UnifiedVariable.Create("fib"),
-											Arguments = new UnifiedArgumentCollection {
-												(UnifiedArgument)new UnifiedBinaryExpression {
+											Arguments = {
+												UnifiedArgument.Create(new UnifiedBinaryExpression {
 													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtraction),
 													LeftHandSide = UnifiedVariable.Create("n"),
-													RightHandSide = new UnifiedIntegerLiteral(2)
-												}
+													RightHandSide = UnifiedIntegerLiteral.Create(2)
+												}),
 											}
 										}
 									}
@@ -74,13 +74,13 @@ print fib(20)
 				},
 				new UnifiedCall {
 					Function = UnifiedVariable.Create("print"),
-					Arguments = new UnifiedArgumentCollection {
-						(UnifiedArgument)new UnifiedCall {
+					Arguments = {
+						UnifiedArgument.Create(new UnifiedCall {
 							Function = UnifiedVariable.Create("fib"),
-							Arguments = new UnifiedArgumentCollection {
-								(UnifiedArgument)new UnifiedIntegerLiteral(20),
+							Arguments = {
+								UnifiedArgument.Create(UnifiedIntegerLiteral.Create(20)),
 							}
-						}
+						}),
 					}
 				}
 			};

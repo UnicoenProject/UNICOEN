@@ -5,6 +5,10 @@ namespace Ucpf.Common.Model {
 		public UnifiedExpression Function { get; set; }
 		public UnifiedArgumentCollection Arguments { get; set; }
 
+		public UnifiedCall() {
+			Arguments = new UnifiedArgumentCollection();
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
