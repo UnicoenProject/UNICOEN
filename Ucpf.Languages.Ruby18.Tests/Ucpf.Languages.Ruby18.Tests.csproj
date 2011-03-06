@@ -68,18 +68,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RubyFibonacciTest.cs" />
-    <Compile Include="RubyModelCodeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RubyLiteralTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Common.Tests\Ucpf.Common.Tests.csproj">
-      <Project>{A8E01172-723F-4F92-9B7C-31D8F8716AF3}</Project>
-      <Name>Ucpf.Common.Tests</Name>
+    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Core\Code2Xml.Core.csproj">
+      <Project>{BCCD95A9-7685-4B15-9DA3-E48CC0BF499B}</Project>
+      <Name>Code2Xml.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
+    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Languages.Ruby18\Code2Xml.Languages.Ruby18.csproj">
+      <Project>{3DFDAB7B-6602-46D5-BDFB-4E647D21B46A}</Project>
+      <Name>Code2Xml.Languages.Ruby18</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Core\Ucpf.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Ucpf.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>

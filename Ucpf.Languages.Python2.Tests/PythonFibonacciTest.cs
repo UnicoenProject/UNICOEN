@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Code2Xml.Languages.Python2.XmlGenerators;
 using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Languages.Python2.AstGenerators;
+using Ucpf.Core.Model;
+using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Core.Model.Expressions.Operators;
 using Ucpf.Languages.Python2.Model;
 
 namespace Ucpf.Languages.Python2.Tests {
@@ -89,7 +92,7 @@ print fib(20)
 
 		[Test, Ignore]
 		public void TestFibonacci() {
-			var xml = Python2AstGenerator.Instance.Generate(TestCode);
+			var xml = Python2XmlGenerator.Instance.Generate(TestCode);
 			var model = PythonModelFactory.CreateBlock(xml);
 			Assert.That(model, Is.EqualTo(ExpectedModel)
 				.Using(StructuralEqualityComparer.Instance));

@@ -45,36 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AstGenerators\JavaScriptAstGenerator.cs" />
-    <Compile Include="AstGenerators\JavaScriptLexer.cs" />
-    <Compile Include="AstGenerators\JavaScriptParser.cs" />
-    <Compile Include="CodeGenerators\JavaScriptCodeGenerator.cs" />
-    <Compile Include="Model\Expressions\JSCallExpression.cs" />
     <Compile Include="Model\JSModelFactory.cs" />
-    <Compile Include="Model\JSModelToCode.cs" />
-    <Compile Include="Model\Statements\JSBlock.cs" />
-    <Compile Include="Model\Expressions\JSBinaryExpression.cs" />
-    <Compile Include="Model\Expressions\JSExpression.cs" />
-    <Compile Include="Model\JSFunctionBody.cs" />
-    <Compile Include="Model\JSFunction.cs" />
-    <Compile Include="Model\Statements\JSIfStatement.cs" />
-    <Compile Include="Model\Operators\JSBinaryOperator.cs" />
-    <Compile Include="Model\Operators\JSUnaryOperator.cs" />
-    <Compile Include="Model\Expressions\JSPrimaryExpression.cs" />
-    <Compile Include="Model\JSProgram.cs" />
-    <Compile Include="Model\Statements\JSReturnStatement.cs" />
-    <Compile Include="Model\Statements\JSStatement.cs" />
-    <Compile Include="Model\Expressions\JSUnaryExpression.cs" />
-    <Compile Include="Model\JSVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AstGenerators\JavaScript.g" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
+    <ProjectReference Include="..\Ucpf.Core\Ucpf.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Ucpf.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

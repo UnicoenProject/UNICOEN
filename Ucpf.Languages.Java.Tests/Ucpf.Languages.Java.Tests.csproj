@@ -48,23 +48,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaFibonacciTest.cs" />
-    <Compile Include="JavaAstGeneratorTest.cs" />
-    <Compile Include="JavaCodeModelTest.cs" />
     <Compile Include="JavaLiteralTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Common.Tests\Ucpf.Common.Tests.csproj">
-      <Project>{A8E01172-723F-4F92-9B7C-31D8F8716AF3}</Project>
-      <Name>Ucpf.Common.Tests</Name>
+    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Core\Code2Xml.Core.csproj">
+      <Project>{BCCD95A9-7685-4B15-9DA3-E48CC0BF499B}</Project>
+      <Name>Code2Xml.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Languages.Java\Code2Xml.Languages.Java.csproj">
+      <Project>{341BDD4B-B758-4E15-8C13-E30268F8E758}</Project>
+      <Name>Code2Xml.Languages.Java</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Core\Ucpf.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Ucpf.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.Java\Ucpf.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Ucpf.Languages.Java</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

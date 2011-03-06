@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
-using Ucpf.Common.Model;
 using ICSharpCode.NRefactory.Parser;
+using Ucpf.Core.Model;
 
 namespace Ucpf.Languages.CSharp {
 
