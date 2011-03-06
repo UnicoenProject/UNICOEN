@@ -68,8 +68,6 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 		[Test]
 		public void CreateClassDefinition() {
-			var actual = CSharpModelFactory.CreateModel(_source);
-
 			var expected = new UnifiedProgram {
 				new UnifiedClassDefinition {
 					Name = "Student",
@@ -216,7 +214,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 					}
 				},
 			};
-				
+
+			var actual = CSharpModelFactory.CreateModel(_source);
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}

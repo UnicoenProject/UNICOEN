@@ -3,9 +3,8 @@ using System.Linq;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.NRefactory.Parser;
-using Ucpf.Core.Model;
-using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Common.Model;
+using System.Collections.Generic;
 
 namespace Ucpf.Languages.CSharp {
 
@@ -18,76 +17,168 @@ namespace Ucpf.Languages.CSharp {
 				return compilationUnit.Children[0].AcceptVisitor(this, data);
 			}
 			var stmts = compilationUnit.Children
-				.Select(node => node.AcceptVisitor(this, data));
-			return ToBlock(stmts);
+				.Select(node => node.AcceptVisitor(this, data))
+				.ToList();
+			return ToFlattenBlock(stmts);
 		}
 
 		public object VisitTypeDeclaration(TypeDeclaration typeDeclaration, object data) {
 			var stmts = typeDeclaration.Children
-				.Select(node => node.AcceptVisitor(this, data));
+				.Select(node => node.AcceptVisitor(this, data))
+				.ToList();
 			return new UnifiedClassDefinition {
 				Name = typeDeclaration.Name,
-				Body = ToBlock(stmts)
+				Body = ToFlattenBlock(stmts)
 			};
 		}
 
 		public object VisitFieldDeclaration(FieldDeclaration dec, object data) {
 			var modifier = ConvertModifiler(dec.Modifier);
-			var type = GetTypeName(dec.TypeReference);
-			foreach (var varDec in dec.Fields) {
-				var name = varDec.Name;
-				var value =
-					varDec.Initializer.AcceptVisitor(this, null) as UnifiedExpression;
-			}
-			return new UnifiedVariableDefinition {
+			var type = ConvertType(dec.TypeReference);
+			var decs =
+				from varDec in dec.Fields
+				let name = varDec.Name
+				let value =
+					varDec.Initializer.AcceptVisitor(this, null) as UnifiedExpression
+				select new UnifiedVariableDefinition {
+					Name = name,
+					Type = type,
+					Modifiers = modifier,
+					InitialValue = value,
+				};
+			return decs.ToList();
+		}
 
+		public object VisitConstructorDeclaration(ConstructorDeclaration ctorDec, object data) {
+			var modifier = ConvertModifiler(ctorDec.Modifier);
+			var parameters = ConvertParameters(ctorDec.Parameters);
+			var block = VisitBlockStatement(ctorDec.Body, null) as UnifiedBlock;
+			return new UnifiedConstructorDefinition {
+				Modifiers = modifier,
+				Parameters = parameters,
+				Block = block,
 			};
 		}
 
 		public object VisitMethodDeclaration(MethodDeclaration method, object data) {
-			var parameters = new UnifiedParameterCollection(
-				method.Parameters
-					.Select(p => VisitParameterDeclarationExpression(p, data))
-					.OfType<UnifiedParameter>());
-			var modifiers = new UnifiedModifierCollection();
+			var parameters = ConvertParameters(method.Parameters);
 			return new UnifiedFunctionDefinition {
 				Name = method.Name,
 				Modifiers = ConvertModifiler(method.Modifier),
 				Parameters = parameters,
-				Type = GetTypeName(method.TypeReference),
+				Type = ConvertType(method.TypeReference),
 				Block = VisitBlockStatement(method.Body, data) as UnifiedBlock
 			};
 		}
 
+		private static UnifiedParameterCollection ConvertParameters(IEnumerable<ParameterDeclarationExpression> parameters) {
+			return new UnifiedParameterCollection(
+				parameters.Select(ConvertParameter));
+		}
 
 		public object VisitParameterDeclarationExpression(ParameterDeclarationExpression parameter, object data) {
+			return ConvertParameter(parameter);
+		}
+
+		private static UnifiedParameter ConvertParameter(ParameterDeclarationExpression parameter) {
 			return new UnifiedParameter {
 				Name = parameter.ParameterName,
-				Type = GetTypeName(parameter.TypeReference),
+				Type = ConvertType(parameter.TypeReference),
 			};
 		}
 
-
 		#endregion
 
-		#region in block
+		#region block and statements
+
+		private UnifiedExpression ConvertStatement(Statement stmt) {
+			return stmt.AcceptVisitor(this, null) as UnifiedExpression;
+		}
+
+		private UnifiedBlock ConvertStatementAsBlock(Statement stmt) {
+			if (stmt is BlockStatement) {
+				return VisitBlockStatement((BlockStatement)stmt, null) as UnifiedBlock;
+			}
+			return new UnifiedBlock { ConvertStatement(stmt) };
+		}
+
+		private UnifiedExpression ConvertStatements(IList<Statement> stmts) {
+			if (stmts.Count == 1)
+				return ConvertStatement(stmts[0]);
+			else
+				return ConvertStatementsAsBlock(stmts);
+		}
+
+		private UnifiedBlock ConvertStatementsAsBlock(IEnumerable<Statement> stmts) {
+			var block = new UnifiedBlock();
+			foreach (var stmt in stmts) {
+				block.Add(ConvertStatement(stmt));
+			}
+			return block;
+		}
 
 		public object VisitBlockStatement(BlockStatement block, object data) {
 			var stmts = block.Children
-				.Select(node => node.AcceptVisitor(this, data));
-			return ToBlock(stmts);
+				.Select(node => node.AcceptVisitor(this, null))
+				.ToList();
+			return ToFlattenBlock(stmts);
+		}
+
+		public object VisitLocalVariableDeclaration(LocalVariableDeclaration dec, object data) {
+			var modifier = ConvertModifiler(dec.Modifier);
+			var type = ConvertType(dec.TypeReference);
+			var decs =
+				from varDec in dec.Variables
+				let name = varDec.Name
+				let value =
+					varDec.Initializer.AcceptVisitor(this, null) as UnifiedExpression
+				select new UnifiedVariableDefinition {
+					Name = name,
+					Type = type,
+					Modifiers = modifier,
+					InitialValue = value,
+				};
+			return decs.ToList();
 		}
 
 		public object VisitIfElseStatement(IfElseStatement stmt, object data) {
 			var cond = stmt.Condition.AcceptVisitor(this, data) as UnifiedExpression;
 			var trueStmt = stmt.TrueStatement
-				.Select(s => s.AcceptVisitor(this, data));
+				.Select(s => s.AcceptVisitor(this, data))
+				.ToList();
 			var falseStmt = stmt.FalseStatement
-				.Select(s => s.AcceptVisitor(this, data));
+				.Select(s => s.AcceptVisitor(this, data))
+				.ToList();
 			return new UnifiedIf {
 				Condition = cond,
-				TrueBlock = ToBlock(trueStmt),
-				FalseBlock = ToBlock(falseStmt),
+				TrueBlock = ToFlattenBlock(trueStmt),
+				FalseBlock = ToFlattenBlock(falseStmt),
+			};
+		}
+
+		public object VisitForStatement(ForStatement forStatement, object data) {
+			var init = ConvertStatements(forStatement.Initializers);
+			var cond = ConvertExpression(forStatement.Condition);
+			var step = ConvertStatements(forStatement.Iterator);
+			var body = ConvertStatementAsBlock(forStatement.EmbeddedStatement);
+			return new UnifiedFor {
+				Initializer = init,
+				Condition = cond,
+				Step = step,
+				Block = body
+			};
+		}
+
+		public object VisitForeachStatement(ForeachStatement stmt, object data) {
+			var type = ConvertType(stmt.TypeReference);
+			var name = stmt.VariableName;
+			var set = ConvertExpression(stmt.NextExpression);
+			var body = ConvertStatementAsBlock(stmt.EmbeddedStatement);
+
+			return new UnifiedForeach {
+				Element = new UnifiedVariableDefinition { Type = type, Name = name },
+				Set = set,
+				Block = body,
 			};
 		}
 
@@ -96,9 +187,17 @@ namespace Ucpf.Languages.CSharp {
 			return new UnifiedReturn { Value = value };
 		}
 
+		public object VisitExpressionStatement(ExpressionStatement stmt, object data) {
+			return stmt.Expression.AcceptVisitor(this, data);
+		}
+
 		#endregion
 
 		#region expression
+
+		private UnifiedExpression ConvertExpression(Expression expr) {
+			return expr.AcceptVisitor(this, null) as UnifiedExpression;
+		}
 
 		public object VisitPrimitiveExpression(PrimitiveExpression primitive, object data) {
 			switch (primitive.LiteralFormat) {
@@ -112,16 +211,9 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitInvocationExpression(InvocationExpression invoke, object data) {
-			var target =
-				invoke.TargetObject.AcceptVisitor(this, data) as UnifiedExpression;
-			var args = invoke.Arguments
-				.Select(exp => exp.AcceptVisitor(this, data))
-				.OfType<UnifiedExpression>()
-				.Select(exp => new UnifiedArgument { Value = exp });
-			return new UnifiedCall {
-				Function = target,
-				Arguments = new UnifiedArgumentCollection(args)
-			};
+			var target = ConvertExpression(invoke.TargetObject);
+			var args = ConvertArguments(invoke.Arguments);
+			return new UnifiedCall { Function = target, Arguments = args };
 		}
 
 		public object VisitIdentifierExpression(IdentifierExpression ident, object data) {
@@ -129,9 +221,9 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitBinaryOperatorExpression(BinaryOperatorExpression expr, object data) {
-			var op = ConvertOperator(expr.Op);
-			var left = expr.Left.AcceptVisitor(this, data) as UnifiedExpression;
-			var right = expr.Right.AcceptVisitor(this, data) as UnifiedExpression;
+			var op = ConvertBinaryOperator(expr.Op);
+			var left = ConvertExpression(expr.Left);
+			var right = ConvertExpression(expr.Right);
 			return new UnifiedBinaryExpression {
 				Operator = op,
 				LeftHandSide = left,
@@ -139,292 +231,298 @@ namespace Ucpf.Languages.CSharp {
 			};
 		}
 
+		public object VisitAssignmentExpression(AssignmentExpression assign, object data) {
+			var op = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment);
+			var left = ConvertExpression(assign.Left);
+			var right = ConvertExpression(assign.Right);
+			return new UnifiedBinaryExpression {
+				Operator = op,
+				LeftHandSide = left,
+				RightHandSide = right,
+			};
+		}
+
+		public object VisitArrayCreateExpression(ArrayCreateExpression expr, object data) {
+			var arrayType = ConvertType(expr.CreateType);
+			var args = ConvertArguments(expr.Arguments);
+			return new UnifiedArrayNew { Type = arrayType, Arguments = args };
+		}
+
+		public object VisitIndexerExpression(IndexerExpression expr, object data) {
+			var target = ConvertExpression(expr.TargetObject);
+			var args = ConvertArguments(expr.Indexes);
+			return new UnifiedIndexer { Target = target, Arguments = args };
+		}
+
+		private UnifiedArgumentCollection ConvertArguments(IEnumerable<Expression> args) {
+			return new UnifiedArgumentCollection(
+				args.Select(arg => new UnifiedArgument { Value = ConvertExpression(arg) }));
+		}
+
+		public object VisitObjectCreateExpression(ObjectCreateExpression expr, object data) {
+			var type = ConvertType(expr.CreateType);
+			var args = ConvertArguments(expr.Parameters);
+			return new UnifiedNew { Type = type, Arguments = args };
+		}
+
+		public object VisitMemberReferenceExpression(MemberReferenceExpression expr, object data) {
+			var target = ConvertExpression(expr.TargetObject);
+			var name = expr.MemberName;
+			return new UnifiedProperty { Owner = target, Name = name };
+		}
+
+		public object VisitUnaryOperatorExpression(UnaryOperatorExpression expr, object data) {
+			var op = ConvertUnaryOperator(expr.Op);
+			var target = ConvertExpression(expr.Expression);
+			return new UnifiedUnaryExpression { Operator = op, Operand = target };
+		}
+
 		#endregion
 
 		#region not implemented
 
 		public object VisitAddHandlerStatement(AddHandlerStatement addHandlerStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitAddHandlerStatement");
 		}
 
 		public object VisitAddressOfExpression(AddressOfExpression addressOfExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitAddressOfExpression");
 		}
 
 		public object VisitAnonymousMethodExpression(AnonymousMethodExpression anonymousMethodExpression, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitArrayCreateExpression(ArrayCreateExpression arrayCreateExpression, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitAssignmentExpression(AssignmentExpression assignmentExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitAnonymousMethodExpression");
 		}
 
 		public object VisitAttribute(ICSharpCode.NRefactory.Ast.Attribute attribute, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitAttribute");
 		}
 
 		public object VisitAttributeSection(AttributeSection attributeSection, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitAttributeSection");
 		}
 
 		public object VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitBaseReferenceExpression");
 		}
 
 		public object VisitBreakStatement(BreakStatement breakStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitBreakStatement");
 		}
 
 		public object VisitCaseLabel(CaseLabel caseLabel, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitCaseLabel");
 		}
 
 		public object VisitCastExpression(CastExpression castExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitCastExpression");
 		}
 
 		public object VisitCatchClause(CatchClause catchClause, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitCatchClause");
 		}
 
 		public object VisitCheckedExpression(CheckedExpression checkedExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitCheckedExpression");
 		}
 
 		public object VisitCheckedStatement(CheckedStatement checkedStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitCheckedStatement");
 		}
 
 		public object VisitClassReferenceExpression(ClassReferenceExpression classReferenceExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitClassReferenceExpression");
 		}
 
 		public object VisitCollectionInitializerExpression(CollectionInitializerExpression collectionInitializerExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitCollectionInitializerExpression");
 		}
 
 		public object VisitCollectionRangeVariable(CollectionRangeVariable collectionRangeVariable, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitCollectionRangeVariable");
 		}
 
 		public object VisitConditionalExpression(ConditionalExpression conditionalExpression, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitConstructorDeclaration(ConstructorDeclaration constructorDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitConditionalExpression");
 		}
 
 		public object VisitConstructorInitializer(ConstructorInitializer constructorInitializer, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitConstructorInitializer");
 		}
 
 		public object VisitContinueStatement(ContinueStatement continueStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitContinueStatement");
 		}
 
 		public object VisitDeclareDeclaration(DeclareDeclaration declareDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitDeclareDeclaration");
 		}
 
 		public object VisitDefaultValueExpression(DefaultValueExpression defaultValueExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitDefaultValueExpression");
 		}
 
 		public object VisitDelegateDeclaration(DelegateDeclaration delegateDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitDelegateDeclaration");
 		}
 
 		public object VisitDestructorDeclaration(DestructorDeclaration destructorDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitDestructorDeclaration");
 		}
 
 		public object VisitDirectionExpression(DirectionExpression directionExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitDirectionExpression");
 		}
 
 		public object VisitDoLoopStatement(DoLoopStatement doLoopStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitDoLoopStatement");
 		}
 
 		public object VisitElseIfSection(ElseIfSection elseIfSection, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitElseIfSection");
 		}
 
 		public object VisitEmptyStatement(EmptyStatement emptyStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitEmptyStatement");
 		}
 
 		public object VisitEndStatement(EndStatement endStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitEndStatement");
 		}
 
 		public object VisitEraseStatement(EraseStatement eraseStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitEraseStatement");
 		}
 
 		public object VisitErrorStatement(ErrorStatement errorStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitErrorStatement");
 		}
 
 		public object VisitEventAddRegion(EventAddRegion eventAddRegion, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitEventAddRegion");
 		}
 
 		public object VisitEventDeclaration(EventDeclaration eventDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitEventDeclaration");
 		}
 
 		public object VisitEventRaiseRegion(EventRaiseRegion eventRaiseRegion, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitEventRaiseRegion");
 		}
 
 		public object VisitEventRemoveRegion(EventRemoveRegion eventRemoveRegion, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitEventRemoveRegion");
 		}
 
 		public object VisitExitStatement(ExitStatement exitStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitExitStatement");
 		}
 
 		public object VisitExpressionRangeVariable(ExpressionRangeVariable expressionRangeVariable, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitExpressionStatement(ExpressionStatement expressionStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitExpressionRangeVariable");
 		}
 
 		public object VisitExternAliasDirective(ExternAliasDirective externAliasDirective, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitExternAliasDirective");
 		}
 
 		public object VisitFixedStatement(FixedStatement fixedStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitFixedStatement");
 		}
 
 		public object VisitForNextStatement(ForNextStatement forNextStatement, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitForStatement(ForStatement forStatement, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitForeachStatement(ForeachStatement foreachStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitForNextStatement");
 		}
 
 		public object VisitGotoCaseStatement(GotoCaseStatement gotoCaseStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitGotoCaseStatement");
 		}
 
 		public object VisitGotoStatement(GotoStatement gotoStatement, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitIndexerExpression(IndexerExpression indexerExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitGotoStatement");
 		}
 
 		public object VisitInnerClassTypeReference(InnerClassTypeReference innerClassTypeReference, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitInnerClassTypeReference");
 		}
 
 		public object VisitInterfaceImplementation(InterfaceImplementation interfaceImplementation, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitInterfaceImplementation");
 		}
 
 		public object VisitLabelStatement(LabelStatement labelStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitLabelStatement");
 		}
 
 		public object VisitLambdaExpression(LambdaExpression lambdaExpression, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitLocalVariableDeclaration(LocalVariableDeclaration localVariableDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitLambdaExpression");
 		}
 
 		public object VisitLockStatement(LockStatement lockStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitLockStatement");
 		}
 
 		public object VisitMemberInitializerExpression(MemberInitializerExpression memberInitializerExpression, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitMemberReferenceExpression(MemberReferenceExpression memberReferenceExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitMemberInitializerExpression");
 		}
 
 		public object VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitNamedArgumentExpression");
 		}
 
 		public object VisitNamespaceDeclaration(NamespaceDeclaration namespaceDeclaration, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitObjectCreateExpression(ObjectCreateExpression objectCreateExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitNamespaceDeclaration");
 		}
 
 		public object VisitOnErrorStatement(OnErrorStatement onErrorStatement, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitOnErrorStatement");
 		}
 
 		public object VisitOperatorDeclaration(OperatorDeclaration operatorDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitOperatorDeclaration");
 		}
 
 		public object VisitOptionDeclaration(OptionDeclaration optionDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitOptionDeclaration");
 		}
 
 		public object VisitParenthesizedExpression(ParenthesizedExpression parenthesizedExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitParenthesizedExpression");
 		}
 
 		public object VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitPointerReferenceExpression");
 		}
 
 		public object VisitPropertyDeclaration(PropertyDeclaration propertyDeclaration, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitPropertyDeclaration");
 		}
 
 		public object VisitPropertyGetRegion(PropertyGetRegion propertyGetRegion, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitPropertyGetRegion");
 		}
 
 		public object VisitPropertySetRegion(PropertySetRegion propertySetRegion, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitPropertySetRegion");
 		}
 
 		public object VisitQueryExpression(QueryExpression queryExpression, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitQueryExpression");
 		}
 
 		public object VisitQueryExpressionAggregateClause(QueryExpressionAggregateClause queryExpressionAggregateClause, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitQueryExpressionAggregateClause");
 		}
 
 		public object VisitQueryExpressionDistinctClause(QueryExpressionDistinctClause queryExpressionDistinctClause, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitQueryExpressionDistinctClause");
 		}
 
 		public object VisitQueryExpressionFromClause(QueryExpressionFromClause queryExpressionFromClause, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitQueryExpressionFromClause");
 		}
 
 		public object VisitQueryExpressionGroupClause(QueryExpressionGroupClause queryExpressionGroupClause, object data) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("VisitQueryExpressionGroupClause");
 		}
 
 		public object VisitQueryExpressionGroupJoinVBClause(QueryExpressionGroupJoinVBClause expr, object data) {
@@ -551,10 +649,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public object VisitUnaryOperatorExpression(UnaryOperatorExpression unaryOperatorExpression, object data) {
-			throw new NotImplementedException();
-		}
-
 		public object VisitUncheckedExpression(UncheckedExpression uncheckedExpression, object data) {
 			throw new NotImplementedException();
 		}
@@ -614,8 +708,8 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitYieldStatement(YieldStatement yieldStatement, object data) {
 			throw new NotImplementedException();
 		}
-	
+
 		#endregion
-	
+
 	}
 }

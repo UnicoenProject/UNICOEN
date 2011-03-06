@@ -11,7 +11,7 @@ namespace Ucpf.Languages.CSharp {
 
 	partial class Translator {
 
-		private static UnifiedBinaryOperator ConvertOperator(BinaryOperatorType type) {
+		private static UnifiedBinaryOperator ConvertBinaryOperator(BinaryOperatorType type) {
 			switch (type) {
 				case BinaryOperatorType.Add:
 					return new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Addition);
@@ -27,6 +27,31 @@ namespace Ucpf.Languages.CSharp {
 				case BinaryOperatorType.GreaterThanOrEqual:
 					return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterEqual);
 			}
+			throw new NotImplementedException();
+			return null;
+		}
+
+		private static UnifiedUnaryOperator ConvertUnaryOperator(UnaryOperatorType type) {
+			switch (type) {
+				case UnaryOperatorType.Plus:
+					return new UnifiedUnaryOperator("+", UnifiedUnaryOperatorType.Plus);
+				case UnaryOperatorType.Minus:
+					return new UnifiedUnaryOperator("-", UnifiedUnaryOperatorType.Minus);
+
+				case UnaryOperatorType.Increment:
+					return new UnifiedUnaryOperator("++",
+						UnifiedUnaryOperatorType.PrefixIncrement);
+				case UnaryOperatorType.PostIncrement:
+					return new UnifiedUnaryOperator("++",
+						UnifiedUnaryOperatorType.PostfixIncrement);
+				case UnaryOperatorType.Decrement:
+					return new UnifiedUnaryOperator("--",
+						UnifiedUnaryOperatorType.PrefixDecrement);
+				case UnaryOperatorType.PostDecrement:
+					return new UnifiedUnaryOperator("--",
+						UnifiedUnaryOperatorType.PostfixDecrement);
+			}
+			throw new NotImplementedException();
 			return null;
 		}
 
@@ -48,26 +73,32 @@ namespace Ucpf.Languages.CSharp {
 			return ret;
 		}
 
-		private static UnifiedType GetTypeName(TypeReference type) {
+		private static UnifiedType ConvertType(TypeReference type) {
 			if (type.IsKeyword) {
 				switch (type.Type) {
-				case "System.Int32":
-					return new UnifiedType { Name = "int" };
-				case "System.Void":
-					return new UnifiedType { Name = "void" };
-				case "Sytem.String":
-					return new UnifiedType { Name = "string" };
+					case "System.Int32":
+						return new UnifiedType { Name = "int" };
+					case "System.Void":
+						return new UnifiedType { Name = "void" };
+					case "Sytem.String":
+						return new UnifiedType { Name = "string" };
 				}
 			}
 			return new UnifiedType { Name = type.Type };
 		}
 
-		private static UnifiedBlock ToBlock(IEnumerable<object> contents) {
+		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents) {
 			var block = new UnifiedBlock();
 			foreach (var item in contents) {
 				var expr = item as UnifiedExpression;
 				if (expr != null) {
 					block.Add(expr);
+					continue;
+				}
+				var exprs = item as IEnumerable<UnifiedExpression>;
+				if (exprs != null) {
+					foreach (var iExpr in exprs)
+						block.Add(iExpr);
 					continue;
 				}
 				throw new NotImplementedException();
