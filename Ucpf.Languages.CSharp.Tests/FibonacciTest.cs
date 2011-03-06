@@ -25,7 +25,7 @@ class Klass {
 	}
 }
 ";
-		private static UnifiedClassDefinition Model = new UnifiedClassDefinition {
+		private static UnifiedProgram Model = new UnifiedProgram(new[]{ new UnifiedClassDefinition {
 			Name = "Klass",
 			Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
@@ -86,7 +86,7 @@ class Klass {
 						}
 					}
 				}
-		};
+		}});
 
 		#endregion
 
@@ -101,9 +101,9 @@ class Klass {
 		[Test]
 		public void ClassDeclareTest() {
 			const string code = "class Klass{}";
-			var expected = new UnifiedClassDefinition {
+			var expected = new UnifiedProgram(new[]{new UnifiedClassDefinition {
 				Name = "Klass",
-			};
+			}});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
@@ -118,7 +118,7 @@ class Klass {
 	}
 }
 ";
-			var expected = new UnifiedClassDefinition {
+			var expected = new UnifiedProgram(new[]{new UnifiedClassDefinition {
 				Name = "Klass",
 				Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
@@ -140,7 +140,7 @@ class Klass {
 						},
 					}
 				}
-			};
+			}});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
