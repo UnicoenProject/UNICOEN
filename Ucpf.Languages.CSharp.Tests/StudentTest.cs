@@ -3,9 +3,6 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-
-
-
 using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
@@ -32,7 +29,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 
-		private UnifiedProgram CreateModel() {
+		public static UnifiedProgram CreateModel() {
 			return new UnifiedProgram {
 				new UnifiedClassDefinition {
 					Name = "Student",

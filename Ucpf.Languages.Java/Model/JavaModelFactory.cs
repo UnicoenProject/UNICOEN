@@ -83,5 +83,9 @@ namespace Ucpf.Languages.Java.Model {
 				Value = Decimal.Parse(node.Value)
 			};
 		}
+
+		public static object CreateModel(string source) {
+			throw new NotImplementedException();
+		}
 	}
 }
