@@ -46,18 +46,23 @@ namespace Ucpf.Common.Model {
 
 			var xs = x as IEnumerable;
 			if (xs != null) {
-				return xs.Cast<object>().SequenceEqual(
+				var ret = xs.Cast<object>().SequenceEqual(
 					((IEnumerable)y).Cast<object>(),
 					Instance);
+				return ret;
 			}
 
 			if (!type.IsEnum && type.Namespace.StartsWith("Ucpf.Common.Model")) {
-				return x.GetType().GetProperties()
+				var ret = x.GetType().GetProperties()
 					.All(prop => StructuralEquals(
 						prop.GetValue(x, null), prop.GetValue(y, null)));
+				return ret;
 			}
 
-			return x.Equals(y);
+			{
+				var ret = x.Equals(y);
+				return ret;
+			}
 		}
 	}
 }
