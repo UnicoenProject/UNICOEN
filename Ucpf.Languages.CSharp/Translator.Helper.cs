@@ -71,18 +71,39 @@ namespace Ucpf.Languages.CSharp {
 			return ret;
 		}
 
-		private static UnifiedType ConvertType(TypeReference type) {
+		private static UnifiedType ConvertTypeIgnoringIsArray(TypeReference type) {
+			string typeName = type.Type;
 			if (type.IsKeyword) {
-				switch (type.Type) {
-					case "System.Int32":
-						return new UnifiedType { Name = "int" };
-					case "System.Void":
-						return new UnifiedType { Name = "void" };
-					case "Sytem.String":
-						return new UnifiedType { Name = "string" };
+				typeName = GetTypeAlias(typeName) ?? typeName;
+			}
+			return new UnifiedType { Name = typeName };
+		}
+
+		private static UnifiedType ConvertType(TypeReference type) {
+			var uType = ConvertTypeIgnoringIsArray(type);
+
+			var buff = new StringBuilder(uType.Name);
+			if (type.IsArrayType) {
+				foreach (int rank in type.RankSpecifier) {
+					buff.Append("[");
+					for (int i = 0; i < rank; i++)
+						buff.Append(",");
+					buff.Append("]");
 				}
 			}
-			return new UnifiedType { Name = type.Type };
+			return new UnifiedType { Name = buff.ToString() };
+		}
+
+		private static string GetTypeAlias(string fullTypeName) {
+			switch (fullTypeName) {
+				case "System.Int32":
+					return "int";
+				case "System.Void":
+					return "void";
+				case "Sytem.String":
+					return "string";
+			}
+			return null;
 		}
 
 		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents) {
