@@ -9,6 +9,138 @@ namespace Ucpf.Languages.CSharp {
 
 	partial class Translator : IAstVisitor {
 
+		#region declare namespace, class, fileds, and so on.
+
+		public object VisitCompilationUnit(CompilationUnit compilationUnit, object data) {
+			if (compilationUnit.Children.Count == 1) {
+				return compilationUnit.Children[0].AcceptVisitor(this, data);
+			}
+			var stmts = compilationUnit.Children
+				.Select(node => node.AcceptVisitor(this, data));
+			return ToBlock(stmts);
+		}
+
+		public object VisitTypeDeclaration(TypeDeclaration typeDeclaration, object data) {
+			var stmts = typeDeclaration.Children
+				.Select(node => node.AcceptVisitor(this, data));
+			return new UnifiedClassDefinition {
+				Name = typeDeclaration.Name,
+				Body = ToBlock(stmts)
+			};
+		}
+
+		public object VisitFieldDeclaration(FieldDeclaration dec, object data) {
+			var modifier = ConvertModifiler(dec.Modifier);
+			var type = GetTypeName(dec.TypeReference);
+			foreach (var varDec in dec.Fields) {
+				var name = varDec.Name;
+				var value =
+					varDec.Initializer.AcceptVisitor(this, null) as UnifiedExpression;
+			}
+			return new UnifiedVariableDefinition {
+
+			};
+		}
+
+		public object VisitMethodDeclaration(MethodDeclaration method, object data) {
+			var parameters = new UnifiedParameterCollection(
+				method.Parameters
+					.Select(p => VisitParameterDeclarationExpression(p, data))
+					.OfType<UnifiedParameter>());
+			var modifiers = new UnifiedModifierCollection();
+			return new UnifiedFunctionDefinition {
+				Name = method.Name,
+				Modifiers = ConvertModifiler(method.Modifier),
+				Parameters = parameters,
+				Type = GetTypeName(method.TypeReference),
+				Block = VisitBlockStatement(method.Body, data) as UnifiedBlock
+			};
+		}
+
+
+		public object VisitParameterDeclarationExpression(ParameterDeclarationExpression parameter, object data) {
+			return new UnifiedParameter {
+				Name = parameter.ParameterName,
+				Type = GetTypeName(parameter.TypeReference),
+			};
+		}
+
+
+		#endregion
+
+		#region in block
+
+		public object VisitBlockStatement(BlockStatement block, object data) {
+			var stmts = block.Children
+				.Select(node => node.AcceptVisitor(this, data));
+			return ToBlock(stmts);
+		}
+
+		public object VisitIfElseStatement(IfElseStatement stmt, object data) {
+			var cond = stmt.Condition.AcceptVisitor(this, data) as UnifiedExpression;
+			var trueStmt = stmt.TrueStatement
+				.Select(s => s.AcceptVisitor(this, data));
+			var falseStmt = stmt.FalseStatement
+				.Select(s => s.AcceptVisitor(this, data));
+			return new UnifiedIf {
+				Condition = cond,
+				TrueBlock = ToBlock(trueStmt),
+				FalseBlock = ToBlock(falseStmt),
+			};
+		}
+
+		public object VisitReturnStatement(ReturnStatement stmt, object data) {
+			var value = stmt.Expression.AcceptVisitor(this, data) as UnifiedExpression;
+			return new UnifiedReturn { Value = value };
+		}
+
+		#endregion
+
+		#region expression
+
+		public object VisitPrimitiveExpression(PrimitiveExpression primitive, object data) {
+			switch (primitive.LiteralFormat) {
+				case LiteralFormat.DecimalNumber:
+					if (primitive.Value is int) {
+						return UnifiedIntegerLiteral.Create((int)primitive.Value);
+					}
+					break;
+			}
+			return null;
+		}
+
+		public object VisitInvocationExpression(InvocationExpression invoke, object data) {
+			var target =
+				invoke.TargetObject.AcceptVisitor(this, data) as UnifiedExpression;
+			var args = invoke.Arguments
+				.Select(exp => exp.AcceptVisitor(this, data))
+				.OfType<UnifiedExpression>()
+				.Select(exp => new UnifiedArgument { Value = exp });
+			return new UnifiedCall {
+				Function = target,
+				Arguments = new UnifiedArgumentCollection(args)
+			};
+		}
+
+		public object VisitIdentifierExpression(IdentifierExpression ident, object data) {
+			return UnifiedVariable.Create(ident.Identifier);
+		}
+
+		public object VisitBinaryOperatorExpression(BinaryOperatorExpression expr, object data) {
+			var op = ConvertOperator(expr.Op);
+			var left = expr.Left.AcceptVisitor(this, data) as UnifiedExpression;
+			var right = expr.Right.AcceptVisitor(this, data) as UnifiedExpression;
+			return new UnifiedBinaryExpression {
+				Operator = op,
+				LeftHandSide = left,
+				RightHandSide = right,
+			};
+		}
+
+		#endregion
+
+		#region not implemented
+
 		public object VisitAddHandlerStatement(AddHandlerStatement addHandlerStatement, object data) {
 			throw new NotImplementedException();
 		}
@@ -39,23 +171,6 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitBaseReferenceExpression(BaseReferenceExpression baseReferenceExpression, object data) {
 			throw new NotImplementedException();
-		}
-
-		public object VisitBinaryOperatorExpression(BinaryOperatorExpression expr, object data) {
-			var op = ConvertOperator(expr.Op);
-			var left = expr.Left.AcceptVisitor(this, data) as UnifiedExpression;
-			var right = expr.Right.AcceptVisitor(this, data) as UnifiedExpression;
-			return new UnifiedBinaryExpression {
-				Operator = op,
-				LeftHandSide = left,
-				RightHandSide = right,
-			};
-		}
-
-		public object VisitBlockStatement(BlockStatement block, object data) {
-			var stmts = block.Children
-				.Select(node => node.AcceptVisitor(this, data));
-			return ToBlock(stmts);
 		}
 
 		public object VisitBreakStatement(BreakStatement breakStatement, object data) {
@@ -92,15 +207,6 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitCollectionRangeVariable(CollectionRangeVariable collectionRangeVariable, object data) {
 			throw new NotImplementedException();
-		}
-
-		public object VisitCompilationUnit(CompilationUnit compilationUnit, object data) {
-			if (compilationUnit.Children.Count == 1) {
-				return compilationUnit.Children[0].AcceptVisitor(this, data);
-			}
-			var stmts = compilationUnit.Children
-				.Select(node => node.AcceptVisitor(this, data));
-			return ToBlock(stmts);
 		}
 
 		public object VisitConditionalExpression(ConditionalExpression conditionalExpression, object data) {
@@ -195,10 +301,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public object VisitFieldDeclaration(FieldDeclaration fieldDeclaration, object data) {
-			throw new NotImplementedException();
-		}
-
 		public object VisitFixedStatement(FixedStatement fixedStatement, object data) {
 			throw new NotImplementedException();
 		}
@@ -223,23 +325,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public object VisitIdentifierExpression(IdentifierExpression ident, object data) {
-			return UnifiedVariable.Create(ident.Identifier);
-		}
-
-		public object VisitIfElseStatement(IfElseStatement stmt, object data) {
-			var cond = stmt.Condition.AcceptVisitor(this, data) as UnifiedExpression;
-			var trueStmt = stmt.TrueStatement
-				.Select(s => s.AcceptVisitor(this, data));
-			var falseStmt = stmt.FalseStatement
-				.Select(s => s.AcceptVisitor(this, data));
-			return new UnifiedIf {
-				Condition = cond,
-				TrueBlock = ToBlock(trueStmt),
-				FalseBlock = ToBlock(falseStmt),
-			};
-		}
-
 		public object VisitIndexerExpression(IndexerExpression indexerExpression, object data) {
 			throw new NotImplementedException();
 		}
@@ -250,19 +335,6 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitInterfaceImplementation(InterfaceImplementation interfaceImplementation, object data) {
 			throw new NotImplementedException();
-		}
-
-		public object VisitInvocationExpression(InvocationExpression invoke, object data) {
-			var target =
-				invoke.TargetObject.AcceptVisitor(this, data) as UnifiedExpression;
-			var args = invoke.Arguments
-				.Select(exp => exp.AcceptVisitor(this, data))
-				.OfType<UnifiedExpression>()
-				.Select(exp => new UnifiedArgument { Value = exp });
-			return new UnifiedCall {
-				Function = target,
-				Arguments = new UnifiedArgumentCollection(args)
-			};
 		}
 
 		public object VisitLabelStatement(LabelStatement labelStatement, object data) {
@@ -289,21 +361,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public object VisitMethodDeclaration(MethodDeclaration method, object data) {
-			var parameters = new UnifiedParameterCollection(
-				method.Parameters
-					.Select(p => VisitParameterDeclarationExpression(p, data))
-					.OfType<UnifiedParameter>());
-			var modifiers = new UnifiedModifierCollection();
-			return new UnifiedFunctionDefinition {
-				Name = method.Name,
-				Modifiers = ConvertModifiler(method.Modifier),
-				Parameters = parameters,
-				Type = GetTypeName(method.TypeReference),
-				Block = VisitBlockStatement(method.Body, data) as UnifiedBlock
-			};
-		}
-
 		public object VisitNamedArgumentExpression(NamedArgumentExpression namedArgumentExpression, object data) {
 			throw new NotImplementedException();
 		}
@@ -328,30 +385,12 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public object VisitParameterDeclarationExpression(ParameterDeclarationExpression parameter, object data) {
-			return new UnifiedParameter {
-				Name = parameter.ParameterName,
-				Type = GetTypeName(parameter.TypeReference),
-			};
-		}
-
 		public object VisitParenthesizedExpression(ParenthesizedExpression parenthesizedExpression, object data) {
 			throw new NotImplementedException();
 		}
 
 		public object VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression, object data) {
 			throw new NotImplementedException();
-		}
-
-		public object VisitPrimitiveExpression(PrimitiveExpression primitive, object data) {
-			switch (primitive.LiteralFormat) {
-				case LiteralFormat.DecimalNumber:
-					if (primitive.Value is int) {
-						return UnifiedIntegerLiteral.Create((int)primitive.Value);
-					}
-					break;
-			}
-			return null;
 		}
 
 		public object VisitPropertyDeclaration(PropertyDeclaration propertyDeclaration, object data) {
@@ -458,11 +497,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public object VisitReturnStatement(ReturnStatement stmt, object data) {
-			var value = stmt.Expression.AcceptVisitor(this, data) as UnifiedExpression;
-			return new UnifiedReturn { Value = value };
-		}
-
 		public object VisitSizeOfExpression(SizeOfExpression sizeOfExpression, object data) {
 			throw new NotImplementedException();
 		}
@@ -497,15 +531,6 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitTryCatchStatement(TryCatchStatement tryCatchStatement, object data) {
 			throw new NotImplementedException();
-		}
-
-		public object VisitTypeDeclaration(TypeDeclaration typeDeclaration, object data) {
-			var stmts = typeDeclaration.Children
-				.Select(node => node.AcceptVisitor(this, data));
-			return new UnifiedClassDefinition {
-				Name = typeDeclaration.Name,
-				Body = ToBlock(stmts)
-			};
 		}
 
 		public object VisitTypeOfExpression(TypeOfExpression typeOfExpression, object data) {
@@ -552,7 +577,7 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public object VisitVariableDeclaration(VariableDeclaration variableDeclaration, object data) {
+		public object VisitVariableDeclaration(VariableDeclaration dec, object data) {
 			throw new NotImplementedException();
 		}
 
@@ -587,5 +612,8 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitYieldStatement(YieldStatement yieldStatement, object data) {
 			throw new NotImplementedException();
 		}
+	
+		#endregion
+	
 	}
 }
