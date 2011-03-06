@@ -11,6 +11,10 @@ namespace Ucpf.Common.Model {
 		public UnifiedExpression Step { get; set; }
 		public UnifiedBlock Block { get; set; }
 
+		public UnifiedFor() {
+			Block = new UnifiedBlock();
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
