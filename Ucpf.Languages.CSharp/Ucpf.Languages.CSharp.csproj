@@ -57,6 +57,7 @@
     <Compile Include="AstGenerators\csParser.cs" />
     <Compile Include="CodeGenerators\CSharpCodeGenerator.cs" />
     <Compile Include="CSharpModelFactory.cs" />
+    <Compile Include="CSharpModelFactoryHelper.cs" />
     <Compile Include="Translator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Translator.Helper.cs" />
