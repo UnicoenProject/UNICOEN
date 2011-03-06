@@ -259,7 +259,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitArrayCreateExpression(ArrayCreateExpression expr, object data) {
-			var arrayType = ConvertType(expr.CreateType);
+			var arrayType = ConvertTypeIgnoringIsArray(expr.CreateType);
 			var args = ConvertArguments(expr.Arguments);
 			return new UnifiedArrayNew { Type = arrayType, Arguments = args };
 		}
