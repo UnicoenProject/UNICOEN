@@ -51,14 +51,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Common.Tests\Ucpf.Common.Tests.csproj">
-      <Project>{A8E01172-723F-4F92-9B7C-31D8F8716AF3}</Project>
-      <Name>Ucpf.Common.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.C\Ucpf.Languages.C.csproj">
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
       <Name>Ucpf.Languages.C</Name>

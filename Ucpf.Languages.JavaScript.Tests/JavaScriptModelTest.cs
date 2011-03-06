@@ -1,9 +1,12 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
+using Code2Xml.Languages.JavaScript.XmlGenerators;
 using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Common.Tests;
-using Ucpf.Languages.JavaScript.AstGenerators;
+using Ucpf.Core.Model;
+using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Core.Model.Expressions.Operators;
+using Ucpf.Core.Tests;
 using Ucpf.Languages.JavaScript.Model;
 
 namespace Ucpf.Languages.JavaScript.Tests {
@@ -14,7 +17,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 		[SetUp]
 		public void SetUp() {
-			_ast = JavaScriptAstGenerator.Instance.GenerateFromFile(InputPath);
+			_ast = JavaScriptXmlGenerator.Instance.GenerateFromFile(InputPath);
 			_root = _ast.Descendants("functionDeclaration").First();
 			_func = JSModelFactory.CreateFunction(_root);
 		}

@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Common.Tests;
+using Ucpf.Core.Model;
+using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Core.Model.Expressions.Operators;
+using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
 

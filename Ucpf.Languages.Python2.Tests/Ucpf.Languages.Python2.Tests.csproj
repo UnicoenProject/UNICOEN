@@ -51,9 +51,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
+    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Core\Code2Xml.Core.csproj">
+      <Project>{BCCD95A9-7685-4B15-9DA3-E48CC0BF499B}</Project>
+      <Name>Code2Xml.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Languages.Python2\Code2Xml.Languages.Python2.csproj">
+      <Project>{D7557D95-520B-476D-8AF9-FC1ECC4A7298}</Project>
+      <Name>Code2Xml.Languages.Python2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Core\Ucpf.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Ucpf.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.Python2\Ucpf.Languages.Python2.csproj">
       <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>

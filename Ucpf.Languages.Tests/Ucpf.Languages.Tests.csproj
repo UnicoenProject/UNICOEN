@@ -58,10 +58,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Common.Tests\Ucpf.Common.Tests.csproj">
-      <Project>{A8E01172-723F-4F92-9B7C-31D8F8716AF3}</Project>
-      <Name>Ucpf.Common.Tests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.CSharp\Ucpf.Languages.CSharp.csproj">
       <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
       <Name>Ucpf.Languages.CSharp</Name>
@@ -93,10 +89,6 @@
     <ProjectReference Include="..\Ucpf.Languages.Python3\Ucpf.Languages.Python3.csproj">
       <Project>{CF31A92F-646A-4155-A280-038AD9B84D0F}</Project>
       <Name>Ucpf.Languages.Python3</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

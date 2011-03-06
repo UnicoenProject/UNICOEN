@@ -48,12 +48,6 @@
     <Compile Include="ParserModifierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AntlrHelper\AntlrHelper.csproj">
-      <Project>{DE900438-C110-4482-9F22-6CC0BC902B01}</Project>
-      <Name>AntlrHelper</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,8 +4,10 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Scripting.Math;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
+using Ucpf.Core.Model;
+using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Core.Model.Expressions.Operators;
 
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelFactory {

@@ -1,0 +1,16 @@
+﻿using System.Collections.Generic;
+using Ucpf.Core.Model.Visitors;
+
+namespace Ucpf.Core.Model {
+	public class UnifiedArgumentCollection
+		: UnifiedElementCollection<UnifiedArgument> {
+		public UnifiedArgumentCollection() {}
+
+		public UnifiedArgumentCollection(IEnumerable<UnifiedArgument> elements)
+			: base(elements) {}
+
+		public override void Accept(IUnifiedModelVisitor visitor) {
+			visitor.Visit(this);
+		}
+		}
+}

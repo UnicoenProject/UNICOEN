@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
-using Ucpf.Languages.Ruby18.AstGenerators;
+﻿using Code2Xml.Languages.Ruby18.XmlGenerators;
+using NUnit.Framework;
+using Ucpf.Core.Model;
+using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Core.Model.Expressions.Operators;
 using Ucpf.Languages.Ruby18.Model;
 
 namespace Ucpf.Languages.Ruby18.Tests {
@@ -25,7 +27,7 @@ namespace Ucpf.Languages.Ruby18.Tests {
 
 		[Test]
 		public void CreateDefineFunction() {
-			var ast = Ruby18AstGenerator.Instance.Generate(@"
+			var ast = Ruby18XmlGenerator.Instance.Generate(@"
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
@@ -42,7 +44,7 @@ end");
 		[Test]
 		public void CreateReturn() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(@"
+				Ruby18XmlGenerator.Instance.Generate(@"
 def fibonacci(n)
 	return n
 end");
@@ -63,7 +65,7 @@ end");
 		[Test]
 		public void CreateFunctionCall() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	return fibonacci(n)
@@ -85,7 +87,7 @@ end");
 		[Test]
 		public void CreateFunctionCall2() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	return fibonacci(n - 1) + fibonacci(n - 2)
@@ -113,7 +115,7 @@ end");
 		[Test]
 		public void CreateIf() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	if (n < 2)
@@ -156,7 +158,7 @@ end
 		[Test]
 		public void CreateFibonacci() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	if (n < 2)

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Code2Xml.Languages.Java.XmlGenerators;
 using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
-using Ucpf.Common.Tests;
-using Ucpf.Languages.Java.AstGenerators;
-using Ucpf.Languages.Java.CodeModel;
+using Ucpf.Core.Model;
+using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Core.Model.Expressions.Operators;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
@@ -33,7 +33,7 @@ namespace Ucpf.Languages.Java.Tests {
 		[Test]
 		public void CreateDefineFunction() {
 			var ast =
-				JavaAstGenerator.Instance.Generate("public static int fibonacci(int n){}",
+				JavaXmlGenerator.Instance.Generate("public static int fibonacci(int n){}",
 					p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
