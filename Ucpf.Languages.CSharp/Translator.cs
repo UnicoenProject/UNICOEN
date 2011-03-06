@@ -13,13 +13,13 @@ namespace Ucpf.Languages.CSharp {
 		#region declare namespace, class, fileds, and so on.
 
 		public object VisitCompilationUnit(CompilationUnit compilationUnit, object data) {
-			if (compilationUnit.Children.Count == 1) {
-				return compilationUnit.Children[0].AcceptVisitor(this, data);
+			var program = new UnifiedProgram();
+			foreach (var child in compilationUnit.Children) {
+				var expr = child.AcceptVisitor(this, data) as UnifiedExpression;
+				if (expr != null)
+					program.Add(expr);
 			}
-			var stmts = compilationUnit.Children
-				.Select(node => node.AcceptVisitor(this, data))
-				.ToList();
-			return ToFlattenBlock(stmts);
+			return program;
 		}
 
 		public object VisitTypeDeclaration(TypeDeclaration typeDeclaration, object data) {
@@ -92,7 +92,18 @@ namespace Ucpf.Languages.CSharp {
 		#region block and statements
 
 		private UnifiedExpression ConvertStatement(Statement stmt) {
-			return stmt.AcceptVisitor(this, null) as UnifiedExpression;
+			var obj = stmt.AcceptVisitor(this, null);
+			var expr = obj as UnifiedExpression;
+			if (expr != null)
+				return expr;
+			var exprs = obj as IEnumerable<UnifiedExpression>;
+			if (exprs != null) {
+				var exprList = exprs.ToList();
+				if (exprList.Count == 1)
+					return exprList[0];
+				return new UnifiedBlock(exprList);
+			}
+			throw new NotImplementedException();
 		}
 
 		private UnifiedBlock ConvertStatementAsBlock(Statement stmt) {
@@ -172,7 +183,7 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitForeachStatement(ForeachStatement stmt, object data) {
 			var type = ConvertType(stmt.TypeReference);
 			var name = stmt.VariableName;
-			var set = ConvertExpression(stmt.NextExpression);
+			var set = ConvertExpression(stmt.Expression);
 			var body = ConvertStatementAsBlock(stmt.EmbeddedStatement);
 
 			return new UnifiedForeach {
@@ -206,8 +217,13 @@ namespace Ucpf.Languages.CSharp {
 						return UnifiedIntegerLiteral.Create((int)primitive.Value);
 					}
 					break;
+				case LiteralFormat.StringLiteral:
+					if (primitive.Value is string) {
+						return UnifiedStringLiteral.Create((string)primitive.Value);
+					}
+					break;
 			}
-			return null;
+			throw new NotImplementedException("VisitPrimitiveExpression");
 		}
 
 		public object VisitInvocationExpression(InvocationExpression invoke, object data) {
