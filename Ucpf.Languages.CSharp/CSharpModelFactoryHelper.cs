@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ucpf.Common.Model;
+using Ucpf.Core.Model;
 
 namespace Ucpf.Languages.CSharp {
 	public static class CSharpModelFactoryHelper {

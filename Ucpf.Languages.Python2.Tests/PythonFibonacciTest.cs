@@ -5,9 +5,9 @@ using System.Text;
 using Code2Xml.Languages.Python2.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Expressions.Literals;
-using Ucpf.Core.Model.Expressions.Operators;
+
+
+
 using Ucpf.Languages.Python2.Model;
 
 namespace Ucpf.Languages.Python2.Tests {

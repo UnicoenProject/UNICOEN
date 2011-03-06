@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Expressions.Literals;
-using Ucpf.Core.Model.Expressions.Operators;
 
 namespace Ucpf.Core.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
@@ -222,6 +219,10 @@ namespace Ucpf.Core.Model.Visitors {
 		}
 
 		public void Visit(UnifiedProperty element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedType element) {
 			throw new NotImplementedException();
 		}
 	}

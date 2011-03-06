@@ -5,9 +5,6 @@ using System.Text;
 using Code2Xml.Languages.Java.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Expressions.Literals;
-using Ucpf.Core.Model.Expressions.Operators;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {

@@ -1,7 +1,6 @@
-﻿using Ucpf.Core.Model.Expressions.Operators;
-using Ucpf.Core.Model.Visitors;
+﻿using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model.Expressions {
+namespace Ucpf.Core.Model {
 	public class UnifiedBinaryExpression : UnifiedExpression {
 		public UnifiedBinaryOperator Operator { get; set; }
 		public UnifiedExpression LeftHandSide { get; set; }

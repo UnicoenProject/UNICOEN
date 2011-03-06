@@ -1,9 +1,6 @@
 ﻿using Code2Xml.Languages.Ruby18.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Expressions.Literals;
-using Ucpf.Core.Model.Expressions.Operators;
 using Ucpf.Languages.Ruby18.Model;
 
 namespace Ucpf.Languages.Ruby18.Tests {

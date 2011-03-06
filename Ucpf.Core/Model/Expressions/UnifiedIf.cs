@@ -1,6 +1,6 @@
 ﻿using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model.Expressions {
+namespace Ucpf.Core.Model {
 	public class UnifiedIf : UnifiedExpression {
 		public UnifiedExpression Condition { get; set; }
 		public UnifiedBlock TrueBlock { get; set; }

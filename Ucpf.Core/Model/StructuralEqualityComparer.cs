@@ -20,8 +20,7 @@ namespace Ucpf.Core.Model {
 					(v, o) => v ^ o.GetHashCode() * 11);
 			}
 
-			var type = x.GetType();
-			if (!type.IsEnum && type.Namespace.StartsWith("Ucpf.Common.Model")) {
+			if (x is UnifiedElement) {
 				return x.GetType().GetProperties()
 					.Select(prop => prop.GetValue(x, null).GetHashCode())
 					.Aggregate(0, (v, o) => v ^ o.GetHashCode() * 11);
@@ -46,18 +45,23 @@ namespace Ucpf.Core.Model {
 
 			var xs = x as IEnumerable;
 			if (xs != null) {
-				return xs.Cast<object>().SequenceEqual(
+				var ret = xs.Cast<object>().SequenceEqual(
 					((IEnumerable)y).Cast<object>(),
 					Instance);
+				return ret;
 			}
 
-			if (!type.IsEnum && type.Namespace.StartsWith("Ucpf.Common.Model")) {
-				return x.GetType().GetProperties()
+			if (x is UnifiedElement) {
+				var ret = x.GetType().GetProperties()
 					.All(prop => StructuralEquals(
 						prop.GetValue(x, null), prop.GetValue(y, null)));
+				return ret;
 			}
 
-			return x.Equals(y);
+			{
+				var ret = x.Equals(y);
+				return ret;
+			}
 		}
 	}
 }
