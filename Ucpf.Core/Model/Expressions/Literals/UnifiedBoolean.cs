@@ -1,4 +1,4 @@
-﻿namespace Ucpf.Core.Model.Expressions.Literals {
+﻿namespace Ucpf.Core.Model {
 	public enum UnifiedBoolean {
 		True,
 		False,

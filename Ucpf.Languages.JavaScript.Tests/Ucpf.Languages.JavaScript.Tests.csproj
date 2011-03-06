@@ -34,8 +34,20 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\lib\nunit.framework.dll</HintPath>
+    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\lib\Code2Xml.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.JavaScript">
+      <HintPath>..\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="pnunit.framework">
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,14 +63,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Core\Code2Xml.Core.csproj">
-      <Project>{BCCD95A9-7685-4B15-9DA3-E48CC0BF499B}</Project>
-      <Name>Code2Xml.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Code2Xml\Code2Xml.Languages.JavaScript\Code2Xml.Languages.JavaScript.csproj">
-      <Project>{51B4FB06-4315-4CBD-BCB3-1E933A895107}</Project>
-      <Name>Code2Xml.Languages.JavaScript</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Core.Tests\Ucpf.Core.Tests.csproj">
       <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
       <Name>Ucpf.Core.Tests</Name>
@@ -75,6 +79,9 @@
       <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
       <Name>Ucpf.Languages.JavaScript</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

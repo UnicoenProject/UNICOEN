@@ -1,8 +1,4 @@
-﻿using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Expressions.Literals;
-using Ucpf.Core.Model.Expressions.Operators;
-
-namespace Ucpf.Core.Model.Visitors {
+﻿namespace Ucpf.Core.Model.Visitors {
 	public interface IUnifiedModelVisitor {
 		void Visit<T>(UnifiedTypedLiteral<T> element);
 		void Visit(UnifiedBinaryOperator element);
@@ -32,5 +28,6 @@ namespace Ucpf.Core.Model.Visitors {
 		void Visit(UnifiedForeach element);
 		void Visit(UnifiedUnaryExpression element);
 		void Visit(UnifiedProperty element);
+		void Visit(UnifiedType element);
 	}
 }

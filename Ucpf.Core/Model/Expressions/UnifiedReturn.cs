@@ -1,6 +1,6 @@
 ﻿using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model.Expressions {
+namespace Ucpf.Core.Model {
 	public class UnifiedReturn : UnifiedExpression {
 		public UnifiedExpression Value { get; set; }
 

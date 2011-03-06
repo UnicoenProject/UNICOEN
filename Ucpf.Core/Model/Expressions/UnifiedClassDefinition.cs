@@ -1,6 +1,6 @@
 ﻿using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model.Expressions {
+namespace Ucpf.Core.Model {
 	public class UnifiedClassDefinition : UnifiedExpression {
 		public string Name { get; set; }
 		public UnifiedBlock Body { get; set; }

@@ -1,3 +1,3 @@
-﻿namespace Ucpf.Core.Model.Expressions {
+﻿namespace Ucpf.Core.Model {
 	public abstract class UnifiedExpression : UnifiedElement {}
 }

@@ -1,4 +1,4 @@
-﻿namespace Ucpf.Core.Model.Expressions.Operators {
+﻿namespace Ucpf.Core.Model {
 	public enum UnifiedBinaryOperatorType {
 		// Arithmetic
 		Addition,

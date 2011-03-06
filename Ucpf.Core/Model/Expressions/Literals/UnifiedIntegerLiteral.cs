@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model.Expressions.Literals {
+namespace Ucpf.Core.Model {
 	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

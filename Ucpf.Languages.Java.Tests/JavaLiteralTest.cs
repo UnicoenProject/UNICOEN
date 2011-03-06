@@ -1,17 +1,15 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using Code2Xml.Languages.Java.XmlGenerators;
 using NUnit.Framework;
-using Ucpf.Core.Model.Expressions.Literals;
+using Ucpf.Core.Model;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests
 {
-
     [TestFixture]
     public class JavaParseLiteralTest
     {

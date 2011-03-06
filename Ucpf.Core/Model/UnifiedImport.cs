@@ -1,5 +1,4 @@
-﻿using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Visitors;
+﻿using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedImport : UnifiedExpression {

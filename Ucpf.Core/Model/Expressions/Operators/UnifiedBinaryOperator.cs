@@ -1,6 +1,6 @@
 ﻿using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model.Expressions.Operators {
+namespace Ucpf.Core.Model {
 	public class UnifiedBinaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
 		public UnifiedBinaryOperatorType Type { get; private set; }

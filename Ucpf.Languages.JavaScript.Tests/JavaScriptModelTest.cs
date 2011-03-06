@@ -3,9 +3,6 @@ using System.Xml.Linq;
 using Code2Xml.Languages.JavaScript.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Expressions.Literals;
-using Ucpf.Core.Model.Expressions.Operators;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.JavaScript.Model;
 

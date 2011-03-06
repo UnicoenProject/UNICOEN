@@ -3,7 +3,7 @@ using System.Linq;
 using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.NRefactory.Parser;
-using Ucpf.Common.Model;
+using Ucpf.Core.Model;
 using System.Collections.Generic;
 
 namespace Ucpf.Languages.CSharp {
