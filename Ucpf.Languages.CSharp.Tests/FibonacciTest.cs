@@ -25,7 +25,7 @@ class Klass {
 	}
 }
 ";
-		private static UnifiedProgram Model = new UnifiedProgram(new[]{ new UnifiedClassDefinition {
+		private static readonly UnifiedProgram Model = new UnifiedProgram(new[]{ new UnifiedClassDefinition {
 			Name = "Klass",
 			Body = new UnifiedBlock {
 					new UnifiedFunctionDefinition {
@@ -96,6 +96,15 @@ class Klass {
 			var expected = Model;
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test, Ignore]
+		public void GenerateFibonacciCode() {
+			var firstModel = CSharpModelFactory.CreateModel(Code);
+			var firstCode = CSharpCodeGenerator.Generate(firstModel);
+			var secondModel = CSharpModelFactory.CreateModel(firstCode);
+			var secondCode = CSharpCodeGenerator.Generate(secondModel);
+			Assert.AreEqual(firstCode, secondCode);
 		}
 
 		[Test]

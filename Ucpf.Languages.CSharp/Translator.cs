@@ -202,9 +202,17 @@ namespace Ucpf.Languages.CSharp {
 			return stmt.Expression.AcceptVisitor(this, data);
 		}
 
+		public object VisitEmptyStatement(EmptyStatement emptyStatement, object data) {
+			return new UnifiedExpression[0];
+		}
+
 		#endregion
 
 		#region expression
+
+		public object VisitParenthesizedExpression(ParenthesizedExpression expr, object data) {
+			return expr.Expression.AcceptVisitor(this, data);
+		}
 
 		private UnifiedExpression ConvertExpression(Expression expr) {
 			return expr.AcceptVisitor(this, null) as UnifiedExpression;
@@ -397,10 +405,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException("VisitElseIfSection");
 		}
 
-		public object VisitEmptyStatement(EmptyStatement emptyStatement, object data) {
-			throw new NotImplementedException("VisitEmptyStatement");
-		}
-
 		public object VisitEndStatement(EndStatement endStatement, object data) {
 			throw new NotImplementedException("VisitEndStatement");
 		}
@@ -499,10 +503,6 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitOptionDeclaration(OptionDeclaration optionDeclaration, object data) {
 			throw new NotImplementedException("VisitOptionDeclaration");
-		}
-
-		public object VisitParenthesizedExpression(ParenthesizedExpression parenthesizedExpression, object data) {
-			throw new NotImplementedException("VisitParenthesizedExpression");
 		}
 
 		public object VisitPointerReferenceExpression(PointerReferenceExpression pointerReferenceExpression, object data) {
