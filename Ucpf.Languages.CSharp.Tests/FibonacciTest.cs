@@ -42,7 +42,7 @@ class Klass {
 						Parameters ={
 							new UnifiedParameter { Type = new UnifiedType { Name = "int"}, Name = "n" }
 						},
-						Block = {
+						Body = {
 							new UnifiedIf {
 								Condition = new UnifiedBinaryExpression {
 									Operator =

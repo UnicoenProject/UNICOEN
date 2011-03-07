@@ -62,7 +62,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							},
 							Type = UnifiedType.Create("String"),
 							Name = "getName",
-							Block = {
+							Body = {
 								new UnifiedReturn {
 									Value = UnifiedVariable.Create("_name")
 								},
@@ -81,7 +81,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 									Name = "args"
 								}
 							},
-							Block = {
+							Body = {
 								new UnifiedVariableDefinition {
 									Type = UnifiedType.Create("Student[]"),
 									Name = "students",

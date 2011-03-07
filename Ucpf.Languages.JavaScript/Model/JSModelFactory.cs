@@ -247,7 +247,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		public static UnifiedFunctionDefinition CreateFunction(XElement node) {
 			return new UnifiedFunctionDefinition {
 				Name = node.Element("Identifier").Value,
-				Block = CreateFunctionBody(node.Element("functionBody")),
+				Body = CreateFunctionBody(node.Element("functionBody")),
 				Parameters = CreateParameterCollection(node)
 			};
 		}

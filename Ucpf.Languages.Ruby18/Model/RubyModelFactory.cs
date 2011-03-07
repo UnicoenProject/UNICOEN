@@ -117,7 +117,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 				Parameters = new UnifiedParameterCollection(
 					elems.ElementAt(1).Elements()
 						.Select(e => new UnifiedParameter{ Name =  e.Value })),
-				Block = CreateBlock(elems.ElementAt(2).Elements().First()),
+				Body = CreateBlock(elems.ElementAt(2).Elements().First()),
 			};
 		}
 

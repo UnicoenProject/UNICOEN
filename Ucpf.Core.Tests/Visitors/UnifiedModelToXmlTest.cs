@@ -38,7 +38,7 @@ namespace Ucpf.Core.Tests.Visitors {
 				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
-				Block = new UnifiedBlock(),
+				Body = new UnifiedBlock(),
 			};
 			var expectation =
 				XDocument.Parse(
@@ -61,7 +61,7 @@ namespace Ucpf.Core.Tests.Visitors {
 				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedReturn {
 						Value = UnifiedVariable.Create("n")
 					}
@@ -92,7 +92,7 @@ namespace Ucpf.Core.Tests.Visitors {
 				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedReturn {
 						Value = CreateCall(null)
 					}
@@ -130,7 +130,7 @@ namespace Ucpf.Core.Tests.Visitors {
 				Parameters = {
 					new UnifiedParameter { Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedReturn {
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
@@ -191,7 +191,7 @@ namespace Ucpf.Core.Tests.Visitors {
 				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
@@ -246,7 +246,7 @@ namespace Ucpf.Core.Tests.Visitors {
 				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),

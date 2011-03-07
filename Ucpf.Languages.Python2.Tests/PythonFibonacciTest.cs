@@ -33,7 +33,7 @@ print fib(20)
 					Parameters = {
 						new UnifiedParameter{ Name = "n" }
 					},
-					Block = {
+					Body = {
 						new UnifiedIf {
 							Condition = new UnifiedBinaryExpression {
 								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterEqual),
