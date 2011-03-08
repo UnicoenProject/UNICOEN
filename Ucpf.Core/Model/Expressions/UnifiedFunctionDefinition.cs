@@ -6,12 +6,12 @@ namespace Ucpf.Core.Model {
 		public UnifiedType Type { get; set; }
 		public string Name { get; set; }
 		public UnifiedParameterCollection Parameters { get; set; }
-		public UnifiedBlock Block { get; set; }
+		public UnifiedBlock Body { get; set; }
 
 		public UnifiedFunctionDefinition() {
 			Modifiers = new UnifiedModifierCollection();
 			Parameters = new UnifiedParameterCollection();
-			Block = new UnifiedBlock();
+			Body = new UnifiedBlock();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

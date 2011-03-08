@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Ucpf.Common.Model;
 
 namespace Ucpf.Core.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
@@ -105,7 +106,7 @@ namespace Ucpf.Core.Model.Visitors {
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
 			element.Parameters.Accept(this);
-			element.Block.Accept(this);
+			element.Body.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
@@ -223,6 +224,10 @@ namespace Ucpf.Core.Model.Visitors {
 		}
 
 		public void Visit(UnifiedType element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedExpressionCollection element) {
 			throw new NotImplementedException();
 		}
 	}

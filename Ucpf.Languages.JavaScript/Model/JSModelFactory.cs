@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using Ucpf.Core.Model;
@@ -39,6 +40,12 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 			//case PrimaryExpression: Identifier or TOKEN
 			if (topExpressionElement.Elements().Count() == 1) {
+				//TODO CONSIDER: TOKEN consisted of only [a-Z]* is always variable?
+				if (System.Text.RegularExpressions.Regex.IsMatch(topExpressionElement.Value, @"[a-zA-Z]{1}[a-zA-Z0-9]*")) {
+					return new UnifiedVariable {
+						Name = topExpressionElement.Value
+					};
+				}
 				return CreateLiteral(topExpressionElement);
 			}
 
@@ -97,6 +104,15 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedExpression CreateLiteral(XElement node) {
+			int i;
+			if( Int32.TryParse(node.Value,NumberStyles.Any, null, out i) )
+			{
+				return new UnifiedIntegerLiteral {
+					Value = i
+				};
+			}
+
+			//TODO IMPLEMENT: other literal cases
 			throw new NotImplementedException();
 		}
 
@@ -247,7 +263,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		public static UnifiedFunctionDefinition CreateFunction(XElement node) {
 			return new UnifiedFunctionDefinition {
 				Name = node.Element("Identifier").Value,
-				Block = CreateFunctionBody(node.Element("functionBody")),
+				Body = CreateFunctionBody(node.Element("functionBody")),
 				Parameters = CreateParameterCollection(node)
 			};
 		}

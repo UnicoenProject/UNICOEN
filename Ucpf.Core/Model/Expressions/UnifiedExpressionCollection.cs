@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ucpf.Common.Model.Visitors;
+using Ucpf.Core.Model;
+using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Common.Model.Expressions {
+namespace Ucpf.Common.Model {
 	public class UnifiedExpressionCollection : UnifiedElementCollection<UnifiedExpression> {
 		public UnifiedExpressionCollection() { }
 

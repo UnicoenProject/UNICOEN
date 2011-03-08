@@ -23,7 +23,7 @@ namespace Ucpf.Languages.Java.Model {
 				Type = new UnifiedType { Name = returnType },
 				Name = name,
 				Parameters = parameter,
-				Block = block
+				Body = block
 			};
 		}
 
@@ -50,7 +50,7 @@ namespace Ucpf.Languages.Java.Model {
 				element.Element("formalParameterDecls")
 					.Elements("normalParameterDecl")
 					.Select(e => new UnifiedParameter() {
-						Modifier = new UnifiedModifier(),
+						Modifiers = new UnifiedModifierCollection(),
 						Type = new UnifiedType { Name = e.Element("type").Elements().First().Value },
 						Name = e.Element("IDENTIFIER").Value
 					}));

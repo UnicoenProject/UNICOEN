@@ -67,7 +67,7 @@ namespace Ucpf.Languages.CSharp {
 				Modifiers = ConvertModifiler(method.Modifier),
 				Parameters = parameters,
 				Type = ConvertType(method.TypeReference),
-				Block = VisitBlockStatement(method.Body, data) as UnifiedBlock
+				Body = VisitBlockStatement(method.Body, data) as UnifiedBlock
 			};
 		}
 

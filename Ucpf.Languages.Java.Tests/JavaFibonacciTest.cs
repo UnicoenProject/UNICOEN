@@ -46,12 +46,12 @@ namespace Ucpf.Languages.Java.Tests {
 				Name = "fibonacci",
 				Parameters = {
 					new UnifiedParameter() {
-						Modifier = new UnifiedModifier(),
+						Modifiers = new UnifiedModifierCollection(),
 						Name = "n",
 						Type = new UnifiedType { Name = "int"},
 					}
 				},
-				Block = new UnifiedBlock(),
+				Body = new UnifiedBlock(),
 			};
 			Assert.That(actual,
 				Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
