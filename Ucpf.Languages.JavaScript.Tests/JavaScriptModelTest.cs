@@ -26,7 +26,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void If文の条件式を取得する() {
 			//actual
-			var block   = _func.Block;
+			var block   = _func.Body;
 			var expStmt = block.First();
 			var ifStmt  = (UnifiedIf)expStmt;
 			var cond    = ifStmt.Condition;
@@ -62,7 +62,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void 一番最初のreturn文を取得する() {
 			//actual
-			var block      = _func.Block;
+			var block      = _func.Body;
 			var expStmt    = block.First();
 			var ifStmt     = (UnifiedIf)expStmt;
 			var tBlock     = ifStmt.TrueBlock;
@@ -80,7 +80,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void 二項演算子を取得する() {
 			//actual
-			var block       = _func.Block;
+			var block       = _func.Body;
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBlock;
@@ -93,7 +93,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void 呼び出す関数の名前を取得する() {
 			//actual
-			var block       = _func.Block;
+			var block       = _func.Body;
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBlock;
@@ -107,7 +107,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 		[Test]
 		public void 呼び出す関数の引数を取得する() {
-			var block       = _func.Block;
+			var block       = _func.Body;
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBlock;
@@ -130,7 +130,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void 返却される式を取得する() {
 			//actual
-			var block      = _func.Block;
+			var block      = _func.Body;
 			var expStmt    = block.First();
 			var ifStmt     = (UnifiedIf)expStmt;
 			var fBlock     = ifStmt.FalseBlock;
@@ -175,7 +175,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void 関数内のステートメントを取得する() {
 			//actual
-			var block     = _func.Block;
+			var block     = _func.Body;
 			var firstStmt = block.First();
 
 			Assert.That(firstStmt, Is.InstanceOf<UnifiedExpression>());

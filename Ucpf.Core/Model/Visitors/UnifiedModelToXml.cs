@@ -105,7 +105,7 @@ namespace Ucpf.Core.Model.Visitors {
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
 			element.Parameters.Accept(this);
-			element.Block.Accept(this);
+			element.Body.Accept(this);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 		}
