@@ -1,31 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Code2Xml.Languages.Java.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
+using Ucpf.Core.Tests;
+using Ucpf.Languages.CSharp.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaFibonacciTest {
-		private static UnifiedCall CreateCall(int? decrement) {
-			return new UnifiedCall {
-				Function = UnifiedVariable.Create("fibonacci"),
-				Arguments = {
-					decrement == null
-						? UnifiedArgument.Create(UnifiedVariable.Create("n"))
-						: UnifiedArgument.Create(new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator =
-						                   	new UnifiedBinaryOperator("-",
-						                   	UnifiedBinaryOperatorType.Subtraction),
-							RightHandSide = UnifiedIntegerLiteral.Create((int)decrement),
-						})
-				},
-			};
-		}
+		private static readonly string Code =
+			File.ReadAllText(Fixture.GetInputPath("Java", "Fibonacci.cs"));
 
 		[Test]
 		public void CreateDefineFunction() {
@@ -35,26 +24,28 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
 				Modifiers = {
-					new UnifiedModifier() {
-						Name = "public"
-					},
-					new UnifiedModifier() {
-						Name = "static"
-					}
+					UnifiedModifier.Create("public"),
+					UnifiedModifier.Create("static"),
 				},
-				Type = new UnifiedType { Name = "int" },
+				Type = UnifiedType.Create("int"),
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter() {
-						Modifiers = new UnifiedModifierCollection(),
+					new UnifiedParameter {
 						Name = "n",
-						Type = new UnifiedType { Name = "int"},
+						Type = UnifiedType.Create("int"),
 					}
 				},
-				Body = new UnifiedBlock(),
 			};
 			Assert.That(actual,
 				Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void CreateFibonacci() {
+			var actual = JavaModelFactory.CreateModel(Code);
+			var expected = CSharpFibonacciTest.Model;
+			Assert.That(actual,
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }

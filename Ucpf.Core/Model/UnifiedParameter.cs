@@ -6,6 +6,10 @@ namespace Ucpf.Core.Model {
 		public string Name { get; set; }
 		public UnifiedType Type { get; set; }
 
+		public UnifiedParameter() {
+			Modifiers = new UnifiedModifierCollection();
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

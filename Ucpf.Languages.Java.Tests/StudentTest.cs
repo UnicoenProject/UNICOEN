@@ -20,7 +20,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 		[Test]
 		public void CreateClassDefinition() {
-			var expected = CSharp.Tests.StudentTest.CreateModel();
+			var expected = CSharp.Tests.CSharpStudentTest.CreateModel();
 
 			var actual = JavaModelFactory.CreateModel(_source);
 			Assert.That(actual,
