@@ -98,13 +98,34 @@ class Klass {
 				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test, Ignore]
+		[Test]
 		public void GenerateFibonacciCode() {
 			var firstModel = CSharpModelFactory.CreateModel(Code);
+			Assert.That(firstModel,
+				Is.EqualTo(Model).Using(StructuralEqualityComparer.Instance));
 			var firstCode = CSharpCodeGenerator.Generate(firstModel);
 			var secondModel = CSharpModelFactory.CreateModel(firstCode);
+			Assert.That(secondModel,
+				Is.EqualTo(firstModel).Using(StructuralEqualityComparer.Instance));
 			var secondCode = CSharpCodeGenerator.Generate(secondModel);
 			Assert.AreEqual(firstCode, secondCode);
+		}
+
+		[Test]
+		public void FibonacciAnother() {
+			const string code = @"
+class Klass {
+	int Fib(int n) {
+		if (n <= 1) { hoge(); return n; }
+		else { return fib(n-1) + fib(n-2); }
+	}
+}
+";
+			var firstModel = CSharpModelFactory.CreateModel(code);
+			var generatedCode = CSharpCodeGenerator.Generate(firstModel);
+			var secondModel = CSharpModelFactory.CreateModel(generatedCode);
+			Assert.That(secondModel,
+				Is.EqualTo(firstModel).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]

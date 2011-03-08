@@ -67,7 +67,7 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write(" ");
 			_writer.Write(funcDef.Name);
 			funcDef.Parameters.Accept(this);
-			funcDef.Block.Accept(this);
+			funcDef.Body.Accept(this);
 		}
 
 		public void Visit(UnifiedParameterCollection parameters) {

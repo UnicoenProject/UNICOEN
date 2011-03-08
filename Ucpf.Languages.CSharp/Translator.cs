@@ -157,6 +157,7 @@ namespace Ucpf.Languages.CSharp {
 			var trueStmt = stmt.TrueStatement
 				.Select(s => s.AcceptVisitor(this, data))
 				.ToList();
+			var first = stmt.TrueStatement[0] as BlockStatement;
 			var falseStmt = stmt.FalseStatement
 				.Select(s => s.AcceptVisitor(this, data))
 				.ToList();

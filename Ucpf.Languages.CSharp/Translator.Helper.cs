@@ -28,7 +28,6 @@ namespace Ucpf.Languages.CSharp {
 					return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterEqual);
 			}
 			throw new NotImplementedException();
-			return null;
 		}
 
 		private static UnifiedUnaryOperator ConvertUnaryOperator(UnaryOperatorType type) {
@@ -52,7 +51,6 @@ namespace Ucpf.Languages.CSharp {
 						UnifiedUnaryOperatorType.PostfixDecrement);
 			}
 			throw new NotImplementedException();
-			return null;
 		}
 
 		private static UnifiedModifierCollection ConvertModifiler(Modifiers mods) {
