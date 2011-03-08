@@ -10,6 +10,15 @@ using Ucpf.Core.Model;
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory {
 
+		#region Function
+
+		/*
+		 * methodDeclaration
+		 * :
+		 *   modifiers (typeParameters)? IDENTIFIER formalParameters ('throws' qualifiedNameList)? '{' (explicitConstructorInvocation)? (blockStatement)* '}'
+         * | modifiers (typeParameters)? (type | 'void') IDENTIFIER formalParameters ('[' ']')* ('throws' qualifiedNameList)? (block | ';');
+		 * 
+		 */
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			var modifiers = new UnifiedModifierCollection(node.Element("modifiers")
 				.Elements().Select(e => new UnifiedModifier() { Name = e.Value } ));
@@ -26,6 +35,8 @@ namespace Ucpf.Languages.Java.Model {
 				Body = block
 			};
 		}
+
+		#endregion
 
 		private static UnifiedBlock CreateBlock(XElement xElement) {
 			var unifiedBlock = new UnifiedBlock();
