@@ -51,7 +51,7 @@ end");
 				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedReturn{ Value = UnifiedVariable.Create("n")}
 				},
 			};
@@ -73,7 +73,7 @@ end");
 				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedReturn{ Value = CreateCall(null)}
 				},
 			};
@@ -95,7 +95,7 @@ end");
 				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedReturn{
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
@@ -128,7 +128,7 @@ end
 				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
@@ -171,7 +171,7 @@ end
 				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = {
+				Body = {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
