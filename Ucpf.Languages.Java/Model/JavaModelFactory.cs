@@ -21,10 +21,11 @@ namespace Ucpf.Languages.Java.Model {
 		 */
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			var modifiers = new UnifiedModifierCollection(node.Element("modifiers")
-				.Elements().Select(e => new UnifiedModifier() { Name = e.Value } ));
+				.Elements().Select(e => new UnifiedModifier { Name = e.Value } ));
 			var returnType = node.Element("type").Elements().ElementAt(0).Value;
 			var name = node.Element("IDENTIFIER").Value;
 			var parameter = CreateParameterCollection(node.Element("formalParameters"));
+			//TODO IMPLEMENT:
 			var block = new UnifiedBlock();
 
 			return new UnifiedFunctionDefinition {
@@ -36,9 +37,46 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
+		public static UnifiedModifier CreateVariableModifier(XElement node) {
+			return new UnifiedModifier {
+				Name = node.Value
+			};
+		}
+
+		public static UnifiedType CreateType(XElement node) {
+			return new UnifiedType {
+				Name = node.Element("type").Value
+			};
+		}
+
+		public static UnifiedParameter CreateParameter(XElement node) {
+			return new UnifiedParameter {
+				Modifiers = new UnifiedModifierCollection(node.Element("variableModifiers").Elements().Select(e => CreateVariableModifier(e))),
+				Name = node.Element("IDENTIFIER").Value,
+				Type = CreateType(node)
+			};
+		}
+
+		private static UnifiedParameterCollection CreateParameterCollection(XElement element) {
+			return new UnifiedParameterCollection(
+				element.Element("formalParameterDecls").Elements("normalParameterDecl")
+					.Select(e => CreateParameter(e))
+					);
+		}
+
 		#endregion
 
-		private static UnifiedBlock CreateBlock(XElement xElement) {
+
+
+		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
+			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
+			return new UnifiedBooleanLiteral {
+				Value = node.Name.LocalName == "true"
+				             	? UnifiedBoolean.True : UnifiedBoolean.False,
+			};
+		}
+
+				private static UnifiedBlock CreateBlock(XElement xElement) {
 			var unifiedBlock = new UnifiedBlock();
 
 			var element = xElement.Element("blockStatement")
@@ -55,26 +93,6 @@ namespace Ucpf.Languages.Java.Model {
 			throw new NotImplementedException();
 		}
 
-		private static UnifiedParameterCollection CreateParameterCollection(XElement element) {
-
-			return new UnifiedParameterCollection(
-				element.Element("formalParameterDecls")
-					.Elements("normalParameterDecl")
-					.Select(e => new UnifiedParameter() {
-						Modifiers = new UnifiedModifierCollection(),
-						Type = new UnifiedType { Name = e.Element("type").Elements().First().Value },
-						Name = e.Element("IDENTIFIER").Value
-					}));
-			// throw new NotImplementedException();
-		}
-
-		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
-			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
-			return new UnifiedBooleanLiteral {
-				Value = node.Name.LocalName == "true"
-				             	? UnifiedBoolean.True : UnifiedBoolean.False,
-			};
-		}
 
 		public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "str");
