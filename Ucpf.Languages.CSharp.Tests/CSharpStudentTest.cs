@@ -7,10 +7,10 @@ using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
 	[TestFixture]
-	public class StudentTest {
+	public class CSharpStudentTest {
 		private readonly string _source;
 
-		public StudentTest() {
+		public CSharpStudentTest() {
 			var path = Fixture.GetInputPath("CSharp", "student.cs");
 			_source = File.ReadAllText(path);
 		}
