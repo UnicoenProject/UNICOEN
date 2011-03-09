@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
@@ -8,7 +9,131 @@ using Ucpf.Core.Model;
 
 
 namespace Ucpf.Languages.Java.Model {
-	public class JavaModelFactory {
+	public class JavaModelFactory
+	{
+
+		#region Expression
+
+		public static UnifiedExpression CreateExpression(XElement node) {
+			
+			//TODO IMPLEMENT: more operators
+			String[] binaryOperator = {
+				"+", "-", "*", "/", "%", "<", ">"
+			};
+
+			/* 
+			 * in descendants of <expression> node, if
+			 * it has more than 2 child-node OR
+			 * it has only one child whose name is <IDENTIFIER> OR
+			 * it has only one child whose name is <TOKEN> 
+			 * these are some actual expression
+			*/
+			var expressionList =
+				node.Descendants().Where(e => {
+					var c = e.Elements().Count();
+					return c > 1 || (c == 1 && e.Element("IDENTIFIER") != null) ||
+						   (c == 1 && e.Element("TOKEN") != null);
+				});
+
+			//Ensure that node has some expression
+			if (expressionList.Count() == 0) {
+				throw new NotImplementedException();
+			}
+
+			var topExpressionElement = expressionList.First();
+
+			//case PrimaryExpression: IDENTIFIER or TOKEN
+			if (topExpressionElement.Elements().Count() == 1) {
+				//case Variable
+				if (System.Text.RegularExpressions.Regex.IsMatch(topExpressionElement.Value, @"[a-zA-Z]{1}[a-zA-Z0-9]*")) {
+					return CreateVariable(topExpressionElement);
+				}
+				return CreateLiteral(topExpressionElement);
+			}
+
+			//case BinaryExpression
+			if (binaryOperator.Contains(topExpressionElement.Elements().ElementAt(1).Value)) {
+				return CreateBinaryExpression(topExpressionElement);
+			}
+
+			//TODO IMPLEMENT: other cases
+			throw new NotImplementedException();
+		}
+
+		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node) {
+			return new UnifiedBinaryExpression {
+				LeftHandSide = CreateExpression(node.Elements().ElementAt(0)),
+				Operator = CreateBinaryOperator(node.Elements().ElementAt(1)),
+				RightHandSide = CreateExpression(node.Elements().ElementAt(2))
+			};
+		}
+
+		public static UnifiedVariable CreateVariable(XElement node) {
+			return new UnifiedVariable {
+				Name = node.Value
+			};
+		}
+
+		public static UnifiedLiteral CreateLiteral(XElement node) {
+			int i;
+			if( Int32.TryParse(node.Value,NumberStyles.Any, null, out i) )
+			{
+				return new UnifiedIntegerLiteral {
+					Value = i
+				};
+			}
+
+			//TODO IMPLEMENT: other literal cases
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+		#region Operator
+
+		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node) {
+			//TODO implement more OperatorType cases
+			var name = node.Value;
+			UnifiedBinaryOperatorType type;
+
+			switch (name) {
+			//Arithmetic
+				case "+": type = UnifiedBinaryOperatorType.Addition; break;
+				case "-": type = UnifiedBinaryOperatorType.Subtraction; break;
+				case "*": type = UnifiedBinaryOperatorType.Multiplication; break;
+				case "/": type = UnifiedBinaryOperatorType.Division; break;
+				case "%": type = UnifiedBinaryOperatorType.Modulo; break;
+			//Shift
+				case "<<": type = UnifiedBinaryOperatorType.LeftShift; break;
+				case ">>": type = UnifiedBinaryOperatorType.RightShift; break;
+			//Comparison
+				case ">": type = UnifiedBinaryOperatorType.Greater; break;
+				case ">=": type = UnifiedBinaryOperatorType.GreaterEqual; break;
+				case "<": type = UnifiedBinaryOperatorType.Lesser; break;
+				case "<=": type = UnifiedBinaryOperatorType.LesserEqual; break;
+				case "==": type = UnifiedBinaryOperatorType.Equal; break;
+				case "!=": type = UnifiedBinaryOperatorType.NotEqual; break;
+			//Logocal
+				case "&&": type = UnifiedBinaryOperatorType.LogicalAnd; break;
+				case "||": type = UnifiedBinaryOperatorType.LogicalOr; break;
+			//Bit
+				case "&": type = UnifiedBinaryOperatorType.BitAnd; break;
+				case "|": type = UnifiedBinaryOperatorType.BitOr; break;
+				case "^": type = UnifiedBinaryOperatorType.BitXor; break;
+			//Assignment
+				case "=": type = UnifiedBinaryOperatorType.Assignment; break;
+				case "+=": type = UnifiedBinaryOperatorType.AddAssignment; break;
+				case "-=": type = UnifiedBinaryOperatorType.SubAssignment; break;
+				case "*=": type = UnifiedBinaryOperatorType.MulAssignment; break;
+				case "/=": type = UnifiedBinaryOperatorType.DivAssignment; break;
+				case "%=": type = UnifiedBinaryOperatorType.ModAssignment; break;
+				default:
+					throw new InvalidOperationException();
+			}
+			return new UnifiedBinaryOperator(name, type);
+		}
+
+		#endregion
 
 		#region Function
 
@@ -20,20 +145,13 @@ namespace Ucpf.Languages.Java.Model {
 		 * 
 		 */
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
-			var modifiers = new UnifiedModifierCollection(node.Element("modifiers")
-				.Elements().Select(e => new UnifiedModifier { Name = e.Value } ));
-			var returnType = node.Element("type").Elements().ElementAt(0).Value;
-			var name = node.Element("IDENTIFIER").Value;
-			var parameter = CreateParameterCollection(node.Element("formalParameters"));
-			//TODO IMPLEMENT:
-			var block = new UnifiedBlock();
-
 			return new UnifiedFunctionDefinition {
-				Modifiers = modifiers,
-				Type = new UnifiedType { Name = returnType },
-				Name = name,
-				Parameters = parameter,
-				Body = block
+				Modifiers  = CreateModifierCollection(node),
+				Type       = CreateType(node),
+				Name       = node.Element("IDENTIFIER").Value,
+				Parameters = CreateParameterCollection(node),
+				//TODO IMPLEMENT:
+				Body       = CreateBlock(node)
 			};
 		}
 
@@ -41,6 +159,16 @@ namespace Ucpf.Languages.Java.Model {
 			return new UnifiedModifier {
 				Name = node.Value
 			};
+		}
+
+		public static UnifiedModifier CreateModifier(XElement node) {
+			return new UnifiedModifier {
+				Name = node.Value
+			};
+		}
+
+		public static UnifiedModifierCollection CreateModifierCollection(XElement node) {
+			return new UnifiedModifierCollection(node.Element("modifiers").Elements().Select(e => CreateModifier(e)));
 		}
 
 		public static UnifiedType CreateType(XElement node) {
@@ -57,7 +185,8 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		private static UnifiedParameterCollection CreateParameterCollection(XElement element) {
+		private static UnifiedParameterCollection CreateParameterCollection(XElement node) {
+			var element = node.Element("formalParameters");
 			return new UnifiedParameterCollection(
 				element.Element("formalParameterDecls").Elements("normalParameterDecl")
 					.Select(e => CreateParameter(e))
@@ -65,8 +194,6 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		#endregion
-
-
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
@@ -76,7 +203,7 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-				private static UnifiedBlock CreateBlock(XElement xElement) {
+		private static UnifiedBlock CreateBlock(XElement xElement) {
 			var unifiedBlock = new UnifiedBlock();
 
 			var element = xElement.Element("blockStatement")
