@@ -197,7 +197,6 @@ namespace Ucpf.Languages.JavaScript.Model {
 					throw new InvalidOperationException();
 			}
 
-			//TODO second parameter is BinaryOperatorType? UnifiedBinaryOperatorType?
 			return new UnifiedBinaryOperator(name, type);
 		}
 
