@@ -14,7 +14,7 @@ namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaFibonacciTest {
 		private static readonly string Code =
-			File.ReadAllText(Fixture.GetInputPath("Java", "Fibonacci.cs"));
+			File.ReadAllText(Fixture.GetInputPath("Java", "Fibonacci.java"));
 
 		[Test]
 		public void CreateDefineFunction() {
