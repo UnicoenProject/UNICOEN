@@ -1,4 +1,4 @@
-﻿using Ucpf.Common.Model;
+﻿using Ucpf.Core.Model.Expressions;
 
 namespace Ucpf.Core.Model.Visitors {
 	public interface IUnifiedModelVisitor {
@@ -32,5 +32,9 @@ namespace Ucpf.Core.Model.Visitors {
 		void Visit(UnifiedProperty element);
 		void Visit(UnifiedType element);
 		void Visit(UnifiedExpressionCollection element);
+		void Visit(UnifiedWhile element);
+		void Visit(UnifiedDoWhile element);
+		void Visit(UnifiedBreak element);
+		void Visit(UnifiedContinue element);
 	}
 }

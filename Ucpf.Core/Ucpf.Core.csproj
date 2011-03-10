@@ -78,11 +78,15 @@
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorType.cs" />
     <Compile Include="Model\Expressions\UnifiedArrayNew.cs" />
     <Compile Include="Model\Expressions\UnifiedBinaryExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedBreak.cs" />
     <Compile Include="Model\Expressions\UnifiedCall.cs" />
     <Compile Include="Model\Expressions\UnifiedClassDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedConstructorDefinition.cs" />
+    <Compile Include="Model\Expressions\UnifiedContinue.cs" />
+    <Compile Include="Model\Expressions\UnifiedDoWhile.cs" />
     <Compile Include="Model\Expressions\UnifiedExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionCollection.cs" />
+    <Compile Include="Model\Expressions\UnifiedExpressionWithBlock.cs" />
     <Compile Include="Model\Expressions\UnifiedFor.cs" />
     <Compile Include="Model\Expressions\UnifiedForeach.cs" />
     <Compile Include="Model\Expressions\UnifiedFunctionDefinition.cs" />
@@ -95,6 +99,9 @@
     <Compile Include="Model\Expressions\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedVariable.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
+    <Compile Include="Model\Expressions\UnifiedWhile.cs" />
+    <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Model\StructuralEqualityComparer.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\UnifiedArgumentCollection.cs" />

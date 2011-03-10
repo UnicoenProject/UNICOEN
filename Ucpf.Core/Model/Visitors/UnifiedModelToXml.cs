@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
+using Ucpf.Core.Model.Expressions;
 
 namespace Ucpf.Core.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor {
@@ -228,6 +228,22 @@ namespace Ucpf.Core.Model.Visitors {
 		}
 
 		public void Visit(UnifiedExpressionCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedWhile element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedDoWhile element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedBreak element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedContinue element) {
 			throw new NotImplementedException();
 		}
 	}
