@@ -4,6 +4,7 @@ namespace Ucpf.Core.Model {
 	public class UnifiedArrayNew : UnifiedExpression {
 		public UnifiedType Type { get; set; }
 		public UnifiedArgumentCollection Arguments { get; set; }
+		//public 
 
 		public UnifiedArrayNew() {
 			Arguments = new UnifiedArgumentCollection();

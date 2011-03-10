@@ -130,7 +130,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 										UnifiedVariable.Create("i"), UnifiedIntegerLiteral.Create(2)),
 									Step = CSharpModelFactoryHelper.CreateExpression(
 										UnifiedVariable.Create("i"), UnifiedUnaryOperatorType.PostfixIncrement),
-									Block = {
+									Body = {
 										new UnifiedCall {
 											Function = UnifiedVariable.Create("write"),
 											Arguments = {
@@ -156,7 +156,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 										Name = "student",
 									},
 									Set = UnifiedVariable.Create("students"),
-									Block = {
+									Body = {
 										new UnifiedCall {
 											Function = UnifiedVariable.Create("write"),
 											Arguments = {

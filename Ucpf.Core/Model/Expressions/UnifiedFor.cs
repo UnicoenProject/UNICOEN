@@ -1,15 +1,11 @@
-﻿using Ucpf.Core.Model.Visitors;
+﻿using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedFor : UnifiedExpression {
+	public class UnifiedFor : UnifiedExpressionWithBlock<UnifiedFor> {
 		public UnifiedExpression Initializer { get; set; }
 		public UnifiedExpression Condition { get; set; }
 		public UnifiedExpression Step { get; set; }
-		public UnifiedBlock Block { get; set; }
-
-		public UnifiedFor() {
-			Block = new UnifiedBlock();
-		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

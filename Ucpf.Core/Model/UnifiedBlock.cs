@@ -11,16 +11,16 @@ namespace Ucpf.Core.Model {
 			_statements = new List<UnifiedExpression>();
 		}
 
-		public UnifiedBlock(IEnumerable<UnifiedExpression> statements) {
-			_statements = statements.ToList();
+		public UnifiedBlock(IEnumerable<UnifiedExpression> expressions) {
+			_statements = expressions.ToList();
 		}
 
 		public UnifiedExpression this[int index] {
 			get { return _statements[index]; }
 		}
 
-		public void Add(UnifiedExpression stmt) {
-			_statements.Add(stmt);
+		public void Add(UnifiedExpression expression) {
+			_statements.Add(expression);
 		}
 
 		public IEnumerator<UnifiedExpression> GetEnumerator() {

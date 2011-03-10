@@ -176,7 +176,7 @@ namespace Ucpf.Languages.CSharp {
 				Initializer = init,
 				Condition = cond,
 				Step = step,
-				Block = body
+				Body = body
 			};
 		}
 
@@ -189,7 +189,7 @@ namespace Ucpf.Languages.CSharp {
 			return new UnifiedForeach {
 				Element = new UnifiedVariableDefinition { Type = type, Name = name },
 				Set = set,
-				Block = body,
+				Body = body,
 			};
 		}
 
