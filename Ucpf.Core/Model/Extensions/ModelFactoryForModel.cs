@@ -23,5 +23,15 @@ namespace Ucpf.Core.Model.Extensions {
 				Condition = condition,
 			};
 		}
+
+		public static UnifiedForeach ToForeach(this UnifiedExpression set, UnifiedType variableType, string variableName) {
+			return new UnifiedForeach {
+				Element = new UnifiedVariableDefinition {
+					Type = variableType,
+					Name = variableName,
+				},
+				Set = set,
+			};
+		}
 	}
 }

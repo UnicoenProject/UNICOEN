@@ -24,7 +24,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				true.ToLiteral()
 					.ToWhile()
 					.AddToBody(
-						CSharpElement.CreateReturn())
+						CSharpModelFactoryHelper.CreateReturn())
 			});
 
 		[Test]
@@ -63,20 +63,20 @@ class A { void M1() {
 			var expected = CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToDoWhile()
-					.AddToBody(CSharpElement.CreateReturn())
+					.AddToBody(CSharpModelFactoryHelper.CreateReturn())
 			});
 
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(WhileExpected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
 		public void CreateFor() {
 			const string code = @"
 class A { void M1() {
-	for (int i = 0; i < 1; i++) { return; }
+	for (int i = 0; i < 1; i++) { break; }
 } }";
 
 			var expected = CreateClassAndMethod(new UnifiedBlock {
@@ -84,7 +84,7 @@ class A { void M1() {
 					Initializer = new UnifiedVariableDefinition {
 						Type = "int".ToType(),
 						Name = "i",
-						InitialValue = 1.ToLiteral(),
+						InitialValue = ModelFactoryForPrimitive.ToLiteral(1),
 					},
 					Condition = CSharpModelFactoryHelper.CreateExpression(
 						"i".ToVariable(),
@@ -93,7 +93,7 @@ class A { void M1() {
 					Step = CSharpModelFactoryHelper.CreateExpression(
 						"i".ToVariable(), UnifiedUnaryOperatorType.PostfixIncrement),
 					Body = {
-						CSharpElement.CreateReturn(),
+						CSharpModelFactoryHelper.CreateBreak(),
 					},
 				}
 			});
@@ -101,39 +101,26 @@ class A { void M1() {
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(WhileExpected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
-		public void CreateForEach() {
+		public void CreateForeach() {
 			const string code = @"
 class A { void M1() {
-	foreach (var i in new[] { 1 }) { return; }
+	foreach (var i in new[] { 1 }) { continue; }
 } }";
-
-			var expected = CreateClassAndMethod(new UnifiedBlock {
-				new UnifiedFor {
-					Initializer = new UnifiedVariableDefinition {
-						Type = "int".ToType(),
-						Name = "i",
-						InitialValue = 1.ToLiteral(),
-					},
-					Condition = CSharpModelFactoryHelper.CreateExpression(
-						"i".ToVariable(),
-						UnifiedBinaryOperatorType.Lesser,
-						1.ToLiteral()),
-					Step = CSharpModelFactoryHelper.CreateExpression(
-						"i".ToVariable(), UnifiedUnaryOperatorType.PostfixIncrement),
-					Body = {
-						CSharpElement.CreateReturn(),
-					},
+			var expected = new UnifiedArrayNew {
+				InitialValues = {
+					1.ToLiteral(),
 				}
-			});
+			}.ToForeach("var".ToType(), "i")
+				.AddToBody(CSharpModelFactoryHelper.CreateContinue());
 
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(WhileExpected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }

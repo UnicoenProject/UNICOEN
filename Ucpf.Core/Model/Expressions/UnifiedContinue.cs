@@ -5,11 +5,7 @@ using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedExpressionCollection : UnifiedElementCollection<UnifiedExpression> {
-		public UnifiedExpressionCollection() { }
-
-		public UnifiedExpressionCollection(IEnumerable<UnifiedExpression> expressions) : base(expressions) { }
-
+	public class UnifiedContinue : UnifiedExpression {
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
