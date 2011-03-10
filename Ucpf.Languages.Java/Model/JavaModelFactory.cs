@@ -56,6 +56,11 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateBinaryExpression(topExpressionElement);
 			}
 
+			//case CallExpression
+			if (topExpressionElement.Name.LocalName == "primary") {
+				return CreateCallExpression(topExpressionElement);
+			}
+
 			//TODO IMPLEMENT: other cases
 			throw new NotImplementedException();
 		}
@@ -65,6 +70,13 @@ namespace Ucpf.Languages.Java.Model {
 				LeftHandSide = CreateExpression(node.Elements().ElementAt(0)),
 				Operator = CreateBinaryOperator(node.Elements().ElementAt(1)),
 				RightHandSide = CreateExpression(node.Elements().ElementAt(2))
+			};
+		}
+
+		public static UnifiedCall CreateCallExpression(XElement node) {
+			return new UnifiedCall {
+				Arguments = CreateArgumentCollection(node),
+				Function = CreateExpression(node)
 			};
 		}
 
@@ -135,6 +147,43 @@ namespace Ucpf.Languages.Java.Model {
 
 		#endregion
 
+		#region Statement
+
+		public static UnifiedExpression CreateStatement(XElement node) {
+			var element = node.Elements().First();
+
+			switch (element.Name.LocalName) {
+				case "block": return CreateBlock(element);
+				case "IF": return CreateIf(node);
+				case "RETURN": return CreateReturn(node);
+				default: throw new NotImplementedException();
+			}
+		}
+		
+		public static UnifiedBlock CreateBlock(XElement node) {
+			if (node.Element("blockStatement") == null)
+				return new UnifiedBlock();
+			return new UnifiedBlock(
+				node.Element("blockStatement").Elements("statement").Select(CreateStatement).ToList()
+			);
+		}
+
+		public static UnifiedIf CreateIf(XElement node) {
+			return new UnifiedIf {
+				Condition = CreateExpression(node.Element("parExpression").Element("expression")),
+				TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
+				FalseBlock = (UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
+			};
+		}
+		
+		public static UnifiedReturn CreateReturn(XElement node) {
+			return new UnifiedReturn {
+				Value = CreateExpression(node.Element("expression"))
+			};
+		}
+
+		#endregion
+
 		#region Function
 
 		/*
@@ -151,7 +200,7 @@ namespace Ucpf.Languages.Java.Model {
 				Name       = node.Element("IDENTIFIER").Value,
 				Parameters = CreateParameterCollection(node),
 				//TODO IMPLEMENT:
-				Body       = CreateBlock(node)
+				Body       = CreateBlock(node.Element("block"))
 			};
 		}
 
@@ -193,6 +242,19 @@ namespace Ucpf.Languages.Java.Model {
 					);
 		}
 
+		public static UnifiedArgument CreateArgument(XElement node) {
+			return new UnifiedArgument {
+				Value = CreateExpression(node)
+			};
+		}
+
+		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node) {
+			var element =
+				node.Element("identifierSuffix").Element("arguments").Element(
+					"expressionList").Elements().Select(e => CreateArgument(e));
+			return new UnifiedArgumentCollection(element);
+		}
+
 		#endregion
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
@@ -202,24 +264,6 @@ namespace Ucpf.Languages.Java.Model {
 				             	? UnifiedBoolean.True : UnifiedBoolean.False,
 			};
 		}
-
-		private static UnifiedBlock CreateBlock(XElement xElement) {
-			var unifiedBlock = new UnifiedBlock();
-
-			var element = xElement.Element("blockStatement")
-				.Element("statement");
-
-			if (element.Elements().First().Name.LocalName == "TOKEN" 
-				&& element.Elements().First().Value == "if") {
-				unifiedBlock.Add(CreateIfExpression(element));
-			}
-			throw new NotImplementedException("in CreateBlock");
-		}
-
-		private static UnifiedIf CreateIfExpression(XElement xElement) {
-			throw new NotImplementedException();
-		}
-
 
 		public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "str");
