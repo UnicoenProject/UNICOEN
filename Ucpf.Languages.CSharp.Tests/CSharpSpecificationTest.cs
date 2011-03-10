@@ -9,6 +9,8 @@ using Ucpf.Core.Model.Extensions;
 namespace Ucpf.Languages.CSharp.Tests {
 	[TestFixture]
 	public class CSharpSpecificationTest {
+		#region Models
+
 		public static UnifiedClassDefinition CreateClassAndMethod(UnifiedBlock block) {
 			return "A".ToClassDefinition()
 				.AddToBody(
@@ -19,7 +21,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				);
 		}
 
-		private static readonly UnifiedClassDefinition WhileExpected =
+		public static readonly UnifiedClassDefinition WhileModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToWhile()
@@ -27,64 +29,18 @@ namespace Ucpf.Languages.CSharp.Tests {
 						CSharpModelFactoryHelper.CreateReturn())
 			});
 
-		[Test]
-		public void CreateSimpleWhile() {
-			const string code = @"
-class A { void M1() {
-	while(true) return;
-} }";
-
-			var actual = CSharpModelFactory.CreateModel(code);
-
-			Assert.That(actual,
-				Is.EqualTo(WhileExpected).Using(StructuralEqualityComparer.Instance));
-		}
-
-		[Test]
-		public void CreateWhile() {
-			const string code = @"
-class A { void M1() {
-	while(true) { return; }
-} }";
-
-			var actual = CSharpModelFactory.CreateModel(code);
-
-			Assert.That(actual,
-				Is.EqualTo(WhileExpected).Using(StructuralEqualityComparer.Instance));
-		}
-
-		[Test]
-		public void CreateDoWhile() {
-			const string code = @"
-class A { void M1() {
-	do { return; } while(true)
-} }";
-
-			var expected = CreateClassAndMethod(new UnifiedBlock {
+		public static UnifiedClassDefinition DoWhileModel = CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToDoWhile()
 					.AddToBody(CSharpModelFactoryHelper.CreateReturn())
 			});
 
-			var actual = CSharpModelFactory.CreateModel(code);
-
-			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
-		}
-
-		[Test]
-		public void CreateFor() {
-			const string code = @"
-class A { void M1() {
-	for (int i = 0; i < 1; i++) { break; }
-} }";
-
-			var expected = CreateClassAndMethod(new UnifiedBlock {
+		public static UnifiedClassDefinition ForModel = CreateClassAndMethod(new UnifiedBlock {
 				new UnifiedFor {
 					Initializer = new UnifiedVariableDefinition {
 						Type = "int".ToType(),
 						Name = "i",
-						InitialValue = ModelFactoryForPrimitive.ToLiteral(1),
+						InitialValue = 1.ToLiteral(),
 					},
 					Condition = CSharpModelFactoryHelper.CreateExpression(
 						"i".ToVariable(),
@@ -98,29 +54,81 @@ class A { void M1() {
 				}
 			});
 
+		public static UnifiedClassDefinition ForeachModel =
+			CreateClassAndMethod(new UnifiedBlock {
+				new UnifiedArrayNew {
+					InitialValues = {
+						1.ToLiteral(),
+					}
+				}.ToForeach("int".ToType(), "i")
+					.AddToBody(CSharpModelFactoryHelper.CreateContinue())
+			});
+
+		#endregion
+
+		[Test]
+		public void CreateSimpleWhile() {
+			const string code = @"
+class A { void M1() {
+	while(true) return;
+} }";
+
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(WhileModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void CreateWhile() {
+			const string code = @"
+class A { void M1() {
+	while(true) { return; }
+} }";
+
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(WhileModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void CreateDoWhile() {
+			const string code = @"
+class A { void M1() {
+	do { return; } while(true)
+} }";
+
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(DoWhileModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void CreateFor() {
+			const string code = @"
+class A { void M1() {
+	for (int i = 0; i < 1; i++) { break; }
+} }";
+
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(ForModel).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
 		public void CreateForeach() {
 			const string code = @"
 class A { void M1() {
-	foreach (var i in new[] { 1 }) { continue; }
+	foreach (int i in new[] { 1 }) { continue; }
 } }";
-			var expected = new UnifiedArrayNew {
-				InitialValues = {
-					1.ToLiteral(),
-				}
-			}.ToForeach("var".ToType(), "i")
-				.AddToBody(CSharpModelFactoryHelper.CreateContinue());
 
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(ForeachModel).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }
