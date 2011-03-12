@@ -64,15 +64,33 @@ namespace Ucpf.Languages.CSharp.Tests {
 					.AddToBody(CSharpModelFactoryHelper.CreateContinue())
 			});
 
+		private static readonly UnifiedClassDefinition IfModel =
+			CreateClassAndMethod(new UnifiedBlock {
+				true.ToLiteral()
+					.ToIf()
+					.AddToTrueBody((-1).ToLiteral().ToReturn())
+			});
+
+		private static readonly UnifiedClassDefinition IfElseModel =
+			CreateClassAndMethod(new UnifiedBlock {
+				true.ToLiteral()
+					.ToIf()
+					.AddToTrueBody((-1).ToLiteral().ToReturn())
+					.AddToFalseBody((0.1).ToLiteral().ToReturn())
+			});
+
 		#endregion
 
-		[Test]
-		public void CreateSimpleWhile() {
-			const string code = @"
-class A { void M1() {
-	while(true) return;
-} }";
+		private static string CreateCode(string fragment) {
+			return "class A { void M1() {" + fragment + "} }";
+		}
 
+		[Test]
+		[TestCase("while(true) return;")]
+		[TestCase("while(true) { return; }")]
+		[TestCase("while(true) { { return; } }")]
+		public void CreateWhile(string fragment) {
+			var code = CreateCode(fragment);
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
@@ -80,38 +98,23 @@ class A { void M1() {
 		}
 
 		[Test]
-		public void CreateWhile() {
-			const string code = @"
-class A { void M1() {
-	while(true) { return; }
-} }";
-
+		[TestCase("do return; while(true);")]
+		[TestCase("do { return; } while(true);")]
+		[TestCase("do { { return; } } while(true);")]
+		public void CreateDoWhile(string fragment) {
+			var code = CreateCode(fragment);
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(WhileModel).Using(StructuralEqualityComparer.Instance));
+			    Is.EqualTo(DoWhileModel).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
-		public void CreateDoWhile() {
-			const string code = @"
-class A { void M1() {
-	do { return; } while(true)
-} }";
-
-			var actual = CSharpModelFactory.CreateModel(code);
-
-			Assert.That(actual,
-				Is.EqualTo(DoWhileModel).Using(StructuralEqualityComparer.Instance));
-		}
-
-		[Test]
-		public void CreateFor() {
-			const string code = @"
-class A { void M1() {
-	for (int i = 0; i < 1; i++) { break; }
-} }";
-
+		[TestCase("for (int i = 0; i < 1; i++) break;")]
+		[TestCase("for (int i = 0; i < 1; i++) { break; }")]
+		[TestCase("for (int i = 0; i < 1; i++) { { break; } }")]
+		public void CreateFor(string fragment) {
+			var code = CreateCode(fragment);
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
@@ -119,16 +122,49 @@ class A { void M1() {
 		}
 
 		[Test]
-		public void CreateForeach() {
-			const string code = @"
-class A { void M1() {
-	foreach (int i in new[] { 1 }) { continue; }
-} }";
-
+		[TestCase("foreach (int i in new[] { 1 }) continue;")]
+		[TestCase("foreach (int i in new[] { 1 }) { continue; }")]
+		[TestCase("foreach (int i in new[] { 1 }) { { continue; } }")]
+		public void CreateForeach(string fragment) {
+			var code = CreateCode(fragment);
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(ForeachModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		[TestCase("if (true) return -1;")]
+		[TestCase("if (true) { return -1; }")]
+		[TestCase("if (true) { { return -1; } }")]
+		[TestCase("if (true) { { { return -1; } } }")]
+		public void CreateIf(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(IfModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		[TestCase("if (true) return -1; else return 0.1;")]
+		[TestCase("if (true) { return -1; } else return 0.1;")]
+		[TestCase("if (true) return -1; else { return 0.1; }")]
+		[TestCase("if (true) { return -1; } else { return 0.1; }")]
+		[TestCase("if (true) { { return -1; } } else { return 0.1; }")]
+		[TestCase("if (true) { return -1; } else { { return 0.1; } }")]
+		[TestCase("if (true) { { return -1; } } else { { return 0.1; } }")]
+		[TestCase("if (true) { { { return -1; } } } else { { return 0.1; } }")]
+		[TestCase("if (true) { { return -1; } } else { { { return 0.1; } } }")]
+		[TestCase("if (true) return -1; else { { { return 0.1; } } }")]
+		[TestCase("if (true) { { { return -1; } } } else return 0.1;")]
+		[TestCase("if (true) { { { return -1; } } } else { { { return 0.1; } } }")]
+		public void CreateIfElse(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(IfElseModel).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }

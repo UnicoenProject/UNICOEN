@@ -11,6 +11,16 @@ namespace Ucpf.Core.Model {
 			FalseBlock = new UnifiedBlock();
 		}
 
+		public UnifiedIf AddToTrueBody(UnifiedExpression expression) {
+			TrueBlock.Add(expression);
+			return this;
+		}
+
+		public UnifiedIf AddToFalseBody(UnifiedExpression expression) {
+			FalseBlock.Add(expression);
+			return this;
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
