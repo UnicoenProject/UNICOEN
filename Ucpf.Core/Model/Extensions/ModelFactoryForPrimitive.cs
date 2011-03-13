@@ -26,9 +26,15 @@ namespace Ucpf.Core.Model.Extensions {
 			};
 		}
 
-		public static UnifiedIntegerLiteral ToLiteral(this int literal) {
+		public static UnifiedIntegerLiteral ToLiteral(this int value) {
 			return new UnifiedIntegerLiteral {
-				Value = literal,
+				Value = value,
+			};
+		}
+
+		public static UnifiedDecimalLiteral ToLiteral(this double value) {
+			return new UnifiedDecimalLiteral {
+				Value = (Decimal)value,
 			};
 		}
 	}

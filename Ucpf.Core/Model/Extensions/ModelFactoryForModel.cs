@@ -33,5 +33,17 @@ namespace Ucpf.Core.Model.Extensions {
 				Set = set,
 			};
 		}
+
+		public static UnifiedIf ToIf(this UnifiedExpression condition) {
+			return new UnifiedIf {
+				Condition = condition,
+			};
+		}
+
+		public static UnifiedReturn ToReturn(this UnifiedExpression value) {
+			return new UnifiedReturn {
+				Value = value,
+			};
+		}
 	}
 }

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="JavaFibonacciTest.cs" />
     <Compile Include="JavaLiteralTest.cs" />
+    <Compile Include="JavaSpecificationTest.cs" />
     <Compile Include="StudentTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
