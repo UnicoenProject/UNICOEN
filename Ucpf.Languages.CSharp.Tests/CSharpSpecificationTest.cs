@@ -64,14 +64,14 @@ namespace Ucpf.Languages.CSharp.Tests {
 					.AddToBody(CSharpModelFactoryHelper.CreateContinue())
 			});
 
-		private static readonly UnifiedClassDefinition IfModel =
+		public static readonly UnifiedClassDefinition IfModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToIf()
 					.AddToTrueBody((-1).ToLiteral().ToReturn())
 			});
 
-		private static readonly UnifiedClassDefinition IfElseModel =
+		public static readonly UnifiedClassDefinition IfElseModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToIf()
