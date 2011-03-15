@@ -10,7 +10,7 @@ namespace Ucpf.Core.Model {
 			Arguments = new UnifiedArgumentCollection();
 		}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			throw new NotImplementedException();
 		}
 	}

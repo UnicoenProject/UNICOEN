@@ -8,8 +8,8 @@ namespace Ucpf.Core.Model {
 		public UnifiedProgram(IEnumerable<UnifiedExpression> elements)
 			: base(elements) {}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
-			visitor.Visit(this);
+		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+			return visitor.Visit(this, data);
 		}
 	}
 }

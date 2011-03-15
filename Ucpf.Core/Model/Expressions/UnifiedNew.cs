@@ -9,8 +9,8 @@ namespace Ucpf.Core.Model {
 			Arguments = new UnifiedArgumentCollection();
 		}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
-			visitor.Visit(this);
+		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+			return visitor.Visit(this, data);
 		}
 	}
 }

@@ -5,13 +5,13 @@ using System.Xml.Linq;
 using Ucpf.Core.Model.Expressions;
 
 namespace Ucpf.Core.Model.Visitors {
-	public class UnifiedModelToXml : IUnifiedModelVisitor {
+	public class UnifiedModelToXml : IUnifiedModelVisitor<object, object> {
 		private readonly Stack<XElement> _targets;
 		private XElement _root;
 
 		public static XElement ToXml(UnifiedElement element) {
 			var toXml = new UnifiedModelToXml();
-			element.Accept(toXml);
+			element.Accept(toXml, null);
 			return toXml.Result;
 		}
 
@@ -34,216 +34,231 @@ namespace Ucpf.Core.Model.Visitors {
 			_root = root;
 		}
 
-		public void Visit<T>(UnifiedTypedLiteral<T> element) {
+		public object Visit<T>(UnifiedTypedLiteral<T> element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("Value", element.Value);
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedBinaryOperator element) {
+		public object Visit(UnifiedBinaryOperator element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("Sign", element.Sign);
 			xe.SetAttributeValue("Type", element.Type);
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedUnaryOperator element) {
+		public object Visit(UnifiedUnaryOperator element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			xe.SetAttributeValue("Sign", element.Sign);
 			xe.SetAttributeValue("Type", element.Type);
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedArgument element) {
+		public object Visit(UnifiedArgument element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			element.Value.Accept(this);
+			element.Value.Accept(this, data);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedArgumentCollection element) {
-			var xe = new XElement(element.GetType().Name);
-			_targets.Push(xe);
-			foreach (var e in element) {
-				e.Accept(this);
-			}
-			_targets.Pop();
-			_targets.Peek().Add(xe);
-		}
-
-		public void Visit(UnifiedBinaryExpression element) {
-			var xe = new XElement(element.GetType().Name);
-			_targets.Push(xe);
-			element.LeftHandSide.Accept(this);
-			element.Operator.Accept(this);
-			element.RightHandSide.Accept(this);
-			_targets.Pop();
-			_targets.Peek().Add(xe);
-		}
-
-		public void Visit(UnifiedBlock element) {
+		public object Visit(UnifiedArgumentCollection element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
-				e.Accept(this);
+				e.Accept(this, data);
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedCall element) {
+		public object Visit(UnifiedBinaryExpression element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			element.Function.Accept(this);
-			element.Arguments.Accept(this);
+			element.LeftHandSide.Accept(this, data);
+			element.Operator.Accept(this, data);
+			element.RightHandSide.Accept(this, data);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedFunctionDefinition element) {
+		public object Visit(UnifiedBlock element, object data) {
+			var xe = new XElement(element.GetType().Name);
+			_targets.Push(xe);
+			foreach (var e in element) {
+				e.Accept(this, data);
+			}
+			_targets.Pop();
+			_targets.Peek().Add(xe);
+			return null;
+		}
+
+		public object Visit(UnifiedCall element, object data) {
+			var xe = new XElement(element.GetType().Name);
+			_targets.Push(xe);
+			element.Function.Accept(this, data);
+			element.Arguments.Accept(this, data);
+			_targets.Pop();
+			_targets.Peek().Add(xe);
+			return null;
+		}
+
+		public object Visit(UnifiedFunctionDefinition element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
-			element.Parameters.Accept(this);
-			element.Body.Accept(this);
+			element.Parameters.Accept(this, data);
+			element.Body.Accept(this, data);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedIf element) {
+		public object Visit(UnifiedIf element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			element.Condition.Accept(this);
-			element.TrueBlock.Accept(this);
-			element.FalseBlock.Accept(this);
+			element.Condition.Accept(this, data);
+			element.TrueBlock.Accept(this, data);
+			element.FalseBlock.Accept(this, data);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedParameter element) {
+		public object Visit(UnifiedParameter element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Type", element.Type);
 			xe.SetAttributeValue("Name", element.Name);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedParameterCollection element) {
+		public object Visit(UnifiedParameterCollection element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
-				e.Accept(this);
+				e.Accept(this, data);
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedReturn element) {
+		public object Visit(UnifiedReturn element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
-			element.Value.Accept(this);
+			element.Value.Accept(this, data);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedVariable element) {
+		public object Visit(UnifiedVariable element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedModifier element) {
+		public object Visit(UnifiedModifier element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			xe.SetAttributeValue("Name", element.Name);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
+			return null;
 		}
 
-		public void Visit(UnifiedModifierCollection element) {
+		public object Visit(UnifiedModifierCollection element, object data) {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			foreach (var e in element) {
-				e.Accept(this);
+				e.Accept(this, data);
 			}
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedImport element) {
+		public object Visit(UnifiedImport element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedConstructorDefinition element) {
+		public object Visit(UnifiedConstructorDefinition element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedProgram element) {
+		public object Visit(UnifiedProgram element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedClassDefinition element) {
+		public object Visit(UnifiedClassDefinition element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedVariableDefinition element) {
+		public object Visit(UnifiedVariableDefinition element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedNew element) {
+		public object Visit(UnifiedNew element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedLiteral element) {
+		public object Visit(UnifiedLiteral element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedArrayNew element) {
+		public object Visit(UnifiedArrayNew element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedFor element) {
+		public object Visit(UnifiedFor element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedForeach element) {
+		public object Visit(UnifiedForeach element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedUnaryExpression element) {
+		public object Visit(UnifiedUnaryExpression element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedProperty element) {
+		public object Visit(UnifiedProperty element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedType element) {
+		public object Visit(UnifiedType element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedExpressionCollection element) {
+		public object Visit(UnifiedExpressionCollection element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedWhile element) {
+		public object Visit(UnifiedWhile element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedDoWhile element) {
+		public object Visit(UnifiedDoWhile element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedBreak element) {
+		public object Visit(UnifiedBreak element, object data) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedContinue element) {
+		public object Visit(UnifiedContinue element, object data) {
 			throw new NotImplementedException();
 		}
 	}

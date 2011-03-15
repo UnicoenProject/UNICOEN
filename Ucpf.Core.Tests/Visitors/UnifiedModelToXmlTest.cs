@@ -50,7 +50,7 @@ namespace Ucpf.Core.Tests.Visitors {
 	<UnifiedBlock/>
 </UnifiedFunctionDefinition>
 ");
-			_toXml.Visit(model);
+			_toXml.Visit(model, null);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
@@ -81,7 +81,7 @@ namespace Ucpf.Core.Tests.Visitors {
 	</UnifiedBlock>
 </UnifiedFunctionDefinition>
 ");
-			_toXml.Visit(model);
+			_toXml.Visit(model, null);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
@@ -119,7 +119,7 @@ namespace Ucpf.Core.Tests.Visitors {
 	</UnifiedBlock>
 </UnifiedFunctionDefinition>
 ");
-			_toXml.Visit(model);
+			_toXml.Visit(model, null);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
@@ -180,7 +180,7 @@ namespace Ucpf.Core.Tests.Visitors {
 	</UnifiedBlock>
 </UnifiedFunctionDefinition>
 ");
-			_toXml.Visit(model);
+			_toXml.Visit(model, null);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
@@ -235,7 +235,7 @@ namespace Ucpf.Core.Tests.Visitors {
 	</UnifiedBlock>
 </UnifiedFunctionDefinition>
 ");
-			_toXml.Visit(model);
+			_toXml.Visit(model, null);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 
@@ -322,7 +322,7 @@ namespace Ucpf.Core.Tests.Visitors {
 	</UnifiedBlock>
 </UnifiedFunctionDefinition>
 ");
-			_toXml.Visit(model);
+			_toXml.Visit(model, null);
 			Assert.That(_toXml.Result.ToString(), Is.EqualTo(expectation.ToString()));
 		}
 	}

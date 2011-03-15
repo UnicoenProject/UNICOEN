@@ -6,7 +6,7 @@ namespace Ucpf.Core.Model {
 		public string Name { get; set; }
 		public UnifiedBlock Body { get; set; }
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			throw new NotImplementedException();
 		}
 	}

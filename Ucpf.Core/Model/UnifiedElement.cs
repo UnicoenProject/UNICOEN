@@ -5,7 +5,7 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElement {
-		public abstract void Accept(IUnifiedModelVisitor visitor);
+		public abstract TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data);
 
 		private static void Write(object obj, string content, StringBuilder buffer,
 		                          int depth) {
