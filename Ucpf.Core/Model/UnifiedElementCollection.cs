@@ -16,9 +16,15 @@ namespace Ucpf.Core.Model {
 			_elements = elements.ToList();
 		}
 
-		public void Add(TElement element) {
-			_elements.Add(element);
+		public TElement this[int index] {
+			get { return _elements[index]; }
 		}
+
+		public int Count {
+			get { return _elements.Count; }
+		}
+
+		#region IEnumerable<TElement> Members
 
 		public IEnumerator<TElement> GetEnumerator() {
 			return _elements.GetEnumerator();
@@ -26,6 +32,12 @@ namespace Ucpf.Core.Model {
 
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
+		}
+
+		#endregion
+
+		public void Add(TElement element) {
+			_elements.Add(element);
 		}
 
 		// TODO: UnifiedElementCollectionはプロパティを持たない？

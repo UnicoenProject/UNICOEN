@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Ucpf.Core.Model.Visitors;
@@ -24,9 +23,7 @@ namespace Ucpf.Core.Model {
 			get { return _statements.Count; }
 		}
 
-		public void Add(UnifiedExpression expression) {
-			_statements.Add(expression);
-		}
+		#region IEnumerable<UnifiedExpression> Members
 
 		public IEnumerator<UnifiedExpression> GetEnumerator() {
 			return _statements.GetEnumerator();
@@ -36,7 +33,14 @@ namespace Ucpf.Core.Model {
 			return GetEnumerator();
 		}
 
-		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+		#endregion
+
+		public void Add(UnifiedExpression expression) {
+			_statements.Add(expression);
+		}
+
+		public override TResult Accept<TData, TResult>(
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -44,15 +48,14 @@ namespace Ucpf.Core.Model {
 			return this;
 		}
 
-		public override void NormalizeBlock()
-		{
+		public override void NormalizeBlock() {
 			while (_statements.Count == 1) {
 				var block = _statements[0] as UnifiedBlock;
 				if (block == null)
 					break;
 				_statements = block._statements;
 			}
-			foreach (var element in GetElements()) {
+			foreach (UnifiedElement element in GetElements()) {
 				element.NormalizeBlock();
 			}
 		}
