@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ucpf.Core.Model.Visitors;
@@ -6,6 +7,21 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElement {
 		public abstract TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data);
+
+		/// <summary>
+		/// 子要素を列挙します。
+		/// </summary>
+		/// <returns>子要素</returns>
+		public abstract IEnumerable<UnifiedElement> GetElements();
+
+		/// <summary>
+		/// 子要素がUnifiedBlockだけのUnifiedBlockを削除します。
+		/// </summary>
+		public virtual void NormalizeBlock() {
+			foreach (var element in GetElements()) {
+				element.NormalizeBlock();
+			}
+		}
 
 		private static void Write(object obj, string content, StringBuilder buffer,
 		                          int depth) {

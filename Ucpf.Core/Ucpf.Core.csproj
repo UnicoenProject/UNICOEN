@@ -102,7 +102,7 @@
     <Compile Include="Model\Expressions\UnifiedWhile.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
-    <Compile Include="Model\StructuralEqualityComparer.cs" />
+    <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\UnifiedArgumentCollection.cs" />
     <Compile Include="Model\UnifiedBlock.cs" />
