@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
@@ -8,6 +9,10 @@ namespace Ucpf.Core.Model {
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			throw new NotImplementedException();
+		}
+
+		public override IEnumerable<UnifiedElement> GetElements() {
+			yield return Body;
 		}
 	}
 }

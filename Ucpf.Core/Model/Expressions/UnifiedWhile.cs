@@ -11,5 +11,10 @@ namespace Ucpf.Core.Model.Expressions {
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
+
+		public override IEnumerable<UnifiedElement> GetElements() {
+			yield return Condition;
+			yield return Body;
+		}
 	}
 }

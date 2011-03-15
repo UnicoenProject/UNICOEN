@@ -9,5 +9,9 @@ namespace Ucpf.Core.Model {
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
+
+		public override IEnumerable<UnifiedElement> GetElements() {
+			yield break;
+		}
 	}
 }

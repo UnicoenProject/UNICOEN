@@ -27,5 +27,10 @@ namespace Ucpf.Core.Model {
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
+
+		// TODO: UnifiedElementCollectionはプロパティを持たない？
+		//public override IEnumerable<UnifiedElement> GetElements() {
+		//    return this;
+		//}
 	}
 }
