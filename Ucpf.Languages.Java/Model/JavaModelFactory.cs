@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
+using Code2Xml.Languages.Java.XmlGenerators;
 using Ucpf.Core.Model;
 
 
@@ -74,9 +75,11 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedCall CreateCallExpression(XElement node) {
+			//Top node is <primary>
 			return new UnifiedCall {
 				Arguments = CreateArgumentCollection(node),
-				Function = CreateExpression(node)
+				//Function = CreateExpression(node)
+				Function = CreateVariable(node.Element("IDENTIFIER"))
 			};
 		}
 
@@ -163,6 +166,7 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedBlock CreateBlock(XElement node) {
 			if (node.Element("blockStatement") == null)
 				return new UnifiedBlock();
+
 			return new UnifiedBlock(
 				node.Element("blockStatement").Elements("statement").Select(CreateStatement).ToList()
 			);
@@ -284,8 +288,43 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static object CreateModel(string source) {
-			throw new NotImplementedException();
+		public static UnifiedClassDefinition CreateClass(XElement node) {
+			//Top node is <classDeclaration>
+			return new UnifiedClassDefinition {
+				//var modifiers = CreateModifierCollection(node);
+				Name = node.Element("normalClassDeclaration").Element("IDENTIFIER").Value,
+				Body = CreateClassBody(node.Element("normalClassDeclaration").Element("classBody"))
+			};
+		}
+
+		public static UnifiedBlock CreateClassBody(XElement node) {
+			//Top node is <classBody>
+			return new UnifiedBlock(node.Elements("classBodyDeclaration")
+				.Select(CreateMember).ToList());
+		}
+
+		public static UnifiedExpression CreateMember(XElement node) {
+			//Top node is <classBodyDeclaration>
+			var memType = node.Element("memberDecl").Elements().First();
+			switch (memType.Name.LocalName) {
+				case "fieldDeclaration":  return null; //TODO IMPLEMENT:
+				case "methodDeclaration": return CreateDefineFunction(memType);
+				case "classDeclaration":  return CreateClass(memType);
+				default:
+					throw new NotImplementedException();
+			}
+		}
+
+		public static UnifiedProgram CreateProgram(XElement node) {
+			return new UnifiedProgram {
+				CreateClass(node.Element("typeDeclaration")
+				.Element("classOrInterfaceDeclaration").Element("classDeclaration"))
+			};
+		}
+
+		public static UnifiedProgram CreateModel(string source) {
+			var ast = JavaXmlGenerator.Instance.Generate(source);
+			return CreateProgram(ast);
 		}
 	}
 }
