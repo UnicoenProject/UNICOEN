@@ -37,6 +37,7 @@
     <Reference Include="nunit.mocks, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.mocks.dll</HintPath>
     </Reference>
+    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
     </Reference>
@@ -51,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSharpFibonacciTest.cs" />
+    <Compile Include="CSharpRegenerateTest.cs" />
     <Compile Include="CSharpSpecificationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSharpStudentTest.cs" />

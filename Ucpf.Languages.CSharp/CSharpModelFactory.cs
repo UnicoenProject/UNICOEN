@@ -16,7 +16,9 @@ namespace Ucpf.Languages.CSharp {
 				parser.Parse();
 				var unit = parser.CompilationUnit;
 				var visitor = new Translator();
-				return unit.AcceptVisitor(visitor, null) as UnifiedElement;
+				var model = unit.AcceptVisitor(visitor, null) as UnifiedElement;
+				model.NormalizeBlock();
+				return model;
 			}
 		}
 	}
