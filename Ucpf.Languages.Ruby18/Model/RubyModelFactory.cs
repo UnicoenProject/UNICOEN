@@ -17,10 +17,10 @@ namespace Ucpf.Languages.Ruby18.Model {
 			Sign2Type["*"] = UnifiedBinaryOperatorType.Multiply;
 			Sign2Type["/"] = UnifiedBinaryOperatorType.Divide;
 			Sign2Type["%"] = UnifiedBinaryOperatorType.Modulo;
-			Sign2Type["<"] = UnifiedBinaryOperatorType.Lesser;
-			Sign2Type["<="] = UnifiedBinaryOperatorType.LesserEqual;
-			Sign2Type[">"] = UnifiedBinaryOperatorType.Greater;
-			Sign2Type[">="] = UnifiedBinaryOperatorType.GreaterEqual;
+			Sign2Type["<"] = UnifiedBinaryOperatorType.LessThan;
+			Sign2Type["<="] = UnifiedBinaryOperatorType.LessThanOrEqual;
+			Sign2Type[">"] = UnifiedBinaryOperatorType.GreaterThan;
+			Sign2Type[">="] = UnifiedBinaryOperatorType.GreaterThanOrEqual;
 		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {

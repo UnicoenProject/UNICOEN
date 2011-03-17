@@ -132,7 +132,7 @@ end
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
 						TrueBlock = {
@@ -175,7 +175,7 @@ end
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
 						TrueBlock = {

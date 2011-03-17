@@ -9,23 +9,23 @@ namespace Ucpf.Languages.CSharp {
 
 		static CSharpModelFactoryHelper() {
 			BinaryOperatorSigns = new Dictionary<UnifiedBinaryOperatorType, string>();
-			BinaryOperatorSigns[UnifiedBinaryOperatorType.AddAssignment] = "+=";
-			BinaryOperatorSigns[UnifiedBinaryOperatorType.Assignment] = "=";
-			BinaryOperatorSigns[UnifiedBinaryOperatorType.Lesser] = "<";
+			BinaryOperatorSigns[UnifiedBinaryOperatorType.AddAssign] = "+=";
+			BinaryOperatorSigns[UnifiedBinaryOperatorType.Assign] = "=";
+			BinaryOperatorSigns[UnifiedBinaryOperatorType.LessThan] = "<";
 
 			UnaryOperatorSigns = new Dictionary<UnifiedUnaryOperatorType, string>();
-			UnaryOperatorSigns[UnifiedUnaryOperatorType.PostfixDecrement] = "--";
-			UnaryOperatorSigns[UnifiedUnaryOperatorType.PrefixDecrement] = "--";
-			UnaryOperatorSigns[UnifiedUnaryOperatorType.PostfixIncrement] = "++";
-			UnaryOperatorSigns[UnifiedUnaryOperatorType.PrefixIncrement] = "++";
+			UnaryOperatorSigns[UnifiedUnaryOperatorType.PostDecrementAssign] = "--";
+			UnaryOperatorSigns[UnifiedUnaryOperatorType.PreDecrementAssign] = "--";
+			UnaryOperatorSigns[UnifiedUnaryOperatorType.PostIncrementAssign] = "++";
+			UnaryOperatorSigns[UnifiedUnaryOperatorType.PreIncrementAssign] = "++";
 		}
 
 		public static UnifiedBinaryExpression CreateAssignExpression(UnifiedExpression lhs, UnifiedExpression rhs) {
-			return CreateExpression(lhs, UnifiedBinaryOperatorType.Assignment, rhs);
+			return CreateExpression(lhs, UnifiedBinaryOperatorType.Assign, rhs);
 		}
 
 		public static UnifiedBinaryExpression CreateLesserExpression(UnifiedExpression lhs, UnifiedExpression rhs) {
-			return CreateExpression(lhs, UnifiedBinaryOperatorType.Lesser, rhs);
+			return CreateExpression(lhs, UnifiedBinaryOperatorType.LessThan, rhs);
 		}
 
 		public static UnifiedBinaryExpression CreateExpression(UnifiedExpression leftOperand, UnifiedBinaryOperatorType operatorType, UnifiedExpression rightOperand) {

@@ -119,29 +119,29 @@ namespace Ucpf.Languages.Java.Model {
 				case "/": type = UnifiedBinaryOperatorType.Divide; break;
 				case "%": type = UnifiedBinaryOperatorType.Modulo; break;
 			//Shift
-				case "<<": type = UnifiedBinaryOperatorType.LeftArithmeticShift; break;
-				case ">>": type = UnifiedBinaryOperatorType.RightArithmeticShift; break;
+				case "<<": type = UnifiedBinaryOperatorType.ArithmeticLeftShift; break;
+				case ">>": type = UnifiedBinaryOperatorType.ArithmeticRightShift; break;
 			//Comparison
-				case ">": type = UnifiedBinaryOperatorType.Greater; break;
-				case ">=": type = UnifiedBinaryOperatorType.GreaterEqual; break;
-				case "<": type = UnifiedBinaryOperatorType.Lesser; break;
-				case "<=": type = UnifiedBinaryOperatorType.LesserEqual; break;
+				case ">": type = UnifiedBinaryOperatorType.GreaterThan; break;
+				case ">=": type = UnifiedBinaryOperatorType.GreaterThanOrEqual; break;
+				case "<": type = UnifiedBinaryOperatorType.LessThan; break;
+				case "<=": type = UnifiedBinaryOperatorType.LessThanOrEqual; break;
 				case "==": type = UnifiedBinaryOperatorType.Equal; break;
 				case "!=": type = UnifiedBinaryOperatorType.NotEqual; break;
 			//Logocal
-				case "&&": type = UnifiedBinaryOperatorType.LogicalAnd; break;
-				case "||": type = UnifiedBinaryOperatorType.LogicalOr; break;
+				case "&&": type = UnifiedBinaryOperatorType.AndAlso; break;
+				case "||": type = UnifiedBinaryOperatorType.OrElse; break;
 			//Bit
-				case "&": type = UnifiedBinaryOperatorType.BitAnd; break;
-				case "|": type = UnifiedBinaryOperatorType.BitOr; break;
-				case "^": type = UnifiedBinaryOperatorType.BitXor; break;
+				case "&": type = UnifiedBinaryOperatorType.And; break;
+				case "|": type = UnifiedBinaryOperatorType.Or; break;
+				case "^": type = UnifiedBinaryOperatorType.ExclusiveOr; break;
 			//Assignment
-				case "=": type = UnifiedBinaryOperatorType.Assignment; break;
-				case "+=": type = UnifiedBinaryOperatorType.AddAssignment; break;
-				case "-=": type = UnifiedBinaryOperatorType.SubAssignment; break;
-				case "*=": type = UnifiedBinaryOperatorType.MulAssignment; break;
-				case "/=": type = UnifiedBinaryOperatorType.DivAssignment; break;
-				case "%=": type = UnifiedBinaryOperatorType.ModAssignment; break;
+				case "=": type = UnifiedBinaryOperatorType.Assign; break;
+				case "+=": type = UnifiedBinaryOperatorType.AddAssign; break;
+				case "-=": type = UnifiedBinaryOperatorType.SubtractAssign; break;
+				case "*=": type = UnifiedBinaryOperatorType.MultiplyAssign; break;
+				case "/=": type = UnifiedBinaryOperatorType.DivideAssign; break;
+				case "%=": type = UnifiedBinaryOperatorType.ModuloAssign; break;
 				default:
 					throw new InvalidOperationException();
 			}

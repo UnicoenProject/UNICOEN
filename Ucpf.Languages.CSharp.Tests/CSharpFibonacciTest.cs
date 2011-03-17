@@ -37,7 +37,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							new UnifiedIf {
 								Condition = new UnifiedBinaryExpression {
 									Operator =
-										new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+										new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 									LeftHandSide = UnifiedVariable.Create("n"),
 									RightHandSide = UnifiedIntegerLiteral.Create(2)
 								},

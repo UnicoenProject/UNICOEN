@@ -195,7 +195,7 @@ namespace Ucpf.Core.Tests.Visitors {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
 						TrueBlock = {
@@ -218,7 +218,7 @@ namespace Ucpf.Core.Tests.Visitors {
 		<UnifiedIf>
 			<UnifiedBinaryExpression>
 				<UnifiedVariable Name = ""n"" />
-				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
+				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""LessThan"" />
 				<UnifiedIntegerLiteral Value = ""2"" />
 			</UnifiedBinaryExpression>
 			<UnifiedBlock>
@@ -250,7 +250,7 @@ namespace Ucpf.Core.Tests.Visitors {
 					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
 							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
 						TrueBlock = {
@@ -279,7 +279,7 @@ namespace Ucpf.Core.Tests.Visitors {
 		<UnifiedIf>
 			<UnifiedBinaryExpression>
 				<UnifiedVariable Name = ""n"" />
-				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""Lesser"" />
+				<UnifiedBinaryOperator Sign = ""&lt;"" Type = ""LessThan"" />
 				<UnifiedIntegerLiteral Value = ""2"" />
 			</UnifiedBinaryExpression>
 			<UnifiedBlock>

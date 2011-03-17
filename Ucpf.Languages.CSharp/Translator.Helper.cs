@@ -19,13 +19,13 @@ namespace Ucpf.Languages.CSharp {
 					return new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract);
 
 				case BinaryOperatorType.LessThan:
-					return new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser);
+					return new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan);
 				case BinaryOperatorType.LessThanOrEqual:
-					return new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LesserEqual);
+					return new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LessThanOrEqual);
 				case BinaryOperatorType.GreaterThan:
-					return new UnifiedBinaryOperator(">", UnifiedBinaryOperatorType.Greater);
+					return new UnifiedBinaryOperator(">", UnifiedBinaryOperatorType.GreaterThan);
 				case BinaryOperatorType.GreaterThanOrEqual:
-					return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterEqual);
+					return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterThanOrEqual);
 			}
 			throw new NotImplementedException();
 		}
@@ -33,22 +33,22 @@ namespace Ucpf.Languages.CSharp {
 		private static UnifiedUnaryOperator ConvertUnaryOperator(UnaryOperatorType type) {
 			switch (type) {
 				case UnaryOperatorType.Plus:
-					return new UnifiedUnaryOperator("+", UnifiedUnaryOperatorType.Plus);
+					return new UnifiedUnaryOperator("+", UnifiedUnaryOperatorType.UnaryPlus);
 				case UnaryOperatorType.Minus:
-					return new UnifiedUnaryOperator("-", UnifiedUnaryOperatorType.Minus);
+					return new UnifiedUnaryOperator("-", UnifiedUnaryOperatorType.Negate);
 
 				case UnaryOperatorType.Increment:
 					return new UnifiedUnaryOperator("++",
-						UnifiedUnaryOperatorType.PrefixIncrement);
+						UnifiedUnaryOperatorType.PreIncrementAssign);
 				case UnaryOperatorType.PostIncrement:
 					return new UnifiedUnaryOperator("++",
-						UnifiedUnaryOperatorType.PostfixIncrement);
+						UnifiedUnaryOperatorType.PostIncrementAssign);
 				case UnaryOperatorType.Decrement:
 					return new UnifiedUnaryOperator("--",
-						UnifiedUnaryOperatorType.PrefixDecrement);
+						UnifiedUnaryOperatorType.PreDecrementAssign);
 				case UnaryOperatorType.PostDecrement:
 					return new UnifiedUnaryOperator("--",
-						UnifiedUnaryOperatorType.PostfixDecrement);
+						UnifiedUnaryOperatorType.PostDecrementAssign);
 			}
 			throw new NotImplementedException();
 		}

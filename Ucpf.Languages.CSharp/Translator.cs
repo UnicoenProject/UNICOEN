@@ -257,7 +257,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitAssignmentExpression(AssignmentExpression assign, object data) {
-			var op = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment);
+			var op = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign);
 			var left = ConvertExpression(assign.Left);
 			var right = ConvertExpression(assign.Right);
 			return new UnifiedBinaryExpression {

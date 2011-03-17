@@ -34,7 +34,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			//expectation
 			var expectation = new UnifiedBinaryExpression {
 				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+				Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 				RightHandSide = UnifiedIntegerLiteral.Create(2),
 			};
 

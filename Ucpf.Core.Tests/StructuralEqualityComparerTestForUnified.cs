@@ -175,7 +175,7 @@ namespace Ucpf.Core.Tests {
 			var o1 = new UnifiedBlock {
 				new UnifiedBinaryExpression {
 					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
+					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
 				new UnifiedReturn{
@@ -185,7 +185,7 @@ namespace Ucpf.Core.Tests {
 			var o2 = new UnifiedBlock {
 				new UnifiedBinaryExpression {
 					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
+					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
 				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }
@@ -199,7 +199,7 @@ namespace Ucpf.Core.Tests {
 			var o1 = new UnifiedBlock {
 				new UnifiedBinaryExpression {
 					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
+					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
 				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }
@@ -214,7 +214,7 @@ namespace Ucpf.Core.Tests {
 			var o1 = new UnifiedBlock {
 				new UnifiedBinaryExpression {
 					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
+					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
 				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }
@@ -222,7 +222,7 @@ namespace Ucpf.Core.Tests {
 			var o2 = new UnifiedBlock {
 				new UnifiedBinaryExpression {
 					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assignment),
+					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(2),
 				},
 				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }

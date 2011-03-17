@@ -44,10 +44,10 @@ namespace Ucpf.Languages.CSharp.Tests {
 					},
 					Condition = CSharpModelFactoryHelper.CreateExpression(
 						"i".ToVariable(),
-						UnifiedBinaryOperatorType.Lesser,
+						UnifiedBinaryOperatorType.LessThan,
 						1.ToLiteral()),
 					Step = CSharpModelFactoryHelper.CreateExpression(
-						"i".ToVariable(), UnifiedUnaryOperatorType.PostfixIncrement),
+						"i".ToVariable(), UnifiedUnaryOperatorType.PostIncrementAssign),
 					Body = {
 						CSharpModelFactoryHelper.CreateBreak(),
 					},

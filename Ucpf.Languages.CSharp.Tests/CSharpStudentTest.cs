@@ -129,7 +129,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 									Condition = CSharpModelFactoryHelper.CreateLesserExpression(
 										UnifiedVariable.Create("i"), UnifiedIntegerLiteral.Create(2)),
 									Step = CSharpModelFactoryHelper.CreateExpression(
-										UnifiedVariable.Create("i"), UnifiedUnaryOperatorType.PostfixIncrement),
+										UnifiedVariable.Create("i"), UnifiedUnaryOperatorType.PostIncrementAssign),
 									Body = {
 										new UnifiedCall {
 											Function = UnifiedVariable.Create("write"),

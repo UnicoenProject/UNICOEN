@@ -36,7 +36,7 @@ print fib(20)
 					Body = {
 						new UnifiedIf {
 							Condition = new UnifiedBinaryExpression {
-								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterEqual),
+								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterThanOrEqual),
 								LeftHandSide = UnifiedVariable.Create("n"),
 								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
