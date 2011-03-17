@@ -1,7 +1,44 @@
-﻿using Ucpf.Core.Model.Expressions;
+﻿namespace Ucpf.Core.Model.Visitors {
+	public interface IUnifiedModelVisitor {
+		void Visit<T>(UnifiedTypedLiteral<T> element);
+		void Visit(UnifiedBinaryOperator element);
+		void Visit(UnifiedUnaryOperator element);
+		void Visit(UnifiedArgument element);
+		void Visit(UnifiedArgumentCollection element);
+		void Visit(UnifiedBinaryExpression element);
+		void Visit(UnifiedBlock element);
+		void Visit(UnifiedCall element);
+		void Visit(UnifiedFunctionDefinition element);
+		void Visit(UnifiedIf element);
+		void Visit(UnifiedParameter element);
+		void Visit(UnifiedParameterCollection element);
+		void Visit(UnifiedReturn element);
+		void Visit(UnifiedVariable element);
+		void Visit(UnifiedModifier element);
+		void Visit(UnifiedModifierCollection element);
+		void Visit(UnifiedImport element);
+		void Visit(UnifiedConstructorDefinition element);
+		void Visit(UnifiedProgram element);
+		void Visit(UnifiedClassDefinition element);
+		void Visit(UnifiedVariableDefinition element);
+		void Visit(UnifiedNew element);
+		void Visit(UnifiedLiteral element);
+		void Visit(UnifiedArrayNew element);
+		void Visit(UnifiedFor element);
+		void Visit(UnifiedForeach element);
+		void Visit(UnifiedUnaryExpression element);
+		void Visit(UnifiedProperty element);
+		void Visit(UnifiedType element);
+		void Visit(UnifiedExpressionCollection element);
+		void Visit(UnifiedWhile element);
+		void Visit(UnifiedDoWhile element);
+		void Visit(UnifiedBreak element);
+		void Visit(UnifiedContinue element);
+		void Visit(UnifiedNamespace element);
+		void Visit(UnifiedIndexer element);
+	}
 
-namespace Ucpf.Core.Model.Visitors {
-	public interface IUnifiedModelVisitor<in TData, out TResult>  {
+	public interface IUnifiedModelVisitor<in TData, out TResult> {
 		TResult Visit<TValue>(UnifiedTypedLiteral<TValue> element, TData data);
 		TResult Visit(UnifiedBinaryOperator element, TData data);
 		TResult Visit(UnifiedUnaryOperator element, TData data);
@@ -36,5 +73,7 @@ namespace Ucpf.Core.Model.Visitors {
 		TResult Visit(UnifiedDoWhile element, TData data);
 		TResult Visit(UnifiedBreak element, TData data);
 		TResult Visit(UnifiedContinue element, TData data);
+		TResult Visit(UnifiedNamespace element, TData data);
+		TResult Visit(UnifiedIndexer element, TData data);
 	}
 }

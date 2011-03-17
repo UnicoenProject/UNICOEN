@@ -6,20 +6,36 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElement {
-		public abstract TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data);
+		/// <summary>
+		///   ビジターを適用してコードモデルを走査します。
+		/// </summary>
+		/// <param name = "visitor"></param>
+		public abstract void Accept(IUnifiedModelVisitor visitor);
 
 		/// <summary>
-		/// 子要素を列挙します。
+		///   ビジターを適用してコードモデルを走査します。
+		/// </summary>
+		/// <typeparam name = "TData"></typeparam>
+		/// <typeparam name = "TResult"></typeparam>
+		/// <param name = "visitor"></param>
+		/// <param name = "data"></param>
+		/// <returns></returns>
+		public abstract TResult Accept<TData, TResult>(
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data);
+
+		/// <summary>
+		///   子要素を列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
 		public abstract IEnumerable<UnifiedElement> GetElements();
 
 		/// <summary>
-		/// 子要素がUnifiedBlockだけのUnifiedBlockを削除します。
+		///   子要素がUnifiedBlockだけのUnifiedBlockを削除します。
 		/// </summary>
 		public virtual void NormalizeBlock() {
 			foreach (var element in GetElements()) {
-				element.NormalizeBlock();
+				if (element != null)
+					element.NormalizeBlock();
 			}
 		}
 

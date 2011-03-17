@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElementCollection<TElement>
-			: UnifiedElement, IEnumerable<TElement>
-			where TElement : UnifiedElement {
+		: UnifiedElement, IEnumerable<TElement>
+		where TElement : UnifiedElement {
 		private readonly List<TElement> _elements;
 
 		protected UnifiedElementCollection() {
@@ -44,5 +44,5 @@ namespace Ucpf.Core.Model {
 		//public override IEnumerable<UnifiedElement> GetElements() {
 		//    return this;
 		//}
-			}
+		}
 }

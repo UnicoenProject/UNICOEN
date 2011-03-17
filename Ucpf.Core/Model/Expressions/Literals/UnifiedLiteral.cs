@@ -1,4 +1,3 @@
 ﻿namespace Ucpf.Core.Model {
-	public abstract class UnifiedLiteral : UnifiedExpression {
-	}
+	public abstract class UnifiedLiteral : UnifiedExpression {}
 }

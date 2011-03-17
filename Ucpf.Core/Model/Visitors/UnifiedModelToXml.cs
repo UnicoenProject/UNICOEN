@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Core.Model.Expressions;
 
 namespace Ucpf.Core.Model.Visitors {
 	public class UnifiedModelToXml : IUnifiedModelVisitor<object, object> {
@@ -259,6 +258,14 @@ namespace Ucpf.Core.Model.Visitors {
 		}
 
 		public object Visit(UnifiedContinue element, object data) {
+			throw new NotImplementedException();
+		}
+
+		public object Visit(UnifiedNamespace element, object data) {
+			throw new NotImplementedException();
+		}
+
+		public object Visit(UnifiedIndexer element, object data) {
 			throw new NotImplementedException();
 		}
 	}

@@ -39,6 +39,10 @@ namespace Ucpf.Core.Model {
 			_statements.Add(expression);
 		}
 
+		public override void Accept(IUnifiedModelVisitor visitor) {
+			visitor.Visit(this);
+		}
+
 		public override TResult Accept<TData, TResult>(
 			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
@@ -55,8 +59,9 @@ namespace Ucpf.Core.Model {
 					break;
 				_statements = block._statements;
 			}
-			foreach (UnifiedElement element in GetElements()) {
-				element.NormalizeBlock();
+			foreach (var element in GetElements()) {
+				if (element != null)
+					element.NormalizeBlock();
 			}
 		}
 	}

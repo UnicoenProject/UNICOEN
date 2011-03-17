@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
@@ -12,30 +13,41 @@ using Ucpf.Core.Tests;
 namespace Ucpf.Languages.CSharp.Tests {
 	[TestFixture]
 	public class CSharpRegenerateTest {
-		private const string ToolPath =
-			@"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin";
+		private const string CscPath =
+			@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
 
-		private const string CscName = "csc.exe";
-
-		private const string IldasmName = "ildasm.exe";
+		private const string IldasmPath =
+			@"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe";
 
 		public string GetILCode(string workPath, string fileName) {
+			var exeFilePath = Path.Combine(workPath,
+				Path.ChangeExtension(fileName, "exe"));
 			{
-				var args = new[] { "/optimize+", fileName };
+				var args = new[] {
+					"/optimize+",
+					"/t:library",
+					"\"/out:" + exeFilePath + "\"",
+					 "\"" + Path.Combine(workPath, fileName) + "\""
+				};
+				var argg = args.JoinString(" ");
 				var info = new ProcessStartInfo {
-					FileName = Path.Combine(ToolPath, CscName),
-					Arguments = args.JoinString(" "),
+					FileName = CscPath,
+					Arguments = argg,
 					CreateNoWindow = true,
 					UseShellExecute = false,
 					WorkingDirectory = workPath,
 				};
-				Process.Start(info).Dispose();
+
+				using (var p = Process.Start(info)) {
+					p.WaitForExit();
+				}
 			}
 
 			{
-				var args = new[] { "/text", Path.ChangeExtension(fileName, "exe") };
+				Thread.Sleep(1000);
+				var args = new[] { "/text", exeFilePath };
 				var info = new ProcessStartInfo {
-					FileName = Path.Combine(ToolPath, IldasmName),
+					FileName = IldasmPath,
 					Arguments = args.JoinString(" "),
 					CreateNoWindow = true,
 					RedirectStandardInput = true,
@@ -56,17 +68,37 @@ namespace Ucpf.Languages.CSharp.Tests {
 			}
 		}
 
-		[Test]
-		public void Test(string fileName) {
+		private static IEnumerable<TestCaseData> TestCases {
+			get {
+				return Directory.EnumerateFiles(Fixture.GetInputPath("CSharp"))
+					.Select(path => new TestCaseData(path));
+			}
+		}
+
+		[Test, TestCase(@"..\..\fixture\CSharp\input\Block1.cs")]
+		public void CompareThroughILCodeForSameCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
-			var orgPath = Fixture.GetInputPath("CSharp", fileName);
+			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
 			File.Copy(orgPath, srcPath);
-			var expected = GetILCode(workPath, srcPath);
+			var expected = GetILCode(workPath, fileName);
+			var model = CSharpModelFactory.CreateModel(orgPath);
+			var code = CSharpCodeGenerator.Generate(model);
+			var actual = GetILCode(workPath, fileName);
+			Assert.That(actual, Is.EqualTo(expected));
+		}
+
+		[Test, TestCaseSource("TestCases")]
+		public void CompareThroughILCode(string orgPath) {
+			var workPath = Fixture.CleanTemporalPath();
+			var fileName = Path.GetFileName(orgPath);
+			var srcPath = Fixture.GetTemporalPath(fileName);
+			File.Copy(orgPath, srcPath);
+			var expected = GetILCode(workPath, fileName);
 			var model = CSharpModelFactory.CreateModel(orgPath);
 			var code = CSharpCodeGenerator.Generate(model);
 			File.WriteAllText(srcPath, code);
-			var actual = GetILCode(workPath, srcPath);
+			var actual = GetILCode(workPath, fileName);
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 	}

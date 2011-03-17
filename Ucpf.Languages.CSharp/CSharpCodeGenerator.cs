@@ -53,6 +53,34 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write(type.Name);
 		}
 
+		public void Visit(UnifiedExpressionCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedWhile element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedDoWhile element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedBreak element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedContinue element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedNamespace element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedIndexer element) {
+			throw new NotImplementedException();
+		}
+
 		public void Visit(UnifiedClassDefinition clsDef) {
 			WriteIndent();
 			_writer.Write("class ");

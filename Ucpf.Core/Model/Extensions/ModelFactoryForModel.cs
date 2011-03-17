@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ucpf.Core.Model.Expressions;
-
-namespace Ucpf.Core.Model.Extensions {
+﻿namespace Ucpf.Core.Model.Extensions {
 	public static class ModelFactoryForModel {
 		public static UnifiedFunctionDefinition ToFunctionDefinition(this string name) {
 			return new UnifiedFunctionDefinition {
@@ -24,7 +18,9 @@ namespace Ucpf.Core.Model.Extensions {
 			};
 		}
 
-		public static UnifiedForeach ToForeach(this UnifiedExpression set, UnifiedType variableType, string variableName) {
+		public static UnifiedForeach ToForeach(this UnifiedExpression set,
+		                                       UnifiedType variableType,
+		                                       string variableName) {
 			return new UnifiedForeach {
 				Element = new UnifiedVariableDefinition {
 					Type = variableType,
