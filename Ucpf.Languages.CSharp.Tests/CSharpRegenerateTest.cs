@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Xml.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
 using Ucpf.Core.Tests;
@@ -19,7 +15,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		private const string IldasmPath =
 			@"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe";
 
-		public string GetILCode(string workPath, string fileName) {
+		private static string GetILCode(string workPath, string fileName) {
 			var exeFilePath = Path.Combine(workPath,
 				Path.ChangeExtension(fileName, "exe"));
 			{
@@ -27,7 +23,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 					"/optimize+",
 					"/t:library",
 					"\"/out:" + exeFilePath + "\"",
-					 "\"" + Path.Combine(workPath, fileName) + "\""
+					"\"" + Path.Combine(workPath, fileName) + "\""
 				};
 				var argg = args.JoinString(" ");
 				var info = new ProcessStartInfo {

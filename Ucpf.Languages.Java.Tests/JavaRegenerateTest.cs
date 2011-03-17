@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Paraiba.Core;
 using Ucpf.Core.Tests;
@@ -12,12 +10,12 @@ using Ucpf.Languages.Java.Model;
 namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaRegenerateTest {
-
 		private const string JavacPath = "javac";
 
-		public IEnumerable<byte[]> GetByteCode(string workPath, string fileName) {
+		private static IEnumerable<byte[]> GetByteCode(string workPath,
+		                                               string fileName) {
 			var args = new[] {
-					"\"" + Path.Combine(workPath, fileName) + "\""
+				"\"" + Path.Combine(workPath, fileName) + "\""
 			};
 			var argg = args.JoinString(" ");
 			var info = new ProcessStartInfo {
@@ -31,7 +29,8 @@ namespace Ucpf.Languages.Java.Tests {
 				p.WaitForExit();
 			}
 
-			return Directory.EnumerateFiles(workPath, "*.class", SearchOption.AllDirectories)
+			return Directory.EnumerateFiles(workPath, "*.class",
+				SearchOption.AllDirectories)
 				.Select(File.ReadAllBytes);
 		}
 
