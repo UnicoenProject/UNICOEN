@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSharpCodeGenerator.cs" />
     <Compile Include="CSharpModelFactory.cs" />
     <Compile Include="CSharpModelFactoryHelper.cs" />
     <Compile Include="Translator.cs" />

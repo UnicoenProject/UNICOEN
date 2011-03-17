@@ -64,7 +64,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			File.Copy(orgPath, srcPath);
 			var expected = GetILCode(workPath, srcPath);
 			var model = CSharpModelFactory.CreateModel(orgPath);
-			var code = "";	// TODO: Regenerate
+			var code = CSharpCodeGenerator.Generate(model);
 			File.WriteAllText(srcPath, code);
 			var actual = GetILCode(workPath, srcPath);
 			Assert.That(actual, Is.EqualTo(expected));
