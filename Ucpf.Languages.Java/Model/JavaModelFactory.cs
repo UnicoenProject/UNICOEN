@@ -194,7 +194,7 @@ namespace Ucpf.Languages.Java.Model {
 		 * methodDeclaration
 		 * :
 		 *   modifiers (typeParameters)? IDENTIFIER formalParameters ('throws' qualifiedNameList)? '{' (explicitConstructorInvocation)? (blockStatement)* '}'
-         * | modifiers (typeParameters)? (type | 'void') IDENTIFIER formalParameters ('[' ']')* ('throws' qualifiedNameList)? (block | ';');
+		 * | modifiers (typeParameters)? (type | 'void') IDENTIFIER formalParameters ('[' ']')* ('throws' qualifiedNameList)? (block | ';');
 		 * 
 		 */
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
@@ -265,7 +265,7 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
 			return new UnifiedBooleanLiteral {
 				Value = node.Name.LocalName == "true"
-				             	? UnifiedBoolean.True : UnifiedBoolean.False,
+								? UnifiedBoolean.True : UnifiedBoolean.False,
 			};
 		}
 
@@ -316,10 +316,12 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedProgram CreateProgram(XElement node) {
-			return new UnifiedProgram {
+			var model = new UnifiedProgram {
 				CreateClass(node.Element("typeDeclaration")
 				.Element("classOrInterfaceDeclaration").Element("classDeclaration"))
 			};
+			model.NormalizeBlock();
+			return model;
 		}
 
 		public static UnifiedProgram CreateModel(string source) {

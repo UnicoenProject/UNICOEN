@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
+using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
@@ -41,7 +42,7 @@ namespace Ucpf.Languages.Java.Tests {
 			}
 		}
 
-		[Test, TestCase(@"..\..\fixture\Java\input\Block1.java")]
+		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 		public void CompareThroughByteCodeForSameCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
@@ -52,6 +53,15 @@ namespace Ucpf.Languages.Java.Tests {
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 
+		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
+		public void CompareThroughModelForSameCode(string orgPath) {
+			var orgCode = File.ReadAllText(orgPath);
+			var expected = JavaModelFactory.CreateModel(orgCode);
+			var actual = JavaModelFactory.CreateModel(orgCode);
+			Assert.That(actual, Is.EqualTo(expected)
+				.Using(StructuralEqualityComparer.Instance));
+		}
+
 		[Test, TestCaseSource("TestCases")]
 		public void CompareThroughByteCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
@@ -59,11 +69,22 @@ namespace Ucpf.Languages.Java.Tests {
 			var srcPath = Fixture.GetTemporalPath(fileName);
 			File.Copy(orgPath, srcPath);
 			var expected = GetByteCode(workPath, fileName);
-			var model = JavaModelFactory.CreateModel(orgPath);
+			var orgCode = File.ReadAllText(orgPath);
+			var model = JavaModelFactory.CreateModel(orgCode);
 			var code = JavaCodeGenerator.Generate(model);
 			File.WriteAllText(srcPath, code);
 			var actual = GetByteCode(workPath, fileName);
 			Assert.That(actual, Is.EqualTo(expected));
+		}
+
+		[Test, TestCaseSource("TestCases")]
+		public void CompareThroughModel(string orgPath) {
+			var orgCode = File.ReadAllText(orgPath);
+			var expected = JavaModelFactory.CreateModel(orgCode);
+			var newCode = JavaCodeGenerator.Generate(expected);
+			var actual = JavaModelFactory.CreateModel(newCode);
+			Assert.That(actual, Is.EqualTo(expected)
+				.Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }
