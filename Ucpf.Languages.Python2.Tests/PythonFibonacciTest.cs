@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Code2Xml.Languages.Python2.XmlGenerators;
 using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Common.Model;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
-using Ucpf.Languages.Python2.AstGenerators;
+using Ucpf.Core.Model;
+
+
+
 using Ucpf.Languages.Python2.Model;
 
 namespace Ucpf.Languages.Python2.Tests {
@@ -30,69 +30,69 @@ print fib(20)
 			new UnifiedBlock {
 				new UnifiedFunctionDefinition {
 					Name = "fib",
-					Parameters = new UnifiedParameterCollection {
+					Parameters = {
 						new UnifiedParameter{ Name = "n" }
 					},
-					Block = new UnifiedBlock {
+					Body = {
 						new UnifiedIf {
 							Condition = new UnifiedBinaryExpression {
-								Operator = new UnifiedBinaryOperator("<=", BinaryOperatorType.GreaterEqual),
-								LeftHandSide = new UnifiedVariable("n"),
-								RightHandSide = new UnifiedIntegerLiteral(1),
+								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterEqual),
+								LeftHandSide = UnifiedVariable.Create("n"),
+								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
-							TrueBlock = new UnifiedBlock {
+							TrueBlock = {
 								new UnifiedReturn {
-									Value = new UnifiedVariable("n")
+									Value = UnifiedVariable.Create("n")
 								}
 							},
-							FalseBlock = new UnifiedBlock {
+							FalseBlock = {
 								new UnifiedReturn {
 									Value	= new UnifiedBinaryExpression {
-										Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 										LeftHandSide = new UnifiedCall {
-											Function = new UnifiedVariable("fib"),
-											Arguments = new UnifiedArgumentCollection {
-												(UnifiedArgument)new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
-													LeftHandSide = new UnifiedVariable("n"),
-													RightHandSide = new UnifiedIntegerLiteral(1)
-												}
+											Function = UnifiedVariable.Create("fib"),
+											Arguments = {
+												UnifiedArgument.Create(new UnifiedBinaryExpression {
+													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
+													LeftHandSide = UnifiedVariable.Create("n"),
+													RightHandSide = UnifiedIntegerLiteral.Create(1)
+												})
 											}
 										},
 										RightHandSide = new UnifiedCall {
-											Function = new UnifiedVariable("fib"),
-											Arguments = new UnifiedArgumentCollection {
-												(UnifiedArgument)new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", BinaryOperatorType.Subtraction),
-													LeftHandSide = new UnifiedVariable("n"),
-													RightHandSide = new UnifiedIntegerLiteral(2)
-												}
+											Function = UnifiedVariable.Create("fib"),
+											Arguments = {
+												UnifiedArgument.Create(new UnifiedBinaryExpression {
+													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
+													LeftHandSide = UnifiedVariable.Create("n"),
+													RightHandSide = UnifiedIntegerLiteral.Create(2)
+												}),
 											}
 										}
 									}
 								}
 							}
-						}.ToStatement()
-					}
-				}.ToStatement(),
-				new UnifiedCall {
-					Function = new UnifiedVariable("print"),
-					Arguments = new UnifiedArgumentCollection {
-						(UnifiedArgument)new UnifiedCall {
-							Function = new UnifiedVariable("fib"),
-							Arguments = new UnifiedArgumentCollection {
-								(UnifiedArgument)new UnifiedIntegerLiteral(20),
-							}
 						}
 					}
-				}.ToStatement()
+				},
+				new UnifiedCall {
+					Function = UnifiedVariable.Create("print"),
+					Arguments = {
+						UnifiedArgument.Create(new UnifiedCall {
+							Function = UnifiedVariable.Create("fib"),
+							Arguments = {
+								UnifiedArgument.Create(UnifiedIntegerLiteral.Create(20)),
+							}
+						}),
+					}
+				}
 			};
 
 		#endregion
 
 		[Test, Ignore]
 		public void TestFibonacci() {
-			var xml = Python2AstGenerator.Instance.Generate(TestCode);
+			var xml = Python2XmlGenerator.Instance.Generate(TestCode);
 			var model = PythonModelFactory.CreateBlock(xml);
 			Assert.That(model, Is.EqualTo(ExpectedModel)
 				.Using(StructuralEqualityComparer.Instance));

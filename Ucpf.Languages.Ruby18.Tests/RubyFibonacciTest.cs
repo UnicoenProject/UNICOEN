@@ -1,7 +1,6 @@
-﻿using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
-using Ucpf.Languages.Ruby18.AstGenerators;
+﻿using Code2Xml.Languages.Ruby18.XmlGenerators;
+using NUnit.Framework;
+using Ucpf.Core.Model;
 using Ucpf.Languages.Ruby18.Model;
 
 namespace Ucpf.Languages.Ruby18.Tests {
@@ -9,32 +8,31 @@ namespace Ucpf.Languages.Ruby18.Tests {
 	public class RubyFibonacciTest {
 		private static UnifiedCall CreateCall(int? decrement) {
 			return new UnifiedCall {
-				Function = new UnifiedVariable("fibonacci"),
-				Arguments = new UnifiedArgumentCollection {
+				Function = UnifiedVariable.Create("fibonacci"),
+				Arguments = {
 					decrement == null
-						? (UnifiedArgument)new UnifiedVariable("n")
-						: (UnifiedArgument)new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
+						? UnifiedArgument.Create(UnifiedVariable.Create("n"))
+						: UnifiedArgument.Create(new UnifiedBinaryExpression {
+							LeftHandSide = UnifiedVariable.Create("n"),
 							Operator = new UnifiedBinaryOperator("-",
-						                   	BinaryOperatorType.Subtraction),
-							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
-						}
+						                   	UnifiedBinaryOperatorType.Subtract),
+							RightHandSide = UnifiedIntegerLiteral.Create((int)decrement),
+						})
 				},
 			};
 		}
 
 		[Test]
 		public void CreateDefineFunction() {
-			var ast = Ruby18AstGenerator.Instance.Generate(@"
+			var ast = Ruby18XmlGenerator.Instance.Generate(@"
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock(),
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparer.Instance));
@@ -43,18 +41,18 @@ end");
 		[Test]
 		public void CreateReturn() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(@"
+				Ruby18XmlGenerator.Instance.Generate(@"
 def fibonacci(n)
 	return n
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock {
-					new UnifiedReturn{ Value = new UnifiedVariable("n")}
+				Body = {
+					new UnifiedReturn{ Value = UnifiedVariable.Create("n")}
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -64,7 +62,7 @@ end");
 		[Test]
 		public void CreateFunctionCall() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	return fibonacci(n)
@@ -72,10 +70,10 @@ end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock {
+				Body = {
 					new UnifiedReturn{ Value = CreateCall(null)}
 				},
 			};
@@ -86,7 +84,7 @@ end");
 		[Test]
 		public void CreateFunctionCall2() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	return fibonacci(n - 1) + fibonacci(n - 2)
@@ -94,14 +92,14 @@ end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock {
+				Body = {
 					new UnifiedReturn{
 						Value = new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
-							Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+							Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 							RightHandSide = CreateCall(2),
 						}
 					}
@@ -114,7 +112,7 @@ end");
 		[Test]
 		public void CreateIf() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	if (n < 2)
@@ -127,27 +125,27 @@ end
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock {
-					new UnifiedExpressionStatement(new UnifiedIf {
+				Body = {
+					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
-							RightHandSide = new UnifiedIntegerLiteral(2),
+							LeftHandSide = UnifiedVariable.Create("n"),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = new UnifiedBlock {
+						TrueBlock = {
 							new UnifiedReturn{
-								Value = new UnifiedVariable("n")
+								Value = UnifiedVariable.Create("n")
 							}
 						},
-						FalseBlock = new UnifiedBlock {
+						FalseBlock = {
 							new UnifiedReturn {
-								Value = new UnifiedIntegerLiteral(0)
+								Value = UnifiedIntegerLiteral.Create(0)
 							}
 						},
-					}),
+					},
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -157,7 +155,7 @@ end
 		[Test]
 		public void CreateFibonacci() {
 			var ast =
-				Ruby18AstGenerator.Instance.Generate(
+				Ruby18XmlGenerator.Instance.Generate(
 					@"
 def fibonacci(n)
 	if (n < 2)
@@ -170,29 +168,29 @@ end
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection {
+				Parameters = {
 					new UnifiedParameter{ Name = "n" }
 				},
-				Block = new UnifiedBlock {
-					new UnifiedExpressionStatement(new UnifiedIf {
+				Body = {
+					new UnifiedIf {
 						Condition = new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
-							Operator = new UnifiedBinaryOperator("<", BinaryOperatorType.Lesser),
-							RightHandSide = new UnifiedIntegerLiteral(2),
+							LeftHandSide = UnifiedVariable.Create("n"),
+							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser),
+							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = new UnifiedBlock {
-							new UnifiedReturn{ Value = new UnifiedVariable("n") }
+						TrueBlock = {
+							new UnifiedReturn{ Value = UnifiedVariable.Create("n") }
 						},
-						FalseBlock = new UnifiedBlock {
+						FalseBlock = {
 							new UnifiedReturn {
 								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
-									Operator = new UnifiedBinaryOperator("+", BinaryOperatorType.Addition),
+									Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 									RightHandSide = CreateCall(2),
 								}
 							}
 						},
-					}),
+					},
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)

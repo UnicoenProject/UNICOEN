@@ -78,8 +78,14 @@
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="Antlr3.Runtime, Version=3.1.3.42154, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.1.3.42154\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\lib\Code2Xml.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.C">
+      <HintPath>..\lib\Code2Xml.Languages.C.dll</HintPath>
     </Reference>
     <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
@@ -94,58 +100,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AstGenerators\CAstGenerator.cs" />
-    <Compile Include="AstGenerators\CElements.cs" />
-    <Compile Include="AstGenerators\CLexer.cs" />
-    <Compile Include="AstGenerators\CParser.cs" />
-    <Compile Include="CodeGenerators\CCodeGenerator.cs" />
-    <Compile Include="Model\CEntireTypeTransRule.cs" />
-    <Compile Include="Model\CMethodTransRule.cs" />
-    <Compile Include="Model\CModelToCode.cs" />
-    <Compile Include="Model\CBlock.cs" />
-    <Compile Include="Model\CRule.cs" />
-    <Compile Include="Model\CTypeTransRule.cs" />
-    <Compile Include="Model\Expressions\CAssignmentExpression.cs" />
-    <Compile Include="Model\Expressions\CBinaryExpression.cs" />
-    <Compile Include="Model\Expressions\CExpression.cs" />
-    <Compile Include="Model\Expressions\CInvocationExpression.cs" />
-    <Compile Include="Model\Expressions\CUnaryExpression.cs" />
-    <Compile Include="Model\Expressions\PrimaryExpressions\CNumber.cs" />
-    <Compile Include="Model\Expressions\PrimaryExpressions\CPrimaryExpression.cs" />
-    <Compile Include="Model\Expressions\PrimaryExpressions\CString.cs" />
-    <Compile Include="Model\CFunction.cs" />
-    <Compile Include="Model\Operators\CAssignmentOperator.cs" />
-    <Compile Include="Model\Operators\CBinaryOperator.cs" />
-    <Compile Include="Model\Operators\COperator.cs" />
-    <Compile Include="Model\Operators\CUnaryOperator.cs" />
-    <Compile Include="Model\Statements\CStatement.cs" />
-    <Compile Include="Model\Statements\ExpressionStatements\CEmptyStatement.cs" />
-    <Compile Include="Model\Statements\ExpressionStatements\CExpressionStatement.cs" />
-    <Compile Include="Model\Statements\IterationStatements\CForStatement.cs" />
-    <Compile Include="Model\Statements\IterationStatements\CIterationStatement.cs" />
-    <Compile Include="Model\Statements\IterationStatements\CWhileStatement.cs" />
-    <Compile Include="Model\Statements\JumpStatements\CGotoStatement.cs" />
-    <Compile Include="Model\Statements\JumpStatements\CJumpStatement.cs" />
-    <Compile Include="Model\Statements\JumpStatements\CReturnStatement.cs" />
-    <Compile Include="Model\Statements\SelectionStatements\CElseIfBlock.cs" />
-    <Compile Include="Model\Statements\SelectionStatements\CIfStatement.cs" />
-    <Compile Include="Model\Statements\SelectionStatements\CSelectionStatement.cs" />
-    <Compile Include="Model\Statements\SelectionStatements\CSwitchStatement.cs" />
-    <Compile Include="Model\CProgram.cs" />
-    <Compile Include="Model\CType.cs" />
-    <Compile Include="Model\CVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AstGenerators\C.g" />
+    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ucpf.Common\Ucpf.Common.csproj">
-      <Project>{01278298-E1DA-40F8-80A8-FE9C68154241}</Project>
-      <Name>Ucpf.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

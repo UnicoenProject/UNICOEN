@@ -4,33 +4,31 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Scripting.Math;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
+using Ucpf.Core.Model;
 
 namespace Ucpf.Languages.Ruby18.Model {
 	public class RubyModelFactory {
-		private static readonly Dictionary<string, BinaryOperatorType> Sign2Type;
+		private static readonly Dictionary<string, UnifiedBinaryOperatorType> Sign2Type;
 
 		static RubyModelFactory() {
-			Sign2Type = new Dictionary<string, BinaryOperatorType>();
-			Sign2Type["+"] = BinaryOperatorType.Addition;
-			Sign2Type["-"] = BinaryOperatorType.Subtraction;
-			Sign2Type["*"] = BinaryOperatorType.Multiplication;
-			Sign2Type["/"] = BinaryOperatorType.Division;
-			Sign2Type["%"] = BinaryOperatorType.Modulo;
-			Sign2Type["<"] = BinaryOperatorType.Lesser;
-			Sign2Type["<="] = BinaryOperatorType.LesserEqual;
-			Sign2Type[">"] = BinaryOperatorType.Greater;
-			Sign2Type[">="] = BinaryOperatorType.GreaterEqual;
+			Sign2Type = new Dictionary<string, UnifiedBinaryOperatorType>();
+			Sign2Type["+"] = UnifiedBinaryOperatorType.Add;
+			Sign2Type["-"] = UnifiedBinaryOperatorType.Subtract;
+			Sign2Type["*"] = UnifiedBinaryOperatorType.Multiply;
+			Sign2Type["/"] = UnifiedBinaryOperatorType.Divide;
+			Sign2Type["%"] = UnifiedBinaryOperatorType.Modulo;
+			Sign2Type["<"] = UnifiedBinaryOperatorType.Lesser;
+			Sign2Type["<="] = UnifiedBinaryOperatorType.LesserEqual;
+			Sign2Type[">"] = UnifiedBinaryOperatorType.Greater;
+			Sign2Type[">="] = UnifiedBinaryOperatorType.GreaterEqual;
 		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "true" ||
 							  node.Name.LocalName == "false");
 			return new UnifiedBooleanLiteral {
-				TypedValue = node.Name.LocalName == "true"
+				Value = node.Name.LocalName == "true"
 								? UnifiedBoolean.True : UnifiedBoolean.False,
-				Value = node.Value,
 			};
 		}
 
@@ -45,24 +43,22 @@ namespace Ucpf.Languages.Ruby18.Model {
 			if (node.Name.LocalName == "lit") {
 				switch (node.Elements().First().Name.LocalName) {
 					case "Fixnum":
-						return new UnifiedIntegerLiteral(
+						return UnifiedIntegerLiteral.Create(
 							BigInteger.Parse(node.Value));
 				}
 			}
-			return new UnifiedLiteral {
-				Value = node.Value,
-			};
+			throw new NotImplementedException();
 		}
 
 		public static UnifiedDecimalLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
 			return new UnifiedDecimalLiteral {
-				TypedValue = Decimal.Parse(node.Value)
+				Value = Decimal.Parse(node.Value)
 			};
 		}
 
 		public static UnifiedBinaryOperator CreateOperator(string sign) {
-			BinaryOperatorType result;
+			UnifiedBinaryOperatorType result;
 			return Sign2Type.TryGetValue(sign, out result)
 					? new UnifiedBinaryOperator(sign, result) : null;
 		}
@@ -82,43 +78,35 @@ namespace Ucpf.Languages.Ruby18.Model {
 				}
 			}
 			return new UnifiedCall {
-				Function = new UnifiedVariable(funcName),
+				Function = UnifiedVariable.Create(funcName),
 				Arguments = new UnifiedArgumentCollection(
 					node.Elements().ElementAt(2).Elements()
-						.Select(e => (UnifiedArgument)CreateExpression(e))),
+						.Select(e => UnifiedArgument.Create(CreateExpression(e)))),
 			};
 		}
 
 		public static UnifiedExpression CreateExpression(XElement node) {
 			var elems = node.Elements();
 			switch (node.Name.LocalName) {
-				case "lit":
-					return CreateLiteral(node);
-				case "lvar":
-					return new UnifiedVariable(node.Value);
-				case "call":
-					return CreateCall(node);
-				case "if":
-					return new UnifiedIf {
-						Condition = CreateExpression(elems.ElementAt(0)),
-						TrueBlock = CreateBlock(elems.ElementAt(1)),
-						FalseBlock = CreateBlock(elems.ElementAt(2)),
-					};
+			case "lit":
+				return CreateLiteral(node);
+			case "lvar":
+				return UnifiedVariable.Create(node.Value);
+			case "call":
+				return CreateCall(node);
+			case "if":
+				return new UnifiedIf {
+					Condition = CreateExpression(elems.ElementAt(0)),
+					TrueBlock = CreateBlock(elems.ElementAt(1)),
+					FalseBlock = CreateBlock(elems.ElementAt(2)),
+				};
+			case "return":
+				return new UnifiedReturn {
+					Value = CreateExpression(elems.First())
+				};
+			default:
+				throw new NotImplementedException();
 			}
-			throw new NotImplementedException();
-		}
-
-		public static UnifiedStatement CreateStatement(XElement node) {
-			var elems = node.Elements();
-			switch (node.Name.LocalName) {
-				case "return":
-					return new UnifiedReturn {
-						Value = CreateExpression(elems.First())
-					};
-			}
-			return new UnifiedExpressionStatement(
-				CreateExpression(node));
-			throw new NotImplementedException();
 		}
 
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
@@ -129,7 +117,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 				Parameters = new UnifiedParameterCollection(
 					elems.ElementAt(1).Elements()
 						.Select(e => new UnifiedParameter{ Name =  e.Value })),
-				Block = CreateBlock(elems.ElementAt(2).Elements().First()),
+				Body = CreateBlock(elems.ElementAt(2).Elements().First()),
 			};
 		}
 
@@ -138,7 +126,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			return new UnifiedBlock(
 				node.Elements()
 					.Where(e => e.Name.LocalName != "nil")
-					.Select(CreateStatement));
+					.Select(CreateExpression));
 		}
 	}
 }

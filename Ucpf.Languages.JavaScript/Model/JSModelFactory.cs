@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
+using Ucpf.Core.Model;
+
+
 
 namespace Ucpf.Languages.JavaScript.Model {
 	public class JSModelFactory {
@@ -38,6 +40,12 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 			//case PrimaryExpression: Identifier or TOKEN
 			if (topExpressionElement.Elements().Count() == 1) {
+				//TODO CONSIDER: TOKEN consisted of only [a-Z]* is always variable?
+				if (System.Text.RegularExpressions.Regex.IsMatch(topExpressionElement.Value, @"[a-zA-Z]{1}[a-zA-Z0-9]*")) {
+					return new UnifiedVariable {
+						Name = topExpressionElement.Value
+					};
+				}
 				return CreateLiteral(topExpressionElement);
 			}
 
@@ -96,9 +104,16 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedExpression CreateLiteral(XElement node) {
-			return new UnifiedLiteral() {
-				Value = node.Value
-			};
+			int i;
+			if( Int32.TryParse(node.Value,NumberStyles.Any, null, out i) )
+			{
+				return new UnifiedIntegerLiteral {
+					Value = i
+				};
+			}
+
+			//TODO IMPLEMENT: other literal cases
+			throw new NotImplementedException();
 		}
 
 		#endregion
@@ -107,15 +122,15 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 		public static UnifiedUnaryOperator CreatePrefixUnaryOperator(XElement node) {
 			var name = node.Value;
-			UnaryOperatorType type;
+			UnifiedUnaryOperatorType type;
 
 			//TODO implement more OperationType cases
 			switch (name) {
 			case "++":
-					type = UnaryOperatorType.PrefixIncrement;
+					type = UnifiedUnaryOperatorType.PrefixIncrement;
 					break;
 			case "--":
-					type = UnaryOperatorType.PrefixDecrement;
+					type = UnifiedUnaryOperatorType.PrefixDecrement;
 					break;
 			default:
 				throw new InvalidOperationException();
@@ -126,14 +141,14 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 		public static UnifiedUnaryOperator CreatePostfixUnaryOperator(XElement node) {
 			var name = node.Value;
-			UnaryOperatorType type;
+			UnifiedUnaryOperatorType type;
 
 			switch (name) {
 			case "++":
-					type = UnaryOperatorType.PostfixIncrement;
+					type = UnifiedUnaryOperatorType.PostfixIncrement;
 					break;
 			case "--":
-					type = UnaryOperatorType.PostfixDecrement;
+					type = UnifiedUnaryOperatorType.PostfixDecrement;
 					break;
 			default:
 				throw new InvalidOperationException();
@@ -149,14 +164,14 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 			switch (name) {
 				//Arithmetic
-				case "+": type = UnifiedBinaryOperatorType.Addition; break;
-				case "-": type = UnifiedBinaryOperatorType.Subtraction; break;
-				case "*": type = UnifiedBinaryOperatorType.Multiplication; break;
-				case "/": type = UnifiedBinaryOperatorType.Division; break;
+				case "+": type = UnifiedBinaryOperatorType.Add; break;
+				case "-": type = UnifiedBinaryOperatorType.Subtract; break;
+				case "*": type = UnifiedBinaryOperatorType.Multiply; break;
+				case "/": type = UnifiedBinaryOperatorType.Divide; break;
 				case "%": type = UnifiedBinaryOperatorType.Modulo; break;
 				//Shift
-				case "<<": type = UnifiedBinaryOperatorType.LeftShift; break;
-				case ">>": type = UnifiedBinaryOperatorType.RightShift; break;
+				case "<<": type = UnifiedBinaryOperatorType.LeftArithmeticShift; break;
+				case ">>": type = UnifiedBinaryOperatorType.RightArithmeticShift; break;
 				//Comparison
 				case ">": type = UnifiedBinaryOperatorType.Greater; break;
 				case ">=": type = UnifiedBinaryOperatorType.GreaterEqual; break;
@@ -182,15 +197,14 @@ namespace Ucpf.Languages.JavaScript.Model {
 					throw new InvalidOperationException();
 			}
 
-			//TODO second parameter is BinaryOperatorType? UnifiedBinaryOperatorType?
-			return new UnifiedBinaryOperator(name, (BinaryOperatorType)type);
+			return new UnifiedBinaryOperator(name, type);
 		}
 
 		#endregion
 
 		#region Statement
 
-		public static UnifiedStatement CreateStatement(XElement node) {
+		public static UnifiedExpression CreateStatement(XElement node) {
 			var element = node.Elements().First();
 
 			//case statementBlock
@@ -212,7 +226,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		public static UnifiedBlock CreateBlock(XElement node) {
 			return new UnifiedBlock(
 				node.Element("statementList").Elements("statement")
-					.Select(e => CreateStatement(e)).ToList()
+					.Select(CreateStatement).ToList()
 				);
 		}
 
@@ -221,19 +235,18 @@ namespace Ucpf.Languages.JavaScript.Model {
 				node.Element("sourceElements").Elements("sourceElement")
 					.SelectMany(e =>
 								e.Elements("statement").Select(
-									e2 => CreateStatement(e2))
+									CreateStatement)
 									).ToList()
 					);
 		}
 
-		public static UnifiedExpressionStatement CreateIf(XElement node) {
-			return new UnifiedExpressionStatement(
-				new UnifiedIf {
+		public static UnifiedExpression CreateIf(XElement node) {
+			return new UnifiedIf {
 					//TODO consider how deal with else block
 					Condition = CreateExpression(node.Element("expression")),
 					TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
 					FalseBlock =(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
-				});
+				};
 		}
 
 		public static UnifiedReturn CreateReturn(XElement node) {
@@ -249,7 +262,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		public static UnifiedFunctionDefinition CreateFunction(XElement node) {
 			return new UnifiedFunctionDefinition {
 				Name = node.Element("Identifier").Value,
-				Block = CreateFunctionBody(node.Element("functionBody")),
+				Body = CreateFunctionBody(node.Element("functionBody")),
 				Parameters = CreateParameterCollection(node)
 			};
 		}

@@ -3,31 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ICSharpCode.NRefactory.Ast;
-using Ucpf.Common.Model;
+using Ucpf.Core.Model;
+
+
 
 namespace Ucpf.Languages.CSharp {
 
-	using UnifiedOperatorType = Common.OldModel.Operators.BinaryOperatorType;
-
 	partial class Translator {
 
-		private static UnifiedBinaryOperator ConvertOperator(BinaryOperatorType type) {
+		private static UnifiedBinaryOperator ConvertBinaryOperator(BinaryOperatorType type) {
 			switch (type) {
 				case BinaryOperatorType.Add:
-					return new UnifiedBinaryOperator("+", UnifiedOperatorType.Addition);
+					return new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add);
 				case BinaryOperatorType.Subtract:
-					return new UnifiedBinaryOperator("-", UnifiedOperatorType.Subtraction);
+					return new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract);
 
 				case BinaryOperatorType.LessThan:
-					return new UnifiedBinaryOperator("<", UnifiedOperatorType.Lesser);
+					return new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.Lesser);
 				case BinaryOperatorType.LessThanOrEqual:
-					return new UnifiedBinaryOperator("<=", UnifiedOperatorType.LesserEqual);
+					return new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LesserEqual);
 				case BinaryOperatorType.GreaterThan:
-					return new UnifiedBinaryOperator(">", UnifiedOperatorType.Greater);
+					return new UnifiedBinaryOperator(">", UnifiedBinaryOperatorType.Greater);
 				case BinaryOperatorType.GreaterThanOrEqual:
-					return new UnifiedBinaryOperator(">=", UnifiedOperatorType.GreaterEqual);
+					return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterEqual);
 			}
-			return null;
+			throw new NotImplementedException();
+		}
+
+		private static UnifiedUnaryOperator ConvertUnaryOperator(UnaryOperatorType type) {
+			switch (type) {
+				case UnaryOperatorType.Plus:
+					return new UnifiedUnaryOperator("+", UnifiedUnaryOperatorType.Plus);
+				case UnaryOperatorType.Minus:
+					return new UnifiedUnaryOperator("-", UnifiedUnaryOperatorType.Minus);
+
+				case UnaryOperatorType.Increment:
+					return new UnifiedUnaryOperator("++",
+						UnifiedUnaryOperatorType.PrefixIncrement);
+				case UnaryOperatorType.PostIncrement:
+					return new UnifiedUnaryOperator("++",
+						UnifiedUnaryOperatorType.PostfixIncrement);
+				case UnaryOperatorType.Decrement:
+					return new UnifiedUnaryOperator("--",
+						UnifiedUnaryOperatorType.PrefixDecrement);
+				case UnaryOperatorType.PostDecrement:
+					return new UnifiedUnaryOperator("--",
+						UnifiedUnaryOperatorType.PostfixDecrement);
+			}
+			throw new NotImplementedException();
 		}
 
 		private static UnifiedModifierCollection ConvertModifiler(Modifiers mods) {
@@ -48,32 +71,56 @@ namespace Ucpf.Languages.CSharp {
 			return ret;
 		}
 
-		private static string GetTypeName(TypeReference type) {
+		private static UnifiedType ConvertTypeIgnoringIsArray(TypeReference type) {
+			string typeName = type.Type;
 			if (type.IsKeyword) {
-				switch (type.Type) {
-					case "System.Int32":
-						return "int";
-					case "System.Void":
-						return "void";
-					case "Sytem.String":
-						return "string";
-				}
+				typeName = GetTypeAlias(typeName) ?? typeName;
 			}
-			return type.Type;
+			return new UnifiedType { Name = typeName };
 		}
 
-		private static UnifiedBlock ToBlock(IEnumerable<object> contents) {
+		private static UnifiedType ConvertType(TypeReference type) {
+			var uType = ConvertTypeIgnoringIsArray(type);
+
+			var buff = new StringBuilder(uType.Name);
+			if (type.IsArrayType) {
+				foreach (int rank in type.RankSpecifier) {
+					buff.Append("[");
+					for (int i = 0; i < rank; i++)
+						buff.Append(",");
+					buff.Append("]");
+				}
+			}
+			return new UnifiedType { Name = buff.ToString() };
+		}
+
+		private static string GetTypeAlias(string fullTypeName) {
+			switch (fullTypeName) {
+				case "System.Int32":
+					return "int";
+				case "System.Void":
+					return "void";
+				case "Sytem.String":
+					return "string";
+			}
+			return null;
+		}
+
+		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents) {
 			var block = new UnifiedBlock();
 			foreach (var item in contents) {
-				var stmt = item as UnifiedStatement;
-				if (stmt != null) {
-					block.Add(stmt);
-					continue;
-				}
 				var expr = item as UnifiedExpression;
 				if (expr != null) {
-					block.Add(new UnifiedExpressionStatement(expr));
+					block.Add(expr);
+					continue;
 				}
+				var exprs = item as IEnumerable<UnifiedExpression>;
+				if (exprs != null) {
+					foreach (var iExpr in exprs)
+						block.Add(iExpr);
+					continue;
+				}
+				throw new NotImplementedException();
 			}
 			return block;
 		}

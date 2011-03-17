@@ -1,63 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Code2Xml.Languages.Java.XmlGenerators;
 using NUnit.Framework;
-using Ucpf.Common.Model;
-using Ucpf.Common.OldModel.Operators;
-using Ucpf.Common.Tests;
-using Ucpf.Languages.Java.AstGenerators;
-using Ucpf.Languages.Java.CodeModel;
+using Ucpf.Core.Model;
+using Ucpf.Core.Tests;
+using Ucpf.Languages.CSharp.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaFibonacciTest {
-		private static UnifiedCall CreateCall(int? decrement) {
-			return new UnifiedCall {
-				Function = new UnifiedVariable("fibonacci"),
-				Arguments = new UnifiedArgumentCollection {
-					decrement == null
-						? (UnifiedArgument)new UnifiedVariable("n")
-						: (UnifiedArgument)new UnifiedBinaryExpression {
-							LeftHandSide = new UnifiedVariable("n"),
-							Operator =
-						                   	new UnifiedBinaryOperator("-",
-						                   	BinaryOperatorType.Subtraction),
-							RightHandSide = new UnifiedIntegerLiteral((int)decrement),
-						}
-				},
-			};
-		}
+		private static readonly string Code =
+			File.ReadAllText(Fixture.GetInputPath("Java", "Fibonacci.java"));
 
 		[Test]
 		public void CreateDefineFunction() {
 			var ast =
-				JavaAstGenerator.Instance.Generate("public static int fibonacci(int n){}",
+				JavaXmlGenerator.Instance.Generate("public static int fibonacci(int n){}",
 					p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
 			var expectation = new UnifiedFunctionDefinition {
-				Modifiers = new UnifiedModifierCollection() {
-					new UnifiedModifier() {
-						Name = "public"
-					},
-					new UnifiedModifier() {
-						Name = "static"
-					}
+				Modifiers = {
+					UnifiedModifier.Create("public"),
+					UnifiedModifier.Create("static"),
 				},
-				ReturnType = "int",
+				Type = UnifiedType.Create("int"),
 				Name = "fibonacci",
-				Parameters = new UnifiedParameterCollection() {
-					new UnifiedParameter() {
-						Modifier = new UnifiedModifier(),
+				Parameters = {
+					new UnifiedParameter {
 						Name = "n",
-						Type = "int"
+						Type = UnifiedType.Create("int"),
 					}
 				},
-				Block = new UnifiedBlock(),
 			};
 			Assert.That(actual,
 				Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void CreateFibonacci() {
+			var actual = JavaModelFactory.CreateModel(Code);
+			var expected = CSharpFibonacciTest.Model;
+			Assert.That(actual,
+				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }
