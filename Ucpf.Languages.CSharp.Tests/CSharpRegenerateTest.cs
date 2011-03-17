@@ -44,7 +44,6 @@ namespace Ucpf.Languages.CSharp.Tests {
 			}
 
 			{
-				Thread.Sleep(1000);
 				var args = new[] { "/text", exeFilePath };
 				var info = new ProcessStartInfo {
 					FileName = IldasmPath,
@@ -82,8 +81,6 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var srcPath = Fixture.GetTemporalPath(fileName);
 			File.Copy(orgPath, srcPath);
 			var expected = GetILCode(workPath, fileName);
-			var model = CSharpModelFactory.CreateModel(orgPath);
-			var code = CSharpCodeGenerator.Generate(model);
 			var actual = GetILCode(workPath, fileName);
 			Assert.That(actual, Is.EqualTo(expected));
 		}
