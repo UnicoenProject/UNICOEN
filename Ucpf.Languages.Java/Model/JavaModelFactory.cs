@@ -62,6 +62,13 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateCallExpression(topExpressionElement);
 			}
 
+			// case parExpression
+			/* バグ修正で作ってみたけど修正できないのでコメントアウト
+			if (topExpressionElement.Name.LocalName == "parExpression") {
+				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
+			}
+			*/
+
 			//TODO IMPLEMENT: other cases
 			throw new NotImplementedException();
 		}
