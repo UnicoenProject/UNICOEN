@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -35,8 +37,12 @@ namespace Ucpf.Languages.CSharp.Tests {
 					WorkingDirectory = workPath,
 				};
 
-				using (var p = Process.Start(info)) {
-					p.WaitForExit();
+				try {
+					using (var p = Process.Start(info)) {
+						p.WaitForExit();
+					}
+				} catch (Win32Exception e) {
+					throw new InvalidOperationException("Failed to launch 'ildasm': " + IldasmPath , e);
 				}
 			}
 
