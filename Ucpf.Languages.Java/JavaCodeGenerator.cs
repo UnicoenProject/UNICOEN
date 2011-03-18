@@ -34,6 +34,94 @@ namespace Ucpf.Languages.Java {
 				_writer.Write(IndentSpace);
 		}
 
+		#region program, namespace, class, method, filed ...
+
+		public void Visit(UnifiedProgram program) {
+			foreach (var elem in program)
+			{
+				elem.Accept(this);
+			}
+			
+		}
+
+		public void Visit(UnifiedClassDefinition classDefinition) {
+			WriteIndent();
+			classDefinition.Modifiers.Accept(this);
+			_writer.Write("class ");
+			_writer.WriteLine(classDefinition.Name);
+			classDefinition.Body.Accept(this);
+		}
+
+		public void Visit(UnifiedFunctionDefinition functionDefinition) {
+			WriteIndent();
+			functionDefinition.Modifiers.Accept(this);
+			functionDefinition.Type.Accept(this);
+			_writer.Write(" ");
+			_writer.Write(functionDefinition.Name);
+			functionDefinition.Parameters.Accept(this);
+			functionDefinition.Body.Accept(this);
+		}
+
+
+		public void Visit(UnifiedParameterCollection parameters) {
+			_writer.Write("(");
+			var splitter = "";
+			foreach (var p in parameters)
+			{
+				_writer.Write(splitter);
+				p.Accept(this);
+				splitter = ", ";
+			}
+			_writer.Write(")");
+		}
+
+		public void Visit(UnifiedParameter parameter) {
+			parameter.Modifiers.Accept(this);
+			parameter.Type.Accept(this);
+			_writer.Write(" ");
+			_writer.Write(parameter.Name);
+		}
+
+		#endregion
+
+		#region statement
+
+		public void Visit(UnifiedBlock block) {
+			WriteIndent();
+			_writer.WriteLine("{");
+			_indent++;
+			foreach (var stmt in block)
+			{
+				WriteIndent();
+				stmt.Accept(this);
+				_writer.WriteLine(";");
+			}
+			_indent--;
+			WriteIndent();
+			_writer.WriteLine("}");
+		}
+
+		public void Visit(UnifiedIf ifStatement)		{
+			_writer.Write("if (");
+			ifStatement.Condition.Accept(this);
+			_writer.WriteLine(")");
+			ifStatement.TrueBlock.Accept(this);
+			if (ifStatement.FalseBlock != null)
+			{
+				WriteIndent();
+				_writer.WriteLine("else");
+				ifStatement.FalseBlock.Accept(this);
+			}
+		}
+
+		public void Visit(UnifiedReturn returnStatement) {
+			_writer.Write("return ");
+			returnStatement.Value.Accept(this);
+		}
+
+		#endregion
+
+
 		public void Visit<T>(UnifiedTypedLiteral<T> element) {
 			throw new NotImplementedException();
 		}
@@ -58,33 +146,11 @@ namespace Ucpf.Languages.Java {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedBlock element) {
-			throw new NotImplementedException();
-		}
 
 		public void Visit(UnifiedCall element) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedFunctionDefinition element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedIf element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedParameter element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedParameterCollection element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedReturn element) {
-			throw new NotImplementedException();
-		}
 
 		public void Visit(UnifiedVariable element) {
 			throw new NotImplementedException();
@@ -106,13 +172,9 @@ namespace Ucpf.Languages.Java {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedProgram element) {
-			throw new NotImplementedException();
-		}
 
-		public void Visit(UnifiedClassDefinition element) {
-			throw new NotImplementedException();
-		}
+
+
 
 		public void Visit(UnifiedVariableDefinition element) {
 			throw new NotImplementedException();
