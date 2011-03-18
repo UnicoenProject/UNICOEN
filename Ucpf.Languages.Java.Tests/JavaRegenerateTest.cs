@@ -12,7 +12,7 @@ using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
 	/// <summary>
-	/// Java向けの再生成したソースコードが変化していないかテストします。
+	/// Java向けに再生成したソースコードが変化していないかテストします。
 	/// コード→モデル→コードと変換することで再生成します。
 	/// コードは、コンパイルしたバイナリファイル同士、もしくは、
 	/// コードから得られるモデルで比較しています。
@@ -86,7 +86,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 		/// <summary>
 		/// コンパイル結果を通して再生成したコードが変化しないかテストします。
-		/// コードはコンパイルしたバイナリファイル同士で比較します。
+		/// コードはコンパイルしたバイナリファイルで比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Ignore, Test, TestCaseSource("TestCases")]
@@ -106,7 +106,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 		/// <summary>
 		/// モデルを通した再生成したコードが変化しないかテストします。
-		/// コードから生成したモデル同士で比較します。
+		/// コードから生成したモデルで比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Ignore, Test, TestCaseSource("TestCases")]
