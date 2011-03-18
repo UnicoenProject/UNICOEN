@@ -11,6 +11,12 @@ using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
+	/// <summary>
+	/// Java向けの再生成したソースコードが変化していないかテストします。
+	/// コード→モデル→コードと変換することで再生成します。
+	/// コードは、コンパイルしたバイナリファイル同士、もしくは、
+	/// コードから得られるモデルで比較しています。
+	/// </summary>
 	[TestFixture]
 	public class JavaRegenerateTest {
 		private const string JavacPath = "javac";
@@ -48,6 +54,11 @@ namespace Ucpf.Languages.Java.Tests {
 			}
 		}
 
+		/// <summary>
+		/// CompareThroughByteCodeが正常に動作するかテストします。
+		/// 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
+		/// </summary>
+		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 		public void CompareThroughByteCodeForSameCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
@@ -59,6 +70,11 @@ namespace Ucpf.Languages.Java.Tests {
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 
+		/// <summary>
+		/// CompareThroughModelが正常に動作するかテストします。
+		/// 全く同じコードから生成したモデル同士で比較します。
+		/// </summary>
+		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 		public void CompareThroughModelForSameCode(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
@@ -68,6 +84,11 @@ namespace Ucpf.Languages.Java.Tests {
 				.Using(StructuralEqualityComparer.Instance));
 		}
 
+		/// <summary>
+		/// コンパイル結果を通して再生成したコードが変化しないかテストします。
+		/// コードはコンパイルしたバイナリファイル同士で比較します。
+		/// </summary>
+		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Ignore, Test, TestCaseSource("TestCases")]
 		public void CompareThroughByteCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
@@ -83,6 +104,11 @@ namespace Ucpf.Languages.Java.Tests {
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 
+		/// <summary>
+		/// モデルを通した再生成したコードが変化しないかテストします。
+		/// コードから生成したモデル同士で比較します。
+		/// </summary>
+		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Ignore, Test, TestCaseSource("TestCases")]
 		public void CompareThroughModel(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
