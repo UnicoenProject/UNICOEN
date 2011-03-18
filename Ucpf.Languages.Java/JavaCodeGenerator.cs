@@ -15,7 +15,6 @@ namespace Ucpf.Languages.Java {
 			var visitor = new JavaCodeGenerator(buff);
 			visitor.Visit(program);
 			return buff.ToString();
-			throw new NotImplementedException();
 		}
 
 		private readonly TextWriter _writer;
@@ -82,6 +81,22 @@ namespace Ucpf.Languages.Java {
 			_writer.Write(parameter.Name);
 		}
 
+		public void Visit(UnifiedModifierCollection modifiers) {
+			foreach (var mod in modifiers) {
+				mod.Accept(this);
+				_writer.Write(" ");
+			}
+		}
+
+		public void Visit(UnifiedModifier mod) {
+			_writer.Write(mod.Name);
+		}
+
+		public void Visit(UnifiedType type)
+		{
+			_writer.Write(type.Name);
+		}
+
 		#endregion
 
 		#region statement
@@ -121,48 +136,67 @@ namespace Ucpf.Languages.Java {
 
 		#endregion
 
+		#region expression
 
-		public void Visit<T>(UnifiedTypedLiteral<T> element) {
-			throw new NotImplementedException();
+		public void Visit(UnifiedBinaryExpression expr) {
+			_writer.Write("(");
+			expr.LeftHandSide.Accept(this);
+			expr.Operator.Accept(this);
+			expr.RightHandSide.Accept(this);
+			_writer.Write(")");
 		}
 
-		public void Visit(UnifiedBinaryOperator element) {
-			throw new NotImplementedException();
+		public void Visit(UnifiedBinaryOperator op) {
+			_writer.Write(op.Sign);
 		}
+
+		public void Visit(UnifiedCall call) {
+			call.Function.Accept(this);
+			call.Arguments.Accept(this);
+		}
+
+		public void Visit(UnifiedArgumentCollection args) {
+			_writer.Write("(");
+			var splitter = "";
+			foreach (var arg in args)
+			{
+				_writer.Write(splitter);
+				arg.Accept(this);
+				splitter = ", ";
+			}
+			_writer.Write(")");
+		}
+
+		public void Visit(UnifiedArgument arg) {
+			arg.Value.Accept(this);
+		}
+
+		#endregion
+
+		#region value
+		public void Visit(UnifiedVariable variable)
+		{
+			_writer.Write(variable.Name);
+		}
+
+		public void Visit(UnifiedLiteral lit)
+		{
+			_writer.Write(lit.ToString());
+		}
+
+		public void Visit<T>(UnifiedTypedLiteral<T> lit)
+		{
+			_writer.Write(lit.Value);
+		}
+		#endregion
+
+
+		#region notImplemented
 
 		public void Visit(UnifiedUnaryOperator element) {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedArgument element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedArgumentCollection element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedBinaryExpression element) {
-			throw new NotImplementedException();
-		}
-
-
-		public void Visit(UnifiedCall element) {
-			throw new NotImplementedException();
-		}
-
-
-		public void Visit(UnifiedVariable element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedModifier element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedModifierCollection element) {
-			throw new NotImplementedException();
-		}
 
 		public void Visit(UnifiedImport element) {
 			throw new NotImplementedException();
@@ -173,9 +207,6 @@ namespace Ucpf.Languages.Java {
 		}
 
 
-
-
-
 		public void Visit(UnifiedVariableDefinition element) {
 			throw new NotImplementedException();
 		}
@@ -184,9 +215,6 @@ namespace Ucpf.Languages.Java {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedLiteral element) {
-			throw new NotImplementedException();
-		}
 
 		public void Visit(UnifiedArrayNew element) {
 			throw new NotImplementedException();
@@ -208,9 +236,6 @@ namespace Ucpf.Languages.Java {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedType element) {
-			throw new NotImplementedException();
-		}
 
 		public void Visit(UnifiedExpressionCollection element) {
 			throw new NotImplementedException();
@@ -239,5 +264,8 @@ namespace Ucpf.Languages.Java {
 		public void Visit(UnifiedIndexer element) {
 			throw new NotImplementedException();
 		}
+
+		#endregion
+
 	}
 }
