@@ -29,6 +29,11 @@ namespace Ucpf.Languages.Java {
 			IndentSpace = "\t";
 		}
 
+		private void WriteIndent() {
+			for (int i = 0; i < _indent; i++)
+				_writer.Write(IndentSpace);
+		}
+
 		public void Visit<T>(UnifiedTypedLiteral<T> element) {
 			throw new NotImplementedException();
 		}
