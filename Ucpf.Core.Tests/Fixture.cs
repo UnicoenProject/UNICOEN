@@ -17,53 +17,47 @@ namespace Ucpf.Core.Tests {
 				Directory.Delete(path, true);
 			}
 			Directory.CreateDirectory(path);
-			return Path.GetFullPath(path);
+			return path.GetFullPathAddingSubNames();
 		}
 
-		public static string AddSubNames(this string path, params string[] subNames) {
-			return subNames.Aggregate(path, Path.Combine);
+		public static string GetFullPathAddingSubNames(this string path, params string[] subNames) {
+			return Path.GetFullPath(subNames.Aggregate(path, Path.Combine));
 		}
 
 		public static string GetTemporalPath(params string[] names) {
-			var path = Path.Combine(FixturePath, Temp)
-				.AddSubNames(names);
-			return Path.GetFullPath(path);
+			return Path.Combine(FixturePath, Temp)
+				.GetFullPathAddingSubNames(names);
 		}
 
 		public static string GetInputPath(string lang, params string[] names) {
-			var path = Path.Combine(FixturePath, lang, InputName)
-				.AddSubNames(names);
-			return Path.GetFullPath(path);
+			return Path.Combine(FixturePath, lang, InputName)
+				.GetFullPathAddingSubNames(names);
 		}
 
 		public static string GetFailedInputPath(string lang, params string[] names) {
-			var path = Path.Combine(FixturePath, lang, FailedInputName)
-				.AddSubNames(names);
-			return Path.GetFullPath(path);
+			return Path.Combine(FixturePath, lang, FailedInputName)
+				.GetFullPathAddingSubNames(names);
 		}
 
 		public static string GetOutputDirPath(string lang) {
 			var path = Path.Combine(FixturePath, lang, OutputName);
 			Directory.CreateDirectory(path);
-			return Path.GetFullPath(path);
+			return path.GetFullPathAddingSubNames();
 		}
 
 		public static string GetOutputFilePath(string lang, params string[] names) {
-			var path = GetOutputDirPath(lang)
-				.AddSubNames(names);
-			return Path.GetFullPath(path);
+			return GetOutputDirPath(lang)
+				.GetFullPathAddingSubNames(names);
 		}
 
 		public static string GetExpectationPath(string lang, params string[] names) {
-			var path = Path.Combine(FixturePath, lang, ExpectationName)
-				.AddSubNames(names);
-			return Path.GetFullPath(path);
+			return Path.Combine(FixturePath, lang, ExpectationName)
+				.GetFullPathAddingSubNames(names);
 		}
 
 		public static string GetXmlExpectationPath(string lang, params string[] names) {
-			var path = Path.Combine(FixturePath, lang, XmlExpectationName)
-				.AddSubNames(names);
-			return Path.GetFullPath(path);
+			return Path.Combine(FixturePath, lang, XmlExpectationName)
+				.GetFullPathAddingSubNames(names);
 		}
 	}
 }
