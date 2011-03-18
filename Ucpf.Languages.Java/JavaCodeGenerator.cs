@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Ucpf.Core.Model;
@@ -8,8 +9,24 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Languages.Java {
 	public class JavaCodeGenerator : IUnifiedModelVisitor {
 
+
 		public static string Generate(UnifiedProgram program) {
+			var buff = new StringWriter();
+			var visitor = new JavaCodeGenerator(buff);
+			visitor.Visit(program);
+			return buff.ToString();
 			throw new NotImplementedException();
+		}
+
+		private readonly TextWriter _writer;
+		private int _indent;
+
+		public string IndentSpace { get; set; }
+
+		private JavaCodeGenerator(TextWriter writer) {
+			_writer = writer;
+			_indent = 0;
+			IndentSpace = "\t";
 		}
 
 		public void Visit<T>(UnifiedTypedLiteral<T> element) {
