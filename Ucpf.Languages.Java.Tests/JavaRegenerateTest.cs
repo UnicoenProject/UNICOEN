@@ -112,6 +112,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		//[Test, TestCaseSource(@"..\..\fixture\Java\input\Fibonacci.java")]
 		[Ignore, Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
+
 		public void CompareThroughModel(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
 			var expected = JavaModelFactory.CreateModel(orgCode);
