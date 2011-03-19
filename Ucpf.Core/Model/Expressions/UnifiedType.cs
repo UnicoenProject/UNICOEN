@@ -2,8 +2,9 @@
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedType : UnifiedElement {
+	public class UnifiedType : UnifiedExpression {
 		public string Name { get; set; }
+		public List<UnifiedExpression> Parameters { get; set; }
 
 		public static UnifiedType Create(string name) {
 			return new UnifiedType {

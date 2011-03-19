@@ -79,6 +79,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 					.AddToFalseBody((0.1).ToLiteral().ToReturn())
 			});
 
+		public static readonly UnifiedClassDefinition NewGenericTypeModel =
+			CreateClassAndMethod(new UnifiedBlock {
+				
+	});
+
 		#endregion
 
 		private static string CreateCode(string fragment) {
@@ -165,6 +170,16 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(IfElseModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		[TestCase("new ArrayList<ArrayList<Integer>>();")]
+		public void CreateNewGenericType(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(NewGenericTypeModel).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }
