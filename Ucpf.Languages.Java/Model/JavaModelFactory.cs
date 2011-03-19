@@ -63,11 +63,11 @@ namespace Ucpf.Languages.Java.Model {
 			}
 
 			// case parExpression
-			/* バグ修正で作ってみたけど修正できないのでコメントアウト
+			// expression を () で囲ったような場合
 			if (topExpressionElement.Name.LocalName == "parExpression") {
 				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
 			}
-			*/
+			
 
 			//TODO IMPLEMENT: other cases
 			throw new NotImplementedException();

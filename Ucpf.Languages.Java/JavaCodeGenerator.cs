@@ -109,7 +109,6 @@ namespace Ucpf.Languages.Java {
 			{
 				WriteIndent();
 				stmt.Accept(this);
-				_writer.WriteLine(";");
 			}
 			_indent--;
 			WriteIndent();
@@ -132,6 +131,7 @@ namespace Ucpf.Languages.Java {
 		public void Visit(UnifiedReturn returnStatement) {
 			_writer.Write("return ");
 			returnStatement.Value.Accept(this);
+			_writer.Write(";");
 		}
 
 		#endregion

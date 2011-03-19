@@ -111,7 +111,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		//[Test, TestCaseSource(@"..\..\fixture\Java\input\Fibonacci.java")]
-		[Ignore, Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
+		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 
 		public void CompareThroughModel(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
