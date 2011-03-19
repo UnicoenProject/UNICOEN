@@ -218,7 +218,7 @@ namespace Ucpf.Languages.Java.Model {
 			trueBlock.Add(CreateStatement(node.Element("statement")));
 			
 			UnifiedBlock falseBlock = null;
-			if (node.Elements("statement").Count() > 2) {
+			if (node.Elements("statement").Count() == 2) {
 				falseBlock = new UnifiedBlock();
 				var falseNode = node.Elements("statement").ElementAt(1);
 				falseBlock.Add(CreateStatement(falseNode));
