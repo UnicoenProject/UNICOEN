@@ -62,7 +62,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.ForeachModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("if (true) return -1;")]
 		[TestCase("if (true) { return -1; }")]
 		[TestCase("if (true) { { return -1; } }")]
