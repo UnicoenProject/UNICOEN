@@ -13,9 +13,9 @@ using Ucpf.Languages.Java.Model;
 namespace Ucpf.Languages.Java.Tests {
 	/// <summary>
 	/// Java向けに再生成したソースコードが変化していないかテストします。
-	/// コード→モデル→コードと変換することで再生成します。
-	/// コードは、コンパイルしたバイナリファイル同士、もしくは、
-	/// コードから得られるモデルで比較しています。
+	/// 元コード1→モデル1→コード2→... のように再生成します。
+	/// コードは、コンパイルしたclassファイル同士、
+	/// もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
 	[TestFixture]
 	public class JavaRegenerateTest {
@@ -26,10 +26,9 @@ namespace Ucpf.Languages.Java.Tests {
 			var args = new[] {
 				"\"" + Path.Combine(workPath, fileName) + "\""
 			};
-			var argg = args.JoinString(" ");
 			var info = new ProcessStartInfo {
 				FileName = JavacPath,
-				Arguments = argg,
+				Arguments = args.JoinString(" "),
 				CreateNoWindow = true,
 				UseShellExecute = false,
 				WorkingDirectory = workPath,
@@ -55,12 +54,12 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		/// CompareThroughByteCodeが正常に動作するかテストします。
+		/// 再生成を行わずCompareThroughByteCodeが正常に動作するかテストします。
 		/// 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
-		public void CompareThroughByteCodeForSameCode(string orgPath) {
+		public void TestCompareThroughByteCodeForSameCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
@@ -71,12 +70,12 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		/// CompareThroughModelが正常に動作するかテストします。
+		/// 再生成を行わずCompareThroughModelが正常に動作するかテストします。
 		/// 全く同じコードから生成したモデル同士で比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
-		public void CompareThroughModelForSameCode(string orgPath) {
+		public void TestCompareThroughModelForSameCode(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
 			var expected = JavaModelFactory.CreateModel(orgCode);
 			var actual = JavaModelFactory.CreateModel(orgCode);
@@ -86,7 +85,9 @@ namespace Ucpf.Languages.Java.Tests {
 
 		/// <summary>
 		/// コンパイル結果を通して再生成したコードが変化しないかテストします。
-		/// コードはコンパイルしたバイナリファイルで比較します。
+		/// 元コード1→モデル1→コード2と再生成します。
+		/// コンパイルしたclassファイルを通して、
+		/// 元コード1とコード2を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		//[Ignore, Test, TestCaseSource("TestCases")]
@@ -96,29 +97,31 @@ namespace Ucpf.Languages.Java.Tests {
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
 			File.Copy(orgPath, srcPath);
-			var expected = GetByteCode(workPath, fileName);
-			var orgCode = File.ReadAllText(orgPath);
-			var model = JavaModelFactory.CreateModel(orgCode);
-			var code = JavaCodeGenerator.Generate(model);
-			File.WriteAllText(srcPath, code);
-			var actual = GetByteCode(workPath, fileName);
-			Assert.That(actual, Is.EqualTo(expected));
+			var orgByteCode1 = GetByteCode(workPath, fileName);
+			var orgCode1 = File.ReadAllText(orgPath);
+			var model1 = JavaModelFactory.CreateModel(orgCode1);
+			var code2 = JavaCodeGenerator.Generate(model1);
+			File.WriteAllText(srcPath, code2);
+			var byteCode2 = GetByteCode(workPath, fileName);
+			Assert.That(byteCode2, Is.EqualTo(orgByteCode1));
 		}
 
 		/// <summary>
 		/// モデルを通した再生成したコードが変化しないかテストします。
-		/// コードから生成したモデルで比較します。
+		/// 元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
+		/// モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
-		//[Test, TestCaseSource(@"..\..\fixture\Java\input\Fibonacci.java")]
+		//[Ignore, Test, TestCaseSource("TestCases")]
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
-
 		public void CompareThroughModel(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
-			var expected = JavaModelFactory.CreateModel(orgCode);
-			var newCode = JavaCodeGenerator.Generate(expected);
-			var actual = JavaModelFactory.CreateModel(newCode);
-			Assert.That(actual, Is.EqualTo(expected)
+			var model1 = JavaModelFactory.CreateModel(orgCode);
+			var code2 = JavaCodeGenerator.Generate(model1);
+			var model2 = JavaModelFactory.CreateModel(code2);
+			var code3 = JavaCodeGenerator.Generate(model2);
+			var model3 = JavaModelFactory.CreateModel(code3);
+			Assert.That(model3, Is.EqualTo(model1)
 				.Using(StructuralEqualityComparer.Instance));
 		}
 	}

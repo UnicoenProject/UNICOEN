@@ -11,10 +11,10 @@ using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
 	/// <summary>
-	/// Java向けに再生成したソースコードが変化していないかテストします。
-	/// コード→モデル→コードと変換することで再生成します。
-	/// コードは、コンパイルしたバイナリファイル同士、もしくは、
-	/// コードから得られるモデルで比較しています。
+	/// C#向けに再生成したソースコードが変化していないかテストします。
+	/// 元コード1→モデル1→コード2→... のように再生成します。
+	/// コードは、コンパイルしたアセンブリファイルの逆コンパイル結果同士、
+	/// もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
 	[TestFixture]
 	public class CSharpRegenerateTest {
@@ -84,8 +84,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 		}
 
 		/// <summary>
-		/// CompareThroughILCodeが正常に動作するかテストします。
-		/// 全く同じコードをコンパイルしたバイナリファイルの逆コンパイルした結果で比較します。
+		/// 再生成を行わずCompareThroughILCodeが正常に動作するかテストします。
+		/// 全く同じコードをコンパイルしたアセンブリファイルの逆コンパイル結果で比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
@@ -100,7 +100,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		}
 
 		/// <summary>
-		/// CompareThroughModelが正常に動作するかテストします。
+		/// 再生成を行わずCompareThroughModelが正常に動作するかテストします。
 		/// 全く同じコードから生成したモデル同士で比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
@@ -115,7 +115,9 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 		/// <summary>
 		/// コンパイル結果を通して再生成したコードが変化しないかテストします。
-		/// コードはコンパイルしたバイナリファイルを逆コンパイルした結果で比較します。
+		/// 元コード1→モデル1→コード2と再生成します。
+		/// コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
+		/// 元コード1とコード2を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Ignore, Test, TestCaseSource("TestCases")]
@@ -124,27 +126,30 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
 			File.Copy(orgPath, srcPath);
-			var expected = GetILCode(workPath, fileName);
-			var orgCode = File.ReadAllText(orgPath);
-			var model = CSharpModelFactory.CreateModel(orgCode);
-			var code = CSharpCodeGenerator.Generate(model);
-			File.WriteAllText(srcPath, code);
-			var actual = GetILCode(workPath, fileName);
-			Assert.That(actual, Is.EqualTo(expected));
+			var orgILCode1 = GetILCode(workPath, fileName);
+			var orgCode1 = File.ReadAllText(orgPath);
+			var model1 = CSharpModelFactory.CreateModel(orgCode1);
+			var code2 = CSharpCodeGenerator.Generate(model1);
+			File.WriteAllText(srcPath, code2);
+			var iLCode2 = GetILCode(workPath, fileName);
+			Assert.That(iLCode2, Is.EqualTo(orgILCode1));
 		}
 
 		/// <summary>
 		/// モデルを通した再生成したコードが変化しないかテストします。
-		/// コードから生成したモデルで比較します。
+		/// 元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
+		/// モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Ignore, Test, TestCaseSource("TestCases")]
 		public void CompareThroughModel(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
-			var expected = CSharpModelFactory.CreateModel(orgCode);
-			var newCode = CSharpCodeGenerator.Generate(expected);
-			var actual = CSharpModelFactory.CreateModel(newCode);
-			Assert.That(actual, Is.EqualTo(expected)
+			var model1 = CSharpModelFactory.CreateModel(orgCode);
+			var code2 = CSharpCodeGenerator.Generate(model1);
+			var model2 = CSharpModelFactory.CreateModel(code2);
+			var code3 = CSharpCodeGenerator.Generate(model2);
+			var model3 = CSharpModelFactory.CreateModel(code3);
+			Assert.That(model3, Is.EqualTo(model1)
 				.Using(StructuralEqualityComparer.Instance));
 		}
 	}
