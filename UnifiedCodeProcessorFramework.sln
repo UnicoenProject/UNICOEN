@@ -39,10 +39,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paraiba.Xml", "Paraiba.Xml\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paraiba.Xml.Tests", "Paraiba.Xml.Tests\Paraiba.Xml.Tests.csproj", "{C73358D8-9C51-49A4-B474-516689F5981F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paraiba.Linq", "Paraiba.Linq\Paraiba.Linq.csproj", "{D390D305-042E-48F4-8EF2-353CC70C068B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paraiba.Linq.Tests", "Paraiba.Linq.Tests\Paraiba.Linq.Tests.csproj", "{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -286,30 +282,6 @@ Global
 		{C73358D8-9C51-49A4-B474-516689F5981F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C73358D8-9C51-49A4-B474-516689F5981F}.Release|Win32.ActiveCfg = Release|Any CPU
 		{C73358D8-9C51-49A4-B474-516689F5981F}.Release|x86.ActiveCfg = Release|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Release|Win32.ActiveCfg = Release|Any CPU
-		{D390D305-042E-48F4-8EF2-353CC70C068B}.Release|x86.ActiveCfg = Release|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Release|Win32.ActiveCfg = Release|Any CPU
-		{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

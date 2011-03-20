@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChainingAssertion.NUnit.cs" />
+    <Compile Include="Linq\XElementExtensionsTest.cs" />
     <Compile Include="Linq\XElementSafeExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

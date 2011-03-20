@@ -15,6 +15,7 @@ namespace Paraiba.Xml.Tests.Linq {
 		private static readonly XElement A2Element;
 		private static readonly XElement B1Element;
 		private static readonly XElement C1Element;
+		private static readonly XElement D1Element;
 
 		static XElementSafeExtensionsTest() {
 			Root = new XElement("e");
@@ -22,8 +23,9 @@ namespace Paraiba.Xml.Tests.Linq {
 			A2Element = new XElement("a") { Value = "a2" };
 			B1Element = new XElement("b") { Value = "b1" };
 			C1Element = new XElement("c") { Value = "c1" };
+			D1Element = new XElement("d") { Value = "d1" };
 			B1Element.Add(C1Element);
-			Root.Add(A1Element, A2Element, B1Element);
+			Root.Add(A1Element, A2Element, B1Element, D1Element);
 		}
 
 		[Test]
@@ -57,7 +59,7 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void SafeElementsForNotNull() {
-			Root.SafeElements().Count().Is(3);
+			Root.SafeElements().Count().Is(4);
 		}
 
 		[Test]
@@ -79,7 +81,7 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void SafeElementsAfterSelfForNotNull() {
-			A1Element.SafeElementsAfterSelf().Count().Is(2);
+			A1Element.SafeElementsAfterSelf().Count().Is(3);
 		}
 
 		[Test]
@@ -125,7 +127,7 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void SafeDescendantsForNotNull() {
-			Root.SafeDescendants().Count().Is(4);
+			Root.SafeDescendants().Count().Is(5);
 		}
 
 		[Test]
@@ -148,7 +150,7 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void SafeDescendantsAndSelfForNotNull() {
-			Root.SafeDescendantsAndSelf().Count().Is(5);
+			Root.SafeDescendantsAndSelf().Count().Is(6);
 		}
 
 		[Test]
@@ -238,6 +240,36 @@ namespace Paraiba.Xml.Tests.Linq {
 		}
 
 		[Test]
+		public void SafeParentForNull() {
+			NullElement.SafeParent().SafeName().Is((string)null);
+		}
+
+		[Test]
+		public void SafeParentForNotNull() {
+			A2Element.SafeParent().SafeName().Is("e");
+		}
+
+		[Test]
+		public void SafePreviousElementForNull() {
+			NullElement.SafePreviousElement().SafeName().Is((string)null);
+		}
+
+		[Test]
+		public void SafePreviousElementForNotNull() {
+			B1Element.SafePreviousElement().SafeValue().Is("a2");
+		}
+
+		[Test]
+		public void SafeNextElementForNull() {
+			NullElement.SafeNextElement().SafeName().Is((string)null);
+		}
+
+		[Test]
+		public void SafeNextElementForNotNull() {
+			A2Element.SafeNextElement().SafeName().Is("b");
+		}
+
+		[Test]
 		public void SafeFirstElementForNull() {
 			NullElement.SafeFirstElement().SafeValue().Is((string)null);
 		}
@@ -254,16 +286,16 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void SafeLastElementForNotNull() {
-			Root.SafeLastElement().SafeValue().Is("b1c1");
+			Root.SafeLastElement().SafeValue().Is("d1");
 		}
 
 		[Test]
-		public void SafeElementAtForNull() {
+		public void SafeNthElementForNull() {
 			NullElement.SafeNthElement(1).SafeValue().Is((string)null);
 		}
 
 		[Test]
-		public void SafeElementAtForNotNull() {
+		public void SafeNthElementForNotNull() {
 			Root.SafeNthElement(1).SafeValue().Is("a2");
 		}
 
@@ -314,7 +346,7 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void SafeLastElementAfterSelfForNotNull() {
-			A1Element.SafeLastElementAfterSelf().SafeValue().Is("b1c1");
+			A1Element.SafeLastElementAfterSelf().SafeValue().Is("d1");
 		}
 
 		[Test]

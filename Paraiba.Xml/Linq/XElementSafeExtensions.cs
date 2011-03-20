@@ -8,7 +8,7 @@ namespace Paraiba.Xml.Linq {
 	/// </summary>
 	public static class XElementSafeExtensions {
 		/// <summary>
-		///   指定したnameのXElementを保持しているか取得します。
+		///   レシーバーがnullであっても動作して、指定したnameのXElementを保持しているか取得します。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
@@ -241,6 +241,39 @@ namespace Paraiba.Xml.Linq {
 			if (element == null)
 				return null;
 			return element.Value;
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElement.Parentです。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <returns></returns>
+		public static XElement SafeParent(this XElement element) {
+			if (element == null)
+				return null;
+			return element.Parent;
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElement.ElementsBeforeSelf().LastOrDefault()です。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <returns></returns>
+		public static XElement SafePreviousElement(this XElement element) {
+			if (element == null)
+				return null;
+			return element.LastElementBeforeSelfOrDefault();
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElement.ElementsAfterSelf().First()です。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <returns></returns>
+		public static XElement SafeNextElement(this XElement element) {
+			if (element == null)
+				return null;
+			return element.FirstElementAfterSelfOrDefault();
 		}
 
 		/// <summary>
