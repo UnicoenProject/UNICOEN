@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedType : UnifiedExpression {
 		public string Name { get; set; }
-		public List<UnifiedExpression> Parameters { get; set; }
+		public UnifiedTypeParameterCollection Parameters { get; set; }
 
 		public static UnifiedType Create(string name) {
 			return new UnifiedType {
 				Name = name,
 			};
+		}
+
+		public UnifiedType AddToParameters(UnifiedExpression expression) {
+			Parameters.Add(expression.ToTypeParameter());
+			return this;
+		}
+
+		public UnifiedType AddToParameters(UnifiedTypeParameter parameter) {
+			Parameters.Add(parameter);
+			return this;
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -23,11 +34,12 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<UnifiedElement> GetElements() {
-			yield break;
+			yield return Parameters;
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
-			yield break;
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
 		}
 	}
 }

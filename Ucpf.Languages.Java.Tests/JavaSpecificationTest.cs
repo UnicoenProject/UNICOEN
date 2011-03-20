@@ -15,17 +15,6 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		[Ignore, Test]
-		[TestCase("int a = +1;")]
-		public void CreatePlusIntegerLiteral(string fragment) {
-			var code = CreateCode(fragment);
-			var actual = JavaModelFactory.CreateModel(code);
-
-			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.PlusIntegerLiteralModel)
-					.Using(StructuralEqualityComparer.Instance));
-		}
-
-		[Ignore, Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]
@@ -105,6 +94,28 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpSpecificationTest.IfElseModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("new List<List<int>>();")]
+		public void CreateNewGenericType(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpSpecificationTest.NewGenericTypeModel)
+				.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("int a = +1;")]
+		public void CreatePlusIntegerLiteral(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpSpecificationTest.PlusIntegerLiteralModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }

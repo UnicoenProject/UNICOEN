@@ -81,6 +81,14 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedTypeParameter element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeParameterCollection element) {
+			throw new NotImplementedException();
+		}
+
 		public void Visit(UnifiedClassDefinition clsDef) {
 			WriteIndent();
 			_writer.Write("class ");

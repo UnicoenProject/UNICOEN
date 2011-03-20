@@ -41,5 +41,17 @@
 				Value = value,
 			};
 		}
+
+		public static UnifiedTypeParameter ToTypeParameter(this UnifiedExpression value) {
+			return new UnifiedTypeParameter {
+				Value = value,
+			};
+		}
+
+		public static UnifiedNew ToNew(this UnifiedType type) {
+			return new UnifiedNew {
+				Type = type,
+			};
+		}
 	}
 }

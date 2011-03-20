@@ -36,6 +36,8 @@
 		void Visit(UnifiedContinue element);
 		void Visit(UnifiedNamespace element);
 		void Visit(UnifiedIndexer element);
+		void Visit(UnifiedTypeParameter element);
+		void Visit(UnifiedTypeParameterCollection element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult> {
@@ -75,5 +77,7 @@
 		TResult Visit(UnifiedContinue element, TData data);
 		TResult Visit(UnifiedNamespace element, TData data);
 		TResult Visit(UnifiedIndexer element, TData data);
+		TResult Visit(UnifiedTypeParameter element, TData data);
+		TResult Visit(UnifiedTypeParameterCollection element, TData data);
 	}
 }

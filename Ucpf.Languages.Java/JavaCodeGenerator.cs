@@ -8,8 +8,6 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Languages.Java {
 	public class JavaCodeGenerator : IUnifiedModelVisitor {
-
-
 		public static string Generate(UnifiedProgram program) {
 			var buff = new StringWriter();
 			var visitor = new JavaCodeGenerator(buff);
@@ -262,6 +260,14 @@ namespace Ucpf.Languages.Java {
 		}
 
 		public void Visit(UnifiedIndexer element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeParameter element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeParameterCollection element) {
 			throw new NotImplementedException();
 		}
 

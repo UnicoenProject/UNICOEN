@@ -81,8 +81,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 		public static readonly UnifiedClassDefinition NewGenericTypeModel =
 			CreateClassAndMethod(new UnifiedBlock {
-				
-	});
+				"List".ToType()
+					.AddToParameters("List".ToType()
+						.AddToParameters("int".ToType()))
+					.ToNew()
+			});
 
 		public static readonly UnifiedClassDefinition PlusIntegerLiteralModel =
 			CreateClassAndMethod(new UnifiedBlock {
@@ -96,16 +99,6 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 		private static string CreateCode(string fragment) {
 			return "class A { void M1() {" + fragment + "} }";
-		}
-
-		[Test]
-		[TestCase("int a = +1;")]
-		public void CreatePlusIntegerLiteral(string fragment) {
-			var code = CreateCode(fragment);
-			var actual = CSharpModelFactory.CreateModel(code);
-
-			Assert.That(actual,
-				Is.EqualTo(PlusIntegerLiteralModel).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -191,13 +184,23 @@ namespace Ucpf.Languages.CSharp.Tests {
 		}
 
 		[Test]
-		[TestCase("new ArrayList<ArrayList<Integer>>();")]
+		[TestCase("new List<List<int>>();")]
 		public void CreateNewGenericType(string fragment) {
 			var code = CreateCode(fragment);
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(NewGenericTypeModel).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		[TestCase("int a = +1;")]
+		public void CreatePlusIntegerLiteral(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(PlusIntegerLiteralModel).Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }
