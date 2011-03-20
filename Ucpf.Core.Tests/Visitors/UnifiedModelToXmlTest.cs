@@ -33,6 +33,9 @@ namespace Ucpf.Core.Tests.Visitors {
 
 		[Test]
 		public void GenerateDefineFunction() {
+			var a = new UnifiedImport() as UnifiedElement;
+			var b = a.Normalize();
+
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
@@ -198,10 +201,10 @@ namespace Ucpf.Core.Tests.Visitors {
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = {
+						TrueBody = {
 							new UnifiedReturn{ Value = UnifiedVariable.Create("n") }
 						},
-						FalseBlock = {
+						FalseBody = {
 							new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(0) }
 						},
 					},
@@ -253,10 +256,10 @@ namespace Ucpf.Core.Tests.Visitors {
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = {
+						TrueBody = {
 							new UnifiedReturn { Value = UnifiedVariable.Create("n") }
 						},
-						FalseBlock = {
+						FalseBody = {
 							new UnifiedReturn {
 								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),

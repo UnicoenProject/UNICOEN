@@ -8,13 +8,24 @@ using Ucpf.Languages.CSharp.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class JavaSpecificationTest {
 		private static string CreateCode(string fragment) {
 			return "class A { void M1() {" + fragment + "} }";
 		}
 
-		[Test]
+		[Ignore, Test]
+		[TestCase("int a = +1;")]
+		public void CreatePlusIntegerLiteral(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpSpecificationTest.PlusIntegerLiteralModel)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Ignore, Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]
@@ -26,7 +37,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.WhileModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("do return; while(true);")]
 		[TestCase("do { return; } while(true);")]
 		[TestCase("do { { return; } } while(true);")]
@@ -38,7 +49,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.DoWhileModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("for (int i = 0; i < 1; i++) break;")]
 		[TestCase("for (int i = 0; i < 1; i++) { break; }")]
 		[TestCase("for (int i = 0; i < 1; i++) { { break; } }")]
@@ -50,7 +61,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.ForModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("for (int i : new int[] { 1 }) continue;")]
 		[TestCase("for (int i : new int[] { 1 }) { continue; }")]
 		[TestCase("for (int i : new int[] { 1 }) { { continue; } }")]
@@ -62,7 +73,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.ForeachModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("if (true) return -1;")]
 		[TestCase("if (true) { return -1; }")]
 		[TestCase("if (true) { { return -1; } }")]
@@ -75,7 +86,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.IfModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("if (true) return -1; else return 0.1;")]
 		[TestCase("if (true) { return -1; } else return 0.1;")]
 		[TestCase("if (true) return -1; else { return 0.1; }")]

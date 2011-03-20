@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedArrayNew : UnifiedExpression {
+	public class UnifiedFunctionDefinition
+		: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
+		public UnifiedModifierCollection Modifiers { get; set; }
 		public UnifiedType Type { get; set; }
-		public UnifiedArgumentCollection Arguments { get; set; }
-		public UnifiedExpressionCollection InitialValues { get; set; }
+		public string Name { get; set; }
+		public UnifiedParameterCollection Parameters { get; set; }
 
-		public UnifiedArrayNew() {
-			Arguments = new UnifiedArgumentCollection();
-			InitialValues = new UnifiedExpressionCollection();
+		public UnifiedFunctionDefinition() {
+			Modifiers = new UnifiedModifierCollection();
+			Parameters = new UnifiedParameterCollection();
+			Body = new UnifiedBlock();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -24,17 +27,20 @@ namespace Ucpf.Core.Model {
 
 		public override IEnumerable<UnifiedElement> GetElements() {
 			yield return Type;
-			yield return Arguments;
-			yield return InitialValues;
+			yield return Modifiers;
+			yield return Parameters;
+			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(InitialValues, v => InitialValues = (UnifiedExpressionCollection)v);
+				(Parameters, v => Parameters = (UnifiedParameterCollection)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Body, v => Body = (UnifiedBlock)v);
 		}
-	}
+		}
 }

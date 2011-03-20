@@ -137,11 +137,11 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write("if (");
 			ifStmt.Condition.Accept(this);
 			_writer.WriteLine(")");
-			ifStmt.TrueBlock.Accept(this);
-			if (ifStmt.FalseBlock != null) {
+			ifStmt.TrueBody.Accept(this);
+			if (ifStmt.FalseBody != null) {
 				WriteIndent();
 				_writer.WriteLine("else");
-				ifStmt.FalseBlock.Accept(this);
+				ifStmt.FalseBody.Accept(this);
 			}
 		}
 

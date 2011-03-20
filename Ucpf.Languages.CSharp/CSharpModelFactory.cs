@@ -19,7 +19,7 @@ namespace Ucpf.Languages.CSharp {
 				var model = unit.AcceptVisitor(visitor, null) as UnifiedProgram;
 				if (model == null)
 					return null;
-				model.NormalizeBlock();
+				model.Normalize();
 				return model;
 			}
 		}

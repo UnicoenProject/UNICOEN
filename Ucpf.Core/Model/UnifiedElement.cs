@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,12 +31,30 @@ namespace Ucpf.Core.Model {
 		public abstract IEnumerable<UnifiedElement> GetElements();
 
 		/// <summary>
-		///   子要素がUnifiedBlockだけのUnifiedBlockを削除します。
+		///   子要素とそのセッターのペアを列挙します。
 		/// </summary>
-		public virtual void NormalizeBlock() {
-			foreach (var element in GetElements()) {
-				if (element != null)
-					element.NormalizeBlock();
+		/// <returns>子要素</returns>
+		public abstract IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters();
+
+		/// <summary>
+		/// コードモデルを正規化します。
+		/// 正規化の内容は以下のとおりです。
+		/// ・子要素がUnifiedBlockだけのUnifiedBlockを削除
+		/// ・-1や+1などの単項式を定数に変換
+		/// </summary>
+		public virtual UnifiedElement Normalize() {
+			NormalizeChildren();
+			return this;
+		}
+
+		/// <summary>
+		/// 子要素に対して正規化を再帰的に行います。
+		/// </summary>
+		protected void NormalizeChildren() {
+			foreach (var elemAndSetter in GetElementsAndSetters()) {
+				if (elemAndSetter.Item1 != null) {
+					elemAndSetter.Item2(elemAndSetter.Item1.Normalize());
+				}
 			}
 		}
 

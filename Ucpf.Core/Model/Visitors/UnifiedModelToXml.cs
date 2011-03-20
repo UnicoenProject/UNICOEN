@@ -123,8 +123,8 @@ namespace Ucpf.Core.Model.Visitors {
 			var xe = new XElement(element.GetType().Name);
 			_targets.Push(xe);
 			element.Condition.Accept(this, data);
-			element.TrueBlock.Accept(this, data);
-			element.FalseBlock.Accept(this, data);
+			element.TrueBody.Accept(this, data);
+			element.FalseBody.Accept(this, data);
 			_targets.Pop();
 			_targets.Peek().Add(xe);
 			return null;

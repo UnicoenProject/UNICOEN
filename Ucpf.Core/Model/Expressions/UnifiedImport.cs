@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedDoWhile : UnifiedExpressionWithBlock<UnifiedDoWhile> {
-		public UnifiedExpression Condition { get; set; }
+	public class UnifiedImport : UnifiedExpression {
+		public string Name { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -15,8 +16,11 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<UnifiedElement> GetElements() {
-			yield return Condition;
-			yield return Body;
+			yield break;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			yield break;
 		}
 	}
 }

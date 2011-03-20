@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedFunctionDefinition
-		: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
+	public class UnifiedClassDefinition
+		: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
 		public UnifiedModifierCollection Modifiers { get; set; }
-		public UnifiedType Type { get; set; }
 		public string Name { get; set; }
-		public UnifiedParameterCollection Parameters { get; set; }
 
-		public UnifiedFunctionDefinition() {
+		public UnifiedClassDefinition() {
 			Modifiers = new UnifiedModifierCollection();
-			Parameters = new UnifiedParameterCollection();
-			Body = new UnifiedBlock();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -25,10 +22,15 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<UnifiedElement> GetElements() {
-			yield return Type;
 			yield return Modifiers;
-			yield return Parameters;
 			yield return Body;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Body, v => Body = (UnifiedBlock)v);
 		}
 		}
 }

@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedArrayNew : UnifiedExpression {
-		public UnifiedType Type { get; set; }
-		public UnifiedArgumentCollection Arguments { get; set; }
-		public UnifiedExpressionCollection InitialValues { get; set; }
+	public class UnifiedIf : UnifiedExpression {
+		public UnifiedExpression Condition { get; set; }
+		public UnifiedBlock TrueBody { get; set; }
+		public UnifiedBlock FalseBody { get; set; }
 
-		public UnifiedArrayNew() {
-			Arguments = new UnifiedArgumentCollection();
-			InitialValues = new UnifiedExpressionCollection();
+		public UnifiedIf() {
+			TrueBody = new UnifiedBlock();
+			FalseBody = new UnifiedBlock();
+		}
+
+		public UnifiedIf AddToTrueBody(UnifiedExpression expression) {
+			TrueBody.Add(expression);
+			return this;
+		}
+
+		public UnifiedIf AddToFalseBody(UnifiedExpression expression) {
+			FalseBody.Add(expression);
+			return this;
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -23,18 +33,18 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<UnifiedElement> GetElements() {
-			yield return Type;
-			yield return Arguments;
-			yield return InitialValues;
+			yield return Condition;
+			yield return TrueBody;
+			yield return FalseBody;
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Type, v => Type = (UnifiedType)v);
+				(Condition, v => Condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+				(TrueBody, v => TrueBody = (UnifiedBlock)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(InitialValues, v => InitialValues = (UnifiedExpressionCollection)v);
+				(FalseBody, v => FalseBody = (UnifiedBlock)v);
 		}
 	}
 }

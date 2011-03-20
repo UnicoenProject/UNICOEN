@@ -65,7 +65,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block      = _func.Body;
 			var expStmt    = block.First();
 			var ifStmt     = (UnifiedIf)expStmt;
-			var tBlock     = ifStmt.TrueBlock;
+			var tBlock     = ifStmt.TrueBody;
 			var returnStmt = tBlock.First();
 
 			//expectation
@@ -83,7 +83,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block       = _func.Body;
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
-			var fBlock      = ifStmt.FalseBlock;
+			var fBlock      = ifStmt.FalseBody;
 			var returnStmt  = (UnifiedReturn)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 
@@ -96,7 +96,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block       = _func.Body;
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
-			var fBlock      = ifStmt.FalseBlock;
+			var fBlock      = ifStmt.FalseBody;
 			var returnStmt  = (UnifiedReturn)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
@@ -110,7 +110,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block       = _func.Body;
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
-			var fBlock      = ifStmt.FalseBlock;
+			var fBlock      = ifStmt.FalseBody;
 			var returnStmt  = (UnifiedReturn)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
@@ -133,7 +133,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block      = _func.Body;
 			var expStmt    = block.First();
 			var ifStmt     = (UnifiedIf)expStmt;
-			var fBlock     = ifStmt.FalseBlock;
+			var fBlock     = ifStmt.FalseBody;
 			var returnStmt = (UnifiedReturn)fBlock.First();
 			var binaryExp  = (UnifiedBinaryExpression)returnStmt.Value;
 

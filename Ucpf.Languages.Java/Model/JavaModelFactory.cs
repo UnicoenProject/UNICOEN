@@ -4,10 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.Java.XmlGenerators;
 using Ucpf.Core.Model;
-
-
+using Code2Xml.Languages.Java.XmlGenerators;
 
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory
@@ -57,6 +55,11 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateBinaryExpression(topExpressionElement);
 			}
 
+			//case UnaryExpression
+			if (topExpressionElement.Name.LocalName == "unaryExpression") {
+				return CreateUnaryExpression(topExpressionElement);
+			}
+
 			//case CallExpression
 			if (topExpressionElement.Name.LocalName == "primary") {
 				return CreateCallExpression(topExpressionElement);
@@ -78,6 +81,15 @@ namespace Ucpf.Languages.Java.Model {
 				LeftHandSide = CreateExpression(node.Elements().ElementAt(0)),
 				Operator = CreateBinaryOperator(node.Elements().ElementAt(1)),
 				RightHandSide = CreateExpression(node.Elements().ElementAt(2))
+			};
+		}
+
+		public static UnifiedUnaryExpression CreateUnaryExpression(XElement unaryExpression) {
+			return new UnifiedUnaryExpression {
+				Operator = CreateUnaryOperator(unaryExpression.Elements().ElementAt(0)),
+				Operand =
+					CreateExpression(
+						unaryExpression.Elements().ElementAt(1))
 			};
 		}
 
@@ -155,6 +167,26 @@ namespace Ucpf.Languages.Java.Model {
 			return new UnifiedBinaryOperator(name, type);
 		}
 
+		public static UnifiedUnaryOperator CreateUnaryOperator(XElement node)
+		{
+			//TODO implement more OperatorType cases
+			var name = node.Value;
+			UnifiedUnaryOperatorType type;
+
+			switch (name)
+			{
+				//Arithmetic
+				case "+":
+				type = UnifiedUnaryOperatorType.UnaryPlus; break;
+				case "-":
+				type = UnifiedUnaryOperatorType.Negate; break;
+				default:
+					throw new NotImplementedException();
+					throw new InvalidOperationException();
+			}
+			return new UnifiedUnaryOperator(name, type);
+		}
+
 		#endregion
 
 		#region Statement
@@ -180,10 +212,19 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedIf CreateIf(XElement node) {
+			var trueBody = new UnifiedBlock();
+			trueBody.Add(CreateStatement(node.Element("statement")));
+			
+			UnifiedBlock falseBody = null;
+			if (node.Elements("statement").Count() == 2) {
+				falseBody = new UnifiedBlock();
+				var falseNode = node.Elements("statement").ElementAt(1);
+				falseBody.Add(CreateStatement(falseNode));
+			}
 			return new UnifiedIf {
 				Condition = CreateExpression(node.Element("parExpression").Element("expression")),
-				TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
-				FalseBlock = (UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
+				TrueBody = trueBody,
+				FalseBody = falseBody
 			};
 		}
 		
@@ -232,8 +273,9 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedType CreateType(XElement node) {
+			var typeNode = node.Element("type");
 			return new UnifiedType {
-				Name = node.Element("type").Value
+				Name = typeNode != null ? typeNode.Value : "void"
 			};
 		}
 
@@ -246,11 +288,10 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		private static UnifiedParameterCollection CreateParameterCollection(XElement node) {
-			var element = node.Element("formalParameters");
+			var element = node.Element("formalParameters").Element("formalParameterDecls");
+			if (element == null) return new UnifiedParameterCollection();
 			return new UnifiedParameterCollection(
-				element.Element("formalParameterDecls").Elements("normalParameterDecl")
-					.Select(e => CreateParameter(e))
-					);
+				element.Elements("normalParameterDecl").Select(e => CreateParameter(e)));
 		}
 
 		public static UnifiedArgument CreateArgument(XElement node) {
@@ -327,7 +368,7 @@ namespace Ucpf.Languages.Java.Model {
 				CreateClass(node.Element("typeDeclaration")
 				.Element("classOrInterfaceDeclaration").Element("classDeclaration"))
 			};
-			model.NormalizeBlock();
+			model.Normalize();
 			return model;
 		}
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
@@ -20,6 +21,15 @@ namespace Ucpf.Core.Model {
 			yield return LeftHandSide;
 			yield return Operator;
 			yield return RightHandSide;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(LeftHandSide, v => LeftHandSide = (UnifiedExpression)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Operator, v => Operator = (UnifiedBinaryOperator)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(RightHandSide, v => RightHandSide = (UnifiedExpression)v);
 		}
 	}
 }

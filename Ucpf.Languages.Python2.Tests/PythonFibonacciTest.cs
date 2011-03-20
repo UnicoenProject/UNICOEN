@@ -40,12 +40,12 @@ print fib(20)
 								LeftHandSide = UnifiedVariable.Create("n"),
 								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
-							TrueBlock = {
+							TrueBody = {
 								new UnifiedReturn {
 									Value = UnifiedVariable.Create("n")
 								}
 							},
-							FalseBlock = {
+							FalseBody = {
 								new UnifiedReturn {
 									Value	= new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
