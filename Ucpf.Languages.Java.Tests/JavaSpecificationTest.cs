@@ -64,9 +64,9 @@ namespace Ucpf.Languages.Java.Tests {
 
 		[Test]
 		[TestCase("if (true) return -1;")]
-		//[TestCase("if (true) { return -1; }")]
-		//[TestCase("if (true) { { return -1; } }")]
-		//[TestCase("if (true) { { { return -1; } } }")]
+		[TestCase("if (true) { return -1; }")]
+		[TestCase("if (true) { { return -1; } }")]
+		[TestCase("if (true) { { { return -1; } } }")]
 		public void CreateIf(string fragment) {
 			var code = CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
