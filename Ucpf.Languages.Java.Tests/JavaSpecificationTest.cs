@@ -15,6 +15,17 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		[Test]
+		[TestCase("int a = +1;")]
+		public void CreatePlusIntegerLiteral(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpSpecificationTest.PlusIntegerLiteralModel)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]

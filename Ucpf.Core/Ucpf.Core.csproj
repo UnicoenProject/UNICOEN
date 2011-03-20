@@ -103,7 +103,6 @@
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />
-    <Compile Include="Model\INormalizable.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\UnifiedArgumentCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />
@@ -117,7 +116,6 @@
     <Compile Include="Model\UnifiedParameterCollection.cs" />
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
-    <Compile Include="Model\Visitors\NormalizeVisitor.cs" />
     <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

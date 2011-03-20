@@ -4,10 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.Java.XmlGenerators;
 using Ucpf.Core.Model;
-
-
+using Code2Xml.Languages.Java.XmlGenerators;
 
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory

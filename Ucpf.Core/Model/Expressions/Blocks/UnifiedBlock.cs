@@ -5,7 +5,7 @@ using System.Linq;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedBlock : UnifiedExpression, IEnumerable<UnifiedExpression>, INormalizable {
+	public class UnifiedBlock : UnifiedExpression, IEnumerable<UnifiedExpression> {
 		private readonly List<UnifiedExpression> _statements;
 
 		public UnifiedBlock() {
@@ -62,7 +62,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		UnifiedElement INormalizable.Normalize() {
+		public override UnifiedElement Normalize() {
+			NormalizeChildren();
 			if (_statements.Count == 1) {
 				var block = _statements[0] as UnifiedBlock;
 				if (block != null)

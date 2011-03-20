@@ -40,7 +40,7 @@ namespace Ucpf.Core.Model {
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Condition, v => Condition = (UnifiedBlock)v);
+				(Condition, v => Condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(TrueBody, v => TrueBody = (UnifiedBlock)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

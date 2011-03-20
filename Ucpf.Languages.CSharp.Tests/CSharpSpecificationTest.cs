@@ -79,10 +79,28 @@ namespace Ucpf.Languages.CSharp.Tests {
 					.AddToFalseBody((0.1).ToLiteral().ToReturn())
 			});
 
+		public static readonly UnifiedClassDefinition PlusIntegerLiteralModel =
+			CreateClassAndMethod(new UnifiedBlock {
+				"a".ToVariableDefinition(
+					"int".ToType(),
+					(+1).ToLiteral()
+				),
+			});
+
 		#endregion
 
 		private static string CreateCode(string fragment) {
 			return "class A { void M1() {" + fragment + "} }";
+		}
+
+		[Test]
+		[TestCase("int a = +1;")]
+		public void CreatePlusIntegerLiteral(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(PlusIntegerLiteralModel).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]

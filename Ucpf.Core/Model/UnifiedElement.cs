@@ -6,7 +6,7 @@ using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public abstract class UnifiedElement : INormalizable {
+	public abstract class UnifiedElement {
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
@@ -37,13 +37,25 @@ namespace Ucpf.Core.Model {
 		public abstract IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters();
 
 		/// <summary>
-		/// ビジターと組み合わせてコードモデルを正規化します。
+		/// コードモデルを正規化します。
 		/// 正規化の内容は以下のとおりです。
 		/// ・子要素がUnifiedBlockだけのUnifiedBlockを削除
 		/// ・-1や+1などの単項式を定数に変換
 		/// </summary>
-		UnifiedElement INormalizable.Normalize() {
+		public virtual UnifiedElement Normalize() {
+			NormalizeChildren();
 			return this;
+		}
+
+		/// <summary>
+		/// 子要素に対して正規化を再帰的に行います。
+		/// </summary>
+		protected void NormalizeChildren() {
+			foreach (var elemAndSetter in GetElementsAndSetters()) {
+				if (elemAndSetter.Item1 != null) {
+					elemAndSetter.Item2(elemAndSetter.Item1.Normalize());
+				}
+			}
 		}
 
 		private static void Write(object obj, string content, StringBuilder buffer,
