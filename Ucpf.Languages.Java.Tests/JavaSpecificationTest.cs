@@ -75,7 +75,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.IfModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("if (true) return -1; else return 0.1;")]
 		[TestCase("if (true) { return -1; } else return 0.1;")]
 		[TestCase("if (true) return -1; else { return 0.1; }")]
