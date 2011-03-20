@@ -7,6 +7,10 @@ namespace Ucpf.Core.Model {
 	public class UnifiedType : UnifiedExpression {
 		public string Name { get; set; }
 		public UnifiedTypeParameterCollection Parameters { get; set; }
+		
+		public UnifiedType() {
+			Parameters = new UnifiedTypeParameterCollection();
+		}
 
 		public static UnifiedType Create(string name) {
 			return new UnifiedType {

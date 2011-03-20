@@ -7,21 +7,24 @@ using Ucpf.Core.Model;
 using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.CSharp.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class CSharpSpecificationTest {
 		#region Models
 
-		public static UnifiedClassDefinition CreateClassAndMethod(UnifiedBlock block) {
-			return "A".ToClassDefinition()
-				.AddToBody(
-					new UnifiedFunctionDefinition {
-						Name = "M1",
-						Body = block,
-					}
-				);
+		public static UnifiedProgram CreateClassAndMethod(UnifiedBlock block) {
+			return new UnifiedProgram {
+				"A".ToClassDefinition()
+					.AddToBody(
+						new UnifiedFunctionDefinition {
+							Type = "void".ToType(),
+							Name = "M1",
+							Body = block,
+						}
+					),
+			};
 		}
 
-		public static readonly UnifiedClassDefinition WhileModel =
+		public static readonly UnifiedProgram WhileModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToWhile()
@@ -29,13 +32,13 @@ namespace Ucpf.Languages.CSharp.Tests {
 						CSharpModelFactoryHelper.CreateReturn())
 			});
 
-		public static UnifiedClassDefinition DoWhileModel = CreateClassAndMethod(new UnifiedBlock {
+		public static readonly UnifiedProgram DoWhileModel = CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToDoWhile()
 					.AddToBody(CSharpModelFactoryHelper.CreateReturn())
 			});
 
-		public static UnifiedClassDefinition ForModel = CreateClassAndMethod(new UnifiedBlock {
+		public static readonly UnifiedProgram ForModel = CreateClassAndMethod(new UnifiedBlock {
 				new UnifiedFor {
 					Initializer = new UnifiedVariableDefinition {
 						Type = "int".ToType(),
@@ -54,7 +57,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				}
 			});
 
-		public static UnifiedClassDefinition ForeachModel =
+		public static readonly UnifiedProgram ForeachModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				new UnifiedArrayNew {
 					InitialValues = {
@@ -64,14 +67,14 @@ namespace Ucpf.Languages.CSharp.Tests {
 					.AddToBody(CSharpModelFactoryHelper.CreateContinue())
 			});
 
-		public static readonly UnifiedClassDefinition IfModel =
+		public static readonly UnifiedProgram IfModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToIf()
 					.AddToTrueBody((-1).ToLiteral().ToReturn())
 			});
 
-		public static readonly UnifiedClassDefinition IfElseModel =
+		public static readonly UnifiedProgram IfElseModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				true.ToLiteral()
 					.ToIf()
@@ -79,7 +82,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 					.AddToFalseBody((0.1).ToLiteral().ToReturn())
 			});
 
-		public static readonly UnifiedClassDefinition NewGenericTypeModel =
+		public static readonly UnifiedProgram NewGenericTypeModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				"List".ToType()
 					.AddToParameters("List".ToType()
@@ -87,7 +90,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 					.ToNew()
 			});
 
-		public static readonly UnifiedClassDefinition PlusIntegerLiteralModel =
+		public static readonly UnifiedProgram PlusIntegerLiteralModel =
 			CreateClassAndMethod(new UnifiedBlock {
 				"a".ToVariableDefinition(
 					"int".ToType(),
@@ -101,7 +104,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			return "class A { void M1() {" + fragment + "} }";
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]
@@ -113,7 +116,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(WhileModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("do return; while(true);")]
 		[TestCase("do { return; } while(true);")]
 		[TestCase("do { { return; } } while(true);")]
@@ -125,7 +128,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			    Is.EqualTo(DoWhileModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("for (int i = 0; i < 1; i++) break;")]
 		[TestCase("for (int i = 0; i < 1; i++) { break; }")]
 		[TestCase("for (int i = 0; i < 1; i++) { { break; } }")]
@@ -137,7 +140,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(ForModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("foreach (int i in new[] { 1 }) continue;")]
 		[TestCase("foreach (int i in new[] { 1 }) { continue; }")]
 		[TestCase("foreach (int i in new[] { 1 }) { { continue; } }")]
@@ -149,7 +152,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(ForeachModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("if (true) return -1;")]
 		[TestCase("if (true) { return -1; }")]
 		[TestCase("if (true) { { return -1; } }")]
@@ -162,7 +165,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(IfModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("if (true) return -1; else return 0.1;")]
 		[TestCase("if (true) { return -1; } else return 0.1;")]
 		[TestCase("if (true) return -1; else { return 0.1; }")]
@@ -183,7 +186,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(IfElseModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("new List<List<int>>();")]
 		public void CreateNewGenericType(string fragment) {
 			var code = CreateCode(fragment);
