@@ -213,7 +213,11 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
-			var element = node.Elements().First();
+			var element = node.FirstElement();
+
+			if (element.Value == "forstatement") {
+				return CreateFor(node);
+			}
 
 			switch (element.Name.LocalName) {
 				case "block": return CreateBlock(element);
@@ -266,6 +270,11 @@ namespace Ucpf.Languages.Java.Model {
 					CreateStatement(node.Element("statement"))
 				}
 			};
+		}
+
+		public static UnifiedExpression CreateFor(XElement node) {
+			//TODO implement
+			return new UnifiedFor();
 		}
 		
 		public static UnifiedReturn CreateReturn(XElement node) {
