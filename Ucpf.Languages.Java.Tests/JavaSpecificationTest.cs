@@ -25,7 +25,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]
