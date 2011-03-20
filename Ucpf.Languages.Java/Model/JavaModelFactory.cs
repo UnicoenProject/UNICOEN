@@ -322,8 +322,8 @@ namespace Ucpf.Languages.Java.Model {
 		#endregion
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
-			var tokenNode = node.Elements().First();
-			Contract.Requires(tokenNode.Value == "true" || tokenNode.Value == "false");
+			Contract.Requires(node.Elements().First().Value == "true" || node.Elements().First().Value == "false");
+			var tokenNode = node.Elements().First();			
 			return new UnifiedBooleanLiteral {
 				Value = tokenNode.Value == "true"
 								? UnifiedBoolean.True : UnifiedBoolean.False,
