@@ -327,7 +327,7 @@ namespace Ucpf.Languages.Java.Model {
 				CreateClass(node.Element("typeDeclaration")
 				.Element("classOrInterfaceDeclaration").Element("classDeclaration"))
 			};
-			model.NormalizeBlock();
+			model.Normalize();
 			return model;
 		}
 

@@ -33,6 +33,9 @@ namespace Ucpf.Core.Tests.Visitors {
 
 		[Test]
 		public void GenerateDefineFunction() {
+			var a = new UnifiedImport() as UnifiedElement;
+			var b = a.Normalize();
+
 			var model = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
