@@ -14,7 +14,7 @@ namespace Ucpf.Languages.Java.Tests {
 			return "class A { void M1() {" + fragment + "} }";
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]

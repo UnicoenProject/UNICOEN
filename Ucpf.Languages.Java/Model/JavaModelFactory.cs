@@ -219,6 +219,7 @@ namespace Ucpf.Languages.Java.Model {
 				case "block": return CreateBlock(element);
 				case "IF": return CreateIf(node);
 				case "RETURN": return CreateReturn(node);
+				case "WHILE": return CreateWhile(node);
 				default: throw new NotImplementedException();
 			}
 		}
@@ -237,7 +238,7 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedIf CreateIf(XElement node) {
-			Contract.Requires(node != null);
+			Contract.Requires(node.Elements().First().Name.LocalName == "IF");
 			var trueBody = new UnifiedBlock {
 				CreateStatement(node.Element("statement")),
 			};
@@ -253,6 +254,17 @@ namespace Ucpf.Languages.Java.Model {
 					.Element("expression")),
 				TrueBody = trueBody,
 				FalseBody = falseBody
+			};
+		}
+
+		public static UnifiedWhile CreateWhile(XElement node) {
+			Contract.Requires(node.Elements().First().Name.LocalName == "WHILE");
+			return new UnifiedWhile {
+				Condition =
+					CreateExpression(node.Element("parExpression").Element("expression")),
+				Body = new UnifiedBlock {
+					CreateStatement(node.Element("statement"))
+				}
 			};
 		}
 		
