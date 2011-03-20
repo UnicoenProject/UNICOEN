@@ -110,10 +110,16 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {
 			int i;
-			if( Int32.TryParse(node.Value,NumberStyles.Any, null, out i) )
-			{
+			if( Int32.TryParse(node.Value, NumberStyles.Any, null, out i)) {
 				return new UnifiedIntegerLiteral {
 					Value = i
+				};
+			}
+
+			decimal d;
+			if (Decimal.TryParse(node.Value, NumberStyles.Any, null, out d)) {
+				return new UnifiedDecimalLiteral() {
+					Value = d
 				};
 			}
 
