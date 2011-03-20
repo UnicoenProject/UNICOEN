@@ -135,12 +135,12 @@ end
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = {
+						TrueBody = {
 							new UnifiedReturn{
 								Value = UnifiedVariable.Create("n")
 							}
 						},
-						FalseBlock = {
+						FalseBody = {
 							new UnifiedReturn {
 								Value = UnifiedIntegerLiteral.Create(0)
 							}
@@ -178,10 +178,10 @@ end
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBlock = {
+						TrueBody = {
 							new UnifiedReturn{ Value = UnifiedVariable.Create("n") }
 						},
-						FalseBlock = {
+						FalseBody = {
 							new UnifiedReturn {
 								Value = new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),

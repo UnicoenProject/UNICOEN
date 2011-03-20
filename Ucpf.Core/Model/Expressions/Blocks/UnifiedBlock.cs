@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedBlock : UnifiedExpression, IEnumerable<UnifiedExpression> {
-		private List<UnifiedExpression> _statements;
+	public class UnifiedBlock : UnifiedExpression, IEnumerable<UnifiedExpression>, INormalizable {
+		private readonly List<UnifiedExpression> _statements;
 
 		public UnifiedBlock() {
 			_statements = new List<UnifiedExpression>();
@@ -17,6 +18,7 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression this[int index] {
 			get { return _statements[index]; }
+			set { _statements[index] = value; }
 		}
 
 		public int Count {
@@ -52,17 +54,21 @@ namespace Ucpf.Core.Model {
 			return this;
 		}
 
-		public override void NormalizeBlock() {
-			while (_statements.Count == 1) {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			var count = Count;
+			for (int i = 0; i < count; i++) {
+				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(this[i], v => this[i] = (UnifiedExpression)v);
+			}
+		}
+
+		UnifiedElement INormalizable.Normalize() {
+			if (_statements.Count == 1) {
 				var block = _statements[0] as UnifiedBlock;
-				if (block == null)
-					break;
-				_statements = block._statements;
+				if (block != null)
+					return block;
 			}
-			foreach (var element in GetElements()) {
-				if (element != null)
-					element.NormalizeBlock();
-			}
+			return this;
 		}
 	}
 }

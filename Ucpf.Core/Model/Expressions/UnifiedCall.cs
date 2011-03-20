@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
@@ -22,6 +23,13 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<UnifiedElement> GetElements() {
 			yield return Function;
 			yield return Arguments;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Function, v => Function = (UnifiedExpression)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 	}
 }

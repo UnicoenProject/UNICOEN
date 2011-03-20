@@ -1,24 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedIf : UnifiedExpression {
 		public UnifiedExpression Condition { get; set; }
-		public UnifiedBlock TrueBlock { get; set; }
-		public UnifiedBlock FalseBlock { get; set; }
+		public UnifiedBlock TrueBody { get; set; }
+		public UnifiedBlock FalseBody { get; set; }
 
 		public UnifiedIf() {
-			TrueBlock = new UnifiedBlock();
-			FalseBlock = new UnifiedBlock();
+			TrueBody = new UnifiedBlock();
+			FalseBody = new UnifiedBlock();
 		}
 
 		public UnifiedIf AddToTrueBody(UnifiedExpression expression) {
-			TrueBlock.Add(expression);
+			TrueBody.Add(expression);
 			return this;
 		}
 
 		public UnifiedIf AddToFalseBody(UnifiedExpression expression) {
-			FalseBlock.Add(expression);
+			FalseBody.Add(expression);
 			return this;
 		}
 
@@ -33,8 +34,17 @@ namespace Ucpf.Core.Model {
 
 		public override IEnumerable<UnifiedElement> GetElements() {
 			yield return Condition;
-			yield return TrueBlock;
-			yield return FalseBlock;
+			yield return TrueBody;
+			yield return FalseBody;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Condition, v => Condition = (UnifiedBlock)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(TrueBody, v => TrueBody = (UnifiedBlock)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(FalseBody, v => FalseBody = (UnifiedBlock)v);
 		}
 	}
 }

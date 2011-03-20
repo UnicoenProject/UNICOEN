@@ -119,12 +119,12 @@ namespace Ucpf.Languages.Java {
 			_writer.Write("if (");
 			ifStatement.Condition.Accept(this);
 			_writer.WriteLine(")");
-			ifStatement.TrueBlock.Accept(this);
-			if (ifStatement.FalseBlock != null)
+			ifStatement.TrueBody.Accept(this);
+			if (ifStatement.FalseBody != null)
 			{
 				WriteIndent();
 				_writer.WriteLine("else");
-				ifStatement.FalseBlock.Accept(this);
+				ifStatement.FalseBody.Accept(this);
 			}
 		}
 

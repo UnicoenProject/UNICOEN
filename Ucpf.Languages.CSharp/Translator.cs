@@ -56,7 +56,7 @@ namespace Ucpf.Languages.CSharp {
 			return new UnifiedConstructorDefinition {
 				Modifiers = modifier,
 				Parameters = parameters,
-				Block = block,
+				Body = block,
 			};
 		}
 
@@ -163,8 +163,8 @@ namespace Ucpf.Languages.CSharp {
 				.ToList();
 			return new UnifiedIf {
 				Condition = cond,
-				TrueBlock = ToFlattenBlock(trueStmt),
-				FalseBlock = ToFlattenBlock(falseStmt),
+				TrueBody = ToFlattenBlock(trueStmt),
+				FalseBody = ToFlattenBlock(falseStmt),
 			};
 		}
 

@@ -41,12 +41,12 @@ namespace Ucpf.Languages.CSharp.Tests {
 									LeftHandSide = UnifiedVariable.Create("n"),
 									RightHandSide = UnifiedIntegerLiteral.Create(2)
 								},
-								TrueBlock = {
+								TrueBody = {
 									new UnifiedReturn {
 										Value = UnifiedVariable.Create("n")
 									}
 								},
-								FalseBlock = {
+								FalseBody = {
 									new UnifiedReturn {
 										Value = new UnifiedBinaryExpression {
 											Operator =

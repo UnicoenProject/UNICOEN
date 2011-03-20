@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
@@ -25,6 +26,15 @@ namespace Ucpf.Core.Model {
 			yield return Modifiers;
 			yield return Type;
 			yield return InitialValue;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(Type, v => Type = (UnifiedType)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				(InitialValue, v => InitialValue = (UnifiedExpression)v);
 		}
 	}
 }

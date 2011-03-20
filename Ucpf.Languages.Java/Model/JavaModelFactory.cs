@@ -182,8 +182,8 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedIf CreateIf(XElement node) {
 			return new UnifiedIf {
 				Condition = CreateExpression(node.Element("parExpression").Element("expression")),
-				TrueBlock = (UnifiedBlock)CreateStatement(node.Element("statement")),
-				FalseBlock = (UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
+				TrueBody = (UnifiedBlock)CreateStatement(node.Element("statement")),
+				FalseBody = (UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
 			};
 		}
 		

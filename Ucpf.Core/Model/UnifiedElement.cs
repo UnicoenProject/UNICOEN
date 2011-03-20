@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public abstract class UnifiedElement {
+	public abstract class UnifiedElement : INormalizable {
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
@@ -30,13 +31,19 @@ namespace Ucpf.Core.Model {
 		public abstract IEnumerable<UnifiedElement> GetElements();
 
 		/// <summary>
-		///   子要素がUnifiedBlockだけのUnifiedBlockを削除します。
+		///   子要素とそのセッターのペアを列挙します。
 		/// </summary>
-		public virtual void NormalizeBlock() {
-			foreach (var element in GetElements()) {
-				if (element != null)
-					element.NormalizeBlock();
-			}
+		/// <returns>子要素</returns>
+		public abstract IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters();
+
+		/// <summary>
+		/// ビジターと組み合わせてコードモデルを正規化します。
+		/// 正規化の内容は以下のとおりです。
+		/// ・子要素がUnifiedBlockだけのUnifiedBlockを削除
+		/// ・-1や+1などの単項式を定数に変換
+		/// </summary>
+		UnifiedElement INormalizable.Normalize() {
+			return this;
 		}
 
 		private static void Write(object obj, string content, StringBuilder buffer,

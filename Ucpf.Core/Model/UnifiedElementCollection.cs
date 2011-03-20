@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +19,7 @@ namespace Ucpf.Core.Model {
 
 		public TElement this[int index] {
 			get { return _elements[index]; }
+			set { _elements[index] = value; }
 		}
 
 		public int Count {
@@ -40,9 +42,19 @@ namespace Ucpf.Core.Model {
 			_elements.Add(element);
 		}
 
-		// TODO: UnifiedElementCollectionはプロパティを持たない？
-		//public override IEnumerable<UnifiedElement> GetElements() {
-		//    return this;
-		//}
+		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
+		public override IEnumerable<UnifiedElement> GetElements() {
+			return this;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+			var count = Count;
+			for (int i = 0; i < count; i++) {
+				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(this[i], v => this[i] = (TElement)v);
+			}
+		}
+
+
 		}
 }

@@ -51,7 +51,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 									Name = "name",
 								}
 							},
-							Block = {
+							Body = {
 								CSharpModelFactoryHelper.CreateAssignExpression(
 									UnifiedVariable.Create("_name"), UnifiedVariable.Create("name"))
 							},
