@@ -4,16 +4,17 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
+using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
 using Code2Xml.Languages.Java.XmlGenerators;
 
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory
 	{
-
 		#region Expression
 
 		public static UnifiedExpression CreateExpression(XElement node) {
+			Contract.Requires(node != null);
 			
 			//TODO IMPLEMENT: more operators
 			String[] binaryOperator = {
@@ -58,7 +59,8 @@ namespace Ucpf.Languages.Java.Model {
 			}
 
 			//case BinaryExpression
-			if (binaryOperator.Contains(topExpressionElement.Elements().ElementAt(1).Value)) {
+			var binaryOperatorString = topExpressionElement.Elements().ElementAt(1).Value;
+			if (binaryOperator.Contains(binaryOperatorString)) {
 				return CreateBinaryExpression(topExpressionElement);
 			}
 
@@ -84,23 +86,24 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedBinaryExpression {
-				LeftHandSide = CreateExpression(node.Elements().ElementAt(0)),
-				Operator = CreateBinaryOperator(node.Elements().ElementAt(1)),
-				RightHandSide = CreateExpression(node.Elements().ElementAt(2))
+				LeftHandSide = CreateExpression(node.NthElement(0)),
+				Operator = CreateBinaryOperator(node.NthElement(1)),
+				RightHandSide = CreateExpression(node.NthElement(2))
 			};
 		}
 
-		public static UnifiedUnaryExpression CreateUnaryExpression(XElement unaryExpression) {
+		public static UnifiedUnaryExpression CreateUnaryExpression(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedUnaryExpression {
-				Operator = CreateUnaryOperator(unaryExpression.Elements().ElementAt(0)),
-				Operand =
-					CreateExpression(
-						unaryExpression.Elements().ElementAt(1))
+				Operator = CreateUnaryOperator(node.NthElement(0)),
+				Operand = CreateExpression(node.NthElement(1))
 			};
 		}
 
 		public static UnifiedCall CreateCallExpression(XElement node) {
+			Contract.Requires(node != null);
 			//Top node is <primary>
 			return new UnifiedCall {
 				Arguments = CreateArgumentCollection(node),
@@ -110,12 +113,14 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedVariable CreateVariable(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedVariable {
 				Name = node.Value
 			};
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {
+			Contract.Requires(node != null);
 			int i;
 			if( Int32.TryParse(node.Value, NumberStyles.Any, null, out i)) {
 				return new UnifiedIntegerLiteral {
@@ -139,6 +144,7 @@ namespace Ucpf.Languages.Java.Model {
 		#region Operator
 
 		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node) {
+			Contract.Requires(node != null);
 			//TODO implement more OperatorType cases
 			var name = node.Value;
 			UnifiedBinaryOperatorType type;
@@ -182,6 +188,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedUnaryOperator CreateUnaryOperator(XElement node)
 		{
+			Contract.Requires(node != null);
 			//TODO implement more OperatorType cases
 			var name = node.Value;
 			UnifiedUnaryOperatorType type;
@@ -205,6 +212,7 @@ namespace Ucpf.Languages.Java.Model {
 		#region Statement
 
 		public static UnifiedExpression CreateStatement(XElement node) {
+			Contract.Requires(node != null);
 			var element = node.Elements().First();
 
 			switch (element.Name.LocalName) {
@@ -216,31 +224,40 @@ namespace Ucpf.Languages.Java.Model {
 		}
 		
 		public static UnifiedBlock CreateBlock(XElement node) {
-			if (node.Element("blockStatement") == null)
+			Contract.Requires(node != null);
+			var block = node.Element("blockStatement");
+			if (block == null)
 				return new UnifiedBlock();
 
 			return new UnifiedBlock(
-				node.Element("blockStatement").Elements("statement").Select(CreateStatement).ToList()
+				block.Elements("statement")
+					.Select(CreateStatement)
+					.ToList()
 			);
 		}
 
 		public static UnifiedIf CreateIf(XElement node) {
-			var trueBody = new UnifiedBlock();
-			trueBody.Add(CreateStatement(node.Element("statement")));
+			Contract.Requires(node != null);
+			var trueBody = new UnifiedBlock {
+				CreateStatement(node.Element("statement")),
+			};
 			
-			UnifiedBlock falseBody = new UnifiedBlock();
+			var falseBody = new UnifiedBlock();
 			if (node.Elements("statement").Count() == 2) {
 				var falseNode = node.Elements("statement").ElementAt(1);
 				falseBody.Add(CreateStatement(falseNode));
 			}
 			return new UnifiedIf {
-				Condition = CreateExpression(node.Element("parExpression").Element("expression")),
+				Condition = CreateExpression(node
+					.Element("parExpression")
+					.Element("expression")),
 				TrueBody = trueBody,
 				FalseBody = falseBody
 			};
 		}
 		
 		public static UnifiedReturn CreateReturn(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedReturn {
 				Value = CreateExpression(node.Element("expression"))
 			};
@@ -258,6 +275,7 @@ namespace Ucpf.Languages.Java.Model {
 		 * 
 		 */
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedFunctionDefinition {
 				Modifiers  = CreateModifierCollection(node),
 				Type       = CreateType(node),
@@ -269,22 +287,29 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedModifier CreateVariableModifier(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedModifier {
 				Name = node.Value
 			};
 		}
 
 		public static UnifiedModifier CreateModifier(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedModifier {
 				Name = node.Value
 			};
 		}
 
 		public static UnifiedModifierCollection CreateModifierCollection(XElement node) {
-			return new UnifiedModifierCollection(node.Element("modifiers").Elements().Select(e => CreateModifier(e)));
+			Contract.Requires(node != null);
+			return new UnifiedModifierCollection(node
+				.Element("modifiers")
+				.Elements()
+				.Select(CreateModifier));
 		}
 
 		public static UnifiedType CreateType(XElement node) {
+			Contract.Requires(node != null);
 			var typeNode = node.Element("type");
 			return new UnifiedType {
 				Name = typeNode != null ? typeNode.Value : "void"
@@ -292,30 +317,43 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedParameter CreateParameter(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedParameter {
-				Modifiers = new UnifiedModifierCollection(node.Element("variableModifiers").Elements().Select(e => CreateVariableModifier(e))),
+				Modifiers = new UnifiedModifierCollection(node
+					.Element("variableModifiers")
+					.Elements()
+					.Select(CreateVariableModifier)),
 				Name = node.Element("IDENTIFIER").Value,
 				Type = CreateType(node)
 			};
 		}
 
 		private static UnifiedParameterCollection CreateParameterCollection(XElement node) {
-			var element = node.Element("formalParameters").Element("formalParameterDecls");
+			Contract.Requires(node != null);
+			var element = node
+				.Element("formalParameters")
+				.Element("formalParameterDecls");
 			if (element == null) return new UnifiedParameterCollection();
-			return new UnifiedParameterCollection(
-				element.Elements("normalParameterDecl").Select(e => CreateParameter(e)));
+			return new UnifiedParameterCollection(element
+				.Elements("normalParameterDecl")
+				.Select(CreateParameter));
 		}
 
 		public static UnifiedArgument CreateArgument(XElement node) {
+			Contract.Requires(node != null);
 			return new UnifiedArgument {
 				Value = CreateExpression(node)
 			};
 		}
 
 		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node) {
-			var element =
-				node.Element("identifierSuffix").Element("arguments").Element(
-					"expressionList").Elements().Select(e => CreateArgument(e));
+			Contract.Requires(node != null);
+			var element = node
+				.Element("identifierSuffix")
+				.Element("arguments")
+				.Element("expressionList")
+				.Elements()
+				.Select(CreateArgument);
 			return new UnifiedArgumentCollection(element);
 		}
 
@@ -323,7 +361,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Elements().First().Value == "true" || node.Elements().First().Value == "false");
-			var tokenNode = node.Elements().First();			
+			var tokenNode = node.FirstElement();
 			return new UnifiedBooleanLiteral {
 				Value = tokenNode.Value == "true"
 								? UnifiedBoolean.True : UnifiedBoolean.False,
@@ -350,24 +388,32 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedClassDefinition CreateClass(XElement node) {
+			Contract.Requires(node != null);
 			//Top node is <classDeclaration>
 			return new UnifiedClassDefinition {
 				//var modifiers = CreateModifierCollection(node);
-				Name = node.Element("normalClassDeclaration").Element("IDENTIFIER").Value,
-				Body = CreateClassBody(node.Element("normalClassDeclaration").Element("classBody"))
+				Name = node.Element("normalClassDeclaration")
+					.Element("IDENTIFIER")
+					.Value,
+				Body = CreateClassBody(node
+					.Element("normalClassDeclaration")
+					.Element("classBody"))
 			};
 		}
 
 		public static UnifiedBlock CreateClassBody(XElement node) {
+			Contract.Requires(node != null);
 			//Top node is <classBody>
-			return new UnifiedBlock(node.Elements("classBodyDeclaration")
+			return new UnifiedBlock(node
+				.Elements("classBodyDeclaration")
 				.Select(CreateMember).ToList());
 		}
 
 		public static UnifiedExpression CreateMember(XElement node) {
+			Contract.Requires(node != null);
 			//Top node is <classBodyDeclaration>
-			var memType = node.Element("memberDecl").Elements().First();
-			switch (memType.Name.LocalName) {
+			var memType = node.Element("memberDecl").FirstElement();
+			switch (memType.Name()) {
 				case "fieldDeclaration":  return null; //TODO IMPLEMENT:
 				case "methodDeclaration": return CreateDefineFunction(memType);
 				case "classDeclaration":  return CreateClass(memType);
@@ -377,9 +423,12 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedProgram CreateProgram(XElement node) {
+			Contract.Requires(node != null);
 			var model = new UnifiedProgram {
-				CreateClass(node.Element("typeDeclaration")
-				.Element("classOrInterfaceDeclaration").Element("classDeclaration"))
+				CreateClass(node
+					.Element("typeDeclaration")
+					.Element("classOrInterfaceDeclaration")
+					.Element("classDeclaration"))
 			};
 			model.Normalize();
 			return model;
