@@ -270,8 +270,13 @@ namespace Ucpf.Languages.Java.Model {
 		
 		public static UnifiedReturn CreateReturn(XElement node) {
 			Contract.Requires(node != null);
+			UnifiedExpression value = null;
+			var i = node.Elements().Count();
+			if (node.Elements().Count() == 3) {
+				value = CreateExpression(node.Element("expression"));
+			}
 			return new UnifiedReturn {
-				Value = CreateExpression(node.Element("expression"))
+				Value = value
 			};
 		}
 
