@@ -43,6 +43,13 @@ namespace Ucpf.Languages.Java.Model {
 
 			//case PrimaryExpression: IDENTIFIER or TOKEN
 			if (topExpressionElement.Elements().Count() == 1) {
+				//case true or false literal
+				switch(topExpressionElement.Value) {
+					case "true":
+					case "false":
+					return CreateBooleanLiteral(topExpressionElement);
+				}
+
 				//case Variable
 				if (System.Text.RegularExpressions.Regex.IsMatch(topExpressionElement.Value, @"[a-zA-Z]{1}[a-zA-Z0-9]*")) {
 					return CreateVariable(topExpressionElement);
@@ -221,9 +228,8 @@ namespace Ucpf.Languages.Java.Model {
 			var trueBody = new UnifiedBlock();
 			trueBody.Add(CreateStatement(node.Element("statement")));
 			
-			UnifiedBlock falseBody = null;
+			UnifiedBlock falseBody = new UnifiedBlock();
 			if (node.Elements("statement").Count() == 2) {
-				falseBody = new UnifiedBlock();
 				var falseNode = node.Elements("statement").ElementAt(1);
 				falseBody.Add(CreateStatement(falseNode));
 			}
@@ -316,9 +322,10 @@ namespace Ucpf.Languages.Java.Model {
 		#endregion
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
-			Contract.Requires(node.Name.LocalName == "true" || node.Name.LocalName == "false");
+			var tokenNode = node.Elements().First();
+			Contract.Requires(tokenNode.Value == "true" || tokenNode.Value == "false");
 			return new UnifiedBooleanLiteral {
-				Value = node.Name.LocalName == "true"
+				Value = tokenNode.Value == "true"
 								? UnifiedBoolean.True : UnifiedBoolean.False,
 			};
 		}
