@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}</ProjectGuid>
+    <ProjectGuid>{3AC56288-7D03-4930-A7C5-9EF4BA11E0DE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Paraiba.Xml</RootNamespace>
-    <AssemblyName>Paraiba.Xml</AssemblyName>
+    <RootNamespace>Paraiba.Linq.Tests</RootNamespace>
+    <AssemblyName>Paraiba.Linq.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Linq\XElementSafeExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,7 +10,6 @@ using Code2Xml.Languages.Java.XmlGenerators;
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory
 	{
-
 		#region Expression
 
 		public static UnifiedExpression CreateExpression(XElement node) {
