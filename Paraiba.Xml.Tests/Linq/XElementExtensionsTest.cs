@@ -9,7 +9,6 @@ using Paraiba.Xml.Linq;
 namespace Paraiba.Xml.Tests.Linq {
 	[TestFixture]
 	public class XElementExtensionsTest {
-		private static readonly XElement NullElement = null;
 		private static readonly XElement Root;
 		private static readonly XElement A1Element;
 		private static readonly XElement A2Element;
