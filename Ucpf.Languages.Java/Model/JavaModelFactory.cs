@@ -212,19 +212,19 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedIf CreateIf(XElement node) {
-			var trueBlock = new UnifiedBlock();
-			trueBlock.Add(CreateStatement(node.Element("statement")));
+			var trueBody = new UnifiedBlock();
+			trueBody.Add(CreateStatement(node.Element("statement")));
 			
-			UnifiedBlock falseBlock = null;
+			UnifiedBlock falseBody = null;
 			if (node.Elements("statement").Count() == 2) {
-				falseBlock = new UnifiedBlock();
+				falseBody = new UnifiedBlock();
 				var falseNode = node.Elements("statement").ElementAt(1);
-				falseBlock.Add(CreateStatement(falseNode));
+				falseBody.Add(CreateStatement(falseNode));
 			}
 			return new UnifiedIf {
 				Condition = CreateExpression(node.Element("parExpression").Element("expression")),
-				TrueBlock = trueBlock,
-				FalseBlock = falseBlock
+				TrueBody = trueBody,
+				FalseBody = falseBody
 			};
 		}
 		
