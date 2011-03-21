@@ -215,14 +215,11 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node != null);
 			var element = node.FirstElement();
 
-			if (element.Value == "forstatement") {
-				return CreateFor(node);
-			}
-
 			switch (element.Name.LocalName) {
 				case "block": return CreateBlock(element);
 				case "IF": return CreateIf(node);
 				case "RETURN": return CreateReturn(node);
+				case "forstatement": return CreateFor(node);
 				case "WHILE": return CreateWhile(node);
 				default: throw new NotImplementedException();
 			}
@@ -273,10 +270,71 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedExpression CreateFor(XElement node) {
-			//TODO implement
-			return new UnifiedFor();
+			Contract.Requires(node.Elements().First().Name.LocalName == "forstatement");
+			/*	forstatement :   
+					// enhanced for loop
+					'for' '(' variableModifiers type IDENTIFIER ':' 
+					expression ')' statement
+					// normal for loop
+				|   'for' '(' 
+							(forInit
+							)? ';' 
+							(expression
+							)? ';' 
+							(expressionList
+							)? ')' statement
+						return new UnifiedFor();
+			 * */
+			var forstatement = node.FirstElement();
+			if (forstatement.NthElement(2).Name.LocalName == "variableModifiers") {
+				//TODO
+				throw new NotImplementedException();
+			} else {
+				var forInit = forstatement.Element("forInit");
+				var initializer = forInit != null ? CreateForInit(forInit) : null;
+
+				var expression = forstatement.Element("expression");
+				var condition = expression != null ? CreateExpression(expression) : null;
+
+				var expressionList = forstatement.Element("expressionList");
+				var step = expressionList != null
+							? CreateExpressionList(expressionList) : null;
+
+				var body = CreateStatement(forstatement);
+				return new UnifiedFor {
+					Initializer = initializer,
+					Condition = condition,
+					Step = step,
+					Body = new UnifiedBlock{ body }
+				};
+			}
+		}
+
+		public static UnifiedExpression CreateForInit(XElement node) {
+			switch(node.FirstElement().Name.LocalName) {
+				case "localVariableDeclaration":
+					return CreateLocalVariableDeclaration(node.FirstElement());
+				case "expressionList":
+				return CreateExpressionList(node.FirstElement());
+			}
+			throw new InvalidOperationException();
 		}
 		
+		private static UnifiedExpression CreateLocalVariableDeclaration(XElement xElement) {
+			/*
+			 * localVariableDeclaration 
+				:   variableModifiers type variableDeclarator (',' variableDeclarator )*
+				;*/
+
+			throw new NotImplementedException();
+		}
+
+		public static UnifiedExpression CreateExpressionList(XElement node)
+		{
+			//TODO
+			throw new NotImplementedException();
+		}
+
 		public static UnifiedReturn CreateReturn(XElement node) {
 			Contract.Requires(node != null);
 			UnifiedExpression value = null;
