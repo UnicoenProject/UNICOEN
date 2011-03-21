@@ -175,6 +175,8 @@ namespace Paraiba.Xml.Tests.Linq {
 		[Test]
 		public void SafeAncestorsForNotNull() {
 			C1Element.SafeAncestors().Count().Is(2);
+			C1Element.SafeAncestors().ElementAt(0).Name.Is("b");
+			C1Element.SafeAncestors().ElementAt(1).Name.Is("e");
 		}
 
 		[Test]
