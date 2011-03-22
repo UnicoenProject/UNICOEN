@@ -7,6 +7,12 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElement {
+
+		/// <summary>
+		/// 親のコードモデルの要素を取得もしくは設定します。
+		/// </summary>
+		public UnifiedElement Parent { get; set; }
+
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>

@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\IWithBlock.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedReturn.cs" />
+    <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
     <Compile Include="Model\Expressions\UnifiedType.cs" />
     <Compile Include="Model\Expressions\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedVariable.cs" />
@@ -109,9 +111,12 @@
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />
+    <Compile Include="Model\Extensions\ModelSweeper.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\UnifiedArgumentCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />
+    <Compile Include="Model\UnifiedCase.cs" />
+    <Compile Include="Model\UnifiedCaseCollection.cs" />
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedImport.cs" />
@@ -123,6 +128,7 @@
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
     <Compile Include="Model\UnifiedTypeParameterCollection.cs" />
+    <Compile Include="Model\Visitors\DefaultUnifiedModelVisitor.cs" />
     <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
     <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
