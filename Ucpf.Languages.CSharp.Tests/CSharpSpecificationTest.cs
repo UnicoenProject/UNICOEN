@@ -98,6 +98,29 @@ namespace Ucpf.Languages.CSharp.Tests {
 				),
 			});
 
+		public static readonly UnifiedProgram SwitchCaseModel =
+			CreateClassAndMethod(new UnifiedBlock {
+				1.ToLiteral()
+					.ToSwitch()
+					.AddToCases(1.ToLiteral()
+						.ToCase()
+						.AddToBody(new UnifiedBreak())
+					)
+			});
+
+		public static readonly UnifiedProgram SwitchCaseWithDefaultModel =
+			CreateClassAndMethod(new UnifiedBlock {
+				1.ToLiteral()
+					.ToSwitch()
+					.AddToCases(1.ToLiteral()
+						.ToCase()
+						.AddToBody(new UnifiedBreak())
+					)
+					.AddToCases(new UnifiedCase {
+						Body = { new UnifiedBreak() },
+					})
+			});
+
 		#endregion
 
 		private static string CreateCode(string fragment) {
@@ -203,7 +226,30 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(PlusIntegerLiteralModel).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(PlusIntegerLiteralModel)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		[TestCase("switch (1) { case 1: break; }")]
+		public void CreateSwitchCase(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(SwitchCaseModel)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		[TestCase("switch (1) { case 1: break; default: break; }")]
+		public void CreateSwitchCaseWithDefault(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(SwitchCaseWithDefaultModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 	}
 }

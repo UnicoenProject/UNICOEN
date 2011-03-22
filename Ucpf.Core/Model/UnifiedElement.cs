@@ -11,7 +11,7 @@ namespace Ucpf.Core.Model {
 		/// <summary>
 		/// 親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
-		public UnifiedElement Parent { get; set; }
+		public UnifiedElement Parent { get; protected set; }
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。

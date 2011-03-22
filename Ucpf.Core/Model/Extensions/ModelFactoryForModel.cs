@@ -42,6 +42,18 @@
 			};
 		}
 
+		public static UnifiedCase ToCase(this UnifiedExpression condtion) {
+			return new UnifiedCase {
+				Condition = condtion,
+			};
+		}
+
+		public static UnifiedSwitch ToSwitch(this UnifiedExpression value) {
+			return new UnifiedSwitch {
+				Value = value,
+			};
+		}
+
 		public static UnifiedTypeParameter ToTypeParameter(this UnifiedExpression value) {
 			return new UnifiedTypeParameter {
 				Value = value,

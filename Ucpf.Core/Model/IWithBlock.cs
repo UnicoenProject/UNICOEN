@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace Ucpf.Core.Model {
+	// 拡張メソッド用にあると良いかもと思ったけど、いらないかも・・・
 	public interface IWithBlock<out T> where T : UnifiedElement {
 
 		UnifiedBlock Body { get; set; }

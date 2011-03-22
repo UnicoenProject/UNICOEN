@@ -1,5 +1,4 @@
-﻿using Ucpf.Core.Model.Expressions;
-
+﻿
 namespace Ucpf.Core.Model.Visitors {
 	public interface IUnifiedModelVisitor {
 		void Visit<T>(UnifiedTypedLiteral<T> element);

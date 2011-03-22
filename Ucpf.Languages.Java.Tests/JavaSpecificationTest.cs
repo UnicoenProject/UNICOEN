@@ -117,5 +117,27 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.PlusIntegerLiteralModel)
 					.Using(StructuralEqualityComparer.Instance));
 		}
+
+		[Test]
+		[TestCase("switch (1) { case 1: break; }")]
+		public void CreateSwitchCase(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpSpecificationTest.SwitchCaseModel)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("switch (1) { case 1: break; default: break; }")]
+		public void CreateSwitchCaseWithDefault(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpSpecificationTest.SwitchCaseWithDefaultModel)
+					.Using(StructuralEqualityComparer.Instance));
+		}
 	}
 }

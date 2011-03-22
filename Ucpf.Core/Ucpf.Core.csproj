@@ -128,7 +128,6 @@
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
     <Compile Include="Model\UnifiedTypeParameterCollection.cs" />
-    <Compile Include="Model\Visitors\DefaultUnifiedModelVisitor.cs" />
     <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
     <Compile Include="Model\Visitors\UnifiedModelToXml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

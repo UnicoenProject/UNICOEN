@@ -276,5 +276,17 @@ namespace Ucpf.Core.Model.Visitors {
 		public object Visit(UnifiedTypeParameterCollection element, object data) {
 			throw new NotImplementedException();
 		}
+
+		public object Visit(UnifiedSwitch element, object data) {
+			throw new NotImplementedException();
+		}
+
+		public object Visit(UnifiedCaseCollection element, object data) {
+			throw new NotImplementedException();
+		}
+
+		public object Visit(UnifiedCase element, object data) {
+			throw new NotImplementedException();
+		}
 	}
 }

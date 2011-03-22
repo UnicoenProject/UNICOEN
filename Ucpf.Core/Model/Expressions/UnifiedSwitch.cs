@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model.Expressions {
+namespace Ucpf.Core.Model {
 	public class UnifiedSwitch : UnifiedExpression {
 		public UnifiedExpression Value { get; set; }
 		public UnifiedCaseCollection Cases { get; set; }
 
 		public UnifiedSwitch() {
 			Cases = new UnifiedCaseCollection();
+		}
+
+		public UnifiedSwitch AddToCases(UnifiedCase kase) {
+			Cases.Add(kase);
+			return this;
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

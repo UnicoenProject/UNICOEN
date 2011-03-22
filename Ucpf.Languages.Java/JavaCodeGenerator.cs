@@ -271,6 +271,18 @@ namespace Ucpf.Languages.Java {
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedSwitch element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedCaseCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedCase element) {
+			throw new NotImplementedException();
+		}
+
 		#endregion
 
 	}
