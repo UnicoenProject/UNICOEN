@@ -4,10 +4,36 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedVariableDefinition : UnifiedExpression {
-		public UnifiedModifierCollection Modifiers { get; set; }
-		public UnifiedType Type { get; set; }
+		private UnifiedModifierCollection _modifiers;
+
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set {
+				_modifiers = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedType _type;
+
+		public UnifiedType Type {
+			get { return _type; }
+			set {
+				_type = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
 		public string Name { get; set; }
-		public UnifiedExpression InitialValue { get; set; }
+		private UnifiedExpression _initialValue;
+
+		public UnifiedExpression InitialValue {
+			get { return _initialValue; }
+			set {
+				_initialValue = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public UnifiedVariableDefinition() {
 			Modifiers = new UnifiedModifierCollection();
@@ -28,7 +54,8 @@ namespace Ucpf.Core.Model {
 			yield return InitialValue;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

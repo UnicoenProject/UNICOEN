@@ -4,8 +4,25 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedNew : UnifiedExpression {
-		public UnifiedType Type { get; set; }
-		public UnifiedArgumentCollection Arguments { get; set; }
+		private UnifiedType _type;
+
+		public UnifiedType Type {
+			get { return _type; }
+			set {
+				_type = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedArgumentCollection _arguments;
+
+		public UnifiedArgumentCollection Arguments {
+			get { return _arguments; }
+			set {
+				_arguments = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public UnifiedNew() {
 			Arguments = new UnifiedArgumentCollection();
@@ -25,7 +42,8 @@ namespace Ucpf.Core.Model {
 			yield return Arguments;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

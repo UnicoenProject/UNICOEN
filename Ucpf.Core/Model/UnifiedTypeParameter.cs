@@ -1,19 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedTypeParameter : UnifiedElement {
-		public UnifiedModifierCollection Modifiers { get; set; }
-		public UnifiedExpression Value { get; set; }
+		private UnifiedModifierCollection _modifiers;
+
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set {
+				_modifiers = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedExpression _value;
+
+		public UnifiedExpression Value {
+			get { return _value; }
+			set {
+				_value = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+		public override TResult Accept<TData, TResult>(
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -22,7 +38,8 @@ namespace Ucpf.Core.Model {
 			yield return Value;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

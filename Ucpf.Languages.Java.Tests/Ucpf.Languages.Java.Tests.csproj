@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="JavaFibonacciTest.cs" />
     <Compile Include="JavaLiteralTest.cs" />
+    <Compile Include="JavaModelFeatureTest.cs" />
     <Compile Include="JavaRegenerateTest.cs" />
     <Compile Include="JavaSpecificationTest.cs" />
     <Compile Include="StudentTest.cs" />
@@ -73,6 +74,10 @@
     <ProjectReference Include="..\Ucpf.Core\Ucpf.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Ucpf.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.Core.Tests\Ucpf.Languages.Core.Tests.csproj">
+      <Project>{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}</Project>
+      <Name>Ucpf.Languages.Core.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.CSharp.Tests\Ucpf.Languages.CSharp.Tests.csproj">
       <Project>{CBE372FD-4C31-4BDB-B704-49A5C3349A35}</Project>

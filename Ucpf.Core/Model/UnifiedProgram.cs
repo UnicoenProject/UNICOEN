@@ -22,7 +22,8 @@ namespace Ucpf.Core.Model {
 			return this;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

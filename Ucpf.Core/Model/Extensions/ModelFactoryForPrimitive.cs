@@ -12,21 +12,27 @@ namespace Ucpf.Core.Model.Extensions {
 			};
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(this string name, UnifiedType type) {
+		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
+		                                                             UnifiedType type) {
 			return new UnifiedVariableDefinition {
 				Type = type,
 				Name = name,
 			};
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(this string name, UnifiedExpression initialValue) {
+		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
+		                                                             UnifiedExpression
+		                                                             	initialValue) {
 			return new UnifiedVariableDefinition {
 				Name = name,
 				InitialValue = initialValue,
 			};
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(this string name, UnifiedType type, UnifiedExpression initialValue) {
+		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
+		                                                             UnifiedType type,
+		                                                             UnifiedExpression
+		                                                             	initialValue) {
 			return new UnifiedVariableDefinition {
 				Type = type,
 				Name = name,

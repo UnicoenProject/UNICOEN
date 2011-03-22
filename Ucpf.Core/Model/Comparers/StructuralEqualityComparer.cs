@@ -22,7 +22,11 @@ namespace Ucpf.Core.Model {
 
 			if (x is UnifiedElement) {
 				return x.GetType().GetProperties()
-					.Select(prop => prop.GetValue(x, null).GetHashCode())
+					.Select(prop => {
+						if (prop.Name == "Parent")
+							return prop.GetValue(x, null).GetHashCode();
+						return this.GetHashCode(prop.GetValue(x, null));
+					})
 					.Aggregate(0, (v, o) => v ^ o.GetHashCode() * 11);
 			}
 
@@ -53,6 +57,7 @@ namespace Ucpf.Core.Model {
 
 			if (x is UnifiedElement) {
 				var ret = x.GetType().GetProperties()
+					.Where(prop => prop.Name != "Parent")
 					.All(prop => StructuralEquals(
 						prop.GetValue(x, null), prop.GetValue(y, null)));
 				return ret;

@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Paraiba.Core;
 using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
+using Ucpf.Languages.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
 	/// <summary>
@@ -76,11 +77,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 			}
 		}
 
-		private static IEnumerable<TestCaseData> TestCases {
-			get {
-				return Directory.EnumerateFiles(Fixture.GetInputPath("CSharp"))
-					.Select(path => new TestCaseData(path));
-			}
+		public static IEnumerable<TestCaseData> TestCases {
+			get { return TestCaseSource.CSharpTestCases; }
 		}
 
 		/// <summary>

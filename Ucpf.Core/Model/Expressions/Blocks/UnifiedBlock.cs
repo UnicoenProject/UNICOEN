@@ -18,7 +18,10 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression this[int index] {
 			get { return _statements[index]; }
-			set { _statements[index] = value; }
+			set {
+				_statements[index] = value;
+				if (value != null) value.Parent = this;
+			}
 		}
 
 		public int Count {
@@ -39,6 +42,7 @@ namespace Ucpf.Core.Model {
 
 		public void Add(UnifiedExpression expression) {
 			_statements.Add(expression);
+			if (expression != null) expression.Parent = this;
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -54,7 +58,8 @@ namespace Ucpf.Core.Model {
 			return this;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

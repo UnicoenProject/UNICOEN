@@ -4,8 +4,25 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedUnaryExpression : UnifiedExpression {
-		public UnifiedUnaryOperator Operator { get; set; }
-		public UnifiedExpression Operand { get; set; }
+		private UnifiedUnaryOperator _operator;
+
+		public UnifiedUnaryOperator Operator {
+			get { return _operator; }
+			set {
+				_operator = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedExpression _operand;
+
+		public UnifiedExpression Operand {
+			get { return _operand; }
+			set {
+				_operand = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -21,7 +38,8 @@ namespace Ucpf.Core.Model {
 			yield return Operand;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Operator, v => Operator = (UnifiedUnaryOperator)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

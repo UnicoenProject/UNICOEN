@@ -54,7 +54,8 @@
 			};
 		}
 
-		public static UnifiedTypeParameter ToTypeParameter(this UnifiedExpression value) {
+		public static UnifiedTypeParameter ToTypeParameter(
+			this UnifiedExpression value) {
 			return new UnifiedTypeParameter {
 				Value = value,
 			};

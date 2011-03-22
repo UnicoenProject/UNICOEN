@@ -1,19 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedCase : UnifiedElement, IWithBlock<UnifiedCase> {
-		public UnifiedExpression Condition { get; set; }
-		public UnifiedBlock Body { get; set; }
+	public class UnifiedCase : UnifiedElement {
+		private UnifiedExpression _condition;
+
+		public UnifiedExpression Condition {
+			get { return _condition; }
+			set {
+				_condition = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedBlock _body;
+
+		public UnifiedBlock Body {
+			get { return _body; }
+			set {
+				_body = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		public UnifiedCase() {
+			Body = new UnifiedBlock();
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+		public override TResult Accept<TData, TResult>(
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -22,13 +42,13 @@ namespace Ucpf.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Condition, v => Condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Body, v => Body = (UnifiedBlock)v);
 		}
-
 
 		public UnifiedCase AddToBody(UnifiedExpression expression) {
 			Body.Add(expression);

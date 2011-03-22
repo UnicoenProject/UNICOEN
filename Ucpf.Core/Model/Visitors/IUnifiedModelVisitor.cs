@@ -1,5 +1,4 @@
-﻿
-namespace Ucpf.Core.Model.Visitors {
+﻿namespace Ucpf.Core.Model.Visitors {
 	public interface IUnifiedModelVisitor {
 		void Visit<T>(UnifiedTypedLiteral<T> element);
 		void Visit(UnifiedBinaryOperator element);

@@ -5,7 +5,16 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedClassDefinition
 		: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
-		public UnifiedModifierCollection Modifiers { get; set; }
+		private UnifiedModifierCollection _modifiers;
+
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set {
+				_modifiers = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
 		public string Name { get; set; }
 
 		public UnifiedClassDefinition() {
@@ -26,7 +35,8 @@ namespace Ucpf.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

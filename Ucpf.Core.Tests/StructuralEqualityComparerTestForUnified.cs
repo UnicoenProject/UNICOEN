@@ -1,9 +1,6 @@
 ﻿using NUnit.Framework;
 using Ucpf.Core.Model;
 
-
-
-
 namespace Ucpf.Core.Tests {
 	[TestFixture]
 	public class StructuralEqualityComparerTestForUnified {

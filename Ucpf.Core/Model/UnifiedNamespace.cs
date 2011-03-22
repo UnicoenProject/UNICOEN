@@ -5,7 +5,21 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedNamespace : UnifiedElement {
 		public string Name { get; set; }
-		public UnifiedBlock Body { get; set; }
+
+		private UnifiedBlock _body;
+
+		public UnifiedBlock Body {
+			get { return _body; }
+			set {
+				_body = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		public UnifiedNamespace AddToBody(UnifiedExpression expression) {
+			Body.Add(expression);
+			return this;
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -20,7 +34,8 @@ namespace Ucpf.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Body, v => Body = (UnifiedBlock)v);
 		}

@@ -4,9 +4,35 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedBinaryExpression : UnifiedExpression {
-		public UnifiedBinaryOperator Operator { get; set; }
-		public UnifiedExpression LeftHandSide { get; set; }
-		public UnifiedExpression RightHandSide { get; set; }
+		private UnifiedBinaryOperator _operator;
+
+		public UnifiedBinaryOperator Operator {
+			get { return _operator; }
+			set {
+				_operator = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedExpression _leftHandSide;
+
+		public UnifiedExpression LeftHandSide {
+			get { return _leftHandSide; }
+			set {
+				_leftHandSide = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedExpression _rightHandSide;
+
+		public UnifiedExpression RightHandSide {
+			get { return _rightHandSide; }
+			set {
+				_rightHandSide = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -23,7 +49,8 @@ namespace Ucpf.Core.Model {
 			yield return RightHandSide;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(LeftHandSide, v => LeftHandSide = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

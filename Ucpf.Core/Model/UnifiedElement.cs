@@ -7,11 +7,10 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElement {
-
 		/// <summary>
-		/// 親のコードモデルの要素を取得もしくは設定します。
+		///   親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
-		public UnifiedElement Parent { get; protected set; }
+		public UnifiedElement Parent { get; protected internal set; }
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -40,13 +39,14 @@ namespace Ucpf.Core.Model {
 		///   子要素とそのセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters();
+		public abstract IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters();
 
 		/// <summary>
-		/// コードモデルを正規化します。
-		/// 正規化の内容は以下のとおりです。
-		/// ・子要素がUnifiedBlockだけのUnifiedBlockを削除
-		/// ・-1や+1などの単項式を定数に変換
+		///   コードモデルを正規化します。
+		///   正規化の内容は以下のとおりです。
+		///   ・子要素がUnifiedBlockだけのUnifiedBlockを削除
+		///   ・-1や+1などの単項式を定数に変換
 		/// </summary>
 		public virtual UnifiedElement Normalize() {
 			NormalizeChildren();
@@ -54,7 +54,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		/// <summary>
-		/// 子要素に対して正規化を再帰的に行います。
+		///   子要素に対して正規化を再帰的に行います。
 		/// </summary>
 		protected void NormalizeChildren() {
 			foreach (var elemAndSetter in GetElementsAndSetters()) {
@@ -100,6 +100,7 @@ namespace Ucpf.Core.Model {
 			}
 			// write properties without indexer
 			var values = elem.GetType().GetProperties()
+				.Where(prop => prop.Name != "Parent")
 				.Where(prop => prop.GetIndexParameters().Length == 0)
 				.Select(prop => prop.GetValue(elem, null));
 			foreach (var value in values) {

@@ -5,10 +5,36 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedFunctionDefinition
 		: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
-		public UnifiedModifierCollection Modifiers { get; set; }
-		public UnifiedType Type { get; set; }
+		private UnifiedModifierCollection _modifiers;
+
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set {
+				_modifiers = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedType _type;
+
+		public UnifiedType Type {
+			get { return _type; }
+			set {
+				_type = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
 		public string Name { get; set; }
-		public UnifiedParameterCollection Parameters { get; set; }
+		private UnifiedParameterCollection _parameters;
+
+		public UnifiedParameterCollection Parameters {
+			get { return _parameters; }
+			set {
+				_parameters = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public UnifiedFunctionDefinition() {
 			Modifiers = new UnifiedModifierCollection();
@@ -32,7 +58,8 @@ namespace Ucpf.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

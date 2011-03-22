@@ -19,7 +19,10 @@ namespace Ucpf.Core.Model {
 
 		public TElement this[int index] {
 			get { return _elements[index]; }
-			set { _elements[index] = value; }
+			set {
+				_elements[index] = value;
+				if (value != null) value.Parent = this;
+			}
 		}
 
 		public int Count {
@@ -40,6 +43,7 @@ namespace Ucpf.Core.Model {
 
 		public void Add(TElement element) {
 			_elements.Add(element);
+			if (element != null) element.Parent = this;
 		}
 
 		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
@@ -47,14 +51,13 @@ namespace Ucpf.Core.Model {
 			return this;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(this[i], v => this[i] = (TElement)v);
 			}
 		}
-
-
 		}
 }

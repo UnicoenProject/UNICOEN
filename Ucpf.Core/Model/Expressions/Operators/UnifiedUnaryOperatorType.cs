@@ -1,30 +1,52 @@
 ﻿namespace Ucpf.Core.Model {
 	/// <summary>
-	/// 単項演算子の種類を表します。
-	/// http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
+	///   単項演算子の種類を表します。
+	///   http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
 	/// </summary>
 	public enum UnifiedUnaryOperatorType {
-		/// <summary>++a</summary>
+		/// <summary>
+		///   ++a
+		/// </summary>
 		PreIncrementAssign,
-		/// <summary>--a</summary>
+		/// <summary>
+		///   --a
+		/// </summary>
 		PreDecrementAssign,
-		/// <summary>a++</summary>
+		/// <summary>
+		///   a++
+		/// </summary>
 		PostIncrementAssign,
-		/// <summary>a--</summary>
+		/// <summary>
+		///   a--
+		/// </summary>
 		PostDecrementAssign,
-		/// <summary>+a</summary>
+		/// <summary>
+		///   +a
+		/// </summary>
 		UnaryPlus,
-		/// <summary>-a</summary>
+		/// <summary>
+		///   -a
+		/// </summary>
 		Negate,
-		/// <summary>!a</summary>
+		/// <summary>
+		///   !a
+		/// </summary>
 		Not,
-		/// <summary>!a</summary>
+		/// <summary>
+		///   !a
+		/// </summary>
 		OnesComplement,
-		/// <summary>&a</summary>
+		/// <summary>
+		///   &a
+		/// </summary>
 		Address,
-		/// <summary>*a</summary>
+		/// <summary>
+		///   *a
+		/// </summary>
 		Indirect,
-		/// <summary>sizeof(a)</summary>
+		/// <summary>
+		///   sizeof(a)
+		/// </summary>
 		Sizeof,
 	}
 }

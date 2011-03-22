@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paraiba.Xml.Tests", "Paraib
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Applications.Cyclomatic", "Ucpf.Applications.Cyclomatic\Ucpf.Applications.Cyclomatic.csproj", "{C726B474-50DE-4FD3-B4DC-CEF15D131037}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ucpf.Languages.Core.Tests", "Ucpf.Languages.Core.Tests\Ucpf.Languages.Core.Tests.csproj", "{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -296,6 +298,18 @@ Global
 		{C726B474-50DE-4FD3-B4DC-CEF15D131037}.Release|Win32.ActiveCfg = Release|x86
 		{C726B474-50DE-4FD3-B4DC-CEF15D131037}.Release|x86.ActiveCfg = Release|x86
 		{C726B474-50DE-4FD3-B4DC-CEF15D131037}.Release|x86.Build.0 = Release|x86
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,9 +3,27 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedConstructorDefinition : UnifiedExpressionWithBlock<UnifiedConstructorDefinition> {
-		public UnifiedModifierCollection Modifiers { get; set; }
-		public UnifiedParameterCollection Parameters { get; set; }
+	public class UnifiedConstructorDefinition
+		: UnifiedExpressionWithBlock<UnifiedConstructorDefinition> {
+		private UnifiedModifierCollection _modifiers;
+
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set {
+				_modifiers = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedParameterCollection _parameters;
+
+		public UnifiedParameterCollection Parameters {
+			get { return _parameters; }
+			set {
+				_parameters = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public UnifiedConstructorDefinition() {
 			Modifiers = new UnifiedModifierCollection();
@@ -27,7 +45,8 @@ namespace Ucpf.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
@@ -35,5 +54,5 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Body, v => Body = (UnifiedBlock)v);
 		}
-	}
+		}
 }

@@ -1,7 +1,15 @@
 ﻿namespace Ucpf.Core.Model {
-	public abstract class UnifiedExpressionWithBlock<T> : UnifiedExpression, IWithBlock<T>
+	public abstract class UnifiedExpressionWithBlock<T> : UnifiedExpression
 		where T : UnifiedExpressionWithBlock<T> {
-		public UnifiedBlock Body { get; set; }
+		private UnifiedBlock _body;
+
+		public UnifiedBlock Body {
+			get { return _body; }
+			set {
+				_body = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		protected UnifiedExpressionWithBlock() {
 			Body = new UnifiedBlock();
@@ -11,5 +19,5 @@
 			Body.Add(expression);
 			return (T)this;
 		}
-	}
+		}
 }

@@ -5,7 +5,15 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedWhile
 		: UnifiedExpressionWithBlock<UnifiedWhile> {
-		public UnifiedExpression Condition { get; set; }
+		private UnifiedExpression _condition;
+
+		public UnifiedExpression Condition {
+			get { return _condition; }
+			set {
+				_condition = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -21,7 +29,8 @@ namespace Ucpf.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Condition, v => Condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

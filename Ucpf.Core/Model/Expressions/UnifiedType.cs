@@ -6,8 +6,16 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedType : UnifiedExpression {
 		public string Name { get; set; }
-		public UnifiedTypeParameterCollection Parameters { get; set; }
-		
+		private UnifiedTypeParameterCollection _parameters;
+
+		public UnifiedTypeParameterCollection Parameters {
+			get { return _parameters; }
+			set {
+				_parameters = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
 		public UnifiedType() {
 			Parameters = new UnifiedTypeParameterCollection();
 		}
@@ -41,7 +49,8 @@ namespace Ucpf.Core.Model {
 			yield return Parameters;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
 		}

@@ -4,9 +4,35 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedIf : UnifiedExpression {
-		public UnifiedExpression Condition { get; set; }
-		public UnifiedBlock TrueBody { get; set; }
-		public UnifiedBlock FalseBody { get; set; }
+		private UnifiedExpression _condition;
+
+		public UnifiedExpression Condition {
+			get { return _condition; }
+			set {
+				_condition = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedBlock _trueBody;
+
+		public UnifiedBlock TrueBody {
+			get { return _trueBody; }
+			set {
+				_trueBody = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedBlock _falseBody;
+
+		public UnifiedBlock FalseBody {
+			get { return _falseBody; }
+			set {
+				_falseBody = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public UnifiedIf() {
 			TrueBody = new UnifiedBlock();
@@ -38,7 +64,8 @@ namespace Ucpf.Core.Model {
 			yield return FalseBody;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Condition, v => Condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

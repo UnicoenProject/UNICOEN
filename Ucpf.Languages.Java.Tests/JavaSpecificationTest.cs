@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-using Ucpf.Languages.CSharp.Tests;
+using Ucpf.Languages.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
@@ -23,7 +23,8 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.WhileModel).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(CSharpAndJavaSpecificationTest.WhileModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Ignore, Test]
@@ -35,7 +36,8 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.DoWhileModel).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(CSharpAndJavaSpecificationTest.DoWhileModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Ignore, Test]
@@ -47,7 +49,8 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.ForModel).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(CSharpAndJavaSpecificationTest.ForModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Ignore, Test]
@@ -59,7 +62,8 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.ForeachModel).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(CSharpAndJavaSpecificationTest.ForeachModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -72,7 +76,8 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.IfModel).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(CSharpAndJavaSpecificationTest.IfModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -93,7 +98,8 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.IfElseModel).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(CSharpAndJavaSpecificationTest.IfElseModel)
+					.Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Ignore, Test]
@@ -103,7 +109,7 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.NewGenericTypeModel)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.NewGenericTypeModel)
 				.Using(StructuralEqualityComparer.Instance));
 		}
 
@@ -114,18 +120,18 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.PlusIntegerLiteralModel)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.PlusIntegerLiteralModel)
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("switch (1) { case 1: break; }")]
 		public void CreateSwitchCase(string fragment) {
 			var code = CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.SwitchCaseModel)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseModel)
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
@@ -136,7 +142,7 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpSpecificationTest.SwitchCaseWithDefaultModel)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
 					.Using(StructuralEqualityComparer.Instance));
 		}
 	}

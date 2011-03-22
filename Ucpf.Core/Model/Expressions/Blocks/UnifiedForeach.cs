@@ -4,8 +4,25 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedForeach : UnifiedExpressionWithBlock<UnifiedForeach> {
-		public UnifiedVariableDefinition Element { get; set; }
-		public UnifiedExpression Set { get; set; }
+		private UnifiedVariableDefinition _element;
+
+		public UnifiedVariableDefinition Element {
+			get { return _element; }
+			set {
+				_element = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedExpression _set;
+
+		public UnifiedExpression Set {
+			get { return _set; }
+			set {
+				_set = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -22,7 +39,8 @@ namespace Ucpf.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Element, v => Element = (UnifiedVariableDefinition)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

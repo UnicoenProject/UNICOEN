@@ -4,7 +4,15 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedReturn : UnifiedExpression {
-		public UnifiedExpression Value { get; set; }
+		private UnifiedExpression _value;
+
+		public UnifiedExpression Value {
+			get { return _value; }
+			set {
+				_value = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -19,7 +27,8 @@ namespace Ucpf.Core.Model {
 			yield return Value;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Value, v => Value = (UnifiedExpression)v);
 		}

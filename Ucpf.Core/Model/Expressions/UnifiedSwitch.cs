@@ -1,13 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedSwitch : UnifiedExpression {
-		public UnifiedExpression Value { get; set; }
-		public UnifiedCaseCollection Cases { get; set; }
+		private UnifiedExpression _value;
+
+		public UnifiedExpression Value {
+			get { return _value; }
+			set {
+				_value = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
+		private UnifiedCaseCollection _cases;
+
+		public UnifiedCaseCollection Cases {
+			get { return _cases; }
+			set {
+				_cases = value;
+				if (value != null) value.Parent = this;
+			}
+		}
 
 		public UnifiedSwitch() {
 			Cases = new UnifiedCaseCollection();
@@ -22,7 +37,8 @@ namespace Ucpf.Core.Model {
 			visitor.Visit(this);
 		}
 
-		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+		public override TResult Accept<TData, TResult>(
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -31,7 +47,8 @@ namespace Ucpf.Core.Model {
 			yield return Cases;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Value, v => Value = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

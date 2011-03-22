@@ -4,7 +4,16 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedProperty : UnifiedExpression {
-		public UnifiedExpression Owner { get; set; }
+		private UnifiedExpression _owner;
+
+		public UnifiedExpression Owner {
+			get { return _owner; }
+			set {
+				_owner = value;
+				if (value != null) value.Parent = this;
+			}
+		}
+
 		public string Name { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -20,7 +29,8 @@ namespace Ucpf.Core.Model {
 			yield return Owner;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementsAndSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+			GetElementsAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 				(Owner, v => Owner = (UnifiedExpression)v);
 		}
