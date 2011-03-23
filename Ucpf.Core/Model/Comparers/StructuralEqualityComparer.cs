@@ -5,7 +5,7 @@ using System.Linq;
 namespace Ucpf.Core.Model {
 	public class StructuralEqualityComparer : IEqualityComparer<object> {
 		public static StructuralEqualityComparer Instance =
-			new StructuralEqualityComparer();
+				new StructuralEqualityComparer();
 
 		#region IEqualityComparer<object> Members
 
@@ -17,17 +17,17 @@ namespace Ucpf.Core.Model {
 			var xs = x as IEnumerable;
 			if (xs != null) {
 				return xs.Cast<object>().Aggregate(0,
-					(v, o) => v ^ o.GetHashCode() * 11);
+						(v, o) => v ^ o.GetHashCode() * 11);
 			}
 
 			if (x is UnifiedElement) {
 				return x.GetType().GetProperties()
-					.Select(prop => {
-						if (prop.Name == "Parent")
-							return prop.GetValue(x, null).GetHashCode();
-						return this.GetHashCode(prop.GetValue(x, null));
-					})
-					.Aggregate(0, (v, o) => v ^ o.GetHashCode() * 11);
+						.Select(prop => {
+							if (prop.Name == "Parent")
+								return prop.GetValue(x, null).GetHashCode();
+							return GetHashCode(prop.GetValue(x, null));
+						})
+						.Aggregate(0, (v, o) => v ^ o.GetHashCode() * 11);
 			}
 
 			return x.GetHashCode();
@@ -50,16 +50,16 @@ namespace Ucpf.Core.Model {
 			var xs = x as IEnumerable;
 			if (xs != null) {
 				var ret = xs.Cast<object>().SequenceEqual(
-					((IEnumerable)y).Cast<object>(),
-					Instance);
+						((IEnumerable)y).Cast<object>(),
+						Instance);
 				return ret;
 			}
 
 			if (x is UnifiedElement) {
 				var ret = x.GetType().GetProperties()
-					.Where(prop => prop.Name != "Parent")
-					.All(prop => StructuralEquals(
-						prop.GetValue(x, null), prop.GetValue(y, null)));
+						.Where(prop => prop.Name != "Parent")
+						.All(prop => StructuralEquals(
+								prop.GetValue(x, null), prop.GetValue(y, null)));
 				return ret;
 			}
 

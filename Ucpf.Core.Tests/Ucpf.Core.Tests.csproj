@@ -37,6 +37,9 @@
     <Reference Include="nunit.mocks, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.mocks.dll</HintPath>
     </Reference>
+    <Reference Include="Paraiba">
+      <HintPath>..\lib\Paraiba.dll</HintPath>
+    </Reference>
     <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
     </Reference>
@@ -50,11 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChainingAssertion.NUnit.cs" />
     <Compile Include="CodeModelToCode.cs" />
+    <Compile Include="CSharpAndJavaSpecificationTest.cs" />
     <Compile Include="Fixture.cs" />
+    <Compile Include="ModelFeatureTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructuralEqualityComparerTestForPrimitive.cs" />
     <Compile Include="StructuralEqualityComparerTestForUnified.cs" />
+    <Compile Include="TestCaseSource.cs" />
     <Compile Include="Visitors\UnifiedModelToXmlTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +71,10 @@
     <ProjectReference Include="..\Ucpf.Core\Ucpf.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Ucpf.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ucpf.Languages.CSharp\Ucpf.Languages.CSharp.csproj">
+      <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
+      <Name>Ucpf.Languages.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

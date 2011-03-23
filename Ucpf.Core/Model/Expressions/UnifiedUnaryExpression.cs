@@ -9,8 +9,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedUnaryOperator Operator {
 			get { return _operator; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedUnaryOperator)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_operator = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -19,8 +24,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Operand {
 			get { return _operand; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_operand = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -29,7 +39,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -39,11 +49,18 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Operator, v => Operator = (UnifiedUnaryOperator)v);
+					(Operator, v => Operator = (UnifiedUnaryOperator)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Operand, v => Operand = (UnifiedExpression)v);
+					(Operand, v => Operand = (UnifiedExpression)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_operator, v => _operator = (UnifiedUnaryOperator)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_operand, v => _operand = (UnifiedExpression)v);
 		}
 
 		public override UnifiedElement Normalize() {

@@ -9,8 +9,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Initializer {
 			get { return _initializer; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_initializer = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -19,8 +24,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Condition {
 			get { return _condition; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_condition = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -29,8 +39,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Step {
 			get { return _step; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_step = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -39,7 +54,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -51,15 +66,26 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Initializer, v => Initializer = (UnifiedExpression)v);
+					(Initializer, v => Initializer = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Condition, v => Condition = (UnifiedExpression)v);
+					(Condition, v => Condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Step, v => Step = (UnifiedExpression)v);
+					(Step, v => Step = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Body, v => Body = (UnifiedBlock)v);
+					(Body, v => Body = (UnifiedBlock)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_initializer, v => _initializer = (UnifiedExpression)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_condition, v => _condition = (UnifiedExpression)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_step, v => _step = (UnifiedExpression)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_body, v => _body = (UnifiedBlock)v);
 		}
 	}
 }

@@ -6,7 +6,7 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedBlock : UnifiedExpression, IEnumerable<UnifiedExpression> {
-		private readonly List<UnifiedExpression> _statements;
+		private List<UnifiedExpression> _statements;
 
 		public UnifiedBlock() {
 			_statements = new List<UnifiedExpression>();
@@ -19,8 +19,12 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression this[int index] {
 			get { return _statements[index]; }
 			set {
+				if (value != null) {
+					if (value.Parent != null)
+						value = (UnifiedExpression)value.DeepCopy();
+					value.Parent = this;
+				}
 				_statements[index] = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -50,8 +54,18 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
+		}
+
+		public override UnifiedElement DeepCopy() {
+			var ret = (UnifiedBlock)MemberwiseClone();
+			ret.Parent = null;
+			ret._statements = new List<UnifiedExpression>();
+			foreach (var element in this) {
+				ret.Add((UnifiedExpression)element.DeepCopy());
+			}
+			return ret;
 		}
 
 		public override IEnumerable<UnifiedElement> GetElements() {
@@ -59,11 +73,19 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(this[i], v => this[i] = (UnifiedExpression)v);
+						(this[i], v => this[i] = (UnifiedExpression)v);
+			}
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			var count = Count;
+			for (int i = 0; i < count; i++) {
+				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+						(_statements[i], v => _statements[i] = (UnifiedExpression)v);
 			}
 		}
 

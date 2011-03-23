@@ -8,35 +8,35 @@ namespace Ucpf.Core.Model.Extensions {
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name) {
 			return new UnifiedVariableDefinition {
-				Name = name,
+					Name = name,
 			};
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             UnifiedType type) {
 			return new UnifiedVariableDefinition {
-				Type = type,
-				Name = name,
+					Type = type,
+					Name = name,
 			};
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             UnifiedExpression
-		                                                             	initialValue) {
+		                                                             		initialValue) {
 			return new UnifiedVariableDefinition {
-				Name = name,
-				InitialValue = initialValue,
+					Name = name,
+					InitialValue = initialValue,
 			};
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             UnifiedType type,
 		                                                             UnifiedExpression
-		                                                             	initialValue) {
+		                                                             		initialValue) {
 			return new UnifiedVariableDefinition {
-				Type = type,
-				Name = name,
-				InitialValue = initialValue,
+					Type = type,
+					Name = name,
+					InitialValue = initialValue,
 			};
 		}
 
@@ -46,25 +46,25 @@ namespace Ucpf.Core.Model.Extensions {
 
 		public static UnifiedClassDefinition ToClassDefinition(this string name) {
 			return new UnifiedClassDefinition {
-				Name = name,
+					Name = name,
 			};
 		}
 
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
 			return new UnifiedBooleanLiteral {
-				Value = literal ? UnifiedBoolean.True : UnifiedBoolean.False,
+					Value = literal ? UnifiedBoolean.True : UnifiedBoolean.False,
 			};
 		}
 
 		public static UnifiedIntegerLiteral ToLiteral(this int value) {
 			return new UnifiedIntegerLiteral {
-				Value = value,
+					Value = value,
 			};
 		}
 
 		public static UnifiedDecimalLiteral ToLiteral(this double value) {
 			return new UnifiedDecimalLiteral {
-				Value = (Decimal)value,
+					Value = (Decimal)value,
 			};
 		}
 	}

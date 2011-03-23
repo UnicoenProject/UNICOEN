@@ -67,10 +67,6 @@
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Ucpf.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ucpf.Languages.Core.Tests\Ucpf.Languages.Core.Tests.csproj">
-      <Project>{E59D8623-4C9E-44EB-A71B-1B019E9A1BEA}</Project>
-      <Name>Ucpf.Languages.Core.Tests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Languages.CSharp\Ucpf.Languages.CSharp.csproj">
       <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
       <Name>Ucpf.Languages.CSharp</Name>

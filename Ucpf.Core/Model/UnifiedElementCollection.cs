@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElementCollection<TElement>
-		: UnifiedElement, IEnumerable<TElement>
-		where TElement : UnifiedElement {
-		private readonly List<TElement> _elements;
+			: UnifiedElement, IEnumerable<TElement>
+			where TElement : UnifiedElement {
+		private List<TElement> _elements;
 
 		protected UnifiedElementCollection() {
 			_elements = new List<TElement>();
@@ -20,8 +20,12 @@ namespace Ucpf.Core.Model {
 		public TElement this[int index] {
 			get { return _elements[index]; }
 			set {
+				if (value != null) {
+					if (value.Parent != null)
+						value = (TElement)value.DeepCopy();
+					value.Parent = this;
+				}
 				_elements[index] = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -46,18 +50,37 @@ namespace Ucpf.Core.Model {
 			if (element != null) element.Parent = this;
 		}
 
+		public override UnifiedElement DeepCopy() {
+			var ret = (UnifiedElementCollection<TElement>)MemberwiseClone();
+			ret.Parent = null;
+			ret._elements = new List<TElement>();
+			foreach (var element in this) {
+				ret.Add((TElement)element.DeepCopy());
+			}
+			return ret;
+		}
+
 		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
 		public override IEnumerable<UnifiedElement> GetElements() {
 			return this;
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(this[i], v => this[i] = (TElement)v);
+						(this[i], v => this[i] = (TElement)v);
 			}
 		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
+			var count = Count;
+			for (int i = 0; i < count; i++) {
+				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+						(_elements[i], v => _elements[i] = (TElement)v);
+			}
 		}
+	}
 }

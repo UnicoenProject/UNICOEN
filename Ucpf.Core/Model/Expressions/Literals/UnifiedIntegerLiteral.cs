@@ -10,7 +10,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -19,19 +19,23 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
+			yield break;
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
 			yield break;
 		}
 
 		public static UnifiedIntegerLiteral Create(int value) {
 			return new UnifiedIntegerLiteral {
-				Value = value,
+					Value = value,
 			};
 		}
 
 		public static UnifiedIntegerLiteral Create(BigInteger value) {
 			return new UnifiedIntegerLiteral {
-				Value = value,
+					Value = value,
 			};
 		}
 	}

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-using Ucpf.Languages.Core.Tests;
+using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {

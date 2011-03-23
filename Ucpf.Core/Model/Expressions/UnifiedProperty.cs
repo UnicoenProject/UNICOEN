@@ -9,8 +9,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Owner {
 			get { return _owner; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_owner = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -21,7 +26,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -30,9 +35,14 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Owner, v => Owner = (UnifiedExpression)v);
+					(Owner, v => Owner = (UnifiedExpression)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_owner, v => _owner = (UnifiedExpression)v);
 		}
 	}
 }

@@ -9,8 +9,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Value {
 			get { return _value; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_value = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -19,7 +24,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -28,9 +33,14 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Value, v => Value = (UnifiedExpression)v);
+					(Value, v => Value = (UnifiedExpression)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_value, v => _value = (UnifiedExpression)v);
 		}
 	}
 }

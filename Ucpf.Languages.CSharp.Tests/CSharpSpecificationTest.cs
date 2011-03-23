@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Extensions;
-using Ucpf.Languages.Core.Tests;
+using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
 	[TestFixture]

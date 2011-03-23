@@ -11,8 +11,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedTypeParameterCollection Parameters {
 			get { return _parameters; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedTypeParameterCollection)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_parameters = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -22,7 +27,7 @@ namespace Ucpf.Core.Model {
 
 		public static UnifiedType Create(string name) {
 			return new UnifiedType {
-				Name = name,
+					Name = name,
 			};
 		}
 
@@ -41,7 +46,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -50,9 +55,14 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
+					(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_parameters, v => _parameters = (UnifiedTypeParameterCollection)v);
 		}
 	}
 }

@@ -9,8 +9,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedVariableDefinition Element {
 			get { return _element; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedVariableDefinition)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_element = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -19,8 +24,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Set {
 			get { return _set; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_set = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -29,7 +39,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -40,13 +50,22 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Element, v => Element = (UnifiedVariableDefinition)v);
+					(Element, v => Element = (UnifiedVariableDefinition)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Set, v => Set = (UnifiedExpression)v);
+					(Set, v => Set = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Body, v => Body = (UnifiedBlock)v);
+					(Body, v => Body = (UnifiedBlock)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_element, v => _element = (UnifiedVariableDefinition)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_set, v => _set = (UnifiedExpression)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_body, v => _body = (UnifiedBlock)v);
 		}
 	}
 }

@@ -11,8 +11,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedBlock Body {
 			get { return _body; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedBlock)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_body = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -26,7 +31,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -35,9 +40,14 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Body, v => Body = (UnifiedBlock)v);
+					(Body, v => Body = (UnifiedBlock)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_body, v => _body = (UnifiedBlock)v);
 		}
 	}
 }

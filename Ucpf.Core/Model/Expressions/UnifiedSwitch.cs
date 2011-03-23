@@ -9,8 +9,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedExpression Value {
 			get { return _value; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedExpression)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_value = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -19,8 +24,13 @@ namespace Ucpf.Core.Model {
 		public UnifiedCaseCollection Cases {
 			get { return _cases; }
 			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedCaseCollection)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
 				_cases = value;
-				if (value != null) value.Parent = this;
 			}
 		}
 
@@ -38,7 +48,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -48,11 +58,18 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
-			GetElementsAndSetters() {
+				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Value, v => Value = (UnifiedExpression)v);
+					(Value, v => Value = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-				(Cases, v => Cases = (UnifiedCaseCollection)v);
+					(Cases, v => Cases = (UnifiedCaseCollection)v);
+		}
+
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_value, v => _value = (UnifiedExpression)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_cases, v => _cases = (UnifiedCaseCollection)v);
 		}
 	}
 }

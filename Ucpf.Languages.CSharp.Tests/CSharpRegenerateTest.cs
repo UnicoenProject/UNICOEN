@@ -8,7 +8,6 @@ using NUnit.Framework;
 using Paraiba.Core;
 using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
-using Ucpf.Languages.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
 	/// <summary>
