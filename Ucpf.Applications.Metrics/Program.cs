@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Ucpf.Applications.Metrics.Apps;
+using Ucpf.Applications.Metrics.Cores;
 
 namespace Ucpf.Applications.Metrics {
 	public class Program {

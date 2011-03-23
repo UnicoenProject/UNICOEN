@@ -4,7 +4,7 @@ using System.Linq;
 using Ucpf.Applications.Metrics.Utils;
 using Ucpf.Core.Model;
 
-namespace Ucpf.Applications.Metrics.Apps {
+namespace Ucpf.Applications.Metrics.Cores {
 	public class Loc {
 		public static bool Run(IList<string> args) {
 			foreach (var arg in args) {
