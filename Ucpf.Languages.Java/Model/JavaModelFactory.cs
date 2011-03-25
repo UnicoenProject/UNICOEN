@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
@@ -29,16 +30,14 @@ namespace Ucpf.Languages.Java.Model {
 			 * these are some actual expression
 			*/
 			var expressionList =
-				node.Descendants().Where(e => {
+				node.DescendantsAndSelf().Where(e => {
 					var c = e.Elements().Count();
 					return c > 1 || (c == 1 && e.Element("IDENTIFIER") != null) ||
 						   (c == 1 && e.Element("TOKEN") != null);
 				});
 
 			//Ensure that node has some expression
-			if (expressionList.Count() == 0) {
-				throw new NotImplementedException();
-			}
+			Debug.Assert(expressionList.Count() != 0);
 
 			var topExpressionElement = expressionList.First();
 
@@ -329,8 +328,7 @@ namespace Ucpf.Languages.Java.Model {
 			throw new NotImplementedException();
 		}
 
-		public static UnifiedExpression CreateExpressionList(XElement node)
-		{
+		public static UnifiedExpression CreateExpressionList(XElement node) {
 			//TODO
 			throw new NotImplementedException();
 		}
