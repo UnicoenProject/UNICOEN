@@ -38,7 +38,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpSpecificationTest.DoWhileModel).Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("for (int i = 0; i < 1; i++) break;")]
 		[TestCase("for (int i = 0; i < 1; i++) { break; }")]
 		[TestCase("for (int i = 0; i < 1; i++) { { break; } }")]
