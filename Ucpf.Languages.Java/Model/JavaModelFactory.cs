@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
 using Code2Xml.Languages.Java.XmlGenerators;
+using System.Collections.Generic;
 
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory
@@ -65,7 +66,7 @@ namespace Ucpf.Languages.Java.Model {
 			}
 
 			//case UnaryExpression
-			if (topExpressionElement.Name.LocalName == "unaryExpression") {
+			if (topExpressionElement.Name.LocalName.StartsWith("unaryExpression")) {
 				return CreateUnaryExpression(topExpressionElement);
 			}
 
@@ -96,10 +97,44 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedUnaryExpression CreateUnaryExpression(XElement node) {
 			Contract.Requires(node != null);
-			return new UnifiedUnaryExpression {
-				Operator = CreateUnaryOperator(node.NthElement(0)),
-				Operand = CreateExpression(node.NthElement(1))
-			};
+			/*
+			 * unaryExpression 
+			    : '+' unaryExpression | '-' unaryExpression
+			    | '++' unaryExpression | '--' unaryExpression
+			    |   unaryExpressionNotPlusMinus ;
+
+				unaryExpressionNotPlusMinus 
+				: '~' unaryExpression | '!' unaryExpression | castExpression
+			    | primary (selector)* ( '++' | '--' )? ;
+			*/
+			String[] unaryOperator = { "+", "-", "++", "--", "~", "!" };
+			var firstElement = node.NthElement(0);
+			var secondElement = node.NthElement(1);
+			if (unaryOperator.Contains(firstElement.Value)) {
+				return new UnifiedUnaryExpression {
+					Operator = CreateUnaryOperator(firstElement),
+					Operand = CreateExpression(secondElement)
+				};
+			} else if (unaryOperator.Contains(secondElement.Value)) {
+				UnifiedUnaryOperatorType operatorType;
+				switch (secondElement.Value) {
+					case "++":
+					operatorType = UnifiedUnaryOperatorType.PostIncrementAssign;
+					break;
+					case "--":
+					operatorType = UnifiedUnaryOperatorType.PostDecrementAssign;
+					break;
+					default:
+						throw new InvalidOperationException();
+				}
+				return new UnifiedUnaryExpression {
+					Operator = new UnifiedUnaryOperator(secondElement.Value, operatorType),
+					Operand = CreateExpression(firstElement)
+				};
+			} else {
+				//TODO: 構文に沿ったように実装する
+				throw new NotImplementedException();
+			}
 		}
 
 		public static UnifiedCall CreateCallExpression(XElement node) {
@@ -325,14 +360,19 @@ namespace Ucpf.Languages.Java.Model {
 			 * localVariableDeclaration 
 				:   variableModifiers type variableDeclarator (',' variableDeclarator )*
 				;*/
+			return CreateExpression(xElement);
+			//TODO: 構文に沿ったように実装する
+			//var variables = new List<UnifiedExpression>();
+			//return new UnifiedExpressionCollection(variables);
 
-			throw new NotImplementedException();
 		}
 
-		public static UnifiedExpression CreateExpressionList(XElement node)
-		{
-			//TODO
-			throw new NotImplementedException();
+		public static UnifiedExpression CreateExpressionList(XElement node) {
+			/*
+			 * expressionList : expression (',' expression )* ;
+			 */
+			return CreateExpression(node.Element("expression"));
+			//TODO: 構文に沿ったように実装する
 		}
 
 		public static UnifiedReturn CreateReturn(XElement node) {
