@@ -241,11 +241,13 @@ namespace Ucpf.Languages.Java.Model {
 			var trueBody = new UnifiedBlock {
 				CreateStatement(node.Element("statement")),
 			};
-			
-			var falseBody = new UnifiedBlock();
+
+			UnifiedBlock falseBody = null;
 			if (node.Elements("statement").Count() == 2) {
 				var falseNode = node.Elements("statement").ElementAt(1);
-				falseBody.Add(CreateStatement(falseNode));
+				falseBody = new UnifiedBlock {
+						CreateStatement(falseNode),
+				};
 			}
 			return new UnifiedIf {
 				Condition = CreateExpression(node

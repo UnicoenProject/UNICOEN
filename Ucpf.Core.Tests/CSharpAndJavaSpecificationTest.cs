@@ -80,6 +80,7 @@ namespace Ucpf.Core.Tests {
 					true.ToLiteral()
 						.ToIf()
 						.AddToTrueBody((-1).ToLiteral().ToReturn())
+						.RemoveFalseBody()
 				});
 			}
 		}

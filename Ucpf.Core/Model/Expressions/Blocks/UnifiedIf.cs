@@ -64,6 +64,11 @@ namespace Ucpf.Core.Model {
 			return this;
 		}
 
+		public UnifiedIf RemoveFalseBody() {
+			FalseBody = null;
+			return this;
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
