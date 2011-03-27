@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Xml.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
 using Code2Xml.Languages.Java.XmlGenerators;
+using System.Collections.Generic;
 
 namespace Ucpf.Languages.Java.Model {
 	public class JavaModelFactory
@@ -29,16 +31,14 @@ namespace Ucpf.Languages.Java.Model {
 			 * these are some actual expression
 			*/
 			var expressionList =
-				node.Descendants().Where(e => {
+				node.DescendantsAndSelf().Where(e => {
 					var c = e.Elements().Count();
 					return c > 1 || (c == 1 && e.Element("IDENTIFIER") != null) ||
 						   (c == 1 && e.Element("TOKEN") != null);
 				});
 
 			//Ensure that node has some expression
-			if (expressionList.Count() == 0) {
-				throw new NotImplementedException();
-			}
+			Debug.Assert(expressionList.Count() != 0);
 
 			var topExpressionElement = expressionList.First();
 
@@ -65,7 +65,7 @@ namespace Ucpf.Languages.Java.Model {
 			}
 
 			//case UnaryExpression
-			if (topExpressionElement.Name.LocalName == "unaryExpression") {
+			if (topExpressionElement.Name.LocalName.StartsWith("unaryExpression")) {
 				return CreateUnaryExpression(topExpressionElement);
 			}
 
@@ -96,10 +96,44 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedUnaryExpression CreateUnaryExpression(XElement node) {
 			Contract.Requires(node != null);
-			return new UnifiedUnaryExpression {
-				Operator = CreateUnaryOperator(node.NthElement(0)),
-				Operand = CreateExpression(node.NthElement(1))
-			};
+			/*
+			 * unaryExpression 
+			    : '+' unaryExpression | '-' unaryExpression
+			    | '++' unaryExpression | '--' unaryExpression
+			    |   unaryExpressionNotPlusMinus ;
+
+				unaryExpressionNotPlusMinus 
+				: '~' unaryExpression | '!' unaryExpression | castExpression
+			    | primary (selector)* ( '++' | '--' )? ;
+			*/
+			String[] unaryOperator = { "+", "-", "++", "--", "~", "!" };
+			var firstElement = node.NthElement(0);
+			var secondElement = node.NthElement(1);
+			if (unaryOperator.Contains(firstElement.Value)) {
+				return new UnifiedUnaryExpression {
+					Operator = CreateUnaryOperator(firstElement),
+					Operand = CreateExpression(secondElement)
+				};
+			} else if (unaryOperator.Contains(secondElement.Value)) {
+				UnifiedUnaryOperatorType operatorType;
+				switch (secondElement.Value) {
+					case "++":
+					operatorType = UnifiedUnaryOperatorType.PostIncrementAssign;
+					break;
+					case "--":
+					operatorType = UnifiedUnaryOperatorType.PostDecrementAssign;
+					break;
+					default:
+						throw new InvalidOperationException();
+				}
+				return new UnifiedUnaryExpression {
+					Operator = new UnifiedUnaryOperator(secondElement.Value, operatorType),
+					Operand = CreateExpression(firstElement)
+				};
+			} else {
+				//TODO: 構文に沿ったように実装する
+				throw new NotImplementedException();
+			}
 		}
 
 		public static UnifiedCall CreateCallExpression(XElement node) {
@@ -213,12 +247,14 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
-			var element = node.Elements().First();
+			var element = node.FirstElement();
 
 			switch (element.Name.LocalName) {
 				case "block": return CreateBlock(element);
 				case "IF": return CreateIf(node);
 				case "RETURN": return CreateReturn(node);
+				case "forstatement": return CreateFor(node);
+				case "WHILE": return CreateWhile(node);
 				default: throw new NotImplementedException();
 			}
 		}
@@ -237,7 +273,7 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedIf CreateIf(XElement node) {
-			Contract.Requires(node != null);
+			Contract.Requires(node.Elements().First().Name.LocalName == "IF");
 			var trueBody = new UnifiedBlock {
 				CreateStatement(node.Element("statement")),
 			};
@@ -257,11 +293,98 @@ namespace Ucpf.Languages.Java.Model {
 				FalseBody = falseBody
 			};
 		}
+
+		public static UnifiedWhile CreateWhile(XElement node) {
+			Contract.Requires(node.Elements().First().Name.LocalName == "WHILE");
+			return new UnifiedWhile {
+				Condition =
+					CreateExpression(node.Element("parExpression").Element("expression")),
+				Body = new UnifiedBlock {
+					CreateStatement(node.Element("statement"))
+				}
+			};
+		}
+
+		public static UnifiedExpression CreateFor(XElement node) {
+			Contract.Requires(node.Elements().First().Name.LocalName == "forstatement");
+			/*	forstatement :   
+					// enhanced for loop
+					'for' '(' variableModifiers type IDENTIFIER ':' 
+					expression ')' statement
+					// normal for loop
+				|   'for' '(' 
+							(forInit
+							)? ';' 
+							(expression
+							)? ';' 
+							(expressionList
+							)? ')' statement
+						return new UnifiedFor();
+			 * */
+			var forstatement = node.FirstElement();
+			if (forstatement.NthElement(2).Name.LocalName == "variableModifiers") {
+				//TODO
+				throw new NotImplementedException();
+			} else {
+				var forInit = forstatement.Element("forInit");
+				var initializer = forInit != null ? CreateForInit(forInit) : null;
+
+				var expression = forstatement.Element("expression");
+				var condition = expression != null ? CreateExpression(expression) : null;
+
+				var expressionList = forstatement.Element("expressionList");
+				var step = expressionList != null
+							? CreateExpressionList(expressionList) : null;
+
+				var body = CreateStatement(forstatement);
+				return new UnifiedFor {
+					Initializer = initializer,
+					Condition = condition,
+					Step = step,
+					Body = new UnifiedBlock{ body }
+				};
+			}
+		}
+
+		public static UnifiedExpression CreateForInit(XElement node) {
+			switch(node.FirstElement().Name.LocalName) {
+				case "localVariableDeclaration":
+					return CreateLocalVariableDeclaration(node.FirstElement());
+				case "expressionList":
+				return CreateExpressionList(node.FirstElement());
+			}
+			throw new InvalidOperationException();
+		}
 		
+		private static UnifiedExpression CreateLocalVariableDeclaration(XElement xElement) {
+			/*
+			 * localVariableDeclaration 
+				:   variableModifiers type variableDeclarator (',' variableDeclarator )*
+				;*/
+			return CreateExpression(xElement);
+			//TODO: 構文に沿ったように実装する
+			//var variables = new List<UnifiedExpression>();
+			//return new UnifiedExpressionCollection(variables);
+
+		}
+
+		public static UnifiedExpression CreateExpressionList(XElement node) {
+			/*
+			 * expressionList : expression (',' expression )* ;
+			 */
+			return CreateExpression(node.Element("expression"));
+			//TODO: 構文に沿ったように実装する
+		}
+
 		public static UnifiedReturn CreateReturn(XElement node) {
 			Contract.Requires(node != null);
+			UnifiedExpression value = null;
+			var i = node.Elements().Count();
+			if (node.Elements().Count() == 3) {
+				value = CreateExpression(node.Element("expression"));
+			}
 			return new UnifiedReturn {
-				Value = CreateExpression(node.Element("expression"))
+				Value = value
 			};
 		}
 
