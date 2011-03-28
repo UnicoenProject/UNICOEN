@@ -15,8 +15,6 @@ namespace Ucpf.Core.Tests {
 		/// 深いコピーが正常に動作するかテストします。
 		/// </summary>
 		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test]
-		[TestCaseSource("TestCases")]
 		public virtual void VerifyDeepCopy(string path) {
 			var code = File.ReadAllText(path);
 			var model = CreateModel(code);
@@ -34,19 +32,59 @@ namespace Ucpf.Core.Tests {
 		/// 子要素の列挙機能が正常に動作するかテストします。
 		/// </summary>
 		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test]
-		[TestCaseSource("TestCases")]
 		public virtual void VerifyGetElements(string path) {
 			var code = File.ReadAllText(path);
 			var model = CreateModel(code);
 			foreach (var element in model.Descendants()) {
 				var elements = element.GetElements();
-				var elementAndSetters = element.GetElementAndSetters().ToList();
-				var elementAndDirectSetters = element.GetElementAndDirectSetters().ToList();
+				var elementAndSetters = element.GetElementAndSetters();
+				var elementAndDirectSetters = element.GetElementAndDirectSetters();
 				var propValues = GetProperties(element);
 				Assert.That(elements, Is.EqualTo(propValues));
-				Assert.That(elementAndSetters.Count, Is.EqualTo(propValues.Count()));
-				Assert.That(elementAndDirectSetters.Count, Is.EqualTo(propValues.Count()));
+				Assert.That(elementAndSetters.Select(t => t.Item1), Is.EqualTo(propValues));
+				Assert.That(elementAndDirectSetters.Select(t => t.Item1), Is.EqualTo(propValues));
+			}
+		}
+
+		/// <summary>
+		/// 子要素とセッターの列挙機能が正常に動作するかテストします。
+		/// </summary>
+		/// <param name="path">テスト対象のソースコードのパス</param>
+		public virtual void GetElementAndSetters(string path) {
+			var code = File.ReadAllText(path);
+			var model = CreateModel(code);
+			var elements = model.Descendants().ToList();
+			foreach (var element in elements) {
+				var elementAndSetters = element.GetElementAndSetters();
+				foreach (var elementAndSetter in elementAndSetters) {
+					elementAndSetter.Item2(null);
+				}
+			}
+			foreach (var element in elements) {
+				foreach (var child in element.GetElements()) {
+					Assert.That(child, Is.Null);
+				}
+			}
+		}
+
+		/// <summary>
+		/// 子要素とプロパティを介さないセッターの列挙機能が正常に動作するかテストします。
+		/// </summary>
+		/// <param name="path">テスト対象のソースコードのパス</param>
+		public virtual void GetElementAndDirectSetters(string path) {
+			var code = File.ReadAllText(path);
+			var model = CreateModel(code);
+			var elements = model.Descendants().ToList();
+			foreach (var element in elements) {
+				var elementAndSetters = element.GetElementAndDirectSetters();
+				foreach (var elementAndSetter in elementAndSetters) {
+					elementAndSetter.Item2(null);
+				}
+			}
+			foreach (var element in elements) {
+				foreach (var child in element.GetElements()) {
+					Assert.That(child, Is.Null);
+				}
 			}
 		}
 

@@ -46,6 +46,24 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		/// <summary>
+		/// 子要素とセッターの列挙機能が正常に動作するかテストします。
+		/// </summary>
+		/// <param name="path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestCases")]
+		public override void GetElementAndSetters(string path) {
+			base.GetElementAndSetters(path);
+		}
+
+		/// <summary>
+		/// 子要素とプロパティを介さないセッターの列挙機能が正常に動作するかテストします。
+		/// </summary>
+		/// <param name="path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestCases")]
+		public override void GetElementAndDirectSetters(string path) {
+			base.GetElementAndDirectSetters(path);
+		}
+
+		/// <summary>
 		/// 全要素の文字列情報を取得できるかテストします。
 		/// </summary>
 		/// <param name="path">テスト対象のソースコードのパス</param>
