@@ -4,21 +4,6 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedBinaryExpression : UnifiedExpression {
-		private UnifiedBinaryOperator _operator;
-
-		public UnifiedBinaryOperator Operator {
-			get { return _operator; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedBinaryOperator)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_operator = value;
-			}
-		}
-
 		private UnifiedExpression _leftHandSide;
 
 		public UnifiedExpression LeftHandSide {
@@ -31,6 +16,21 @@ namespace Ucpf.Core.Model {
 					value.Parent = this;
 				}
 				_leftHandSide = value;
+			}
+		}
+
+		private UnifiedBinaryOperator _operator;
+
+		public UnifiedBinaryOperator Operator {
+			get { return _operator; }
+			set {
+				if (value != null) {
+					if (value.Parent != null) {
+						value = (UnifiedBinaryOperator)value.DeepCopy();
+					}
+					value.Parent = this;
+				}
+				_operator = value;
 			}
 		}
 

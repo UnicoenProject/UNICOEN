@@ -67,8 +67,8 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<UnifiedElement> GetElements() {
-			yield return Type;
 			yield return Modifiers;
+			yield return Type;
 			yield return Parameters;
 			yield return Body;
 		}
@@ -76,9 +76,9 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
@@ -87,9 +87,9 @@ namespace Ucpf.Core.Model {
 
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

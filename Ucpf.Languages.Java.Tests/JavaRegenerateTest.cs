@@ -90,8 +90,9 @@ namespace Ucpf.Languages.Java.Tests {
 		/// 元コード1とコード2を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
-		//[Ignore, Test, TestCaseSource("TestCases")]
-		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
+		[Test]
+		//[TestCaseSource("TestCases")]
+		[TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 		public void CompareThroughByteCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
@@ -112,8 +113,9 @@ namespace Ucpf.Languages.Java.Tests {
 		/// モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
-		//[Ignore, Test, TestCaseSource("TestCases")]
-		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
+		[Test]
+		//[TestCaseSource("TestCases")]
+		[TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 		public void CompareThroughModel(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
 			var model1 = JavaModelFactory.CreateModel(orgCode);

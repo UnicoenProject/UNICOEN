@@ -18,5 +18,12 @@ namespace Ucpf.Core.Model.Extensions {
 			return children.Aggregate(children,
 					(current, elem) => current.Concat(elem.Descendants()));
 		}
+
+		public static IEnumerable<UnifiedElement> DescendantsAndSelf(
+				this UnifiedElement element) {
+			var children = Enumerable.Repeat(element, 1).Concat(element.GetElements());
+			return children.Aggregate(children,
+					(current, elem) => current.Concat(elem.Descendants()));
+		}
 	}
 }
