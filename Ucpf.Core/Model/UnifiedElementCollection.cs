@@ -13,8 +13,11 @@ namespace Ucpf.Core.Model {
 			_elements = new List<TElement>();
 		}
 
-		protected UnifiedElementCollection(IEnumerable<TElement> elements) {
-			_elements = elements.ToList();
+		protected UnifiedElementCollection(IEnumerable<TElement> elements)
+				: this() {
+			foreach (var element in elements) {
+				Add(element);
+			}
 		}
 
 		public TElement this[int index] {

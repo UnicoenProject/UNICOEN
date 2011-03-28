@@ -12,8 +12,11 @@ namespace Ucpf.Core.Model {
 			_statements = new List<UnifiedExpression>();
 		}
 
-		public UnifiedBlock(IEnumerable<UnifiedExpression> expressions) {
-			_statements = expressions.ToList();
+		public UnifiedBlock(IEnumerable<UnifiedExpression> expressions)
+				: this() {
+			foreach (var element in expressions) {
+				Add(element);
+			}
 		}
 
 		public UnifiedExpression this[int index] {

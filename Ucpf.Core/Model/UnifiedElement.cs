@@ -66,7 +66,9 @@ namespace Ucpf.Core.Model {
 		protected void NormalizeChildren() {
 			foreach (var elemAndSetter in GetElementAndDirectSetters()) {
 				if (elemAndSetter.Item1 != null) {
-					elemAndSetter.Item2(elemAndSetter.Item1.Normalize());
+					var child = elemAndSetter.Item1.Normalize();
+					elemAndSetter.Item2(child);
+					child.Parent = this;
 				}
 			}
 		}
@@ -130,11 +132,14 @@ namespace Ucpf.Core.Model {
 				foreach (var item in seq) {
 					ToStringRecursively(item, buffer, depth + 1);
 				}
+				// TODO: 集合を表現する要素は他のプロパティを持たないはず
+				return;
 			}
 			// write properties without indexer
 			var values = elem.GetType().GetProperties()
 					.Where(prop => prop.Name != "Parent")
-					.Where(prop => prop.GetIndexParameters().Length == 0)
+					// TODO: 集合を表現する要素は他のプロパティを持たないはず
+					//.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Select(prop => prop.GetValue(elem, null));
 			foreach (var value in values) {
 				ToStringRecursively(value, buffer, depth + 1);
