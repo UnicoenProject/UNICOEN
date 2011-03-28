@@ -4,6 +4,11 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedDecimalLiteral : UnifiedTypedLiteral<decimal> {
+
+		public static UnifiedDecimalLiteral Create(double value) {
+			return new UnifiedDecimalLiteral { Value = (decimal)value };
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

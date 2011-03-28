@@ -81,18 +81,18 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		[Test]
-		[TestCase("if (true) return -1; else return 0.1;")]
-		[TestCase("if (true) { return -1; } else return 0.1;")]
-		[TestCase("if (true) return -1; else { return 0.1; }")]
-		[TestCase("if (true) { return -1; } else { return 0.1; }")]
-		[TestCase("if (true) { { return -1; } } else { return 0.1; }")]
-		[TestCase("if (true) { return -1; } else { { return 0.1; } }")]
-		[TestCase("if (true) { { return -1; } } else { { return 0.1; } }")]
-		[TestCase("if (true) { { { return -1; } } } else { { return 0.1; } }")]
-		[TestCase("if (true) { { return -1; } } else { { { return 0.1; } } }")]
-		[TestCase("if (true) return -1; else { { { return 0.1; } } }")]
-		[TestCase("if (true) { { { return -1; } } } else return 0.1;")]
-		[TestCase("if (true) { { { return -1; } } } else { { { return 0.1; } } }")]
+		[TestCase("if (false) return -1; else return 0.1;")]
+		[TestCase("if (false) { return -1; } else return 0.1;")]
+		[TestCase("if (false) return -1; else { return 0.1; }")]
+		[TestCase("if (false) { return -1; } else { return 0.1; }")]
+		[TestCase("if (false) { { return -1; } } else { return 0.1; }")]
+		[TestCase("if (false) { return -1; } else { { return 0.1; } }")]
+		[TestCase("if (false) { { return -1; } } else { { return 0.1; } }")]
+		[TestCase("if (false) { { { return -1; } } } else { { return 0.1; } }")]
+		[TestCase("if (false) { { return -1; } } else { { { return 0.1; } } }")]
+		[TestCase("if (false) return -1; else { { { return 0.1; } } }")]
+		[TestCase("if (false) { { { return -1; } } } else return 0.1;")]
+		[TestCase("if (false) { { { return -1; } } } else { { { return 0.1; } } }")]
 		public void CreateIfElse(string fragment) {
 			var code = CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);

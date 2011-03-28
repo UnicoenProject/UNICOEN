@@ -152,19 +152,23 @@ namespace Ucpf.Languages.CSharp {
 			return decs.ToList();
 		}
 
+		#region Control flow
+
 		public object VisitIfElseStatement(IfElseStatement stmt, object data) {
 			var cond = stmt.Condition.AcceptVisitor(this, data) as UnifiedExpression;
-			var trueStmt = stmt.TrueStatement
-				.Select(s => s.AcceptVisitor(this, data))
-				.ToList();
-			var first = stmt.TrueStatement[0] as BlockStatement;
-			var falseStmt = stmt.FalseStatement
-				.Select(s => s.AcceptVisitor(this, data))
-				.ToList();
+			Func<List<Statement>, UnifiedBlock> toBlock = block => {
+				if (block.Count == 0)
+					return null;
+				var stmts = block
+						.Select(x => x.AcceptVisitor(this, data))
+						.OfType<UnifiedExpression>()
+						.ToList();
+				return new UnifiedBlock(stmts);
+			};
 			return new UnifiedIf {
 				Condition = cond,
-				TrueBody = ToFlattenBlock(trueStmt),
-				FalseBody = ToFlattenBlock(falseStmt),
+				TrueBody = toBlock(stmt.TrueStatement),
+				FalseBody = toBlock(stmt.FalseStatement),
 			};
 		}
 
@@ -194,10 +198,70 @@ namespace Ucpf.Languages.CSharp {
 			};
 		}
 
+		public object VisitDoLoopStatement(DoLoopStatement stmt, object data) {
+			var pos = stmt.ConditionPosition;
+			var uCond = (UnifiedExpression)stmt.Condition.AcceptVisitor(this, data);
+			var elem = (UnifiedExpression)stmt.EmbeddedStatement.AcceptVisitor(this, data);
+			var uBody = new UnifiedBlock { elem };
+
+			switch (pos) {
+			case ConditionPosition.Start:
+				return new UnifiedWhile { Condition = uCond, Body = uBody };
+			case ConditionPosition.End:
+				return new UnifiedDoWhile { Condition = uCond, Body = uBody };
+			}
+			throw new NotImplementedException("VisitDoLoopStatement");
+		}
+
+		public object VisitSwitchStatement(SwitchStatement stmt, object data) {
+			//var cond = (UnifiedExpression)stmt.SwitchExpression.AcceptVisitor(this, data);
+			//var uSwitch = new UnifiedSwitch { Value = cond };
+			//foreach (var section in stmt.SwitchSections) {
+			//    // Body
+			//    var body = new UnifiedBlock(
+			//        section.Children
+			//        .Select(node => node.AcceptVisitor(this, data))
+			//        .OfType<UnifiedExpression>()
+			//        .ToList());
+
+			//    // Label -- 最後のものにのみBlockを入れる
+			//    int count = 0;
+			//    foreach (var label in section.SwitchLabels) {
+			//        if (count + 1 == section.SwitchLabels.Count) {
+
+			//        }
+			//        else {
+			//            uSwitch.Cases.Add(new UnifiedCase{});
+			//        }
+			//    }
+			//}
+			//return null;
+
+			throw new NotImplementedException();
+		}
+
+		public object VisitSwitchSection(SwitchSection switchSection, object data) {
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+		#region jump
+
 		public object VisitReturnStatement(ReturnStatement stmt, object data) {
 			var value = stmt.Expression.AcceptVisitor(this, data) as UnifiedExpression;
 			return new UnifiedReturn { Value = value };
 		}
+
+		public object VisitBreakStatement(BreakStatement breakStatement, object data) {
+			return new UnifiedBreak();
+		}
+
+		public object VisitContinueStatement(ContinueStatement continueStatement, object data) {
+			return new UnifiedContinue();
+		}
+
+		#endregion
 
 		public object VisitExpressionStatement(ExpressionStatement stmt, object data) {
 			return stmt.Expression.AcceptVisitor(this, data);
@@ -221,16 +285,24 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitPrimitiveExpression(PrimitiveExpression primitive, object data) {
 			switch (primitive.LiteralFormat) {
-				case LiteralFormat.DecimalNumber:
-					if (primitive.Value is int) {
-						return UnifiedIntegerLiteral.Create((int)primitive.Value);
-					}
-					break;
-				case LiteralFormat.StringLiteral:
-					if (primitive.Value is string) {
-						return UnifiedStringLiteral.Create((string)primitive.Value);
-					}
-					break;
+			case LiteralFormat.DecimalNumber:
+				if (primitive.Value is int) {
+					return UnifiedIntegerLiteral.Create((int)primitive.Value);
+				}
+				if (primitive.Value is double) {
+					return UnifiedDecimalLiteral.Create((double)primitive.Value);
+				}
+				break;
+			case LiteralFormat.StringLiteral:
+				if (primitive.Value is string) {
+					return UnifiedStringLiteral.Create((string)primitive.Value);
+				}
+				break;
+			case LiteralFormat.None:
+				if (primitive.Value is bool) {
+					return UnifiedBooleanLiteral.Create((bool)primitive.Value);
+				}
+				break;
 			}
 			throw new NotImplementedException("VisitPrimitiveExpression");
 		}
@@ -270,13 +342,26 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitArrayCreateExpression(ArrayCreateExpression expr, object data) {
 			var arrayType = ConvertTypeIgnoringIsArray(expr.CreateType);
 			var args = ConvertArguments(expr.Arguments);
-			return new UnifiedArrayNew { Type = arrayType, Arguments = args };
+			var init =
+					expr.ArrayInitializer.AcceptVisitor(this, data) as
+					UnifiedExpressionCollection;
+
+			return new UnifiedArrayNew { Type = arrayType, Arguments = args, InitialValues = init };
 		}
 
 		public object VisitIndexerExpression(IndexerExpression expr, object data) {
 			var target = ConvertExpression(expr.TargetObject);
 			var args = ConvertArguments(expr.Indexes);
 			return new UnifiedIndexer { Target = target, Arguments = args };
+		}
+
+		public object VisitCollectionInitializerExpression(CollectionInitializerExpression init, object data) {
+			var collection = new UnifiedExpressionCollection();
+			foreach (var expr in init.CreateExpressions) {
+				var uExpr = expr.AcceptVisitor(this, data) as UnifiedExpression;
+				collection.Add(uExpr);
+			}
+			return collection;
 		}
 
 		private UnifiedArgumentCollection ConvertArguments(IEnumerable<Expression> args) {
@@ -330,10 +415,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException("VisitBaseReferenceExpression");
 		}
 
-		public object VisitBreakStatement(BreakStatement breakStatement, object data) {
-			throw new NotImplementedException("VisitBreakStatement");
-		}
-
 		public object VisitCaseLabel(CaseLabel caseLabel, object data) {
 			throw new NotImplementedException("VisitCaseLabel");
 		}
@@ -358,10 +439,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException("VisitClassReferenceExpression");
 		}
 
-		public object VisitCollectionInitializerExpression(CollectionInitializerExpression collectionInitializerExpression, object data) {
-			throw new NotImplementedException("VisitCollectionInitializerExpression");
-		}
-
 		public object VisitCollectionRangeVariable(CollectionRangeVariable collectionRangeVariable, object data) {
 			throw new NotImplementedException("VisitCollectionRangeVariable");
 		}
@@ -372,10 +449,6 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitConstructorInitializer(ConstructorInitializer constructorInitializer, object data) {
 			throw new NotImplementedException("VisitConstructorInitializer");
-		}
-
-		public object VisitContinueStatement(ContinueStatement continueStatement, object data) {
-			throw new NotImplementedException("VisitContinueStatement");
 		}
 
 		public object VisitDeclareDeclaration(DeclareDeclaration declareDeclaration, object data) {
@@ -396,10 +469,6 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitDirectionExpression(DirectionExpression directionExpression, object data) {
 			throw new NotImplementedException("VisitDirectionExpression");
-		}
-
-		public object VisitDoLoopStatement(DoLoopStatement doLoopStatement, object data) {
-			throw new NotImplementedException("VisitDoLoopStatement");
 		}
 
 		public object VisitElseIfSection(ElseIfSection elseIfSection, object data) {
@@ -623,14 +692,6 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitStopStatement(StopStatement stopStatement, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitSwitchSection(SwitchSection switchSection, object data) {
-			throw new NotImplementedException();
-		}
-
-		public object VisitSwitchStatement(SwitchStatement switchStatement, object data) {
 			throw new NotImplementedException();
 		}
 

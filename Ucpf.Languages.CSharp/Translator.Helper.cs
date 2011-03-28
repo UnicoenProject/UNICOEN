@@ -13,42 +13,42 @@ namespace Ucpf.Languages.CSharp {
 
 		private static UnifiedBinaryOperator ConvertBinaryOperator(BinaryOperatorType type) {
 			switch (type) {
-				case BinaryOperatorType.Add:
-					return new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add);
-				case BinaryOperatorType.Subtract:
-					return new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract);
+			case BinaryOperatorType.Add:
+				return new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add);
+			case BinaryOperatorType.Subtract:
+				return new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract);
 
-				case BinaryOperatorType.LessThan:
-					return new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan);
-				case BinaryOperatorType.LessThanOrEqual:
-					return new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LessThanOrEqual);
-				case BinaryOperatorType.GreaterThan:
-					return new UnifiedBinaryOperator(">", UnifiedBinaryOperatorType.GreaterThan);
-				case BinaryOperatorType.GreaterThanOrEqual:
-					return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterThanOrEqual);
+			case BinaryOperatorType.LessThan:
+				return new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan);
+			case BinaryOperatorType.LessThanOrEqual:
+				return new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LessThanOrEqual);
+			case BinaryOperatorType.GreaterThan:
+				return new UnifiedBinaryOperator(">", UnifiedBinaryOperatorType.GreaterThan);
+			case BinaryOperatorType.GreaterThanOrEqual:
+				return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterThanOrEqual);
 			}
 			throw new NotImplementedException();
 		}
 
 		private static UnifiedUnaryOperator ConvertUnaryOperator(UnaryOperatorType type) {
 			switch (type) {
-				case UnaryOperatorType.Plus:
-					return new UnifiedUnaryOperator("+", UnifiedUnaryOperatorType.UnaryPlus);
-				case UnaryOperatorType.Minus:
-					return new UnifiedUnaryOperator("-", UnifiedUnaryOperatorType.Negate);
+			case UnaryOperatorType.Plus:
+				return new UnifiedUnaryOperator("+", UnifiedUnaryOperatorType.UnaryPlus);
+			case UnaryOperatorType.Minus:
+				return new UnifiedUnaryOperator("-", UnifiedUnaryOperatorType.Negate);
 
-				case UnaryOperatorType.Increment:
-					return new UnifiedUnaryOperator("++",
-						UnifiedUnaryOperatorType.PreIncrementAssign);
-				case UnaryOperatorType.PostIncrement:
-					return new UnifiedUnaryOperator("++",
-						UnifiedUnaryOperatorType.PostIncrementAssign);
-				case UnaryOperatorType.Decrement:
-					return new UnifiedUnaryOperator("--",
-						UnifiedUnaryOperatorType.PreDecrementAssign);
-				case UnaryOperatorType.PostDecrement:
-					return new UnifiedUnaryOperator("--",
-						UnifiedUnaryOperatorType.PostDecrementAssign);
+			case UnaryOperatorType.Increment:
+				return new UnifiedUnaryOperator("++",
+					UnifiedUnaryOperatorType.PreIncrementAssign);
+			case UnaryOperatorType.PostIncrement:
+				return new UnifiedUnaryOperator("++",
+					UnifiedUnaryOperatorType.PostIncrementAssign);
+			case UnaryOperatorType.Decrement:
+				return new UnifiedUnaryOperator("--",
+					UnifiedUnaryOperatorType.PreDecrementAssign);
+			case UnaryOperatorType.PostDecrement:
+				return new UnifiedUnaryOperator("--",
+					UnifiedUnaryOperatorType.PostDecrementAssign);
 			}
 			throw new NotImplementedException();
 		}
@@ -73,10 +73,18 @@ namespace Ucpf.Languages.CSharp {
 
 		private static UnifiedType ConvertTypeIgnoringIsArray(TypeReference type) {
 			string typeName = type.Type;
+			if (String.IsNullOrEmpty(typeName))
+				return null;
+
 			if (type.IsKeyword) {
 				typeName = GetTypeAlias(typeName) ?? typeName;
 			}
-			return new UnifiedType { Name = typeName };
+			var typeParameter = new UnifiedTypeParameterCollection();
+			foreach (var gType in type.GenericTypes) {
+				var uType = ConvertType(gType);
+				typeParameter.Add(new UnifiedTypeParameter { Value = uType });
+			}
+			return new UnifiedType { Name = typeName, Parameters = typeParameter };
 		}
 
 		private static UnifiedType ConvertType(TypeReference type) {
@@ -91,17 +99,17 @@ namespace Ucpf.Languages.CSharp {
 					buff.Append("]");
 				}
 			}
-			return new UnifiedType { Name = buff.ToString() };
+			return new UnifiedType { Name = buff.ToString(), Parameters = uType.Parameters };
 		}
 
 		private static string GetTypeAlias(string fullTypeName) {
 			switch (fullTypeName) {
-				case "System.Int32":
-					return "int";
-				case "System.Void":
-					return "void";
-				case "Sytem.String":
-					return "string";
+			case "System.Int32":
+				return "int";
+			case "System.Void":
+				return "void";
+			case "Sytem.String":
+				return "string";
 			}
 			return null;
 		}
@@ -109,6 +117,8 @@ namespace Ucpf.Languages.CSharp {
 		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents) {
 			var block = new UnifiedBlock();
 			foreach (var item in contents) {
+				if (item == null)
+					continue;
 				var expr = item as UnifiedExpression;
 				if (expr != null) {
 					block.Add(expr);
@@ -120,7 +130,7 @@ namespace Ucpf.Languages.CSharp {
 						block.Add(iExpr);
 					continue;
 				}
-				throw new NotImplementedException();
+				throw new NotImplementedException("ToFlattenBlock");
 			}
 			return block;
 		}
