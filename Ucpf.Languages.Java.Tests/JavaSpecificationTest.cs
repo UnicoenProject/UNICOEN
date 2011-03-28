@@ -113,7 +113,7 @@ namespace Ucpf.Languages.Java.Tests {
 				.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("int a = +1;")]
 		public void CreatePlusIntegerLiteral(string fragment) {
 			var code = CreateCode(fragment);

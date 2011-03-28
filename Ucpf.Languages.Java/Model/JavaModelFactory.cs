@@ -268,10 +268,23 @@ namespace Ucpf.Languages.Java.Model {
 			if (block == null)
 				return new UnifiedBlock();
 
+			var list = new List<UnifiedExpression>();
+		
+			foreach(var e in block.Elements())
+			{
+				if(e.Name.LocalName == "statement") {
+					list.Add(CreateStatement(e));
+				}
+				if(e.Name.LocalName == "localVariableDeclarationStatement") {
+					list.Add(CreateVariableDefinition(e));
+				}
+			}
+
 			return new UnifiedBlock(
-				block.Elements("statement")
-					.Select(CreateStatement)
-					.ToList()
+				list
+//					block.Elements("statement")
+//					.Select(CreateStatement)
+//					.ToList()
 			);
 		}
 
@@ -532,6 +545,23 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		#endregion
+
+		public static UnifiedVariableDefinition CreateVariableDefinition(XElement node) {
+			//Top node is <localVariableDeclarationStatement>.
+			var variableDeclaration = node.Element("localVariableDeclaration");
+			return new UnifiedVariableDefinition {
+					InitialValue = CreateExpression(
+						variableDeclaration.Element("variableDeclarator")
+						.Element("variableInitializer")
+						.Element("expression")),
+					Modifiers = new UnifiedModifierCollection(variableDeclaration
+						.Element("variableModifiers")
+						.Elements()
+						.Select(CreateVariableModifier)),
+					Name = variableDeclaration.Element("variableDeclarator").Element("IDENTIFIER").Value,
+					Type = CreateType(variableDeclaration)
+			};
+		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Elements().First().Value == "true" || node.Elements().First().Value == "false");
