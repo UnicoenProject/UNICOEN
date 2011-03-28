@@ -79,9 +79,42 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
 			}
 			
+			// case creator
+			if (topExpressionElement.Name.LocalName == "creator") {
+				return CreateNew(topExpressionElement);
+			}
 
 			//TODO IMPLEMENT: other cases
 			throw new NotImplementedException();
+		}
+
+		public static UnifiedNew CreateNew(XElement node) {
+			return new UnifiedNew {
+					Arguments = new UnifiedArgumentCollection(),
+					Type = CreateNewGenericType(node.Element("classOrInterfaceType"))
+			};
+		}
+
+		public static UnifiedType CreateNewGenericType(XElement node) {
+			return new UnifiedType {
+				Name = node.Element("IDENTIFIER").Value,
+				Parameters = new UnifiedTypeParameterCollection(
+					node.Element("typeArguments").Elements("typeArgument").Select(CreatTypeParameter))
+			};
+		}
+
+		public static UnifiedTypeParameter CreatTypeParameter(XElement node) {
+			var t = node.Element("type").FirstElement();
+			if(t.Name.LocalName == "classOrInterfaceType") {
+				return  new UnifiedTypeParameter {
+					Modifiers = null,
+					Value = CreateNewGenericType(t)
+				};
+			}
+			return new UnifiedTypeParameter {
+					Modifiers = null,
+					Value = CreateType(node)
+			};
 		}
 
 		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node) {
@@ -257,6 +290,7 @@ namespace Ucpf.Languages.Java.Model {
 				case "DO": return CreateDoWhile(node);
 				case "SWITCH": return CreateSwitch(node);
 				case "BREAK": return CreateBreak(node);
+				case "expression": return CreateExpression(element);
 				default: throw new NotImplementedException();
 			}
 		}
