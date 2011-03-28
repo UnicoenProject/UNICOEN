@@ -256,6 +256,8 @@ namespace Ucpf.Languages.Java.Model {
 				case "forstatement": return CreateFor(node);
 				case "WHILE": return CreateWhile(node);
 				case "DO": return CreateDoWhile(node);
+				case "SWITCH": return CreateSwitch(node);
+				case "BREAK": return CreateBreak(node);
 				default: throw new NotImplementedException();
 			}
 		}
@@ -356,6 +358,41 @@ namespace Ucpf.Languages.Java.Model {
 					Body = new UnifiedBlock{ body }
 				};
 			}
+		}
+
+		public static UnifiedSwitch CreateSwitch(XElement node) {
+			Contract.Requires(node.Elements().First().Name.LocalName == "SWITCH");
+			return new UnifiedSwitch {
+					Cases = CreateCaseCollection(node.Element("switchBlockStatementGroups")),
+					Value = CreateExpression(node.Element("parExpression").Element("expression"))
+			};
+		}
+
+		public static UnifiedCaseCollection CreateCaseCollection(XElement node) {
+			//Top node is <switchBlockStatementGroups>.
+			return new UnifiedCaseCollection(node.Elements("switchBlockStatementGroup").Select(CreateCase));
+		}
+
+		public static UnifiedCase CreateCase(XElement node) {
+			//Top node is <switchBlockStatementGroup>.
+			var cond = node.Element("switchLabel").Element("expression");
+			//var body = CreateBlock(node.Element("blockStatement"));
+			var body = CreateBlock(node);
+			if(cond == null) {
+				return new UnifiedCase {
+					Condition = null,
+					Body = body
+
+				};
+			}
+			return new UnifiedCase {
+					Condition = CreateExpression(cond),
+					Body = body
+			};
+		}
+
+		public static UnifiedBreak CreateBreak(XElement node) {
+			return new UnifiedBreak();
 		}
 
 		public static UnifiedExpression CreateForInit(XElement node) {
