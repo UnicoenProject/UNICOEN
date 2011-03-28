@@ -27,7 +27,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("do return; while(true);")]
 		[TestCase("do { return; } while(true);")]
 		[TestCase("do { { return; } } while(true);")]
@@ -124,7 +124,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("switch (1) { case 1: break; }")]
 		public void CreateSwitchCase(string fragment) {
 			var code = CreateCode(fragment);
@@ -135,7 +135,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("switch (1) { case 1: break; default: break; }")]
 		public void CreateSwitchCaseWithDefault(string fragment) {
 			var code = CreateCode(fragment);
