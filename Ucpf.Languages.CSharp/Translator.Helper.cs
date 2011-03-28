@@ -99,7 +99,10 @@ namespace Ucpf.Languages.CSharp {
 					buff.Append("]");
 				}
 			}
-			return new UnifiedType { Name = buff.ToString(), Parameters = uType.Parameters };
+			return new UnifiedType {
+					Name = buff.ToString(),
+					Parameters = uType.Parameters.DeepCopy<UnifiedTypeParameterCollection>()
+			};
 		}
 
 		private static string GetTypeAlias(string fullTypeName) {

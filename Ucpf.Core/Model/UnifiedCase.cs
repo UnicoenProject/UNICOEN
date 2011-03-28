@@ -8,30 +8,14 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Condition {
 			get { return _condition; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_condition = value;
-			}
+			set { _condition = SetParentOfChild(value, _condition); }
 		}
 
 		private UnifiedBlock _body;
 
 		public UnifiedBlock Body {
 			get { return _body; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedBlock)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_body = value;
-			}
+			set { _body = SetParentOfChild(value, _body); }
 		}
 
 		public UnifiedCase() {
@@ -60,7 +44,8 @@ namespace Ucpf.Core.Model {
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_condition, v => _condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

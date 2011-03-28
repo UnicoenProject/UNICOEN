@@ -8,30 +8,14 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Function {
 			get { return _function; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_function = value;
-			}
+			set { _function = SetParentOfChild(value, _function); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedArgumentCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_arguments = value;
-			}
+			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
 		public UnifiedCall() {
@@ -60,7 +44,8 @@ namespace Ucpf.Core.Model {
 					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_function, v => _function = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

@@ -90,6 +90,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 										Arguments = {
 											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(2)),
 										},
+										InitialValues = null,
 									},
 								},
 								CSharpModelFactoryHelper.CreateAssignExpression(
