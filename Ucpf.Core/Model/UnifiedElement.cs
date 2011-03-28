@@ -66,7 +66,9 @@ namespace Ucpf.Core.Model {
 		protected void NormalizeChildren() {
 			foreach (var elemAndSetter in GetElementAndDirectSetters()) {
 				if (elemAndSetter.Item1 != null) {
-					elemAndSetter.Item2(elemAndSetter.Item1.Normalize());
+					var child = elemAndSetter.Item1.Normalize();
+					elemAndSetter.Item2(child);
+					child.Parent = this;
 				}
 			}
 		}
