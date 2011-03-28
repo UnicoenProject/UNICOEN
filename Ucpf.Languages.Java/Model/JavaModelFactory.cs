@@ -255,6 +255,7 @@ namespace Ucpf.Languages.Java.Model {
 				case "RETURN": return CreateReturn(node);
 				case "forstatement": return CreateFor(node);
 				case "WHILE": return CreateWhile(node);
+				case "DO": return CreateDoWhile(node);
 				default: throw new NotImplementedException();
 			}
 		}
@@ -302,6 +303,17 @@ namespace Ucpf.Languages.Java.Model {
 				Body = new UnifiedBlock {
 					CreateStatement(node.Element("statement"))
 				}
+			};
+		}
+
+		public static UnifiedDoWhile CreateDoWhile(XElement node) {
+			Contract.Requires(node.Elements().First().Name.LocalName == "DO");
+			return new UnifiedDoWhile {
+				Body = new UnifiedBlock {
+						CreateStatement(node.Element("statement"))
+				},
+				Condition = 
+					CreateExpression(node.Element("parExpression").Element("expression"))
 			};
 		}
 
