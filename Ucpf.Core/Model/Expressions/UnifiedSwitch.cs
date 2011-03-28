@@ -8,30 +8,14 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Value {
 			get { return _value; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_value = value;
-			}
+			set { _value = SetParentOfChild(value, _value); }
 		}
 
 		private UnifiedCaseCollection _cases;
 
 		public UnifiedCaseCollection Cases {
 			get { return _cases; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedCaseCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_cases = value;
-			}
+			set { _cases = SetParentOfChild(value, _cases); }
 		}
 
 		public UnifiedSwitch() {
@@ -65,7 +49,8 @@ namespace Ucpf.Core.Model {
 					(Cases, v => Cases = (UnifiedCaseCollection)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_value, v => _value = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using Ucpf.Core.Model.Visitors;
@@ -74,9 +75,9 @@ namespace Ucpf.Core.Model {
 		}
 
 		/// <summary>
-		///   深いコピーによって得られたコードモデルの要素を取得します。
+		///   深いコピーを取得します。
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>深いコピー</returns>
 		public virtual UnifiedElement DeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
@@ -89,6 +90,15 @@ namespace Ucpf.Core.Model {
 		}
 
 		/// <summary>
+		///   深いコピーを取得します。
+		/// </summary>
+		/// <returns>深いコピー</returns>
+		public virtual T DeepCopy<T>()
+				where T : UnifiedElement {
+			return (T)DeepCopy();
+		}
+
+		/// <summary>
 		///   Creates a new object that is a copy of the current instance.
 		/// </summary>
 		/// <returns>
@@ -97,6 +107,49 @@ namespace Ucpf.Core.Model {
 		/// <filterpriority>2</filterpriority>
 		public object Clone() {
 			return DeepCopy();
+		}
+
+		/// <summary>
+		/// 指定した子要素を削除します。
+		/// </summary>
+		/// <param name="target">自分自身</param>
+		/// <returns></returns>
+		public virtual UnifiedElement RemoveChild(UnifiedElement target) {
+			Contract.Requires(target != null);
+			var elem = GetElementAndDirectSetters()
+					.First(e => ReferenceEquals(target, e.Item1));
+			elem.Item2(null);
+			target.Parent = null;
+			return this;
+		}
+
+		/// <summary>
+		///   親要素から自分自身を削除します。
+		/// </summary>
+		/// <returns>親要素</returns>
+		public UnifiedElement Remove() {
+			Contract.Requires(Parent != null, "親要素がない状態でRemoveメソッドを実行できません。");
+			return Parent.RemoveChild(this);
+		}
+
+		/// <summary>
+		///   指定した子要素の親を自分自身に設定します。
+		/// </summary>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "child">新たに設定する子要素</param>
+		/// <param name="oldChild">元の子要素</param>
+		/// <returns></returns>
+		protected T SetParentOfChild<T>(T child, UnifiedElement oldChild)
+				where T : UnifiedElement {
+			if (child != null) {
+				if (child.Parent != null) {
+					throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
+				}
+				child.Parent = this;
+			} else if (Parent != null) {
+				oldChild.Remove();
+			}
+			return child;
 		}
 
 		private static void Write(object obj, string content, StringBuilder buffer,

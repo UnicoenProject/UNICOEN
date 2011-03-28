@@ -10,15 +10,7 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedTypeParameterCollection Parameters {
 			get { return _parameters; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedTypeParameterCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_parameters = value;
-			}
+			set { _parameters = SetParentOfChild(value, _parameters); }
 		}
 
 		public UnifiedType() {
@@ -60,7 +52,8 @@ namespace Ucpf.Core.Model {
 					(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_parameters, v => _parameters = (UnifiedTypeParameterCollection)v);
 		}

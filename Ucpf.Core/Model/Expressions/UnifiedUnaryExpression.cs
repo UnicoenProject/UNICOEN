@@ -8,30 +8,14 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedUnaryOperator Operator {
 			get { return _operator; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedUnaryOperator)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_operator = value;
-			}
+			set { _operator = SetParentOfChild(value, _operator); }
 		}
 
 		private UnifiedExpression _operand;
 
 		public UnifiedExpression Operand {
 			get { return _operand; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_operand = value;
-			}
+			set { _operand = SetParentOfChild(value, _operand); }
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -56,7 +40,8 @@ namespace Ucpf.Core.Model {
 					(Operand, v => Operand = (UnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_operator, v => _operator = (UnifiedUnaryOperator)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

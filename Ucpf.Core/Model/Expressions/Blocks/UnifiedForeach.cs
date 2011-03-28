@@ -8,30 +8,14 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedVariableDefinition Element {
 			get { return _element; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedVariableDefinition)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_element = value;
-			}
+			set { _element = SetParentOfChild(value, _element); }
 		}
 
 		private UnifiedExpression _set;
 
 		public UnifiedExpression Set {
 			get { return _set; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_set = value;
-			}
+			set { _set = SetParentOfChild(value, _set); }
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -59,7 +43,8 @@ namespace Ucpf.Core.Model {
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_element, v => _element = (UnifiedVariableDefinition)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
