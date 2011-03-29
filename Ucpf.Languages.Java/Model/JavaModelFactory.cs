@@ -73,7 +73,7 @@ namespace Ucpf.Languages.Java.Model {
 			switch (topExpressionElement.Name.LocalName) {
 				case "primary":
 					//case CallExpression
-					return CreateCallExpression(topExpressionElement);
+					return CreatePrimary(topExpressionElement);
 				case "parExpression":
 					// expression を () で囲ったような場合
 					return CreateExpression(topExpressionElement.Elements().ElementAt(1));
@@ -143,7 +143,7 @@ namespace Ucpf.Languages.Java.Model {
 			}
 		}
 
-		public static UnifiedCall CreateCallExpression(XElement node) {
+		public static UnifiedCall CreatePrimary(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary");
 			return new UnifiedCall {
@@ -572,7 +572,7 @@ namespace Ucpf.Languages.Java.Model {
 				Modifiers  = CreateModifierCollection(node),
 				Type       = CreateType(node),
 				Name       = node.Element("IDENTIFIER").Value,
-				Parameters = CreateParameterCollection(node),
+				Parameters = CreateFormalParameters(node.Element("formalParameters")),
 				//TODO IMPLEMENT:
 				Body       = CreateBlock(node.Element("block"))
 			};
@@ -608,8 +608,28 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedParameter CreateParameter(XElement node) {
+		public static UnifiedParameterCollection CreateFormalParameters(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "formalParameters");
+			var element = node.Element("formalParameterDecls");
+			if (element == null)
+				return new UnifiedParameterCollection();
+
+			return new UnifiedParameterCollection(element
+				.Elements()
+				.Select(e => {
+					if (e.Name() == "normalParameterDecl")
+						return CreateNormalParameterDecl(e);
+					if (e.Name() == "ellipsisParameterDecl")
+						return CreateEllipsisParameterDecl(e);
+					return null;
+				})
+				.Where(e => e != null));
+		}
+
+		public static UnifiedParameter CreateNormalParameterDecl(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "normalParameterDecl");
 			return new UnifiedParameter {
 				Modifiers = new UnifiedModifierCollection(node
 					.Element("variableModifiers")
@@ -620,16 +640,10 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedParameterCollection CreateParameterCollection(XElement node) {
+		public static UnifiedParameter CreateEllipsisParameterDecl(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "methodDeclaration");
-			var element = node
-				.Element("formalParameters")
-				.Element("formalParameterDecls");
-			if (element == null) return new UnifiedParameterCollection();
-			return new UnifiedParameterCollection(element
-				.Elements("normalParameterDecl")
-				.Select(CreateParameter));
+			Contract.Requires(node.Name() == "ellipsisParameterDecl");
+			throw new NotImplementedException();
 		}
 
 		public static UnifiedArgument CreateArgument(XElement node) {
