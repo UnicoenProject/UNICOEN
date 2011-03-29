@@ -102,7 +102,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("new List<List<int>>();")]
 		public void CreateNewGenericType(string fragment) {
 			var code = CreateCode(fragment);

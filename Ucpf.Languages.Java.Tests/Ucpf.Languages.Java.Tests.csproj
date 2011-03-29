@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaFibonacciTest.cs" />
-    <Compile Include="JavaLiteralTest.cs" />
     <Compile Include="JavaModelFeatureTest.cs" />
     <Compile Include="JavaRegenerateTest.cs" />
     <Compile Include="JavaSpecificationTest.cs" />
