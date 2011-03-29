@@ -158,7 +158,7 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary");
 			var firstElement = node.FirstElement();
-			if (firstElement.Value == "this") {
+			if (firstElement.HasContent("this")) {
 				node = node;
 			}
 			return new UnifiedCall {

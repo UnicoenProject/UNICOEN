@@ -300,5 +300,25 @@ namespace Paraiba.Xml.Tests.Linq {
 		public void NthElementAfterSelfOrDefaultWithName() {
 			D1Element.NthElementAfterSelfOrDefault("b", 1).Is((XElement)null);
 		}
+
+		[Test]
+		public void HasContentShouldBeFalse() {
+			B1Element.HasContent().Is(false);
+		}
+
+		[Test]
+		public void HasContentShouldBeTrue() {
+			D1Element.HasContent().Is(true);
+		}
+
+		[Test]
+		public void HasContentWithContentShouldBeFalse() {
+			D1Element.HasContent("d").Is(false);
+		}
+
+		[Test]
+		public void HasContentWithContentShouldBeTrue() {
+			D1Element.HasContent("d1").Is(true);
+		}
 	}
 }
