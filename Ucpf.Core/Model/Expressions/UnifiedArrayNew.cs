@@ -8,45 +8,21 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedType Type {
 			get { return _type; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedType)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_type = value;
-			}
+			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedArgumentCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_arguments = value;
-			}
+			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
 		private UnifiedExpressionCollection _initialValues;
 
 		public UnifiedExpressionCollection InitialValues {
 			get { return _initialValues; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpressionCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_initialValues = value;
-			}
+			set { _initialValues = SetParentOfChild(value, _initialValues); }
 		}
 
 		public UnifiedArrayNew() {
@@ -79,7 +55,8 @@ namespace Ucpf.Core.Model {
 					(InitialValues, v => InitialValues = (UnifiedExpressionCollection)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

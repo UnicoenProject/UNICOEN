@@ -255,6 +255,9 @@ namespace Ucpf.Languages.Java.Model {
 				case "RETURN": return CreateReturn(node);
 				case "forstatement": return CreateFor(node);
 				case "WHILE": return CreateWhile(node);
+				case "DO": return CreateDoWhile(node);
+				case "SWITCH": return CreateSwitch(node);
+				case "BREAK": return CreateBreak(node);
 				default: throw new NotImplementedException();
 			}
 		}
@@ -265,10 +268,23 @@ namespace Ucpf.Languages.Java.Model {
 			if (block == null)
 				return new UnifiedBlock();
 
+			var list = new List<UnifiedExpression>();
+		
+			foreach(var e in block.Elements())
+			{
+				if(e.Name.LocalName == "statement") {
+					list.Add(CreateStatement(e));
+				}
+				if(e.Name.LocalName == "localVariableDeclarationStatement") {
+					list.Add(CreateVariableDefinition(e));
+				}
+			}
+
 			return new UnifiedBlock(
-				block.Elements("statement")
-					.Select(CreateStatement)
-					.ToList()
+				list
+//					block.Elements("statement")
+//					.Select(CreateStatement)
+//					.ToList()
 			);
 		}
 
@@ -302,6 +318,17 @@ namespace Ucpf.Languages.Java.Model {
 				Body = new UnifiedBlock {
 					CreateStatement(node.Element("statement"))
 				}
+			};
+		}
+
+		public static UnifiedDoWhile CreateDoWhile(XElement node) {
+			Contract.Requires(node.Elements().First().Name.LocalName == "DO");
+			return new UnifiedDoWhile {
+				Body = new UnifiedBlock {
+						CreateStatement(node.Element("statement"))
+				},
+				Condition = 
+					CreateExpression(node.Element("parExpression").Element("expression"))
 			};
 		}
 
@@ -344,6 +371,41 @@ namespace Ucpf.Languages.Java.Model {
 					Body = new UnifiedBlock{ body }
 				};
 			}
+		}
+
+		public static UnifiedSwitch CreateSwitch(XElement node) {
+			Contract.Requires(node.Elements().First().Name.LocalName == "SWITCH");
+			return new UnifiedSwitch {
+					Cases = CreateCaseCollection(node.Element("switchBlockStatementGroups")),
+					Value = CreateExpression(node.Element("parExpression").Element("expression"))
+			};
+		}
+
+		public static UnifiedCaseCollection CreateCaseCollection(XElement node) {
+			//Top node is <switchBlockStatementGroups>.
+			return new UnifiedCaseCollection(node.Elements("switchBlockStatementGroup").Select(CreateCase));
+		}
+
+		public static UnifiedCase CreateCase(XElement node) {
+			//Top node is <switchBlockStatementGroup>.
+			var cond = node.Element("switchLabel").Element("expression");
+			//var body = CreateBlock(node.Element("blockStatement"));
+			var body = CreateBlock(node);
+			if(cond == null) {
+				return new UnifiedCase {
+					Condition = null,
+					Body = body
+
+				};
+			}
+			return new UnifiedCase {
+					Condition = CreateExpression(cond),
+					Body = body
+			};
+		}
+
+		public static UnifiedBreak CreateBreak(XElement node) {
+			return new UnifiedBreak();
 		}
 
 		public static UnifiedExpression CreateForInit(XElement node) {
@@ -483,6 +545,23 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		#endregion
+
+		public static UnifiedVariableDefinition CreateVariableDefinition(XElement node) {
+			//Top node is <localVariableDeclarationStatement>.
+			var variableDeclaration = node.Element("localVariableDeclaration");
+			return new UnifiedVariableDefinition {
+					InitialValue = CreateExpression(
+						variableDeclaration.Element("variableDeclarator")
+						.Element("variableInitializer")
+						.Element("expression")),
+					Modifiers = new UnifiedModifierCollection(variableDeclaration
+						.Element("variableModifiers")
+						.Elements()
+						.Select(CreateVariableModifier)),
+					Name = variableDeclaration.Element("variableDeclarator").Element("IDENTIFIER").Value,
+					Type = CreateType(variableDeclaration)
+			};
+		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Elements().First().Value == "true" || node.Elements().First().Value == "false");

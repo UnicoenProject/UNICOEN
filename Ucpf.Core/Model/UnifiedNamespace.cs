@@ -13,9 +13,11 @@ namespace Ucpf.Core.Model {
 			set {
 				if (value != null) {
 					if (value.Parent != null) {
-						value = (UnifiedBlock)value.DeepCopy();
+						throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
 					}
 					value.Parent = this;
+				} else if (Parent != null) {
+					Remove();
 				}
 				_body = value;
 			}
@@ -45,7 +47,8 @@ namespace Ucpf.Core.Model {
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}

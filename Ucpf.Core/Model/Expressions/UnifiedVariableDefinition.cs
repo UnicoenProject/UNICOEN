@@ -8,30 +8,14 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedModifierCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_modifiers = value;
-			}
+			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
 
 		public UnifiedType Type {
 			get { return _type; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedType)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_type = value;
-			}
+			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		public string Name { get; set; }
@@ -39,15 +23,7 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression InitialValue {
 			get { return _initialValue; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_initialValue = value;
-			}
+			set { _initialValue = SetParentOfChild(value, _initialValue); }
 		}
 
 		public UnifiedVariableDefinition() {
@@ -79,7 +55,8 @@ namespace Ucpf.Core.Model {
 					(InitialValue, v => InitialValue = (UnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
