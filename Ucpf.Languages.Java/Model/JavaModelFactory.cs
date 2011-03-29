@@ -63,21 +63,21 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateBinaryExpression(topExpressionElement);
 			}
 
+
 			//case UnaryExpression
 			if (topExpressionElement.Name.LocalName.StartsWith("unaryExpression")) {
 				return CreateUnaryExpression(topExpressionElement);
 			}
 
-			//case CallExpression
-			if (topExpressionElement.Name.LocalName == "primary") {
-				return CreateCallExpression(topExpressionElement);
+			switch (topExpressionElement.Name.LocalName) {
+				case "primary":
+					//case CallExpression
+					return CreateCallExpression(topExpressionElement);
+				case "parExpression":
+					// expression を () で囲ったような場合
+					return CreateExpression(topExpressionElement.Elements().ElementAt(1));
 			}
 
-			// case parExpression
-			// expression を () で囲ったような場合
-			if (topExpressionElement.Name.LocalName == "parExpression") {
-				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
-			}
 			
 			// case creator
 			// "new"で始まるジェネリックや配列など
@@ -402,7 +402,7 @@ namespace Ucpf.Languages.Java.Model {
 				var step = expressionList != null
 							? CreateExpressionList(expressionList) : null;
 
-				var body = CreateStatement(forstatement);
+				var body = CreateStatement(forstatement.Element("statement"));
 				return new UnifiedFor {
 					Initializer = initializer,
 					Condition = condition,
@@ -448,7 +448,10 @@ namespace Ucpf.Languages.Java.Model {
 			return new UnifiedBreak();
 		}
 
-		public static UnifiedExpression CreateForInit(XElement node) {
+		private static UnifiedExpression CreateForInit(XElement node) {
+			Contract.Requires(node.Name.LocalName == "forInit");
+		/* forInit : localVariableDeclaration | expressionList ;
+		 */
 			switch(node.FirstElement().Name.LocalName) {
 				case "localVariableDeclaration":
 					return CreateLocalVariableDeclaration(node.FirstElement());
@@ -457,17 +460,14 @@ namespace Ucpf.Languages.Java.Model {
 			}
 			throw new InvalidOperationException();
 		}
-		
-		public static UnifiedExpression CreateLocalVariableDeclaration(XElement xElement) {
-			/*
-			 * localVariableDeclaration 
-				:   variableModifiers type variableDeclarator (',' variableDeclarator )*
-				;*/
-			return CreateExpression(xElement);
-			//TODO: 構文に沿ったように実装する
-			//var variables = new List<UnifiedExpression>();
-			//return new UnifiedExpressionCollection(variables);
 
+
+		private static UnifiedModifierCollection CreateVariableModifiers(XElement xElement) {
+			/*
+			 * variableModifiers : ( 'final' | annotation )* ;
+			 */
+			if (xElement.Elements().Count() == 0) return null;
+			else throw new NotImplementedException();
 		}
 
 		public static UnifiedExpression CreateExpressionList(XElement node) {
@@ -594,18 +594,27 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedVariableDefinition CreateVariableDefinition(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "localVariableDeclarationStatement");
-			var variableDeclaration = node.Element("localVariableDeclaration");
+			//Top node is <localVariableDeclarationStatement>.
+			//var variableDeclaration = node.Element("localVariableDeclaration");
+			return CreateLocalVariableDeclaration(node.Element("localVariableDeclaration"));
+
+		}
+		public static UnifiedVariableDefinition CreateLocalVariableDeclaration(XElement node) {
+			Contract.Requires(node.Name.LocalName == "localVariableDeclaration");
+			/* localVariableDeclaration 
+			 *   :   variableModifiers type variableDeclarator (',' variableDeclarator )* ;
+			 */
 			return new UnifiedVariableDefinition {
 					InitialValue = CreateExpression(
-						variableDeclaration.Element("variableDeclarator")
+						node.Element("variableDeclarator")
 						.Element("variableInitializer")
 						.Element("expression")),
-					Modifiers = new UnifiedModifierCollection(variableDeclaration
+					Modifiers = new UnifiedModifierCollection(node
 						.Element("variableModifiers")
 						.Elements()
 						.Select(CreateVariableModifier)),
-					Name = variableDeclaration.Element("variableDeclarator").Element("IDENTIFIER").Value,
-					Type = CreateType(variableDeclaration)
+					Name = node.Element("variableDeclarator").Element("IDENTIFIER").Value,
+					Type = CreateType(node)
 			};
 		}
 
