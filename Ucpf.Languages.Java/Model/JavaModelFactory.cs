@@ -64,21 +64,21 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateBinaryExpression(topExpressionElement);
 			}
 
+
 			//case UnaryExpression
 			if (topExpressionElement.Name.LocalName.StartsWith("unaryExpression")) {
 				return CreateUnaryExpression(topExpressionElement);
 			}
 
-			//case CallExpression
-			if (topExpressionElement.Name.LocalName == "primary") {
-				return CreateCallExpression(topExpressionElement);
+			switch (topExpressionElement.Name.LocalName) {
+				case "primary":
+					//case CallExpression
+					return CreateCallExpression(topExpressionElement);
+				case "parExpression":
+					// expression を () で囲ったような場合
+					return CreateExpression(topExpressionElement.Elements().ElementAt(1));
 			}
 
-			// case parExpression
-			// expression を () で囲ったような場合
-			if (topExpressionElement.Name.LocalName == "parExpression") {
-				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
-			}
 			
 
 			//TODO IMPLEMENT: other cases
