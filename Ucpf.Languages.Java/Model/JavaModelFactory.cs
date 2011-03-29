@@ -421,13 +421,20 @@ namespace Ucpf.Languages.Java.Model {
 		private static UnifiedExpression CreateLocalVariableDeclaration(XElement xElement) {
 			/*
 			 * localVariableDeclaration 
-				:   variableModifiers type variableDeclarator (',' variableDeclarator )*
-				;*/
+				:   variableModifiers type variableDeclarator (',' variableDeclarator )* ;
+			 */
 			return CreateExpression(xElement);
 			//TODO: 構文に沿ったように実装する
 			//var variables = new List<UnifiedExpression>();
 			//return new UnifiedExpressionCollection(variables);
 
+		}
+
+		private static UnifiedModifier CreateVariableModifiers(XElement xElement) {
+			/*
+			 * variableModifiers : ( 'final' | annotation )* ;
+			 */
+			return new UnifiedModifier();
 		}
 
 		public static UnifiedExpression CreateExpressionList(XElement node) {
