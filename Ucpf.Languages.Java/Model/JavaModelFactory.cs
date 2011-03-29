@@ -281,50 +281,94 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			/*
+			 * statement 
+			 * :   block
+			 * |   ('assert') expression (':' expression)? ';'
+			 * |   'assert'  expression (':' expression)? ';'            
+			 * |   'if' parExpression statement ('else' statement)?          
+			 * |   forstatement
+			 * |   'while' parExpression statement
+			 * |   'do' statement 'while' parExpression ';'
+			 * |   trystatement
+			 * |   'switch' parExpression '{' switchBlockStatementGroups '}'
+			 * |   'synchronized' parExpression block
+			 * |   'return' (expression )? ';'
+			 * |   'throw' expression ';'
+			 * |   'break' (IDENTIFIER )? ';'
+			 * |   'continue' (IDENTIFIER)? ';'
+			 * |   expression  ';'     
+			 * |   IDENTIFIER ':' statement
+			 * |   ';'
+			 * ;*/
 			var element = node.FirstElement();
 
 			switch (element.Name.LocalName) {
 				case "block": return CreateBlock(element);
 				case "IF": return CreateIf(node);
 				case "RETURN": return CreateReturn(node);
-				case "forstatement": return CreateFor(node);
+				case "forstatement": return CreateForstatement(node);
 				case "WHILE": return CreateWhile(node);
-				case "DO": return CreateDoWhile(node);
+				case "DO": return CreateDo(node);
 				case "SWITCH": return CreateSwitch(node);
 				case "BREAK": return CreateBreak(node);
 				case "expression": return CreateExpression(element);
 				default: throw new NotImplementedException();
 			}
 		}
-		
+
 		public static UnifiedBlock CreateBlock(XElement node) {
 			Contract.Requires(node != null);
-			var block = node.Element("blockStatement");
+			Contract.Requires(node.Name() == "block");
+			/*
+			 * block : '{' (blockStatement )* '}' ;
+			 */
+
+			var block = node;
 			if (block == null)
 				return new UnifiedBlock();
 
 			var list = new List<UnifiedExpression>();
-		
-			foreach(var e in block.Elements())
-			{
-				if(e.Name.LocalName == "statement") {
-					list.Add(CreateStatement(e));
-				}
-				if(e.Name.LocalName == "localVariableDeclarationStatement") {
-					list.Add(CreateVariableDefinition(e));
+
+			foreach (var e in block.Elements()) {
+				if (e.Name.LocalName == "blockStatement") {
+					list.Add(CreateBlockStatement(e));
 				}
 			}
 
 			return new UnifiedBlock(
 				list
-//					block.Elements("statement")
-//					.Select(CreateStatement)
-//					.ToList()
+				//					block.Elements("statement")
+				//					.Select(CreateStatement)
+				//					.ToList()
 			);
+			
+		}
+		
+		public static UnifiedExpression CreateBlockStatement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "blockStatement");
+			/*  blockStatement :
+			 * localVariableDeclarationStatement
+			 * |   classOrInterfaceDeclaration
+			 * |   statement
+			 * ;
+			 */
+			var e = node.Elements().First();
+			switch(e.Name.LocalName) {
+				case "statement":
+					return CreateStatement(e);
+				case "localVariableDeclarationStatement":
+					return CreateVariableDefinition(e);
+				case "classOrInterfaceDeclaration":
+					throw new NotImplementedException();
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
 		public static UnifiedIf CreateIf(XElement node) {
-			Contract.Requires(node != null);
 			Contract.Requires(node.Elements().First().Name.LocalName == "IF");
 			var trueBody = new UnifiedBlock {
 				CreateStatement(node.Element("statement")),
@@ -358,7 +402,7 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedDoWhile CreateDoWhile(XElement node) {
+		public static UnifiedDoWhile CreateDo(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Elements().First().Name.LocalName == "DO");
 			return new UnifiedDoWhile {
@@ -370,7 +414,8 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedExpression CreateFor(XElement node) {
+		public static UnifiedExpression CreateForstatement(XElement node)
+		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Elements().First().Name.LocalName == "forstatement");
 			/*	forstatement :   
@@ -429,8 +474,10 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedCase CreateCase(XElement node) {
 			//Top node is <switchBlockStatementGroup>.
 			var cond = node.Element("switchLabel").Element("expression");
-			//var body = CreateBlock(node.Element("blockStatement"));
-			var body = CreateBlock(node);
+			var body = new UnifiedBlock {
+				CreateBlockStatement(node.Element("blockStatement"))
+			};
+			//var body = CreateBlock(node);
 			if(cond == null) {
 				return new UnifiedCase {
 					Condition = null,
