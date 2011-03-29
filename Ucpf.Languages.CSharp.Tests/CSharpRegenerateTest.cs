@@ -117,9 +117,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		/// 元コード1とコード2を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
-		[Test]
-		//[TestCaseSource("TestCases")]
-		[TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
+		[Test, TestCaseSource("TestCases")]
 		public void CompareThroughILCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
@@ -140,9 +138,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		/// モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
-		[Test]
-		//[TestCaseSource("TestCases")]
-		[TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
+		[Test, TestCaseSource("TestCases")]
 		public void CompareThroughModel(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
 			var model1 = CSharpModelFactory.CreateModel(orgCode);

@@ -145,5 +145,27 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
 					.Using(StructuralEqualityComparer.Instance));
 		}
+
+		[Ignore, Test]
+		[TestCase("Integer i = (Integer)1;")]
+		public void CreateCast(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(null)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("synchronized (this) { M1(); }")]
+		public void CreateSynchronized(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(null)
+					.Using(StructuralEqualityComparer.Instance));
+		}
 	}
 }

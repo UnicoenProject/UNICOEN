@@ -13,13 +13,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 	[TestFixture]
 	public class CSharpModelFeatureTest : ModelFeatureTest {
 		public IEnumerable<TestCaseData> TestCases {
-			get {
-				return new[] {
-						new TestCaseData(@"..\..\fixture\CSharp\input\Fibonacci.cs"),
-				}
-					//.Concat(TestCaseSource.CSharpTestCases)
-				;
-			}
+			get { return TestCaseSource.CSharpTestCases; }
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {

@@ -14,13 +14,7 @@ namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaModelFeatureTest : ModelFeatureTest {
 		public IEnumerable<TestCaseData> TestCases {
-			get {
-				return new[] {
-						new TestCaseData(@"..\..\fixture\Java\input\Fibonacci.java"),
-				}
-				//.Concat(TestCaseSource.JavaTestCases)
-				;
-			}
+			get { return TestCaseSource.JavaTestCases; }
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {
