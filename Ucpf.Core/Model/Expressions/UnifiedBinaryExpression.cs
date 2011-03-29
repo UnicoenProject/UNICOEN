@@ -4,49 +4,25 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedBinaryExpression : UnifiedExpression {
-		private UnifiedBinaryOperator _operator;
-
-		public UnifiedBinaryOperator Operator {
-			get { return _operator; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedBinaryOperator)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_operator = value;
-			}
-		}
-
 		private UnifiedExpression _leftHandSide;
 
 		public UnifiedExpression LeftHandSide {
 			get { return _leftHandSide; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_leftHandSide = value;
-			}
+			set { _leftHandSide = SetParentOfChild(value, _leftHandSide); }
+		}
+
+		private UnifiedBinaryOperator _operator;
+
+		public UnifiedBinaryOperator Operator {
+			get { return _operator; }
+			set { _operator = SetParentOfChild(value, _operator); }
 		}
 
 		private UnifiedExpression _rightHandSide;
 
 		public UnifiedExpression RightHandSide {
 			get { return _rightHandSide; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_rightHandSide = value;
-			}
+			set { _rightHandSide = SetParentOfChild(value, _rightHandSide); }
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -74,7 +50,8 @@ namespace Ucpf.Core.Model {
 					(RightHandSide, v => RightHandSide = (UnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_leftHandSide, v => _leftHandSide = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

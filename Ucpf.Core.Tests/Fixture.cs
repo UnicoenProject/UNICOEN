@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using NUnit.Framework;
 
 namespace Ucpf.Core.Tests {
 	public static class Fixture {
@@ -58,6 +60,38 @@ namespace Ucpf.Core.Tests {
 		public static string GetXmlExpectationPath(string lang, params string[] names) {
 			return Path.Combine(FixturePath, lang, XmlExpectationName)
 				.GetFullPathAddingSubNames(names);
+		}
+
+		public static IEnumerable<TestCaseData> CSharpTestCases {
+			get {
+				return Directory.EnumerateFiles(GetInputPath("CSharp"))
+						.Select(path => new TestCaseData(path));
+			}
+		}
+
+		public static IEnumerable<TestCaseData> JavaTestCases {
+			get {
+				// 必要に応じて以下の要素をコメントアウト
+				return new[] {
+						new TestCaseData(GetInputPath("Java", "ActionListener.java")),
+						new TestCaseData(GetInputPath("Java", "Block1.java")),
+						new TestCaseData(GetInputPath("Java", "Block2.java")),
+						new TestCaseData(GetInputPath("Java", "Block3.java")),
+						new TestCaseData(GetInputPath("Java", "Class.java")),
+						new TestCaseData(GetInputPath("Java", "Condition.java")),
+						new TestCaseData(GetInputPath("Java", "ControlFlow.java")),
+						new TestCaseData(GetInputPath("Java", "Exception.java")),
+						new TestCaseData(GetInputPath("Java", "Fibonacci.java")),
+						new TestCaseData(GetInputPath("Java", "Method.java")),
+						new TestCaseData(GetInputPath("Java", "Modifier.java")),
+						new TestCaseData(GetInputPath("Java", "Operator.java")),
+						new TestCaseData(GetInputPath("Java", "Simple.java")),
+						new TestCaseData(GetInputPath("Java", "Student.java")),
+						new TestCaseData(GetInputPath("Java", "Variable.java")),
+				};
+				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))
+				//    .Select(path => new TestCaseData(path));
+			}
 		}
 	}
 }

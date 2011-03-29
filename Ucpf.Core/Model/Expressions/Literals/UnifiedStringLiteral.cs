@@ -22,7 +22,8 @@ namespace Ucpf.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield break;
 		}
 

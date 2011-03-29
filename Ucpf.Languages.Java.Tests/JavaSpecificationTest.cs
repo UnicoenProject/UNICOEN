@@ -27,7 +27,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("do return; while(true);")]
 		[TestCase("do { return; } while(true);")]
 		[TestCase("do { { return; } } while(true);")]
@@ -81,18 +81,18 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		[Test]
-		[TestCase("if (true) return -1; else return 0.1;")]
-		[TestCase("if (true) { return -1; } else return 0.1;")]
-		[TestCase("if (true) return -1; else { return 0.1; }")]
-		[TestCase("if (true) { return -1; } else { return 0.1; }")]
-		[TestCase("if (true) { { return -1; } } else { return 0.1; }")]
-		[TestCase("if (true) { return -1; } else { { return 0.1; } }")]
-		[TestCase("if (true) { { return -1; } } else { { return 0.1; } }")]
-		[TestCase("if (true) { { { return -1; } } } else { { return 0.1; } }")]
-		[TestCase("if (true) { { return -1; } } else { { { return 0.1; } } }")]
-		[TestCase("if (true) return -1; else { { { return 0.1; } } }")]
-		[TestCase("if (true) { { { return -1; } } } else return 0.1;")]
-		[TestCase("if (true) { { { return -1; } } } else { { { return 0.1; } } }")]
+		[TestCase("if (false) return -1; else return 0.1;")]
+		[TestCase("if (false) { return -1; } else return 0.1;")]
+		[TestCase("if (false) return -1; else { return 0.1; }")]
+		[TestCase("if (false) { return -1; } else { return 0.1; }")]
+		[TestCase("if (false) { { return -1; } } else { return 0.1; }")]
+		[TestCase("if (false) { return -1; } else { { return 0.1; } }")]
+		[TestCase("if (false) { { return -1; } } else { { return 0.1; } }")]
+		[TestCase("if (false) { { { return -1; } } } else { { return 0.1; } }")]
+		[TestCase("if (false) { { return -1; } } else { { { return 0.1; } } }")]
+		[TestCase("if (false) return -1; else { { { return 0.1; } } }")]
+		[TestCase("if (false) { { { return -1; } } } else return 0.1;")]
+		[TestCase("if (false) { { { return -1; } } } else { { { return 0.1; } } }")]
 		public void CreateIfElse(string fragment) {
 			var code = CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
@@ -113,7 +113,7 @@ namespace Ucpf.Languages.Java.Tests {
 				.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("int a = +1;")]
 		public void CreatePlusIntegerLiteral(string fragment) {
 			var code = CreateCode(fragment);
@@ -124,7 +124,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("switch (1) { case 1: break; }")]
 		public void CreateSwitchCase(string fragment) {
 			var code = CreateCode(fragment);
@@ -135,7 +135,7 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparer.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("switch (1) { case 1: break; default: break; }")]
 		public void CreateSwitchCaseWithDefault(string fragment) {
 			var code = CreateCode(fragment);
@@ -143,6 +143,28 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("Integer i = (Integer)1;")]
+		public void CreateCast(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(null)
+					.Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("synchronized (this) { M1(); }")]
+		public void CreateSynchronized(string fragment) {
+			var code = CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(null)
 					.Using(StructuralEqualityComparer.Instance));
 		}
 	}

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.Contracts;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
@@ -12,8 +12,11 @@ namespace Ucpf.Core.Model {
 			_statements = new List<UnifiedExpression>();
 		}
 
-		public UnifiedBlock(IEnumerable<UnifiedExpression> expressions) {
-			_statements = expressions.ToList();
+		public UnifiedBlock(IEnumerable<UnifiedExpression> expressions)
+				: this() {
+			foreach (var element in expressions) {
+				Add(element);
+			}
 		}
 
 		public UnifiedExpression this[int index] {
@@ -81,7 +84,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
@@ -96,6 +100,17 @@ namespace Ucpf.Core.Model {
 				if (block != null)
 					return block;
 			}
+			return this;
+		}
+
+		public override UnifiedElement RemoveChild(UnifiedElement target) {
+			Contract.Requires(target != null);
+			return RemoveChild((UnifiedExpression)target);
+		}
+
+		public UnifiedElement RemoveChild(UnifiedExpression target) {
+			Contract.Requires(target != null);
+			_statements.Remove(target);
 			return this;
 		}
 	}

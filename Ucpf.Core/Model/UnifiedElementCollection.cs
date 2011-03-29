@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Ucpf.Core.Model {
@@ -13,8 +14,11 @@ namespace Ucpf.Core.Model {
 			_elements = new List<TElement>();
 		}
 
-		protected UnifiedElementCollection(IEnumerable<TElement> elements) {
-			_elements = elements.ToList();
+		protected UnifiedElementCollection(IEnumerable<TElement> elements)
+				: this() {
+			foreach (var element in elements) {
+				Add(element);
+			}
 		}
 
 		public TElement this[int index] {
@@ -60,6 +64,17 @@ namespace Ucpf.Core.Model {
 			return ret;
 		}
 
+		public override UnifiedElement RemoveChild(UnifiedElement target) {
+			Contract.Requires(target != null);
+			return RemoveChild((TElement)target);
+		}
+
+		public UnifiedElement RemoveChild(TElement target) {
+			Contract.Requires(target != null);
+			_elements.Remove(target);
+			return this;
+		}
+
 		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
 		public override IEnumerable<UnifiedElement> GetElements() {
 			return this;
@@ -82,5 +97,5 @@ namespace Ucpf.Core.Model {
 						(_elements[i], v => _elements[i] = (TElement)v);
 			}
 		}
-	}
+			}
 }

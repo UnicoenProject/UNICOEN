@@ -4,6 +4,11 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<UnifiedBoolean> {
+		public static UnifiedBooleanLiteral Create(bool value) {
+			var eValue = value ? UnifiedBoolean.True : UnifiedBoolean.False;
+			return new UnifiedBooleanLiteral { Value = eValue };
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -22,7 +27,8 @@ namespace Ucpf.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield break;
 		}
 	}

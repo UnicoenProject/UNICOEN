@@ -9,15 +9,7 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedModifierCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_modifiers = value;
-			}
+			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
 		public string Name { get; set; }
@@ -48,7 +40,8 @@ namespace Ucpf.Core.Model {
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

@@ -5,15 +5,7 @@
 
 		public UnifiedBlock Body {
 			get { return _body; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedBlock)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_body = value;
-			}
+			set { _body = SetParentOfChild(value, _body); }
 		}
 
 		protected UnifiedExpressionWithBlock() {

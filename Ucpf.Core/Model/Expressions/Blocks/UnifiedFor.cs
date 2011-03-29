@@ -8,45 +8,21 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Initializer {
 			get { return _initializer; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_initializer = value;
-			}
+			set { _initializer = SetParentOfChild(value, _initializer); }
 		}
 
 		private UnifiedExpression _condition;
 
 		public UnifiedExpression Condition {
 			get { return _condition; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_condition = value;
-			}
+			set { _condition = SetParentOfChild(value, _condition); }
 		}
 
 		private UnifiedExpression _step;
 
 		public UnifiedExpression Step {
 			get { return _step; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_step = value;
-			}
+			set { _step = SetParentOfChild(value, _step); }
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -77,7 +53,8 @@ namespace Ucpf.Core.Model {
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_initializer, v => _initializer = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

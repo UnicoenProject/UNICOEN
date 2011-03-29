@@ -9,30 +9,14 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedModifierCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_modifiers = value;
-			}
+			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
 
 		public UnifiedType Type {
 			get { return _type; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedType)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_type = value;
-			}
+			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		public string Name { get; set; }
@@ -40,15 +24,7 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedParameterCollection)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_parameters = value;
-			}
+			set { _parameters = SetParentOfChild(value, _parameters); }
 		}
 
 		public UnifiedFunctionDefinition() {
@@ -67,8 +43,8 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<UnifiedElement> GetElements() {
-			yield return Type;
 			yield return Modifiers;
+			yield return Type;
 			yield return Parameters;
 			yield return Body;
 		}
@@ -76,20 +52,21 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_type, v => _type = (UnifiedType)v);
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>

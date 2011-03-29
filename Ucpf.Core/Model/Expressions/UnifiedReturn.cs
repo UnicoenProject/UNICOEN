@@ -8,15 +8,7 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Value {
 			get { return _value; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_value = value;
-			}
+			set { _value = SetParentOfChild(value, _value); }
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -38,7 +30,8 @@ namespace Ucpf.Core.Model {
 					(Value, v => Value = (UnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_value, v => _value = (UnifiedExpression)v);
 		}

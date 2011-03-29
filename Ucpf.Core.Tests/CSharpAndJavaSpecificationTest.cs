@@ -45,7 +45,7 @@ namespace Ucpf.Core.Tests {
 						Initializer = new UnifiedVariableDefinition {
 							Type = "int".ToType(),
 							Name = "i",
-							InitialValue = 1.ToLiteral(),
+							InitialValue = 0.ToLiteral(),
 						},
 						Condition = CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(),
@@ -80,6 +80,7 @@ namespace Ucpf.Core.Tests {
 					true.ToLiteral()
 						.ToIf()
 						.AddToTrueBody((-1).ToLiteral().ToReturn())
+						.RemoveFalseBody()
 				});
 			}
 		}
@@ -88,7 +89,7 @@ namespace Ucpf.Core.Tests {
 			get {
 				return
 					CreateClassAndMethod(new UnifiedBlock {
-						true.ToLiteral()
+						false.ToLiteral()
 							.ToIf()
 							.AddToTrueBody((-1).ToLiteral().ToReturn())
 							.AddToFalseBody((0.1).ToLiteral().ToReturn())

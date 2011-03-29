@@ -8,45 +8,21 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Condition {
 			get { return _condition; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedExpression)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_condition = value;
-			}
+			set { _condition = SetParentOfChild(value, _condition); }
 		}
 
 		private UnifiedBlock _trueBody;
 
 		public UnifiedBlock TrueBody {
 			get { return _trueBody; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedBlock)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_trueBody = value;
-			}
+			set { _trueBody = SetParentOfChild(value, _trueBody); }
 		}
 
 		private UnifiedBlock _falseBody;
 
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
-			set {
-				if (value != null) {
-					if (value.Parent != null) {
-						value = (UnifiedBlock)value.DeepCopy();
-					}
-					value.Parent = this;
-				}
-				_falseBody = value;
-			}
+			set { _falseBody = SetParentOfChild(value, _falseBody); }
 		}
 
 		public UnifiedIf() {
@@ -61,6 +37,11 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedIf AddToFalseBody(UnifiedExpression expression) {
 			FalseBody.Add(expression);
+			return this;
+		}
+
+		public UnifiedIf RemoveFalseBody() {
+			FalseBody = null;
 			return this;
 		}
 
@@ -89,7 +70,8 @@ namespace Ucpf.Core.Model {
 					(FalseBody, v => FalseBody = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>> GetElementAndDirectSetters() {
+		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
 					(_condition, v => _condition = (UnifiedExpression)v);
 			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
