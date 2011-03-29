@@ -63,7 +63,7 @@
     <Compile Include="JavaModelFeatureTest.cs" />
     <Compile Include="JavaRegenerateTest.cs" />
     <Compile Include="JavaSpecificationTest.cs" />
-    <Compile Include="StudentTest.cs" />
+    <Compile Include="JavaStudentTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
