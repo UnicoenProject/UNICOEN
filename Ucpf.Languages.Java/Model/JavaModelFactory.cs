@@ -143,9 +143,23 @@ namespace Ucpf.Languages.Java.Model {
 			}
 		}
 
+		/*
+		 * primary 
+		 * :   parExpression            
+		 * |   'this' ('.' IDENTIFIER)* (identifierSuffix)?
+		 * |   IDENTIFIER ('.' IDENTIFIER)* (identifierSuffix)?
+		 * |   'super' superSuffix
+		 * |   literal
+		 * |   creator
+		 * |   primitiveType ('[' ']')* '.' 'class'
+		 * |   'void' '.' 'class'
+		 */
 		public static UnifiedCall CreatePrimary(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary");
+			if (node.NthElement(0).Value == "this") {
+				node = node;
+			}
 			return new UnifiedCall {
 				Arguments = CreateArgumentCollection(node),
 				Function = CreateVariable(node.Element("IDENTIFIER"))
@@ -194,7 +208,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedVariable CreateVariable(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "IDENTIFIER" || node.Name() == "TOKEN");
+			//Contract.Requires(node.Name() == "IDENTIFIER" || node.Name() == "TOKEN");
 			return new UnifiedVariable {
 				Name = node.Value
 			};
@@ -202,7 +216,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "IDENTIFIER" || node.Name() == "TOKEN");
+			//Contract.Requires(node.Name() == "IDENTIFIER" || node.Name() == "TOKEN");
 			int i;
 			if( Int32.TryParse(node.Value, NumberStyles.Any, null, out i)) {
 				return new UnifiedIntegerLiteral {
