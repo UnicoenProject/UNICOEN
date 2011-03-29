@@ -16,6 +16,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static IUnifiedExpression CreateExpression(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "expression");
 			
 			//TODO IMPLEMENT: more operators
 			String[] binaryOperator = {
@@ -91,6 +92,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Elements().Count() == 3);
 			return new UnifiedBinaryExpression {
 				LeftHandSide = CreateExpression(node.NthElement(0)),
 				Operator = CreateBinaryOperator(node.NthElement(1)),
@@ -100,6 +102,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedUnaryExpression CreateUnaryExpression(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "unaryExpression");
 			/*
 			 * unaryExpression 
 			    : '+' unaryExpression | '-' unaryExpression
@@ -142,16 +145,19 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedCall CreateCallExpression(XElement node) {
 			Contract.Requires(node != null);
-			//Top node is <primary>
+			Contract.Requires(node.Name() == "primary");
 			return new UnifiedCall {
 				Arguments = CreateArgumentCollection(node),
-				//Function = CreateExpression(node)
 				Function = CreateVariable(node.Element("IDENTIFIER"))
 			};
 		}
 
 		public static UnifiedNew CreateNew(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "creator");
+
+			//とりあえずCreateNewGenericType()向けに実装したので、
+			//インスタンス生成の際など、明らかに他に何かをnewする機会はあると思われる
 			return new UnifiedNew {
 					Arguments = new UnifiedArgumentCollection(),
 					Type = CreateNewGenericType(node.Element("classOrInterfaceType"))
@@ -159,6 +165,9 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedType CreateNewGenericType(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "classOrInterfaceType");
+
 			return new UnifiedType {
 				Name = node.Element("IDENTIFIER").Value,
 				Parameters = new UnifiedTypeParameterCollection(
@@ -167,6 +176,9 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedTypeParameter CreatTypeParameter(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeArgument");
+			
 			var t = node.Element("type").FirstElement();
 			if(t.Name.LocalName == "classOrInterfaceType") {
 				return  new UnifiedTypeParameter {
@@ -182,6 +194,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedVariable CreateVariable(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "IDENTIFIER" || node.Name() == "TOKEN");
 			return new UnifiedVariable {
 				Name = node.Value
 			};
@@ -189,6 +202,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "IDENTIFIER" || node.Name() == "TOKEN");
 			int i;
 			if( Int32.TryParse(node.Value, NumberStyles.Any, null, out i)) {
 				return new UnifiedIntegerLiteral {
