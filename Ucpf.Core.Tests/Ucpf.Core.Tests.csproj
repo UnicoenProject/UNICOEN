@@ -60,7 +60,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructuralEqualityComparerTestForPrimitive.cs" />
     <Compile Include="StructuralEqualityComparerTestForUnified.cs" />
-    <Compile Include="TestCaseSource.cs" />
     <Compile Include="Visitors\UnifiedModelToXmlTest.cs" />
   </ItemGroup>
   <ItemGroup>

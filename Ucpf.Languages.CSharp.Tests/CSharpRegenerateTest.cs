@@ -77,7 +77,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		}
 
 		public static IEnumerable<TestCaseData> TestCases {
-			get { return TestCaseSource.CSharpTestCases; }
+			get { return Fixture.CSharpTestCases; }
 		}
 
 		/// <summary>

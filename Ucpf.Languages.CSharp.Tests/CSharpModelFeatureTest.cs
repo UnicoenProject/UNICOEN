@@ -13,7 +13,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 	[TestFixture]
 	public class CSharpModelFeatureTest : ModelFeatureTest {
 		public IEnumerable<TestCaseData> TestCases {
-			get { return TestCaseSource.CSharpTestCases; }
+			get { return Fixture.CSharpTestCases; }
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {

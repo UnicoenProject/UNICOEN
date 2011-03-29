@@ -14,7 +14,7 @@ namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaModelFeatureTest : ModelFeatureTest {
 		public IEnumerable<TestCaseData> TestCases {
-			get { return TestCaseSource.JavaTestCases; }
+			get { return Fixture.JavaTestCases; }
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {

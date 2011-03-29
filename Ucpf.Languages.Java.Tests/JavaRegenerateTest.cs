@@ -47,7 +47,7 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		public IEnumerable<TestCaseData> TestCases {
-			get { return TestCaseSource.JavaTestCases; }
+			get { return Fixture.JavaTestCases; }
 		}
 
 		/// <summary>
