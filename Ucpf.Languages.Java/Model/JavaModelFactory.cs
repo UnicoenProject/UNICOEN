@@ -321,11 +321,11 @@ namespace Ucpf.Languages.Java.Model {
 			switch (element.Name.LocalName) {
 				case "block": return CreateBlock(element);
 				case "IF": return CreateIf(node);
-				case "RETURN": return CreateReturn(node);
-				case "forstatement": return CreateForstatement(node);
+				case "forstatement": return CreateForstatement(element);
 				case "WHILE": return CreateWhile(node);
 				case "DO": return CreateDo(node);
 				case "SWITCH": return CreateSwitch(node);
+				case "RETURN": return CreateReturn(node);	
 				case "BREAK": return CreateBreak(node);
 				case "expression": return CreateExpression(element);
 				default: throw new NotImplementedException();
@@ -383,7 +383,10 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedIf CreateIf(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "IF");
+			/*  'if' parExpression statement ('else' statement)? */
 			var trueBody = new UnifiedBlock {
 				CreateStatement(node.Element("statement")),
 			};
@@ -406,7 +409,9 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedWhile CreateWhile(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "WHILE");
+			/* 'while' parExpression statement */
 			return new UnifiedWhile {
 				Condition =
 					CreateExpression(node.Element("parExpression").Element("expression")),
@@ -418,7 +423,9 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedDoWhile CreateDo(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "DO");
+			/* 'do' statement 'while' parExpression ';' */
 			return new UnifiedDoWhile {
 				Body = new UnifiedBlock {
 						CreateStatement(node.Element("statement"))
@@ -428,25 +435,16 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedExpression CreateForstatement(XElement node)
+		public static UnifiedExpression CreateForstatement(XElement forstatement)
 		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Elements().First().Name.LocalName == "forstatement");
+			Contract.Requires(forstatement != null);
+			Contract.Requires(forstatement.Name.LocalName == "forstatement");
 			/*	forstatement :   
-					// enhanced for loop
-					'for' '(' variableModifiers type IDENTIFIER ':' 
-					expression ')' statement
-					// normal for loop
-				|   'for' '(' 
-							(forInit
-							)? ';' 
-							(expression
-							)? ';' 
-							(expressionList
-							)? ')' statement
-						return new UnifiedFor();
-			 * */
-			var forstatement = node.FirstElement();
+			 * // enhanced for loop
+			 *     'for' '(' variableModifiers type IDENTIFIER ':' expression ')' statement
+			 * // normal for loop
+			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement
+			 * ; */
 			if (forstatement.NthElement(2).Name.LocalName == "variableModifiers") {
 				//TODO
 				throw new NotImplementedException();
@@ -473,7 +471,9 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedSwitch CreateSwitch(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "SWITCH");
+			/* 'switch' parExpression '{' switchBlockStatementGroups '}' */
 			return new UnifiedSwitch {
 					Cases = CreateCaseCollection(node.Element("switchBlockStatementGroups")),
 					Value = CreateExpression(node.Element("parExpression").Element("expression"))
@@ -506,6 +506,11 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedBreak CreateBreak(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "statement");
+			Contract.Requires(node.Elements().First().Name.LocalName == "break");
+			/* 'break' (IDENTIFIER )? ';' */
+			if (node.Elements().Count() > 1) throw new NotImplementedException();
 			return new UnifiedBreak();
 		}
 
