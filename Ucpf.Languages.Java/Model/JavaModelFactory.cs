@@ -55,6 +55,7 @@ namespace Ucpf.Languages.Java.Model {
 				if (System.Text.RegularExpressions.Regex.IsMatch(topExpressionElement.Value, @"[a-zA-Z]{1}[a-zA-Z0-9]*")) {
 					return CreateVariable(topExpressionElement);
 				}
+				//other cases
 				return CreateLiteral(topExpressionElement);
 			}
 
@@ -63,7 +64,6 @@ namespace Ucpf.Languages.Java.Model {
 			if (binaryOperator.Contains(binaryOperatorString)) {
 				return CreateBinaryExpression(topExpressionElement);
 			}
-
 
 			//case UnaryExpression
 			if (topExpressionElement.Name.LocalName.StartsWith("unaryExpression")) {
@@ -510,7 +510,7 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "break");
 			/* 'break' (IDENTIFIER )? ';' */
-			if (node.Elements().Count() > 1) throw new NotImplementedException();
+			if (node.Elements().Count() > 2) throw new NotImplementedException();
 			return new UnifiedBreak();
 		}
 
