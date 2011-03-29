@@ -10,11 +10,11 @@ using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
 	[Ignore, TestFixture]
-	public class StudentTest {
+	public class JavaStudentTest {
 		private readonly string _source;
 
-		public StudentTest() {
-			var path = Fixture.GetInputPath("Java", "student.java");
+		public JavaStudentTest() {
+			var path = Fixture.GetInputPath("Java", "Student.java");
 			_source = File.ReadAllText(path);
 		}
 

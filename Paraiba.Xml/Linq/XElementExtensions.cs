@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
@@ -21,6 +22,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static string Name(this XElement element) {
 			return element.Name.LocalName;
 		}
