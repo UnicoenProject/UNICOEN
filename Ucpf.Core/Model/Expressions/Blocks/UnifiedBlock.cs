@@ -104,7 +104,6 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override UnifiedElement RemoveChild(UnifiedElement target) {
-			Contract.Requires(target != null);
 			return RemoveChild((UnifiedExpression)target);
 		}
 
