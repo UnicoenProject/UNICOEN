@@ -195,6 +195,7 @@ namespace Ucpf.Languages.Java.Model {
 						Name = "class",
 				};
 			}
+			throw new InvalidOperationException();
 		}
 
 		private static UnifiedExpression CreateCreator(XElement first) {
