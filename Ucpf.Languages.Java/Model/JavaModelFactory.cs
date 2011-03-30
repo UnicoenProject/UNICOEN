@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
@@ -191,55 +192,7 @@ namespace Ucpf.Languages.Java.Model {
 			//インスタンス生成の際など、明らかに他に何かをnewする機会はあると思われる
 			return new UnifiedNew {
 					Arguments = new UnifiedArgumentCollection(),
-					Type = CreateNewGenericType(node.Element("classOrInterfaceType"))
-			};
-		}
-
-		public static UnifiedType CreateNewGenericType(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "classOrInterfaceType");
-			/* 
-			 * classOrInterfaceType 
-				:   IDENTIFIER
-					(typeArguments)?
-					('.' IDENTIFIER (typeArguments)? )*
-			  
-			   typeArguments 
-				:   '<' typeArgument
-					(',' typeArgument )* 
-					'>'
-			 */
-			return new UnifiedType {
-				Name = node.Element("IDENTIFIER").Value,
-				Parameters = new UnifiedTypeParameterCollection(
-					node.Element("typeArguments").Elements("typeArgument").Select(CreatTypeParameter))
-			};
-		}
-
-		public static UnifiedTypeParameter CreatTypeParameter(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "typeArgument");
-			/* 
-			 * typeArgument 
-				:   type
-				|   '?' 
-					(
-						('extends'
-						|'super'
-						)
-						type
-					)?
-			 */
-			var t = node.Element("type").FirstElement();
-			if(t.Name.LocalName == "classOrInterfaceType") {
-				return  new UnifiedTypeParameter {
-					Modifiers = null,
-					Value = CreateNewGenericType(t)
-				};
-			}
-			return new UnifiedTypeParameter {
-					Modifiers = null,
-					Value = CreateType(node)
+					Type = CreateClassOrInterfaceType(node.Element("classOrInterfaceType"))
 			};
 		}
 
@@ -660,9 +613,80 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedType CreateType(XElement node) {
 			Contract.Requires(node != null);
+			//Contract.Requires(node.Name() == "type");
+			//このメソッドにはtypeノードが入ってくるように他のメソッドを修正する？
+			/* 
+			 * type 
+				:   classOrInterfaceType
+					('[' ']'
+					)*
+				|   primitiveType
+					('[' ']'
+					)*
+			*/
 			var typeNode = node.Element("type");
+			if(typeNode == null)
+				return new UnifiedType {
+						Name ="void"
+				};
+
+			switch (typeNode.FirstElement().Name()) {
+				case "classOrInterfaceType":
+					return CreateClassOrInterfaceType(typeNode.FirstElement());
+				case "primitiveType":
+					return new UnifiedType {
+							Name = typeNode.Value
+					};
+				default:
+					throw new InvalidOperationException();
+			}
+		}
+
+		public static UnifiedType CreateClassOrInterfaceType(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "classOrInterfaceType");
+			/* 
+			 * classOrInterfaceType 
+				:   IDENTIFIER
+					(typeArguments)?
+					('.' IDENTIFIER (typeArguments)? )*
+			  
+			   typeArguments 
+				:   '<' typeArgument
+					(',' typeArgument )* 
+					'>'
+			 */
 			return new UnifiedType {
-				Name = typeNode != null ? typeNode.Value : "void"
+				Name = node.Element("IDENTIFIER").Value,
+				Parameters = new UnifiedTypeParameterCollection(
+					node.Element("typeArguments").Elements("typeArgument").Select(CreatTypeParameter))
+			};
+		}
+
+		public static UnifiedTypeParameter CreatTypeParameter(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeArgument");
+			/* 
+			 * typeArgument 
+				:   type
+				|   '?' 
+					(
+						('extends'
+						|'super'
+						)
+						type
+					)?
+			 */
+			var t = node.Element("type").FirstElement();
+			if(t.Name.LocalName == "classOrInterfaceType") {
+				return  new UnifiedTypeParameter {
+					Modifiers = null,
+					Value = CreateClassOrInterfaceType(t)
+				};
+			}
+			return new UnifiedTypeParameter {
+					Modifiers = null,
+					Value = CreateType(node)
 			};
 		}
 
