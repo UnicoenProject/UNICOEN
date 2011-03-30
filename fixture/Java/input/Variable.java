@@ -2,11 +2,11 @@ class Math {
 	public static final double PI = 3.14159265358979323846;
 }
 
-class Person {
+class Person22 {
 	String name;
 	int age;
 
-	Person(String name, int age) {
+	Person22(String name, int age) {
 		this.name = name;
 		this.age = age;
 	}

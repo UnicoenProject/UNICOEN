@@ -144,29 +144,108 @@ namespace Ucpf.Languages.Java.Model {
 			}
 		}
 
-		public static UnifiedCall CreatePrimary(XElement node) {
+		public static UnifiedExpression CreatePrimary(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary");
 			/*
-			* primary 
-			* :   parExpression            
-			* |   'this' ('.' IDENTIFIER)* (identifierSuffix)?
-			* |   IDENTIFIER ('.' IDENTIFIER)* (identifierSuffix)?
-			* |   'super' superSuffix
-			* |   literal
-			* |   creator
-			* |   primitiveType ('[' ']')* '.' 'class'
-			* |   'void' '.' 'class'
-			*/
-			var firstElement = node.FirstElement();
-			if (firstElement.HasContent("this")) {
-				node = node;
+			 * primary 
+			 * :   parExpression            
+			 * |   'this' ('.' IDENTIFIER)* (identifierSuffix)?
+			 * |   IDENTIFIER ('.' IDENTIFIER)* (identifierSuffix)?
+			 * |   'super' superSuffix
+			 * |   literal
+			 * |   creator
+			 * |   primitiveType ('[' ']')* '.' 'class'
+			 * |   'void' '.' 'class'
+			 */
+
+			var first = node.FirstElement();
+			if (first.HasContent("this") || first.Name() == "IDENTIFIER") {
+				var variable = UnifiedVariable.Create(first.Value);
+				var prop = first.NextElements("IDENTIFIER")
+						.Aggregate((UnifiedExpression)variable,
+								(e, v) => new UnifiedProperty {
+										Owner = e,
+										Name = v.Value,
+								});
+				return CreateIdentifierSuffix(node.Element("identifierSuffix"), prop);
 			}
-			return new UnifiedCall {
-				Arguments = CreateArgumentCollection(node),
-				Function = CreateVariable(node.Element("IDENTIFIER"))
-			};
+			if (first.HasContent("super")) {
+				var super = UnifiedVariable.Create("super");
+				return CreateSuperSuffix(node.Element("superSuffix"), super);
+			}
+			if (first.Name() == "literal") {
+				return CreateLiteral(first);
+			}
+			if (first.Name() == "creator") {
+				return CreateCreator(first);
+			}
+			if (first.Name() == "primitiveType") {
+				var type = node.Elements()
+						.Take(node.Elements().Count() - 2)
+						.Aggregate("", (s, e) => s + e.Value);
+				return new UnifiedProperty {
+					Owner = UnifiedType.Create(type),
+					Name = "class",
+				};
+			}
+			if (first.HasContent("void")) {
+				return new UnifiedProperty {
+						Owner = UnifiedVariable.Create(first.Value),
+						Name = "class",
+				};
+			}
 		}
+
+		private static UnifiedExpression CreateCreator(XElement first) {
+			throw new NotImplementedException();
+		}
+
+		/*
+		 * superSuffix  
+		 * :   arguments
+		 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
+		 */
+		public static UnifiedExpression CreateSuperSuffix(XElement node, UnifiedExpression prefix) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "superSuffix");
+			throw new NotImplementedException();
+		}
+
+		/*
+		 * identifierSuffix
+		 * :   ('[' ']')+ '.' 'class'	// java.lang.String[].class
+		 * |   ('[' expression ']' )+	// strs[10]
+		 * |   arguments				// func(1, 2)
+		 * |   '.' 'class'				// java.lang.String.class
+		 * // this.<Integer>m(1), super.<Integer>m(1)
+		 * |   '.' nonWildcardTypeArguments IDENTIFIER arguments
+		 * |   '.' 'this'				// Outer.this
+		 * |   '.' 'super' arguments	// new Outer().super();
+		 * |   innerCreator				// new Outer().new <Integer> Inner<String>(1);
+		 */
+		public static UnifiedExpression CreateIdentifierSuffix(XElement node, UnifiedExpression prefix) {
+			Contract.Requires(node == null || node.Name() == "identifierSuffix");
+			if (node == null) {
+				return prefix;
+			}
+			throw new NotImplementedException();
+		}
+
+		/*
+		 * arguments 
+		 * :   '(' (expressionList)? ')'
+		 */
+
+		/* expressionList
+		 * :   expression (',' expression)*
+		 */
+
+		/*
+		 * innerCreator  
+		 * :   '.' 'new' (nonWildcardTypeArguments)? IDENTIFIER (typeArguments)? classCreatorRest
+		 */
+
 
 		public static UnifiedNew CreateNew(XElement node) {
 			Contract.Requires(node != null);
