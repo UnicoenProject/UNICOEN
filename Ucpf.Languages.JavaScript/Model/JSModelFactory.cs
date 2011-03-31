@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
@@ -205,22 +206,73 @@ namespace Ucpf.Languages.JavaScript.Model {
 		#region Statement
 
 		public static UnifiedExpression CreateStatement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("statement"));
+			/* 
+			 * statement
+				: statementBlock
+				| variableStatement
+				| emptyStatement
+				| expressionStatement
+				| ifStatement
+				| iterationStatement
+				| continueStatement
+				| breakStatement
+				| returnStatement
+				| withStatement
+				| labelledStatement
+				| switchStatement
+				| throwStatement
+				| tryStatement
+			 */
+
 			var element = node.Elements().First();
 
-			//case statementBlock
-			if (element.Name.LocalName == "statementBlock")
-				return CreateBlock(element);
+			switch (element.Name.LocalName) {
+				case "statementBlock": return CreateBlock(element);
+				case "variableStatement": return CreateVariableStatementList(element);
+				case "ifStatement": return CreateIf(element);
+				case "returnStatement": return CreateReturn(element);
+				default: throw new NotImplementedException();
+			}
+		}
 
-			//case ifStatement
-			if (element.Name.LocalName == "ifStatement")
-				return CreateIf(element);
+		public static UnifiedBlock CreateVariableStatementList(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("variableStatement"));
+			/*
+			 * variableStatement
+				: 'var' LT!* variableDeclarationList (LT | ';')
 
-			//case returnStatement
-			if (element.Name.LocalName == "returnStatement")
-				return CreateReturn(element);
+			 * variableDeclarationList
+				: variableDeclaration (LT!* ',' LT!* variableDeclaration)*	
 
-			//case error
-			throw new NotImplementedException();
+			 * variableDeclaration
+				: Identifier LT!* initialiser? 
+			 */
+			return new UnifiedBlock(
+				node.Element("variableDeclarationList")
+				.Elements("variableDeclaration")
+				.Select(CreateVariableDefinition));
+		}
+
+		public static UnifiedExpression CreateVariableDefinition(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
+
+			if(false /*TODO 以下にfunctionExpressionを持つ場合はクラスを返す*/) {
+				return new UnifiedClassDefinition() {
+						Name = node.Element("Identifier").Value,
+						Body = null,
+						Modifiers = null
+				};
+			}
+			return new UnifiedVariableDefinition {
+					Modifiers = null,
+					Type = null,
+					Name = node.Element("Identifier").Value,
+					InitialValue = CreateExpression(node.Element("initialiser"))
+			};
 		}
 
 		public static UnifiedBlock CreateBlock(XElement node) {

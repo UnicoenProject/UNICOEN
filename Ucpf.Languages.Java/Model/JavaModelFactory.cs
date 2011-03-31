@@ -248,7 +248,7 @@ namespace Ucpf.Languages.Java.Model {
 		 */
 
 
-		public static UnifiedNew CreateNew(XElement node) {
+		public static UnifiedExpression CreateNew(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name().ToLower().EndsWith("creator"));
 			/* 
@@ -268,12 +268,40 @@ namespace Ucpf.Languages.Java.Model {
 					( '[' ']' )*
 			*/
 
-			//とりあえずCreateNewGenericType()向けに実装したので、
-			//インスタンス生成の際など、明らかに他に何かをnewする機会はあると思われる
-			return new UnifiedNew {
-					Arguments = new UnifiedArgumentCollection(),
-					Type = CreateClassOrInterfaceType(node.Element("classOrInterfaceType"))
-			};
+			if(node.Name() == "creator") {
+				if(node.Element("classCreatorRest").Element("arguments").Element("expressionList") == null)
+					return new UnifiedNew {
+							Arguments = new UnifiedArgumentCollection(),
+							Type = CreateClassOrInterfaceType(node.Element("classOrInterfaceType"))
+					};
+				return new UnifiedNew {
+						Arguments = new UnifiedArgumentCollection(
+							node.Element("classCreatorRest")
+							.Element("arguments")
+							.Element("expressionList")
+							.Elements("expression")
+							.Select(CreateArgument)),
+						Type = CreateClassOrInterfaceType(node.Element("classOrInterfaceType"))
+				};
+			}
+			else { //case "arrayCreator"
+				UnifiedExpressionCollection initVal = null;
+				UnifiedArgumentCollection args = null;
+				if(node.HasContent("arrayInitializer")) {
+					initVal = (UnifiedExpressionCollection)node.Element("arrayInitializer")
+					                                       		.Elements("variableInitializer")
+					                                       		.Select(e => CreateExpression(e.Element("expression")));
+				}
+				else {
+					args = (UnifiedArgumentCollection)
+							node.Elements("expression").Select(CreateArgument);
+				}
+				return new UnifiedArrayNew {
+						Type = CreateType(node.Element("createdName")),
+						Arguments = args,
+						InitialValues = initVal
+				};
+			}
 		}
 
 		public static UnifiedVariable CreateVariable(XElement node) {
@@ -695,6 +723,7 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node != null);
 			//Contract.Requires(node.Name() == "type");
 			//このメソッドにはtypeノードが入ってくるように他のメソッドを修正する？
+			//array作成時の<createdName>もここに入ってくる
 			/* 
 			 * type 
 				:   classOrInterfaceType
@@ -741,6 +770,7 @@ namespace Ucpf.Languages.Java.Model {
 				Parameters = new UnifiedTypeParameterCollection(
 					node.Element("typeArguments").Elements("typeArgument").Select(CreatTypeParameter))
 			};
+			//TODO ('.' IDENTIFIER (typeArguments)? )*はどう扱えばいいのか
 		}
 
 		public static UnifiedTypeParameter CreatTypeParameter(XElement node) {
