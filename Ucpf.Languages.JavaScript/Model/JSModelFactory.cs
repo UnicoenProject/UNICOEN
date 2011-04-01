@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
+using Code2Xml.Languages.JavaScript.XmlGenerators;
 using Ucpf.Core.Model;
 
 
@@ -11,6 +14,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		#region Expression
 
 		public static UnifiedExpression CreateExpression(XElement node) {
+			Contract.Requires(node != null);
 
 			String[] binaryOperator = {
 				"+", "-", "*", "/", "%", "<", ">"
@@ -205,25 +209,95 @@ namespace Ucpf.Languages.JavaScript.Model {
 		#region Statement
 
 		public static UnifiedExpression CreateStatement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("statement"));
+			/* 
+			 * statement
+				: statementBlock
+				| variableStatement
+				| emptyStatement
+				| expressionStatement
+				| ifStatement
+				| iterationStatement
+				| continueStatement
+				| breakStatement
+				| returnStatement
+				| withStatement
+				| labelledStatement
+				| switchStatement
+				| throwStatement
+				| tryStatement
+			 */
+
 			var element = node.Elements().First();
 
-			//case statementBlock
-			if (element.Name.LocalName == "statementBlock")
-				return CreateBlock(element);
+			switch (element.Name.LocalName) {
+				case "statementBlock": return CreateBlock(element);
+				case "variableStatement": return CreateVariableStatementList(element);
+				case "ifStatement": return CreateIf(element);
+				case "returnStatement": return CreateReturn(element);
+				case "iterationStatement": return CreateIteration(element);
+				default: throw new NotImplementedException();
+			}
+		}
 
-			//case ifStatement
-			if (element.Name.LocalName == "ifStatement")
-				return CreateIf(element);
+		private static UnifiedExpression CreateIteration(XElement element) {
+			var child = element.Elements().First();
+			switch (child.Name.LocalName) {
+				case "whileStatement": return CreateWhile(child);
+				case "forStatement":
+				case "forInStatement":
+				case "doWhileStatement":
+				default: throw new NotImplementedException();
+			}
+		}
 
-			//case returnStatement
-			if (element.Name.LocalName == "returnStatement")
-				return CreateReturn(element);
+		public static UnifiedBlock CreateVariableStatementList(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("variableStatement"));
+			/*
+			 * variableStatement
+				: 'var' LT!* variableDeclarationList (LT | ';')
 
-			//case error
-			throw new NotImplementedException();
+			 * variableDeclarationList
+				: variableDeclaration (LT!* ',' LT!* variableDeclaration)*	
+
+			 * variableDeclaration
+				: Identifier LT!* initialiser? 
+			 */
+			return new UnifiedBlock(
+				node.Element("variableDeclarationList")
+				.Elements("variableDeclaration")
+				.Select(CreateVariableDefinition));
+		}
+
+		public static UnifiedExpression CreateVariableDefinition(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
+
+			if(false /*TODO 以下にfunctionExpressionを持つ場合はクラスを返す*/) {
+				return new UnifiedClassDefinition() {
+						Name = node.Element("Identifier").Value,
+						Body = null,
+						Modifiers = null
+				};
+			}
+			return new UnifiedVariableDefinition {
+					Modifiers = null,
+					Type = null,
+					Name = node.Element("Identifier").Value,
+					InitialValue = CreateExpression(node.Element("initialiser"))
+			};
 		}
 
 		public static UnifiedBlock CreateBlock(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "statementBlock");
+			/*
+			 * statementBlock
+				: '{' LT!* statementList? LT!* '}' 
+			 */
+
 			return new UnifiedBlock(
 				node.Element("statementList").Elements("statement")
 					.Select(CreateStatement).ToList()
@@ -231,6 +305,14 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedBlock CreateFunctionBody(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "functionBody");
+			/*
+			 * functionBody
+				: '{' LT!* sourceElements LT!* '}' 
+			 */
+
+			//TODO 関数内の関数宣言をどう扱うか
 			return new UnifiedBlock(
 				node.Element("sourceElements").Elements("sourceElement")
 					.SelectMany(e =>
@@ -249,10 +331,40 @@ namespace Ucpf.Languages.JavaScript.Model {
 				};
 		}
 
-		public static UnifiedReturn CreateReturn(XElement node) {
-			return new UnifiedReturn {
-				Value = CreateExpression(node.Element("expression"))
+		public static UnifiedWhile CreateWhile(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "whileStatement");
+			/*
+			 * whileStatement
+				: 'while' LT!* '(' LT!* expression LT!* ')' LT!* statement
+			 */
+
+			return new UnifiedWhile {
+					Body = new UnifiedBlock {
+						CreateStatement(node.Element("statement"))
+					},
+					Condition = CreateExpression(node.Element("expression"))
 			};
+		}
+
+		public static UnifiedReturn CreateReturn(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "returnStatement");
+			/*
+			 * returnStatement
+				: 'return' expression? (LT | ';') 
+			 */
+
+			if(node.Element("expression") != null) {
+				return new UnifiedReturn {
+						Value = CreateExpression(node.Element("expression"))
+				};
+			}
+			else {
+				return new UnifiedReturn {
+						Value = null
+				};
+			}
 		}
 
 		#endregion
@@ -292,5 +404,32 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		#endregion
+
+		public static UnifiedProgram CreateProgram(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "program");
+
+			var elements = node.Element("sourceElements")
+					.Elements("sourceElement");
+			return new UnifiedProgram(elements.Select(CreateSourceElement));
+		}
+
+		public static UnifiedExpression CreateSourceElement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "sourceElement");
+
+			switch (node.Elements().First().Name.LocalName) {
+				case "functionDeclaration": return CreateFunction(node.Elements().First());
+				case "statement": return CreateStatement(node.Elements().First());
+				default: throw new InvalidOperationException();
+			}
+		}
+
+		public static UnifiedProgram CreateModel(string source) {
+			Contract.Requires(source != null);
+			var ast = JavaScriptXmlGenerator.Instance.Generate(source);
+			return CreateProgram(ast);
+		}
+
 	}
 }
