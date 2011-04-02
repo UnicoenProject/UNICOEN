@@ -8,21 +8,27 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set {
+				_condition = SetParentOfChild(value, this, _condition);
+			}
 		}
 
 		private UnifiedBlock _trueBody;
 
 		public UnifiedBlock TrueBody {
 			get { return _trueBody; }
-			set { _trueBody = SetParentOfChild(value, _trueBody); }
+			set {
+				_trueBody = SetParentOfChild(value, this, _trueBody);
+			}
 		}
 
 		private UnifiedBlock _falseBody;
 
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
-			set { _falseBody = SetParentOfChild(value, _falseBody); }
+			set {
+				_falseBody = SetParentOfChild(value, this, _falseBody);
+			}
 		}
 
 		public UnifiedIf() {

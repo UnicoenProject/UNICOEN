@@ -5,7 +5,9 @@
 
 		public UnifiedBlock Body {
 			get { return _body; }
-			set { _body = SetParentOfChild(value, _body); }
+			set {
+				_body = SetParentOfChild(value, this, _body);
+			}
 		}
 
 		protected UnifiedExpressionWithBlock() {

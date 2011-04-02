@@ -10,7 +10,9 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedTypeParameterCollection Parameters {
 			get { return _parameters; }
-			set { _parameters = SetParentOfChild(value, _parameters); }
+			set {
+				_parameters = SetParentOfChild(value, this, _parameters);
+			}
 		}
 
 		public UnifiedType() {

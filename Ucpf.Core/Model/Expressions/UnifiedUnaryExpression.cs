@@ -8,14 +8,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedUnaryOperator Operator {
 			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
+			set {
+				_operator = SetParentOfChild(value, this, _operator);
+			}
 		}
 
 		private UnifiedExpression _operand;
 
 		public UnifiedExpression Operand {
 			get { return _operand; }
-			set { _operand = SetParentOfChild(value, _operand); }
+			set {
+				_operand = SetParentOfChild(value, this, _operand);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

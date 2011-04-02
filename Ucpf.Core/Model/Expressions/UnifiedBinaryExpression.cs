@@ -8,21 +8,27 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression LeftHandSide {
 			get { return _leftHandSide; }
-			set { _leftHandSide = SetParentOfChild(value, _leftHandSide); }
+			set {
+				_leftHandSide = SetParentOfChild(value, this, _leftHandSide);
+			}
 		}
 
 		private UnifiedBinaryOperator _operator;
 
 		public UnifiedBinaryOperator Operator {
 			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
+			set {
+				_operator = SetParentOfChild(value, this, _operator);
+			}
 		}
 
 		private UnifiedExpression _rightHandSide;
 
 		public UnifiedExpression RightHandSide {
 			get { return _rightHandSide; }
-			set { _rightHandSide = SetParentOfChild(value, _rightHandSide); }
+			set {
+				_rightHandSide = SetParentOfChild(value, this, _rightHandSide);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

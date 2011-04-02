@@ -8,14 +8,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set {
+				_modifiers = SetParentOfChild(value, this, _modifiers);
+			}
 		}
 
 		private UnifiedType _type;
 
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set {
+				_type = SetParentOfChild(value, this, _type);
+			}
 		}
 
 		public string Name { get; set; }
@@ -23,7 +27,9 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression InitialValue {
 			get { return _initialValue; }
-			set { _initialValue = SetParentOfChild(value, _initialValue); }
+			set {
+				_initialValue = SetParentOfChild(value, this, _initialValue);
+			}
 		}
 
 		public UnifiedVariableDefinition() {

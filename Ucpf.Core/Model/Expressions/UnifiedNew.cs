@@ -8,14 +8,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set {
+				_type = SetParentOfChild(value, this, _type);
+			}
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set {
+				_arguments = SetParentOfChild(value, this, _arguments);
+			}
 		}
 
 		public UnifiedNew() {

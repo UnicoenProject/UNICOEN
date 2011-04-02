@@ -8,21 +8,27 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Initializer {
 			get { return _initializer; }
-			set { _initializer = SetParentOfChild(value, _initializer); }
+			set {
+				_initializer = SetParentOfChild(value, this, _initializer);
+			}
 		}
 
 		private UnifiedExpression _condition;
 
 		public UnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set {
+				_condition = SetParentOfChild(value, this, _condition);
+			}
 		}
 
 		private UnifiedExpression _step;
 
 		public UnifiedExpression Step {
 			get { return _step; }
-			set { _step = SetParentOfChild(value, _step); }
+			set {
+				_step = SetParentOfChild(value, this, _step);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

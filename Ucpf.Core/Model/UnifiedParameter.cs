@@ -8,7 +8,9 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set {
+				_modifiers = SetParentOfChild(value, this, _modifiers);
+			}
 		}
 
 		public string Name { get; set; }
@@ -16,7 +18,9 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set {
+				_type = SetParentOfChild(value, this, _type);
+			}
 		}
 
 		public UnifiedParameter() {

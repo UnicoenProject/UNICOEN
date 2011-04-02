@@ -9,14 +9,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set {
+				_modifiers = SetParentOfChild(value, this, _modifiers);
+			}
 		}
 
 		private UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
-			set { _parameters = SetParentOfChild(value, _parameters); }
+			set {
+				_parameters = SetParentOfChild(value, this, _parameters);
+			}
 		}
 
 		public UnifiedConstructorDefinition() {

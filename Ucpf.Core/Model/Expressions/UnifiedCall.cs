@@ -8,14 +8,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Function {
 			get { return _function; }
-			set { _function = SetParentOfChild(value, _function); }
+			set {
+				_function = SetParentOfChild(value, this, _function);
+			}
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set {
+				_arguments = SetParentOfChild(value, this, _arguments);
+			}
 		}
 
 		public UnifiedCall() {

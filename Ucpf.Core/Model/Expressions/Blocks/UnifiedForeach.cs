@@ -8,14 +8,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedVariableDefinition Element {
 			get { return _element; }
-			set { _element = SetParentOfChild(value, _element); }
+			set {
+				_element = SetParentOfChild(value, this, _element);
+			}
 		}
 
 		private UnifiedExpression _set;
 
 		public UnifiedExpression Set {
 			get { return _set; }
-			set { _set = SetParentOfChild(value, _set); }
+			set {
+				_set = SetParentOfChild(value, this, _set);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

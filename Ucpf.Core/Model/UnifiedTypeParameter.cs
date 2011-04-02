@@ -8,14 +8,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set {
+				_modifiers = SetParentOfChild(value, this, _modifiers);
+			}
 		}
 
 		private UnifiedExpression _value;
 
 		public UnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set {
+				_value = SetParentOfChild(value, this, _value);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

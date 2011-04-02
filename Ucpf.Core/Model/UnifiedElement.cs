@@ -133,20 +133,21 @@ namespace Ucpf.Core.Model {
 		}
 
 		/// <summary>
-		///   指定した子要素の親を自分自身に設定します。
+		///   指定した子要素の親を指定した要素に設定します。
 		/// </summary>
 		/// <typeparam name = "T"></typeparam>
 		/// <param name = "child">新たに設定する子要素</param>
+		/// <param name="parent">親となる要素</param>
 		/// <param name="oldChild">元の子要素</param>
 		/// <returns></returns>
-		protected T SetParentOfChild<T>(T child, UnifiedElement oldChild)
+		public static T SetParentOfChild<T>(T child, UnifiedElement parent, UnifiedElement oldChild)
 				where T : UnifiedElement {
 			if (child != null) {
 				if (child.Parent != null) {
 					throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
 				}
-				child.Parent = this;
-			} else if (Parent != null) {
+				child.Parent = parent;
+			} else if (parent.Parent != null) {
 				oldChild.Remove();
 			}
 			return child;

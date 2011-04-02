@@ -8,7 +8,9 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Owner {
 			get { return _owner; }
-			set { _owner = SetParentOfChild(value, _owner); }
+			set {
+				_owner = SetParentOfChild(value, this, _owner);
+			}
 		}
 
 		public string Name { get; set; }

@@ -8,14 +8,18 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set {
+				_value = SetParentOfChild(value, this, _value);
+			}
 		}
 
 		private UnifiedCaseCollection _cases;
 
 		public UnifiedCaseCollection Cases {
 			get { return _cases; }
-			set { _cases = SetParentOfChild(value, _cases); }
+			set {
+				_cases = SetParentOfChild(value, this, _cases);
+			}
 		}
 
 		public UnifiedSwitch() {

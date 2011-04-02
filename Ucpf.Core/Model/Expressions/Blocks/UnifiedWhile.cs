@@ -9,7 +9,9 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set {
+				_condition = SetParentOfChild(value, this, _condition);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
