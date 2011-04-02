@@ -144,7 +144,7 @@ namespace Ucpf.Languages.Java.Model {
 			}
 		}
 
-		public static UnifiedExpression CreatePrimary(XElement node) {
+		public static IUnifiedExpression CreatePrimary(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary");
 			/*
@@ -163,7 +163,7 @@ namespace Ucpf.Languages.Java.Model {
 			if (first.HasContent("this") || first.Name() == "IDENTIFIER") {
 				var variable = UnifiedVariable.Create(first.Value);
 				var prop = first.NextElements("IDENTIFIER")
-						.Aggregate((UnifiedExpression)variable,
+						.Aggregate((IUnifiedExpression)variable,
 								(e, v) => new UnifiedProperty {
 										Owner = e,
 										Name = v.Value,
@@ -198,11 +198,11 @@ namespace Ucpf.Languages.Java.Model {
 			throw new InvalidOperationException();
 		}
 
-		private static UnifiedExpression CreateCreator(XElement first) {
+		private static IUnifiedExpression CreateCreator(XElement first) {
 			throw new NotImplementedException();
 		}
 
-		public static UnifiedExpression CreateSuperSuffix(XElement node, UnifiedExpression prefix) {
+		public static IUnifiedExpression CreateSuperSuffix(XElement node, IUnifiedExpression prefix) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "superSuffix");
 			/*
@@ -213,7 +213,7 @@ namespace Ucpf.Languages.Java.Model {
 			throw new NotImplementedException();
 		}
 
-		public static UnifiedExpression CreateIdentifierSuffix(XElement node, UnifiedExpression prefix) {
+		public static IUnifiedExpression CreateIdentifierSuffix(XElement node, IUnifiedExpression prefix) {
 			Contract.Requires(node == null || node.Name() == "identifierSuffix");
 			/*
 			 * identifierSuffix
@@ -244,20 +244,12 @@ namespace Ucpf.Languages.Java.Model {
 			 * arguments : '(' (expressionList)? ')'
 			 */
 
-			return CreateExpressionList(node);
-
-			var element = node
-				.Element("identifierSuffix")
-				.Element("arguments")
-				.Element("expressionList")
-				.Elements()
-				.Select(CreateArgument);
-			return new UnifiedArgumentCollection(element);
-			
-			throw new NotImplementedException();
+			var args = CreateExpressionList(node)
+					.Select(UnifiedArgument.Create);
+			return new UnifiedArgumentCollection(args);
 		}
 
-		public static UnifiedExpression CreateExpressionList(XElement node) {
+		public static UnifiedExpressionCollection CreateExpressionList(XElement node) {
 			Contract.Requires(node.Name() == "expressionList");
 			/*
 			 * expressionList : expression (',' expression )* ;
@@ -279,7 +271,7 @@ namespace Ucpf.Languages.Java.Model {
 		 */
 
 
-		public static UnifiedExpression CreateNew(XElement node) {
+		public static IUnifiedExpression CreateNew(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name().ToLower().EndsWith("creator"));
 			/* 
@@ -505,7 +497,7 @@ namespace Ucpf.Languages.Java.Model {
 			
 		}
 		
-		public static UnifiedExpression CreateBlockStatement(XElement node) {
+		public static IUnifiedExpression CreateBlockStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "blockStatement");
 			/*  blockStatement :
@@ -580,7 +572,7 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedExpression CreateForstatement(XElement forstatement)
+		public static IUnifiedExpression CreateForstatement(XElement forstatement)
 		{
 			Contract.Requires(forstatement != null);
 			Contract.Requires(forstatement.Name.LocalName == "forstatement");

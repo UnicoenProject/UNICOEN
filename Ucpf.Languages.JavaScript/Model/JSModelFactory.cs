@@ -256,7 +256,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				.Select(CreateVariableDefinition));
 		}
 
-		public static UnifiedExpression CreateVariableDefinition(XElement node) {
+		public static IUnifiedExpression CreateVariableDefinition(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
 
