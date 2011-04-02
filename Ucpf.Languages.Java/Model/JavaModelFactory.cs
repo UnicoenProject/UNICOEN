@@ -202,41 +202,72 @@ namespace Ucpf.Languages.Java.Model {
 			throw new NotImplementedException();
 		}
 
-		/*
-		 * superSuffix  
-		 * :   arguments
-		 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
-		 */
 		public static UnifiedExpression CreateSuperSuffix(XElement node, UnifiedExpression prefix) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "superSuffix");
+			/*
+			 * superSuffix  
+			 * :   arguments
+			 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
+			 */
 			throw new NotImplementedException();
 		}
 
-		/*
-		 * identifierSuffix
-		 * :   ('[' ']')+ '.' 'class'	// java.lang.String[].class
-		 * |   ('[' expression ']' )+	// strs[10]
-		 * |   arguments				// func(1, 2)
-		 * |   '.' 'class'				// java.lang.String.class
-		 * // this.<Integer>m(1), super.<Integer>m(1)
-		 * |   '.' nonWildcardTypeArguments IDENTIFIER arguments
-		 * |   '.' 'this'				// Outer.this
-		 * |   '.' 'super' arguments	// new Outer().super();
-		 * |   innerCreator				// new Outer().new <Integer> Inner<String>(1);
-		 */
 		public static UnifiedExpression CreateIdentifierSuffix(XElement node, UnifiedExpression prefix) {
 			Contract.Requires(node == null || node.Name() == "identifierSuffix");
+			/*
+			 * identifierSuffix
+			 * :   ('[' ']')+ '.' 'class'	// java.lang.String[].class
+			 * |   ('[' expression ']' )+	// strs[10]
+			 * |   arguments				// func(1, 2)
+			 * |   '.' 'class'				// java.lang.String.class
+			 * // this.<Integer>m(1), super.<Integer>m(1)
+			 * |   '.' nonWildcardTypeArguments IDENTIFIER arguments
+			 * |   '.' 'this'				// Outer.this
+			 * |   '.' 'super' arguments	// new Outer().super();
+			 * |   innerCreator				// new Outer().new <Integer> Inner<String>(1);
+			 */
+
 			if (node == null) {
 				return prefix;
+			}
+			if (node.Name() == "arguments") {
+				var args = CreateArguments(node);
+
 			}
 			throw new NotImplementedException();
 		}
 
-		/*
-		 * arguments 
-		 * :   '(' (expressionList)? ')'
-		 */
+		private static UnifiedArgumentCollection CreateArguments(XElement node) {
+			Contract.Requires(node.Name() == "arguments");
+			/*
+			 * arguments : '(' (expressionList)? ')'
+			 */
+
+			return CreateExpressionList(node);
+
+			var element = node
+				.Element("identifierSuffix")
+				.Element("arguments")
+				.Element("expressionList")
+				.Elements()
+				.Select(CreateArgument);
+			return new UnifiedArgumentCollection(element);
+			
+			throw new NotImplementedException();
+		}
+
+		public static UnifiedExpression CreateExpressionList(XElement node) {
+			Contract.Requires(node.Name() == "expressionList");
+			/*
+			 * expressionList : expression (',' expression )* ;
+			 */
+
+			var expressions = node.Elements("expression")
+					.Select(CreateExpression);
+			return new UnifiedExpressionCollection(expressions);
+		}
+
 
 		/* expressionList
 		 * :   expression (',' expression)*
@@ -641,21 +672,12 @@ namespace Ucpf.Languages.Java.Model {
 			throw new InvalidOperationException();
 		}
 
-
 		private static UnifiedModifierCollection CreateVariableModifiers(XElement xElement) {
 			/*
 			 * variableModifiers : ( 'final' | annotation )* ;
 			 */
 			if (xElement.Elements().Count() == 0) return null;
 			else throw new NotImplementedException();
-		}
-
-		public static IUnifiedExpression CreateExpressionList(XElement node) {
-			/*
-			 * expressionList : expression (',' expression )* ;
-			 */
-			return CreateExpression(node.Element("expression"));
-			//TODO: 構文に沿ったように実装する
 		}
 
 		public static UnifiedReturn CreateReturn(XElement node) {
