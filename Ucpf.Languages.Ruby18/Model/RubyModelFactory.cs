@@ -63,7 +63,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 					? new UnifiedBinaryOperator(sign, result) : null;
 		}
 
-		public static UnifiedExpression CreateCall(XElement node) {
+		public static IUnifiedExpression CreateCall(XElement node) {
 			Contract.Requires(node.Name.LocalName == "call");
 			var funcName = node.Elements().ElementAt(1).Value;
 			if (node.Elements().ElementAt(2).Elements().Count() == 1) {
@@ -85,7 +85,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			};
 		}
 
-		public static UnifiedExpression CreateExpression(XElement node) {
+		public static IUnifiedExpression CreateExpression(XElement node) {
 			var elems = node.Elements();
 			switch (node.Name.LocalName) {
 			case "lit":

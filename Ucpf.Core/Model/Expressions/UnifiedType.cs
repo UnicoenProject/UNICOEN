@@ -4,14 +4,14 @@ using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedType : UnifiedExpression {
+	public class UnifiedType : UnifiedElement, IUnifiedExpression {
 		public string Name { get; set; }
 		private UnifiedTypeParameterCollection _parameters;
 
 		public UnifiedTypeParameterCollection Parameters {
 			get { return _parameters; }
 			set {
-				_parameters = SetParentOfChild(value, this, _parameters);
+				_parameters = SetParentOfChild(value, _parameters);
 			}
 		}
 
@@ -25,7 +25,7 @@ namespace Ucpf.Core.Model {
 			};
 		}
 
-		public UnifiedType AddToParameters(UnifiedExpression expression) {
+		public UnifiedType AddToParameters(IUnifiedExpression expression) {
 			Parameters.Add(expression.ToTypeParameter());
 			return this;
 		}
@@ -44,19 +44,19 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Parameters;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_parameters, v => _parameters = (UnifiedTypeParameterCollection)v);
 		}
 	}

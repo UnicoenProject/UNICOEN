@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedReturn : UnifiedExpression {
-		private UnifiedExpression _value;
+	public class UnifiedReturn : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _value;
 
-		public UnifiedExpression Value {
+		public IUnifiedExpression Value {
 			get { return _value; }
 			set {
-				_value = SetParentOfChild(value, this, _value);
+				_value = SetParentOfChild(value, _value);
 			}
 		}
 
@@ -22,20 +22,20 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Value;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(Value, v => Value = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Value, v => Value = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_value, v => _value = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_value, v => _value = (IUnifiedExpression)v);
 		}
 	}
 }

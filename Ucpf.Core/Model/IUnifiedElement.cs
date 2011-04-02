@@ -7,7 +7,7 @@ namespace Ucpf.Core.Model {
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
-		UnifiedElement Parent { get; }
+		IUnifiedElement Parent { get; }
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -30,20 +30,20 @@ namespace Ucpf.Core.Model {
 		///   子要素を列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<UnifiedElement> GetElements();
+		IEnumerable<IUnifiedElement> GetElements();
 
 		/// <summary>
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters();
 
 		/// <summary>
@@ -52,32 +52,32 @@ namespace Ucpf.Core.Model {
 		///   ・子要素がUnifiedBlockだけのUnifiedBlockを削除
 		///   ・-1や+1などの単項式を定数に変換
 		/// </summary>
-		UnifiedElement Normalize();
+		IUnifiedElement Normalize();
 
 		/// <summary>
 		///   深いコピーを取得します。
 		/// </summary>
 		/// <returns>深いコピー</returns>
-		UnifiedElement DeepCopy();
+		IUnifiedElement DeepCopy();
 
 		/// <summary>
 		///   深いコピーを取得します。
 		/// </summary>
 		/// <returns>深いコピー</returns>
 		T DeepCopy<T>()
-				where T : UnifiedElement;
+				where T : IUnifiedElement;
 
 		/// <summary>
 		/// 指定した子要素を削除します。
 		/// </summary>
 		/// <param name="target">自分自身</param>
 		/// <returns></returns>
-		UnifiedElement RemoveChild(UnifiedElement target);
+		IUnifiedElement RemoveChild(IUnifiedElement target);
 
 		/// <summary>
 		///   親要素から自分自身を削除します。
 		/// </summary>
 		/// <returns>親要素</returns>
-		UnifiedElement Remove();
+		IUnifiedElement Remove();
 	}
 }

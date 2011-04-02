@@ -9,7 +9,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set {
-				_modifiers = SetParentOfChild(value, this, _modifiers);
+				_modifiers = SetParentOfChild(value, _modifiers);
 			}
 		}
 
@@ -19,7 +19,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedType Type {
 			get { return _type; }
 			set {
-				_type = SetParentOfChild(value, this, _type);
+				_type = SetParentOfChild(value, _type);
 			}
 		}
 
@@ -36,24 +36,24 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Modifiers;
 			yield return Type;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Type, v => Type = (UnifiedType)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_type, v => _type = (UnifiedType)v);
 		}
 	}

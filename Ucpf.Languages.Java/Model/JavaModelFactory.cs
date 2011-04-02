@@ -14,7 +14,7 @@ namespace Ucpf.Languages.Java.Model {
 	{
 		#region Expression
 
-		public static UnifiedExpression CreateExpression(XElement node) {
+		public static IUnifiedExpression CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 			
 			//TODO IMPLEMENT: more operators
@@ -279,7 +279,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		#region Statement
 
-		public static UnifiedExpression CreateStatement(XElement node) {
+		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			var element = node.FirstElement();
 
@@ -303,7 +303,7 @@ namespace Ucpf.Languages.Java.Model {
 			if (block == null)
 				return new UnifiedBlock();
 
-			var list = new List<UnifiedExpression>();
+			var list = new List<IUnifiedExpression>();
 		
 			foreach(var e in block.Elements())
 			{
@@ -370,7 +370,7 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedExpression CreateFor(XElement node) {
+		public static IUnifiedExpression CreateFor(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Elements().First().Name.LocalName == "forstatement");
 			/*	forstatement :   
@@ -448,7 +448,7 @@ namespace Ucpf.Languages.Java.Model {
 			return new UnifiedBreak();
 		}
 
-		private static UnifiedExpression CreateForInit(XElement node) {
+		private static IUnifiedExpression CreateForInit(XElement node) {
 			Contract.Requires(node.Name.LocalName == "forInit");
 		/* forInit : localVariableDeclaration | expressionList ;
 		 */
@@ -470,7 +470,7 @@ namespace Ucpf.Languages.Java.Model {
 			else throw new NotImplementedException();
 		}
 
-		public static UnifiedExpression CreateExpressionList(XElement node) {
+		public static IUnifiedExpression CreateExpressionList(XElement node) {
 			/*
 			 * expressionList : expression (',' expression )* ;
 			 */
@@ -480,7 +480,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedReturn CreateReturn(XElement node) {
 			Contract.Requires(node != null);
-			UnifiedExpression value = null;
+			IUnifiedExpression value = null;
 			var i = node.Elements().Count();
 			if (node.Elements().Count() == 3) {
 				value = CreateExpression(node.Element("expression"));
@@ -650,7 +650,7 @@ namespace Ucpf.Languages.Java.Model {
 				.Select(CreateMember).ToList());
 		}
 
-		public static UnifiedExpression CreateMember(XElement node) {
+		public static IUnifiedExpression CreateMember(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classBodyDeclaration");
 			var memType = node.Element("memberDecl").FirstElement();

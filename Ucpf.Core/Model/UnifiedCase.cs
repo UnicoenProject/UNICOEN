@@ -4,12 +4,12 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedCase : UnifiedElement {
-		private UnifiedExpression _condition;
+		private IUnifiedExpression _condition;
 
-		public UnifiedExpression Condition {
+		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set {
-				_condition = SetParentOfChild(value, this, _condition);
+				_condition = SetParentOfChild(value, _condition);
 			}
 		}
 
@@ -18,7 +18,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedBlock Body {
 			get { return _body; }
 			set {
-				_body = SetParentOfChild(value, this, _body);
+				_body = SetParentOfChild(value, _body);
 			}
 		}
 
@@ -35,28 +35,28 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Condition;
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(Condition, v => Condition = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Condition, v => Condition = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_condition, v => _condition = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_condition, v => _condition = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 
-		public UnifiedCase AddToBody(UnifiedExpression expression) {
+		public UnifiedCase AddToBody(IUnifiedExpression expression) {
 			Body.Add(expression);
 			return this;
 		}

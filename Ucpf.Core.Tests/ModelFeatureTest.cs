@@ -88,15 +88,15 @@ namespace Ucpf.Core.Tests {
 			}
 		}
 
-		private static IEnumerable<UnifiedElement> GetProperties(UnifiedElement element) {
-			var elements = element as IEnumerable<UnifiedElement>;
+		private static IEnumerable<IUnifiedElement> GetProperties(IUnifiedElement element) {
+			var elements = element as IEnumerable<IUnifiedElement>;
 			if (elements != null) {
 				return elements;
 			}
 			return element.GetType().GetProperties()
 					.Where(prop => prop.Name != "Parent")
-					.Where(prop => typeof(UnifiedElement).IsAssignableFrom(prop.PropertyType))
-					.Select(prop => (UnifiedElement)prop.GetValue(element, null));
+					.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType))
+					.Select(prop => (IUnifiedElement)prop.GetValue(element, null));
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace Ucpf.Core.Tests {
 			VerifyParentProperty(model);
 		}
 
-		private static void VerifyParentProperty(UnifiedElement parent) {
+		private static void VerifyParentProperty(IUnifiedElement parent) {
 			foreach (var element in parent.GetElements()) {
 				if (element != null) {
 					Assert.That(element.Parent, Is.SameAs(parent));

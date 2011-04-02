@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedIf : UnifiedExpression {
-		private UnifiedExpression _condition;
+	public class UnifiedIf : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _condition;
 
-		public UnifiedExpression Condition {
+		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set {
-				_condition = SetParentOfChild(value, this, _condition);
+				_condition = SetParentOfChild(value, _condition);
 			}
 		}
 
@@ -18,7 +18,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedBlock TrueBody {
 			get { return _trueBody; }
 			set {
-				_trueBody = SetParentOfChild(value, this, _trueBody);
+				_trueBody = SetParentOfChild(value, _trueBody);
 			}
 		}
 
@@ -27,7 +27,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
 			set {
-				_falseBody = SetParentOfChild(value, this, _falseBody);
+				_falseBody = SetParentOfChild(value, _falseBody);
 			}
 		}
 
@@ -36,12 +36,12 @@ namespace Ucpf.Core.Model {
 			FalseBody = new UnifiedBlock();
 		}
 
-		public UnifiedIf AddToTrueBody(UnifiedExpression expression) {
+		public UnifiedIf AddToTrueBody(IUnifiedExpression expression) {
 			TrueBody.Add(expression);
 			return this;
 		}
 
-		public UnifiedIf AddToFalseBody(UnifiedExpression expression) {
+		public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
 			FalseBody.Add(expression);
 			return this;
 		}
@@ -60,29 +60,29 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Condition;
 			yield return TrueBody;
 			yield return FalseBody;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(Condition, v => Condition = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Condition, v => Condition = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(TrueBody, v => TrueBody = (UnifiedBlock)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(FalseBody, v => FalseBody = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_condition, v => _condition = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_condition, v => _condition = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_trueBody, v => _trueBody = (UnifiedBlock)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_falseBody, v => _falseBody = (UnifiedBlock)v);
 		}
 	}

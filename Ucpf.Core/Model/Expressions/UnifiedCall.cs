@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedCall : UnifiedExpression {
-		private UnifiedExpression _function;
+	public class UnifiedCall : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _function;
 
-		public UnifiedExpression Function {
+		public IUnifiedExpression Function {
 			get { return _function; }
 			set {
-				_function = SetParentOfChild(value, this, _function);
+				_function = SetParentOfChild(value, _function);
 			}
 		}
 
@@ -18,7 +18,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set {
-				_arguments = SetParentOfChild(value, this, _arguments);
+				_arguments = SetParentOfChild(value, _arguments);
 			}
 		}
 
@@ -35,24 +35,24 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Function;
 			yield return Arguments;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(Function, v => Function = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Function, v => Function = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_function, v => _function = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_function, v => _function = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 	}

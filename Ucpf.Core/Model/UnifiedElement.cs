@@ -11,7 +11,7 @@ namespace Ucpf.Core.Model {
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
-		public UnifiedElement Parent { get; protected internal set; }
+		public IUnifiedElement Parent { get; protected internal set; }
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -34,20 +34,20 @@ namespace Ucpf.Core.Model {
 		///   子要素を列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<UnifiedElement> GetElements();
+		public abstract IEnumerable<IUnifiedElement> GetElements();
 
 		/// <summary>
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public abstract IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public abstract IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters();
 
 		/// <summary>
@@ -56,7 +56,7 @@ namespace Ucpf.Core.Model {
 		///   ・子要素がUnifiedBlockだけのUnifiedBlockを削除
 		///   ・-1や+1などの単項式を定数に変換
 		/// </summary>
-		public virtual UnifiedElement Normalize() {
+		public virtual IUnifiedElement Normalize() {
 			NormalizeChildren();
 			return this;
 		}
@@ -69,7 +69,7 @@ namespace Ucpf.Core.Model {
 				if (elemAndSetter.Item1 != null) {
 					var child = elemAndSetter.Item1.Normalize();
 					elemAndSetter.Item2(child);
-					child.Parent = this;
+					((UnifiedElement)child).Parent = this;
 				}
 			}
 		}
@@ -78,7 +78,7 @@ namespace Ucpf.Core.Model {
 		///   深いコピーを取得します。
 		/// </summary>
 		/// <returns>深いコピー</returns>
-		public virtual UnifiedElement DeepCopy() {
+		public virtual IUnifiedElement DeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
 			foreach (var elemAndSetter in ret.GetElementAndDirectSetters()) {
@@ -94,7 +94,7 @@ namespace Ucpf.Core.Model {
 		/// </summary>
 		/// <returns>深いコピー</returns>
 		public virtual T DeepCopy<T>()
-				where T : UnifiedElement {
+				where T : IUnifiedElement {
 			return (T)DeepCopy();
 		}
 
@@ -114,12 +114,12 @@ namespace Ucpf.Core.Model {
 		/// </summary>
 		/// <param name="target">自分自身</param>
 		/// <returns></returns>
-		public virtual UnifiedElement RemoveChild(UnifiedElement target) {
+		public virtual IUnifiedElement RemoveChild(IUnifiedElement target) {
 			Contract.Requires(target != null);
 			var elem = GetElementAndDirectSetters()
 					.First(e => ReferenceEquals(target, e.Item1));
 			elem.Item2(null);
-			target.Parent = null;
+			((UnifiedElement)target).Parent = null;
 			return this;
 		}
 
@@ -127,7 +127,7 @@ namespace Ucpf.Core.Model {
 		///   親要素から自分自身を削除します。
 		/// </summary>
 		/// <returns>親要素</returns>
-		public UnifiedElement Remove() {
+		public IUnifiedElement Remove() {
 			Contract.Requires(Parent != null, "親要素がない状態でRemoveメソッドを実行できません。");
 			return Parent.RemoveChild(this);
 		}
@@ -137,17 +137,16 @@ namespace Ucpf.Core.Model {
 		/// </summary>
 		/// <typeparam name = "T"></typeparam>
 		/// <param name = "child">新たに設定する子要素</param>
-		/// <param name="parent">親となる要素</param>
 		/// <param name="oldChild">元の子要素</param>
 		/// <returns></returns>
-		public static T SetParentOfChild<T>(T child, UnifiedElement parent, UnifiedElement oldChild)
-				where T : UnifiedElement {
+		protected T SetParentOfChild<T>(T child, IUnifiedElement oldChild)
+				where T : class, IUnifiedElement {
 			if (child != null) {
 				if (child.Parent != null) {
 					throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
 				}
-				child.Parent = parent;
-			} else if (parent.Parent != null) {
+				((UnifiedElement)(IUnifiedElement)child).Parent = this;
+			} else if (Parent != null) {
 				oldChild.Remove();
 			}
 			return child;

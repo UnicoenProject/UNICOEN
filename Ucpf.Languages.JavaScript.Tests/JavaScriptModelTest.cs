@@ -178,7 +178,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block     = _func.Body;
 			var firstStmt = block.First();
 
-			Assert.That(firstStmt, Is.InstanceOf<UnifiedExpression>());
+			Assert.That(firstStmt, Is.InstanceOf<IUnifiedExpression>());
 		}
 	}
 }
