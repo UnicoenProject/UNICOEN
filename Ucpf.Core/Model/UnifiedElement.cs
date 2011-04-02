@@ -7,7 +7,7 @@ using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public abstract class UnifiedElement : ICloneable {
+	public abstract class UnifiedElement : IUnifiedElement {
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
