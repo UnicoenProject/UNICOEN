@@ -237,19 +237,87 @@ namespace Ucpf.Languages.JavaScript.Model {
 				case "ifStatement": return CreateIf(element);
 				case "returnStatement": return CreateReturn(element);
 				case "iterationStatement": return CreateIteration(element);
+				case "switchStatement": return CreateSwitch(element);
 				default: throw new NotImplementedException();
 			}
 		}
 
 		private static UnifiedExpression CreateIteration(XElement element) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("iterationStatement"));
+			/*
+			 * iterationStatement
+				: doWhileStatement
+				| whileStatement
+				| forStatement
+				| forInStatement 
+			 */
+
 			var child = element.Elements().First();
 			switch (child.Name.LocalName) {
 				case "whileStatement": return CreateWhile(child);
-				case "forStatement":
-				case "forInStatement":
-				case "doWhileStatement":
+				case "forStatement": return CreateFor(child);
+				case "forInStatement": return CreateForeach(child);
+				case "doWhileStatement": return CreateDoWhile(child);
 				default: throw new NotImplementedException();
 			}
+		}
+
+		public static UnifiedFor CreateFor(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("forStatement"));
+			/* 
+			 * forStatement
+				: 'for' LT!* '(' (LT!* forStatementInitialiserPart)? LT!* ';' (LT!* expression)? LT!* ';' (LT!* expression)? LT!* ')' LT!* statement 
+			 */
+			/*
+			 * forStatementInitialiserPart
+				: expressionNoIn
+				| 'var' LT!* variableDeclarationListNoIn
+			 */
+
+			//TODO 途中のexpressionがない場合を考慮しないといけない
+			//TODO Initializerをどう実装するか考える
+			return new UnifiedFor {
+					Initializer = null,	
+					Condition = CreateExpression(node.Elements("expression").ElementAt(0)),
+					Step = CreateExpression(node.Elements("expression").ElementAt(1)),
+					Body = new UnifiedBlock {
+						CreateStatement(node.Element("statement"))
+					}
+			};
+		}
+
+		public static UnifiedForeach CreateForeach(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("forInStatement"));
+			/* 
+			 * forInStatement
+				: 'for' LT!* '(' LT!* forInStatementInitialiserPart LT!* 'in' LT!* expression LT!* ')' LT!* statement 
+			 */
+			//TODO Initializerをどう実装するか考える
+			return new UnifiedForeach {
+					Element = null,
+					Set = CreateExpression(node.Element("expression")),
+					Body =  new UnifiedBlock {
+						CreateStatement(node.Element("statement"))
+					},
+			};
+		}
+
+		public static UnifiedDoWhile CreateDoWhile(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("doWhileStatement"));
+			/* 
+			 * doWhileStatement
+				: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';') 
+			 */
+			return new UnifiedDoWhile {
+					Body = new UnifiedBlock {
+						CreateStatement(node.Element("statement"))
+					},
+					Condition = CreateExpression(node.Element("expression"))
+			};
 		}
 
 		public static UnifiedBlock CreateVariableStatementList(XElement node) {
@@ -323,6 +391,12 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedExpression CreateIf(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "ifStatement");
+			/*
+			 * ifStatement
+				: 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)? 
+			 */
 			return new UnifiedIf {
 					//TODO consider how deal with else block
 					Condition = CreateExpression(node.Element("expression")),
@@ -344,6 +418,61 @@ namespace Ucpf.Languages.JavaScript.Model {
 						CreateStatement(node.Element("statement"))
 					},
 					Condition = CreateExpression(node.Element("expression"))
+			};
+		}
+
+		public static UnifiedSwitch CreateSwitch(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "switchStatement");
+			/*
+			 * switchStatement
+				: 'switch' LT!* '(' LT!* expression LT!* ')' LT!* caseBlock 
+			 */
+
+			return new UnifiedSwitch {
+					Cases = CreateCaseCollection(node.Element("caseBlock")),
+					Value = CreateExpression(node.Element("expression"))
+			};
+		}
+
+		public static UnifiedCaseCollection CreateCaseCollection(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName == "caseBlock");
+			/*
+			 * caseBlock
+				: '{' (LT!* caseClause)* (LT!* defaultClause (LT!* caseClause)*)? LT!* '}'
+			 */
+
+			return new UnifiedCaseCollection(node.Elements().Select(CreateCase));
+		}
+
+		public static UnifiedCase CreateCase(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("Clause"));
+			/*
+			 * caseClause
+				: 'case' LT!* expression LT!* ':' LT!* statementList?
+
+			 * defaultClause
+				: 'default' LT!* ':' LT!* statementList? 
+			 */
+
+			var body = new UnifiedBlock(node
+				.Element("statementList")
+				.Elements("statement")
+				.Select(CreateStatement).ToList()
+				);
+
+			if(node.Name.LocalName == "caseClause") {
+				return new UnifiedCase {
+						Body = body,
+						Condition = CreateExpression(node.Element("expression"))
+				};
+			}
+			//else
+			return new UnifiedCase {
+					Body = body,
+					Condition = null
 			};
 		}
 
