@@ -226,6 +226,26 @@ namespace Ucpf.Languages.JavaScript.Model {
 				| tryStatement
 			 */
 
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("statement"));
+			/* 
+			 * statement
+				: statementBlock
+				| variableStatement
+				| emptyStatement
+				| expressionStatement
+				| ifStatement
+				| iterationStatement
+				| continueStatement
+				| breakStatement
+				| returnStatement
+				| withStatement
+				| labelledStatement
+				| switchStatement
+				| throwStatement
+				| tryStatement
+			 */
+
 			var element = node.Elements().First();
 
 			switch (element.Name.LocalName) {
