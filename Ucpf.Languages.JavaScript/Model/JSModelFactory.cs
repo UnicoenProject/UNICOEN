@@ -11,7 +11,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 	public class JSModelFactory {
 		#region Expression
 
-		public static UnifiedExpression CreateExpression(XElement node) {
+		public static IUnifiedExpression CreateExpression(XElement node) {
 
 			String[] binaryOperator = {
 				"+", "-", "*", "/", "%", "<", ">"
@@ -92,19 +92,19 @@ namespace Ucpf.Languages.JavaScript.Model {
 			};
 		}
 
-		public static UnifiedExpression CreatePostfixUnaryExpression(XElement node) {
+		public static IUnifiedExpression CreatePostfixUnaryExpression(XElement node) {
 			//node.Elements().ElementAt(0),
 			//CreateUnaryOperator.CreatePostfixOperator(node.Elements().ElementAt(1)));
 			return null;
 		}
 
-		public static UnifiedExpression CreatePrefixUnaryExpression(XElement node) {
+		public static IUnifiedExpression CreatePrefixUnaryExpression(XElement node) {
 			//node.Elements().ElementAt(1),
 			//CreateUnaryOperator.CreatePrefixOperator(node.Elements().ElementAt(0)));
 			return null;
 		}
 
-		public static UnifiedExpression CreateLiteral(XElement node) {
+		public static IUnifiedExpression CreateLiteral(XElement node) {
 			int i;
 			if( Int32.TryParse(node.Value,NumberStyles.Any, null, out i) )
 			{
@@ -205,7 +205,27 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 		#region Statement
 
-		public static UnifiedExpression CreateStatement(XElement node) {
+		public static IUnifiedExpression CreateStatement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name.LocalName.EndsWith("statement"));
+			/* 
+			 * statement
+				: statementBlock
+				| variableStatement
+				| emptyStatement
+				| expressionStatement
+				| ifStatement
+				| iterationStatement
+				| continueStatement
+				| breakStatement
+				| returnStatement
+				| withStatement
+				| labelledStatement
+				| switchStatement
+				| throwStatement
+				| tryStatement
+			 */
+
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("statement"));
 			/* 
@@ -256,7 +276,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				.Select(CreateVariableDefinition));
 		}
 
-		public static UnifiedExpression CreateVariableDefinition(XElement node) {
+		public static IUnifiedExpression CreateVariableDefinition(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
 
@@ -292,7 +312,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 					);
 		}
 
-		public static UnifiedExpression CreateIf(XElement node) {
+		public static IUnifiedExpression CreateIf(XElement node) {
 			return new UnifiedIf {
 					//TODO consider how deal with else block
 					Condition = CreateExpression(node.Element("expression")),

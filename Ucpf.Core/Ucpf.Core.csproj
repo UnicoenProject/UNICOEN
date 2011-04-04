@@ -90,7 +90,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedContinue.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedDoWhile.cs" />
-    <Compile Include="Model\Expressions\UnifiedExpression.cs" />
+    <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedExpressionWithBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFor.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />
     <Compile Include="Model\Extensions\ModelSweeper.cs" />
+    <Compile Include="Model\IUnifiedElement.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\UnifiedArgumentCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />

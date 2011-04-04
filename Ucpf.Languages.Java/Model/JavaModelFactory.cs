@@ -15,7 +15,7 @@ namespace Ucpf.Languages.Java.Model {
 	{
 		#region Expression
 
-		public static UnifiedExpression CreateExpression(XElement node) {
+		public static IUnifiedExpression CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 			//Contract.Requires(node.Name().ToLower().EndsWith("expression"));
 			//UnaryExpressionの際に<primary>が来る可能性もある
@@ -148,7 +148,7 @@ namespace Ucpf.Languages.Java.Model {
 			}
 		}
 
-		public static UnifiedExpression CreatePrimary(XElement node) {
+		public static IUnifiedExpression CreatePrimary(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary");
 			/*
@@ -167,7 +167,7 @@ namespace Ucpf.Languages.Java.Model {
 			if (first.HasContent("this") || first.Name() == "IDENTIFIER") {
 				var variable = UnifiedVariable.Create(first.Value);
 				var prop = first.NextElements("IDENTIFIER")
-						.Aggregate((UnifiedExpression)variable,
+						.Aggregate((IUnifiedExpression)variable,
 								(e, v) => new UnifiedProperty {
 										Owner = e,
 										Name = v.Value,
@@ -202,48 +202,68 @@ namespace Ucpf.Languages.Java.Model {
 			throw new InvalidOperationException();
 		}
 
-		private static UnifiedExpression CreateCreator(XElement first) {
+		private static IUnifiedExpression CreateCreator(XElement first) {
 			throw new NotImplementedException();
 		}
 
-		/*
-		 * superSuffix  
-		 * :   arguments
-		 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
-		 */
-		public static UnifiedExpression CreateSuperSuffix(XElement node, UnifiedExpression prefix) {
+		public static IUnifiedExpression CreateSuperSuffix(XElement node, IUnifiedExpression prefix) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "superSuffix");
+			/*
+			 * superSuffix  
+			 * :   arguments
+			 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
+			 */
 			throw new NotImplementedException();
 		}
 
-		/*
-		 * identifierSuffix
-		 * :   ('[' ']')+ '.' 'class'	// java.lang.String[].class
-		 * |   ('[' expression ']' )+	// strs[10]
-		 * |   arguments				// func(1, 2)
-		 * |   '.' 'class'				// java.lang.String.class
-		 * // this.<Integer>m(1), super.<Integer>m(1)
-		 * |   '.' nonWildcardTypeArguments IDENTIFIER arguments
-		 * |   '.' 'this'				// Outer.this
-		 * |   '.' 'super' arguments	// new Outer().super();
-		 * |   innerCreator				// new Outer().new <Integer> Inner<String>(1);
-		 */
-		public static UnifiedExpression CreateIdentifierSuffix(XElement node, UnifiedExpression prefix) {
+		public static IUnifiedExpression CreateIdentifierSuffix(XElement node, IUnifiedExpression prefix) {
 			Contract.Requires(node == null || node.Name() == "identifierSuffix");
+			/*
+			 * identifierSuffix
+			 * :   ('[' ']')+ '.' 'class'	// java.lang.String[].class
+			 * |   ('[' expression ']' )+	// strs[10]
+			 * |   arguments				// func(1, 2)
+			 * |   '.' 'class'				// java.lang.String.class
+			 * // this.<Integer>m(1), super.<Integer>m(1)
+			 * |   '.' nonWildcardTypeArguments IDENTIFIER arguments
+			 * |   '.' 'this'				// Outer.this
+			 * |   '.' 'super' arguments	// new Outer().super();
+			 * |   innerCreator				// new Outer().new <Integer> Inner<String>(1);
+			 */
+
 			if (node == null) {
 				return prefix;
 			}
-			if(node.Element("expression") != null) {
-				return CreateExpression(node.Element("expression"));
+			if (node.Name() == "arguments") {
+				var args = CreateArguments(node);
+
 			}
 			throw new NotImplementedException();
 		}
 
-		/*
-		 * arguments 
-		 * :   '(' (expressionList)? ')'
-		 */
+		private static UnifiedArgumentCollection CreateArguments(XElement node) {
+			Contract.Requires(node.Name() == "arguments");
+			/*
+			 * arguments : '(' (expressionList)? ')'
+			 */
+
+			var args = CreateExpressionList(node)
+					.Select(UnifiedArgument.Create);
+			return new UnifiedArgumentCollection(args);
+		}
+
+		public static UnifiedExpressionCollection CreateExpressionList(XElement node) {
+			Contract.Requires(node.Name() == "expressionList");
+			/*
+			 * expressionList : expression (',' expression )* ;
+			 */
+
+			var expressions = node.Elements("expression")
+					.Select(CreateExpression);
+			return new UnifiedExpressionCollection(expressions);
+		}
+
 
 		/* expressionList
 		 * :   expression (',' expression)*
@@ -255,7 +275,7 @@ namespace Ucpf.Languages.Java.Model {
 		 */
 
 
-		public static UnifiedExpression CreateNew(XElement node) {
+		public static IUnifiedExpression CreateNew(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name().ToLower().EndsWith("creator"));
 			/* 
@@ -415,7 +435,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		#region Statement
 
-		public static UnifiedExpression CreateStatement(XElement node) {
+		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			/*
@@ -467,7 +487,7 @@ namespace Ucpf.Languages.Java.Model {
 			if (block == null)
 				return new UnifiedBlock();
 
-			var list = new List<UnifiedExpression>();
+			var list = new List<IUnifiedExpression>();
 
 			foreach (var e in block.Elements()) {
 				if (e.Name.LocalName == "blockStatement") {
@@ -484,7 +504,7 @@ namespace Ucpf.Languages.Java.Model {
 			
 		}
 		
-		public static UnifiedExpression CreateBlockStatement(XElement node) {
+		public static IUnifiedExpression CreateBlockStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "blockStatement");
 			/*  blockStatement :
@@ -559,7 +579,7 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedExpression CreateForstatement(XElement forstatement)
+		public static IUnifiedExpression CreateForstatement(XElement forstatement)
 		{
 			Contract.Requires(forstatement != null);
 			Contract.Requires(forstatement.Name.LocalName == "forstatement");
@@ -638,7 +658,7 @@ namespace Ucpf.Languages.Java.Model {
 			return new UnifiedBreak();
 		}
 
-		private static UnifiedExpression CreateForInit(XElement node) {
+		private static IUnifiedExpression CreateForInit(XElement node) {
 			Contract.Requires(node.Name.LocalName == "forInit");
 		/* forInit : localVariableDeclaration | expressionList ;
 		 */
@@ -651,7 +671,6 @@ namespace Ucpf.Languages.Java.Model {
 			throw new InvalidOperationException();
 		}
 
-
 		private static UnifiedModifierCollection CreateVariableModifiers(XElement xElement) {
 			/*
 			 * variableModifiers : ( 'final' | annotation )* ;
@@ -660,17 +679,9 @@ namespace Ucpf.Languages.Java.Model {
 			else throw new NotImplementedException();
 		}
 
-		public static UnifiedExpression CreateExpressionList(XElement node) {
-			/*
-			 * expressionList : expression (',' expression )* ;
-			 */
-			return CreateExpression(node.Element("expression"));
-			//TODO: 構文に沿ったように実装する
-		}
-
 		public static UnifiedReturn CreateReturn(XElement node) {
 			Contract.Requires(node != null);
-			UnifiedExpression value = null;
+			IUnifiedExpression value = null;
 			var i = node.Elements().Count();
 			if (node.Elements().Count() == 3) {
 				value = CreateExpression(node.Element("expression"));
@@ -935,7 +946,7 @@ namespace Ucpf.Languages.Java.Model {
 				.Select(CreateMember).ToList());
 		}
 
-		public static UnifiedExpression CreateMember(XElement node) {
+		public static IUnifiedExpression CreateMember(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classBodyDeclaration");
 			var memType = node.Element("memberDecl").FirstElement();

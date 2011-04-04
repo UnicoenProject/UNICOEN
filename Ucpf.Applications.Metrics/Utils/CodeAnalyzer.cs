@@ -20,7 +20,7 @@ namespace Ucpf.Applications.Metrics.Utils {
 			return null;
 		}
 
-		private static void InitializeCounter(UnifiedElement model,
+		private static void InitializeCounter(IUnifiedElement model,
 		                                      IDictionary<string, int> counter) {
 			var outers = model.GetElements()
 					.Where(e => e is UnifiedClassDefinition ||
@@ -31,7 +31,7 @@ namespace Ucpf.Applications.Metrics.Utils {
 			}
 		}
 
-		private static void CountElements(IEnumerable<UnifiedElement> targets,
+		private static void CountElements(IEnumerable<IUnifiedElement> targets,
 		                                  IDictionary<string, int> counter) {
 			foreach (var e in targets) {
 				var outerStr = GetOutersString(e);
@@ -39,7 +39,7 @@ namespace Ucpf.Applications.Metrics.Utils {
 			}
 		}
 
-		private static string GetOutersName(UnifiedElement element) {
+		private static string GetOutersName(IUnifiedElement element) {
 			var klass = element as UnifiedClassDefinition;
 			if (klass != null) {
 				return "class " + klass.Name;
@@ -51,7 +51,7 @@ namespace Ucpf.Applications.Metrics.Utils {
 			return null;
 		}
 
-		private static string GetOutersString(UnifiedElement target) {
+		private static string GetOutersString(IUnifiedElement target) {
 			var result = "";
 			foreach (var e in target.ParentsAndSelf()) {
 				var name = GetOutersName(e);
@@ -67,7 +67,7 @@ namespace Ucpf.Applications.Metrics.Utils {
 
 		public static Dictionary<string, int> Measure(
 				string filePath,
-				Func<UnifiedElement, IEnumerable<UnifiedElement>> getTargetElementsFunc) {
+				Func<IUnifiedElement, IEnumerable<IUnifiedElement>> getTargetElementsFunc) {
 			var counts = new Dictionary<string, int>();
 			var ext = Path.GetExtension(filePath);
 			var code = File.ReadAllText(filePath);

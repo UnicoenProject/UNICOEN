@@ -15,7 +15,7 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitCompilationUnit(CompilationUnit compilationUnit, object data) {
 			var program = new UnifiedProgram();
 			foreach (var child in compilationUnit.Children) {
-				var expr = child.AcceptVisitor(this, data) as UnifiedExpression;
+				var expr = child.AcceptVisitor(this, data) as IUnifiedExpression;
 				if (expr != null)
 					program.Add(expr);
 			}
@@ -39,7 +39,7 @@ namespace Ucpf.Languages.CSharp {
 				from varDec in dec.Fields
 				let name = varDec.Name
 				let value =
-					varDec.Initializer.AcceptVisitor(this, null) as UnifiedExpression
+					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
 				select new UnifiedVariableDefinition {
 					Name = name,
 					Type = type,
@@ -91,12 +91,12 @@ namespace Ucpf.Languages.CSharp {
 
 		#region block and statements
 
-		private UnifiedExpression ConvertStatement(Statement stmt) {
+		private IUnifiedExpression ConvertStatement(Statement stmt) {
 			var obj = stmt.AcceptVisitor(this, null);
-			var expr = obj as UnifiedExpression;
+			var expr = obj as IUnifiedExpression;
 			if (expr != null)
 				return expr;
-			var exprs = obj as IEnumerable<UnifiedExpression>;
+			var exprs = obj as IEnumerable<IUnifiedExpression>;
 			if (exprs != null) {
 				var exprList = exprs.ToList();
 				if (exprList.Count == 1)
@@ -113,7 +113,7 @@ namespace Ucpf.Languages.CSharp {
 			return new UnifiedBlock { ConvertStatement(stmt) };
 		}
 
-		private UnifiedExpression ConvertStatements(IList<Statement> stmts) {
+		private IUnifiedExpression ConvertStatements(IList<Statement> stmts) {
 			if (stmts.Count == 1)
 				return ConvertStatement(stmts[0]);
 			else
@@ -142,7 +142,7 @@ namespace Ucpf.Languages.CSharp {
 				from varDec in dec.Variables
 				let name = varDec.Name
 				let value =
-					varDec.Initializer.AcceptVisitor(this, null) as UnifiedExpression
+					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
 				select new UnifiedVariableDefinition {
 					Name = name,
 					Type = type,
@@ -155,13 +155,13 @@ namespace Ucpf.Languages.CSharp {
 		#region Control flow
 
 		public object VisitIfElseStatement(IfElseStatement stmt, object data) {
-			var cond = stmt.Condition.AcceptVisitor(this, data) as UnifiedExpression;
+			var cond = stmt.Condition.AcceptVisitor(this, data) as IUnifiedExpression;
 			Func<List<Statement>, UnifiedBlock> toBlock = block => {
 				if (block.Count == 0)
 					return null;
 				var stmts = block
 						.Select(x => x.AcceptVisitor(this, data))
-						.OfType<UnifiedExpression>()
+						.OfType<IUnifiedExpression>()
 						.ToList();
 				return new UnifiedBlock(stmts);
 			};
@@ -200,8 +200,8 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitDoLoopStatement(DoLoopStatement stmt, object data) {
 			var pos = stmt.ConditionPosition;
-			var uCond = (UnifiedExpression)stmt.Condition.AcceptVisitor(this, data);
-			var elem = (UnifiedExpression)stmt.EmbeddedStatement.AcceptVisitor(this, data);
+			var uCond = (IUnifiedExpression)stmt.Condition.AcceptVisitor(this, data);
+			var elem = (IUnifiedExpression)stmt.EmbeddedStatement.AcceptVisitor(this, data);
 			var uBody = new UnifiedBlock { elem };
 
 			switch (pos) {
@@ -249,7 +249,7 @@ namespace Ucpf.Languages.CSharp {
 		#region jump
 
 		public object VisitReturnStatement(ReturnStatement stmt, object data) {
-			var value = stmt.Expression.AcceptVisitor(this, data) as UnifiedExpression;
+			var value = stmt.Expression.AcceptVisitor(this, data) as IUnifiedExpression;
 			return new UnifiedReturn { Value = value };
 		}
 
@@ -268,7 +268,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitEmptyStatement(EmptyStatement emptyStatement, object data) {
-			return new UnifiedExpression[0];
+			return new IUnifiedExpression[0];
 		}
 
 		#endregion
@@ -279,8 +279,8 @@ namespace Ucpf.Languages.CSharp {
 			return expr.Expression.AcceptVisitor(this, data);
 		}
 
-		private UnifiedExpression ConvertExpression(Expression expr) {
-			return expr.AcceptVisitor(this, null) as UnifiedExpression;
+		private IUnifiedExpression ConvertExpression(Expression expr) {
+			return expr.AcceptVisitor(this, null) as IUnifiedExpression;
 		}
 
 		public object VisitPrimitiveExpression(PrimitiveExpression primitive, object data) {
@@ -358,7 +358,7 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitCollectionInitializerExpression(CollectionInitializerExpression init, object data) {
 			var collection = new UnifiedExpressionCollection();
 			foreach (var expr in init.CreateExpressions) {
-				var uExpr = expr.AcceptVisitor(this, data) as UnifiedExpression;
+				var uExpr = expr.AcceptVisitor(this, data) as IUnifiedExpression;
 				collection.Add(uExpr);
 			}
 			return collection;

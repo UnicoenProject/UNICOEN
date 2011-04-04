@@ -3,27 +3,33 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedVariableDefinition : UnifiedExpression {
+	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set {
+				_modifiers = SetParentOfChild(value, _modifiers);
+			}
 		}
 
 		private UnifiedType _type;
 
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set {
+				_type = SetParentOfChild(value, _type);
+			}
 		}
 
 		public string Name { get; set; }
-		private UnifiedExpression _initialValue;
+		private IUnifiedExpression _initialValue;
 
-		public UnifiedExpression InitialValue {
+		public IUnifiedExpression InitialValue {
 			get { return _initialValue; }
-			set { _initialValue = SetParentOfChild(value, _initialValue); }
+			set {
+				_initialValue = SetParentOfChild(value, _initialValue);
+			}
 		}
 
 		public UnifiedVariableDefinition() {
@@ -39,30 +45,30 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Modifiers;
 			yield return Type;
 			yield return InitialValue;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(InitialValue, v => InitialValue = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(InitialValue, v => InitialValue = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_initialValue, v => _initialValue = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_initialValue, v => _initialValue = (IUnifiedExpression)v);
 		}
 	}
 }

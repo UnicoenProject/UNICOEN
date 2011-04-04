@@ -3,19 +3,23 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedUnaryExpression : UnifiedExpression {
+	public class UnifiedUnaryExpression : UnifiedElement, IUnifiedExpression {
 		private UnifiedUnaryOperator _operator;
 
 		public UnifiedUnaryOperator Operator {
 			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
+			set {
+				_operator = SetParentOfChild(value, _operator);
+			}
 		}
 
-		private UnifiedExpression _operand;
+		private IUnifiedExpression _operand;
 
-		public UnifiedExpression Operand {
+		public IUnifiedExpression Operand {
 			get { return _operand; }
-			set { _operand = SetParentOfChild(value, _operand); }
+			set {
+				_operand = SetParentOfChild(value, _operand);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -27,28 +31,28 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Operator;
 			yield return Operand;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Operator, v => Operator = (UnifiedUnaryOperator)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(Operand, v => Operand = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Operand, v => Operand = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_operator, v => _operator = (UnifiedUnaryOperator)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_operand, v => _operand = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_operand, v => _operand = (IUnifiedExpression)v);
 		}
 
-		public override UnifiedElement Normalize() {
+		public override IUnifiedElement Normalize() {
 			NormalizeChildren();
 			var operand = Operand as UnifiedIntegerLiteral;
 			if (operand != null) {

@@ -13,7 +13,7 @@ namespace Ucpf.Applications.Metrics.Utils {
 		/// <param name = "getTargetElementsFunc"></param>
 		public static void PrintMetrics(
 				string meticName, string filePath,
-				Func<UnifiedElement, IEnumerable<UnifiedElement>> getTargetElementsFunc) {
+				Func<IUnifiedElement, IEnumerable<IUnifiedElement>> getTargetElementsFunc) {
 			Console.WriteLine("**** " + meticName + " of " + filePath + " ****");
 
 			var result = CodeAnalyzer.Measure(filePath, getTargetElementsFunc);
