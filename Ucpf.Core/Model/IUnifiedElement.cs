@@ -68,14 +68,14 @@ namespace Ucpf.Core.Model {
 				where T : IUnifiedElement;
 
 		/// <summary>
-		/// 指定した子要素を削除します。
+		/// 指定した子要素を削除して、自分自身を取得します。
 		/// </summary>
 		/// <param name="target">自分自身</param>
 		/// <returns></returns>
 		IUnifiedElement RemoveChild(IUnifiedElement target);
 
 		/// <summary>
-		///   親要素から自分自身を削除します。
+		///   親要素から自分自身を削除して、親要素を取得します。
 		/// </summary>
 		/// <returns>親要素</returns>
 		IUnifiedElement Remove();

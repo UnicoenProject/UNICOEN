@@ -71,6 +71,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedElement RemoveChild(TElement target) {
 			Contract.Requires(target != null);
 			Elements.Remove(target);
+			((UnifiedElement)(IUnifiedElement)target).Parent = null;
 			return this;
 		}
 

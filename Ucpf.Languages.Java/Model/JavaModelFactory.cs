@@ -68,22 +68,21 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateBinaryExpression(topExpressionElement);
 			}
 
-			//case UnaryExpression
-			if (topExpressionElement.Name.LocalName.StartsWith("unaryExpression")) {
+			switch (topExpressionElement.Name()) {
+			case "unaryExpression":
 				return CreateUnaryExpression(topExpressionElement);
-			}
-
-			switch (topExpressionElement.Name.LocalName) {
-				case "primary":
-					//case CallExpression
-					return CreatePrimary(topExpressionElement);
-				case "parExpression":
-					// expression を () で囲ったような場合
-					return CreateExpression(topExpressionElement.Elements().ElementAt(1));
-				case "creator":
-				case "arrayCreator":
-					// "new"で始まるジェネリックや配列など
-					return CreateNew(topExpressionElement);
+			case "unaryExpressionNotPlusMinus":
+				return CreateUnaryExpressionNotPlusMinus(topExpressionElement);
+			case "primary":
+				//case CallExpression
+				return CreatePrimary(topExpressionElement);
+			case "parExpression":
+				// expression を () で囲ったような場合
+				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
+			case "creator":
+			case "arrayCreator":
+				// "new"で始まるジェネリックや配列など
+				return CreateNew(topExpressionElement);
 			}
 
 			//TODO IMPLEMENT: other cases
@@ -105,47 +104,62 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedUnaryExpression CreateUnaryExpression(XElement node) {
+		public static IUnifiedExpression CreateUnaryExpressionNotPlusMinus(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name().StartsWith("unaryExpressionNotPlusMinus"));
+			/*
+			 * unaryExpressionNotPlusMinus 
+			 *		: '~' unaryExpression
+			 *		| '!' unaryExpression
+			 *		| castExpression
+			 *		| primary (selector)* ( '++' | '--' )?
+			 */
+			var firstElement = node.NthElement(0);
+			switch (firstElement.Name()) {
+			case "castExpression":
+				throw new NotImplementedException();
+			case "primary":
+				var result = CreatePrimary(firstElement);
+				var lastNode = node.LastElement();
+				// TODO: selector
+				if (lastNode.Name() != "selector") {
+					var ope = lastNode.Value;
+					result = new UnifiedUnaryExpression {
+							Operand = result,
+							Operator = new UnifiedUnaryOperator(ope,
+									ope == "++"
+											? UnifiedUnaryOperatorType.PostIncrementAssign
+											: UnifiedUnaryOperatorType.PostDecrementAssign),
+					};
+				}
+				return result;
+			}
+			return new UnifiedUnaryExpression {
+				Operator = CreatePrefixUnaryOperator(firstElement.Value),
+				Operand = CreateExpression(node.NthElement(1))
+			};
+		}
+
+		public static IUnifiedExpression CreateUnaryExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name().StartsWith("unaryExpression"));
 			/*
 			 * unaryExpression 
-			    : '+' unaryExpression | '-' unaryExpression
-			    | '++' unaryExpression | '--' unaryExpression
-			    |   unaryExpressionNotPlusMinus ;
-
-				unaryExpressionNotPlusMinus 
-				: '~' unaryExpression | '!' unaryExpression | castExpression
-			    | primary (selector)* ( '++' | '--' )? ;
+			 *	: '+' unaryExpression
+			 *	| '-' unaryExpression
+			 *	| '++' unaryExpression
+			 *	| '--' unaryExpression
+			 *	| unaryExpressionNotPlusMinus
 			*/
-			String[] unaryOperator = { "+", "-", "++", "--", "~", "!" };
+			var operators = new[] { "+", "-", "++", "--" };
 			var firstElement = node.NthElement(0);
-			var secondElement = node.NthElement(1);
-			if (unaryOperator.Contains(firstElement.Value)) {
-				return new UnifiedUnaryExpression {
-					Operator = CreateUnaryOperator(firstElement),
-					Operand = CreateExpression(secondElement)
-				};
-			} else if (unaryOperator.Contains(secondElement.Value)) {
-				UnifiedUnaryOperatorType operatorType;
-				switch (secondElement.Value) {
-					case "++":
-					operatorType = UnifiedUnaryOperatorType.PostIncrementAssign;
-					break;
-					case "--":
-					operatorType = UnifiedUnaryOperatorType.PostDecrementAssign;
-					break;
-					default:
-						throw new InvalidOperationException();
-				}
-				return new UnifiedUnaryExpression {
-					Operator = new UnifiedUnaryOperator(secondElement.Value, operatorType),
-					Operand = CreateExpression(firstElement)
-				};
-			} else {
-				//TODO: 構文に沿ったように実装する
-				throw new NotImplementedException();
+			if (firstElement.Name() == "unaryExpressionNotPlusMinus") {
+				return CreateUnaryExpressionNotPlusMinus(firstElement);
 			}
+			return new UnifiedUnaryExpression {
+				Operator = CreatePrefixUnaryOperator(firstElement.Value),
+				Operand = CreateExpression(node.NthElement(1))
+			};
 		}
 
 		public static IUnifiedExpression CreatePrimary(XElement node) {
@@ -214,6 +228,12 @@ namespace Ucpf.Languages.Java.Model {
 			 * :   arguments
 			 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
 			 */
+			if (node.FirstElement().Name == "arguments") {
+				return new UnifiedCall {
+						Function = prefix,
+						Arguments = CreateArguments(node.FirstElement()),
+				};
+			}
 			throw new NotImplementedException();
 		}
 
@@ -235,9 +255,20 @@ namespace Ucpf.Languages.Java.Model {
 			if (node == null) {
 				return prefix;
 			}
-			if (node.Name() == "arguments") {
-				var args = CreateArguments(node);
-
+			var second = node.NthElementOrDefault(1);
+			if (second != null && second.Name() == "expression") {
+				return node.Elements("expression")
+						.Select(CreateExpression)
+						.Aggregate(prefix, (current, exp) => new UnifiedIndexer {
+								Target = current,
+								Arguments = { UnifiedArgument.Create(exp) },
+						});
+			}
+			if (node.FirstElement().Name() == "arguments") {
+				return new UnifiedCall {
+					Function = prefix,
+					Arguments = CreateArguments(node.FirstElement()),
+				};
 			}
 			throw new NotImplementedException();
 		}
@@ -248,8 +279,16 @@ namespace Ucpf.Languages.Java.Model {
 			 * arguments : '(' (expressionList)? ')'
 			 */
 
-			var args = CreateExpressionList(node)
-					.Select(UnifiedArgument.Create);
+			var expressionListNode = node.Element("expressionList");
+			if (expressionListNode == null)
+				return new UnifiedArgumentCollection();
+
+			var args = CreateExpressionList(expressionListNode)
+					.ToList()
+					.Select(e => {
+						e.Remove();
+						return UnifiedArgument.Create(e);
+					});
 			return new UnifiedArgumentCollection(args);
 		}
 
@@ -410,23 +449,31 @@ namespace Ucpf.Languages.Java.Model {
 			return new UnifiedBinaryOperator(name, type);
 		}
 
-		public static UnifiedUnaryOperator CreateUnaryOperator(XElement node)
+		public static UnifiedUnaryOperator CreatePrefixUnaryOperator(string name)
 		{
-			Contract.Requires(node != null);
-			//TODO implement more OperatorType cases
-			var name = node.Value;
+			Contract.Requires(name != null);
 			UnifiedUnaryOperatorType type;
-
-			switch (name)
-			{
-				//Arithmetic
-				case "+":
-				type = UnifiedUnaryOperatorType.UnaryPlus; break;
-				case "-":
-				type = UnifiedUnaryOperatorType.Negate; break;
-				default:
-					throw new NotImplementedException();
-					throw new InvalidOperationException();
+			switch (name) {
+			case "+":
+				type = UnifiedUnaryOperatorType.UnaryPlus;
+				break;
+			case "-":
+				type = UnifiedUnaryOperatorType.Negate;
+				break;
+			case "++":
+				type = UnifiedUnaryOperatorType.PreIncrementAssign;
+				break;
+			case "--":
+				type = UnifiedUnaryOperatorType.PreDecrementAssign;
+				break;
+			case "~":
+				type = UnifiedUnaryOperatorType.OnesComplement;
+				break;
+			case "!":
+				type = UnifiedUnaryOperatorType.Not;
+				break;
+			default:
+				throw new InvalidOperationException();
 			}
 			return new UnifiedUnaryOperator(name, type);
 		}

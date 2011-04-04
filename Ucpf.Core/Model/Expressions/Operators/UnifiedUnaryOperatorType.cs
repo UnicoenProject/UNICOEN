@@ -33,7 +33,7 @@
 		/// </summary>
 		Not,
 		/// <summary>
-		///   !a
+		///   ~a
 		/// </summary>
 		OnesComplement,
 		/// <summary>

@@ -9,7 +9,7 @@ using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class JavaStudentTest {
 		private readonly string _source;
 
