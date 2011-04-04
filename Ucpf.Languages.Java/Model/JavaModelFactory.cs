@@ -64,6 +64,9 @@ namespace Ucpf.Languages.Java.Model {
 			if (binaryOperator.Contains(binaryOperatorString)) {
 				return CreateBinaryExpression(topExpressionElement);
 			}
+			if(topExpressionElement.Name.LocalName == "expression") {
+				return CreateBinaryExpression(topExpressionElement);
+			}
 
 			//case UnaryExpression
 			if (topExpressionElement.Name.LocalName.StartsWith("unaryExpression")) {
@@ -78,6 +81,7 @@ namespace Ucpf.Languages.Java.Model {
 					// expression を () で囲ったような場合
 					return CreateExpression(topExpressionElement.Elements().ElementAt(1));
 				case "creator":
+				case "arrayCreator":
 					// "new"で始まるジェネリックや配列など
 					return CreateNew(topExpressionElement);
 			}
@@ -230,6 +234,9 @@ namespace Ucpf.Languages.Java.Model {
 			if (node == null) {
 				return prefix;
 			}
+			if(node.Element("expression") != null) {
+				return CreateExpression(node.Element("expression"));
+			}
 			throw new NotImplementedException();
 		}
 
@@ -293,8 +300,9 @@ namespace Ucpf.Languages.Java.Model {
 					                                       		.Select(e => CreateExpression(e.Element("expression")));
 				}
 				else {
-					args = (UnifiedArgumentCollection)
-							node.Elements("expression").Select(CreateArgument);
+					args = new UnifiedArgumentCollection(
+								node.Elements("expression").Select(CreateArgument));
+
 				}
 				return new UnifiedArrayNew {
 						Type = CreateType(node.Element("createdName")),
@@ -306,7 +314,7 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedVariable CreateVariable(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "primary");
+			Contract.Requires(node.Name() == "primary" || node.Name() == "literal");
 			//Contract.Requires(node.Name() == "IDENTIFIER" || node.Name() == "TOKEN");
 			return new UnifiedVariable {
 				Name = node.Value
@@ -447,8 +455,10 @@ namespace Ucpf.Languages.Java.Model {
 		}
 
 		public static UnifiedBlock CreateBlock(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "block");
+			//Contract.Requires(node != null);
+			//Contract.Requires(node.Name() == "block");
+			//TODO 現状だとnullも入力としてとり得るのでどうするか
+
 			/*
 			 * block : '{' (blockStatement )* '}' ;
 			 */
@@ -765,10 +775,18 @@ namespace Ucpf.Languages.Java.Model {
 					(',' typeArgument )* 
 					'>'
 			 */
+
+			if(node.HasContent("typeArguments")) {
+				return new UnifiedType {
+					Name = node.Element("IDENTIFIER").Value,
+					Parameters = new UnifiedTypeParameterCollection(
+						node.Element("typeArguments")
+						.Elements("typeArgument")
+						.Select(CreatTypeParameter))
+				};
+			}
 			return new UnifiedType {
-				Name = node.Element("IDENTIFIER").Value,
-				Parameters = new UnifiedTypeParameterCollection(
-					node.Element("typeArguments").Elements("typeArgument").Select(CreatTypeParameter))
+					Name = node.Element("IDENTIFIER").Value
 			};
 			//TODO ('.' IDENTIFIER (typeArguments)? )*はどう扱えばいいのか
 		}
