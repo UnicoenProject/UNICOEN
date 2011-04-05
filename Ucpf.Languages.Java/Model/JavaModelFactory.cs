@@ -637,8 +637,19 @@ namespace Ucpf.Languages.Java.Model {
 			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement
 			 * ; */
 			if (forstatement.NthElement(2).Name.LocalName == "variableModifiers") {
-				//TODO
-				throw new NotImplementedException();
+				return new UnifiedForeach {
+					Element = new UnifiedVariableDefinition {
+						Modifiers = CreateVariableModifiers(forstatement.Element("variableModifiers")),
+						Type = CreateType(forstatement.Element("type")),
+						Name = forstatement.Element("IDENTIFIER").Value,
+						InitialValue = null
+					},
+					Set = CreateExpression(forstatement.Element("expression")),
+					Body = new UnifiedBlock {
+						CreateStatement(forstatement.Element("statement"))
+					}
+					
+				};
 			} else {
 				var forInit = forstatement.Element("forInit");
 				var initializer = forInit != null ? CreateForInit(forInit) : null;
@@ -942,17 +953,29 @@ namespace Ucpf.Languages.Java.Model {
 
 		}
 		public static UnifiedVariableDefinition CreateLocalVariableDeclaration(XElement node) {
-			Contract.Requires(node.Name.LocalName == "localVariableDeclaration");
+			Contract.Requires(node.Name.LocalName.EndsWith("Declaration"));
 			/* localVariableDeclaration 
 			 *   :   variableModifiers type variableDeclarator (',' variableDeclarator )* ;
 			 */
+			
+			/*
+			 * fieldDeclaration 
+			 *   :   modifiers type variableDeclarator (',' variableDeclarator )* ';' 
+			 */
+
+			var init =
+					node.Element("variableDeclarator").Element("variableInitializer") != null
+							? CreateExpression(node.Element("variableDeclarator")
+							.Element("variableInitializer")
+							.Element("expression")) : null;
 			return new UnifiedVariableDefinition {
-					InitialValue = CreateExpression(
+					/*InitialValue = CreateExpression(
 						node.Element("variableDeclarator")
 						.Element("variableInitializer")
-						.Element("expression")),
-					Modifiers = new UnifiedModifierCollection(node
-						.Element("variableModifiers")
+						.Element("expression")), */
+					InitialValue = init,
+					Modifiers = new UnifiedModifierCollection(
+						node.ElementAt(0)
 						.Elements()
 						.Select(CreateVariableModifier)),
 					Name = node.Element("variableDeclarator").Element("IDENTIFIER").Value,
@@ -997,7 +1020,7 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name() == "classBodyDeclaration");
 			var memType = node.Element("memberDecl").FirstElement();
 			switch (memType.Name()) {
-				case "fieldDeclaration":  return null; //TODO IMPLEMENT:
+				case "fieldDeclaration":  return CreateLocalVariableDeclaration(memType);
 				case "methodDeclaration": return CreateDefineFunction(memType);
 				case "classDeclaration":  return CreateClass(memType);
 				default:
