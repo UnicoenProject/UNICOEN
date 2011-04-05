@@ -1,4 +1,7 @@
-﻿namespace Ucpf.Core.Model.Visitors {
+﻿using Ucpf.Core.Model.Expressions;
+using Ucpf.Core.Model.Expressions.Blocks;
+
+namespace Ucpf.Core.Model.Visitors {
 	public interface IUnifiedModelVisitor {
 		void Visit<T>(UnifiedTypedLiteral<T> element);
 		void Visit(UnifiedBinaryOperator element);
@@ -39,6 +42,8 @@
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
 		void Visit(UnifiedJump element);
+		void Visit(UnifiedCatch element);
+		void Visit(UnifiedTypeCollection element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult> {
@@ -81,5 +86,7 @@
 		TResult Visit(UnifiedCaseCollection element, TData data);
 		TResult Visit(UnifiedCase element, TData data);
 		TResult Visit(UnifiedJump element, TData data);
+		TResult Visit(UnifiedCatch element, TData data);
+		TResult Visit(UnifiedTypeCollection element, TData data);
 	}
 }

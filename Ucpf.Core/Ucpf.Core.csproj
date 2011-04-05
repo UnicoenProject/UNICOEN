@@ -71,6 +71,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
     <Compile Include="Model\Expressions\UnifiedType.cs" />
+    <Compile Include="Model\Expressions\UnifiedTypeCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedVariable.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
