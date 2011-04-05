@@ -28,10 +28,20 @@ namespace Paraiba.Xml.Tests.Linq {
 		}
 
 		[Test]
+		public void HasElement() {
+			Assert.That(Root.HasElement(), Is.True);
+		}
+
+		[Test]
+		public void HasElementForNoElement() {
+			Assert.That(D1Element.HasElement(), Is.False);
+		}
+
+		[Test]
 		[TestCase("a", Result = true)]
 		[TestCase("c", Result = false)]
-		public bool Contains(string name) {
-			return Root.Contains(name);
+		public bool HasElement(string name) {
+			return Root.HasElement(name);
 		}
 
 		[Test]
@@ -302,23 +312,23 @@ namespace Paraiba.Xml.Tests.Linq {
 		}
 
 		[Test]
-		public void HasContentShouldBeFalse() {
-			B1Element.HasContent().Is(false);
+		public void HasNoElementShouldBeFalse() {
+			B1Element.HasNoElement().Is(false);
 		}
 
 		[Test]
-		public void HasContentShouldBeTrue() {
-			D1Element.HasContent().Is(true);
+		public void HasNoElementShouldBeTrue() {
+			D1Element.HasNoElement().Is(true);
 		}
 
 		[Test]
-		public void HasContentWithContentShouldBeFalse() {
-			D1Element.HasContent("d").Is(false);
+		public void HasNoElementWithContentShouldBeFalse() {
+			D1Element.HasNoElement("d").Is(false);
 		}
 
 		[Test]
-		public void HasContentWithContentShouldBeTrue() {
-			D1Element.HasContent("d1").Is(true);
+		public void HasNoElementWithContentShouldBeTrue() {
+			D1Element.HasNoElement("d1").Is(true);
 		}
 	}
 }

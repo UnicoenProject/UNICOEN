@@ -11,9 +11,18 @@ namespace Paraiba.Xml.Linq {
 		///   指定したnameのXElementを保持しているか取得します。
 		/// </summary>
 		/// <param name = "element"></param>
+		/// <returns></returns>
+		public static bool HasElement(this XElement element) {
+			return element.FirstElementOrDefault() != null;
+		}
+
+		/// <summary>
+		///   指定したnameのXElementを保持しているか取得します。
+		/// </summary>
+		/// <param name = "element"></param>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public static bool Contains(this XElement element, string name) {
+		public static bool HasElement(this XElement element, string name) {
 			return element.Element(name) != null;
 		}
 
@@ -557,16 +566,16 @@ namespace Paraiba.Xml.Linq {
 		/// コンテンツを持っているかどうか取得します。
 		/// </summary>
 		/// <returns>コンテンツを持っているかどうか</returns>
-		public static bool HasContent(this XElement element) {
+		public static bool HasNoElement(this XElement element) {
 			return !element.Elements().Any();
 		}
 
 		/// <summary>
-		/// 指定したコンテンツを持っているかどうか取得します。
+		/// 指定したコンテンツ(Value)を持っているかどうか取得します。
 		/// </summary>
-		/// <returns>指定したコンテンツを持っているかどうか</returns>
-		public static bool HasContent(this XElement element, string content) {
-			return element.HasContent() && element.Value == content;
+		/// <returns>指定したコンテンツ(Value)を持っているかどうか</returns>
+		public static bool HasNoElement(this XElement element, string value) {
+			return element.HasNoElement() && element.Value == value;
 		}
 	}
 }
