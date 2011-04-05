@@ -22,9 +22,9 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		private UnifiedExpressionCollection _initialValues;
+		private IUnifiedExpression _initialValues;
 
-		public UnifiedExpressionCollection InitialValues {
+		public IUnifiedExpression InitialValues {
 			get { return _initialValues; }
 			set {
 				_initialValues = SetParentOfChild(value, _initialValues);
@@ -33,7 +33,6 @@ namespace Ucpf.Core.Model {
 
 		public UnifiedArrayNew() {
 			Arguments = new UnifiedArgumentCollection();
-			InitialValues = new UnifiedExpressionCollection();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -58,7 +57,7 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(InitialValues, v => InitialValues = (UnifiedExpressionCollection)v);
+					(InitialValues, v => InitialValues = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -68,7 +67,7 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_initialValues, v => _initialValues = (UnifiedExpressionCollection)v);
+					(_initialValues, v => _initialValues = (IUnifiedExpression)v);
 		}
 	}
 }

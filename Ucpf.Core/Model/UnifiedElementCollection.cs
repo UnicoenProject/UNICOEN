@@ -97,5 +97,15 @@ namespace Ucpf.Core.Model {
 						(Elements[i], v => Elements[i] = (TElement)v);
 			}
 		}
+
+		public override IUnifiedElement Normalize() {
+			NormalizeChildren();
+			if (Elements.Count == 1) {
+				var element = Elements[0];
+				if (GetType().IsInstanceOfType(element))
+					return element;
 			}
+			return this;
+		}
+	}
 }

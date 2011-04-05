@@ -65,9 +65,7 @@ namespace Ucpf.Core.Tests {
 			get {
 				return CreateClassAndMethod(new UnifiedBlock {
 					new UnifiedArrayNew {
-						InitialValues = {
-							1.ToLiteral(),
-						}
+						InitialValues = 1.ToLiteral(),
 					}.ToForeach("int".ToType(), "i")
 						.AddToBody(CSharpModelFactoryHelper.CreateContinue())
 				});

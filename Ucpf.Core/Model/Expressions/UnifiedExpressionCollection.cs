@@ -17,5 +17,13 @@ namespace Ucpf.Core.Model {
 				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
+
+		public override IUnifiedElement Normalize() {
+			NormalizeChildren();
+			if (Elements.Count == 1) {
+				return Elements[0];
 			}
+			return this;
+		}
+	}
 }
