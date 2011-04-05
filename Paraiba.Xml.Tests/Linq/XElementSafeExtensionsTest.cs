@@ -30,14 +30,14 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void SafeContainsForNull() {
-			NullElement.SafeContains("b").Is(false);
+			NullElement.SafeHasElement("b").Is(false);
 		}
 
 		[Test]
 		[TestCase("a", Result = true)]
 		[TestCase("c", Result = false)]
 		public bool SafeContainsForNotNull(string name) {
-			return Root.SafeContains(name);
+			return Root.SafeHasElement(name);
 		}
 
 		[Test]
