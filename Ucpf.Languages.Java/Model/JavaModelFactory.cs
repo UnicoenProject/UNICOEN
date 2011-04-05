@@ -833,7 +833,7 @@ namespace Ucpf.Languages.Java.Model {
 					'>'
 			 */
 
-			if(node.HasContent("typeArguments")) {
+			if(node.Element("typeArguments") != null) {
 				return new UnifiedType {
 					Name = node.Element("IDENTIFIER").Value,
 					Parameters = new UnifiedTypeParameterCollection(
