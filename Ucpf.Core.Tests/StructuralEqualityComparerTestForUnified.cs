@@ -175,9 +175,7 @@ namespace Ucpf.Core.Tests {
 					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
-				new UnifiedReturn{
-					Value = UnifiedIntegerLiteral.Create(2)
-				}
+				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			};
 			var o2 = new UnifiedBlock {
 				new UnifiedBinaryExpression {
@@ -185,7 +183,7 @@ namespace Ucpf.Core.Tests {
 					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
-				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }
+				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			};
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -199,7 +197,7 @@ namespace Ucpf.Core.Tests {
 					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
-				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }
+				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			};
 			var o2 = o1;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
@@ -214,7 +212,7 @@ namespace Ucpf.Core.Tests {
 					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(1),
 				},
-				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }
+				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			};
 			var o2 = new UnifiedBlock {
 				new UnifiedBinaryExpression {
@@ -222,7 +220,7 @@ namespace Ucpf.Core.Tests {
 					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
 					RightHandSide = UnifiedIntegerLiteral.Create(2),
 				},
-				new UnifiedReturn{ Value = UnifiedIntegerLiteral.Create(2) }
+				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			};
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);

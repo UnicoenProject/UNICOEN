@@ -552,5 +552,21 @@ namespace Paraiba.Xml.Linq {
 		public static XElement NthElementAfterSelfOrDefault(this XElement element, string name, int index) {
 			return element.ElementsAfterSelf(name).ElementAtOrDefault(index);
 		}
+
+		/// <summary>
+		/// コンテンツを持っているかどうか取得します。
+		/// </summary>
+		/// <returns>コンテンツを持っているかどうか</returns>
+		public static bool HasContent(this XElement element) {
+			return !element.Elements().Any();
+		}
+
+		/// <summary>
+		/// 指定したコンテンツを持っているかどうか取得します。
+		/// </summary>
+		/// <returns>指定したコンテンツを持っているかどうか</returns>
+		public static bool HasContent(this XElement element, string content) {
+			return element.HasContent() && element.Value == content;
+		}
 	}
 }

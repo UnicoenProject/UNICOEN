@@ -77,7 +77,7 @@ namespace Ucpf.Languages.Java.Tests {
 			var expected = JavaModelFactory.CreateModel(orgCode);
 			var actual = JavaModelFactory.CreateModel(orgCode);
 			Assert.That(actual, Is.EqualTo(expected)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		/// <summary>
@@ -117,7 +117,7 @@ namespace Ucpf.Languages.Java.Tests {
 			var code3 = JavaCodeGenerator.Generate(model2);
 			var model3 = JavaModelFactory.CreateModel(code3);
 			Assert.That(model3, Is.EqualTo(model1)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

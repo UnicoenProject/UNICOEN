@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedProgram : UnifiedElementCollection<UnifiedExpression> {
+	public class UnifiedProgram : UnifiedElementCollection<IUnifiedExpression> {
 		public UnifiedProgram() {}
 
-		public UnifiedProgram(IEnumerable<UnifiedExpression> elements)
+		public UnifiedProgram(IEnumerable<IUnifiedExpression> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -18,16 +18,16 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			return this;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
-				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-						(this[i], v => this[i] = (UnifiedExpression)v);
+				yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+						(this[i], v => this[i] = (IUnifiedExpression)v);
 			}
 		}
 	}

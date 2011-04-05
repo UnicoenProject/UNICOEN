@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedBinaryExpression : UnifiedExpression {
-		private UnifiedExpression _leftHandSide;
+	public class UnifiedBinaryExpression : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _leftHandSide;
 
-		public UnifiedExpression LeftHandSide {
+		public IUnifiedExpression LeftHandSide {
 			get { return _leftHandSide; }
-			set { _leftHandSide = SetParentOfChild(value, _leftHandSide); }
+			set {
+				_leftHandSide = SetParentOfChild(value, _leftHandSide);
+			}
 		}
 
 		private UnifiedBinaryOperator _operator;
 
 		public UnifiedBinaryOperator Operator {
 			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
+			set {
+				_operator = SetParentOfChild(value, _operator);
+			}
 		}
 
-		private UnifiedExpression _rightHandSide;
+		private IUnifiedExpression _rightHandSide;
 
-		public UnifiedExpression RightHandSide {
+		public IUnifiedExpression RightHandSide {
 			get { return _rightHandSide; }
-			set { _rightHandSide = SetParentOfChild(value, _rightHandSide); }
+			set {
+				_rightHandSide = SetParentOfChild(value, _rightHandSide);
+			}
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -34,30 +40,30 @@ namespace Ucpf.Core.Model {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return LeftHandSide;
 			yield return Operator;
 			yield return RightHandSide;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(LeftHandSide, v => LeftHandSide = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(LeftHandSide, v => LeftHandSide = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Operator, v => Operator = (UnifiedBinaryOperator)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(RightHandSide, v => RightHandSide = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(RightHandSide, v => RightHandSide = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_leftHandSide, v => _leftHandSide = (UnifiedExpression)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_leftHandSide, v => _leftHandSide = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_operator, v => _operator = (UnifiedBinaryOperator)v);
-			yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-					(_rightHandSide, v => _rightHandSide = (UnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_rightHandSide, v => _rightHandSide = (IUnifiedExpression)v);
 		}
 	}
 }

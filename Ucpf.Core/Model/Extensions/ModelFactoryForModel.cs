@@ -6,19 +6,19 @@
 			};
 		}
 
-		public static UnifiedWhile ToWhile(this UnifiedExpression condition) {
+		public static UnifiedWhile ToWhile(this IUnifiedExpression condition) {
 			return new UnifiedWhile {
 					Condition = condition,
 			};
 		}
 
-		public static UnifiedDoWhile ToDoWhile(this UnifiedExpression condition) {
+		public static UnifiedDoWhile ToDoWhile(this IUnifiedExpression condition) {
 			return new UnifiedDoWhile {
 					Condition = condition,
 			};
 		}
 
-		public static UnifiedForeach ToForeach(this UnifiedExpression set,
+		public static UnifiedForeach ToForeach(this IUnifiedExpression set,
 		                                       UnifiedType variableType,
 		                                       string variableName) {
 			return new UnifiedForeach {
@@ -30,32 +30,30 @@
 			};
 		}
 
-		public static UnifiedIf ToIf(this UnifiedExpression condition) {
+		public static UnifiedIf ToIf(this IUnifiedExpression condition) {
 			return new UnifiedIf {
 					Condition = condition,
 			};
 		}
 
-		public static UnifiedReturn ToReturn(this UnifiedExpression value) {
-			return new UnifiedReturn {
-					Value = value,
-			};
+		public static UnifiedJump ToReturn(this IUnifiedExpression value) {
+			return UnifiedJump.CreateReturn( value);
 		}
 
-		public static UnifiedCase ToCase(this UnifiedExpression condtion) {
+		public static UnifiedCase ToCase(this IUnifiedExpression condtion) {
 			return new UnifiedCase {
 					Condition = condtion,
 			};
 		}
 
-		public static UnifiedSwitch ToSwitch(this UnifiedExpression value) {
+		public static UnifiedSwitch ToSwitch(this IUnifiedExpression value) {
 			return new UnifiedSwitch {
 					Value = value,
 			};
 		}
 
 		public static UnifiedTypeParameter ToTypeParameter(
-				this UnifiedExpression value) {
+				this IUnifiedExpression value) {
 			return new UnifiedTypeParameter {
 					Value = value,
 			};

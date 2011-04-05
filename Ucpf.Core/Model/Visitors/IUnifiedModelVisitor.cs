@@ -12,7 +12,6 @@
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);
 		void Visit(UnifiedParameterCollection element);
-		void Visit(UnifiedReturn element);
 		void Visit(UnifiedVariable element);
 		void Visit(UnifiedModifier element);
 		void Visit(UnifiedModifierCollection element);
@@ -32,8 +31,6 @@
 		void Visit(UnifiedExpressionCollection element);
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
-		void Visit(UnifiedBreak element);
-		void Visit(UnifiedContinue element);
 		void Visit(UnifiedNamespace element);
 		void Visit(UnifiedIndexer element);
 		void Visit(UnifiedTypeParameter element);
@@ -41,6 +38,7 @@
 		void Visit(UnifiedSwitch element);
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
+		void Visit(UnifiedJump element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult> {
@@ -56,7 +54,6 @@
 		TResult Visit(UnifiedIf element, TData data);
 		TResult Visit(UnifiedParameter element, TData data);
 		TResult Visit(UnifiedParameterCollection element, TData data);
-		TResult Visit(UnifiedReturn element, TData data);
 		TResult Visit(UnifiedVariable element, TData data);
 		TResult Visit(UnifiedModifier element, TData data);
 		TResult Visit(UnifiedModifierCollection element, TData data);
@@ -76,8 +73,6 @@
 		TResult Visit(UnifiedExpressionCollection element, TData data);
 		TResult Visit(UnifiedWhile element, TData data);
 		TResult Visit(UnifiedDoWhile element, TData data);
-		TResult Visit(UnifiedBreak element, TData data);
-		TResult Visit(UnifiedContinue element, TData data);
 		TResult Visit(UnifiedNamespace element, TData data);
 		TResult Visit(UnifiedIndexer element, TData data);
 		TResult Visit(UnifiedTypeParameter element, TData data);
@@ -85,5 +80,6 @@
 		TResult Visit(UnifiedSwitch element, TData data);
 		TResult Visit(UnifiedCaseCollection element, TData data);
 		TResult Visit(UnifiedCase element, TData data);
+		TResult Visit(UnifiedJump element, TData data);
 	}
 }

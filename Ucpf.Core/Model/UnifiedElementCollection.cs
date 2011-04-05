@@ -7,11 +7,11 @@ using System.Linq;
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElementCollection<TElement>
 			: UnifiedElement, IEnumerable<TElement>
-			where TElement : UnifiedElement {
-		private List<TElement> _elements;
+			where TElement : class, IUnifiedElement {
+		protected List<TElement> Elements;
 
 		protected UnifiedElementCollection() {
-			_elements = new List<TElement>();
+			Elements = new List<TElement>();
 		}
 
 		protected UnifiedElementCollection(IEnumerable<TElement> elements)
@@ -22,25 +22,25 @@ namespace Ucpf.Core.Model {
 		}
 
 		public TElement this[int index] {
-			get { return _elements[index]; }
+			get { return Elements[index]; }
 			set {
 				if (value != null) {
 					if (value.Parent != null)
 						value = (TElement)value.DeepCopy();
-					value.Parent = this;
+					((UnifiedElement)(IUnifiedElement)value).Parent = this;
 				}
-				_elements[index] = value;
+				Elements[index] = value;
 			}
 		}
 
 		public int Count {
-			get { return _elements.Count; }
+			get { return Elements.Count; }
 		}
 
 		#region IEnumerable<TElement> Members
 
 		public IEnumerator<TElement> GetEnumerator() {
-			return _elements.GetEnumerator();
+			return Elements.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() {
@@ -50,51 +50,62 @@ namespace Ucpf.Core.Model {
 		#endregion
 
 		public void Add(TElement element) {
-			_elements.Add(element);
-			if (element != null) element.Parent = this;
+			Elements.Add(element);
+			if (element != null) ((UnifiedElement)(IUnifiedElement)element).Parent = this;
 		}
 
-		public override UnifiedElement DeepCopy() {
+		public override IUnifiedElement DeepCopy() {
 			var ret = (UnifiedElementCollection<TElement>)MemberwiseClone();
 			ret.Parent = null;
-			ret._elements = new List<TElement>();
+			ret.Elements = new List<TElement>();
 			foreach (var element in this) {
 				ret.Add((TElement)element.DeepCopy());
 			}
 			return ret;
 		}
 
-		public override UnifiedElement RemoveChild(UnifiedElement target) {
+		public override IUnifiedElement RemoveChild(IUnifiedElement target) {
 			return RemoveChild((TElement)target);
 		}
 
 		public UnifiedElement RemoveChild(TElement target) {
 			Contract.Requires(target != null);
-			_elements.Remove(target);
+			Elements.Remove(target);
+			((UnifiedElement)(IUnifiedElement)target).Parent = null;
 			return this;
 		}
 
 		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
-		public override IEnumerable<UnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			return this;
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
-				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
+				yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 						(this[i], v => this[i] = (TElement)v);
 			}
 		}
 
-		public override IEnumerable<Tuple<UnifiedElement, Action<UnifiedElement>>>
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
-				yield return Tuple.Create<UnifiedElement, Action<UnifiedElement>>
-						(_elements[i], v => _elements[i] = (TElement)v);
+				yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+						(Elements[i], v => Elements[i] = (TElement)v);
 			}
 		}
+
+		public override IUnifiedElement Normalize() {
+			NormalizeChildren();
+			if (Elements.Count == 1) {
+				var element = Elements[0];
+				if (GetType().IsInstanceOfType(element))
+					return element;
 			}
+			return this;
+		}
+	}
 }

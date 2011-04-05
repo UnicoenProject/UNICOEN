@@ -20,15 +20,15 @@ namespace Ucpf.Languages.CSharp {
 			UnaryOperatorSigns[UnifiedUnaryOperatorType.PreIncrementAssign] = "++";
 		}
 
-		public static UnifiedBinaryExpression CreateAssignExpression(UnifiedExpression lhs, UnifiedExpression rhs) {
+		public static UnifiedBinaryExpression CreateAssignExpression(IUnifiedExpression lhs, IUnifiedExpression rhs) {
 			return CreateExpression(lhs, UnifiedBinaryOperatorType.Assign, rhs);
 		}
 
-		public static UnifiedBinaryExpression CreateLesserExpression(UnifiedExpression lhs, UnifiedExpression rhs) {
+		public static UnifiedBinaryExpression CreateLesserExpression(IUnifiedExpression lhs, IUnifiedExpression rhs) {
 			return CreateExpression(lhs, UnifiedBinaryOperatorType.LessThan, rhs);
 		}
 
-		public static UnifiedBinaryExpression CreateExpression(UnifiedExpression leftOperand, UnifiedBinaryOperatorType operatorType, UnifiedExpression rightOperand) {
+		public static UnifiedBinaryExpression CreateExpression(IUnifiedExpression leftOperand, UnifiedBinaryOperatorType operatorType, IUnifiedExpression rightOperand) {
 			if (!BinaryOperatorSigns.ContainsKey(operatorType))
 				throw new NotImplementedException();
 			return new UnifiedBinaryExpression {
@@ -38,25 +38,13 @@ namespace Ucpf.Languages.CSharp {
 			};
 		}
 
-		public static UnifiedUnaryExpression CreateExpression(UnifiedExpression operand, UnifiedUnaryOperatorType operatorType) {
+		public static UnifiedUnaryExpression CreateExpression(IUnifiedExpression operand, UnifiedUnaryOperatorType operatorType) {
 			if (!UnaryOperatorSigns.ContainsKey(operatorType))
 				throw new NotImplementedException();
 			return new UnifiedUnaryExpression {
 				Operand = operand,
 				Operator = new UnifiedUnaryOperator(UnaryOperatorSigns[operatorType], operatorType),
 			};
-		}
-
-		public static UnifiedReturn CreateReturn() {
-			return new UnifiedReturn();
-		}
-
-		public static UnifiedBreak CreateBreak() {
-			return new UnifiedBreak();
-		}
-
-		public static UnifiedContinue CreateContinue() {
-			return new UnifiedContinue();
 		}
 	}
 }

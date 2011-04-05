@@ -26,7 +26,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 			var actual = CSharpModelFactory.CreateModel(_source);
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		public static UnifiedProgram CreateModel() {
@@ -63,9 +63,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							Type = UnifiedType.Create("String"),
 							Name = "getName",
 							Body = {
-								new UnifiedReturn {
-									Value = UnifiedVariable.Create("_name")
-								},
+								UnifiedJump.CreateReturn( UnifiedVariable.Create("_name")),
 							}
 						},
 						new UnifiedFunctionDefinition {

@@ -24,8 +24,8 @@ namespace Ucpf.Applications.Metrics.Cores {
 			return true;
 		}
 
-		private static IEnumerable<UnifiedElement> GetTargetElements(
-				UnifiedElement model) {
+		private static IEnumerable<IUnifiedElement> GetTargetElements(
+				IUnifiedElement model) {
 			return model.GetElements().Where(e => e is UnifiedIf)
 					.Concat(model.GetElements().Where(e => e is UnifiedFor))
 					.Concat(model.GetElements().Where(e => e is UnifiedForeach))

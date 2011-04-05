@@ -13,7 +13,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 	public class JSModelFactory {
 		#region Expression
 
-		public static UnifiedExpression CreateExpression(XElement node) {
+		public static IUnifiedExpression CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 
 			String[] binaryOperator = {
@@ -95,19 +95,19 @@ namespace Ucpf.Languages.JavaScript.Model {
 			};
 		}
 
-		public static UnifiedExpression CreatePostfixUnaryExpression(XElement node) {
+		public static IUnifiedExpression CreatePostfixUnaryExpression(XElement node) {
 			//node.Elements().ElementAt(0),
 			//CreateUnaryOperator.CreatePostfixOperator(node.Elements().ElementAt(1)));
 			return null;
 		}
 
-		public static UnifiedExpression CreatePrefixUnaryExpression(XElement node) {
+		public static IUnifiedExpression CreatePrefixUnaryExpression(XElement node) {
 			//node.Elements().ElementAt(1),
 			//CreateUnaryOperator.CreatePrefixOperator(node.Elements().ElementAt(0)));
 			return null;
 		}
 
-		public static UnifiedExpression CreateLiteral(XElement node) {
+		public static IUnifiedExpression CreateLiteral(XElement node) {
 			int i;
 			if( Int32.TryParse(node.Value,NumberStyles.Any, null, out i) )
 			{
@@ -208,7 +208,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 		#region Statement
 
-		public static UnifiedExpression CreateStatement(XElement node) {
+		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("statement"));
 			/* 
@@ -242,7 +242,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			}
 		}
 
-		private static UnifiedExpression CreateIteration(XElement element) {
+		private static IUnifiedExpression CreateIteration(XElement element) {
 			Contract.Requires(element != null);
 			Contract.Requires(element.Name.LocalName.EndsWith("iterationStatement"));
 			/*
@@ -339,7 +339,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				.Select(CreateVariableDefinition));
 		}
 
-		public static UnifiedExpression CreateVariableDefinition(XElement node) {
+		public static IUnifiedExpression CreateVariableDefinition(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
 
@@ -390,7 +390,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 					);
 		}
 
-		public static UnifiedExpression CreateIf(XElement node) {
+		public static IUnifiedExpression CreateIf(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "ifStatement");
 			/*
@@ -476,7 +476,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			};
 		}
 
-		public static UnifiedReturn CreateReturn(XElement node) {
+		public static UnifiedJump CreateReturn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "returnStatement");
 			/*
@@ -485,14 +485,10 @@ namespace Ucpf.Languages.JavaScript.Model {
 			 */
 
 			if(node.Element("expression") != null) {
-				return new UnifiedReturn {
-						Value = CreateExpression(node.Element("expression"))
-				};
+				return UnifiedJump.CreateReturn(CreateExpression(node.Element("expression")));
 			}
 			else {
-				return new UnifiedReturn {
-						Value = null
-				};
+				return UnifiedJump.CreateReturn();
 			}
 		}
 
@@ -543,7 +539,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			return new UnifiedProgram(elements.Select(CreateSourceElement));
 		}
 
-		public static UnifiedExpression CreateSourceElement(XElement node) {
+		public static IUnifiedExpression CreateSourceElement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "sourceElement");
 

@@ -24,10 +24,10 @@ namespace Ucpf.Applications.Metrics.Cores {
 			return true;
 		}
 
-		private static IEnumerable<UnifiedElement> GetTargetElements(
-				UnifiedElement model) {
+		private static IEnumerable<IUnifiedElement> GetTargetElements(
+				IUnifiedElement model) {
 			return model.GetElements()
-					.Where(e => e is UnifiedExpression && e.Parent is UnifiedBlock);
+					.Where(e => e is IUnifiedExpression && e.Parent is UnifiedBlock);
 		}
 	}
 }

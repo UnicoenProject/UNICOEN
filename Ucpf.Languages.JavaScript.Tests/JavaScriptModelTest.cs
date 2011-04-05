@@ -39,7 +39,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			};
 
 			Assert.That(cond, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -51,7 +51,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var expectation = new UnifiedParameter { Name = "n" };
 
 			Assert.That(firstParam, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -69,12 +69,10 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var returnStmt = tBlock.First();
 
 			//expectation
-			var expectation = new UnifiedReturn {
-				Value = UnifiedVariable.Create("n"),
-			};
+			var expectation = UnifiedJump.CreateReturn(UnifiedVariable.Create("n"));
 
 			Assert.That(returnStmt, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -84,7 +82,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBody;
-			var returnStmt  = (UnifiedReturn)fBlock.First();
+			var returnStmt  = (UnifiedJump)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 
 			Assert.That(binaryExp.Operator.Sign, Is.EqualTo("+"));
@@ -97,7 +95,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBody;
-			var returnStmt  = (UnifiedReturn)fBlock.First();
+			var returnStmt  = (UnifiedJump)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
 			var identifier  = (UnifiedVariable)callExp.Function;
@@ -111,7 +109,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var expStmt     = block.First();
 			var ifStmt      = (UnifiedIf)expStmt;
 			var fBlock      = ifStmt.FalseBody;
-			var returnStmt  = (UnifiedReturn)fBlock.First();
+			var returnStmt  = (UnifiedJump)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
 			var firstArg    = callExp.Arguments.First().Value;
@@ -124,7 +122,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			};
 
 			Assert.That(firstArg, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -134,7 +132,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var expStmt    = block.First();
 			var ifStmt     = (UnifiedIf)expStmt;
 			var fBlock     = ifStmt.FalseBody;
-			var returnStmt = (UnifiedReturn)fBlock.First();
+			var returnStmt = (UnifiedJump)fBlock.First();
 			var binaryExp  = (UnifiedBinaryExpression)returnStmt.Value;
 
 			//expectation
@@ -169,7 +167,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			};
 
 			Assert.That(binaryExp, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -178,7 +176,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block     = _func.Body;
 			var firstStmt = block.First();
 
-			Assert.That(firstStmt, Is.InstanceOf<UnifiedExpression>());
+			Assert.That(firstStmt, Is.InstanceOf<IUnifiedExpression>());
 		}
 	}
 }

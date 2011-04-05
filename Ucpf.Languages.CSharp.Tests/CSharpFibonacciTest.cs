@@ -42,13 +42,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 									RightHandSide = UnifiedIntegerLiteral.Create(2)
 								},
 								TrueBody = {
-									new UnifiedReturn {
-										Value = UnifiedVariable.Create("n")
-									}
+									UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 								},
 								FalseBody = {
-									new UnifiedReturn {
-										Value = new UnifiedBinaryExpression {
+									UnifiedJump.CreateReturn(
+										new UnifiedBinaryExpression {
 											Operator =
 												new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 											LeftHandSide = new UnifiedCall {
@@ -78,7 +76,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 												}
 											}
 										}
-									}
+									),
 								}
 							}
 						}
@@ -94,7 +92,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var actual = CSharpModelFactory.CreateModel(Code);
 			var expected = Model;
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -105,7 +103,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			}});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -142,7 +140,7 @@ class Fibonacci {
 			}});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

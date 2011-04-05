@@ -24,7 +24,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			var actual = JavaModelFactory.CreateModel(_source);
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

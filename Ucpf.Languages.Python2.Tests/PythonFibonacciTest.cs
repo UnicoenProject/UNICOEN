@@ -5,9 +5,7 @@ using System.Text;
 using Code2Xml.Languages.Python2.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-
-
-
+using Ucpf.Core.Tests;
 using Ucpf.Languages.Python2.Model;
 
 namespace Ucpf.Languages.Python2.Tests {
@@ -41,13 +39,11 @@ print fib(20)
 								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
 							TrueBody = {
-								new UnifiedReturn {
-									Value = UnifiedVariable.Create("n")
-								}
+								UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 							},
 							FalseBody = {
-								new UnifiedReturn {
-									Value	= new UnifiedBinaryExpression {
+								UnifiedJump.CreateReturn(
+									new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 										LeftHandSide = new UnifiedCall {
 											Function = UnifiedVariable.Create("fib"),
@@ -70,7 +66,7 @@ print fib(20)
 											}
 										}
 									}
-								}
+								),
 							}
 						}
 					}
@@ -95,7 +91,7 @@ print fib(20)
 			var xml = Python2XmlGenerator.Instance.Generate(TestCode);
 			var model = PythonModelFactory.CreateBlock(xml);
 			Assert.That(model, Is.EqualTo(ExpectedModel)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

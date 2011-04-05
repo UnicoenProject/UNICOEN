@@ -113,7 +113,7 @@ namespace Ucpf.Languages.Java {
 			_writer.WriteLine("}");
 		}
 
-		public void Visit(UnifiedIf ifStatement)		{
+		public void Visit(UnifiedIf ifStatement) {
 			_writer.Write("if (");
 			ifStatement.Condition.Accept(this);
 			_writer.WriteLine(")");
@@ -126,10 +126,39 @@ namespace Ucpf.Languages.Java {
 			}
 		}
 
-		public void Visit(UnifiedReturn returnStatement) {
-			_writer.Write("return ");
-			returnStatement.Value.Accept(this);
+		public void Visit(UnifiedJump element) {
+			_writer.Write(GetKeyword(element.Type));
+			if (element.Value != null) {
+				_writer.Write(" ");
+				element.Value.Accept(this);
+			}
+			// TODO: セミコロンは子要素が付けるかどうか決めてはいけない
 			_writer.Write(";");
+		}
+
+		public string GetKeyword(UnifiedJumpType type) {
+			switch (type) {
+			case UnifiedJumpType.Break:
+				return "break";
+			case UnifiedJumpType.Continue:
+				return "continue";
+			case UnifiedJumpType.Goto:
+				return "goto";
+			case UnifiedJumpType.Return:
+				return "return";
+			case UnifiedJumpType.YieldReturn:
+				return "yield return";
+			case UnifiedJumpType.Throw:
+				return "throw";
+			case UnifiedJumpType.Retry:
+				throw new NotImplementedException();
+			case UnifiedJumpType.Redo:
+				throw new NotImplementedException();
+			case UnifiedJumpType.Yield:
+				throw new NotImplementedException();
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
 		}
 
 		#endregion
@@ -244,14 +273,6 @@ namespace Ucpf.Languages.Java {
 		}
 
 		public void Visit(UnifiedDoWhile element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedBreak element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedContinue element) {
 			throw new NotImplementedException();
 		}
 

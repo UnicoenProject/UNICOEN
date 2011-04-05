@@ -27,8 +27,9 @@ namespace Ucpf.Core.Tests {
 		}
 
 		public static string GetTemporalPath(params string[] names) {
-			return Path.Combine(FixturePath, Temp)
-				.GetFullPathAddingSubNames(names);
+			var path = Path.Combine(FixturePath, Temp);
+			Directory.CreateDirectory(path);
+			return path.GetFullPathAddingSubNames(names);
 		}
 
 		public static string GetInputPath(string lang, params string[] names) {

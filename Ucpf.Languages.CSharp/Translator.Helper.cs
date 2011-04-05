@@ -122,12 +122,12 @@ namespace Ucpf.Languages.CSharp {
 			foreach (var item in contents) {
 				if (item == null)
 					continue;
-				var expr = item as UnifiedExpression;
+				var expr = item as IUnifiedExpression;
 				if (expr != null) {
 					block.Add(expr);
 					continue;
 				}
-				var exprs = item as IEnumerable<UnifiedExpression>;
+				var exprs = item as IEnumerable<IUnifiedExpression>;
 				if (exprs != null) {
 					foreach (var iExpr in exprs)
 						block.Add(iExpr);

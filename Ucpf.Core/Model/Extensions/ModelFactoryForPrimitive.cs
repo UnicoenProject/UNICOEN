@@ -21,7 +21,7 @@ namespace Ucpf.Core.Model.Extensions {
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
-		                                                             UnifiedExpression
+		                                                             IUnifiedExpression
 		                                                             		initialValue) {
 			return new UnifiedVariableDefinition {
 					Name = name,
@@ -31,7 +31,7 @@ namespace Ucpf.Core.Model.Extensions {
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             UnifiedType type,
-		                                                             UnifiedExpression
+		                                                             IUnifiedExpression
 		                                                             		initialValue) {
 			return new UnifiedVariableDefinition {
 					Type = type,
