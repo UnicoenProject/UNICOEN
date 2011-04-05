@@ -243,8 +243,8 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		private static UnifiedExpression CreateIteration(XElement element) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name.LocalName.EndsWith("iterationStatement"));
+			Contract.Requires(element != null);
+			Contract.Requires(element.Name.LocalName.EndsWith("iterationStatement"));
 			/*
 			 * iterationStatement
 				: doWhileStatement
