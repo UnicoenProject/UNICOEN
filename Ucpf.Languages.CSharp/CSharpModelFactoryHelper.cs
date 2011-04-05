@@ -46,17 +46,5 @@ namespace Ucpf.Languages.CSharp {
 				Operator = new UnifiedUnaryOperator(UnaryOperatorSigns[operatorType], operatorType),
 			};
 		}
-
-		public static UnifiedReturn CreateReturn() {
-			return new UnifiedReturn();
-		}
-
-		public static UnifiedBreak CreateBreak() {
-			return new UnifiedBreak();
-		}
-
-		public static UnifiedContinue CreateContinue() {
-			return new UnifiedContinue();
-		}
 	}
 }

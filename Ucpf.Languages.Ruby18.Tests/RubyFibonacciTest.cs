@@ -53,7 +53,7 @@ end");
 					new UnifiedParameter{ Name = "n" }
 				},
 				Body = {
-					new UnifiedReturn{ Value = UnifiedVariable.Create("n")}
+					UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -75,7 +75,7 @@ end");
 					new UnifiedParameter{ Name = "n" }
 				},
 				Body = {
-					new UnifiedReturn{ Value = CreateCall(null)}
+					UnifiedJump.CreateReturn( CreateCall(null)),
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -97,13 +97,13 @@ end");
 					new UnifiedParameter{ Name = "n" }
 				},
 				Body = {
-					new UnifiedReturn{
-						Value = new UnifiedBinaryExpression {
+					UnifiedJump.CreateReturn(
+						new UnifiedBinaryExpression {
 							LeftHandSide = CreateCall(1),
 							Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 							RightHandSide = CreateCall(2),
 						}
-					}
+					),
 				}
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -137,14 +137,10 @@ end
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
 						TrueBody = {
-							new UnifiedReturn{
-								Value = UnifiedVariable.Create("n")
-							}
+							UnifiedJump.CreateReturn( UnifiedVariable.Create("n")),
 						},
 						FalseBody = {
-							new UnifiedReturn {
-								Value = UnifiedIntegerLiteral.Create(0)
-							}
+							UnifiedJump.CreateReturn( UnifiedIntegerLiteral.Create(0)),
 						},
 					},
 				},
@@ -180,16 +176,16 @@ end
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
 						TrueBody = {
-							new UnifiedReturn{ Value = UnifiedVariable.Create("n") }
+							UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 						},
 						FalseBody = {
-							new UnifiedReturn {
-								Value = new UnifiedBinaryExpression {
+							UnifiedJump.CreateReturn(
+								new UnifiedBinaryExpression {
 									LeftHandSide = CreateCall(1),
 									Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 									RightHandSide = CreateCall(2),
 								}
-							}
+							),
 						},
 					},
 				},

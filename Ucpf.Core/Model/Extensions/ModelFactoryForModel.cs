@@ -36,10 +36,8 @@
 			};
 		}
 
-		public static UnifiedReturn ToReturn(this IUnifiedExpression value) {
-			return new UnifiedReturn {
-					Value = value,
-			};
+		public static UnifiedJump ToReturn(this IUnifiedExpression value) {
+			return UnifiedJump.CreateReturn( value);
 		}
 
 		public static UnifiedCase ToCase(this IUnifiedExpression condtion) {

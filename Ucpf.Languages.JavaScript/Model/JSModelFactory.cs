@@ -321,10 +321,8 @@ namespace Ucpf.Languages.JavaScript.Model {
 				};
 		}
 
-		public static UnifiedReturn CreateReturn(XElement node) {
-			return new UnifiedReturn {
-				Value = CreateExpression(node.Element("expression"))
-			};
+		public static UnifiedJump CreateReturn(XElement node) {
+			return UnifiedJump.CreateReturn(CreateExpression(node.Element("expression")));
 		}
 
 		#endregion

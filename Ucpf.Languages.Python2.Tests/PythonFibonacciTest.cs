@@ -39,13 +39,11 @@ print fib(20)
 								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
 							TrueBody = {
-								new UnifiedReturn {
-									Value = UnifiedVariable.Create("n")
-								}
+								UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 							},
 							FalseBody = {
-								new UnifiedReturn {
-									Value	= new UnifiedBinaryExpression {
+								UnifiedJump.CreateReturn(
+									new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 										LeftHandSide = new UnifiedCall {
 											Function = UnifiedVariable.Create("fib"),
@@ -68,7 +66,7 @@ print fib(20)
 											}
 										}
 									}
-								}
+								),
 							}
 						}
 					}

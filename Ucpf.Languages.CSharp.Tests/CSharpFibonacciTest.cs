@@ -42,13 +42,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 									RightHandSide = UnifiedIntegerLiteral.Create(2)
 								},
 								TrueBody = {
-									new UnifiedReturn {
-										Value = UnifiedVariable.Create("n")
-									}
+									UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 								},
 								FalseBody = {
-									new UnifiedReturn {
-										Value = new UnifiedBinaryExpression {
+									UnifiedJump.CreateReturn(
+										new UnifiedBinaryExpression {
 											Operator =
 												new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
 											LeftHandSide = new UnifiedCall {
@@ -78,7 +76,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 												}
 											}
 										}
-									}
+									),
 								}
 							}
 						}

@@ -250,15 +250,15 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitReturnStatement(ReturnStatement stmt, object data) {
 			var value = stmt.Expression.AcceptVisitor(this, data) as IUnifiedExpression;
-			return new UnifiedReturn { Value = value };
+			return UnifiedJump.CreateReturn(value);
 		}
 
 		public object VisitBreakStatement(BreakStatement breakStatement, object data) {
-			return new UnifiedBreak();
+			return UnifiedJump.CreateBreak();
 		}
 
 		public object VisitContinueStatement(ContinueStatement continueStatement, object data) {
-			return new UnifiedContinue();
+			return UnifiedJump.CreateContinue();
 		}
 
 		#endregion

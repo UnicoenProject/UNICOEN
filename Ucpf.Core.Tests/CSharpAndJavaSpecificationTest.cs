@@ -23,7 +23,7 @@ namespace Ucpf.Core.Tests {
 					true.ToLiteral()
 						.ToWhile()
 						.AddToBody(
-							CSharpModelFactoryHelper.CreateReturn())
+							UnifiedJump.CreateReturn())
 				});
 			}
 		}
@@ -33,7 +33,7 @@ namespace Ucpf.Core.Tests {
 				return CreateClassAndMethod(new UnifiedBlock {
 					true.ToLiteral()
 						.ToDoWhile()
-						.AddToBody(CSharpModelFactoryHelper.CreateReturn())
+						.AddToBody(UnifiedJump.CreateReturn())
 				});
 			}
 		}
@@ -54,7 +54,7 @@ namespace Ucpf.Core.Tests {
 						Step = CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(), UnifiedUnaryOperatorType.PostIncrementAssign),
 						Body = {
-							CSharpModelFactoryHelper.CreateBreak(),
+							UnifiedJump.CreateBreak(),
 						},
 					}
 				});
@@ -67,7 +67,7 @@ namespace Ucpf.Core.Tests {
 					new UnifiedArrayNew {
 						InitialValues = 1.ToLiteral(),
 					}.ToForeach("int".ToType(), "i")
-						.AddToBody(CSharpModelFactoryHelper.CreateContinue())
+						.AddToBody(UnifiedJump.CreateContinue())
 				});
 			}
 		}
@@ -120,13 +120,13 @@ namespace Ucpf.Core.Tests {
 
 		public static UnifiedProgram SwitchCaseModel {
 			get {
-				return
-					CreateClassAndMethod(new UnifiedBlock {
+				return CreateClassAndMethod(
+					new UnifiedBlock {
 						1.ToLiteral()
 							.ToSwitch()
 							.AddToCases(1.ToLiteral()
 								.ToCase()
-								.AddToBody(new UnifiedBreak())
+								.AddToBody(UnifiedJump.CreateBreak())
 							)
 					});
 			}
@@ -140,10 +140,10 @@ namespace Ucpf.Core.Tests {
 							.ToSwitch()
 							.AddToCases(1.ToLiteral()
 								.ToCase()
-								.AddToBody(new UnifiedBreak())
+								.AddToBody(UnifiedJump.CreateBreak())
 							)
 							.AddToCases(new UnifiedCase {
-								Body = { new UnifiedBreak() },
+								Body = { UnifiedJump.CreateBreak() },
 							})
 					});
 			}

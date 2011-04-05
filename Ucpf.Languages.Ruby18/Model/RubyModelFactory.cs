@@ -101,9 +101,8 @@ namespace Ucpf.Languages.Ruby18.Model {
 					FalseBody = CreateBlock(elems.ElementAt(2)),
 				};
 			case "return":
-				return new UnifiedReturn {
-					Value = CreateExpression(elems.First())
-				};
+				return UnifiedJump.CreateReturn(
+					CreateExpression(elems.First()));
 			default:
 				throw new NotImplementedException();
 			}

@@ -696,14 +696,14 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static UnifiedBreak CreateBreak(XElement node) {
+		public static UnifiedJump CreateBreak(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.FirstElement().HasContent("break"));
 			/* 'break' (IDENTIFIER )? ';' */
 			if (node.Elements().Count() > 2)
 				throw new NotImplementedException();
-			return new UnifiedBreak();
+			return UnifiedJump.CreateBreak();
 		}
 
 		private static IUnifiedExpression CreateForInit(XElement node) {
@@ -727,16 +727,14 @@ namespace Ucpf.Languages.Java.Model {
 			else throw new NotImplementedException();
 		}
 
-		public static UnifiedReturn CreateReturn(XElement node) {
+		public static UnifiedJump CreateReturn(XElement node) {
 			Contract.Requires(node != null);
 			IUnifiedExpression value = null;
 			var i = node.Elements().Count();
 			if (node.Elements().Count() == 3) {
 				value = CreateExpression(node.Element("expression"));
 			}
-			return new UnifiedReturn {
-				Value = value
-			};
+			return UnifiedJump.CreateReturn( value);
 		}
 
 		#endregion

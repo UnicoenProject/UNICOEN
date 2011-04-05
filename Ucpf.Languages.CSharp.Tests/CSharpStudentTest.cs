@@ -63,9 +63,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							Type = UnifiedType.Create("String"),
 							Name = "getName",
 							Body = {
-								new UnifiedReturn {
-									Value = UnifiedVariable.Create("_name")
-								},
+								UnifiedJump.CreateReturn( UnifiedVariable.Create("_name")),
 							}
 						},
 						new UnifiedFunctionDefinition {

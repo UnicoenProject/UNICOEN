@@ -53,54 +53,6 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write(type.Name);
 		}
 
-		public void Visit(UnifiedExpressionCollection element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedWhile element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedDoWhile element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedBreak element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedContinue element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedNamespace element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedIndexer element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedTypeParameter element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedTypeParameterCollection element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedSwitch element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedCaseCollection element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedCase element) {
-			throw new NotImplementedException();
-		}
-
 		public void Visit(UnifiedClassDefinition clsDef) {
 			WriteIndent();
 			_writer.Write("class ");
@@ -165,9 +117,37 @@ namespace Ucpf.Languages.CSharp {
 			}
 		}
 
-		public void Visit(UnifiedReturn element) {
-			_writer.Write("return ");
-			element.Value.Accept(this);
+		public void Visit(UnifiedJump element) {
+			_writer.Write(GetKeyword(element.Type));
+			if (element.Value != null) {
+				_writer.Write(" ");
+				element.Value.Accept(this);
+			}
+		}
+
+		public string GetKeyword(UnifiedJumpType type) {
+			switch (type) {
+			case UnifiedJumpType.Break:
+				return "break";
+			case UnifiedJumpType.Continue:
+				return "continue";
+			case UnifiedJumpType.Goto:
+				return "goto";
+			case UnifiedJumpType.Return:
+				return "return";
+			case UnifiedJumpType.YieldReturn:
+				return "yield return";
+			case UnifiedJumpType.Throw:
+				return "throw";
+			case UnifiedJumpType.Retry:
+				throw new NotImplementedException();
+			case UnifiedJumpType.Redo:
+				throw new NotImplementedException();
+			case UnifiedJumpType.Yield:
+				throw new NotImplementedException();
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
 		}
 
 		#endregion
@@ -225,6 +205,46 @@ namespace Ucpf.Languages.CSharp {
 		#endregion
 
 		#region not implement
+
+		public void Visit(UnifiedExpressionCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedWhile element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedDoWhile element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedNamespace element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedIndexer element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeParameter element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeParameterCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedSwitch element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedCaseCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedCase element) {
+			throw new NotImplementedException();
+		}
 
 		void IUnifiedModelVisitor.Visit(UnifiedUnaryOperator element) {
 			throw new NotImplementedException();
