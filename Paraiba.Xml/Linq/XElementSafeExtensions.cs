@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -8,15 +9,68 @@ namespace Paraiba.Xml.Linq {
 	/// </summary>
 	public static class XElementSafeExtensions {
 		/// <summary>
-		///   レシーバーがnullであっても動作して、指定したnameのXElementを保持しているか取得します。
+		///   レシーバーがnullであっても動作するXElementExtensions.HasElement()メソッドです。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static bool SafeContains(this XElement element,
-		                                string name) {
+		[Pure]
+		public static bool SafeHasElement(this XElement element) {
 			if (element == null)
 				return false;
-			return element.Element(name) != null;
+			return element.HasElement();
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElementExtensions.HasElement(name)メソッドです。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "name"></param>
+		/// <returns></returns>
+		[Pure]
+		public static bool SafeHasElement(this XElement element,
+		                                  string name) {
+			if (element == null)
+				return false;
+			return element.HasElement(name);
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElementExtensions.HasValue(name)メソッドです。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "value"></param>
+		/// <returns></returns>
+		[Pure]
+		public static bool SafeHasValue(this XElement element, string value) {
+			if (element == null)
+				return false;
+			return element.HasValue(value);
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElementExtensions.HasNoElement()メソッドです。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <returns></returns>
+		[Pure]
+		public static bool SafeHasNoElement(this XElement element) {
+			if (element == null)
+				return false;
+			return element.HasNoElement();
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElementExtensions.HasValueAndNoElement(name)メソッドです。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "value"></param>
+		/// <returns></returns>
+		[Pure]
+		public static bool SafeHasValueAndNoElement(this XElement element,
+		                                    string value) {
+			if (element == null)
+				return false;
+			return element.HasValueAndNoElement(value);
 		}
 
 		/// <summary>
@@ -24,6 +78,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeElement(this XElement element,
 		                                   string name) {
 			if (element == null)
@@ -36,6 +91,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeElements(this XElement element) {
 			if (element == null)
 				yield break;
@@ -49,6 +105,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeElements(this XElement element,
 		                                                 string name) {
 			if (element == null)
@@ -63,7 +120,9 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<XElement> SafeElementsAfterSelf(this XElement element) {
+		[Pure]
+		public static IEnumerable<XElement> SafeElementsAfterSelf(
+				this XElement element) {
 			if (element == null)
 				yield break;
 			foreach (var elem in element.ElementsAfterSelf()) {
@@ -76,8 +135,10 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<XElement> SafeElementsAfterSelf(this XElement element,
-														 string name) {
+		[Pure]
+		public static IEnumerable<XElement> SafeElementsAfterSelf(
+				this XElement element,
+				string name) {
 			if (element == null)
 				yield break;
 			foreach (var elem in element.ElementsAfterSelf(name)) {
@@ -90,7 +151,9 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<XElement> SafeElementsBeforeSelf(this XElement element) {
+		[Pure]
+		public static IEnumerable<XElement> SafeElementsBeforeSelf(
+				this XElement element) {
 			if (element == null)
 				yield break;
 			foreach (var elem in element.ElementsBeforeSelf()) {
@@ -103,8 +166,10 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<XElement> SafeElementsBeforeSelf(this XElement element,
-														 string name) {
+		[Pure]
+		public static IEnumerable<XElement> SafeElementsBeforeSelf(
+				this XElement element,
+				string name) {
 			if (element == null)
 				yield break;
 			foreach (var elem in element.ElementsBeforeSelf(name)) {
@@ -117,6 +182,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeDescendants(this XElement element) {
 			if (element == null)
 				yield break;
@@ -130,6 +196,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeDescendants(this XElement element,
 		                                                    string name) {
 			if (element == null)
@@ -144,8 +211,9 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeDescendantsAndSelf(
-			this XElement element) {
+				this XElement element) {
 			if (element == null)
 				yield break;
 			foreach (var elem in element.DescendantsAndSelf()) {
@@ -158,8 +226,9 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeDescendantsAndSelf(
-			this XElement element, string name) {
+				this XElement element, string name) {
 			if (element == null)
 				yield break;
 			foreach (var elem in element.DescendantsAndSelf(name)) {
@@ -172,6 +241,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeAncestors(this XElement element) {
 			if (element == null)
 				yield break;
@@ -185,6 +255,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeAncestors(this XElement element,
 		                                                  string name) {
 			if (element == null)
@@ -199,6 +270,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeAncestorsAndSelf(this XElement element) {
 			if (element == null)
 				yield break;
@@ -212,8 +284,9 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static IEnumerable<XElement> SafeAncestorsAndSelf(
-			this XElement element, string name) {
+				this XElement element, string name) {
 			if (element == null)
 				yield break;
 			foreach (var elem in element.AncestorsAndSelf(name)) {
@@ -226,6 +299,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static string SafeName(this XElement element) {
 			if (element == null)
 				return null;
@@ -237,6 +311,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static string SafeValue(this XElement element) {
 			if (element == null)
 				return null;
@@ -248,6 +323,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeParent(this XElement element) {
 			if (element == null)
 				return null;
@@ -259,6 +335,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafePreviousElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -270,6 +347,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeNextElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -281,6 +359,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeFirstElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -292,6 +371,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeLastElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -303,6 +383,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeNthElement(this XElement element, int index) {
 			if (element == null)
 				return null;
@@ -314,6 +395,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeFirstElementBeforeSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -325,6 +407,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeLastElementBeforeSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -336,7 +419,9 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static XElement SafeNthElementBeforeSelf(this XElement element, int index) {
+		[Pure]
+		public static XElement SafeNthElementBeforeSelf(this XElement element,
+		                                                int index) {
 			if (element == null)
 				return null;
 			return element.ElementsBeforeSelf().ElementAtOrDefault(index);
@@ -347,6 +432,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeFirstElementAfterSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -358,6 +444,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
+		[Pure]
 		public static XElement SafeLastElementAfterSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -369,7 +456,9 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static XElement SafeNthElementAfterSelf(this XElement element, int index) {
+		[Pure]
+		public static XElement SafeNthElementAfterSelf(this XElement element,
+		                                               int index) {
 			if (element == null)
 				return null;
 			return element.ElementsAfterSelf().ElementAtOrDefault(index);
