@@ -699,9 +699,10 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedBreak CreateBreak(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "statement");
-			Contract.Requires(node.Elements().First().Name.LocalName == "break");
+			Contract.Requires(node.FirstElement().HasContent("break"));
 			/* 'break' (IDENTIFIER )? ';' */
-			if (node.Elements().Count() > 2) throw new NotImplementedException();
+			if (node.Elements().Count() > 2)
+				throw new NotImplementedException();
 			return new UnifiedBreak();
 		}
 
