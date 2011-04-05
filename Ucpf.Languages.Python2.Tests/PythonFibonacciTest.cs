@@ -5,9 +5,7 @@ using System.Text;
 using Code2Xml.Languages.Python2.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
-
-
-
+using Ucpf.Core.Tests;
 using Ucpf.Languages.Python2.Model;
 
 namespace Ucpf.Languages.Python2.Tests {
@@ -95,7 +93,7 @@ print fib(20)
 			var xml = Python2XmlGenerator.Instance.Generate(TestCode);
 			var model = PythonModelFactory.CreateBlock(xml);
 			Assert.That(model, Is.EqualTo(ExpectedModel)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

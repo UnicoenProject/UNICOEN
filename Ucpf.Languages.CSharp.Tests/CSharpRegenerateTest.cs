@@ -107,7 +107,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var expected = CSharpModelFactory.CreateModel(orgCode);
 			var actual = CSharpModelFactory.CreateModel(orgCode);
 			Assert.That(actual, Is.EqualTo(expected)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		/// <summary>
@@ -147,7 +147,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var code3 = CSharpCodeGenerator.Generate(model2);
 			var model3 = CSharpModelFactory.CreateModel(code3);
 			Assert.That(model3, Is.EqualTo(model1)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

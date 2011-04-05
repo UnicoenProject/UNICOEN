@@ -89,6 +89,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ucpf.Core.Tests\Ucpf.Core.Tests.csproj">
+      <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
+      <Name>Ucpf.Core.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ucpf.Core\Ucpf.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Ucpf.Core</Name>

@@ -37,7 +37,7 @@ namespace Ucpf.Languages.Java.Tests {
 				},
 			};
 			Assert.That(actual,
-				Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expectation).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -45,7 +45,7 @@ namespace Ucpf.Languages.Java.Tests {
 			var actual = JavaModelFactory.CreateModel(Code);
 			var expected = CSharpFibonacciTest.Model;
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

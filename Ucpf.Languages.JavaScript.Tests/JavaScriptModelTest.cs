@@ -39,7 +39,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			};
 
 			Assert.That(cond, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -51,7 +51,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var expectation = new UnifiedParameter { Name = "n" };
 
 			Assert.That(firstParam, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -74,7 +74,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			};
 
 			Assert.That(returnStmt, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -124,7 +124,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			};
 
 			Assert.That(firstArg, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -169,7 +169,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			};
 
 			Assert.That(binaryExp, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]

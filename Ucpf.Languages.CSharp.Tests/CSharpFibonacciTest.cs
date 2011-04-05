@@ -94,7 +94,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var actual = CSharpModelFactory.CreateModel(Code);
 			var expected = Model;
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -105,7 +105,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			}});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -142,7 +142,7 @@ class Fibonacci {
 			}});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

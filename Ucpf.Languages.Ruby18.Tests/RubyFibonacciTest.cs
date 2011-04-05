@@ -1,6 +1,7 @@
 ﻿using Code2Xml.Languages.Ruby18.XmlGenerators;
 using NUnit.Framework;
 using Ucpf.Core.Model;
+using Ucpf.Core.Tests;
 using Ucpf.Languages.Ruby18.Model;
 
 namespace Ucpf.Languages.Ruby18.Tests {
@@ -35,7 +36,7 @@ end");
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -56,7 +57,7 @@ end");
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -78,7 +79,7 @@ end");
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -106,7 +107,7 @@ end");
 				}
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -149,7 +150,7 @@ end
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -194,7 +195,7 @@ end
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

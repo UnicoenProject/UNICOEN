@@ -24,7 +24,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.WhileModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -37,7 +37,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.DoWhileModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -50,7 +50,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.ForModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
@@ -63,7 +63,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.ForeachModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -77,7 +77,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.IfModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -99,7 +99,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.IfElseModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -110,7 +110,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.NewGenericTypeModel)
-				.Using(StructuralEqualityComparer.Instance));
+				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -121,7 +121,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.PlusIntegerLiteralModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -132,7 +132,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -143,7 +143,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
@@ -154,7 +154,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(null)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
@@ -165,7 +165,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(null)
-					.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }

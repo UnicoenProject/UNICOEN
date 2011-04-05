@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StructuralEqualityComparerForDebug.cs" />
     <Compile Include="CodeModelToCode.cs" />
     <Compile Include="CSharpAndJavaSpecificationTest.cs" />
     <Compile Include="Fixture.cs" />

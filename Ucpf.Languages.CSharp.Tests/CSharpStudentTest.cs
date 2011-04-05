@@ -26,7 +26,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 			var actual = CSharpModelFactory.CreateModel(_source);
 			Assert.That(actual,
-				Is.EqualTo(expected).Using(StructuralEqualityComparer.Instance));
+				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		public static UnifiedProgram CreateModel() {
