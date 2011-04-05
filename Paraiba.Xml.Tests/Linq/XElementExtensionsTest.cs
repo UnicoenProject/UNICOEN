@@ -38,6 +38,36 @@ namespace Paraiba.Xml.Tests.Linq {
 		}
 
 		[Test]
+		public void HasValueShouldBeFalse() {
+			D1Element.HasValue("d").Is(false);
+		}
+
+		[Test]
+		public void HasValueShouldBeTrue() {
+			D1Element.HasValue("d1").Is(true);
+		}
+
+		[Test]
+		public void HasNoElementShouldBeFalse() {
+			B1Element.HasNoElement().Is(false);
+		}
+
+		[Test]
+		public void HasNoElementShouldBeTrue() {
+			D1Element.HasNoElement().Is(true);
+		}
+
+		[Test]
+		public void HasValueAndNoElementShouldBeFalse() {
+			D1Element.HasValueAndNoElement("d").Is(false);
+		}
+
+		[Test]
+		public void HasValueAndNoElementShouldBeTrue() {
+			D1Element.HasValueAndNoElement("d1").Is(true);
+		}
+
+		[Test]
 		[TestCase("a", Result = true)]
 		[TestCase("c", Result = false)]
 		public bool HasElement(string name) {
@@ -309,26 +339,6 @@ namespace Paraiba.Xml.Tests.Linq {
 		[Test]
 		public void NthElementAfterSelfOrDefaultWithName() {
 			D1Element.NthElementAfterSelfOrDefault("b", 1).Is((XElement)null);
-		}
-
-		[Test]
-		public void HasNoElementShouldBeFalse() {
-			B1Element.HasNoElement().Is(false);
-		}
-
-		[Test]
-		public void HasNoElementShouldBeTrue() {
-			D1Element.HasNoElement().Is(true);
-		}
-
-		[Test]
-		public void HasNoElementWithContentShouldBeFalse() {
-			D1Element.HasNoElement("d").Is(false);
-		}
-
-		[Test]
-		public void HasNoElementWithContentShouldBeTrue() {
-			D1Element.HasNoElement("d1").Is(true);
 		}
 	}
 }

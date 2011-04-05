@@ -31,11 +31,24 @@ namespace Paraiba.Xml.Linq {
 		                                  string name) {
 			if (element == null)
 				return false;
-			return element.SafeHasElement(name);
+			return element.HasElement(name);
 		}
 
 		/// <summary>
-		///   レシーバーがnullであっても動作するXElementExtensions.SafeHasNoElement()メソッドです。
+		///   レシーバーがnullであっても動作するXElementExtensions.HasValue(name)メソッドです。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "value"></param>
+		/// <returns></returns>
+		[Pure]
+		public static bool SafeHasValue(this XElement element, string value) {
+			if (element == null)
+				return false;
+			return element.HasValue(value);
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElementExtensions.HasNoElement()メソッドです。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
@@ -43,21 +56,21 @@ namespace Paraiba.Xml.Linq {
 		public static bool SafeHasNoElement(this XElement element) {
 			if (element == null)
 				return false;
-			return element.SafeHasNoElement();
+			return element.HasNoElement();
 		}
 
 		/// <summary>
-		///   レシーバーがnullであっても動作するXElementExtensions.HasNoElement(name)メソッドです。
+		///   レシーバーがnullであっても動作するXElementExtensions.HasValueAndNoElement(name)メソッドです。
 		/// </summary>
 		/// <param name = "element"></param>
-		/// <param name = "name"></param>
+		/// <param name = "value"></param>
 		/// <returns></returns>
 		[Pure]
-		public static bool SafeHasNoElement(this XElement element,
-		                                    string name) {
+		public static bool SafeHasValueAndNoElement(this XElement element,
+		                                    string value) {
 			if (element == null)
 				return false;
-			return element.SafeHasElement(name);
+			return element.HasValueAndNoElement(value);
 		}
 
 		/// <summary>

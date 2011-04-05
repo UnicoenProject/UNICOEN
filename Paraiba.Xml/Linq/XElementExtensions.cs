@@ -27,6 +27,15 @@ namespace Paraiba.Xml.Linq {
 		}
 
 		/// <summary>
+		///   指定したコンテンツ(Value)を持っているかどうか取得します。
+		/// </summary>
+		/// <returns>指定したコンテンツ(Value)を持っているかどうか</returns>
+		[Pure]
+		public static bool HasValue(this XElement element, string value) {
+			return element.Value == value;
+		}
+
+		/// <summary>
 		///   子要素を持っていないかどうか取得します。
 		/// </summary>
 		/// <returns>コンテンツを持っているかどうか</returns>
@@ -40,7 +49,7 @@ namespace Paraiba.Xml.Linq {
 		/// </summary>
 		/// <returns>指定したコンテンツ(Value)を持っているかどうか</returns>
 		[Pure]
-		public static bool HasNoElement(this XElement element, string value) {
+		public static bool HasValueAndNoElement(this XElement element, string value) {
 			return element.HasNoElement() && element.Value == value;
 		}
 

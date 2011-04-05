@@ -178,7 +178,7 @@ namespace Ucpf.Languages.Java.Model {
 			 */
 
 			var first = node.FirstElement();
-			if (first.HasNoElement("this") || first.Name() == "IDENTIFIER") {
+			if (first.HasValueAndNoElement("this") || first.Name() == "IDENTIFIER") {
 				var variable = UnifiedVariable.Create(first.Value);
 				var prop = first.NextElements("IDENTIFIER")
 						.Aggregate((IUnifiedExpression)variable,
@@ -188,7 +188,7 @@ namespace Ucpf.Languages.Java.Model {
 								});
 				return CreateIdentifierSuffix(node.Element("identifierSuffix"), prop);
 			}
-			if (first.HasNoElement("super")) {
+			if (first.HasValueAndNoElement("super")) {
 				var super = UnifiedVariable.Create("super");
 				return CreateSuperSuffix(node.Element("superSuffix"), super);
 			}
@@ -207,7 +207,7 @@ namespace Ucpf.Languages.Java.Model {
 					Name = "class",
 				};
 			}
-			if (first.HasNoElement("void")) {
+			if (first.HasValueAndNoElement("void")) {
 				return new UnifiedProperty {
 						Owner = UnifiedVariable.Create(first.Value),
 						Name = "class",
@@ -353,7 +353,7 @@ namespace Ucpf.Languages.Java.Model {
 			else { //case "arrayCreator"
 				UnifiedExpressionCollection initVal = null;
 				UnifiedArgumentCollection args = null;
-				if(node.HasNoElement("arrayInitializer")) {
+				if(node.HasValueAndNoElement("arrayInitializer")) {
 					initVal = (UnifiedExpressionCollection)node.Element("arrayInitializer")
 					                                       		.Elements("variableInitializer")
 					                                       		.Select(e => CreateExpression(e.Element("expression")));
@@ -699,7 +699,7 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedJump CreateBreak(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "statement");
-			Contract.Requires(node.FirstElement().HasNoElement("break"));
+			Contract.Requires(node.FirstElement().HasValueAndNoElement("break"));
 			/* 'break' (IDENTIFIER )? ';' */
 			if (node.Elements().Count() > 2)
 				throw new NotImplementedException();
