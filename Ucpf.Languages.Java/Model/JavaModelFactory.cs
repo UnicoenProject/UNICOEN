@@ -402,7 +402,7 @@ namespace Ucpf.Languages.Java.Model {
 
 				}
 				return new UnifiedArrayNew {
-						Type = CreateType(node.Element("createdName")),
+						Type = CreateTypeOrCreatedName(node.Element("createdName")),
 						Arguments = args,
 						InitialValues = initVal
 				};
@@ -661,8 +661,7 @@ namespace Ucpf.Languages.Java.Model {
 			};
 		}
 
-		public static IUnifiedExpression CreateForstatement(XElement forstatement)
-		{
+		public static IUnifiedExpression CreateForstatement(XElement forstatement) {
 			Contract.Requires(forstatement != null);
 			Contract.Requires(forstatement.Name.LocalName == "forstatement");
 			/*	forstatement :   
@@ -675,8 +674,7 @@ namespace Ucpf.Languages.Java.Model {
 				return new UnifiedForeach {
 					Element = new UnifiedVariableDefinition {
 						Modifiers = CreateVariableModifiers(forstatement.Element("variableModifiers")),
-						//Type = CreateType(forstatement.Element("type")),
-						Type = CreateType(forstatement),
+						Type = CreateTypeOrCreatedName(forstatement.Element("type")),
 						Name = forstatement.Element("IDENTIFIER").Value,
 						InitialValue = null
 					},
@@ -813,7 +811,7 @@ namespace Ucpf.Languages.Java.Model {
 			//if (node.Element("IDENTIFIER").PreviousElement().Name() == "")
 			return new UnifiedFunctionDefinition {
 				Modifiers  = CreateModifierCollection(node),
-				Type       = CreateType(node),
+				Type       = CreateTypeOrCreatedName(node.Element("type")),
 				Name       = node.Element("IDENTIFIER").Value,
 				Parameters = CreateFormalParameters(node.Element("formalParameters")),
 				//TODO IMPLEMENT:
@@ -843,40 +841,25 @@ namespace Ucpf.Languages.Java.Model {
 				.Select(CreateModifier));
 		}
 
-		public static UnifiedType CreateType(XElement node) {
-			Contract.Requires(node != null);
-			//Contract.Requires(node.Name() == "type");
-			//このメソッドにはtypeノードが入ってくるように他のメソッドを修正する？
-			//array作成時の<createdName>もここに入ってくる
+		public static UnifiedType CreateTypeOrCreatedName(XElement node) {
+			Contract.Requires(node == null || node.Name() == "type" || node.Name() == "createdName");
 			/* 
 			 * type 
-				:   classOrInterfaceType
-					('[' ']'
-					)*
-				|   primitiveType
-					('[' ']'
-					)*
+				:   classOrInterfaceType ('[' ']')*
+				|   primitiveType ('[' ']')*
 			*/
 
-			var typeNode = node.Element("type");
-			if(node.Name.LocalName == "createdName") {
-				typeNode = node;
-			}
-
-			if(typeNode == null)
+			if(node == null)
 				return new UnifiedType {
 						Name ="void"
 				};
 
-			switch (typeNode.FirstElement().Name()) {
+			var firstNode = node.FirstElement();
+			switch (firstNode.Name()) {
 				case "classOrInterfaceType":
-					//TODO 末尾修飾子が付く場合にはどのように名前を与えるか
-					//-> とりあえず、CreateClassOrInterfaceType()の中で親の値に遡って代入する
-					return CreateClassOrInterfaceType(typeNode.FirstElement());
+					return CreateClassOrInterfaceType(firstNode);
 				case "primitiveType":
-					return new UnifiedType {
-							Name = typeNode.Value
-					};
+					return CreatePrimitiveType(firstNode);
 				default:
 					throw new InvalidOperationException();
 			}
@@ -887,21 +870,18 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name() == "classOrInterfaceType");
 			/* 
 			 * classOrInterfaceType 
-				:   IDENTIFIER
-					(typeArguments)?
-					('.' IDENTIFIER (typeArguments)? )*
+				:   IDENTIFIER (typeArguments)? ('.' IDENTIFIER (typeArguments)? )*
 			  
 			   typeArguments 
-				:   '<' typeArgument
-					(',' typeArgument )* 
-					'>'
+			 * :   '<' typeArgument (',' typeArgument )* '>'
 			 */
+			//TODO 末尾修飾子が付く場合にはどのように名前を与えるか
+			//-> とりあえず、CreateClassOrInterfaceType()の中で親の値に遡って代入する
 
 			var name = node.Parent.Name.LocalName == "type" ?  
 				node.Parent.Value : node.Element("IDENTIFIER").Value;
-			if(node.Element("typeArguments") != null) {
+			if(node.HasElement("typeArguments")) {
 				return new UnifiedType {
-					//Name = node.Element("IDENTIFIER").Value,
 					Name = name,
 					Parameters = new UnifiedTypeParameterCollection(
 						node.Element("typeArguments")
@@ -910,10 +890,21 @@ namespace Ucpf.Languages.Java.Model {
 				};
 			}
 			return new UnifiedType {
-					//Name = node.Element("IDENTIFIER").Value
 					Name = name,
 			};
 			//TODO ('.' IDENTIFIER (typeArguments)? )*はどう扱えばいいのか
+		}
+
+		public static UnifiedType CreatePrimitiveType(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "primitiveType");
+			/*
+			 * primitiveType  
+				:   'boolean' | 'char' | 'byte' | 'short' | 'int' | 'long' | 'float' | 'double' 
+			 */
+			return new UnifiedType {
+				Name = node.Value
+			};
 		}
 
 		public static UnifiedTypeParameter CreatTypeParameter(XElement node) {
@@ -922,24 +913,21 @@ namespace Ucpf.Languages.Java.Model {
 			/* 
 			 * typeArgument 
 				:   type
-				|   '?' 
-					(
-						('extends'
-						|'super'
-						)
-						type
-					)?
+				|   '?' ( ('extends'|'super' ) type )?
 			 */
-			var t = node.Element("type").FirstElement();
-			if(t.Name.LocalName == "classOrInterfaceType") {
+			if(node.FirstElement().Name() == "type") {
 				return  new UnifiedTypeParameter {
 					Modifiers = null,
-					Value = CreateClassOrInterfaceType(t)
+					Value = CreateTypeOrCreatedName(node.Element("type"))
 				};
 			}
+			throw new NotImplementedException();
+			//TODO ?はどのように扱うのか
+			var modifier = node.NthElement(1) != null ? new UnifiedModifierCollection() : null;
+			var type = node.NthElement(2) != null ? CreateTypeOrCreatedName(node.Element("type")) : null;
 			return new UnifiedTypeParameter {
-					Modifiers = null,
-					Value = CreateType(node)
+					Modifiers = modifier,
+					Value = type
 			};
 		}
 
@@ -965,13 +953,17 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedParameter CreateNormalParameterDecl(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "normalParameterDecl");
+			/* 
+			 * normalParameterDecl 
+				:   variableModifiers type IDENTIFIER ('[' ']')* 
+			 */
 			return new UnifiedParameter {
 				Modifiers = new UnifiedModifierCollection(node
 					.Element("variableModifiers")
 					.Elements()
 					.Select(CreateVariableModifier)),
 				Name = node.Element("IDENTIFIER").Value,
-				Type = CreateType(node)
+				Type = CreateTypeOrCreatedName(node.Element("type"))
 			};
 		}
 
@@ -1036,7 +1028,7 @@ namespace Ucpf.Languages.Java.Model {
 						.Elements()
 						.Select(CreateVariableModifier)),
 					Name = node.Element("variableDeclarator").Element("IDENTIFIER").Value,
-					Type = CreateType(node)
+					Type = CreateTypeOrCreatedName(node.Element("type"))
 			};
 		}
 
