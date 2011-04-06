@@ -167,7 +167,7 @@ namespace Ucpf.Languages.CSharp {
 			};
 			return new UnifiedIf {
 				Condition = cond,
-				TrueBody = toBlock(stmt.TrueStatement),
+				Body = toBlock(stmt.TrueStatement),
 				FalseBody = toBlock(stmt.FalseStatement),
 			};
 		}

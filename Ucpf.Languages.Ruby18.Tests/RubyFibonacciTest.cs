@@ -136,7 +136,7 @@ end
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBody = {
+						Body = {
 							UnifiedJump.CreateReturn( UnifiedVariable.Create("n")),
 						},
 						FalseBody = {
@@ -175,7 +175,7 @@ end
 							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 							RightHandSide = UnifiedIntegerLiteral.Create(2),
 						},
-						TrueBody = {
+						Body = {
 							UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 						},
 						FalseBody = {

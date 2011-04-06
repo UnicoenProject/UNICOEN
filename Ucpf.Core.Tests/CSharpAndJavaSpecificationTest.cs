@@ -77,7 +77,7 @@ namespace Ucpf.Core.Tests {
 				return CreateClassAndMethod(new UnifiedBlock {
 					true.ToLiteral()
 						.ToIf()
-						.AddToTrueBody((-1).ToLiteral().ToReturn())
+						.AddToBody((-1).ToLiteral().ToReturn())
 						.RemoveFalseBody()
 				});
 			}
@@ -89,7 +89,7 @@ namespace Ucpf.Core.Tests {
 					CreateClassAndMethod(new UnifiedBlock {
 						false.ToLiteral()
 							.ToIf()
-							.AddToTrueBody((-1).ToLiteral().ToReturn())
+							.AddToBody((-1).ToLiteral().ToReturn())
 							.AddToFalseBody((0.1).ToLiteral().ToReturn())
 					});
 			}

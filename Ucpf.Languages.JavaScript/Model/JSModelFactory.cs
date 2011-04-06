@@ -400,7 +400,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			return new UnifiedIf {
 					//TODO consider how deal with else block
 					Condition = CreateExpression(node.Element("expression")),
-					TrueBody = (UnifiedBlock)CreateStatement(node.Element("statement")),
+					Body = (UnifiedBlock)CreateStatement(node.Element("statement")),
 					FalseBody =(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
 				};
 		}

@@ -38,7 +38,7 @@ print fib(20)
 								LeftHandSide = UnifiedVariable.Create("n"),
 								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
-							TrueBody = {
+							Body = {
 								UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 							},
 							FalseBody = {

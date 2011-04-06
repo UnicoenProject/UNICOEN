@@ -65,7 +65,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var block      = _func.Body;
 			var expStmt    = block.First();
 			var ifStmt     = (UnifiedIf)expStmt;
-			var tBlock     = ifStmt.TrueBody;
+			var tBlock     = ifStmt.Body;
 			var returnStmt = tBlock.First();
 
 			//expectation

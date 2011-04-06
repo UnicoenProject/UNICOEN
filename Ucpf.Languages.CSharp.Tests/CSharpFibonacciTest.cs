@@ -41,7 +41,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 									LeftHandSide = UnifiedVariable.Create("n"),
 									RightHandSide = UnifiedIntegerLiteral.Create(2)
 								},
-								TrueBody = {
+								Body = {
 									UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
 								},
 								FalseBody = {

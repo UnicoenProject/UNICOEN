@@ -628,7 +628,7 @@ namespace Ucpf.Languages.Java.Model {
 				Condition = CreateExpression(node
 					.Element("parExpression")
 					.Element("expression")),
-				TrueBody = trueBody,
+				Body = trueBody,
 				FalseBody = falseBody
 			};
 		}

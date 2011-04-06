@@ -109,7 +109,7 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write("if (");
 			ifStmt.Condition.Accept(this);
 			_writer.WriteLine(")");
-			ifStmt.TrueBody.Accept(this);
+			ifStmt.Body.Accept(this);
 			if (ifStmt.FalseBody != null) {
 				WriteIndent();
 				_writer.WriteLine("else");

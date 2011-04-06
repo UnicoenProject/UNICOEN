@@ -97,7 +97,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			case "if":
 				return new UnifiedIf {
 					Condition = CreateExpression(elems.ElementAt(0)),
-					TrueBody = CreateBlock(elems.ElementAt(1)),
+					Body = CreateBlock(elems.ElementAt(1)),
 					FalseBody = CreateBlock(elems.ElementAt(2)),
 				};
 			case "return":

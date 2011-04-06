@@ -3,22 +3,13 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedIf : UnifiedElement, IUnifiedExpression {
+	public class UnifiedIf : UnifiedExpressionWithBlock<UnifiedClassDefinition> {
 		private IUnifiedExpression _condition;
 
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set {
 				_condition = SetParentOfChild(value, _condition);
-			}
-		}
-
-		private UnifiedBlock _trueBody;
-
-		public UnifiedBlock TrueBody {
-			get { return _trueBody; }
-			set {
-				_trueBody = SetParentOfChild(value, _trueBody);
 			}
 		}
 
@@ -32,13 +23,8 @@ namespace Ucpf.Core.Model {
 		}
 
 		public UnifiedIf() {
-			TrueBody = new UnifiedBlock();
+			Body = new UnifiedBlock();
 			FalseBody = new UnifiedBlock();
-		}
-
-		public UnifiedIf AddToTrueBody(IUnifiedExpression expression) {
-			TrueBody.Add(expression);
-			return this;
 		}
 
 		public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
@@ -62,7 +48,7 @@ namespace Ucpf.Core.Model {
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Condition;
-			yield return TrueBody;
+			yield return Body;
 			yield return FalseBody;
 		}
 
@@ -71,7 +57,7 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Condition, v => Condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(TrueBody, v => TrueBody = (UnifiedBlock)v);
+					(Body, v => Body = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(FalseBody, v => FalseBody = (UnifiedBlock)v);
 		}
@@ -81,7 +67,7 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_condition, v => _condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_trueBody, v => _trueBody = (UnifiedBlock)v);
+					(_body, v => _body = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_falseBody, v => _falseBody = (UnifiedBlock)v);
 		}

@@ -117,7 +117,7 @@ namespace Ucpf.Languages.Java {
 			_writer.Write("if (");
 			ifStatement.Condition.Accept(this);
 			_writer.WriteLine(")");
-			ifStatement.TrueBody.Accept(this);
+			ifStatement.Body.Accept(this);
 			if (ifStatement.FalseBody != null)
 			{
 				WriteIndent();
