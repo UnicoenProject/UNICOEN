@@ -11,7 +11,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 	[TestFixture]
 	public class JavaScriptSpecificationTest {
 
-		[Test]
+		[Ignore, Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]
