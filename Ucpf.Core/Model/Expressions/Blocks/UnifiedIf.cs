@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedIf : UnifiedExpressionWithBlock<UnifiedClassDefinition> {
+	public class UnifiedIf : UnifiedExpressionWithBlock<UnifiedIf> {
 		private IUnifiedExpression _condition;
 
 		public IUnifiedExpression Condition {

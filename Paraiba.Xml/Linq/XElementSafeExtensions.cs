@@ -35,42 +35,17 @@ namespace Paraiba.Xml.Linq {
 		}
 
 		/// <summary>
-		///   レシーバーがnullであっても動作するXElementExtensions.HasValue(name)メソッドです。
+		///   レシーバーがnullであっても動作するXElementExtensions.HasContent(name)メソッドです。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "value"></param>
 		/// <returns></returns>
 		[Pure]
-		public static bool SafeHasValue(this XElement element, string value) {
-			if (element == null)
-				return false;
-			return element.HasValue(value);
-		}
-
-		/// <summary>
-		///   レシーバーがnullであっても動作するXElementExtensions.HasNoElement()メソッドです。
-		/// </summary>
-		/// <param name = "element"></param>
-		/// <returns></returns>
-		[Pure]
-		public static bool SafeHasNoElement(this XElement element) {
-			if (element == null)
-				return false;
-			return element.HasNoElement();
-		}
-
-		/// <summary>
-		///   レシーバーがnullであっても動作するXElementExtensions.HasValueAndNoElement(name)メソッドです。
-		/// </summary>
-		/// <param name = "element"></param>
-		/// <param name = "value"></param>
-		/// <returns></returns>
-		[Pure]
-		public static bool SafeHasValueAndNoElement(this XElement element,
+		public static bool SafeHasContent(this XElement element,
 		                                    string value) {
 			if (element == null)
 				return false;
-			return element.HasValueAndNoElement(value);
+			return element.HasContent(value);
 		}
 
 		/// <summary>

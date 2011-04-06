@@ -38,33 +38,23 @@ namespace Paraiba.Xml.Tests.Linq {
 		}
 
 		[Test]
-		public void HasValueShouldBeFalse() {
-			D1Element.HasValue("d").Is(false);
-		}
-
-		[Test]
-		public void HasValueShouldBeTrue() {
-			D1Element.HasValue("d1").Is(true);
-		}
-
-		[Test]
 		public void HasNoElementShouldBeFalse() {
-			B1Element.HasNoElement().Is(false);
+			(!B1Element.HasElement()).Is(false);
 		}
 
 		[Test]
 		public void HasNoElementShouldBeTrue() {
-			D1Element.HasNoElement().Is(true);
+			(!D1Element.HasElement()).Is(true);
 		}
 
 		[Test]
 		public void HasValueAndNoElementShouldBeFalse() {
-			D1Element.HasValueAndNoElement("d").Is(false);
+			D1Element.HasContent("d").Is(false);
 		}
 
 		[Test]
 		public void HasValueAndNoElementShouldBeTrue() {
-			D1Element.HasValueAndNoElement("d1").Is(true);
+			D1Element.HasContent("d1").Is(true);
 		}
 
 		[Test]
@@ -343,12 +333,12 @@ namespace Paraiba.Xml.Tests.Linq {
 
 		[Test]
 		public void HasContentShouldBeFalse() {
-			B1Element.HasContent().Is(false);
+			(!B1Element.HasElement()).Is(false);
 		}
 
 		[Test]
 		public void HasContentShouldBeTrue() {
-			D1Element.HasContent().Is(true);
+			(!D1Element.HasElement()).Is(true);
 		}
 
 		[Test]
