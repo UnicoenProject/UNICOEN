@@ -125,6 +125,22 @@ namespace Ucpf.Languages.CSharp {
 			}
 		}
 
+		public void Visit(UnifiedCatch element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedCatchCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTry element) {
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedJumpType type) {
 			switch (type) {
 			case UnifiedJumpType.Break:

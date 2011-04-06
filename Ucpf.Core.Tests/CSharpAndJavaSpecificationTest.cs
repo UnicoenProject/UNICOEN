@@ -149,6 +149,72 @@ namespace Ucpf.Core.Tests {
 			}
 		}
 
+		public static UnifiedProgram TryCatchModel {
+			get {
+				return
+					CreateClassAndMethod(new UnifiedBlock {
+						new UnifiedTry {
+								Body = {
+										"i".ToVariableDefinition(
+										"int".ToType(),
+										0.ToLiteral()),
+								},
+								Catches = {
+										new UnifiedCatch(),
+								},
+								FinallyBody = null,
+						},
+					});
+			}
+		}
+
+		public static UnifiedProgram TryCatchWithType {
+			get {
+				return
+					CreateClassAndMethod(new UnifiedBlock {
+						new UnifiedTry {
+								Body = {
+										"i".ToVariableDefinition(
+										"int".ToType(),
+										0.ToLiteral()),
+								},
+								Catches = {
+										new UnifiedCatch {
+												TargetTypes = {
+														"Exception".ToType()
+												},
+										},
+								},
+								FinallyBody = null,
+						},
+					});
+			}
+		}
+
+		public static UnifiedProgram TryCatchWithVariable {
+			get {
+				return
+					CreateClassAndMethod(new UnifiedBlock {
+						new UnifiedTry {
+								Body = {
+										"i".ToVariableDefinition(
+										"int".ToType(),
+										0.ToLiteral()),
+								},
+								Catches = {
+										new UnifiedCatch {
+												TargetTypes = null,
+												VariableDefinition = new UnifiedVariableDefinition {
+														
+												}
+										},
+								},
+								FinallyBody = null,
+						},
+					});
+			}
+		}
+
 		public static string CreateCode(string fragment) {
 			return "class A { void M1() {" + fragment + "} }";
 		}

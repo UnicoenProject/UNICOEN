@@ -136,5 +136,69 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
+
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } catch { }")]
+		public void CreateTryCatch(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("try { int i; } catch(Exception) { }")]
+		public void CreateTryCatchWithType(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithType)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } catch(Exception e) { }")]
+		public void CreateTryCatchWithVariable(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithVariable)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } catch(Exception e) { } catch(Exception e) { }")]
+		public void CreateTryTwoCatchWithVariable(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+	
+		[TestCase("try { int i = 0; } finally { }")]
+		public void CreateTryFinally(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[TestCase("try { int i = 0; } catch { } finally { }")]
+		public void CreateTryCatchFinally(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
 	}
 }
