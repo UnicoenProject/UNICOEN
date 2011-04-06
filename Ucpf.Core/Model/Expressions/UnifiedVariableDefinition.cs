@@ -33,7 +33,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public UnifiedVariableDefinition() {
-			Modifiers = new UnifiedModifierCollection();
+			Modifiers = UnifiedModifierCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

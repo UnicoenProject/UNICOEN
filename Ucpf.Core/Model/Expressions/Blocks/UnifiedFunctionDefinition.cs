@@ -34,7 +34,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public UnifiedFunctionDefinition() {
-			Modifiers = new UnifiedModifierCollection();
+			Modifiers = UnifiedModifierCollection.Create();
 			Parameters = new UnifiedParameterCollection();
 			Body = UnifiedBlock.Create();
 		}

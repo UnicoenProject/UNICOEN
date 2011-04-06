@@ -18,9 +18,9 @@ namespace Ucpf.Languages.CSharp.Tests {
 			File.ReadAllText(Fixture.GetInputPath("CSharp", "Fibonacci.cs"));
 
 		public static readonly UnifiedProgram Model = new UnifiedProgram {
-			new UnifiedClassDefinition {
-				Name = "Fibonacci",
-				Body = {
+			UnifiedClassDefinition.Create(
+				"Fibonacci",
+				UnifiedBlock.Create(new IUnifiedExpression[] {
 					new UnifiedFunctionDefinition {
 						Name = "fibonacci",
 						Type = UnifiedType.Create("int"),
@@ -81,8 +81,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 							}
 						}
 					}
-				}
-			}
+				})
+			)
 		};
 
 		#endregion
@@ -98,9 +98,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 		[Test]
 		public void CreateClassDeclare() {
 			const string code = "class Fibonacci{}";
-			var expected = new UnifiedProgram(new[]{new UnifiedClassDefinition {
-				Name = "Fibonacci",
-			}});
+			var expected = new UnifiedProgram(
+				new[]{ UnifiedClassDefinition.Create("Fibonacci")});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
@@ -115,19 +114,15 @@ class Fibonacci {
 	}
 }
 ";
-			var expected = new UnifiedProgram(new[]{new UnifiedClassDefinition {
-				Name = "Fibonacci",
-				Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+			var expected = new UnifiedProgram(new[]{ UnifiedClassDefinition.Create(
+				"Fibonacci",
+				UnifiedBlock.Create(new IUnifiedExpression[] {
 					new UnifiedFunctionDefinition {
 						Name = "fibonacci",
 						Type = UnifiedType.Create("void"),
 						Modifiers = {
-							new UnifiedModifier {
-								Name = "public"
-							},
-							new UnifiedModifier {
-								Name = "static"
-							}
+							UnifiedModifier.Create("public"),
+							UnifiedModifier.Create("static"),
 						},
 						Parameters = {
 							new UnifiedParameter {
@@ -137,7 +132,7 @@ class Fibonacci {
 						},
 					}
 				})
-			}});
+			)});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));

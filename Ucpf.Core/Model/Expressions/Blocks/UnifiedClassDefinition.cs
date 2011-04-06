@@ -16,8 +16,8 @@ namespace Ucpf.Core.Model {
 
 		public string Name { get; set; }
 
-		public UnifiedClassDefinition() {
-			Modifiers = new UnifiedModifierCollection();
+		private UnifiedClassDefinition() {
+			Modifiers = UnifiedModifierCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -49,5 +49,33 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
-			}
+
+		public static UnifiedClassDefinition Create(string name) {
+			return new UnifiedClassDefinition {
+					Name = name,
+			};
+		}
+
+		public static UnifiedClassDefinition Create(string name, UnifiedModifierCollection modifiers) {
+			return new UnifiedClassDefinition {
+				Modifiers = modifiers,
+				Name = name,
+			};
+		}
+
+		public static UnifiedClassDefinition Create(string name, UnifiedBlock body) {
+			return new UnifiedClassDefinition {
+				Body = body,
+				Name = name,
+			};
+		}
+
+		public static UnifiedClassDefinition Create(string name, UnifiedBlock body, UnifiedModifierCollection modifiers) {
+			return new UnifiedClassDefinition {
+				Body = body,
+				Name = name,
+				Modifiers = modifiers,
+			};
+		}
+	}
 }

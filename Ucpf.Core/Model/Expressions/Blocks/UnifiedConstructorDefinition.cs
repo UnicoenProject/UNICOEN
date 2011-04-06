@@ -24,7 +24,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public UnifiedConstructorDefinition() {
-			Modifiers = new UnifiedModifierCollection();
+			Modifiers = UnifiedModifierCollection.Create();
 			Parameters = new UnifiedParameterCollection();
 		}
 

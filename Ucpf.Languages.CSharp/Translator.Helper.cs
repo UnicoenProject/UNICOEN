@@ -54,19 +54,19 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private static UnifiedModifierCollection ConvertModifiler(Modifiers mods) {
-			var ret = new UnifiedModifierCollection();
+			var ret = UnifiedModifierCollection.Create();
 			if ((mods & Modifiers.Private) != 0) {
-				ret.Add(new UnifiedModifier { Name = "private" });
+				ret.Add(UnifiedModifier.Create("private"));
 			}
 			if ((mods & Modifiers.Protected) != 0) {
-				ret.Add(new UnifiedModifier { Name = "protected" });
+				ret.Add(UnifiedModifier.Create("protected"));
 			}
 			if ((mods & Modifiers.Public) != 0) {
-				ret.Add(new UnifiedModifier { Name = "public" });
+				ret.Add(UnifiedModifier.Create("public"));
 			}
 
 			if ((mods & Modifiers.Static) != 0) {
-				ret.Add(new UnifiedModifier { Name = "static" });
+				ret.Add(UnifiedModifier.Create("static"));
 			}
 			return ret;
 		}

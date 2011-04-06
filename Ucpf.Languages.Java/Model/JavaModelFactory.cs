@@ -768,7 +768,7 @@ namespace Ucpf.Languages.Java.Model {
 			/*
 			 * variableModifiers : ( 'final' | annotation )* ;
 			 */
-			if (xElement.Elements().Count() == 0) return new UnifiedModifierCollection();
+			if (xElement.Elements().Count() == 0) return UnifiedModifierCollection.Create();
 			else throw new NotImplementedException();
 		}
 
@@ -821,21 +821,17 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedModifier CreateVariableModifier(XElement node) {
 			Contract.Requires(node != null);
-			return new UnifiedModifier {
-				Name = node.Value
-			};
+			return UnifiedModifier.Create(node.Value);
 		}
 
 		public static UnifiedModifier CreateModifier(XElement node) {
 			Contract.Requires(node != null);
-			return new UnifiedModifier {
-				Name = node.Value
-			};
+			return UnifiedModifier.Create(node.Value);
 		}
 
 		public static UnifiedModifierCollection CreateModifierCollection(XElement node) {
 			Contract.Requires(node != null);
-			return new UnifiedModifierCollection(node
+			return UnifiedModifierCollection.Create(node
 				.Element("modifiers")
 				.Elements()
 				.Select(CreateModifier));
@@ -923,7 +919,7 @@ namespace Ucpf.Languages.Java.Model {
 			}
 			throw new NotImplementedException();
 			//TODO ?はどのように扱うのか
-			var modifier = node.NthElement(1) != null ? new UnifiedModifierCollection() : null;
+			var modifier = node.NthElement(1) != null ? UnifiedModifierCollection.Create() : null;
 			var type = node.NthElement(2) != null ? CreateTypeOrCreatedName(node.Element("type")) : null;
 			return new UnifiedTypeParameter {
 					Modifiers = modifier,
@@ -958,7 +954,7 @@ namespace Ucpf.Languages.Java.Model {
 				:   variableModifiers type IDENTIFIER ('[' ']')* 
 			 */
 			return new UnifiedParameter {
-				Modifiers = new UnifiedModifierCollection(node
+				Modifiers = UnifiedModifierCollection.Create(node
 					.Element("variableModifiers")
 					.Elements()
 					.Select(CreateVariableModifier)),
@@ -1023,7 +1019,7 @@ namespace Ucpf.Languages.Java.Model {
 						.Element("variableInitializer")
 						.Element("expression")), */
 					InitialValue = init,
-					Modifiers = new UnifiedModifierCollection(
+					Modifiers = UnifiedModifierCollection.Create(
 						node.ElementAt(0)
 						.Elements()
 						.Select(CreateVariableModifier)),
@@ -1051,15 +1047,15 @@ namespace Ucpf.Languages.Java.Model {
 				|   enumDeclaration 
 			 */
 			if(node.HasElement("normalClassDeclaration")) {
-				return new UnifiedClassDefinition {
 						//var modifiers = CreateModifierCollection(node);
-						Name = node.Element("normalClassDeclaration")
-								.Element("IDENTIFIER")
-								.Value,
-						Body = CreateClassBody(node
-								.Element("normalClassDeclaration")
-								.Element("classBody"))
-				};
+				var name = node
+						.Element("normalClassDeclaration")
+						.Element("IDENTIFIER")
+						.Value;
+				var body = CreateClassBody(node
+						.Element("normalClassDeclaration")
+						.Element("classBody"));
+				return UnifiedClassDefinition.Create(name, body);
 			}
 			throw new NotImplementedException();
 		}

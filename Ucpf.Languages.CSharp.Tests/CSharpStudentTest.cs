@@ -31,9 +31,9 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 		public static UnifiedProgram CreateModel() {
 			return new UnifiedProgram {
-				new UnifiedClassDefinition {
-					Name = "Student",
-					Body = {
+				UnifiedClassDefinition.Create(
+					"Student",
+					UnifiedBlock.Create( new IUnifiedExpression[] {
 						new UnifiedVariableDefinition {
 							Modifiers = {
 								UnifiedModifier.Create("private"),
@@ -172,8 +172,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 								}
 							}
 						},
-					}
-				},
+					})
+				),
 			};
 		}
 	}

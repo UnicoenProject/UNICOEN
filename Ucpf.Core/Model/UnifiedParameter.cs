@@ -24,7 +24,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public UnifiedParameter() {
-			Modifiers = new UnifiedModifierCollection();
+			Modifiers = UnifiedModifierCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

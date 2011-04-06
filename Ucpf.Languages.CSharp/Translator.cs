@@ -26,10 +26,10 @@ namespace Ucpf.Languages.CSharp {
 			var stmts = typeDeclaration.Children
 				.Select(node => node.AcceptVisitor(this, data))
 				.ToList();
-			return new UnifiedClassDefinition {
-				Name = typeDeclaration.Name,
-				Body = ToFlattenBlock(stmts)
-			};
+			return UnifiedClassDefinition.Create(
+				typeDeclaration.Name,
+				ToFlattenBlock(stmts)
+			);
 		}
 
 		public object VisitFieldDeclaration(FieldDeclaration dec, object data) {

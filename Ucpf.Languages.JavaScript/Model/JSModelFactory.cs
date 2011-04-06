@@ -344,11 +344,11 @@ namespace Ucpf.Languages.JavaScript.Model {
 			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
 
 			if(false /*TODO 以下にfunctionExpressionを持つ場合はクラスを返す*/) {
-				return new UnifiedClassDefinition() {
-						Name = node.Element("Identifier").Value,
-						Body = null,
-						Modifiers = null
-				};
+				return UnifiedClassDefinition.Create(
+						node.Element("Identifier").Value,
+						null,
+						null
+				);
 			}
 			return new UnifiedVariableDefinition {
 					Modifiers = null,

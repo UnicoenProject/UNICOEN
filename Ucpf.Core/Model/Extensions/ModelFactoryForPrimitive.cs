@@ -45,9 +45,7 @@ namespace Ucpf.Core.Model.Extensions {
 		}
 
 		public static UnifiedClassDefinition ToClassDefinition(this string name) {
-			return new UnifiedClassDefinition {
-					Name = name,
-			};
+			return UnifiedClassDefinition.Create(name);
 		}
 
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
