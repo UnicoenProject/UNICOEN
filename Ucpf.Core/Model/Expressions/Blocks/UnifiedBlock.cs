@@ -5,7 +5,7 @@ using System.Diagnostics.Contracts;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedBlock : UnifiedElementCollection<IUnifiedExpression>, IUnifiedExpression {
+	public class UnifiedBlock : UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>, IUnifiedExpression {
 		public UnifiedBlock() {}
 
 		public UnifiedBlock(IEnumerable<IUnifiedExpression> expressions)

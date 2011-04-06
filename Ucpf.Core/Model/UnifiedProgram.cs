@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedProgram : UnifiedElementCollection<IUnifiedExpression> {
+	public class UnifiedProgram : UnifiedElementCollection<IUnifiedExpression, UnifiedProgram> {
 		public UnifiedProgram() {}
 
 		public UnifiedProgram(IEnumerable<IUnifiedExpression> elements)

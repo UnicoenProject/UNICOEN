@@ -3,7 +3,7 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedExpressionCollection
-			: UnifiedElementCollection<IUnifiedExpression>, IUnifiedExpression {
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection>, IUnifiedExpression {
 		public UnifiedExpressionCollection() {}
 
 		public UnifiedExpressionCollection(IEnumerable<IUnifiedExpression> expressions)

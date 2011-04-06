@@ -3,7 +3,7 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedTypeParameterCollection
-			: UnifiedElementCollection<UnifiedTypeParameter> {
+			: UnifiedElementCollection<UnifiedTypeParameter, UnifiedTypeParameterCollection> {
 		public UnifiedTypeParameterCollection() {}
 
 		public UnifiedTypeParameterCollection(

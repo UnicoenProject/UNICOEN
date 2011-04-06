@@ -2,7 +2,7 @@
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedCaseCollection : UnifiedElementCollection<UnifiedCase> {
+	public class UnifiedCaseCollection : UnifiedElementCollection<UnifiedCase, UnifiedCaseCollection> {
 		public UnifiedCaseCollection() {}
 
 		public UnifiedCaseCollection(IEnumerable<UnifiedCase> elements)
