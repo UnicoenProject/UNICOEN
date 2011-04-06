@@ -22,6 +22,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedForeach() { }
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -55,6 +57,21 @@ namespace Ucpf.Core.Model {
 					(_set, v => _set = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedForeach Create(UnifiedVariableDefinition element, IUnifiedExpression set) {
+			return new UnifiedForeach {
+					Element = element,
+					Set = set,
+			};
+		}
+
+		public static UnifiedForeach Create(UnifiedVariableDefinition element, IUnifiedExpression set, UnifiedBlock body) {
+			return new UnifiedForeach {
+					Element = element,
+					Set = set,
+					Body = body,
+			};
 		}
 	}
 }

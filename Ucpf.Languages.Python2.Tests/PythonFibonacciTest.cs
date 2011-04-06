@@ -26,22 +26,22 @@ print fib(20)
 
 		private static readonly UnifiedBlock ExpectedModel =
 			UnifiedBlock.Create(new IUnifiedExpression[] {
-				new UnifiedFunctionDefinition {
-					Name = "fib",
-					Parameters = {
+				UnifiedFunctionDefinition.Create(
+					"fib",
+					UnifiedParameterCollection.Create(
 						UnifiedParameter.Create("n")
-					},
-					Body = {
-						new UnifiedIf {
-							Condition = new UnifiedBinaryExpression {
+					),
+					UnifiedBlock.Create(
+						UnifiedIf.Create(
+							new UnifiedBinaryExpression {
 								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterThanOrEqual),
 								LeftHandSide = UnifiedVariable.Create("n"),
 								RightHandSide = UnifiedIntegerLiteral.Create(1),
 							},
-							Body = {
-								UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
-							},
-							FalseBody = {
+							UnifiedBlock.Create(
+								UnifiedJump.CreateReturn(UnifiedVariable.Create("n"))
+							),
+							UnifiedBlock.Create(
 								UnifiedJump.CreateReturn(
 									new UnifiedBinaryExpression {
 										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
@@ -66,11 +66,11 @@ print fib(20)
 											}
 										}
 									}
-								),
-							}
-						}
-					}
-				},
+								)
+							)
+						)
+					)
+				),
 				new UnifiedCall {
 					Function = UnifiedVariable.Create("print"),
 					Arguments = {

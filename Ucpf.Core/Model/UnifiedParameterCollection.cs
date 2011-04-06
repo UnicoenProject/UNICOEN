@@ -22,8 +22,8 @@ namespace Ucpf.Core.Model {
 			return new UnifiedParameterCollection();
 		}
 
-		public static UnifiedParameterCollection Create(UnifiedParameter element) {
-			return new UnifiedParameterCollection(new[] { element });
+		public static UnifiedParameterCollection Create(params UnifiedParameter[] elements) {
+			return new UnifiedParameterCollection(elements);
 		}
 
 		public static UnifiedParameterCollection Create(IEnumerable<UnifiedParameter> elements) {

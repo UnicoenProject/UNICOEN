@@ -1,39 +1,31 @@
 ﻿namespace Ucpf.Core.Model.Extensions {
 	public static class ModelFactoryForModel {
 		public static UnifiedFunctionDefinition ToFunctionDefinition(this string name) {
-			return new UnifiedFunctionDefinition {
-					Name = name,
-			};
+			return UnifiedFunctionDefinition.Create(name);
 		}
 
 		public static UnifiedWhile ToWhile(this IUnifiedExpression condition) {
-			return new UnifiedWhile {
-					Condition = condition,
-			};
+			return UnifiedWhile.Create(condition);
 		}
 
 		public static UnifiedDoWhile ToDoWhile(this IUnifiedExpression condition) {
-			return new UnifiedDoWhile {
-					Condition = condition,
-			};
+			return UnifiedDoWhile.Create(condition);
 		}
 
 		public static UnifiedForeach ToForeach(this IUnifiedExpression set,
 		                                       UnifiedType variableType,
 		                                       string variableName) {
-			return new UnifiedForeach {
-					Element = new UnifiedVariableDefinition {
+			return UnifiedForeach.Create(
+				new UnifiedVariableDefinition {
 							Type = variableType,
 							Name = variableName,
 					},
-					Set = set,
-			};
+				set
+			);
 		}
 
 		public static UnifiedIf ToIf(this IUnifiedExpression condition) {
-			return new UnifiedIf {
-					Condition = condition,
-			};
+			return UnifiedIf.Create(condition);
 		}
 
 		public static UnifiedJump ToReturn(this IUnifiedExpression value) {

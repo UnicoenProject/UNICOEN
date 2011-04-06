@@ -22,17 +22,17 @@ namespace Ucpf.Languages.Java.Tests {
 				JavaXmlGenerator.Instance.Generate("public static int fibonacci(int n){}",
 					p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
-			var expectation = new UnifiedFunctionDefinition {
-				Modifiers = {
+			var expectation = UnifiedFunctionDefinition.Create(
+				"fibonacci",
+				UnifiedType.Create("int"),
+				UnifiedModifierCollection.Create(
 					UnifiedModifier.Create("public"),
-					UnifiedModifier.Create("static"),
-				},
-				Type = UnifiedType.Create("int"),
-				Name = "fibonacci",
-				Parameters = {
+					UnifiedModifier.Create("static")
+				),
+				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n", UnifiedType.Create("int"))
-				},
-			};
+				)
+			);
 			Assert.That(actual,
 				Is.EqualTo(expectation).Using(StructuralEqualityComparerForDebug.Instance));
 		}

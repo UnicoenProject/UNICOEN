@@ -24,8 +24,8 @@ namespace Ucpf.Core.Model {
 			return new UnifiedBlock();
 		}
 
-		public static UnifiedBlock Create(IUnifiedExpression expression) {
-			return new UnifiedBlock(new[] { expression });
+		public static UnifiedBlock Create(params IUnifiedExpression[] expressions) {
+			return new UnifiedBlock(expressions);
 		}
 
 		public static UnifiedBlock Create(IEnumerable<IUnifiedExpression> expressions) {

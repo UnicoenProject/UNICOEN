@@ -95,11 +95,8 @@ namespace Ucpf.Languages.Ruby18.Model {
 			case "call":
 				return CreateCall(node);
 			case "if":
-				return new UnifiedIf {
-					Condition = CreateExpression(elems.ElementAt(0)),
-					Body = CreateBlock(elems.ElementAt(1)),
-					FalseBody = CreateBlock(elems.ElementAt(2)),
-				};
+				return UnifiedIf.Create(CreateExpression(elems.ElementAt(0)),
+						CreateBlock(elems.ElementAt(1)), CreateBlock(elems.ElementAt(2)));
 			case "return":
 				return UnifiedJump.CreateReturn(
 					CreateExpression(elems.First()));
@@ -111,13 +108,13 @@ namespace Ucpf.Languages.Ruby18.Model {
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
-			return new UnifiedFunctionDefinition {
-				Name = elems.First().Value,
-				Parameters = UnifiedParameterCollection.Create(
+			return UnifiedFunctionDefinition.Create(
+				elems.First().Value,
+				UnifiedParameterCollection.Create(
 					elems.ElementAt(1).Elements()
 						.Select(e => UnifiedParameter.Create(e.Value))),
-				Body = CreateBlock(elems.ElementAt(2).Elements().First()),
-			};
+				CreateBlock(elems.ElementAt(2).Elements().First())
+			);
 		}
 
 		private static UnifiedBlock CreateBlock(XElement node) {

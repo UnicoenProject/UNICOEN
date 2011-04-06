@@ -624,13 +624,10 @@ namespace Ucpf.Languages.Java.Model {
 						CreateStatement(falseNode),
 				});
 			}
-			return new UnifiedIf {
-				Condition = CreateExpression(node
+			return UnifiedIf.Create(CreateExpression(node
 					.Element("parExpression")
 					.Element("expression")),
-				Body = trueBody,
-				FalseBody = falseBody
-			};
+					trueBody, falseBody);
 		}
 
 		public static UnifiedWhile CreateWhile(XElement node) {
@@ -638,13 +635,12 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "WHILE");
 			/* 'while' parExpression statement */
-			return new UnifiedWhile {
-				Condition =
-					CreateExpression(node.Element("parExpression").Element("expression")),
-				Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+			return UnifiedWhile.Create(
+				UnifiedBlock.Create(new IUnifiedExpression[] {
 					CreateStatement(node.Element("statement"))
-				})
-			};
+				}),
+				CreateExpression(node.Element("parExpression").Element("expression"))
+			);
 		}
 
 		public static UnifiedDoWhile CreateDo(XElement node) {
@@ -652,13 +648,12 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "DO");
 			/* 'do' statement 'while' parExpression ';' */
-			return new UnifiedDoWhile {
-				Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+			return UnifiedDoWhile.Create(
+				UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
 				}),
-				Condition = 
-					CreateExpression(node.Element("parExpression").Element("expression"))
-			};
+				CreateExpression(node.Element("parExpression").Element("expression"))
+			);
 		}
 
 		public static IUnifiedExpression CreateForstatement(XElement forstatement) {
@@ -671,19 +666,18 @@ namespace Ucpf.Languages.Java.Model {
 			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement
 			 * ; */
 			if (forstatement.NthElement(2).Name.LocalName == "variableModifiers") {
-				return new UnifiedForeach {
-					Element = new UnifiedVariableDefinition {
+				return UnifiedForeach.Create(
+					new UnifiedVariableDefinition {
 						Modifiers = CreateVariableModifiers(forstatement.Element("variableModifiers")),
 						Type = CreateTypeOrCreatedName(forstatement.Element("type")),
 						Name = forstatement.Element("IDENTIFIER").Value,
 						InitialValue = null
 					},
-					Set = CreateExpression(forstatement.Element("expression")),
-					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+					CreateExpression(forstatement.Element("expression")),
+					UnifiedBlock.Create(
 						CreateStatement(forstatement.Element("statement"))
-					})
-					
-				};
+					)
+				);
 			} else {
 				var forInit = forstatement.Element("forInit");
 				var initializer = forInit != null ? CreateForInit(forInit) : null;
@@ -696,12 +690,12 @@ namespace Ucpf.Languages.Java.Model {
 							? CreateExpressionList(expressionList) : null;
 
 				var body = CreateStatement(forstatement.Element("statement"));
-				return new UnifiedFor {
-					Initializer = initializer,
-					Condition = condition,
-					Step = step,
-					Body = UnifiedBlock.Create(body)
-				};
+				return UnifiedFor.Create(
+					initializer,
+					condition,
+					step,
+					UnifiedBlock.Create(body)
+				);
 			}
 		}
 
@@ -809,14 +803,14 @@ namespace Ucpf.Languages.Java.Model {
 				);
 			}
 			//if (node.Element("IDENTIFIER").PreviousElement().Name() == "")
-			return new UnifiedFunctionDefinition {
-				Modifiers  = CreateModifierCollection(node),
-				Type       = CreateTypeOrCreatedName(node.Element("type")),
-				Name       = node.Element("IDENTIFIER").Value,
-				Parameters = CreateFormalParameters(node.Element("formalParameters")),
+			return UnifiedFunctionDefinition.Create(
+				node.Element("IDENTIFIER").Value,
+				CreateTypeOrCreatedName(node.Element("type")),
+				CreateModifierCollection(node),
+				CreateFormalParameters(node.Element("formalParameters")),
 				//TODO IMPLEMENT:
-				Body       = CreateBlock(node.Element("block"))
-			};
+				CreateBlock(node.Element("block"))
+			);
 		}
 
 		public static UnifiedModifier CreateVariableModifier(XElement node) {

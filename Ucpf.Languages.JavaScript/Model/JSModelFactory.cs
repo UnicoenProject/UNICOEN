@@ -278,14 +278,14 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 			//TODO 途中のexpressionがない場合を考慮しないといけない
 			//TODO Initializerをどう実装するか考える
-			return new UnifiedFor {
-					Initializer = null,	
-					Condition = CreateExpression(node.Elements("expression").ElementAt(0)),
-					Step = CreateExpression(node.Elements("expression").ElementAt(1)),
-					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+			return UnifiedFor.Create(
+					null,	
+					CreateExpression(node.Elements("expression").ElementAt(0)),
+					CreateExpression(node.Elements("expression").ElementAt(1)),
+					UnifiedBlock.Create(
 						CreateStatement(node.Element("statement"))
-					})
-			};
+					)
+			);
 		}
 
 		public static UnifiedForeach CreateForeach(XElement node) {
@@ -296,13 +296,13 @@ namespace Ucpf.Languages.JavaScript.Model {
 				: 'for' LT!* '(' LT!* forInStatementInitialiserPart LT!* 'in' LT!* expression LT!* ')' LT!* statement 
 			 */
 			//TODO Initializerをどう実装するか考える
-			return new UnifiedForeach {
-					Element = null,
-					Set = CreateExpression(node.Element("expression")),
-					Body =  UnifiedBlock.Create(new IUnifiedExpression[] {
+			return UnifiedForeach.Create(
+					null,
+					CreateExpression(node.Element("expression")),
+					UnifiedBlock.Create(
 						CreateStatement(node.Element("statement"))
-					}),
-			};
+					)
+			);
 		}
 
 		public static UnifiedDoWhile CreateDoWhile(XElement node) {
@@ -312,12 +312,12 @@ namespace Ucpf.Languages.JavaScript.Model {
 			 * doWhileStatement
 				: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';') 
 			 */
-			return new UnifiedDoWhile {
-					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+			return UnifiedDoWhile.Create(
+					UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
 					}),
-					Condition = CreateExpression(node.Element("expression"))
-			};
+					CreateExpression(node.Element("expression"))
+			);
 		}
 
 		public static UnifiedBlock CreateVariableStatementList(XElement node) {
@@ -397,12 +397,10 @@ namespace Ucpf.Languages.JavaScript.Model {
 			 * ifStatement
 				: 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)? 
 			 */
-			return new UnifiedIf {
+			return UnifiedIf.Create(
 					//TODO consider how deal with else block
-					Condition = CreateExpression(node.Element("expression")),
-					Body = (UnifiedBlock)CreateStatement(node.Element("statement")),
-					FalseBody =(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1))
-				};
+					CreateExpression(node.Element("expression")),
+				(UnifiedBlock)CreateStatement(node.Element("statement")), (UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1)));
 		}
 
 		public static UnifiedWhile CreateWhile(XElement node) {
@@ -413,12 +411,12 @@ namespace Ucpf.Languages.JavaScript.Model {
 				: 'while' LT!* '(' LT!* expression LT!* ')' LT!* statement
 			 */
 
-			return new UnifiedWhile {
-					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+			return UnifiedWhile.Create(
+					UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
 					}),
-					Condition = CreateExpression(node.Element("expression"))
-			};
+					CreateExpression(node.Element("expression"))
+			);
 		}
 
 		public static UnifiedSwitch CreateSwitch(XElement node) {
@@ -497,11 +495,10 @@ namespace Ucpf.Languages.JavaScript.Model {
 		#region Function
 
 		public static UnifiedFunctionDefinition CreateFunction(XElement node) {
-			return new UnifiedFunctionDefinition {
-				Name = node.Element("Identifier").Value,
-				Body = CreateFunctionBody(node.Element("functionBody")),
-				Parameters = CreateParameterCollection(node)
-			};
+			return UnifiedFunctionDefinition.Create(
+					node.Element("Identifier").Value,
+					CreateParameterCollection(node),
+					CreateFunctionBody(node.Element("functionBody")));
 		}
 
 		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node) {

@@ -22,7 +22,7 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedIf() {
+		private UnifiedIf() {
 			Body = UnifiedBlock.Create();
 			FalseBody = UnifiedBlock.Create();
 		}
@@ -71,6 +71,34 @@ namespace Ucpf.Core.Model {
 					(_falseBody, v => _falseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedIf Create(UnifiedBlock body) {
+			return new UnifiedIf {
+				Body = body,
+			};
+		}
+
+		public static UnifiedIf Create(UnifiedBlock body, IUnifiedExpression condition) {
+			return new UnifiedIf {
+				Body = body,
+				Condition = condition,
+			};
+		}
+
+		public static UnifiedIf Create(IUnifiedExpression condition) {
+			return new UnifiedIf {
+					Condition = condition,
+			};
+		}
+
+		public static UnifiedIf Create(IUnifiedExpression condition, UnifiedBlock body, UnifiedBlock falseBody) {
+			return new UnifiedIf {
+					Body = body,
+					Condition = condition,
+					FalseBody = falseBody,
+			};
+
 		}
 	}
 }

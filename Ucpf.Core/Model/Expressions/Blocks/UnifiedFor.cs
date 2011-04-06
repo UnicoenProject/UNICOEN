@@ -31,6 +31,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedFor() { }
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -69,6 +71,15 @@ namespace Ucpf.Core.Model {
 					(_step, v => _step = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedFor Create(IUnifiedExpression initializer, IUnifiedExpression condition, IUnifiedExpression step, UnifiedBlock body) {
+			return new UnifiedFor {
+					Initializer = initializer,
+					Condition = condition,
+					Step = step,
+					Body = body,
+			};
 		}
 	}
 }

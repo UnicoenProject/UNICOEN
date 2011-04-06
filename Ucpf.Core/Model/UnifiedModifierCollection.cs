@@ -22,8 +22,8 @@ namespace Ucpf.Core.Model {
 			return new UnifiedModifierCollection();
 		}
 
-		public static UnifiedModifierCollection Create(UnifiedModifier modifier) {
-			return new UnifiedModifierCollection(new[] { modifier });
+		public static UnifiedModifierCollection Create(params UnifiedModifier[] modifiers) {
+			return new UnifiedModifierCollection(modifiers);
 		}
 
 		public static UnifiedModifierCollection Create(IEnumerable<UnifiedModifier> modifiers) {

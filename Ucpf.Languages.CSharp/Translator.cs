@@ -61,13 +61,13 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitMethodDeclaration(MethodDeclaration method, object data) {
 			var parameters = ConvertParameters(method.Parameters);
-			return new UnifiedFunctionDefinition {
-				Name = method.Name,
-				Modifiers = ConvertModifiler(method.Modifier),
-				Parameters = parameters,
-				Type = ConvertType(method.TypeReference),
-				Body = VisitBlockStatement(method.Body, data) as UnifiedBlock
-			};
+			return UnifiedFunctionDefinition.Create(
+				method.Name,
+				ConvertType(method.TypeReference),
+				ConvertModifiler(method.Modifier),
+				parameters,
+				VisitBlockStatement(method.Body, data) as UnifiedBlock
+			);
 		}
 
 		private static UnifiedParameterCollection ConvertParameters(IEnumerable<ParameterDeclarationExpression> parameters) {
@@ -163,11 +163,10 @@ namespace Ucpf.Languages.CSharp {
 						.ToList();
 				return UnifiedBlock.Create(stmts);
 			};
-			return new UnifiedIf {
-				Condition = cond,
-				Body = toBlock(stmt.TrueStatement),
-				FalseBody = toBlock(stmt.FalseStatement),
-			};
+			return UnifiedIf.Create(
+					cond,
+					toBlock(stmt.TrueStatement),
+					toBlock(stmt.FalseStatement));
 		}
 
 		public object VisitForStatement(ForStatement forStatement, object data) {
@@ -175,12 +174,12 @@ namespace Ucpf.Languages.CSharp {
 			var cond = ConvertExpression(forStatement.Condition);
 			var step = ConvertStatements(forStatement.Iterator);
 			var body = ConvertStatementAsBlock(forStatement.EmbeddedStatement);
-			return new UnifiedFor {
-				Initializer = init,
-				Condition = cond,
-				Step = step,
-				Body = body
-			};
+			return UnifiedFor.Create(
+				init,
+				cond,
+				step,
+				body
+			);
 		}
 
 		public object VisitForeachStatement(ForeachStatement stmt, object data) {
@@ -189,11 +188,11 @@ namespace Ucpf.Languages.CSharp {
 			var set = ConvertExpression(stmt.Expression);
 			var body = ConvertStatementAsBlock(stmt.EmbeddedStatement);
 
-			return new UnifiedForeach {
-				Element = new UnifiedVariableDefinition { Type = type, Name = name },
-				Set = set,
-				Body = body,
-			};
+			return UnifiedForeach.Create(
+				new UnifiedVariableDefinition { Type = type, Name = name },
+				set,
+				body
+			);
 		}
 
 		public object VisitDoLoopStatement(DoLoopStatement stmt, object data) {
@@ -204,9 +203,9 @@ namespace Ucpf.Languages.CSharp {
 
 			switch (pos) {
 			case ConditionPosition.Start:
-				return new UnifiedWhile { Condition = uCond, Body = uBody };
+				return UnifiedWhile.Create(uBody, uCond);
 			case ConditionPosition.End:
-				return new UnifiedDoWhile { Condition = uCond, Body = uBody };
+				return UnifiedDoWhile.Create(uBody, uCond);
 			}
 			throw new NotImplementedException("VisitDoLoopStatement");
 		}

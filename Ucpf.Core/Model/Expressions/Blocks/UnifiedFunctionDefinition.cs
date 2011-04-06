@@ -33,7 +33,7 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedFunctionDefinition() {
+		private UnifiedFunctionDefinition() {
 			Modifiers = UnifiedModifierCollection.Create();
 			Parameters = UnifiedParameterCollection.Create();
 			Body = UnifiedBlock.Create();
@@ -77,6 +77,63 @@ namespace Ucpf.Core.Model {
 					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedFunctionDefinition Create(string name) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+				Type = type,
+				Modifiers = modifiers,
+				Parameters = parameters,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+				Type = type,
+				Modifiers = modifiers,
+				Parameters = parameters,
+				Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedParameterCollection parameters, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Parameters = parameters,
+					Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedParameterCollection parameters) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+				Parameters = parameters,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Type = type,
+					Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedModifierCollection modifiers, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Type = type,
+					Modifiers = modifiers,
+					Body = body,
+			};
 		}
 			}
 }

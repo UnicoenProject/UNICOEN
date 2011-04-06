@@ -8,11 +8,11 @@ namespace Ucpf.Core.Tests {
 			return new UnifiedProgram {
 				"A".ToClassDefinition()
 					.AddToBody(
-						new UnifiedFunctionDefinition {
-							Type = "void".ToType(),
-							Name = "M1",
-							Body = block,
-						}
+						UnifiedFunctionDefinition.Create(
+							"M1",
+							"void".ToType(),
+							block
+						)
 					),
 			};
 		}
@@ -42,24 +42,24 @@ namespace Ucpf.Core.Tests {
 
 		public static UnifiedProgram ForModel {
 			get {
-				return CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
-					new UnifiedFor {
-						Initializer = new UnifiedVariableDefinition {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+					UnifiedFor.Create(
+						new UnifiedVariableDefinition {
 							Type = "int".ToType(),
 							Name = "i",
 							InitialValue = 0.ToLiteral(),
 						},
-						Condition = CSharpModelFactoryHelper.CreateExpression(
+						CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(),
 							UnifiedBinaryOperatorType.LessThan,
 							1.ToLiteral()),
-						Step = CSharpModelFactoryHelper.CreateExpression(
+						CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(), UnifiedUnaryOperatorType.PostIncrementAssign),
-						Body = {
-							UnifiedJump.CreateBreak(),
-						},
-					}
-				}));
+						UnifiedBlock.Create(
+							UnifiedJump.CreateBreak()
+						)
+					)
+				));
 			}
 		}
 

@@ -21,28 +21,28 @@ namespace Ucpf.Languages.CSharp.Tests {
 			UnifiedClassDefinition.Create(
 				"Fibonacci",
 				UnifiedBlock.Create(new IUnifiedExpression[] {
-					new UnifiedFunctionDefinition {
-						Name = "fibonacci",
-						Type = UnifiedType.Create("int"),
-						Modifiers = {
+					UnifiedFunctionDefinition.Create(
+						"fibonacci",
+						UnifiedType.Create("int"),
+						UnifiedModifierCollection.Create(
 							UnifiedModifier.Create("public"),
-							UnifiedModifier.Create("static"),
-						},
-						Parameters = {
+							UnifiedModifier.Create("static")
+						),
+						UnifiedParameterCollection.Create(
 							UnifiedParameter.Create("n", UnifiedType.Create("int"))
-						},
-						Body = {
-							new UnifiedIf {
-								Condition = new UnifiedBinaryExpression {
+						),
+						UnifiedBlock.Create(
+							UnifiedIf.Create(
+								new UnifiedBinaryExpression {
 									Operator =
 										new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
 									LeftHandSide = UnifiedVariable.Create("n"),
 									RightHandSide = UnifiedIntegerLiteral.Create(2)
 								},
-								Body = {
+								UnifiedBlock.Create(new[] {
 									UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
-								},
-								FalseBody = {
+								}),
+								UnifiedBlock.Create(
 									UnifiedJump.CreateReturn(
 										new UnifiedBinaryExpression {
 											Operator =
@@ -74,11 +74,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 												}
 											}
 										}
-									),
-								}
-							}
-						}
-					}
+									)
+								)
+							)
+						)
+					)
 				})
 			)
 		};
@@ -115,19 +115,19 @@ class Fibonacci {
 			var expected = new UnifiedProgram(new[]{ UnifiedClassDefinition.Create(
 				"Fibonacci",
 				UnifiedBlock.Create(new IUnifiedExpression[] {
-					new UnifiedFunctionDefinition {
-						Name = "fibonacci",
-						Type = UnifiedType.Create("void"),
-						Modifiers = {
+					UnifiedFunctionDefinition.Create(
+						"fibonacci",
+						UnifiedType.Create("void"),
+						UnifiedModifierCollection.Create(
 							UnifiedModifier.Create("public"),
-							UnifiedModifier.Create("static"),
-						},
-						Parameters = {
+							UnifiedModifier.Create("static")
+						),
+						UnifiedParameterCollection.Create(
 							UnifiedParameter.Create(
 								"n",
 								UnifiedType.Create("int"))
-						},
-					}
+						)
+					)
 				})
 			)});
 			var actual = CSharpModelFactory.CreateModel(code);
