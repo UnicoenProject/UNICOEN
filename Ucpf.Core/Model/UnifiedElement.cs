@@ -115,7 +115,6 @@ namespace Ucpf.Core.Model {
 		/// <param name="target">自分自身</param>
 		/// <returns></returns>
 		public virtual IUnifiedElement RemoveChild(IUnifiedElement target) {
-			Contract.Requires(target != null);
 			var elem = GetElementAndDirectSetters()
 					.First(e => ReferenceEquals(target, e.Item1));
 			elem.Item2(null);
@@ -128,7 +127,6 @@ namespace Ucpf.Core.Model {
 		/// </summary>
 		/// <returns>親要素</returns>
 		public IUnifiedElement Remove() {
-			Contract.Requires(Parent != null, "親要素がない状態でRemoveメソッドを実行できません。");
 			return Parent.RemoveChild(this);
 		}
 
