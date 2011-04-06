@@ -25,7 +25,7 @@ print fib(20)
 ";
 
 		private static readonly UnifiedBlock ExpectedModel =
-			new UnifiedBlock {
+			UnifiedBlock.Create(new IUnifiedExpression[] {
 				new UnifiedFunctionDefinition {
 					Name = "fib",
 					Parameters = {
@@ -82,7 +82,7 @@ print fib(20)
 						}),
 					}
 				}
-			};
+			});
 
 		#endregion
 

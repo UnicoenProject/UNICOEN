@@ -36,7 +36,7 @@ namespace Ucpf.Core.Model {
 		public UnifiedFunctionDefinition() {
 			Modifiers = new UnifiedModifierCollection();
 			Parameters = new UnifiedParameterCollection();
-			Body = new UnifiedBlock();
+			Body = UnifiedBlock.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

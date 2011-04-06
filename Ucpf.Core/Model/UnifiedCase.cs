@@ -23,7 +23,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public UnifiedCase() {
-			Body = new UnifiedBlock();
+			Body = UnifiedBlock.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

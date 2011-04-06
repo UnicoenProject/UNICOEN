@@ -582,7 +582,7 @@ namespace Ucpf.Languages.Java.Model {
 					list.Add(CreateBlockStatement(e));
 				}
 			}
-			return new UnifiedBlock(list);
+			return UnifiedBlock.Create(list);
 			
 		}
 		
@@ -613,16 +613,16 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "IF");
 			/*  'if' parExpression statement ('else' statement)? */
-			var trueBody = new UnifiedBlock {
+			var trueBody = UnifiedBlock.Create(new IUnifiedExpression[] {
 				CreateStatement(node.Element("statement")),
-			};
+			});
 
 			UnifiedBlock falseBody = null;
 			if (node.Elements("statement").Count() == 2) {
 				var falseNode = node.Elements("statement").ElementAt(1);
-				falseBody = new UnifiedBlock {
+				falseBody = UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(falseNode),
-				};
+				});
 			}
 			return new UnifiedIf {
 				Condition = CreateExpression(node
@@ -641,9 +641,9 @@ namespace Ucpf.Languages.Java.Model {
 			return new UnifiedWhile {
 				Condition =
 					CreateExpression(node.Element("parExpression").Element("expression")),
-				Body = new UnifiedBlock {
+				Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 					CreateStatement(node.Element("statement"))
-				}
+				})
 			};
 		}
 
@@ -653,9 +653,9 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Elements().First().Name.LocalName == "DO");
 			/* 'do' statement 'while' parExpression ';' */
 			return new UnifiedDoWhile {
-				Body = new UnifiedBlock {
+				Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
-				},
+				}),
 				Condition = 
 					CreateExpression(node.Element("parExpression").Element("expression"))
 			};
@@ -679,9 +679,9 @@ namespace Ucpf.Languages.Java.Model {
 						InitialValue = null
 					},
 					Set = CreateExpression(forstatement.Element("expression")),
-					Body = new UnifiedBlock {
+					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(forstatement.Element("statement"))
-					}
+					})
 					
 				};
 			} else {
@@ -700,7 +700,7 @@ namespace Ucpf.Languages.Java.Model {
 					Initializer = initializer,
 					Condition = condition,
 					Step = step,
-					Body = new UnifiedBlock{ body }
+					Body = UnifiedBlock.Create(body)
 				};
 			}
 		}
@@ -724,9 +724,9 @@ namespace Ucpf.Languages.Java.Model {
 		public static UnifiedCase CreateCase(XElement node) {
 			//Top node is <switchBlockStatementGroup>.
 			var cond = node.Element("switchLabel").Element("expression");
-			var body = new UnifiedBlock {
+			var body = UnifiedBlock.Create(new IUnifiedExpression[] {
 				CreateBlockStatement(node.Element("blockStatement"))
-			};
+			});
 			//var body = CreateBlock(node);
 			if(cond == null) {
 				return new UnifiedCase {
@@ -801,9 +801,9 @@ namespace Ucpf.Languages.Java.Model {
 
 			if(node.Element("type") == null && node.Element("VOID") == null) { //case Constructor
 				return new UnifiedConstructorDefinition {
-						Body = new UnifiedBlock {
+						Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 								CreateBlockStatement(node.Element("blockStatement"))
-						},
+						}),
 						Modifiers = CreateModifierCollection(node),
 						Parameters = CreateFormalParameters(node.Element("formalParameters"))
 				};
@@ -1071,7 +1071,7 @@ namespace Ucpf.Languages.Java.Model {
 			 * classBody 
 			    :   '{' (classBodyDeclaration)* '}' 
 			 */
-			return new UnifiedBlock(node
+			return UnifiedBlock.Create(node
 				.Elements("classBodyDeclaration")
 				.Select(CreateMember).ToList());
 		}

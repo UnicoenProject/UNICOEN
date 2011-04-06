@@ -23,8 +23,8 @@ namespace Ucpf.Core.Model {
 		}
 
 		public UnifiedIf() {
-			Body = new UnifiedBlock();
-			FalseBody = new UnifiedBlock();
+			Body = UnifiedBlock.Create();
+			FalseBody = UnifiedBlock.Create();
 		}
 
 		public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {

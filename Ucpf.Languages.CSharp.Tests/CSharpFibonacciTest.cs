@@ -117,7 +117,7 @@ class Fibonacci {
 ";
 			var expected = new UnifiedProgram(new[]{new UnifiedClassDefinition {
 				Name = "Fibonacci",
-				Body = new UnifiedBlock {
+				Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 					new UnifiedFunctionDefinition {
 						Name = "fibonacci",
 						Type = UnifiedType.Create("void"),
@@ -136,7 +136,7 @@ class Fibonacci {
 							}
 						},
 					}
-				}
+				})
 			}});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,

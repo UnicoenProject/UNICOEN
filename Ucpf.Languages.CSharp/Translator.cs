@@ -101,7 +101,7 @@ namespace Ucpf.Languages.CSharp {
 				var exprList = exprs.ToList();
 				if (exprList.Count == 1)
 					return exprList[0];
-				return new UnifiedBlock(exprList);
+				return UnifiedBlock.Create(exprList);
 			}
 			throw new NotImplementedException();
 		}
@@ -110,7 +110,7 @@ namespace Ucpf.Languages.CSharp {
 			if (stmt is BlockStatement) {
 				return VisitBlockStatement((BlockStatement)stmt, null) as UnifiedBlock;
 			}
-			return new UnifiedBlock { ConvertStatement(stmt) };
+			return UnifiedBlock.Create(new IUnifiedExpression[] { ConvertStatement(stmt) });
 		}
 
 		private IUnifiedExpression ConvertStatements(IList<Statement> stmts) {
@@ -121,7 +121,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private UnifiedBlock ConvertStatementsAsBlock(IEnumerable<Statement> stmts) {
-			var block = new UnifiedBlock();
+			var block = UnifiedBlock.Create();
 			foreach (var stmt in stmts) {
 				block.Add(ConvertStatement(stmt));
 			}
@@ -163,7 +163,7 @@ namespace Ucpf.Languages.CSharp {
 						.Select(x => x.AcceptVisitor(this, data))
 						.OfType<IUnifiedExpression>()
 						.ToList();
-				return new UnifiedBlock(stmts);
+				return UnifiedBlock.Create(stmts);
 			};
 			return new UnifiedIf {
 				Condition = cond,
@@ -202,7 +202,7 @@ namespace Ucpf.Languages.CSharp {
 			var pos = stmt.ConditionPosition;
 			var uCond = (IUnifiedExpression)stmt.Condition.AcceptVisitor(this, data);
 			var elem = (IUnifiedExpression)stmt.EmbeddedStatement.AcceptVisitor(this, data);
-			var uBody = new UnifiedBlock { elem };
+			var uBody = UnifiedBlock.Create(new IUnifiedExpression[] { elem });
 
 			switch (pos) {
 			case ConditionPosition.Start:
@@ -218,7 +218,7 @@ namespace Ucpf.Languages.CSharp {
 			//var uSwitch = new UnifiedSwitch { Value = cond };
 			//foreach (var section in stmt.SwitchSections) {
 			//    // Body
-			//    var body = new UnifiedBlock(
+			//    var body = UnifiedBlock.Create(
 			//        section.Children
 			//        .Select(node => node.AcceptVisitor(this, data))
 			//        .OfType<UnifiedExpression>()

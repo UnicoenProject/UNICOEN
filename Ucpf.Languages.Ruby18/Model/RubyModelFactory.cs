@@ -122,7 +122,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 
 		private static UnifiedBlock CreateBlock(XElement node) {
 			Contract.Requires(node.Name.LocalName == "block");
-			return new UnifiedBlock(
+			return UnifiedBlock.Create(
 				node.Elements()
 					.Where(e => e.Name.LocalName != "nil")
 					.Select(CreateExpression));

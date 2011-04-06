@@ -118,7 +118,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents) {
-			var block = new UnifiedBlock();
+			var block = UnifiedBlock.Create();
 			foreach (var item in contents) {
 				if (item == null)
 					continue;

@@ -282,9 +282,9 @@ namespace Ucpf.Languages.JavaScript.Model {
 					Initializer = null,	
 					Condition = CreateExpression(node.Elements("expression").ElementAt(0)),
 					Step = CreateExpression(node.Elements("expression").ElementAt(1)),
-					Body = new UnifiedBlock {
+					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
-					}
+					})
 			};
 		}
 
@@ -299,9 +299,9 @@ namespace Ucpf.Languages.JavaScript.Model {
 			return new UnifiedForeach {
 					Element = null,
 					Set = CreateExpression(node.Element("expression")),
-					Body =  new UnifiedBlock {
+					Body =  UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
-					},
+					}),
 			};
 		}
 
@@ -313,9 +313,9 @@ namespace Ucpf.Languages.JavaScript.Model {
 				: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';') 
 			 */
 			return new UnifiedDoWhile {
-					Body = new UnifiedBlock {
+					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
-					},
+					}),
 					Condition = CreateExpression(node.Element("expression"))
 			};
 		}
@@ -333,7 +333,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			 * variableDeclaration
 				: Identifier LT!* initialiser? 
 			 */
-			return new UnifiedBlock(
+			return UnifiedBlock.Create(
 				node.Element("variableDeclarationList")
 				.Elements("variableDeclaration")
 				.Select(CreateVariableDefinition));
@@ -366,7 +366,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				: '{' LT!* statementList? LT!* '}' 
 			 */
 
-			return new UnifiedBlock(
+			return UnifiedBlock.Create(
 				node.Element("statementList").Elements("statement")
 					.Select(CreateStatement).ToList()
 				);
@@ -381,7 +381,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			 */
 
 			//TODO 関数内の関数宣言をどう扱うか
-			return new UnifiedBlock(
+			return UnifiedBlock.Create(
 				node.Element("sourceElements").Elements("sourceElement")
 					.SelectMany(e =>
 								e.Elements("statement").Select(
@@ -414,9 +414,9 @@ namespace Ucpf.Languages.JavaScript.Model {
 			 */
 
 			return new UnifiedWhile {
-					Body = new UnifiedBlock {
+					Body = UnifiedBlock.Create(new IUnifiedExpression[] {
 						CreateStatement(node.Element("statement"))
-					},
+					}),
 					Condition = CreateExpression(node.Element("expression"))
 			};
 		}
@@ -457,7 +457,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				: 'default' LT!* ':' LT!* statementList? 
 			 */
 
-			var body = new UnifiedBlock(node
+			var body = UnifiedBlock.Create(node
 				.Element("statementList")
 				.Elements("statement")
 				.Select(CreateStatement).ToList()

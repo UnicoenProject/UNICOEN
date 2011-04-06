@@ -15,7 +15,7 @@ namespace Ucpf.Core.Model {
 
 		protected UnifiedExpressionWithBlock() {
 			Debug.Assert(typeof(TSelf).Equals(GetType()));
-			Body = new UnifiedBlock();
+			Body = UnifiedBlock.Create();
 		}
 
 		public TSelf AddToBody(IUnifiedExpression expression) {
