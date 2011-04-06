@@ -23,9 +23,9 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedConstructorDefinition() {
+		private UnifiedConstructorDefinition() {
 			Modifiers = UnifiedModifierCollection.Create();
-			Parameters = new UnifiedParameterCollection();
+			Parameters = UnifiedParameterCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -62,5 +62,27 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
-			}
+
+		public static UnifiedConstructorDefinition Create() {
+			return new UnifiedConstructorDefinition();
+		}
+
+		public static UnifiedConstructorDefinition Create(UnifiedBlock body) {
+			return new UnifiedConstructorDefinition {
+				Body = body,
+			};
+		}
+
+		public static UnifiedConstructorDefinition Create(UnifiedBlock body, UnifiedModifier modifier, UnifiedParameterCollection parameters) {
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters);
+		}
+
+		public static UnifiedConstructorDefinition Create(UnifiedBlock body, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters) {
+			return new UnifiedConstructorDefinition {
+				Body = body,
+				Modifiers = modifiers,
+				Parameters = parameters,
+			};
+		}
+	}
 }

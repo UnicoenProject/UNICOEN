@@ -29,7 +29,7 @@ print fib(20)
 				new UnifiedFunctionDefinition {
 					Name = "fib",
 					Parameters = {
-						new UnifiedParameter{ Name = "n" }
+						UnifiedParameter.Create("n")
 					},
 					Body = {
 						new UnifiedIf {

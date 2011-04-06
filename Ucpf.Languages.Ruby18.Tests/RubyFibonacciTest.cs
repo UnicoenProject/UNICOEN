@@ -32,7 +32,7 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter{ Name = "n" }
+					UnifiedParameter.Create("n")
 				},
 			};
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -50,7 +50,7 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter{ Name = "n" }
+					UnifiedParameter.Create("n")
 				},
 				Body = {
 					UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
@@ -72,7 +72,7 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter{ Name = "n" }
+						UnifiedParameter.Create("n")
 				},
 				Body = {
 					UnifiedJump.CreateReturn( CreateCall(null)),
@@ -94,7 +94,7 @@ end");
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter{ Name = "n" }
+					UnifiedParameter.Create("n")
 				},
 				Body = {
 					UnifiedJump.CreateReturn(
@@ -127,7 +127,7 @@ end
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter{ Name = "n" }
+						UnifiedParameter.Create("n")
 				},
 				Body = {
 					new UnifiedIf {
@@ -166,7 +166,7 @@ end
 			var expectation = new UnifiedFunctionDefinition {
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter{ Name = "n" }
+					UnifiedParameter.Create("n")
 				},
 				Body = {
 					new UnifiedIf {

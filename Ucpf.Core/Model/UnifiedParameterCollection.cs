@@ -4,9 +4,9 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedParameterCollection
 			: UnifiedElementCollection<UnifiedParameter, UnifiedParameterCollection> {
-		public UnifiedParameterCollection() {}
+		private UnifiedParameterCollection() {}
 
-		public UnifiedParameterCollection(IEnumerable<UnifiedParameter> elements)
+		private UnifiedParameterCollection(IEnumerable<UnifiedParameter> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -17,5 +17,17 @@ namespace Ucpf.Core.Model {
 				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
-			}
+
+		public static UnifiedParameterCollection Create() {
+			return new UnifiedParameterCollection();
+		}
+
+		public static UnifiedParameterCollection Create(UnifiedParameter element) {
+			return new UnifiedParameterCollection(new[] { element });
+		}
+
+		public static UnifiedParameterCollection Create(IEnumerable<UnifiedParameter> elements) {
+			return new UnifiedParameterCollection(elements);
+		}
+	}
 }

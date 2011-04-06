@@ -30,10 +30,7 @@ namespace Ucpf.Languages.Java.Tests {
 				Type = UnifiedType.Create("int"),
 				Name = "fibonacci",
 				Parameters = {
-					new UnifiedParameter {
-						Name = "n",
-						Type = UnifiedType.Create("int"),
-					}
+					UnifiedParameter.Create("n", UnifiedType.Create("int"))
 				},
 			};
 			Assert.That(actual,

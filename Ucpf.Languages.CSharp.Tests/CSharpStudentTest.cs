@@ -33,7 +33,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			return new UnifiedProgram {
 				UnifiedClassDefinition.Create(
 					"Student",
-					UnifiedBlock.Create( new IUnifiedExpression[] {
+					UnifiedBlock.Create(new IUnifiedExpression[] {
 						new UnifiedVariableDefinition {
 							Modifiers = {
 								UnifiedModifier.Create("private"),
@@ -41,21 +41,17 @@ namespace Ucpf.Languages.CSharp.Tests {
 							Type = UnifiedType.Create("String"),
 							Name = "_name",
 						},
-						new UnifiedConstructorDefinition {
-							Modifiers = {
-								UnifiedModifier.Create("public"),
-							},
-							Parameters = {
-								new UnifiedParameter {
-									Type = UnifiedType.Create("String"),
-									Name = "name",
-								}
-							},
-							Body = {
+						UnifiedConstructorDefinition.Create(
+							UnifiedBlock.Create(
 								CSharpModelFactoryHelper.CreateAssignExpression(
 									UnifiedVariable.Create("_name"), UnifiedVariable.Create("name"))
-							},
-						},
+							),
+							UnifiedModifier.Create("public"),
+							UnifiedParameterCollection.Create(
+								UnifiedParameter.Create(
+									"name", UnifiedType.Create("String"))
+									)
+						),
 						new UnifiedFunctionDefinition {
 							Modifiers = {
 								UnifiedModifier.Create("public"),
@@ -74,10 +70,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							Type = UnifiedType.Create("void"),
 							Name = "main",
 							Parameters = {
-								new UnifiedParameter {
-									Type = UnifiedType.Create("String[]"),
-									Name = "args"
-								}
+								UnifiedParameter.Create("args", UnifiedType.Create("String[]"))
 							},
 							Body = {
 								new UnifiedVariableDefinition {

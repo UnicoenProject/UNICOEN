@@ -23,7 +23,7 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedParameter() {
+		private UnifiedParameter() {
 			Modifiers = UnifiedModifierCollection.Create();
 		}
 
@@ -55,6 +55,27 @@ namespace Ucpf.Core.Model {
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_type, v => _type = (UnifiedType)v);
+		}
+
+		public static UnifiedParameter Create(string name) {
+			return new UnifiedParameter {
+					Name = name,
+			};
+		}
+
+		public static UnifiedParameter Create(string name, UnifiedType type) {
+			return new UnifiedParameter {
+					Name = name,
+					Type = type,
+			};
+		}
+
+		public static UnifiedParameter Create(string name, UnifiedType type, UnifiedModifierCollection modifiers) {
+			return new UnifiedParameter {
+				Name = name,
+				Type = type,
+				Modifiers = modifiers,
+			};
 		}
 	}
 }

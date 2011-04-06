@@ -29,9 +29,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							UnifiedModifier.Create("static"),
 						},
 						Parameters = {
-							new UnifiedParameter {
-								Type = UnifiedType.Create("int"), Name = "n"
-							}
+							UnifiedParameter.Create("n", UnifiedType.Create("int"))
 						},
 						Body = {
 							new UnifiedIf {
@@ -125,10 +123,9 @@ class Fibonacci {
 							UnifiedModifier.Create("static"),
 						},
 						Parameters = {
-							new UnifiedParameter {
-								Type = UnifiedType.Create("int"),
-								Name = "n",
-							}
+							UnifiedParameter.Create(
+								"n",
+								UnifiedType.Create("int"))
 						},
 					}
 				})

@@ -48,7 +48,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var firstParam = _func.Parameters.First();
 
 			//expectation
-			var expectation = new UnifiedParameter { Name = "n" };
+			var expectation = UnifiedParameter.Create("n");
 
 			Assert.That(firstParam, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));

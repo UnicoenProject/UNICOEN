@@ -800,13 +800,13 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name() == "methodDeclaration");
 
 			if(node.Element("type") == null && node.Element("VOID") == null) { //case Constructor
-				return new UnifiedConstructorDefinition {
-						Body = UnifiedBlock.Create(new IUnifiedExpression[] {
+				return UnifiedConstructorDefinition.Create(
+						UnifiedBlock.Create(new IUnifiedExpression[] {
 								CreateBlockStatement(node.Element("blockStatement"))
 						}),
-						Modifiers = CreateModifierCollection(node),
-						Parameters = CreateFormalParameters(node.Element("formalParameters"))
-				};
+						CreateModifierCollection(node),
+						CreateFormalParameters(node.Element("formalParameters"))
+				);
 			}
 			//if (node.Element("IDENTIFIER").PreviousElement().Name() == "")
 			return new UnifiedFunctionDefinition {
@@ -932,9 +932,9 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name() == "formalParameters");
 			var element = node.Element("formalParameterDecls");
 			if (element == null)
-				return new UnifiedParameterCollection();
+				return UnifiedParameterCollection.Create();
 
-			return new UnifiedParameterCollection(element
+			return UnifiedParameterCollection.Create(element
 				.Elements()
 				.Select(e => {
 					if (e.Name() == "normalParameterDecl")
@@ -953,14 +953,13 @@ namespace Ucpf.Languages.Java.Model {
 			 * normalParameterDecl 
 				:   variableModifiers type IDENTIFIER ('[' ']')* 
 			 */
-			return new UnifiedParameter {
-				Modifiers = UnifiedModifierCollection.Create(node
+			return UnifiedParameter.Create(
+				node.Element("IDENTIFIER").Value,
+				CreateTypeOrCreatedName(node.Element("type")),
+				UnifiedModifierCollection.Create(node
 					.Element("variableModifiers")
 					.Elements()
-					.Select(CreateVariableModifier)),
-				Name = node.Element("IDENTIFIER").Value,
-				Type = CreateTypeOrCreatedName(node.Element("type"))
-			};
+					.Select(CreateVariableModifier)));
 		}
 
 		public static UnifiedParameter CreateEllipsisParameterDecl(XElement node) {

@@ -518,14 +518,14 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedParameterCollection CreateParameterCollection(XElement node) {
-			return new UnifiedParameterCollection(
+			return UnifiedParameterCollection.Create(
 				node.Element("formalParameterList").Elements("Identifier")
 				.Select(e => CreateParameter(e))
 				);
 		}
 
 		public static UnifiedParameter CreateParameter(XElement node) {
-			return new UnifiedParameter { Name = node.Value };
+			return UnifiedParameter.Create(node.Value);
 		}
 
 		#endregion

@@ -113,9 +113,9 @@ namespace Ucpf.Languages.Ruby18.Model {
 			var elems = node.Elements();
 			return new UnifiedFunctionDefinition {
 				Name = elems.First().Value,
-				Parameters = new UnifiedParameterCollection(
+				Parameters = UnifiedParameterCollection.Create(
 					elems.ElementAt(1).Elements()
-						.Select(e => new UnifiedParameter{ Name =  e.Value })),
+						.Select(e => UnifiedParameter.Create(e.Value))),
 				Body = CreateBlock(elems.ElementAt(2).Elements().First()),
 			};
 		}

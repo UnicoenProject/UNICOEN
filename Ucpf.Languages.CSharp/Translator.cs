@@ -53,11 +53,10 @@ namespace Ucpf.Languages.CSharp {
 			var modifier = ConvertModifiler(ctorDec.Modifier);
 			var parameters = ConvertParameters(ctorDec.Parameters);
 			var block = VisitBlockStatement(ctorDec.Body, null) as UnifiedBlock;
-			return new UnifiedConstructorDefinition {
-				Modifiers = modifier,
-				Parameters = parameters,
-				Body = block,
-			};
+			return UnifiedConstructorDefinition.Create(
+					block,
+					modifier,
+					parameters);
 		}
 
 		public object VisitMethodDeclaration(MethodDeclaration method, object data) {
@@ -72,7 +71,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private static UnifiedParameterCollection ConvertParameters(IEnumerable<ParameterDeclarationExpression> parameters) {
-			return new UnifiedParameterCollection(
+			return UnifiedParameterCollection.Create(
 				parameters.Select(ConvertParameter));
 		}
 
@@ -81,10 +80,9 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private static UnifiedParameter ConvertParameter(ParameterDeclarationExpression parameter) {
-			return new UnifiedParameter {
-				Name = parameter.ParameterName,
-				Type = ConvertType(parameter.TypeReference),
-			};
+			return UnifiedParameter.Create(
+					parameter.ParameterName,
+					ConvertType(parameter.TypeReference));
 		}
 
 		#endregion
