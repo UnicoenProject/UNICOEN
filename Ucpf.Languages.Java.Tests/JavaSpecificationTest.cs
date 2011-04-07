@@ -10,6 +10,18 @@ using Ucpf.Languages.Java.Model;
 namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaSpecificationTest {
+		public static UnifiedProgram AnonymousClassModel {
+			get {
+				return CSharpAndJavaSpecificationTest.
+					CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedNew.Create(
+								UnifiedType.Create("Interface"),
+								UnifiedArgumentCollection.Create(),
+								UnifiedBlock.Create()
+								)));
+			}
+		}
+
 		[Test]
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
@@ -172,6 +184,17 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.ThrowModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("new Interface() { };")]
+		public void CreateAnonymousClass(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(AnonymousClassModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
