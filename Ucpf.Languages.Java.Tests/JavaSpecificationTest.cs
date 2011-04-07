@@ -154,13 +154,24 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		[Ignore, Test]
-		[TestCase("synchronized (this) { m1(); }")]
+		[TestCase("synchronized (this) { M1(); }")]
 		public void CreateSynchronized(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SynchronizedModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("throw new Exception();")]
+		public void CreateThrow(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.ThrowModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}

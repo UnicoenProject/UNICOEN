@@ -147,5 +147,16 @@ namespace Ucpf.Languages.CSharp.Tests {
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SynchronizedModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
+
+		[Ignore, Test]
+		[TestCase("throw new Exception();")]
+		public void CreateThrow(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.ThrowModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
 	}
 }

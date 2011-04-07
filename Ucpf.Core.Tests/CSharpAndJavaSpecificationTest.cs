@@ -153,8 +153,18 @@ namespace Ucpf.Core.Tests {
 								UnifiedVariable.Create("this"),
 								UnifiedBlock.Create(
 										UnifiedCall.Create(
-												UnifiedVariable.Create("m1"),
+												UnifiedVariable.Create("M1"),
 												UnifiedArgumentCollection.Create())))));
+			}
+		}
+
+		public static UnifiedProgram ThrowModel {
+			get {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedJump.CreateThrow(
+								UnifiedNew.Create(
+										UnifiedType.Create("Exception"),
+										UnifiedArgumentCollection.Create()))));
 			}
 		}
 
