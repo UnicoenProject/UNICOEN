@@ -65,7 +65,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 					return UnifiedBinaryExpression.Create(CreateExpression(node.Elements().First()), @operator, CreateExpression(node.Elements().ElementAt(2).Elements().First()));
 				}
 			}
-			return UnifiedCall.Create(UnifiedVariable.Create(funcName), new UnifiedArgumentCollection(
+			return UnifiedCall.Create(UnifiedVariable.Create(funcName), UnifiedArgumentCollection.Create(
 					node.Elements().ElementAt(2).Elements()
 						.Select(e => UnifiedArgument.Create(CreateExpression(e)))));
 		}

@@ -73,41 +73,20 @@ namespace Ucpf.Languages.CSharp.Tests {
 											UnifiedBlock.Create(
 													UnifiedVariableDefinition.Create(UnifiedType.Create("Student[]"),
 															"students",
-															new UnifiedArrayNew {
-																	Type = UnifiedType.Create("Student"),
-																	Arguments = {
-																			UnifiedArgument.Create(UnifiedIntegerLiteral.Create(2))
-																	},
-																	InitialValues = null,
-															}
+															UnifiedArrayNew.Create(UnifiedType.Create("Student"), 
+																UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(2))), 
+																null)
 															),
 													CSharpModelFactoryHelper.CreateAssignExpression(
-															new UnifiedIndexer {
-																	Target = UnifiedVariable.Create("students"),
-																	Arguments = {
-																			UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)),
-																	},
-															},
-															new UnifiedNew {
-																	Type = UnifiedType.Create("Student"),
-																	Arguments = {
-																			UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom")),
-																	},
-															}
+															UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+															UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)))),
+																UnifiedNew.Create(UnifiedType.Create("Student"), 
+																	UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom")))) 
 															),
 													CSharpModelFactoryHelper.CreateAssignExpression(
-															new UnifiedIndexer {
-																	Target = UnifiedVariable.Create("students"),
-																	Arguments = {
-																			UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)),
-																	},
-															},
-															new UnifiedNew {
-																	Type = UnifiedType.Create("Student"),
-																	Arguments = {
-																			UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna")),
-																	},
-															}
+															UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+																UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)))),
+																	UnifiedNew.Create(UnifiedType.Create("Student"), UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna"))))
 															),
 													UnifiedFor.Create(
 															UnifiedVariableDefinition.Create(UnifiedType.Create("int"), "i",
@@ -122,16 +101,10 @@ namespace Ucpf.Languages.CSharp.Tests {
 																			UnifiedArgumentCollection.Create(
 																					UnifiedArgument.Create(
 																							UnifiedCall.Create(
-																									new UnifiedProperty {
-																											Owner = new UnifiedIndexer {
-																													Target = UnifiedVariable.Create("students"),
-																													Arguments = {
-																															UnifiedArgument.Create(UnifiedVariable.Create("i"))
-																													}
-																											},
-																											Name = "getName",
-																									},
-																									UnifiedArgumentCollection.Create()
+																									UnifiedProperty.Create("getName", 
+																										UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+																											UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedVariable.Create("i"))))),
+																										UnifiedArgumentCollection.Create()
 																									)
 																							)
 																					)
@@ -148,10 +121,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 																			UnifiedArgumentCollection.Create(
 																					UnifiedArgument.Create(
 																							UnifiedCall.Create(
-																									new UnifiedProperty {
-																											Owner = UnifiedVariable.Create("student"),
-																											Name = "getName"
-																									}, UnifiedArgumentCollection.Create())
+																									UnifiedProperty.Create("getName", UnifiedVariable.Create("student")),
+																										UnifiedArgumentCollection.Create())
 																							)
 																					)
 																			)

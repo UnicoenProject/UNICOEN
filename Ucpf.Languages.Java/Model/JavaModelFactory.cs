@@ -152,10 +152,7 @@ namespace Ucpf.Languages.Java.Model {
 				throw new NotImplementedException();
 			    
 			if(secondElement.Name() == "IDENTIFIER") {
-				prefix = new UnifiedProperty {
-						Name = secondElement.Value,
-						Owner = prefix
-				};
+				prefix = UnifiedProperty.Create(secondElement.Value, prefix);
 				if(node.HasElement("arguments")) {
 					prefix = UnifiedCall.Create(prefix, CreateArguments(node.Element("arguments")));
 				}
@@ -204,10 +201,7 @@ namespace Ucpf.Languages.Java.Model {
 				var variable = UnifiedVariable.Create(first.Value);
 				var prop = first.NextElements("IDENTIFIER")
 						.Aggregate((IUnifiedExpression)variable,
-								(e, v) => new UnifiedProperty {
-										Owner = e,
-										Name = v.Value,
-								});
+								(e, v) => UnifiedProperty.Create(v.Value, e));
 				return CreateIdentifierSuffix(node.Element("identifierSuffix"), prop);
 			}
 			if (first.HasContent("super")) {
@@ -224,16 +218,10 @@ namespace Ucpf.Languages.Java.Model {
 				var type = node.Elements()
 						.Take(node.Elements().Count() - 2)
 						.Aggregate("", (s, e) => s + e.Value);
-				return new UnifiedProperty {
-					Owner = UnifiedType.Create(type),
-					Name = "class",
-				};
+				return UnifiedProperty.Create("class", UnifiedType.Create(type));
 			}
 			if (first.HasContent("void")) {
-				return new UnifiedProperty {
-						Owner = UnifiedVariable.Create(first.Value),
-						Name = "class",
-				};
+				return UnifiedProperty.Create("class", UnifiedVariable.Create(first.Value));
 			}
 			throw new InvalidOperationException();
 		}
@@ -278,10 +266,9 @@ namespace Ucpf.Languages.Java.Model {
 			if (second != null && second.Name() == "expression") {
 				return node.Elements("expression")
 						.Select(CreateExpression)
-						.Aggregate(prefix, (current, exp) => new UnifiedIndexer {
-								Target = current,
-								Arguments = { UnifiedArgument.Create(exp) },
-						});
+						.Aggregate(prefix, (current, exp) => 
+							UnifiedIndexer.Create(current, UnifiedArgumentCollection.Create(UnifiedArgument.Create(exp)))
+				);
 			}
 			if (node.FirstElement().Name() == "arguments") {
 				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
@@ -297,7 +284,7 @@ namespace Ucpf.Languages.Java.Model {
 
 			var expressionListNode = node.Element("expressionList");
 			if (expressionListNode == null)
-				return new UnifiedArgumentCollection();
+				return UnifiedArgumentCollection.Create();
 
 			var args = CreateExpressionList(expressionListNode)
 					.ToList()
@@ -305,7 +292,7 @@ namespace Ucpf.Languages.Java.Model {
 						e.Remove();
 						return UnifiedArgument.Create(e);
 					});
-			return new UnifiedArgumentCollection(args);
+			return UnifiedArgumentCollection.Create(args);
 		}
 
 		public static UnifiedExpressionCollection CreateExpressionList(XElement node) {
@@ -316,7 +303,7 @@ namespace Ucpf.Languages.Java.Model {
 
 			var expressions = node.Elements("expression")
 					.Select(CreateExpression);
-			return new UnifiedExpressionCollection(expressions);
+			return UnifiedExpressionCollection.Create(expressions);
 		}
 
 
@@ -352,19 +339,16 @@ namespace Ucpf.Languages.Java.Model {
 
 			if(node.Name() == "creator") {
 				if(node.Element("classCreatorRest").Element("arguments").Element("expressionList") == null)
-					return new UnifiedNew {
-							Arguments = new UnifiedArgumentCollection(),
-							Type = CreateClassOrInterfaceType(node.Element("classOrInterfaceType"))
-					};
-				return new UnifiedNew {
-						Arguments = new UnifiedArgumentCollection(
-							node.Element("classCreatorRest")
+					return UnifiedNew.Create(CreateClassOrInterfaceType(node.Element("classOrInterfaceType")), 
+						UnifiedArgumentCollection.Create());
+	
+				return UnifiedNew.Create(CreateClassOrInterfaceType(node.Element("classOrInterfaceType")),
+					UnifiedArgumentCollection.Create(node.Element("classCreatorRest")
 							.Element("arguments")
 							.Element("expressionList")
 							.Elements("expression")
-							.Select(CreateArgument)),
-						Type = CreateClassOrInterfaceType(node.Element("classOrInterfaceType"))
-				};
+							.Select(CreateArgument))
+							);
 			}
 			else { //case "arrayCreator"
 				UnifiedExpressionCollection initVal = null;
@@ -375,15 +359,10 @@ namespace Ucpf.Languages.Java.Model {
 					                                       		.Select(e => CreateExpression(e.Element("expression")));
 				}
 				else {
-					args = new UnifiedArgumentCollection(
-								node.Elements("expression").Select(CreateArgument));
+					args = UnifiedArgumentCollection.Create(node.Elements("expression").Select(CreateArgument));
 
 				}
-				return new UnifiedArrayNew {
-						Type = CreateTypeOrCreatedName(node.Element("createdName")),
-						Arguments = args,
-						InitialValues = initVal
-				};
+				return UnifiedArrayNew.Create(CreateTypeOrCreatedName(node.Element("createdName")), args, initVal); 
 			}
 		}
 
@@ -674,15 +653,13 @@ namespace Ucpf.Languages.Java.Model {
 			Contract.Requires(node.Name.LocalName == "statement");
 			Contract.Requires(node.Elements().First().Name.LocalName == "SWITCH");
 			/* 'switch' parExpression '{' switchBlockStatementGroups '}' */
-			return new UnifiedSwitch {
-					Cases = CreateCaseCollection(node.Element("switchBlockStatementGroups")),
-					Value = CreateExpression(node.Element("parExpression").Element("expression"))
-			};
+			return UnifiedSwitch.Create(CreateExpression(node.Element("parExpression").Element("expression")),
+				CreateCaseCollection(node.Element("switchBlockStatementGroups")));
 		}
 
 		public static UnifiedCaseCollection CreateCaseCollection(XElement node) {
 			//Top node is <switchBlockStatementGroups>.
-			return new UnifiedCaseCollection(node.Elements("switchBlockStatementGroup").Select(CreateCase));
+			return UnifiedCaseCollection.Create(node.Elements("switchBlockStatementGroup").Select(CreateCase));
 		}
 
 		public static UnifiedCase CreateCase(XElement node) {
@@ -924,7 +901,7 @@ namespace Ucpf.Languages.Java.Model {
 				.Element("expressionList")
 				.Elements()
 				.Select(CreateArgument);
-			return new UnifiedArgumentCollection(element);
+			return UnifiedArgumentCollection.Create(element);
 		}
 
 		#endregion

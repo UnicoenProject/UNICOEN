@@ -69,5 +69,20 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_initialValues, v => _initialValues = (IUnifiedExpression)v);
 		}
+
+		public static UnifiedArrayNew Create(UnifiedType createTypeOrCreatedName, 
+			UnifiedArgumentCollection args, UnifiedExpressionCollection initVal) {
+			return new UnifiedArrayNew {
+					Type = createTypeOrCreatedName,
+					Arguments = args,
+					InitialValues = initVal
+			};
+		}
+
+		public static UnifiedArrayNew Create(UnifiedIntegerLiteral createTypeOrCreatedName) {
+			return new UnifiedArrayNew {
+				InitialValues = createTypeOrCreatedName
+			};
+		}
 	}
 }

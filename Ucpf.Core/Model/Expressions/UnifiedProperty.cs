@@ -41,5 +41,12 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_owner, v => _owner = (IUnifiedExpression)v);
 		}
+
+		public static UnifiedProperty Create(string value, IUnifiedExpression prefix) {
+			return new UnifiedProperty {
+				Name = value,
+				Owner = prefix
+			};
+		}
 	}
 }

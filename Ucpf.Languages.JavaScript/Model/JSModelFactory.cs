@@ -418,10 +418,8 @@ namespace Ucpf.Languages.JavaScript.Model {
 				: 'switch' LT!* '(' LT!* expression LT!* ')' LT!* caseBlock 
 			 */
 
-			return new UnifiedSwitch {
-					Cases = CreateCaseCollection(node.Element("caseBlock")),
-					Value = CreateExpression(node.Element("expression"))
-			};
+			return UnifiedSwitch.Create(CreateExpression(node.Element("expression")), 
+				CreateCaseCollection(node.Element("caseBlock")));
 		}
 
 		public static UnifiedCaseCollection CreateCaseCollection(XElement node) {
@@ -432,7 +430,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				: '{' (LT!* caseClause)* (LT!* defaultClause (LT!* caseClause)*)? LT!* '}'
 			 */
 
-			return new UnifiedCaseCollection(node.Elements().Select(CreateCase));
+			return UnifiedCaseCollection.Create(node.Elements().Select(CreateCase));
 		}
 
 		public static UnifiedCase CreateCase(XElement node) {
@@ -487,9 +485,10 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node) {
-			return new UnifiedArgumentCollection(
-				node.Element("arguments").Elements().Where(e => e.Name.LocalName != "TOKEN")
-					.Select(e2 => CreateArgument(e2))
+			return UnifiedArgumentCollection.Create(node.Element("arguments")
+				.Elements()
+				.Where(e => e.Name.LocalName != "TOKEN")
+				.Select(e2 => CreateArgument(e2))
 			);
 		}
 

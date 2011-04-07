@@ -55,5 +55,12 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
+
+		public static UnifiedIndexer Create(IUnifiedExpression current, UnifiedArgumentCollection create) {
+			return new UnifiedIndexer {
+					Target = current,
+					Arguments = create
+			};
+		}
 	}
 }

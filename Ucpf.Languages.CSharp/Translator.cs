@@ -325,17 +325,17 @@ namespace Ucpf.Languages.CSharp {
 					expr.ArrayInitializer.AcceptVisitor(this, data) as
 					UnifiedExpressionCollection;
 
-			return new UnifiedArrayNew { Type = arrayType, Arguments = args, InitialValues = init };
+			return UnifiedArrayNew.Create(arrayType, args, init);
 		}
 
 		public object VisitIndexerExpression(IndexerExpression expr, object data) {
 			var target = ConvertExpression(expr.TargetObject);
 			var args = ConvertArguments(expr.Indexes);
-			return new UnifiedIndexer { Target = target, Arguments = args };
+			return UnifiedIndexer.Create(target,args);
 		}
 
 		public object VisitCollectionInitializerExpression(CollectionInitializerExpression init, object data) {
-			var collection = new UnifiedExpressionCollection();
+			var collection = UnifiedExpressionCollection.Create();
 			foreach (var expr in init.CreateExpressions) {
 				var uExpr = expr.AcceptVisitor(this, data) as IUnifiedExpression;
 				collection.Add(uExpr);
@@ -344,20 +344,19 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private UnifiedArgumentCollection ConvertArguments(IEnumerable<Expression> args) {
-			return new UnifiedArgumentCollection(
-				args.Select(arg => UnifiedArgument.Create(ConvertExpression(arg))));
+			return UnifiedArgumentCollection.Create(args.Select(arg => UnifiedArgument.Create(ConvertExpression(arg))));
 		}
 
 		public object VisitObjectCreateExpression(ObjectCreateExpression expr, object data) {
 			var type = ConvertType(expr.CreateType);
 			var args = ConvertArguments(expr.Parameters);
-			return new UnifiedNew { Type = type, Arguments = args };
+			return UnifiedNew.Create(type, args);
 		}
 
 		public object VisitMemberReferenceExpression(MemberReferenceExpression expr, object data) {
 			var target = ConvertExpression(expr.TargetObject);
 			var name = expr.MemberName;
-			return new UnifiedProperty { Owner = target, Name = name };
+			return UnifiedProperty.Create(name, target);
 		}
 
 		public object VisitUnaryOperatorExpression(UnaryOperatorExpression expr, object data) {

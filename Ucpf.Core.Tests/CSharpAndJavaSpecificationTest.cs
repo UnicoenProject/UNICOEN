@@ -62,9 +62,7 @@ namespace Ucpf.Core.Tests {
 		public static UnifiedProgram ForeachModel {
 			get {
 				return CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
-					new UnifiedArrayNew {
-						InitialValues = 1.ToLiteral(),
-					}.ToForeach("int".ToType(), "i")
+					UnifiedArrayNew.Create(1.ToLiteral()).ToForeach("int".ToType(), "i")
 						.AddToBody(UnifiedJump.CreateContinue())
 				}));
 			}
