@@ -27,6 +27,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public string Name { get; set; }
+
 		private UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
