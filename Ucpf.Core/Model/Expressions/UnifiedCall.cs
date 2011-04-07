@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 関数呼び出しを表します。
+	/// </summary>
 	public class UnifiedCall : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _function;
 

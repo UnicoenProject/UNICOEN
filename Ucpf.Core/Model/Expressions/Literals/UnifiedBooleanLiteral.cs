@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// boolean型であるリテラルを表します。
+	/// </summary>
 	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<UnifiedBoolean> {
 		public static UnifiedBooleanLiteral Create(bool value) {
 			var eValue = value ? UnifiedBoolean.True : UnifiedBoolean.False;

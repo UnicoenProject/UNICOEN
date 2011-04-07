@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 新しいインスタンスの生成部分を表します。
+	/// </summary>
 	public class UnifiedNew : UnifiedElement, IUnifiedExpression {
 		private UnifiedType _type;
 

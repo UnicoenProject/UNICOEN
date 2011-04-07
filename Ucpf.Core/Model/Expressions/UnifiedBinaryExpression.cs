@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 二項式を表します。
+	/// </summary>
 	public class UnifiedBinaryExpression : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _leftHandSide;
 

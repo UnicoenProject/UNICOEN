@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 仮引数(パラメータ)を表します。
+	/// </summary>
 	public class UnifiedParameter : UnifiedElement {
 		private UnifiedModifierCollection _modifiers;
 

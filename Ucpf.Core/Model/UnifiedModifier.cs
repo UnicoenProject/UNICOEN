@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 修飾子を表します。
+	/// </summary>
 	public class UnifiedModifier : UnifiedElement {
 		public string Name { get; set; }
 

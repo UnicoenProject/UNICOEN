@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 単項演算子を表します。
+	/// </summary>
 	public class UnifiedUnaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
 		public UnifiedUnaryOperatorType Type { get; private set; }

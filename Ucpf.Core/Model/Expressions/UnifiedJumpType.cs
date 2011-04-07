@@ -1,4 +1,7 @@
 ﻿namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 処理を移動させる式の種類を表します。
+	/// </summary>
 	public enum UnifiedJumpType {
 		Break,
 		Continue,

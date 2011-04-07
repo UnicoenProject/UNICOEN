@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// switch文におけるcase式を表します。
+	/// </summary>
 	public class UnifiedCase : UnifiedElement {
 		private IUnifiedExpression _condition;
 

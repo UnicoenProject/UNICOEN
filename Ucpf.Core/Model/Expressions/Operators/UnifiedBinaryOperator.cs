@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 二項演算子を表します。
+	/// </summary>
 	public class UnifiedBinaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
 		public UnifiedBinaryOperatorType Type { get; private set; }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 関数あるいはメソッドの定義部分を表します。
+	/// </summary>
 	public class UnifiedFunctionDefinition
 			: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
 		private UnifiedModifierCollection _modifiers;

@@ -2,6 +2,9 @@
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 式の集合を表します。
+	/// </summary>
 	public class UnifiedExpressionCollection
 			: UnifiedElementCollection<IUnifiedExpression>, IUnifiedExpression {
 		public UnifiedExpressionCollection() {}

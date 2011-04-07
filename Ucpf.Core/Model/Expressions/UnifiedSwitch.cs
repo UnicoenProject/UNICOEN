@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// switch文を表します。
+	/// </summary>
 	public class UnifiedSwitch : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _value;
 

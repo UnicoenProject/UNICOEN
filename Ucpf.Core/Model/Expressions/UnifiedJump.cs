@@ -5,6 +5,9 @@ using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 処理を移動させる式を表します。
+	/// </summary>
 	public class UnifiedJump : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _value;
 		public UnifiedJumpType Type { get; set; }

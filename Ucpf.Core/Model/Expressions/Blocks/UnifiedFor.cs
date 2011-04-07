@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// for文を表します。
+	/// </summary>
 	public class UnifiedFor : UnifiedExpressionWithBlock<UnifiedFor> {
 		private IUnifiedExpression _initializer;
 
