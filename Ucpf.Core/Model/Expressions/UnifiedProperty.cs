@@ -18,6 +18,8 @@ namespace Ucpf.Core.Model {
 
 		public string Name { get; set; }
 
+		public string Delimiter { get; set; }
+
 		private UnifiedProperty() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -45,10 +47,11 @@ namespace Ucpf.Core.Model {
 					(_owner, v => _owner = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedProperty Create(string value, IUnifiedExpression prefix) {
+		public static UnifiedProperty Create(IUnifiedExpression owner, string name, string delimite) {
 			return new UnifiedProperty {
-				Name = value,
-				Owner = prefix
+				Owner = owner,
+				Name = name,
+				Delimiter = delimite,
 			};
 		}
 	}

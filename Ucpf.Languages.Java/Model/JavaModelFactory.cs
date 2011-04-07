@@ -148,13 +148,14 @@ namespace Ucpf.Languages.Java.Model {
 			 */
 			var secondElement = node.NthElement(1);
 			if(secondElement == null)
-				//case innerCreator
+				// for innerCreator
 				throw new NotImplementedException();
 			    
-			if(secondElement.Name() == "IDENTIFIER") {
-				prefix = UnifiedProperty.Create(secondElement.Value, prefix);
-				if(node.HasElement("arguments")) {
-					prefix = UnifiedCall.Create(prefix, CreateArguments(node.Element("arguments")));
+			if (secondElement.Name() == "IDENTIFIER") {
+				prefix = UnifiedProperty.Create(prefix, secondElement.Value, ".");
+				var arguments = node.Element("arguments");
+				if (arguments != null) {
+					prefix = UnifiedCall.Create(prefix, CreateArguments(arguments));
 				}
 				return prefix;
 			}
@@ -201,7 +202,7 @@ namespace Ucpf.Languages.Java.Model {
 				var variable = UnifiedVariable.Create(first.Value);
 				var prop = first.NextElements("IDENTIFIER")
 						.Aggregate((IUnifiedExpression)variable,
-								(e, v) => UnifiedProperty.Create(v.Value, e));
+								(e, v) => UnifiedProperty.Create(e, v.Value, "."));
 				return CreateIdentifierSuffix(node.Element("identifierSuffix"), prop);
 			}
 			if (first.HasContent("super")) {
@@ -218,10 +219,10 @@ namespace Ucpf.Languages.Java.Model {
 				var type = node.Elements()
 						.Take(node.Elements().Count() - 2)
 						.Aggregate("", (s, e) => s + e.Value);
-				return UnifiedProperty.Create("class", UnifiedType.Create(type));
+				return UnifiedProperty.Create(UnifiedType.Create(type), "class", ".");
 			}
 			if (first.HasContent("void")) {
-				return UnifiedProperty.Create("class", UnifiedVariable.Create(first.Value));
+				return UnifiedProperty.Create(UnifiedVariable.Create(first.Value), "class", ".");
 			}
 			throw new InvalidOperationException();
 		}

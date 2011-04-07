@@ -356,7 +356,7 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitMemberReferenceExpression(MemberReferenceExpression expr, object data) {
 			var target = ConvertExpression(expr.TargetObject);
 			var name = expr.MemberName;
-			return UnifiedProperty.Create(name, target);
+			return UnifiedProperty.Create(target, name, ".");
 		}
 
 		public object VisitUnaryOperatorExpression(UnaryOperatorExpression expr, object data) {

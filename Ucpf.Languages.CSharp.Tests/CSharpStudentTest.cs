@@ -101,9 +101,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 																			UnifiedArgumentCollection.Create(
 																					UnifiedArgument.Create(
 																							UnifiedCall.Create(
-																									UnifiedProperty.Create("getName", 
-																										UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
-																											UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedVariable.Create("i"))))),
+																									UnifiedProperty.Create(UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+																											UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedVariable.Create("i")))), "getName", "."),
 																										UnifiedArgumentCollection.Create()
 																									)
 																							)
@@ -121,7 +120,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 																			UnifiedArgumentCollection.Create(
 																					UnifiedArgument.Create(
 																							UnifiedCall.Create(
-																									UnifiedProperty.Create("getName", UnifiedVariable.Create("student")),
+																									UnifiedProperty.Create(UnifiedVariable.Create("student"), "getName", "."),
 																										UnifiedArgumentCollection.Create())
 																							)
 																					)
