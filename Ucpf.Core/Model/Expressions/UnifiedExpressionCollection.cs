@@ -4,9 +4,9 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedExpressionCollection
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection>, IUnifiedExpression {
-		public UnifiedExpressionCollection() {}
+		private UnifiedExpressionCollection() {}
 
-		public UnifiedExpressionCollection(IEnumerable<IUnifiedExpression> expressions)
+		private UnifiedExpressionCollection(IEnumerable<IUnifiedExpression> expressions)
 				: base(expressions) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

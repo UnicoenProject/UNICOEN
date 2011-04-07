@@ -79,10 +79,10 @@ namespace Ucpf.Languages.CSharp {
 			if (type.IsKeyword) {
 				typeName = GetTypeAlias(typeName) ?? typeName;
 			}
-			var typeParameter = new UnifiedTypeParameterCollection();
+			var typeParameter = UnifiedTypeParameterCollection.Create();
 			foreach (var gType in type.GenericTypes) {
 				var uType = ConvertType(gType);
-				typeParameter.Add(new UnifiedTypeParameter { Value = uType });
+				typeParameter.Add(UnifiedTypeParameter.Create(uType));
 			}
 			return UnifiedType.Create(typeName, typeParameter);
 		}

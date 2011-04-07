@@ -22,8 +22,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedNew() {
-			Arguments = new UnifiedArgumentCollection();
+		private UnifiedNew() {
+			Arguments = UnifiedArgumentCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -54,6 +54,19 @@ namespace Ucpf.Core.Model {
 					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+		}
+
+		public static UnifiedNew Create(UnifiedType type) {
+			return new UnifiedNew {
+					Type = type,
+			};
+		}
+
+		public static UnifiedNew Create(UnifiedType type, UnifiedArgumentCollection arguments) {
+			return new UnifiedNew {
+				Type = type,
+				Arguments = arguments,
+			};
 		}
 	}
 }

@@ -5,7 +5,7 @@ using Ucpf.Languages.CSharp;
 namespace Ucpf.Core.Tests {
 	public static class CSharpAndJavaSpecificationTest {
 		public static UnifiedProgram CreateClassAndMethod(UnifiedBlock block) {
-			return new UnifiedProgram {
+			return UnifiedProgram.Create(
 				"A".ToClassDefinition()
 					.AddToBody(
 						UnifiedFunctionDefinition.Create(
@@ -13,8 +13,8 @@ namespace Ucpf.Core.Tests {
 							"void".ToType(),
 							block
 						)
-					),
-			};
+					)
+			);
 		}
 
 		public static UnifiedProgram WhileModel {

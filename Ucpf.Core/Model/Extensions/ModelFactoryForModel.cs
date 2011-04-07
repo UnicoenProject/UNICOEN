@@ -34,22 +34,16 @@
 		}
 
 		public static UnifiedSwitch ToSwitch(this IUnifiedExpression value) {
-			return new UnifiedSwitch {
-					Value = value,
-			};
+			return UnifiedSwitch.Create(value);
 		}
 
 		public static UnifiedTypeParameter ToTypeParameter(
 				this IUnifiedExpression value) {
-			return new UnifiedTypeParameter {
-					Value = value,
-			};
+			return UnifiedTypeParameter.Create(value);
 		}
 
 		public static UnifiedNew ToNew(this UnifiedType type) {
-			return new UnifiedNew {
-					Type = type,
-			};
+			return UnifiedNew.Create(type);
 		}
 	}
 }

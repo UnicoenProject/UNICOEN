@@ -31,8 +31,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedArrayNew() {
-			Arguments = new UnifiedArgumentCollection();
+		private UnifiedArrayNew() {
+			Arguments = UnifiedArgumentCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

@@ -832,7 +832,7 @@ namespace Ucpf.Languages.Java.Model {
 			var name = node.Parent.Name.LocalName == "type" ?  
 				node.Parent.Value : node.Element("IDENTIFIER").Value;
 			if(node.HasElement("typeArguments")) {
-				return UnifiedType.Create(name, new UnifiedTypeParameterCollection(
+				return UnifiedType.Create(name, UnifiedTypeParameterCollection.Create(
 						node.Element("typeArguments")
 						.Elements("typeArgument")
 						.Select(CreatTypeParameter)));
@@ -860,19 +860,14 @@ namespace Ucpf.Languages.Java.Model {
 				|   '?' ( ('extends'|'super' ) type )?
 			 */
 			if(node.FirstElement().Name() == "type") {
-				return  new UnifiedTypeParameter {
-					Modifiers = null,
-					Value = CreateTypeOrCreatedName(node.Element("type"))
-				};
+				return UnifiedTypeParameter.Create(CreateTypeOrCreatedName(node.Element("type")),
+						null);
 			}
 			throw new NotImplementedException();
 			//TODO ?はどのように扱うのか
 			var modifier = node.NthElement(1) != null ? UnifiedModifierCollection.Create() : null;
 			var type = node.NthElement(2) != null ? CreateTypeOrCreatedName(node.Element("type")) : null;
-			return new UnifiedTypeParameter {
-					Modifiers = modifier,
-					Value = type
-			};
+			return UnifiedTypeParameter.Create(type, modifier);
 		}
 
 		public static UnifiedParameterCollection CreateFormalParameters(XElement node) {
@@ -1036,12 +1031,12 @@ namespace Ucpf.Languages.Java.Model {
 
 		public static UnifiedProgram CreateProgram(XElement node) {
 			Contract.Requires(node != null);
-			var model = new UnifiedProgram {
+			var model = UnifiedProgram.Create(
 				CreateClass(node
 					.Element("typeDeclaration")
 					.Element("classOrInterfaceDeclaration")
 					.Element("classDeclaration"))
-			};
+			);
 			model.Normalize();
 			return model;
 		}

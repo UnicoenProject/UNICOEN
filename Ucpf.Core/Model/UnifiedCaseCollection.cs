@@ -3,9 +3,9 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedCaseCollection : UnifiedElementCollection<UnifiedCase, UnifiedCaseCollection> {
-		public UnifiedCaseCollection() {}
+		private UnifiedCaseCollection() {}
 
-		public UnifiedCaseCollection(IEnumerable<UnifiedCase> elements)
+		private UnifiedCaseCollection(IEnumerable<UnifiedCase> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

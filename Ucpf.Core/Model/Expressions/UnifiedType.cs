@@ -16,7 +16,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		private UnifiedType() {
-			Parameters = new UnifiedTypeParameterCollection();
+			Parameters = UnifiedTypeParameterCollection.Create();
 		}
 
 		public static UnifiedType Create(string name) {

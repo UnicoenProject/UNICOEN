@@ -16,6 +16,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedJump() {}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

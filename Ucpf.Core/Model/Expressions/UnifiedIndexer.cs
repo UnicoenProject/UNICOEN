@@ -22,8 +22,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedIndexer() {
-			Arguments = new UnifiedArgumentCollection();
+		private UnifiedIndexer() {
+			Arguments = UnifiedArgumentCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

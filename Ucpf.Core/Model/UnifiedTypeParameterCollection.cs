@@ -4,9 +4,9 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedTypeParameterCollection
 			: UnifiedElementCollection<UnifiedTypeParameter, UnifiedTypeParameterCollection> {
-		public UnifiedTypeParameterCollection() {}
+		private UnifiedTypeParameterCollection() {}
 
-		public UnifiedTypeParameterCollection(
+		private UnifiedTypeParameterCollection(
 				IEnumerable<UnifiedTypeParameter> elements)
 				: base(elements) {}
 

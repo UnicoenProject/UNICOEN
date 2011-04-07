@@ -4,9 +4,9 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedProgram : UnifiedElementCollection<IUnifiedExpression, UnifiedProgram> {
-		public UnifiedProgram() {}
+		private UnifiedProgram() {}
 
-		public UnifiedProgram(IEnumerable<IUnifiedExpression> elements)
+		private UnifiedProgram(IEnumerable<IUnifiedExpression> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -29,6 +29,18 @@ namespace Ucpf.Core.Model {
 				yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 						(this[i], v => this[i] = (IUnifiedExpression)v);
 			}
+		}
+
+		public static UnifiedProgram Create() {
+			return new UnifiedProgram();
+		}
+
+		public static UnifiedProgram Create(params IUnifiedExpression[] elements) {
+			return new UnifiedProgram(elements);
+		}
+
+		public static UnifiedProgram Create(IEnumerable<IUnifiedExpression> elements) {
+			return new UnifiedProgram(elements);
 		}
 	}
 }

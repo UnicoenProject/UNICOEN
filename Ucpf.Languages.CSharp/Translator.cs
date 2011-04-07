@@ -13,7 +13,7 @@ namespace Ucpf.Languages.CSharp {
 		#region declare namespace, class, fileds, and so on.
 
 		public object VisitCompilationUnit(CompilationUnit compilationUnit, object data) {
-			var program = new UnifiedProgram();
+			var program = UnifiedProgram.Create();
 			foreach (var child in compilationUnit.Children) {
 				var expr = child.AcceptVisitor(this, data) as IUnifiedExpression;
 				if (expr != null)

@@ -4,9 +4,9 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	public class UnifiedArgumentCollection
 			: UnifiedElementCollection<UnifiedArgument, UnifiedArgumentCollection> {
-		public UnifiedArgumentCollection() {}
+		private UnifiedArgumentCollection() { }
 
-		public UnifiedArgumentCollection(IEnumerable<UnifiedArgument> elements)
+		private UnifiedArgumentCollection(IEnumerable<UnifiedArgument> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

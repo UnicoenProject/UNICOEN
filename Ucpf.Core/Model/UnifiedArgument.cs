@@ -13,6 +13,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedArgument() { }
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

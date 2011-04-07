@@ -17,7 +17,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		private static readonly string Code =
 			File.ReadAllText(Fixture.GetInputPath("CSharp", "Fibonacci.cs"));
 
-		public static readonly UnifiedProgram Model = new UnifiedProgram {
+		public static readonly UnifiedProgram Model = UnifiedProgram.Create(
 				UnifiedClassDefinition.Create(
 						"Fibonacci",
 						UnifiedBlock.Create(new IUnifiedExpression[] {
@@ -46,11 +46,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 																				UnifiedCall.Create(UnifiedVariable.Create("fibonacci"),
 																						UnifiedArgumentCollection.Create(
 																								UnifiedArgument.Create(UnifiedBinaryExpression.Create(
-																												UnifiedVariable.Create("n"),
-																												UnifiedBinaryOperator.Create("-",
-																														UnifiedBinaryOperatorType.Subtract),
-																												UnifiedIntegerLiteral.Create(1)
-																												)))
+																										UnifiedVariable.Create("n"),
+																										UnifiedBinaryOperator.Create("-",
+																												UnifiedBinaryOperatorType.Subtract),
+																										UnifiedIntegerLiteral.Create(1)
+																										)))
 																						),
 																				UnifiedBinaryOperator.Create("+",
 																						UnifiedBinaryOperatorType.Add),
@@ -73,7 +73,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 						}
 								)
 						)
-		};
+				);
 
 		#endregion
 
@@ -88,7 +88,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		[Test]
 		public void CreateClassDeclare() {
 			const string code = "class Fibonacci{}";
-			var expected = new UnifiedProgram(
+			var expected = UnifiedProgram.Create(
 				new[]{ UnifiedClassDefinition.Create("Fibonacci")});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
@@ -104,7 +104,7 @@ class Fibonacci {
 	}
 }
 ";
-			var expected = new UnifiedProgram(new[]{ UnifiedClassDefinition.Create(
+			var expected = UnifiedProgram.Create(new[]{ UnifiedClassDefinition.Create(
 				"Fibonacci",
 				UnifiedBlock.Create(new IUnifiedExpression[] {
 					UnifiedFunctionDefinition.Create(

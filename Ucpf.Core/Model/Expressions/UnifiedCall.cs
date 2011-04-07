@@ -23,7 +23,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		private UnifiedCall() {
-			Arguments = new UnifiedArgumentCollection();
+			Arguments = UnifiedArgumentCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

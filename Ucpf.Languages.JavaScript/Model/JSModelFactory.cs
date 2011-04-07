@@ -516,7 +516,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 
 			var elements = node.Element("sourceElements")
 					.Elements("sourceElement");
-			return new UnifiedProgram(elements.Select(CreateSourceElement));
+			return UnifiedProgram.Create(elements.Select(CreateSourceElement));
 		}
 
 		public static IUnifiedExpression CreateSourceElement(XElement node) {

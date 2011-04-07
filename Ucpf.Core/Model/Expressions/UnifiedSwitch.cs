@@ -22,8 +22,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedSwitch() {
-			Cases = new UnifiedCaseCollection();
+		private UnifiedSwitch() {
+			Cases = UnifiedCaseCollection.Create();
 		}
 
 		public UnifiedSwitch AddToCases(UnifiedCase kase) {
@@ -59,6 +59,19 @@ namespace Ucpf.Core.Model {
 					(_value, v => _value = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_cases, v => _cases = (UnifiedCaseCollection)v);
+		}
+
+		public static UnifiedSwitch Create(IUnifiedExpression value) {
+			return new UnifiedSwitch {
+					Value = value,
+			};
+		}
+
+		public static UnifiedSwitch Create(IUnifiedExpression value, UnifiedCaseCollection cases) {
+			return new UnifiedSwitch {
+				Value = value,
+				Cases = cases,
+			};
 		}
 	}
 }

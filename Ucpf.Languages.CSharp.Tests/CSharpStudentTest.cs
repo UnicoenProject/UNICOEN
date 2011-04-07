@@ -30,7 +30,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		}
 
 		public static UnifiedProgram CreateModel() {
-			return new UnifiedProgram {
+			return UnifiedProgram.Create(
 					UnifiedClassDefinition.Create(
 							"Student",
 							UnifiedBlock.Create(new IUnifiedExpression[] {
@@ -162,7 +162,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 							}
 									)
 							)
-			};
+					);
 		}
 	}
 }

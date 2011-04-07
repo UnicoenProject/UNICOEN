@@ -15,6 +15,8 @@ namespace Ucpf.Core.Model {
 
 		public string Name { get; set; }
 
+		private UnifiedProperty() { }
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

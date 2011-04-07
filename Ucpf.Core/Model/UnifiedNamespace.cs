@@ -23,6 +23,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedNamespace() { }
+
 		public UnifiedNamespace AddToBody(IUnifiedExpression expression) {
 			Body.Add(expression);
 			return this;
@@ -51,6 +53,19 @@ namespace Ucpf.Core.Model {
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedNamespace Create(string name) {
+			return new UnifiedNamespace {
+				Name = name,
+			};
+		}
+
+		public static UnifiedNamespace Create(string name, UnifiedBlock body) {
+			return new UnifiedNamespace {
+					Name = name,
+					Body = body,
+			};
 		}
 	}
 }
