@@ -131,7 +131,7 @@ namespace Ucpf.Core.Tests {
 		public static UnifiedProgram SwitchCaseWithDefaultModel {
 			get {
 				return
-					CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
+					CreateClassAndMethod(UnifiedBlock.Create(
 						1.ToLiteral()
 							.ToSwitch()
 							.AddToCases(1.ToLiteral()
@@ -141,7 +141,20 @@ namespace Ucpf.Core.Tests {
 							.AddToCases(UnifiedCase.Create(UnifiedBlock.Create(
 								 UnifiedJump.CreateBreak()))
 							)
-					}));
+					));
+			}
+		}
+
+		public static UnifiedProgram SynchronizedModel {
+			get {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedSpecialBlock.Create(
+								UnifiedSpecialBlockType.Synchrnoized, 
+								UnifiedVariable.Create("this"),
+								UnifiedBlock.Create(
+										UnifiedCall.Create(
+												UnifiedVariable.Create("m1"),
+												UnifiedArgumentCollection.Create())))));
 			}
 		}
 

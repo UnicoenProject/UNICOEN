@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Expressions\Blocks\UnifiedClassType.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />

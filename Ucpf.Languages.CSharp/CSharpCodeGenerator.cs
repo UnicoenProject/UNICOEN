@@ -125,6 +125,10 @@ namespace Ucpf.Languages.CSharp {
 			}
 		}
 
+		public void Visit(UnifiedSpecialBlock element) {
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedJumpType type) {
 			switch (type) {
 			case UnifiedJumpType.Break:

@@ -38,6 +38,7 @@
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
 		void Visit(UnifiedJump element);
+		void Visit(UnifiedSpecialBlock element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult> {
@@ -79,5 +80,6 @@
 		TResult Visit(UnifiedCaseCollection element, TData data);
 		TResult Visit(UnifiedCase element, TData data);
 		TResult Visit(UnifiedJump element, TData data);
+		TResult Visit(UnifiedSpecialBlock element, TData data);
 	}
 }
