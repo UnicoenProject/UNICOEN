@@ -4,6 +4,9 @@ using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 型を表します。
+	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
 		public string Name { get; set; }
 		private UnifiedTypeParameterCollection _parameters;

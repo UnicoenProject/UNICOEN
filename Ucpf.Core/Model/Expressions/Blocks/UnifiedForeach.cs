@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// foreach文あるいは拡張for文を表します。
+	/// </summary>
 	public class UnifiedForeach : UnifiedExpressionWithBlock<UnifiedForeach> {
 		private UnifiedVariableDefinition _element;
 

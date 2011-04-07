@@ -2,8 +2,13 @@
 using System.Diagnostics.Contracts;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// ブロックを持つ式を表します。
+	/// </summary>
+	/// <typeparam name="TSelf"></typeparam>
 	public abstract class UnifiedExpressionWithBlock<TSelf> : UnifiedElement, IUnifiedExpression
-			where TSelf : UnifiedExpressionWithBlock<TSelf> {
+			where TSelf : UnifiedExpressionWithBlock<TSelf>
+	{
 		protected UnifiedBlock _body;
 
 		public UnifiedBlock Body {

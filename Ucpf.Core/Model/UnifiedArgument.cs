@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 実引数を表します。
+	/// </summary>
 	public class UnifiedArgument : UnifiedElement {
 		private IUnifiedExpression _value;
 

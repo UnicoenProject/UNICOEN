@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 新しい配列の生成部分を表します。
+	/// </summary>
 	public class UnifiedArrayNew : UnifiedElement, IUnifiedExpression {
 		private UnifiedType _type;
 

@@ -5,6 +5,9 @@ using System.Diagnostics.Contracts;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// "{}"で囲まれた式の列を表します。
+	/// </summary>
 	public class UnifiedBlock : UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>, IUnifiedExpression {
 		private UnifiedBlock() {}
 

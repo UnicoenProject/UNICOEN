@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// プロパティを表します。
+	/// </summary>
 	public class UnifiedProperty : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _owner;
 

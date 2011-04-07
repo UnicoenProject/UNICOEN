@@ -2,6 +2,9 @@
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 修飾子の集合を表します。
+	/// </summary>
 	public class UnifiedModifierCollection
 			: UnifiedElementCollection<UnifiedModifier, UnifiedModifierCollection> {
 		private UnifiedModifierCollection() {}

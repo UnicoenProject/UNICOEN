@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// クラスの定義部分を表します。
+	/// </summary>
 	public class UnifiedClassDefinition
 			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
 		private UnifiedModifierCollection _modifiers;

@@ -2,6 +2,9 @@
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 実引数の集合を表します。
+	/// </summary>
 	public class UnifiedArgumentCollection
 			: UnifiedElementCollection<UnifiedArgument, UnifiedArgumentCollection> {
 		private UnifiedArgumentCollection() { }

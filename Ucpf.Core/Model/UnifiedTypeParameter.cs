@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// ジェネリックタイプにおける仮引数を表します。
+	/// </summary>
 	public class UnifiedTypeParameter : UnifiedElement {
 		private UnifiedModifierCollection _modifiers;
 

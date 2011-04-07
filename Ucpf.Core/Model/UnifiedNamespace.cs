@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 名前空間あるいはパッケージを表します。
+	/// </summary>
 	public class UnifiedNamespace : UnifiedElement {
 		public string Name { get; set; }
 

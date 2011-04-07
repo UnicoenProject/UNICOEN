@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 配列の添え字を表します。
+	/// </summary>
 	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _target;
 

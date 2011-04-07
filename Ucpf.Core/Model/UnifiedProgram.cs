@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// ブログラム全体を表します。
+	/// </summary>
 	public class UnifiedProgram : UnifiedElementCollection<IUnifiedExpression, UnifiedProgram> {
 		private UnifiedProgram() {}
 

@@ -2,6 +2,9 @@
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// case式の集合を表します。
+	/// </summary>
 	public class UnifiedCaseCollection : UnifiedElementCollection<UnifiedCase, UnifiedCaseCollection> {
 		private UnifiedCaseCollection() {}
 

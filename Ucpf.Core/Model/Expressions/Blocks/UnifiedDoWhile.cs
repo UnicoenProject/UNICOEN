@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// do-while文を表します。
+	/// </summary>
 	public class UnifiedDoWhile : UnifiedExpressionWithBlock<UnifiedDoWhile> {
 		private IUnifiedExpression _condition;
 

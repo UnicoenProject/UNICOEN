@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 変数宣言部分を表します。
+	/// </summary>
 	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
 		private UnifiedModifierCollection _modifiers;
 

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// Decimal型であるリテラルを表します。
+	/// </summary>
 	public class UnifiedDecimalLiteral : UnifiedTypedLiteral<decimal> {
 		private UnifiedDecimalLiteral() { }
 

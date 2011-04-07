@@ -4,6 +4,9 @@ using System.Numerics;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 整数型であるリテラルを返します。
+	/// </summary>
 	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
 		private UnifiedIntegerLiteral() { }
 

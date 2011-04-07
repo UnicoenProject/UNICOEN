@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 文字列であるリテラルを表します。
+	/// </summary>
 	public class UnifiedStringLiteral : UnifiedTypedLiteral<string> {
 		private UnifiedStringLiteral() {}
 

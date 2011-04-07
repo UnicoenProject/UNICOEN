@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// コンストラクタの定義部分を表します。
+	/// </summary>
 	public class UnifiedConstructorDefinition
 			: UnifiedExpressionWithBlock<UnifiedConstructorDefinition> {
 		private UnifiedModifierCollection _modifiers;
