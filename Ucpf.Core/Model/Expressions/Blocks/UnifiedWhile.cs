@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// while文を表します。
+	/// </summary>
 	public class UnifiedWhile
 			: UnifiedExpressionWithBlock<UnifiedWhile> {
 		private IUnifiedExpression _condition;
@@ -13,6 +16,8 @@ namespace Ucpf.Core.Model {
 				_condition = SetParentOfChild(value, _condition);
 			}
 		}
+
+		private UnifiedWhile() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -42,6 +47,19 @@ namespace Ucpf.Core.Model {
 					(_condition, v => _condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedWhile Create(UnifiedBlock body, IUnifiedExpression condition) {
+			return new UnifiedWhile {
+					Body = body,
+					Condition = condition,
+			};
+		}
+
+		public static UnifiedWhile Create(IUnifiedExpression condition) {
+			return new UnifiedWhile {
+					Condition = condition,
+			};
 		}
 			}
 }

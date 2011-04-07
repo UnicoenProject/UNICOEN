@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 単項演算子を表します。
+	/// </summary>
 	public class UnifiedUnaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
 		public UnifiedUnaryOperatorType Type { get; private set; }
 
-		public UnifiedUnaryOperator(string sign, UnifiedUnaryOperatorType type) {
-			Sign = sign;
-			Type = type;
+		private UnifiedUnaryOperator() { }
+
+		public static UnifiedUnaryOperator Create(string sign, UnifiedUnaryOperatorType type) {
+			return new UnifiedUnaryOperator {
+					Sign = sign,
+					Type = type,
+			};
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

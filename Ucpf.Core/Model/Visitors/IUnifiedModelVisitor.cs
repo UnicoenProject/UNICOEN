@@ -31,7 +31,6 @@
 		void Visit(UnifiedExpressionCollection element);
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
-		void Visit(UnifiedNamespace element);
 		void Visit(UnifiedIndexer element);
 		void Visit(UnifiedTypeParameter element);
 		void Visit(UnifiedTypeParameterCollection element);
@@ -39,6 +38,7 @@
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
 		void Visit(UnifiedJump element);
+		void Visit(UnifiedSpecialBlock element);
 		void Visit(UnifiedCatch element);
 		void Visit(UnifiedTypeCollection element);
 		void Visit(UnifiedCatchCollection element);
@@ -77,7 +77,6 @@
 		TResult Visit(UnifiedExpressionCollection element, TData data);
 		TResult Visit(UnifiedWhile element, TData data);
 		TResult Visit(UnifiedDoWhile element, TData data);
-		TResult Visit(UnifiedNamespace element, TData data);
 		TResult Visit(UnifiedIndexer element, TData data);
 		TResult Visit(UnifiedTypeParameter element, TData data);
 		TResult Visit(UnifiedTypeParameterCollection element, TData data);
@@ -85,6 +84,7 @@
 		TResult Visit(UnifiedCaseCollection element, TData data);
 		TResult Visit(UnifiedCase element, TData data);
 		TResult Visit(UnifiedJump element, TData data);
+		TResult Visit(UnifiedSpecialBlock element, TData data);
 		TResult Visit(UnifiedCatch element, TData data);
 		TResult Visit(UnifiedTypeCollection element, TData data);
 		TResult Visit(UnifiedCatchCollection element, TData data);

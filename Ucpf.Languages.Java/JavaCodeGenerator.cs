@@ -117,7 +117,7 @@ namespace Ucpf.Languages.Java {
 			_writer.Write("if (");
 			ifStatement.Condition.Accept(this);
 			_writer.WriteLine(")");
-			ifStatement.TrueBody.Accept(this);
+			ifStatement.Body.Accept(this);
 			if (ifStatement.FalseBody != null)
 			{
 				WriteIndent();
@@ -134,6 +134,10 @@ namespace Ucpf.Languages.Java {
 			}
 			// TODO: セミコロンは子要素が付けるかどうか決めてはいけない
 			_writer.Write(";");
+		}
+
+		public void Visit(UnifiedSpecialBlock element) {
+			throw new NotImplementedException();
 		}
 
 		public void Visit(UnifiedCatch element) {
@@ -289,10 +293,6 @@ namespace Ucpf.Languages.Java {
 		}
 
 		public void Visit(UnifiedDoWhile element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedNamespace element) {
 			throw new NotImplementedException();
 		}
 

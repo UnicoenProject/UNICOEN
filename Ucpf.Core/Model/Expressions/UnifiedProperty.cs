@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// プロパティを表します。
+	/// </summary>
 	public class UnifiedProperty : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _owner;
 
@@ -14,6 +17,10 @@ namespace Ucpf.Core.Model {
 		}
 
 		public string Name { get; set; }
+
+		public string Delimiter { get; set; }
+
+		private UnifiedProperty() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -38,6 +45,14 @@ namespace Ucpf.Core.Model {
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_owner, v => _owner = (IUnifiedExpression)v);
+		}
+
+		public static UnifiedProperty Create(IUnifiedExpression owner, string name, string delimite) {
+			return new UnifiedProperty {
+				Owner = owner,
+				Name = name,
+				Delimiter = delimite,
+			};
 		}
 	}
 }

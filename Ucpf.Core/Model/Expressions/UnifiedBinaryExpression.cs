@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 二項式を表します。
+	/// </summary>
 	public class UnifiedBinaryExpression : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _leftHandSide;
 
@@ -30,6 +33,8 @@ namespace Ucpf.Core.Model {
 				_rightHandSide = SetParentOfChild(value, _rightHandSide);
 			}
 		}
+
+		private UnifiedBinaryExpression() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -64,6 +69,14 @@ namespace Ucpf.Core.Model {
 					(_operator, v => _operator = (UnifiedBinaryOperator)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_rightHandSide, v => _rightHandSide = (IUnifiedExpression)v);
+		}
+
+		public static UnifiedBinaryExpression Create(IUnifiedExpression leftHandSide, UnifiedBinaryOperator binaryOperator, IUnifiedExpression rightHandSide) {
+			return new UnifiedBinaryExpression {
+					LeftHandSide = leftHandSide,
+					Operator = binaryOperator,
+					RightHandSide = rightHandSide,
+			};
 		}
 	}
 }

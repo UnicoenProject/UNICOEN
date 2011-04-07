@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 関数あるいはメソッドの定義部分を表します。
+	/// </summary>
 	public class UnifiedFunctionDefinition
 			: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
 		private UnifiedModifierCollection _modifiers;
@@ -24,6 +27,7 @@ namespace Ucpf.Core.Model {
 		}
 
 		public string Name { get; set; }
+
 		private UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
@@ -33,10 +37,10 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedFunctionDefinition() {
-			Modifiers = new UnifiedModifierCollection();
-			Parameters = new UnifiedParameterCollection();
-			Body = new UnifiedBlock();
+		private UnifiedFunctionDefinition() {
+			Modifiers = UnifiedModifierCollection.Create();
+			Parameters = UnifiedParameterCollection.Create();
+			Body = UnifiedBlock.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -77,6 +81,63 @@ namespace Ucpf.Core.Model {
 					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedFunctionDefinition Create(string name) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+				Type = type,
+				Modifiers = modifiers,
+				Parameters = parameters,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+				Type = type,
+				Modifiers = modifiers,
+				Parameters = parameters,
+				Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedParameterCollection parameters, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Parameters = parameters,
+					Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedParameterCollection parameters) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+				Parameters = parameters,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Type = type,
+					Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedModifierCollection modifiers, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Type = type,
+					Modifiers = modifiers,
+					Body = body,
+			};
 		}
 			}
 }

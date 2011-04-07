@@ -6,27 +6,15 @@ namespace Ucpf.Core.Tests {
 	public class StructuralEqualityComparerTestForUnified {
 		[Test]
 		public void compares_equal_expressions() {
-			var o1 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
-			var o2 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var o1 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
+			var o2 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
 		}
 
 		[Test]
 		public void compares_same_expressions() {
-			var o2 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var o2 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
 			var o1 = o2;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -34,42 +22,22 @@ namespace Ucpf.Core.Tests {
 
 		[Test]
 		public void compares_different_expressions_containing_null() {
-			var o1 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = null,
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
-			var o2 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator(null, UnifiedBinaryOperatorType.Add),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var o1 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), null, UnifiedIntegerLiteral.Create(1));
+			var o2 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create(null, UnifiedBinaryOperatorType.Add), UnifiedIntegerLiteral.Create(1));
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);
 		}
 		[Test]
 		public void compares_equal_expressions_containing_null() {
-			var o1 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = null,
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
-			var o2 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = null,
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var o1 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), null, UnifiedIntegerLiteral.Create(1));
+			var o2 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), null, UnifiedIntegerLiteral.Create(1));
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
 		}
 
 		[Test]
 		public void compares_same_expressions_containing_null() {
-			var o2 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = null,
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var o2 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), null, UnifiedIntegerLiteral.Create(1));
 			var o1 = o2;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -77,59 +45,35 @@ namespace Ucpf.Core.Tests {
 
 		[Test]
 		public void compares_different_expressions() {
-			var o1 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Add),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
-			var o2 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var o1 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Add), UnifiedIntegerLiteral.Create(1));
+			var o2 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);
 		}
 
 		[Test]
 		public void compares_equal_Call() {
-			var o1 = new UnifiedCall {
-				Function = UnifiedVariable.Create("f"),
-				Arguments = {
-					new UnifiedArgument { Value = UnifiedVariable.Create("a") },
-					new UnifiedArgument {
-						Value = new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Add),
-							RightHandSide = UnifiedIntegerLiteral.Create(1),
-						}
-					},
-				},
-			};
-			var o2 = new UnifiedCall {
-				Function = UnifiedVariable.Create("f"),
-				Arguments = {
-					new UnifiedArgument { Value = UnifiedVariable.Create("a") },
-					new UnifiedArgument {
-						Value = new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Add),
-							RightHandSide = UnifiedIntegerLiteral.Create(1),
-						}
-					},
-				},
-			};
+			var o1 = UnifiedCall.Create(UnifiedVariable.Create("f"),
+					UnifiedArgumentCollection.Create(
+							UnifiedArgument.Create(UnifiedVariable.Create("a")),
+							UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Add),
+													UnifiedIntegerLiteral.Create(1))))
+					);
+			var o2 = UnifiedCall.Create(UnifiedVariable.Create("f"),
+					UnifiedArgumentCollection.Create(
+							UnifiedArgument.Create(UnifiedVariable.Create("a")),
+							UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Add),
+													UnifiedIntegerLiteral.Create(1))))
+					);
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
 		}
 
 		[Test]
 		public void compares_same_calls() {
-			var o2 = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var o2 = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
 			var o1 = o2;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -137,68 +81,44 @@ namespace Ucpf.Core.Tests {
 
 		[Test]
 		public void compares_different_calls() {
-			var o1 = new UnifiedCall {
-				Function = UnifiedVariable.Create("f"),
-				Arguments = {
-					new UnifiedArgument { Value = UnifiedVariable.Create("a") },
-					new UnifiedArgument {
-						Value = new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Add),
-							RightHandSide = UnifiedIntegerLiteral.Create(1),
-						}
-					},
-				},
-			};
-			var o2 = new UnifiedCall {
-				Function = UnifiedVariable.Create("f"),
-				Arguments = {
-					new UnifiedArgument { Value = UnifiedVariable.Create("a") },
-					new UnifiedArgument {
-						Value = new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n2"),
-							Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Add),
-							RightHandSide = UnifiedIntegerLiteral.Create(1),
-						}
-					},
-				},
-			};
+			var o1 = UnifiedCall.Create(UnifiedVariable.Create("f"),
+					UnifiedArgumentCollection.Create(
+							UnifiedArgument.Create(UnifiedVariable.Create("a")),
+							UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Add),
+													UnifiedIntegerLiteral.Create(1)
+													)))
+					);
+			var o2 = UnifiedCall.Create(UnifiedVariable.Create("f"),
+					UnifiedArgumentCollection.Create(
+							UnifiedArgument.Create(UnifiedVariable.Create("a")),
+							UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n2"),
+													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Add),
+													UnifiedIntegerLiteral.Create(1)))));
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);
 		}
 
 		[Test]
 		public void compares_equal_blocks() {
-			var o1 = new UnifiedBlock {
-				new UnifiedBinaryExpression {
-					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
-					RightHandSide = UnifiedIntegerLiteral.Create(1),
-				},
+			var o1 = UnifiedBlock.Create(new IUnifiedExpression[] {
+				UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign), UnifiedIntegerLiteral.Create(1)),
 				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
-			};
-			var o2 = new UnifiedBlock {
-				new UnifiedBinaryExpression {
-					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
-					RightHandSide = UnifiedIntegerLiteral.Create(1),
-				},
+			});
+			var o2 = UnifiedBlock.Create(new IUnifiedExpression[] {
+				UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign), UnifiedIntegerLiteral.Create(1)),
 				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
-			};
+			});
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
 		}
 
 		[Test]
 		public void compares_same_blocks() {
-			var o1 = new UnifiedBlock {
-				new UnifiedBinaryExpression {
-					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
-					RightHandSide = UnifiedIntegerLiteral.Create(1),
-				},
+			var o1 = UnifiedBlock.Create(new IUnifiedExpression[] {
+				UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign), UnifiedIntegerLiteral.Create(1)),
 				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
-			};
+			});
 			var o2 = o1;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -206,22 +126,14 @@ namespace Ucpf.Core.Tests {
 
 		[Test]
 		public void compares_different_blocks() {
-			var o1 = new UnifiedBlock {
-				new UnifiedBinaryExpression {
-					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
-					RightHandSide = UnifiedIntegerLiteral.Create(1),
-				},
+			var o1 = UnifiedBlock.Create(new IUnifiedExpression[] {
+				UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign), UnifiedIntegerLiteral.Create(1)),
 				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
-			};
-			var o2 = new UnifiedBlock {
-				new UnifiedBinaryExpression {
-					LeftHandSide = UnifiedVariable.Create("n"),
-					Operator = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign),
-					RightHandSide = UnifiedIntegerLiteral.Create(2),
-				},
+			});
+			var o2 = UnifiedBlock.Create(new IUnifiedExpression[] {
+				UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign), UnifiedIntegerLiteral.Create(2)),
 				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
-			};
+			});
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);
 		}

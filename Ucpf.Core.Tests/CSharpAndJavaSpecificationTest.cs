@@ -5,147 +5,166 @@ using Ucpf.Languages.CSharp;
 namespace Ucpf.Core.Tests {
 	public static class CSharpAndJavaSpecificationTest {
 		public static UnifiedProgram CreateClassAndMethod(UnifiedBlock block) {
-			return new UnifiedProgram {
+			return UnifiedProgram.Create(
 				"A".ToClassDefinition()
 					.AddToBody(
-						new UnifiedFunctionDefinition {
-							Type = "void".ToType(),
-							Name = "M1",
-							Body = block,
-						}
-					),
-			};
+						UnifiedFunctionDefinition.Create(
+							"M1",
+							"void".ToType(),
+							block
+						)
+					)
+			);
 		}
 
 		public static UnifiedProgram WhileModel {
 			get {
-				return CreateClassAndMethod(new UnifiedBlock {
-					true.ToLiteral()
-						.ToWhile()
-						.AddToBody(
-							UnifiedJump.CreateReturn())
-				});
+				return CreateClassAndMethod(
+					UnifiedBlock.Create(new IUnifiedExpression[] {
+						true.ToLiteral()
+							.ToWhile()
+							.AddToBody(
+								UnifiedJump.CreateReturn())
+				}));
 			}
 		}
 
 		public static UnifiedProgram DoWhileModel {
 			get {
-				return CreateClassAndMethod(new UnifiedBlock {
+				return CreateClassAndMethod(
+					UnifiedBlock.Create(new IUnifiedExpression[] {
 					true.ToLiteral()
 						.ToDoWhile()
 						.AddToBody(UnifiedJump.CreateReturn())
-				});
+				}));
 			}
 		}
 
 		public static UnifiedProgram ForModel {
 			get {
-				return CreateClassAndMethod(new UnifiedBlock {
-					new UnifiedFor {
-						Initializer = new UnifiedVariableDefinition {
-							Type = "int".ToType(),
-							Name = "i",
-							InitialValue = 0.ToLiteral(),
-						},
-						Condition = CSharpModelFactoryHelper.CreateExpression(
+				return CreateClassAndMethod(UnifiedBlock.Create(
+					UnifiedFor.Create(
+						UnifiedVariableDefinition.Create("int".ToType(), "i", 0.ToLiteral()),
+						CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(),
 							UnifiedBinaryOperatorType.LessThan,
 							1.ToLiteral()),
-						Step = CSharpModelFactoryHelper.CreateExpression(
+						CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(), UnifiedUnaryOperatorType.PostIncrementAssign),
-						Body = {
-							UnifiedJump.CreateBreak(),
-						},
-					}
-				});
+						UnifiedBlock.Create(
+							UnifiedJump.CreateBreak()
+						)
+					)
+				));
 			}
 		}
 
 		public static UnifiedProgram ForeachModel {
 			get {
-				return CreateClassAndMethod(new UnifiedBlock {
-					new UnifiedArrayNew {
-						InitialValues = 1.ToLiteral(),
-					}.ToForeach("int".ToType(), "i")
+				return CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
+					UnifiedArrayNew.Create(1.ToLiteral()).ToForeach("int".ToType(), "i")
 						.AddToBody(UnifiedJump.CreateContinue())
-				});
+				}));
 			}
 		}
 
 		public static UnifiedProgram IfModel {
 			get {
-				return CreateClassAndMethod(new UnifiedBlock {
+				return CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
 					true.ToLiteral()
 						.ToIf()
-						.AddToTrueBody((-1).ToLiteral().ToReturn())
+						.AddToBody((-1).ToLiteral().ToReturn())
 						.RemoveFalseBody()
-				});
+				}));
 			}
 		}
 
 		public static UnifiedProgram IfElseModel {
 			get {
 				return
-					CreateClassAndMethod(new UnifiedBlock {
+					CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
 						false.ToLiteral()
 							.ToIf()
-							.AddToTrueBody((-1).ToLiteral().ToReturn())
+							.AddToBody((-1).ToLiteral().ToReturn())
 							.AddToFalseBody((0.1).ToLiteral().ToReturn())
-					});
+					}));
 			}
 		}
 
 		public static UnifiedProgram NewGenericTypeModel {
 			get {
 				return
-					CreateClassAndMethod(new UnifiedBlock {
+					CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
 						"List".ToType()
 							.AddToParameters("List".ToType()
 								.AddToParameters("int".ToType()))
 							.ToNew()
-					});
+					}));
 			}
 		}
 
 		public static UnifiedProgram PlusIntegerLiteralModel {
 			get {
-				return CreateClassAndMethod(new UnifiedBlock {
+				return CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
 					"a".ToVariableDefinition(
 						"int".ToType(),
 						(+1).ToLiteral()
 						),
-				});
+				}));
 			}
 		}
 
 		public static UnifiedProgram SwitchCaseModel {
 			get {
 				return CreateClassAndMethod(
-					new UnifiedBlock {
+					UnifiedBlock.Create(new IUnifiedExpression[] {
 						1.ToLiteral()
 							.ToSwitch()
 							.AddToCases(1.ToLiteral()
 								.ToCase()
 								.AddToBody(UnifiedJump.CreateBreak())
 							)
-					});
+					}));
 			}
 		}
 
 		public static UnifiedProgram SwitchCaseWithDefaultModel {
 			get {
 				return
-					CreateClassAndMethod(new UnifiedBlock {
+					CreateClassAndMethod(UnifiedBlock.Create(
 						1.ToLiteral()
 							.ToSwitch()
 							.AddToCases(1.ToLiteral()
 								.ToCase()
 								.AddToBody(UnifiedJump.CreateBreak())
 							)
-							.AddToCases(new UnifiedCase {
-								Body = { UnifiedJump.CreateBreak() },
-							})
-					});
+							.AddToCases(UnifiedCase.Create(UnifiedBlock.Create(
+								 UnifiedJump.CreateBreak()))
+							)
+					));
+			}
+		}
+
+		public static UnifiedProgram SynchronizedModel {
+			get {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedSpecialBlock.Create(
+								UnifiedSpecialBlockType.Synchrnoized, 
+								UnifiedVariable.Create("this"),
+								UnifiedBlock.Create(
+										UnifiedCall.Create(
+												UnifiedVariable.Create("M1"),
+												UnifiedArgumentCollection.Create())))));
+			}
+		}
+
+		public static UnifiedProgram ThrowModel {
+			get {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedJump.CreateThrow(
+								UnifiedNew.Create(
+										UnifiedType.Create("Exception"),
+										UnifiedArgumentCollection.Create()))));
 			}
 		}
 

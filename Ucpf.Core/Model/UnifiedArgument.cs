@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 実引数を表します。
+	/// </summary>
 	public class UnifiedArgument : UnifiedElement {
 		private IUnifiedExpression _value;
 
@@ -12,6 +15,8 @@ namespace Ucpf.Core.Model {
 				_value = SetParentOfChild(value, _value);
 			}
 		}
+
+		private UnifiedArgument() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -38,8 +43,10 @@ namespace Ucpf.Core.Model {
 					(_value, v => _value = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedArgument Create(IUnifiedExpression exprssion) {
-			return new UnifiedArgument { Value = exprssion };
+		public static UnifiedArgument Create(IUnifiedExpression value) {
+			return new UnifiedArgument {
+					Value = value,
+			};
 		}
 	}
 }

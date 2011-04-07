@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 配列の添え字を表します。
+	/// </summary>
 	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _target;
 
@@ -22,8 +25,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedIndexer() {
-			Arguments = new UnifiedArgumentCollection();
+		private UnifiedIndexer() {
+			Arguments = UnifiedArgumentCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -54,6 +57,13 @@ namespace Ucpf.Core.Model {
 					(_target, v => _target = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+		}
+
+		public static UnifiedIndexer Create(IUnifiedExpression current, UnifiedArgumentCollection create) {
+			return new UnifiedIndexer {
+					Target = current,
+					Arguments = create
+			};
 		}
 	}
 }

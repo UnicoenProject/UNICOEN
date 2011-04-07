@@ -2,11 +2,14 @@
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 式の集合を表します。
+	/// </summary>
 	public class UnifiedExpressionCollection
-			: UnifiedElementCollection<IUnifiedExpression>, IUnifiedExpression {
-		public UnifiedExpressionCollection() {}
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection>, IUnifiedExpression {
+		private UnifiedExpressionCollection() {}
 
-		public UnifiedExpressionCollection(IEnumerable<IUnifiedExpression> expressions)
+		private UnifiedExpressionCollection(IEnumerable<IUnifiedExpression> expressions)
 				: base(expressions) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -24,6 +27,18 @@ namespace Ucpf.Core.Model {
 				return Elements[0];
 			}
 			return this;
+		}
+
+		public static UnifiedExpressionCollection Create() {
+			return new UnifiedExpressionCollection();
+		}
+
+		public static UnifiedExpressionCollection Create(params IUnifiedExpression[] elements) {
+			return new UnifiedExpressionCollection(elements);
+		}
+
+		public static UnifiedExpressionCollection Create(IEnumerable<IUnifiedExpression> elements) {
+			return new UnifiedExpressionCollection(elements);
 		}
 	}
 }

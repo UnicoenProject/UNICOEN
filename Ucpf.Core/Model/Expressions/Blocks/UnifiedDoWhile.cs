@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// do-while文を表します。
+	/// </summary>
 	public class UnifiedDoWhile : UnifiedExpressionWithBlock<UnifiedDoWhile> {
 		private IUnifiedExpression _condition;
 
@@ -12,6 +15,8 @@ namespace Ucpf.Core.Model {
 				_condition = SetParentOfChild(value, _condition);
 			}
 		}
+
+		private UnifiedDoWhile() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -41,6 +46,29 @@ namespace Ucpf.Core.Model {
 					(_condition, v => _condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedDoWhile Create() {
+			return new UnifiedDoWhile();
+		}
+
+		public static UnifiedDoWhile Create(UnifiedBlock body) {
+			return new UnifiedDoWhile {
+				Body = body,
+			};
+		}
+
+		public static UnifiedDoWhile Create(UnifiedBlock body, IUnifiedExpression condition) {
+			return new UnifiedDoWhile {
+				Body = body,
+				Condition = condition,
+			};
+		}
+
+		public static UnifiedDoWhile Create(IUnifiedExpression condition) {
+			return new UnifiedDoWhile {
+					Condition = condition,
+			};
 		}
 	}
 }

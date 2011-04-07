@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedNew : UnifiedElement, IUnifiedExpression {
+	/// <summary>
+	/// 新しいインスタンスの生成部分を表します。
+	/// </summary>
+	public class UnifiedNew : UnifiedExpressionWithBlock<UnifiedNew> {
 		private UnifiedType _type;
 
 		public UnifiedType Type {
@@ -22,9 +25,7 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedNew() {
-			Arguments = new UnifiedArgumentCollection();
-		}
+		private UnifiedNew() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -38,6 +39,7 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Type;
 			yield return Arguments;
+			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -46,6 +48,8 @@ namespace Ucpf.Core.Model {
 					(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Body, v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -54,6 +58,32 @@ namespace Ucpf.Core.Model {
 					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedNew Create(UnifiedType type) {
+			return new UnifiedNew {
+					Type = type,
+					Arguments = UnifiedArgumentCollection.Create(),
+					Body = null,
+			};
+		}
+
+		public static UnifiedNew Create(UnifiedType type, UnifiedArgumentCollection arguments) {
+			return new UnifiedNew {
+				Type = type,
+				Arguments = arguments,
+				Body = null,
+			};
+		}
+
+		public static UnifiedNew Create(UnifiedType type, UnifiedArgumentCollection arguments, UnifiedBlock body) {
+			return new UnifiedNew {
+				Type = type,
+				Arguments = arguments,
+				Body = body,
+			};
 		}
 	}
 }

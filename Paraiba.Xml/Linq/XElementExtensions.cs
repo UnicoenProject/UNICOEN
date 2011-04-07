@@ -6,17 +6,17 @@ using System.Xml.Linq;
 namespace Paraiba.Xml.Linq {
 	public static class XElementExtensions {
 		/// <summary>
-		///   指定したnameのXElementを保持しているか取得します。
+		///   子要素を保持しているか取得します。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
 		[Pure]
 		public static bool HasElement(this XElement element) {
-			return element.FirstElementOrDefault() != null;
+			return element.Elements().Any();
 		}
 
 		/// <summary>
-		///   指定したnameのXElementを保持しているか取得します。
+		///   指定した名前の子要素を保持しているか取得します。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
@@ -27,30 +27,34 @@ namespace Paraiba.Xml.Linq {
 		}
 
 		/// <summary>
-		///   指定したコンテンツ(Value)を持っているかどうか取得します。
+		///   指定した結合コンテンツの子要素を保持しているか取得します。
 		/// </summary>
-		/// <returns>指定したコンテンツ(Value)を持っているかどうか</returns>
+		/// <param name = "element"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		[Pure]
-		public static bool HasValue(this XElement element, string value) {
-			return element.Value == value;
+		public static bool HasElementByValue(this XElement element, string value) {
+			return element.Elements().Any(e => e.Value == value);
 		}
 
 		/// <summary>
-		///   子要素を持っていないかどうか取得します。
+		///   指定したコンテンツの子要素を保持しているか取得します。
 		/// </summary>
-		/// <returns>コンテンツを持っているかどうか</returns>
+		/// <param name = "element"></param>
+		/// <param name="content"></param>
+		/// <returns></returns>
 		[Pure]
-		public static bool HasNoElement(this XElement element) {
-			return !element.Elements().Any();
+		public static bool HasElementByContent(this XElement element, string content) {
+			return element.Elements().Any(e => e.HasContent(content));
 		}
 
 		/// <summary>
-		///   子要素を持っておらず、かつ、指定したコンテンツ(Value)を持っているかどうか取得します。
+		///   子要素を持っておらず、かつ、指定したコンテンツを持っているかどうか取得します。
 		/// </summary>
 		/// <returns>指定したコンテンツ(Value)を持っているかどうか</returns>
 		[Pure]
-		public static bool HasValueAndNoElement(this XElement element, string value) {
-			return element.HasNoElement() && element.Value == value;
+		public static bool HasContent(this XElement element, string value) {
+			return !element.HasElement() && element.Value == value;
 		}
 
 		/// <summary>

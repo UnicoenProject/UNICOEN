@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Linq;
 
 namespace Ucpf.Core.Model {
-	public abstract class UnifiedElementCollection<TElement>
+	public abstract class UnifiedElementCollection<TElement, TSelf>
 			: UnifiedElement, IEnumerable<TElement>
-			where TElement : class, IUnifiedElement {
+			where TElement : class, IUnifiedElement
+			where TSelf : UnifiedElementCollection<TElement, TSelf> {
 		protected List<TElement> Elements;
 
 		protected UnifiedElementCollection() {
+			Debug.Assert(typeof(TSelf).Equals(GetType()));
 			Elements = new List<TElement>();
 		}
 
@@ -49,13 +51,15 @@ namespace Ucpf.Core.Model {
 
 		#endregion
 
-		public void Add(TElement element) {
+		public TSelf Add(TElement element) {
 			Elements.Add(element);
-			if (element != null) ((UnifiedElement)(IUnifiedElement)element).Parent = this;
+			if (element != null)
+				((UnifiedElement)(IUnifiedElement)element).Parent = this;
+			return (TSelf)this;
 		}
 
 		public override IUnifiedElement DeepCopy() {
-			var ret = (UnifiedElementCollection<TElement>)MemberwiseClone();
+			var ret = (UnifiedElementCollection<TElement, TSelf>)MemberwiseClone();
 			ret.Parent = null;
 			ret.Elements = new List<TElement>();
 			foreach (var element in this) {
@@ -68,11 +72,11 @@ namespace Ucpf.Core.Model {
 			return RemoveChild((TElement)target);
 		}
 
-		public UnifiedElement RemoveChild(TElement target) {
+		public TSelf RemoveChild(TElement target) {
 			Contract.Requires(target != null);
 			Elements.Remove(target);
 			((UnifiedElement)(IUnifiedElement)target).Parent = null;
-			return this;
+			return (TSelf)this;
 		}
 
 		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
@@ -107,5 +111,5 @@ namespace Ucpf.Core.Model {
 			}
 			return this;
 		}
-	}
+			}
 }

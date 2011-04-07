@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// クラスの定義部分を表します。
+	/// </summary>
 	public class UnifiedClassDefinition
 			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
+		public UnifiedClassType Type { get; set; }
+
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
@@ -16,8 +21,8 @@ namespace Ucpf.Core.Model {
 
 		public string Name { get; set; }
 
-		public UnifiedClassDefinition() {
-			Modifiers = new UnifiedModifierCollection();
+		private UnifiedClassDefinition() {
+			Modifiers = UnifiedModifierCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -49,5 +54,46 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
-			}
+
+		public static UnifiedClassDefinition Create(string name, UnifiedBlock body, UnifiedModifierCollection modifiers, UnifiedClassType type) {
+			return new UnifiedClassDefinition {
+				Body = body,
+				Name = name,
+				Modifiers = modifiers,
+				Type = type,
+			};
+		}
+
+		public static UnifiedClassDefinition CreateClass(string name) {
+			return new UnifiedClassDefinition {
+					Name = name,
+					Type = UnifiedClassType.Class,
+			};
+		}
+
+		public static UnifiedClassDefinition CreateClass(string name, UnifiedModifierCollection modifiers) {
+			return new UnifiedClassDefinition {
+				Modifiers = modifiers,
+				Name = name,
+				Type = UnifiedClassType.Class,
+			};
+		}
+
+		public static UnifiedClassDefinition CreateClass(string name, UnifiedBlock body) {
+			return new UnifiedClassDefinition {
+				Body = body,
+				Name = name,
+				Type = UnifiedClassType.Class,
+			};
+		}
+
+		public static UnifiedClassDefinition CreateClass(string name, UnifiedBlock body, UnifiedModifierCollection modifiers) {
+			return new UnifiedClassDefinition {
+				Body = body,
+				Name = name,
+				Modifiers = modifiers,
+				Type = UnifiedClassType.Class,
+			};
+		}
+	}
 }

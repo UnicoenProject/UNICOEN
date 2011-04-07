@@ -3,22 +3,16 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
-	public class UnifiedIf : UnifiedElement, IUnifiedExpression {
+	/// <summary>
+	/// if文を表します。
+	/// </summary>
+	public class UnifiedIf : UnifiedExpressionWithBlock<UnifiedIf> {
 		private IUnifiedExpression _condition;
 
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set {
 				_condition = SetParentOfChild(value, _condition);
-			}
-		}
-
-		private UnifiedBlock _trueBody;
-
-		public UnifiedBlock TrueBody {
-			get { return _trueBody; }
-			set {
-				_trueBody = SetParentOfChild(value, _trueBody);
 			}
 		}
 
@@ -31,14 +25,9 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedIf() {
-			TrueBody = new UnifiedBlock();
-			FalseBody = new UnifiedBlock();
-		}
-
-		public UnifiedIf AddToTrueBody(IUnifiedExpression expression) {
-			TrueBody.Add(expression);
-			return this;
+		private UnifiedIf() {
+			Body = UnifiedBlock.Create();
+			FalseBody = UnifiedBlock.Create();
 		}
 
 		public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
@@ -61,9 +50,10 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			// TODO: Fix to proper order
 			yield return Condition;
-			yield return TrueBody;
 			yield return FalseBody;
+			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -71,9 +61,9 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Condition, v => Condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(TrueBody, v => TrueBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(FalseBody, v => FalseBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Body, v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -81,9 +71,37 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_condition, v => _condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_trueBody, v => _trueBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_falseBody, v => _falseBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedIf Create(UnifiedBlock body) {
+			return new UnifiedIf {
+				Body = body,
+			};
+		}
+
+		public static UnifiedIf Create(UnifiedBlock body, IUnifiedExpression condition) {
+			return new UnifiedIf {
+				Body = body,
+				Condition = condition,
+			};
+		}
+
+		public static UnifiedIf Create(IUnifiedExpression condition) {
+			return new UnifiedIf {
+					Condition = condition,
+			};
+		}
+
+		public static UnifiedIf Create(IUnifiedExpression condition, UnifiedBlock body, UnifiedBlock falseBody) {
+			return new UnifiedIf {
+					Body = body,
+					Condition = condition,
+					FalseBody = falseBody,
+			};
+
 		}
 	}
 }

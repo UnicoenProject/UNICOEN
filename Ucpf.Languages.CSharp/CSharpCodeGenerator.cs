@@ -109,7 +109,7 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write("if (");
 			ifStmt.Condition.Accept(this);
 			_writer.WriteLine(")");
-			ifStmt.TrueBody.Accept(this);
+			ifStmt.Body.Accept(this);
 			if (ifStmt.FalseBody != null) {
 				WriteIndent();
 				_writer.WriteLine("else");
@@ -123,6 +123,10 @@ namespace Ucpf.Languages.CSharp {
 				_writer.Write(" ");
 				element.Value.Accept(this);
 			}
+		}
+
+		public void Visit(UnifiedSpecialBlock element) {
+			throw new NotImplementedException();
 		}
 
 		public void Visit(UnifiedCatch element) {
@@ -231,10 +235,6 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public void Visit(UnifiedDoWhile element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedNamespace element) {
 			throw new NotImplementedException();
 		}
 

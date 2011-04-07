@@ -31,20 +31,13 @@ namespace Ucpf.Languages.CSharp {
 		public static UnifiedBinaryExpression CreateExpression(IUnifiedExpression leftOperand, UnifiedBinaryOperatorType operatorType, IUnifiedExpression rightOperand) {
 			if (!BinaryOperatorSigns.ContainsKey(operatorType))
 				throw new NotImplementedException();
-			return new UnifiedBinaryExpression {
-				LeftHandSide = leftOperand,
-				RightHandSide = rightOperand,
-				Operator = new UnifiedBinaryOperator(BinaryOperatorSigns[operatorType], operatorType),
-			};
+			return UnifiedBinaryExpression.Create(leftOperand, UnifiedBinaryOperator.Create(BinaryOperatorSigns[operatorType], operatorType), rightOperand);
 		}
 
 		public static UnifiedUnaryExpression CreateExpression(IUnifiedExpression operand, UnifiedUnaryOperatorType operatorType) {
 			if (!UnaryOperatorSigns.ContainsKey(operatorType))
 				throw new NotImplementedException();
-			return new UnifiedUnaryExpression {
-				Operand = operand,
-				Operator = new UnifiedUnaryOperator(UnaryOperatorSigns[operatorType], operatorType),
-			};
+			return UnifiedUnaryExpression.Create(operand, UnifiedUnaryOperator.Create(UnaryOperatorSigns[operatorType], operatorType));
 		}
 	}
 }

@@ -4,6 +4,9 @@ using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 型を表します。
+	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
 		public string Name { get; set; }
 		private UnifiedTypeParameterCollection _parameters;
@@ -15,13 +18,20 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedType() {
-			Parameters = new UnifiedTypeParameterCollection();
+		private UnifiedType() {
+			Parameters = UnifiedTypeParameterCollection.Create();
 		}
 
 		public static UnifiedType Create(string name) {
 			return new UnifiedType {
-					Name = name,
+				Name = name,
+			};
+		}
+
+		public static UnifiedType Create(string name, UnifiedTypeParameterCollection parameters) {
+			return new UnifiedType {
+				Name = name,
+				Parameters = parameters,
 			};
 		}
 

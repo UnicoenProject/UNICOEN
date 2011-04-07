@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 二項演算子を表します。
+	/// </summary>
 	public class UnifiedBinaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
 		public UnifiedBinaryOperatorType Type { get; private set; }
 
-		public UnifiedBinaryOperator(string sign, UnifiedBinaryOperatorType type) {
-			Sign = sign;
-			Type = type;
+		private UnifiedBinaryOperator() {
+		}
+
+		public static UnifiedBinaryOperator Create(string sign, UnifiedBinaryOperatorType type) {
+			return new UnifiedBinaryOperator {
+					Sign = sign,
+					Type = type,
+			};
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

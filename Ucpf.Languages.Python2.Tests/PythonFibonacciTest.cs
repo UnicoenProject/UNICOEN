@@ -25,64 +25,64 @@ print fib(20)
 ";
 
 		private static readonly UnifiedBlock ExpectedModel =
-			new UnifiedBlock {
-				new UnifiedFunctionDefinition {
-					Name = "fib",
-					Parameters = {
-						new UnifiedParameter{ Name = "n" }
-					},
-					Body = {
-						new UnifiedIf {
-							Condition = new UnifiedBinaryExpression {
-								Operator = new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.GreaterThanOrEqual),
-								LeftHandSide = UnifiedVariable.Create("n"),
-								RightHandSide = UnifiedIntegerLiteral.Create(1),
-							},
-							TrueBody = {
-								UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
-							},
-							FalseBody = {
-								UnifiedJump.CreateReturn(
-									new UnifiedBinaryExpression {
-										Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
-										LeftHandSide = new UnifiedCall {
-											Function = UnifiedVariable.Create("fib"),
-											Arguments = {
-												UnifiedArgument.Create(new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-													LeftHandSide = UnifiedVariable.Create("n"),
-													RightHandSide = UnifiedIntegerLiteral.Create(1)
-												})
-											}
-										},
-										RightHandSide = new UnifiedCall {
-											Function = UnifiedVariable.Create("fib"),
-											Arguments = {
-												UnifiedArgument.Create(new UnifiedBinaryExpression {
-													Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-													LeftHandSide = UnifiedVariable.Create("n"),
-													RightHandSide = UnifiedIntegerLiteral.Create(2)
-												}),
-											}
-										}
-									}
-								),
-							}
-						}
-					}
-				},
-				new UnifiedCall {
-					Function = UnifiedVariable.Create("print"),
-					Arguments = {
-						UnifiedArgument.Create(new UnifiedCall {
-							Function = UnifiedVariable.Create("fib"),
-							Arguments = {
-								UnifiedArgument.Create(UnifiedIntegerLiteral.Create(20)),
-							}
-						}),
-					}
+				UnifiedBlock.Create(new IUnifiedExpression[] {
+						UnifiedFunctionDefinition.Create(
+								"fib",
+								UnifiedParameterCollection.Create(
+										UnifiedParameter.Create("n")
+										),
+								UnifiedBlock.Create(
+										UnifiedIf.Create(
+												UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+														UnifiedBinaryOperator.Create("<=",
+																UnifiedBinaryOperatorType.GreaterThanOrEqual),
+														UnifiedIntegerLiteral.Create(1)),
+												UnifiedBlock.Create(
+														UnifiedJump.CreateReturn(UnifiedVariable.Create("n"))
+														),
+												UnifiedBlock.Create(
+														UnifiedJump.CreateReturn(
+																UnifiedBinaryExpression.Create(
+																		UnifiedCall.Create(UnifiedVariable.Create("fib"),
+																				UnifiedArgumentCollection.Create(
+																						UnifiedArgument.Create(UnifiedBinaryExpression.Create(
+																								UnifiedVariable.Create("n"),
+																								UnifiedBinaryOperator.Create("-",
+																										UnifiedBinaryOperatorType.Subtract),
+																								UnifiedIntegerLiteral.Create(1)))
+																						)
+																				),
+																		UnifiedBinaryOperator.Create("+",
+																				UnifiedBinaryOperatorType.Add),
+																		UnifiedCall.Create(UnifiedVariable.Create("fib"),
+																				UnifiedArgumentCollection.Create(
+																						UnifiedArgument.Create(
+																								UnifiedBinaryExpression.Create(
+																										UnifiedVariable.Create("n"),
+																										UnifiedBinaryOperator.Create("-",
+																												UnifiedBinaryOperatorType.Subtract),
+																										UnifiedIntegerLiteral.Create(2)))
+																						)
+																				)
+																		)
+																)
+														)
+												)
+										,
+										UnifiedCall.Create(UnifiedVariable.Create("print"),
+												UnifiedArgumentCollection.Create(
+														UnifiedArgument.Create(UnifiedCall.Create(
+																UnifiedVariable.Create("fib"), UnifiedArgumentCollection.Create(
+																		UnifiedArgument.Create(UnifiedIntegerLiteral.Create(20))
+																		))
+																)
+														)
+												)
+										)
+								)
 				}
-			};
+						);
+				
 
 		#endregion
 

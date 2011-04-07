@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// for文を表します。
+	/// </summary>
 	public class UnifiedFor : UnifiedExpressionWithBlock<UnifiedFor> {
 		private IUnifiedExpression _initializer;
 
@@ -30,6 +33,8 @@ namespace Ucpf.Core.Model {
 				_step = SetParentOfChild(value, _step);
 			}
 		}
+
+		private UnifiedFor() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -69,6 +74,15 @@ namespace Ucpf.Core.Model {
 					(_step, v => _step = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedFor Create(IUnifiedExpression initializer, IUnifiedExpression condition, IUnifiedExpression step, UnifiedBlock body) {
+			return new UnifiedFor {
+					Initializer = initializer,
+					Condition = condition,
+					Step = step,
+					Body = body,
+			};
 		}
 	}
 }

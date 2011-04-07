@@ -26,17 +26,12 @@ namespace Ucpf.Languages.Ruby18.Model {
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "true" ||
 							  node.Name.LocalName == "false");
-			return new UnifiedBooleanLiteral {
-				Value = node.Name.LocalName == "true"
-								? UnifiedBoolean.True : UnifiedBoolean.False,
-			};
+			return UnifiedBooleanLiteral.Create(node.Name.LocalName == "true");
 		}
 
 		public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "str");
-			return new UnifiedStringLiteral {
-				Value = node.Value,
-			};
+			return UnifiedStringLiteral.Create(node.Value);
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {
@@ -52,15 +47,13 @@ namespace Ucpf.Languages.Ruby18.Model {
 
 		public static UnifiedDecimalLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
-			return new UnifiedDecimalLiteral {
-				Value = Decimal.Parse(node.Value)
-			};
+			return UnifiedDecimalLiteral.Create(Decimal.Parse(node.Value));
 		}
 
 		public static UnifiedBinaryOperator CreateOperator(string sign) {
 			UnifiedBinaryOperatorType result;
 			return Sign2Type.TryGetValue(sign, out result)
-					? new UnifiedBinaryOperator(sign, result) : null;
+					? UnifiedBinaryOperator.Create(sign, result) : null;
 		}
 
 		public static IUnifiedExpression CreateCall(XElement node) {
@@ -69,20 +62,12 @@ namespace Ucpf.Languages.Ruby18.Model {
 			if (node.Elements().ElementAt(2).Elements().Count() == 1) {
 				var @operator = CreateOperator(funcName);
 				if (@operator != null) {
-					return new UnifiedBinaryExpression {
-						LeftHandSide = CreateExpression(node.Elements().First()),
-						Operator = @operator,
-						RightHandSide =
-							CreateExpression(node.Elements().ElementAt(2).Elements().First()),
-					};
+					return UnifiedBinaryExpression.Create(CreateExpression(node.Elements().First()), @operator, CreateExpression(node.Elements().ElementAt(2).Elements().First()));
 				}
 			}
-			return new UnifiedCall {
-				Function = UnifiedVariable.Create(funcName),
-				Arguments = new UnifiedArgumentCollection(
+			return UnifiedCall.Create(UnifiedVariable.Create(funcName), UnifiedArgumentCollection.Create(
 					node.Elements().ElementAt(2).Elements()
-						.Select(e => UnifiedArgument.Create(CreateExpression(e)))),
-			};
+						.Select(e => UnifiedArgument.Create(CreateExpression(e)))));
 		}
 
 		public static IUnifiedExpression CreateExpression(XElement node) {
@@ -95,11 +80,8 @@ namespace Ucpf.Languages.Ruby18.Model {
 			case "call":
 				return CreateCall(node);
 			case "if":
-				return new UnifiedIf {
-					Condition = CreateExpression(elems.ElementAt(0)),
-					TrueBody = CreateBlock(elems.ElementAt(1)),
-					FalseBody = CreateBlock(elems.ElementAt(2)),
-				};
+				return UnifiedIf.Create(CreateExpression(elems.ElementAt(0)),
+						CreateBlock(elems.ElementAt(1)), CreateBlock(elems.ElementAt(2)));
 			case "return":
 				return UnifiedJump.CreateReturn(
 					CreateExpression(elems.First()));
@@ -111,18 +93,18 @@ namespace Ucpf.Languages.Ruby18.Model {
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
-			return new UnifiedFunctionDefinition {
-				Name = elems.First().Value,
-				Parameters = new UnifiedParameterCollection(
+			return UnifiedFunctionDefinition.Create(
+				elems.First().Value,
+				UnifiedParameterCollection.Create(
 					elems.ElementAt(1).Elements()
-						.Select(e => new UnifiedParameter{ Name =  e.Value })),
-				Body = CreateBlock(elems.ElementAt(2).Elements().First()),
-			};
+						.Select(e => UnifiedParameter.Create(e.Value))),
+				CreateBlock(elems.ElementAt(2).Elements().First())
+			);
 		}
 
 		private static UnifiedBlock CreateBlock(XElement node) {
 			Contract.Requires(node.Name.LocalName == "block");
-			return new UnifiedBlock(
+			return UnifiedBlock.Create(
 				node.Elements()
 					.Where(e => e.Name.LocalName != "nil")
 					.Select(CreateExpression));

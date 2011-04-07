@@ -11,6 +11,17 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 	[TestFixture]
 	public class CSharpSpecificationTest {
+		public static UnifiedProgram AnonymousClassModel {
+			get {
+				return CSharpAndJavaSpecificationTest.
+					CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedNew.Create(
+								null,
+								null,
+								UnifiedBlock.Create()
+								)));
+			}
+		}
 
 		[Test]
 		[TestCase("while(true) return;")]
@@ -134,6 +145,39 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("lock (this) { m1(); }")]
+		public void CreateSynchronized(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.SynchronizedModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("throw new Exception();")]
+		public void CreateThrow(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.ThrowModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("new { };")]
+		public void CreateAnonymousClass(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = CSharpModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(AnonymousClassModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 

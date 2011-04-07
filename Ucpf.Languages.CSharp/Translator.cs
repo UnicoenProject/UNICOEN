@@ -13,7 +13,7 @@ namespace Ucpf.Languages.CSharp {
 		#region declare namespace, class, fileds, and so on.
 
 		public object VisitCompilationUnit(CompilationUnit compilationUnit, object data) {
-			var program = new UnifiedProgram();
+			var program = UnifiedProgram.Create();
 			foreach (var child in compilationUnit.Children) {
 				var expr = child.AcceptVisitor(this, data) as IUnifiedExpression;
 				if (expr != null)
@@ -26,10 +26,10 @@ namespace Ucpf.Languages.CSharp {
 			var stmts = typeDeclaration.Children
 				.Select(node => node.AcceptVisitor(this, data))
 				.ToList();
-			return new UnifiedClassDefinition {
-				Name = typeDeclaration.Name,
-				Body = ToFlattenBlock(stmts)
-			};
+			return UnifiedClassDefinition.CreateClass(
+				typeDeclaration.Name,
+				ToFlattenBlock(stmts)
+			);
 		}
 
 		public object VisitFieldDeclaration(FieldDeclaration dec, object data) {
@@ -40,12 +40,7 @@ namespace Ucpf.Languages.CSharp {
 				let name = varDec.Name
 				let value =
 					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
-				select new UnifiedVariableDefinition {
-					Name = name,
-					Type = type,
-					Modifiers = modifier,
-					InitialValue = value,
-				};
+				select UnifiedVariableDefinition.Create(type, modifier, value, name);
 			return decs.ToList();
 		}
 
@@ -53,26 +48,25 @@ namespace Ucpf.Languages.CSharp {
 			var modifier = ConvertModifiler(ctorDec.Modifier);
 			var parameters = ConvertParameters(ctorDec.Parameters);
 			var block = VisitBlockStatement(ctorDec.Body, null) as UnifiedBlock;
-			return new UnifiedConstructorDefinition {
-				Modifiers = modifier,
-				Parameters = parameters,
-				Body = block,
-			};
+			return UnifiedConstructorDefinition.Create(
+					block,
+					modifier,
+					parameters);
 		}
 
 		public object VisitMethodDeclaration(MethodDeclaration method, object data) {
 			var parameters = ConvertParameters(method.Parameters);
-			return new UnifiedFunctionDefinition {
-				Name = method.Name,
-				Modifiers = ConvertModifiler(method.Modifier),
-				Parameters = parameters,
-				Type = ConvertType(method.TypeReference),
-				Body = VisitBlockStatement(method.Body, data) as UnifiedBlock
-			};
+			return UnifiedFunctionDefinition.Create(
+				method.Name,
+				ConvertType(method.TypeReference),
+				ConvertModifiler(method.Modifier),
+				parameters,
+				VisitBlockStatement(method.Body, data) as UnifiedBlock
+			);
 		}
 
 		private static UnifiedParameterCollection ConvertParameters(IEnumerable<ParameterDeclarationExpression> parameters) {
-			return new UnifiedParameterCollection(
+			return UnifiedParameterCollection.Create(
 				parameters.Select(ConvertParameter));
 		}
 
@@ -81,10 +75,9 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private static UnifiedParameter ConvertParameter(ParameterDeclarationExpression parameter) {
-			return new UnifiedParameter {
-				Name = parameter.ParameterName,
-				Type = ConvertType(parameter.TypeReference),
-			};
+			return UnifiedParameter.Create(
+					parameter.ParameterName,
+					ConvertType(parameter.TypeReference));
 		}
 
 		#endregion
@@ -101,7 +94,7 @@ namespace Ucpf.Languages.CSharp {
 				var exprList = exprs.ToList();
 				if (exprList.Count == 1)
 					return exprList[0];
-				return new UnifiedBlock(exprList);
+				return UnifiedBlock.Create(exprList);
 			}
 			throw new NotImplementedException();
 		}
@@ -110,7 +103,7 @@ namespace Ucpf.Languages.CSharp {
 			if (stmt is BlockStatement) {
 				return VisitBlockStatement((BlockStatement)stmt, null) as UnifiedBlock;
 			}
-			return new UnifiedBlock { ConvertStatement(stmt) };
+			return UnifiedBlock.Create(new IUnifiedExpression[] { ConvertStatement(stmt) });
 		}
 
 		private IUnifiedExpression ConvertStatements(IList<Statement> stmts) {
@@ -121,7 +114,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private UnifiedBlock ConvertStatementsAsBlock(IEnumerable<Statement> stmts) {
-			var block = new UnifiedBlock();
+			var block = UnifiedBlock.Create();
 			foreach (var stmt in stmts) {
 				block.Add(ConvertStatement(stmt));
 			}
@@ -143,12 +136,7 @@ namespace Ucpf.Languages.CSharp {
 				let name = varDec.Name
 				let value =
 					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
-				select new UnifiedVariableDefinition {
-					Name = name,
-					Type = type,
-					Modifiers = modifier,
-					InitialValue = value,
-				};
+				select UnifiedVariableDefinition.Create(type, modifier, value, name);
 			return decs.ToList();
 		}
 
@@ -163,13 +151,12 @@ namespace Ucpf.Languages.CSharp {
 						.Select(x => x.AcceptVisitor(this, data))
 						.OfType<IUnifiedExpression>()
 						.ToList();
-				return new UnifiedBlock(stmts);
+				return UnifiedBlock.Create(stmts);
 			};
-			return new UnifiedIf {
-				Condition = cond,
-				TrueBody = toBlock(stmt.TrueStatement),
-				FalseBody = toBlock(stmt.FalseStatement),
-			};
+			return UnifiedIf.Create(
+					cond,
+					toBlock(stmt.TrueStatement),
+					toBlock(stmt.FalseStatement));
 		}
 
 		public object VisitForStatement(ForStatement forStatement, object data) {
@@ -177,12 +164,12 @@ namespace Ucpf.Languages.CSharp {
 			var cond = ConvertExpression(forStatement.Condition);
 			var step = ConvertStatements(forStatement.Iterator);
 			var body = ConvertStatementAsBlock(forStatement.EmbeddedStatement);
-			return new UnifiedFor {
-				Initializer = init,
-				Condition = cond,
-				Step = step,
-				Body = body
-			};
+			return UnifiedFor.Create(
+				init,
+				cond,
+				step,
+				body
+			);
 		}
 
 		public object VisitForeachStatement(ForeachStatement stmt, object data) {
@@ -191,24 +178,24 @@ namespace Ucpf.Languages.CSharp {
 			var set = ConvertExpression(stmt.Expression);
 			var body = ConvertStatementAsBlock(stmt.EmbeddedStatement);
 
-			return new UnifiedForeach {
-				Element = new UnifiedVariableDefinition { Type = type, Name = name },
-				Set = set,
-				Body = body,
-			};
+			return UnifiedForeach.Create(
+				UnifiedVariableDefinition.Create(type, name),
+				set,
+				body
+			);
 		}
 
 		public object VisitDoLoopStatement(DoLoopStatement stmt, object data) {
 			var pos = stmt.ConditionPosition;
 			var uCond = (IUnifiedExpression)stmt.Condition.AcceptVisitor(this, data);
 			var elem = (IUnifiedExpression)stmt.EmbeddedStatement.AcceptVisitor(this, data);
-			var uBody = new UnifiedBlock { elem };
+			var uBody = UnifiedBlock.Create(new IUnifiedExpression[] { elem });
 
 			switch (pos) {
 			case ConditionPosition.Start:
-				return new UnifiedWhile { Condition = uCond, Body = uBody };
+				return UnifiedWhile.Create(uBody, uCond);
 			case ConditionPosition.End:
-				return new UnifiedDoWhile { Condition = uCond, Body = uBody };
+				return UnifiedDoWhile.Create(uBody, uCond);
 			}
 			throw new NotImplementedException("VisitDoLoopStatement");
 		}
@@ -218,7 +205,7 @@ namespace Ucpf.Languages.CSharp {
 			//var uSwitch = new UnifiedSwitch { Value = cond };
 			//foreach (var section in stmt.SwitchSections) {
 			//    // Body
-			//    var body = new UnifiedBlock(
+			//    var body = UnifiedBlock.Create(
 			//        section.Children
 			//        .Select(node => node.AcceptVisitor(this, data))
 			//        .OfType<UnifiedExpression>()
@@ -310,7 +297,7 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitInvocationExpression(InvocationExpression invoke, object data) {
 			var target = ConvertExpression(invoke.TargetObject);
 			var args = ConvertArguments(invoke.Arguments);
-			return new UnifiedCall { Function = target, Arguments = args };
+			return UnifiedCall.Create(target, args);
 		}
 
 		public object VisitIdentifierExpression(IdentifierExpression ident, object data) {
@@ -321,22 +308,14 @@ namespace Ucpf.Languages.CSharp {
 			var op = ConvertBinaryOperator(expr.Op);
 			var left = ConvertExpression(expr.Left);
 			var right = ConvertExpression(expr.Right);
-			return new UnifiedBinaryExpression {
-				Operator = op,
-				LeftHandSide = left,
-				RightHandSide = right,
-			};
+			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
 		public object VisitAssignmentExpression(AssignmentExpression assign, object data) {
-			var op = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign);
+			var op = UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign);
 			var left = ConvertExpression(assign.Left);
 			var right = ConvertExpression(assign.Right);
-			return new UnifiedBinaryExpression {
-				Operator = op,
-				LeftHandSide = left,
-				RightHandSide = right,
-			};
+			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
 		public object VisitArrayCreateExpression(ArrayCreateExpression expr, object data) {
@@ -346,17 +325,17 @@ namespace Ucpf.Languages.CSharp {
 					expr.ArrayInitializer.AcceptVisitor(this, data) as
 					UnifiedExpressionCollection;
 
-			return new UnifiedArrayNew { Type = arrayType, Arguments = args, InitialValues = init };
+			return UnifiedArrayNew.Create(arrayType, args, init);
 		}
 
 		public object VisitIndexerExpression(IndexerExpression expr, object data) {
 			var target = ConvertExpression(expr.TargetObject);
 			var args = ConvertArguments(expr.Indexes);
-			return new UnifiedIndexer { Target = target, Arguments = args };
+			return UnifiedIndexer.Create(target,args);
 		}
 
 		public object VisitCollectionInitializerExpression(CollectionInitializerExpression init, object data) {
-			var collection = new UnifiedExpressionCollection();
+			var collection = UnifiedExpressionCollection.Create();
 			foreach (var expr in init.CreateExpressions) {
 				var uExpr = expr.AcceptVisitor(this, data) as IUnifiedExpression;
 				collection.Add(uExpr);
@@ -365,26 +344,25 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		private UnifiedArgumentCollection ConvertArguments(IEnumerable<Expression> args) {
-			return new UnifiedArgumentCollection(
-				args.Select(arg => new UnifiedArgument { Value = ConvertExpression(arg) }));
+			return UnifiedArgumentCollection.Create(args.Select(arg => UnifiedArgument.Create(ConvertExpression(arg))));
 		}
 
 		public object VisitObjectCreateExpression(ObjectCreateExpression expr, object data) {
 			var type = ConvertType(expr.CreateType);
 			var args = ConvertArguments(expr.Parameters);
-			return new UnifiedNew { Type = type, Arguments = args };
+			return UnifiedNew.Create(type, args);
 		}
 
 		public object VisitMemberReferenceExpression(MemberReferenceExpression expr, object data) {
 			var target = ConvertExpression(expr.TargetObject);
 			var name = expr.MemberName;
-			return new UnifiedProperty { Owner = target, Name = name };
+			return UnifiedProperty.Create(target, name, ".");
 		}
 
 		public object VisitUnaryOperatorExpression(UnaryOperatorExpression expr, object data) {
 			var op = ConvertUnaryOperator(expr.Op);
 			var target = ConvertExpression(expr.Expression);
-			return new UnifiedUnaryExpression { Operator = op, Operand = target };
+			return UnifiedUnaryExpression.Create(target, op);
 		}
 
 		#endregion

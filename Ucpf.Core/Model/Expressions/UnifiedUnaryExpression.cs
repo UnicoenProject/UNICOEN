@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 単項式を表します。
+	/// </summary>
 	public class UnifiedUnaryExpression : UnifiedElement, IUnifiedExpression {
 		private UnifiedUnaryOperator _operator;
 
@@ -21,6 +24,8 @@ namespace Ucpf.Core.Model {
 				_operand = SetParentOfChild(value, _operand);
 			}
 		}
+
+		private UnifiedUnaryExpression() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -65,6 +70,13 @@ namespace Ucpf.Core.Model {
 				}
 			}
 			return this;
+		}
+
+		public static UnifiedUnaryExpression Create(IUnifiedExpression operand, UnifiedUnaryOperator unaryOperator) {
+			return new UnifiedUnaryExpression {
+					Operand = operand,
+					Operator = unaryOperator,
+			};
 		}
 	}
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 関数呼び出しを表します。
+	/// </summary>
 	public class UnifiedCall : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _function;
 
@@ -22,8 +25,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedCall() {
-			Arguments = new UnifiedArgumentCollection();
+		private UnifiedCall() {
+			Arguments = UnifiedArgumentCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -54,6 +57,13 @@ namespace Ucpf.Core.Model {
 					(_function, v => _function = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+		}
+
+		public static UnifiedCall Create(IUnifiedExpression target, UnifiedArgumentCollection args) {
+			return new UnifiedCall {
+					Function = target,
+					Arguments = args,
+			};
 		}
 	}
 }

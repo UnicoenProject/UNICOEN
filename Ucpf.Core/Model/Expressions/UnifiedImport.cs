@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 外部ファイルの読み込み部分を表します。
+	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
 		public string Name { get; set; }
+
+		private UnifiedImport() {}
+
+		public static UnifiedImport Create(string name) {
+			return new UnifiedImport {
+					Name = name,
+			};
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

@@ -30,151 +30,109 @@ namespace Ucpf.Languages.CSharp.Tests {
 		}
 
 		public static UnifiedProgram CreateModel() {
-			return new UnifiedProgram {
-				new UnifiedClassDefinition {
-					Name = "Student",
-					Body = {
-						new UnifiedVariableDefinition {
-							Modifiers = {
-								UnifiedModifier.Create("private"),
-							},
-							Type = UnifiedType.Create("String"),
-							Name = "_name",
-						},
-						new UnifiedConstructorDefinition {
-							Modifiers = {
-								UnifiedModifier.Create("public"),
-							},
-							Parameters = {
-								new UnifiedParameter {
-									Type = UnifiedType.Create("String"),
-									Name = "name",
-								}
-							},
-							Body = {
-								CSharpModelFactoryHelper.CreateAssignExpression(
-									UnifiedVariable.Create("_name"), UnifiedVariable.Create("name"))
-							},
-						},
-						new UnifiedFunctionDefinition {
-							Modifiers = {
-								UnifiedModifier.Create("public"),
-							},
-							Type = UnifiedType.Create("String"),
-							Name = "getName",
-							Body = {
-								UnifiedJump.CreateReturn( UnifiedVariable.Create("_name")),
+			return UnifiedProgram.Create(
+					UnifiedClassDefinition.CreateClass(
+							"Student",
+							UnifiedBlock.Create(new IUnifiedExpression[] {
+									UnifiedVariableDefinition.Create(
+											UnifiedType.Create("String"),
+											"_name",
+											UnifiedModifierCollection.Create(UnifiedModifier.Create("private"))
+											),
+									UnifiedConstructorDefinition.Create(
+											UnifiedBlock.Create(
+													CSharpModelFactoryHelper.CreateAssignExpression(
+															UnifiedVariable.Create("_name"), UnifiedVariable.Create("name"))
+													),
+											UnifiedModifier.Create("public"),
+											UnifiedParameterCollection.Create(
+													UnifiedParameter.Create(
+															"name", UnifiedType.Create("String"))
+													)
+											),
+									UnifiedFunctionDefinition.Create(
+											"getName",
+											UnifiedType.Create("String"),
+											UnifiedModifierCollection.Create(
+													UnifiedModifier.Create("public")
+													),
+											UnifiedBlock.Create(
+													UnifiedJump.CreateReturn(UnifiedVariable.Create("_name"))
+													)
+											),
+									UnifiedFunctionDefinition.Create(
+											"main",
+											UnifiedType.Create("void"),
+											UnifiedModifierCollection.Create(
+													UnifiedModifier.Create("public"),
+													UnifiedModifier.Create("static")
+													),
+											UnifiedParameterCollection.Create(
+													UnifiedParameter.Create("args", UnifiedType.Create("String[]"))
+													),
+											UnifiedBlock.Create(
+													UnifiedVariableDefinition.Create(UnifiedType.Create("Student[]"),
+															"students",
+															UnifiedArrayNew.Create(UnifiedType.Create("Student"), 
+																UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(2))), 
+																null)
+															),
+													CSharpModelFactoryHelper.CreateAssignExpression(
+															UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+															UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)))),
+																UnifiedNew.Create(UnifiedType.Create("Student"), 
+																	UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom")))) 
+															),
+													CSharpModelFactoryHelper.CreateAssignExpression(
+															UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+																UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)))),
+																	UnifiedNew.Create(UnifiedType.Create("Student"), UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna"))))
+															),
+													UnifiedFor.Create(
+															UnifiedVariableDefinition.Create(UnifiedType.Create("int"), "i",
+																	UnifiedIntegerLiteral.Create(0)),
+															CSharpModelFactoryHelper.CreateLesserExpression(
+																	UnifiedVariable.Create("i"), UnifiedIntegerLiteral.Create(2)),
+															CSharpModelFactoryHelper.CreateExpression(
+																	UnifiedVariable.Create("i"),
+																	UnifiedUnaryOperatorType.PostIncrementAssign),
+															UnifiedBlock.Create(new[] {
+																	UnifiedCall.Create(UnifiedVariable.Create("write"),
+																			UnifiedArgumentCollection.Create(
+																					UnifiedArgument.Create(
+																							UnifiedCall.Create(
+																									UnifiedProperty.Create(UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+																											UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedVariable.Create("i")))), "getName", "."),
+																										UnifiedArgumentCollection.Create()
+																									)
+																							)
+																					)
+																			)
+															}
+																	)
+															),
+													UnifiedForeach.Create(
+															UnifiedVariableDefinition.Create(UnifiedType.Create("Student"),
+																	"student"),
+															UnifiedVariable.Create("students"),
+															UnifiedBlock.Create(
+																	UnifiedCall.Create(UnifiedVariable.Create("write"),
+																			UnifiedArgumentCollection.Create(
+																					UnifiedArgument.Create(
+																							UnifiedCall.Create(
+																									UnifiedProperty.Create(UnifiedVariable.Create("student"), "getName", "."),
+																										UnifiedArgumentCollection.Create())
+																							)
+																					)
+																			)
+																	)
+															)
+													)
+											)
 							}
-						},
-						new UnifiedFunctionDefinition {
-							Modifiers = {
-								UnifiedModifier.Create("public"),
-								UnifiedModifier.Create("static"),
-							},
-							Type = UnifiedType.Create("void"),
-							Name = "main",
-							Parameters = {
-								new UnifiedParameter {
-									Type = UnifiedType.Create("String[]"),
-									Name = "args"
-								}
-							},
-							Body = {
-								new UnifiedVariableDefinition {
-									Type = UnifiedType.Create("Student[]"),
-									Name = "students",
-									InitialValue = new UnifiedArrayNew {
-										Type = UnifiedType.Create("Student"),
-										Arguments = {
-											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(2)),
-										},
-										InitialValues = null,
-									},
-								},
-								CSharpModelFactoryHelper.CreateAssignExpression(
-									new UnifiedIndexer {
-										Target = UnifiedVariable.Create("students"),
-										Arguments = {
-											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)),
-										},
-									},
-									new UnifiedNew {
-										Type = UnifiedType.Create("Student"),
-										Arguments = {
-											UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom")),
-										},
-									}
-									),
-								CSharpModelFactoryHelper.CreateAssignExpression(
-									new UnifiedIndexer {
-										Target = UnifiedVariable.Create("students"),
-										Arguments = {
-											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)),
-										},
-									},
-									new UnifiedNew {
-										Type = UnifiedType.Create("Student"),
-										Arguments = {
-											UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna")),
-										},
-									}
-									),
-								new UnifiedFor {
-									Initializer = new UnifiedVariableDefinition {
-										Type = UnifiedType.Create("int"),
-										Name = "i",
-										InitialValue = UnifiedIntegerLiteral.Create(0),
-									},
-									Condition = CSharpModelFactoryHelper.CreateLesserExpression(
-										UnifiedVariable.Create("i"), UnifiedIntegerLiteral.Create(2)),
-									Step = CSharpModelFactoryHelper.CreateExpression(
-										UnifiedVariable.Create("i"), UnifiedUnaryOperatorType.PostIncrementAssign),
-									Body = {
-										new UnifiedCall {
-											Function = UnifiedVariable.Create("write"),
-											Arguments = {
-												UnifiedArgument.Create(
-													new UnifiedCall {
-														Function = new UnifiedProperty {
-															Owner = new UnifiedIndexer {
-																Target = UnifiedVariable.Create("students"),
-																Arguments = {
-																	UnifiedArgument.Create(UnifiedVariable.Create("i"))
-																},
-															},
-															Name = "getName",
-														},
-													}),
-											},
-										}
-									}
-								},
-								new UnifiedForeach {
-									Element = new UnifiedVariableDefinition {
-										Type = UnifiedType.Create("Student"),
-										Name = "student",
-									},
-									Set = UnifiedVariable.Create("students"),
-									Body = {
-										new UnifiedCall {
-											Function = UnifiedVariable.Create("write"),
-											Arguments = {
-												UnifiedArgument.Create(
-													new UnifiedCall {
-														Function = new UnifiedProperty {
-															Owner = UnifiedVariable.Create("student"),
-															Name = "getName",
-														},
-													}),
-											},
-										}
-									}
-								}
-							}
-						},
-					}
-				},
-			};
+									)
+							)
+					);
 		}
 	}
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// switch文におけるcase式を表します。
+	/// </summary>
 	public class UnifiedCase : UnifiedElement {
 		private IUnifiedExpression _condition;
 
@@ -22,8 +25,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedCase() {
-			Body = new UnifiedBlock();
+		private UnifiedCase() {
+			Body = UnifiedBlock.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -59,6 +62,20 @@ namespace Ucpf.Core.Model {
 		public UnifiedCase AddToBody(IUnifiedExpression expression) {
 			Body.Add(expression);
 			return this;
+		}
+
+		public static UnifiedCase Create(UnifiedBlock body) {
+			return new UnifiedCase {
+				Body = body,
+			};
+
+		}
+
+		public static UnifiedCase Create(IUnifiedExpression condtion, UnifiedBlock body) {
+			return new UnifiedCase {
+					Body = body,
+					Condition = condtion,
+			};
 		}
 	}
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 新しい配列の生成部分を表します。
+	/// </summary>
 	public class UnifiedArrayNew : UnifiedElement, IUnifiedExpression {
 		private UnifiedType _type;
 
@@ -31,8 +34,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedArrayNew() {
-			Arguments = new UnifiedArgumentCollection();
+		private UnifiedArrayNew() {
+			Arguments = UnifiedArgumentCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -68,6 +71,21 @@ namespace Ucpf.Core.Model {
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_initialValues, v => _initialValues = (IUnifiedExpression)v);
+		}
+
+		public static UnifiedArrayNew Create(UnifiedType createTypeOrCreatedName, 
+			UnifiedArgumentCollection args, UnifiedExpressionCollection initVal) {
+			return new UnifiedArrayNew {
+					Type = createTypeOrCreatedName,
+					Arguments = args,
+					InitialValues = initVal
+			};
+		}
+
+		public static UnifiedArrayNew Create(UnifiedIntegerLiteral createTypeOrCreatedName) {
+			return new UnifiedArrayNew {
+				InitialValues = createTypeOrCreatedName
+			};
 		}
 	}
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// foreach文あるいは拡張for文を表します。
+	/// </summary>
 	public class UnifiedForeach : UnifiedExpressionWithBlock<UnifiedForeach> {
 		private UnifiedVariableDefinition _element;
 
@@ -21,6 +24,8 @@ namespace Ucpf.Core.Model {
 				_set = SetParentOfChild(value, _set);
 			}
 		}
+
+		private UnifiedForeach() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -55,6 +60,21 @@ namespace Ucpf.Core.Model {
 					(_set, v => _set = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedForeach Create(UnifiedVariableDefinition element, IUnifiedExpression set) {
+			return new UnifiedForeach {
+					Element = element,
+					Set = set,
+			};
+		}
+
+		public static UnifiedForeach Create(UnifiedVariableDefinition element, IUnifiedExpression set, UnifiedBlock body) {
+			return new UnifiedForeach {
+					Element = element,
+					Set = set,
+					Body = body,
+			};
 		}
 	}
 }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// ジェネリックタイプにおける仮引数を表します。
+	/// </summary>
 	public class UnifiedTypeParameter : UnifiedElement {
 		private UnifiedModifierCollection _modifiers;
 
@@ -21,6 +24,8 @@ namespace Ucpf.Core.Model {
 				_value = SetParentOfChild(value, _value);
 			}
 		}
+
+		private UnifiedTypeParameter() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -50,6 +55,19 @@ namespace Ucpf.Core.Model {
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_value, v => _value = (IUnifiedExpression)v);
+		}
+
+		public static UnifiedTypeParameter Create(IUnifiedExpression value) {
+			return new UnifiedTypeParameter {
+					Value = value,
+			};
+		}
+
+		public static UnifiedTypeParameter Create(UnifiedType type, UnifiedModifierCollection modifiers) {
+			return new UnifiedTypeParameter {
+					Value = type,
+					Modifiers = modifiers,
+			};
 		}
 	}
 }

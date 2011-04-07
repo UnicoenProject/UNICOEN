@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// 仮引数(パラメータ)を表します。
+	/// </summary>
 	public class UnifiedParameter : UnifiedElement {
 		private UnifiedModifierCollection _modifiers;
 
@@ -23,8 +26,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedParameter() {
-			Modifiers = new UnifiedModifierCollection();
+		private UnifiedParameter() {
+			Modifiers = UnifiedModifierCollection.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -55,6 +58,27 @@ namespace Ucpf.Core.Model {
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_type, v => _type = (UnifiedType)v);
+		}
+
+		public static UnifiedParameter Create(string name) {
+			return new UnifiedParameter {
+					Name = name,
+			};
+		}
+
+		public static UnifiedParameter Create(string name, UnifiedType type) {
+			return new UnifiedParameter {
+					Name = name,
+					Type = type,
+			};
+		}
+
+		public static UnifiedParameter Create(string name, UnifiedType type, UnifiedModifierCollection modifiers) {
+			return new UnifiedParameter {
+				Name = name,
+				Type = type,
+				Modifiers = modifiers,
+			};
 		}
 	}
 }

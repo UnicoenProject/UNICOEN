@@ -1,6 +1,13 @@
-﻿namespace Ucpf.Core.Model {
-	public abstract class UnifiedExpressionWithBlock<T> : UnifiedElement, IUnifiedExpression
-			where T : UnifiedExpressionWithBlock<T> {
+﻿using System.Diagnostics;
+
+namespace Ucpf.Core.Model {
+	/// <summary>
+	/// ブロックを持つ式を表します。
+	/// </summary>
+	/// <typeparam name="TSelf"></typeparam>
+	public abstract class UnifiedExpressionWithBlock<TSelf> : UnifiedElement, IUnifiedExpression
+			where TSelf : UnifiedExpressionWithBlock<TSelf>
+	{
 		protected UnifiedBlock _body;
 
 		public UnifiedBlock Body {
@@ -11,12 +18,13 @@
 		}
 
 		protected UnifiedExpressionWithBlock() {
-			Body = new UnifiedBlock();
+			Debug.Assert(typeof(TSelf).Equals(GetType()));
+			Body = UnifiedBlock.Create();
 		}
 
-		public T AddToBody(IUnifiedExpression expression) {
+		public TSelf AddToBody(IUnifiedExpression expression) {
 			Body.Add(expression);
-			return (T)this;
+			return (TSelf)this;
 		}
 	}
 }
