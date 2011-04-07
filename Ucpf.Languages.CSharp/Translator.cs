@@ -40,12 +40,7 @@ namespace Ucpf.Languages.CSharp {
 				let name = varDec.Name
 				let value =
 					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
-				select new UnifiedVariableDefinition {
-					Name = name,
-					Type = type,
-					Modifiers = modifier,
-					InitialValue = value,
-				};
+				select UnifiedVariableDefinition.Create(type, modifier, value, name);
 			return decs.ToList();
 		}
 
@@ -141,12 +136,7 @@ namespace Ucpf.Languages.CSharp {
 				let name = varDec.Name
 				let value =
 					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
-				select new UnifiedVariableDefinition {
-					Name = name,
-					Type = type,
-					Modifiers = modifier,
-					InitialValue = value,
-				};
+				select UnifiedVariableDefinition.Create(type, modifier, value, name);
 			return decs.ToList();
 		}
 
@@ -189,7 +179,7 @@ namespace Ucpf.Languages.CSharp {
 			var body = ConvertStatementAsBlock(stmt.EmbeddedStatement);
 
 			return UnifiedForeach.Create(
-				new UnifiedVariableDefinition { Type = type, Name = name },
+				UnifiedVariableDefinition.Create(type, name),
 				set,
 				body
 			);
@@ -307,7 +297,7 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitInvocationExpression(InvocationExpression invoke, object data) {
 			var target = ConvertExpression(invoke.TargetObject);
 			var args = ConvertArguments(invoke.Arguments);
-			return new UnifiedCall { Function = target, Arguments = args };
+			return UnifiedCall.Create(target, args);
 		}
 
 		public object VisitIdentifierExpression(IdentifierExpression ident, object data) {
@@ -318,22 +308,14 @@ namespace Ucpf.Languages.CSharp {
 			var op = ConvertBinaryOperator(expr.Op);
 			var left = ConvertExpression(expr.Left);
 			var right = ConvertExpression(expr.Right);
-			return new UnifiedBinaryExpression {
-				Operator = op,
-				LeftHandSide = left,
-				RightHandSide = right,
-			};
+			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
 		public object VisitAssignmentExpression(AssignmentExpression assign, object data) {
-			var op = new UnifiedBinaryOperator("=", UnifiedBinaryOperatorType.Assign);
+			var op = UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign);
 			var left = ConvertExpression(assign.Left);
 			var right = ConvertExpression(assign.Right);
-			return new UnifiedBinaryExpression {
-				Operator = op,
-				LeftHandSide = left,
-				RightHandSide = right,
-			};
+			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
 		public object VisitArrayCreateExpression(ArrayCreateExpression expr, object data) {
@@ -363,7 +345,7 @@ namespace Ucpf.Languages.CSharp {
 
 		private UnifiedArgumentCollection ConvertArguments(IEnumerable<Expression> args) {
 			return new UnifiedArgumentCollection(
-				args.Select(arg => new UnifiedArgument { Value = ConvertExpression(arg) }));
+				args.Select(arg => UnifiedArgument.Create(ConvertExpression(arg))));
 		}
 
 		public object VisitObjectCreateExpression(ObjectCreateExpression expr, object data) {
@@ -381,7 +363,7 @@ namespace Ucpf.Languages.CSharp {
 		public object VisitUnaryOperatorExpression(UnaryOperatorExpression expr, object data) {
 			var op = ConvertUnaryOperator(expr.Op);
 			var target = ConvertExpression(expr.Expression);
-			return new UnifiedUnaryExpression { Operator = op, Operand = target };
+			return UnifiedUnaryExpression.Create(target, op);
 		}
 
 		#endregion

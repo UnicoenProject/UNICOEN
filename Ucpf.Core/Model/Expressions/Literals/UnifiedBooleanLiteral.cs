@@ -4,6 +4,8 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<UnifiedBoolean> {
+		private UnifiedBooleanLiteral() {}
+
 		public static UnifiedBooleanLiteral Create(bool value) {
 			var eValue = value ? UnifiedBoolean.True : UnifiedBoolean.False;
 			return new UnifiedBooleanLiteral { Value = eValue };

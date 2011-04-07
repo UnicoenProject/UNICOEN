@@ -32,8 +32,21 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedVariableDefinition() {
+		private UnifiedVariableDefinition() {
 			Modifiers = UnifiedModifierCollection.Create();
+		}
+
+		public static UnifiedVariableDefinition Create(UnifiedType type, string name) {
+			return new UnifiedVariableDefinition {
+					Type = type,
+					Name = name,
+			};
+		}
+
+		public static UnifiedVariableDefinition Create(string name) {
+			return new UnifiedVariableDefinition {
+				Name = name,
+			};
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -69,6 +82,38 @@ namespace Ucpf.Core.Model {
 					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_initialValue, v => _initialValue = (IUnifiedExpression)v);
+		}
+
+		public static UnifiedVariableDefinition Create(string name, IUnifiedExpression initialValue) {
+			return new UnifiedVariableDefinition {
+					Name = name,
+					InitialValue = initialValue,
+			};
+		}
+
+		public static UnifiedVariableDefinition Create(UnifiedType type, string name, IUnifiedExpression initialValue) {
+			return new UnifiedVariableDefinition {
+					Name = name,
+					Type = type,
+					InitialValue = initialValue,
+			};
+		}
+
+		public static UnifiedVariableDefinition Create(UnifiedType type, UnifiedModifierCollection modifiers, IUnifiedExpression initialValue, string name) {
+			return new UnifiedVariableDefinition {
+					Type = type,
+					Name = name,
+					InitialValue = initialValue,
+					Modifiers = modifiers,
+			};
+		}
+
+		public static UnifiedVariableDefinition Create(UnifiedType type, string name, UnifiedModifierCollection modifiers) {
+			return new UnifiedVariableDefinition {
+					Name = name,
+					Modifiers = modifiers,
+					Type = type,
+			};
 		}
 	}
 }

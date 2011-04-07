@@ -14,18 +14,18 @@ namespace Ucpf.Languages.CSharp {
 		private static UnifiedBinaryOperator ConvertBinaryOperator(BinaryOperatorType type) {
 			switch (type) {
 			case BinaryOperatorType.Add:
-				return new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add);
+				return UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add);
 			case BinaryOperatorType.Subtract:
-				return new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract);
+				return UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract);
 
 			case BinaryOperatorType.LessThan:
-				return new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan);
+				return UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan);
 			case BinaryOperatorType.LessThanOrEqual:
-				return new UnifiedBinaryOperator("<=", UnifiedBinaryOperatorType.LessThanOrEqual);
+				return UnifiedBinaryOperator.Create("<=", UnifiedBinaryOperatorType.LessThanOrEqual);
 			case BinaryOperatorType.GreaterThan:
-				return new UnifiedBinaryOperator(">", UnifiedBinaryOperatorType.GreaterThan);
+				return UnifiedBinaryOperator.Create(">", UnifiedBinaryOperatorType.GreaterThan);
 			case BinaryOperatorType.GreaterThanOrEqual:
-				return new UnifiedBinaryOperator(">=", UnifiedBinaryOperatorType.GreaterThanOrEqual);
+				return UnifiedBinaryOperator.Create(">=", UnifiedBinaryOperatorType.GreaterThanOrEqual);
 			}
 			throw new NotImplementedException();
 		}
@@ -33,21 +33,21 @@ namespace Ucpf.Languages.CSharp {
 		private static UnifiedUnaryOperator ConvertUnaryOperator(UnaryOperatorType type) {
 			switch (type) {
 			case UnaryOperatorType.Plus:
-				return new UnifiedUnaryOperator("+", UnifiedUnaryOperatorType.UnaryPlus);
+				return UnifiedUnaryOperator.Create("+", UnifiedUnaryOperatorType.UnaryPlus);
 			case UnaryOperatorType.Minus:
-				return new UnifiedUnaryOperator("-", UnifiedUnaryOperatorType.Negate);
+				return UnifiedUnaryOperator.Create("-", UnifiedUnaryOperatorType.Negate);
 
 			case UnaryOperatorType.Increment:
-				return new UnifiedUnaryOperator("++",
+				return UnifiedUnaryOperator.Create("++",
 					UnifiedUnaryOperatorType.PreIncrementAssign);
 			case UnaryOperatorType.PostIncrement:
-				return new UnifiedUnaryOperator("++",
+				return UnifiedUnaryOperator.Create("++",
 					UnifiedUnaryOperatorType.PostIncrementAssign);
 			case UnaryOperatorType.Decrement:
-				return new UnifiedUnaryOperator("--",
+				return UnifiedUnaryOperator.Create("--",
 					UnifiedUnaryOperatorType.PreDecrementAssign);
 			case UnaryOperatorType.PostDecrement:
-				return new UnifiedUnaryOperator("--",
+				return UnifiedUnaryOperator.Create("--",
 					UnifiedUnaryOperatorType.PostDecrementAssign);
 			}
 			throw new NotImplementedException();
@@ -84,7 +84,7 @@ namespace Ucpf.Languages.CSharp {
 				var uType = ConvertType(gType);
 				typeParameter.Add(new UnifiedTypeParameter { Value = uType });
 			}
-			return new UnifiedType { Name = typeName, Parameters = typeParameter };
+			return UnifiedType.Create(typeName, typeParameter);
 		}
 
 		private static UnifiedType ConvertType(TypeReference type) {
@@ -99,10 +99,7 @@ namespace Ucpf.Languages.CSharp {
 					buff.Append("]");
 				}
 			}
-			return new UnifiedType {
-					Name = buff.ToString(),
-					Parameters = uType.Parameters.DeepCopy<UnifiedTypeParameterCollection>()
-			};
+			return UnifiedType.Create(buff.ToString(), uType.Parameters.DeepCopy<UnifiedTypeParameterCollection>());
 		}
 
 		private static string GetTypeAlias(string fullTypeName) {

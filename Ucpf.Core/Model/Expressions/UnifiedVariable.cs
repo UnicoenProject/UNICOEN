@@ -8,6 +8,8 @@ namespace Ucpf.Core.Model {
 			return new UnifiedVariable { Name = name };
 		}
 
+		private UnifiedVariable() { }
+
 		public string Name { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

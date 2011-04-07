@@ -44,11 +44,7 @@ namespace Ucpf.Core.Tests {
 			get {
 				return CreateClassAndMethod(UnifiedBlock.Create(
 					UnifiedFor.Create(
-						new UnifiedVariableDefinition {
-							Type = "int".ToType(),
-							Name = "i",
-							InitialValue = 0.ToLiteral(),
-						},
+						UnifiedVariableDefinition.Create("int".ToType(), "i", 0.ToLiteral()),
 						CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(),
 							UnifiedBinaryOperatorType.LessThan,
@@ -144,9 +140,9 @@ namespace Ucpf.Core.Tests {
 								.ToCase()
 								.AddToBody(UnifiedJump.CreateBreak())
 							)
-							.AddToCases(new UnifiedCase {
-								Body = { UnifiedJump.CreateBreak() },
-							})
+							.AddToCases(UnifiedCase.Create(UnifiedBlock.Create(
+								 UnifiedJump.CreateBreak()))
+							)
 					}));
 			}
 		}

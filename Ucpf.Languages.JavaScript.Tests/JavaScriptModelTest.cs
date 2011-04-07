@@ -32,11 +32,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var cond    = ifStmt.Condition;
 
 			//expectation
-			var expectation = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
-				RightHandSide = UnifiedIntegerLiteral.Create(2),
-			};
+			var expectation = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2));
 
 			Assert.That(cond, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
@@ -115,11 +111,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var firstArg    = callExp.Arguments.First().Value;
 
 			//expectation
-			var expectation = new UnifiedBinaryExpression {
-				LeftHandSide = UnifiedVariable.Create("n"),
-				Operator = new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-				RightHandSide = UnifiedIntegerLiteral.Create(1),
-			};
+			var expectation = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
 
 			Assert.That(firstArg, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
@@ -128,46 +120,39 @@ namespace Ucpf.Languages.JavaScript.Tests {
 		[Test]
 		public void 返却される式を取得する() {
 			//actual
-			var block      = _func.Body;
-			var expStmt    = block.First();
-			var ifStmt     = (UnifiedIf)expStmt;
-			var fBlock     = ifStmt.FalseBody;
+			var block = _func.Body;
+			var expStmt = block.First();
+			var ifStmt = (UnifiedIf)expStmt;
+			var fBlock = ifStmt.FalseBody;
 			var returnStmt = (UnifiedJump)fBlock.First();
-			var binaryExp  = (UnifiedBinaryExpression)returnStmt.Value;
+			var binaryExp = (UnifiedBinaryExpression)returnStmt.Value;
 
 			//expectation
-			var expectation = new UnifiedBinaryExpression {
-				LeftHandSide = new UnifiedCall {
-					Arguments = {
-						new UnifiedArgument {
-							Value = new UnifiedBinaryExpression {
-								LeftHandSide = UnifiedVariable.Create("n"),
-								Operator =
-									new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-								RightHandSide = UnifiedIntegerLiteral.Create(1)
-							}
-						}
-					},
-					Function = UnifiedVariable.Create("fibonacci"),
-				},
-				Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
-				RightHandSide = new UnifiedCall {
-					Arguments = {
-						new UnifiedArgument {
-							Value = new UnifiedBinaryExpression {
-								LeftHandSide = UnifiedVariable.Create("n"),
-								Operator =
-									new UnifiedBinaryOperator("-", UnifiedBinaryOperatorType.Subtract),
-								RightHandSide = UnifiedIntegerLiteral.Create(2)
-							}
-						}
-					},
-					Function = UnifiedVariable.Create("fibonacci"),
-				},
-			};
+			var expectation = UnifiedBinaryExpression.Create(UnifiedCall.Create(
+					UnifiedVariable.Create("fibonacci"),
+					UnifiedArgumentCollection.Create(
+							UnifiedArgument.Create(UnifiedBinaryExpression.Create(
+											UnifiedVariable.Create("n"),
+											UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract),
+											UnifiedIntegerLiteral.Create(1)
+											))
+							)
+					),
+					UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
+					UnifiedCall.Create(
+							UnifiedVariable.Create("fibonacci"),
+							UnifiedArgumentCollection.Create(
+									UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+															UnifiedBinaryOperator.Create("-",
+																	UnifiedBinaryOperatorType.Subtract),
+															UnifiedIntegerLiteral.Create(2)
+															))
+									)
+							)
+					);
 
 			Assert.That(binaryExp, Is.EqualTo(expectation)
-				.Using(StructuralEqualityComparerForDebug.Instance));
+					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]

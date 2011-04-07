@@ -31,6 +31,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedBinaryExpression() { }
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -64,6 +66,14 @@ namespace Ucpf.Core.Model {
 					(_operator, v => _operator = (UnifiedBinaryOperator)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_rightHandSide, v => _rightHandSide = (IUnifiedExpression)v);
+		}
+
+		public static UnifiedBinaryExpression Create(IUnifiedExpression leftHandSide, UnifiedBinaryOperator binaryOperator, IUnifiedExpression rightHandSide) {
+			return new UnifiedBinaryExpression {
+					LeftHandSide = leftHandSide,
+					Operator = binaryOperator,
+					RightHandSide = rightHandSide,
+			};
 		}
 	}
 }

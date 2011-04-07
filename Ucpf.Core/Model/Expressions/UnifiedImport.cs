@@ -6,6 +6,14 @@ namespace Ucpf.Core.Model {
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
 		public string Name { get; set; }
 
+		private UnifiedImport() {}
+
+		public static UnifiedImport Create(string name) {
+			return new UnifiedImport {
+					Name = name,
+			};
+		}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

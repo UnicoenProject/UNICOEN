@@ -8,19 +8,12 @@ namespace Ucpf.Languages.Ruby18.Tests {
 	[TestFixture]
 	public class RubyFibonacciTest {
 		private static UnifiedCall CreateCall(int? decrement) {
-			return new UnifiedCall {
-				Function = UnifiedVariable.Create("fibonacci"),
-				Arguments = {
+			return UnifiedCall.Create(UnifiedVariable.Create("fibonacci"), UnifiedArgumentCollection.Create(
 					decrement == null
 						? UnifiedArgument.Create(UnifiedVariable.Create("n"))
-						: UnifiedArgument.Create(new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("-",
-						                   	UnifiedBinaryOperatorType.Subtract),
-							RightHandSide = UnifiedIntegerLiteral.Create((int)decrement),
-						})
-				},
-			};
+						: UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-",
+						                   	UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create((int)decrement)))
+				));
 		}
 
 		[Test]
@@ -97,11 +90,7 @@ end");
 				),
 				UnifiedBlock.Create(
 					UnifiedJump.CreateReturn(
-						new UnifiedBinaryExpression {
-							LeftHandSide = CreateCall(1),
-							Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
-							RightHandSide = CreateCall(2),
-						}
+						UnifiedBinaryExpression.Create(CreateCall(1), UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add), CreateCall(2))
 					)
 				)
 			);
@@ -130,11 +119,7 @@ end
 				),
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
-						new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
-							RightHandSide = UnifiedIntegerLiteral.Create(2),
-						},
+						UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
 							UnifiedJump.CreateReturn( UnifiedVariable.Create("n"))
 						),
@@ -169,21 +154,13 @@ end
 				),
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
-						new UnifiedBinaryExpression {
-							LeftHandSide = UnifiedVariable.Create("n"),
-							Operator = new UnifiedBinaryOperator("<", UnifiedBinaryOperatorType.LessThan),
-							RightHandSide = UnifiedIntegerLiteral.Create(2),
-						},
+						UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
 							UnifiedJump.CreateReturn(UnifiedVariable.Create("n"))
 						),
 						UnifiedBlock.Create(
 							UnifiedJump.CreateReturn(
-								new UnifiedBinaryExpression {
-									LeftHandSide = CreateCall(1),
-									Operator = new UnifiedBinaryOperator("+", UnifiedBinaryOperatorType.Add),
-									RightHandSide = CreateCall(2),
-								}
+								UnifiedBinaryExpression.Create(CreateCall(1), UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add), CreateCall(2))
 							)
 						)
 					)

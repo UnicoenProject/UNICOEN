@@ -46,9 +46,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			if (topExpressionElement.Elements().Count() == 1) {
 				//TODO CONSIDER: TOKEN consisted of only [a-Z]* is always variable?
 				if (System.Text.RegularExpressions.Regex.IsMatch(topExpressionElement.Value, @"[a-zA-Z]{1}[a-zA-Z0-9]*")) {
-					return new UnifiedVariable {
-						Name = topExpressionElement.Value
-					};
+					return UnifiedVariable.Create(topExpressionElement.Value);
 				}
 				return CreateLiteral(topExpressionElement);
 			}
@@ -79,20 +77,15 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node) {
-			return new UnifiedBinaryExpression {
-				LeftHandSide = CreateExpression(node.Elements().ElementAt(0)),
-				Operator = CreateBinaryOperator(node.Elements().ElementAt(1)),
-				RightHandSide = CreateExpression(node.Elements().ElementAt(2))
-			};
+			return UnifiedBinaryExpression.Create(CreateExpression(node.Elements().ElementAt(0)), CreateBinaryOperator(node.Elements().ElementAt(1)), CreateExpression(node.Elements().ElementAt(2)));
 		}
 
 		public static UnifiedCall CreateCallExpression(XElement node) {
-			return new UnifiedCall {
-				Arguments = CreateArgumentCollection(node),
-				Function = CreateExpression(node)
-				//Function = new UnifiedVariable(identifier)
-				//TODO consider: function identifier should to be which Variable or Literal
-			};
+			return UnifiedCall.Create(
+					CreateExpression(node),
+					CreateArgumentCollection(node));
+			//Function = new UnifiedVariable(identifier)
+			//TODO consider: function identifier should to be which Variable or Literal
 		}
 
 		public static IUnifiedExpression CreatePostfixUnaryExpression(XElement node) {
@@ -111,9 +104,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			int i;
 			if( Int32.TryParse(node.Value,NumberStyles.Any, null, out i) )
 			{
-				return new UnifiedIntegerLiteral {
-					Value = i
-				};
+				return UnifiedIntegerLiteral.Create(i);
 			}
 
 			//TODO IMPLEMENT: other literal cases
@@ -140,7 +131,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				throw new InvalidOperationException();
 			}
 
-			return new UnifiedUnaryOperator(name, type);
+			return UnifiedUnaryOperator.Create(name, type);
 		}
 
 		public static UnifiedUnaryOperator CreatePostfixUnaryOperator(XElement node) {
@@ -158,7 +149,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 				throw new InvalidOperationException();
 			}
 
-			return new UnifiedUnaryOperator(name, type);
+			return UnifiedUnaryOperator.Create(name, type);
 		}
 
 		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node) {
@@ -201,7 +192,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 					throw new InvalidOperationException();
 			}
 
-			return new UnifiedBinaryOperator(name, type);
+			return UnifiedBinaryOperator.Create(name, type);
 		}
 
 		#endregion
@@ -350,12 +341,12 @@ namespace Ucpf.Languages.JavaScript.Model {
 						null
 				);
 			}
-			return new UnifiedVariableDefinition {
-					Modifiers = null,
-					Type = null,
-					Name = node.Element("Identifier").Value,
-					InitialValue = CreateExpression(node.Element("initialiser"))
-			};
+			return UnifiedVariableDefinition.Create(
+				null,
+				null,
+				CreateExpression(node.Element("initialiser")),
+				node.Element("Identifier").Value
+			);
 		}
 
 		public static UnifiedBlock CreateBlock(XElement node) {
@@ -462,16 +453,10 @@ namespace Ucpf.Languages.JavaScript.Model {
 				);
 
 			if(node.Name.LocalName == "caseClause") {
-				return new UnifiedCase {
-						Body = body,
-						Condition = CreateExpression(node.Element("expression"))
-				};
+				return UnifiedCase.Create(CreateExpression(node.Element("expression")), body);
 			}
 			//else
-			return new UnifiedCase {
-					Body = body,
-					Condition = null
-			};
+			return UnifiedCase.Create(body);
 		}
 
 		public static UnifiedJump CreateReturn(XElement node) {
@@ -509,9 +494,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedArgument CreateArgument(XElement node) {
-			return new UnifiedArgument {
-				Value = CreateExpression(node)
-			};
+			return UnifiedArgument.Create(CreateExpression(node));
 		}
 
 		public static UnifiedParameterCollection CreateParameterCollection(XElement node) {

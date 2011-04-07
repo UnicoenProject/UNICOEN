@@ -4,6 +4,8 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	public class UnifiedStringLiteral : UnifiedTypedLiteral<string> {
+		private UnifiedStringLiteral() {}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

@@ -38,8 +38,10 @@ namespace Ucpf.Core.Model {
 					(_value, v => _value = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedArgument Create(IUnifiedExpression exprssion) {
-			return new UnifiedArgument { Value = exprssion };
+		public static UnifiedArgument Create(IUnifiedExpression value) {
+			return new UnifiedArgument {
+					Value = value,
+			};
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedCase() {
+		private UnifiedCase() {
 			Body = UnifiedBlock.Create();
 		}
 
@@ -59,6 +59,20 @@ namespace Ucpf.Core.Model {
 		public UnifiedCase AddToBody(IUnifiedExpression expression) {
 			Body.Add(expression);
 			return this;
+		}
+
+		public static UnifiedCase Create(UnifiedBlock body) {
+			return new UnifiedCase {
+				Body = body,
+			};
+
+		}
+
+		public static UnifiedCase Create(IUnifiedExpression condtion, UnifiedBlock body) {
+			return new UnifiedCase {
+					Body = body,
+					Condition = condtion,
+			};
 		}
 	}
 }

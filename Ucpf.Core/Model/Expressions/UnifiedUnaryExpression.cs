@@ -22,6 +22,8 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedUnaryExpression() { }
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -65,6 +67,13 @@ namespace Ucpf.Core.Model {
 				}
 			}
 			return this;
+		}
+
+		public static UnifiedUnaryExpression Create(IUnifiedExpression operand, UnifiedUnaryOperator unaryOperator) {
+			return new UnifiedUnaryExpression {
+					Operand = operand,
+					Operator = unaryOperator,
+			};
 		}
 	}
 }

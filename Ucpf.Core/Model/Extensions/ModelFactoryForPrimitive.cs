@@ -7,37 +7,25 @@ namespace Ucpf.Core.Model.Extensions {
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name) {
-			return new UnifiedVariableDefinition {
-					Name = name,
-			};
+			return UnifiedVariableDefinition.Create(name);
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             UnifiedType type) {
-			return new UnifiedVariableDefinition {
-					Type = type,
-					Name = name,
-			};
+			return UnifiedVariableDefinition.Create(type, name);
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             IUnifiedExpression
 		                                                             		initialValue) {
-			return new UnifiedVariableDefinition {
-					Name = name,
-					InitialValue = initialValue,
-			};
+			return UnifiedVariableDefinition.Create(name, initialValue);
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             UnifiedType type,
 		                                                             IUnifiedExpression
 		                                                             		initialValue) {
-			return new UnifiedVariableDefinition {
-					Type = type,
-					Name = name,
-					InitialValue = initialValue,
-			};
+			return UnifiedVariableDefinition.Create(type, name, initialValue);
 		}
 
 		public static UnifiedType ToType(this string name) {
@@ -49,21 +37,15 @@ namespace Ucpf.Core.Model.Extensions {
 		}
 
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
-			return new UnifiedBooleanLiteral {
-					Value = literal ? UnifiedBoolean.True : UnifiedBoolean.False,
-			};
+			return UnifiedBooleanLiteral.Create(literal);
 		}
 
 		public static UnifiedIntegerLiteral ToLiteral(this int value) {
-			return new UnifiedIntegerLiteral {
-					Value = value,
-			};
+			return UnifiedIntegerLiteral.Create(value);
 		}
 
 		public static UnifiedDecimalLiteral ToLiteral(this double value) {
-			return new UnifiedDecimalLiteral {
-					Value = (Decimal)value,
-			};
+			return UnifiedDecimalLiteral.Create(value);
 		}
 	}
 }

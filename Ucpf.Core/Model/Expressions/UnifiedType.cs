@@ -15,13 +15,20 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedType() {
+		private UnifiedType() {
 			Parameters = new UnifiedTypeParameterCollection();
 		}
 
 		public static UnifiedType Create(string name) {
 			return new UnifiedType {
-					Name = name,
+				Name = name,
+			};
+		}
+
+		public static UnifiedType Create(string name, UnifiedTypeParameterCollection parameters) {
+			return new UnifiedType {
+				Name = name,
+				Parameters = parameters,
 			};
 		}
 

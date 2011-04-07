@@ -7,9 +7,13 @@ namespace Ucpf.Core.Model {
 		public string Sign { get; private set; }
 		public UnifiedUnaryOperatorType Type { get; private set; }
 
-		public UnifiedUnaryOperator(string sign, UnifiedUnaryOperatorType type) {
-			Sign = sign;
-			Type = type;
+		private UnifiedUnaryOperator() { }
+
+		public static UnifiedUnaryOperator Create(string sign, UnifiedUnaryOperatorType type) {
+			return new UnifiedUnaryOperator {
+					Sign = sign,
+					Type = type,
+			};
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

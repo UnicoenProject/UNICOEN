@@ -7,9 +7,14 @@ namespace Ucpf.Core.Model {
 		public string Sign { get; private set; }
 		public UnifiedBinaryOperatorType Type { get; private set; }
 
-		public UnifiedBinaryOperator(string sign, UnifiedBinaryOperatorType type) {
-			Sign = sign;
-			Type = type;
+		private UnifiedBinaryOperator() {
+		}
+
+		public static UnifiedBinaryOperator Create(string sign, UnifiedBinaryOperatorType type) {
+			return new UnifiedBinaryOperator {
+					Sign = sign,
+					Type = type,
+			};
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

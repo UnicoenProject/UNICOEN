@@ -17,5 +17,17 @@ namespace Ucpf.Core.Model {
 				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
-			}
+
+		public static UnifiedArgumentCollection Create() {
+			return new UnifiedArgumentCollection();
+		}
+
+		public static UnifiedArgumentCollection Create(params UnifiedArgument[] elements) {
+			return new UnifiedArgumentCollection(elements);
+		}
+
+		public static UnifiedArgumentCollection Create(IEnumerable<UnifiedArgument> elements) {
+			return new UnifiedArgumentCollection(elements);
+		}
+	}
 }

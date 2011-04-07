@@ -16,10 +16,7 @@
 		                                       UnifiedType variableType,
 		                                       string variableName) {
 			return UnifiedForeach.Create(
-				new UnifiedVariableDefinition {
-							Type = variableType,
-							Name = variableName,
-					},
+				UnifiedVariableDefinition.Create(variableType, variableName),
 				set
 			);
 		}
@@ -33,9 +30,7 @@
 		}
 
 		public static UnifiedCase ToCase(this IUnifiedExpression condtion) {
-			return new UnifiedCase {
-					Condition = condtion,
-			};
+			return UnifiedCase.Create(condtion, UnifiedBlock.Create());
 		}
 
 		public static UnifiedSwitch ToSwitch(this IUnifiedExpression value) {

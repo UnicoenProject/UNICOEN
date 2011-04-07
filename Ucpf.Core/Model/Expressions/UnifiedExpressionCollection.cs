@@ -25,5 +25,17 @@ namespace Ucpf.Core.Model {
 			}
 			return this;
 		}
+
+		public static UnifiedExpressionCollection Create() {
+			return new UnifiedExpressionCollection();
+		}
+
+		public static UnifiedExpressionCollection Create(params IUnifiedExpression[] elements) {
+			return new UnifiedExpressionCollection(elements);
+		}
+
+		public static UnifiedExpressionCollection Create(IEnumerable<IUnifiedExpression> elements) {
+			return new UnifiedExpressionCollection(elements);
+		}
 	}
 }
