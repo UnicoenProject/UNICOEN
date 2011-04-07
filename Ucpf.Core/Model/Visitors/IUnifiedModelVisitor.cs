@@ -43,6 +43,7 @@
 		void Visit(UnifiedTypeCollection element);
 		void Visit(UnifiedCatchCollection element);
 		void Visit(UnifiedTry element);
+		void Visit(UnifiedCast element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult> {
@@ -89,5 +90,6 @@
 		TResult Visit(UnifiedTypeCollection element, TData data);
 		TResult Visit(UnifiedCatchCollection element, TData data);
 		TResult Visit(UnifiedTry element, TData data);
+		TResult Visit(UnifiedCast element, TData data);
 	}
 }

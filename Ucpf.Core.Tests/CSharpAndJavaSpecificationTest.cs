@@ -128,6 +128,20 @@ namespace Ucpf.Core.Tests {
 			}
 		}
 
+		public static UnifiedProgram CastModel {
+			get {
+				return CreateClassAndMethod(
+						UnifiedBlock.Create(
+							"i".ToVariableDefinition(
+								"Integer".ToType(),
+								UnifiedCast.Create(
+									UnifiedType.Create("Integer"), 
+									UnifiedIntegerLiteral.Create(1)
+								)
+						)));
+			}
+		}
+
 		public static UnifiedProgram SwitchCaseWithDefaultModel {
 			get {
 				return
