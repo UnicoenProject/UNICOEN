@@ -18,7 +18,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			File.ReadAllText(Fixture.GetInputPath("CSharp", "Fibonacci.cs"));
 
 		public static readonly UnifiedProgram Model = UnifiedProgram.Create(
-				UnifiedClassDefinition.Create(
+				UnifiedClassDefinition.CreateClass(
 						"Fibonacci",
 						UnifiedBlock.Create(new IUnifiedExpression[] {
 								UnifiedFunctionDefinition.Create(
@@ -89,7 +89,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		public void CreateClassDeclare() {
 			const string code = "class Fibonacci{}";
 			var expected = UnifiedProgram.Create(
-				new[]{ UnifiedClassDefinition.Create("Fibonacci")});
+				new[]{ UnifiedClassDefinition.CreateClass("Fibonacci")});
 			var actual = CSharpModelFactory.CreateModel(code);
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
@@ -104,7 +104,7 @@ class Fibonacci {
 	}
 }
 ";
-			var expected = UnifiedProgram.Create(new[]{ UnifiedClassDefinition.Create(
+			var expected = UnifiedProgram.Create(new[]{ UnifiedClassDefinition.CreateClass(
 				"Fibonacci",
 				UnifiedBlock.Create(new IUnifiedExpression[] {
 					UnifiedFunctionDefinition.Create(

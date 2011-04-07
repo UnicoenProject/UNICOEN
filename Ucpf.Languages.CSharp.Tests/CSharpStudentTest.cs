@@ -31,7 +31,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 
 		public static UnifiedProgram CreateModel() {
 			return UnifiedProgram.Create(
-					UnifiedClassDefinition.Create(
+					UnifiedClassDefinition.CreateClass(
 							"Student",
 							UnifiedBlock.Create(new IUnifiedExpression[] {
 									UnifiedVariableDefinition.Create(

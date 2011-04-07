@@ -31,7 +31,6 @@
 		void Visit(UnifiedExpressionCollection element);
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
-		void Visit(UnifiedNamespace element);
 		void Visit(UnifiedIndexer element);
 		void Visit(UnifiedTypeParameter element);
 		void Visit(UnifiedTypeParameterCollection element);
@@ -73,7 +72,6 @@
 		TResult Visit(UnifiedExpressionCollection element, TData data);
 		TResult Visit(UnifiedWhile element, TData data);
 		TResult Visit(UnifiedDoWhile element, TData data);
-		TResult Visit(UnifiedNamespace element, TData data);
 		TResult Visit(UnifiedIndexer element, TData data);
 		TResult Visit(UnifiedTypeParameter element, TData data);
 		TResult Visit(UnifiedTypeParameterCollection element, TData data);

@@ -335,7 +335,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
 
 			if(false /*TODO 以下にfunctionExpressionを持つ場合はクラスを返す*/) {
-				return UnifiedClassDefinition.Create(
+				return UnifiedClassDefinition.CreateClass(
 						node.Element("Identifier").Value,
 						null,
 						null

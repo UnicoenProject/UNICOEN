@@ -8,6 +8,8 @@ namespace Ucpf.Core.Model {
 	/// </summary>
 	public class UnifiedClassDefinition
 			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
+		public UnifiedClassType Type { get; set; }
+
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
@@ -53,31 +55,44 @@ namespace Ucpf.Core.Model {
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedClassDefinition Create(string name) {
+		public static UnifiedClassDefinition Create(string name, UnifiedBlock body, UnifiedModifierCollection modifiers, UnifiedClassType type) {
+			return new UnifiedClassDefinition {
+				Body = body,
+				Name = name,
+				Modifiers = modifiers,
+				Type = type,
+			};
+		}
+
+		public static UnifiedClassDefinition CreateClass(string name) {
 			return new UnifiedClassDefinition {
 					Name = name,
+					Type = UnifiedClassType.Class,
 			};
 		}
 
-		public static UnifiedClassDefinition Create(string name, UnifiedModifierCollection modifiers) {
+		public static UnifiedClassDefinition CreateClass(string name, UnifiedModifierCollection modifiers) {
 			return new UnifiedClassDefinition {
 				Modifiers = modifiers,
 				Name = name,
+				Type = UnifiedClassType.Class,
 			};
 		}
 
-		public static UnifiedClassDefinition Create(string name, UnifiedBlock body) {
+		public static UnifiedClassDefinition CreateClass(string name, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
 				Body = body,
 				Name = name,
+				Type = UnifiedClassType.Class,
 			};
 		}
 
-		public static UnifiedClassDefinition Create(string name, UnifiedBlock body, UnifiedModifierCollection modifiers) {
+		public static UnifiedClassDefinition CreateClass(string name, UnifiedBlock body, UnifiedModifierCollection modifiers) {
 			return new UnifiedClassDefinition {
 				Body = body,
 				Name = name,
 				Modifiers = modifiers,
+				Type = UnifiedClassType.Class,
 			};
 		}
 	}

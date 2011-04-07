@@ -276,10 +276,6 @@ namespace Ucpf.Languages.Java {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedNamespace element) {
-			throw new NotImplementedException();
-		}
-
 		public void Visit(UnifiedIndexer element) {
 			throw new NotImplementedException();
 		}

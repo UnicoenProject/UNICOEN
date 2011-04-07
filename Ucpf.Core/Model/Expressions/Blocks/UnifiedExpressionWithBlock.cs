@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.Contracts;
 
 namespace Ucpf.Core.Model {
 	/// <summary>

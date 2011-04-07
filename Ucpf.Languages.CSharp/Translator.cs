@@ -26,7 +26,7 @@ namespace Ucpf.Languages.CSharp {
 			var stmts = typeDeclaration.Children
 				.Select(node => node.AcceptVisitor(this, data))
 				.ToList();
-			return UnifiedClassDefinition.Create(
+			return UnifiedClassDefinition.CreateClass(
 				typeDeclaration.Name,
 				ToFlattenBlock(stmts)
 			);

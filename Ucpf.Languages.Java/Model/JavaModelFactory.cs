@@ -969,7 +969,7 @@ namespace Ucpf.Languages.Java.Model {
 				var body = CreateClassBody(node
 						.Element("normalClassDeclaration")
 						.Element("classBody"));
-				return UnifiedClassDefinition.Create(name, body);
+				return UnifiedClassDefinition.CreateClass(name, body);
 			}
 			throw new NotImplementedException();
 		}
