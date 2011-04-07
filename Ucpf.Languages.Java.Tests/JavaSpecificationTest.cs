@@ -154,14 +154,14 @@ namespace Ucpf.Languages.Java.Tests {
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
-		[Ignore, Test]
+		[Test]
 		[TestCase("Integer i = (Integer)1;")]
 		public void CreateCast(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(null)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.CastModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 

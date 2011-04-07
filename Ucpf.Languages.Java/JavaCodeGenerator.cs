@@ -156,6 +156,10 @@ namespace Ucpf.Languages.Java {
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedCast element) {
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedJumpType type) {
 			switch (type) {
 			case UnifiedJumpType.Break:

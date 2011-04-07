@@ -93,6 +93,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedDoWhile.cs" />
     <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedCast.cs" />
     <Compile Include="Model\Expressions\UnifiedCatchCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedExpressionWithBlock.cs" />

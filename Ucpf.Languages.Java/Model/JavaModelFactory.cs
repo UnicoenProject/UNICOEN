@@ -81,6 +81,9 @@ namespace Ucpf.Languages.Java.Model {
 			case "parExpression":
 				// expression を () で囲ったような場合
 				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
+			case "castExpression":
+				//case CastExpression
+				return CreateCast(topExpressionElement);
 			case "creator":
 			case "arrayCreator":
 				// "new"で始まるジェネリックや配列など
@@ -115,7 +118,7 @@ namespace Ucpf.Languages.Java.Model {
 			var firstElement = node.NthElement(0);
 			switch (firstElement.Name()) {
 			case "castExpression":
-				throw new NotImplementedException();
+				return CreateCast(firstElement);
 			case "primary":
 				var result = CreatePrimary(firstElement);
 				var lastNode = node.LastElement();
@@ -134,6 +137,19 @@ namespace Ucpf.Languages.Java.Model {
 			}
 			return UnifiedUnaryExpression.Create(CreateExpression(node.NthElement(1)), CreatePrefixUnaryOperator(firstElement.Value));
 		}
+
+		public static UnifiedCast CreateCast(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "castExpression");
+			/* 
+			 * castExpression 
+				:   '(' primitiveType ')' unaryExpression
+				|   '(' type ')' unaryExpressionNotPlusMinus 
+			 */
+			var type = node.NthElement(1).Name() == "type"
+			           		? CreateTypeOrCreatedName(node.NthElement(1)) : CreatePrimitiveType(node.NthElement(1));
+			return UnifiedCast.Create(type, CreateExpression(node.NthElement(3)));
+		} 
 
 		public static IUnifiedExpression CreateSelector(XElement node, IUnifiedExpression prefix) {
 			Contract.Requires(node != null);
