@@ -144,7 +144,7 @@ namespace Ucpf.Core.Model {
 					throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
 				}
 				((UnifiedElement)(IUnifiedElement)child).Parent = this;
-			} else if (Parent != null) {
+			} else if (oldChild != null && Parent != null) {
 				oldChild.Remove();
 			}
 			return child;

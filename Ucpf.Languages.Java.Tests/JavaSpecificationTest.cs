@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
@@ -19,6 +20,25 @@ namespace Ucpf.Languages.Java.Tests {
 								UnifiedArgumentCollection.Create(),
 								UnifiedBlock.Create()
 								)));
+			}
+		}
+
+		public static UnifiedProgram ThrowsModel {
+			get {
+				return UnifiedProgram.Create(
+						"A".ToClassDefinition()
+								.AddToBody(
+										UnifiedFunctionDefinition.Create(
+												"M1",
+												"void".ToType(),
+												UnifiedModifierCollection.Create(),
+												UnifiedParameterCollection.Create(),
+												UnifiedTypeCollection.Create(
+														UnifiedType.Create("Exception")),
+												UnifiedBlock.Create()
+												)
+								)
+						);
 			}
 		}
 
@@ -238,6 +258,15 @@ namespace Ucpf.Languages.Java.Tests {
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchFinallyModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		public void CreateThrows(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel("class A { void M1() throws Exception { } }");
+			Assert.That(actual,
+				Is.EqualTo(ThrowsModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}

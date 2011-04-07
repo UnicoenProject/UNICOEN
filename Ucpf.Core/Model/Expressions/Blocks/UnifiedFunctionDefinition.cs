@@ -37,6 +37,15 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
+		private UnifiedTypeCollection _throws;
+
+		public UnifiedTypeCollection Throws {
+			get { return _throws; }
+			set {
+				_throws = SetParentOfChild(value, _throws);
+			}
+		}
+
 		private UnifiedFunctionDefinition() {
 			Modifiers = UnifiedModifierCollection.Create();
 			Parameters = UnifiedParameterCollection.Create();
@@ -56,6 +65,7 @@ namespace Ucpf.Core.Model {
 			yield return Modifiers;
 			yield return Type;
 			yield return Parameters;
+			yield return Throws;
 			yield return Body;
 		}
 
@@ -68,6 +78,8 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Throws, v => Throws = (UnifiedTypeCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
@@ -79,6 +91,8 @@ namespace Ucpf.Core.Model {
 					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_throws, v => _throws = (UnifiedTypeCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
@@ -104,6 +118,17 @@ namespace Ucpf.Core.Model {
 				Type = type,
 				Modifiers = modifiers,
 				Parameters = parameters,
+				Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition Create(string name, UnifiedType type, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters, UnifiedTypeCollection throws, UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+				Name = name,
+				Type = type,
+				Modifiers = modifiers,
+				Parameters = parameters,
+				Throws = throws,
 				Body = body,
 			};
 		}
