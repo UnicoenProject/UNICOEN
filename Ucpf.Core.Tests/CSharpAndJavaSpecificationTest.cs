@@ -171,66 +171,107 @@ namespace Ucpf.Core.Tests {
 		public static UnifiedProgram TryCatchModel {
 			get {
 				return
-					CreateClassAndMethod(new UnifiedBlock {
-						new UnifiedTry {
-								Body = {
-										"i".ToVariableDefinition(
-										"int".ToType(),
-										0.ToLiteral()),
-								},
-								Catches = {
-										new UnifiedCatch(),
-								},
-								FinallyBody = null,
-						},
-					});
+						CreateClassAndMethod(UnifiedBlock.Create(
+								UnifiedTry.Create(
+										UnifiedBlock.Create(
+												"i".ToVariableDefinition(
+														"int".ToType(),
+														0.ToLiteral())
+												),
+										UnifiedCatchCollection.Create(),
+										null)
+
+								));
 			}
 		}
 
-		public static UnifiedProgram TryCatchWithType {
+		public static UnifiedProgram TryCatchWithTypeModel {
 			get {
-				return
-					CreateClassAndMethod(new UnifiedBlock {
-						new UnifiedTry {
-								Body = {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedTry.Create(
+								UnifiedBlock.Create(
 										"i".ToVariableDefinition(
-										"int".ToType(),
-										0.ToLiteral()),
-								},
-								Catches = {
-										new UnifiedCatch {
-												TargetTypes = {
-														"Exception".ToType()
-												},
-										},
-								},
-								FinallyBody = null,
-						},
-					});
+												"int".ToType(),
+												0.ToLiteral())
+										),
+								UnifiedCatchCollection.Create(
+										UnifiedCatch.Create(
+												UnifiedTypeCollection.Create(
+														"Exception".ToType()),
+												UnifiedBlock.Create())),
+								null)));
 			}
 		}
 
-		public static UnifiedProgram TryCatchWithVariable {
+		public static UnifiedProgram TryCatchWithVariableModel {
 			get {
-				return
-					CreateClassAndMethod(new UnifiedBlock {
-						new UnifiedTry {
-								Body = {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedTry.Create(
+								UnifiedBlock.Create(
 										"i".ToVariableDefinition(
-										"int".ToType(),
-										0.ToLiteral()),
-								},
-								Catches = {
-										new UnifiedCatch {
-												TargetTypes = null,
-												VariableDefinition = new UnifiedVariableDefinition {
-														
-												}
-										},
-								},
-								FinallyBody = null,
-						},
-					});
+												"int".ToType(),
+												0.ToLiteral())),
+								UnifiedCatchCollection.Create(
+										UnifiedCatch.Create(
+												UnifiedVariableDefinition.Create(
+														UnifiedType.Create("Exception"), "e"),
+												UnifiedBlock.Create())),
+								null)
+						));
+			}
+		}
+
+		public static UnifiedProgram TryCatchWithTwoVariableModel {
+			get {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedTry.Create(
+								UnifiedBlock.Create(
+										"i".ToVariableDefinition(
+												"int".ToType(),
+												0.ToLiteral())),
+								UnifiedCatchCollection.Create(
+										UnifiedCatch.Create(
+												UnifiedVariableDefinition.Create(
+														UnifiedType.Create("Exception"), "e"),
+												UnifiedBlock.Create()),
+										UnifiedCatch.Create(
+												UnifiedVariableDefinition.Create(
+														UnifiedType.Create("Exception"), "e"),
+												UnifiedBlock.Create())),
+								null)
+						));
+			}
+		}
+
+		public static UnifiedProgram TryFinallyModel {
+			get {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedTry.Create(
+								UnifiedBlock.Create(
+										"i".ToVariableDefinition(
+												"int".ToType(),
+												0.ToLiteral())),
+								null,
+								UnifiedBlock.Create())
+						));
+			}
+		}
+
+		public static UnifiedProgram TryCatchFinallyModel {
+			get {
+				return CreateClassAndMethod(UnifiedBlock.Create(
+						UnifiedTry.Create(
+								UnifiedBlock.Create(
+										"i".ToVariableDefinition(
+												"int".ToType(),
+												0.ToLiteral())),
+								UnifiedCatchCollection.Create(
+										UnifiedCatch.Create(
+												UnifiedVariableDefinition.Create(
+														UnifiedType.Create("Exception"), "e"),
+												UnifiedBlock.Create())),
+								UnifiedBlock.Create())
+						));
 			}
 		}
 

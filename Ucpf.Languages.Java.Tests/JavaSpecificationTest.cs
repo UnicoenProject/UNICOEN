@@ -197,5 +197,48 @@ namespace Ucpf.Languages.Java.Tests {
 				Is.EqualTo(AnonymousClassModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } catch(Exception e) { }")]
+		public void CreateTryCatchWithVariable(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithVariableModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } catch(Exception e) { } catch(Exception e) { }")]
+		public void CreateTryTwoCatchWithVariable(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithTwoVariableModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } finally { }")]
+		public void CreateTryFinally(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryFinallyModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } catch(Exception e) { } finally { }")]
+		public void CreateTryCatchFinally(string fragment) {
+			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
+			var actual = JavaModelFactory.CreateModel(code);
+
+			Assert.That(actual,
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchFinallyModel)
+					.Using(StructuralEqualityComparerForDebug.Instance));
+		}
 	}
 }

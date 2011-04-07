@@ -5,6 +5,9 @@ using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
+	/// <summary>
+	/// try節を表します。
+	/// </summary>
 	public class UnifiedTry : UnifiedExpressionWithBlock<UnifiedTry> {
 		private UnifiedCatchCollection _catches;
 
@@ -24,10 +27,10 @@ namespace Ucpf.Core.Model {
 			}
 		}
 
-		public UnifiedTry() {
-			Body = new UnifiedBlock();
-			Catches = new UnifiedCatchCollection();
-			FinallyBody = new UnifiedBlock();
+		private UnifiedTry() {
+			Body = UnifiedBlock.Create();
+			Catches = UnifiedCatchCollection.Create();
+			FinallyBody = UnifiedBlock.Create();
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -60,6 +63,14 @@ namespace Ucpf.Core.Model {
 					(Catches, v => _catches = (UnifiedCatchCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(FinallyBody, v => _finallyBody = (UnifiedBlock)v);
+		}
+
+		public static UnifiedTry Create(UnifiedBlock body, UnifiedCatchCollection catches, UnifiedBlock finallyBody) {
+			return new UnifiedTry {
+					Body = body,
+					Catches = catches,
+					FinallyBody = finallyBody,
+			};
 		}
 	}
 }

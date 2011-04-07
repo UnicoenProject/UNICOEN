@@ -199,7 +199,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithType)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithTypeModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
@@ -210,7 +210,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithVariable)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithVariableModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
@@ -221,27 +221,29 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithTwoVariableModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
-	
+
+		[Ignore, Test]
 		[TestCase("try { int i = 0; } finally { }")]
 		public void CreateTryFinally(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryFinallyModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
-		[TestCase("try { int i = 0; } catch { } finally { }")]
+		[Ignore, Test]
+		[TestCase("try { int i = 0; } catch(Exception e) { } finally { }")]
 		public void CreateTryCatchFinally(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = CSharpModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchFinallyModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
