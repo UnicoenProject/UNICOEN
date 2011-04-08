@@ -62,45 +62,5 @@ namespace Ucpf.Core.Tests {
 			return Path.Combine(FixturePath, lang, XmlExpectationName)
 				.GetFullPathAddingSubNames(names);
 		}
-
-		public static IEnumerable<TestCaseData> CSharpTestCases {
-			get {
-				// 必要に応じて以下の要素をコメントアウト
-				return new[] {
-						//new TestCaseData(GetInputPath("CSharp", "Block1.cs")),
-						//new TestCaseData(GetInputPath("CSharp", "Block2.cs")),
-						//new TestCaseData(GetInputPath("CSharp", "Block3.cs")),
-						new TestCaseData(GetInputPath("CSharp", "Fibonacci.cs")),
-						//new TestCaseData(GetInputPath("CSharp", "Student.cs")),
-				};
-				//return Directory.EnumerateFiles(GetInputPath("CSharp"))
-				//        .Select(path => new TestCaseData(path));
-			}
-		}
-
-		public static IEnumerable<TestCaseData> JavaTestCases {
-			get {
-				// 必要に応じて以下の要素をコメントアウト
-				return new[] {
-						//new TestCaseData(GetInputPath("Java", "ActionListener.java")),
-						//new TestCaseData(GetInputPath("Java", "Block1.java")),
-						//new TestCaseData(GetInputPath("Java", "Block2.java")),
-						//new TestCaseData(GetInputPath("Java", "Block3.java")),
-						//new TestCaseData(GetInputPath("Java", "Class.java")),
-						//new TestCaseData(GetInputPath("Java", "Condition.java")),
-						//new TestCaseData(GetInputPath("Java", "ControlFlow.java")),
-						//new TestCaseData(GetInputPath("Java", "Exception.java")),
-						new TestCaseData(GetInputPath("Java", "Fibonacci.java")),
-						//new TestCaseData(GetInputPath("Java", "Method.java")),
-						//new TestCaseData(GetInputPath("Java", "Modifier.java")),
-						//new TestCaseData(GetInputPath("Java", "Operator.java")),
-						//new TestCaseData(GetInputPath("Java", "Simple.java")),
-						//new TestCaseData(GetInputPath("Java", "Student.java")),
-						//new TestCaseData(GetInputPath("Java", "Variable.java")),
-				};
-				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))
-				//    .Select(path => new TestCaseData(path));
-			}
-		}
 	}
 }

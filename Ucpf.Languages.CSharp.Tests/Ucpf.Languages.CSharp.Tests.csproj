@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSharpFibonacciTest.cs" />
+    <Compile Include="CSharpFixture.cs" />
     <Compile Include="CSharpModelFeatureTest.cs" />
     <Compile Include="CSharpRegenerateTest.cs" />
     <Compile Include="CSharpSpecificationTest.cs" />

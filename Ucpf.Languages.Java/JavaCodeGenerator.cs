@@ -107,6 +107,8 @@ namespace Ucpf.Languages.Java {
 			{
 				WriteIndent();
 				stmt.Accept(this);
+				if (!(stmt is UnifiedExpressionWithBlock))
+					_writer.Write(";");
 			}
 			_indent--;
 			WriteIndent();
@@ -132,8 +134,6 @@ namespace Ucpf.Languages.Java {
 				_writer.Write(" ");
 				element.Value.Accept(this);
 			}
-			// TODO: セミコロンは子要素が付けるかどうか決めてはいけない
-			_writer.Write(";");
 		}
 
 		public void Visit(UnifiedSpecialBlock element) {
@@ -240,7 +240,6 @@ namespace Ucpf.Languages.Java {
 			_writer.Write(lit.Value);
 		}
 		#endregion
-
 
 		#region notImplemented
 

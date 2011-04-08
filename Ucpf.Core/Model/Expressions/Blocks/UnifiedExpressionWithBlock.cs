@@ -5,9 +5,7 @@ namespace Ucpf.Core.Model {
 	/// ブロックを持つ式を表します。
 	/// </summary>
 	/// <typeparam name="TSelf"></typeparam>
-	public abstract class UnifiedExpressionWithBlock<TSelf> : UnifiedElement, IUnifiedExpression
-			where TSelf : UnifiedExpressionWithBlock<TSelf>
-	{
+	public abstract class UnifiedExpressionWithBlock : UnifiedElement, IUnifiedExpression {
 		protected UnifiedBlock _body;
 
 		public UnifiedBlock Body {
@@ -18,8 +16,18 @@ namespace Ucpf.Core.Model {
 		}
 
 		protected UnifiedExpressionWithBlock() {
-			Debug.Assert(typeof(TSelf).Equals(GetType()));
 			Body = UnifiedBlock.Create();
+		}
+	}
+	/// <summary>
+	/// ブロックを持つ式を表します。
+	/// </summary>
+	/// <typeparam name="TSelf"></typeparam>
+	public abstract class UnifiedExpressionWithBlock<TSelf> : UnifiedExpressionWithBlock
+			where TSelf : UnifiedExpressionWithBlock<TSelf>
+	{
+		protected UnifiedExpressionWithBlock() {
+			Debug.Assert(typeof(TSelf).Equals(GetType()));
 		}
 
 		public TSelf AddToBody(IUnifiedExpression expression) {

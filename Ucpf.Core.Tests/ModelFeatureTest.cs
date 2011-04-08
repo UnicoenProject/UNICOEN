@@ -12,11 +12,10 @@ namespace Ucpf.Core.Tests {
 		protected abstract UnifiedProgram CreateModel(string code);
 
 		/// <summary>
-		/// 深いコピーが正常に動作するかテストします。
+		/// 深いコピーが正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		public virtual void VerifyDeepCopy(string path) {
-			var code = File.ReadAllText(path);
+		/// <param name="code">テスト対象のソースコード</param>
+		public virtual void VerifyDeepCopyUsingCode(string code) {
 			var model = CreateModel(code);
 			var copiedModel = model.DeepCopy();
 			Assert.That(copiedModel, Is.EqualTo(model)
@@ -29,11 +28,10 @@ namespace Ucpf.Core.Tests {
 		}
 
 		/// <summary>
-		/// 子要素の列挙機能が正常に動作するかテストします。
+		/// 子要素の列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		public virtual void VerifyGetElements(string path) {
-			var code = File.ReadAllText(path);
+		/// <param name="code">テスト対象のソースコード</param>
+		public virtual void VerifyGetElementsUsingCode(string code) {
 			var model = CreateModel(code);
 			foreach (var element in model.Descendants()) {
 				var elements = element.GetElements();
@@ -47,11 +45,10 @@ namespace Ucpf.Core.Tests {
 		}
 
 		/// <summary>
-		/// 子要素とセッターの列挙機能が正常に動作するかテストします。
+		/// 子要素とセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		public virtual void GetElementAndSetters(string path) {
-			var code = File.ReadAllText(path);
+		/// <param name="code">テスト対象のソースコード</param>
+		public virtual void VerifyGetElementAndSettersUsingCode(string code) {
 			var model = CreateModel(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
@@ -68,11 +65,10 @@ namespace Ucpf.Core.Tests {
 		}
 
 		/// <summary>
-		/// 子要素とプロパティを介さないセッターの列挙機能が正常に動作するかテストします。
+		/// 子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		public virtual void GetElementAndDirectSetters(string path) {
-			var code = File.ReadAllText(path);
+		/// <param name="code">テスト対象のソースコード</param>
+		public virtual void VerifyGetElementAndDirectSettersUsingCode(string code) {
 			var model = CreateModel(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
@@ -100,13 +96,10 @@ namespace Ucpf.Core.Tests {
 		}
 
 		/// <summary>
-		/// 親要素が不適切な要素がないかテストします。
+		/// 親要素が不適切な要素がないかソースコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test]
-		[TestCaseSource("TestCases")]
-		public virtual void VerifyParentProperty(string path) {
-			var code = File.ReadAllText(path);
+		/// <param name="code">テスト対象のソースコード</param>
+		public virtual void VerifyParentPropertyUsingCode(string code) {
 			var model = CreateModel(code);
 			VerifyParentProperty(model);
 		}
@@ -121,11 +114,10 @@ namespace Ucpf.Core.Tests {
 		}
 
 		/// <summary>
-		/// 全要素の文字列情報を取得できるかテストします。
+		/// 全要素の文字列情報を取得できるかソースコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		public virtual void VerifyToString(string path) {
-			var code = File.ReadAllText(path);
+		/// <param name="code">テスト対象のソースコード</param>
+		public virtual void VerifyToStringUsingCode(string code) {
 			var model = CreateModel(code);
 			foreach (var element in model.DescendantsAndSelf()) {
 				Assert.That(element.ToString(), Is.Not.Null);
