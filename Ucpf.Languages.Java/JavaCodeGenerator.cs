@@ -107,7 +107,7 @@ namespace Ucpf.Languages.Java {
 			{
 				WriteIndent();
 				stmt.Accept(this);
-				if (!(stmt is UnifiedExpressionWithBlock))
+				if (stmt is UnifiedNew || !(stmt is UnifiedExpressionWithBlock))
 					_writer.Write(";");
 			}
 			_indent--;
@@ -262,7 +262,11 @@ namespace Ucpf.Languages.Java {
 		}
 
 		public void Visit(UnifiedNew element) {
-			throw new NotImplementedException();
+			_writer.Write("new ");
+			element.Type.Accept(this);
+			element.Arguments.Accept(this);
+			if (element.Body != null)
+				element.Body.Accept(this);
 		}
 
 

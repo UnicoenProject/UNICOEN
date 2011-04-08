@@ -11,6 +11,7 @@ namespace Ucpf.Languages.Java.Tests {
 			get {
 				return new[] {
 						"{ M1(); }",
+						"{ new A(); }",
 				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
@@ -19,6 +20,7 @@ namespace Ucpf.Languages.Java.Tests {
 			get {
 				return new[] {
 						"class A { }",
+						"public class A { }",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
