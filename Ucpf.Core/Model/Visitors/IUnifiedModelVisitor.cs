@@ -12,7 +12,7 @@
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);
 		void Visit(UnifiedParameterCollection element);
-		void Visit(UnifiedVariable element);
+		void Visit(UnifiedIdentifier element);
 		void Visit(UnifiedModifier element);
 		void Visit(UnifiedModifierCollection element);
 		void Visit(UnifiedImport element);
@@ -59,7 +59,7 @@
 		TResult Visit(UnifiedIf element, TData data);
 		TResult Visit(UnifiedParameter element, TData data);
 		TResult Visit(UnifiedParameterCollection element, TData data);
-		TResult Visit(UnifiedVariable element, TData data);
+		TResult Visit(UnifiedIdentifier element, TData data);
 		TResult Visit(UnifiedModifier element, TData data);
 		TResult Visit(UnifiedModifierCollection element, TData data);
 		TResult Visit(UnifiedImport element, TData data);

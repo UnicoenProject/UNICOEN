@@ -32,7 +32,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var cond    = ifStmt.Condition;
 
 			//expectation
-			var expectation = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2));
+			var expectation = UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2));
 
 			Assert.That(cond, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
@@ -52,7 +52,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 		[Test]
 		public void 一番最初に宣言されている関数名を取得する() {
-			Assert.That(_func.Name, Is.EqualTo("fibonacci"));
+			Assert.That(_func.Name.Value, Is.EqualTo("fibonacci"));
 		}
 
 		[Test]
@@ -65,7 +65,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var returnStmt = tBlock.First();
 
 			//expectation
-			var expectation = UnifiedJump.CreateReturn(UnifiedVariable.Create("n"));
+			var expectation = UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"));
 
 			Assert.That(returnStmt, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
@@ -94,9 +94,9 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var returnStmt  = (UnifiedJump)fBlock.First();
 			var binaryExp   = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp     = (UnifiedCall)binaryExp.LeftHandSide;
-			var identifier  = (UnifiedVariable)callExp.Function;
+			var identifier  = (UnifiedIdentifier)callExp.Function;
 
-			Assert.That(identifier.Name, Is.EqualTo("fibonacci"));
+			Assert.That(identifier.Value, Is.EqualTo("fibonacci"));
 		}
 
 		[Test]
@@ -111,7 +111,7 @@ namespace Ucpf.Languages.JavaScript.Tests {
 			var firstArg    = callExp.Arguments.First().Value;
 
 			//expectation
-			var expectation = UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
+			var expectation = UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create(1));
 
 			Assert.That(firstArg, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
@@ -129,10 +129,10 @@ namespace Ucpf.Languages.JavaScript.Tests {
 
 			//expectation
 			var expectation = UnifiedBinaryExpression.Create(UnifiedCall.Create(
-					UnifiedVariable.Create("fibonacci"),
+					UnifiedIdentifier.CreateUnknown("fibonacci"),
 					UnifiedArgumentCollection.Create(
 							UnifiedArgument.Create(UnifiedBinaryExpression.Create(
-											UnifiedVariable.Create("n"),
+											UnifiedIdentifier.CreateUnknown("n"),
 											UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorType.Subtract),
 											UnifiedIntegerLiteral.Create(1)
 											))
@@ -140,9 +140,9 @@ namespace Ucpf.Languages.JavaScript.Tests {
 					),
 					UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
 					UnifiedCall.Create(
-							UnifiedVariable.Create("fibonacci"),
+							UnifiedIdentifier.CreateUnknown("fibonacci"),
 							UnifiedArgumentCollection.Create(
-									UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+									UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 															UnifiedBinaryOperator.Create("-",
 																	UnifiedBinaryOperatorType.Subtract),
 															UnifiedIntegerLiteral.Create(2)

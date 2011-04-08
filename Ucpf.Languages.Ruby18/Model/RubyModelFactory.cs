@@ -65,7 +65,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 					return UnifiedBinaryExpression.Create(CreateExpression(node.Elements().First()), @operator, CreateExpression(node.Elements().ElementAt(2).Elements().First()));
 				}
 			}
-			return UnifiedCall.Create(UnifiedVariable.Create(funcName), UnifiedArgumentCollection.Create(
+			return UnifiedCall.Create(UnifiedIdentifier.CreateUnknown(funcName), UnifiedArgumentCollection.Create(
 					node.Elements().ElementAt(2).Elements()
 						.Select(e => UnifiedArgument.Create(CreateExpression(e)))));
 		}
@@ -76,7 +76,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 			case "lit":
 				return CreateLiteral(node);
 			case "lvar":
-				return UnifiedVariable.Create(node.Value);
+				return UnifiedIdentifier.CreateUnknown(node.Value);
 			case "call":
 				return CreateCall(node);
 			case "if":

@@ -101,6 +101,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedForeach.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
+    <Compile Include="Model\Expressions\UnifiedIdentifierType.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
     <Compile Include="Model\Expressions\UnifiedJump.cs" />
     <Compile Include="Model\Expressions\UnifiedJumpType.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="Model\Expressions\UnifiedType.cs" />
     <Compile Include="Model\Expressions\UnifiedTypeCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedUnaryExpression.cs" />
-    <Compile Include="Model\Expressions\UnifiedVariable.cs" />
+    <Compile Include="Model\Expressions\UnifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedWhile.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />

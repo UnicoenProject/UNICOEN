@@ -2,8 +2,8 @@
 
 namespace Ucpf.Core.Model.Extensions {
 	public static class ModelFactoryForPrimitive {
-		public static UnifiedVariable ToVariable(this string name) {
-			return UnifiedVariable.Create(name);
+		public static UnifiedIdentifier ToVariable(this string name) {
+			return UnifiedIdentifier.CreateUnknown(name);
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name) {

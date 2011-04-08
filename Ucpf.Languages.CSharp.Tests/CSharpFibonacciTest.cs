@@ -33,20 +33,20 @@ namespace Ucpf.Languages.CSharp.Tests {
 												),
 										UnifiedBlock.Create(
 												UnifiedIf.Create(
-														UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+														UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 																UnifiedBinaryOperator.Create("<",
 																		UnifiedBinaryOperatorType.LessThan),
 																UnifiedIntegerLiteral.Create(2)),
 														UnifiedBlock.Create(new[] {
-																UnifiedJump.CreateReturn(UnifiedVariable.Create("n")),
+																UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n")),
 														}),
 														UnifiedBlock.Create(
 																UnifiedJump.CreateReturn(
 																		UnifiedBinaryExpression.Create(
-																				UnifiedCall.Create(UnifiedVariable.Create("fibonacci"),
+																				UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fibonacci"),
 																						UnifiedArgumentCollection.Create(
 																								UnifiedArgument.Create(UnifiedBinaryExpression.Create(
-																										UnifiedVariable.Create("n"),
+																										UnifiedIdentifier.CreateUnknown("n"),
 																										UnifiedBinaryOperator.Create("-",
 																												UnifiedBinaryOperatorType.Subtract),
 																										UnifiedIntegerLiteral.Create(1)
@@ -54,11 +54,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 																						),
 																				UnifiedBinaryOperator.Create("+",
 																						UnifiedBinaryOperatorType.Add),
-																				UnifiedCall.Create(UnifiedVariable.Create("fibonacci"),
+																				UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fibonacci"),
 																						UnifiedArgumentCollection.Create(
 																								UnifiedArgument.Create(
 																										UnifiedBinaryExpression.Create(
-																												UnifiedVariable.Create("n"),
+																												UnifiedIdentifier.CreateUnknown("n"),
 																												UnifiedBinaryOperator.Create("-",
 																														UnifiedBinaryOperatorType.Subtract),
 																												UnifiedIntegerLiteral.Create(2)))

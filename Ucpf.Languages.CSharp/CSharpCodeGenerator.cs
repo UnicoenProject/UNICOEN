@@ -214,8 +214,8 @@ namespace Ucpf.Languages.CSharp {
 
 		#region value
 
-		public void Visit(UnifiedVariable variable) {
-			_writer.Write(variable.Name);
+		public void Visit(UnifiedIdentifier identifier) {
+			_writer.Write(identifier.Value);
 		}
 
 		public void Visit(UnifiedLiteral lit) {

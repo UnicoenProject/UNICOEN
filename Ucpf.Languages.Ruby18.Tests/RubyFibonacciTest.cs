@@ -8,10 +8,10 @@ namespace Ucpf.Languages.Ruby18.Tests {
 	[TestFixture]
 	public class RubyFibonacciTest {
 		private static UnifiedCall CreateCall(int? decrement) {
-			return UnifiedCall.Create(UnifiedVariable.Create("fibonacci"), UnifiedArgumentCollection.Create(
+			return UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fibonacci"), UnifiedArgumentCollection.Create(
 					decrement == null
-						? UnifiedArgument.Create(UnifiedVariable.Create("n"))
-						: UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("-",
+						? UnifiedArgument.Create(UnifiedIdentifier.CreateUnknown("n"))
+						: UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("-",
 						                   	UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create((int)decrement)))
 				));
 		}
@@ -45,7 +45,7 @@ end");
 					UnifiedParameter.Create("n")
 				),
 				UnifiedBlock.Create(
-					UnifiedJump.CreateReturn(UnifiedVariable.Create("n"))
+					UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
 				)
 			);
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -119,9 +119,9 @@ end
 				),
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
-						UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
+						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn( UnifiedVariable.Create("n"))
+							UnifiedJump.CreateReturn( UnifiedIdentifier.CreateUnknown("n"))
 						),
 						UnifiedBlock.Create(
 							UnifiedJump.CreateReturn( UnifiedIntegerLiteral.Create(0))
@@ -154,9 +154,9 @@ end
 				),
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
-						UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
+						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn(UnifiedVariable.Create("n"))
+							UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
 						),
 						UnifiedBlock.Create(
 							UnifiedJump.CreateReturn(

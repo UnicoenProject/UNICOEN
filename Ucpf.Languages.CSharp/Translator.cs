@@ -205,7 +205,7 @@ namespace Ucpf.Languages.CSharp {
 			//var uSwitch = new UnifiedSwitch { Value = cond };
 			//foreach (var section in stmt.SwitchSections) {
 			//    // Body
-			//    var body = UnifiedBlock.Create(
+			//    var body = UnifiedBlock.CreateUnknown(
 			//        section.Children
 			//        .Select(node => node.AcceptVisitor(this, data))
 			//        .OfType<UnifiedExpression>()
@@ -301,7 +301,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public object VisitIdentifierExpression(IdentifierExpression ident, object data) {
-			return UnifiedVariable.Create(ident.Identifier);
+			return UnifiedIdentifier.CreateUnknown(ident.Identifier);
 		}
 
 		public object VisitBinaryOperatorExpression(BinaryOperatorExpression expr, object data) {

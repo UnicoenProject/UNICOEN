@@ -6,14 +6,23 @@ namespace Ucpf.Core.Model {
 	/// <summary>
 	/// 変数を表します。
 	/// </summary>
-	public class UnifiedVariable : UnifiedElement, IUnifiedExpression {
-		public static UnifiedVariable Create(string name) {
-			return new UnifiedVariable { Name = name };
+	public class UnifiedIdentifier : UnifiedElement, IUnifiedExpression {
+
+		public static UnifiedIdentifier CreateUnknown(string name) {
+			return Create(name, UnifiedIdentifierType.Unknown);
 		}
 
-		private UnifiedVariable() { }
+		public static UnifiedIdentifier Create(string name, UnifiedIdentifierType type) {
+			return new UnifiedIdentifier {
+					Value = name,
+					Type = type
+			};
+		}
+		private UnifiedIdentifier() { }
 
-		public string Name { get; set; }
+		public string Value { get; set; }
+
+		public UnifiedIdentifierType Type { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

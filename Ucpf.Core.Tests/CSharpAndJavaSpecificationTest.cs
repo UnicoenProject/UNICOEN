@@ -164,10 +164,10 @@ namespace Ucpf.Core.Tests {
 				return CreateClassAndMethod(UnifiedBlock.Create(
 						UnifiedSpecialBlock.Create(
 								UnifiedSpecialBlockType.Synchrnoized, 
-								UnifiedVariable.Create("this"),
+								UnifiedIdentifier.CreateUnknown("this"),
 								UnifiedBlock.Create(
 										UnifiedCall.Create(
-												UnifiedVariable.Create("M1"),
+												UnifiedIdentifier.CreateUnknown("M1"),
 												UnifiedArgumentCollection.Create())))));
 			}
 		}

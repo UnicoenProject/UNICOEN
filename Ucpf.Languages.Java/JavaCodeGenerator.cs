@@ -45,7 +45,7 @@ namespace Ucpf.Languages.Java {
 			WriteIndent();
 			classDefinition.Modifiers.Accept(this);
 			_writer.Write("class ");
-			_writer.WriteLine(classDefinition.Name);
+			_writer.WriteLine(classDefinition.Name.Value);
 			classDefinition.Body.Accept(this);
 		}
 
@@ -54,7 +54,7 @@ namespace Ucpf.Languages.Java {
 			functionDefinition.Modifiers.Accept(this);
 			functionDefinition.Type.Accept(this);
 			_writer.Write(" ");
-			_writer.Write(functionDefinition.Name);
+			_writer.Write(functionDefinition.Name.Value);
 			functionDefinition.Parameters.Accept(this);
 			functionDefinition.Body.Accept(this);
 		}
@@ -225,9 +225,9 @@ namespace Ucpf.Languages.Java {
 		#endregion
 
 		#region value
-		public void Visit(UnifiedVariable variable)
+		public void Visit(UnifiedIdentifier identifier)
 		{
-			_writer.Write(variable.Name);
+			_writer.Write(identifier.Value);
 		}
 
 		public void Visit(UnifiedLiteral lit)

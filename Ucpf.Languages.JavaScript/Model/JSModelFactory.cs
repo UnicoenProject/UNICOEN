@@ -46,7 +46,7 @@ namespace Ucpf.Languages.JavaScript.Model {
 			if (topExpressionElement.Elements().Count() == 1) {
 				//TODO CONSIDER: TOKEN consisted of only [a-Z]* is always variable?
 				if (System.Text.RegularExpressions.Regex.IsMatch(topExpressionElement.Value, @"[a-zA-Z]{1}[a-zA-Z0-9]*")) {
-					return UnifiedVariable.Create(topExpressionElement.Value);
+					return UnifiedIdentifier.CreateUnknown(topExpressionElement.Value);
 				}
 				return CreateLiteral(topExpressionElement);
 			}

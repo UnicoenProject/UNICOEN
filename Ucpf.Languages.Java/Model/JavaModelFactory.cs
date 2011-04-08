@@ -215,14 +215,14 @@ namespace Ucpf.Languages.Java.Model {
 
 			var first = node.FirstElement();
 			if (first.HasContent("this") || first.Name() == "IDENTIFIER") {
-				var variable = UnifiedVariable.Create(first.Value);
+				var variable = UnifiedIdentifier.CreateUnknown(first.Value);
 				var prop = first.NextElements("IDENTIFIER")
 						.Aggregate((IUnifiedExpression)variable,
 								(e, v) => UnifiedProperty.Create(e, v.Value, "."));
 				return CreateIdentifierSuffix(node.Element("identifierSuffix"), prop);
 			}
 			if (first.HasContent("super")) {
-				var super = UnifiedVariable.Create("super");
+				var super = UnifiedIdentifier.CreateUnknown("super");
 				return CreateSuperSuffix(node.Element("superSuffix"), super);
 			}
 			if (first.Name() == "literal") {
@@ -238,7 +238,7 @@ namespace Ucpf.Languages.Java.Model {
 				return UnifiedProperty.Create(UnifiedType.Create(type), "class", ".");
 			}
 			if (first.HasContent("void")) {
-				return UnifiedProperty.Create(UnifiedVariable.Create(first.Value), "class", ".");
+				return UnifiedProperty.Create(UnifiedIdentifier.CreateUnknown(first.Value), "class", ".");
 			}
 			throw new InvalidOperationException();
 		}
@@ -383,10 +383,10 @@ namespace Ucpf.Languages.Java.Model {
 			}
 		}
 
-		public static UnifiedVariable CreateVariable(XElement node) {
+		public static UnifiedIdentifier CreateVariable(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary" || node.Name() == "literal");
-			return UnifiedVariable.Create(node.Value);
+			return UnifiedIdentifier.CreateUnknown(node.Value);
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {

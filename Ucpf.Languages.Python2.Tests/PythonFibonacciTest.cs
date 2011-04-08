@@ -33,20 +33,20 @@ print fib(20)
 										),
 								UnifiedBlock.Create(
 										UnifiedIf.Create(
-												UnifiedBinaryExpression.Create(UnifiedVariable.Create("n"),
+												UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 														UnifiedBinaryOperator.Create("<=",
 																UnifiedBinaryOperatorType.GreaterThanOrEqual),
 														UnifiedIntegerLiteral.Create(1)),
 												UnifiedBlock.Create(
-														UnifiedJump.CreateReturn(UnifiedVariable.Create("n"))
+														UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
 														),
 												UnifiedBlock.Create(
 														UnifiedJump.CreateReturn(
 																UnifiedBinaryExpression.Create(
-																		UnifiedCall.Create(UnifiedVariable.Create("fib"),
+																		UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fib"),
 																				UnifiedArgumentCollection.Create(
 																						UnifiedArgument.Create(UnifiedBinaryExpression.Create(
-																								UnifiedVariable.Create("n"),
+																								UnifiedIdentifier.CreateUnknown("n"),
 																								UnifiedBinaryOperator.Create("-",
 																										UnifiedBinaryOperatorType.Subtract),
 																								UnifiedIntegerLiteral.Create(1)))
@@ -54,11 +54,11 @@ print fib(20)
 																				),
 																		UnifiedBinaryOperator.Create("+",
 																				UnifiedBinaryOperatorType.Add),
-																		UnifiedCall.Create(UnifiedVariable.Create("fib"),
+																		UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fib"),
 																				UnifiedArgumentCollection.Create(
 																						UnifiedArgument.Create(
 																								UnifiedBinaryExpression.Create(
-																										UnifiedVariable.Create("n"),
+																										UnifiedIdentifier.CreateUnknown("n"),
 																										UnifiedBinaryOperator.Create("-",
 																												UnifiedBinaryOperatorType.Subtract),
 																										UnifiedIntegerLiteral.Create(2)))
@@ -69,10 +69,10 @@ print fib(20)
 														)
 												)
 										,
-										UnifiedCall.Create(UnifiedVariable.Create("print"),
+										UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("print"),
 												UnifiedArgumentCollection.Create(
 														UnifiedArgument.Create(UnifiedCall.Create(
-																UnifiedVariable.Create("fib"), UnifiedArgumentCollection.Create(
+																UnifiedIdentifier.CreateUnknown("fib"), UnifiedArgumentCollection.Create(
 																		UnifiedArgument.Create(UnifiedIntegerLiteral.Create(20))
 																		))
 																)

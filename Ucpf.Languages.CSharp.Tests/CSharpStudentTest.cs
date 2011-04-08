@@ -42,7 +42,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 									UnifiedConstructorDefinition.Create(
 											UnifiedBlock.Create(
 													CSharpModelFactoryHelper.CreateAssignExpression(
-															UnifiedVariable.Create("_name"), UnifiedVariable.Create("name"))
+															UnifiedIdentifier.CreateUnknown("_name"), UnifiedIdentifier.CreateUnknown("name"))
 													),
 											UnifiedModifier.Create("public"),
 											UnifiedParameterCollection.Create(
@@ -57,7 +57,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 													UnifiedModifier.Create("public")
 													),
 											UnifiedBlock.Create(
-													UnifiedJump.CreateReturn(UnifiedVariable.Create("_name"))
+													UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("_name"))
 													)
 											),
 									UnifiedFunctionDefinition.Create(
@@ -78,13 +78,13 @@ namespace Ucpf.Languages.CSharp.Tests {
 																null)
 															),
 													CSharpModelFactoryHelper.CreateAssignExpression(
-															UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+															UnifiedIndexer.Create(UnifiedIdentifier.CreateUnknown("students"), 
 															UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)))),
 																UnifiedNew.Create(UnifiedType.Create("Student"), 
 																	UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom")))) 
 															),
 													CSharpModelFactoryHelper.CreateAssignExpression(
-															UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
+															UnifiedIndexer.Create(UnifiedIdentifier.CreateUnknown("students"), 
 																UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)))),
 																	UnifiedNew.Create(UnifiedType.Create("Student"), UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna"))))
 															),
@@ -92,17 +92,17 @@ namespace Ucpf.Languages.CSharp.Tests {
 															UnifiedVariableDefinition.Create(UnifiedType.Create("int"), "i",
 																	UnifiedIntegerLiteral.Create(0)),
 															CSharpModelFactoryHelper.CreateLesserExpression(
-																	UnifiedVariable.Create("i"), UnifiedIntegerLiteral.Create(2)),
+																	UnifiedIdentifier.CreateUnknown("i"), UnifiedIntegerLiteral.Create(2)),
 															CSharpModelFactoryHelper.CreateExpression(
-																	UnifiedVariable.Create("i"),
+																	UnifiedIdentifier.CreateUnknown("i"),
 																	UnifiedUnaryOperatorType.PostIncrementAssign),
 															UnifiedBlock.Create(new[] {
-																	UnifiedCall.Create(UnifiedVariable.Create("write"),
+																	UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("write"),
 																			UnifiedArgumentCollection.Create(
 																					UnifiedArgument.Create(
 																							UnifiedCall.Create(
-																									UnifiedProperty.Create(UnifiedIndexer.Create(UnifiedVariable.Create("students"), 
-																											UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedVariable.Create("i")))), "getName", "."),
+																									UnifiedProperty.Create(UnifiedIndexer.Create(UnifiedIdentifier.CreateUnknown("students"), 
+																											UnifiedArgumentCollection.Create(UnifiedArgument.Create(UnifiedIdentifier.CreateUnknown("i")))), "getName", "."),
 																										UnifiedArgumentCollection.Create()
 																									)
 																							)
@@ -114,13 +114,13 @@ namespace Ucpf.Languages.CSharp.Tests {
 													UnifiedForeach.Create(
 															UnifiedVariableDefinition.Create(UnifiedType.Create("Student"),
 																	"student"),
-															UnifiedVariable.Create("students"),
+															UnifiedIdentifier.CreateUnknown("students"),
 															UnifiedBlock.Create(
-																	UnifiedCall.Create(UnifiedVariable.Create("write"),
+																	UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("write"),
 																			UnifiedArgumentCollection.Create(
 																					UnifiedArgument.Create(
 																							UnifiedCall.Create(
-																									UnifiedProperty.Create(UnifiedVariable.Create("student"), "getName", "."),
+																									UnifiedProperty.Create(UnifiedIdentifier.CreateUnknown("student"), "getName", "."),
 																										UnifiedArgumentCollection.Create())
 																							)
 																					)
