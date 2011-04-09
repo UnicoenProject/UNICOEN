@@ -4,35 +4,44 @@ using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Ruby18.Model;
 
-namespace Ucpf.Languages.Ruby18.Tests {
+namespace Ucpf.Languages.Ruby18.Tests
+{
 	[TestFixture]
-	public class RubyFibonacciTest {
-		private static UnifiedCall CreateCall(int? decrement) {
-			return UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fibonacci"), UnifiedArgumentCollection.Create(
+	public class RubyFibonacciTest
+	{
+		private static UnifiedCall CreateCall(int? decrement)
+		{
+			return UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fibonacci"),
+				UnifiedArgumentCollection.Create(
 					decrement == null
 						? UnifiedArgument.Create(UnifiedIdentifier.CreateUnknown("n"))
-						: UnifiedArgument.Create(UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("-",
-						                   	UnifiedBinaryOperatorType.Subtract), UnifiedIntegerLiteral.Create((int)decrement)))
-				));
+						: UnifiedArgument.Create(
+							UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
+								UnifiedBinaryOperator.Create("-",
+									UnifiedBinaryOperatorType.Subtract),
+								UnifiedIntegerLiteral.Create((int)decrement)))
+					));
 		}
 
 		[Test]
-		public void CreateDefineFunction() {
+		public void CreateDefineFunction()
+		{
 			var ast = Ruby18XmlGenerator.Instance.Generate(@"
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
 			var expectation = UnifiedFunctionDefinition.Create(
-					"fibonacci",
-					UnifiedParameterCollection.Create(
-							UnifiedParameter.Create("n"))
-					);
+				"fibonacci",
+				UnifiedParameterCollection.Create(
+					UnifiedParameter.Create("n"))
+				);
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
-		public void CreateReturn() {
+		public void CreateReturn()
+		{
 			var ast =
 				Ruby18XmlGenerator.Instance.Generate(@"
 def fibonacci(n)
@@ -43,17 +52,18 @@ end");
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
-				),
+					),
 				UnifiedBlock.Create(
 					UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
-				)
-			);
+					)
+				);
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
-		public void CreateFunctionCall() {
+		public void CreateFunctionCall()
+		{
 			var ast =
 				Ruby18XmlGenerator.Instance.Generate(
 					@"
@@ -64,18 +74,19 @@ end");
 			var expectation = UnifiedFunctionDefinition.Create(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
-						UnifiedParameter.Create("n")
-				),
+					UnifiedParameter.Create("n")
+					),
 				UnifiedBlock.Create(
-					UnifiedJump.CreateReturn( CreateCall(null))
-				)
-			);
+					UnifiedJump.CreateReturn(CreateCall(null))
+					)
+				);
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
-		public void CreateFunctionCall2() {
+		public void CreateFunctionCall2()
+		{
 			var ast =
 				Ruby18XmlGenerator.Instance.Generate(
 					@"
@@ -87,19 +98,22 @@ end");
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
-				),
+					),
 				UnifiedBlock.Create(
 					UnifiedJump.CreateReturn(
-						UnifiedBinaryExpression.Create(CreateCall(1), UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add), CreateCall(2))
+						UnifiedBinaryExpression.Create(CreateCall(1),
+							UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
+							CreateCall(2))
+						)
 					)
-				)
-			);
+				);
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
-		public void CreateIf() {
+		public void CreateIf()
+		{
 			var ast =
 				Ruby18XmlGenerator.Instance.Generate(
 					@"
@@ -115,26 +129,29 @@ end
 			var expectation = UnifiedFunctionDefinition.Create(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
-						UnifiedParameter.Create("n")
-				),
+					UnifiedParameter.Create("n")
+					),
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
-						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
+						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
+							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan),
+							UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn( UnifiedIdentifier.CreateUnknown("n"))
-						),
+							UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
+							),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn( UnifiedIntegerLiteral.Create(0))
+							UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(0))
+							)
 						)
 					)
-				)
-			);
+				);
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
-		public void CreateFibonacci() {
+		public void CreateFibonacci()
+		{
 			var ast =
 				Ruby18XmlGenerator.Instance.Generate(
 					@"
@@ -151,21 +168,25 @@ end
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
-				),
+					),
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
-						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"), UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan), UnifiedIntegerLiteral.Create(2)),
+						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
+							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan),
+							UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
 							UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
-						),
+							),
 						UnifiedBlock.Create(
 							UnifiedJump.CreateReturn(
-								UnifiedBinaryExpression.Create(CreateCall(1), UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add), CreateCall(2))
+								UnifiedBinaryExpression.Create(CreateCall(1),
+									UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
+									CreateCall(2))
+								)
 							)
 						)
 					)
-				)
-			);
+				);
 			Assert.That(actual, Is.EqualTo(expectation)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}

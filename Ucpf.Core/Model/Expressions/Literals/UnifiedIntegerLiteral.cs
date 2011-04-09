@@ -3,45 +3,54 @@ using System.Collections.Generic;
 using System.Numerics;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model {
+namespace Ucpf.Core.Model
+{
 	/// <summary>
-	/// 整数型であるリテラルを返します。
+	///   整数型であるリテラルを返します。
 	/// </summary>
-	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
-		private UnifiedIntegerLiteral() { }
+	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger>
+	{
+		private UnifiedIntegerLiteral() {}
 
-		public static UnifiedIntegerLiteral Create(int value) {
+		public static UnifiedIntegerLiteral Create(int value)
+		{
 			return new UnifiedIntegerLiteral {
-					Value = value,
+				Value = value,
 			};
 		}
 
-		public static UnifiedIntegerLiteral Create(BigInteger value) {
+		public static UnifiedIntegerLiteral Create(BigInteger value)
+		{
 			return new UnifiedIntegerLiteral {
-					Value = value,
+				Value = value,
 			};
 		}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedModelVisitor visitor)
+		{
 			visitor.Visit(this);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
+		{
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements()
+		{
 			yield break;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
+			GetElementAndSetters()
+		{
 			yield break;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
+			GetElementAndDirectSetters()
+		{
 			yield break;
 		}
 	}

@@ -1,57 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Ucpf.Core.Tests;
 
-namespace Ucpf.Languages.Java.Tests {
-	public static class JavaFixture {
-		public static IEnumerable<TestCaseData> TestStatements {
-			get {
+namespace Ucpf.Languages.Java.Tests
+{
+	public static class JavaFixture
+	{
+		public static IEnumerable<TestCaseData> TestStatements
+		{
+			get
+			{
 				return new[] {
-						"{ M1(); }",
-						"{ new A(); }",
+					"{ M1(); }",
+					"{ new A(); }",
 				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestCodes {
-			get {
+		public static IEnumerable<TestCaseData> TestCodes
+		{
+			get
+			{
 				return new[] {
-						"class A { }",
-						"public class A { }",
+					"class A { }",
+					"public class A { }",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestFilePathes {
-			get {
+		public static IEnumerable<TestCaseData> TestFilePathes
+		{
+			get
+			{
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						//"ActionListener.java",
-						//"Block1.java",
-						//"Block2.java",
-						//"Block3.java",
-						//"Class.java",
-						//"Condition.java",
-						//"ControlFlow.java",
-						//"Exception.java",
-						"Fibonacci.java",
-						//"Method.java",
-						//"Modifier.java",
-						//"Operator.java",
-						//"Simple.java",
-						//"Student.java",
-						//"Variable.java",
+					//"ActionListener.java",
+					//"Block1.java",
+					//"Block2.java",
+					//"Block3.java",
+					//"Class.java",
+					//"Condition.java",
+					//"ControlFlow.java",
+					//"Exception.java",
+					"Fibonacci.java",
+					//"Method.java",
+					//"Modifier.java",
+					//"Operator.java",
+					//"Simple.java",
+					//"Student.java",
+					//"Variable.java",
 				}
-				.Select(s => new TestCaseData(Fixture.GetInputPath("Java", s)));
+					.Select(s => new TestCaseData(Fixture.GetInputPath("Java", s)));
 				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))
 				//    .Select(path => new TestCaseData(path));
 			}
 		}
 
-		private static string CreateCode(string statement) {
+		private static string CreateCode(string statement)
+		{
 			return "class A { public void M1() {" + statement + "} }";
 		}
 	}

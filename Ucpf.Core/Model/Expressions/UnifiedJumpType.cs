@@ -1,8 +1,10 @@
-﻿namespace Ucpf.Core.Model {
+﻿namespace Ucpf.Core.Model
+{
 	/// <summary>
-	/// 処理を移動させる式の種類を表します。
+	///   処理を移動させる式の種類を表します。
 	/// </summary>
-	public enum UnifiedJumpType {
+	public enum UnifiedJumpType
+	{
 		Break,
 		Continue,
 		Goto,
@@ -10,15 +12,15 @@
 		YieldReturn,
 		Throw,
 		/// <summary>
-		/// retry in Ruby
+		///   retry in Ruby
 		/// </summary>
 		Retry,
 		/// <summary>
-		/// redo in Ruby
+		///   redo in Ruby
 		/// </summary>
 		Redo,
 		/// <summary>
-		/// yield in Ruby
+		///   yield in Ruby
 		/// </summary>
 		Yield,
 	}

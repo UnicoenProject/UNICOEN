@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using ICSharpCode.NRefactory.Ast;
 using Ucpf.Core.Model;
 
-
-
-namespace Ucpf.Languages.CSharp {
-
-	partial class Translator {
-
-		private static UnifiedBinaryOperator ConvertBinaryOperator(BinaryOperatorType type) {
+namespace Ucpf.Languages.CSharp
+{
+	internal partial class Translator
+	{
+		private static UnifiedBinaryOperator ConvertBinaryOperator(
+			BinaryOperatorType type)
+		{
 			switch (type) {
 			case BinaryOperatorType.Add:
 				return UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add);
@@ -21,16 +20,21 @@ namespace Ucpf.Languages.CSharp {
 			case BinaryOperatorType.LessThan:
 				return UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan);
 			case BinaryOperatorType.LessThanOrEqual:
-				return UnifiedBinaryOperator.Create("<=", UnifiedBinaryOperatorType.LessThanOrEqual);
+				return UnifiedBinaryOperator.Create("<=",
+					UnifiedBinaryOperatorType.LessThanOrEqual);
 			case BinaryOperatorType.GreaterThan:
-				return UnifiedBinaryOperator.Create(">", UnifiedBinaryOperatorType.GreaterThan);
+				return UnifiedBinaryOperator.Create(">",
+					UnifiedBinaryOperatorType.GreaterThan);
 			case BinaryOperatorType.GreaterThanOrEqual:
-				return UnifiedBinaryOperator.Create(">=", UnifiedBinaryOperatorType.GreaterThanOrEqual);
+				return UnifiedBinaryOperator.Create(">=",
+					UnifiedBinaryOperatorType.GreaterThanOrEqual);
 			}
 			throw new NotImplementedException();
 		}
 
-		private static UnifiedUnaryOperator ConvertUnaryOperator(UnaryOperatorType type) {
+		private static UnifiedUnaryOperator ConvertUnaryOperator(
+			UnaryOperatorType type)
+		{
 			switch (type) {
 			case UnaryOperatorType.Plus:
 				return UnifiedUnaryOperator.Create("+", UnifiedUnaryOperatorType.UnaryPlus);
@@ -53,7 +57,8 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		private static UnifiedModifierCollection ConvertModifiler(Modifiers mods) {
+		private static UnifiedModifierCollection ConvertModifiler(Modifiers mods)
+		{
 			var ret = UnifiedModifierCollection.Create();
 			if ((mods & Modifiers.Private) != 0) {
 				ret.Add(UnifiedModifier.Create("private"));
@@ -71,7 +76,8 @@ namespace Ucpf.Languages.CSharp {
 			return ret;
 		}
 
-		private static UnifiedType ConvertTypeIgnoringIsArray(TypeReference type) {
+		private static UnifiedType ConvertTypeIgnoringIsArray(TypeReference type)
+		{
 			string typeName = type.Type;
 			if (String.IsNullOrEmpty(typeName))
 				return null;
@@ -87,7 +93,8 @@ namespace Ucpf.Languages.CSharp {
 			return UnifiedType.Create(typeName, typeParameter);
 		}
 
-		private static UnifiedType ConvertType(TypeReference type) {
+		private static UnifiedType ConvertType(TypeReference type)
+		{
 			var uType = ConvertTypeIgnoringIsArray(type);
 
 			var buff = new StringBuilder(uType.Name.Value);
@@ -99,10 +106,12 @@ namespace Ucpf.Languages.CSharp {
 					buff.Append("]");
 				}
 			}
-			return UnifiedType.Create(buff.ToString(), uType.Parameters.DeepCopy<UnifiedTypeParameterCollection>());
+			return UnifiedType.Create(buff.ToString(),
+				uType.Parameters.DeepCopy<UnifiedTypeParameterCollection>());
 		}
 
-		private static string GetTypeAlias(string fullTypeName) {
+		private static string GetTypeAlias(string fullTypeName)
+		{
 			switch (fullTypeName) {
 			case "System.Int32":
 				return "int";
@@ -114,7 +123,8 @@ namespace Ucpf.Languages.CSharp {
 			return null;
 		}
 
-		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents) {
+		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents)
+		{
 			var block = UnifiedBlock.Create();
 			foreach (var item in contents) {
 				if (item == null)

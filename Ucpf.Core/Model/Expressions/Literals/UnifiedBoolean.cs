@@ -1,8 +1,10 @@
-﻿namespace Ucpf.Core.Model {
+﻿namespace Ucpf.Core.Model
+{
 	/// <summary>
-	/// 真偽値の種類を表します。
+	///   真偽値の種類を表します。
 	/// </summary>
-	public enum UnifiedBoolean {
+	public enum UnifiedBoolean
+	{
 		True,
 		False,
 	}

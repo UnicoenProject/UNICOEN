@@ -1,25 +1,27 @@
-﻿namespace Ucpf.Core.Model {
+﻿namespace Ucpf.Core.Model
+{
 	/// <summary>
-	/// UnifiedClassDefinitionの種類を表します。
+	///   UnifiedClassDefinitionの種類を表します。
 	/// </summary>
-	public enum UnifiedClassType {
+	public enum UnifiedClassType
+	{
 		Class,
 		/// <summary>
-		/// interface in Java, C#
-		/// trait? in Scala
+		///   interface in Java, C#
+		///   trait? in Scala
 		/// </summary>
 		Interface,
 		/// <summary>
-		/// namespace in C#, C++
-		/// package in Java
+		///   namespace in C#, C++
+		///   package in Java
 		/// </summary>
 		Namespace,
 		/// <summary>
-		/// enum in Java, C#, C++
+		///   enum in Java, C#, C++
 		/// </summary>
 		Enum,
 		/// <summary>
-		/// module in Ruby
+		///   module in Ruby
 		/// </summary>
 		Module,
 	}

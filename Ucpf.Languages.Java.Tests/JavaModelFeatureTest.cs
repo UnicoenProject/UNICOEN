@@ -5,32 +5,38 @@ using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
-namespace Ucpf.Languages.Java.Tests {
+namespace Ucpf.Languages.Java.Tests
+{
 	[TestFixture]
-	public class JavaModelFeatureTest : ModelFeatureTest {
-		public IEnumerable<TestCaseData> TestStatements {
+	public class JavaModelFeatureTest : ModelFeatureTest
+	{
+		public IEnumerable<TestCaseData> TestStatements
+		{
 			get { return JavaRegenerateTest.TestStatements; }
 		}
 
-		public IEnumerable<TestCaseData> TestCodes {
+		public IEnumerable<TestCaseData> TestCodes
+		{
 			get { return JavaRegenerateTest.TestCodes; }
 		}
 
-		public IEnumerable<TestCaseData> TestFilePathes {
+		public IEnumerable<TestCaseData> TestFilePathes
+		{
 			get { return JavaRegenerateTest.TestFilePathes; }
 		}
 
-		protected override UnifiedProgram CreateModel(string code) {
+		protected override UnifiedProgram CreateModel(string code)
+		{
 			return JavaModelFactory.CreateModel(code);
 		}
-
 
 		/// <summary>
 		///   深いコピーが正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyDeepCopyUsingCode(string code) {
+		public void VerifyDeepCopyUsingCode(string code)
+		{
 			VerifyDeepCopy(code);
 		}
 
@@ -39,7 +45,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyDeepCopyUsingFile(string path) {
+		public void VerifyDeepCopyUsingFile(string path)
+		{
 			VerifyDeepCopy(File.ReadAllText(path));
 		}
 
@@ -48,7 +55,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementsUsingCode(string code) {
+		public void VerifyGetElementsUsingCode(string code)
+		{
 			VerifyGetElements(code);
 		}
 
@@ -57,7 +65,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementsUsingFile(string path) {
+		public void VerifyGetElementsUsingFile(string path)
+		{
 			VerifyGetElements(File.ReadAllText(path));
 		}
 
@@ -66,7 +75,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementAndSettersUsingCode(string code) {
+		public void VerifyGetElementAndSettersUsingCode(string code)
+		{
 			VerifyGetElementAndSetters(code);
 		}
 
@@ -75,7 +85,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndSettersUsingFile(string path) {
+		public void VerifyGetElementAndSettersUsingFile(string path)
+		{
 			VerifyGetElementAndSetters(File.ReadAllText(path));
 		}
 
@@ -84,7 +95,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementAndDirectSettersUsingCode(string code) {
+		public void VerifyGetElementAndDirectSettersUsingCode(string code)
+		{
 			VerifyGetElementAndDirectSetters(code);
 		}
 
@@ -93,7 +105,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndDirectSettersUsingFile(string path) {
+		public void VerifyGetElementAndDirectSettersUsingFile(string path)
+		{
 			VerifyGetElementAndDirectSetters(File.ReadAllText(path));
 		}
 
@@ -102,7 +115,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyParentPropertyUsingCode(string code) {
+		public void VerifyParentPropertyUsingCode(string code)
+		{
 			VerifyParentProperty(code);
 		}
 
@@ -111,7 +125,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyParentPropertyUsingFile(string path) {
+		public void VerifyParentPropertyUsingFile(string path)
+		{
 			VerifyParentProperty(File.ReadAllText(path));
 		}
 
@@ -120,7 +135,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyToStringUsingCode(string code) {
+		public void VerifyToStringUsingCode(string code)
+		{
 			VerifyToString(code);
 		}
 
@@ -129,7 +145,8 @@ namespace Ucpf.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyToStringUsingFile(string path) {
+		public void VerifyToStringUsingFile(string path)
+		{
 			VerifyToString(File.ReadAllText(path));
 		}
 	}

@@ -1,26 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using NUnit.Framework;
-using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
+using Ucpf.Languages.CSharp.Tests;
 using Ucpf.Languages.Java.Model;
 
-namespace Ucpf.Languages.Java.Tests {
+namespace Ucpf.Languages.Java.Tests
+{
 	[TestFixture]
-	public class JavaStudentTest {
+	public class JavaStudentTest
+	{
 		private readonly string _source;
 
-		public JavaStudentTest() {
+		public JavaStudentTest()
+		{
 			var path = Fixture.GetInputPath("Java", "Student.java");
 			_source = File.ReadAllText(path);
 		}
 
 		[Test]
-		public void CreateClassDefinition() {
-			var expected = CSharp.Tests.CSharpStudentTest.CreateModel();
+		public void CreateClassDefinition()
+		{
+			var expected = CSharpStudentTest.CreateModel();
 
 			var actual = JavaModelFactory.CreateModel(_source);
 			Assert.That(actual,

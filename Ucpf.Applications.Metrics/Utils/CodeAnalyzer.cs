@@ -8,9 +8,12 @@ using Ucpf.Core.Model.Extensions;
 using Ucpf.Languages.CSharp;
 using Ucpf.Languages.Java.Model;
 
-namespace Ucpf.Applications.Metrics.Utils {
-	public static class CodeAnalyzer {
-		private static UnifiedProgram CreateModel(string ext, string code) {
+namespace Ucpf.Applications.Metrics.Utils
+{
+	public static class CodeAnalyzer
+	{
+		private static UnifiedProgram CreateModel(string ext, string code)
+		{
 			switch (ext) {
 			case "cs":
 				return CSharpModelFactory.CreateModel(code);
@@ -21,10 +24,11 @@ namespace Ucpf.Applications.Metrics.Utils {
 		}
 
 		private static void InitializeCounter(IUnifiedElement model,
-		                                      IDictionary<string, int> counter) {
+		                                      IDictionary<string, int> counter)
+		{
 			var outers = model.GetElements()
-					.Where(e => e is UnifiedClassDefinition ||
-					            e is UnifiedFunctionDefinition);
+				.Where(e => e is UnifiedClassDefinition ||
+				            e is UnifiedFunctionDefinition);
 			foreach (var e in outers) {
 				var outerStr = GetOutersString(e);
 				counter[outerStr] = 0;
@@ -32,14 +36,16 @@ namespace Ucpf.Applications.Metrics.Utils {
 		}
 
 		private static void CountElements(IEnumerable<IUnifiedElement> targets,
-		                                  IDictionary<string, int> counter) {
+		                                  IDictionary<string, int> counter)
+		{
 			foreach (var e in targets) {
 				var outerStr = GetOutersString(e);
 				counter.Increment(outerStr);
 			}
 		}
 
-		private static string GetOutersName(IUnifiedElement element) {
+		private static string GetOutersName(IUnifiedElement element)
+		{
 			var klass = element as UnifiedClassDefinition;
 			if (klass != null) {
 				return "class " + klass.Name;
@@ -51,7 +57,8 @@ namespace Ucpf.Applications.Metrics.Utils {
 			return null;
 		}
 
-		private static string GetOutersString(IUnifiedElement target) {
+		private static string GetOutersString(IUnifiedElement target)
+		{
 			var result = "";
 			foreach (var e in target.ParentsAndSelf()) {
 				var name = GetOutersName(e);
@@ -66,8 +73,9 @@ namespace Ucpf.Applications.Metrics.Utils {
 		}
 
 		public static Dictionary<string, int> Measure(
-				string filePath,
-				Func<IUnifiedElement, IEnumerable<IUnifiedElement>> getTargetElementsFunc) {
+			string filePath,
+			Func<IUnifiedElement, IEnumerable<IUnifiedElement>> getTargetElementsFunc)
+		{
 			var counts = new Dictionary<string, int>();
 			var ext = Path.GetExtension(filePath);
 			var code = File.ReadAllText(filePath);

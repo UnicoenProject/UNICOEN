@@ -3,11 +3,12 @@ using System.IO;
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Languages.CSharp {
-
-	public class CSharpCodeGenerator : IUnifiedModelVisitor {
-
-		public static string Generate(UnifiedProgram program) {
+namespace Ucpf.Languages.CSharp
+{
+	public class CSharpCodeGenerator : IUnifiedModelVisitor
+	{
+		public static string Generate(UnifiedProgram program)
+		{
 			var buff = new StringWriter();
 			var visitor = new CSharpCodeGenerator(buff);
 			visitor.Visit(program);
@@ -19,41 +20,48 @@ namespace Ucpf.Languages.CSharp {
 
 		public string IndentSpace { get; set; }
 
-		private CSharpCodeGenerator(TextWriter writer) {
+		private CSharpCodeGenerator(TextWriter writer)
+		{
 			_writer = writer;
 			_indent = 0;
 			IndentSpace = "\t";
 		}
-		
-		private void WriteIndent() {
+
+		private void WriteIndent()
+		{
 			for (int i = 0; i < _indent; i++)
 				_writer.Write(IndentSpace);
 		}
 
 		#region program, namespace, class, method, filed ...
 
-		public void Visit(UnifiedProgram program) {
+		public void Visit(UnifiedProgram program)
+		{
 			foreach (var elem in program) {
 				elem.Accept(this);
 			}
 		}
 
-		public void Visit(UnifiedModifierCollection mods) {
+		public void Visit(UnifiedModifierCollection mods)
+		{
 			foreach (var mod in mods) {
 				mod.Accept(this);
 				_writer.Write(" ");
 			}
 		}
 
-		public void Visit(UnifiedModifier mod) {
+		public void Visit(UnifiedModifier mod)
+		{
 			_writer.Write(mod.Name);
 		}
 
-		public void Visit(UnifiedType type) {
+		public void Visit(UnifiedType type)
+		{
 			_writer.Write(type.Name.Value);
 		}
 
-		public void Visit(UnifiedClassDefinition clsDef) {
+		public void Visit(UnifiedClassDefinition clsDef)
+		{
 			WriteIndent();
 			clsDef.Modifiers.Accept(this);
 			_writer.WriteLine();
@@ -62,7 +70,8 @@ namespace Ucpf.Languages.CSharp {
 			clsDef.Body.Accept(this);
 		}
 
-		public void Visit(UnifiedFunctionDefinition funcDef) {
+		public void Visit(UnifiedFunctionDefinition funcDef)
+		{
 			WriteIndent();
 			funcDef.Modifiers.Accept(this);
 			funcDef.Type.Accept(this);
@@ -72,7 +81,8 @@ namespace Ucpf.Languages.CSharp {
 			funcDef.Body.Accept(this);
 		}
 
-		public void Visit(UnifiedParameterCollection parameters) {
+		public void Visit(UnifiedParameterCollection parameters)
+		{
 			_writer.Write("(");
 			var splitter = "";
 			foreach (var p in parameters) {
@@ -83,7 +93,8 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write(")");
 		}
 
-		public void Visit(UnifiedParameter parameter) {
+		public void Visit(UnifiedParameter parameter)
+		{
 			parameter.Type.Accept(this);
 			_writer.Write(" ");
 			_writer.Write(parameter.Name.Value);
@@ -93,7 +104,8 @@ namespace Ucpf.Languages.CSharp {
 
 		#region statement
 
-		public void Visit(UnifiedBlock block) {
+		public void Visit(UnifiedBlock block)
+		{
 			WriteIndent();
 			_writer.WriteLine("{");
 			_indent++;
@@ -107,7 +119,8 @@ namespace Ucpf.Languages.CSharp {
 			_writer.WriteLine("}");
 		}
 
-		public void Visit(UnifiedIf ifStmt) {
+		public void Visit(UnifiedIf ifStmt)
+		{
 			_writer.Write("if (");
 			ifStmt.Condition.Accept(this);
 			_writer.WriteLine(")");
@@ -119,7 +132,8 @@ namespace Ucpf.Languages.CSharp {
 			}
 		}
 
-		public void Visit(UnifiedJump element) {
+		public void Visit(UnifiedJump element)
+		{
 			_writer.Write(GetKeyword(element.Type));
 			if (element.Value != null) {
 				_writer.Write(" ");
@@ -127,31 +141,38 @@ namespace Ucpf.Languages.CSharp {
 			}
 		}
 
-		public void Visit(UnifiedSpecialBlock element) {
+		public void Visit(UnifiedSpecialBlock element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCatch element) {
+		public void Visit(UnifiedCatch element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeCollection element) {
+		public void Visit(UnifiedTypeCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCatchCollection element) {
+		public void Visit(UnifiedCatchCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTry element) {
+		public void Visit(UnifiedTry element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCast element) {
+		public void Visit(UnifiedCast element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public string GetKeyword(UnifiedJumpType type) {
+		public string GetKeyword(UnifiedJumpType type)
+		{
 			switch (type) {
 			case UnifiedJumpType.Break:
 				return "break";
@@ -180,7 +201,8 @@ namespace Ucpf.Languages.CSharp {
 
 		#region expression
 
-		public void Visit(UnifiedBinaryExpression expr) {
+		public void Visit(UnifiedBinaryExpression expr)
+		{
 			_writer.Write("(");
 			expr.LeftHandSide.Accept(this);
 			expr.Operator.Accept(this);
@@ -188,16 +210,19 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write(")");
 		}
 
-		public void Visit(UnifiedBinaryOperator op) {
+		public void Visit(UnifiedBinaryOperator op)
+		{
 			_writer.Write(op.Sign);
 		}
 
-		public void Visit(UnifiedCall call) {
+		public void Visit(UnifiedCall call)
+		{
 			call.Function.Accept(this);
 			call.Arguments.Accept(this);
 		}
 
-		public void Visit(UnifiedArgumentCollection args) {
+		public void Visit(UnifiedArgumentCollection args)
+		{
 			_writer.Write("(");
 			var splitter = "";
 			foreach (var arg in args) {
@@ -208,7 +233,8 @@ namespace Ucpf.Languages.CSharp {
 			_writer.Write(")");
 		}
 
-		public void Visit(UnifiedArgument arg) {
+		public void Visit(UnifiedArgument arg)
+		{
 			arg.Value.Accept(this);
 		}
 
@@ -216,15 +242,18 @@ namespace Ucpf.Languages.CSharp {
 
 		#region value
 
-		public void Visit(UnifiedIdentifier identifier) {
+		public void Visit(UnifiedIdentifier identifier)
+		{
 			_writer.Write(identifier.Value);
 		}
 
-		public void Visit(UnifiedLiteral lit) {
+		public void Visit(UnifiedLiteral lit)
+		{
 			_writer.Write(lit.ToString());
 		}
 
-		public void Visit<T>(UnifiedTypedLiteral<T> lit) {
+		public void Visit<T>(UnifiedTypedLiteral<T> lit)
+		{
 			_writer.Write(lit.Value);
 		}
 
@@ -232,83 +261,101 @@ namespace Ucpf.Languages.CSharp {
 
 		#region not implement
 
-		public void Visit(UnifiedExpressionCollection element) {
+		public void Visit(UnifiedExpressionCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedWhile element) {
+		public void Visit(UnifiedWhile element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedDoWhile element) {
+		public void Visit(UnifiedDoWhile element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedIndexer element) {
+		public void Visit(UnifiedIndexer element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeParameter element) {
+		public void Visit(UnifiedTypeParameter element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeParameterCollection element) {
+		public void Visit(UnifiedTypeParameterCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedSwitch element) {
+		public void Visit(UnifiedSwitch element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCaseCollection element) {
+		public void Visit(UnifiedCaseCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCase element) {
+		public void Visit(UnifiedCase element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedUnaryOperator element) {
+		void IUnifiedModelVisitor.Visit(UnifiedUnaryOperator element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedImport element) {
+		void IUnifiedModelVisitor.Visit(UnifiedImport element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedConstructorDefinition element) {
+		void IUnifiedModelVisitor.Visit(UnifiedConstructorDefinition element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedVariableDefinition element) {
+		void IUnifiedModelVisitor.Visit(UnifiedVariableDefinition element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedNew element) {
+		void IUnifiedModelVisitor.Visit(UnifiedNew element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedArrayNew element) {
+		void IUnifiedModelVisitor.Visit(UnifiedArrayNew element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedFor element) {
+		void IUnifiedModelVisitor.Visit(UnifiedFor element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedForeach element) {
+		void IUnifiedModelVisitor.Visit(UnifiedForeach element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedUnaryExpression element) {
+		void IUnifiedModelVisitor.Visit(UnifiedUnaryExpression element)
+		{
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedModelVisitor.Visit(UnifiedProperty element) {
+		void IUnifiedModelVisitor.Visit(UnifiedProperty element)
+		{
 			throw new NotImplementedException();
 		}
 
 		#endregion
-
 	}
 }

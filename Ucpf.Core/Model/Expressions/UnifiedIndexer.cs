@@ -2,67 +2,75 @@
 using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model {
+namespace Ucpf.Core.Model
+{
 	/// <summary>
-	/// 配列の添え字を表します。
+	///   配列の添え字を表します。
 	/// </summary>
-	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
+	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression
+	{
 		private IUnifiedExpression _target;
 
-		public IUnifiedExpression Target {
+		public IUnifiedExpression Target
+		{
 			get { return _target; }
-			set {
-				_target = SetParentOfChild(value, _target);
-			}
+			set { _target = SetParentOfChild(value, _target); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedArgumentCollection Arguments
+		{
 			get { return _arguments; }
-			set {
-				_arguments = SetParentOfChild(value, _arguments);
-			}
+			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
-		private UnifiedIndexer() {
+		private UnifiedIndexer()
+		{
 			Arguments = UnifiedArgumentCollection.Create();
 		}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedModelVisitor visitor)
+		{
 			visitor.Visit(this);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
+		{
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements()
+		{
 			yield return Target;
 			yield return Arguments;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
+			GetElementAndSetters()
+		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Target, v => Target = (IUnifiedExpression)v);
+				(Target, v => Target = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
+			GetElementAndDirectSetters()
+		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_target, v => _target = (IUnifiedExpression)v);
+				(_target, v => _target = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public static UnifiedIndexer Create(IUnifiedExpression current, UnifiedArgumentCollection create) {
+		public static UnifiedIndexer Create(IUnifiedExpression current,
+		                                    UnifiedArgumentCollection create)
+		{
 			return new UnifiedIndexer {
-					Target = current,
-					Arguments = create
+				Target = current,
+				Arguments = create
 			};
 		}
 	}

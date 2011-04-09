@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model;
 
-namespace Ucpf.Core.Tests {
-	public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
+namespace Ucpf.Core.Tests
+{
+	public class StructuralEqualityComparerForDebug : IEqualityComparer<object>
+	{
 		public static StructuralEqualityComparerForDebug Instance =
-				new StructuralEqualityComparerForDebug();
+			new StructuralEqualityComparerForDebug();
 
-		bool IEqualityComparer<object>.Equals(object x, object y) {
+		bool IEqualityComparer<object>.Equals(object x, object y)
+		{
 			var result = StructuralEqualityComparer.StructuralEquals(x, y);
 			if (result)
 				return true;
@@ -25,7 +25,8 @@ namespace Ucpf.Core.Tests {
 			return false;
 		}
 
-		public int GetHashCode(object obj) {
+		public int GetHashCode(object obj)
+		{
 			return StructuralEqualityComparer.Instance.GetHashCode(obj);
 		}
 	}

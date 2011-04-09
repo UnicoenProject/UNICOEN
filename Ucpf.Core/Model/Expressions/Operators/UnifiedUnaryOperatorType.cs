@@ -1,9 +1,11 @@
-﻿namespace Ucpf.Core.Model {
+﻿namespace Ucpf.Core.Model
+{
 	/// <summary>
 	///   単項演算子の種類を表します。
 	///   http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
 	/// </summary>
-	public enum UnifiedUnaryOperatorType {
+	public enum UnifiedUnaryOperatorType
+	{
 		/// <summary>
 		///   ++a
 		/// </summary>

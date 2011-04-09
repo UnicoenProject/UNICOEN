@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model {
-	public interface IUnifiedElement : ICloneable {
+namespace Ucpf.Core.Model
+{
+	public interface IUnifiedElement : ICloneable
+	{
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
@@ -24,7 +26,7 @@ namespace Ucpf.Core.Model {
 		/// <param name = "data"></param>
 		/// <returns></returns>
 		TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data);
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data);
 
 		/// <summary>
 		///   子要素を列挙します。
@@ -37,14 +39,14 @@ namespace Ucpf.Core.Model {
 		/// </summary>
 		/// <returns>子要素</returns>
 		IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters();
+			GetElementAndSetters();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
 		IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters();
+			GetElementAndDirectSetters();
 
 		/// <summary>
 		///   コードモデルを正規化します。
@@ -65,12 +67,12 @@ namespace Ucpf.Core.Model {
 		/// </summary>
 		/// <returns>深いコピー</returns>
 		T DeepCopy<T>()
-				where T : IUnifiedElement;
+			where T : IUnifiedElement;
 
 		/// <summary>
-		/// 指定した子要素を削除して、自分自身を取得します。
+		///   指定した子要素を削除して、自分自身を取得します。
 		/// </summary>
-		/// <param name="target">自分自身</param>
+		/// <param name = "target">自分自身</param>
 		/// <returns></returns>
 		IUnifiedElement RemoveChild(IUnifiedElement target);
 

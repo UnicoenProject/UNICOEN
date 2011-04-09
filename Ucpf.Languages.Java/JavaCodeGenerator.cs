@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Languages.Java {
-	public class JavaCodeGenerator : IUnifiedModelVisitor {
-		public static string Generate(UnifiedProgram program) {
+namespace Ucpf.Languages.Java
+{
+	public class JavaCodeGenerator : IUnifiedModelVisitor
+	{
+		public static string Generate(UnifiedProgram program)
+		{
 			var buff = new StringWriter();
 			var visitor = new JavaCodeGenerator(buff);
 			visitor.Visit(program);
@@ -20,28 +20,30 @@ namespace Ucpf.Languages.Java {
 
 		public string IndentSpace { get; set; }
 
-		private JavaCodeGenerator(TextWriter writer) {
+		private JavaCodeGenerator(TextWriter writer)
+		{
 			_writer = writer;
 			_indent = 0;
 			IndentSpace = "\t";
 		}
 
-		private void WriteIndent() {
+		private void WriteIndent()
+		{
 			for (int i = 0; i < _indent; i++)
 				_writer.Write(IndentSpace);
 		}
 
 		#region program, namespace, class, method, filed ...
 
-		public void Visit(UnifiedProgram program) {
-			foreach (var elem in program)
-			{
+		public void Visit(UnifiedProgram program)
+		{
+			foreach (var elem in program) {
 				elem.Accept(this);
 			}
-			
 		}
 
-		public void Visit(UnifiedClassDefinition classDefinition) {
+		public void Visit(UnifiedClassDefinition classDefinition)
+		{
 			WriteIndent();
 			classDefinition.Modifiers.Accept(this);
 			_writer.Write("class ");
@@ -49,7 +51,8 @@ namespace Ucpf.Languages.Java {
 			classDefinition.Body.Accept(this);
 		}
 
-		public void Visit(UnifiedFunctionDefinition functionDefinition) {
+		public void Visit(UnifiedFunctionDefinition functionDefinition)
+		{
 			WriteIndent();
 			functionDefinition.Modifiers.Accept(this);
 			functionDefinition.Type.Accept(this);
@@ -59,12 +62,11 @@ namespace Ucpf.Languages.Java {
 			functionDefinition.Body.Accept(this);
 		}
 
-
-		public void Visit(UnifiedParameterCollection parameters) {
+		public void Visit(UnifiedParameterCollection parameters)
+		{
 			_writer.Write("(");
 			var splitter = "";
-			foreach (var p in parameters)
-			{
+			foreach (var p in parameters) {
 				_writer.Write(splitter);
 				p.Accept(this);
 				splitter = ", ";
@@ -72,21 +74,24 @@ namespace Ucpf.Languages.Java {
 			_writer.Write(")");
 		}
 
-		public void Visit(UnifiedParameter parameter) {
+		public void Visit(UnifiedParameter parameter)
+		{
 			parameter.Modifiers.Accept(this);
 			parameter.Type.Accept(this);
 			_writer.Write(" ");
 			_writer.Write(parameter.Name.Value);
 		}
 
-		public void Visit(UnifiedModifierCollection modifiers) {
+		public void Visit(UnifiedModifierCollection modifiers)
+		{
 			foreach (var mod in modifiers) {
 				mod.Accept(this);
 				_writer.Write(" ");
 			}
 		}
 
-		public void Visit(UnifiedModifier mod) {
+		public void Visit(UnifiedModifier mod)
+		{
 			_writer.Write(mod.Name);
 		}
 
@@ -99,12 +104,12 @@ namespace Ucpf.Languages.Java {
 
 		#region statement
 
-		public void Visit(UnifiedBlock block) {
+		public void Visit(UnifiedBlock block)
+		{
 			WriteIndent();
 			_writer.WriteLine("{");
 			_indent++;
-			foreach (var stmt in block)
-			{
+			foreach (var stmt in block) {
 				WriteIndent();
 				stmt.Accept(this);
 				if (stmt is UnifiedNew || !(stmt is UnifiedExpressionWithBlock))
@@ -115,20 +120,21 @@ namespace Ucpf.Languages.Java {
 			_writer.WriteLine("}");
 		}
 
-		public void Visit(UnifiedIf ifStatement) {
+		public void Visit(UnifiedIf ifStatement)
+		{
 			_writer.Write("if (");
 			ifStatement.Condition.Accept(this);
 			_writer.WriteLine(")");
 			ifStatement.Body.Accept(this);
-			if (ifStatement.FalseBody != null)
-			{
+			if (ifStatement.FalseBody != null) {
 				WriteIndent();
 				_writer.WriteLine("else");
 				ifStatement.FalseBody.Accept(this);
 			}
 		}
 
-		public void Visit(UnifiedJump element) {
+		public void Visit(UnifiedJump element)
+		{
 			_writer.Write(GetKeyword(element.Type));
 			if (element.Value != null) {
 				_writer.Write(" ");
@@ -136,31 +142,38 @@ namespace Ucpf.Languages.Java {
 			}
 		}
 
-		public void Visit(UnifiedSpecialBlock element) {
+		public void Visit(UnifiedSpecialBlock element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCatch element) {
+		public void Visit(UnifiedCatch element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeCollection element) {
+		public void Visit(UnifiedTypeCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCatchCollection element) {
+		public void Visit(UnifiedCatchCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTry element) {
+		public void Visit(UnifiedTry element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCast element) {
+		public void Visit(UnifiedCast element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public string GetKeyword(UnifiedJumpType type) {
+		public string GetKeyword(UnifiedJumpType type)
+		{
 			switch (type) {
 			case UnifiedJumpType.Break:
 				return "break";
@@ -189,7 +202,8 @@ namespace Ucpf.Languages.Java {
 
 		#region expression
 
-		public void Visit(UnifiedBinaryExpression expr) {
+		public void Visit(UnifiedBinaryExpression expr)
+		{
 			_writer.Write("(");
 			expr.LeftHandSide.Accept(this);
 			expr.Operator.Accept(this);
@@ -197,20 +211,22 @@ namespace Ucpf.Languages.Java {
 			_writer.Write(")");
 		}
 
-		public void Visit(UnifiedBinaryOperator op) {
+		public void Visit(UnifiedBinaryOperator op)
+		{
 			_writer.Write(op.Sign);
 		}
 
-		public void Visit(UnifiedCall call) {
+		public void Visit(UnifiedCall call)
+		{
 			call.Function.Accept(this);
 			call.Arguments.Accept(this);
 		}
 
-		public void Visit(UnifiedArgumentCollection args) {
+		public void Visit(UnifiedArgumentCollection args)
+		{
 			_writer.Write("(");
 			var splitter = "";
-			foreach (var arg in args)
-			{
+			foreach (var arg in args) {
 				_writer.Write(splitter);
 				arg.Accept(this);
 				splitter = ", ";
@@ -218,13 +234,15 @@ namespace Ucpf.Languages.Java {
 			_writer.Write(")");
 		}
 
-		public void Visit(UnifiedArgument arg) {
+		public void Visit(UnifiedArgument arg)
+		{
 			arg.Value.Accept(this);
 		}
 
 		#endregion
 
 		#region value
+
 		public void Visit(UnifiedIdentifier identifier)
 		{
 			_writer.Write(identifier.Value);
@@ -239,29 +257,33 @@ namespace Ucpf.Languages.Java {
 		{
 			_writer.Write(lit.Value);
 		}
+
 		#endregion
 
 		#region notImplemented
 
-		public void Visit(UnifiedUnaryOperator element) {
+		public void Visit(UnifiedUnaryOperator element)
+		{
 			throw new NotImplementedException();
 		}
 
-
-		public void Visit(UnifiedImport element) {
+		public void Visit(UnifiedImport element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedConstructorDefinition element) {
+		public void Visit(UnifiedConstructorDefinition element)
+		{
 			throw new NotImplementedException();
 		}
 
-
-		public void Visit(UnifiedVariableDefinition element) {
+		public void Visit(UnifiedVariableDefinition element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedNew element) {
+		public void Visit(UnifiedNew element)
+		{
 			_writer.Write("new ");
 			element.Type.Accept(this);
 			element.Arguments.Accept(this);
@@ -269,65 +291,76 @@ namespace Ucpf.Languages.Java {
 				element.Body.Accept(this);
 		}
 
-
-		public void Visit(UnifiedArrayNew element) {
+		public void Visit(UnifiedArrayNew element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedFor element) {
+		public void Visit(UnifiedFor element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedForeach element) {
+		public void Visit(UnifiedForeach element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedUnaryExpression element) {
+		public void Visit(UnifiedUnaryExpression element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedProperty element) {
+		public void Visit(UnifiedProperty element)
+		{
 			throw new NotImplementedException();
 		}
 
-
-		public void Visit(UnifiedExpressionCollection element) {
+		public void Visit(UnifiedExpressionCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedWhile element) {
+		public void Visit(UnifiedWhile element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedDoWhile element) {
+		public void Visit(UnifiedDoWhile element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedIndexer element) {
+		public void Visit(UnifiedIndexer element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeParameter element) {
+		public void Visit(UnifiedTypeParameter element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeParameterCollection element) {
+		public void Visit(UnifiedTypeParameterCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedSwitch element) {
+		public void Visit(UnifiedSwitch element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCaseCollection element) {
+		public void Visit(UnifiedCaseCollection element)
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedCase element) {
+		public void Visit(UnifiedCase element)
+		{
 			throw new NotImplementedException();
 		}
 
 		#endregion
-
 	}
 }

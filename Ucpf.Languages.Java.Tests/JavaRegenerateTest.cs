@@ -9,19 +9,22 @@ using Paraiba.Core;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
-namespace Ucpf.Languages.Java.Tests {
+namespace Ucpf.Languages.Java.Tests
+{
 	/// <summary>
-	/// Java向けに再生成したソースコードが変化していないかテストします。
-	/// 元コード1→モデル1→コード2→... のように再生成します。
-	/// コードは、コンパイルしたclassファイル同士、
-	/// もしくは、コードから得られるモデル同士で比較しています。
+	///   Java向けに再生成したソースコードが変化していないかテストします。
+	///   元コード1→モデル1→コード2→... のように再生成します。
+	///   コードは、コンパイルしたclassファイル同士、
+	///   もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
 	[TestFixture]
-	public class JavaRegenerateTest {
+	public class JavaRegenerateTest
+	{
 		private const string JavacPath = "javac";
 
 		private static IEnumerable<byte[]> GetByteCode(string workPath,
-		                                               string fileName) {
+		                                               string fileName)
+		{
 			var args = new[] {
 				"\"" + Path.Combine(workPath, fileName) + "\""
 			};
@@ -36,7 +39,7 @@ namespace Ucpf.Languages.Java.Tests {
 				using (var p = Process.Start(info)) {
 					p.WaitForExit();
 				}
-			} catch(Win32Exception e) {
+			} catch (Win32Exception e) {
 				throw new InvalidOperationException("Failed to launch 'javac'.", e);
 			}
 
@@ -45,25 +48,29 @@ namespace Ucpf.Languages.Java.Tests {
 				.Select(File.ReadAllBytes);
 		}
 
-		public static IEnumerable<TestCaseData> TestStatements {
+		public static IEnumerable<TestCaseData> TestStatements
+		{
 			get { return JavaFixture.TestStatements; }
 		}
 
-		public static IEnumerable<TestCaseData> TestCodes {
+		public static IEnumerable<TestCaseData> TestCodes
+		{
 			get { return JavaFixture.TestCodes; }
 		}
 
-		public static IEnumerable<TestCaseData> TestFilePathes {
+		public static IEnumerable<TestCaseData> TestFilePathes
+		{
 			get { return JavaFixture.TestFilePathes; }
 		}
 
 		/// <summary>
-		/// 再生成を行わずCompareThroughByteCodeが正常に動作するかテストします。
-		/// 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
+		///   再生成を行わずCompareThroughByteCodeが正常に動作するかテストします。
+		///   全く同じコードをコンパイルしたバイナリファイル同士で比較します。
 		/// </summary>
-		/// <param name="orgPath">再生成するソースコードのパス</param>
+		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
-		public void TestCompareThroughByteCodeForSameCode(string orgPath) {
+		public void TestCompareThroughByteCodeForSameCode(string orgPath)
+		{
 			var workPath = Fixture.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
@@ -74,12 +81,13 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		/// 再生成を行わずCompareThroughModelが正常に動作するかテストします。
-		/// 全く同じコードから生成したモデル同士で比較します。
+		///   再生成を行わずCompareThroughModelが正常に動作するかテストします。
+		///   全く同じコードから生成したモデル同士で比較します。
 		/// </summary>
-		/// <param name="orgPath">再生成するソースコードのパス</param>
+		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
-		public void TestCompareThroughModelForSameCode(string orgPath) {
+		public void TestCompareThroughModelForSameCode(string orgPath)
+		{
 			var orgCode = File.ReadAllText(orgPath);
 			var expected = JavaModelFactory.CreateModel(orgCode);
 			var actual = JavaModelFactory.CreateModel(orgCode);
@@ -88,14 +96,15 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		/// コンパイル結果を通して再生成したコードが変化しないかテストします。
-		/// 元コード1→モデル1→コード2と再生成します。
-		/// コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
-		/// 元コード1とコード2を比較します。
+		///   コンパイル結果を通して再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2と再生成します。
+		///   コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
+		///   元コード1とコード2を比較します。
 		/// </summary>
-		/// <param name="orgCode1">再生成するソースコード</param>
-		/// <param name="fileName">再生成するソースコードのファイル名</param>
-		public void VerifyCompareThroughByteCode(string orgCode1, string fileName) {
+		/// <param name = "orgCode1">再生成するソースコード</param>
+		/// <param name = "fileName">再生成するソースコードのファイル名</param>
+		public void VerifyCompareThroughByteCode(string orgCode1, string fileName)
+		{
 			var workPath = Fixture.CleanTemporalPath();
 			var srcPath = Fixture.GetTemporalPath(fileName);
 			File.WriteAllText(srcPath, orgCode1);
@@ -108,12 +117,13 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		/// モデルを通した再生成したコードが変化しないかテストします。
-		/// 元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
-		/// モデル2とモデル3を比較します。
+		///   モデルを通した再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
+		///   モデル2とモデル3を比較します。
 		/// </summary>
-		/// <param name="orgCode">再生成するソースコード</param>
-		public void VerifyCompareThroughModel(string orgCode) {
+		/// <param name = "orgCode">再生成するソースコード</param>
+		public void VerifyCompareThroughModel(string orgCode)
+		{
 			var model1 = JavaModelFactory.CreateModel(orgCode);
 			var code2 = JavaCodeGenerator.Generate(model1);
 			var model2 = JavaModelFactory.CreateModel(code2);
@@ -124,33 +134,39 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		[Test, TestCaseSource("TestStatements")]
-		public void CompareThroughByteCodeUsingStatement(string statement) {
+		public void CompareThroughByteCodeUsingStatement(string statement)
+		{
 			VerifyCompareThroughByteCode(statement, "A.java");
 		}
 
 		[Test, TestCaseSource("TestStatements")]
-		public void CompareThroughModelUsingStatement(string statement) {
+		public void CompareThroughModelUsingStatement(string statement)
+		{
 			VerifyCompareThroughModel(statement);
 		}
 
 		[Test, TestCaseSource("TestCodes")]
-		public void CompareThroughByteCodeUsingCode(string code) {
+		public void CompareThroughByteCodeUsingCode(string code)
+		{
 			VerifyCompareThroughByteCode(code, "A.java");
 		}
 
 		[Test, TestCaseSource("TestCodes")]
-		public void CompareThroughModelUsingCode(string code) {
+		public void CompareThroughModelUsingCode(string code)
+		{
 			VerifyCompareThroughModel(code);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
-		public void CompareThroughByteCodeUsingFile(string orgPath) {
+		public void CompareThroughByteCodeUsingFile(string orgPath)
+		{
 			var fileName = Path.GetFileName(orgPath);
 			VerifyCompareThroughByteCode(File.ReadAllText(orgPath), fileName);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
-		public void CompareThroughModelUsingFile(string orgPath) {
+		public void CompareThroughModelUsingFile(string orgPath)
+		{
 			VerifyCompareThroughModel(File.ReadAllText(orgPath));
 		}
 	}

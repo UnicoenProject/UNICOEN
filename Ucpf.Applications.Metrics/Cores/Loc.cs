@@ -4,9 +4,12 @@ using System.Linq;
 using Ucpf.Applications.Metrics.Utils;
 using Ucpf.Core.Model;
 
-namespace Ucpf.Applications.Metrics.Cores {
-	public class Loc {
-		public static bool Run(IList<string> args) {
+namespace Ucpf.Applications.Metrics.Cores
+{
+	public class Loc
+	{
+		public static bool Run(IList<string> args)
+		{
 			foreach (var arg in args) {
 				// do a given path indicate directory?
 				if (Directory.Exists(arg)) {
@@ -15,7 +18,7 @@ namespace Ucpf.Applications.Metrics.Cores {
 					//    PrintCyclomatic(path);
 					//}
 				}
-						// or do a given path indicate file?
+					// or do a given path indicate file?
 				else if (File.Exists(arg)) {
 					// not check the extension
 					MetricsPrinter.PrintMetrics("LOC(lines of code)", arg, GetTargetElements);
@@ -25,9 +28,10 @@ namespace Ucpf.Applications.Metrics.Cores {
 		}
 
 		private static IEnumerable<IUnifiedElement> GetTargetElements(
-				IUnifiedElement model) {
+			IUnifiedElement model)
+		{
 			return model.GetElements()
-					.Where(e => e is IUnifiedExpression && e.Parent is UnifiedBlock);
+				.Where(e => e is IUnifiedExpression && e.Parent is UnifiedBlock);
 		}
 	}
 }

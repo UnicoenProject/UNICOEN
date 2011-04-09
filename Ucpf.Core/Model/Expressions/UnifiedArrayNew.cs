@@ -2,87 +2,96 @@
 using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model {
+namespace Ucpf.Core.Model
+{
 	/// <summary>
-	/// 新しい配列の生成部分を表します。
+	///   新しい配列の生成部分を表します。
 	/// </summary>
-	public class UnifiedArrayNew : UnifiedElement, IUnifiedExpression {
+	public class UnifiedArrayNew : UnifiedElement, IUnifiedExpression
+	{
 		private UnifiedType _type;
 
-		public UnifiedType Type {
+		public UnifiedType Type
+		{
 			get { return _type; }
-			set {
-				_type = SetParentOfChild(value, _type);
-			}
+			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedArgumentCollection Arguments
+		{
 			get { return _arguments; }
-			set {
-				_arguments = SetParentOfChild(value, _arguments);
-			}
+			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
 		private IUnifiedExpression _initialValues;
 
-		public IUnifiedExpression InitialValues {
+		public IUnifiedExpression InitialValues
+		{
 			get { return _initialValues; }
-			set {
-				_initialValues = SetParentOfChild(value, _initialValues);
-			}
+			set { _initialValues = SetParentOfChild(value, _initialValues); }
 		}
 
-		private UnifiedArrayNew() {
+		private UnifiedArrayNew()
+		{
 			Arguments = UnifiedArgumentCollection.Create();
 		}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedModelVisitor visitor)
+		{
 			visitor.Visit(this);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
+		{
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> GetElements()
+		{
 			yield return Type;
 			yield return Arguments;
 			yield return InitialValues;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
+			GetElementAndSetters()
+		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Type, v => Type = (UnifiedType)v);
+				(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(InitialValues, v => InitialValues = (IUnifiedExpression)v);
+				(InitialValues, v => InitialValues = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
+			GetElementAndDirectSetters()
+		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_type, v => _type = (UnifiedType)v);
+				(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_initialValues, v => _initialValues = (IUnifiedExpression)v);
+				(_initialValues, v => _initialValues = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedArrayNew Create(UnifiedType createTypeOrCreatedName, 
-			UnifiedArgumentCollection args, UnifiedExpressionCollection initVal) {
+		public static UnifiedArrayNew Create(UnifiedType createTypeOrCreatedName,
+		                                     UnifiedArgumentCollection args,
+		                                     UnifiedExpressionCollection initVal)
+		{
 			return new UnifiedArrayNew {
-					Type = createTypeOrCreatedName,
-					Arguments = args,
-					InitialValues = initVal
+				Type = createTypeOrCreatedName,
+				Arguments = args,
+				InitialValues = initVal
 			};
 		}
 
-		public static UnifiedArrayNew Create(UnifiedIntegerLiteral createTypeOrCreatedName) {
+		public static UnifiedArrayNew Create(
+			UnifiedIntegerLiteral createTypeOrCreatedName)
+		{
 			return new UnifiedArrayNew {
 				InitialValues = createTypeOrCreatedName
 			};
