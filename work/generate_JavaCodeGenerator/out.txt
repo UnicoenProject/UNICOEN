@@ -1,0 +1,660 @@
+
+        public static IUnifiedElement CreateCompilationUnit(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "compilationUnit");
+            return null;
+        }
+
+        public static IUnifiedElement CreatePackageDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "packageDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateImportDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "importDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateQualifiedImportName(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "qualifiedImportName");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateClassOrInterfaceDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "classOrInterfaceDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateModifiers(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "modifiers");
+            return null;
+        }
+
+        public static IUnifiedElement CreateVariableModifiers(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "variableModifiers");
+            return null;
+        }
+
+        public static IUnifiedElement CreateClassDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "classDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateNormalClassDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "normalClassDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeParameters(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeParameters");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeParameter(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeParameter");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeBound(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeBound");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEnumDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "enumDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEnumBody(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "enumBody");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEnumConstants(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "enumConstants");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEnumConstant(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "enumConstant");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEnumBodyDeclarations(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "enumBodyDeclarations");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInterfaceDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "interfaceDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateNormalInterfaceDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "normalInterfaceDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeList(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeList");
+            return null;
+        }
+
+        public static IUnifiedElement CreateClassBody(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "classBody");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInterfaceBody(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "interfaceBody");
+            return null;
+        }
+
+        public static IUnifiedElement CreateClassBodyDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "classBodyDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateMemberDecl(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "memberDecl");
+            return null;
+        }
+
+        public static IUnifiedElement CreateMethodDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "methodDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateFieldDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "fieldDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateVariableDeclarator(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "variableDeclarator");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInterfaceBodyDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "interfaceBodyDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInterfaceMethodDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "interfaceMethodDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInterfaceFieldDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "interfaceFieldDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateType(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "type");
+            return null;
+        }
+
+        public static IUnifiedElement CreateClassOrInterfaceType(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "classOrInterfaceType");
+            return null;
+        }
+
+        public static IUnifiedElement CreatePrimitiveType(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "primitiveType");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeArguments(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeArguments");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeArgument(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeArgument");
+            return null;
+        }
+
+        public static IUnifiedElement CreateQualifiedNameList(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "qualifiedNameList");
+            return null;
+        }
+
+        public static IUnifiedElement CreateFormalParameters(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "formalParameters");
+            return null;
+        }
+
+        public static IUnifiedElement CreateFormalParameterDecls(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "formalParameterDecls");
+            return null;
+        }
+
+        public static IUnifiedElement CreateNormalParameterDecl(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "normalParameterDecl");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEllipsisParameterDecl(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "ellipsisParameterDecl");
+            return null;
+        }
+
+        public static IUnifiedElement CreateExplicitConstructorInvocation(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "explicitConstructorInvocation");
+            return null;
+        }
+
+        public static IUnifiedElement CreateQualifiedName(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "qualifiedName");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAnnotations(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "annotations");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAnnotation(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "annotation");
+            return null;
+        }
+
+        public static IUnifiedElement CreateElementValuePairs(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "elementValuePairs");
+            return null;
+        }
+
+        public static IUnifiedElement CreateElementValuePair(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "elementValuePair");
+            return null;
+        }
+
+        public static IUnifiedElement CreateElementValue(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "elementValue");
+            return null;
+        }
+
+        public static IUnifiedElement CreateElementValueArrayInitializer(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "elementValueArrayInitializer");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAnnotationTypeDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "annotationTypeDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAnnotationTypeBody(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "annotationTypeBody");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAnnotationTypeElementDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "annotationTypeElementDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAnnotationMethodDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "annotationMethodDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateBlock(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "block");
+            return null;
+        }
+
+        public static IUnifiedElement CreateBlockStatement(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "blockStatement");
+            return null;
+        }
+
+        public static IUnifiedElement CreateLocalVariableDeclarationStatement(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "localVariableDeclarationStatement");
+            return null;
+        }
+
+        public static IUnifiedElement CreateLocalVariableDeclaration(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "localVariableDeclaration");
+            return null;
+        }
+
+        public static IUnifiedElement CreateStatement(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "statement");
+            return null;
+        }
+
+        public static IUnifiedElement CreateSwitchBlockStatementGroups(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "switchBlockStatementGroups");
+            return null;
+        }
+
+        public static IUnifiedElement CreateSwitchBlockStatementGroup(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "switchBlockStatementGroup");
+            return null;
+        }
+
+        public static IUnifiedElement CreateSwitchLabel(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "switchLabel");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTrystatement(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "trystatement");
+            return null;
+        }
+
+        public static IUnifiedElement CreateCatches(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "catches");
+            return null;
+        }
+
+        public static IUnifiedElement CreateCatchClause(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "catchClause");
+            return null;
+        }
+
+        public static IUnifiedElement CreateFormalParameter(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "formalParameter");
+            return null;
+        }
+
+        public static IUnifiedElement CreateForstatement(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "forstatement");
+            return null;
+        }
+
+        public static IUnifiedElement CreateForInit(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "forInit");
+            return null;
+        }
+
+        public static IUnifiedElement CreateParExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "parExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateExpressionList(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "expressionList");
+            return null;
+        }
+
+        public static IUnifiedElement CreateExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "expression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAssignmentOperator(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "assignmentOperator");
+            return null;
+        }
+
+        public static IUnifiedElement CreateConditionalExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "conditionalExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateConditionalOrExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "conditionalOrExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateConditionalAndExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "conditionalAndExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInclusiveOrExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "inclusiveOrExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateExclusiveOrExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "exclusiveOrExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAndExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "andExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEqualityExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "equalityExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInstanceOfExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "instanceOfExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateRelationalExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "relationalExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateRelationalOp(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "relationalOp");
+            return null;
+        }
+
+        public static IUnifiedElement CreateShiftExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "shiftExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateShiftOp(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "shiftOp");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAdditiveExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "additiveExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateMultiplicativeExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "multiplicativeExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateUnaryExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "unaryExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreateUnaryExpressionNotPlusMinus(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "unaryExpressionNotPlusMinus");
+            return null;
+        }
+
+        public static IUnifiedElement CreateCastExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "castExpression");
+            return null;
+        }
+
+        public static IUnifiedElement CreatePrimary(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "primary");
+            return null;
+        }
+
+        public static IUnifiedElement CreateSuperSuffix(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "superSuffix");
+            return null;
+        }
+
+        public static IUnifiedElement CreateIdentifierSuffix(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "identifierSuffix");
+            return null;
+        }
+
+        public static IUnifiedElement CreateSelector(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "selector");
+            return null;
+        }
+
+        public static IUnifiedElement CreateCreator(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "creator");
+            return null;
+        }
+
+        public static IUnifiedElement CreateArrayCreator(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "arrayCreator");
+            return null;
+        }
+
+        public static IUnifiedElement CreateVariableInitializer(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "variableInitializer");
+            return null;
+        }
+
+        public static IUnifiedElement CreateArrayInitializer(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "arrayInitializer");
+            return null;
+        }
+
+        public static IUnifiedElement CreateCreatedName(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "createdName");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInnerCreator(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "innerCreator");
+            return null;
+        }
+
+        public static IUnifiedElement CreateClassCreatorRest(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "classCreatorRest");
+            return null;
+        }
+
+        public static IUnifiedElement CreateNonWildcardTypeArguments(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "nonWildcardTypeArguments");
+            return null;
+        }
+
+        public static IUnifiedElement CreateArguments(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "arguments");
+            return null;
+        }
+
+        public static IUnifiedElement CreateLiteral(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "literal");
+            return null;
+        }
+
+        public static IUnifiedElement CreateClassHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "classHeader");
+            return null;
+        }
+
+        public static IUnifiedElement CreateEnumHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "enumHeader");
+            return null;
+        }
+
+        public static IUnifiedElement CreateInterfaceHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "interfaceHeader");
+            return null;
+        }
+
+        public static IUnifiedElement CreateAnnotationHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "annotationHeader");
+            return null;
+        }
+
+        public static IUnifiedElement CreateTypeHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "typeHeader");
+            return null;
+        }
+
+        public static IUnifiedElement CreateMethodHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "methodHeader");
+            return null;
+        }
+
+        public static IUnifiedElement CreateFieldHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "fieldHeader");
+            return null;
+        }
+
+        public static IUnifiedElement CreateLocalVariableHeader(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "localVariableHeader");
+            return null;
+        }
