@@ -107,6 +107,8 @@ namespace Ucpf.Languages.Java {
 			{
 				WriteIndent();
 				stmt.Accept(this);
+				if (stmt is UnifiedNew || !(stmt is UnifiedExpressionWithBlock))
+					_writer.Write(";");
 			}
 			_indent--;
 			WriteIndent();
@@ -132,8 +134,6 @@ namespace Ucpf.Languages.Java {
 				_writer.Write(" ");
 				element.Value.Accept(this);
 			}
-			// TODO: セミコロンは子要素が付けるかどうか決めてはいけない
-			_writer.Write(";");
 		}
 
 		public void Visit(UnifiedSpecialBlock element) {
@@ -241,7 +241,6 @@ namespace Ucpf.Languages.Java {
 		}
 		#endregion
 
-
 		#region notImplemented
 
 		public void Visit(UnifiedUnaryOperator element) {
@@ -263,7 +262,11 @@ namespace Ucpf.Languages.Java {
 		}
 
 		public void Visit(UnifiedNew element) {
-			throw new NotImplementedException();
+			_writer.Write("new ");
+			element.Type.Accept(this);
+			element.Arguments.Accept(this);
+			if (element.Body != null)
+				element.Body.Accept(this);
 		}
 
 

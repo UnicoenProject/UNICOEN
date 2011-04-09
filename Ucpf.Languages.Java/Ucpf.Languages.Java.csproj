@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="JavaCodeGenerator.cs" />
     <Compile Include="Model\JavaModelFactory.cs" />
+    <Compile Include="Model\NewJavaModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

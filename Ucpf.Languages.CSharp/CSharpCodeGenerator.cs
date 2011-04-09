@@ -55,6 +55,8 @@ namespace Ucpf.Languages.CSharp {
 
 		public void Visit(UnifiedClassDefinition clsDef) {
 			WriteIndent();
+			clsDef.Modifiers.Accept(this);
+			_writer.WriteLine();
 			_writer.Write("class ");
 			_writer.WriteLine(clsDef.Name);
 			clsDef.Body.Accept(this);

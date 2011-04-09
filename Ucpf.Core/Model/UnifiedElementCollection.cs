@@ -6,7 +6,7 @@ using System.Diagnostics.Contracts;
 
 namespace Ucpf.Core.Model {
 	public abstract class UnifiedElementCollection<TElement, TSelf>
-			: UnifiedElement, IEnumerable<TElement>
+			: UnifiedElement, IUnifiedElementCollection<TElement>
 			where TElement : class, IUnifiedElement
 			where TSelf : UnifiedElementCollection<TElement, TSelf> {
 		protected List<TElement> Elements;
@@ -50,6 +50,10 @@ namespace Ucpf.Core.Model {
 		}
 
 		#endregion
+
+		public void PrivateAdd(TElement element) {
+			Add(element);
+		}
 
 		public TSelf Add(TElement element) {
 			Elements.Add(element);

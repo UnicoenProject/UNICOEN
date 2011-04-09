@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
-using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
@@ -21,12 +20,14 @@ namespace Ucpf.Languages.CSharp.Tests {
 		private const string CscPath =
 			@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
 
-		private const string IldasmPath =
-			@"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe";
+		private static readonly string[] IldasmPathes = new[] {
+				@"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe",
+				@"C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe",
+		};
 
 		private static string GetILCode(string workPath, string fileName) {
 			var exeFilePath = Path.Combine(workPath,
-				Path.ChangeExtension(fileName, "exe"));
+				Path.ChangeExtension(fileName, "dll"));
 			{
 				var args = new[] {
 					"/optimize+",
@@ -34,10 +35,9 @@ namespace Ucpf.Languages.CSharp.Tests {
 					"\"/out:" + exeFilePath + "\"",
 					"\"" + Path.Combine(workPath, fileName) + "\""
 				};
-				var argg = args.JoinString(" ");
 				var info = new ProcessStartInfo {
 					FileName = CscPath,
-					Arguments = argg,
+					Arguments = args.JoinString(" "),
 					CreateNoWindow = true,
 					UseShellExecute = false,
 					WorkingDirectory = workPath,
@@ -48,14 +48,15 @@ namespace Ucpf.Languages.CSharp.Tests {
 						p.WaitForExit();
 					}
 				} catch (Win32Exception e) {
-					throw new InvalidOperationException("Failed to launch 'ildasm': " + IldasmPath , e);
+					throw new InvalidOperationException("Failed to launch 'csc': " + CscPath, e);
 				}
 			}
 
 			{
+				var ildasmPath = IldasmPathes.First(File.Exists);
 				var args = new[] { "/text", exeFilePath };
 				var info = new ProcessStartInfo {
-					FileName = IldasmPath,
+					FileName = ildasmPath,
 					Arguments = args.JoinString(" "),
 					CreateNoWindow = true,
 					RedirectStandardInput = true,
@@ -64,20 +65,32 @@ namespace Ucpf.Languages.CSharp.Tests {
 					WorkingDirectory = workPath,
 				};
 
-				using (var p = Process.Start(info)) {
-					var str = p.StandardOutput.ReadToEnd();
-					return str.Replace("\r\n", "\n").Split('\n')
-						.Select(l => l.Trim())
-						.Where(l => !l.StartsWith("//"))
-						.Where(l => !l.StartsWith(".assembly"))
-						.Where(l => !l.StartsWith(".module"))
-						.JoinString("\n");
+				try {
+					using (var p = Process.Start(info)) {
+						var str = p.StandardOutput.ReadToEnd();
+						return str.Replace("\r\n", "\n").Split('\n')
+							.Select(l => l.Trim())
+							.Where(l => !l.StartsWith("//"))
+							.Where(l => !l.StartsWith(".assembly"))
+							.Where(l => !l.StartsWith(".module"))
+							.JoinString("\n");
+					}
+				} catch (Win32Exception e) {
+					throw new InvalidOperationException("Failed to launch 'ildasmPath': " + ildasmPath, e);
 				}
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestCases {
-			get { return Fixture.CSharpTestCases; }
+		public static IEnumerable<TestCaseData> TestStatements {
+			get { return CSharpFixture.TestStatements; }
+		}
+
+		public static IEnumerable<TestCaseData> TestCodes {
+			get { return CSharpFixture.TestCodes; }
+		}
+
+		public static IEnumerable<TestCaseData> TestFilePathes {
+			get { return CSharpFixture.TestFilePathes; }
 		}
 
 		/// <summary>
@@ -86,7 +99,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
-		public void CompareThroughILCodeForSameCode(string orgPath) {
+		public void TestCompareThroughILCodeForSameCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
@@ -102,7 +115,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name="orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
-		public void CompareThroughModelForSameCode(string orgPath) {
+		public void TestCompareThroughModelForSameCode(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath);
 			var expected = CSharpModelFactory.CreateModel(orgCode);
 			var actual = CSharpModelFactory.CreateModel(orgCode);
@@ -116,15 +129,13 @@ namespace Ucpf.Languages.CSharp.Tests {
 		/// コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
 		/// 元コード1とコード2を比較します。
 		/// </summary>
-		/// <param name="orgPath">再生成するソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public void CompareThroughILCode(string orgPath) {
+		/// <param name="orgCode1">再生成するソースコード</param>
+		/// <param name="fileName">再生成するソースコードのファイル名</param>
+		public void VerifyCompareThroughILCode(string orgCode1, string fileName) {
 			var workPath = Fixture.CleanTemporalPath();
-			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
-			File.Copy(orgPath, srcPath);
+			File.WriteAllText(srcPath, orgCode1);
 			var orgILCode1 = GetILCode(workPath, fileName);
-			var orgCode1 = File.ReadAllText(orgPath);
 			var model1 = CSharpModelFactory.CreateModel(orgCode1);
 			var code2 = CSharpCodeGenerator.Generate(model1);
 			File.WriteAllText(srcPath, code2);
@@ -137,10 +148,8 @@ namespace Ucpf.Languages.CSharp.Tests {
 		/// 元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
 		/// モデル2とモデル3を比較します。
 		/// </summary>
-		/// <param name="orgPath">再生成するソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public void CompareThroughModel(string orgPath) {
-			var orgCode = File.ReadAllText(orgPath);
+		/// <param name="orgCode">再生成するソースコードの内容</param>
+		public void VerifyCompareThroughModel(string orgCode) {
 			var model1 = CSharpModelFactory.CreateModel(orgCode);
 			var code2 = CSharpCodeGenerator.Generate(model1);
 			var model2 = CSharpModelFactory.CreateModel(code2);
@@ -148,6 +157,37 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var model3 = CSharpModelFactory.CreateModel(code3);
 			Assert.That(model3, Is.EqualTo(model1)
 				.Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		[Test, TestCaseSource("TestStatements")]
+		public void CompareThroughILCodeUsingStatement(string statement) {
+			VerifyCompareThroughILCode(statement, "A.cs");
+		}
+
+		[Test, TestCaseSource("TestStatements")]
+		public void CompareThroughModelUsingStatement(string statement) {
+			VerifyCompareThroughModel(statement);
+		}
+
+		[Test, TestCaseSource("TestCodes")]
+		public void CompareThroughILCodeUsingCode(string code) {
+			VerifyCompareThroughILCode(code, "A.cs");
+		}
+
+		[Test, TestCaseSource("TestCodes")]
+		public void CompareThroughModelUsingCode(string code) {
+			VerifyCompareThroughModel(code);
+		}
+
+		[Test, TestCaseSource("TestFilePathes")]
+		public void CompareThroughILCodeUsingFile(string orgPath) {
+			var fileName = Path.GetFileName(orgPath);
+			VerifyCompareThroughILCode(File.ReadAllText(orgPath), fileName);
+		}
+
+		[Test, TestCaseSource("TestFilePathes")]
+		public void CompareThroughModelUsingFile(string orgPath) {
+			VerifyCompareThroughModel(File.ReadAllText(orgPath));
 		}
 	}
 }

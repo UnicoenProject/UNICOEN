@@ -1,78 +1,136 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Paraiba.Linq;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaModelFeatureTest : ModelFeatureTest {
-		public IEnumerable<TestCaseData> TestCases {
-			get { return Fixture.JavaTestCases; }
+		public IEnumerable<TestCaseData> TestStatements {
+			get { return JavaRegenerateTest.TestStatements; }
+		}
+
+		public IEnumerable<TestCaseData> TestCodes {
+			get { return JavaRegenerateTest.TestCodes; }
+		}
+
+		public IEnumerable<TestCaseData> TestFilePathes {
+			get { return JavaRegenerateTest.TestFilePathes; }
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {
 			return JavaModelFactory.CreateModel(code);
 		}
 
+
 		/// <summary>
-		/// 深いコピーが正常に動作するかテストします。
+		///   深いコピーが正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public override void VerifyDeepCopy(string path) {
-			base.VerifyDeepCopy(path);
+		/// <param name = "code">テスト対象のソースコード</param>
+		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
+		public void VerifyDeepCopyUsingCode(string code) {
+			VerifyDeepCopy(code);
 		}
 
 		/// <summary>
-		/// 子要素の列挙機能が正常に動作するかテストします。
+		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public override void VerifyGetElements(string path) {
-			base.VerifyGetElements(path);
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestFilePathes")]
+		public void VerifyDeepCopyUsingFile(string path) {
+			VerifyDeepCopy(File.ReadAllText(path));
 		}
 
 		/// <summary>
-		/// 子要素とセッターの列挙機能が正常に動作するかテストします。
+		///   子要素の列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public override void GetElementAndSetters(string path) {
-			base.GetElementAndSetters(path);
+		/// <param name = "code">テスト対象のソースコード</param>
+		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
+		public void VerifyGetElementsUsingCode(string code) {
+			VerifyGetElements(code);
 		}
 
 		/// <summary>
-		/// 子要素とプロパティを介さないセッターの列挙機能が正常に動作するかテストします。
+		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public override void GetElementAndDirectSetters(string path) {
-			base.GetElementAndDirectSetters(path);
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestFilePathes")]
+		public void VerifyGetElementsUsingFile(string path) {
+			VerifyGetElements(File.ReadAllText(path));
 		}
 
 		/// <summary>
-		/// 全要素の文字列情報を取得できるかテストします。
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public override void VerifyToString(string path) {
-			base.VerifyToString(path);
+		/// <param name = "code">テスト対象のソースコード</param>
+		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
+		public void VerifyGetElementAndSettersUsingCode(string code) {
+			VerifyGetElementAndSetters(code);
 		}
 
 		/// <summary>
-		/// 親要素が不適切な要素がないかテストします。
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name="path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestCases")]
-		public override void VerifyParentProperty(string path) {
-			base.VerifyParentProperty(path);
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestFilePathes")]
+		public void VerifyGetElementAndSettersUsingFile(string path) {
+			VerifyGetElementAndSetters(File.ReadAllText(path));
+		}
+
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
+		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
+		public void VerifyGetElementAndDirectSettersUsingCode(string code) {
+			VerifyGetElementAndDirectSetters(code);
+		}
+
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestFilePathes")]
+		public void VerifyGetElementAndDirectSettersUsingFile(string path) {
+			VerifyGetElementAndDirectSetters(File.ReadAllText(path));
+		}
+
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
+		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
+		public void VerifyParentPropertyUsingCode(string code) {
+			VerifyParentProperty(code);
+		}
+
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestFilePathes")]
+		public void VerifyParentPropertyUsingFile(string path) {
+			VerifyParentProperty(File.ReadAllText(path));
+		}
+
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
+		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
+		public void VerifyToStringUsingCode(string code) {
+			VerifyToString(code);
+		}
+
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		[Test, TestCaseSource("TestFilePathes")]
+		public void VerifyToStringUsingFile(string path) {
+			VerifyToString(File.ReadAllText(path));
 		}
 	}
 }
