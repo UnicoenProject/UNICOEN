@@ -76,7 +76,7 @@ namespace Ucpf.Languages.Java {
 			parameter.Modifiers.Accept(this);
 			parameter.Type.Accept(this);
 			_writer.Write(" ");
-			_writer.Write(parameter.Name);
+			_writer.Write(parameter.Name.Value);
 		}
 
 		public void Visit(UnifiedModifierCollection modifiers) {
@@ -92,7 +92,7 @@ namespace Ucpf.Languages.Java {
 
 		public void Visit(UnifiedType type)
 		{
-			_writer.Write(type.Name);
+			_writer.Write(type.Name.Value);
 		}
 
 		#endregion

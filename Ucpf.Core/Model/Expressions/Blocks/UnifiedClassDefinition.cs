@@ -21,6 +21,7 @@ namespace Ucpf.Core.Model {
 
 		private UnifiedIdentifier _name;
 
+		// TODO: A.B.C を UnifiedPropertyで表現
 		public UnifiedIdentifier Name {
 			get { return _name; }
 			set {

@@ -7,17 +7,6 @@ namespace Ucpf.Core.Model {
 	/// 変数を表します。
 	/// </summary>
 	public class UnifiedIdentifier : UnifiedElement, IUnifiedExpression {
-
-		public static UnifiedIdentifier CreateUnknown(string name) {
-			return Create(name, UnifiedIdentifierType.Unknown);
-		}
-
-		public static UnifiedIdentifier Create(string name, UnifiedIdentifierType type) {
-			return new UnifiedIdentifier {
-					Value = name,
-					Type = type
-			};
-		}
 		private UnifiedIdentifier() { }
 
 		public string Value { get; set; }
@@ -45,6 +34,17 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield break;
+		}
+
+		public static UnifiedIdentifier Create(string name, UnifiedIdentifierType type) {
+			return new UnifiedIdentifier {
+				Value = name,
+				Type = type
+			};
+		}
+
+		public static UnifiedIdentifier CreateUnknown(string name) {
+			return Create(name, UnifiedIdentifierType.Unknown);
 		}
 	}
 }

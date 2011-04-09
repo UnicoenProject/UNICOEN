@@ -4,18 +4,20 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	/// <summary>
-	/// 外部ファイルの読み込み部分を表します。
+	/// 使用する名前空間の指定や外部ファイルの読み込みを表します。
 	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
-		public string Name { get; set; }
+		private UnifiedIdentifier _name;
+
+		// TODO: A.B.C を UnifiedPropertyで表現
+		public UnifiedIdentifier Name {
+			get { return _name; }
+			set {
+				_name = SetParentOfChild(value, _name);
+			}
+		}
 
 		private UnifiedImport() {}
-
-		public static UnifiedImport Create(string name) {
-			return new UnifiedImport {
-					Name = name,
-			};
-		}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -27,17 +29,31 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield break;
+			yield return Name;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
-			yield break;
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Name, v => Name = (UnifiedIdentifier)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
-			yield break;
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_name, v => _name = (UnifiedIdentifier)v);
+		}
+
+		public static UnifiedImport Create(UnifiedIdentifier name) {
+			return new UnifiedImport {
+				Name = name,
+			};
+		}
+
+		public static UnifiedImport Create(string name) {
+			return new UnifiedImport {
+				Name = UnifiedIdentifier.CreateUnknown(name),
+			};
 		}
 	}
 }

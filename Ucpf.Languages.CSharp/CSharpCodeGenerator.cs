@@ -50,7 +50,7 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public void Visit(UnifiedType type) {
-			_writer.Write(type.Name);
+			_writer.Write(type.Name.Value);
 		}
 
 		public void Visit(UnifiedClassDefinition clsDef) {
@@ -58,7 +58,7 @@ namespace Ucpf.Languages.CSharp {
 			clsDef.Modifiers.Accept(this);
 			_writer.WriteLine();
 			_writer.Write("class ");
-			_writer.WriteLine(clsDef.Name);
+			_writer.WriteLine(clsDef.Name.Value);
 			clsDef.Body.Accept(this);
 		}
 
@@ -67,7 +67,7 @@ namespace Ucpf.Languages.CSharp {
 			funcDef.Modifiers.Accept(this);
 			funcDef.Type.Accept(this);
 			_writer.Write(" ");
-			_writer.Write(funcDef.Name);
+			_writer.Write(funcDef.Name.Value);
 			funcDef.Parameters.Accept(this);
 			funcDef.Body.Accept(this);
 		}
@@ -86,7 +86,7 @@ namespace Ucpf.Languages.CSharp {
 		public void Visit(UnifiedParameter parameter) {
 			parameter.Type.Accept(this);
 			_writer.Write(" ");
-			_writer.Write(parameter.Name);
+			_writer.Write(parameter.Name.Value);
 		}
 
 		#endregion

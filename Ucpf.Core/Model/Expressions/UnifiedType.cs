@@ -8,7 +8,15 @@ namespace Ucpf.Core.Model {
 	/// 型を表します。
 	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
-		public string Name { get; set; }
+		private UnifiedIdentifier _name;
+
+		public UnifiedIdentifier Name {
+			get { return _name; }
+			set {
+				_name = SetParentOfChild(value, _name);
+			}
+		}
+
 		private UnifiedTypeParameterCollection _parameters;
 
 		public UnifiedTypeParameterCollection Parameters {
@@ -20,19 +28,6 @@ namespace Ucpf.Core.Model {
 
 		private UnifiedType() {
 			Parameters = UnifiedTypeParameterCollection.Create();
-		}
-
-		public static UnifiedType Create(string name) {
-			return new UnifiedType {
-				Name = name,
-			};
-		}
-
-		public static UnifiedType Create(string name, UnifiedTypeParameterCollection parameters) {
-			return new UnifiedType {
-				Name = name,
-				Parameters = parameters,
-			};
 		}
 
 		public UnifiedType AddToParameters(IUnifiedExpression expression) {
@@ -55,11 +50,14 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Name;
 			yield return Parameters;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Name, v => Name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
 		}
@@ -67,7 +65,22 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_name, v => _name = (UnifiedIdentifier)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_parameters, v => _parameters = (UnifiedTypeParameterCollection)v);
+		}
+
+		public static UnifiedType Create(string name) {
+			return new UnifiedType {
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			};
+		}
+
+		public static UnifiedType Create(string name, UnifiedTypeParameterCollection parameters) {
+			return new UnifiedType {
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+				Parameters = parameters,
+			};
 		}
 	}
 }

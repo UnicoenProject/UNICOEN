@@ -120,12 +120,12 @@ namespace Ucpf.Languages.Java.Model {
 				return CreateCast(firstElement);
 			case "primary":
 				var result = CreatePrimary(firstElement);
-				var lastNode = node.LastElement();
 
 				result = node.Elements("selector")
 					.Aggregate(result, CreateSelector);
 
-				if (lastNode.Name() != "selector") {
+				var lastNode = node.LastElement();
+				if (!lastNode.HasElement()) {
 					var ope = lastNode.Value;
 					result = UnifiedUnaryExpression.Create(result,
 							UnifiedUnaryOperator.Create(ope,

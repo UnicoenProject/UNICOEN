@@ -90,7 +90,7 @@ namespace Ucpf.Languages.CSharp {
 		private static UnifiedType ConvertType(TypeReference type) {
 			var uType = ConvertTypeIgnoringIsArray(type);
 
-			var buff = new StringBuilder(uType.Name);
+			var buff = new StringBuilder(uType.Name.Value);
 			if (type.IsArrayType) {
 				foreach (int rank in type.RankSpecifier) {
 					buff.Append("[");
