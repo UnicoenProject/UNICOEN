@@ -118,6 +118,7 @@
     <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />
     <Compile Include="Model\Extensions\ModelSweeper.cs" />
     <Compile Include="Model\IUnifiedElement.cs" />
+    <Compile Include="Model\IUnifiedElementCollection.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\UnifiedArgumentCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />
