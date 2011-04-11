@@ -120,7 +120,7 @@ namespace Ucpf.Core.Model
 		{
 			return new UnifiedType {
 				Name = name != null
-				       	? UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type)
+				       	? UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type)
 				       	: null,
 				Arguments = arguments,
 				Supplements = supplements,
@@ -138,7 +138,7 @@ namespace Ucpf.Core.Model
 		{
 			return new UnifiedType {
 				Name = name != null
-				       	? UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type)
+				       	? UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type)
 				       	: null,
 				Arguments = null,
 				Supplements = UnifiedTypeSupplementCollection.Create(

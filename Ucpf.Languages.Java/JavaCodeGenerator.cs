@@ -202,26 +202,26 @@ namespace Ucpf.Languages.Java
 			throw new NotImplementedException();
 		}
 
-		public string GetKeyword(UnifiedSpecialExpressionType type)
+		public string GetKeyword(UnifiedSpecialExpressionKind kind)
 		{
-			switch (type) {
-			case UnifiedSpecialExpressionType.Break:
+			switch (kind) {
+			case UnifiedSpecialExpressionKind.Break:
 				return "break";
-			case UnifiedSpecialExpressionType.Continue:
+			case UnifiedSpecialExpressionKind.Continue:
 				return "continue";
-			case UnifiedSpecialExpressionType.Goto:
+			case UnifiedSpecialExpressionKind.Goto:
 				return "goto";
-			case UnifiedSpecialExpressionType.Return:
+			case UnifiedSpecialExpressionKind.Return:
 				return "return";
-			case UnifiedSpecialExpressionType.YieldReturn:
+			case UnifiedSpecialExpressionKind.YieldReturn:
 				return "yield return";
-			case UnifiedSpecialExpressionType.Throw:
+			case UnifiedSpecialExpressionKind.Throw:
 				return "throw";
-			case UnifiedSpecialExpressionType.Retry:
+			case UnifiedSpecialExpressionKind.Retry:
 				throw new NotImplementedException();
-			case UnifiedSpecialExpressionType.Redo:
+			case UnifiedSpecialExpressionKind.Redo:
 				throw new NotImplementedException();
-			case UnifiedSpecialExpressionType.Yield:
+			case UnifiedSpecialExpressionKind.Yield:
 				throw new NotImplementedException();
 			default:
 				throw new ArgumentOutOfRangeException();

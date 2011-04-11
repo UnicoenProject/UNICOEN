@@ -9,7 +9,7 @@ namespace Ucpf.Core.Model
 	/// </summary>
 	public class UnifiedSpecialExpression : UnifiedElement, IUnifiedExpression
 	{
-		public UnifiedSpecialExpressionType Kind { get; set; }
+		public UnifiedSpecialExpressionKind Kind { get; set; }
 
 		private IUnifiedExpression _value;
 
@@ -52,71 +52,71 @@ namespace Ucpf.Core.Model
 		}
 
 		public static UnifiedSpecialExpression Create(
-			UnifiedSpecialExpressionType type)
+			UnifiedSpecialExpressionKind kind)
 		{
 			return new UnifiedSpecialExpression {
-				Kind = type,
+				Kind = kind,
 			};
 		}
 
 		public static UnifiedSpecialExpression Create(
-			UnifiedSpecialExpressionType type,
+			UnifiedSpecialExpressionKind kind,
 			IUnifiedExpression value)
 		{
 			return new UnifiedSpecialExpression {
-				Kind = type,
+				Kind = kind,
 				Value = value,
 			};
 		}
 
 		public static UnifiedSpecialExpression CreateReturn()
 		{
-			return Create(UnifiedSpecialExpressionType.Return);
+			return Create(UnifiedSpecialExpressionKind.Return);
 		}
 
 		public static UnifiedSpecialExpression CreateReturn(IUnifiedExpression value)
 		{
-			return Create(UnifiedSpecialExpressionType.Return, value);
+			return Create(UnifiedSpecialExpressionKind.Return, value);
 		}
 
 		public static UnifiedSpecialExpression CreateBreak()
 		{
-			return Create(UnifiedSpecialExpressionType.Break);
+			return Create(UnifiedSpecialExpressionKind.Break);
 		}
 
 		public static UnifiedSpecialExpression CreateBreak(IUnifiedExpression value)
 		{
-			return Create(UnifiedSpecialExpressionType.Break, value);
+			return Create(UnifiedSpecialExpressionKind.Break, value);
 		}
 
 		public static UnifiedSpecialExpression CreateContinue()
 		{
-			return Create(UnifiedSpecialExpressionType.Continue);
+			return Create(UnifiedSpecialExpressionKind.Continue);
 		}
 
 		public static UnifiedSpecialExpression CreateContinue(IUnifiedExpression value)
 		{
-			return Create(UnifiedSpecialExpressionType.Continue, value);
+			return Create(UnifiedSpecialExpressionKind.Continue, value);
 		}
 
 		public static UnifiedSpecialExpression CreateGoto()
 		{
-			return Create(UnifiedSpecialExpressionType.Goto);
+			return Create(UnifiedSpecialExpressionKind.Goto);
 		}
 
 		public static UnifiedSpecialExpression CreateGoto(IUnifiedExpression value)
 		{
-			return Create(UnifiedSpecialExpressionType.Goto, value);
+			return Create(UnifiedSpecialExpressionKind.Goto, value);
 		}
 
 		public static UnifiedSpecialExpression CreateThrow()
 		{
-			return Create(UnifiedSpecialExpressionType.Throw);
+			return Create(UnifiedSpecialExpressionKind.Throw);
 		}
 
 		public static UnifiedSpecialExpression CreateThrow(IUnifiedExpression value)
 		{
-			return Create(UnifiedSpecialExpressionType.Throw, value);
+			return Create(UnifiedSpecialExpressionKind.Throw, value);
 		}
 	}
 }

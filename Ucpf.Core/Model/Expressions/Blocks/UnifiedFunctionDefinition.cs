@@ -231,7 +231,7 @@ namespace Ucpf.Core.Model
 		                                                       UnifiedBlock body)
 		{
 			return CreateFunction(
-				UnifiedIdentifier.Create(name, UnifiedIdentifierType.Function), type,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function), type,
 				modifiers, parameters, throws, body, UnifiedFunctionDefinitionKind.Function);
 		}
 

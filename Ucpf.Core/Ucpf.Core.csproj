@@ -78,6 +78,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlockKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
@@ -98,16 +99,17 @@
     <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCast.cs" />
     <Compile Include="Model\Collections\UnifiedCatchCollection.cs" />
+    <Compile Include="Model\Expressions\UnifiedCastKind.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedExpressionWithBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFor.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedForeach.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
-    <Compile Include="Model\Expressions\UnifiedIdentifierType.cs" />
+    <Compile Include="Model\Expressions\UnifiedIdentifierKind.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
     <Compile Include="Model\Expressions\UnifiedSpecialExpression.cs" />
-    <Compile Include="Model\Expressions\UnifiedSpecialExpressionType.cs" />
+    <Compile Include="Model\Expressions\UnifiedSpecialExpressionKind.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
@@ -132,7 +134,7 @@
     <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedImport.cs" />
     <Compile Include="Model\UnifiedTypeConstrain.cs" />
-    <Compile Include="Model\UnifiedTypeConstrainType.cs" />
+    <Compile Include="Model\UnifiedTypeConstrainKind.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\Collections\UnifiedModifierCollection.cs" />
     <Compile Include="Model\UnifiedParameter.cs" />

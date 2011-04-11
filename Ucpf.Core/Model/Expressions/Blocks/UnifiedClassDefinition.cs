@@ -143,7 +143,7 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedClassDefinition CreateClass(string name)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
 				UnifiedClassType.Class);
 		}
@@ -152,14 +152,14 @@ namespace Ucpf.Core.Model
 		                                                 UnifiedModifierCollection
 		                                                 	modifiers)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				UnifiedBlock.Create(), modifiers, UnifiedClassType.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
 		                                                 UnifiedBlock body)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				body, UnifiedModifierCollection.Create(), UnifiedClassType.Class);
 		}
 
@@ -168,7 +168,7 @@ namespace Ucpf.Core.Model
 		                                                 UnifiedModifierCollection
 		                                                 	modifiers)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				body, modifiers, UnifiedClassType.Class);
 		}
 	}

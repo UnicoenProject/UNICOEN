@@ -81,14 +81,14 @@ namespace Ucpf.Core.Model
 		public static UnifiedParameter Create(string name)
 		{
 			return new UnifiedParameter {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 			};
 		}
 
 		public static UnifiedParameter Create(string name, UnifiedType type)
 		{
 			return new UnifiedParameter {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 				Type = type,
 			};
 		}
@@ -97,7 +97,7 @@ namespace Ucpf.Core.Model
 		                                      UnifiedModifierCollection modifiers)
 		{
 			return new UnifiedParameter {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 				Type = type,
 				Modifiers = modifiers,
 			};

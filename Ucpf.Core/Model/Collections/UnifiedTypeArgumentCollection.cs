@@ -4,7 +4,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   ジェネリックタイプにおける仮引数の集合を表します。
+	///   ジェネリックタイプにおける実引数の集合を表します。
 	/// </summary>
 	public class UnifiedTypeArgumentCollection
 		: UnifiedElementCollection

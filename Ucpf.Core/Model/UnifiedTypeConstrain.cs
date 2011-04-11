@@ -6,13 +6,13 @@ namespace Ucpf.Core.Model
 {
 	/// <summary>
 	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
-	///   継承関係を表す場合、対象の型の個数は１つです。
-	///   例えば、Javaにおける"class A extends Object { .. "の"extends Object"部分に該当します。
-	///   例えば、C#における"where A : new()"に該当します。
+	///   なお、継承関係を表す場合、対象の型の個数は１つです。
+	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
+	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
 	/// </summary>
 	public class UnifiedTypeConstrain : UnifiedElement
 	{
-		public UnifiedTypeConstrainType Kind { get; set; }
+		public UnifiedTypeConstrainKind Kind { get; set; }
 
 		private UnifiedType _type;
 
@@ -54,7 +54,7 @@ namespace Ucpf.Core.Model
 				(_type, v => _type = (UnifiedType)v);
 		}
 
-		public static UnifiedTypeConstrain CreateExtends(UnifiedType type, UnifiedTypeConstrainType kind)
+		public static UnifiedTypeConstrain CreateExtends(UnifiedType type, UnifiedTypeConstrainKind kind)
 		{
 			return new UnifiedTypeConstrain {
 				Type = type,
@@ -66,7 +66,7 @@ namespace Ucpf.Core.Model
 		{
 			return new UnifiedTypeConstrain {
 				Type = type,
-				Kind = UnifiedTypeConstrainType.Extends
+				Kind = UnifiedTypeConstrainKind.Extends
 			};
 		}
 	}

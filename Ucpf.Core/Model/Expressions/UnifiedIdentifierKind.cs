@@ -1,9 +1,9 @@
 ﻿namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   識別子の種類を表します。
+	///   UnifiedIdentifierの種類を表します。
 	/// </summary>
-	public enum UnifiedIdentifierType
+	public enum UnifiedIdentifierKind
 	{
 		Variable,
 		Type,

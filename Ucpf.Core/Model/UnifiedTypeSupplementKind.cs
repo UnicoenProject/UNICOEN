@@ -6,17 +6,17 @@
 	public enum UnifiedTypeSupplementKind
 	{
 		/// <summary>
-		///   C, C++, C#言語などにおけるポインタ（ex. "int *p;"）
+		/// e.g. C, C++, C#におけるポインタ(<c>int *p;</c>)
 		/// </summary>
 		Pointer,
 		/// <summary>
-		///   C++言語などにおける参照（ex. "int &p = i;"）
+		/// e.g. C++における参照(<c>int &p = i;</c>)
 		/// </summary>
 		Reference,
 		/// <summary>
-		///   C#, Java言語などにおける配列（ex. "int[] a;"）
-		///   C, C++言語などにおける配列（ex. "int[10] a;"）
-		///   C#言語などにおける多次元配列（ex. "int[,] a2;"）
+		/// e.g. C#, Javaにおける配列(<c>int[] a;</c>)
+		/// e.g. C, C++における配列(<c>int[10] a;</c>)
+		/// e.g. C#における多次元配列(<c>int[,] a2;</c>)
 		/// </summary>
 		Array,
 	}

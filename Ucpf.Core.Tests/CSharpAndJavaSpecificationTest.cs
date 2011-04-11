@@ -192,7 +192,7 @@ namespace Ucpf.Core.Tests
 			{
 				return CreateClassAndMethod(UnifiedBlock.Create(
 					UnifiedSpecialBlock.Create(
-						UnifiedSpecialBlockType.Synchrnoized,
+						UnifiedSpecialBlockKind.Synchrnoized,
 						UnifiedIdentifier.CreateUnknown("this"),
 						UnifiedBlock.Create(
 							UnifiedCall.Create(

@@ -50,14 +50,14 @@ namespace Ucpf.Core.Model
 		{
 			return new UnifiedVariableDefinition {
 				Type = type,
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 			};
 		}
 
 		public static UnifiedVariableDefinition Create(string name)
 		{
 			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 			};
 		}
 
@@ -110,7 +110,7 @@ namespace Ucpf.Core.Model
 		                                               IUnifiedExpression initialValue)
 		{
 			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 				InitialValue = initialValue,
 			};
 		}
@@ -119,7 +119,7 @@ namespace Ucpf.Core.Model
 		                                               IUnifiedExpression initialValue)
 		{
 			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 				Type = type,
 				InitialValue = initialValue,
 			};
@@ -133,7 +133,7 @@ namespace Ucpf.Core.Model
 		{
 			return new UnifiedVariableDefinition {
 				Type = type,
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 				InitialValue = initialValue,
 				Modifiers = modifiers,
 			};
@@ -144,7 +144,7 @@ namespace Ucpf.Core.Model
 		                                               	modifiers)
 		{
 			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Variable),
+				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 				Modifiers = modifiers,
 				Type = type,
 			};

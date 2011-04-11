@@ -181,7 +181,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			return UnifiedClassDefinition.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Function),
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Function),
 				CreateClassBody(node.Element("classBody")),
 				CreateModifiers(node.Element("modifiers")),
 				UnifiedClassType.Class);
@@ -467,7 +467,7 @@ namespace Ucpf.Languages.Java.Model
 					CreateFormalParameters(node.Element("formalParameters")));
 			}
 			return UnifiedFunctionDefinition.CreateFunction(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Function),
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Function),
 				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
 				CreateFormalParameters(node.Element("formalParameters")),
@@ -506,7 +506,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			return UnifiedBinaryExpression.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Variable),
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Variable),
 				UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
 				CreateVariableInitializer(node.Element("variableInitializer"))
 				);
@@ -553,7 +553,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			return UnifiedFunctionDefinition.CreateFunction(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Function),
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Function),
 				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
 				CreateFormalParameters(node.Element("formalParameters"))

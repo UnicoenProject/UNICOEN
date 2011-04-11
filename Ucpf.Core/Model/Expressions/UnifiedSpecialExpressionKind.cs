@@ -3,7 +3,7 @@
 	/// <summary>
 	///   UnifiedSpecialExpressionの種類を表します。
 	/// </summary>
-	public enum UnifiedSpecialExpressionType
+	public enum UnifiedSpecialExpressionKind
 	{
 		Break,
 		Continue,
