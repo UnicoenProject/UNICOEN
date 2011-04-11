@@ -85,10 +85,10 @@ namespace Ucpf.Languages.CSharp
 			if (type.IsKeyword) {
 				typeName = GetTypeAlias(typeName) ?? typeName;
 			}
-			var typeParameter = UnifiedTypeParameterCollection.Create();
+			var typeParameter = UnifiedTypeArgumentCollection.Create();
 			foreach (var gType in type.GenericTypes) {
 				var uType = ConvertType(gType);
-				typeParameter.Add(UnifiedTypeParameter.Create(uType));
+				typeParameter.Add(UnifiedTypeArgument.Create(uType));
 			}
 			return UnifiedType.Create(typeName, typeParameter);
 		}
@@ -107,7 +107,7 @@ namespace Ucpf.Languages.CSharp
 				}
 			}
 			return UnifiedType.Create(buff.ToString(),
-				uType.Parameters.DeepCopy<UnifiedTypeParameterCollection>());
+				uType.Arguments.DeepCopy<UnifiedTypeArgumentCollection>());
 		}
 
 		private static string GetTypeAlias(string fullTypeName)

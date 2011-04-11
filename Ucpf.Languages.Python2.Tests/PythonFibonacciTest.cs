@@ -23,7 +23,7 @@ print fib(20)
 
 		private static readonly UnifiedBlock ExpectedModel =
 			UnifiedBlock.Create(new IUnifiedExpression[] {
-				UnifiedFunctionDefinition.Create(
+				UnifiedFunctionDefinition.CreateFunction(
 					"fib",
 					UnifiedParameterCollection.Create(
 						UnifiedParameter.Create("n")
@@ -35,10 +35,10 @@ print fib(20)
 									UnifiedBinaryOperatorType.GreaterThanOrEqual),
 								UnifiedIntegerLiteral.Create(1)),
 							UnifiedBlock.Create(
-								UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
+								UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
 								),
 							UnifiedBlock.Create(
-								UnifiedJump.CreateReturn(
+								UnifiedSpecialExpression.CreateReturn(
 									UnifiedBinaryExpression.Create(
 										UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fib"),
 											UnifiedArgumentCollection.Create(

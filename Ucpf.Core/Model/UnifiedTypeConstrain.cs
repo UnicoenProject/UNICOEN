@@ -5,27 +5,24 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   ジェネリクスパラメータなど型に対する仮引数を表します。
+	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
+	///   継承関係を表す場合、対象の型の個数は１つです。
+	///   例えば、Javaにおける"class A extends Object { .. "の"extends Object"部分に該当します。
+	///   例えば、C#における"where A : new()"に該当します。
 	/// </summary>
-	public class UnifiedTypeParameter : UnifiedElement
+	public class UnifiedTypeConstrain : UnifiedElement
 	{
-		private UnifiedIdentifier _name;
+		public UnifiedTypeConstrainType Kind { get; set; }
 
-		public UnifiedIdentifier Name
+		private UnifiedType _type;
+
+		public UnifiedType Type
 		{
-			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			get { return _type; }
+			set { _type = SetParentOfChild(value, _type); }
 		}
 
-		private UnifiedTypeConstrainCollection _constrains;
-
-		public UnifiedTypeConstrainCollection Constrains
-		{
-			get { return _constrains; }
-			set { _constrains = SetParentOfChild(value, _constrains); }
-		}
-
-		private UnifiedTypeParameter() {}
+		private UnifiedTypeConstrain() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
@@ -40,21 +37,21 @@ namespace Ucpf.Core.Model
 
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
-			yield return Constrains;
+			yield return Type;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+				(Type, v => Type = (UnifiedType)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndDirectSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+				(_type, v => _type = (UnifiedType)v);
 		}
 	}
 }

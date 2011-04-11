@@ -65,7 +65,7 @@ namespace Ucpf.Languages.CSharp
 		public object VisitMethodDeclaration(MethodDeclaration method, object data)
 		{
 			var parameters = ConvertParameters(method.Parameters);
-			return UnifiedFunctionDefinition.Create(
+			return UnifiedFunctionDefinition.CreateFunction(
 				method.Name,
 				ConvertType(method.TypeReference),
 				ConvertModifiler(method.Modifier),
@@ -267,18 +267,18 @@ namespace Ucpf.Languages.CSharp
 		public object VisitReturnStatement(ReturnStatement stmt, object data)
 		{
 			var value = stmt.Expression.AcceptVisitor(this, data) as IUnifiedExpression;
-			return UnifiedJump.CreateReturn(value);
+			return UnifiedSpecialExpression.CreateReturn(value);
 		}
 
 		public object VisitBreakStatement(BreakStatement breakStatement, object data)
 		{
-			return UnifiedJump.CreateBreak();
+			return UnifiedSpecialExpression.CreateBreak();
 		}
 
 		public object VisitContinueStatement(ContinueStatement continueStatement,
 		                                     object data)
 		{
-			return UnifiedJump.CreateContinue();
+			return UnifiedSpecialExpression.CreateContinue();
 		}
 
 		#endregion
@@ -374,8 +374,8 @@ namespace Ucpf.Languages.CSharp
 			var init =
 				expr.ArrayInitializer.AcceptVisitor(this, data) as
 				UnifiedExpressionCollection;
-
-			return UnifiedArrayNew.Create(arrayType, args, init);
+			throw new NotImplementedException();
+			//return UnifiedArrayNew.CreateArray(arrayType, args, init);
 		}
 
 		public object VisitIndexerExpression(IndexerExpression expr, object data)

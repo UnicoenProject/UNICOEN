@@ -545,7 +545,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			return UnifiedCase.Create(body);
 		}
 
-		public static UnifiedJump CreateReturn(XElement node)
+		public static UnifiedSpecialExpression CreateReturn(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "returnStatement");
@@ -555,9 +555,9 @@ namespace Ucpf.Languages.JavaScript.Model
 			 */
 
 			if (node.Element("expression") != null) {
-				return UnifiedJump.CreateReturn(CreateExpression(node.Element("expression")));
+				return UnifiedSpecialExpression.CreateReturn(CreateExpression(node.Element("expression")));
 			} else {
-				return UnifiedJump.CreateReturn();
+				return UnifiedSpecialExpression.CreateReturn();
 			}
 		}
 
@@ -567,7 +567,7 @@ namespace Ucpf.Languages.JavaScript.Model
 
 		public static UnifiedFunctionDefinition CreateFunction(XElement node)
 		{
-			return UnifiedFunctionDefinition.Create(
+			return UnifiedFunctionDefinition.CreateFunction(
 				node.Element("Identifier").Value,
 				CreateParameterCollection(node),
 				CreateFunctionBody(node.Element("functionBody")));
