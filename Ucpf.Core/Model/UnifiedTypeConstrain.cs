@@ -53,5 +53,21 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_type, v => _type = (UnifiedType)v);
 		}
+
+		public static UnifiedTypeConstrain CreateExtends(UnifiedType type, UnifiedTypeConstrainType kind)
+		{
+			return new UnifiedTypeConstrain {
+				Type = type,
+				Kind = kind,
+			};
+		}
+
+		public static UnifiedTypeConstrain CreateExtends(UnifiedType type)
+		{
+			return new UnifiedTypeConstrain {
+				Type = type,
+				Kind = UnifiedTypeConstrainType.Extends
+			};
+		}
 	}
 }

@@ -9,12 +9,12 @@ namespace Ucpf.Core.Model
 	/// </summary>
 	public class UnifiedTypeParameter : UnifiedElement
 	{
-		private UnifiedIdentifier _name;
+		private UnifiedType _type;
 
-		public UnifiedIdentifier Name
+		public UnifiedType Type
 		{
-			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			get { return _type; }
+			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		private UnifiedTypeConstrainCollection _constrains;
@@ -55,6 +55,14 @@ namespace Ucpf.Core.Model
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+		}
+
+		public static UnifiedTypeParameter Create(UnifiedType type, UnifiedTypeConstrainCollection constrains)
+		{
+			return new UnifiedTypeParameter {
+				Type = type,
+				Constrains = constrains,
+			};
 		}
 	}
 }
