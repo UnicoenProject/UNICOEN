@@ -147,13 +147,13 @@ namespace Ucpf.Core.Tests
 				UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
 					UnifiedIntegerLiteral.Create(1)),
-				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
+				UnifiedSpecialExpression.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			});
 			var o2 = UnifiedBlock.Create(new IUnifiedExpression[] {
 				UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
 					UnifiedIntegerLiteral.Create(1)),
-				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
+				UnifiedSpecialExpression.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			});
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.True);
@@ -166,7 +166,7 @@ namespace Ucpf.Core.Tests
 				UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
 					UnifiedIntegerLiteral.Create(1)),
-				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
+				UnifiedSpecialExpression.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			});
 			var o2 = o1;
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
@@ -180,13 +180,13 @@ namespace Ucpf.Core.Tests
 				UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
 					UnifiedIntegerLiteral.Create(1)),
-				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
+				UnifiedSpecialExpression.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			});
 			var o2 = UnifiedBlock.Create(new IUnifiedExpression[] {
 				UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
 					UnifiedIntegerLiteral.Create(2)),
-				UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(2)),
+				UnifiedSpecialExpression.CreateReturn(UnifiedIntegerLiteral.Create(2)),
 			});
 			Assert.That(StructuralEqualityComparer.StructuralEquals(o1, o2),
 				Is.False);

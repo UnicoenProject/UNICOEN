@@ -11,7 +11,7 @@ namespace Ucpf.Core.Tests
 			return UnifiedProgram.Create(
 				"A".ToClassDefinition()
 					.AddToBody(
-						UnifiedFunctionDefinition.Create(
+						UnifiedFunctionDefinition.CreateFunction(
 							"M1",
 							"void".ToType(),
 							block
@@ -29,7 +29,7 @@ namespace Ucpf.Core.Tests
 						true.ToLiteral()
 							.ToWhile()
 							.AddToBody(
-								UnifiedJump.CreateReturn())
+								UnifiedSpecialExpression.CreateReturn())
 					}));
 			}
 		}
@@ -42,7 +42,7 @@ namespace Ucpf.Core.Tests
 					UnifiedBlock.Create(new IUnifiedExpression[] {
 						true.ToLiteral()
 							.ToDoWhile()
-							.AddToBody(UnifiedJump.CreateReturn())
+							.AddToBody(UnifiedSpecialExpression.CreateReturn())
 					}));
 			}
 		}
@@ -58,10 +58,10 @@ namespace Ucpf.Core.Tests
 							"i".ToVariable(),
 							UnifiedBinaryOperatorType.LessThan,
 							1.ToLiteral()),
-						CSharpModelFactoryHelper.CreateExpression(
-							"i".ToVariable(), UnifiedUnaryOperatorType.PostIncrementAssign),
+						UnifiedExpressionCollection.Create(CSharpModelFactoryHelper.CreateExpression(
+							"i".ToVariable(), UnifiedUnaryOperatorType.PostIncrementAssign)),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateBreak()
+							UnifiedSpecialExpression.CreateBreak()
 							)
 						)
 					));
@@ -72,10 +72,12 @@ namespace Ucpf.Core.Tests
 		{
 			get
 			{
-				return CreateClassAndMethod(UnifiedBlock.Create(new IUnifiedExpression[] {
-					UnifiedArrayNew.Create(1.ToLiteral()).ToForeach("int".ToType(), "i")
-						.AddToBody(UnifiedJump.CreateContinue())
-				}));
+				return CreateClassAndMethod(UnifiedBlock.Create(
+					UnifiedNew.CreateArray(1,
+						UnifiedExpressionCollection.Create(1.ToLiteral()))
+						.ToForeach("int".ToType(), "i")
+						.AddToBody(UnifiedSpecialExpression.CreateContinue())
+					));
 			}
 		}
 
@@ -143,7 +145,7 @@ namespace Ucpf.Core.Tests
 							.ToSwitch()
 							.AddToCases(1.ToLiteral()
 								.ToCase()
-								.AddToBody(UnifiedJump.CreateBreak())
+								.AddToBody(UnifiedSpecialExpression.CreateBreak())
 							)
 					}));
 			}
@@ -175,10 +177,10 @@ namespace Ucpf.Core.Tests
 							.ToSwitch()
 							.AddToCases(1.ToLiteral()
 								.ToCase()
-								.AddToBody(UnifiedJump.CreateBreak())
+								.AddToBody(UnifiedSpecialExpression.CreateBreak())
 							)
 							.AddToCases(UnifiedCase.Create(UnifiedBlock.Create(
-								UnifiedJump.CreateBreak()))
+								UnifiedSpecialExpression.CreateBreak()))
 							)
 						));
 			}
@@ -204,7 +206,7 @@ namespace Ucpf.Core.Tests
 			get
 			{
 				return CreateClassAndMethod(UnifiedBlock.Create(
-					UnifiedJump.CreateThrow(
+					UnifiedSpecialExpression.CreateThrow(
 						UnifiedNew.Create(
 							UnifiedType.Create("Exception"),
 							UnifiedArgumentCollection.Create()))));

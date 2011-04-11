@@ -1,9 +1,9 @@
 ﻿namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   処理を移動させる式の種類を表します。
+	///   UnifiedSpecialExpressionの種類を表します。
 	/// </summary>
-	public enum UnifiedJumpType
+	public enum UnifiedSpecialExpressionType
 	{
 		Break,
 		Continue,

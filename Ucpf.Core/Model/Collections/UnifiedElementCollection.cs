@@ -60,7 +60,7 @@ namespace Ucpf.Core.Model
 
 		#endregion
 
-		public void PrivateAdd(TElement element)
+		void IUnifiedElementCollection<TElement>.PrivateAdd(TElement element)
 		{
 			Add(element);
 		}

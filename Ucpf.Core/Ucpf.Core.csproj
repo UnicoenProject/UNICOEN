@@ -71,7 +71,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedClassType.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
@@ -86,7 +90,6 @@
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorType.cs" />
-    <Compile Include="Model\Expressions\UnifiedArrayNew.cs" />
     <Compile Include="Model\Expressions\UnifiedBinaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCall.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedClassDefinition.cs" />
@@ -103,8 +106,8 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
     <Compile Include="Model\Expressions\UnifiedIdentifierType.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
-    <Compile Include="Model\Expressions\UnifiedJump.cs" />
-    <Compile Include="Model\Expressions\UnifiedJumpType.cs" />
+    <Compile Include="Model\Expressions\UnifiedSpecialExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedSpecialExpressionType.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
@@ -128,13 +131,18 @@
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedImport.cs" />
+    <Compile Include="Model\UnifiedTypeConstrain.cs" />
+    <Compile Include="Model\UnifiedTypeConstrainType.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\Collections\UnifiedModifierCollection.cs" />
     <Compile Include="Model\UnifiedParameter.cs" />
     <Compile Include="Model\Collections\UnifiedParameterCollection.cs" />
     <Compile Include="Model\UnifiedProgram.cs" />
+    <Compile Include="Model\UnifiedTypeArgument.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeArgumentCollection.cs" />
+    <Compile Include="Model\UnifiedTypeSupplement.cs" />
+    <Compile Include="Model\UnifiedTypeSupplementKind.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
-    <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Visitors\IUnifiedModelVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

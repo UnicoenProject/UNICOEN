@@ -21,7 +21,7 @@ namespace Ucpf.Languages.Java.Tests
 				JavaXmlGenerator.Instance.Generate("public static int fibonacci(int n){}",
 					p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedType.Create("int"),
 				UnifiedModifierCollection.Create(

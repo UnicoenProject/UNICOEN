@@ -30,7 +30,7 @@ namespace Ucpf.Languages.Ruby18.Tests
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n"))
@@ -48,13 +48,13 @@ def fibonacci(n)
 	return n
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
 					),
 				UnifiedBlock.Create(
-					UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
+					UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
 					)
 				);
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -71,13 +71,13 @@ def fibonacci(n)
 	return fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
 					),
 				UnifiedBlock.Create(
-					UnifiedJump.CreateReturn(CreateCall(null))
+					UnifiedSpecialExpression.CreateReturn(CreateCall(null))
 					)
 				);
 			Assert.That(actual, Is.EqualTo(expectation)
@@ -94,13 +94,13 @@ def fibonacci(n)
 	return fibonacci(n - 1) + fibonacci(n - 2)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
 					),
 				UnifiedBlock.Create(
-					UnifiedJump.CreateReturn(
+					UnifiedSpecialExpression.CreateReturn(
 						UnifiedBinaryExpression.Create(CreateCall(1),
 							UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
 							CreateCall(2))
@@ -126,7 +126,7 @@ def fibonacci(n)
 end
 ");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
@@ -137,10 +137,10 @@ end
 							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan),
 							UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
+							UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
 							),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn(UnifiedIntegerLiteral.Create(0))
+							UnifiedSpecialExpression.CreateReturn(UnifiedIntegerLiteral.Create(0))
 							)
 						)
 					)
@@ -164,7 +164,7 @@ def fibonacci(n)
 end
 ");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedParameterCollection.Create(
 					UnifiedParameter.Create("n")
@@ -175,10 +175,10 @@ end
 							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan),
 							UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
+							UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
 							),
 						UnifiedBlock.Create(
-							UnifiedJump.CreateReturn(
+							UnifiedSpecialExpression.CreateReturn(
 								UnifiedBinaryExpression.Create(CreateCall(1),
 									UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
 									CreateCall(2))
