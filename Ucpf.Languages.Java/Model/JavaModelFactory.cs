@@ -820,7 +820,7 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedSpecialExpression.CreateBreak();
 		}
 
-		public static UnifiedJump CreateContinue(XElement node)
+		public static UnifiedSpecialExpression CreateContinue(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
@@ -828,7 +828,7 @@ namespace Ucpf.Languages.Java.Model
 			/* 'continue' (IDENTIFIER)? ';' */
 			if (node.Elements().Count() > 2)
 				throw new NotImplementedException();
-			return UnifiedJump.CreateContinue();
+			return UnifiedSpecialExpression.CreateContinue();
 		}
 
 		private static IUnifiedExpression CreateForInit(XElement node)
