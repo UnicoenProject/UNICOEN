@@ -633,6 +633,8 @@ namespace Ucpf.Languages.Java.Model
 				return CreateReturn(node);
 			case "BREAK":
 				return CreateBreak(node);
+			case "CONTINUE":
+				return CreateContinue(node);
 			case "expression":
 				return CreateExpression(element);
 			default:
@@ -816,6 +818,17 @@ namespace Ucpf.Languages.Java.Model
 			if (node.Elements().Count() > 2)
 				throw new NotImplementedException();
 			return UnifiedSpecialExpression.CreateBreak();
+		}
+
+		public static UnifiedJump CreateContinue(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("continue"));
+			/* 'continue' (IDENTIFIER)? ';' */
+			if (node.Elements().Count() > 2)
+				throw new NotImplementedException();
+			return UnifiedJump.CreateContinue();
 		}
 
 		private static IUnifiedExpression CreateForInit(XElement node)
