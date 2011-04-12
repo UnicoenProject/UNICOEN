@@ -941,12 +941,11 @@ namespace Ucpf.Languages.Java.Model
 			 * block 
 			 * :   '{' (blockStatement)* '}' 
 			 */
-
-			var list = new List<IUnifiedExpression>();
+			var block = UnifiedBlock.Create();
 			foreach (var e in node.Elements("blockStatement")) {
-				list.Add(CreateBlockStatement(e));
+				block.Add(CreateBlockStatement(e));
 			}
-			return UnifiedBlock.Create(list);
+			return block;
 		}
 
 		public static IUnifiedExpression CreateBlockStatement(XElement node)
@@ -1037,41 +1036,38 @@ namespace Ucpf.Languages.Java.Model
 			switch (first.Name()) {
 			case "block":
 				return CreateBlock(first);
-			case "IF":
-				//TODO IFという名前の要素を持っていないがどうするか
-				throw new NotImplementedException();
 			case "forstatement":
 				return CreateForstatement(first);
-			case "WHILE":
-				//TODO WHILEという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "DO":
-				//TODO DOという名前の要素を持っていない
-				throw new NotImplementedException();
 			case "trystatement":
 				return CreateTrystatement(first);
-			case "SWITCH":
-				//TODO SWITCHという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "SYNCHRONIZED":
-				//TODO SYNCHRONIZEDという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "RETURN":
-				//TODO RETURNという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "THROW":
-				//TODO THROWという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "BREAK":
-				//TODO BREAKという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "CONTINUE":
-				//TODO CONTINUEという名前の要素を持っていない
-				throw new NotImplementedException();
 			case "expression":
 				return CreateExpression(first);
-			default:
+			}
+			switch (first.Value) {
+			case "assert":
 				throw new NotImplementedException();
+			case "if":
+				throw new NotImplementedException();
+			case "while":
+				throw new NotImplementedException();
+			case "do":
+				throw new NotImplementedException();
+			case "switch":
+				throw new NotImplementedException();
+			case "synchronized":
+				throw new NotImplementedException();
+			case "return":
+				throw new NotImplementedException();
+			case "throw":
+				throw new NotImplementedException();
+			case "break":
+				throw new NotImplementedException();
+			case "continue":
+				throw new NotImplementedException();
+			case ";":
+				throw new NotImplementedException();
+			default:
+				throw new IndexOutOfRangeException();
 			}
 		}
 
