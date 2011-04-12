@@ -32,7 +32,7 @@ print fib(20)
 						UnifiedIf.Create(
 							UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 								UnifiedBinaryOperator.Create("<=",
-									UnifiedBinaryOperatorType.GreaterThanOrEqual),
+									UnifiedBinaryOperatorKind.GreaterThanOrEqual),
 								UnifiedIntegerLiteral.Create(1)),
 							UnifiedBlock.Create(
 								UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
@@ -45,19 +45,19 @@ print fib(20)
 												UnifiedArgument.Create(UnifiedBinaryExpression.Create(
 													UnifiedIdentifier.CreateUnknown("n"),
 													UnifiedBinaryOperator.Create("-",
-														UnifiedBinaryOperatorType.Subtract),
+														UnifiedBinaryOperatorKind.Subtract),
 													UnifiedIntegerLiteral.Create(1)))
 												)
 											),
 										UnifiedBinaryOperator.Create("+",
-											UnifiedBinaryOperatorType.Add),
+											UnifiedBinaryOperatorKind.Add),
 										UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fib"),
 											UnifiedArgumentCollection.Create(
 												UnifiedArgument.Create(
 													UnifiedBinaryExpression.Create(
 														UnifiedIdentifier.CreateUnknown("n"),
 														UnifiedBinaryOperator.Create("-",
-															UnifiedBinaryOperatorType.Subtract),
+															UnifiedBinaryOperatorKind.Subtract),
 														UnifiedIntegerLiteral.Create(2)))
 												)
 											)

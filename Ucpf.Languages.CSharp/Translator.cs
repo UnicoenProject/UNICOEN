@@ -360,7 +360,7 @@ namespace Ucpf.Languages.CSharp
 		public object VisitAssignmentExpression(AssignmentExpression assign,
 		                                        object data)
 		{
-			var op = UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign);
+			var op = UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign);
 			var left = ConvertExpression(assign.Left);
 			var right = ConvertExpression(assign.Right);
 			return UnifiedBinaryExpression.Create(left, op, right);

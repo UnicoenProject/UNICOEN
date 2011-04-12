@@ -88,9 +88,12 @@
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
-    <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorType.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
+    <Compile Include="Model\Expressions\UnifiedTernaryExpression.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperator.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperator.cs" />
-    <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorType.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\UnifiedBinaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCall.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedClassDefinition.cs" />

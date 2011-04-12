@@ -10,21 +10,21 @@ namespace Ucpf.Languages.Ruby18.Model
 {
 	public class RubyModelFactory
 	{
-		private static readonly Dictionary<string, UnifiedBinaryOperatorType>
+		private static readonly Dictionary<string, UnifiedBinaryOperatorKind>
 			Sign2Type;
 
 		static RubyModelFactory()
 		{
-			Sign2Type = new Dictionary<string, UnifiedBinaryOperatorType>();
-			Sign2Type["+"] = UnifiedBinaryOperatorType.Add;
-			Sign2Type["-"] = UnifiedBinaryOperatorType.Subtract;
-			Sign2Type["*"] = UnifiedBinaryOperatorType.Multiply;
-			Sign2Type["/"] = UnifiedBinaryOperatorType.Divide;
-			Sign2Type["%"] = UnifiedBinaryOperatorType.Modulo;
-			Sign2Type["<"] = UnifiedBinaryOperatorType.LessThan;
-			Sign2Type["<="] = UnifiedBinaryOperatorType.LessThanOrEqual;
-			Sign2Type[">"] = UnifiedBinaryOperatorType.GreaterThan;
-			Sign2Type[">="] = UnifiedBinaryOperatorType.GreaterThanOrEqual;
+			Sign2Type = new Dictionary<string, UnifiedBinaryOperatorKind>();
+			Sign2Type["+"] = UnifiedBinaryOperatorKind.Add;
+			Sign2Type["-"] = UnifiedBinaryOperatorKind.Subtract;
+			Sign2Type["*"] = UnifiedBinaryOperatorKind.Multiply;
+			Sign2Type["/"] = UnifiedBinaryOperatorKind.Divide;
+			Sign2Type["%"] = UnifiedBinaryOperatorKind.Modulo;
+			Sign2Type["<"] = UnifiedBinaryOperatorKind.LessThan;
+			Sign2Type["<="] = UnifiedBinaryOperatorKind.LessThanOrEqual;
+			Sign2Type[">"] = UnifiedBinaryOperatorKind.GreaterThan;
+			Sign2Type[">="] = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
 		}
 
 		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node)
@@ -60,7 +60,7 @@ namespace Ucpf.Languages.Ruby18.Model
 
 		public static UnifiedBinaryOperator CreateOperator(string sign)
 		{
-			UnifiedBinaryOperatorType result;
+			UnifiedBinaryOperatorKind result;
 			return Sign2Type.TryGetValue(sign, out result)
 			       	? UnifiedBinaryOperator.Create(sign, result) : null;
 		}

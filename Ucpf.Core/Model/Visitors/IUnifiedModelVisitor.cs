@@ -51,6 +51,8 @@
 		void Visit(UnifiedTypeParameter element);
 		void Visit(UnifiedTypeSupplement element);
 		void Visit(UnifiedTypeSupplementCollection element);
+		void Visit(UnifiedTernaryOperator element);
+		void Visit(UnifiedTernaryExpression element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult>
@@ -104,5 +106,7 @@
 		TResult Visit(UnifiedTypeParameter element, TData data);
 		TResult Visit(UnifiedTypeSupplement element, TData data);
 		TResult Visit(UnifiedTypeSupplementCollection element, TData data);
+		TResult Visit(UnifiedTernaryOperator element, TData data);
+		TResult Visit(UnifiedTernaryExpression element, TData data);
 	}
 }

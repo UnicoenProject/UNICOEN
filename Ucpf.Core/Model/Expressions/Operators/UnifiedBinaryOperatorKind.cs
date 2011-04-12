@@ -4,7 +4,7 @@
 	///   二項演算子の種類を表します。
 	///   http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
 	/// </summary>
-	public enum UnifiedBinaryOperatorType
+	public enum UnifiedBinaryOperatorKind
 	{
 		/// <summary>
 		/// 種類が不明
