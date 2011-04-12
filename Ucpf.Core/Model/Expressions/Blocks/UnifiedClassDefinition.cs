@@ -171,5 +171,17 @@ namespace Ucpf.Core.Model
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				body, modifiers, UnifiedClassType.Class);
 		}
+
+		public static UnifiedClassDefinition Create(UnifiedModifierCollection modifiers, UnifiedClassType type, UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
+		{
+			return new UnifiedClassDefinition {
+				Modifiers = modifiers,
+				Type = type,
+				Name = name,
+				TypeParameters = typeParameters,
+				Constrains = constrains,
+				Body = body,
+			};
+		}
 	}
 }

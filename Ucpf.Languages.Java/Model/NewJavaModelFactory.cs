@@ -184,7 +184,7 @@ namespace Ucpf.Languages.Java.Model
 
 			return UnifiedClassDefinition.Create(
 				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-					UnifiedIdentifierKind.Function),
+					UnifiedIdentifierKind.Class),
 				CreateClassBody(node.Element("classBody")),
 				CreateModifiers(node.Element("modifiers")),
 				UnifiedClassType.Class);
@@ -335,9 +335,25 @@ namespace Ucpf.Languages.Java.Model
 			 * :   modifiers 'interface' IDENTIFIER (typeParameters)? ('extends' typeList)? interfaceBody 
 			 */
 
-			//TODO UnifiedInterfaceDeclarationが未実装
-			throw new NotImplementedException();
-			return null;
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			var type = UnifiedClassType.Interface;
+			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+				UnifiedIdentifierKind.Class);
+			var typeParameters = node.Element("typeParameters") != null ?
+				CreateTypeParameters(node.Element("typeParameters")) : null;
+			var constrains = node.Element("typeList") != null ?
+			                                                  	UnifiedTypeConstrainCollection
+			                                                  		.Create(
+			                                                  			CreateTypeList(
+			                                                  				node.Element("typeList"))
+			                                                  		.Select(
+			                                                  			UnifiedTypeConstrain.
+			                                                  		CreateExtends)
+			                                                  		) : null;
+			var body = CreateInterfaceBody(node.Element("interfaceBody"));
+
+			//TODO UnifiedClassDefinitionのCreateの整理
+			return UnifiedClassDefinition.Create(modifiers, type, name, typeParameters, constrains, body);
 		}
 
 		public static UnifiedTypeCollection CreateTypeList(XElement node)
@@ -551,14 +567,27 @@ namespace Ucpf.Languages.Java.Model
 			       ('[' ']')* ('throws' qualifiedNameList)? ';' 
 			 */
 
-			return UnifiedFunctionDefinition.CreateFunction(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-					UnifiedIdentifierKind.Function),
-				CreateType(node.Element("type")),
-				CreateModifiers(node.Element("modifiers")),
-				CreateFormalParameters(node.Element("formalParameters"))
-				);
-			//TODO typeParametersなどが未実装
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			var typeParameters = node.HasElement("typeParameters") ? 
+				CreateTypeParameters(node.Element("typeParameters")) : null;
+			var type = CreateType(node.Element("type"));
+			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+				UnifiedIdentifierKind.Function);
+			var parameters = CreateFormalParameters(node.Element("formalParameters"));
+			
+			//TODO CreateQualifiedNameの型を何にするか？
+			/*
+			 * var throws = UnifiedTypeCollection.Create(
+					CreateQualifiedNameList(node.Element("qualifiedNameList"))
+					.Select(e => UnifiedType.Create(e.ToString()))
+				); 
+			 */
+			var kind = UnifiedFunctionDefinitionKind.Function;
+
+			//TODO '[]'がどのように付くのか調査
+			//TODO UnifiedFunctionDefinitionのCreateの整理
+			//TODO 引数が8個のCreateを実装
+			return UnifiedFunctionDefinition.CreateFunction(name, type, modifiers, parameters, null, null, kind);
 		}
 
 		public static UnifiedVariableDefinition CreateInterfaceFieldDeclaration(
@@ -671,7 +700,7 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static IUnifiedExpression CreateQualifiedNameList(XElement node)
+		public static IEnumerable<IUnifiedExpression>CreateQualifiedNameList(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "qualifiedNameList");
@@ -680,11 +709,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   qualifiedName (',' qualifiedName)* 
 			 */
 
-			return UnifiedExpressionCollection.Create(
-				node
-					.Elements("qualifiedName")
-					.Select(CreateQualifiedName)
-				);
+			return node.Elements("qualifiedName").Select(CreateQualifiedName);
 		}
 
 		public static UnifiedParameterCollection CreateFormalParameters(XElement node)
