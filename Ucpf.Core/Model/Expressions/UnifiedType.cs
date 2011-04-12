@@ -18,28 +18,41 @@ namespace Ucpf.Core.Model
 			set { _name = SetParentOfChild(value, _name); }
 		}
 
-		private UnifiedTypeParameterCollection _parameters;
+		private UnifiedTypeArgumentCollection _arguments;
 
-		public UnifiedTypeParameterCollection Parameters
+		public UnifiedTypeArgumentCollection Arguments
 		{
-			get { return _parameters; }
-			set { _parameters = SetParentOfChild(value, _parameters); }
+			get { return _arguments; }
+			set { _arguments = SetParentOfChild(value, _arguments); }
+		}
+
+		private UnifiedTypeSupplementCollection _supplements;
+
+		/// <summary>
+		///   Javaにおける<c>int[10] a;</c>の<c>[10]</c>部分、
+		///   Cにおける<c>int** a;</c>の<c>**</c>部分、
+		///   <c>int[] a;</c>の<c>[]</c>部分などが該当します。
+		/// </summary>
+		public UnifiedTypeSupplementCollection Supplements
+		{
+			get { return _supplements; }
+			set { _supplements = SetParentOfChild(value, _supplements); }
 		}
 
 		private UnifiedType()
 		{
-			Parameters = UnifiedTypeParameterCollection.Create();
+			Arguments = UnifiedTypeArgumentCollection.Create();
 		}
 
 		public UnifiedType AddToParameters(IUnifiedExpression expression)
 		{
-			Parameters.Add(expression.ToTypeParameter());
+			Arguments.Add(expression.ToTypeParameter());
 			return this;
 		}
 
-		public UnifiedType AddToParameters(UnifiedTypeParameter parameter)
+		public UnifiedType AddToParameters(UnifiedTypeArgument argument)
 		{
-			Parameters.Add(parameter);
+			Arguments.Add(argument);
 			return this;
 		}
 
@@ -57,7 +70,8 @@ namespace Ucpf.Core.Model
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
 			yield return Name;
-			yield return Parameters;
+			yield return Arguments;
+			yield return Supplements;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -66,7 +80,9 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Name, v => Name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Parameters, v => Parameters = (UnifiedTypeParameterCollection)v);
+				(Arguments, v => Arguments = (UnifiedTypeArgumentCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -75,22 +91,58 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_name, v => _name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_parameters, v => _parameters = (UnifiedTypeParameterCollection)v);
+				(_arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
+		}
+
+		public void AddSupplement(UnifiedTypeSupplement supplement)
+		{
+			if (Supplements == null)
+				Supplements = UnifiedTypeSupplementCollection.Create();
+			Supplements.Add(supplement);
 		}
 
 		public static UnifiedType Create(string name)
 		{
-			return new UnifiedType {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
-			};
+			return Create(name, null, null);
 		}
 
 		public static UnifiedType Create(string name,
-		                                 UnifiedTypeParameterCollection parameters)
+		                                 UnifiedTypeArgumentCollection arguments)
+		{
+			return Create(name, arguments, null);
+		}
+
+		public static UnifiedType Create(string name,
+		                                 UnifiedTypeArgumentCollection arguments,
+		                                 UnifiedTypeSupplementCollection supplements)
 		{
 			return new UnifiedType {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
-				Parameters = parameters,
+				Name = name != null
+				       	? UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type)
+				       	: null,
+				Arguments = arguments,
+				Supplements = supplements,
+			};
+		}
+
+		public static UnifiedType CreateArray(string name, int dimension)
+		{
+			return Create(name, null, UnifiedTypeSupplementCollection.Create(
+				UnifiedTypeSupplement.CreateArray(dimension)));
+		}
+
+		public static UnifiedType CreateArray(string name,
+		                                      UnifiedExpressionCollection arraySizes)
+		{
+			return new UnifiedType {
+				Name = name != null
+				       	? UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type)
+				       	: null,
+				Arguments = null,
+				Supplements = UnifiedTypeSupplementCollection.Create(
+					UnifiedTypeSupplement.CreateArray(arraySizes)),
 			};
 		}
 	}

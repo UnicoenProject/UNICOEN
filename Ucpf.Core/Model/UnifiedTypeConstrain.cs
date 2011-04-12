@@ -5,10 +5,15 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   ジェネリクスパラメータなど型に対する仮引数を表します。
+	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
+	///   なお、継承関係を表す場合、対象の型の個数は１つです。
+	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
+	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
 	/// </summary>
-	public class UnifiedTypeParameter : UnifiedElement
+	public class UnifiedTypeConstrain : UnifiedElement
 	{
+		public UnifiedTypeConstrainKind Kind { get; set; }
+
 		private UnifiedType _type;
 
 		public UnifiedType Type
@@ -17,15 +22,7 @@ namespace Ucpf.Core.Model
 			set { _type = SetParentOfChild(value, _type); }
 		}
 
-		private UnifiedTypeConstrainCollection _constrains;
-
-		public UnifiedTypeConstrainCollection Constrains
-		{
-			get { return _constrains; }
-			set { _constrains = SetParentOfChild(value, _constrains); }
-		}
-
-		private UnifiedTypeParameter() {}
+		private UnifiedTypeConstrain() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
@@ -40,28 +37,36 @@ namespace Ucpf.Core.Model
 
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
-			yield return Constrains;
+			yield return Type;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+				(Type, v => Type = (UnifiedType)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndDirectSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+				(_type, v => _type = (UnifiedType)v);
 		}
 
-		public static UnifiedTypeParameter Create(UnifiedType type, UnifiedTypeConstrainCollection constrains)
+		public static UnifiedTypeConstrain CreateExtends(UnifiedType type, UnifiedTypeConstrainKind kind)
 		{
-			return new UnifiedTypeParameter {
+			return new UnifiedTypeConstrain {
 				Type = type,
-				Constrains = constrains,
+				Kind = kind,
+			};
+		}
+
+		public static UnifiedTypeConstrain CreateExtends(UnifiedType type)
+		{
+			return new UnifiedTypeConstrain {
+				Type = type,
+				Kind = UnifiedTypeConstrainKind.Extends
 			};
 		}
 	}

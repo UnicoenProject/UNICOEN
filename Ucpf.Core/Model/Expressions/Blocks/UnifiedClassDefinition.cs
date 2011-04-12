@@ -29,6 +29,22 @@ namespace Ucpf.Core.Model
 			set { _name = SetParentOfChild(value, _name); }
 		}
 
+		private UnifiedTypeParameterCollection _typeParameters;
+
+		public UnifiedTypeParameterCollection TypeParameters
+		{
+			get { return _typeParameters; }
+			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
+		}
+
+		private UnifiedTypeConstrainCollection _constrains;
+
+		public UnifiedTypeConstrainCollection Constrains
+		{
+			get { return _constrains; }
+			set { _constrains = SetParentOfChild(value, _constrains); }
+		}
+
 		private UnifiedClassDefinition()
 		{
 			Modifiers = UnifiedModifierCollection.Create();
@@ -49,6 +65,8 @@ namespace Ucpf.Core.Model
 		{
 			yield return Modifiers;
 			yield return Name;
+			yield return TypeParameters;
+			yield return Constrains;
 			yield return Body;
 		}
 
@@ -60,6 +78,10 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Name, v => Name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Body, v => Body = (UnifiedBlock)v);
 		}
 
@@ -70,6 +92,10 @@ namespace Ucpf.Core.Model
 				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_name, v => _name = (UnifiedIdentifier)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_body, v => _body = (UnifiedBlock)v);
 		}
@@ -117,7 +143,7 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedClassDefinition CreateClass(string name)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
 				UnifiedClassType.Class);
 		}
@@ -126,14 +152,14 @@ namespace Ucpf.Core.Model
 		                                                 UnifiedModifierCollection
 		                                                 	modifiers)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				UnifiedBlock.Create(), modifiers, UnifiedClassType.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
 		                                                 UnifiedBlock body)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				body, UnifiedModifierCollection.Create(), UnifiedClassType.Class);
 		}
 
@@ -142,7 +168,7 @@ namespace Ucpf.Core.Model
 		                                                 UnifiedModifierCollection
 		                                                 	modifiers)
 		{
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierType.Type),
+			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				body, modifiers, UnifiedClassType.Class);
 		}
 	}

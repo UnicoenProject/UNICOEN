@@ -5,22 +5,12 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   UnifiedSpecialBlockの種類を表します。
-	/// </summary>
-	public enum UnifiedSpecialBlockType
-	{
-		Synchrnoized,
-		Fix,
-		Using,
-	}
-
-	/// <summary>
 	///   synchronizedなど特殊なブロックを表します。
 	/// </summary>
 	public class UnifiedSpecialBlock
 		: UnifiedExpressionWithBlock<UnifiedSpecialBlock>
 	{
-		public UnifiedSpecialBlockType Type { get; set; }
+		public UnifiedSpecialBlockKind Kind { get; set; }
 
 		public IUnifiedExpression Value { get; set; }
 
@@ -56,12 +46,12 @@ namespace Ucpf.Core.Model
 				(_body, v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedSpecialBlock Create(UnifiedSpecialBlockType type,
+		public static UnifiedSpecialBlock Create(UnifiedSpecialBlockKind kind,
 		                                         IUnifiedExpression value,
 		                                         UnifiedBlock body)
 		{
 			return new UnifiedSpecialBlock {
-				Type = type,
+				Kind = kind,
 				Value = value,
 				Body = body,
 			};

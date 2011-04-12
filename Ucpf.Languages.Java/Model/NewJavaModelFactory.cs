@@ -122,10 +122,10 @@ namespace Ucpf.Languages.Java.Model
 			foreach (var modifier in node.Elements()) {
 				if(modifier.Name() == "annotation") {
 					//TODO まだUnifiedAnnotationは未実装
-					//modifiers.PrivateAdd(UnifiedAnnotation.Create());
+					//modifiers.Add(UnifiedAnnotation.Create());
 				}
 				else {
-					modifiers.PrivateAdd(UnifiedModifier.Create(modifier.Value));
+					modifiers.Add(UnifiedModifier.Create(modifier.Value));
 				}
 			}
 			return modifiers;
@@ -144,10 +144,10 @@ namespace Ucpf.Languages.Java.Model
 			foreach (var modifier in node.Elements()) {
 				if(modifier.Name() == "annotation") {
 					//TODO まだUnifiedAnnotationは未実装
-					//modifiers.PrivateAdd(UnifiedAnnotation.Create());
+					//modifiers.Add(UnifiedAnnotation.Create());
 				}
 				else {
-					modifiers.PrivateAdd(UnifiedModifier.Create(modifier.Value));
+					modifiers.Add(UnifiedModifier.Create(modifier.Value));
 				}
 			}
 			return modifiers;
@@ -200,7 +200,7 @@ namespace Ucpf.Languages.Java.Model
 			var typeParameters = UnifiedTypeParameterCollection.Create();
 			foreach (var typeParameter in node.Elements("typeParameter")) {
 				var e = CreateTypeParameter(typeParameter);
-				typeParameters.PrivateAdd(e);
+				typeParameters.Add(e);
 			}
 			return typeParameters;
 		}
@@ -230,7 +230,7 @@ namespace Ucpf.Languages.Java.Model
 			var types = UnifiedTypeCollection.Create();
 			foreach (var type in node.Elements("type")) {
 				var e = CreateType(type);
-				types.PrivateAdd(e);
+				types.Add(e);
 			}
 			return types;
 		}
@@ -303,7 +303,7 @@ namespace Ucpf.Languages.Java.Model
 			var declarations = UnifiedExpressionCollection.Create();
 			foreach (var declaration in node.Elements("classBodyDeclaration")) {
 				var e = CreateClassBodyDeclaration(declaration);
-				declarations.PrivateAdd(e);
+				declarations.Add(e);
 			}
 			return declarations;
 		}
@@ -353,7 +353,7 @@ namespace Ucpf.Languages.Java.Model
 			var types = UnifiedTypeCollection.Create();
 			foreach (var type in node.Elements("type")) {
 				var e = CreateType(type);
-				types.PrivateAdd(e);
+				types.Add(e);
 			}
 			return types;
 		}
@@ -1145,7 +1145,7 @@ namespace Ucpf.Languages.Java.Model
 			var catches = UnifiedCatchCollection.Create();
 			foreach (var catche in node.Elements("catchClause")) {
 				var e = CreateCatchClause(catche);
-				catches.PrivateAdd(e);
+				catches.Add(e);
 			}
 			return catches;
 		}
@@ -1274,7 +1274,7 @@ namespace Ucpf.Languages.Java.Model
 			var list = UnifiedExpressionCollection.Create();
 			foreach (var expression in node.Elements("expression")) {
 				var e = CreateExpression(expression);
-				list.PrivateAdd(e);
+				list.Add(e);
 			}
 			return list;
 		}
@@ -1892,7 +1892,7 @@ namespace Ucpf.Languages.Java.Model
 			var exps = UnifiedExpressionCollection.Create();
 			foreach (var exp in node.Elements("variableInitializer")) {
 				var e = CreateVariableInitializer(exp);
-				exps.PrivateAdd(e);
+				exps.Add(e);
 			}
 			return exps;
 		}

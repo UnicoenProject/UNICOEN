@@ -4,7 +4,7 @@
 	{
 		public static UnifiedFunctionDefinition ToFunctionDefinition(this string name)
 		{
-			return UnifiedFunctionDefinition.Create(name);
+			return UnifiedFunctionDefinition.CreateFunction(name);
 		}
 
 		public static UnifiedWhile ToWhile(this IUnifiedExpression condition)
@@ -32,9 +32,9 @@
 			return UnifiedIf.Create(condition);
 		}
 
-		public static UnifiedJump ToReturn(this IUnifiedExpression value)
+		public static UnifiedSpecialExpression ToReturn(this IUnifiedExpression value)
 		{
-			return UnifiedJump.CreateReturn(value);
+			return UnifiedSpecialExpression.CreateReturn(value);
 		}
 
 		public static UnifiedCase ToCase(this IUnifiedExpression condtion)
@@ -47,10 +47,10 @@
 			return UnifiedSwitch.Create(value);
 		}
 
-		public static UnifiedTypeParameter ToTypeParameter(
+		public static UnifiedTypeArgument ToTypeParameter(
 			this IUnifiedExpression value)
 		{
-			return UnifiedTypeParameter.Create(value);
+			return UnifiedTypeArgument.Create(value);
 		}
 
 		public static UnifiedNew ToNew(this UnifiedType type)

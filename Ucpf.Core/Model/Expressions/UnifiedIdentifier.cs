@@ -13,7 +13,7 @@ namespace Ucpf.Core.Model
 
 		public string Value { get; set; }
 
-		public UnifiedIdentifierType Type { get; set; }
+		public UnifiedIdentifierKind Kind { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
@@ -43,17 +43,17 @@ namespace Ucpf.Core.Model
 			yield break;
 		}
 
-		public static UnifiedIdentifier Create(string name, UnifiedIdentifierType type)
+		public static UnifiedIdentifier Create(string name, UnifiedIdentifierKind kind)
 		{
 			return new UnifiedIdentifier {
 				Value = name,
-				Type = type
+				Kind = kind
 			};
 		}
 
 		public static UnifiedIdentifier CreateUnknown(string name)
 		{
-			return Create(name, UnifiedIdentifierType.Unknown);
+			return Create(name, UnifiedIdentifierKind.Unknown);
 		}
 	}
 }

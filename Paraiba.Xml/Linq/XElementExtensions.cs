@@ -76,6 +76,28 @@ namespace Paraiba.Xml.Linq
 		}
 
 		/// <summary>
+		///   指定した結合コンテンツの子要素を保持している子要素を取得します。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "value"></param>
+		/// <returns></returns>
+		[Pure]
+		public static IEnumerable<XElement> ElementsByValue(this XElement element, string value) {
+			return element.Elements().Where(e => e.Value == value);
+		}
+
+		/// <summary>
+		///   指定したコンテンツの子要素を保持している子要素を取得します。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "content"></param>
+		/// <returns></returns>
+		[Pure]
+		public static IEnumerable<XElement> ElementsByContent(this XElement element, string content) {
+			return element.Elements().Where(e => e.HasContent(content));
+		}
+
+		/// <summary>
 		///   XElement.ElementsBeforeSelf().Last()です。
 		/// </summary>
 		/// <param name = "element"></param>

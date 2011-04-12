@@ -18,8 +18,7 @@ namespace Ucpf.Languages.Java.Tests
 						UnifiedNew.Create(
 							UnifiedType.Create("Interface"),
 							UnifiedArgumentCollection.Create(),
-							UnifiedBlock.Create()
-							)));
+							null, UnifiedBlock.Create())));
 			}
 		}
 
@@ -30,7 +29,7 @@ namespace Ucpf.Languages.Java.Tests
 				return UnifiedProgram.Create(
 					"A".ToClassDefinition()
 						.AddToBody(
-							UnifiedFunctionDefinition.Create(
+							UnifiedFunctionDefinition.CreateFunction(
 								"M1",
 								"void".ToType(),
 								UnifiedModifierCollection.Create(),

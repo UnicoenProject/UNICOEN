@@ -27,14 +27,14 @@ namespace Ucpf.Core.Model
 			return visitor.Visit(this, data);
 		}
 
-		public override IUnifiedElement Normalize()
-		{
-			NormalizeChildren();
-			if (Elements.Count == 1) {
-				return Elements[0];
-			}
-			return this;
-		}
+		//public override IUnifiedElement Normalize()
+		//{
+		//    NormalizeChildren();
+		//    if (Elements.Count == 1) {
+		//        return Elements[0];
+		//    }
+		//    return this;
+		//}
 
 		public static UnifiedExpressionCollection Create()
 		{

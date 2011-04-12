@@ -133,9 +133,9 @@ namespace Ucpf.Languages.Java
 			}
 		}
 
-		public void Visit(UnifiedJump element)
+		public void Visit(UnifiedSpecialExpression element)
 		{
-			_writer.Write(GetKeyword(element.Type));
+			_writer.Write(GetKeyword(element.Kind));
 			if (element.Value != null) {
 				_writer.Write(" ");
 				element.Value.Accept(this);
@@ -172,26 +172,56 @@ namespace Ucpf.Languages.Java
 			throw new NotImplementedException();
 		}
 
-		public string GetKeyword(UnifiedJumpType type)
+		public void Visit(UnifiedTypeParameterCollection element)
 		{
-			switch (type) {
-			case UnifiedJumpType.Break:
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeConstrain element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeConstrainCollection element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeParameter element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeSupplement element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTypeSupplementCollection element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string GetKeyword(UnifiedSpecialExpressionKind kind)
+		{
+			switch (kind) {
+			case UnifiedSpecialExpressionKind.Break:
 				return "break";
-			case UnifiedJumpType.Continue:
+			case UnifiedSpecialExpressionKind.Continue:
 				return "continue";
-			case UnifiedJumpType.Goto:
+			case UnifiedSpecialExpressionKind.Goto:
 				return "goto";
-			case UnifiedJumpType.Return:
+			case UnifiedSpecialExpressionKind.Return:
 				return "return";
-			case UnifiedJumpType.YieldReturn:
+			case UnifiedSpecialExpressionKind.YieldReturn:
 				return "yield return";
-			case UnifiedJumpType.Throw:
+			case UnifiedSpecialExpressionKind.Throw:
 				return "throw";
-			case UnifiedJumpType.Retry:
+			case UnifiedSpecialExpressionKind.Retry:
 				throw new NotImplementedException();
-			case UnifiedJumpType.Redo:
+			case UnifiedSpecialExpressionKind.Redo:
 				throw new NotImplementedException();
-			case UnifiedJumpType.Yield:
+			case UnifiedSpecialExpressionKind.Yield:
 				throw new NotImplementedException();
 			default:
 				throw new ArgumentOutOfRangeException();
@@ -291,11 +321,6 @@ namespace Ucpf.Languages.Java
 				element.Body.Accept(this);
 		}
 
-		public void Visit(UnifiedArrayNew element)
-		{
-			throw new NotImplementedException();
-		}
-
 		public void Visit(UnifiedFor element)
 		{
 			throw new NotImplementedException();
@@ -336,12 +361,12 @@ namespace Ucpf.Languages.Java
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeParameter element)
+		public void Visit(UnifiedTypeArgument element)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeParameterCollection element)
+		public void Visit(UnifiedTypeArgumentCollection element)
 		{
 			throw new NotImplementedException();
 		}

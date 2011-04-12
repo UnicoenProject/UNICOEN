@@ -24,7 +24,6 @@
 		void Visit(UnifiedVariableDefinition element);
 		void Visit(UnifiedNew element);
 		void Visit(UnifiedLiteral element);
-		void Visit(UnifiedArrayNew element);
 		void Visit(UnifiedFor element);
 		void Visit(UnifiedForeach element);
 		void Visit(UnifiedUnaryExpression element);
@@ -34,18 +33,24 @@
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
 		void Visit(UnifiedIndexer element);
-		void Visit(UnifiedTypeParameter element);
-		void Visit(UnifiedTypeParameterCollection element);
+		void Visit(UnifiedTypeArgument element);
+		void Visit(UnifiedTypeArgumentCollection element);
 		void Visit(UnifiedSwitch element);
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
-		void Visit(UnifiedJump element);
+		void Visit(UnifiedSpecialExpression element);
 		void Visit(UnifiedSpecialBlock element);
 		void Visit(UnifiedCatch element);
 		void Visit(UnifiedTypeCollection element);
 		void Visit(UnifiedCatchCollection element);
 		void Visit(UnifiedTry element);
 		void Visit(UnifiedCast element);
+		void Visit(UnifiedTypeParameterCollection element);
+		void Visit(UnifiedTypeConstrain element);
+		void Visit(UnifiedTypeConstrainCollection element);
+		void Visit(UnifiedTypeParameter element);
+		void Visit(UnifiedTypeSupplement element);
+		void Visit(UnifiedTypeSupplementCollection element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult>
@@ -72,7 +77,6 @@
 		TResult Visit(UnifiedVariableDefinition element, TData data);
 		TResult Visit(UnifiedNew element, TData data);
 		TResult Visit(UnifiedLiteral element, TData data);
-		TResult Visit(UnifiedArrayNew element, TData data);
 		TResult Visit(UnifiedFor element, TData data);
 		TResult Visit(UnifiedForeach element, TData data);
 		TResult Visit(UnifiedUnaryExpression element, TData data);
@@ -82,17 +86,23 @@
 		TResult Visit(UnifiedWhile element, TData data);
 		TResult Visit(UnifiedDoWhile element, TData data);
 		TResult Visit(UnifiedIndexer element, TData data);
-		TResult Visit(UnifiedTypeParameter element, TData data);
-		TResult Visit(UnifiedTypeParameterCollection element, TData data);
+		TResult Visit(UnifiedTypeArgument element, TData data);
+		TResult Visit(UnifiedTypeArgumentCollection element, TData data);
 		TResult Visit(UnifiedSwitch element, TData data);
 		TResult Visit(UnifiedCaseCollection element, TData data);
 		TResult Visit(UnifiedCase element, TData data);
-		TResult Visit(UnifiedJump element, TData data);
+		TResult Visit(UnifiedSpecialExpression element, TData data);
 		TResult Visit(UnifiedSpecialBlock element, TData data);
 		TResult Visit(UnifiedCatch element, TData data);
 		TResult Visit(UnifiedTypeCollection element, TData data);
 		TResult Visit(UnifiedCatchCollection element, TData data);
 		TResult Visit(UnifiedTry element, TData data);
 		TResult Visit(UnifiedCast element, TData data);
+		TResult Visit(UnifiedTypeParameterCollection element, TData data);
+		TResult Visit(UnifiedTypeConstrain element, TData data);
+		TResult Visit(UnifiedTypeConstrainCollection element, TData data);
+		TResult Visit(UnifiedTypeParameter element, TData data);
+		TResult Visit(UnifiedTypeSupplement element, TData data);
+		TResult Visit(UnifiedTypeSupplementCollection element, TData data);
 	}
 }

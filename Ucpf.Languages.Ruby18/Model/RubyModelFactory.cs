@@ -98,7 +98,7 @@ namespace Ucpf.Languages.Ruby18.Model
 				return UnifiedIf.Create(CreateExpression(elems.ElementAt(0)),
 					CreateBlock(elems.ElementAt(1)), CreateBlock(elems.ElementAt(2)));
 			case "return":
-				return UnifiedJump.CreateReturn(
+				return UnifiedSpecialExpression.CreateReturn(
 					CreateExpression(elems.First()));
 			default:
 				throw new NotImplementedException();
@@ -109,7 +109,7 @@ namespace Ucpf.Languages.Ruby18.Model
 		{
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
-			return UnifiedFunctionDefinition.Create(
+			return UnifiedFunctionDefinition.CreateFunction(
 				elems.First().Value,
 				UnifiedParameterCollection.Create(
 					elems.ElementAt(1).Elements()

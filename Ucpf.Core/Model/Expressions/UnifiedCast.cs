@@ -9,12 +9,12 @@ namespace Ucpf.Core.Model
 	/// </summary>
 	public class UnifiedCast : UnifiedElement, IUnifiedExpression
 	{
-		private UnifiedType _castType;
+		private UnifiedType _type;
 
-		public UnifiedType CastType
+		public UnifiedType Type
 		{
-			get { return _castType; }
-			set { _castType = SetParentOfChild(value, _castType); }
+			get { return _type; }
+			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		private IUnifiedExpression _expression;
@@ -40,7 +40,7 @@ namespace Ucpf.Core.Model
 
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
-			yield return CastType;
+			yield return Type;
 			yield return Expression;
 		}
 
@@ -48,7 +48,7 @@ namespace Ucpf.Core.Model
 			GetElementAndSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(CastType, v => CastType = (UnifiedType)v);
+				(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Expression, v => Expression = (IUnifiedExpression)v);
 		}
@@ -57,7 +57,7 @@ namespace Ucpf.Core.Model
 			GetElementAndDirectSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_castType, v => _castType = (UnifiedType)v);
+				(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_expression, v => _expression = (IUnifiedExpression)v);
 		}
@@ -66,7 +66,7 @@ namespace Ucpf.Core.Model
 		                                 IUnifiedExpression createExpression)
 		{
 			return new UnifiedCast {
-				CastType = type,
+				Type = type,
 				Expression = createExpression
 			};
 		}

@@ -5,7 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   関数あるいはメソッドの定義部分を表します。
+	///   関数、メソッド、コンストラクタなどの定義部分を表します。
 	/// </summary>
 	public class UnifiedFunctionDefinition
 		: UnifiedExpressionWithBlock<UnifiedFunctionDefinition>
@@ -24,6 +24,14 @@ namespace Ucpf.Core.Model
 		{
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }
+		}
+
+		private UnifiedTypeParameterCollection _typeParameters;
+
+		public UnifiedTypeParameterCollection TypeParameters
+		{
+			get { return _typeParameters; }
+			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
 		}
 
 		private UnifiedIdentifier _name;
@@ -50,6 +58,8 @@ namespace Ucpf.Core.Model
 			set { _throws = SetParentOfChild(value, _throws); }
 		}
 
+		public UnifiedFunctionDefinitionKind Kind { get; set; }
+
 		private UnifiedFunctionDefinition()
 		{
 			Modifiers = UnifiedModifierCollection.Create();
@@ -72,6 +82,7 @@ namespace Ucpf.Core.Model
 		{
 			yield return Modifiers;
 			yield return Type;
+			yield return TypeParameters;
 			yield return Name;
 			yield return Parameters;
 			yield return Throws;
@@ -85,6 +96,8 @@ namespace Ucpf.Core.Model
 				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Type, v => Type = (UnifiedType)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Name, v => Name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -103,6 +116,8 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_name, v => _name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_parameters, v => _parameters = (UnifiedParameterCollection)v);
@@ -112,14 +127,17 @@ namespace Ucpf.Core.Model
 				(_body, v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name,
-		                                               UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers,
-		                                               UnifiedParameterCollection
-		                                               	parameters,
-		                                               UnifiedTypeCollection throws,
-		                                               UnifiedBlock body)
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters,
+		                                                       UnifiedTypeCollection
+		                                                       	throws,
+		                                                       UnifiedBlock body,
+		                                                       UnifiedFunctionDefinitionKind
+		                                                       	kind)
 		{
 			return new UnifiedFunctionDefinition {
 				Name = name,
@@ -128,133 +146,158 @@ namespace Ucpf.Core.Model
 				Parameters = parameters,
 				Throws = throws,
 				Body = body,
+				Kind = kind,
 			};
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name)
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name)
 		{
-			return Create(name, null, UnifiedModifierCollection.Create(),
+			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
+				UnifiedParameterCollection.Create(), null, UnifiedBlock.Create(),
+				UnifiedFunctionDefinitionKind.Function);
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters)
+		{
+			return CreateFunction(name, type, modifiers, parameters, null,
+				UnifiedBlock.Create(), UnifiedFunctionDefinitionKind.Function);
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters,
+		                                                       UnifiedBlock body)
+		{
+			return CreateFunction(name, type, modifiers, parameters, null, body,
+				UnifiedFunctionDefinitionKind.Function);
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters,
+		                                                       UnifiedBlock body)
+		{
+			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
+				parameters,
+				null, body, UnifiedFunctionDefinitionKind.Function);
+			;
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters)
+		{
+			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
+				parameters,
+				null, UnifiedBlock.Create(), UnifiedFunctionDefinitionKind.Function);
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
+		                                                       UnifiedType type,
+		                                                       UnifiedBlock body)
+		{
+			return CreateFunction(name, type, UnifiedModifierCollection.Create(),
+				UnifiedParameterCollection.Create(), null, body,
+				UnifiedFunctionDefinitionKind.Function);
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedBlock body)
+		{
+			return CreateFunction(name, type, modifiers,
+				UnifiedParameterCollection.Create(),
+				null, body, UnifiedFunctionDefinitionKind.Function);
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(string name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters,
+		                                                       UnifiedTypeCollection
+		                                                       	throws,
+		                                                       UnifiedBlock body)
+		{
+			return CreateFunction(
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function), type,
+				modifiers, parameters, throws, body, UnifiedFunctionDefinitionKind.Function);
+		}
+
+		public static UnifiedFunctionDefinition CreateFunction(string name)
+		{
+			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
 				UnifiedParameterCollection.Create(), null, UnifiedBlock.Create());
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name,
-		                                               UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers,
-		                                               UnifiedParameterCollection
-		                                               	parameters)
+		public static UnifiedFunctionDefinition CreateFunction(string name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters)
 		{
-			return Create(name, type, modifiers, parameters, null, UnifiedBlock.Create());
+			return CreateFunction(name, type, modifiers, parameters, null,
+				UnifiedBlock.Create());
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name,
-		                                               UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers,
-		                                               UnifiedParameterCollection
-		                                               	parameters, UnifiedBlock body)
+		public static UnifiedFunctionDefinition CreateFunction(string name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters,
+		                                                       UnifiedBlock body)
 		{
-			return Create(name, type, modifiers, parameters, null, body);
+			return CreateFunction(name, type, modifiers, parameters, null, body);
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name,
-		                                               UnifiedParameterCollection
-		                                               	parameters, UnifiedBlock body)
+		public static UnifiedFunctionDefinition CreateFunction(string name,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters,
+		                                                       UnifiedBlock body)
 		{
-			return Create(name, null, UnifiedModifierCollection.Create(), parameters,
+			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
+				parameters,
 				null, body);
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name,
-		                                               UnifiedParameterCollection
-		                                               	parameters)
+		public static UnifiedFunctionDefinition CreateFunction(string name,
+		                                                       UnifiedParameterCollection
+		                                                       	parameters)
 		{
-			return Create(name, null, UnifiedModifierCollection.Create(), parameters,
+			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
+				parameters,
 				null, UnifiedBlock.Create());
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name,
-		                                               UnifiedType type,
-		                                               UnifiedBlock body)
+		public static UnifiedFunctionDefinition CreateFunction(string name,
+		                                                       UnifiedType type,
+		                                                       UnifiedBlock body)
 		{
-			return Create(name, type, UnifiedModifierCollection.Create(),
+			return CreateFunction(name, type, UnifiedModifierCollection.Create(),
 				UnifiedParameterCollection.Create(), null, body);
 		}
 
-		public static UnifiedFunctionDefinition Create(UnifiedIdentifier name,
-		                                               UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers, UnifiedBlock body)
+		public static UnifiedFunctionDefinition CreateFunction(string name,
+		                                                       UnifiedType type,
+		                                                       UnifiedModifierCollection
+		                                                       	modifiers,
+		                                                       UnifiedBlock body)
 		{
-			return Create(name, type, modifiers, UnifiedParameterCollection.Create(),
-				null, body);
-		}
-
-		public static UnifiedFunctionDefinition Create(string name, UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers,
-		                                               UnifiedParameterCollection
-		                                               	parameters,
-		                                               UnifiedTypeCollection throws,
-		                                               UnifiedBlock body)
-		{
-			return Create(
-				UnifiedIdentifier.Create(name, UnifiedIdentifierType.Function), type,
-				modifiers, parameters, throws, body);
-		}
-
-		public static UnifiedFunctionDefinition Create(string name)
-		{
-			return Create(name, null, UnifiedModifierCollection.Create(),
-				UnifiedParameterCollection.Create(), null, UnifiedBlock.Create());
-		}
-
-		public static UnifiedFunctionDefinition Create(string name, UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers,
-		                                               UnifiedParameterCollection
-		                                               	parameters)
-		{
-			return Create(name, type, modifiers, parameters, null, UnifiedBlock.Create());
-		}
-
-		public static UnifiedFunctionDefinition Create(string name, UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers,
-		                                               UnifiedParameterCollection
-		                                               	parameters, UnifiedBlock body)
-		{
-			return Create(name, type, modifiers, parameters, null, body);
-		}
-
-		public static UnifiedFunctionDefinition Create(string name,
-		                                               UnifiedParameterCollection
-		                                               	parameters, UnifiedBlock body)
-		{
-			return Create(name, null, UnifiedModifierCollection.Create(), parameters,
-				null, body);
-		}
-
-		public static UnifiedFunctionDefinition Create(string name,
-		                                               UnifiedParameterCollection
-		                                               	parameters)
-		{
-			return Create(name, null, UnifiedModifierCollection.Create(), parameters,
-				null, UnifiedBlock.Create());
-		}
-
-		public static UnifiedFunctionDefinition Create(string name, UnifiedType type,
-		                                               UnifiedBlock body)
-		{
-			return Create(name, type, UnifiedModifierCollection.Create(),
-				UnifiedParameterCollection.Create(), null, body);
-		}
-
-		public static UnifiedFunctionDefinition Create(string name, UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers, UnifiedBlock body)
-		{
-			return Create(name, type, modifiers, UnifiedParameterCollection.Create(),
+			return CreateFunction(name, type, modifiers,
+				UnifiedParameterCollection.Create(),
 				null, body);
 		}
 	}
