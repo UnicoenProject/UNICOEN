@@ -7,47 +7,51 @@
 	public enum UnifiedUnaryOperatorType
 	{
 		/// <summary>
-		///   ++a
+		/// 種類が不明
+		/// </summary>
+		Unknown,
+		/// <summary>
+		///   e.g. ++a
 		/// </summary>
 		PreIncrementAssign,
 		/// <summary>
-		///   --a
+		///   e.g. --a
 		/// </summary>
 		PreDecrementAssign,
 		/// <summary>
-		///   a++
+		///   e.g. a++
 		/// </summary>
 		PostIncrementAssign,
 		/// <summary>
-		///   a--
+		///   e.g. a--
 		/// </summary>
 		PostDecrementAssign,
 		/// <summary>
-		///   +a
+		///   e.g. +a
 		/// </summary>
 		UnaryPlus,
 		/// <summary>
-		///   -a
+		///   e.g. -a
 		/// </summary>
 		Negate,
 		/// <summary>
-		///   !a
+		///   e.g. !a
 		/// </summary>
 		Not,
 		/// <summary>
-		///   ~a
+		///   e.g. ~a
 		/// </summary>
 		OnesComplement,
 		/// <summary>
-		///   &a
+		///   e.g. &a
 		/// </summary>
 		Address,
 		/// <summary>
-		///   *a
+		///   e.g. *a
 		/// </summary>
 		Indirect,
 		/// <summary>
-		///   sizeof(a)
+		///   e.g. sizeof(a)
 		/// </summary>
 		Sizeof,
 	}
