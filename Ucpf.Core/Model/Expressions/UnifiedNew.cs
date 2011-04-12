@@ -5,7 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   新しいインスタンスの生成部分を表します。
+	///   配列の生成を含むコンストラクタ呼び出しを表します。
 	/// </summary>
 	public class UnifiedNew : UnifiedExpressionWithBlock<UnifiedNew>
 	{
@@ -25,6 +25,17 @@ namespace Ucpf.Core.Model
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
+		private UnifiedExpressionCollection _initialValues;
+
+		/// <summary>
+		///   Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分などが該当します。
+		/// </summary>
+		public UnifiedExpressionCollection InitialValues
+		{
+			get { return _initialValues; }
+			set { _initialValues = SetParentOfChild(value, _initialValues); }
+		}
+
 		private UnifiedNew() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
@@ -42,48 +53,53 @@ namespace Ucpf.Core.Model
 		{
 			yield return Type;
 			yield return Arguments;
+			yield return InitialValues;
 			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndSetters()
 		{
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Body, v => Body = (UnifiedBlock)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(Type,
+					v => Type = (UnifiedType)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(Arguments,
+					v => Arguments = (UnifiedArgumentCollection)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(InitialValues,
+					v => InitialValues = (UnifiedExpressionCollection)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(Body,
+					v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndDirectSetters()
 		{
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_body, v => _body = (UnifiedBlock)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_type,
+					v => _type = (UnifiedType)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_arguments,
+					v => _arguments = (UnifiedArgumentCollection)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_initialValues,
+					v => _initialValues = (UnifiedExpressionCollection)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_body,
+					v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedNew Create(UnifiedType type)
 		{
-			return new UnifiedNew {
-				Type = type,
-				Arguments = UnifiedArgumentCollection.Create(),
-				Body = null,
-			};
+			return Create(type, null, null, null);
 		}
 
 		public static UnifiedNew Create(UnifiedType type,
 		                                UnifiedArgumentCollection arguments)
 		{
-			return new UnifiedNew {
-				Type = type,
-				Arguments = arguments,
-				Body = null,
-			};
+			return Create(type, arguments, null, null);
 		}
 		
 		public static UnifiedNew Create(UnifiedType type,
@@ -98,13 +114,47 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedNew Create(UnifiedType type,
 		                                UnifiedArgumentCollection arguments,
+		                                UnifiedExpressionCollection initialValues)
+		{
+			return Create(type, arguments, initialValues, null);
+		}
+
+		public static UnifiedNew Create(UnifiedType type,
+		                                UnifiedArgumentCollection arguments,
+		                                UnifiedExpressionCollection initialValues,
 		                                UnifiedBlock body)
 		{
 			return new UnifiedNew {
 				Type = type,
 				Arguments = arguments,
+				InitialValues = initialValues,
 				Body = body,
 			};
+		}
+
+		public static UnifiedNew CreateArray(string name,
+		                                     UnifiedExpressionCollection arraySizes)
+		{
+			return Create(
+				UnifiedType.Create(
+					name,
+					null,
+					UnifiedTypeSupplementCollection.Create(
+						UnifiedTypeSupplement.CreateArray(arraySizes))));
+		}
+
+		public static UnifiedNew CreateArray(int dimension,
+		                                     UnifiedExpressionCollection initialValues)
+		{
+			return Create(
+				UnifiedType.Create(
+					null,
+					null,
+					UnifiedTypeSupplementCollection.Create(
+						UnifiedTypeSupplement.CreateArray(dimension))),
+				null,
+				initialValues,
+				null);
 		}
 	}
 }

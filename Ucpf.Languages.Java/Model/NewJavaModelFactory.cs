@@ -181,7 +181,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			return UnifiedClassDefinition.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Function),
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Function),
 				CreateClassBody(node.Element("classBody")),
 				CreateModifiers(node.Element("modifiers")),
 				UnifiedClassType.Class);
@@ -215,10 +215,15 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			//TODO extends以降が未実装
-			return UnifiedTypeParameter.Create(UnifiedType.Create(node.NthElement(0).Value));
+			return UnifiedTypeParameter.Create(
+				UnifiedType.Create(node.NthElement(0).Value),
+				UnifiedTypeConstrainCollection.Create(
+					CreateTypeBound(node)
+						.Select(UnifiedTypeConstrain.CreateExtends))
+				);
 		}
 
-		public static UnifiedTypeCollection CreateTypeBound(XElement node)
+		public static IEnumerable<UnifiedType> CreateTypeBound(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeBound");
@@ -226,13 +231,7 @@ namespace Ucpf.Languages.Java.Model
 			 * typeBound 
 			 * :   type ('&' type)* 
 			 */
-
-			var types = UnifiedTypeCollection.Create();
-			foreach (var type in node.Elements("type")) {
-				var e = CreateType(type);
-				types.Add(e);
-			}
-			return types;
+			return node.Elements("type").Select(CreateType);
 		}
 
 		public static IUnifiedExpression CreateEnumDeclaration(XElement node)
@@ -467,8 +466,8 @@ namespace Ucpf.Languages.Java.Model
 					CreateModifiers(node.Element("modifiers")),
 					CreateFormalParameters(node.Element("formalParameters")));
 			}
-			return UnifiedFunctionDefinition.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Function),
+			return UnifiedFunctionDefinition.CreateFunction(
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Function),
 				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
 				CreateFormalParameters(node.Element("formalParameters")),
@@ -507,7 +506,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			return UnifiedBinaryExpression.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Variable),
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Variable),
 				UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
 				CreateVariableInitializer(node.Element("variableInitializer"))
 				);
@@ -553,8 +552,8 @@ namespace Ucpf.Languages.Java.Model
 			       ('[' ']')* ('throws' qualifiedNameList)? ';' 
 			 */
 
-			return UnifiedFunctionDefinition.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierType.Function),
+			return UnifiedFunctionDefinition.CreateFunction(
+				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value, UnifiedIdentifierKind.Function),
 				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
 				CreateFormalParameters(node.Element("formalParameters"))
@@ -636,7 +635,7 @@ namespace Ucpf.Languages.Java.Model
 		}
 
 		//TODO 型名がUnifiedType"Parameter"Collectionなのか検討
-		public static UnifiedTypeParameterCollection CreateTypeArguments(XElement node)
+		public static UnifiedTypeArgumentCollection CreateTypeArguments(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeArguments");
@@ -645,7 +644,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   '<' typeArgument (',' typeArgument)* '>' 
 			 */
 
-			return UnifiedTypeParameterCollection.Create(
+			return UnifiedTypeArgumentCollection.Create(
 				node
 				.Elements("typeArgument")
 				.Select(CreateTypeArgument)
@@ -653,7 +652,7 @@ namespace Ucpf.Languages.Java.Model
 		}
 
 		//TODO 型名がUnifiedType"Parameter"なのか検討
-		public static UnifiedTypeParameter CreateTypeArgument(XElement node)
+		public static UnifiedTypeArgument CreateTypeArgument(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeArgument");
@@ -664,7 +663,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			if(node.FirstElement().Name() == "type") {
-				return UnifiedTypeParameter.Create(CreateType(node.NthElement(0)), null);
+				return UnifiedTypeArgument.Create(CreateType(node.NthElement(0)), null);
 			}
 			//TODO ?型のケースが未実装
 			throw new NotImplementedException();
