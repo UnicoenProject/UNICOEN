@@ -1385,7 +1385,11 @@ namespace Ucpf.Languages.Java.Model
 			return CreateConditionalOrExpression(node.NthElement(0));
 		}
 
-		private static IUnifiedExpression CreateBinaryExpression(XElement node, Func<XElement, IUnifiedExpression> createExpression)
+		private static IUnifiedExpression CreateBinaryExpression(XElement node,
+		                                                         Func
+		                                                         	<XElement,
+		                                                         	IUnifiedExpression>
+		                                                         	createExpression)
 		{
 			var nodes = node.Elements().OddIndexElements();
 			return nodes.Skip(1).Aggregate(createExpression(nodes.First()),
@@ -1987,19 +1991,19 @@ namespace Ucpf.Languages.Java.Model
 
 			var first = node.FirstElement();
 			switch (first.Name()) {
-				case "INTLITERAL":
-				case "LONGLITERAL":
-				case "FLOATLITERAL":
-				case "DOUBLELITERAL":
-				case "CHARLITERAL":
-				case "STRINGLITERAL":
-				case "TRUE":
-				case "FALSE":
-				case "NULL":
-					//TODO ANTLRですべてTOKEに書き換えられてしまう
-					throw new NotImplementedException();
-				default:
-					throw new InvalidOperationException();
+			case "INTLITERAL":
+			case "LONGLITERAL":
+			case "FLOATLITERAL":
+			case "DOUBLELITERAL":
+			case "CHARLITERAL":
+			case "STRINGLITERAL":
+			case "TRUE":
+			case "FALSE":
+			case "NULL":
+				//TODO ANTLRですべてTOKEに書き換えられてしまう
+				throw new NotImplementedException();
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
