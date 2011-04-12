@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
+using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
 
@@ -940,12 +941,11 @@ namespace Ucpf.Languages.Java.Model
 			 * block 
 			 * :   '{' (blockStatement)* '}' 
 			 */
-
-			var list = new List<IUnifiedExpression>();
+			var block = UnifiedBlock.Create();
 			foreach (var e in node.Elements("blockStatement")) {
-				list.Add(CreateBlockStatement(e));
+				block.Add(CreateBlockStatement(e));
 			}
-			return UnifiedBlock.Create(list);
+			return block;
 		}
 
 		public static IUnifiedExpression CreateBlockStatement(XElement node)
@@ -1036,41 +1036,38 @@ namespace Ucpf.Languages.Java.Model
 			switch (first.Name()) {
 			case "block":
 				return CreateBlock(first);
-			case "IF":
-				//TODO IFという名前の要素を持っていないがどうするか
-				throw new NotImplementedException();
 			case "forstatement":
 				return CreateForstatement(first);
-			case "WHILE":
-				//TODO WHILEという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "DO":
-				//TODO DOという名前の要素を持っていない
-				throw new NotImplementedException();
 			case "trystatement":
 				return CreateTrystatement(first);
-			case "SWITCH":
-				//TODO SWITCHという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "SYNCHRONIZED":
-				//TODO SYNCHRONIZEDという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "RETURN":
-				//TODO RETURNという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "THROW":
-				//TODO THROWという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "BREAK":
-				//TODO BREAKという名前の要素を持っていない
-				throw new NotImplementedException();
-			case "CONTINUE":
-				//TODO CONTINUEという名前の要素を持っていない
-				throw new NotImplementedException();
 			case "expression":
 				return CreateExpression(first);
-			default:
+			}
+			switch (first.Value) {
+			case "assert":
 				throw new NotImplementedException();
+			case "if":
+				throw new NotImplementedException();
+			case "while":
+				throw new NotImplementedException();
+			case "do":
+				throw new NotImplementedException();
+			case "switch":
+				throw new NotImplementedException();
+			case "synchronized":
+				throw new NotImplementedException();
+			case "return":
+				throw new NotImplementedException();
+			case "throw":
+				throw new NotImplementedException();
+			case "break":
+				throw new NotImplementedException();
+			case "continue":
+				throw new NotImplementedException();
+			case ";":
+				throw new NotImplementedException();
+			default:
+				throw new IndexOutOfRangeException();
 			}
 		}
 
@@ -1134,11 +1131,11 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			var body = CreateBlock(node.NthElement(1));
-			var catches = 
+			var catches =
 				node.HasElement("catches") ? CreateCatches(node.Element("catches")) : null;
-			var finallyBlock = node.HasElement("FINALLY") 
-				? CreateBlock(node.Elements("block").ElementAt(1)) : null;
-			
+			var finallyBlock = node.HasElement("FINALLY")
+			                   	? CreateBlock(node.Elements("block").ElementAt(1)) : null;
+
 			return UnifiedTry.Create(body, catches, finallyBlock);
 		}
 
@@ -1167,10 +1164,11 @@ namespace Ucpf.Languages.Java.Model
 			 * catchClause 
 			 * :   'catch' '(' formalParameter ')' block  
 			 */
-			
+
 			//TODO UnifiedCatchがUnifiedParameter"Collection"を持つのは、他の言語でその可能性があるため？
 			return UnifiedCatch.Create(
-				CreateFormalParameter(node.Element("formalParameter")), CreateBlock(node.Element("block")));
+				CreateFormalParameter(node.Element("formalParameter")),
+				CreateBlock(node.Element("block")));
 		}
 
 		public static UnifiedParameterCollection CreateFormalParameter(XElement node)
@@ -1225,15 +1223,17 @@ namespace Ucpf.Languages.Java.Model
 				var condition = node.HasElement("expression")
 				                	? CreateExpression(node.Element("expression")) : null;
 				var step = node.HasElement("expressionList")
-				           	? CreateExpressionList(node.Element("expressionList")) : null;
+				           	? UnifiedExpressionCollection.Create(
+				           		CreateExpressionList(node.Element("expressionList")))
+				           	: null;
 				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
-				
+
 				return UnifiedFor.Create(
 					forInit,
 					condition,
 					UnifiedExpressionCollection.Create(step),
 					body
-				);
+					);
 			}
 		}
 
@@ -1249,12 +1249,12 @@ namespace Ucpf.Languages.Java.Model
 
 			var first = node.FirstElement();
 			switch (first.Name()) {
-				case "localVariableDeclaration":
-					return CreateLocalVariableDeclaration(first);
-				case "expressionList":
-					return UnifiedExpressionCollection.Create(CreateExpressionList(first));
-				default:
-					throw new InvalidOperationException();
+			case "localVariableDeclaration":
+				return CreateLocalVariableDeclaration(first);
+			case "expressionList":
+				return UnifiedExpressionCollection.Create(CreateExpressionList(first));
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -1266,8 +1266,8 @@ namespace Ucpf.Languages.Java.Model
 			 * parExpression 
 			 * :   '(' expression ')' 
 			 */
-			
-			//TODO 括弧の情報は捨てて大丈夫か？
+
+			//TODO 括弧の情報は捨てて大丈夫か？ -> 大丈夫
 			return CreateExpression(node.NthElement(1));
 		}
 
@@ -1292,7 +1292,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   conditionalExpression (assignmentOperator expression)? 
 			 */
 
-			if(node.HasElement("expression"))
+			if (node.HasElement("expression"))
 				return UnifiedBinaryExpression.Create(
 					CreateConditionalExpression(node.NthElement(0)),
 					CreateAssignmentOperator(node.NthElement(1)),
@@ -1322,21 +1322,45 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			var name = node.Value;
 			UnifiedBinaryOperatorType type;
-			switch(name) {
-				case "=": type = UnifiedBinaryOperatorType.Assign; break;
-				case "+=": type = UnifiedBinaryOperatorType.AddAssign; break;
-				case "-=": type = UnifiedBinaryOperatorType.SubtractAssign; break;
-				case "*=": type = UnifiedBinaryOperatorType.MultiplyAssign; break;
-				case "/=": type = UnifiedBinaryOperatorType.DivideAssign; break;
-				case "&=": type = UnifiedBinaryOperatorType.AndAssign; break;
-				case "|=": type = UnifiedBinaryOperatorType.OrAssign; break;
-				case "^=": type = UnifiedBinaryOperatorType.ExclusiveOrAssign; break;
-				case "%=": type = UnifiedBinaryOperatorType.ModuloAssign; break;
-				case "<<=": type = UnifiedBinaryOperatorType.LogicalLeftShiftAssign; break;
-				case ">>>=": type = UnifiedBinaryOperatorType.LogicalRightShiftAssign; break;
-				case ">>=": type = UnifiedBinaryOperatorType.ArithmeticRightShiftAssign; break;
-				default:
-					throw new InvalidOperationException();
+			switch (name) {
+			case "=":
+				type = UnifiedBinaryOperatorType.Assign;
+				break;
+			case "+=":
+				type = UnifiedBinaryOperatorType.AddAssign;
+				break;
+			case "-=":
+				type = UnifiedBinaryOperatorType.SubtractAssign;
+				break;
+			case "*=":
+				type = UnifiedBinaryOperatorType.MultiplyAssign;
+				break;
+			case "/=":
+				type = UnifiedBinaryOperatorType.DivideAssign;
+				break;
+			case "&=":
+				type = UnifiedBinaryOperatorType.AndAssign;
+				break;
+			case "|=":
+				type = UnifiedBinaryOperatorType.OrAssign;
+				break;
+			case "^=":
+				type = UnifiedBinaryOperatorType.ExclusiveOrAssign;
+				break;
+			case "%=":
+				type = UnifiedBinaryOperatorType.ModuloAssign;
+				break;
+			case "<<=":
+				type = UnifiedBinaryOperatorType.LogicalLeftShiftAssign;
+				break;
+			case ">>>=":
+				type = UnifiedBinaryOperatorType.LogicalRightShiftAssign;
+				break;
+			case ">>=":
+				type = UnifiedBinaryOperatorType.ArithmeticRightShiftAssign;
+				break;
+			default:
+				throw new InvalidOperationException();
 			}
 			return UnifiedBinaryOperator.Create(name, type);
 		}
@@ -1349,12 +1373,25 @@ namespace Ucpf.Languages.Java.Model
 			 * conditionalExpression 
 			 * :   conditionalOrExpression ('?' expression ':' conditionalExpression)?
 			 */
-			
-			if(node.HasElement("expression")) {
+
+			if (node.HasElement("expression")) {
 				//TODO ３項演算子に該当する共通モデルの作成
 				throw new NotImplementedException();
 			}
 			return CreateConditionalOrExpression(node.NthElement(0));
+		}
+
+		private static IUnifiedExpression CreateBinaryExpression(XElement node,
+		                                                         Func
+		                                                         	<XElement,
+		                                                         	IUnifiedExpression>
+		                                                         	createExpression)
+		{
+			var nodes = node.Elements().OddIndexElements();
+			return nodes.Skip(1).Aggregate(createExpression(nodes.First()),
+				(e, n) => UnifiedBinaryExpression.Create(
+					e, CreateBinaryOperator(n.PreviousElement().Value),
+					CreateConditionalAndExpression(node)));
 		}
 
 		public static IUnifiedExpression CreateConditionalOrExpression(XElement node)
@@ -1365,12 +1402,7 @@ namespace Ucpf.Languages.Java.Model
 			 * conditionalOrExpression 
 			 * :   conditionalAndExpression ('||' conditionalAndExpression)* 
 			 */
-
-			if(node.Elements().Count() > 1) {
-				//TODO conditionalAndExpressionと('||' conditionalAndExpression)*のBinaryExpression?
-				throw new NotImplementedException();
-			}
-			return CreateConditionalAndExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateConditionalAndExpression);
 		}
 
 		public static IUnifiedExpression CreateConditionalAndExpression(XElement node)
@@ -1381,11 +1413,7 @@ namespace Ucpf.Languages.Java.Model
 			 * conditionalAndExpression 
 			 * :   inclusiveOrExpression ('&&' inclusiveOrExpression)* 
 			 */
-
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateInclusiveOrExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateInclusiveOrExpression);
 		}
 
 		public static IUnifiedExpression CreateInclusiveOrExpression(XElement node)
@@ -1396,10 +1424,7 @@ namespace Ucpf.Languages.Java.Model
 			 * inclusiveOrExpression 
 			 * :   exclusiveOrExpression ('|' exclusiveOrExpression)* 
 			 */
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateExclusiveOrExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateExclusiveOrExpression);
 		}
 
 		public static IUnifiedExpression CreateExclusiveOrExpression(XElement node)
@@ -1410,11 +1435,7 @@ namespace Ucpf.Languages.Java.Model
 			 * exclusiveOrExpression 
 			 * :   andExpression ('^' andExpression)* 
 			 */
-
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateAndExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateAndExpression);
 		}
 
 		public static IUnifiedExpression CreateAndExpression(XElement node)
@@ -1425,11 +1446,7 @@ namespace Ucpf.Languages.Java.Model
 			 * andExpression 
 			 * :   equalityExpression ('&' equalityExpression)* 
 			 */
-
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateEqualityExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateEqualityExpression);
 		}
 
 		public static IUnifiedExpression CreateEqualityExpression(XElement node)
@@ -1440,11 +1457,7 @@ namespace Ucpf.Languages.Java.Model
 			 * equalityExpression 
 			 * :   instanceOfExpression ( ( '==' | '!=' ) instanceOfExpression)* 
 			 */
-
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateInstanceOfExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateInstanceOfExpression);
 		}
 
 		public static IUnifiedExpression CreateInstanceOfExpression(XElement node)
@@ -1455,11 +1468,13 @@ namespace Ucpf.Languages.Java.Model
 			 * instanceOfExpression 
 			 * :   relationalExpression ('instanceof' type)?
 			 */
-			if(node.HasElement("type")) {
-				//TODO instanceof演算子はBinaryExpression
-				throw new NotImplementedException();
+			var ret = CreateRelationalExpression(node.FirstElement());
+			if (node.Elements().Count() > 1) {
+				ret = UnifiedBinaryExpression.Create(ret,
+					CreateBinaryOperator(node.NthElement(1).Value),
+					CreateType(node.LastElement()));
 			}
-			return CreateRelationalExpression(node.NthElement(0));
+			return ret;
 		}
 
 		public static IUnifiedExpression CreateRelationalExpression(XElement node)
@@ -1470,10 +1485,7 @@ namespace Ucpf.Languages.Java.Model
 			 * relationalExpression 
 			 * :   shiftExpression (relationalOp shiftExpression)* 
 			 */
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateShiftExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateShiftExpression);
 		}
 
 		public static UnifiedBinaryOperator CreateRelationalOp(XElement node)
@@ -1491,15 +1503,23 @@ namespace Ucpf.Languages.Java.Model
 			var name = node.Value;
 			UnifiedBinaryOperatorType type;
 
-			switch(name) {
-				case "<=": type = UnifiedBinaryOperatorType.LessThanOrEqual; break;
-				case ">=": type = UnifiedBinaryOperatorType.GreaterThanOrEqual; break;
-				case "<": type = UnifiedBinaryOperatorType.LessThan; break;
-				case ">": type = UnifiedBinaryOperatorType.GreaterThan; break;
-				default:
-					throw new InvalidOperationException();
+			switch (name) {
+			case "<=":
+				type = UnifiedBinaryOperatorType.LessThanOrEqual;
+				break;
+			case ">=":
+				type = UnifiedBinaryOperatorType.GreaterThanOrEqual;
+				break;
+			case "<":
+				type = UnifiedBinaryOperatorType.LessThan;
+				break;
+			case ">":
+				type = UnifiedBinaryOperatorType.GreaterThan;
+				break;
+			default:
+				throw new InvalidOperationException();
 			}
-			return UnifiedBinaryOperator.Create(name, type);		
+			return UnifiedBinaryOperator.Create(name, type);
 		}
 
 		public static IUnifiedExpression CreateShiftExpression(XElement node)
@@ -1510,11 +1530,7 @@ namespace Ucpf.Languages.Java.Model
 			 * shiftExpression 
 			 * :   additiveExpression (shiftOp additiveExpression)*
 			 */
-
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateAdditiveExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateAdditiveExpression);
 		}
 
 		public static IUnifiedElement CreateShiftOp(XElement node)
@@ -1531,12 +1547,18 @@ namespace Ucpf.Languages.Java.Model
 			var name = node.Value;
 			UnifiedBinaryOperatorType type;
 
-			switch(name) {
-				case "<<": type = UnifiedBinaryOperatorType.LogicalLeftShift; break;
-				case ">>>": type = UnifiedBinaryOperatorType.LogicalRightShift; break;
-				case ">>": type = UnifiedBinaryOperatorType.ArithmeticRightShift; break;
-				default:
-					throw new InvalidOperationException();
+			switch (name) {
+			case "<<":
+				type = UnifiedBinaryOperatorType.LogicalLeftShift;
+				break;
+			case ">>>":
+				type = UnifiedBinaryOperatorType.LogicalRightShift;
+				break;
+			case ">>":
+				type = UnifiedBinaryOperatorType.ArithmeticRightShift;
+				break;
+			default:
+				throw new InvalidOperationException();
 			}
 			return UnifiedBinaryOperator.Create(name, type);
 		}
@@ -1549,11 +1571,7 @@ namespace Ucpf.Languages.Java.Model
 			 * additiveExpression 
 			 * :   multiplicativeExpression ( ( '+' | '-' ) multiplicativeExpression )* 
 			 */
-
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateMultiplicativeExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateMultiplicativeExpression);
 		}
 
 		public static IUnifiedExpression CreateMultiplicativeExpression(XElement node)
@@ -1564,11 +1582,7 @@ namespace Ucpf.Languages.Java.Model
 			 * multiplicativeExpression 
 			 * :   unaryExpression ( ( '*' | '/' | '%' ) unaryExpression)*
 			 */
-			
-			if(node.Elements().Count() > 1) {
-				throw new NotImplementedException();
-			}
-			return CreateUnaryExpression(node.NthElement(0));
+			return CreateBinaryExpression(node, CreateUnaryExpression);
 		}
 
 		public static IUnifiedExpression CreateUnaryExpression(XElement node)
@@ -1639,7 +1653,7 @@ namespace Ucpf.Languages.Java.Model
 			 * |   '(' type ')' unaryExpressionNotPlusMinus 
 			 */
 
-			if(node.NthElement(0).Name() == "primitiveType") {
+			if (node.NthElement(0).Name() == "primitiveType") {
 				return UnifiedCast.Create(
 					CreatePrimitiveType(node.NthElement(1)),
 					CreateUnaryExpression(node.NthElement(3))
@@ -1793,22 +1807,22 @@ namespace Ucpf.Languages.Java.Model
 
 			var first = node.FirstElement();
 
-			if(first.Name() == "arrayCreator") {
+			if (first.Name() == "arrayCreator") {
 				return CreateArrayCreator(first);
 			}
 
-			if(node.Elements().Count() == 4)
+			if (node.Elements().Count() == 4)
 				return UnifiedNew.Create(
 					CreateClassOrInterfaceType(node.NthElement(2)),
 					CreateNonWildcardTypeArguments(node.NthElement(1)),
 					null,
 					CreateClassCreatorRest(node.NthElement(3))
 					);
-			
+
 			return UnifiedNew.Create(
-					CreateClassOrInterfaceType(node.NthElement(1)),
-					CreateClassCreatorRest(node.NthElement(2))
-					);
+				CreateClassOrInterfaceType(node.NthElement(1)),
+				CreateClassCreatorRest(node.NthElement(2))
+				);
 		}
 
 		public static UnifiedNew CreateArrayCreator(XElement node)
@@ -1820,19 +1834,19 @@ namespace Ucpf.Languages.Java.Model
 			 * :   'new' createdName '[' ']' ('[' ']')* arrayInitializer
 			 * |   'new' createdName '[' expression ']' ( '[' expression ']' )* ('[' ']')* 
 			 */
-			
+
 			//TODO 現状では'[]'を見ていないのであとでUnifiedNew.CreateArray()に切り替える
 			UnifiedExpressionCollection initVal = null;
 			UnifiedArgumentCollection args = null;
 
 			if (node.HasContent("arrayInitializer")) {
-				initVal = 
+				initVal =
 					CreateArrayInitializer(node.Element("arrayInitializer"));
 			} else {
 				//TODO ここでUnifiedArgumentを生成していいのか？
 				args = UnifiedArgumentCollection.Create(
 					node.Elements("expression")
-					.Select(e => UnifiedArgument.Create(CreateExpression(e)))
+						.Select(e => UnifiedArgument.Create(CreateExpression(e)))
 					);
 			}
 			return UnifiedNew.Create(
@@ -1851,12 +1865,12 @@ namespace Ucpf.Languages.Java.Model
 
 			var first = node.FirstElement();
 			switch (first.Name()) {
-				case "arrayInitializer":
-					return CreateArrayInitializer(first);
-				case "expression":
-					return CreateExpression(first);
-				default:
-					throw new InvalidOperationException();
+			case "arrayInitializer":
+				return CreateArrayInitializer(first);
+			case "expression":
+				return CreateExpression(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -1889,12 +1903,12 @@ namespace Ucpf.Languages.Java.Model
 
 			var first = node.FirstElement();
 			switch (first.Name()) {
-				case "classOrInterfaceType":
-					return CreateClassOrInterfaceType(first);
-				case "primitiveType":
-					return CreatePrimitiveType(first);
-				default:
-					throw new InvalidOperationException();
+			case "classOrInterfaceType":
+				return CreateClassOrInterfaceType(first);
+			case "primitiveType":
+				return CreatePrimitiveType(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -1923,7 +1937,8 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static UnifiedArgumentCollection CreateNonWildcardTypeArguments(XElement node)
+		public static UnifiedArgumentCollection CreateNonWildcardTypeArguments(
+			XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "nonWildcardTypeArguments");
@@ -1972,19 +1987,19 @@ namespace Ucpf.Languages.Java.Model
 
 			var first = node.FirstElement();
 			switch (first.Name()) {
-				case "INTLITERAL":
-				case "LONGLITERAL":
-				case "FLOATLITERAL":
-				case "DOUBLELITERAL":
-				case "CHARLITERAL":
-				case "STRINGLITERAL":
-				case "TRUE":
-				case "FALSE":
-				case "NULL":
-					//TODO ANTLRですべてTOKEに書き換えられてしまう
-					throw new NotImplementedException();
-				default:
-					throw new InvalidOperationException();
+			case "INTLITERAL":
+			case "LONGLITERAL":
+			case "FLOATLITERAL":
+			case "DOUBLELITERAL":
+			case "CHARLITERAL":
+			case "STRINGLITERAL":
+			case "TRUE":
+			case "FALSE":
+			case "NULL":
+				//TODO ANTLRですべてTOKEに書き換えられてしまう
+				throw new NotImplementedException();
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
@@ -2131,6 +2146,9 @@ namespace Ucpf.Languages.Java.Model
 				break;
 			case "%=":
 				type = UnifiedBinaryOperatorType.ModuloAssign;
+				break;
+			case "instanceof":
+				type = UnifiedBinaryOperatorType.InstanceOf;
 				break;
 			default:
 				throw new InvalidOperationException();

@@ -155,5 +155,9 @@
 		///   a ^= b
 		/// </summary>
 		ExclusiveOrAssign,
+		/// <summary>
+		///   a instanceof b
+		/// </summary>
+		InstanceOf,
 	}
 }
