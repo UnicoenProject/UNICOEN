@@ -31,7 +31,7 @@ namespace Ucpf.Languages.CSharp.Tests
 							UnifiedIf.Create(
 								UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 									UnifiedBinaryOperator.Create("<",
-										UnifiedBinaryOperatorType.LessThan),
+										UnifiedBinaryOperatorKind.LessThan),
 									UnifiedIntegerLiteral.Create(2)),
 								UnifiedBlock.Create(new[] {
 									UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n")),
@@ -44,19 +44,19 @@ namespace Ucpf.Languages.CSharp.Tests
 													UnifiedArgument.Create(UnifiedBinaryExpression.Create(
 														UnifiedIdentifier.CreateUnknown("n"),
 														UnifiedBinaryOperator.Create("-",
-															UnifiedBinaryOperatorType.Subtract),
+															UnifiedBinaryOperatorKind.Subtract),
 														UnifiedIntegerLiteral.Create(1)
 														)))
 												),
 											UnifiedBinaryOperator.Create("+",
-												UnifiedBinaryOperatorType.Add),
+												UnifiedBinaryOperatorKind.Add),
 											UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("fibonacci"),
 												UnifiedArgumentCollection.Create(
 													UnifiedArgument.Create(
 														UnifiedBinaryExpression.Create(
 															UnifiedIdentifier.CreateUnknown("n"),
 															UnifiedBinaryOperator.Create("-",
-																UnifiedBinaryOperatorType.Subtract),
+																UnifiedBinaryOperatorKind.Subtract),
 															UnifiedIntegerLiteral.Create(2)))
 													)
 												)

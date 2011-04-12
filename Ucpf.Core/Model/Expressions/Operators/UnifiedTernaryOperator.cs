@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
-	/// <summary>
-	///   単項演算子を表します。
-	/// </summary>
-	public class UnifiedUnaryOperator : UnifiedElement
-	{
+namespace Ucpf.Core.Model {
+	public class UnifiedTernaryOperator : UnifiedElement {
 		public string Sign { get; private set; }
-		public UnifiedUnaryOperatorKind Kind { get; private set; }
 
-		private UnifiedUnaryOperator() {}
+		public UnifiedTernaryOperatorKind Kind { get; private set; }
 
-		public static UnifiedUnaryOperator Create(string sign,
-		                                          UnifiedUnaryOperatorKind kind)
+		private UnifiedTernaryOperator() {}
+
+		public static UnifiedTernaryOperator Create(string sign,
+		                                           UnifiedTernaryOperatorKind kind)
 		{
-			return new UnifiedUnaryOperator {
+			return new UnifiedTernaryOperator {
 				Sign = sign,
 				Kind = kind,
 			};
@@ -50,5 +48,6 @@ namespace Ucpf.Core.Model
 		{
 			yield break;
 		}
+
 	}
 }

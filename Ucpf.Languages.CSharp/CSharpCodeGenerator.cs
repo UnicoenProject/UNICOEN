@@ -201,6 +201,16 @@ namespace Ucpf.Languages.CSharp
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedTernaryOperator element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedTernaryExpression element)
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedSpecialExpressionKind kind)
 		{
 			switch (kind) {

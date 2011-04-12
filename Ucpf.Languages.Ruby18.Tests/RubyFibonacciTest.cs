@@ -18,7 +18,7 @@ namespace Ucpf.Languages.Ruby18.Tests
 						: UnifiedArgument.Create(
 							UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
 								UnifiedBinaryOperator.Create("-",
-									UnifiedBinaryOperatorType.Subtract),
+									UnifiedBinaryOperatorKind.Subtract),
 								UnifiedIntegerLiteral.Create((int)decrement)))
 					));
 		}
@@ -102,7 +102,7 @@ end");
 				UnifiedBlock.Create(
 					UnifiedSpecialExpression.CreateReturn(
 						UnifiedBinaryExpression.Create(CreateCall(1),
-							UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
+							UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorKind.Add),
 							CreateCall(2))
 						)
 					)
@@ -134,7 +134,7 @@ end
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
 						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
-							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan),
+							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorKind.LessThan),
 							UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
 							UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
@@ -172,7 +172,7 @@ end
 				UnifiedBlock.Create(
 					UnifiedIf.Create(
 						UnifiedBinaryExpression.Create(UnifiedIdentifier.CreateUnknown("n"),
-							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorType.LessThan),
+							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorKind.LessThan),
 							UnifiedIntegerLiteral.Create(2)),
 						UnifiedBlock.Create(
 							UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"))
@@ -180,7 +180,7 @@ end
 						UnifiedBlock.Create(
 							UnifiedSpecialExpression.CreateReturn(
 								UnifiedBinaryExpression.Create(CreateCall(1),
-									UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorType.Add),
+									UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorKind.Add),
 									CreateCall(2))
 								)
 							)

@@ -10,16 +10,17 @@ namespace Ucpf.Core.Model
 	public class UnifiedBinaryOperator : UnifiedElement
 	{
 		public string Sign { get; private set; }
-		public UnifiedBinaryOperatorType Type { get; private set; }
+
+		public UnifiedBinaryOperatorKind Kind { get; private set; }
 
 		private UnifiedBinaryOperator() {}
 
 		public static UnifiedBinaryOperator Create(string sign,
-		                                           UnifiedBinaryOperatorType type)
+		                                           UnifiedBinaryOperatorKind kind)
 		{
 			return new UnifiedBinaryOperator {
 				Sign = sign,
-				Type = type,
+				Kind = kind,
 			};
 		}
 

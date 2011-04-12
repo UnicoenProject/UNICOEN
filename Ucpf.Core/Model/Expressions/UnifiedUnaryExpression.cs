@@ -67,10 +67,10 @@ namespace Ucpf.Core.Model
 			NormalizeChildren();
 			var operand = Operand as UnifiedIntegerLiteral;
 			if (operand != null) {
-				if (Operator.Type == UnifiedUnaryOperatorType.UnaryPlus) {
+				if (Operator.Kind == UnifiedUnaryOperatorKind.UnaryPlus) {
 					return operand;
 				}
-				if (Operator.Type == UnifiedUnaryOperatorType.Negate) {
+				if (Operator.Kind == UnifiedUnaryOperatorKind.Negate) {
 					operand.Value = -operand.Value;
 					return operand;
 				}
