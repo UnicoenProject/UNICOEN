@@ -60,7 +60,7 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static IUnifiedExpression CreateTypeDeclaration(XElement node)
+		public static UnifiedClassDefinition CreateTypeDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeDeclaration");
@@ -74,11 +74,10 @@ namespace Ucpf.Languages.Java.Model
 				return CreateClassOrInterfaceDeclaration(node.NthElement(0));
 			}
 			//TODO ';'をどう扱うかを考える
-			//TODO returnTypeを考える
 			throw new NotImplementedException();
 		}
 
-		public static IUnifiedExpression CreateClassOrInterfaceDeclaration(
+		public static UnifiedClassDefinition CreateClassOrInterfaceDeclaration(
 			XElement node)
 		{
 			Contract.Requires(node != null);
@@ -308,7 +307,7 @@ namespace Ucpf.Languages.Java.Model
 			return declarations;
 		}
 
-		public static IUnifiedExpression CreateInterfaceDeclaration(XElement node)
+		public static UnifiedClassDefinition CreateInterfaceDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "interfaceDeclaration");
@@ -323,11 +322,10 @@ namespace Ucpf.Languages.Java.Model
 			if (node.FirstElement().Name() == "annotationTypeDeclaration") {
 				return CreateAnnotationTypeDeclaration(node.NthElement(0));
 			}
-			//TODO returnTypeを考える
 			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedExpression CreateNormalInterfaceDeclaration(
+		public static UnifiedClassDefinition CreateNormalInterfaceDeclaration(
 			XElement node)
 		{
 			Contract.Requires(node != null);
@@ -388,7 +386,6 @@ namespace Ucpf.Languages.Java.Model
 				node
 					.Elements("interfaceBodyDeclaration")
 					.Select(CreateInterfaceBodyDeclaration)
-					.ToList()
 				);
 		}
 
@@ -860,7 +857,7 @@ namespace Ucpf.Languages.Java.Model
 			throw new NotImplementedException();
 		}
 
-		public static IUnifiedExpression CreateAnnotationTypeDeclaration(XElement node)
+		public static UnifiedClassDefinition CreateAnnotationTypeDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "annotationTypeDeclaration");
