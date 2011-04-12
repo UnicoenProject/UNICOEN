@@ -1047,23 +1047,23 @@ namespace Ucpf.Languages.Java.Model
 			case "assert":
 				throw new NotImplementedException();
 			case "if":
-				throw new NotImplementedException();
+				return CreateIf(node);
 			case "while":
-				throw new NotImplementedException();
+				return CreateWhile(node);
 			case "do":
-				throw new NotImplementedException();
+				return CreateDoWhile(node);
 			case "switch":
-				throw new NotImplementedException();
+				return CreateSwitch(node);
 			case "synchronized":
-				throw new NotImplementedException();
+				return CreateSynchronized(node);
 			case "return":
-				throw new NotImplementedException();
+				return CreateReturn(node);
 			case "throw":
-				throw new NotImplementedException();
+				return CreateThrow(node);
 			case "break":
-				throw new NotImplementedException();
+				return CreateBreak(node);
 			case "continue":
-				throw new NotImplementedException();
+				return CreateContinue(node);
 			case ";":
 				throw new NotImplementedException();
 			default:
@@ -2183,6 +2183,149 @@ namespace Ucpf.Languages.Java.Model
 				throw new InvalidOperationException();
 			}
 			return UnifiedUnaryOperator.Create(name, kind);
+		}
+
+		private static UnifiedIf CreateIf(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.Elements().First().Name() == "IF");
+			/*  
+			 * 'if' parExpression statement ('else' statement)? 
+			 */
+
+			var trueBody = 
+				UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+
+			UnifiedBlock falseBody = null;
+			if (node.Elements("statement").Count() == 2) {
+				var falseNode = node.Elements("statement").ElementAt(1);
+				falseBody = 
+					UnifiedBlock.Create(CreateStatement(falseNode));
+			}
+			return UnifiedIf.Create(
+				CreateParExpression(node.Element("parExpression")),
+				trueBody, 
+				falseBody
+				);
+		}
+
+		private static UnifiedWhile CreateWhile(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.Elements().First().Name() == "WHILE");
+			/* 
+			 * 'while' parExpression statement
+			 */
+
+			return UnifiedWhile.Create(
+				UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
+				CreateParExpression(node.Element("parExpression"))
+				);
+		}
+
+		private static UnifiedDoWhile CreateDoWhile(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.Elements().First().Name() == "DO");
+			/* 
+			 * 'do' statement 'while' parExpression ';' 
+			 */
+
+			return UnifiedDoWhile.Create(
+				UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
+				CreateParExpression(node.Element("parExpression"))
+				);
+		}
+
+		private static UnifiedSwitch CreateSwitch(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("switch"));
+			/* 
+			 * 'switch' parExpression '{' switchBlockStatementGroups '}' 
+			 */
+
+			return
+				UnifiedSwitch.Create(
+					CreateParExpression(node.Element("parExpression")),
+					CreateSwitchBlockStatementGroups(node.Element("switchBlockStatementGroups"))
+					);
+		}
+
+		private static UnifiedSpecialExpression CreateReturn(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("return"));
+			/*
+			 * 'return' (expression)? ';'
+			 */
+
+			IUnifiedExpression value = null;
+			if (node.Elements().Count() == 3) {
+				value = CreateExpression(node.Element("expression"));
+			}
+			return UnifiedSpecialExpression.CreateReturn(value);
+		}
+
+		private static UnifiedSpecialExpression CreateBreak(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("break"));
+			/* 'break' (IDENTIFIER )? ';' */
+
+			if (node.Elements().Count() > 2)
+				//TODO ラベルが指定されている場合が未実装
+				throw new NotImplementedException();
+			return UnifiedSpecialExpression.CreateBreak();
+		}
+
+		private static UnifiedSpecialExpression CreateContinue(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("continue"));
+			/* 'continue' (IDENTIFIER)? ';' */
+
+			if (node.Elements().Count() > 2)
+				//TODO ラベルが指定されている場合が未実装
+				throw new NotImplementedException();
+			return UnifiedSpecialExpression.CreateContinue();
+		}
+
+		private static UnifiedSpecialBlock CreateSynchronized(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("synchronized"));
+			/* 
+			 * 'synchronized' parExpression block 
+			 */
+
+			return UnifiedSpecialBlock.Create(
+				UnifiedSpecialBlockKind.Synchrnoized,
+				CreateParExpression(node.Element("parExpression")),
+				CreateBlock(node.Element("block"))
+				);
+		}
+
+		private static UnifiedSpecialExpression CreateThrow(XElement node)
+		{
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("throw"));
+			/*
+			 * 'throw' expression ';' 
+			 */
+
+			return
+				UnifiedSpecialExpression.CreateThrow(
+					CreateExpression(node.Element("expression")));
 		}
 	}
 }
