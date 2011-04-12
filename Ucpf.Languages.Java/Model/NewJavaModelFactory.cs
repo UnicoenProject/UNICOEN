@@ -1231,7 +1231,7 @@ namespace Ucpf.Languages.Java.Model
 				return UnifiedFor.Create(
 					forInit,
 					condition,
-					step,
+					UnifiedExpressionCollection.Create(step),
 					body
 				);
 			}
@@ -1252,7 +1252,7 @@ namespace Ucpf.Languages.Java.Model
 				case "localVariableDeclaration":
 					return CreateLocalVariableDeclaration(first);
 				case "expressionList":
-					return CreateExpressionList(first);
+					return UnifiedExpressionCollection.Create(CreateExpressionList(first));
 				default:
 					throw new InvalidOperationException();
 			}
