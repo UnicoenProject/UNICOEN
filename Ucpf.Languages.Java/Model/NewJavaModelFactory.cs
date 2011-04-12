@@ -1822,6 +1822,7 @@ namespace Ucpf.Languages.Java.Model
 				return UnifiedNew.Create(
 					CreateClassOrInterfaceType(node.NthElement(2)),
 					CreateNonWildcardTypeArguments(node.NthElement(1)),
+					null,
 					CreateClassCreatorRest(node.NthElement(3))
 					);
 			
@@ -1831,7 +1832,7 @@ namespace Ucpf.Languages.Java.Model
 					);
 		}
 
-		public static UnifiedArrayNew CreateArrayCreator(XElement node)
+		public static UnifiedNew CreateArrayCreator(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arrayCreator");
@@ -1841,6 +1842,7 @@ namespace Ucpf.Languages.Java.Model
 			 * |   'new' createdName '[' expression ']' ( '[' expression ']' )* ('[' ']')* 
 			 */
 			
+			//TODO 現状では'[]'を見ていないのであとでUnifiedNew.CreateArray()に切り替える
 			UnifiedExpressionCollection initVal = null;
 			UnifiedArgumentCollection args = null;
 
@@ -1854,7 +1856,7 @@ namespace Ucpf.Languages.Java.Model
 					.Select(e => UnifiedArgument.Create(CreateExpression(e)))
 					);
 			}
-			return UnifiedArrayNew.Create(
+			return UnifiedNew.Create(
 				CreateCreatedName(node.NthElement(1)), args, initVal);
 		}
 
