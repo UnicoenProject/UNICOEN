@@ -491,13 +491,13 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedVariableDefinition.Create(
 				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
-				declarator.RightHandSide,
-				declarator.LeftHandSide.ToString() //TODO Expressionの文字列表現は取得できるのか
+				declarator.Item3,
+				declarator.Item1
 				);
 			//TODO variableDeclaratorが複数ある場合が未実装
 		}
 
-		public static UnifiedBinaryExpression CreateVariableDeclarator(XElement node)
+		public static Tuple<string, int, IUnifiedExpression> CreateVariableDeclarator(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarator");
@@ -506,13 +506,11 @@ namespace Ucpf.Languages.Java.Model
 			 * :   IDENTIFIER ('[' ']')* ('=' variableInitializer)? 
 			 */
 
-			return UnifiedBinaryExpression.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-					UnifiedIdentifierKind.Variable),
-				UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorType.Assign),
+			return Tuple.Create(
+				node.Element("IDENTIFIER").Value,
+				node.ElementsByContent("[").Count(),
 				CreateVariableInitializer(node.Element("variableInitializer"))
 				);
-			//TODO 配列である場合や、初期値がない場合が未実装
 		}
 
 		public static IUnifiedExpression CreateInterfaceBodyDeclaration(XElement node)
@@ -580,8 +578,8 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedVariableDefinition.Create(
 				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
-				declarator.RightHandSide,
-				declarator.LeftHandSide.ToString()); //TODO Expressionの文字列表現は取得できるのか
+				declarator.Item3,
+				declarator.Item1); //TODO Expressionの文字列表現は取得できるのか
 			//TODO variableDeclaratorが複数の場合が未実装
 		}
 
@@ -1001,8 +999,8 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedVariableDefinition.Create(
 				CreateType(node.Element("type")),
 				CreateVariableModifiers(node.Element("variableModifiers")),
-				declarator.RightHandSide,
-				declarator.LeftHandSide.ToString()
+				declarator.Item3,
+				declarator.Item1
 				);
 			//TODO variableDeclaratorが複数の場合が未実装
 		}
@@ -1225,7 +1223,7 @@ namespace Ucpf.Languages.Java.Model
 				var condition = node.HasElement("expression")
 				                	? CreateExpression(node.Element("expression")) : null;
 				var step = node.HasElement("expressionList")
-				           	? CreateExpressionList(node.Element("expressionList")) : null;
+				           	? UnifiedExpressionCollection.Create(CreateExpressionList(node.Element("expressionList"))) : null;
 				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 				
 				return UnifiedFor.Create(
@@ -1252,7 +1250,7 @@ namespace Ucpf.Languages.Java.Model
 				case "localVariableDeclaration":
 					return CreateLocalVariableDeclaration(first);
 				case "expressionList":
-					return CreateExpressionList(first);
+					return UnifiedExpressionCollection.Create(CreateExpressionList(first));
 				default:
 					throw new InvalidOperationException();
 			}

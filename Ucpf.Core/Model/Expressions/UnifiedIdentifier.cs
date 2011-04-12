@@ -55,5 +55,10 @@ namespace Ucpf.Core.Model
 		{
 			return Create(name, UnifiedIdentifierKind.Unknown);
 		}
+
+		public static UnifiedIdentifier CreateVariable(string name)
+		{
+			return Create(name, UnifiedIdentifierKind.Variable);
+		}
 	}
 }

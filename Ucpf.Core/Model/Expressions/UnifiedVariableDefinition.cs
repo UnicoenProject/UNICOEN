@@ -35,10 +35,28 @@ namespace Ucpf.Core.Model
 
 		private IUnifiedExpression _initialValue;
 
+		/// <summary>
+		/// 変数の初期化部分を表します。
+		/// e.g. Javaにおける<c>int a[] = { 1 };</c>の<c>{ 1 }</c>部分
+		/// e.g. C#, Javaにおける<c>int[] a = { 1 };</c>の<c>{ 1 }</c>部分
+		/// e.g. C, C++, C#, Javaにおける<c>int i = 1;</c>の<c>{ 1 }</c>部分
+		/// </summary>
 		public IUnifiedExpression InitialValue
 		{
 			get { return _initialValue; }
 			set { _initialValue = SetParentOfChild(value, _initialValue); }
+		}
+
+		private UnifiedArgumentCollection _arguments;
+
+		/// <summary>
+		/// 変数の初期化のコンストラクタ呼び出しを表します。
+		/// e.g. C++における<c>Class c(1);</c>
+		/// </summary>
+		public UnifiedArgumentCollection Arguments
+		{
+			get { return _arguments; }
+			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
 		private UnifiedVariableDefinition()
@@ -78,6 +96,7 @@ namespace Ucpf.Core.Model
 			yield return Type;
 			yield return Name;
 			yield return InitialValue;
+			yield return Arguments;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -91,6 +110,8 @@ namespace Ucpf.Core.Model
 				(Name, v => Name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(InitialValue, v => InitialValue = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -104,6 +125,8 @@ namespace Ucpf.Core.Model
 				(_name, v => _name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_initialValue, v => _initialValue = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public static UnifiedVariableDefinition Create(string name,
