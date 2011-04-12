@@ -1169,7 +1169,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			return UnifiedBlock.Create(node
 				.Elements("classBodyDeclaration")
-				.Select(CreateClassBodyDeclaration).ToList());
+				.Select(CreateClassBodyDeclaration));
 		}
 
 		public static IUnifiedExpression CreateClassBodyDeclaration(XElement node)

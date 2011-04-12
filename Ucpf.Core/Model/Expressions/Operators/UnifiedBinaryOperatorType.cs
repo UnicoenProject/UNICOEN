@@ -7,6 +7,10 @@
 	public enum UnifiedBinaryOperatorType
 	{
 		/// <summary>
+		/// 種類が不明
+		/// </summary>
+		Unknown,
+		/// <summary>
 		///   a + b
 		/// </summary>
 		Add,
