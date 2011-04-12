@@ -106,7 +106,7 @@ namespace Ucpf.Languages.CSharp.Tests
 									UnifiedExpressionCollection.Create(
 										CSharpModelFactoryHelper.CreateExpression(
 											UnifiedIdentifier.CreateUnknown("i"),
-											UnifiedUnaryOperatorType.PostIncrementAssign)),
+											UnifiedUnaryOperatorKind.PostIncrementAssign)),
 									UnifiedBlock.Create(new[] {
 										UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("write"),
 											UnifiedArgumentCollection.Create(

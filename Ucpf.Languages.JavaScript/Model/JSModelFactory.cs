@@ -128,132 +128,132 @@ namespace Ucpf.Languages.JavaScript.Model
 		public static UnifiedUnaryOperator CreatePrefixUnaryOperator(XElement node)
 		{
 			var name = node.Value;
-			UnifiedUnaryOperatorType type;
+			UnifiedUnaryOperatorKind kind;
 
 			//TODO implement more OperationType cases
 			switch (name) {
 			case "++":
-				type = UnifiedUnaryOperatorType.PreIncrementAssign;
+				kind = UnifiedUnaryOperatorKind.PreIncrementAssign;
 				break;
 			case "--":
-				type = UnifiedUnaryOperatorType.PreDecrementAssign;
+				kind = UnifiedUnaryOperatorKind.PreDecrementAssign;
 				break;
 			default:
 				throw new InvalidOperationException();
 			}
 
-			return UnifiedUnaryOperator.Create(name, type);
+			return UnifiedUnaryOperator.Create(name, kind);
 		}
 
 		public static UnifiedUnaryOperator CreatePostfixUnaryOperator(XElement node)
 		{
 			var name = node.Value;
-			UnifiedUnaryOperatorType type;
+			UnifiedUnaryOperatorKind kind;
 
 			switch (name) {
 			case "++":
-				type = UnifiedUnaryOperatorType.PostIncrementAssign;
+				kind = UnifiedUnaryOperatorKind.PostIncrementAssign;
 				break;
 			case "--":
-				type = UnifiedUnaryOperatorType.PostDecrementAssign;
+				kind = UnifiedUnaryOperatorKind.PostDecrementAssign;
 				break;
 			default:
 				throw new InvalidOperationException();
 			}
 
-			return UnifiedUnaryOperator.Create(name, type);
+			return UnifiedUnaryOperator.Create(name, kind);
 		}
 
 		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node)
 		{
 			//TODO implement more OperatorType cases
 			var name = node.Value;
-			UnifiedBinaryOperatorType type;
+			UnifiedBinaryOperatorKind kind;
 
 			switch (name) {
 				//Arithmetic
 			case "+":
-				type = UnifiedBinaryOperatorType.Add;
+				kind = UnifiedBinaryOperatorKind.Add;
 				break;
 			case "-":
-				type = UnifiedBinaryOperatorType.Subtract;
+				kind = UnifiedBinaryOperatorKind.Subtract;
 				break;
 			case "*":
-				type = UnifiedBinaryOperatorType.Multiply;
+				kind = UnifiedBinaryOperatorKind.Multiply;
 				break;
 			case "/":
-				type = UnifiedBinaryOperatorType.Divide;
+				kind = UnifiedBinaryOperatorKind.Divide;
 				break;
 			case "%":
-				type = UnifiedBinaryOperatorType.Modulo;
+				kind = UnifiedBinaryOperatorKind.Modulo;
 				break;
 				//Shift
 			case "<<":
-				type = UnifiedBinaryOperatorType.ArithmeticLeftShift;
+				kind = UnifiedBinaryOperatorKind.ArithmeticLeftShift;
 				break;
 			case ">>":
-				type = UnifiedBinaryOperatorType.ArithmeticRightShift;
+				kind = UnifiedBinaryOperatorKind.ArithmeticRightShift;
 				break;
 				//Comparison
 			case ">":
-				type = UnifiedBinaryOperatorType.GreaterThan;
+				kind = UnifiedBinaryOperatorKind.GreaterThan;
 				break;
 			case ">=":
-				type = UnifiedBinaryOperatorType.GreaterThanOrEqual;
+				kind = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
 				break;
 			case "<":
-				type = UnifiedBinaryOperatorType.LessThan;
+				kind = UnifiedBinaryOperatorKind.LessThan;
 				break;
 			case "<=":
-				type = UnifiedBinaryOperatorType.LessThanOrEqual;
+				kind = UnifiedBinaryOperatorKind.LessThanOrEqual;
 				break;
 			case "==":
-				type = UnifiedBinaryOperatorType.Equal;
+				kind = UnifiedBinaryOperatorKind.Equal;
 				break;
 			case "!=":
-				type = UnifiedBinaryOperatorType.NotEqual;
+				kind = UnifiedBinaryOperatorKind.NotEqual;
 				break;
 				//Logocal
 			case "&&":
-				type = UnifiedBinaryOperatorType.AndAlso;
+				kind = UnifiedBinaryOperatorKind.AndAlso;
 				break;
 			case "||":
-				type = UnifiedBinaryOperatorType.OrElse;
+				kind = UnifiedBinaryOperatorKind.OrElse;
 				break;
 				//Bit
 			case "&":
-				type = UnifiedBinaryOperatorType.And;
+				kind = UnifiedBinaryOperatorKind.And;
 				break;
 			case "|":
-				type = UnifiedBinaryOperatorType.Or;
+				kind = UnifiedBinaryOperatorKind.Or;
 				break;
 			case "^":
-				type = UnifiedBinaryOperatorType.ExclusiveOr;
+				kind = UnifiedBinaryOperatorKind.ExclusiveOr;
 				break;
 				//Assignment
 			case "=":
-				type = UnifiedBinaryOperatorType.Assign;
+				kind = UnifiedBinaryOperatorKind.Assign;
 				break;
 			case "+=":
-				type = UnifiedBinaryOperatorType.AddAssign;
+				kind = UnifiedBinaryOperatorKind.AddAssign;
 				break;
 			case "-=":
-				type = UnifiedBinaryOperatorType.SubtractAssign;
+				kind = UnifiedBinaryOperatorKind.SubtractAssign;
 				break;
 			case "*=":
-				type = UnifiedBinaryOperatorType.MultiplyAssign;
+				kind = UnifiedBinaryOperatorKind.MultiplyAssign;
 				break;
 			case "/=":
-				type = UnifiedBinaryOperatorType.DivideAssign;
+				kind = UnifiedBinaryOperatorKind.DivideAssign;
 				break;
 			case "%=":
-				type = UnifiedBinaryOperatorType.ModuloAssign;
+				kind = UnifiedBinaryOperatorKind.ModuloAssign;
 				break;
 			default:
 				throw new InvalidOperationException();
 			}
 
-			return UnifiedBinaryOperator.Create(name, type);
+			return UnifiedBinaryOperator.Create(name, kind);
 		}
 
 		#endregion
