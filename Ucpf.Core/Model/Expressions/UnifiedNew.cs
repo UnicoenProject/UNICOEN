@@ -85,6 +85,16 @@ namespace Ucpf.Core.Model
 				Body = null,
 			};
 		}
+		
+		public static UnifiedNew Create(UnifiedType type,
+										UnifiedBlock body)
+		{
+			return new UnifiedNew {
+				Type = type,
+				Arguments = null,
+				Body = body
+			};
+		}
 
 		public static UnifiedNew Create(UnifiedType type,
 		                                UnifiedArgumentCollection arguments,
