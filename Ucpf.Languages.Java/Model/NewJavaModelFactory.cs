@@ -340,7 +340,7 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static IUnifiedElement CreateTypeList(XElement node)
+		public static UnifiedTypeCollection CreateTypeList(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeList");
@@ -1726,7 +1726,7 @@ namespace Ucpf.Languages.Java.Model
 
 			if(node.FirstElement().Name() == "arguments") {
 				//TODO oldからすると、ここでUnifiedCallを生成する
-				return CreateArguments(node.NthElement(0));
+				//return CreateArguments(node.NthElement(0));
 			}
 			//TODO 他のケースが未実装
 			throw new NotImplementedException();
@@ -1764,7 +1764,7 @@ namespace Ucpf.Languages.Java.Model
 			}
 			if (node.FirstElement().Name() == "arguments") {
 				//TODO oldモデルではここでUnifiedCallを生成している
-				return CreateArguments(node.NthElement(0));
+				//return CreateArguments(node.NthElement(0));
 			}
 			//TODO 他のケースが未実装
 			throw new NotImplementedException();
@@ -1923,6 +1923,11 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "innerCreator");
+			/*
+			 * innerCreator  
+			 * :   '.' 'new' (nonWildcardTypeArguments)? IDENTIFIER (typeArguments)? classCreatorRest 
+			 */
+			//TODO innerCreatorの実際のコードを調べる
 			return null;
 		}
 
@@ -1930,6 +1935,11 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classCreatorRest");
+			/*
+			 * classCreatorRest 
+			 * :   arguments (classBody)? 
+			 */
+			//TODO classCreatorRestの型はどうするのか？
 			return null;
 		}
 
@@ -1937,21 +1947,67 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "nonWildcardTypeArguments");
-			return null;
+			/*
+			 * nonWildcardTypeArguments 
+			 * :   '<' typeList '>'
+			 */
+			//TODO typeListは最終的にTypeCollectionになるが、どう対処するのか
+			throw new NotImplementedException();
+			//return CreateTypeList(node.FirstElement());
 		}
 
-		public static IUnifiedExpression CreateArguments(XElement node)
+		public static UnifiedArgumentCollection CreateArguments(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arguments");
-			return null;
+			/*
+			 * arguments 
+			 * :   '(' (expressionList)? ')' 
+			 */
+
+			var arguments = UnifiedArgumentCollection.Create();
+			if(node.HasElement("expressionList")) {
+				foreach (var argument in CreateExpressionList(node.Element("expressionList"))) {
+					var e = UnifiedArgument.Create(argument);
+					arguments.Add(e);
+				}
+			}
+			return arguments;
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "literal");
-			return null;
+			/*
+			 * literal 
+			 * :   INTLITERAL
+			 * |   LONGLITERAL
+			 * |   FLOATLITERAL
+			 * |   DOUBLELITERAL
+			 * |   CHARLITERAL
+			 * |   STRINGLITERAL
+			 * |   TRUE
+			 * |   FALSE
+			 * |   NULL 
+			 */
+
+			var first = node.FirstElement();
+			switch (first.Name()) {
+				case "INTLITERAL":
+				case "LONGLITERAL":
+				case "FLOATLITERAL":
+				case "DOUBLELITERAL":
+				case "CHARLITERAL":
+				case "STRINGLITERAL":
+				case "TRUE":
+				case "FALSE":
+				case "NULL":
+					//TODO ANTLRですべてTOKEに書き換えられてしまう
+					throw new NotImplementedException();
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
 		public static IUnifiedElement CreateClassHeader(XElement node)
