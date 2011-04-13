@@ -740,9 +740,21 @@ namespace Ucpf.Languages.Java.Model
 			if (node.FirstElement().Name() == "type") {
 				return UnifiedTypeArgument.Create(CreateType(node.FirstElement()), null);
 			}
-			//TODO ?型のケースが未実装
-			throw new NotImplementedException();
-			return null;
+
+			var type = UnifiedType.CreateUsingString(node.NthElement(0).Value);
+			UnifiedTypeConstrain constrains = null;
+			
+			if (node.HasElement("type")) {
+				if(node.NthElement(1).Value == "extends") {
+					constrains = UnifiedTypeConstrain.Create(CreateType(node.Element("type")),
+						UnifiedTypeConstrainKind.Extends);
+				}
+				else {
+					constrains = UnifiedTypeConstrain.Create(CreateType(node.Element("type")),
+						UnifiedTypeConstrainKind.Super);
+				}
+			}
+			return UnifiedTypeArgument.Create(type, null, constrains.ToCollection());
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateQualifiedNameList(
