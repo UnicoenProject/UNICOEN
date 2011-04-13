@@ -1438,8 +1438,16 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			if (node.HasElement("expression")) {
-				//TODO ３項演算子に該当する共通モデルの作成
-				throw new NotImplementedException();
+				return UnifiedTernaryExpression.Create(
+					CreateConditionalExpression(node.NthElement(0)),
+					UnifiedTernaryOperator.Create(
+						node.NthElement(1).Value, 
+						node.NthElement(3).Value,
+						UnifiedTernaryOperatorKind.Conditional
+						),
+					CreateExpression(node.NthElement(2)),
+					CreateConditionalExpression(node.NthElement(4))
+					);
 			}
 			return CreateConditionalOrExpression(node.FirstElement());
 		}
