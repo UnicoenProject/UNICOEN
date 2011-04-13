@@ -39,7 +39,7 @@ namespace Ucpf.Languages.CSharp.Tests
 					"Student",
 					UnifiedBlock.Create(
 						UnifiedVariableDefinition.Create(
-							UnifiedType.Create("String"),
+							UnifiedType.CreateUsingString("String"),
 							"_name",
 							UnifiedModifierCollection.Create(UnifiedModifier.Create("private"))
 							),
@@ -52,12 +52,12 @@ namespace Ucpf.Languages.CSharp.Tests
 							UnifiedModifier.Create("public"),
 							UnifiedParameterCollection.Create(
 								UnifiedParameter.Create(
-									"name", UnifiedType.Create("String"))
+									"name", UnifiedType.CreateUsingString("String"))
 								)
 							),
 						UnifiedFunctionDefinition.CreateFunction(
 							"getName",
-							UnifiedType.Create("String"),
+							UnifiedType.CreateUsingString("String"),
 							UnifiedModifierCollection.Create(
 								UnifiedModifier.Create("public")
 								),
@@ -67,7 +67,7 @@ namespace Ucpf.Languages.CSharp.Tests
 							),
 						UnifiedFunctionDefinition.CreateFunction(
 							"main",
-							UnifiedType.Create("void"),
+							UnifiedType.CreateUsingString("void"),
 							UnifiedModifierCollection.Create(
 								UnifiedModifier.Create("public"),
 								UnifiedModifier.Create("static")
@@ -86,7 +86,7 @@ namespace Ucpf.Languages.CSharp.Tests
 									UnifiedIndexer.Create(UnifiedIdentifier.CreateUnknown("students"),
 										UnifiedArgumentCollection.Create(
 											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)))),
-									UnifiedNew.Create(UnifiedType.Create("Student"),
+									UnifiedNew.Create(UnifiedType.CreateUsingString("Student"),
 										UnifiedArgumentCollection.Create(
 											UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom"))))
 									),
@@ -94,12 +94,12 @@ namespace Ucpf.Languages.CSharp.Tests
 									UnifiedIndexer.Create(UnifiedIdentifier.CreateUnknown("students"),
 										UnifiedArgumentCollection.Create(
 											UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)))),
-									UnifiedNew.Create(UnifiedType.Create("Student"),
+									UnifiedNew.Create(UnifiedType.CreateUsingString("Student"),
 										UnifiedArgumentCollection.Create(
 											UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna"))))
 									),
 								UnifiedFor.Create(
-									UnifiedVariableDefinition.Create(UnifiedType.Create("int"), "i",
+									UnifiedVariableDefinition.Create(UnifiedType.CreateUsingString("int"), "i",
 										UnifiedIntegerLiteral.Create(0)),
 									CSharpModelFactoryHelper.CreateLesserExpression(
 										UnifiedIdentifier.CreateUnknown("i"), UnifiedIntegerLiteral.Create(2)),
@@ -127,7 +127,7 @@ namespace Ucpf.Languages.CSharp.Tests
 										)
 									),
 								UnifiedForeach.Create(
-									UnifiedVariableDefinition.Create(UnifiedType.Create("Student"),
+									UnifiedVariableDefinition.Create(UnifiedType.CreateUsingString("Student"),
 										"student"),
 									UnifiedIdentifier.CreateUnknown("students"),
 									UnifiedBlock.Create(

@@ -19,13 +19,13 @@ namespace Ucpf.Languages.CSharp.Tests
 				UnifiedBlock.Create(new IUnifiedExpression[] {
 					UnifiedFunctionDefinition.CreateFunction(
 						"fibonacci",
-						UnifiedType.Create("int"),
+						UnifiedType.CreateUsingString("int"),
 						UnifiedModifierCollection.Create(
 							UnifiedModifier.Create("public"),
 							UnifiedModifier.Create("static")
 							),
 						UnifiedParameterCollection.Create(
-							UnifiedParameter.Create("n", UnifiedType.Create("int"))
+							UnifiedParameter.Create("n", UnifiedType.CreateUsingString("int"))
 							),
 						UnifiedBlock.Create(
 							UnifiedIf.Create(
@@ -109,7 +109,7 @@ class Fibonacci {
 					UnifiedBlock.Create(new IUnifiedExpression[] {
 						UnifiedFunctionDefinition.CreateFunction(
 							"fibonacci",
-							UnifiedType.Create("void"),
+							UnifiedType.CreateUsingString("void"),
 							UnifiedModifierCollection.Create(
 								UnifiedModifier.Create("public"),
 								UnifiedModifier.Create("static")
@@ -117,7 +117,7 @@ class Fibonacci {
 							UnifiedParameterCollection.Create(
 								UnifiedParameter.Create(
 									"n",
-									UnifiedType.Create("int"))
+									UnifiedType.CreateUsingString("int"))
 								)
 							)
 					})

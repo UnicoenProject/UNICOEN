@@ -255,7 +255,7 @@ namespace Ucpf.Languages.Java.Model
 				var type = node.Elements()
 					.Take(node.Elements().Count() - 2)
 					.Aggregate("", (s, e) => s + e.Value);
-				return UnifiedProperty.Create(UnifiedType.Create(type), "class", ".");
+				return UnifiedProperty.Create(UnifiedType.CreateUsingString(type), "class", ".");
 			}
 			if (first.HasContent("void")) {
 				return UnifiedProperty.Create(UnifiedIdentifier.CreateUnknown(first.Value),
@@ -939,7 +939,7 @@ namespace Ucpf.Languages.Java.Model
 			*/
 
 			if (node == null)
-				return UnifiedType.Create("void");
+				return UnifiedType.CreateUsingString("void");
 
 			var firstNode = node.FirstElement();
 			UnifiedType result;
@@ -976,12 +976,12 @@ namespace Ucpf.Languages.Java.Model
 
 			var name = node.Element("IDENTIFIER").Value;
 			if (node.HasElement("typeArguments")) {
-				return UnifiedType.Create(name, UnifiedTypeArgumentCollection.Create(
+				return UnifiedType.CreateUsingString(name, UnifiedTypeArgumentCollection.Create(
 					node.Element("typeArguments")
 						.Elements("typeArgument")
 						.Select(CreatTypeParameter)));
 			}
-			return UnifiedType.Create(name);
+			return UnifiedType.CreateUsingString(name);
 			//TODO ('.' IDENTIFIER (typeArguments)? )*はどう扱えばいいのか
 		}
 
@@ -993,7 +993,7 @@ namespace Ucpf.Languages.Java.Model
 			 * primitiveType  
 				:   'boolean' | 'char' | 'byte' | 'short' | 'int' | 'long' | 'float' | 'double' 
 			 */
-			return UnifiedType.Create(node.Value);
+			return UnifiedType.CreateUsingString(node.Value);
 		}
 
 		public static UnifiedTypeArgument CreatTypeParameter(XElement node)

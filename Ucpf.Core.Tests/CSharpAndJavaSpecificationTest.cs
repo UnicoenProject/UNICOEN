@@ -160,7 +160,7 @@ namespace Ucpf.Core.Tests
 						"i".ToVariableDefinition(
 							"Integer".ToType(),
 							UnifiedCast.Create(
-								UnifiedType.Create("Integer"),
+								UnifiedType.CreateUsingString("Integer"),
 								UnifiedIntegerLiteral.Create(1)
 								)
 							)));
@@ -208,7 +208,7 @@ namespace Ucpf.Core.Tests
 				return CreateClassAndMethod(UnifiedBlock.Create(
 					UnifiedSpecialExpression.CreateThrow(
 						UnifiedNew.Create(
-							UnifiedType.Create("Exception"),
+							UnifiedType.CreateUsingString("Exception"),
 							UnifiedArgumentCollection.Create()))));
 			}
 		}

@@ -35,7 +35,7 @@
 
 		public static UnifiedType ToType(this string name)
 		{
-			return UnifiedType.Create(name);
+			return UnifiedType.CreateUsingString(name);
 		}
 
 		public static UnifiedClassDefinition ToClassDefinition(this string name)

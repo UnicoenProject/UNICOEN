@@ -136,7 +136,7 @@ namespace Ucpf.Core.Model
 		                                     UnifiedExpressionCollection arraySizes)
 		{
 			return Create(
-				UnifiedType.Create(
+				UnifiedType.CreateUsingString(
 					name,
 					null,
 					UnifiedTypeSupplementCollection.Create(
@@ -147,7 +147,7 @@ namespace Ucpf.Core.Model
 		                                     UnifiedExpressionCollection initialValues)
 		{
 			return Create(
-				UnifiedType.Create(
+				UnifiedType.CreateUsingString(
 					null,
 					null,
 					UnifiedTypeSupplementCollection.Create(

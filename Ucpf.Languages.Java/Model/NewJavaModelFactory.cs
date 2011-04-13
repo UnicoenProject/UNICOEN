@@ -212,10 +212,10 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			if (node.Elements().Count() == 1) {
 				return UnifiedTypeParameter.Create(
-					UnifiedType.Create(node.FirstElement().Value));
+					UnifiedType.CreateUsingString(node.FirstElement().Value));
 			}
 			return UnifiedTypeParameter.Create(
-				UnifiedType.Create(node.FirstElement().Value),
+				UnifiedType.CreateUsingString(node.FirstElement().Value),
 				UnifiedTypeConstrainCollection.Create(
 					CreateTypeBound(node.LastElement())
 						.Select(UnifiedTypeConstrain.CreateExtends))
@@ -444,7 +444,7 @@ namespace Ucpf.Languages.Java.Model
 			 * methodDeclaration 
 			 * :   //constructor
 			 *     modifiers (typeParameters)? IDENTIFIER formalParameters ('throws' qualifiedNameList)? 
-			       '{' (explicitConstructorInvocation)? (blockStatement)* '}'
+				   '{' (explicitConstructorInvocation)? (blockStatement)* '}'
 			 * |   modifiers (typeParameters)? (type | 'void') IDENTIFIER formalParameters
 			 *     ('[' ']')* ('throws' qualifiedNameList)? (block | ';' ) 
 			 */
@@ -539,11 +539,11 @@ namespace Ucpf.Languages.Java.Model
 			/*
 			 * interfaceMethodDeclaration 
 			 * :   modifiers (typeParameters)? (type |'void') IDENTIFIER formalParameters
-			       ('[' ']')* ('throws' qualifiedNameList)? ';' 
+				   ('[' ']')* ('throws' qualifiedNameList)? ';' 
 			 */
 			var modifiers = CreateModifiers(node.Element("modifiers"));
 			var typeParameters = node.HasElement("typeParameters")
-				? CreateTypeParameters(node.Element("typeParameters"))
+			                     	? CreateTypeParameters(node.Element("typeParameters"))
 			                     	: null;
 			var type = CreateType(node.Element("type"));
 			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
@@ -551,17 +551,18 @@ namespace Ucpf.Languages.Java.Model
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 
 			//TODO CreateQualifiedNameの型を何にするか？
-			//var throws = UnifiedTypeCollection.Create(
-			//    CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			//        .Select(e => UnifiedType.Create(e.ToString()))
-			//    ); 
+			var throws = node.HasElement("qualifiedNameList")
+			             	? UnifiedTypeCollection.Create(
+			             		CreateQualifiedNameList(node.Element("qualifiedNameList"))
+			             	  	.Select(e => UnifiedType.Create(e, null, null)))
+			             	: null;
 			var kind = UnifiedFunctionDefinitionKind.Function;
 
 			//TODO '[]'がどのように付くのか調査
 			//TODO UnifiedFunctionDefinitionのCreateの整理
 			//TODO 引数が8個のCreateを実装
 			return UnifiedFunctionDefinition.CreateFunction(name, type, modifiers,
-				parameters, null, null, kind);
+				parameters, throws, null, kind);
 		}
 
 		public static UnifiedVariableDefinition CreateInterfaceFieldDeclaration(
@@ -573,7 +574,6 @@ namespace Ucpf.Languages.Java.Model
 			 * interfaceFieldDeclaration 
 			 * :   modifiers type variableDeclarator (',' variableDeclarator)* ';' 
 			 */
-
 			var declarator =
 				CreateVariableDeclarator(node.Elements("variableDeclarator").First());
 			return UnifiedVariableDefinition.Create(
@@ -592,9 +592,8 @@ namespace Ucpf.Languages.Java.Model
 			 * :   classOrInterfaceType ('[' ']')*
 			 * |   primitiveType ('[' ']')* 
 			 */
-
 			if (node == null)
-				return UnifiedType.Create("void");
+				return UnifiedType.CreateUsingString("void");
 
 			var first = node.FirstElement();
 			switch (first.Name()) {
@@ -615,13 +614,12 @@ namespace Ucpf.Languages.Java.Model
 			 * classOrInterfaceType 
 			 * :   IDENTIFIER (typeArguments)? ('.' IDENTIFIER (typeArguments)? )* 
 			 */
-
 			var name = node.Element("IDENTIFIER").Value;
 			if (node.HasElement("typeArguments")) {
-				return UnifiedType.Create(
+				return UnifiedType.CreateUsingString(
 					name, CreateTypeArguments(node.Element("typeArguments")));
 			}
-			return UnifiedType.Create(name);
+			return UnifiedType.CreateUsingString(name);
 			//TODO typeArgumentsを複数持っている場合が未実装
 			//TODO 親ノードが[]を持っている場合を考慮していない
 		}
@@ -634,8 +632,7 @@ namespace Ucpf.Languages.Java.Model
 			 * primitiveType  
 			 * :   'boolean' | 'char' | 'byte' | 'short' | 'int' | 'long' | 'float' | 'double' 
 			 */
-
-			return UnifiedType.Create(node.Value);
+			return UnifiedType.CreateUsingString(node.Value);
 		}
 
 		//TODO 型名がUnifiedType"Parameter"Collectionなのか検討
@@ -647,7 +644,6 @@ namespace Ucpf.Languages.Java.Model
 			 * typeArguments 
 			 * :   '<' typeArgument (',' typeArgument)* '>' 
 			 */
-
 			return UnifiedTypeArgumentCollection.Create(
 				node
 					.Elements("typeArgument")
@@ -665,7 +661,6 @@ namespace Ucpf.Languages.Java.Model
 			 * :   type
 			 * |   '?' (('extends' | 'super') type)? 
 			 */
-
 			if (node.FirstElement().Name() == "type") {
 				return UnifiedTypeArgument.Create(CreateType(node.FirstElement()), null);
 			}
@@ -674,7 +669,7 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static IEnumerable<IEnumerable<UnifiedIdentifier>> CreateQualifiedNameList(
+		public static IEnumerable<IUnifiedExpression> CreateQualifiedNameList(
 			XElement node)
 		{
 			Contract.Requires(node != null);
@@ -694,7 +689,6 @@ namespace Ucpf.Languages.Java.Model
 			 * formalParameters 
 			 * :   '(' (formalParameterDecls)? ')' 
 			 */
-
 			var element = node.Element("formalParameterDecls");
 			if (element == null)
 				return UnifiedParameterCollection.Create();
@@ -712,7 +706,6 @@ namespace Ucpf.Languages.Java.Model
 			 * |   normalParameterDecl (',' normalParameterDecl)*
 			 * |   (normalParameterDecl ',')+ ellipsisParameterDecl 
 			 */
-
 			//TODO oldの処理をそのままコピペ。内容を後で確認
 			return UnifiedParameterCollection.Create(node
 				.Elements()
@@ -734,7 +727,6 @@ namespace Ucpf.Languages.Java.Model
 			 * normalParameterDecl 
 			 * :   variableModifiers type IDENTIFIER ('[' ']')* 
 			 */
-
 			return UnifiedParameter.Create(
 				node.Element("IDENTIFIER").Value,
 				CreateType(node.Element("type")),
@@ -750,7 +742,6 @@ namespace Ucpf.Languages.Java.Model
 			 * ellipsisParameterDecl  
 			 * :   variableModifiers type '...' IDENTIFIER 
 			 */
-
 			throw new NotImplementedException();
 		}
 
@@ -768,7 +759,7 @@ namespace Ucpf.Languages.Java.Model
 			throw new NotImplementedException();
 		}
 
-		public static IEnumerable<UnifiedIdentifier> CreateQualifiedName(XElement node)
+		public static IUnifiedExpression CreateQualifiedName(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "qualifiedName");
@@ -776,8 +767,11 @@ namespace Ucpf.Languages.Java.Model
 			 * qualifiedName 
 			 * :   IDENTIFIER ('.' IDENTIFIER)* 
 			 */
-			return node.Elements().OddIndexElements()
+			var ids = node.Elements().OddIndexElements()
 				.Select(e => UnifiedIdentifier.CreateUnknown(e.Value));
+			return ids.Skip(1)
+				.Aggregate((IUnifiedExpression)ids.First(),
+					(l, r) => UnifiedProperty.Create(l, r, "."));
 		}
 
 		public static IUnifiedElement CreateAnnotations(XElement node)
@@ -1684,7 +1678,7 @@ namespace Ucpf.Languages.Java.Model
 				var type = node.Elements()
 					.Take(node.Elements().Count() - 2)
 					.Aggregate("", (s, e) => s + e.Value);
-				return UnifiedProperty.Create(UnifiedType.Create(type), "class", ".");
+				return UnifiedProperty.Create(UnifiedType.CreateUsingString(type), "class", ".");
 			}
 			if (first.HasContent("void")) {
 				return UnifiedProperty.Create(UnifiedIdentifier.CreateUnknown(first.Value),

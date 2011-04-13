@@ -57,7 +57,7 @@ namespace Ucpf.Languages.CSharp
 
 		public void Visit(UnifiedType type)
 		{
-			_writer.Write(type.Name.Value);
+			type.Name.Accept(this);
 		}
 
 		public void Visit(UnifiedClassDefinition clsDef)

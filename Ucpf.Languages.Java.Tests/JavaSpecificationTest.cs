@@ -16,7 +16,7 @@ namespace Ucpf.Languages.Java.Tests
 				return CSharpAndJavaSpecificationTest.
 					CreateClassAndMethod(UnifiedBlock.Create(
 						UnifiedNew.Create(
-							UnifiedType.Create("Interface"),
+							UnifiedType.CreateUsingString("Interface"),
 							UnifiedArgumentCollection.Create(),
 							null, UnifiedBlock.Create())));
 			}
@@ -35,7 +35,7 @@ namespace Ucpf.Languages.Java.Tests
 								UnifiedModifierCollection.Create(),
 								UnifiedParameterCollection.Create(),
 								UnifiedTypeCollection.Create(
-									UnifiedType.Create("Exception")),
+									UnifiedType.CreateUsingString("Exception")),
 								UnifiedBlock.Create()
 								)
 						)

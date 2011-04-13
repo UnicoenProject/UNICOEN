@@ -97,7 +97,7 @@ namespace Ucpf.Languages.Java
 
 		public void Visit(UnifiedType type)
 		{
-			_writer.Write(type.Name.Value);
+			type.Name.Accept(this);
 		}
 
 		#endregion

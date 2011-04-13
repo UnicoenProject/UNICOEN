@@ -90,14 +90,14 @@ namespace Ucpf.Languages.CSharp
 				var uType = ConvertType(gType);
 				typeParameter.Add(UnifiedTypeArgument.Create(uType));
 			}
-			return UnifiedType.Create(typeName, typeParameter);
+			return UnifiedType.CreateUsingString(typeName, typeParameter);
 		}
 
 		private static UnifiedType ConvertType(TypeReference type)
 		{
 			var uType = ConvertTypeIgnoringIsArray(type);
-
-			var buff = new StringBuilder(uType.Name.Value);
+			// TODO: fix uType.Name.ToString()
+			var buff = new StringBuilder(uType.Name.ToString());
 			if (type.IsArrayType) {
 				foreach (int rank in type.RankSpecifier) {
 					buff.Append("[");
@@ -106,7 +106,7 @@ namespace Ucpf.Languages.CSharp
 					buff.Append("]");
 				}
 			}
-			return UnifiedType.Create(buff.ToString(),
+			return UnifiedType.CreateUsingString(buff.ToString(),
 				uType.Arguments.DeepCopy<UnifiedTypeArgumentCollection>());
 		}
 

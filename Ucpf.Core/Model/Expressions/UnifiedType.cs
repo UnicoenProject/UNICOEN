@@ -10,9 +10,9 @@ namespace Ucpf.Core.Model
 	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression
 	{
-		private UnifiedIdentifier _name;
+		private IUnifiedExpression _name;
 
-		public UnifiedIdentifier Name
+		public IUnifiedExpression Name
 		{
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
@@ -78,7 +78,7 @@ namespace Ucpf.Core.Model
 			GetElementAndSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Name, v => Name = (UnifiedIdentifier)v);
+				(Name, v => Name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Arguments, v => Arguments = (UnifiedTypeArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -89,7 +89,7 @@ namespace Ucpf.Core.Model
 			GetElementAndDirectSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_name, v => _name = (UnifiedIdentifier)v);
+				(_name, v => _name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -103,18 +103,18 @@ namespace Ucpf.Core.Model
 			Supplements.Add(supplement);
 		}
 
-		public static UnifiedType Create(string name)
+		public static UnifiedType CreateUsingString(string name)
 		{
-			return Create(name, null, null);
+			return CreateUsingString(name, null, null);
 		}
 
-		public static UnifiedType Create(string name,
+		public static UnifiedType CreateUsingString(string name,
 		                                 UnifiedTypeArgumentCollection arguments)
 		{
-			return Create(name, arguments, null);
+			return CreateUsingString(name, arguments, null);
 		}
 
-		public static UnifiedType Create(string name,
+		public static UnifiedType CreateUsingString(string name,
 		                                 UnifiedTypeArgumentCollection arguments,
 		                                 UnifiedTypeSupplementCollection supplements)
 		{
@@ -127,9 +127,20 @@ namespace Ucpf.Core.Model
 			};
 		}
 
+		public static UnifiedType Create(IUnifiedExpression name,
+		                                 UnifiedTypeArgumentCollection arguments,
+		                                 UnifiedTypeSupplementCollection supplements)
+		{
+			return new UnifiedType {
+				Name = name,
+				Arguments = arguments,
+				Supplements = supplements,
+			};
+		}
+
 		public static UnifiedType CreateArray(string name, int dimension)
 		{
-			return Create(name, null, UnifiedTypeSupplementCollection.Create(
+			return CreateUsingString(name, null, UnifiedTypeSupplementCollection.Create(
 				UnifiedTypeSupplement.CreateArray(dimension)));
 		}
 

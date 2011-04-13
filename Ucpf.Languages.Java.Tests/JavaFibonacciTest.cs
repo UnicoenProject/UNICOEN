@@ -23,13 +23,13 @@ namespace Ucpf.Languages.Java.Tests
 			var actual = JavaModelFactory.CreateDefineFunction(ast);
 			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
-				UnifiedType.Create("int"),
+				UnifiedType.CreateUsingString("int"),
 				UnifiedModifierCollection.Create(
 					UnifiedModifier.Create("public"),
 					UnifiedModifier.Create("static")
 					),
 				UnifiedParameterCollection.Create(
-					UnifiedParameter.Create("n", UnifiedType.Create("int"))
+					UnifiedParameter.Create("n", UnifiedType.CreateUsingString("int"))
 					)
 				);
 			Assert.That(actual,
