@@ -1887,17 +1887,18 @@ namespace Ucpf.Languages.Java.Model
 				return CreateArrayCreator(first);
 			}
 
+			//TODO classCreatorRest内のargumentsが必要となるケースを調査
 			if (node.Elements().Count() == 4)
 				return UnifiedNew.Create(
 					CreateClassOrInterfaceType(node.NthElement(2)),
 					CreateNonWildcardTypeArguments(node.NthElement(1)),
 					null,
-					CreateClassCreatorRest(node.NthElement(3))
+					CreateClassCreatorRest(node.NthElement(3)).Item2
 					);
 
 			return UnifiedNew.Create(
 				CreateClassOrInterfaceType(node.NthElement(1)),
-				CreateClassCreatorRest(node.NthElement(2))
+				CreateClassCreatorRest(node.NthElement(2)).Item2
 				);
 		}
 
@@ -1995,7 +1996,7 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static UnifiedBlock CreateClassCreatorRest(XElement node)
+		public static Tuple<UnifiedArgumentCollection, UnifiedBlock> CreateClassCreatorRest(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classCreatorRest");
@@ -2003,8 +2004,12 @@ namespace Ucpf.Languages.Java.Model
 			 * classCreatorRest 
 			 * :   arguments (classBody)? 
 			 */
-			//TODO classCreatorRestの型はどうするのか？ -> Tupleを使う
-			return null;
+
+			var body = node.HasElement("classBody")
+			           	? CreateClassBody(node.Element("classBody")) : null;
+			return
+				new Tuple<UnifiedArgumentCollection, UnifiedBlock>(
+					CreateArguments(node.Element("arguments")), body);
 		}
 
 		public static UnifiedArgumentCollection CreateNonWildcardTypeArguments(
