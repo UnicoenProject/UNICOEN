@@ -632,6 +632,9 @@ namespace Ucpf.Languages.Java.Model
 			 * :   classOrInterfaceType ('[' ']')*
 			 * |   primitiveType ('[' ']')* 
 			 */
+
+			//TODO []を持っている場合を考慮していない
+
 			if (node == null)
 				return UnifiedType.CreateUsingString("void");
 
@@ -661,7 +664,6 @@ namespace Ucpf.Languages.Java.Model
 			}
 			return UnifiedType.CreateUsingString(name);
 			//TODO typeArgumentsを複数持っている場合が未実装
-			//TODO 親ノードが[]を持っている場合を考慮していない
 		}
 
 		public static UnifiedType CreatePrimitiveType(XElement node)
