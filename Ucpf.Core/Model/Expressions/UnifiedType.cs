@@ -109,14 +109,17 @@ namespace Ucpf.Core.Model
 		}
 
 		public static UnifiedType CreateUsingString(string name,
-		                                 UnifiedTypeArgumentCollection arguments)
+		                                            UnifiedTypeArgumentCollection
+		                                            	arguments)
 		{
 			return CreateUsingString(name, arguments, null);
 		}
 
 		public static UnifiedType CreateUsingString(string name,
-		                                 UnifiedTypeArgumentCollection arguments,
-		                                 UnifiedTypeSupplementCollection supplements)
+		                                            UnifiedTypeArgumentCollection
+		                                            	arguments,
+		                                            UnifiedTypeSupplementCollection
+		                                            	supplements)
 		{
 			return new UnifiedType {
 				Name = name != null

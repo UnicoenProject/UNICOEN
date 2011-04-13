@@ -36,10 +36,10 @@ namespace Ucpf.Core.Model
 		private IUnifiedExpression _initialValue;
 
 		/// <summary>
-		/// 変数の初期化部分を表します。
-		/// e.g. Javaにおける<c>int a[] = { 1 };</c>の<c>{ 1 }</c>部分
-		/// e.g. C#, Javaにおける<c>int[] a = { 1 };</c>の<c>{ 1 }</c>部分
-		/// e.g. C, C++, C#, Javaにおける<c>int i = 1;</c>の<c>{ 1 }</c>部分
+		///   変数の初期化部分を表します。
+		///   e.g. Javaにおける<c>int a[] = { 1 };</c>の<c>{ 1 }</c>部分
+		///   e.g. C#, Javaにおける<c>int[] a = { 1 };</c>の<c>{ 1 }</c>部分
+		///   e.g. C, C++, C#, Javaにおける<c>int i = 1;</c>の<c>{ 1 }</c>部分
 		/// </summary>
 		public IUnifiedExpression InitialValue
 		{
@@ -50,8 +50,8 @@ namespace Ucpf.Core.Model
 		private UnifiedArgumentCollection _arguments;
 
 		/// <summary>
-		/// 変数の初期化のコンストラクタ呼び出しを表します。
-		/// e.g. C++における<c>Class c(1);</c>
+		///   変数の初期化のコンストラクタ呼び出しを表します。
+		///   e.g. C++における<c>Class c(1);</c>
 		/// </summary>
 		public UnifiedArgumentCollection Arguments
 		{
@@ -61,18 +61,18 @@ namespace Ucpf.Core.Model
 
 		private UnifiedBlock _block;
 
-		/// <summary>
-		/// 変数に付随するブロックを表します。
-		/// e.g. Javaにおけるenumの定数に付随するブロック
-		/// <code>
-		/// enum E {
-		///		E1 {
-		///			@override public String toString() { return ""; }
-		///		},
-		///		E2
-		/// }
-		/// </code>
-		/// </summary>
+		///<summary>
+		///  変数に付随するブロックを表します。
+		///  e.g. Javaにおけるenumの定数に付随するブロック
+		///  <code>
+		///    enum E {
+		///    E1 {
+		///    @override public String toString() { return ""; }
+		///    },
+		///    E2
+		///    }
+		///  </code>
+		///</summary>
 		public UnifiedBlock Block
 		{
 			get { return _block; }
@@ -133,7 +133,7 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Block, v => Block= (UnifiedBlock)v);
+				(Block, v => Block = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -150,7 +150,7 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_block, v => _block= (UnifiedBlock)v);
+				(_block, v => _block = (UnifiedBlock)v);
 		}
 
 		public static UnifiedVariableDefinition Create(string name,

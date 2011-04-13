@@ -7,7 +7,7 @@
 	public enum UnifiedBinaryOperatorKind
 	{
 		/// <summary>
-		/// 種類が不明
+		///   種類が不明
 		/// </summary>
 		Unknown,
 		/// <summary>

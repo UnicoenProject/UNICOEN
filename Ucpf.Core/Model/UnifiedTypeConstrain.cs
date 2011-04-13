@@ -54,7 +54,8 @@ namespace Ucpf.Core.Model
 				(_type, v => _type = (UnifiedType)v);
 		}
 
-		public static UnifiedTypeConstrain Create(UnifiedType type, UnifiedTypeConstrainKind kind)
+		public static UnifiedTypeConstrain Create(UnifiedType type,
+		                                          UnifiedTypeConstrainKind kind)
 		{
 			return new UnifiedTypeConstrain {
 				Type = type,

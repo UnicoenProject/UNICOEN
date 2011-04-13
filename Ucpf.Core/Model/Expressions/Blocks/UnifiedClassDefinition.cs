@@ -172,7 +172,10 @@ namespace Ucpf.Core.Model
 				body, modifiers, UnifiedClassKind.Class);
 		}
 
-		public static UnifiedClassDefinition Create(UnifiedModifierCollection modifiers, UnifiedClassKind kind, UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
+		public static UnifiedClassDefinition Create(
+			UnifiedModifierCollection modifiers, UnifiedClassKind kind,
+			UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters,
+			UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
 		{
 			return new UnifiedClassDefinition {
 				Modifiers = modifiers,

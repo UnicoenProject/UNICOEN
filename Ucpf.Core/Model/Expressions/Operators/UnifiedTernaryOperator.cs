@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model {
-	public class UnifiedTernaryOperator : UnifiedElement {
+namespace Ucpf.Core.Model
+{
+	public class UnifiedTernaryOperator : UnifiedElement
+	{
 		public string Sign { get; private set; }
 
 		public UnifiedTernaryOperatorKind Kind { get; private set; }
@@ -13,7 +13,7 @@ namespace Ucpf.Core.Model {
 		private UnifiedTernaryOperator() {}
 
 		public static UnifiedTernaryOperator Create(string sign,
-		                                           UnifiedTernaryOperatorKind kind)
+		                                            UnifiedTernaryOperatorKind kind)
 		{
 			return new UnifiedTernaryOperator {
 				Sign = sign,
@@ -48,6 +48,5 @@ namespace Ucpf.Core.Model {
 		{
 			yield break;
 		}
-
 	}
 }
