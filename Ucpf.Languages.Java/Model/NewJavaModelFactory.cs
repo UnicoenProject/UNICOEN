@@ -544,10 +544,6 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			var bodys = node.Elements("variableDeclarator")
 				.Select(CreateVariableDeclarator)
-				.Select(t => UnifiedVariableDefinitionBody.Create(
-					t.Item1,
-					UnifiedTypeSupplementCollection.CreateArray(t.Item2),
-					t.Item3))
 				.ToCollection();
 			return UnifiedVariableDefinition.Create(
 				CreateModifiers(node.Element("modifiers")),
@@ -555,7 +551,7 @@ namespace Ucpf.Languages.Java.Model
 				bodys);
 		}
 
-		public static Tuple<string, int, IUnifiedExpression> CreateVariableDeclarator(
+		public static UnifiedVariableDefinitionBody CreateVariableDeclarator(
 			XElement node)
 		{
 			Contract.Requires(node != null);
@@ -564,9 +560,9 @@ namespace Ucpf.Languages.Java.Model
 			 * variableDeclarator 
 			 * :   IDENTIFIER ('[' ']')* ('=' variableInitializer)? 
 			 */
-			return Tuple.Create(
+			return UnifiedVariableDefinitionBody.Create(
 				node.Element("IDENTIFIER").Value,
-				node.ElementsByContent("[").Count(),
+					UnifiedTypeSupplementCollection.CreateArray(node.ElementsByContent("[").Count()),
 				CreateVariableInitializer(node.Element("variableInitializer")));
 		}
 
@@ -641,14 +637,13 @@ namespace Ucpf.Languages.Java.Model
 			 * interfaceFieldDeclaration 
 			 * :   modifiers type variableDeclarator (',' variableDeclarator)* ';' 
 			 */
-			var declarator =
-				CreateVariableDeclarator(node.Elements("variableDeclarator").First());
-			return UnifiedVariableDefinition.CreateSingle(
-				CreateType(node.Element("type")),
+			var bodys = node.Elements("variableDeclarator")
+				.Select(CreateVariableDeclarator)
+				.ToCollection();
+			return UnifiedVariableDefinition.Create(
 				CreateModifiers(node.Element("modifiers")),
-				declarator.Item3,
-				declarator.Item1);
-			//TODO variableDeclaratorが複数の場合が未実装
+				CreateType(node.Element("type")),
+				bodys);
 		}
 
 		public static UnifiedType CreateType(XElement node)
@@ -1064,16 +1059,13 @@ namespace Ucpf.Languages.Java.Model
 			 * localVariableDeclaration 
 			 * :   variableModifiers type variableDeclarator (',' variableDeclarator )* 
 			 */
-
-			var declarator =
-				CreateVariableDeclarator(node.Elements("variableDeclarator").First());
-			return UnifiedVariableDefinition.CreateSingle(
-				CreateType(node.Element("type")),
+			var bodys = node.Elements("variableDeclarator")
+				.Select(CreateVariableDeclarator)
+				.ToCollection();
+			return UnifiedVariableDefinition.Create(
 				CreateVariableModifiers(node.Element("variableModifiers")),
-				declarator.Item3,
-				declarator.Item1
-				);
-			//TODO variableDeclaratorが複数の場合が未実装
+				CreateType(node.Element("type")),
+				bodys);
 		}
 
 		public static IUnifiedExpression CreateStatement(XElement node)
