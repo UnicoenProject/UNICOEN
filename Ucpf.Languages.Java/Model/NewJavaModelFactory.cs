@@ -1116,16 +1116,13 @@ namespace Ucpf.Languages.Java.Model
 			 * :   switchLabel (blockStatement)* 
 			 */
 
-			//TODO 現状だとUnifiedCaseと比較して条件文とブロックが分離している
-			//bodyが空のUnifiedCaseを作って後から代入しているがこれは大丈夫か
-			var switchLabel = CreateSwitchLabel(node.Element("switchLabel"));
-			var body = UnifiedBlock.Create(
-				node.Elements("blockStatement").Select(CreateBlockStatement));
-			switchLabel.Body = body;
-			return switchLabel;
+			var body =
+				UnifiedBlock.Create(
+					node.Elements("blockStatement").Select(CreateBlockStatement));
+			return UnifiedCase.Create(CreateSwitchLabel(node.Element("switchLabel")), body);
 		}
 
-		public static UnifiedCase CreateSwitchLabel(XElement node)
+		public static IUnifiedExpression CreateSwitchLabel(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "switchLabel");
@@ -1136,10 +1133,9 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			if (node.HasElement("expression")) {
-				return UnifiedCase.Create(
-					CreateExpression(node.Element("expression")), null);
+				return CreateExpression(node.Element("expression"));
 			}
-			return UnifiedCase.Create(null, null);
+			return null;
 		}
 
 		public static UnifiedTry CreateTrystatement(XElement node)
