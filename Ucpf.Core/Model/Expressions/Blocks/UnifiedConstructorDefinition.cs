@@ -26,6 +26,8 @@ namespace Ucpf.Core.Model
 			set { _parameters = SetParentOfChild(value, _parameters); }
 		}
 
+		public UnifiedFunctionDefinitionKind Kind { get; set; }
+
 		private UnifiedConstructorDefinition()
 		{
 			Modifiers = UnifiedModifierCollection.Create();
@@ -87,21 +89,36 @@ namespace Ucpf.Core.Model
 		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
 		                                                  UnifiedModifier modifier,
 		                                                  UnifiedParameterCollection
-		                                                  	parameters)
+		                                                  	parameters, UnifiedFunctionDefinitionKind kind)
 		{
-			return Create(body, UnifiedModifierCollection.Create(modifier), parameters);
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, kind);
+		}
+
+		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
+		                                                  UnifiedModifier modifier,
+		                                                  UnifiedParameterCollection parameters)
+		{
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, UnifiedFunctionDefinitionKind.Constructor);
+		}
+
+		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
+		                                                  UnifiedModifierCollection modifier,
+		                                                  UnifiedParameterCollection parameters)
+		{
+			return Create(body, modifier, parameters, UnifiedFunctionDefinitionKind.Constructor);
 		}
 
 		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
 		                                                  UnifiedModifierCollection
 		                                                  	modifiers,
 		                                                  UnifiedParameterCollection
-		                                                  	parameters)
+		                                                  	parameters, UnifiedFunctionDefinitionKind kind)
 		{
 			return new UnifiedConstructorDefinition {
 				Body = body,
 				Modifiers = modifiers,
 				Parameters = parameters,
+				Kind = kind,
 			};
 		}
 	}
