@@ -418,7 +418,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   '{' (interfaceBodyDeclaration)* '}' 
 			 */
 			return node.Elements("interfaceBodyDeclaration")
-				.Select(CreateInterfaceBodyDeclaration)
+				.SelectMany(CreateInterfaceBodyDeclaration)
 				.ToBlock();
 		}
 
@@ -519,10 +519,9 @@ namespace Ucpf.Languages.Java.Model
 				//case constructor
 				//TODO 考慮していない要素の実装
 				return UnifiedConstructorDefinition.Create(
-					UnifiedBlock.Create(
 						node.Elements("blockStatement")
-							.Select(CreateBlockStatement)
-							.ToList()),
+							.SelectMany(CreateBlockStatement)
+							.ToBlock(),
 					modifiers,
 					parameters,UnifiedFunctionDefinitionKind.Constructor);
 			}
@@ -791,12 +790,12 @@ namespace Ucpf.Languages.Java.Model
 			 * |   normalParameterDecl (',' normalParameterDecl)*
 			 * |   (normalParameterDecl ',')+ ellipsisParameterDecl 
 			 */
-			return UnifiedParameterCollection.Create(node
-				.Elements()
+			return node.Elements()
 				.OddIndexElements()
 				.Select(e => e.Name() == "normalParameterDecl"
 				             	? CreateNormalParameterDecl(e)
-				             	: CreateEllipsisParameterDecl(e));
+				             	: CreateEllipsisParameterDecl(e))
+				.ToCollection();
 		}
 
 		public static UnifiedParameter CreateNormalParameterDecl(XElement node)
@@ -1021,7 +1020,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   '{' (blockStatement)* '}' 
 			 */
 			return node.Elements("blockStatement")
-				.Select(CreateBlockStatement)
+				.SelectMany(CreateBlockStatement)
 				.ToBlock();
 		}
 
