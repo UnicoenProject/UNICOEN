@@ -549,11 +549,6 @@ namespace Ucpf.Languages.Java.Model
 					UnifiedTypeSupplementCollection.CreateArray(t.Item2),
 					t.Item3))
 				.ToCollection();
-			var type = CreateType(node.Element("type"));
-			var dimension = declarator.Item2;
-			for(var i = 0; i < dimension; i++)
-					type.AddSupplement(UnifiedTypeSupplement.Create(null,UnifiedTypeSupplementKind.Array));
-
 			return UnifiedVariableDefinition.Create(
 				CreateModifiers(node.Element("modifiers")),
 				CreateType(node.Element("type")),
