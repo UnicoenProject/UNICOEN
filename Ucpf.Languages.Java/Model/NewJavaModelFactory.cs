@@ -468,16 +468,21 @@ namespace Ucpf.Languages.Java.Model
 				node.Element("IDENTIFIER").Value,
 				UnifiedIdentifierKind.Function
 				);
-			//TODO UnifiedFunctionDefinitionにtypePrameterプロパティがない？
-			//var typeParameters = node.HasElement("typeParameters")
-			//                   	? CreateTypeParameters(node.Element("typeParameters"))
-			//                   	: null;
+			var typeParameters = node.HasElement("typeParameters")
+			                     	? CreateTypeParameters(node.Element("typeParameters"))
+			                    	: null;
+			//TODO 配列はどういった場合にくっつくのか-> node.ElementsByContent("[").Count()でCreateArray?
 			var type = CreateType(node.Element("type")); //コンストラクタの場合はnullになるがどうせ使わない
+			var dimension = node.ElementsByContent("[").Count();
+				for(var i = 0; i < dimension; i++)
+					type.AddSupplement(UnifiedTypeSupplement.Create(null,UnifiedTypeSupplementKind.Array));
 			var modifiers = CreateModifiers(node.Element("modifiers"));
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
-			//TODO 配列はどういった場合にくっつくのか
-			//TODO メソッドにくっつくthrowはUnifiedThrowにできないが、どうするのか
-			//var throes = null;
+			var throws = node.HasElement("qualifiedNameList")
+			             	? UnifiedTypeCollection.Create(
+			             		CreateQualifiedNameList(node.Element("qualifiedNameList"))
+			             	  	.Select(e => UnifiedType.Create(e, null, null)))
+			             	: null;
 			var body = CreateBlock(node.Element("block"));
 			var kind = UnifiedFunctionDefinitionKind.Function;
 
@@ -578,6 +583,10 @@ namespace Ucpf.Languages.Java.Model
 			                     	? CreateTypeParameters(node.Element("typeParameters"))
 			                     	: null;
 			var type = CreateType(node.Element("type"));
+			//TODO CreateMethodDeclarationと同じ処理
+			var dimension = node.ElementsByContent("[").Count();
+				for(var i = 0; i < dimension; i++)
+					type.AddSupplement(UnifiedTypeSupplement.Create(null,UnifiedTypeSupplementKind.Array));
 			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
 				UnifiedIdentifierKind.Function);
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
@@ -590,7 +599,6 @@ namespace Ucpf.Languages.Java.Model
 			             	: null;
 			var kind = UnifiedFunctionDefinitionKind.Function;
 
-			//TODO '[]'がどのように付くのか調査
 			//TODO UnifiedFunctionDefinitionのCreateの整理
 			//TODO 引数が8個のCreateを実装
 			return UnifiedFunctionDefinition.CreateFunction(name, type, modifiers,
@@ -738,7 +746,6 @@ namespace Ucpf.Languages.Java.Model
 			 * |   normalParameterDecl (',' normalParameterDecl)*
 			 * |   (normalParameterDecl ',')+ ellipsisParameterDecl 
 			 */
-			//TODO oldの処理をそのままコピペ。内容を後で確認
 			return UnifiedParameterCollection.Create(node
 				.Elements()
 				.Select(e => {
@@ -757,8 +764,9 @@ namespace Ucpf.Languages.Java.Model
 			Contract.Requires(node.Name() == "normalParameterDecl");
 			/*
 			 * normalParameterDecl 
-			 * :   variableModifiers type IDENTIFIER ('[' ']')* 
+			 * :   variableModifiers type IDENTIFIER ('[' ']')*
 			 */
+			//TODO 配列を考慮
 			return UnifiedParameter.Create(
 				node.Element("IDENTIFIER").Value,
 				CreateType(node.Element("type")),
@@ -2297,8 +2305,10 @@ namespace Ucpf.Languages.Java.Model
 			/* 'break' (IDENTIFIER )? ';' */
 
 			if (node.Elements().Count() > 2)
-				//TODO ラベルが指定されている場合が未実装
-				throw new NotImplementedException();
+				return
+					UnifiedSpecialExpression.CreateBreak(
+						UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+							UnifiedIdentifierKind.Unknown));
 			return UnifiedSpecialExpression.CreateBreak();
 		}
 
@@ -2310,8 +2320,10 @@ namespace Ucpf.Languages.Java.Model
 			/* 'continue' (IDENTIFIER)? ';' */
 
 			if (node.Elements().Count() > 2)
-				//TODO ラベルが指定されている場合が未実装
-				throw new NotImplementedException();
+				return
+					UnifiedSpecialExpression.CreateContinue(
+						UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+							UnifiedIdentifierKind.Unknown));
 			return UnifiedSpecialExpression.CreateContinue();
 		}
 
