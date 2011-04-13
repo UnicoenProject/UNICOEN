@@ -74,7 +74,7 @@
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedClassType.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedClassKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />

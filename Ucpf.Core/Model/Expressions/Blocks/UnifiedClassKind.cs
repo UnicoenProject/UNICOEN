@@ -3,7 +3,7 @@
 	/// <summary>
 	///   UnifiedClassDefinitionの種類を表します。
 	/// </summary>
-	public enum UnifiedClassType
+	public enum UnifiedClassKind
 	{
 		Class,
 		/// <summary>

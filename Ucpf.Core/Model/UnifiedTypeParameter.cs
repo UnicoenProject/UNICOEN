@@ -64,5 +64,10 @@ namespace Ucpf.Core.Model
 				Constrains = constrains,
 			};
 		}
+
+		public static UnifiedTypeParameter Create(UnifiedType type)
+		{
+			return Create(type, null);
+		}
 	}
 }

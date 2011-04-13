@@ -10,7 +10,7 @@ namespace Ucpf.Core.Model
 	public class UnifiedClassDefinition
 		: UnifiedExpressionWithBlock<UnifiedClassDefinition>
 	{
-		public UnifiedClassType Type { get; set; }
+		public UnifiedClassKind Kind { get; set; }
 
 		private UnifiedModifierCollection _modifiers;
 
@@ -103,34 +103,34 @@ namespace Ucpf.Core.Model
 		public static UnifiedClassDefinition Create(UnifiedIdentifier name,
 		                                            UnifiedBlock body,
 		                                            UnifiedModifierCollection
-		                                            	modifiers, UnifiedClassType type)
+		                                            	modifiers, UnifiedClassKind kind)
 		{
 			return new UnifiedClassDefinition {
 				Body = body,
 				Name = name,
 				Modifiers = modifiers,
-				Type = type,
+				Kind = kind,
 			};
 		}
 
 		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name)
 		{
 			return Create(name, UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
-				UnifiedClassType.Class);
+				UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
 		                                                 UnifiedModifierCollection
 		                                                 	modifiers)
 		{
-			return Create(name, UnifiedBlock.Create(), modifiers, UnifiedClassType.Class);
+			return Create(name, UnifiedBlock.Create(), modifiers, UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
 		                                                 UnifiedBlock body)
 		{
 			return Create(name, body, UnifiedModifierCollection.Create(),
-				UnifiedClassType.Class);
+				UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
@@ -138,14 +138,14 @@ namespace Ucpf.Core.Model
 		                                                 UnifiedModifierCollection
 		                                                 	modifiers)
 		{
-			return Create(name, body, modifiers, UnifiedClassType.Class);
+			return Create(name, body, modifiers, UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name)
 		{
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 				UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
-				UnifiedClassType.Class);
+				UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
@@ -153,14 +153,14 @@ namespace Ucpf.Core.Model
 		                                                 	modifiers)
 		{
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-				UnifiedBlock.Create(), modifiers, UnifiedClassType.Class);
+				UnifiedBlock.Create(), modifiers, UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
 		                                                 UnifiedBlock body)
 		{
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-				body, UnifiedModifierCollection.Create(), UnifiedClassType.Class);
+				body, UnifiedModifierCollection.Create(), UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
@@ -169,14 +169,14 @@ namespace Ucpf.Core.Model
 		                                                 	modifiers)
 		{
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-				body, modifiers, UnifiedClassType.Class);
+				body, modifiers, UnifiedClassKind.Class);
 		}
 
-		public static UnifiedClassDefinition Create(UnifiedModifierCollection modifiers, UnifiedClassType type, UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
+		public static UnifiedClassDefinition Create(UnifiedModifierCollection modifiers, UnifiedClassKind kind, UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
 		{
 			return new UnifiedClassDefinition {
 				Modifiers = modifiers,
-				Type = type,
+				Kind = kind,
 				Name = name,
 				TypeParameters = typeParameters,
 				Constrains = constrains,
