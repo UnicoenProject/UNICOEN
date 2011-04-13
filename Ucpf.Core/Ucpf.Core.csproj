@@ -122,6 +122,7 @@
     <Compile Include="Model\Expressions\UnifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedWhile.cs" />
+    <Compile Include="Model\Extensions\ModelFactoryForCollection.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />

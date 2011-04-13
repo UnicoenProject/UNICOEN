@@ -73,6 +73,16 @@ namespace Ucpf.Core.Model
 			return (TSelf)this;
 		}
 
+		public TSelf AddRange(IEnumerable<TElement> elements)
+		{
+			Elements.AddRange(elements);
+			foreach (var element in elements) {
+				if (element != null)
+					((UnifiedElement)(IUnifiedElement)element).Parent = this;
+			}
+			return (TSelf)this;
+		}
+
 		public override IUnifiedElement DeepCopy()
 		{
 			var ret = (UnifiedElementCollection<TElement, TSelf>)MemberwiseClone();

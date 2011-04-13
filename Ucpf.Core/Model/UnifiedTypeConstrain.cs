@@ -54,7 +54,7 @@ namespace Ucpf.Core.Model
 				(_type, v => _type = (UnifiedType)v);
 		}
 
-		public static UnifiedTypeConstrain CreateExtends(UnifiedType type, UnifiedTypeConstrainKind kind)
+		public static UnifiedTypeConstrain Create(UnifiedType type, UnifiedTypeConstrainKind kind)
 		{
 			return new UnifiedTypeConstrain {
 				Type = type,
@@ -64,10 +64,17 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedTypeConstrain CreateExtends(UnifiedType type)
 		{
-			return new UnifiedTypeConstrain {
-				Type = type,
-				Kind = UnifiedTypeConstrainKind.Extends
-			};
+			return Create(type, UnifiedTypeConstrainKind.Extends);
+		}
+
+		public static UnifiedTypeConstrain CreateImplements(UnifiedType type)
+		{
+			return Create(type, UnifiedTypeConstrainKind.Implements);
+		}
+
+		public static UnifiedTypeConstrain CreateExtendsOrImplements(UnifiedType type)
+		{
+			return Create(type, UnifiedTypeConstrainKind.ExtendsOrImplements);
 		}
 	}
 }

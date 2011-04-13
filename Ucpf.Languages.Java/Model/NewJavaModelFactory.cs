@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.Java.Model
 {
@@ -194,7 +195,7 @@ namespace Ucpf.Languages.Java.Model
 					);
 			if(node.HasElement("typeList"))
 				foreach (var type in CreateTypeList(node.Element("typeList"))) {
-					constrains.Add(UnifiedTypeConstrain.CreateExtends(type, UnifiedTypeConstrainKind.Implements));
+					constrains.Add(UnifiedTypeConstrain.Create(type, UnifiedTypeConstrainKind.Implements));
 				}
 			var body = CreateClassBody(node.Element("classBody"));
 
@@ -256,12 +257,24 @@ namespace Ucpf.Languages.Java.Model
 			 * enumDeclaration 
 			 * :   modifiers ('enum') IDENTIFIER ('implements' typeList)? enumBody 
 			 */
-			//TODO UnifiedEnumが未実装 -> UnifiedClassDefinitionです
-			throw new NotImplementedException();
-			return null;
+			var modifiers = CreateModifiers(node);
+			var name = node.NthElement(2).Value;
+			var typeListNode = node.Element("typeList");
+			var constrains = typeListNode != null
+			               	? CreateTypeList(typeListNode)
+			               	  	.Select(UnifiedTypeConstrain.CreateImplements)
+			               	  	.ToCollection()
+			               	: null;
+			var enumBody = CreateEnumBody(node.Element("enumBody"));
+			return UnifiedClassDefinition.Create(modifiers,
+				UnifiedClassKind.Enum,
+				UnifiedIdentifier.CreateType(name),
+				null,
+				constrains,
+				enumBody);
 		}
 
-		public static IUnifiedElement CreateEnumBody(XElement node)
+		public static UnifiedBlock CreateEnumBody(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumBody");
@@ -269,12 +282,17 @@ namespace Ucpf.Languages.Java.Model
 			 * enumBody 
 			 * :   '{' (enumConstants)? ','? (enumBodyDeclarations)? '}' 
 			 */
-			//TODO UnifiedEnumConstantCollection, UnifiedEnumBodyが未実装
-			throw new NotImplementedException();
-			return null;
+			var block = UnifiedBlock.Create();
+			var enumConstantsNode = node.Element("enumConstants");
+			if (enumConstantsNode != null)
+				block.AddRange(CreateEnumConstants(enumConstantsNode));
+			var enumBodyDeclarationsNode = node.Element("enumBodyDeclarations");
+			if (enumBodyDeclarationsNode  != null)
+				block.AddRange(CreateEnumBodyDeclarations(enumBodyDeclarationsNode));
+			return block;
 		}
 
-		public static IUnifiedElement CreateEnumConstants(XElement node)
+		public static IEnumerable<IUnifiedExpression> CreateEnumConstants(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstants");
@@ -282,12 +300,11 @@ namespace Ucpf.Languages.Java.Model
 			 * enumConstants 
 			 * :   enumConstant (',' enumConstant)* 
 			 */
-			//TODO UnifiedEnumConstantが未実装
-			throw new NotImplementedException();
-			return null;
+			return node.Elements("enumConstant")
+				.Select(CreateEnumConstant);
 		}
 
-		public static IUnifiedElement CreateEnumConstant(XElement node)
+		public static IUnifiedExpression CreateEnumConstant(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstant");
@@ -295,12 +312,29 @@ namespace Ucpf.Languages.Java.Model
 			 * enumConstant 
 			 * :   (annotations)? IDENTIFIER (arguments)? (classBody)?
 			 */
-			//TODO UnifiedEnumConstantが未実装
-			throw new NotImplementedException();
-			return null;
+			var annotationsNode = node.Element("annotations");
+			var argumentsNode = node.Element("arguments");
+			var classBodyNode = node.Element("classBody");
+			var annotations = annotationsNode != null
+			                  	? CreateAnnotations(annotationsNode)
+			                  	: null;
+			var name = node.ElementByContent().Value;
+			var arguments = argumentsNode != null
+			                  	? CreateArguments(argumentsNode)
+			                  	: null;
+			var classBody = classBodyNode != null
+			                  	? CreateClassBody(classBodyNode)
+			                  	: null;
+			return UnifiedVariableDefinition.Create(
+				null,
+				null,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+				null,
+				arguments,
+				classBody);
 		}
 
-		public static IUnifiedElement CreateEnumBodyDeclarations(XElement node)
+		public static IEnumerable<IUnifiedExpression> CreateEnumBodyDeclarations(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumBodyDeclarations");
@@ -308,12 +342,8 @@ namespace Ucpf.Languages.Java.Model
 			 * enumBodyDeclarations 
 			 * :   ';' (classBodyDeclaration)* 
 			 */
-			var declarations = UnifiedExpressionCollection.Create();
-			foreach (var declaration in node.Elements("classBodyDeclaration")) {
-				var e = CreateClassBodyDeclaration(declaration);
-				declarations.Add(e);
-			}
-			return declarations;
+			return node.Elements("classBodyDeclaration")
+				.Select(CreateClassBodyDeclaration);
 		}
 
 		public static UnifiedClassDefinition CreateInterfaceDeclaration(XElement node)

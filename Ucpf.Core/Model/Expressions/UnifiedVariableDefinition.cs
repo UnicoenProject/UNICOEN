@@ -59,6 +59,26 @@ namespace Ucpf.Core.Model
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
+		private UnifiedBlock _block;
+
+		/// <summary>
+		/// 変数に付随するブロックを表します。
+		/// e.g. Javaにおけるenumの定数に付随するブロック
+		/// <code>
+		/// enum E {
+		///		E1 {
+		///			@override public String toString() { return ""; }
+		///		},
+		///		E2
+		/// }
+		/// </code>
+		/// </summary>
+		public UnifiedBlock Block
+		{
+			get { return _block; }
+			set { _block = SetParentOfChild(value, _block); }
+		}
+
 		private UnifiedVariableDefinition()
 		{
 			Modifiers = UnifiedModifierCollection.Create();
@@ -112,6 +132,8 @@ namespace Ucpf.Core.Model
 				(InitialValue, v => InitialValue = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Block, v => Block= (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -127,6 +149,8 @@ namespace Ucpf.Core.Model
 				(_initialValue, v => _initialValue = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_block, v => _block= (UnifiedBlock)v);
 		}
 
 		public static UnifiedVariableDefinition Create(string name,
@@ -170,6 +194,24 @@ namespace Ucpf.Core.Model
 				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
 				Modifiers = modifiers,
 				Type = type,
+			};
+		}
+
+		public static UnifiedVariableDefinition Create(
+			UnifiedModifierCollection modifiers,
+			UnifiedType type,
+			UnifiedIdentifier name,
+			IUnifiedExpression initialValues,
+			UnifiedArgumentCollection arguments,
+			UnifiedBlock block)
+		{
+			return new UnifiedVariableDefinition {
+				Modifiers = modifiers,
+				Type = type,
+				Name = name,
+				InitialValue = initialValues,
+				Arguments = arguments,
+				Block = block,
 			};
 		}
 	}

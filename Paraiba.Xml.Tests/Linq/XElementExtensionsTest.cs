@@ -12,7 +12,7 @@ namespace Paraiba.Xml.Tests.Linq
 		private static readonly XElement A1Element;
 		private static readonly XElement A2Element;
 		private static readonly XElement B1Element;
-		private static readonly XElement C1Element;
+		private static readonly XElement B_C1Element;
 		private static readonly XElement D1Element;
 
 		static XElementExtensionsTest()
@@ -21,9 +21,9 @@ namespace Paraiba.Xml.Tests.Linq
 			A1Element = new XElement("a") { Value = "a1" };
 			A2Element = new XElement("a") { Value = "a2" };
 			B1Element = new XElement("b") { Value = "b1" };
-			C1Element = new XElement("c") { Value = "c1" };
+			B_C1Element = new XElement("c") { Value = "c1" };
 			D1Element = new XElement("d") { Value = "d1" };
-			B1Element.Add(C1Element);
+			B1Element.Add(B_C1Element);
 			Root.Add(A1Element, A2Element, B1Element, D1Element);
 		}
 
@@ -40,27 +40,27 @@ namespace Paraiba.Xml.Tests.Linq
 		}
 
 		[Test]
-		public void HasNoElementShouldBeFalse()
+		[TestCase("d1", Result = true)]
+		[TestCase("b1", Result = false)]
+		public bool HasElementByContent(string content)
 		{
-			(!B1Element.HasElement()).Is(false);
+			return Root.HasElementByContent(content);
 		}
 
 		[Test]
-		public void HasNoElementShouldBeTrue()
+		[TestCase("b1c1", Result = true)]
+		[TestCase("b1", Result = false)]
+		public bool HasElementByValue(string value)
 		{
-			(!D1Element.HasElement()).Is(true);
+			return Root.HasElementByValue(value);
 		}
 
 		[Test]
-		public void HasValueAndNoElementShouldBeFalse()
+		[TestCase("d1", Result = true)]
+		[TestCase("c", Result = false)]
+		public bool HasContent(string name)
 		{
-			D1Element.HasContent("d").Is(false);
-		}
-
-		[Test]
-		public void HasValueAndNoElementShouldBeTrue()
-		{
-			D1Element.HasContent("d1").Is(true);
+			return D1Element.HasContent(name);
 		}
 
 		[Test]
@@ -69,6 +69,62 @@ namespace Paraiba.Xml.Tests.Linq
 		public bool HasElement(string name)
 		{
 			return Root.HasElement(name);
+		}
+
+		[Test]
+		[TestCase("d1", Result = "d")]
+		[TestCase("b1", Result = null)]
+		public string ElementByContent(string content)
+		{
+			return Root.ElementByContent(content).SafeName();
+		}
+
+		[Test]
+		public void ElementByContentShouldBeNotNull()
+		{
+			B1Element.ElementByContent().IsNotNull();
+		}
+
+		[Test]
+		public void ElementByContentShouldBeNull()
+		{
+			B_C1Element.ElementByContent().IsNull();
+		}
+
+		[Test]
+		[TestCase("b1c1", Result = "b")]
+		[TestCase("b1", Result = null)]
+		public string ElementByValue(string value)
+		{
+			return Root.ElementByValue(value).SafeName();
+		}
+
+		[Test]
+		[TestCase("d1", Result = 1)]
+		[TestCase("b1", Result = 0)]
+		public int ElementsByContent(string content)
+		{
+			return Root.ElementsByContent(content).Count();
+		}
+
+		[Test]
+		public void ElementsByContentShouldBeNotEmpty()
+		{
+			B1Element.ElementsByContent().Count().Is(1);
+		}
+
+		[Test]
+		public void ElementsByContentShouldBeEmpty()
+		{
+			B_C1Element.ElementsByContent().Count().Is(0);
+		}
+
+		[Test]
+		[TestCase("b1c1", Result = 1)]
+		[TestCase("b1", Result = 0)]
+		public int ElementsByValue(string value)
+		{
+			return Root.ElementsByValue(value).Count();
 		}
 
 		[Test]
@@ -389,30 +445,6 @@ namespace Paraiba.Xml.Tests.Linq
 		public void NthElementAfterSelfOrDefaultWithName()
 		{
 			D1Element.NthElementAfterSelfOrDefault("b", 1).Is((XElement)null);
-		}
-
-		[Test]
-		public void HasContentShouldBeFalse()
-		{
-			(!B1Element.HasElement()).Is(false);
-		}
-
-		[Test]
-		public void HasContentShouldBeTrue()
-		{
-			(!D1Element.HasElement()).Is(true);
-		}
-
-		[Test]
-		public void HasContentWithContentShouldBeFalse()
-		{
-			D1Element.HasContent("d").Is(false);
-		}
-
-		[Test]
-		public void HasContentWithContentShouldBeTrue()
-		{
-			D1Element.HasContent("d1").Is(true);
 		}
 	}
 }

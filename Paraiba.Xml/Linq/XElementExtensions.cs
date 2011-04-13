@@ -76,7 +76,39 @@ namespace Paraiba.Xml.Linq
 		}
 
 		/// <summary>
-		///   指定した結合コンテンツの子要素を保持している子要素を取得します。
+		///   指定した結合コンテンツの子要素を保持している最初の子要素を取得します。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "value"></param>
+		/// <returns></returns>
+		[Pure]
+		public static XElement ElementByValue(this XElement element, string value) {
+			return element.Elements().FirstOrDefault(e => e.Value == value);
+		}
+
+		/// <summary>
+		///   子要素を持たない最初の子要素を取得します。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <returns></returns>
+		[Pure]
+		public static XElement ElementByContent(this XElement element) {
+			return element.Elements().FirstOrDefault(e => !e.HasElement());
+		}
+
+		/// <summary>
+		///   指定したコンテンツの子要素を保持している最初の子要素を取得します。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name = "content"></param>
+		/// <returns></returns>
+		[Pure]
+		public static XElement ElementByContent(this XElement element, string content) {
+			return element.Elements().FirstOrDefault(e => e.HasContent(content));
+		}
+
+		/// <summary>
+		///   指定した結合コンテンツの子要素を保持している全ての子要素を取得します。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "value"></param>
@@ -87,7 +119,17 @@ namespace Paraiba.Xml.Linq
 		}
 
 		/// <summary>
-		///   指定したコンテンツの子要素を保持している子要素を取得します。
+		///   子要素を持たない全ての子要素を取得します。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <returns></returns>
+		[Pure]
+		public static IEnumerable<XElement> ElementsByContent(this XElement element) {
+			return element.Elements().Where(e => !e.HasElement());
+		}
+
+		/// <summary>
+		///   指定したコンテンツの子要素を保持している全ての子要素を取得します。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "content"></param>
