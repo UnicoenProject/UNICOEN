@@ -1164,7 +1164,6 @@ namespace Ucpf.Languages.Java.Model
 			}
 		}
 
-		//
 		public static UnifiedCaseCollection CreateSwitchBlockStatementGroups(
 			XElement node)
 		{
@@ -1174,9 +1173,9 @@ namespace Ucpf.Languages.Java.Model
 			 * switchBlockStatementGroups 
 			 * :   (switchBlockStatementGroup )* 
 			 */
-			return UnifiedCaseCollection.Create(
-				node.Elements("switchBlockStatementGroup")
-					.Select(CreateSwitchBlockStatementGroup));
+			return node.Elements("switchBlockStatementGroup")
+					.Select(CreateSwitchBlockStatementGroup)
+					.ToCollection();
 		}
 
 		public static UnifiedCase CreateSwitchBlockStatementGroup(XElement node)
@@ -1216,13 +1215,13 @@ namespace Ucpf.Languages.Java.Model
 			 * trystatement 
 			 * :   'try' block (catches 'finally' block | catches | 'finally' block) 
 			 */
-
 			var body = CreateBlock(node.NthElement(1));
-			var catches =
-				node.HasElement("catches") ? CreateCatches(node.Element("catches")) : null;
+			var catches = node.HasElement("catches")
+				? CreateCatches(node.Element("catches")) 
+				: null;
 			var finallyBlock = node.HasElement("FINALLY")
-			                   	? CreateBlock(node.Elements("block").ElementAt(1)) : null;
-
+			                   	? CreateBlock(node.Elements("block").ElementAt(1)) 
+								: null;
 			return UnifiedTry.Create(body, catches, finallyBlock);
 		}
 
@@ -1234,13 +1233,9 @@ namespace Ucpf.Languages.Java.Model
 			 * catches 
 			 * :   catchClause (catchClause)* 
 			 */
-
-			var catches = UnifiedCatchCollection.Create();
-			foreach (var catche in node.Elements("catchClause")) {
-				var e = CreateCatchClause(catche);
-				catches.Add(e);
-			}
-			return catches;
+			return node.Elements("catchClause")
+				.Select(CreateCatchClause)
+				.ToCollection();
 		}
 
 		public static UnifiedCatch CreateCatchClause(XElement node)
@@ -1251,7 +1246,6 @@ namespace Ucpf.Languages.Java.Model
 			 * catchClause 
 			 * :   'catch' '(' formalParameter ')' block  
 			 */
-
 			return UnifiedCatch.Create(
 				CreateFormalParameter(node.Element("formalParameter")),
 				CreateBlock(node.Element("block")));
@@ -1268,8 +1262,7 @@ namespace Ucpf.Languages.Java.Model
 
 			var type = CreateType(node.NthElement(1));
 			var dimension = node.ElementsByContent("[").Count();
-			for(var i = 0; i < dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.Create(null,UnifiedTypeSupplementKind.Array));
+			type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
 
 			return UnifiedParameterCollection.Create(
 				UnifiedParameter.Create(
@@ -1291,7 +1284,6 @@ namespace Ucpf.Languages.Java.Model
 			 * // normal for loop
 			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement 
 			 */
-
 			if (node.NthElement(2).Name() == "variableModifiers") {
 				return UnifiedForeach.Create(
 					UnifiedVariableDefinition.CreateSingle(
@@ -1301,15 +1293,16 @@ namespace Ucpf.Languages.Java.Model
 						node.Element("IDENTIFIER").Value
 						),
 					CreateExpression(node.Element("expression")),
-					UnifiedBlock.Create(
-						CreateStatement(node.Element("statement"))
-						)
+					CreateStatement(node.Element("statement"))
+					.ToBlock()
 					);
 			} else {
 				var forInit = node.HasElement("forInit")
-				              	? CreateForInit(node.Element("forInit")) : null;
+				              	? CreateForInit(node.Element("forInit"))
+								: null;
 				var condition = node.HasElement("expression")
-				                	? CreateExpression(node.Element("expression")) : null;
+				                	? CreateExpression(node.Element("expression"))
+									: null;
 				var step = node.HasElement("expressionList")
 							? CreateExpressionList(node.Element("expressionList"))
 								.ToExpressionList()
@@ -1447,7 +1440,7 @@ namespace Ucpf.Languages.Java.Model
 				kind = UnifiedBinaryOperatorKind.ArithmeticRightShiftAssign;
 				break;
 			default:
-				throw new InvalidOperationException();
+				throw new IndexOutOfRangeException();
 			}
 			return UnifiedBinaryOperator.Create(name, kind);
 		}
@@ -1599,7 +1592,7 @@ namespace Ucpf.Languages.Java.Model
 				kind = UnifiedBinaryOperatorKind.GreaterThan;
 				break;
 			default:
-				throw new InvalidOperationException();
+				throw new IndexOutOfRangeException();
 			}
 			return UnifiedBinaryOperator.Create(name, kind);
 		}
@@ -1842,6 +1835,7 @@ namespace Ucpf.Languages.Java.Model
 			if (node.FirstElement().Name() == "arguments") {
 				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
 			}
+			// TODO implement
 			throw new NotImplementedException();
 		}
 
@@ -1872,7 +1866,7 @@ namespace Ucpf.Languages.Java.Model
 				}
 				return prefix;
 			}
-
+			// TODO implement
 			throw new NotImplementedException();
 		}
 
@@ -1925,10 +1919,10 @@ namespace Ucpf.Languages.Java.Model
 				initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
 			} else {
 				//TODO ここでUnifiedArgumentを生成していいのか？
-				args = UnifiedArgumentCollection.Create(
-					node.Elements("expression")
-						.Select(e => UnifiedArgument.Create(CreateExpression(e)))
-					);
+				args = node.Elements("expression")
+					.Select(CreateExpression)
+					.Select(UnifiedArgument.Create)
+					.ToCollection();
 			}
 			return UnifiedNew.Create(
 				CreateCreatedName(node.NthElement(1)), args, initVal);
@@ -1943,7 +1937,6 @@ namespace Ucpf.Languages.Java.Model
 			 * :   arrayInitializer
 			 * |   expression 
 			 */
-
 			var first = node.FirstElement();
 			switch (first.Name()) {
 			case "arrayInitializer":
@@ -1951,7 +1944,7 @@ namespace Ucpf.Languages.Java.Model
 			case "expression":
 				return CreateExpression(first);
 			default:
-				throw new InvalidOperationException();
+				throw new IndexOutOfRangeException();
 			}
 		}
 
@@ -1985,7 +1978,7 @@ namespace Ucpf.Languages.Java.Model
 			case "primitiveType":
 				return CreatePrimitiveType(first);
 			default:
-				throw new InvalidOperationException();
+				throw new IndexOutOfRangeException();
 			}
 		}
 
@@ -2036,14 +2029,14 @@ namespace Ucpf.Languages.Java.Model
 			/*
 			 * arguments : '(' (expressionList)? ')'
 			 */
-
 			var expressionListNode = node.Element("expressionList");
 			if (expressionListNode == null)
+				// ()がついているので空集合を返す
 				return UnifiedArgumentCollection.Create();
 
-			var args = CreateExpressionList(expressionListNode)
-				.Select(UnifiedArgument.Create);
-			return UnifiedArgumentCollection.Create(args);
+			return CreateExpressionList(expressionListNode)
+				.Select(UnifiedArgument.Create)
+				.ToCollection();
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node)
@@ -2079,67 +2072,6 @@ namespace Ucpf.Languages.Java.Model
 			default:
 				throw new InvalidOperationException();
 			}
-		}
-
-		public static IUnifiedElement CreateClassHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "classHeader");
-			return null;
-		}
-
-		public static IUnifiedElement CreateEnumHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "enumHeader");
-			return null;
-		}
-
-		public static IUnifiedElement CreateInterfaceHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "interfaceHeader");
-			return null;
-		}
-
-		public static IUnifiedElement CreateAnnotationHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "annotationHeader");
-			return null;
-		}
-
-		public static IUnifiedElement CreateTypeHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "typeHeader");
-			return null;
-		}
-
-		public static IUnifiedElement CreateMethodHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "methodHeader");
-			return null;
-		}
-
-		public static IUnifiedElement CreateFieldHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "fieldHeader");
-			return null;
-		}
-
-		public static IUnifiedElement CreateLocalVariableHeader(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "localVariableHeader");
-			/*
-			 * localVariableHeader 
-			 * :   variableModifiers type IDENTIFIER ('['']')* ('='|','|';')
-			 */
-
-			return null;
 		}
 
 		private static UnifiedBinaryOperator CreateBinaryOperator(string name)
@@ -2280,19 +2212,17 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.Elements().First().Name() == "IF");
+			Contract.Requires(node.FirstElement().Name() == "IF");
 			/*  
 			 * 'if' parExpression statement ('else' statement)? 
 			 */
-
-			var trueBody =
-				UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+			var trueBody = CreateStatement(node.Element("statement"))
+				.ToBlock();
 
 			UnifiedBlock falseBody = null;
 			if (node.Elements("statement").Count() == 2) {
 				var falseNode = node.Elements("statement").ElementAt(1);
-				falseBody =
-					UnifiedBlock.Create(CreateStatement(falseNode));
+				falseBody = CreateStatement(falseNode).ToBlock();
 			}
 			return UnifiedIf.Create(
 				CreateParExpression(node.Element("parExpression")),
@@ -2305,11 +2235,10 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.Elements().First().Name() == "WHILE");
+			Contract.Requires(node.FirstElement().Name() == "WHILE");
 			/* 
 			 * 'while' parExpression statement
 			 */
-
 			return UnifiedWhile.Create(
 				UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
 				CreateParExpression(node.Element("parExpression"))
@@ -2320,11 +2249,10 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.Elements().First().Name() == "DO");
+			Contract.Requires(node.FirstElement().Name() == "DO");
 			/* 
 			 * 'do' statement 'while' parExpression ';' 
 			 */
-
 			return UnifiedDoWhile.Create(
 				UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
 				CreateParExpression(node.Element("parExpression"))
@@ -2339,9 +2267,7 @@ namespace Ucpf.Languages.Java.Model
 			/* 
 			 * 'switch' parExpression '{' switchBlockStatementGroups '}' 
 			 */
-
-			return
-				UnifiedSwitch.Create(
+			return UnifiedSwitch.Create(
 					CreateParExpression(node.Element("parExpression")),
 					CreateSwitchBlockStatementGroups(node.Element("switchBlockStatementGroups"))
 					);
@@ -2355,7 +2281,6 @@ namespace Ucpf.Languages.Java.Model
 			/*
 			 * 'return' (expression)? ';'
 			 */
-
 			IUnifiedExpression value = null;
 			if (node.Elements().Count() == 3) {
 				value = CreateExpression(node.Element("expression"));
@@ -2369,12 +2294,9 @@ namespace Ucpf.Languages.Java.Model
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("break"));
 			/* 'break' (IDENTIFIER )? ';' */
-
 			if (node.Elements().Count() > 2)
-				return
-					UnifiedSpecialExpression.CreateBreak(
-						UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-							UnifiedIdentifierKind.Unknown));
+				return UnifiedSpecialExpression.CreateBreak(
+					UnifiedIdentifier.CreateUnknown(node.Element("IDENTIFIER").Value));
 			return UnifiedSpecialExpression.CreateBreak();
 		}
 
@@ -2384,12 +2306,9 @@ namespace Ucpf.Languages.Java.Model
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("continue"));
 			/* 'continue' (IDENTIFIER)? ';' */
-
 			if (node.Elements().Count() > 2)
-				return
-					UnifiedSpecialExpression.CreateContinue(
-						UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-							UnifiedIdentifierKind.Unknown));
+				return UnifiedSpecialExpression.CreateContinue(
+					UnifiedIdentifier.CreateUnknown(node.Element("IDENTIFIER").Value));
 			return UnifiedSpecialExpression.CreateContinue();
 		}
 
@@ -2401,7 +2320,6 @@ namespace Ucpf.Languages.Java.Model
 			/* 
 			 * 'synchronized' parExpression block 
 			 */
-
 			return UnifiedSpecialBlock.Create(
 				UnifiedSpecialBlockKind.Synchrnoized,
 				CreateParExpression(node.Element("parExpression")),
@@ -2417,9 +2335,7 @@ namespace Ucpf.Languages.Java.Model
 			/*
 			 * 'throw' expression ';' 
 			 */
-
-			return
-				UnifiedSpecialExpression.CreateThrow(
+			return UnifiedSpecialExpression.CreateThrow(
 					CreateExpression(node.Element("expression")));
 		}
 	}
