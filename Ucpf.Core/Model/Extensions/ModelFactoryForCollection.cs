@@ -4,6 +4,16 @@ namespace Ucpf.Core.Model.Extensions
 {
 	public static class ModelFactoryForCollection
 	{
+		public static UnifiedBlock ToBlock(this IEnumerable<IUnifiedExpression> collection)
+		{
+			return UnifiedBlock.Create(collection);
+		}
+
+		public static UnifiedBlock ToBlock(this IUnifiedExpression singleton)
+		{
+			return UnifiedBlock.Create(singleton);
+		}
+
 		public static UnifiedArgumentCollection ToCollection(
 			this IEnumerable<UnifiedArgument> collection)
 		{
