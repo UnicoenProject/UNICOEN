@@ -35,5 +35,9 @@
 		///   e.g. C#におけるstruct(<c>where T : struct</c>)
 		/// </summary>
 		ValueType,
+		/// <summary>
+		/// 
+		/// </summary>
+		Super
 	}
 }

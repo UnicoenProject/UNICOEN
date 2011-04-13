@@ -6,17 +6,20 @@ namespace Ucpf.Core.Model
 {
 	public class UnifiedTernaryOperator : UnifiedElement
 	{
-		public string Sign { get; private set; }
+		public string FirstSign { get; private set; }
+
+		public string SecondSign { get; private set; }
 
 		public UnifiedTernaryOperatorKind Kind { get; private set; }
 
 		private UnifiedTernaryOperator() {}
 
-		public static UnifiedTernaryOperator Create(string sign,
+		public static UnifiedTernaryOperator Create(string first, string second,
 		                                            UnifiedTernaryOperatorKind kind)
 		{
 			return new UnifiedTernaryOperator {
-				Sign = sign,
+				FirstSign = first,
+				SecondSign = second,
 				Kind = kind,
 			};
 		}

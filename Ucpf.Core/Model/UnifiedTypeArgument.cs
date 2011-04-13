@@ -24,6 +24,14 @@ namespace Ucpf.Core.Model
 			get { return _value; }
 			set { _value = SetParentOfChild(value, _value); }
 		}
+		
+		private UnifiedTypeConstrainCollection _constrains;
+
+		public UnifiedTypeConstrainCollection Constrains
+		{
+			get { return _constrains; }
+			set { _constrains = SetParentOfChild(value, _constrains); }
+		}
 
 		private UnifiedTypeArgument() {}
 
@@ -42,6 +50,7 @@ namespace Ucpf.Core.Model
 		{
 			yield return Modifiers;
 			yield return Value;
+			yield return Constrains;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -51,6 +60,8 @@ namespace Ucpf.Core.Model
 				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Value, v => Value = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -60,6 +71,8 @@ namespace Ucpf.Core.Model
 				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_value, v => _value = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
 		public static UnifiedTypeArgument Create(IUnifiedExpression value)
@@ -75,6 +88,18 @@ namespace Ucpf.Core.Model
 			return new UnifiedTypeArgument {
 				Value = type,
 				Modifiers = modifiers,
+				Constrains = null
+			};
+		}
+
+		public static UnifiedTypeArgument Create(UnifiedType type,
+		                                         UnifiedModifierCollection modifiers, 
+			UnifiedTypeConstrainCollection constrains) 
+		{
+			return new UnifiedTypeArgument {
+				Value = type,
+				Modifiers = modifiers,
+				Constrains = constrains
 			};
 		}
 	}

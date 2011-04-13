@@ -736,9 +736,21 @@ namespace Ucpf.Languages.Java.Model
 			if (node.FirstElement().Name() == "type") {
 				return UnifiedTypeArgument.Create(CreateType(node.FirstElement()), null);
 			}
-			//TODO ?型のケースが未実装
-			throw new NotImplementedException();
-			return null;
+
+			var type = UnifiedType.CreateUsingString(node.NthElement(0).Value);
+			UnifiedTypeConstrain constrains = null;
+			
+			if (node.HasElement("type")) {
+				if(node.NthElement(1).Value == "extends") {
+					constrains = UnifiedTypeConstrain.Create(CreateType(node.Element("type")),
+						UnifiedTypeConstrainKind.Extends);
+				}
+				else {
+					constrains = UnifiedTypeConstrain.Create(CreateType(node.Element("type")),
+						UnifiedTypeConstrainKind.Super);
+				}
+			}
+			return UnifiedTypeArgument.Create(type, null, constrains.ToCollection());
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateQualifiedNameList(
@@ -1451,8 +1463,16 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			if (node.HasElement("expression")) {
-				//TODO ３項演算子に該当する共通モデルの作成
-				throw new NotImplementedException();
+				return UnifiedTernaryExpression.Create(
+					CreateConditionalExpression(node.NthElement(0)),
+					UnifiedTernaryOperator.Create(
+						node.NthElement(1).Value, 
+						node.NthElement(3).Value,
+						UnifiedTernaryOperatorKind.Conditional
+						),
+					CreateExpression(node.NthElement(2)),
+					CreateConditionalExpression(node.NthElement(4))
+					);
 			}
 			return CreateConditionalOrExpression(node.FirstElement());
 		}
