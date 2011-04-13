@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Code2Xml.Languages.JavaScript.XmlGenerators;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.JavaScript.Model
 {

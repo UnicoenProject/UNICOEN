@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests
@@ -103,10 +104,9 @@ namespace Ucpf.Languages.CSharp.Tests
 										UnifiedIntegerLiteral.Create(0)),
 									CSharpModelFactoryHelper.CreateLesserExpression(
 										UnifiedIdentifier.CreateUnknown("i"), UnifiedIntegerLiteral.Create(2)),
-									UnifiedExpressionCollection.Create(
-										CSharpModelFactoryHelper.CreateExpression(
-											UnifiedIdentifier.CreateUnknown("i"),
-											UnifiedUnaryOperatorKind.PostIncrementAssign)),
+									CSharpModelFactoryHelper.CreateExpression(
+										UnifiedIdentifier.CreateUnknown("i"),
+										UnifiedUnaryOperatorKind.PostIncrementAssign),
 									UnifiedBlock.Create(new[] {
 										UnifiedCall.Create(UnifiedIdentifier.CreateUnknown("write"),
 											UnifiedArgumentCollection.Create(

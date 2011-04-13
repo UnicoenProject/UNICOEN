@@ -334,7 +334,6 @@ namespace Ucpf.Languages.Java.Model
 				return UnifiedArgumentCollection.Create();
 
 			var args = CreateExpressionList(expressionListNode)
-				.ToList()
 				.Select(e => {
 					e.Remove();
 					return UnifiedArgument.Create(e);
@@ -351,7 +350,7 @@ namespace Ucpf.Languages.Java.Model
 
 			var expressions = node.Elements("expression")
 				.Select(CreateExpression);
-			return UnifiedExpressionCollection.Create(expressions);
+			return expressions.ToCollection();
 		}
 
 		/* expressionList

@@ -5,16 +5,6 @@ using System.Text;
 
 namespace Ucpf.Core.Model.Extensions {
 	public static class ModelFactoryForCollection {
-		public static UnifiedModifierCollection ToCollection(this IEnumerable<UnifiedModifier> collection)
-		{
-			return UnifiedModifierCollection.Create(collection);
-		}
-
-		public static UnifiedModifierCollection ToCollection(this UnifiedModifier singleton)
-		{
-			return UnifiedModifierCollection.Create(singleton);
-		}
-
 		public static UnifiedArgumentCollection ToCollection(this IEnumerable<UnifiedArgument> collection)
 		{
 			return UnifiedArgumentCollection.Create(collection);
@@ -43,6 +33,26 @@ namespace Ucpf.Core.Model.Extensions {
 		public static UnifiedCatchCollection ToCollection(this UnifiedCatch singleton)
 		{
 			return UnifiedCatchCollection.Create(singleton);
+		}
+
+		public static UnifiedExpressionCollection ToCollection(this IEnumerable<IUnifiedExpression> collection)
+		{
+			return UnifiedExpressionCollection.Create(collection);
+		}
+
+		public static UnifiedExpressionCollection ToCollection(this IUnifiedExpression singleton)
+		{
+			return UnifiedExpressionCollection.Create(singleton);
+		}
+
+		public static UnifiedModifierCollection ToCollection(this IEnumerable<UnifiedModifier> collection)
+		{
+			return UnifiedModifierCollection.Create(collection);
+		}
+
+		public static UnifiedModifierCollection ToCollection(this UnifiedModifier singleton)
+		{
+			return UnifiedModifierCollection.Create(singleton);
 		}
 
 		public static UnifiedParameterCollection ToCollection(this IEnumerable<UnifiedParameter> collection)

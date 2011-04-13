@@ -103,7 +103,7 @@
     <Compile Include="Model\Expressions\UnifiedCast.cs" />
     <Compile Include="Model\Collections\UnifiedCatchCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedCastKind.cs" />
-    <Compile Include="Model\Expressions\UnifiedExpressionCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedExpressionCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedExpressionWithBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFor.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedForeach.cs" />

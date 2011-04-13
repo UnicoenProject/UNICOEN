@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Expressions;
 using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.Java.Model
@@ -1270,8 +1271,7 @@ namespace Ucpf.Languages.Java.Model
 				var condition = node.HasElement("expression")
 				                	? CreateExpression(node.Element("expression")) : null;
 				var step = node.HasElement("expressionList")
-				           	? UnifiedExpressionCollection.Create(
-				           		CreateExpressionList(node.Element("expressionList")))
+							? CreateExpressionList(node.Element("expressionList")).ToCollection()
 				           	: null;
 				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 
@@ -1299,7 +1299,7 @@ namespace Ucpf.Languages.Java.Model
 			case "localVariableDeclaration":
 				return CreateLocalVariableDeclaration(first);
 			case "expressionList":
-				return UnifiedExpressionCollection.Create(CreateExpressionList(first));
+				return CreateExpressionList(first).ToCollection();
 			default:
 				throw new InvalidOperationException();
 			}
@@ -1916,13 +1916,9 @@ namespace Ucpf.Languages.Java.Model
 			 * arrayInitializer 
 			 * :   '{' (variableInitializer (',' variableInitializer)* )? (',')? '}'
 			 */
-
-			var exps = UnifiedExpressionCollection.Create();
-			foreach (var exp in node.Elements("variableInitializer")) {
-				var e = CreateVariableInitializer(exp);
-				exps.Add(e);
-			}
-			return exps;
+			return node.Elements("variableInitializer")
+				.Select(CreateVariableInitializer)
+				.ToCollection();
 		}
 
 		public static UnifiedType CreateCreatedName(XElement node)

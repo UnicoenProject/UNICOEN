@@ -7,12 +7,11 @@ namespace Ucpf.Core.Model
 	///   式の集合を表します。
 	/// </summary>
 	public class UnifiedExpressionCollection
-		: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection>,
-		  IUnifiedExpression
+		: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection>, IUnifiedExpression
 	{
-		private UnifiedExpressionCollection() {}
+		protected UnifiedExpressionCollection() {}
 
-		private UnifiedExpressionCollection(
+		protected UnifiedExpressionCollection(
 			IEnumerable<IUnifiedExpression> expressions)
 			: base(expressions) {}
 

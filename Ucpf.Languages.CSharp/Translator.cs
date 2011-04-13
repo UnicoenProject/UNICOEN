@@ -5,6 +5,7 @@ using ICSharpCode.NRefactory;
 using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.NRefactory.Parser;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 using Attribute = ICSharpCode.NRefactory.Ast.Attribute;
 
 namespace Ucpf.Languages.CSharp

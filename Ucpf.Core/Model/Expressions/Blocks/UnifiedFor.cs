@@ -82,7 +82,8 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedFor Create(IUnifiedExpression initializer,
 		                                IUnifiedExpression condition,
-		                                IUnifiedExpression step, UnifiedBlock body)
+		                                IUnifiedExpression step,
+			UnifiedBlock body)
 		{
 			return new UnifiedFor {
 				Initializer = initializer,

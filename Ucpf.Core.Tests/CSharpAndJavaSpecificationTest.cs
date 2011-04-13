@@ -58,8 +58,8 @@ namespace Ucpf.Core.Tests
 							"i".ToVariable(),
 							UnifiedBinaryOperatorKind.LessThan,
 							1.ToLiteral()),
-						UnifiedExpressionCollection.Create(CSharpModelFactoryHelper.CreateExpression(
-							"i".ToVariable(), UnifiedUnaryOperatorKind.PostIncrementAssign)),
+						CSharpModelFactoryHelper.CreateExpression(
+							"i".ToVariable(), UnifiedUnaryOperatorKind.PostIncrementAssign),
 						UnifiedBlock.Create(
 							UnifiedSpecialExpression.CreateBreak()
 							)
