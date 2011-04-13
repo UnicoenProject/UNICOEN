@@ -9,7 +9,7 @@
 		Type,
 		NameSpace,
 		Function,
-		Class,
+		ClassObject,
 		Super,
 		Unknown
 	}

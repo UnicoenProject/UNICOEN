@@ -9,5 +9,6 @@ namespace Ucpf.Core.Model
 		TElement this[int index] { get; set; }
 		int Count { get; }
 		void PrivateAdd(TElement element);
+		void PrivateAddRange(IEnumerable<TElement> elements);
 	}
 }

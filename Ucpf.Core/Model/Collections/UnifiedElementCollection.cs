@@ -65,6 +65,11 @@ namespace Ucpf.Core.Model
 			Add(element);
 		}
 
+		public void PrivateAddRange(IEnumerable<TElement> elements)
+		{
+			AddRange(elements);
+		}
+
 		public TSelf Add(TElement element)
 		{
 			Elements.Add(element);

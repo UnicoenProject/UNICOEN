@@ -35,7 +35,7 @@ namespace Ucpf.Languages.Java.Model
 			}
 			foreach (var e in node.Elements("typeDeclaration")) {
 				var typeDeclaration = CreateTypeDeclaration(e);
-				expressions.PrivateAdd(typeDeclaration);
+				expressions.PrivateAddRange(typeDeclaration);
 			}
 			return program;
 		}
@@ -64,7 +64,7 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static UnifiedClassDefinition CreateTypeDeclaration(XElement node)
+		public static IEnumerable<UnifiedClassDefinition> CreateTypeDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeDeclaration");
@@ -74,10 +74,9 @@ namespace Ucpf.Languages.Java.Model
 			 * |   ';' 
 			 */
 			if (node.FirstElement().Name() == "classOrInterfaceDeclaration") {
-				return CreateClassOrInterfaceDeclaration(node.FirstElement());
+				return Enumerable.Repeat(CreateClassOrInterfaceDeclaration(node.FirstElement()), 1);
 			}
-			//TODO ';'をどう扱うかを考える
-			throw new NotImplementedException();
+			return Enumerable.Empty<UnifiedClassDefinition>();
 		}
 
 		public static UnifiedClassDefinition CreateClassOrInterfaceDeclaration(
@@ -171,41 +170,35 @@ namespace Ucpf.Languages.Java.Model
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedClassDefinition CreateNormalClassDeclaration(
-			XElement node)
+		public static UnifiedClassDefinition CreateNormalClassDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "normalClassDeclaration");
 			/*
 			 * normalClassDeclaration 
-			 * :   modifiers  'class' IDENTIFIER (typeParameters)? ('extends' type)? ('implements' typeList)? classBody 
+			 * :   modifiers 'class' IDENTIFIER (typeParameters)? ('extends' type)? ('implements' typeList)? classBody 
 			 */
-
 			var modifiers = CreateModifiers(node.Element("modifiers"));
-			var kind = UnifiedClassKind.Class;
-			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-				UnifiedIdentifierKind.Class);
+			var name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
 			var typeParameters = node.HasElement("typeParameters")
 			                     	? CreateTypeParameters(node.Element("typeParameters"))
 			                     	: null;
 			var constrains = UnifiedTypeConstrainCollection.Create();
-			if(node.HasElement("type"))
+			if (node.HasElement("type")) {
 				constrains.Add(UnifiedTypeConstrain.CreateExtends(
-					CreateType(node.Element("type")))
-					);
-			if(node.HasElement("typeList"))
+					CreateType(node.Element("type"))));
+			}
+			if (node.HasElement("typeList")) {
 				foreach (var type in CreateTypeList(node.Element("typeList"))) {
 					constrains.Add(UnifiedTypeConstrain.CreateImplements(type));
 				}
+			}
 			var body = CreateClassBody(node.Element("classBody"));
-
-
-			return UnifiedClassDefinition.Create(modifiers, kind, name, typeParameters,
+			return UnifiedClassDefinition.Create(modifiers, UnifiedClassKind.Class, name, typeParameters,
 				constrains, body);
 		}
 
-		public static UnifiedTypeParameterCollection CreateTypeParameters(
-			XElement node)
+		public static UnifiedTypeParameterCollection CreateTypeParameters(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeParameters");
@@ -257,12 +250,24 @@ namespace Ucpf.Languages.Java.Model
 			 * enumDeclaration 
 			 * :   modifiers ('enum') IDENTIFIER ('implements' typeList)? enumBody 
 			 */
-			//TODO UnifiedEnumが未実装 -> UnifiedClassDefinitionです
-			throw new NotImplementedException();
-			return null;
+			var modifiers = CreateModifiers(node);
+			var name = node.NthElement(2).Value;
+			var typeListNode = node.Element("typeList");
+			var constrains = typeListNode != null
+			               	? CreateTypeList(typeListNode)
+			               	  	.Select(UnifiedTypeConstrain.CreateImplements)
+			               	  	.ToCollection()
+			               	: null;
+			var enumBody = CreateEnumBody(node.Element("enumBody"));
+			return UnifiedClassDefinition.Create(modifiers,
+				UnifiedClassKind.Enum,
+				UnifiedIdentifier.CreateType(name),
+				null,
+				constrains,
+				enumBody);
 		}
 
-		public static IUnifiedElement CreateEnumBody(XElement node)
+		public static UnifiedBlock CreateEnumBody(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumBody");
@@ -270,12 +275,17 @@ namespace Ucpf.Languages.Java.Model
 			 * enumBody 
 			 * :   '{' (enumConstants)? ','? (enumBodyDeclarations)? '}' 
 			 */
-			//TODO UnifiedEnumConstantCollection, UnifiedEnumBodyが未実装
-			throw new NotImplementedException();
-			return null;
+			var block = UnifiedBlock.Create();
+			var enumConstantsNode = node.Element("enumConstants");
+			if (enumConstantsNode != null)
+				block.AddRange(CreateEnumConstants(enumConstantsNode));
+			var enumBodyDeclarationsNode = node.Element("enumBodyDeclarations");
+			if (enumBodyDeclarationsNode  != null)
+				block.AddRange(CreateEnumBodyDeclarations(enumBodyDeclarationsNode));
+			return block;
 		}
 
-		public static IUnifiedElement CreateEnumConstants(XElement node)
+		public static IEnumerable<IUnifiedExpression> CreateEnumConstants(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstants");
@@ -283,12 +293,11 @@ namespace Ucpf.Languages.Java.Model
 			 * enumConstants 
 			 * :   enumConstant (',' enumConstant)* 
 			 */
-			//TODO UnifiedEnumConstantが未実装
-			throw new NotImplementedException();
-			return null;
+			return node.Elements("enumConstant")
+				.Select(CreateEnumConstant);
 		}
 
-		public static IUnifiedElement CreateEnumConstant(XElement node)
+		public static IUnifiedExpression CreateEnumConstant(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstant");
@@ -299,6 +308,7 @@ namespace Ucpf.Languages.Java.Model
 			var annotationsNode = node.Element("annotations");
 			var argumentsNode = node.Element("arguments");
 			var classBodyNode = node.Element("classBody");
+			// TODO: use annotations
 			var annotations = annotationsNode != null
 			                  	? CreateAnnotations(annotationsNode)
 			                  	: null;
@@ -318,7 +328,7 @@ namespace Ucpf.Languages.Java.Model
 				classBody);
 		}
 
-		public static IUnifiedElement CreateEnumBodyDeclarations(XElement node)
+		public static IEnumerable<IUnifiedExpression> CreateEnumBodyDeclarations(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumBodyDeclarations");
@@ -326,12 +336,8 @@ namespace Ucpf.Languages.Java.Model
 			 * enumBodyDeclarations 
 			 * :   ';' (classBodyDeclaration)* 
 			 */
-			var declarations = UnifiedExpressionCollection.Create();
-			foreach (var declaration in node.Elements("classBodyDeclaration")) {
-				var e = CreateClassBodyDeclaration(declaration);
-				declarations.Add(e);
-			}
-			return declarations;
+			return node.Elements("classBodyDeclaration")
+				.Select(CreateClassBodyDeclaration);
 		}
 
 		public static UnifiedClassDefinition CreateInterfaceDeclaration(XElement node)
@@ -363,7 +369,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			var modifiers = CreateModifiers(node.Element("modifiers"));
 			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-				UnifiedIdentifierKind.Class);
+				UnifiedIdentifierKind.ClassObject);
 			var typeParameters = node.Element("typeParameters") != null
 			                     	? CreateTypeParameters(node.Element("typeParameters"))
 			                     	: null;
