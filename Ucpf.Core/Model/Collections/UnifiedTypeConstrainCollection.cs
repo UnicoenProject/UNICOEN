@@ -4,7 +4,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   ジェネリックタイプにおける仮引数の集合を表します。
+	///   型が持つ性質の集合を表します。
 	/// </summary>
 	public class UnifiedTypeConstrainCollection
 		: UnifiedElementCollection

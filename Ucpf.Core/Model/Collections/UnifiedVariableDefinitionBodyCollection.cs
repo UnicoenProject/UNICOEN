@@ -7,7 +7,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///   実引数の集合を表します。
+	///  修飾子や型を除いた変数宣言の集合を表します。
 	/// </summary>
 	public class UnifiedVariableDefinitionBodyCollection
 		: UnifiedElementCollection<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection>
