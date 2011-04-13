@@ -6,8 +6,6 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Expressions;
-using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.Java.Model
 {
@@ -196,7 +194,7 @@ namespace Ucpf.Languages.Java.Model
 					);
 			if(node.HasElement("typeList"))
 				foreach (var type in CreateTypeList(node.Element("typeList"))) {
-					constrains.Add(UnifiedTypeConstrain.Create(type, UnifiedTypeConstrainKind.Implements));
+					constrains.Add(UnifiedTypeConstrain.CreateImplements(type));
 				}
 			var body = CreateClassBody(node.Element("classBody"));
 
@@ -258,24 +256,12 @@ namespace Ucpf.Languages.Java.Model
 			 * enumDeclaration 
 			 * :   modifiers ('enum') IDENTIFIER ('implements' typeList)? enumBody 
 			 */
-			var modifiers = CreateModifiers(node);
-			var name = node.NthElement(2).Value;
-			var typeListNode = node.Element("typeList");
-			var constrains = typeListNode != null
-			               	? CreateTypeList(typeListNode)
-			               	  	.Select(UnifiedTypeConstrain.CreateImplements)
-			               	  	.ToCollection()
-			               	: null;
-			var enumBody = CreateEnumBody(node.Element("enumBody"));
-			return UnifiedClassDefinition.Create(modifiers,
-				UnifiedClassKind.Enum,
-				UnifiedIdentifier.CreateType(name),
-				null,
-				constrains,
-				enumBody);
+			//TODO UnifiedEnumが未実装 -> UnifiedClassDefinitionです
+			throw new NotImplementedException();
+			return null;
 		}
 
-		public static UnifiedBlock CreateEnumBody(XElement node)
+		public static IUnifiedElement CreateEnumBody(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumBody");
@@ -283,17 +269,12 @@ namespace Ucpf.Languages.Java.Model
 			 * enumBody 
 			 * :   '{' (enumConstants)? ','? (enumBodyDeclarations)? '}' 
 			 */
-			var block = UnifiedBlock.Create();
-			var enumConstantsNode = node.Element("enumConstants");
-			if (enumConstantsNode != null)
-				block.AddRange(CreateEnumConstants(enumConstantsNode));
-			var enumBodyDeclarationsNode = node.Element("enumBodyDeclarations");
-			if (enumBodyDeclarationsNode  != null)
-				block.AddRange(CreateEnumBodyDeclarations(enumBodyDeclarationsNode));
-			return block;
+			//TODO UnifiedEnumConstantCollection, UnifiedEnumBodyが未実装
+			throw new NotImplementedException();
+			return null;
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateEnumConstants(XElement node)
+		public static IUnifiedElement CreateEnumConstants(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstants");
@@ -301,11 +282,12 @@ namespace Ucpf.Languages.Java.Model
 			 * enumConstants 
 			 * :   enumConstant (',' enumConstant)* 
 			 */
-			return node.Elements("enumConstant")
-				.Select(CreateEnumConstant);
+			//TODO UnifiedEnumConstantが未実装
+			throw new NotImplementedException();
+			return null;
 		}
 
-		public static IUnifiedExpression CreateEnumConstant(XElement node)
+		public static IUnifiedElement CreateEnumConstant(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstant");
@@ -313,29 +295,12 @@ namespace Ucpf.Languages.Java.Model
 			 * enumConstant 
 			 * :   (annotations)? IDENTIFIER (arguments)? (classBody)?
 			 */
-			var annotationsNode = node.Element("annotations");
-			var argumentsNode = node.Element("arguments");
-			var classBodyNode = node.Element("classBody");
-			var annotations = annotationsNode != null
-			                  	? CreateAnnotations(annotationsNode)
-			                  	: null;
-			var name = node.ElementByContent().Value;
-			var arguments = argumentsNode != null
-			                  	? CreateArguments(argumentsNode)
-			                  	: null;
-			var classBody = classBodyNode != null
-			                  	? CreateClassBody(classBodyNode)
-			                  	: null;
-			return UnifiedVariableDefinition.Create(
-				null,
-				null,
-				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				null,
-				arguments,
-				classBody);
+			//TODO UnifiedEnumConstantが未実装
+			throw new NotImplementedException();
+			return null;
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateEnumBodyDeclarations(XElement node)
+		public static IUnifiedElement CreateEnumBodyDeclarations(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumBodyDeclarations");
@@ -343,8 +308,12 @@ namespace Ucpf.Languages.Java.Model
 			 * enumBodyDeclarations 
 			 * :   ';' (classBodyDeclaration)* 
 			 */
-			return node.Elements("classBodyDeclaration")
-				.Select(CreateClassBodyDeclaration);
+			var declarations = UnifiedExpressionCollection.Create();
+			foreach (var declaration in node.Elements("classBodyDeclaration")) {
+				var e = CreateClassBodyDeclaration(declaration);
+				declarations.Add(e);
+			}
+			return declarations;
 		}
 
 		public static UnifiedClassDefinition CreateInterfaceDeclaration(XElement node)
@@ -445,15 +414,19 @@ namespace Ucpf.Languages.Java.Model
 			 * |   memberDecl 
 			 */
 			if (node.HasElement("block")) {
-				//TODO staticをどう扱うか-> static Initializerにする
-				return CreateBlock(node.Element("block"));
+				//case static initializer
+				//TODO staticトークンの名前が"STATIC"かは要確認
+				var modifier = node.HasElement("STATIC")
+				               	? UnifiedModifier.Create("static") : null;
+				return
+					UnifiedConstructorDefinition.Create(CreateBlock(node.Element("block")),
+						modifier, null, UnifiedFunctionDefinitionKind.StaticInitializer);
 			}
 			if (node.HasElement("memberDecl")) {
 				return CreateMemberDecl(node.Element("memberDecl"));
 			}
 			//TODO ';'の場合をどう扱うか
 			throw new NotImplementedException();
-			return null;
 		}
 
 		public static IUnifiedExpression CreateMemberDecl(XElement node)
@@ -521,7 +494,6 @@ namespace Ucpf.Languages.Java.Model
 			             	  	.Select(e => UnifiedType.Create(e, null, null)))
 			             	: null;
 			var body = CreateBlock(node.Element("block"));
-			var kind = UnifiedFunctionDefinitionKind.Function;
 
 			if (!node.HasElement("type") && !node.HasElementByContent("void")) {
 				//case constructor
@@ -532,7 +504,7 @@ namespace Ucpf.Languages.Java.Model
 							.Select(CreateBlockStatement)
 							.ToList()),
 					modifiers,
-					parameters);
+					parameters,UnifiedFunctionDefinitionKind.Constructor);
 			}
 			//TODO UnifiedFunctionDefinition.Createの整備
 			return UnifiedFunctionDefinition.CreateFunction(
@@ -638,12 +610,11 @@ namespace Ucpf.Languages.Java.Model
 			             		CreateQualifiedNameList(node.Element("qualifiedNameList"))
 			             	  	.Select(e => UnifiedType.Create(e, null, null)))
 			             	: null;
-			var kind = UnifiedFunctionDefinitionKind.Function;
 
 			//TODO UnifiedFunctionDefinitionのCreateの整理
 			//TODO 引数が8個のCreateを実装
 			return UnifiedFunctionDefinition.CreateFunction(name, type, modifiers,
-				parameters, throws, null, kind);
+				parameters, throws, null);
 		}
 
 		public static UnifiedVariableDefinition CreateInterfaceFieldDeclaration(
@@ -1303,7 +1274,8 @@ namespace Ucpf.Languages.Java.Model
 				var condition = node.HasElement("expression")
 				                	? CreateExpression(node.Element("expression")) : null;
 				var step = node.HasElement("expressionList")
-							? CreateExpressionList(node.Element("expressionList")).ToCollection()
+				           	? UnifiedExpressionCollection.Create(
+				           		CreateExpressionList(node.Element("expressionList")))
 				           	: null;
 				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 
@@ -1331,7 +1303,7 @@ namespace Ucpf.Languages.Java.Model
 			case "localVariableDeclaration":
 				return CreateLocalVariableDeclaration(first);
 			case "expressionList":
-				return CreateExpressionList(first).ToCollection();
+				return UnifiedExpressionCollection.Create(CreateExpressionList(first));
 			default:
 				throw new InvalidOperationException();
 			}
@@ -1947,9 +1919,13 @@ namespace Ucpf.Languages.Java.Model
 			 * arrayInitializer 
 			 * :   '{' (variableInitializer (',' variableInitializer)* )? (',')? '}'
 			 */
-			return node.Elements("variableInitializer")
-				.Select(CreateVariableInitializer)
-				.ToCollection();
+
+			var exps = UnifiedExpressionCollection.Create();
+			foreach (var exp in node.Elements("variableInitializer")) {
+				var e = CreateVariableInitializer(exp);
+				exps.Add(e);
+			}
+			return exps;
 		}
 
 		public static UnifiedType CreateCreatedName(XElement node)

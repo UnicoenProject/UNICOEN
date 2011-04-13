@@ -58,8 +58,6 @@ namespace Ucpf.Core.Model
 			set { _throws = SetParentOfChild(value, _throws); }
 		}
 
-		public UnifiedFunctionDefinitionKind Kind { get; set; }
-
 		private UnifiedFunctionDefinition()
 		{
 			Modifiers = UnifiedModifierCollection.Create();
@@ -135,9 +133,7 @@ namespace Ucpf.Core.Model
 		                                                       	parameters,
 		                                                       UnifiedTypeCollection
 		                                                       	throws,
-		                                                       UnifiedBlock body,
-		                                                       UnifiedFunctionDefinitionKind
-		                                                       	kind)
+		                                                       UnifiedBlock body)
 		{
 			return new UnifiedFunctionDefinition {
 				Name = name,
@@ -146,15 +142,13 @@ namespace Ucpf.Core.Model
 				Parameters = parameters,
 				Throws = throws,
 				Body = body,
-				Kind = kind,
 			};
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name)
 		{
 			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
-				UnifiedParameterCollection.Create(), null, UnifiedBlock.Create(),
-				UnifiedFunctionDefinitionKind.Function);
+				UnifiedParameterCollection.Create(), null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
@@ -165,7 +159,7 @@ namespace Ucpf.Core.Model
 		                                                       	parameters)
 		{
 			return CreateFunction(name, type, modifiers, parameters, null,
-				UnifiedBlock.Create(), UnifiedFunctionDefinitionKind.Function);
+				UnifiedBlock.Create());
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
@@ -176,8 +170,7 @@ namespace Ucpf.Core.Model
 		                                                       	parameters,
 		                                                       UnifiedBlock body)
 		{
-			return CreateFunction(name, type, modifiers, parameters, null, body,
-				UnifiedFunctionDefinitionKind.Function);
+			return CreateFunction(name, type, modifiers, parameters, null, body);
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
@@ -187,7 +180,7 @@ namespace Ucpf.Core.Model
 		{
 			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
 				parameters,
-				null, body, UnifiedFunctionDefinitionKind.Function);
+				null, body);
 			;
 		}
 
@@ -197,7 +190,7 @@ namespace Ucpf.Core.Model
 		{
 			return CreateFunction(name, null, UnifiedModifierCollection.Create(),
 				parameters,
-				null, UnifiedBlock.Create(), UnifiedFunctionDefinitionKind.Function);
+				null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
@@ -205,8 +198,7 @@ namespace Ucpf.Core.Model
 		                                                       UnifiedBlock body)
 		{
 			return CreateFunction(name, type, UnifiedModifierCollection.Create(),
-				UnifiedParameterCollection.Create(), null, body,
-				UnifiedFunctionDefinitionKind.Function);
+				UnifiedParameterCollection.Create(), null, body);
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(UnifiedIdentifier name,
@@ -217,7 +209,7 @@ namespace Ucpf.Core.Model
 		{
 			return CreateFunction(name, type, modifiers,
 				UnifiedParameterCollection.Create(),
-				null, body, UnifiedFunctionDefinitionKind.Function);
+				null, body);
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(string name,
@@ -232,7 +224,7 @@ namespace Ucpf.Core.Model
 		{
 			return CreateFunction(
 				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function), type,
-				modifiers, parameters, throws, body, UnifiedFunctionDefinitionKind.Function);
+				modifiers, parameters, throws, body);
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(string name)
