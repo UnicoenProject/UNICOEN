@@ -464,6 +464,13 @@ namespace Ucpf.Languages.Java.Model
 			 *     ('[' ']')* ('throws' qualifiedNameList)? (block | ';' ) 
 			 */
 
+			/*
+			 public int[] getName(String name) [] throws Error {
+		int[][] a = null;
+		return a;
+	} 
+			 */
+
 			var name = UnifiedIdentifier.Create(
 				node.Element("IDENTIFIER").Value,
 				UnifiedIdentifierKind.Function
@@ -536,6 +543,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			return Tuple.Create(
 				node.Element("IDENTIFIER").Value,
+				//TODO 配列を考慮する
 				node.ElementsByContent("[").Count(),
 				CreateVariableInitializer(node.Element("variableInitializer")));
 		}
@@ -633,7 +641,7 @@ namespace Ucpf.Languages.Java.Model
 			 * |   primitiveType ('[' ']')* 
 			 */
 
-			//TODO []を持っている場合を考慮していない
+			//TODO []を持っている場合を考慮していない -> ここで出す
 
 			if (node == null)
 				return UnifiedType.CreateUsingString("void");
@@ -677,7 +685,6 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedType.CreateUsingString(node.Value);
 		}
 
-		//TODO 型名がUnifiedType"Parameter"Collectionなのか検討
 		public static UnifiedTypeArgumentCollection CreateTypeArguments(XElement node)
 		{
 			Contract.Requires(node != null);
@@ -693,7 +700,6 @@ namespace Ucpf.Languages.Java.Model
 				);
 		}
 
-		//TODO 型名がUnifiedType"Parameter"なのか検討
 		public static UnifiedTypeArgument CreateTypeArgument(XElement node)
 		{
 			Contract.Requires(node != null);
@@ -1229,7 +1235,6 @@ namespace Ucpf.Languages.Java.Model
 			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement 
 			 */
 
-			//TODO 制御構文はどの段階で共通モデルに落とし込めばいいのか
 			if (node.NthElement(2).Name() == "variableModifiers") {
 				return UnifiedForeach.Create(
 					UnifiedVariableDefinition.Create(
@@ -1239,7 +1244,6 @@ namespace Ucpf.Languages.Java.Model
 						node.Element("IDENTIFIER").Value
 						),
 					CreateExpression(node.Element("expression")),
-					//TODO CreateStatementを直接呼び出さなくていいのか？(どの場合エラーになるが)
 					UnifiedBlock.Create(
 						CreateStatement(node.Element("statement"))
 						)
@@ -1294,7 +1298,6 @@ namespace Ucpf.Languages.Java.Model
 			 * :   '(' expression ')' 
 			 */
 
-			//TODO 括弧の情報は捨てて大丈夫か？ -> 大丈夫
 			return CreateExpression(node.NthElement(1));
 		}
 
@@ -1947,7 +1950,7 @@ namespace Ucpf.Languages.Java.Model
 			 * classCreatorRest 
 			 * :   arguments (classBody)? 
 			 */
-			//TODO classCreatorRestの型はどうするのか？
+			//TODO classCreatorRestの型はどうするのか？ -> Tupleを使う
 			return null;
 		}
 
@@ -1961,6 +1964,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   '<' typeList '>'
 			 */
 			//TODO typeListは最終的にTypeCollectionになるが、どう対処するのか
+			//IEnumerableにする
 			throw new NotImplementedException();
 			//return CreateTypeList(node.FirstElement());
 		}
