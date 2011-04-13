@@ -179,13 +179,28 @@ namespace Ucpf.Languages.Java.Model
 			 * normalClassDeclaration 
 			 * :   modifiers  'class' IDENTIFIER (typeParameters)? ('extends' type)? ('implements' typeList)? classBody 
 			 */
-			return UnifiedClassDefinition.Create(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-					UnifiedIdentifierKind.Class),
-				CreateClassBody(node.Element("classBody")),
-				CreateModifiers(node.Element("modifiers")),
-				UnifiedClassKind.Class);
-			//TODO パラメータおよび親クラスについて未実装
+
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			var kind = UnifiedClassKind.Class;
+			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+				UnifiedIdentifierKind.Class);
+			var typeParameters = node.HasElement("typeParameters")
+			                     	? CreateTypeParameters(node.Element("typeParameters"))
+			                     	: null;
+			var constrains = UnifiedTypeConstrainCollection.Create();
+			if(node.HasElement("type"))
+				constrains.Add(UnifiedTypeConstrain.CreateExtends(
+					CreateType(node.Element("type")))
+					);
+			if(node.HasElement("typeList"))
+				foreach (var type in CreateTypeList(node.Element("typeList"))) {
+					constrains.Add(UnifiedTypeConstrain.CreateExtends(type, UnifiedTypeConstrainKind.Implements));
+				}
+			var body = CreateClassBody(node.Element("classBody"));
+
+
+			return UnifiedClassDefinition.Create(modifiers, kind, name, typeParameters,
+				constrains, body);
 		}
 
 		public static UnifiedTypeParameterCollection CreateTypeParameters(
@@ -399,7 +414,7 @@ namespace Ucpf.Languages.Java.Model
 			 * |   memberDecl 
 			 */
 			if (node.HasElement("block")) {
-				//TODO staticをどう扱うか
+				//TODO staticをどう扱うか-> static Initializerにする
 				return CreateBlock(node.Element("block"));
 			}
 			if (node.HasElement("memberDecl")) {
@@ -448,6 +463,24 @@ namespace Ucpf.Languages.Java.Model
 			 * |   modifiers (typeParameters)? (type | 'void') IDENTIFIER formalParameters
 			 *     ('[' ']')* ('throws' qualifiedNameList)? (block | ';' ) 
 			 */
+
+			var name = UnifiedIdentifier.Create(
+				node.Element("IDENTIFIER").Value,
+				UnifiedIdentifierKind.Function
+				);
+			//TODO UnifiedFunctionDefinitionにtypePrameterプロパティがない？
+			//var typeParameters = node.HasElement("typeParameters")
+			//                   	? CreateTypeParameters(node.Element("typeParameters"))
+			//                   	: null;
+			var type = CreateType(node.Element("type")); //コンストラクタの場合はnullになるがどうせ使わない
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			var parameters = CreateFormalParameters(node.Element("formalParameters"));
+			//TODO 配列はどういった場合にくっつくのか
+			//TODO メソッドにくっつくthrowはUnifiedThrowにできないが、どうするのか
+			//var throes = null;
+			var body = CreateBlock(node.Element("block"));
+			var kind = UnifiedFunctionDefinitionKind.Function;
+
 			if (!node.HasElement("type") && !node.HasElementByContent("void")) {
 				//case constructor
 				return UnifiedConstructorDefinition.Create(
@@ -455,18 +488,17 @@ namespace Ucpf.Languages.Java.Model
 						node.Elements("blockStatement")
 							.Select(CreateBlockStatement)
 							.ToList()),
-					CreateModifiers(node.Element("modifiers")),
-					CreateFormalParameters(node.Element("formalParameters")));
+					modifiers,
+					parameters);
 			}
+
 			return UnifiedFunctionDefinition.CreateFunction(
-				UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-					UnifiedIdentifierKind.Function),
-				CreateType(node.Element("type")),
-				CreateModifiers(node.Element("modifiers")),
-				CreateFormalParameters(node.Element("formalParameters")),
-				CreateBlock(node.Element("block"))
+				name,
+				type,
+				modifiers,
+				parameters,
+				body
 				);
-			//TODO typeParametersなどについて未実装
 		}
 
 		public static UnifiedVariableDefinition CreateFieldDeclaration(XElement node)
