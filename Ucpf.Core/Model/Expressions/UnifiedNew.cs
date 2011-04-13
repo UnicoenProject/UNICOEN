@@ -25,12 +25,12 @@ namespace Ucpf.Core.Model
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
-		private UnifiedExpressionCollection _initialValues;
+		private UnifiedExpressionList _initialValues;
 
 		/// <summary>
 		///   Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分などが該当します。
 		/// </summary>
-		public UnifiedExpressionCollection InitialValues
+		public UnifiedExpressionList InitialValues
 		{
 			get { return _initialValues; }
 			set { _initialValues = SetParentOfChild(value, _initialValues); }
@@ -68,7 +68,7 @@ namespace Ucpf.Core.Model
 					v => Arguments = (UnifiedArgumentCollection)v);
 			yield return
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(InitialValues,
-					v => InitialValues = (UnifiedExpressionCollection)v);
+					v => InitialValues = (UnifiedExpressionList)v);
 			yield return
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(Body,
 					v => Body = (UnifiedBlock)v);
@@ -85,7 +85,7 @@ namespace Ucpf.Core.Model
 					v => _arguments = (UnifiedArgumentCollection)v);
 			yield return
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_initialValues,
-					v => _initialValues = (UnifiedExpressionCollection)v);
+					v => _initialValues = (UnifiedExpressionList)v);
 			yield return
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_body,
 					v => _body = (UnifiedBlock)v);
@@ -114,14 +114,14 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedNew Create(UnifiedType type,
 		                                UnifiedArgumentCollection arguments,
-		                                UnifiedExpressionCollection initialValues)
+										UnifiedExpressionList initialValues)
 		{
 			return Create(type, arguments, initialValues, null);
 		}
 
 		public static UnifiedNew Create(UnifiedType type,
 		                                UnifiedArgumentCollection arguments,
-		                                UnifiedExpressionCollection initialValues,
+										UnifiedExpressionList initialValues,
 		                                UnifiedBlock body)
 		{
 			return new UnifiedNew {
@@ -133,25 +133,24 @@ namespace Ucpf.Core.Model
 		}
 
 		public static UnifiedNew CreateArray(string name,
-		                                     UnifiedExpressionCollection arraySizes)
+		                                     IUnifiedExpression arraySize)
 		{
 			return Create(
 				UnifiedType.CreateUsingString(
 					name,
 					null,
 					UnifiedTypeSupplementCollection.Create(
-						UnifiedTypeSupplement.CreateArray(arraySizes))));
+						UnifiedTypeSupplement.CreateArray(arraySize))));
 		}
 
-		public static UnifiedNew CreateArray(int dimension,
-		                                     UnifiedExpressionCollection initialValues)
+		public static UnifiedNew CreateArray(UnifiedExpressionList initialValues)
 		{
 			return Create(
 				UnifiedType.CreateUsingString(
 					null,
 					null,
 					UnifiedTypeSupplementCollection.Create(
-						UnifiedTypeSupplement.CreateArray(dimension))),
+						UnifiedTypeSupplement.CreateArray())),
 				null,
 				initialValues,
 				null);

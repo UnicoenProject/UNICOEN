@@ -6,7 +6,6 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Expressions;
 using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.Java.Model
@@ -326,7 +325,7 @@ namespace Ucpf.Languages.Java.Model
 			var classBody = classBodyNode != null
 			                  	? CreateClassBody(classBodyNode)
 			                  	: null;
-			return UnifiedVariableDefinition.Create(
+			return UnifiedVariableDefinition.CreateSingle(
 				null,
 				null,
 				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
@@ -540,15 +539,17 @@ namespace Ucpf.Languages.Java.Model
 			 * fieldDeclaration 
 			 * :   modifiers type variableDeclarator (',' variableDeclarator)* ';' 
 			 */
-			var declarator =
-				CreateVariableDeclarator(node.Elements("variableDeclarator").First());
+			var bodys = node.Elements("variableDeclarator")
+				.Select(CreateVariableDeclarator)
+				.Select(t => UnifiedVariableDefinitionBody.Create(
+					t.Item1,
+					UnifiedTypeSupplementCollection.CreateArray(t.Item2),
+					t.Item3))
+				.ToCollection();
 			return UnifiedVariableDefinition.Create(
-				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
-				declarator.Item3,
-				declarator.Item1
-				);
-			//TODO variableDeclaratorが複数ある場合が未実装
+				CreateType(node.Element("type")),
+				bodys);
 		}
 
 		public static Tuple<string, int, IUnifiedExpression> CreateVariableDeclarator(
@@ -639,7 +640,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			var declarator =
 				CreateVariableDeclarator(node.Elements("variableDeclarator").First());
-			return UnifiedVariableDefinition.Create(
+			return UnifiedVariableDefinition.CreateSingle(
 				CreateType(node.Element("type")),
 				CreateModifiers(node.Element("modifiers")),
 				declarator.Item3,
@@ -1050,7 +1051,7 @@ namespace Ucpf.Languages.Java.Model
 
 			var declarator =
 				CreateVariableDeclarator(node.Elements("variableDeclarator").First());
-			return UnifiedVariableDefinition.Create(
+			return UnifiedVariableDefinition.CreateSingle(
 				CreateType(node.Element("type")),
 				CreateVariableModifiers(node.Element("variableModifiers")),
 				declarator.Item3,
@@ -1253,7 +1254,7 @@ namespace Ucpf.Languages.Java.Model
 			//TODO 制御構文はどの段階で共通モデルに落とし込めばいいのか
 			if (node.NthElement(2).Name() == "variableModifiers") {
 				return UnifiedForeach.Create(
-					UnifiedVariableDefinition.Create(
+					UnifiedVariableDefinition.CreateSingle(
 						CreateType(node.Element("type")),
 						CreateVariableModifiers(node.Element("variableModifiers")),
 						null,
@@ -1271,7 +1272,8 @@ namespace Ucpf.Languages.Java.Model
 				var condition = node.HasElement("expression")
 				                	? CreateExpression(node.Element("expression")) : null;
 				var step = node.HasElement("expressionList")
-							? CreateExpressionList(node.Element("expressionList")).ToCollection()
+							? CreateExpressionList(node.Element("expressionList"))
+								.ToExpressionList()
 				           	: null;
 				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 
@@ -1299,7 +1301,7 @@ namespace Ucpf.Languages.Java.Model
 			case "localVariableDeclaration":
 				return CreateLocalVariableDeclaration(first);
 			case "expressionList":
-				return CreateExpressionList(first).ToCollection();
+				return CreateExpressionList(first).ToExpressionList();
 			default:
 				throw new InvalidOperationException();
 			}
@@ -1870,12 +1872,11 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			//TODO 現状では'[]'を見ていないのであとでUnifiedNew.CreateArray()に切り替える
-			UnifiedExpressionCollection initVal = null;
+			UnifiedExpressionList initVal = null;
 			UnifiedArgumentCollection args = null;
 
 			if (node.HasContent("arrayInitializer")) {
-				initVal =
-					CreateArrayInitializer(node.Element("arrayInitializer"));
+				initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
 			} else {
 				//TODO ここでUnifiedArgumentを生成していいのか？
 				args = UnifiedArgumentCollection.Create(
@@ -1908,7 +1909,7 @@ namespace Ucpf.Languages.Java.Model
 			}
 		}
 
-		public static UnifiedExpressionCollection CreateArrayInitializer(XElement node)
+		public static UnifiedExpressionList CreateArrayInitializer(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arrayInitializer");
@@ -1918,7 +1919,7 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			return node.Elements("variableInitializer")
 				.Select(CreateVariableInitializer)
-				.ToCollection();
+				.ToExpressionList();
 		}
 
 		public static UnifiedType CreateCreatedName(XElement node)

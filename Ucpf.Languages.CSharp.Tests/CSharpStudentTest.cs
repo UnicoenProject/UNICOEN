@@ -39,7 +39,7 @@ namespace Ucpf.Languages.CSharp.Tests
 				UnifiedClassDefinition.CreateClass(
 					"Student",
 					UnifiedBlock.Create(
-						UnifiedVariableDefinition.Create(
+						UnifiedVariableDefinition.CreateSingle(
 							UnifiedType.CreateUsingString("String"),
 							"_name",
 							UnifiedModifierCollection.Create(UnifiedModifier.Create("private"))
@@ -74,14 +74,13 @@ namespace Ucpf.Languages.CSharp.Tests
 								UnifiedModifier.Create("static")
 								),
 							UnifiedParameterCollection.Create(
-								UnifiedParameter.Create("args", UnifiedType.CreateArray("String", 1))
+								UnifiedParameter.Create("args", UnifiedType.CreateArray("String"))
 								),
 							UnifiedBlock.Create(
-								UnifiedVariableDefinition.Create(UnifiedType.CreateArray("Student", 1),
+								UnifiedVariableDefinition.CreateSingle(UnifiedType.CreateArray("Student"),
 									"students",
 									UnifiedNew.CreateArray("Student",
-										UnifiedExpressionCollection.Create(
-											UnifiedIntegerLiteral.Create(2)))
+										 UnifiedIntegerLiteral.Create(2).ToExpressionList())
 									),
 								CSharpModelFactoryHelper.CreateAssignExpression(
 									UnifiedIndexer.Create(UnifiedIdentifier.CreateUnknown("students"),
@@ -100,7 +99,7 @@ namespace Ucpf.Languages.CSharp.Tests
 											UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna"))))
 									),
 								UnifiedFor.Create(
-									UnifiedVariableDefinition.Create(UnifiedType.CreateUsingString("int"), "i",
+									UnifiedVariableDefinition.CreateSingle(UnifiedType.CreateUsingString("int"), "i",
 										UnifiedIntegerLiteral.Create(0)),
 									CSharpModelFactoryHelper.CreateLesserExpression(
 										UnifiedIdentifier.CreateUnknown("i"), UnifiedIntegerLiteral.Create(2)),
@@ -127,7 +126,7 @@ namespace Ucpf.Languages.CSharp.Tests
 										)
 									),
 								UnifiedForeach.Create(
-									UnifiedVariableDefinition.Create(UnifiedType.CreateUsingString("Student"),
+									UnifiedVariableDefinition.CreateSingle(UnifiedType.CreateUsingString("Student"),
 										"student"),
 									UnifiedIdentifier.CreateUnknown("students"),
 									UnifiedBlock.Create(

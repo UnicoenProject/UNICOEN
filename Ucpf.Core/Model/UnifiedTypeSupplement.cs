@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
@@ -64,17 +65,14 @@ namespace Ucpf.Core.Model
 			};
 		}
 
-		public static UnifiedTypeSupplement CreateArray(int dimension)
+		public static UnifiedTypeSupplement CreateArray()
 		{
-			return Create(UnifiedExpressionCollection.Create(
-				Enumerable.Repeat<IUnifiedExpression>(null, dimension)),
-				UnifiedTypeSupplementKind.Array);
+			return Create(null, UnifiedTypeSupplementKind.Array);
 		}
 
-		public static UnifiedTypeSupplement CreateArray(
-			UnifiedExpressionCollection values)
+		public static UnifiedTypeSupplement CreateArray(IUnifiedExpression value)
 		{
-			return Create(values, UnifiedTypeSupplementKind.Array);
+			return Create(value.ToCollection(), UnifiedTypeSupplementKind.Array);
 		}
 	}
 }

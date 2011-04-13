@@ -53,7 +53,7 @@ namespace Ucpf.Core.Tests
 			{
 				return CreateClassAndMethod(UnifiedBlock.Create(
 					UnifiedFor.Create(
-						UnifiedVariableDefinition.Create("int".ToType(), "i", 0.ToLiteral()),
+						UnifiedVariableDefinition.CreateSingle("int".ToType(), "i", 0.ToLiteral()),
 						CSharpModelFactoryHelper.CreateExpression(
 							"i".ToVariable(),
 							UnifiedBinaryOperatorKind.LessThan,
@@ -73,8 +73,8 @@ namespace Ucpf.Core.Tests
 			get
 			{
 				return CreateClassAndMethod(UnifiedBlock.Create(
-					UnifiedNew.CreateArray(1,
-						UnifiedExpressionCollection.Create(1.ToLiteral()))
+					UnifiedNew.CreateArray(
+						1.ToLiteral().ToExpressionList())
 						.ToForeach("int".ToType(), "i")
 						.AddToBody(UnifiedSpecialExpression.CreateContinue())
 					));

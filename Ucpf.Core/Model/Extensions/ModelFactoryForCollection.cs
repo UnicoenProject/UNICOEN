@@ -50,6 +50,18 @@ namespace Ucpf.Core.Model.Extensions
 			return UnifiedExpressionCollection.Create(singleton);
 		}
 
+		public static UnifiedExpressionList ToExpressionList(
+			this IEnumerable<IUnifiedExpression> collection)
+		{
+			return UnifiedExpressionList.Create(collection);
+		}
+
+		public static UnifiedExpressionList ToExpressionList(
+			this IUnifiedExpression singleton)
+		{
+			return UnifiedExpressionList.Create(singleton);
+		}
+
 		public static UnifiedModifierCollection ToCollection(
 			this IEnumerable<UnifiedModifier> collection)
 		{
@@ -131,6 +143,18 @@ namespace Ucpf.Core.Model.Extensions
 			this UnifiedTypeSupplement singleton)
 		{
 			return UnifiedTypeSupplementCollection.Create(singleton);
+		}
+
+		public static UnifiedVariableDefinitionBodyCollection ToCollection(
+			this IEnumerable<UnifiedVariableDefinitionBody> collection)
+		{
+			return UnifiedVariableDefinitionBodyCollection.Create(collection);
+		}
+
+		public static UnifiedVariableDefinitionBodyCollection ToCollection(
+			this UnifiedVariableDefinitionBody singleton)
+		{
+			return UnifiedVariableDefinitionBodyCollection.Create(singleton);
 		}
 	}
 }

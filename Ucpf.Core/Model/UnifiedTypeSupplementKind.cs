@@ -16,8 +16,11 @@
 		/// <summary>
 		///   e.g. C#, Javaにおける配列(<c>int[] a;</c>)
 		///   e.g. C, C++における配列(<c>int[10] a;</c>)
-		///   e.g. C#における多次元配列(<c>int[,] a2;</c>)
 		/// </summary>
 		Array,
+		/// <summary>
+		///   e.g. C#における多次元配列(<c>int[,] a2;</c>)
+		/// </summary>
+		MultidimensionArray,
 	}
 }

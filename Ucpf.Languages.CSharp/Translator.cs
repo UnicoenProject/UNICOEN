@@ -47,7 +47,7 @@ namespace Ucpf.Languages.CSharp
 				let name = varDec.Name
 				let value =
 					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
-				select UnifiedVariableDefinition.Create(type, modifier, value, name);
+				select UnifiedVariableDefinition.CreateSingle(type, modifier, value, name);
 			return decs.ToList();
 		}
 
@@ -159,7 +159,7 @@ namespace Ucpf.Languages.CSharp
 				let name = varDec.Name
 				let value =
 					varDec.Initializer.AcceptVisitor(this, null) as IUnifiedExpression
-				select UnifiedVariableDefinition.Create(type, modifier, value, name);
+				select UnifiedVariableDefinition.CreateSingle(type, modifier, value, name);
 			return decs.ToList();
 		}
 
@@ -205,7 +205,7 @@ namespace Ucpf.Languages.CSharp
 			var body = ConvertStatementAsBlock(stmt.EmbeddedStatement);
 
 			return UnifiedForeach.Create(
-				UnifiedVariableDefinition.Create(type, name),
+				UnifiedVariableDefinition.CreateSingle(type, name),
 				set,
 				body
 				);

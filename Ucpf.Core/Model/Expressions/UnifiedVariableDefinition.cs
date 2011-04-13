@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
 {
 	/// <summary>
 	///   変数宣言部分を表します。
+	/// e.g. Javaにおける<c>int[] a[][], b[], c;</c>
 	/// </summary>
 	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression
 	{
@@ -25,78 +27,17 @@ namespace Ucpf.Core.Model
 			set { _type = SetParentOfChild(value, _type); }
 		}
 
-		private UnifiedIdentifier _name;
+		private UnifiedVariableDefinitionBodyCollection _bodys;
 
-		public UnifiedIdentifier Name
+		public UnifiedVariableDefinitionBodyCollection Bodys
 		{
-			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
-		}
-
-		private IUnifiedExpression _initialValue;
-
-		/// <summary>
-		///   変数の初期化部分を表します。
-		///   e.g. Javaにおける<c>int a[] = { 1 };</c>の<c>{ 1 }</c>部分
-		///   e.g. C#, Javaにおける<c>int[] a = { 1 };</c>の<c>{ 1 }</c>部分
-		///   e.g. C, C++, C#, Javaにおける<c>int i = 1;</c>の<c>{ 1 }</c>部分
-		/// </summary>
-		public IUnifiedExpression InitialValue
-		{
-			get { return _initialValue; }
-			set { _initialValue = SetParentOfChild(value, _initialValue); }
-		}
-
-		private UnifiedArgumentCollection _arguments;
-
-		/// <summary>
-		///   変数の初期化のコンストラクタ呼び出しを表します。
-		///   e.g. C++における<c>Class c(1);</c>
-		/// </summary>
-		public UnifiedArgumentCollection Arguments
-		{
-			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
-		}
-
-		private UnifiedBlock _block;
-
-		///<summary>
-		///  変数に付随するブロックを表します。
-		///  e.g. Javaにおけるenumの定数に付随するブロック
-		///  <code>
-		///    enum E {
-		///    E1 {
-		///    @override public String toString() { return ""; }
-		///    },
-		///    E2
-		///    }
-		///  </code>
-		///</summary>
-		public UnifiedBlock Block
-		{
-			get { return _block; }
-			set { _block = SetParentOfChild(value, _block); }
+			get { return _bodys; }
+			set { _bodys = SetParentOfChild(value, _bodys); }
 		}
 
 		private UnifiedVariableDefinition()
 		{
 			Modifiers = UnifiedModifierCollection.Create();
-		}
-
-		public static UnifiedVariableDefinition Create(UnifiedType type, string name)
-		{
-			return new UnifiedVariableDefinition {
-				Type = type,
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-			};
-		}
-
-		public static UnifiedVariableDefinition Create(string name)
-		{
-			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-			};
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
@@ -114,9 +55,7 @@ namespace Ucpf.Core.Model
 		{
 			yield return Modifiers;
 			yield return Type;
-			yield return Name;
-			yield return InitialValue;
-			yield return Arguments;
+			yield return Bodys;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -127,13 +66,7 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Name, v => Name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(InitialValue, v => InitialValue = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Block, v => Block = (UnifiedBlock)v);
+				(Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -144,60 +77,83 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_name, v => _name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_initialValue, v => _initialValue = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_block, v => _block = (UnifiedBlock)v);
+				(_bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
-		public static UnifiedVariableDefinition Create(string name,
+		public static UnifiedVariableDefinition CreateSingle(string name)
+		{
+			return CreateSingle(
+				null,
+				null,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+				null,
+				null,
+				null);
+		}
+
+		public static UnifiedVariableDefinition CreateSingle(UnifiedType type, string name)
+		{
+			return CreateSingle(
+				null,
+				type,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+				null,
+				null,
+				null);
+		}
+
+		public static UnifiedVariableDefinition CreateSingle(string name,
 		                                               IUnifiedExpression initialValue)
 		{
-			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				InitialValue = initialValue,
-			};
+			return CreateSingle(
+				null,
+				null,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+				initialValue,
+				null,
+				null);
 		}
 
-		public static UnifiedVariableDefinition Create(UnifiedType type, string name,
+		public static UnifiedVariableDefinition CreateSingle(UnifiedType type, string name,
 		                                               IUnifiedExpression initialValue)
 		{
-			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				Type = type,
-				InitialValue = initialValue,
-			};
+			return CreateSingle(
+				null,
+				type,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+				initialValue,
+				null,
+				null);
 		}
 
-		public static UnifiedVariableDefinition Create(UnifiedType type,
-		                                               UnifiedModifierCollection
-		                                               	modifiers,
+		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
+		                                               UnifiedModifierCollection modifiers,
 		                                               IUnifiedExpression initialValue,
 		                                               string name)
 		{
-			return new UnifiedVariableDefinition {
-				Type = type,
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				InitialValue = initialValue,
-				Modifiers = modifiers,
-			};
+			return CreateSingle(
+				modifiers,
+				type,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+				initialValue,
+				null,
+				null);
 		}
 
-		public static UnifiedVariableDefinition Create(UnifiedType type, string name,
+		public static UnifiedVariableDefinition CreateSingle(UnifiedType type, string name,
 		                                               UnifiedModifierCollection
 		                                               	modifiers)
 		{
-			return new UnifiedVariableDefinition {
-				Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				Modifiers = modifiers,
-				Type = type,
-			};
+			return CreateSingle(
+				modifiers,
+				type,
+				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+				null,
+				null,
+				null);
 		}
 
-		public static UnifiedVariableDefinition Create(
+		public static UnifiedVariableDefinition CreateSingle(
 			UnifiedModifierCollection modifiers,
 			UnifiedType type,
 			UnifiedIdentifier name,
@@ -205,13 +161,27 @@ namespace Ucpf.Core.Model
 			UnifiedArgumentCollection arguments,
 			UnifiedBlock block)
 		{
+			return Create(
+				modifiers,
+				type,
+				UnifiedVariableDefinitionBody.Create(
+					name,
+					null,
+					initialValues,
+					arguments,
+					block).ToCollection()
+				);
+		}
+
+		public static UnifiedVariableDefinition Create(
+			UnifiedModifierCollection modifiers,
+			UnifiedType type,
+			UnifiedVariableDefinitionBodyCollection bodys)
+		{
 			return new UnifiedVariableDefinition {
 				Modifiers = modifiers,
 				Type = type,
-				Name = name,
-				InitialValue = initialValues,
-				Arguments = arguments,
-				Block = block,
+				Bodys = bodys,
 			};
 		}
 	}

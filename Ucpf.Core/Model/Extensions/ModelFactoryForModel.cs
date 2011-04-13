@@ -22,7 +22,7 @@
 		                                       string variableName)
 		{
 			return UnifiedForeach.Create(
-				UnifiedVariableDefinition.Create(variableType, variableName),
+				UnifiedVariableDefinition.CreateSingle(variableType, variableName),
 				set
 				);
 		}

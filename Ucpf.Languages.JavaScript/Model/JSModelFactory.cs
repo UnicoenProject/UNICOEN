@@ -422,7 +422,7 @@ namespace Ucpf.Languages.JavaScript.Model
 					null
 					);
 			}
-			return UnifiedVariableDefinition.Create(
+			return UnifiedVariableDefinition.CreateSingle(
 				null,
 				null,
 				CreateExpression(node.Element("initialiser")),

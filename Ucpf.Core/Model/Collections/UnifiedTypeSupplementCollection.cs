@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
@@ -43,6 +45,24 @@ namespace Ucpf.Core.Model
 			IEnumerable<UnifiedTypeSupplement> elements)
 		{
 			return new UnifiedTypeSupplementCollection(elements);
+		}
+
+		public static UnifiedTypeSupplementCollection CreateArray()
+		{
+			return CreateArray(1);
+		}
+
+		public static UnifiedTypeSupplementCollection CreateArray(int dimension)
+		{
+			return CreateArray(Enumerable.Repeat<IUnifiedExpression>(null, dimension));
+		}
+
+		public static UnifiedTypeSupplementCollection CreateArray(
+			IEnumerable<IUnifiedExpression> values)
+		{
+			return UnifiedTypeSupplement.Create(
+				values.ToCollection(), UnifiedTypeSupplementKind.Array)
+				.ToCollection();
 		}
 	}
 }

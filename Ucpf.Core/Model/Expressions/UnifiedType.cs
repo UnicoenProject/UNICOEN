@@ -103,6 +103,13 @@ namespace Ucpf.Core.Model
 			Supplements.Add(supplement);
 		}
 
+		public void AddSupplementRange(IEnumerable<UnifiedTypeSupplement> supplements)
+		{
+			if (Supplements == null)
+				Supplements = UnifiedTypeSupplementCollection.Create();
+			Supplements.AddRange(supplements);
+		}
+
 		public static UnifiedType CreateUsingString(string name)
 		{
 			return CreateUsingString(name, null, null);
@@ -141,14 +148,14 @@ namespace Ucpf.Core.Model
 			};
 		}
 
-		public static UnifiedType CreateArray(string name, int dimension)
+		public static UnifiedType CreateArray(string name)
 		{
 			return CreateUsingString(name, null, UnifiedTypeSupplementCollection.Create(
-				UnifiedTypeSupplement.CreateArray(dimension)));
+				UnifiedTypeSupplement.CreateArray()));
 		}
 
 		public static UnifiedType CreateArray(string name,
-		                                      UnifiedExpressionCollection arraySizes)
+		                                      IUnifiedExpression arraySize)
 		{
 			return new UnifiedType {
 				Name = name != null
@@ -156,7 +163,7 @@ namespace Ucpf.Core.Model
 				       	: null,
 				Arguments = null,
 				Supplements = UnifiedTypeSupplementCollection.Create(
-					UnifiedTypeSupplement.CreateArray(arraySizes)),
+					UnifiedTypeSupplement.CreateArray(arraySize)),
 			};
 		}
 	}

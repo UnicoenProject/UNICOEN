@@ -341,7 +341,7 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedArgumentCollection.Create(args);
 		}
 
-		public static UnifiedExpressionCollection CreateExpressionList(XElement node)
+		public static UnifiedExpressionList CreateExpressionList(XElement node)
 		{
 			Contract.Requires(node.Name() == "expressionList");
 			/*
@@ -350,7 +350,7 @@ namespace Ucpf.Languages.Java.Model
 
 			var expressions = node.Elements("expression")
 				.Select(CreateExpression);
-			return expressions.ToCollection();
+			return expressions.ToExpressionList();
 		}
 
 		/* expressionList
@@ -403,24 +403,21 @@ namespace Ucpf.Languages.Java.Model
 						);
 			} else {
 				//case "arrayCreator"
-				UnifiedExpressionCollection initialValues = null;
+				UnifiedExpressionList initialValues = null;
 				UnifiedArgumentCollection args = null;
 				if (node.HasContent("arrayInitializer")) {
-					initialValues = (UnifiedExpressionCollection)node.Element("arrayInitializer")
-					                                       	.Elements("variableInitializer")
-					                                       	.Select(
-					                                       		e =>
-					                                       		CreateExpression(
-					                                       			e.Element("expression")));
+					initialValues = node.Element("arrayInitializer")
+						.Elements("variableInitializer")
+						.Select(e => CreateExpression(e.Element("expression")))
+						.ToExpressionList();
 				}
 				var type = CreateTypeOrCreatedName(node.Element("createdName"));
 				foreach (var e in node.ElementsByContent("[")) {
 					if (e.NextElement().Name() == "expression") {
 						var expression = CreateExpression(e.NextElement());
-						type.AddSupplement(UnifiedTypeSupplement.CreateArray(
-							UnifiedExpressionCollection.Create(expression)));
+						type.AddSupplement(UnifiedTypeSupplement.CreateArray(expression));
 					} else {
-						type.AddSupplement(UnifiedTypeSupplement.CreateArray(1));						
+						type.AddSupplement(UnifiedTypeSupplement.CreateArray());						
 					}
 				}
 				return UnifiedNew.Create(type, args, initialValues);
@@ -742,7 +739,7 @@ namespace Ucpf.Languages.Java.Model
 			 * ; */
 			if (forstatement.NthElement(2).Name() == "variableModifiers") {
 				return UnifiedForeach.Create(
-					UnifiedVariableDefinition.Create(
+					UnifiedVariableDefinition.CreateSingle(
 						CreateTypeOrCreatedName(forstatement.Element("type")),
 						CreateVariableModifiers(forstatement.Element("variableModifiers")),
 						null,
@@ -954,7 +951,7 @@ namespace Ucpf.Languages.Java.Model
 			}
 
 			foreach (var e in node.ElementsByContent("[")) {
-				result.AddSupplement(UnifiedTypeSupplement.CreateArray(1));
+				result.AddSupplement(UnifiedTypeSupplement.CreateArray());
 			}
 			return result;
 		}
@@ -1111,7 +1108,7 @@ namespace Ucpf.Languages.Java.Model
 					? CreateExpression(node.Element("variableDeclarator")
 					  	.Element("variableInitializer")
 					  	.Element("expression")) : null;
-			return UnifiedVariableDefinition.Create(
+			return UnifiedVariableDefinition.CreateSingle(
 				/*InitialValue = CreateExpression(
 						node.Element("variableDeclarator")
 						.Element("variableInitializer")

@@ -9,20 +9,20 @@
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name)
 		{
-			return UnifiedVariableDefinition.Create(name);
+			return UnifiedVariableDefinition.CreateSingle(name);
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             UnifiedType type)
 		{
-			return UnifiedVariableDefinition.Create(type, name);
+			return UnifiedVariableDefinition.CreateSingle(type, name);
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
 		                                                             IUnifiedExpression
 		                                                             	initialValue)
 		{
-			return UnifiedVariableDefinition.Create(name, initialValue);
+			return UnifiedVariableDefinition.CreateSingle(name, initialValue);
 		}
 
 		public static UnifiedVariableDefinition ToVariableDefinition(this string name,
@@ -30,7 +30,7 @@
 		                                                             IUnifiedExpression
 		                                                             	initialValue)
 		{
-			return UnifiedVariableDefinition.Create(type, name, initialValue);
+			return UnifiedVariableDefinition.CreateSingle(type, name, initialValue);
 		}
 
 		public static UnifiedType ToType(this string name)
