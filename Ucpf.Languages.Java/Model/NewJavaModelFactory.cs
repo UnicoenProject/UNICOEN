@@ -2009,10 +2009,24 @@ namespace Ucpf.Languages.Java.Model
 
 			//コード例
 			// X . new <T> Sample <E> (1,2){}
-			//-> UnifiedPropertyのIdentifierをIUnifiedExpressionにする
-			//-> プロパティとして持たせる
-			//TODO innerCreatorの実際のコードを調べる
-			return null;
+
+			var typeArguments = node.HasElement("typeArguments")
+			                    	? CreateTypeArguments(node.Element("typeArguments"))
+			                    	: null;
+			var type = UnifiedType.CreateUsingString(node.Element("IDENTIFIER").Value, typeArguments);
+			var creatorRest = CreateClassCreatorRest(node.Element("classCreatorRest"));
+			var typeParameters = node.HasElement("nonWildcardTypeArguments")
+			                     	? CreateNonWildcardTypeArguments(
+			                     		node.Element("nonWildcardTypeArguments")) : null;
+			var prop = UnifiedNew.Create(
+				type,
+				creatorRest.Item1,
+				typeParameters,
+				null,
+				creatorRest.Item2
+				);
+
+			return UnifiedProperty.Create(prefix, prop, ".");
 		}
 
 		public static Tuple<UnifiedArgumentCollection, UnifiedBlock> CreateClassCreatorRest(XElement node)

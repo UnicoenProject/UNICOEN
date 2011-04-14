@@ -17,9 +17,9 @@ namespace Ucpf.Core.Model
 			set { _owner = SetParentOfChild(value, _owner); }
 		}
 
-		private UnifiedIdentifier _name;
+		private IUnifiedExpression _name;
 
-		public UnifiedIdentifier Name
+		public IUnifiedExpression Name
 		{
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
@@ -52,7 +52,7 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Owner, v => Owner = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Name, v => Name = (UnifiedIdentifier)v);
+				(Name, v => Name = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -61,7 +61,7 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_owner, v => _owner = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_name, v => _name = (UnifiedIdentifier)v);
+				(_name, v => _name = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedProperty Create(IUnifiedExpression owner,
@@ -80,6 +80,15 @@ namespace Ucpf.Core.Model
 			return new UnifiedProperty {
 				Owner = owner,
 				Name = UnifiedIdentifier.CreateUnknown(name),
+				Delimiter = delimite,
+			};
+		}
+
+		public static UnifiedProperty Create(IUnifiedExpression owner, IUnifiedExpression name, string delimite)
+		{
+			return new UnifiedProperty {
+				Owner = owner,
+				Name = name,
 				Delimiter = delimite,
 			};
 		}
