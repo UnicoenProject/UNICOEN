@@ -53,21 +53,35 @@ namespace Ucpf.Core.Model
 			return new UnifiedTypeSupplementCollection(elements);
 		}
 
+		/// <summary>
+		/// 実引数を持たない一次元配列の修飾子を作成します。
+		/// e.g. Javaにおける<c>int[]</c>
+		/// </summary>
+		/// <returns></returns>
 		public static UnifiedTypeSupplementCollection CreateArray()
 		{
 			return CreateArray(1);
 		}
 
+		/// <summary>
+		/// 実引数を持たない多次元配列(ジャグ配列)の修飾子を作成します。
+		/// e.g. Javaにおける<c>int[][]</c>
+		/// </summary>
+		/// <returns></returns>
 		public static UnifiedTypeSupplementCollection CreateArray(int dimension)
 		{
 			return CreateArray(Enumerable.Repeat<IUnifiedExpression>(null, dimension));
 		}
 
+		/// <summary>
+		/// 実引数を指定して配列(ジャグ配列)の修飾子を作成します。次元数は実引数の数になります。
+		/// e.g. Javaにおける<c>int[1][2]</c>
+		/// </summary>
+		/// <returns></returns>
 		public static UnifiedTypeSupplementCollection CreateArray(
 			IEnumerable<IUnifiedExpression> values)
 		{
-			return UnifiedTypeSupplement.Create(
-				values.ToCollection(), UnifiedTypeSupplementKind.Array)
+			return values.Select(UnifiedTypeSupplement.CreateArray)
 				.ToCollection();
 		}
 	}

@@ -512,8 +512,8 @@ namespace Ucpf.Languages.Java.Model
 			                    	: null;
 			var type = CreateType(node.Element("type")); //コンストラクタの場合はnullになるがどうせ使わない
 			var dimension = node.ElementsByContent("[").Count();
-				for(var i = 0; i < dimension; i++)
-					type.AddSupplement(UnifiedTypeSupplement.Create(null,UnifiedTypeSupplementKind.Array));
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
 			var modifiers = CreateModifiers(node.Element("modifiers"));
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 			var throws = node.HasElement("qualifiedNameList")
@@ -572,16 +572,11 @@ namespace Ucpf.Languages.Java.Model
 			 * variableDeclarator 
 			 * :   IDENTIFIER ('[' ']')* ('=' variableInitializer)? 
 			 */
-
 			var initializer = node.HasElement("variableInitializer")
 			                  	? CreateVariableInitializer(
 			                  		node.Element("variableInitializer")) : null;
 			var dimension = node.ElementsByContent("[").Count();
-			var supplements = UnifiedTypeSupplementCollection.Create();
-			for(int i=0; i<dimension; i++)
-				supplements.Add(UnifiedTypeSupplement.Create(null,
-					UnifiedTypeSupplementKind.Array));
-
+			var supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
 			return UnifiedVariableDefinitionBody.Create(
 				node.Element("IDENTIFIER").Value, supplements, initializer);
 		}
@@ -634,8 +629,8 @@ namespace Ucpf.Languages.Java.Model
 			                     	: null;
 			var type = CreateType(node.Element("type"));
 			var dimension = node.ElementsByContent("[").Count();
-				for(var i = 0; i < dimension; i++)
-					type.AddSupplement(UnifiedTypeSupplement.Create(null,UnifiedTypeSupplementKind.Array));
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
 			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
 				UnifiedIdentifierKind.Function);
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
@@ -696,9 +691,8 @@ namespace Ucpf.Languages.Java.Model
 				throw new InvalidOperationException();
 			}
 			var dimension = node.ElementsByContent("[").Count();
-			for(var i=0; i< dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.Create(null, UnifiedTypeSupplementKind.Array));
-			//type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
 			return type;
 		}
 
@@ -828,10 +822,8 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			var type = CreateType(node.Element("type"));
 			var dimension = node.ElementsByContent("[").Count();
-			for(var i=0; i<dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.Create(null, UnifiedTypeSupplementKind.Array));
-			//type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
-
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
 			return UnifiedParameter.Create(
 				node.Element("IDENTIFIER").Value,
 				type,
@@ -1282,7 +1274,9 @@ namespace Ucpf.Languages.Java.Model
 
 			var type = CreateType(node.NthElement(1));
 			var dimension = node.ElementsByContent("[").Count();
-			type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+			for (int i = 0; i < dimension; i++) {
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			}
 
 			return UnifiedParameterCollection.Create(
 				UnifiedParameter.Create(
@@ -1943,27 +1937,27 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			var type = CreateCreatedName(node.NthElement(1));
-			int dimension;
 
-			if (node.HasContent("arrayInitializer")) { 
+			if (node.HasContent("arrayInitializer")) {
 				var initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
-				dimension = node.ElementsByContent("[").Count();
+				var dimension = node.ElementsByContent("[").Count();
 				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
 				return UnifiedNew.Create(type, null, null, initVal, null);
 			}
 
 			var supplements = UnifiedTypeSupplementCollection.Create();
-			foreach (var exps in node.Elements("expression")) {
-				var supplement =
-					UnifiedTypeSupplement.Create(CreateExpression(exps).ToCollection(),
-						UnifiedTypeSupplementKind.Array);
+			foreach (var exp in node.Elements("expression")) {
+				var supplement = UnifiedTypeSupplement.CreateArray(CreateExpression(exp));
 				supplements.Add(supplement);
 			}
+			{
+				var dimension = node.ElementsByContent("[")
+					.Where(e => e.NextElement().Value == "]")
+					.Count();
+				for (var i = 0; i < dimension; i++)
+					supplements.Add(UnifiedTypeSupplement.CreateArray());
+			}
 			type.Supplements = supplements;
-			dimension = node.ElementsByContent("[").Where(e => e.NextElement().Value == "]").Count();
-			for(var i=0; i<dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.Create(null, UnifiedTypeSupplementKind.Array));
-
 			return UnifiedNew.Create(type);
 		}
 

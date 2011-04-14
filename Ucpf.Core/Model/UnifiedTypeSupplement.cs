@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
@@ -64,17 +65,27 @@ namespace Ucpf.Core.Model
 		public static UnifiedTypeSupplement Create(UnifiedExpressionCollection values,
 		                                           UnifiedTypeSupplementKind kind)
 		{
+			// values.Countが2以上の場合はC#の長方形配列を指定してください。
+			Contract.Requires(kind == UnifiedTypeSupplementKind.Array && values.Count != 1);
 			return new UnifiedTypeSupplement {
 				Values = values,
 				Kind = kind,
 			};
 		}
 
+		/// <summary>
+		/// 実引数を取らない１次元配列を作成します。
+		/// </summary>
+		/// <returns></returns>
 		public static UnifiedTypeSupplement CreateArray()
 		{
 			return Create(null, UnifiedTypeSupplementKind.Array);
 		}
 
+		/// <summary>
+		/// 実引数を取る１次元配列を作成します。
+		/// </summary>
+		/// <returns></returns>
 		public static UnifiedTypeSupplement CreateArray(IUnifiedExpression value)
 		{
 			return Create(value.ToCollection(), UnifiedTypeSupplementKind.Array);
