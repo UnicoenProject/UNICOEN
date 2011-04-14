@@ -18,7 +18,7 @@ namespace Ucpf.Applications.Metrics.Utils
 			case "cs":
 				return CSharpModelFactory.CreateModel(code);
 			case "java":
-				return JavaModelFactory.CreateModel(code);
+				return OldJavaModelFactory.CreateModel(code);
 			}
 			return null;
 		}

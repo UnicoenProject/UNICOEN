@@ -17,7 +17,7 @@ namespace Ucpf.Languages.Java.Tests.CodeGeneraotr {
 		public void SetUp() {
 			var path = Fixture.GetInputPath("Java", "Student.java");
 			_source = File.ReadAllText(path);
-			_program = JavaModelFactory.CreateModel(_source);
+			_program = OldJavaModelFactory.CreateModel(_source);
 			_generated = JavaCodeGenerator.Generate(_program);
 		}
 

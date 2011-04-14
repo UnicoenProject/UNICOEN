@@ -13,7 +13,7 @@ using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.Java.Model
 {
-	public class JavaModelFactory
+	public class OldJavaModelFactory
 	{
 		#region Expression
 
@@ -23,7 +23,7 @@ namespace Ucpf.Languages.Java.Model
 			//Contract.Requires(node.Name().ToLower().EndsWith("expression"));
 			//UnaryExpressionの際に<primary>が来る可能性もある
 
-			//TODO IMPLEMENT: more operators
+			
 			var binaryOperator = new[] { "+", "-", "*", "/", "%", "<", ">" };
 
 			/* 
@@ -92,7 +92,7 @@ namespace Ucpf.Languages.Java.Model
 				return CreateNew(topExpressionElement);
 			}
 
-			//TODO IMPLEMENT: other cases
+			
 			throw new NotImplementedException();
 		}
 
@@ -453,7 +453,7 @@ namespace Ucpf.Languages.Java.Model
 				return UnifiedStringLiteral.Create(match.Value);
 			}
 
-			//TODO IMPLEMENT: other literal cases
+			
 			throw new NotImplementedException();
 		}
 
@@ -464,7 +464,7 @@ namespace Ucpf.Languages.Java.Model
 		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node)
 		{
 			Contract.Requires(node != null);
-			//TODO implement more OperatorType cases
+			
 			var name = node.Value;
 			UnifiedBinaryOperatorKind kind;
 
@@ -898,7 +898,7 @@ namespace Ucpf.Languages.Java.Model
 				CreateTypeOrCreatedName(node.Element("type")),
 				CreateModifierCollection(node),
 				CreateFormalParameters(node.Element("formalParameters")),
-				//TODO IMPLEMENT:
+				
 				CreateBlock(node.Element("block"))
 				);
 		}
@@ -967,7 +967,7 @@ namespace Ucpf.Languages.Java.Model
 			   typeArguments 
 			 * :   '<' typeArgument (',' typeArgument )* '>'
 			 */
-			//TODO 末尾修飾子が付く場合にはどのように名前を与えるか
+			
 			//-> とりあえず、CreateClassOrInterfaceType()の中で親の値に遡って代入する
 
 			var name = node.Element("IDENTIFIER").Value;
@@ -978,7 +978,7 @@ namespace Ucpf.Languages.Java.Model
 						.Select(CreatTypeParameter)));
 			}
 			return UnifiedType.CreateUsingString(name);
-			//TODO ('.' IDENTIFIER (typeArguments)? )*はどう扱えばいいのか
+			
 		}
 
 		public static UnifiedType CreatePrimitiveType(XElement node)
@@ -1007,7 +1007,7 @@ namespace Ucpf.Languages.Java.Model
 						null);
 			}
 			throw new NotImplementedException();
-			//TODO ?はどのように扱うのか
+			
 			var modifier = node.NthElement(1) != null
 			               	? UnifiedModifierCollection.Create() : null;
 			var type = node.NthElement(2) != null

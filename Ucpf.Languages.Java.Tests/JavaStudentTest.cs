@@ -22,7 +22,7 @@ namespace Ucpf.Languages.Java.Tests
 		{
 			var expected = CSharpStudentTest.CreateModel();
 
-			var actual = JavaModelFactory.CreateModel(_source);
+			var actual = OldJavaModelFactory.CreateModel(_source);
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}

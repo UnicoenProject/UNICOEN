@@ -90,8 +90,8 @@ namespace Ucpf.Languages.Java.Tests
 		public void TestCompareThroughModelForSameCode(string orgPath)
 		{
 			var orgCode = File.ReadAllText(orgPath);
-			var expected = JavaModelFactory.CreateModel(orgCode);
-			var actual = JavaModelFactory.CreateModel(orgCode);
+			var expected = OldJavaModelFactory.CreateModel(orgCode);
+			var actual = OldJavaModelFactory.CreateModel(orgCode);
 			Assert.That(actual, Is.EqualTo(expected)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}
@@ -110,7 +110,7 @@ namespace Ucpf.Languages.Java.Tests
 			var srcPath = Fixture.GetTemporalPath(fileName);
 			File.WriteAllText(srcPath, orgCode1);
 			var orgByteCode1 = GetByteCode(workPath, fileName);
-			var model1 = JavaModelFactory.CreateModel(orgCode1);
+			var model1 = OldJavaModelFactory.CreateModel(orgCode1);
 			var code2 = JavaCodeGenerator.Generate(model1);
 			File.WriteAllText(srcPath, code2);
 			var byteCode2 = GetByteCode(workPath, fileName);
@@ -125,11 +125,11 @@ namespace Ucpf.Languages.Java.Tests
 		/// <param name = "orgCode">再生成するソースコード</param>
 		public void VerifyCompareThroughModel(string orgCode)
 		{
-			var model1 = JavaModelFactory.CreateModel(orgCode);
+			var model1 = OldJavaModelFactory.CreateModel(orgCode);
 			var code2 = JavaCodeGenerator.Generate(model1);
-			var model2 = JavaModelFactory.CreateModel(code2);
+			var model2 = OldJavaModelFactory.CreateModel(code2);
 			var code3 = JavaCodeGenerator.Generate(model2);
-			var model3 = JavaModelFactory.CreateModel(code3);
+			var model3 = OldJavaModelFactory.CreateModel(code3);
 			Assert.That(model3, Is.EqualTo(model1)
 				.Using(StructuralEqualityComparerForDebug.Instance));
 		}

@@ -63,7 +63,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			});
 		}
 
-		// e.g. Class : Class', Class''  ?
+		// e.g. throws E1, E2 ...
 		public void Visit(UnifiedTypeCollection element)
 		{
 			var delimiter = "";

@@ -20,7 +20,7 @@ namespace Ucpf.Languages.Java.Tests
 			var ast =
 				JavaXmlGenerator.Instance.Generate("public static int fibonacci(int n){}",
 					p => p.methodDeclaration());
-			var actual = JavaModelFactory.CreateDefineFunction(ast);
+			var actual = OldJavaModelFactory.CreateDefineFunction(ast);
 			var expectation = UnifiedFunctionDefinition.CreateFunction(
 				"fibonacci",
 				UnifiedType.CreateUsingString("int"),
@@ -39,7 +39,7 @@ namespace Ucpf.Languages.Java.Tests
 		[Test]
 		public void CreateFibonacci()
 		{
-			var actual = JavaModelFactory.CreateModel(Code);
+			var actual = OldJavaModelFactory.CreateModel(Code);
 			var expected = CSharpFibonacciTest.Model;
 			Assert.That(actual,
 				Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
