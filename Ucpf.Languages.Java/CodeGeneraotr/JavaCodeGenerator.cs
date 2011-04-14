@@ -238,8 +238,8 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			switch (kind) {
 				case UnifiedTypeSupplementKind.Array:
 					_writer.Write("[");
-					if(element.Values != null)
-						element.Values.Accept(this);
+					if(element.Arguments != null)
+						element.Arguments.Accept(this);
 					_writer.Write("]");
 					break;
 				default:

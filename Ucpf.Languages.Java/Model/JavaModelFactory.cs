@@ -1947,7 +1947,8 @@ namespace Ucpf.Languages.Java.Model
 
 			var supplements = UnifiedTypeSupplementCollection.Create();
 			foreach (var exp in node.Elements("expression")) {
-				var supplement = UnifiedTypeSupplement.CreateArray(CreateExpression(exp));
+				var supplement = UnifiedTypeSupplement.CreateArray(
+					CreateExpression(exp).ToArgument());
 				supplements.Add(supplement);
 			}
 			{

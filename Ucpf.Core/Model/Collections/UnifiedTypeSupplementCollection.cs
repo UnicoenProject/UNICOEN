@@ -70,7 +70,7 @@ namespace Ucpf.Core.Model
 		/// <returns></returns>
 		public static UnifiedTypeSupplementCollection CreateArray(int dimension)
 		{
-			return CreateArray(Enumerable.Repeat<IUnifiedExpression>(null, dimension));
+			return CreateArray(Enumerable.Repeat(UnifiedArgument.Create(null), dimension));
 		}
 
 		/// <summary>
@@ -79,7 +79,7 @@ namespace Ucpf.Core.Model
 		/// </summary>
 		/// <returns></returns>
 		public static UnifiedTypeSupplementCollection CreateArray(
-			IEnumerable<IUnifiedExpression> values)
+			IEnumerable<UnifiedArgument> values)
 		{
 			return values.Select(UnifiedTypeSupplement.CreateArray)
 				.ToCollection();

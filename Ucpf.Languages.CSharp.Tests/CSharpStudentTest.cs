@@ -80,7 +80,7 @@ namespace Ucpf.Languages.CSharp.Tests
 								UnifiedVariableDefinition.CreateSingle(UnifiedType.CreateArray("Student"),
 									"students",
 									UnifiedNew.CreateArray("Student",
-										 UnifiedIntegerLiteral.Create(2).ToExpressionList())
+										 UnifiedIntegerLiteral.Create(2).ToArgument())
 									),
 								CSharpModelFactoryHelper.CreateAssignExpression(
 									UnifiedIndexer.Create(UnifiedIdentifier.CreateUnknown("students"),

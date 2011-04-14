@@ -155,15 +155,14 @@ namespace Ucpf.Core.Model
 			};
 		}
 
-		public static UnifiedNew CreateArray(string name,
-		                                     IUnifiedExpression arraySize)
+		public static UnifiedNew CreateArray(string name, UnifiedArgument argument)
 		{
 			return Create(
 				UnifiedType.CreateUsingString(
 					name,
 					null,
 					UnifiedTypeSupplementCollection.Create(
-						UnifiedTypeSupplement.CreateArray(arraySize))));
+						UnifiedTypeSupplement.CreateArray(argument))));
 		}
 
 		public static UnifiedNew CreateArray(UnifiedExpressionList initialValues)

@@ -171,8 +171,7 @@ namespace Ucpf.Core.Model
 				UnifiedTypeSupplement.CreateArray()));
 		}
 
-		public static UnifiedType CreateArray(string name,
-		                                      IUnifiedExpression arraySize)
+		public static UnifiedType CreateArray(string name, UnifiedArgument argument)
 		{
 			return new UnifiedType {
 				Name = name != null
@@ -180,7 +179,7 @@ namespace Ucpf.Core.Model
 				       	: null,
 				Arguments = null,
 				Supplements = UnifiedTypeSupplementCollection.Create(
-					UnifiedTypeSupplement.CreateArray(arraySize)),
+					UnifiedTypeSupplement.CreateArray(argument)),
 			};
 		}
 	}

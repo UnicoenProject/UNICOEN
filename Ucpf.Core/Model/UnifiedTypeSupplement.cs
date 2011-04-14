@@ -14,12 +14,12 @@ namespace Ucpf.Core.Model
 	/// </summary>
 	public class UnifiedTypeSupplement : UnifiedElement
 	{
-		private UnifiedExpressionCollection _values;
+		private UnifiedArgumentCollection _arguments;
 
-		public UnifiedExpressionCollection Values
+		public UnifiedArgumentCollection Arguments
 		{
-			get { return _values; }
-			set { _values = SetParentOfChild(value, _values); }
+			get { return _arguments; }
+			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
 		public UnifiedTypeSupplementKind Kind { get; set; }
@@ -45,30 +45,30 @@ namespace Ucpf.Core.Model
 
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
-			yield return Values;
+			yield return Arguments;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Values, v => Values = (UnifiedExpressionCollection)v);
+				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndDirectSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_values, v => _values = (UnifiedExpressionCollection)v);
+				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public static UnifiedTypeSupplement Create(UnifiedExpressionCollection values,
+		public static UnifiedTypeSupplement Create(UnifiedArgumentCollection arguments,
 		                                           UnifiedTypeSupplementKind kind)
 		{
-			// values.Countが2以上の場合はC#の長方形配列を指定してください。
-			Contract.Requires(kind == UnifiedTypeSupplementKind.Array && values.Count != 1);
+			// arguments.Countが2以上の場合はC#の長方形配列を指定してください。
+			Contract.Requires(kind == UnifiedTypeSupplementKind.Array && arguments.Count != 1);
 			return new UnifiedTypeSupplement {
-				Values = values,
+				Arguments = arguments,
 				Kind = kind,
 			};
 		}
@@ -86,9 +86,9 @@ namespace Ucpf.Core.Model
 		/// 実引数を取る１次元配列を作成します。
 		/// </summary>
 		/// <returns></returns>
-		public static UnifiedTypeSupplement CreateArray(IUnifiedExpression value)
+		public static UnifiedTypeSupplement CreateArray(UnifiedArgument argument)
 		{
-			return Create(value.ToCollection(), UnifiedTypeSupplementKind.Array);
+			return Create(argument.ToCollection(), UnifiedTypeSupplementKind.Array);
 		}
 	}
 }

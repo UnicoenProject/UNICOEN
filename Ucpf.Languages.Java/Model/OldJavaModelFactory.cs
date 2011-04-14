@@ -415,7 +415,7 @@ namespace Ucpf.Languages.Java.Model
 				foreach (var e in node.ElementsByContent("[")) {
 					if (e.NextElement().Name() == "expression") {
 						var expression = CreateExpression(e.NextElement());
-						type.AddSupplement(UnifiedTypeSupplement.CreateArray(expression));
+						type.AddSupplement(UnifiedTypeSupplement.CreateArray(expression.ToArgument()));
 					} else {
 						type.AddSupplement(UnifiedTypeSupplement.CreateArray());						
 					}

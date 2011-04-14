@@ -2,6 +2,11 @@
 {
 	public static class ModelFactoryForModel
 	{
+		public static UnifiedArgument ToArgument(this IUnifiedExpression expression)
+		{
+			return UnifiedArgument.Create(expression);
+		}
+
 		public static UnifiedFunctionDefinition ToFunctionDefinition(this string name)
 		{
 			return UnifiedFunctionDefinition.CreateFunction(name);
