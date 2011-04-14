@@ -9,10 +9,10 @@ namespace Ucpf.Core.Model
 	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression
 	{
-		private UnifiedIdentifier _name;
+		private UnifiedQualifiedIdentifier _name;
 
 		// TODO: A.B.C を UnifiedPropertyで表現
-		public UnifiedIdentifier Name
+		public UnifiedQualifiedIdentifier Name
 		{
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
@@ -40,27 +40,20 @@ namespace Ucpf.Core.Model
 			GetElementAndSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Name, v => Name = (UnifiedIdentifier)v);
+				(Name, v => Name = (UnifiedQualifiedIdentifier)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndDirectSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_name, v => _name = (UnifiedIdentifier)v);
+				(_name, v => _name = (UnifiedQualifiedIdentifier)v);
 		}
 
-		public static UnifiedImport Create(UnifiedIdentifier name)
+		public static UnifiedImport Create(UnifiedQualifiedIdentifier name)
 		{
 			return new UnifiedImport {
 				Name = name,
-			};
-		}
-
-		public static UnifiedImport Create(string name)
-		{
-			return new UnifiedImport {
-				Name = UnifiedIdentifier.CreateUnknown(name),
 			};
 		}
 	}

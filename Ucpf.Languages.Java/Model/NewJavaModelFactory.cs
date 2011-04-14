@@ -508,9 +508,9 @@ namespace Ucpf.Languages.Java.Model
 			var modifiers = CreateModifiers(node.Element("modifiers"));
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 			var throws = node.HasElement("qualifiedNameList")
-			             	? UnifiedTypeCollection.Create(
-			             		CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			             	  	.Select(e => UnifiedType.Create(e, null, null)))
+			             	? CreateQualifiedNameList(node.Element("qualifiedNameList"))
+			             	  	.Select(e => UnifiedType.Create(e, null, null))
+								.ToCollection()
 			             	: null;
 			var body = CreateBlock(node.Element("block"));
 
@@ -751,8 +751,7 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedTypeArgument.Create(type, null, constrains.ToCollection());
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateQualifiedNameList(
-			XElement node)
+		public static IEnumerable<UnifiedQualifiedIdentifier> CreateQualifiedNameList(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "qualifiedNameList");
@@ -841,7 +840,7 @@ namespace Ucpf.Languages.Java.Model
 			throw new NotImplementedException();
 		}
 
-		public static IUnifiedExpression CreateQualifiedName(XElement node)
+		public static UnifiedQualifiedIdentifier CreateQualifiedName(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "qualifiedName");
@@ -852,9 +851,7 @@ namespace Ucpf.Languages.Java.Model
 			var ids = node.Elements()
 				.OddIndexElements()
 				.Select(e => UnifiedIdentifier.CreateUnknown(e.Value));
-			return ids.Skip(1)
-				.Aggregate((IUnifiedExpression)ids.First(),
-					(l, r) => UnifiedProperty.Create(l, r, "."));
+			return ids.ToQualified(".");
 		}
 
 		public static IUnifiedElement CreateAnnotations(XElement node)

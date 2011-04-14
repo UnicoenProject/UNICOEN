@@ -5,6 +5,8 @@ namespace Ucpf.Core.Model
 {
 	/// <summary>
 	///   ジェネリックタイプにおける仮引数の集合を表します。
+	///   クラスやメソッドを宣言する際に型パラメータを宣言するために利用します。
+	/// e.g. Javaにおける<c>class A&lt;T1, T2&gt; {  }</c>
 	/// </summary>
 	public class UnifiedTypeParameterCollection
 		: UnifiedElementCollection

@@ -72,6 +72,30 @@ namespace Ucpf.Core.Model.Extensions
 			return UnifiedExpressionList.Create(singleton);
 		}
 
+		public static UnifiedIdentifierCollection ToCollection(
+			this IEnumerable<UnifiedIdentifier> collection)
+		{
+			return UnifiedIdentifierCollection.Create(collection);
+		}
+
+		public static UnifiedIdentifierCollection ToCollection(
+			this UnifiedIdentifier singleton)
+		{
+			return UnifiedIdentifierCollection.Create(singleton);
+		}
+
+		public static UnifiedQualifiedIdentifier ToQualified(
+			this IEnumerable<UnifiedIdentifier> collection, string delimiter)
+		{
+			return UnifiedQualifiedIdentifier.Create(collection, delimiter);
+		}
+
+		public static UnifiedQualifiedIdentifier ToQualified(
+			this UnifiedIdentifier singleton)
+		{
+			return UnifiedQualifiedIdentifier.Create(singleton.ToCollection(), null);
+		}
+
 		public static UnifiedModifierCollection ToCollection(
 			this IEnumerable<UnifiedModifier> collection)
 		{

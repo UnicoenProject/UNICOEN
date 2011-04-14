@@ -222,6 +222,16 @@ namespace Ucpf.Languages.Java
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedIdentifierCollection element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedQualifiedIdentifier element)
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedSpecialExpressionKind kind)
 		{
 			switch (kind) {

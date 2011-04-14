@@ -1,4 +1,6 @@
-﻿namespace Ucpf.Core.Model.Visitors
+﻿using Ucpf.Core.Model.Expressions;
+
+namespace Ucpf.Core.Model.Visitors
 {
 	public interface IUnifiedModelVisitor
 	{
@@ -55,6 +57,8 @@
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(UnifiedVariableDefinitionBody element);
 		void Visit(UnifiedVariableDefinitionBodyCollection element);
+		void Visit(UnifiedIdentifierCollection element);
+		void Visit(UnifiedQualifiedIdentifier element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult>
@@ -112,5 +116,7 @@
 		TResult Visit(UnifiedTernaryExpression element, TData data);
 		TResult Visit(UnifiedVariableDefinitionBody element, TData data);
 		TResult Visit(UnifiedVariableDefinitionBodyCollection element, TData data);
+		TResult Visit(UnifiedIdentifierCollection element, TData data);
+		TResult Visit(UnifiedQualifiedIdentifier element, TData data);
 	}
 }

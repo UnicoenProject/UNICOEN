@@ -6,10 +6,17 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
 {
+	/// <summary>
+	/// 変数宣言における修飾子と型を省略した部分を表します。
+	/// なお、変数宣言(UnifiedVariableDefinition)は修飾子と型と本クラスの集合クラス(UnifiedVariableDefinitionBodyCollection)によって表現されます。
+	/// </summary>
 	public class UnifiedVariableDefinitionBody : UnifiedElement
 	{
 		private UnifiedIdentifier _name;
 
+		/// <summary>
+		/// 変数名を表します。
+		/// </summary>
 		public UnifiedIdentifier Name
 		{
 			get { return _name; }
@@ -61,10 +68,10 @@ namespace Ucpf.Core.Model
 		///  e.g. Javaにおけるenumの定数に付随するブロック
 		///  <code>
 		///    enum E {
-		///    E1 {
-		///    @override public String toString() { return ""; }
-		///    },
-		///    E2
+		///      E1 {
+		///        @override public String toString() { return ""; }
+		///      },
+		///      E2
 		///    }
 		///  </code>
 		///</summary>
@@ -73,6 +80,7 @@ namespace Ucpf.Core.Model
 			get { return _block; }
 			set { _block = SetParentOfChild(value, _block); }
 		}
+
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
 			visitor.Visit(this);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
@@ -20,10 +21,10 @@ namespace Ucpf.Core.Model
 			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
-		private UnifiedIdentifier _name;
+		private UnifiedQualifiedIdentifier _name;
 
 		// TODO: A.B.C を UnifiedPropertyで表現
-		public UnifiedIdentifier Name
+		public UnifiedQualifiedIdentifier Name
 		{
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
@@ -76,7 +77,7 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Name, v => Name = (UnifiedIdentifier)v);
+				(Name, v => Name = (UnifiedQualifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -91,13 +92,26 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_name, v => _name = (UnifiedIdentifier)v);
+				(_name, v => _name = (UnifiedQualifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedClassDefinition Create(UnifiedQualifiedIdentifier name,
+		                                            UnifiedBlock body,
+		                                            UnifiedModifierCollection
+		                                            	modifiers, UnifiedClassKind kind)
+		{
+			return new UnifiedClassDefinition {
+				Body = body,
+				Name = name,
+				Modifiers = modifiers,
+				Kind = kind,
+			};
 		}
 
 		public static UnifiedClassDefinition Create(UnifiedIdentifier name,
@@ -107,7 +121,7 @@ namespace Ucpf.Core.Model
 		{
 			return new UnifiedClassDefinition {
 				Body = body,
-				Name = name,
+				Name = name.ToQualified(),
 				Modifiers = modifiers,
 				Kind = kind,
 			};
@@ -175,6 +189,21 @@ namespace Ucpf.Core.Model
 		public static UnifiedClassDefinition Create(
 			UnifiedModifierCollection modifiers, UnifiedClassKind kind,
 			UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters,
+			UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
+		{
+			return new UnifiedClassDefinition {
+				Modifiers = modifiers,
+				Kind = kind,
+				Name = name.ToQualified(),
+				TypeParameters = typeParameters,
+				Constrains = constrains,
+				Body = body,
+			};
+		}
+
+		public static UnifiedClassDefinition Create(
+			UnifiedModifierCollection modifiers, UnifiedClassKind kind,
+			UnifiedQualifiedIdentifier name, UnifiedTypeParameterCollection typeParameters,
 			UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
 		{
 			return new UnifiedClassDefinition {
