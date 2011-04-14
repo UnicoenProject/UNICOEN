@@ -188,7 +188,7 @@ namespace Ucpf.Languages.Java.Model
 					CreateType(node.Element("type"))));
 			}
 			if (node.HasElement("typeList")) {
-				foreach (var type in CreateTypeList(node.Element("typeList"))) {
+				foreach (var type in CreateTypeList(node.Element("typeList")))  {
 					constrains.Add(UnifiedTypeConstrain.CreateImplements(type));
 				}
 			}
@@ -392,8 +392,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   type (',' type)* 
 			 */
 			return node.Elements("type")
-				.Select(CreateType)
-				.ToCollection();
+				.Select(CreateType).ToCollection();
 		}
 
 		public static UnifiedBlock CreateClassBody(XElement node)
@@ -2021,10 +2020,15 @@ namespace Ucpf.Languages.Java.Model
 			 * nonWildcardTypeArguments 
 			 * :   '<' typeList '>'
 			 */
-			//TODO typeListは最終的にTypeCollectionになるが、どう対処するのか
-			//IEnumerableにする
-			throw new NotImplementedException();
-			//return CreateTypeList(node.FirstElement());
+
+			var typeList = CreateTypeList(node.NthElement(1));
+			var typeArguments = UnifiedArgumentCollection.Create();
+
+			foreach (var type in typeList) {
+				var argument = UnifiedArgument.Create(type);
+				typeArguments.Add(argument);
+			}
+			return typeArguments;
 		}
 
 		public static UnifiedArgumentCollection CreateArguments(XElement node)
