@@ -59,8 +59,19 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public bool Visit(UnifiedCall element, TokenInfo data)
 		{
-			element.TypeArguments.TryAccept(this, data);
-			element.Function.TryAccept(this, data);
+			var prop = element.Function as UnifiedProperty;
+			if (prop != null) {
+				prop.Owner.TryAccept(this, data);
+				_writer.Write(prop.Delimiter);
+				element.TypeArguments.TryAccept(this, data);
+				prop.Name.TryAccept(this, data);
+			} else {
+				// Javaでifが実行されるケースは存在しないが、言語変換のため
+				if (element.TypeArguments != null)
+					_writer.Write("this.");
+				element.TypeArguments.TryAccept(this, data);
+				element.Function.TryAccept(this, data);
+			}
 			element.Arguments.TryAccept(this,
 				new TokenInfo { MostLeft = "(", Delimiter = ", ", MostRight = ")" });
 			return true;
