@@ -11,7 +11,6 @@ namespace Ucpf.Core.Model
 	{
 		private UnifiedQualifiedIdentifier _name;
 
-		// TODO: A.B.C を UnifiedPropertyで表現
 		public UnifiedQualifiedIdentifier Name
 		{
 			get { return _name; }
@@ -65,7 +64,7 @@ namespace Ucpf.Core.Model
 				(_name, v => _name = (UnifiedQualifiedIdentifier)v);
 		}
 
-		public static UnifiedImport Create(UnifiedQualifiedIdentifier name)
+		public static UnifiedImport Create(UnifiedQualifiedIdentifier name, UnifiedModifierCollection modifiers)
 		{
 			return new UnifiedImport {
 				Name = name,

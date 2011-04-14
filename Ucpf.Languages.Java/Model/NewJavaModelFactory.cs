@@ -58,26 +58,13 @@ namespace Ucpf.Languages.Java.Model
 			 * |   'import' ('static')? IDENTIFIER ('.' IDENTIFIER)+ ('.' '*')? ';' 
 			 */
 
-			IUnifiedExpression name;
-			if(node.Elements("IDENTIFIER").Count() == 1) {
-				name =
-					UnifiedProperty.Create(
-						UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
-							UnifiedIdentifierKind.NameSpace), "*", ".");
-			}
-			else {
-				/*
-			 * qualifiedName 
-			 * :   IDENTIFIER ('.' IDENTIFIER)* 
-			 */
-			var ids =
-					node.Elements("IDENTIFIER").Select(
-						e => UnifiedIdentifier.Create(e.Value, UnifiedIdentifierKind.NameSpace));
-
-			name = ids.Skip(1).Aggregate((IUnifiedExpression)ids.First(),(l, r) => UnifiedProperty.Create(l, r, "."));
-			}
-
-			var modifiers = node.HasElement("STATIC")
+			var idStrs = node.Elements("IDENTIFIER").Select(e => e.Value);
+			if (node.HasElementByContent("*"))
+				idStrs = idStrs.Concat("*");
+			
+			// TODO CreateUnknownより詳しい情報を
+			var name = idStrs.Select(UnifiedIdentifier.CreateUnknown).ToQualified(".");
+			var modifiers = node.HasElementByContent("static")
 				? UnifiedModifier.Create(node.NthElement(1).Value).ToCollection() : null;
 
 			return UnifiedImport.Create(name, modifiers);
