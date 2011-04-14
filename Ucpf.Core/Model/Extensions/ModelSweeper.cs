@@ -10,8 +10,8 @@ namespace Ucpf.Core.Model.Extensions
 			this IUnifiedElement element)
 		{
 			Contract.Requires(element != null);
-			IUnifiedElement parent;
-			while ((parent = element.Parent) != null) {
+			var parent = element;
+			while ((parent = parent.Parent) != null) {
 				yield return parent;
 			}
 		}
@@ -21,8 +21,8 @@ namespace Ucpf.Core.Model.Extensions
 		{
 			Contract.Requires(element != null);
 			yield return element;
-			IUnifiedElement parent;
-			while ((parent = element.Parent) != null) {
+			var parent = element;
+			while ((parent = parent.Parent) != null) {
 				yield return parent;
 			}
 		}
