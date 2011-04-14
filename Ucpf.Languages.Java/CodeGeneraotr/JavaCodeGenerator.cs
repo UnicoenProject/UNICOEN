@@ -6,13 +6,13 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Languages.Java.CodeGeneraotr
 {
-	public partial class JavaCodeGenerator : IUnifiedModelVisitor
+	public partial class JavaCodeGenerator : IUnifiedModelVisitor<TokenInfo, bool>
 	{
 		public static string Generate(UnifiedProgram program)
 		{
 			var buff = new StringWriter();
 			var visitor = new JavaCodeGenerator(buff);
-			visitor.Visit(program);
+			visitor.Visit(program, new TokenInfo());
 			return buff.ToString();
 		}
 
@@ -41,263 +41,234 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		#region program, namespace, class, method, filed ...
 
-		public void Visit(UnifiedProgram program)
+		public bool Visit(UnifiedProgram element, TokenInfo data)
 		{
-			foreach (var elem in program) {
-				elem.Accept(this);
+			foreach (var elem in element) {
+				elem.Accept(this, data);
 			}
+			return false;
 		}
 
-		public void Visit(UnifiedClassDefinition classDefinition)
+		public string GetKeyword(UnifiedClassKind kind)
+		{
+			switch (kind) {
+			case UnifiedClassKind.Class:
+				return "class";
+			case UnifiedClassKind.Interface:
+				return "interface";
+			case UnifiedClassKind.Namespace:
+				return "package";
+			case UnifiedClassKind.Enum:
+				return "enum";
+			case UnifiedClassKind.Module:
+				return "module";
+			default:
+				throw new ArgumentOutOfRangeException("kind");
+			}
+			return null;
+		}
+
+		public bool Visit(UnifiedClassDefinition element, TokenInfo data)
+		{
+			var keyword = GetKeyword(element.Kind);
+			if (element.Kind == UnifiedClassKind.Namespace) {
+				_writer.Write(keyword);
+				WriteSpace();
+				element.Name.Accept(this, data);
+				return true;
+			}
+			WriteIndent();
+			element.Modifiers.Accept(this, data);
+			_writer.Write(keyword);
+			WriteSpace();
+			element.Name.Accept(this, data);
+			element.TypeParameters.TryAccept(this, data);
+			element.Body.TryAccept(this, data);
+			return false;
+		}
+
+		public bool Visit(UnifiedFunctionDefinition element, TokenInfo data)
 		{
 			WriteIndent();
-			classDefinition.Modifiers.Accept(this);
-			_writer.Write("class ");
-			_writer.WriteLine(classDefinition.Name.Value);
-			classDefinition.Body.Accept(this);
+			element.Modifiers.Accept(this, data);
+			element.Type.Accept(this, data);
+			WriteSpace();
+			element.TypeParameters.TryAccept(this, data);
+			element.Name.Accept(this, data);
+			element.Parameters.Accept(this, data);
+			element.Body.TryAccept(this, data);
+			return element.Body == null;
 		}
 
-		public void Visit(UnifiedFunctionDefinition functionDefinition)
+		public bool Visit(UnifiedParameter element, TokenInfo data)
 		{
-			WriteIndent();
-			functionDefinition.Modifiers.Accept(this);
-			functionDefinition.Type.Accept(this);
-			_writer.Write(" ");
-			_writer.Write(functionDefinition.Name.Value);
-			functionDefinition.Parameters.Accept(this);
-			functionDefinition.Body.Accept(this);
+			element.Modifiers.Accept(this, data);
+			element.Type.Accept(this, data);
+			WriteSpace();
+			_writer.Write(element.Name.Value);
+			return false;
 		}
 
-		public void Visit(UnifiedParameter parameter)
+		public bool Visit(UnifiedModifier element, TokenInfo data)
 		{
-			parameter.Modifiers.Accept(this);
-			parameter.Type.Accept(this);
-			_writer.Write(" ");
-			_writer.Write(parameter.Name.Value);
+			_writer.Write(element.Name);
+			return false;
 		}
 
-		public void Visit(UnifiedModifier mod)
+		public bool Visit(UnifiedType element, TokenInfo data)
 		{
-			_writer.Write(mod.Name);
-		}
-
-		public void Visit(UnifiedType type)
-		{
-			_writer.Write(type.Name.Value);
-			type.Supplements.TryAccept(this);
+			_writer.Write(element.Name.Value);
+			element.Supplements.TryAccept(this, data);
+			return false;
 		}
 
 		#endregion
 
 		#region statement
 
-		public void Visit(UnifiedBlock block)
+		public bool Visit(UnifiedBlock element, TokenInfo data)
 		{
 			WriteIndent();
 			_writer.WriteLine("{");
 			_indent++;
-			foreach (var stmt in block) {
+			foreach (var stmt in element) {
 				WriteIndent();
-				stmt.Accept(this);
-				if (stmt is UnifiedNew || !(stmt is UnifiedExpressionWithBlock))
+				if (stmt.Accept(this, data))
 					_writer.Write(";");
 			}
 			_indent--;
 			WriteIndent();
 			_writer.WriteLine("}");
+			return false;
 		}
-
-		public void Visit(UnifiedIf ifStatement)
-		{
-			_writer.Write("if (");
-			ifStatement.Condition.Accept(this);
-			_writer.WriteLine(")");
-			ifStatement.Body.Accept(this);
-			if (ifStatement.FalseBody != null) {
-				WriteIndent();
-				_writer.WriteLine("else");
-				ifStatement.FalseBody.Accept(this);
-			}
-		}
-
-		public void Visit(UnifiedSpecialExpression element)
-		{
-			_writer.Write(GetKeyword(element.Kind));
-			if (element.Value != null) {
-				_writer.Write(" ");
-				element.Value.Accept(this);
-			}
-		}
-
-		/*
-		 * Edited on 04.13
-		 */
 
 		// e.g. static{...}
-		public void Visit(UnifiedSpecialBlock element)
+		public bool Visit(UnifiedSpecialBlock element, TokenInfo data)
 		{
 			WriteIndent();
 			_writer.Write(element.Kind);
+			if (element.Value != null) {
+				_writer.Write("(");
+				_writer.Write(element.Value);
+				_writer.Write(")");
+			}
 			_writer.Write("{");
 			_indent++;
 			foreach (var stmt in element.Body) {
 				WriteIndent();
-				stmt.Accept(this);
+				if (stmt.Accept(this, data))
+					_writer.Write(";");
 			}
 			_indent--;
 			WriteIndent();
 			_writer.Write("}");
+			return false;
+		}
+
+		public bool Visit(UnifiedIf ifStatement, TokenInfo data)
+		{
+			_writer.Write("if (");
+			ifStatement.Condition.Accept(this, data);
+			_writer.WriteLine(")");
+			ifStatement.Body.Accept(this, data);
+			if (ifStatement.FalseBody != null) {
+				WriteIndent();
+				_writer.WriteLine("else");
+				ifStatement.FalseBody.Accept(this, data);
+			}
+			return false;
 		}
 
 		// e.g. catch(Exception e){...}
-		public void Visit(UnifiedCatch element)
+		public bool Visit(UnifiedCatch element, TokenInfo data)
 		{
-			var parameters = element.Parameters;
-			_writer.Write("catch(");
-			foreach (var parameter in parameters) {
-				parameter.Accept(this);
-			}
-			_writer.Write(") {");
-			_indent++;
-			element.Body.Accept(this);
-			_indent--;
-			WriteIndent();
-			_writer.Write("}");
+			_writer.Write("catch");
+			element.Parameters.TryAccept(this, data);
+			element.Body.Accept(this, data);
+			return false;
 		}
 
 		// e.g. try{...}catch(E e){...}finally{...}
-		public void Visit(UnifiedTry element)
+		public bool Visit(UnifiedTry element, TokenInfo data)
 		{
 			// try block
 			_writer.Write("try");
-			element.Body.Accept(this);
+			element.Body.Accept(this, data);
 
 			// catch blocks
-			element.Catches.Accept(this);
+			element.Catches.Accept(this, data);
 
 			// finally block
 			var finallyBlock = element.FinallyBody;
 			// how judge whether finalluBlock exists or not???
 			if (finallyBlock != null) {
 				_writer.Write("finally");
-				finallyBlock.Accept(this);
+				finallyBlock.Accept(this, data);
 			}
+			return false;
 		}
 
-		// e.g. (Int) a  or (int)(a + b)
-		public void Visit(UnifiedCast element)
+		public bool Visit(UnifiedTypeConstrain element, TokenInfo data)
 		{
-			var type = element.Type;
-			var expression = element.Expression;
-
-			_writer.Write("(");
-			type.Accept(this);
-			_writer.Write(") ");
-			if (expression is UnifiedUnaryExpression) {
-				expression.Accept(this);
-			} else {
-				_writer.Write("(");
-				expression.Accept(this);
-				_writer.Write(")");
-			}
+			throw new InvalidOperationException();
 		}
 
-		public void Visit(UnifiedTypeConstrain element)
+		public bool Visit(UnifiedTypeParameter element, TokenInfo data)
 		{
-			var kind = element.Kind;
-			var type = element.Type;
-			switch (kind) {
-			case (UnifiedTypeConstrainKind.Extends):
-				_writer.Write(" extends ");
-				type.Accept(this);
-				break;
-			case (UnifiedTypeConstrainKind.Implements):
-				_writer.Write(" implements ");
-				type.Accept(this);
-				break;
-			case (UnifiedTypeConstrainKind.DefaultConstructor):
-			case (UnifiedTypeConstrainKind.ExtendsOrImplements):
-			case (UnifiedTypeConstrainKind.ReferenceType):
-			case (UnifiedTypeConstrainKind.ValueType):
+			element.Type.Accept(this, data);
+			element.Constrains.Accept(this, new TokenInfo { Delimiter = " & " });
+			return false;
+		}
+
+		public bool Visit(UnifiedTypeSupplement element, TokenInfo data)
+		{
+			switch (element.Kind) {
+			case UnifiedTypeSupplementKind.Array:
+				element.Arguments.TryAccept(this,
+					new TokenInfo { MostLeft = "[", Delimiter = ", ", MostRight = "]", });
 				break;
 			default:
-				throw new InvalidOperationException();
+				break;
 			}
-		}
-
-		public void Visit(UnifiedTypeParameter element)
-		{
-			element.Type.Accept(this);
-			element.Constrains.Accept(this);
-		}
-
-		public void Visit(UnifiedTypeSupplement element)
-		{
-			var kind = element.Kind;
-			
-			switch (kind) {
-				case UnifiedTypeSupplementKind.Array:
-					_writer.Write("[");
-					element.Arguments.TryAccept(this);
-					_writer.Write("]");
-					break;
-				default:
-					break;
-			}
+			return false;
 		}
 
 		// a ? b : c
-		public void Visit(UnifiedTernaryOperator element)
+		public bool Visit(UnifiedTernaryOperator element, TokenInfo data)
 		{
-			var kind = element.Kind;
-			switch (kind) {
+			switch (element.Kind) {
 			case (UnifiedTernaryOperatorKind.Conditional):
 				_writer.Write(element.FirstSign);
 				break;
 			default:
 				break;
 			}
+			return false;
 		}
 
-		public void Visit(UnifiedTernaryExpression element)
+		public bool Visit(UnifiedVariableDefinitionBody element, TokenInfo data)
 		{
-			element.FirstExpression.Accept(this);
-			WriteSpace();
-			element.SecondExpression.Accept(this);
-			WriteSpace();
-			element.LastExpression.Accept(this);
-			_writer.Write(";");
-		}
-
-		public void Visit(UnifiedVariableDefinitionBody element)
-		{
-			element.Name.TryAccept(this);
-			element.Supplements.TryAccept(this);
-			if(element.InitialValue != null) {
-				_writer.Write("=");
-				element.InitialValue.Accept(this);
+			element.Name.TryAccept(this, data);
+			element.Supplements.TryAccept(this, data);
+			if (element.InitialValue != null) {
+				_writer.Write(" = ");
+				element.InitialValue.Accept(this, data);
 			}
-			element.Block.TryAccept(this);
+			element.Body.TryAccept(this, data);
+			return false;
 		}
 
-		public void Visit(UnifiedQualifiedIdentifier element)
+		public bool Visit(UnifiedQualifiedIdentifier element, TokenInfo data)
 		{
-			throw new NotImplementedException();
+			_writer.Write(element.Value);
+			return false;
 		}
 
-		public void Visit(UnifiedLabel element)
+		public bool Visit(UnifiedLabel element, TokenInfo data)
 		{
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedExpressionList element)
-		{
-			var comma = "";
-			foreach (var exp in element) {
-				_writer.Write(comma);
-				exp.Accept(this);
-				comma = ",";
-			}
+			element.Name.Accept(this, data);
+			_writer.Write(":");
+			return false;
 		}
 
 		// There is not 'yield' in java?
@@ -331,58 +302,43 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		#region expression
 
-		public void Visit(UnifiedBinaryExpression expr)
-		{
-			//TODO 単一のBinaryExpressionの場合は"()"がいらないがどう対処するのか
-			//_writer.Write("(");
-			expr.LeftHandSide.Accept(this);
-			expr.Operator.Accept(this);
-			expr.RightHandSide.Accept(this);
-			//_writer.Write(")");
-		}
-
-		public void Visit(UnifiedBinaryOperator op)
+		public bool Visit(UnifiedBinaryOperator op, TokenInfo data)
 		{
 			_writer.Write(op.Sign);
+			return false;
 		}
 
-		public void Visit(UnifiedCall call)
+		public bool Visit(UnifiedArgument arg, TokenInfo data)
 		{
-			call.Function.Accept(this);
-			_writer.Write("(");
-			call.Arguments.Accept(this);
-			_writer.Write(")");
-		}
-
-		public void Visit(UnifiedArgument arg)
-		{
-			arg.Value.TryAccept(this);
+			arg.Value.TryAccept(this, data);
+			return false;
 		}
 
 		#endregion
 
 		#region value
 
-		public void Visit(UnifiedIdentifier identifier)
+		public bool Visit(UnifiedIdentifier identifier, TokenInfo data)
 		{
 			_writer.Write(identifier.Value);
+			return false;
 		}
 
-		public void Visit(UnifiedLiteral lit)
+		public bool Visit(UnifiedLiteral lit, TokenInfo data)
 		{
 			_writer.Write(lit.ToString());
+			return false;
 		}
 
-		public void Visit<T>(UnifiedTypedLiteral<T> lit)
+		public bool Visit<T>(UnifiedTypedLiteral<T> lit, TokenInfo data)
 		{
 			_writer.Write(lit.Value);
+			return false;
 		}
 
 		#endregion
 
-		#region notImplemented
-
-		public void Visit(UnifiedUnaryOperator element)
+		public bool Visit(UnifiedUnaryOperator element, TokenInfo data)
 		{
 			var kind = element.Kind;
 			switch (kind) {
@@ -409,171 +365,109 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			default:
 				throw new InvalidOperationException();
 			}
-		}
-
-		public void Visit(UnifiedImport element)
-		{
-			_writer.Write("import ");
-			element.Name.Accept(this);
+			return false;
 		}
 
 		// classname(identifier of constructor)...??
-		public void Visit(UnifiedConstructorDefinition element)
+		public bool Visit(UnifiedConstructorDefinition element, TokenInfo data)
 		{
-			var body = element.Body;
-			var modifiers = element.Modifiers;
-			var parameters = element.Parameters;
-			var name = element.Name;
-
-			modifiers.Accept(this);
-			name.Accept(this);
-			parameters.Accept(this);
-			body.Accept(this);
+			element.Modifiers.Accept(this, data);
+			element.Name.Accept(this, data);
+			element.Parameters.Accept(this, data);
+			element.Body.Accept(this, data);
+			return false;
 		}
 
-		// e.g. int a = 5
-		public void Visit(UnifiedVariableDefinition element)
+		public bool Visit(UnifiedFor element, TokenInfo data)
 		{
-			element.Modifiers.Accept(this);
-			WriteSpace();
-			element.Type.Accept(this);
-			WriteSpace();
-			element.Bodys.Accept(this);
-		}
-
-		public void Visit(UnifiedNew element)
-		{
-			_writer.Write("new ");
-			element.Type.Accept(this);
-			if (element.Arguments != null) {
-				_writer.Write("(");
-				element.Arguments.Accept(this);
-				_writer.Write(")");
-			}
-			element.Body.TryAccept(this);
-		}
-
-		public void Visit(UnifiedFor element)
-		{
-			var condition = element.Condition;
-			var initializer = element.Initializer;
-			var step = element.Step;
-			var body = element.Body;
-
 			_writer.Write("for(");
-			initializer.Accept(this);
+			element.Initializer.Accept(this, data);
 			_writer.Write("; ");
-			condition.Accept(this);
+			element.Condition.Accept(this, data);
 			_writer.Write(";");
-			step.Accept(this);
+			element.Step.Accept(this, data);
 			_writer.Write(")");
 
-			body.Accept(this);
+			element.Body.Accept(this, data);
+			return false;
 		}
 
-		public void Visit(UnifiedForeach fe)
+		public bool Visit(UnifiedForeach element, TokenInfo data)
 		{
-			var element = fe.Element;
-			var aggregate = fe.Set;
-			var body = fe.Body;
-
 			_writer.Write("for(");
-			element.Accept(this);
+			element.Element.Accept(this, data);
 			WriteSpace();
 			_writer.Write(":");
 			WriteSpace();
-			aggregate.Accept(this);
+			element.Set.Accept(this, data);
 			_writer.Write(")");
 
-			body.Accept(this);
+			element.Body.Accept(this, data);
+			return false;
 		}
 
-		public void Visit(UnifiedUnaryExpression element)
+		public bool Visit(UnifiedProperty element, TokenInfo data)
 		{
-			var operand = element.Operand;
-			var ope = element.Operator;
-
-			if (ope.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
-			    ope.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
-				operand.Accept(this);
-				ope.Accept(this);
-			} else {
-				ope.Accept(this);
-				operand.Accept(this);
-			}
-		}
-
-		public void Visit(UnifiedProperty element)
-		{
-			element.Owner.Accept(this);
+			element.Owner.Accept(this, data);
 			_writer.Write(element.Delimiter);
-			element.Name.Accept(this);
+			element.Name.Accept(this, data);
+			return false;
 		}
 
-		public void Visit(UnifiedWhile element)
+		public bool Visit(UnifiedWhile element, TokenInfo data)
 		{
-			var condition = element.Condition;
-			var body = element.Body;
-
 			_writer.Write("while(");
-			condition.Accept(this);
+			element.Condition.Accept(this, data);
 			_writer.Write(")");
 
-			body.Accept(this);
+			element.Body.Accept(this, data);
+			return false;
 		}
 
-		public void Visit(UnifiedDoWhile element)
+		public bool Visit(UnifiedDoWhile element, TokenInfo data)
 		{
-			var condition = element.Condition;
-			var body = element.Body;
-
 			_writer.Write("do");
-			body.Accept(this);
+			element.Body.Accept(this, data);
 			_writer.Write("while(");
-			condition.Accept(this);
+			element.Condition.Accept(this, data);
 			_writer.Write(");");
+			return false;
 		}
 
-		public void Visit(UnifiedIndexer element)
+		public bool Visit(UnifiedIndexer element, TokenInfo data)
 		{
-			var arguments = element.Arguments;
-			var target = element.Target;
-
-			target.Accept(this);
-			_writer.Write("[");
-			arguments.Accept(this);
-			_writer.Write("]");
+			element.Target.Accept(this, data);
+			element.Arguments.Accept(this,
+				new TokenInfo { MostLeft = "[", Delimiter = ", ", MostRight = "]" });
+			return false;
 		}
 
-		public void Visit(UnifiedTypeArgument element)
+		public bool Visit(UnifiedTypeArgument element, TokenInfo data)
 		{
-			throw new NotImplementedException();
+			element.Modifiers.Accept(this, data);
+			element.Value.Accept(this, data);
+			element.Constrains.Accept(this, new TokenInfo { Delimiter = " & " });
+			return false;
 		}
 
-		public void Visit(UnifiedSwitch element)
+		public bool Visit(UnifiedSwitch element, TokenInfo data)
 		{
-			var cases = element.Cases;
-			var value = element.Value;
-
 			_writer.Write("switch(");
-			value.Accept(this);
+			element.Value.Accept(this, data);
 			_writer.Write(") {");
 
-			cases.Accept(this);
+			element.Cases.Accept(this, data);
 			_writer.Write("}");
+			return false;
 		}
 
-		public void Visit(UnifiedCase element)
+		public bool Visit(UnifiedCase element, TokenInfo data)
 		{
-			var body = element.Body;
-			var condition = element.Condition;
-
 			_writer.Write("case(");
-			condition.Accept(this);
+			element.Condition.Accept(this, data);
 			_writer.Write(") :\n");
-			body.Accept(this);
+			element.Body.Accept(this, data);
+			return false;
 		}
-
-		#endregion
 	}
 }

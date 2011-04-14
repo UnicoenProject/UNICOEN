@@ -7,7 +7,7 @@ using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests
 {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class JavaModelFeatureTest : ModelFeatureTest
 	{
 		public IEnumerable<TestCaseData> TestStatements

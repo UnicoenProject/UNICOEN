@@ -59,7 +59,7 @@ namespace Ucpf.Core.Model
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
-		private UnifiedBlock _block;
+		private UnifiedBlock _body;
 
 		///<summary>
 		///  変数に付随するブロックを表します。
@@ -73,10 +73,10 @@ namespace Ucpf.Core.Model
 		///    }
 		///  </code>
 		///</summary>
-		public UnifiedBlock Block
+		public UnifiedBlock Body
 		{
-			get { return _block; }
-			set { _block = SetParentOfChild(value, _block); }
+			get { return _body; }
+			set { _body = SetParentOfChild(value, _body); }
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
@@ -99,8 +99,10 @@ namespace Ucpf.Core.Model
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
 			yield return Name;
+			yield return Supplements;
 			yield return InitialValue;
 			yield return Arguments;
+			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -109,11 +111,13 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Name, v => Name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(InitialValue, v => InitialValue = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Block, v => Block = (UnifiedBlock)v);
+				(Body, v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -122,11 +126,13 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_name, v => _name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_initialValue, v => _initialValue = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_block, v => _block = (UnifiedBlock)v);
+				(_body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedVariableDefinitionBody Create(string name,
@@ -157,7 +163,7 @@ namespace Ucpf.Core.Model
 				Supplements = supplements,
 				InitialValue = initialValues,
 				Arguments = arguments,
-				Block = block,
+				Body = block,
 			};
 		}
 	}

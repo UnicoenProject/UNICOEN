@@ -4,9 +4,9 @@ using Ucpf.Core.Model;
 namespace Ucpf.Languages.Java.CodeGeneraotr
 {
 	/// <summary>
-	/// MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
+	///   MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
 	/// </summary>
-	public struct TokenInfo
+	public class TokenInfo
 	{
 		/// <summary>
 		///   左端の文字
@@ -33,6 +33,15 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		/// </summary>
 		public string Delimiter;
 
+		public TokenInfo()
+		{
+			MostLeft = "";
+			MostRight = "";
+			EachLeft = "";
+			EachRight = "";
+			Delimiter = "";
+		}
+
 		///// <summary>
 		///// 親要素が集合である場合の自分自身の要素位置
 		///// </summary>
@@ -51,129 +60,149 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			foreach (var e in elements) {
 				_writer.Write(splitter);
 				_writer.Write(data.EachLeft);
-				e.Accept(this);
+				e.Accept(this, data);
 				_writer.Write(data.EachRight);
 				splitter = data.Delimiter;
 			}
 			_writer.Write(data.MostRight);
 		}
 
-		public void Visit(UnifiedParameterCollection parameters)
+		public bool Visit(UnifiedParameterCollection element, TokenInfo data)
 		{
-			VisitCollection(parameters, new TokenInfo {
+			VisitCollection(element, new TokenInfo {
 				MostLeft = "(",
 				MostRight = ")",
-				EachLeft = "",
-				EachRight = "",
 				Delimiter = ", ",
 			});
+			return false;
 		}
 
-		public void Visit(UnifiedModifierCollection modifiers)
+		public bool Visit(UnifiedModifierCollection element, TokenInfo data)
 		{
-			VisitCollection(modifiers, new TokenInfo {
-				MostLeft = "",
-				MostRight = "",
-				EachLeft = "",
+			VisitCollection(element, new TokenInfo {
 				EachRight = " ",
-				Delimiter = "",
 			});
+			return false;
 		}
 
 		// e.g. throws E1, E2 ...
-		public void Visit(UnifiedTypeCollection types)
+		public bool Visit(UnifiedTypeCollection element, TokenInfo data)
 		{
-			VisitCollection(types, new TokenInfo {
-				MostLeft = "",
+			VisitCollection(element, new TokenInfo {
 				MostRight = " ",
-				EachLeft = "",
-				EachRight = "",
 				Delimiter = ", ",
 			});
+			return false;
 		}
 
 		// e.g. {...}catch(Exception1 e1){...}catch{Exception2 e2}{....}... ?
-		public void Visit(UnifiedCatchCollection catches)
+		public bool Visit(UnifiedCatchCollection element, TokenInfo data)
 		{
-			VisitCollection(catches, new TokenInfo {
-				MostLeft = "",
-				MostRight = "",
-				EachLeft = "",
+			VisitCollection(element, new TokenInfo {
 				EachRight = "\n",
-				Delimiter = "",
 			});
+			return false;
 		}
 
 		// e.g. Foo<A, B> ?
-		public void Visit(UnifiedTypeParameterCollection parameters)
+		public bool Visit(UnifiedTypeParameterCollection element, TokenInfo data)
 		{
-			VisitCollection(parameters, new TokenInfo {
+			VisitCollection(element, new TokenInfo {
 				MostLeft = "<",
 				MostRight = ">",
-				EachLeft = "",
-				EachRight = "",
 				Delimiter = ", ",
 			});
+			return false;
 		}
 
-		public void Visit(UnifiedTypeConstrainCollection constrains)
+		public static string GetKeyword(UnifiedTypeConstrainKind kind)
 		{
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedTypeSupplementCollection element)
-		{
-			foreach (var e in element) {
-				e.Accept(this);
+			switch (kind) {
+			case UnifiedTypeConstrainKind.Extends:
+			case UnifiedTypeConstrainKind.ExtendsOrImplements:
+				return "extends";
+			case UnifiedTypeConstrainKind.Implements:
+				return "implements";
+			case UnifiedTypeConstrainKind.Super:
+				return "super";
+			default:
+				break;
 			}
+			return "";
 		}
 
-		public void Visit(UnifiedVariableDefinitionBodyCollection element)
+		public bool Visit(UnifiedTypeConstrainCollection element, TokenInfo data)
 		{
-			foreach (var e in element) {
-				e.Accept(this);
+			UnifiedTypeConstrain last = null;
+			for (int i = 0; i < element.Count; i++) {
+				var current = element[i];
+				var keyword = GetKeyword(current.Kind);
+				if (last == null || last.Kind != current.Kind)
+					_writer.Write(" " + keyword + " ");
+				else
+					_writer.Write(data.Delimiter);
+				current.Type.Accept(this, data);
+				last = current;
 			}
-			WriteIndent();
+			return false;
 		}
 
-		public void Visit(UnifiedIdentifierCollection element)
+		public bool Visit(UnifiedTypeSupplementCollection element, TokenInfo data)
 		{
-			throw new NotImplementedException();
+			VisitCollection(element, new TokenInfo { });
+			return false;
 		}
 
-		public void Visit(UnifiedArgumentCollection args)
+		public bool Visit(UnifiedVariableDefinitionBodyCollection element,
+		                  TokenInfo data)
 		{
-			//_writer.Write("(");
-			var splitter = "";
-			foreach (var arg in args) {
-				_writer.Write(splitter);
-				arg.Accept(this);
-				splitter = ", ";
-			}
-			//_writer.Write(")");
+			VisitCollection(element, new TokenInfo { Delimiter = ", " });
+			return false;
 		}
 
-		public void Visit(UnifiedExpressionCollection element)
+		public bool Visit(UnifiedIdentifierCollection element, TokenInfo data)
 		{
-			foreach (var exp in element) {
-				if(exp != null)
-					exp.Accept(this);
-			}
+			throw new InvalidOperationException();
 		}
 
-		public void Visit(UnifiedTypeArgumentCollection element)
+		public bool Visit(UnifiedArgumentCollection element, TokenInfo data)
 		{
-			throw new NotImplementedException();
+			VisitCollection(element, data);
+			return false;
 		}
 
-		public void Visit(UnifiedCaseCollection element)
+		public bool Visit(UnifiedExpressionCollection element, TokenInfo data)
+		{
+			throw new InvalidOperationException();
+		}
+
+		public bool Visit(UnifiedTypeArgumentCollection element, TokenInfo data)
+		{
+			VisitCollection(element, new TokenInfo {
+				Delimiter = ", ",
+				MostLeft = "<",
+				MostRight = ">",
+			});
+			return false;
+		}
+
+		public bool Visit(UnifiedCaseCollection element, TokenInfo data)
 		{
 			_indent++;
 			foreach (var caseElement in element) {
 				WriteIndent();
-				caseElement.Accept(this);
+				caseElement.Accept(this, data);
 			}
 			_indent--;
+			return false;
+		}
+
+		public bool Visit(UnifiedExpressionList element, TokenInfo data)
+		{
+			VisitCollection(element, new TokenInfo {
+				Delimiter = ", ",
+			});
+			return false;
 		}
 	}
 }

@@ -235,7 +235,7 @@ namespace Ucpf.Languages.Java.Model
 				UnifiedType.CreateUsingString(node.FirstElement().Value),
 				UnifiedTypeConstrainCollection.Create(
 					CreateTypeBound(node.LastElement())
-						.Select(UnifiedTypeConstrain.CreateExtends))
+						.Select(UnifiedTypeConstrain.CreateExtendsOrImplements))
 				);
 		}
 
