@@ -17,7 +17,7 @@ namespace Ucpf.Languages.Java.Tests
 					CreateClassAndMethod(UnifiedBlock.Create(
 						UnifiedNew.Create(
 							UnifiedType.CreateUsingString("Interface"),
-							UnifiedArgumentCollection.Create(),
+							UnifiedArgumentCollection.Create(), null,
 							null, UnifiedBlock.Create())));
 			}
 		}

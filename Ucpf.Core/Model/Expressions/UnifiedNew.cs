@@ -25,6 +25,14 @@ namespace Ucpf.Core.Model
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
+		private UnifiedTypeArgumentCollection _typeArguments;
+
+		public UnifiedTypeArgumentCollection TypeArguments
+		{
+			get { return _typeArguments; }
+			set { _typeArguments = SetParentOfChild(value, _typeArguments); }
+		}
+
 		private UnifiedExpressionList _initialValues;
 
 		/// <summary>
@@ -53,6 +61,7 @@ namespace Ucpf.Core.Model
 		{
 			yield return Type;
 			yield return Arguments;
+			yield return TypeArguments;
 			yield return InitialValues;
 			yield return Body;
 		}
@@ -66,6 +75,9 @@ namespace Ucpf.Core.Model
 			yield return
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(Arguments,
 					v => Arguments = (UnifiedArgumentCollection)v);
+			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(TypeArguments,
+					v => TypeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(InitialValues,
 					v => InitialValues = (UnifiedExpressionList)v);
@@ -84,6 +96,9 @@ namespace Ucpf.Core.Model
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_arguments,
 					v => _arguments = (UnifiedArgumentCollection)v);
 			yield return
+				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_typeArguments,
+					v => _typeArguments = (UnifiedTypeArgumentCollection)v);
+			yield return
 				Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_initialValues,
 					v => _initialValues = (UnifiedExpressionList)v);
 			yield return
@@ -93,13 +108,13 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedNew Create(UnifiedType type)
 		{
-			return Create(type, null, null, null);
+			return Create(type, null, null, null, null);
 		}
 
 		public static UnifiedNew Create(UnifiedType type,
 		                                UnifiedArgumentCollection arguments)
 		{
-			return Create(type, arguments, null, null);
+			return Create(type, arguments, null, null, null);
 		}
 
 		public static UnifiedNew Create(UnifiedType type,
@@ -116,17 +131,19 @@ namespace Ucpf.Core.Model
 		                                UnifiedArgumentCollection arguments,
 										UnifiedExpressionList initialValues)
 		{
-			return Create(type, arguments, initialValues, null);
+			return Create(type, arguments, null, initialValues, null);
 		}
 
 		public static UnifiedNew Create(UnifiedType type,
 		                                UnifiedArgumentCollection arguments,
+										UnifiedTypeArgumentCollection typeArguments,
 										UnifiedExpressionList initialValues,
 		                                UnifiedBlock body)
 		{
 			return new UnifiedNew {
 				Type = type,
 				Arguments = arguments,
+				TypeArguments = typeArguments,
 				InitialValues = initialValues,
 				Body = body,
 			};
@@ -151,6 +168,7 @@ namespace Ucpf.Core.Model
 					null,
 					UnifiedTypeSupplementCollection.Create(
 						UnifiedTypeSupplement.CreateArray())),
+				null,
 				null,
 				initialValues,
 				null);
