@@ -26,6 +26,14 @@ namespace Ucpf.Core.Model
 			set { _parameters = SetParentOfChild(value, _parameters); }
 		}
 
+		private UnifiedIdentifier _name;
+
+		public UnifiedIdentifier Name
+		{
+			get { return _name; }
+			set { _name = SetParentOfChild(value, _name); }
+		}
+
 		public UnifiedFunctionDefinitionKind Kind { get; set; }
 
 		private UnifiedConstructorDefinition()
@@ -55,6 +63,7 @@ namespace Ucpf.Core.Model
 		{
 			yield return Modifiers;
 			yield return Parameters;
+			yield return Name;
 			yield return Body;
 		}
 
@@ -66,6 +75,8 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Parameters, v => Parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Name, v => Name = (UnifiedIdentifier)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Body, v => Body = (UnifiedBlock)v);
 		}
 
@@ -76,6 +87,8 @@ namespace Ucpf.Core.Model
 				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_parameters, v => _parameters = (UnifiedParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_name, v => _name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_body, v => _body = (UnifiedBlock)v);
 		}
@@ -99,7 +112,7 @@ namespace Ucpf.Core.Model
 		                                                  UnifiedFunctionDefinitionKind
 		                                                  	kind)
 		{
-			return Create(body, UnifiedModifierCollection.Create(modifier), parameters,
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, null,
 				kind);
 		}
 
@@ -108,7 +121,7 @@ namespace Ucpf.Core.Model
 		                                                  UnifiedParameterCollection
 		                                                  	parameters)
 		{
-			return Create(body, UnifiedModifierCollection.Create(modifier), parameters,
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, null, 
 				UnifiedFunctionDefinitionKind.Constructor);
 		}
 
@@ -118,7 +131,7 @@ namespace Ucpf.Core.Model
 		                                                  UnifiedParameterCollection
 		                                                  	parameters)
 		{
-			return Create(body, modifier, parameters,
+			return Create(body, modifier, parameters, null, 
 				UnifiedFunctionDefinitionKind.Constructor);
 		}
 
@@ -126,7 +139,7 @@ namespace Ucpf.Core.Model
 		                                                  UnifiedModifierCollection
 		                                                  	modifiers,
 		                                                  UnifiedParameterCollection
-		                                                  	parameters,
+		                                                  	parameters, UnifiedIdentifier name,
 		                                                  UnifiedFunctionDefinitionKind
 		                                                  	kind)
 		{
@@ -134,6 +147,7 @@ namespace Ucpf.Core.Model
 				Body = body,
 				Modifiers = modifiers,
 				Parameters = parameters,
+				Name = name,
 				Kind = kind,
 			};
 		}

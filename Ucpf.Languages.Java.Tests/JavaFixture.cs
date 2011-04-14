@@ -55,7 +55,7 @@ namespace Ucpf.Languages.Java.Tests
 					//"Modifier.java",
 					//"Operator.java",
 					//"Simple.java",
-					//"Student.java",
+					"Student.java",
 					//"Variable.java",
 				}
 					.Select(s => new TestCaseData(Fixture.GetInputPath("Java", s)));

@@ -521,7 +521,8 @@ namespace Ucpf.Languages.Java.Model
 			             	  	.Select(e => UnifiedType.Create(e, null, null))
 								.ToCollection()
 			             	: null;
-			var body = CreateBlock(node.Element("block"));
+			var body = node.HasElement("block")
+			           	? CreateBlock(node.Element("block")) : null;
 
 			if (!node.HasElement("type") && !node.HasElementByContent("void")) {
 				//case constructor
@@ -531,7 +532,9 @@ namespace Ucpf.Languages.Java.Model
 							.SelectMany(CreateBlockStatement)
 							.ToBlock(),
 					modifiers,
-					parameters,UnifiedFunctionDefinitionKind.Constructor);
+					parameters,
+					name,
+					UnifiedFunctionDefinitionKind.Constructor);
 			}
 			//TODO UnifiedFunctionDefinition.Createの整備
 			return UnifiedFunctionDefinition.CreateFunction(
@@ -569,10 +572,18 @@ namespace Ucpf.Languages.Java.Model
 			 * variableDeclarator 
 			 * :   IDENTIFIER ('[' ']')* ('=' variableInitializer)? 
 			 */
+
+			var initializer = node.HasElement("variableInitializer")
+			                  	? CreateVariableInitializer(
+			                  		node.Element("variableInitializer")) : null;
+			var dimension = node.ElementsByContent("[").Count();
+			var supplements = UnifiedTypeSupplementCollection.Create();
+			for(int i=0; i<dimension; i++)
+				supplements.Add(UnifiedTypeSupplement.Create(null,
+					UnifiedTypeSupplementKind.Array));
+
 			return UnifiedVariableDefinitionBody.Create(
-				node.Element("IDENTIFIER").Value,
-					UnifiedTypeSupplementCollection.CreateArray(node.ElementsByContent("[").Count()),
-				CreateVariableInitializer(node.Element("variableInitializer")));
+				node.Element("IDENTIFIER").Value, supplements, initializer);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateInterfaceBodyDeclaration(XElement node)
@@ -685,7 +696,9 @@ namespace Ucpf.Languages.Java.Model
 				throw new InvalidOperationException();
 			}
 			var dimension = node.ElementsByContent("[").Count();
-			type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+			for(var i=0; i< dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.Create(null, UnifiedTypeSupplementKind.Array));
+			//type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
 			return type;
 		}
 
@@ -815,7 +828,9 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			var type = CreateType(node.Element("type"));
 			var dimension = node.ElementsByContent("[").Count();
-			type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+			for(var i=0; i<dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.Create(null, UnifiedTypeSupplementKind.Array));
+			//type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
 
 			return UnifiedParameter.Create(
 				node.Element("IDENTIFIER").Value,
@@ -2136,7 +2151,7 @@ namespace Ucpf.Languages.Java.Model
 			if (regex.IsMatch(value)) {
 				var r = new Regex(@"[a-zA-Z_]{1}[a-zA-Z0-9_]*");
 				var match = r.Match(value);
-				return UnifiedStringLiteral.Create(match.Value);
+				return UnifiedStringLiteral.Create("\"" + match.Value + "\"");
 			}
 
 			throw new InvalidOperationException();

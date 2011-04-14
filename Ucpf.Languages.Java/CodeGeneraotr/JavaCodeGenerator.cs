@@ -83,6 +83,8 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public void Visit(UnifiedType type)
 		{
 			_writer.Write(type.Name.Value);
+			if(type.Supplements != null)
+				type.Supplements.Accept(this);
 		}
 
 		#endregion
@@ -232,12 +234,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public void Visit(UnifiedTypeSupplement element)
 		{
 			var kind = element.Kind;
+			
 			switch (kind) {
-			case (UnifiedTypeSupplementKind.Reference):
-				_writer.Write("[]");
-				break;
-			default:
-				break;
+				case UnifiedTypeSupplementKind.Array:
+					_writer.Write("[");
+					if(element.Values != null)
+						element.Values.Accept(this);
+					_writer.Write("]");
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -266,7 +272,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public void Visit(UnifiedVariableDefinitionBody element)
 		{
-			throw new NotImplementedException();
+			if(element.Name != null)
+				element.Name.Accept(this);
+			if(element.Supplements != null)
+				element.Supplements.Accept(this);
+			if(element.InitialValue != null) {
+				_writer.Write("=");
+				element.InitialValue.Accept(this);
+			}
+			if(element.Block != null)
+				element.Block.Accept(this);
 		}
 
 		public void Visit(UnifiedQualifiedIdentifier element)
@@ -277,6 +292,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public void Visit(UnifiedLabel element)
 		{
 			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedExpressionList element)
+		{
+			var comma = "";
+			foreach (var exp in element) {
+				_writer.Write(comma);
+				exp.Accept(this);
+				comma = ",";
+			}
 		}
 
 		// There is not 'yield' in java?
@@ -312,11 +337,12 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public void Visit(UnifiedBinaryExpression expr)
 		{
-			_writer.Write("(");
+			//TODO 単一のBinaryExpressionの場合は"()"がいらないがどう対処するのか
+			//_writer.Write("(");
 			expr.LeftHandSide.Accept(this);
 			expr.Operator.Accept(this);
 			expr.RightHandSide.Accept(this);
-			_writer.Write(")");
+			//_writer.Write(")");
 		}
 
 		public void Visit(UnifiedBinaryOperator op)
@@ -327,7 +353,9 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public void Visit(UnifiedCall call)
 		{
 			call.Function.Accept(this);
+			_writer.Write("(");
 			call.Arguments.Accept(this);
+			_writer.Write(")");
 		}
 
 		public void Visit(UnifiedArgument arg)
@@ -399,44 +427,33 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			var body = element.Body;
 			var modifiers = element.Modifiers;
 			var parameters = element.Parameters;
+			var name = element.Name;
 
 			modifiers.Accept(this);
-			_writer.Write("__CLASS_NAME__");
-			_writer.Write("(");
+			name.Accept(this);
 			parameters.Accept(this);
-			_writer.Write(")");
 			body.Accept(this);
 		}
 
 		// e.g. int a = 5
 		public void Visit(UnifiedVariableDefinition element)
 		{
-			//var initialValue = element.InitialValue;
-			var modifiers = element.Modifiers;
-			//var name = element.Name;
-			var type = element.Type;
-
-			modifiers.Accept(this);
+			element.Modifiers.Accept(this);
 			WriteSpace();
-			type.Accept(this);
+			element.Type.Accept(this);
 			WriteSpace();
-			//name.Accept(this);
-
-			// how judge whether initialValue (init-clause) exists or not????
-			//if (initialValue != null) {
-			//    _writer.Write("=");
-			//    WriteSpace();
-			//    initialValue.Accept(this);
-			//} else {
-			//    _writer.Write(";");
-			//}
+			element.Bodys.Accept(this);
 		}
 
 		public void Visit(UnifiedNew element)
 		{
 			_writer.Write("new ");
 			element.Type.Accept(this);
-			element.Arguments.Accept(this);
+			if (element.Arguments != null) {
+				_writer.Write("(");
+				element.Arguments.Accept(this);
+				_writer.Write(")");
+			}
 			if (element.Body != null)
 				element.Body.Accept(this);
 		}
@@ -491,10 +508,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			}
 		}
 
-		// when to use ? : Is there property in java?
 		public void Visit(UnifiedProperty element)
 		{
-			throw new NotImplementedException();
+			element.Owner.Accept(this);
+			_writer.Write(element.Delimiter);
+			element.Name.Accept(this);
 		}
 
 		public void Visit(UnifiedWhile element)

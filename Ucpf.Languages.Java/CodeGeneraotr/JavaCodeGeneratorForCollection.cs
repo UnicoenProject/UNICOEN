@@ -116,12 +116,17 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public void Visit(UnifiedTypeSupplementCollection element)
 		{
-			throw new NotImplementedException();
+			foreach (var e in element) {
+				e.Accept(this);
+			}
 		}
 
 		public void Visit(UnifiedVariableDefinitionBodyCollection element)
 		{
-			throw new NotImplementedException();
+			foreach (var e in element) {
+				e.Accept(this);
+			}
+			WriteIndent();
 		}
 
 		public void Visit(UnifiedIdentifierCollection element)
@@ -131,20 +136,22 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public void Visit(UnifiedArgumentCollection args)
 		{
-			_writer.Write("(");
+			//_writer.Write("(");
 			var splitter = "";
 			foreach (var arg in args) {
 				_writer.Write(splitter);
 				arg.Accept(this);
 				splitter = ", ";
 			}
-			_writer.Write(")");
+			//_writer.Write(")");
 		}
 
-		// when to use ?
 		public void Visit(UnifiedExpressionCollection element)
 		{
-			throw new NotImplementedException();
+			foreach (var exp in element) {
+				if(exp != null)
+					exp.Accept(this);
+			}
 		}
 
 		public void Visit(UnifiedTypeArgumentCollection element)
