@@ -4,7 +4,8 @@ namespace Ucpf.Core.Model.Extensions
 {
 	public static class ModelFactoryForCollection
 	{
-		public static UnifiedBlock ToBlock(this IEnumerable<IUnifiedExpression> collection)
+		public static UnifiedBlock ToBlock(
+			this IEnumerable<IUnifiedExpression> collection)
 		{
 			return UnifiedBlock.Create(collection);
 		}

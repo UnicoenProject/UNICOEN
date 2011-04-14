@@ -20,6 +20,13 @@ namespace Ucpf.Core.Model
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
+		/// <param name = "visitor"></param>
+		/// <param name = "data"></param>
+		void Accept<TData>(IUnifiedModelVisitor<TData> visitor, TData data);
+
+		/// <summary>
+		///   ビジターを適用してコードモデルを走査します。
+		/// </summary>
 		/// <typeparam name = "TData"></typeparam>
 		/// <typeparam name = "TResult"></typeparam>
 		/// <param name = "visitor"></param>

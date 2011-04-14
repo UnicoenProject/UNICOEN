@@ -39,6 +39,12 @@ namespace Ucpf.Core.Model
 			visitor.Visit(this);
 		}
 
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
+		}
+
 		public override TResult Accept<TData, TResult>(
 			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
 		{
@@ -89,30 +95,40 @@ namespace Ucpf.Core.Model
 		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
 		                                                  UnifiedModifier modifier,
 		                                                  UnifiedParameterCollection
-		                                                  	parameters, UnifiedFunctionDefinitionKind kind)
+		                                                  	parameters,
+		                                                  UnifiedFunctionDefinitionKind
+		                                                  	kind)
 		{
-			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, kind);
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters,
+				kind);
 		}
 
 		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
 		                                                  UnifiedModifier modifier,
-		                                                  UnifiedParameterCollection parameters)
+		                                                  UnifiedParameterCollection
+		                                                  	parameters)
 		{
-			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, UnifiedFunctionDefinitionKind.Constructor);
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters,
+				UnifiedFunctionDefinitionKind.Constructor);
 		}
 
 		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
-		                                                  UnifiedModifierCollection modifier,
-		                                                  UnifiedParameterCollection parameters)
+		                                                  UnifiedModifierCollection
+		                                                  	modifier,
+		                                                  UnifiedParameterCollection
+		                                                  	parameters)
 		{
-			return Create(body, modifier, parameters, UnifiedFunctionDefinitionKind.Constructor);
+			return Create(body, modifier, parameters,
+				UnifiedFunctionDefinitionKind.Constructor);
 		}
 
 		public static UnifiedConstructorDefinition Create(UnifiedBlock body,
 		                                                  UnifiedModifierCollection
 		                                                  	modifiers,
 		                                                  UnifiedParameterCollection
-		                                                  	parameters, UnifiedFunctionDefinitionKind kind)
+		                                                  	parameters,
+		                                                  UnifiedFunctionDefinitionKind
+		                                                  	kind)
 		{
 			return new UnifiedConstructorDefinition {
 				Body = body,

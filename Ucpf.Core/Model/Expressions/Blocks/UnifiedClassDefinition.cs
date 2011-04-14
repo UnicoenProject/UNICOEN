@@ -56,6 +56,12 @@ namespace Ucpf.Core.Model
 			visitor.Visit(this);
 		}
 
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
+		}
+
 		public override TResult Accept<TData, TResult>(
 			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
 		{
@@ -203,7 +209,8 @@ namespace Ucpf.Core.Model
 
 		public static UnifiedClassDefinition Create(
 			UnifiedModifierCollection modifiers, UnifiedClassKind kind,
-			UnifiedQualifiedIdentifier name, UnifiedTypeParameterCollection typeParameters,
+			UnifiedQualifiedIdentifier name,
+			UnifiedTypeParameterCollection typeParameters,
 			UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
 		{
 			return new UnifiedClassDefinition {

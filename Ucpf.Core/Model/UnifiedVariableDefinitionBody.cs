@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	/// 変数宣言における修飾子と型を省略した部分を表します。
-	/// なお、変数宣言(UnifiedVariableDefinition)は修飾子と型と本クラスの集合クラス(UnifiedVariableDefinitionBodyCollection)によって表現されます。
+	///   変数宣言における修飾子と型を省略した部分を表します。
+	///   なお、変数宣言(UnifiedVariableDefinition)は修飾子と型と本クラスの集合クラス(UnifiedVariableDefinitionBodyCollection)によって表現されます。
 	/// </summary>
 	public class UnifiedVariableDefinitionBody : UnifiedElement
 	{
 		private UnifiedIdentifier _name;
 
 		/// <summary>
-		/// 変数名を表します。
+		///   変数名を表します。
 		/// </summary>
 		public UnifiedIdentifier Name
 		{
@@ -68,10 +66,10 @@ namespace Ucpf.Core.Model
 		///  e.g. Javaにおけるenumの定数に付随するブロック
 		///  <code>
 		///    enum E {
-		///      E1 {
-		///        @override public String toString() { return ""; }
-		///      },
-		///      E2
+		///    E1 {
+		///    @override public String toString() { return ""; }
+		///    },
+		///    E2
 		///    }
 		///  </code>
 		///</summary>
@@ -86,7 +84,14 @@ namespace Ucpf.Core.Model
 			visitor.Visit(this);
 		}
 
-		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data)
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
+		}
+
+		public override TResult Accept<TData, TResult>(
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
 		{
 			return visitor.Visit(this, data);
 		}
@@ -124,7 +129,11 @@ namespace Ucpf.Core.Model
 				(_block, v => _block = (UnifiedBlock)v);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(string name, UnifiedTypeSupplementCollection supplements, IUnifiedExpression initialValues)
+		public static UnifiedVariableDefinitionBody Create(string name,
+		                                                   UnifiedTypeSupplementCollection
+		                                                   	supplements,
+		                                                   IUnifiedExpression
+		                                                   	initialValues)
 		{
 			return Create(
 				UnifiedIdentifier.CreateVariable(name),
@@ -134,7 +143,14 @@ namespace Ucpf.Core.Model
 				null);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(UnifiedIdentifier name, UnifiedTypeSupplementCollection supplements, IUnifiedExpression initialValues, UnifiedArgumentCollection arguments, UnifiedBlock block)
+		public static UnifiedVariableDefinitionBody Create(UnifiedIdentifier name,
+		                                                   UnifiedTypeSupplementCollection
+		                                                   	supplements,
+		                                                   IUnifiedExpression
+		                                                   	initialValues,
+		                                                   UnifiedArgumentCollection
+		                                                   	arguments,
+		                                                   UnifiedBlock block)
 		{
 			return new UnifiedVariableDefinitionBody {
 				Name = name,

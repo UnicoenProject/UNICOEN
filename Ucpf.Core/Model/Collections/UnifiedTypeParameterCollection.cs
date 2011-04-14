@@ -6,7 +6,7 @@ namespace Ucpf.Core.Model
 	/// <summary>
 	///   ジェネリックタイプにおける仮引数の集合を表します。
 	///   クラスやメソッドを宣言する際に型パラメータを宣言するために利用します。
-	/// e.g. Javaにおける<c>class A&lt;T1, T2&gt; {  }</c>
+	///   e.g. Javaにおける<c>class A&lt;T1, T2&gt; {  }</c>
 	/// </summary>
 	public class UnifiedTypeParameterCollection
 		: UnifiedElementCollection
@@ -21,6 +21,12 @@ namespace Ucpf.Core.Model
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
 			visitor.Visit(this);
+		}
+
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(

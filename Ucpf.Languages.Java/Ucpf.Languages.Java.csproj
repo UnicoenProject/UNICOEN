@@ -78,7 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaCodeGenerator.cs" />
+    <Compile Include="CodeGeneraotr\JavaCodeGenerator.cs" />
+    <Compile Include="CodeGeneraotr\JavaCodeGeneratorForCollection.cs" />
     <Compile Include="Model\JavaModelFactory.cs" />
     <Compile Include="Model\NewJavaModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

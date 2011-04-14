@@ -1,6 +1,4 @@
-﻿using Ucpf.Core.Model.Expressions;
-
-namespace Ucpf.Core.Model.Visitors
+﻿namespace Ucpf.Core.Model.Visitors
 {
 	public interface IUnifiedModelVisitor
 	{
@@ -59,6 +57,67 @@ namespace Ucpf.Core.Model.Visitors
 		void Visit(UnifiedVariableDefinitionBodyCollection element);
 		void Visit(UnifiedIdentifierCollection element);
 		void Visit(UnifiedQualifiedIdentifier element);
+		void Visit(UnifiedLabel element);
+	}
+
+	public interface IUnifiedModelVisitor<in TData>
+	{
+		void Visit<TValue>(UnifiedTypedLiteral<TValue> element, TData data);
+		void Visit(UnifiedBinaryOperator element, TData data);
+		void Visit(UnifiedUnaryOperator element, TData data);
+		void Visit(UnifiedArgument element, TData data);
+		void Visit(UnifiedArgumentCollection element, TData data);
+		void Visit(UnifiedBinaryExpression element, TData data);
+		void Visit(UnifiedBlock element, TData data);
+		void Visit(UnifiedCall element, TData data);
+		void Visit(UnifiedFunctionDefinition element, TData data);
+		void Visit(UnifiedIf element, TData data);
+		void Visit(UnifiedParameter element, TData data);
+		void Visit(UnifiedParameterCollection element, TData data);
+		void Visit(UnifiedIdentifier element, TData data);
+		void Visit(UnifiedModifier element, TData data);
+		void Visit(UnifiedModifierCollection element, TData data);
+		void Visit(UnifiedImport element, TData data);
+		void Visit(UnifiedConstructorDefinition element, TData data);
+		void Visit(UnifiedProgram element, TData data);
+		void Visit(UnifiedClassDefinition element, TData data);
+		void Visit(UnifiedVariableDefinition element, TData data);
+		void Visit(UnifiedNew element, TData data);
+		void Visit(UnifiedLiteral element, TData data);
+		void Visit(UnifiedFor element, TData data);
+		void Visit(UnifiedForeach element, TData data);
+		void Visit(UnifiedUnaryExpression element, TData data);
+		void Visit(UnifiedProperty element, TData data);
+		void Visit(UnifiedType element, TData data);
+		void Visit(UnifiedExpressionCollection element, TData data);
+		void Visit(UnifiedWhile element, TData data);
+		void Visit(UnifiedDoWhile element, TData data);
+		void Visit(UnifiedIndexer element, TData data);
+		void Visit(UnifiedTypeArgument element, TData data);
+		void Visit(UnifiedTypeArgumentCollection element, TData data);
+		void Visit(UnifiedSwitch element, TData data);
+		void Visit(UnifiedCaseCollection element, TData data);
+		void Visit(UnifiedCase element, TData data);
+		void Visit(UnifiedSpecialExpression element, TData data);
+		void Visit(UnifiedSpecialBlock element, TData data);
+		void Visit(UnifiedCatch element, TData data);
+		void Visit(UnifiedTypeCollection element, TData data);
+		void Visit(UnifiedCatchCollection element, TData data);
+		void Visit(UnifiedTry element, TData data);
+		void Visit(UnifiedCast element, TData data);
+		void Visit(UnifiedTypeParameterCollection element, TData data);
+		void Visit(UnifiedTypeConstrain element, TData data);
+		void Visit(UnifiedTypeConstrainCollection element, TData data);
+		void Visit(UnifiedTypeParameter element, TData data);
+		void Visit(UnifiedTypeSupplement element, TData data);
+		void Visit(UnifiedTypeSupplementCollection element, TData data);
+		void Visit(UnifiedTernaryOperator element, TData data);
+		void Visit(UnifiedTernaryExpression element, TData data);
+		void Visit(UnifiedVariableDefinitionBody element, TData data);
+		void Visit(UnifiedVariableDefinitionBodyCollection element, TData data);
+		void Visit(UnifiedIdentifierCollection element, TData data);
+		void Visit(UnifiedQualifiedIdentifier element, TData data);
+		void Visit(UnifiedLabel element, TData data);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult>
@@ -118,5 +177,6 @@ namespace Ucpf.Core.Model.Visitors
 		TResult Visit(UnifiedVariableDefinitionBodyCollection element, TData data);
 		TResult Visit(UnifiedIdentifierCollection element, TData data);
 		TResult Visit(UnifiedQualifiedIdentifier element, TData data);
+		TResult Visit(UnifiedLabel element, TData data);
 	}
 }
