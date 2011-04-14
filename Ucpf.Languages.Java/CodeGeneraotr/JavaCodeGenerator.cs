@@ -292,15 +292,15 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			case UnifiedSpecialExpressionKind.Return:
 				return "return";
 			case UnifiedSpecialExpressionKind.YieldReturn:
-				return "yield return";
+				return "/* yield return in C# */";
 			case UnifiedSpecialExpressionKind.Throw:
 				return "throw";
 			case UnifiedSpecialExpressionKind.Retry:
-				throw new NotImplementedException();
+				return "/* retry in Ruby */";
 			case UnifiedSpecialExpressionKind.Redo:
-				throw new NotImplementedException();
+				return "/* redo in Ruby */";
 			case UnifiedSpecialExpressionKind.Yield:
-				throw new NotImplementedException();
+				return "/* yield in Ruby */";
 			default:
 				throw new ArgumentOutOfRangeException();
 			}

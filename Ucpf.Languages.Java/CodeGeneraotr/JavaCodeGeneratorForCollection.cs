@@ -83,22 +83,27 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		}
 
 		// e.g. throws E1, E2 ...
-		public void Visit(UnifiedTypeCollection element)
+		public void Visit(UnifiedTypeCollection types)
 		{
-			var delimiter = "";
-			foreach (var type in element) {
-				_writer.Write(delimiter);
-				type.Accept(this);
-				delimiter = " ,";
-			}
+			VisitCollection(types, new TokenInfo {
+				MostLeft = "",
+				MostRight = " ",
+				EachLeft = "",
+				EachRight = "",
+				Delimiter = ", ",
+			});
 		}
 
 		// e.g. {...}catch(Exception1 e1){...}catch{Exception2 e2}{....}... ?
-		public void Visit(UnifiedCatchCollection catchCollection)
+		public void Visit(UnifiedCatchCollection catches)
 		{
-			foreach (var element in catchCollection) {
-				element.Accept(this);
-			}
+			VisitCollection(catches, new TokenInfo {
+				MostLeft = "",
+				MostRight = "",
+				EachLeft = "",
+				EachRight = "\n",
+				Delimiter = "",
+			});
 		}
 
 		// e.g. Foo<A, B> ?
