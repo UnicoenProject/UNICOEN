@@ -41,8 +41,6 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 	public partial class JavaCodeGenerator
 	{
-		#region collection
-
 		public void VisitCollection<T, TSelf>(
 			UnifiedElementCollection<T, TSelf> elements, TokenInfo data)
 			where T : class, IUnifiedElement
@@ -107,14 +105,18 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		}
 
 		// e.g. Foo<A, B> ?
-		public void Visit(UnifiedTypeParameterCollection element)
+		public void Visit(UnifiedTypeParameterCollection parameters)
 		{
-			foreach (var parameter in element) {
-				parameter.Type.Accept(this);
-			}
+			VisitCollection(parameters, new TokenInfo {
+				MostLeft = "<",
+				MostRight = ">",
+				EachLeft = "",
+				EachRight = "",
+				Delimiter = ", ",
+			});
 		}
 
-		public void Visit(UnifiedTypeConstrainCollection element)
+		public void Visit(UnifiedTypeConstrainCollection constrains)
 		{
 			throw new NotImplementedException();
 		}
@@ -173,7 +175,5 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			}
 			_indent--;
 		}
-
-		#endregion
 	}
 }

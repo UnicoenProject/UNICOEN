@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Languages.Java.CodeGeneraotr
@@ -83,8 +84,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public void Visit(UnifiedType type)
 		{
 			_writer.Write(type.Name.Value);
-			if(type.Supplements != null)
-				type.Supplements.Accept(this);
+			type.Supplements.TryAccept(this);
 		}
 
 		#endregion
@@ -238,8 +238,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			switch (kind) {
 				case UnifiedTypeSupplementKind.Array:
 					_writer.Write("[");
-					if(element.Arguments != null)
-						element.Arguments.Accept(this);
+					element.Arguments.TryAccept(this);
 					_writer.Write("]");
 					break;
 				default:
@@ -272,16 +271,13 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public void Visit(UnifiedVariableDefinitionBody element)
 		{
-			if(element.Name != null)
-				element.Name.Accept(this);
-			if(element.Supplements != null)
-				element.Supplements.Accept(this);
+			element.Name.TryAccept(this);
+			element.Supplements.TryAccept(this);
 			if(element.InitialValue != null) {
 				_writer.Write("=");
 				element.InitialValue.Accept(this);
 			}
-			if(element.Block != null)
-				element.Block.Accept(this);
+			element.Block.TryAccept(this);
 		}
 
 		public void Visit(UnifiedQualifiedIdentifier element)
@@ -360,8 +356,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public void Visit(UnifiedArgument arg)
 		{
-			if (arg.Value != null)
-				arg.Value.Accept(this);
+			arg.Value.TryAccept(this);
 		}
 
 		#endregion
@@ -455,8 +450,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 				element.Arguments.Accept(this);
 				_writer.Write(")");
 			}
-			if (element.Body != null)
-				element.Body.Accept(this);
+			element.Body.TryAccept(this);
 		}
 
 		public void Visit(UnifiedFor element)

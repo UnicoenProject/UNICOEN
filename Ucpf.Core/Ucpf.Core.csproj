@@ -132,6 +132,7 @@
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />
     <Compile Include="Model\Extensions\ModelSweeper.cs" />
+    <Compile Include="Model\Extensions\ModelExtensionsForVisitor.cs" />
     <Compile Include="Model\IUnifiedElement.cs" />
     <Compile Include="Model\Collections\IUnifiedElementCollection.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
