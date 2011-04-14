@@ -48,20 +48,39 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static IUnifiedExpression CreateImportDeclaration(XElement node)
+		public static UnifiedImport CreateImportDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "importDeclaration");
-			// TODO: imeplement this
-			return null;
-		}
+			/*
+			 * importDeclaration  
+			 * :   'import' ('static')? IDENTIFIER '.' '*' ';'
+			 * |   'import' ('static')? IDENTIFIER ('.' IDENTIFIER)+ ('.' '*')? ';' 
+			 */
 
-		public static IUnifiedElement CreateQualifiedImportName(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "qualifiedImportName");
-			// TODO: imeplement this
-			return null;
+			IUnifiedExpression name;
+			if(node.Elements("IDENTIFIER").Count() == 1) {
+				name =
+					UnifiedProperty.Create(
+						UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+							UnifiedIdentifierKind.NameSpace), "*", ".");
+			}
+			else {
+				/*
+			 * qualifiedName 
+			 * :   IDENTIFIER ('.' IDENTIFIER)* 
+			 */
+			var ids =
+					node.Elements("IDENTIFIER").Select(
+						e => UnifiedIdentifier.Create(e.Value, UnifiedIdentifierKind.NameSpace));
+
+			name = ids.Skip(1).Aggregate((IUnifiedExpression)ids.First(),(l, r) => UnifiedProperty.Create(l, r, "."));
+			}
+
+			var modifiers = node.HasElement("STATIC")
+				? UnifiedModifier.Create(node.NthElement(1).Value).ToCollection() : null;
+
+			return UnifiedImport.Create(name, modifiers);
 		}
 
 		public static IEnumerable<UnifiedClassDefinition> CreateTypeDeclaration(XElement node)
