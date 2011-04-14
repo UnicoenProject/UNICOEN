@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Code2Xml.Languages.Java.XmlGenerators;
 using Paraiba.Linq;
@@ -2103,22 +2105,38 @@ namespace Ucpf.Languages.Java.Model
 			 * |   NULL 
 			 */
 
-			var first = node.FirstElement();
-			switch (first.Name()) {
-			case "INTLITERAL":
-			case "LONGLITERAL":
-			case "FLOATLITERAL":
-			case "DOUBLELITERAL":
-			case "CHARLITERAL":
-			case "STRINGLITERAL":
-			case "TRUE":
-			case "FALSE":
-			case "NULL":
-				//TODO ANTLRですべてTOKEに書き換えられてしまう
-				throw new NotImplementedException();
-			default:
-				throw new InvalidOperationException();
+			var value = node.Value;
+
+			//case TRUE
+			if(value == "true") {
+				return UnifiedBooleanLiteral.Create(true);
 			}
+			//case FALSE
+			if(value == "false") {
+				return UnifiedBooleanLiteral.Create(false);
+			}
+
+			//case INTLITERAL
+			int i;
+			if (Int32.TryParse(value, NumberStyles.Any, null, out i)) {
+				return UnifiedIntegerLiteral.Create(i);
+			}
+
+			//case DOUBLELITERAL or FLOATLITERAL
+			decimal d;
+			if (Decimal.TryParse(value, NumberStyles.Any, null, out d)) {
+				return UnifiedDecimalLiteral.Create(d);
+			}
+
+			//case STRINGLITERAL
+			var regex = new Regex(@"^""[a-zA-Z0-9_]*""$");
+			if (regex.IsMatch(value)) {
+				var r = new Regex(@"[a-zA-Z_]{1}[a-zA-Z0-9_]*");
+				var match = r.Match(value);
+				return UnifiedStringLiteral.Create(match.Value);
+			}
+
+			throw new InvalidOperationException();
 		}
 
 		private static UnifiedBinaryOperator CreateBinaryOperator(string name)
