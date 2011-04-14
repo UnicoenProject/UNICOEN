@@ -1911,21 +1911,31 @@ namespace Ucpf.Languages.Java.Model
 			 * |   'new' createdName '[' expression ']' ( '[' expression ']' )* ('[' ']')* 
 			 */
 
-			//TODO 現状では'[]'を見ていないのであとでUnifiedNew.CreateArray()に切り替える
-			UnifiedExpressionList initVal = null;
-			UnifiedArgumentCollection args = null;
+			//TODO UnifiedNew.CreateArray()を使う必要があるのか？typeにsupplementをaddするのではダメか？
+			var type = CreateCreatedName(node.NthElement(1));
+			int dimension;
 
-			if (node.HasContent("arrayInitializer")) {
-				initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
-			} else {
-				//TODO ここでUnifiedArgumentを生成していいのか？
-				args = node.Elements("expression")
-					.Select(CreateExpression)
-					.Select(UnifiedArgument.Create)
-					.ToCollection();
+			if (node.HasContent("arrayInitializer")) { 
+				var initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
+				dimension = node.ElementsByContent("[").Count();
+				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+				return UnifiedNew.Create(type, null, initVal, null);
 			}
-			return UnifiedNew.Create(
-				CreateCreatedName(node.NthElement(1)), args, initVal);
+
+			var supplements = UnifiedTypeSupplementCollection.Create();
+			foreach (var exps in node.Elements("expression")) {
+				var supplement =
+					UnifiedTypeSupplement.Create(CreateExpression(exps).ToCollection(),
+						UnifiedTypeSupplementKind.Array);
+				supplements.Add(supplement);
+			}
+			type.Supplements = supplements;
+			dimension = node.ElementsByContent("[").Where(e => e.NextElement().Name == "]").Count();
+			for(var i=0; i<dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.Create(null, UnifiedTypeSupplementKind.Array));
+
+			return UnifiedNew.Create(type);
 		}
 
 		public static IUnifiedExpression CreateVariableInitializer(XElement node)
