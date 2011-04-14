@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
+using Code2Xml.Languages.Java.XmlGenerators;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
@@ -10,7 +11,7 @@ using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.Java.Model
 {
-	public class NewJavaModelFactory
+	public class JavaModelFactory
 	{
 		public static UnifiedProgram CreateCompilationUnit(XElement node)
 		{
@@ -2251,7 +2252,7 @@ namespace Ucpf.Languages.Java.Model
 			return nodes.Skip(1).Aggregate(createExpression(nodes.First()),
 				(e, n) => UnifiedBinaryExpression.Create(
 					e, CreateBinaryOperator(n.PreviousElement().Value),
-					CreateConditionalAndExpression(node)));
+					createExpression(n)));
 		}
 
 		private static UnifiedIf CreateIf(XElement node)
@@ -2383,6 +2384,13 @@ namespace Ucpf.Languages.Java.Model
 			 */
 			return UnifiedSpecialExpression.CreateThrow(
 					CreateExpression(node.Element("expression")));
+		}
+
+		public static UnifiedProgram CreateModel(string source)
+		{
+			Contract.Requires(source != null);
+			var ast = JavaXmlGenerator.Instance.Generate(source);
+			return CreateCompilationUnit(ast);
 		}
 	}
 }

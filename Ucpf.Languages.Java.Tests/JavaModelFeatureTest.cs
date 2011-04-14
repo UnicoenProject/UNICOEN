@@ -27,7 +27,7 @@ namespace Ucpf.Languages.Java.Tests
 
 		protected override UnifiedProgram CreateModel(string code)
 		{
-			return OldJavaModelFactory.CreateModel(code);
+			return JavaModelFactory.CreateModel(code);
 		}
 
 		/// <summary>

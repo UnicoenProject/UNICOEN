@@ -50,7 +50,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateWhile(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.WhileModel)
@@ -64,7 +64,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateDoWhile(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.DoWhileModel)
@@ -78,7 +78,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateFor(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.ForModel)
@@ -92,7 +92,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateForeach(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.ForeachModel)
@@ -107,7 +107,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateIf(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.IfModel)
@@ -130,7 +130,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateIfElse(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.IfElseModel)
@@ -142,7 +142,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateNewGenericType(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.NewGenericTypeModel)
@@ -154,7 +154,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreatePlusIntegerLiteral(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.PlusIntegerLiteralModel)
@@ -166,7 +166,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateSwitchCase(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseModel)
@@ -178,7 +178,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateSwitchCaseWithDefault(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
@@ -190,7 +190,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateCast(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.CastModel)
@@ -202,7 +202,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateSynchronized(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.SynchronizedModel)
@@ -214,7 +214,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateThrow(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.ThrowModel)
@@ -226,7 +226,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateAnonymousClass(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(AnonymousClassModel)
@@ -238,7 +238,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateTryCatchWithVariable(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithVariableModel)
@@ -250,7 +250,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateTryTwoCatchWithVariable(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithTwoVariableModel)
@@ -262,7 +262,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateTryFinally(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.TryFinallyModel)
@@ -274,7 +274,7 @@ namespace Ucpf.Languages.Java.Tests
 		public void CreateTryCatchFinally(string fragment)
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
-			var actual = OldJavaModelFactory.CreateModel(code);
+			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
 				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchFinallyModel)
@@ -286,7 +286,7 @@ namespace Ucpf.Languages.Java.Tests
 		{
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual =
-				OldJavaModelFactory.CreateModel("class A { void M1() throws Exception { } }");
+				JavaModelFactory.CreateModel("class A { void M1() throws Exception { } }");
 			Assert.That(actual,
 				Is.EqualTo(ThrowsModel)
 					.Using(StructuralEqualityComparerForDebug.Instance));
