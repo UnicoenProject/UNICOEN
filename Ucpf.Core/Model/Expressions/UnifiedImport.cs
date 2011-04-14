@@ -11,11 +11,18 @@ namespace Ucpf.Core.Model
 	{
 		private UnifiedQualifiedIdentifier _name;
 
-		// TODO: A.B.C を UnifiedPropertyで表現
 		public UnifiedQualifiedIdentifier Name
 		{
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
+		}
+
+		private UnifiedModifierCollection _modifiers;
+
+		public UnifiedModifierCollection Modifiers
+		{
+			get { return _modifiers; }
+			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
 		private UnifiedImport() {}
@@ -40,6 +47,7 @@ namespace Ucpf.Core.Model
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
 			yield return Name;
+			yield return Modifiers;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -56,10 +64,11 @@ namespace Ucpf.Core.Model
 				(_name, v => _name = (UnifiedQualifiedIdentifier)v);
 		}
 
-		public static UnifiedImport Create(UnifiedQualifiedIdentifier name)
+		public static UnifiedImport Create(UnifiedQualifiedIdentifier name, UnifiedModifierCollection modifiers)
 		{
 			return new UnifiedImport {
 				Name = name,
+				Modifiers = modifiers,
 			};
 		}
 	}

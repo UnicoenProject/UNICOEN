@@ -48,20 +48,26 @@ namespace Ucpf.Languages.Java.Model
 			return null;
 		}
 
-		public static IUnifiedExpression CreateImportDeclaration(XElement node)
+		public static UnifiedImport CreateImportDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "importDeclaration");
-			// TODO: imeplement this
-			return null;
-		}
+			/*
+			 * importDeclaration  
+			 * :   'import' ('static')? IDENTIFIER '.' '*' ';'
+			 * |   'import' ('static')? IDENTIFIER ('.' IDENTIFIER)+ ('.' '*')? ';' 
+			 */
 
-		public static IUnifiedElement CreateQualifiedImportName(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "qualifiedImportName");
-			// TODO: imeplement this
-			return null;
+			var idStrs = node.Elements("IDENTIFIER").Select(e => e.Value);
+			if (node.HasElementByContent("*"))
+				idStrs = idStrs.Concat("*");
+			
+			// TODO CreateUnknownより詳しい情報を
+			var name = idStrs.Select(UnifiedIdentifier.CreateUnknown).ToQualified(".");
+			var modifiers = node.HasElementByContent("static")
+				? UnifiedModifier.Create(node.NthElement(1).Value).ToCollection() : null;
+
+			return UnifiedImport.Create(name, modifiers);
 		}
 
 		public static IEnumerable<UnifiedClassDefinition> CreateTypeDeclaration(XElement node)
