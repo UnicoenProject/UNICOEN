@@ -60,32 +60,38 @@ namespace Ucpf.Core.Model
 
 		#endregion
 
-		void IUnifiedElementCollection<TElement>.PrivateAdd(TElement element)
-		{
-			Add(element);
-		}
-
-		public void PrivateAddRange(IEnumerable<TElement> elements)
-		{
-			AddRange(elements);
-		}
-
-		public TSelf Add(TElement element)
+		public void Add(TElement element)
 		{
 			Elements.Add(element);
 			if (element != null)
 				((UnifiedElement)(IUnifiedElement)element).Parent = this;
-			return (TSelf)this;
 		}
 
-		public TSelf AddRange(IEnumerable<TElement> elements)
+		public void AddRange(IEnumerable<TElement> elements)
 		{
 			Elements.AddRange(elements);
 			foreach (var element in elements) {
 				if (element != null)
 					((UnifiedElement)(IUnifiedElement)element).Parent = this;
 			}
-			return (TSelf)this;
+		}
+
+		public bool Remove(TElement item)
+		{
+			return Elements.Remove(item);
+		}
+
+		public bool Remove(Func<TElement, bool> predicator)
+		{
+			var count = Elements.Count;
+			for (int i = 0; i < count; i++) {
+				var element = Elements[i];
+				if (predicator(element)) {
+					Elements.RemoveAt(i);
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public override IUnifiedElement DeepCopy()

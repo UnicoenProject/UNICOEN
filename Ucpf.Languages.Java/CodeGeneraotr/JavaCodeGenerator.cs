@@ -102,9 +102,12 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public bool Visit(UnifiedParameter element, TokenInfo data)
 		{
+			var removed = element.Modifiers.Remove(m => m.Name == "...");
 			element.Modifiers.Accept(this, data);
 			element.Type.Accept(this, data);
 			WriteSpace();
+			if (removed)
+				_writer.Write("... ");
 			_writer.Write(element.Name.Value);
 			return false;
 		}

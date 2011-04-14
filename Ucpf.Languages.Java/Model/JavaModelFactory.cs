@@ -34,11 +34,11 @@ namespace Ucpf.Languages.Java.Model
 			}
 			foreach (var e in node.Elements("importDeclaration")) {
 				var importDeclaration = CreateImportDeclaration(e);
-				expressions.PrivateAdd(importDeclaration);
+				expressions.Add(importDeclaration);
 			}
 			foreach (var e in node.Elements("typeDeclaration")) {
 				var typeDeclaration = CreateTypeDeclaration(e);
-				expressions.PrivateAddRange(typeDeclaration);
+				expressions.AddRange(typeDeclaration);
 			}
 			return program;
 		}
@@ -820,6 +820,7 @@ namespace Ucpf.Languages.Java.Model
 			 * normalParameterDecl 
 			 * :   variableModifiers type IDENTIFIER ('[' ']')*
 			 */
+			var modifiers = CreateVariableModifiers(node.Element("variableModifiers"));
 			var type = CreateType(node.Element("type"));
 			var dimension = node.ElementsByContent("[").Count();
 			for (var i = 0; i < dimension; i++)
@@ -827,7 +828,7 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedParameter.Create(
 				node.Element("IDENTIFIER").Value,
 				type,
-				CreateVariableModifiers(node.Element("variableModifiers"))
+				modifiers
 				);
 		}
 
@@ -839,7 +840,14 @@ namespace Ucpf.Languages.Java.Model
 			 * ellipsisParameterDecl  
 			 * :   variableModifiers type '...' IDENTIFIER 
 			 */
-			throw new NotImplementedException();
+			var modifiers = CreateVariableModifiers(node.Element("variableModifiers"));
+			modifiers.Add(UnifiedModifier.Create("..."));
+			var type = CreateType(node.Element("type"));
+			return UnifiedParameter.Create(
+				node.Element("IDENTIFIER").Value,
+				type,
+				modifiers
+				);
 		}
 
 		public static IUnifiedElement CreateExplicitConstructorInvocation(

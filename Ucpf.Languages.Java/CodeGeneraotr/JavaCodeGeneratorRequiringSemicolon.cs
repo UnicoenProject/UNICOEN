@@ -32,6 +32,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public bool Visit(UnifiedImport element, TokenInfo data)
 		{
 			_writer.Write("import ");
+			element.Modifiers.TryAccept(this, data);
 			element.Name.Accept(this, data);
 			return true;
 		}
