@@ -17,6 +17,14 @@ namespace Ucpf.Core.Model
 			set { _function = SetParentOfChild(value, _function); }
 		}
 
+		private UnifiedTypeArgumentCollection _typeArguments;
+
+		public UnifiedTypeArgumentCollection TypeArguments
+		{
+			get { return _typeArguments; }
+			set { _typeArguments = SetParentOfChild(value, _typeArguments); }
+		}
+
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments
@@ -24,7 +32,6 @@ namespace Ucpf.Core.Model
 			get { return _arguments; }
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
-
 		private UnifiedCall()
 		{
 			Arguments = UnifiedArgumentCollection.Create();
@@ -50,6 +57,7 @@ namespace Ucpf.Core.Model
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
 			yield return Function;
+			yield return TypeArguments;
 			yield return Arguments;
 		}
 
@@ -59,6 +67,8 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Function, v => Function = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(TypeArguments, v => TypeArguments = (UnifiedTypeArgumentCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
@@ -67,6 +77,8 @@ namespace Ucpf.Core.Model
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_function, v => _function = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_typeArguments, v => _typeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}

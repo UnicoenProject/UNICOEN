@@ -6,7 +6,17 @@ namespace Ucpf.Core.Model.Extensions
 {
 	public static class ModelSweeper
 	{
-		public static IEnumerable<IUnifiedElement> ParentsAndSelf(
+		public static IEnumerable<IUnifiedElement> Ancestors(
+			this IUnifiedElement element)
+		{
+			Contract.Requires(element != null);
+			IUnifiedElement parent;
+			while ((parent = element.Parent) != null) {
+				yield return parent;
+			}
+		}
+
+		public static IEnumerable<IUnifiedElement> AncestorsAndSelf(
 			this IUnifiedElement element)
 		{
 			Contract.Requires(element != null);

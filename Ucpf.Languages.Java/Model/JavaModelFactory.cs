@@ -449,7 +449,7 @@ namespace Ucpf.Languages.Java.Model
 					CreateBlock(node.Element("block")),
 					modifier,
 					null,
-					UnifiedFunctionDefinitionKind.StaticInitializer);
+					UnifiedConstructorDefinitionKind.StaticInitializer);
 			}
 			if (node.HasElement("memberDecl")) {
 				yield return CreateMemberDecl(node.Element("memberDecl"));
@@ -533,8 +533,7 @@ namespace Ucpf.Languages.Java.Model
 							.ToBlock(),
 					modifiers,
 					parameters,
-					name,
-					UnifiedFunctionDefinitionKind.Constructor);
+					UnifiedConstructorDefinitionKind.Constructor);
 			}
 			//TODO UnifiedFunctionDefinition.Createの整備
 			return UnifiedFunctionDefinition.CreateFunction(
@@ -1824,6 +1823,7 @@ namespace Ucpf.Languages.Java.Model
 			if (node.FirstElement().Name == "arguments") {
 				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
 			}
+			// todo implement
 			throw new NotImplementedException();
 		}
 

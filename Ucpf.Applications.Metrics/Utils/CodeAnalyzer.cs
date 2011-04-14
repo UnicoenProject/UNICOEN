@@ -60,7 +60,7 @@ namespace Ucpf.Applications.Metrics.Utils
 		private static string GetOutersString(IUnifiedElement target)
 		{
 			var result = "";
-			foreach (var e in target.ParentsAndSelf()) {
+			foreach (var e in target.AncestorsAndSelf()) {
 				var name = GetOutersName(e);
 				if (name == null)
 					continue;

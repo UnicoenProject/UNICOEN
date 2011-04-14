@@ -11,21 +11,21 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			var expression = element.Expression;
 
 			_writer.Write("(");
-			element.Type.Accept(this, data);
+			element.Type.TryAccept(this, data);
 			_writer.Write(")");
 			_writer.Write("(");
-			expression.Accept(this, data);
+			expression.TryAccept(this, data);
 			_writer.Write(")");
 			return true;
 		}
 
 		public bool Visit(UnifiedTernaryExpression element, TokenInfo data)
 		{
-			element.FirstExpression.Accept(this, data);
+			element.FirstExpression.TryAccept(this, data);
 			WriteSpace();
-			element.SecondExpression.Accept(this, data);
+			element.SecondExpression.TryAccept(this, data);
 			WriteSpace();
-			element.LastExpression.Accept(this, data);
+			element.LastExpression.TryAccept(this, data);
 			return true;
 		}
 
@@ -33,16 +33,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		{
 			_writer.Write("import ");
 			element.Modifiers.TryAccept(this, data);
-			element.Name.Accept(this, data);
+			element.Name.TryAccept(this, data);
 			return true;
 		}
 
 		public bool Visit(UnifiedBinaryExpression element, TokenInfo data)
 		{
 			_writer.Write("(");
-			element.LeftHandSide.Accept(this, data);
-			element.Operator.Accept(this, data);
-			element.RightHandSide.Accept(this, data);
+			element.LeftHandSide.TryAccept(this, data);
+			element.Operator.TryAccept(this, data);
+			element.RightHandSide.TryAccept(this, data);
 			_writer.Write(")");
 			return true;
 		}
@@ -52,15 +52,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			_writer.Write(GetKeyword(element.Kind));
 			if (element.Value != null) {
 				WriteSpace();
-				element.Value.Accept(this, data);
+				element.Value.TryAccept(this, data);
 			}
 			return true;
 		}
 
 		public bool Visit(UnifiedCall element, TokenInfo data)
 		{
-			element.Function.Accept(this, data);
-			element.Arguments.Accept(this,
+			element.TypeArguments.TryAccept(this, data);
+			element.Function.TryAccept(this, data);
+			element.Arguments.TryAccept(this,
 				new TokenInfo { MostLeft = "(", Delimiter = ", ", MostRight = ")" });
 			return true;
 		}
@@ -68,20 +69,23 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		// e.g. int a = 5
 		public bool Visit(UnifiedVariableDefinition element, TokenInfo data)
 		{
-			element.Modifiers.Accept(this, data);
+			element.Modifiers.TryAccept(this, data);
 			WriteSpace();
-			element.Type.Accept(this, data);
+			element.Type.TryAccept(this, data);
 			WriteSpace();
-			element.Bodys.Accept(this, data);
+			element.Bodys.TryAccept(this, data);
 			return true;
 		}
 
 		public bool Visit(UnifiedNew element, TokenInfo data)
 		{
 			_writer.Write("new ");
-			element.Type.Accept(this, data);
+			element.TypeArguments.TryAccept(this, data);
+			element.Type.TryAccept(this, data);
 			element.Arguments.TryAccept(this,
 				new TokenInfo { MostLeft = "(", Delimiter = ", ", MostRight = ")" });
+			element.InitialValues.TryAccept(this,
+				new TokenInfo { MostLeft = "{", Delimiter = ", ", MostRight = "}" });
 			element.Body.TryAccept(this, data);
 			return true;
 		}
@@ -90,11 +94,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		{
 			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
 			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
-				element.Operand.Accept(this, data);
-				element.Operator.Accept(this, data);
+				element.Operand.TryAccept(this, data);
+				element.Operator.TryAccept(this, data);
 			} else {
-				element.Operator.Accept(this, data);
-				element.Operand.Accept(this, data);
+				element.Operator.TryAccept(this, data);
+				element.Operand.TryAccept(this, data);
 			}
 			return true;
 		}

@@ -6,8 +6,5 @@
 	public enum UnifiedFunctionDefinitionKind
 	{
 		Function,
-		Constructor,
-		StaticInitializer,
-		InstanceInitializer,
 	}
 }

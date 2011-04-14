@@ -1,5 +1,6 @@
 ﻿using System;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Languages.Java.CodeGeneraotr
 {
@@ -60,7 +61,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			foreach (var e in elements) {
 				_writer.Write(splitter);
 				_writer.Write(data.EachLeft);
-				e.Accept(this, data);
+				e.TryAccept(this, data);
 				_writer.Write(data.EachRight);
 				splitter = data.Delimiter;
 			}
@@ -141,7 +142,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 					_writer.Write(" " + keyword + " ");
 				else
 					_writer.Write(data.Delimiter);
-				current.Type.Accept(this, data);
+				current.Type.TryAccept(this, data);
 				last = current;
 			}
 			return false;
@@ -191,7 +192,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			_indent++;
 			foreach (var caseElement in element) {
 				WriteIndent();
-				caseElement.Accept(this, data);
+				caseElement.TryAccept(this, data);
 			}
 			_indent--;
 			return false;
@@ -199,9 +200,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public bool Visit(UnifiedExpressionList element, TokenInfo data)
 		{
-			VisitCollection(element, new TokenInfo {
-				Delimiter = ", ",
-			});
+			VisitCollection(element, data);
 			return false;
 		}
 	}
