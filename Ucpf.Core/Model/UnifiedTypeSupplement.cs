@@ -66,7 +66,7 @@ namespace Ucpf.Core.Model
 		                                           UnifiedTypeSupplementKind kind)
 		{
 			// arguments.Countが2以上の場合はC#の長方形配列を指定してください。
-			Contract.Requires(kind == UnifiedTypeSupplementKind.Array && arguments.Count != 1);
+			Contract.Requires(kind == UnifiedTypeSupplementKind.Array && arguments.Count == 1);
 			return new UnifiedTypeSupplement {
 				Arguments = arguments,
 				Kind = kind,
@@ -79,7 +79,7 @@ namespace Ucpf.Core.Model
 		/// <returns></returns>
 		public static UnifiedTypeSupplement CreateArray()
 		{
-			return Create(null, UnifiedTypeSupplementKind.Array);
+			return CreateArray(UnifiedArgument.Create(null));
 		}
 
 		/// <summary>

@@ -360,7 +360,8 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public void Visit(UnifiedArgument arg)
 		{
-			arg.Value.Accept(this);
+			if (arg.Value != null)
+				arg.Value.Accept(this);
 		}
 
 		#endregion
