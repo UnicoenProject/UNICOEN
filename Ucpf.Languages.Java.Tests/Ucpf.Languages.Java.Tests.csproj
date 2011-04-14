@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGeneraotr\JavaCodeGeneratorTestForStudent.cs" />
     <Compile Include="JavaFibonacciTest.cs" />
     <Compile Include="JavaFixture.cs" />
     <Compile Include="JavaModelFeatureTest.cs" />

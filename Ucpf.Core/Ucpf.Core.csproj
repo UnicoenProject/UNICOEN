@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionList.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
+    <Compile Include="Model\Expressions\UnifiedQualifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\UnifiedTernaryExpression.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperatorKind.cs" />

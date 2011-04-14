@@ -7,7 +7,7 @@ namespace Ucpf.Core.Model
 {
 	/// <summary>
 	///   変数宣言部分を表します。
-	/// e.g. Javaにおける<c>int[] a[][], b[], c;</c>
+	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>
 	/// </summary>
 	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression
 	{
@@ -43,6 +43,12 @@ namespace Ucpf.Core.Model
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
 			visitor.Visit(this);
+		}
+
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
@@ -91,7 +97,8 @@ namespace Ucpf.Core.Model
 				null);
 		}
 
-		public static UnifiedVariableDefinition CreateSingle(UnifiedType type, string name)
+		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
+		                                                     string name)
 		{
 			return CreateSingle(
 				null,
@@ -103,7 +110,8 @@ namespace Ucpf.Core.Model
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(string name,
-		                                               IUnifiedExpression initialValue)
+		                                                     IUnifiedExpression
+		                                                     	initialValue)
 		{
 			return CreateSingle(
 				null,
@@ -114,8 +122,10 @@ namespace Ucpf.Core.Model
 				null);
 		}
 
-		public static UnifiedVariableDefinition CreateSingle(UnifiedType type, string name,
-		                                               IUnifiedExpression initialValue)
+		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
+		                                                     string name,
+		                                                     IUnifiedExpression
+		                                                     	initialValue)
 		{
 			return CreateSingle(
 				null,
@@ -127,9 +137,11 @@ namespace Ucpf.Core.Model
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
-		                                               UnifiedModifierCollection modifiers,
-		                                               IUnifiedExpression initialValue,
-		                                               string name)
+		                                                     UnifiedModifierCollection
+		                                                     	modifiers,
+		                                                     IUnifiedExpression
+		                                                     	initialValue,
+		                                                     string name)
 		{
 			return CreateSingle(
 				modifiers,
@@ -140,9 +152,10 @@ namespace Ucpf.Core.Model
 				null);
 		}
 
-		public static UnifiedVariableDefinition CreateSingle(UnifiedType type, string name,
-		                                               UnifiedModifierCollection
-		                                               	modifiers)
+		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
+		                                                     string name,
+		                                                     UnifiedModifierCollection
+		                                                     	modifiers)
 		{
 			return CreateSingle(
 				modifiers,

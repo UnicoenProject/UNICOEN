@@ -24,7 +24,7 @@ namespace Ucpf.Core.Model
 			get { return _value; }
 			set { _value = SetParentOfChild(value, _value); }
 		}
-		
+
 		private UnifiedTypeConstrainCollection _constrains;
 
 		public UnifiedTypeConstrainCollection Constrains
@@ -38,6 +38,12 @@ namespace Ucpf.Core.Model
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
 			visitor.Visit(this);
+		}
+
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
@@ -93,8 +99,9 @@ namespace Ucpf.Core.Model
 		}
 
 		public static UnifiedTypeArgument Create(UnifiedType type,
-		                                         UnifiedModifierCollection modifiers, 
-			UnifiedTypeConstrainCollection constrains) 
+		                                         UnifiedModifierCollection modifiers,
+		                                         UnifiedTypeConstrainCollection
+		                                         	constrains)
 		{
 			return new UnifiedTypeArgument {
 				Value = type,

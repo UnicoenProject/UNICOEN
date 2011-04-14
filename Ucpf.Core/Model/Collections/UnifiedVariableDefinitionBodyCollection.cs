@@ -1,25 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
 {
 	/// <summary>
-	///  修飾子や型を除いた変数宣言の集合を表します。
+	///   修飾子や型を除いた変数宣言の集合を表します。
 	/// </summary>
 	public class UnifiedVariableDefinitionBodyCollection
-		: UnifiedElementCollection<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection>
+		: UnifiedElementCollection
+		  	<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection>
 	{
 		private UnifiedVariableDefinitionBodyCollection() {}
 
-		private UnifiedVariableDefinitionBodyCollection(IEnumerable<UnifiedVariableDefinitionBody> elements)
+		private UnifiedVariableDefinitionBodyCollection(
+			IEnumerable<UnifiedVariableDefinitionBody> elements)
 			: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
 			visitor.Visit(this);
+		}
+
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(

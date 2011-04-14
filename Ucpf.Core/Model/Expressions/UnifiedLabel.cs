@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
@@ -10,31 +8,59 @@ namespace Ucpf.Core.Model
 	{
 		private UnifiedIdentifier _name;
 
+		public UnifiedIdentifier Name
+		{
+			get { return _name; }
+			set { _name = SetParentOfChild(value, _name); }
+		}
+
 		private IUnifiedExpression _expression;
+
+		public IUnifiedExpression Expression
+		{
+			get { return _expression; }
+			set { _expression = SetParentOfChild(value, _expression); }
+		}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
-			throw new NotImplementedException();
+			visitor.Visit(this);
 		}
 
-		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data)
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
 		{
-			throw new NotImplementedException();
+			visitor.Visit(this, data);
+		}
+
+		public override TResult Accept<TData, TResult>(
+			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
+		{
+			return visitor.Visit(this, data);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
-			throw new NotImplementedException();
+			yield return Name;
+			yield return Expression;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>> GetElementAndSetters()
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+			GetElementAndSetters()
 		{
-			throw new NotImplementedException();
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Name, v => Name = (UnifiedIdentifier)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Expression, v => Expression = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>> GetElementAndDirectSetters()
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+			GetElementAndDirectSetters()
 		{
-			throw new NotImplementedException();
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_name, v => _name = (UnifiedIdentifier)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_expression, v => _expression = (IUnifiedExpression)v);
 		}
 	}
 }

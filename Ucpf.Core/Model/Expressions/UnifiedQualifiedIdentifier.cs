@@ -4,29 +4,31 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
 {
-	/// <summary>
-	///   使用する名前空間の指定や外部ファイルの読み込みを表します。
-	/// </summary>
-	public class UnifiedImport : UnifiedElement, IUnifiedExpression
+	public class UnifiedQualifiedIdentifier : UnifiedElement
 	{
-		private UnifiedQualifiedIdentifier _name;
+		public string Delimiter { get; set; }
 
-		// TODO: A.B.C を UnifiedPropertyで表現
-		public UnifiedQualifiedIdentifier Name
+		private UnifiedIdentifierCollection _identifiers;
+
+		public UnifiedIdentifierCollection Identifiers
 		{
-			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			get { return _identifiers; }
+			set { _identifiers = SetParentOfChild(value, _identifiers); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
-
-		public UnifiedModifierCollection Modifiers
+		public string Value
 		{
-			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			get
+			{
+				var delimiter = "";
+				var result = "";
+				foreach (var identifier in Identifiers) {
+					result += delimiter + identifier.Value;
+					delimiter = Delimiter;
+				}
+				return result;
+			}
 		}
-
-		private UnifiedImport() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
@@ -47,29 +49,29 @@ namespace Ucpf.Core.Model
 
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
-			yield return Name;
-			yield return Modifiers;
+			yield return Identifiers;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Name, v => Name = (UnifiedQualifiedIdentifier)v);
+				(Identifiers, v => Identifiers = (UnifiedIdentifierCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 			GetElementAndDirectSetters()
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_name, v => _name = (UnifiedQualifiedIdentifier)v);
+				(_identifiers, v => _identifiers = (UnifiedIdentifierCollection)v);
 		}
 
-		public static UnifiedImport Create(UnifiedQualifiedIdentifier name)
+		public static UnifiedQualifiedIdentifier Create(
+			IEnumerable<UnifiedIdentifier> identifiers, string delimiter)
 		{
-			return new UnifiedImport {
-				Name = name,
-				Modifiers = modifiers,
+			return new UnifiedQualifiedIdentifier {
+				Identifiers = UnifiedIdentifierCollection.Create(identifiers),
+				Delimiter = delimiter,
 			};
 		}
 	}

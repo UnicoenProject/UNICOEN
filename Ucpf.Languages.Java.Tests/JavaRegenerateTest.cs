@@ -7,6 +7,7 @@ using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
 using Ucpf.Core.Tests;
+using Ucpf.Languages.Java.CodeGeneraotr;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests

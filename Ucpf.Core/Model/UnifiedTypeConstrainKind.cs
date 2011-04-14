@@ -36,7 +36,6 @@
 		/// </summary>
 		ValueType,
 		/// <summary>
-		/// 
 		/// </summary>
 		Super
 	}
