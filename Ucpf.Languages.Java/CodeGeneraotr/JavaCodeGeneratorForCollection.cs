@@ -3,17 +3,30 @@ using Ucpf.Core.Model;
 
 namespace Ucpf.Languages.Java.CodeGeneraotr
 {
+	/// <summary>
+	/// MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
+	/// </summary>
 	public struct TokenInfo
 	{
 		/// <summary>
 		///   左端の文字
 		/// </summary>
-		public string Left;
+		public string MostLeft;
 
 		/// <summary>
 		///   右端の文字
 		/// </summary>
-		public string Right;
+		public string MostRight;
+
+		/// <summary>
+		///   各要素の直前
+		/// </summary>
+		public string EachLeft;
+
+		/// <summary>
+		///   各要素の直後
+		/// </summary>
+		public string EachRight;
 
 		/// <summary>
 		///   区切り文字
@@ -35,31 +48,37 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			where T : class, IUnifiedElement
 			where TSelf : UnifiedElementCollection<T, TSelf>
 		{
-			_writer.Write(data.Left);
+			_writer.Write(data.MostLeft);
 			var splitter = "";
 			foreach (var e in elements) {
 				_writer.Write(splitter);
+				_writer.Write(data.EachLeft);
 				e.Accept(this);
+				_writer.Write(data.EachRight);
 				splitter = data.Delimiter;
 			}
-			_writer.Write(data.Right);
+			_writer.Write(data.MostRight);
 		}
 
 		public void Visit(UnifiedParameterCollection parameters)
 		{
 			VisitCollection(parameters, new TokenInfo {
-				Left = "(",
+				MostLeft = "(",
+				MostRight = ")",
+				EachLeft = "",
+				EachRight = "",
 				Delimiter = ", ",
-				Right = ")",
 			});
 		}
 
 		public void Visit(UnifiedModifierCollection modifiers)
 		{
 			VisitCollection(modifiers, new TokenInfo {
-				Left = "",
-				Delimiter = " ",
-				Right = "",
+				MostLeft = "",
+				MostRight = "",
+				EachLeft = "",
+				EachRight = " ",
+				Delimiter = "",
 			});
 		}
 

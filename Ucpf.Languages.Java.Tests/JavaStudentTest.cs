@@ -6,7 +6,7 @@ using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests
 {
-	[TestFixture]
+	[Ignore, TestFixture]
 	public class JavaStudentTest
 	{
 		private readonly string _source;

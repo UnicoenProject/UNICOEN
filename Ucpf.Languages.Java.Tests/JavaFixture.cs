@@ -7,17 +7,24 @@ namespace Ucpf.Languages.Java.Tests
 {
 	public static class JavaFixture
 	{
+		/// <summary>
+		/// A.javaファイルのメソッド宣言の中身としてテスト
+		/// <c>class A { public void M1() { ... } }</c>の...部分に埋め込んだのちテスト
+		/// </summary>
 		public static IEnumerable<TestCaseData> TestStatements
 		{
 			get
 			{
 				return new[] {
-					"{ M1(); }",
-					"{ new A(); }",
+					"M1();",
+					"new A();",
 				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
 
+		/// <summary>
+		/// A.javaファイルのソースコードとしてテスト
+		/// </summary>
 		public static IEnumerable<TestCaseData> TestCodes
 		{
 			get

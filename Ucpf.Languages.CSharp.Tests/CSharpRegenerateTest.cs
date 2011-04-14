@@ -16,7 +16,7 @@ namespace Ucpf.Languages.CSharp.Tests
 	///   コードは、コンパイルしたアセンブリファイルの逆コンパイル結果同士、
 	///   もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
-	[TestFixture]
+	[Ignore, TestFixture]
 	public class CSharpRegenerateTest
 	{
 		private const string CscPath =

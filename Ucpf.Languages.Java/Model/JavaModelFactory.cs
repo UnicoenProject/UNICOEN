@@ -1761,6 +1761,9 @@ namespace Ucpf.Languages.Java.Model
 			 * |   'void' '.' 'class'
 			 */
 			var first = node.FirstElement();
+			if (first.Name() == "parExpression") {
+				return CreateParExpression(first);
+			}
 			if (first.HasContent("this") || first.Name() == "IDENTIFIER") {
 				var variable = UnifiedIdentifier.CreateUnknown(first.Value);
 				var prop = first.NextElements("IDENTIFIER")
@@ -2408,7 +2411,9 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(source != null);
 			var ast = JavaXmlGenerator.Instance.Generate(source);
-			return CreateCompilationUnit(ast);
+			var model = CreateCompilationUnit(ast);
+			model.Normalize();
+			return model;
 		}
 	}
 }

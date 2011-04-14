@@ -8,7 +8,7 @@ using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests
 {
-	[TestFixture]
+	[Ignore, TestFixture]
 	public class JavaFibonacciTest
 	{
 		private static readonly string Code =

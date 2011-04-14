@@ -7,7 +7,7 @@ using Ucpf.Languages.Java.CodeGeneraotr;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Languages.Java.Tests.CodeGeneraotr {
-	[TestFixture]
+	[Ignore, TestFixture]
 	public class JavaCodeGeneratorTestForTest {
 		private string _source;
 		private UnifiedProgram _program;

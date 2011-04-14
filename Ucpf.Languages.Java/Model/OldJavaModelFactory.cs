@@ -169,9 +169,9 @@ namespace Ucpf.Languages.Java.Model
 			Contract.Requires(node.Name() == "selector");
 			/*
 			 *  selector  
-				:   '.' IDENTIFIER (arguments)? //student.getName()
-				|   '.' 'this' //OuterClass.this
-				|   '.' 'super' superSuffix //Outer.super()
+				:   '.' IDENTIFIER (arguments)?	// student.getName()
+				|   '.' 'this'					// OuterClass.this
+				|   '.' 'super' superSuffix		// Outer.super()
 				|   innerCreator
 				|   '[' expression ']' 
 			 */
@@ -227,7 +227,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   parExpression            
 			 * |   'this' ('.' IDENTIFIER)* (identifierSuffix)?
 			 * |   IDENTIFIER ('.' IDENTIFIER)* (identifierSuffix)?
-			 * |   'super' superSuffix
+			 * |   'super' superSuffix									// Outer.super()
 			 * |   literal
 			 * |   creator
 			 * |   primitiveType ('[' ']')* '.' 'class'
@@ -277,7 +277,7 @@ namespace Ucpf.Languages.Java.Model
 			/*
 			 * superSuffix  
 			 * :   arguments
-			 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
+			 * |   '.' (typeArguments)? IDENTIFIER (arguments)?		// Outer.super()
 			 */
 			if (node.FirstElement().Name == "arguments") {
 				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
