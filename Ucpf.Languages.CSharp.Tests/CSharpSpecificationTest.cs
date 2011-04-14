@@ -16,6 +16,7 @@ namespace Ucpf.Languages.CSharp.Tests
 						UnifiedNew.Create(
 							null,
 							null,
+							null,
 							null, UnifiedBlock.Create())));
 			}
 		}

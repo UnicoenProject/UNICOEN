@@ -1877,24 +1877,31 @@ namespace Ucpf.Languages.Java.Model
 			 * |   arrayCreator 
 			 */
 
+			//コード例
+			//Sample<String> Sample = new <Integer> Sample<String> (1,2){ int z = 0; };
+			
 			var first = node.FirstElement();
 
 			if (first.Name() == "arrayCreator") {
 				return CreateArrayCreator(first);
 			}
 
-			//TODO classCreatorRest内のargumentsが必要となるケースを調査
+			var creatorRest = CreateClassCreatorRest(node.Element("classCreatorRest"));
 			if (node.Elements().Count() == 4)
 				return UnifiedNew.Create(
-					CreateClassOrInterfaceType(node.NthElement(2)),
-					CreateNonWildcardTypeArguments(node.NthElement(1)),
-					null,
-					CreateClassCreatorRest(node.NthElement(3)).Item2
+					CreateClassOrInterfaceType(node.NthElement(2)) /*Type*/,
+					creatorRest.Item1 /*Argument*/,
+					CreateNonWildcardTypeArguments(node.Element("nonWildcardTypeArguments")) /*TypeArguments*/,
+					null /*InitialValues*/,
+					creatorRest.Item2 /*Body*/
 					);
 
 			return UnifiedNew.Create(
-				CreateClassOrInterfaceType(node.NthElement(1)),
-				CreateClassCreatorRest(node.NthElement(2)).Item2
+				CreateClassOrInterfaceType(node.NthElement(1)) /*Type*/,
+				creatorRest.Item1 /*Argument*/,
+				null /*TypeParameters*/,
+				null /*InitialValues*/,
+				creatorRest.Item2 /*Body*/
 				);
 		}
 
@@ -1908,7 +1915,6 @@ namespace Ucpf.Languages.Java.Model
 			 * |   'new' createdName '[' expression ']' ( '[' expression ']' )* ('[' ']')* 
 			 */
 
-			//TODO UnifiedNew.CreateArray()を使う必要があるのか？typeにsupplementをaddするのではダメか？
 			var type = CreateCreatedName(node.NthElement(1));
 			int dimension;
 
@@ -1916,8 +1922,7 @@ namespace Ucpf.Languages.Java.Model
 				var initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
 				dimension = node.ElementsByContent("[").Count();
 				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
-				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
-				return UnifiedNew.Create(type, null, initVal, null);
+				return UnifiedNew.Create(type, null, null, initVal, null);
 			}
 
 			var supplements = UnifiedTypeSupplementCollection.Create();
@@ -1928,7 +1933,7 @@ namespace Ucpf.Languages.Java.Model
 				supplements.Add(supplement);
 			}
 			type.Supplements = supplements;
-			dimension = node.ElementsByContent("[").Where(e => e.NextElement().Name == "]").Count();
+			dimension = node.ElementsByContent("[").Where(e => e.NextElement().Value == "]").Count();
 			for(var i=0; i<dimension; i++)
 				type.AddSupplement(UnifiedTypeSupplement.Create(null, UnifiedTypeSupplementKind.Array));
 
@@ -1998,8 +2003,27 @@ namespace Ucpf.Languages.Java.Model
 			 * innerCreator  
 			 * :   '.' 'new' (nonWildcardTypeArguments)? IDENTIFIER (typeArguments)? classCreatorRest 
 			 */
-			//TODO innerCreatorの実際のコードを調べる
-			return null;
+
+			//コード例
+			// X . new <T> Sample <E> (1,2){}
+
+			var typeArguments = node.HasElement("typeArguments")
+			                    	? CreateTypeArguments(node.Element("typeArguments"))
+			                    	: null;
+			var type = UnifiedType.CreateUsingString(node.Element("IDENTIFIER").Value, typeArguments);
+			var creatorRest = CreateClassCreatorRest(node.Element("classCreatorRest"));
+			var typeParameters = node.HasElement("nonWildcardTypeArguments")
+			                     	? CreateNonWildcardTypeArguments(
+			                     		node.Element("nonWildcardTypeArguments")) : null;
+			var prop = UnifiedNew.Create(
+				type,
+				creatorRest.Item1,
+				typeParameters,
+				null,
+				creatorRest.Item2
+				);
+
+			return UnifiedProperty.Create(prefix, prop, ".");
 		}
 
 		public static Tuple<UnifiedArgumentCollection, UnifiedBlock> CreateClassCreatorRest(XElement node)
@@ -2018,7 +2042,7 @@ namespace Ucpf.Languages.Java.Model
 					CreateArguments(node.Element("arguments")), body);
 		}
 
-		public static UnifiedArgumentCollection CreateNonWildcardTypeArguments(
+		public static UnifiedTypeArgumentCollection CreateNonWildcardTypeArguments(
 			XElement node)
 		{
 			Contract.Requires(node != null);
@@ -2029,10 +2053,10 @@ namespace Ucpf.Languages.Java.Model
 			 */
 
 			var typeList = CreateTypeList(node.NthElement(1));
-			var typeArguments = UnifiedArgumentCollection.Create();
+			var typeArguments = UnifiedTypeArgumentCollection.Create();
 
 			foreach (var type in typeList) {
-				var argument = UnifiedArgument.Create(type);
+				var argument = UnifiedTypeArgument.Create(type);
 				typeArguments.Add(argument);
 			}
 			return typeArguments;
