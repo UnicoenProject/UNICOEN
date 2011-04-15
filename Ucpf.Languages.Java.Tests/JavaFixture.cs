@@ -47,7 +47,7 @@ namespace Ucpf.Languages.Java.Tests
 					"Block2.java",
 					"Block3.java",
 					"Class.java",
-					//"Condition.java",
+					"Condition.java",
 					//"ControlFlow.java",
 					//"Exception.java",
 					"Fibonacci.java",

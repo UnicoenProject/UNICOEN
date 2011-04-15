@@ -2,7 +2,6 @@
 {
 	public interface IUnifiedModelVisitor
 	{
-		void Visit<T>(UnifiedTypedLiteral<T> element);
 		void Visit(UnifiedBinaryOperator element);
 		void Visit(UnifiedUnaryOperator element);
 		void Visit(UnifiedArgument element);
@@ -23,7 +22,6 @@
 		void Visit(UnifiedClassDefinition element);
 		void Visit(UnifiedVariableDefinition element);
 		void Visit(UnifiedNew element);
-		void Visit(UnifiedLiteral element);
 		void Visit(UnifiedFor element);
 		void Visit(UnifiedForeach element);
 		void Visit(UnifiedUnaryExpression element);
@@ -59,11 +57,14 @@
 		void Visit(UnifiedQualifiedIdentifier element);
 		void Visit(UnifiedLabel element);
 		void Visit(UnifiedExpressionList element);
+		void Visit(UnifiedBooleanLiteral element);
+		void Visit(UnifiedDecimalLiteral element);
+		void Visit(UnifiedIntegerLiteral element);
+		void Visit(UnifiedStringLiteral element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData>
 	{
-		void Visit<TValue>(UnifiedTypedLiteral<TValue> element, TData data);
 		void Visit(UnifiedBinaryOperator element, TData data);
 		void Visit(UnifiedUnaryOperator element, TData data);
 		void Visit(UnifiedArgument element, TData data);
@@ -84,7 +85,6 @@
 		void Visit(UnifiedClassDefinition element, TData data);
 		void Visit(UnifiedVariableDefinition element, TData data);
 		void Visit(UnifiedNew element, TData data);
-		void Visit(UnifiedLiteral element, TData data);
 		void Visit(UnifiedFor element, TData data);
 		void Visit(UnifiedForeach element, TData data);
 		void Visit(UnifiedUnaryExpression element, TData data);
@@ -120,11 +120,14 @@
 		void Visit(UnifiedQualifiedIdentifier element, TData data);
 		void Visit(UnifiedLabel element, TData data);
 		void Visit(UnifiedExpressionList element, TData data);
+		void Visit(UnifiedBooleanLiteral element, TData data);
+		void Visit(UnifiedDecimalLiteral element, TData data);
+		void Visit(UnifiedIntegerLiteral element, TData data);
+		void Visit(UnifiedStringLiteral element, TData data);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult>
 	{
-		TResult Visit<TValue>(UnifiedTypedLiteral<TValue> element, TData data);
 		TResult Visit(UnifiedBinaryOperator element, TData data);
 		TResult Visit(UnifiedUnaryOperator element, TData data);
 		TResult Visit(UnifiedArgument element, TData data);
@@ -145,7 +148,6 @@
 		TResult Visit(UnifiedClassDefinition element, TData data);
 		TResult Visit(UnifiedVariableDefinition element, TData data);
 		TResult Visit(UnifiedNew element, TData data);
-		TResult Visit(UnifiedLiteral element, TData data);
 		TResult Visit(UnifiedFor element, TData data);
 		TResult Visit(UnifiedForeach element, TData data);
 		TResult Visit(UnifiedUnaryExpression element, TData data);
@@ -181,5 +183,9 @@
 		TResult Visit(UnifiedQualifiedIdentifier element, TData data);
 		TResult Visit(UnifiedLabel element, TData data);
 		TResult Visit(UnifiedExpressionList element, TData data);
+		TResult Visit(UnifiedBooleanLiteral element, TData data);
+		TResult Visit(UnifiedDecimalLiteral element, TData data);
+		TResult Visit(UnifiedIntegerLiteral element, TData data);
+		TResult Visit(UnifiedStringLiteral element, TData data);
 	}
 }

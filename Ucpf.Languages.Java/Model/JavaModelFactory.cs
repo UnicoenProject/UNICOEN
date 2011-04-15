@@ -1480,7 +1480,7 @@ namespace Ucpf.Languages.Java.Model
 
 			if (node.HasElement("expression")) {
 				return UnifiedTernaryExpression.Create(
-					CreateConditionalExpression(node.NthElement(0)),
+					CreateConditionalOrExpression(node.NthElement(0)),
 					UnifiedTernaryOperator.Create(
 						node.NthElement(1).Value, 
 						node.NthElement(3).Value,
@@ -1738,7 +1738,7 @@ namespace Ucpf.Languages.Java.Model
 				return result;
 			}
 			return UnifiedUnaryExpression.Create(
-				CreateExpression(node.NthElement(1)),
+				CreateUnaryExpression(node.NthElement(1)),
 				CreatePrefixUnaryOperator(firstElement.Value));
 		}
 
