@@ -91,5 +91,14 @@ namespace Ucpf.Core.Model
 				Arguments = args,
 			};
 		}
+
+		public static UnifiedCall Create(IUnifiedExpression target, UnifiedArgumentCollection args, UnifiedTypeArgumentCollection typeArguments)
+		{
+			return new UnifiedCall {
+				Function = target,
+				Arguments = args,
+				TypeArguments = typeArguments
+			};
+		}
 	}
 }
