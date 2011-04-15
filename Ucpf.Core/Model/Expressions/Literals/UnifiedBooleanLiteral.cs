@@ -7,19 +7,24 @@ namespace Ucpf.Core.Model
 	/// <summary>
 	///   boolean型であるリテラルを表します。
 	/// </summary>
-	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<UnifiedBoolean>
+	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<bool>
 	{
 		private UnifiedBooleanLiteral() {}
 
 		public static UnifiedBooleanLiteral Create(bool value)
 		{
-			var eValue = value ? UnifiedBoolean.True : UnifiedBoolean.False;
-			return new UnifiedBooleanLiteral { Value = eValue };
+			return new UnifiedBooleanLiteral { Value = value };
 		}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
 			visitor.Visit(this);
+		}
+
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data)
+		{
+			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(

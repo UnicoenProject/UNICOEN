@@ -281,6 +281,33 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return false;
 		}
 
+		public bool Visit(UnifiedBooleanLiteral element, TokenInfo data)
+		{
+			if(element.Value.ToString() == "True")
+				_writer.Write("true");
+			if(element.Value.ToString() == "False")
+				_writer.Write("false");
+			return false;
+		}
+
+		public bool Visit(UnifiedDecimalLiteral element, TokenInfo data)
+		{
+			_writer.Write(element.Value);
+			return false;
+		}
+
+		public bool Visit(UnifiedIntegerLiteral element, TokenInfo data)
+		{
+			_writer.Write(element.Value);
+			return false;
+		}
+
+		public bool Visit(UnifiedStringLiteral element, TokenInfo data)
+		{
+			_writer.Write(element.Value);
+			return false;
+		}
+
 		// There is not 'yield' in java?
 		public string GetKeyword(UnifiedSpecialExpressionKind kind)
 		{
@@ -334,14 +361,10 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return false;
 		}
 
-		public bool Visit(UnifiedLiteral lit, TokenInfo data)
-		{
-			_writer.Write(lit.ToString());
-			return false;
-		}
-
 		public bool Visit<T>(UnifiedTypedLiteral<T> lit, TokenInfo data)
 		{
+			if (lit.Value is bool)
+				lit.Value = lit.Value;
 			_writer.Write(lit.Value);
 			return false;
 		}
@@ -368,6 +391,9 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 				break;
 			case (UnifiedUnaryOperatorKind.UnaryPlus):
 				_writer.Write("+");
+				break;
+			case (UnifiedUnaryOperatorKind.OnesComplement):
+				_writer.Write("~");
 				break;
 			case (UnifiedUnaryOperatorKind.Unknown):
 				_writer.Write(element.Sign);
