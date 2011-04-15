@@ -1230,16 +1230,52 @@ arguments
         )? ')'
     ;
 
+intLiteral
+	: INTLITERAL
+	;
+
+longLiteral
+	: LONGLITERAL
+	;
+
+floatLiteral
+	: FLOATLITERAL
+	;
+
+doubleLiteral
+	: DOUBLELITERAL
+	;
+
+charLiteral
+	: CHARLITERAL
+	;
+
+stringLiteral
+	: STRINGLITERAL
+	;
+
+trueLiteral
+	: TRUE
+	;
+
+falseLiteral
+	: FALSE
+	;
+
+nullLiteral
+	: NULL
+	;
+
 literal 
-    :   INTLITERAL
-    |   LONGLITERAL
-    |   FLOATLITERAL
-    |   DOUBLELITERAL
-    |   CHARLITERAL
-    |   STRINGLITERAL
-    |   TRUE
-    |   FALSE
-    |   NULL
+    :   intLiteral
+    |   longLiteral
+    |   floatLiteral
+    |   doubleLiteral
+    |   charLiteral
+    |   stringLiteral
+    |   trueLiteral
+    |   falseLiteral
+    |   nullLiteral
     ;
 
 /**

@@ -1,4 +1,4 @@
-public class Condition1 {
+public class Condition {
 	
 	public static boolean f(boolean i) {
 		return !i;
@@ -32,11 +32,11 @@ public class Condition1 {
 			System.out.println("test");
 		}
 		
-		if (args[a ? 0 : 1]) {
+		if (args[a ? 0 : 1] != null) {
 			System.out.println("test");
 		}
 		
-		if (args[a ? 0 : 1]) {
+		if (args[a ? 0 : 1] != null) {
 			System.out.println("test");
 		}
 		

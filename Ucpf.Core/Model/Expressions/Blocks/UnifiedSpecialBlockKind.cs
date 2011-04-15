@@ -5,7 +5,7 @@
 	/// </summary>
 	public enum UnifiedSpecialBlockKind
 	{
-		Synchrnoized,
+		Synchronized,
 		Fix,
 		Using,
 	}

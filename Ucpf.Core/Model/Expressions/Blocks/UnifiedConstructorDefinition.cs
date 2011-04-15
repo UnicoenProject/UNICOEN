@@ -28,6 +28,22 @@ namespace Ucpf.Core.Model
 			set { _parameters = SetParentOfChild(value, _parameters); }
 		}
 
+		private UnifiedTypeParameterCollection _typeParameters;
+
+		public UnifiedTypeParameterCollection TypeParameters
+		{
+			get { return _typeParameters; }
+			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
+		}
+
+		private UnifiedTypeCollection _throws;
+
+		public UnifiedTypeCollection Throws
+		{
+			get { return _throws; }
+			set { _throws = SetParentOfChild(value, _throws); }
+		}
+
 		private UnifiedConstructorDefinition()
 		{
 			Modifiers = UnifiedModifierCollection.Create();
@@ -55,6 +71,8 @@ namespace Ucpf.Core.Model
 		{
 			yield return Modifiers;
 			yield return Parameters;
+			yield return TypeParameters;
+			yield return Throws;
 			yield return Body;
 		}
 
@@ -66,6 +84,10 @@ namespace Ucpf.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Parameters, v => Parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(Throws, v => Throws = (UnifiedTypeCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Body, v => Body = (UnifiedBlock)v);
 		}
 
@@ -76,6 +98,10 @@ namespace Ucpf.Core.Model
 				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_parameters, v => _parameters = (UnifiedParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_throws, v => _throws = (UnifiedTypeCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_body, v => _body = (UnifiedBlock)v);
 		}
@@ -99,7 +125,7 @@ namespace Ucpf.Core.Model
 		                                                  UnifiedConstructorDefinitionKind
 		                                                  	kind)
 		{
-			return Create(body, UnifiedModifierCollection.Create(modifier), parameters,
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, null, null,
 				kind);
 		}
 
@@ -108,7 +134,7 @@ namespace Ucpf.Core.Model
 		                                                  UnifiedParameterCollection
 		                                                  	parameters)
 		{
-			return Create(body, UnifiedModifierCollection.Create(modifier), parameters,
+			return Create(body, UnifiedModifierCollection.Create(modifier), parameters, null, null,
 				UnifiedConstructorDefinitionKind.Constructor);
 		}
 
@@ -118,7 +144,7 @@ namespace Ucpf.Core.Model
 		                                                  UnifiedParameterCollection
 		                                                  	parameters)
 		{
-			return Create(body, modifier, parameters,
+			return Create(body, modifier, parameters, null, null,
 				UnifiedConstructorDefinitionKind.Constructor);
 		}
 
@@ -127,13 +153,16 @@ namespace Ucpf.Core.Model
 		                                                  	modifiers,
 		                                                  UnifiedParameterCollection
 		                                                  	parameters,
-		                                                  UnifiedConstructorDefinitionKind
-		                                                  	kind)
+			UnifiedTypeParameterCollection typeParameters,
+			UnifiedTypeCollection throws,
+		                                                  UnifiedConstructorDefinitionKind kind)
 		{
 			return new UnifiedConstructorDefinition {
 				Body = body,
 				Modifiers = modifiers,
 				Parameters = parameters,
+				TypeParameters = typeParameters,
+				Throws = throws,
 				Kind = kind,
 			};
 		}

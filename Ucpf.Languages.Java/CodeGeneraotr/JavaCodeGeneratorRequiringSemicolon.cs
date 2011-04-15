@@ -36,6 +36,8 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			_writer.Write("import ");
 			element.Modifiers.TryAccept(this, data);
 			element.Name.TryAccept(this, data);
+			_writer.Write(";");
+			_writer.WriteLine();
 			return true;
 		}
 
