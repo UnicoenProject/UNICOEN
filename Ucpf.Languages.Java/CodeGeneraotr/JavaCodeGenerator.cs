@@ -20,6 +20,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		private readonly TextWriter _writer;
 		private int _indent;
 
+		private static TokenInfo _withParen =
+			new TokenInfo { MostLeft = "(", MostRight = ")" };
+
+		private static TokenInfo _withoutParen = new TokenInfo();
+
 		public string IndentSpace { get; set; }
 
 		private JavaCodeGenerator(TextWriter writer)
@@ -84,6 +89,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			WriteSpace();
 			element.Name.TryAccept(this, data);
 			element.TypeParameters.TryAccept(this, data);
+			element.Constrains.TryAccept(this, data);
 			element.Body.TryAccept(this, data);
 			return false;
 		}
@@ -137,7 +143,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			_indent++;
 			foreach (var stmt in element) {
 				WriteIndent();
-				if (stmt.TryAccept(this, data))
+				if (stmt.TryAccept(this, _withoutParen))
 					_writer.Write(";");
 			}
 			_indent--;
@@ -150,17 +156,29 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public bool Visit(UnifiedSpecialBlock element, TokenInfo data)
 		{
 			WriteIndent();
-			_writer.Write(element.Kind);
+			switch (element.Kind) {
+				case UnifiedSpecialBlockKind.Synchronized:
+					_writer.Write("synchronized");
+					break;
+				case UnifiedSpecialBlockKind.Fix:
+					_writer.Write("fix");
+					break;
+				case UnifiedSpecialBlockKind.Using:
+					_writer.Write("using");
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 			if (element.Value != null) {
 				_writer.Write("(");
-				_writer.Write(element.Value);
+				element.Value.TryAccept(this, _withoutParen);
 				_writer.Write(")");
 			}
 			_writer.Write("{");
 			_indent++;
 			foreach (var stmt in element.Body) {
 				WriteIndent();
-				if (stmt.TryAccept(this, data))
+				if (stmt.TryAccept(this, _withoutParen))
 					_writer.Write(";");
 			}
 			_indent--;
@@ -275,6 +293,33 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return false;
 		}
 
+		public bool Visit(UnifiedBooleanLiteral element, TokenInfo data)
+		{
+			if(element.Value.ToString() == "True")
+				_writer.Write("true");
+			if(element.Value.ToString() == "False")
+				_writer.Write("false");
+			return false;
+		}
+
+		public bool Visit(UnifiedDecimalLiteral element, TokenInfo data)
+		{
+			_writer.Write(element.Value);
+			return false;
+		}
+
+		public bool Visit(UnifiedIntegerLiteral element, TokenInfo data)
+		{
+			_writer.Write(element.Value);
+			return false;
+		}
+
+		public bool Visit(UnifiedStringLiteral element, TokenInfo data)
+		{
+			_writer.Write(element.Value);
+			return false;
+		}
+
 		// There is not 'yield' in java?
 		public string GetKeyword(UnifiedSpecialExpressionKind kind)
 		{
@@ -328,14 +373,10 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return false;
 		}
 
-		public bool Visit(UnifiedLiteral lit, TokenInfo data)
-		{
-			_writer.Write(lit.ToString());
-			return false;
-		}
-
 		public bool Visit<T>(UnifiedTypedLiteral<T> lit, TokenInfo data)
 		{
+			if (lit.Value is bool)
+				lit.Value = lit.Value;
 			_writer.Write(lit.Value);
 			return false;
 		}
@@ -362,6 +403,9 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 				break;
 			case (UnifiedUnaryOperatorKind.UnaryPlus):
 				_writer.Write("+");
+				break;
+			case (UnifiedUnaryOperatorKind.OnesComplement):
+				_writer.Write("~");
 				break;
 			case (UnifiedUnaryOperatorKind.Unknown):
 				_writer.Write(element.Sign);

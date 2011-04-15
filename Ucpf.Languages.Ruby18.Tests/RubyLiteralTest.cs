@@ -10,9 +10,9 @@ namespace Ucpf.Languages.Ruby18.Tests
 	public class RubyParseLiteralTest
 	{
 		[Test]
-		[TestCase("true", UnifiedBoolean.True)]
-		[TestCase("false", UnifiedBoolean.False)]
-		public void ParseBooleanLiteral(string code, UnifiedBoolean expectation)
+		[TestCase("true", true)]
+		[TestCase("false", false)]
+		public void ParseBooleanLiteral(string code, bool expectation)
 		{
 			var ast = Ruby18XmlGenerator.Instance.Generate(code);
 			var lit = RubyModelFactory.CreateBooleanLiteral(ast);

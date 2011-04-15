@@ -83,7 +83,6 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlockKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteral.cs" />
