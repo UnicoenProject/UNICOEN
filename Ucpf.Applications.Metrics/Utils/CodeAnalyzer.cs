@@ -7,15 +7,16 @@ using Paraiba.Text;
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Extensions;
 using Ucpf.Languages.CSharp;
+using Ucpf.Languages.Java.CodeGeneraotr;
 using Ucpf.Languages.Java.Model;
 
 namespace Ucpf.Applications.Metrics.Utils {
 	public static class CodeAnalyzer {
 		private static UnifiedProgram CreateModel(string ext, string code) {
-			switch (ext) {
-			case "cs":
+			switch (ext.ToLower()) {
+			case ".cs":
 				return CSharpModelFactory.CreateModel(code);
-			case "java":
+			case ".java":
 				return JavaModelFactory.CreateModel(code);
 			}
 			return null;
@@ -43,11 +44,11 @@ namespace Ucpf.Applications.Metrics.Utils {
 		private static string GetOutersName(IUnifiedElement element) {
 			var klass = element as UnifiedClassDefinition;
 			if (klass != null) {
-				return "class " + klass.Name;
+				return "[class] " + JavaCodeGenerator.Generate(klass.Name);
 			}
 			var method = element as UnifiedFunctionDefinition;
 			if (method != null) {
-				return "method " + method.Name;
+				return "[method] " + JavaCodeGenerator.Generate(method.Name);
 			}
 			return null;
 		}

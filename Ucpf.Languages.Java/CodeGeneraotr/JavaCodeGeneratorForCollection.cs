@@ -51,16 +51,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 				UnifiedElementCollection<T, TSelf> elements, TokenInfo data)
 				where T : class, IUnifiedElement
 				where TSelf : UnifiedElementCollection<T, TSelf> {
-			_writer.Write(data.MostLeft);
+			Writer.Write(data.MostLeft);
 			var splitter = "";
 			foreach (var e in elements) {
-				_writer.Write(splitter);
-				_writer.Write(data.EachLeft);
+				Writer.Write(splitter);
+				Writer.Write(data.EachLeft);
 				e.TryAccept(this, data);
-				_writer.Write(data.EachRight);
+				Writer.Write(data.EachRight);
 				splitter = data.Delimiter;
 			}
-			_writer.Write(data.MostRight);
+			Writer.Write(data.MostRight);
 		}
 
 		public bool Visit(UnifiedParameterCollection element, TokenInfo data) {
@@ -127,9 +127,9 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 				var current = element[i];
 				var keyword = GetKeyword(current.Kind);
 				if (last == null || last.Kind != current.Kind)
-					_writer.Write(" " + keyword + " ");
+					Writer.Write(" " + keyword + " ");
 				else
-					_writer.Write(data.Delimiter);
+					Writer.Write(data.Delimiter);
 				current.Type.TryAccept(this, data);
 				last = current;
 			}

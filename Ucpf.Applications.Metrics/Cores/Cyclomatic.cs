@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Ucpf.Applications.Metrics.Utils;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Applications.Metrics.Cores {
 	public class Cyclomatic {
@@ -26,12 +27,12 @@ namespace Ucpf.Applications.Metrics.Cores {
 
 		private static IEnumerable<IUnifiedElement> GetTargetElements(
 				IUnifiedElement model) {
-			return model.GetElements().Where(e => e is UnifiedIf)
-					.Concat(model.GetElements().Where(e => e is UnifiedFor))
-					.Concat(model.GetElements().Where(e => e is UnifiedForeach))
-					.Concat(model.GetElements().Where(e => e is UnifiedWhile))
-					.Concat(model.GetElements().Where(e => e is UnifiedDoWhile))
-					.Concat(model.GetElements().Where(e => e is UnifiedCase));
+			return model.Descendants().Where(e => e is UnifiedIf)
+					.Concat(model.Descendants().Where(e => e is UnifiedFor))
+					.Concat(model.Descendants().Where(e => e is UnifiedForeach))
+					.Concat(model.Descendants().Where(e => e is UnifiedWhile))
+					.Concat(model.Descendants().Where(e => e is UnifiedDoWhile))
+					.Concat(model.Descendants().Where(e => e is UnifiedCase));
 		}
 	}
 }

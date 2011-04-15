@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Ucpf.Applications.Metrics.Utils;
 using Ucpf.Core.Model;
+using Ucpf.Core.Model.Extensions;
 
 namespace Ucpf.Applications.Metrics.Cores {
 	public class Loc {
@@ -26,7 +27,7 @@ namespace Ucpf.Applications.Metrics.Cores {
 
 		private static IEnumerable<IUnifiedElement> GetTargetElements(
 				IUnifiedElement model) {
-			return model.GetElements()
+			return model.Descendants()
 					.Where(e => e is IUnifiedExpression && e.Parent is UnifiedBlock);
 		}
 	}
