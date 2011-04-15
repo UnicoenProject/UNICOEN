@@ -44,7 +44,9 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		public bool Visit(UnifiedBinaryExpression element, TokenInfo data) {
 			_writer.Write(data.MostLeft);
 			element.LeftHandSide.TryAccept(this, _withParen);
+			WriteSpace();
 			element.Operator.TryAccept(this, data);
+			WriteSpace();
 			element.RightHandSide.TryAccept(this, _withParen);
 			_writer.Write(data.MostRight);
 			return true;

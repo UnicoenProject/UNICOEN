@@ -261,6 +261,16 @@ namespace Ucpf.Languages.CSharp
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedCharLiteral element)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedNullLiteral element)
+		{
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedSpecialExpressionKind kind)
 		{
 			switch (kind) {

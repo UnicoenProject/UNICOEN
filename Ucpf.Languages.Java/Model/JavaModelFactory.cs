@@ -553,6 +553,7 @@ namespace Ucpf.Languages.Java.Model
 				type,
 				modifiers,
 				parameters,
+				throws,
 				body
 				);
 		}
@@ -2208,52 +2209,38 @@ namespace Ucpf.Languages.Java.Model
 			Contract.Requires(node.Name() == "literal");
 			/*
 			 * literal 
-			 * :   INTLITERAL
-			 * |   LONGLITERAL
-			 * |   FLOATLITERAL
-			 * |   DOUBLELITERAL
-			 * |   CHARLITERAL
-			 * |   STRINGLITERAL
-			 * |   TRUE
-			 * |   FALSE
-			 * |   NULL 
+			 * :   intLiteral
+			 * |   longLiteral
+			 * |   floatLiteral
+			 * |   doubleLiteral
+			 * |   charLiteral
+			 * |   stringLiteral
+			 * |   trueLiteral
+			 * |   falseLiteral
+			 * |   nullLiteral
 			 */
 
-			var value = node.Value;
-
-			//case TRUE
-			if(value == "true") {
-				return UnifiedBooleanLiteral.Create(true);
+			var first = node.FirstElement();
+			switch (first.Name()) {
+				case "intLiteral":
+					return UnifiedIntegerLiteral.Create(Int32.Parse(first.Value));
+				case "longLiteral":
+					return UnifiedIntegerLiteral.Create(Int32.Parse(first.Value));
+				case "floatLiteral":
+					return UnifiedDecimalLiteral.Create(Decimal.Parse(first.Value));
+				case "doubleLiteral":
+					return UnifiedDecimalLiteral.Create(Decimal.Parse(first.Value));
+				case "charLiteral":
+					return UnifiedCharLiteral.Create(first.Value);
+				case "stringLiteral":
+					return UnifiedStringLiteral.Create(first.Value);
+				case "trueLiteral":
+					return UnifiedBooleanLiteral.Create(true);
+				case "falseLiteral":
+					return UnifiedBooleanLiteral.Create(false);
+				case "nullLiteral":
+					return UnifiedNullLiteral.Create();
 			}
-			//case FALSE
-			if(value == "false") {
-				return UnifiedBooleanLiteral.Create(false);
-			}
-
-			if(value == "null") {
-				return UnifiedStringLiteral.Create("null");
-			}
-
-			//case INTLITERAL
-			int i;
-			if (Int32.TryParse(value, NumberStyles.Any, null, out i)) {
-				return UnifiedIntegerLiteral.Create(i);
-			}
-
-			//case DOUBLELITERAL or FLOATLITERAL
-			decimal d;
-			if (Decimal.TryParse(value, NumberStyles.Any, null, out d)) {
-				return UnifiedDecimalLiteral.Create(d);
-			}
-
-			//case STRINGLITERAL
-			var regex = new Regex(@"^""[a-zA-Z0-9_\s]*""$");
-			if (regex.IsMatch(value)) {
-				var r = new Regex(@"[a-zA-Z_]{1}[a-zA-Z0-9_\s]*");
-				var match = r.Match(value);
-				return UnifiedStringLiteral.Create("\"" + match.Value + "\"");
-			}
-
 			throw new InvalidOperationException();
 		}
 

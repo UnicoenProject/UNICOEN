@@ -48,12 +48,12 @@ namespace Ucpf.Languages.Java.Tests
 					"Block3.java",
 					"Class.java",
 					"Condition.java",
-					//"ControlFlow.java", TODO StringLiteralの実装が不十分
+					"ControlFlow.java",
 					"Fibonacci.java",
 					"Method.java",
 					"Modifier.java",
-					//"MyException.java", TODO StringLiteralの実装が不十分
-					//"Operator.java", TODO StringLiteralの実装が不十分
+					"MyException.java",
+					"Operator.java", 
 					"Simple.java",
 					"Student.java",
 					"Variable.java",
