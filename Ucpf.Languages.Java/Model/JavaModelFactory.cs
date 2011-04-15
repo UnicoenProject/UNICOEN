@@ -860,7 +860,23 @@ namespace Ucpf.Languages.Java.Model
 			 * |   primary '.' (nonWildcardTypeArguments)? 'super' arguments ';' 
 			 */
 
-			throw new NotImplementedException();
+			var aruguments = CreateArguments(node.Element("arguments"));
+			var typeArguments = node.HasElement("nonWildcardTypeArguments")
+				                    	? CreateNonWildcardTypeArguments(
+				                    		node.Element("nonWildcardTypeArguments")) : null;
+
+			if(node.FirstElement().Name() == "primary") {
+				var prop = UnifiedProperty.Create(
+					CreatePrimary(node.Element("primary")),
+					UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+				return UnifiedCall.Create(prop, aruguments, typeArguments);
+			}
+
+			var target = node.FirstElement().Value == "this"
+			             	? UnifiedIdentifier.Create("this",
+			             		UnifiedIdentifierKind.Unknown)
+			             	: UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super);
+			return UnifiedCall.Create(target, aruguments, typeArguments);
 		}
 
 		public static UnifiedQualifiedIdentifier CreateQualifiedName(XElement node)
