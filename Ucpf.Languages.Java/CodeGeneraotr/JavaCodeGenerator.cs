@@ -159,7 +159,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			_writer.Write(element.Kind);
 			if (element.Value != null) {
 				_writer.Write("(");
-				_writer.Write(element.Value);
+				element.Value.TryAccept(this, _withoutParen);
 				_writer.Write(")");
 			}
 			_writer.Write("{");
