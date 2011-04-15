@@ -2230,6 +2230,10 @@ namespace Ucpf.Languages.Java.Model
 				return UnifiedBooleanLiteral.Create(false);
 			}
 
+			if(value == "null") {
+				return UnifiedStringLiteral.Create("null");
+			}
+
 			//case INTLITERAL
 			int i;
 			if (Int32.TryParse(value, NumberStyles.Any, null, out i)) {
