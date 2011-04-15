@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
+using Paraiba.Text;
 using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.CSharp.Tests {
@@ -124,7 +125,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
 		public void TestCompareThroughModelForSameCode(string orgPath) {
-			var orgCode = File.ReadAllText(orgPath);
+			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
 			var expected = CSharpModelFactory.CreateModel(orgCode);
 			var actual = CSharpModelFactory.CreateModel(orgCode);
 			Assert.That(actual, Is.EqualTo(expected)
@@ -142,11 +143,11 @@ namespace Ucpf.Languages.CSharp.Tests {
 		public void VerifyCompareThroughILCode(string orgCode1, string fileName) {
 			var workPath = Fixture.CleanTemporalPath();
 			var srcPath = Fixture.GetTemporalPath(fileName);
-			File.WriteAllText(srcPath, orgCode1);
+			File.WriteAllText(srcPath, orgCode1, XEncoding.SJIS);
 			var orgILCode1 = GetILCode(workPath, fileName);
 			var model1 = CSharpModelFactory.CreateModel(orgCode1);
 			var code2 = CSharpCodeGenerator.Generate(model1);
-			File.WriteAllText(srcPath, code2);
+			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			var iLCode2 = GetILCode(workPath, fileName);
 			Assert.That(iLCode2, Is.EqualTo(orgILCode1));
 		}
@@ -190,12 +191,12 @@ namespace Ucpf.Languages.CSharp.Tests {
 		[Test, TestCaseSource("TestFilePathes")]
 		public void CompareThroughILCodeUsingFile(string orgPath) {
 			var fileName = Path.GetFileName(orgPath);
-			VerifyCompareThroughILCode(File.ReadAllText(orgPath), fileName);
+			VerifyCompareThroughILCode(File.ReadAllText(orgPath, XEncoding.SJIS), fileName);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
 		public void CompareThroughModelUsingFile(string orgPath) {
-			VerifyCompareThroughModel(File.ReadAllText(orgPath));
+			VerifyCompareThroughModel(File.ReadAllText(orgPath, XEncoding.SJIS));
 		}
 	}
 }

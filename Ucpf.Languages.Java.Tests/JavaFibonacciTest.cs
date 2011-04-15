@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Code2Xml.Languages.Java.XmlGenerators;
 using NUnit.Framework;
+using Paraiba.Text;
 using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.CSharp.Tests;
@@ -10,7 +11,7 @@ namespace Ucpf.Languages.Java.Tests {
 	[Ignore, TestFixture]
 	public class JavaFibonacciTest {
 		private static readonly string Code =
-				File.ReadAllText(Fixture.GetInputPath("Java", "Fibonacci.java"));
+				File.ReadAllText(Fixture.GetInputPath("Java", "Fibonacci.java"), XEncoding.SJIS);
 
 		[Test]
 		public void CreateDefineFunction() {
@@ -18,17 +19,13 @@ namespace Ucpf.Languages.Java.Tests {
 					JavaXmlGenerator.Instance.Generate("public static int fibonacci(int n){}",
 							p => p.methodDeclaration());
 			var actual = JavaModelFactory.CreateMethodDeclaration(ast);
-			var expectation = UnifiedFunctionDefinition.CreateFunction(
-					"fibonacci",
-					UnifiedType.CreateUsingString("int"),
-					UnifiedModifierCollection.Create(
-							UnifiedModifier.Create("public"),
-							UnifiedModifier.Create("static")
-							),
-					UnifiedParameterCollection.Create(
+			var expectation = UnifiedFunctionDefinition.CreateFunction(UnifiedModifierCollection.Create(
+					UnifiedModifier.Create("public"),
+					UnifiedModifier.Create("static")
+					),
+					UnifiedType.CreateUsingString("int"), "fibonacci", UnifiedParameterCollection.Create(
 							UnifiedParameter.Create("n", UnifiedType.CreateUsingString("int"))
-							)
-					);
+							));
 			Assert.That(actual,
 					Is.EqualTo(expectation).Using(StructuralEqualityComparerForDebug.Instance));
 		}

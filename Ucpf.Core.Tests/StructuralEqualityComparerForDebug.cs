@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Paraiba.Text;
 using Ucpf.Core.Model;
 
 namespace Ucpf.Core.Tests {
@@ -13,11 +14,11 @@ namespace Ucpf.Core.Tests {
 				return true;
 			var x2 = x as IUnifiedElement;
 			if (x2 != null) {
-				File.WriteAllText(Fixture.GetTemporalPath("model1.txt"), x2.ToString());
+				File.WriteAllText(Fixture.GetTemporalPath("model1.txt"), x2.ToString(), XEncoding.SJIS);
 			}
 			var y2 = y as IUnifiedElement;
 			if (y2 != null) {
-				File.WriteAllText(Fixture.GetTemporalPath("model2.txt"), y2.ToString());
+				File.WriteAllText(Fixture.GetTemporalPath("model2.txt"), y2.ToString(), XEncoding.SJIS);
 			}
 			return false;
 		}

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
+using Paraiba.Text;
 using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
@@ -43,7 +44,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public void VerifyDeepCopyUsingFile(string path) {
-			VerifyDeepCopy(File.ReadAllText(path));
+			VerifyDeepCopy(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
@@ -57,7 +58,7 @@ namespace Ucpf.Languages.Java.Tests {
 		                                         string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyDeepCopy(File.ReadAllText(path));
+				VerifyDeepCopy(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
@@ -76,7 +77,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public void VerifyGetElementsUsingFile(string path) {
-			VerifyGetElements(File.ReadAllText(path));
+			VerifyGetElements(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
@@ -90,7 +91,7 @@ namespace Ucpf.Languages.Java.Tests {
 		                                            string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyGetElements(File.ReadAllText(path));
+				VerifyGetElements(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
@@ -109,7 +110,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public void VerifyGetElementAndSettersUsingFile(string path) {
-			VerifyGetElementAndSetters(File.ReadAllText(path));
+			VerifyGetElementAndSetters(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
@@ -124,7 +125,7 @@ namespace Ucpf.Languages.Java.Tests {
 		                                                     string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyGetElementAndSetters(File.ReadAllText(path));
+				VerifyGetElementAndSetters(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
@@ -143,7 +144,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public void VerifyGetElementAndDirectSettersUsingFile(string path) {
-			VerifyGetElementAndDirectSetters(File.ReadAllText(path));
+			VerifyGetElementAndDirectSetters(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
@@ -158,7 +159,7 @@ namespace Ucpf.Languages.Java.Tests {
 		                                                           string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyGetElementAndDirectSetters(File.ReadAllText(path));
+				VerifyGetElementAndDirectSetters(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
@@ -177,7 +178,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public void VerifyParentPropertyUsingFile(string path) {
-			VerifyParentProperty(File.ReadAllText(path));
+			VerifyParentProperty(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
@@ -191,7 +192,7 @@ namespace Ucpf.Languages.Java.Tests {
 		                                               string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyParentProperty(File.ReadAllText(path));
+				VerifyParentProperty(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
@@ -210,7 +211,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public void VerifyToStringUsingFile(string path) {
-			VerifyToString(File.ReadAllText(path));
+			VerifyToString(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
@@ -224,7 +225,7 @@ namespace Ucpf.Languages.Java.Tests {
 		                                    string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyToString(File.ReadAllText(path));
+				VerifyToString(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 	}

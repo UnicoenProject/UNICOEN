@@ -17,10 +17,10 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		private readonly TextWriter _writer;
 		private int _indent;
 
-		private static readonly TokenInfo _withParen =
+		private static readonly TokenInfo WithParen =
 				new TokenInfo { MostLeft = "(", MostRight = ")" };
 
-		private static readonly TokenInfo _withoutParen = new TokenInfo();
+		private static readonly TokenInfo WithoutParen = new TokenInfo();
 
 		public string IndentSpace { get; set; }
 
@@ -42,8 +42,9 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		#region program, namespace, class, method, filed ...
 
 		public bool Visit(UnifiedProgram element, TokenInfo data) {
-			foreach (var elem in element) {
-				elem.TryAccept(this, data);
+			foreach (var stmt in element) {
+				if (stmt.TryAccept(this, WithoutParen))
+					_writer.Write(";");
 			}
 			return false;
 		}
@@ -88,9 +89,9 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		public bool Visit(UnifiedFunctionDefinition element, TokenInfo data) {
 			WriteIndent();
 			element.Modifiers.TryAccept(this, data);
+			element.TypeParameters.TryAccept(this, data);
 			element.Type.TryAccept(this, data);
 			WriteSpace();
-			element.TypeParameters.TryAccept(this, data);
 			element.Name.TryAccept(this, data);
 			element.Parameters.TryAccept(this, data);
 			if (element.Throws != null) {
@@ -120,7 +121,8 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		}
 
 		public bool Visit(UnifiedType element, TokenInfo data) {
-			_writer.Write(element.Name.Value);
+			element.Name.TryAccept(this, data);
+			element.Arguments.TryAccept(this, data);
 			element.Supplements.TryAccept(this, data);
 			return false;
 		}
@@ -135,7 +137,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			_indent++;
 			foreach (var stmt in element) {
 				WriteIndent();
-				if (stmt.TryAccept(this, _withoutParen))
+				if (stmt.TryAccept(this, WithoutParen))
 					_writer.Write(";");
 			}
 			_indent--;
@@ -162,14 +164,14 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			}
 			if (element.Value != null) {
 				_writer.Write("(");
-				element.Value.TryAccept(this, _withoutParen);
+				element.Value.TryAccept(this, WithoutParen);
 				_writer.Write(")");
 			}
 			_writer.Write("{");
 			_indent++;
 			foreach (var stmt in element.Body) {
 				WriteIndent();
-				if (stmt.TryAccept(this, _withoutParen))
+				if (stmt.TryAccept(this, WithoutParen))
 					_writer.Write(";");
 			}
 			_indent--;
@@ -402,6 +404,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			switch (element.Kind) {
 			case UnifiedConstructorDefinitionKind.Constructor:
 				element.Modifiers.TryAccept(this, data);
+				element.TypeParameters.TryAccept(this, data);
 				var p = element.Ancestors()
 						.First(e => e is UnifiedClassDefinition);
 				((UnifiedClassDefinition)p).Name.Accept(this, data);
@@ -444,13 +447,6 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			_writer.Write(")");
 
 			element.Body.TryAccept(this, data);
-			return false;
-		}
-
-		public bool Visit(UnifiedProperty element, TokenInfo data) {
-			element.Owner.TryAccept(this, data);
-			_writer.Write(element.Delimiter);
-			element.Name.TryAccept(this, data);
 			return false;
 		}
 

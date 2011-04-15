@@ -26,11 +26,10 @@ namespace Ucpf.Languages.Ruby18.Tests {
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
-			var expectation = UnifiedFunctionDefinition.CreateFunction(
-					"fibonacci",
-					UnifiedParameterCollection.Create(
-							UnifiedParameter.Create("n"))
-					);
+			var expectation = UnifiedFunctionDefinition.CreateFunction(UnifiedModifierCollection.Create(),
+					null,
+					"fibonacci", UnifiedParameterCollection.Create(
+							UnifiedParameter.Create("n")), null, UnifiedBlock.Create());
 			Assert.That(actual, Is.EqualTo(expectation)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}

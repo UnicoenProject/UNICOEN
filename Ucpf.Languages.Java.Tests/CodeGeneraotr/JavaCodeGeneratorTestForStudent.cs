@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
+using Paraiba.Text;
 using Ucpf.Core.Model;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.CodeGeneraotr;
@@ -16,7 +17,7 @@ namespace Ucpf.Languages.Java.Tests.CodeGeneraotr {
 		[SetUp]
 		public void SetUp() {
 			var path = Fixture.GetInputPath("Java", "Student.java");
-			_source = File.ReadAllText(path);
+			_source = File.ReadAllText(path, XEncoding.SJIS);
 			_program = JavaModelFactory.CreateModel(_source);
 			_generated = JavaCodeGenerator.Generate(_program);
 		}

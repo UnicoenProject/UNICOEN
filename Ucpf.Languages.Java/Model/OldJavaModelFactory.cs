@@ -856,13 +856,9 @@ namespace Ucpf.Languages.Java.Model {
 						);
 			}
 			//if (node.Element("IDENTIFIER").PreviousElement().Name() == "")
-			return UnifiedFunctionDefinition.CreateFunction(
-					node.Element("IDENTIFIER").Value,
+			return UnifiedFunctionDefinition.CreateFunction(CreateModifierCollection(node),
 					CreateTypeOrCreatedName(node.Element("type")),
-					CreateModifierCollection(node),
-					CreateFormalParameters(node.Element("formalParameters")),
-					CreateBlock(node.Element("block"))
-					);
+					node.Element("IDENTIFIER").Value, CreateFormalParameters(node.Element("formalParameters")), CreateBlock(node.Element("block")));
 		}
 
 		public static UnifiedModifier CreateVariableModifier(XElement node) {

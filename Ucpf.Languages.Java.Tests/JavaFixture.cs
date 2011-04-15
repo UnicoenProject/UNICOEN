@@ -35,6 +35,7 @@ namespace Ucpf.Languages.Java.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
+						"Generics.java",
 						"ActionListener.java",
 						"Block1.java",
 						"Block2.java",
@@ -42,7 +43,7 @@ namespace Ucpf.Languages.Java.Tests {
 						"Class.java",
 						"Condition.java",
 						"ControlFlow.java",
-						"Fibonacci.java",
+						"ControlFlow.java",
 						"Method.java",
 						"Modifier.java",
 						"MyException.java",

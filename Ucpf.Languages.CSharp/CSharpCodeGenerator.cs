@@ -56,7 +56,7 @@ namespace Ucpf.Languages.CSharp {
 			clsDef.Modifiers.Accept(this);
 			_writer.WriteLine();
 			_writer.Write("class ");
-			_writer.WriteLine(clsDef.Name.Value);
+			clsDef.Name.Accept(this);
 			clsDef.Body.Accept(this);
 		}
 

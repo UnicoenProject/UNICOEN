@@ -42,29 +42,29 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Body;
 			yield return Catches;
 			yield return FinallyBody;
+			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Catches, v => Catches = (UnifiedCatchCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(FinallyBody, v => FinallyBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Body, v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => _body = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Catches, v => _catches = (UnifiedCatchCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(FinallyBody, v => _finallyBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedTry Create(UnifiedBlock body,

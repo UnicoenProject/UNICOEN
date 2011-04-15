@@ -10,7 +10,12 @@ namespace Ucpf.Core.Model {
 			: UnifiedExpressionWithBlock<UnifiedSpecialBlock> {
 		public UnifiedSpecialBlockKind Kind { get; set; }
 
-		public IUnifiedExpression Value { get; set; }
+		private IUnifiedExpression _value;
+
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetParentOfChild(value, _value); }
+		}
 
 		private UnifiedSpecialBlock() {}
 
@@ -29,17 +34,22 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Value;
 			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Value, v => Value = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_value, v => _value = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}

@@ -58,13 +58,9 @@ namespace Ucpf.Languages.CSharp {
 
 		public object VisitMethodDeclaration(MethodDeclaration method, object data) {
 			var parameters = ConvertParameters(method.Parameters);
-			return UnifiedFunctionDefinition.CreateFunction(
-					method.Name,
+			return UnifiedFunctionDefinition.CreateFunction(ConvertModifiler(method.Modifier),
 					ConvertType(method.TypeReference),
-					ConvertModifiler(method.Modifier),
-					parameters,
-					VisitBlockStatement(method.Body, data) as UnifiedBlock
-					);
+					method.Name, parameters, VisitBlockStatement(method.Body, data) as UnifiedBlock);
 		}
 
 		private static UnifiedParameterCollection ConvertParameters(

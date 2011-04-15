@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
 using Paraiba.Core;
 using Paraiba.IO;
+using Paraiba.Text;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.CodeGeneraotr;
 using Ucpf.Languages.Java.Model;
@@ -45,12 +47,14 @@ namespace Ucpf.Languages.Java.Tests {
 					CreateNoWindow = true,
 					UseShellExecute = false,
 					WorkingDirectory = workPath,
+					RedirectStandardError = true,
 			};
 			try {
 				using (var p = Process.Start(info)) {
+					var errorMessage = p.StandardError.ReadToEnd();
 					p.WaitForExit();
 					if (p.ExitCode != 0) {
-						throw new InvalidOperationException("Failed to compile the code.");
+						throw new InvalidOperationException("Failed to compile the code.\n" + errorMessage);
 					}
 				}
 			} catch (Win32Exception e) {
@@ -99,7 +103,7 @@ namespace Ucpf.Languages.Java.Tests {
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 		public void TestCompareThroughModelForSameCode(string orgPath) {
-			var orgCode = File.ReadAllText(orgPath);
+			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
 			var expected = JavaModelFactory.CreateModel(orgCode);
 			var actual = JavaModelFactory.CreateModel(orgCode);
 			Assert.That(actual, Is.EqualTo(expected)
@@ -117,12 +121,12 @@ namespace Ucpf.Languages.Java.Tests {
 		public void VerifyCompareThroughByteCode(string orgCode1, string fileName) {
 			var workPath = Fixture.CleanTemporalPath();
 			var srcPath = Fixture.GetTemporalPath(fileName);
-			File.WriteAllText(srcPath, orgCode1);
+			File.WriteAllText(srcPath, orgCode1, XEncoding.SJIS);
 			Compile(workPath, fileName);
 			var orgByteCode1 = GetAllByteCode(workPath);
 			var model1 = JavaModelFactory.CreateModel(orgCode1);
 			var code2 = JavaCodeGenerator.Generate(model1);
-			File.WriteAllText(srcPath, code2);
+			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			Compile(workPath, fileName);
 			var byteCode2 = GetAllByteCode(workPath);
 			Assert.That(byteCode2, Is.EqualTo(orgByteCode1));
@@ -146,10 +150,10 @@ namespace Ucpf.Languages.Java.Tests {
 			var orgByteCode1 = GetAllByteCode(workPath);
 			var codePaths = JavaFixture.GetAllSourceFilePaths(workPath);
 			foreach (var codePath in codePaths) {
-				var orgCode1 = File.ReadAllText(codePath);
+				var orgCode1 = File.ReadAllText(codePath, XEncoding.SJIS);
 				var model1 = JavaModelFactory.CreateModel(orgCode1);
 				var code2 = JavaCodeGenerator.Generate(model1);
-				File.WriteAllText(workPath, code2);
+				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
 			CompileWithArguments(workPath, command, arguments);
 			var byteCode2 = GetAllByteCode(workPath);
@@ -181,7 +185,7 @@ namespace Ucpf.Languages.Java.Tests {
 		public void VerifyCompareThroughModelUsingDirectory(string dirPath) {
 			var codePaths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var codePath in codePaths) {
-				var orgCode = File.ReadAllText(codePath);
+				var orgCode = File.ReadAllText(codePath, XEncoding.SJIS);
 				var model1 = JavaModelFactory.CreateModel(orgCode);
 				var code2 = JavaCodeGenerator.Generate(model1);
 				var model2 = JavaModelFactory.CreateModel(code2);
@@ -215,12 +219,12 @@ namespace Ucpf.Languages.Java.Tests {
 		[Test, TestCaseSource("TestFilePathes")]
 		public void CompareThroughByteCodeUsingFile(string orgPath) {
 			var fileName = Path.GetFileName(orgPath);
-			VerifyCompareThroughByteCode(File.ReadAllText(orgPath), fileName);
+			VerifyCompareThroughByteCode(File.ReadAllText(orgPath, XEncoding.SJIS), fileName);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
 		public void CompareThroughModelUsingFile(string orgPath) {
-			VerifyCompareThroughModel(File.ReadAllText(orgPath));
+			VerifyCompareThroughModel(File.ReadAllText(orgPath, XEncoding.SJIS));
 		}
 
 		[Test, TestCaseSource("TestDirectoryPathes")]

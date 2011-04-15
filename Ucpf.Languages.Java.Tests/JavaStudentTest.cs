@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using NUnit.Framework;
+using Paraiba.Text;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.CSharp.Tests;
 using Ucpf.Languages.Java.Model;
@@ -11,7 +12,7 @@ namespace Ucpf.Languages.Java.Tests {
 
 		public JavaStudentTest() {
 			var path = Fixture.GetInputPath("Java", "Student.java");
-			_source = File.ReadAllText(path);
+			_source = File.ReadAllText(path, XEncoding.SJIS);
 		}
 
 		[Test]

@@ -8,9 +8,9 @@ namespace Ucpf.Core.Model {
 	///   型を表します。
 	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
-		private UnifiedQualifiedIdentifier _name;
+		private IUnifiedExpression _name;
 
-		public UnifiedQualifiedIdentifier Name {
+		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
 		}
@@ -71,7 +71,7 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedQualifiedIdentifier)v);
+					(Name, v => Name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Arguments, v => Arguments = (UnifiedTypeArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -81,7 +81,7 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (UnifiedQualifiedIdentifier)v);
+					(_name, v => _name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -117,24 +117,14 @@ namespace Ucpf.Core.Model {
 		                                            		supplements) {
 			return new UnifiedType {
 					Name = name != null
-					       		? UnifiedIdentifier.CreateType(name).ToQualified()
+					       		? UnifiedIdentifier.CreateType(name)
 					       		: null,
 					Arguments = arguments,
 					Supplements = supplements,
 			};
 		}
 
-		public static UnifiedType Create(UnifiedIdentifier name,
-		                                 UnifiedTypeArgumentCollection arguments,
-		                                 UnifiedTypeSupplementCollection supplements) {
-			return new UnifiedType {
-					Name = name.ToQualified(),
-					Arguments = arguments,
-					Supplements = supplements,
-			};
-		}
-
-		public static UnifiedType Create(UnifiedQualifiedIdentifier name,
+		public static UnifiedType Create(IUnifiedExpression name,
 		                                 UnifiedTypeArgumentCollection arguments,
 		                                 UnifiedTypeSupplementCollection supplements) {
 			return new UnifiedType {
@@ -152,7 +142,7 @@ namespace Ucpf.Core.Model {
 		public static UnifiedType CreateArray(string name, UnifiedArgument argument) {
 			return new UnifiedType {
 					Name = name != null
-					       		? UnifiedIdentifier.CreateType(name).ToQualified()
+					       		? UnifiedIdentifier.CreateType(name)
 					       		: null,
 					Arguments = null,
 					Supplements = UnifiedTypeSupplementCollection.Create(

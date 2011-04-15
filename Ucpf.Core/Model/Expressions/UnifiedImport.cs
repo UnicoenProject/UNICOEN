@@ -46,12 +46,16 @@ namespace Ucpf.Core.Model {
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Name, v => Name = (UnifiedQualifiedIdentifier)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_name, v => _name = (UnifiedQualifiedIdentifier)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 		}
 
 		public static UnifiedImport Create(UnifiedQualifiedIdentifier name,

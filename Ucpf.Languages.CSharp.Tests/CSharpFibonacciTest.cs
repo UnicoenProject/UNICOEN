@@ -15,59 +15,55 @@ namespace Ucpf.Languages.CSharp.Tests {
 				UnifiedClassDefinition.CreateClass(
 						"Fibonacci",
 						UnifiedBlock.Create(new IUnifiedExpression[] {
-								UnifiedFunctionDefinition.CreateFunction(
-										"fibonacci",
+								UnifiedFunctionDefinition.CreateFunction(UnifiedModifierCollection.Create(
+										UnifiedModifier.Create("public"),
+										UnifiedModifier.Create("static")
+										),
 										UnifiedType.CreateUsingString("int"),
-										UnifiedModifierCollection.Create(
-												UnifiedModifier.Create("public"),
-												UnifiedModifier.Create("static")
-												),
-										UnifiedParameterCollection.Create(
+										"fibonacci", UnifiedParameterCollection.Create(
 												UnifiedParameter.Create("n", UnifiedType.CreateUsingString("int"))
-												),
-										UnifiedBlock.Create(
-												UnifiedIf.Create(
-														UnifiedBinaryExpression.Create(
-																UnifiedIdentifier.CreateUnknown("n"),
-																UnifiedBinaryOperator.Create("<",
-																		UnifiedBinaryOperatorKind.LessThan),
-																UnifiedIntegerLiteral.Create(2)),
-														UnifiedBlock.Create(new[] {
-																UnifiedSpecialExpression.CreateReturn(
-																		UnifiedIdentifier.CreateUnknown("n")),
-														}),
-														UnifiedBlock.Create(
-																UnifiedSpecialExpression.CreateReturn(
-																		UnifiedBinaryExpression.Create(
-																				UnifiedCall.Create(
-																						UnifiedIdentifier.CreateUnknown("fibonacci"),
-																						UnifiedArgumentCollection.Create(
-																								UnifiedArgument.Create(UnifiedBinaryExpression.Create(
-																										UnifiedIdentifier.CreateUnknown("n"),
-																										UnifiedBinaryOperator.Create("-",
-																												UnifiedBinaryOperatorKind.Subtract),
-																										UnifiedIntegerLiteral.Create(1)
-																										)))
-																						),
-																				UnifiedBinaryOperator.Create("+",
-																						UnifiedBinaryOperatorKind.Add),
-																				UnifiedCall.Create(
-																						UnifiedIdentifier.CreateUnknown("fibonacci"),
-																						UnifiedArgumentCollection.Create(
-																								UnifiedArgument.Create(
-																										UnifiedBinaryExpression.Create(
+												), UnifiedBlock.Create(
+														UnifiedIf.Create(
+																UnifiedBinaryExpression.Create(
+																		UnifiedIdentifier.CreateUnknown("n"),
+																		UnifiedBinaryOperator.Create("<",
+																				UnifiedBinaryOperatorKind.LessThan),
+																		UnifiedIntegerLiteral.Create(2)),
+																UnifiedBlock.Create(new[] {
+																		UnifiedSpecialExpression.CreateReturn(
+																				UnifiedIdentifier.CreateUnknown("n")),
+																}),
+																UnifiedBlock.Create(
+																		UnifiedSpecialExpression.CreateReturn(
+																				UnifiedBinaryExpression.Create(
+																						UnifiedCall.Create(
+																								UnifiedIdentifier.CreateUnknown("fibonacci"),
+																								UnifiedArgumentCollection.Create(
+																										UnifiedArgument.Create(UnifiedBinaryExpression.Create(
 																												UnifiedIdentifier.CreateUnknown("n"),
 																												UnifiedBinaryOperator.Create("-",
 																														UnifiedBinaryOperatorKind.Subtract),
-																												UnifiedIntegerLiteral.Create(2)))
+																												UnifiedIntegerLiteral.Create(1)
+																												)))
+																								),
+																						UnifiedBinaryOperator.Create("+",
+																								UnifiedBinaryOperatorKind.Add),
+																						UnifiedCall.Create(
+																								UnifiedIdentifier.CreateUnknown("fibonacci"),
+																								UnifiedArgumentCollection.Create(
+																										UnifiedArgument.Create(
+																												UnifiedBinaryExpression.Create(
+																														UnifiedIdentifier.CreateUnknown("n"),
+																														UnifiedBinaryOperator.Create("-",
+																																UnifiedBinaryOperatorKind.Subtract),
+																														UnifiedIntegerLiteral.Create(2)))
+																										)
 																								)
 																						)
 																				)
 																		)
 																)
-														)
-												)
-										)
+														))
 						}
 								)
 						)
@@ -106,19 +102,15 @@ class Fibonacci {
 					UnifiedClassDefinition.CreateClass(
 							"Fibonacci",
 							UnifiedBlock.Create(new IUnifiedExpression[] {
-									UnifiedFunctionDefinition.CreateFunction(
-											"fibonacci",
-											UnifiedType.CreateUsingString("void"),
-											UnifiedModifierCollection.Create(
-													UnifiedModifier.Create("public"),
-													UnifiedModifier.Create("static")
-													),
-											UnifiedParameterCollection.Create(
+									UnifiedFunctionDefinition.CreateFunction(UnifiedModifierCollection.Create(
+											UnifiedModifier.Create("public"),
+											UnifiedModifier.Create("static")
+											),
+											UnifiedType.CreateUsingString("void"), "fibonacci", UnifiedParameterCollection.Create(
 													UnifiedParameter.Create(
 															"n",
 															UnifiedType.CreateUsingString("int"))
-													)
-											)
+													))
 							})
 							)
 			});

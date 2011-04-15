@@ -38,17 +38,22 @@ namespace Ucpf.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Type;
 			yield return Constrains;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Type, v => Type = (UnifiedType)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 		}

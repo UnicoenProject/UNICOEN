@@ -23,15 +23,11 @@ namespace Ucpf.Languages.Java.Tests {
 				return UnifiedProgram.Create(
 						"A".ToClassDefinition()
 								.AddToBody(
-										UnifiedFunctionDefinition.CreateFunction(
-												"M1",
+										UnifiedFunctionDefinition.CreateFunction(UnifiedModifierCollection.Create(),
 												"void".ToType(),
-												UnifiedModifierCollection.Create(),
-												UnifiedParameterCollection.Create(),
-												UnifiedTypeCollection.Create(
-														UnifiedType.CreateUsingString("Exception")),
-												UnifiedBlock.Create()
-												)
+												"M1",
+												UnifiedParameterCollection.Create(), UnifiedTypeCollection.Create(
+														UnifiedType.CreateUsingString("Exception")), UnifiedBlock.Create())
 								)
 						);
 			}

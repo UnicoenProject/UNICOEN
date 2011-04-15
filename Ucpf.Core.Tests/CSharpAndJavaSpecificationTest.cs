@@ -8,11 +8,8 @@ namespace Ucpf.Core.Tests {
 			return UnifiedProgram.Create(
 					"A".ToClassDefinition()
 							.AddToBody(
-									UnifiedFunctionDefinition.CreateFunction(
-											"M1",
-											"void".ToType(),
-											block
-											)
+									UnifiedFunctionDefinition.CreateFunction(UnifiedModifierCollection.Create(),
+											"void".ToType(), "M1", UnifiedParameterCollection.Create(), null, block)
 							)
 					);
 		}

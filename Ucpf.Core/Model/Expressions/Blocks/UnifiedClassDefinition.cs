@@ -18,10 +18,9 @@ namespace Ucpf.Core.Model {
 			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
-		private UnifiedQualifiedIdentifier _name;
+		private IUnifiedExpression _name;
 
-		// TODO: A.B.C を UnifiedPropertyで表現
-		public UnifiedQualifiedIdentifier Name {
+		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
 		}
@@ -71,7 +70,7 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedQualifiedIdentifier)v);
+					(Name, v => Name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -85,7 +84,7 @@ namespace Ucpf.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (UnifiedQualifiedIdentifier)v);
+					(_name, v => _name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
 					;
@@ -95,7 +94,7 @@ namespace Ucpf.Core.Model {
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedClassDefinition Create(UnifiedQualifiedIdentifier name,
+		public static UnifiedClassDefinition Create(IUnifiedExpression name,
 		                                            UnifiedBlock body,
 		                                            UnifiedModifierCollection
 		                                            		modifiers, UnifiedClassKind kind) {
@@ -107,53 +106,10 @@ namespace Ucpf.Core.Model {
 			};
 		}
 
-		public static UnifiedClassDefinition Create(UnifiedIdentifier name,
-		                                            UnifiedBlock body,
-		                                            UnifiedModifierCollection
-		                                            		modifiers, UnifiedClassKind kind) {
-			return new UnifiedClassDefinition {
-					Body = body,
-					Name = name.ToQualified(),
-					Modifiers = modifiers,
-					Kind = kind,
-			};
-		}
-
-		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name) {
-			return Create(name, UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
-					UnifiedClassKind.Class);
-		}
-
-		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
-		                                                 UnifiedModifierCollection
-		                                                 		modifiers) {
-			return Create(name, UnifiedBlock.Create(), modifiers, UnifiedClassKind.Class);
-		}
-
-		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
-		                                                 UnifiedBlock body) {
-			return Create(name, body, UnifiedModifierCollection.Create(),
-					UnifiedClassKind.Class);
-		}
-
-		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
-		                                                 UnifiedBlock body,
-		                                                 UnifiedModifierCollection
-		                                                 		modifiers) {
-			return Create(name, body, modifiers, UnifiedClassKind.Class);
-		}
-
 		public static UnifiedClassDefinition CreateClass(string name) {
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 					UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
 					UnifiedClassKind.Class);
-		}
-
-		public static UnifiedClassDefinition CreateClass(string name,
-		                                                 UnifiedModifierCollection
-		                                                 		modifiers) {
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-					UnifiedBlock.Create(), modifiers, UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
@@ -162,31 +118,9 @@ namespace Ucpf.Core.Model {
 					body, UnifiedModifierCollection.Create(), UnifiedClassKind.Class);
 		}
 
-		public static UnifiedClassDefinition CreateClass(string name,
-		                                                 UnifiedBlock body,
-		                                                 UnifiedModifierCollection
-		                                                 		modifiers) {
-			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-					body, modifiers, UnifiedClassKind.Class);
-		}
-
 		public static UnifiedClassDefinition Create(
 				UnifiedModifierCollection modifiers, UnifiedClassKind kind,
-				UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters,
-				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
-			return new UnifiedClassDefinition {
-					Modifiers = modifiers,
-					Kind = kind,
-					Name = name.ToQualified(),
-					TypeParameters = typeParameters,
-					Constrains = constrains,
-					Body = body,
-			};
-		}
-
-		public static UnifiedClassDefinition Create(
-				UnifiedModifierCollection modifiers, UnifiedClassKind kind,
-				UnifiedQualifiedIdentifier name,
+				IUnifiedExpression name,
 				UnifiedTypeParameterCollection typeParameters,
 				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
@@ -199,8 +133,7 @@ namespace Ucpf.Core.Model {
 			};
 		}
 
-		public static UnifiedClassDefinition CreateNamespace(
-				UnifiedQualifiedIdentifier name) {
+		public static UnifiedClassDefinition CreateNamespace(IUnifiedExpression name) {
 			return Create(name, UnifiedBlock.Create(), null, UnifiedClassKind.Namespace);
 		}
 			}

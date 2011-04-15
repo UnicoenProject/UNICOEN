@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Paraiba.Collections.Generic;
+using Paraiba.Text;
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Extensions;
 using Ucpf.Languages.CSharp;
@@ -70,7 +71,7 @@ namespace Ucpf.Applications.Metrics.Utils {
 				Func<IUnifiedElement, IEnumerable<IUnifiedElement>> getTargetElementsFunc) {
 			var counts = new Dictionary<string, int>();
 			var ext = Path.GetExtension(filePath);
-			var code = File.ReadAllText(filePath);
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var model = CreateModel(ext, code);
 			InitializeCounter(model, counts);
 			CountElements(getTargetElementsFunc(model), counts);

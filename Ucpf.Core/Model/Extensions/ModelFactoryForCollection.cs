@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Ucpf.Core.Model.Extensions {
 	public static class ModelFactoryForCollection {
@@ -67,6 +68,21 @@ namespace Ucpf.Core.Model.Extensions {
 		public static UnifiedIdentifierCollection ToCollection(
 				this UnifiedIdentifier singleton) {
 			return UnifiedIdentifierCollection.Create(singleton);
+		}
+
+		public static IUnifiedExpression ToProperty(
+				this IEnumerable<IUnifiedExpression> collection, string delimiter) {
+			var first = collection.First();
+			if (collection.Count() == 1) {
+				return first;
+			}
+			return collection.Skip(1).Aggregate(first,
+					(l, r) => UnifiedProperty.Create(l, r, delimiter));
+		}
+
+		public static IUnifiedExpression ToProperty(
+				this UnifiedIdentifier singleton) {
+					return singleton;
 		}
 
 		public static UnifiedQualifiedIdentifier ToQualified(
