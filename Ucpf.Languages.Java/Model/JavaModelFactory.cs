@@ -53,7 +53,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   'package' qualifiedName ';'
 			 */
 			var name = CreateQualifiedName(node.Element("qualifiedName"));
-			return UnifiedClassDefinition.CreateNamespace(name, UnifiedBlock.Create());
+			return UnifiedClassDefinition.CreateNamespace(name);
 		}
 
 		public static UnifiedImport CreateImportDeclaration(XElement node)

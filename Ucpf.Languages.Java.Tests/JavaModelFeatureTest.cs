@@ -25,6 +25,10 @@ namespace Ucpf.Languages.Java.Tests
 			get { return JavaRegenerateTest.TestFilePathes; }
 		}
 
+		public IEnumerable<TestCaseData> TestDirectoryPathes {
+			get { return JavaRegenerateTest.TestDirectoryPathes; }
+		}
+
 		protected override UnifiedProgram CreateModel(string code)
 		{
 			return JavaModelFactory.CreateModel(code);
@@ -51,6 +55,20 @@ namespace Ucpf.Languages.Java.Tests
 		}
 
 		/// <summary>
+		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name="command"></param>
+		/// <param name="arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public void VerifyDeepCopyUsingDirectory(string dirPath, string command, string arguments) {
+			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyDeepCopy(File.ReadAllText(path));
+			}
+		}
+
+		/// <summary>
 		///   子要素の列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
@@ -68,6 +86,20 @@ namespace Ucpf.Languages.Java.Tests
 		public void VerifyGetElementsUsingFile(string path)
 		{
 			VerifyGetElements(File.ReadAllText(path));
+		}
+
+		/// <summary>
+		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name="command"></param>
+		/// <param name="arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public void VerifyGetElementsUsingDirectory(string dirPath, string command, string arguments) {
+			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyGetElements(File.ReadAllText(path));
+			}
 		}
 
 		/// <summary>
@@ -91,6 +123,20 @@ namespace Ucpf.Languages.Java.Tests
 		}
 
 		/// <summary>
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name="command"></param>
+		/// <param name="arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public void VerifyGetElementAndSettersUsingDirectory(string dirPath, string command, string arguments) {
+			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyGetElementAndSetters(File.ReadAllText(path));
+			}
+		}
+
+		/// <summary>
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
@@ -108,6 +154,20 @@ namespace Ucpf.Languages.Java.Tests
 		public void VerifyGetElementAndDirectSettersUsingFile(string path)
 		{
 			VerifyGetElementAndDirectSetters(File.ReadAllText(path));
+		}
+
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name="command"></param>
+		/// <param name="arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public void VerifyGetElementAndDirectSettersUsingDirectory(string dirPath, string command, string arguments) {
+			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyGetElementAndDirectSetters(File.ReadAllText(path));
+			}
 		}
 
 		/// <summary>
@@ -131,6 +191,20 @@ namespace Ucpf.Languages.Java.Tests
 		}
 
 		/// <summary>
+		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name="command"></param>
+		/// <param name="arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public void VerifyParentPropertyUsingDirectory(string dirPath, string command, string arguments) {
+			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyParentProperty(File.ReadAllText(path));
+			}
+		}
+
+		/// <summary>
 		///   全要素の文字列情報を取得できるかソースコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
@@ -148,6 +222,20 @@ namespace Ucpf.Languages.Java.Tests
 		public void VerifyToStringUsingFile(string path)
 		{
 			VerifyToString(File.ReadAllText(path));
+		}
+
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name="command"></param>
+		/// <param name="arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public void VerifyToStringUsingFile(string dirPath, string command, string arguments) {
+			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyToString(File.ReadAllText(path));
+			}
 		}
 	}
 }
