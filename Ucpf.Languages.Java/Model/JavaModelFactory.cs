@@ -1824,10 +1824,25 @@ namespace Ucpf.Languages.Java.Model
 			 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
 			 */
 			if (node.FirstElement().Name == "arguments") {
+				// super(arg1, arg2)
 				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
 			}
-			// todo implement
-			throw new NotImplementedException();
+			var typeArgumentsNode = node.Element("typeArguments");
+			var typeArguments = typeArgumentsNode != null
+			                    	? CreateTypeArguments(typeArgumentsNode)
+			                    	: null;
+			var argumentsNode = node.Element("arguments");
+			var arguments = argumentsNode != null
+			                    	? CreateArguments(argumentsNode)
+			                    	: null;
+			var property = UnifiedProperty.Create(prefix,
+				node.Element("IDENTIFIER").Value, ".");
+			if (arguments != null) {
+				// super.<Integer>method(arg1)
+				return UnifiedCall.Create(property, arguments, typeArguments);
+			}
+			// super.field1
+			return property;
 		}
 
 		public static IUnifiedExpression CreateIdentifierSuffix(

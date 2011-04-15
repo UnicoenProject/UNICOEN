@@ -84,6 +84,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			WriteSpace();
 			element.Name.TryAccept(this, data);
 			element.TypeParameters.TryAccept(this, data);
+			element.Constrains.TryAccept(this, data);
 			element.Body.TryAccept(this, data);
 			return false;
 		}
