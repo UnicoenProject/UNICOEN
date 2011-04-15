@@ -50,13 +50,13 @@ namespace Ucpf.Languages.Java.Tests
 					"Condition.java",
 					//"ControlFlow.java", TODO StringLiteralの実装が不十分
 					"Fibonacci.java",
-					//"Method.java",
+					"Method.java",
 					//"Modifier.java",
 					//"MyException.java", TODO StringLiteralの実装が不十分
 					//"Operator.java",
-					//"Simple.java",
+					"Simple.java",
 					"Student.java",
-					//"Variable.java",
+					"Variable.java",
 				}
 					.Select(s => new TestCaseData(Fixture.GetInputPath("Java", s)));
 				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))
