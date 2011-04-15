@@ -4,13 +4,10 @@ using System.Text;
 using ICSharpCode.NRefactory.Ast;
 using Ucpf.Core.Model;
 
-namespace Ucpf.Languages.CSharp
-{
-	internal partial class Translator
-	{
+namespace Ucpf.Languages.CSharp {
+	internal partial class Translator {
 		private static UnifiedBinaryOperator ConvertBinaryOperator(
-			BinaryOperatorType type)
-		{
+				BinaryOperatorType type) {
 			switch (type) {
 			case BinaryOperatorType.Add:
 				return UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorKind.Add);
@@ -21,20 +18,19 @@ namespace Ucpf.Languages.CSharp
 				return UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorKind.LessThan);
 			case BinaryOperatorType.LessThanOrEqual:
 				return UnifiedBinaryOperator.Create("<=",
-					UnifiedBinaryOperatorKind.LessThanOrEqual);
+						UnifiedBinaryOperatorKind.LessThanOrEqual);
 			case BinaryOperatorType.GreaterThan:
 				return UnifiedBinaryOperator.Create(">",
-					UnifiedBinaryOperatorKind.GreaterThan);
+						UnifiedBinaryOperatorKind.GreaterThan);
 			case BinaryOperatorType.GreaterThanOrEqual:
 				return UnifiedBinaryOperator.Create(">=",
-					UnifiedBinaryOperatorKind.GreaterThanOrEqual);
+						UnifiedBinaryOperatorKind.GreaterThanOrEqual);
 			}
 			throw new NotImplementedException();
 		}
 
 		private static UnifiedUnaryOperator ConvertUnaryOperator(
-			UnaryOperatorType type)
-		{
+				UnaryOperatorType type) {
 			switch (type) {
 			case UnaryOperatorType.Plus:
 				return UnifiedUnaryOperator.Create("+", UnifiedUnaryOperatorKind.UnaryPlus);
@@ -43,22 +39,21 @@ namespace Ucpf.Languages.CSharp
 
 			case UnaryOperatorType.Increment:
 				return UnifiedUnaryOperator.Create("++",
-					UnifiedUnaryOperatorKind.PreIncrementAssign);
+						UnifiedUnaryOperatorKind.PreIncrementAssign);
 			case UnaryOperatorType.PostIncrement:
 				return UnifiedUnaryOperator.Create("++",
-					UnifiedUnaryOperatorKind.PostIncrementAssign);
+						UnifiedUnaryOperatorKind.PostIncrementAssign);
 			case UnaryOperatorType.Decrement:
 				return UnifiedUnaryOperator.Create("--",
-					UnifiedUnaryOperatorKind.PreDecrementAssign);
+						UnifiedUnaryOperatorKind.PreDecrementAssign);
 			case UnaryOperatorType.PostDecrement:
 				return UnifiedUnaryOperator.Create("--",
-					UnifiedUnaryOperatorKind.PostDecrementAssign);
+						UnifiedUnaryOperatorKind.PostDecrementAssign);
 			}
 			throw new NotImplementedException();
 		}
 
-		private static UnifiedModifierCollection ConvertModifiler(Modifiers mods)
-		{
+		private static UnifiedModifierCollection ConvertModifiler(Modifiers mods) {
 			var ret = UnifiedModifierCollection.Create();
 			if ((mods & Modifiers.Private) != 0) {
 				ret.Add(UnifiedModifier.Create("private"));
@@ -76,8 +71,7 @@ namespace Ucpf.Languages.CSharp
 			return ret;
 		}
 
-		private static UnifiedType ConvertTypeIgnoringIsArray(TypeReference type)
-		{
+		private static UnifiedType ConvertTypeIgnoringIsArray(TypeReference type) {
 			string typeName = type.Type;
 			if (String.IsNullOrEmpty(typeName))
 				return null;
@@ -93,8 +87,7 @@ namespace Ucpf.Languages.CSharp
 			return UnifiedType.CreateUsingString(typeName, typeParameter);
 		}
 
-		private static UnifiedType ConvertType(TypeReference type)
-		{
+		private static UnifiedType ConvertType(TypeReference type) {
 			var uType = ConvertTypeIgnoringIsArray(type);
 			// TODO: fix uType.Name.ToString()
 			var buff = new StringBuilder(uType.Name.ToString());
@@ -107,11 +100,10 @@ namespace Ucpf.Languages.CSharp
 				}
 			}
 			return UnifiedType.CreateUsingString(buff.ToString(),
-				uType.Arguments.DeepCopy<UnifiedTypeArgumentCollection>());
+					uType.Arguments.DeepCopy<UnifiedTypeArgumentCollection>());
 		}
 
-		private static string GetTypeAlias(string fullTypeName)
-		{
+		private static string GetTypeAlias(string fullTypeName) {
 			switch (fullTypeName) {
 			case "System.Int32":
 				return "int";
@@ -123,8 +115,7 @@ namespace Ucpf.Languages.CSharp
 			return null;
 		}
 
-		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents)
-		{
+		private static UnifiedBlock ToFlattenBlock(IEnumerable<object> contents) {
 			var block = UnifiedBlock.Create();
 			foreach (var item in contents) {
 				if (item == null)

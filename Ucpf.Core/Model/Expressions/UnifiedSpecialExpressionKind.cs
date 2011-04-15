@@ -1,10 +1,8 @@
-﻿namespace Ucpf.Core.Model
-{
+﻿namespace Ucpf.Core.Model {
 	/// <summary>
 	///   UnifiedSpecialExpressionの種類を表します。
 	/// </summary>
-	public enum UnifiedSpecialExpressionKind
-	{
+	public enum UnifiedSpecialExpressionKind {
 		Break,
 		Continue,
 		Goto,

@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
-	public abstract class UnifiedElement : IUnifiedElement
-	{
+namespace Ucpf.Core.Model {
+	public abstract class UnifiedElement : IUnifiedElement {
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
@@ -23,13 +21,21 @@ namespace Ucpf.Core.Model
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
+		/// <param name = "visitor"></param>
+		/// <param name = "data"></param>
+		public abstract void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data);
+
+		/// <summary>
+		///   ビジターを適用してコードモデルを走査します。
+		/// </summary>
 		/// <typeparam name = "TData"></typeparam>
 		/// <typeparam name = "TResult"></typeparam>
 		/// <param name = "visitor"></param>
 		/// <param name = "data"></param>
 		/// <returns></returns>
 		public abstract TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data);
 
 		/// <summary>
 		///   子要素を列挙します。
@@ -42,14 +48,14 @@ namespace Ucpf.Core.Model
 		/// </summary>
 		/// <returns>子要素</returns>
 		public abstract IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndSetters();
+				GetElementAndSetters();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
 		public abstract IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndDirectSetters();
+				GetElementAndDirectSetters();
 
 		/// <summary>
 		///   コードモデルを正規化します。
@@ -57,8 +63,7 @@ namespace Ucpf.Core.Model
 		///   ・子要素がUnifiedBlockだけのUnifiedBlockを削除
 		///   ・-1や+1などの単項式を定数に変換
 		/// </summary>
-		public virtual IUnifiedElement Normalize()
-		{
+		public virtual IUnifiedElement Normalize() {
 			NormalizeChildren();
 			return this;
 		}
@@ -66,8 +71,7 @@ namespace Ucpf.Core.Model
 		/// <summary>
 		///   子要素に対して正規化を再帰的に行います。
 		/// </summary>
-		public void NormalizeChildren()
-		{
+		public void NormalizeChildren() {
 			foreach (var elemAndSetter in GetElementAndDirectSetters()) {
 				if (elemAndSetter.Item1 != null) {
 					var child = elemAndSetter.Item1.Normalize();
@@ -81,8 +85,7 @@ namespace Ucpf.Core.Model
 		///   深いコピーを取得します。
 		/// </summary>
 		/// <returns>深いコピー</returns>
-		public virtual IUnifiedElement DeepCopy()
-		{
+		public virtual IUnifiedElement DeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
 			foreach (var elemAndSetter in ret.GetElementAndDirectSetters()) {
@@ -98,8 +101,7 @@ namespace Ucpf.Core.Model
 		/// </summary>
 		/// <returns>深いコピー</returns>
 		public virtual T DeepCopy<T>()
-			where T : IUnifiedElement
-		{
+				where T : IUnifiedElement {
 			return (T)DeepCopy();
 		}
 
@@ -110,8 +112,7 @@ namespace Ucpf.Core.Model
 		///   A new object that is a copy of this instance.
 		/// </returns>
 		/// <filterpriority>2</filterpriority>
-		public object Clone()
-		{
+		public object Clone() {
 			return DeepCopy();
 		}
 
@@ -120,10 +121,9 @@ namespace Ucpf.Core.Model
 		/// </summary>
 		/// <param name = "target">自分自身</param>
 		/// <returns></returns>
-		public virtual IUnifiedElement RemoveChild(IUnifiedElement target)
-		{
+		public virtual IUnifiedElement RemoveChild(IUnifiedElement target) {
 			var elem = GetElementAndDirectSetters()
-				.First(e => ReferenceEquals(target, e.Item1));
+					.First(e => ReferenceEquals(target, e.Item1));
 			elem.Item2(null);
 			((UnifiedElement)target).Parent = null;
 			return this;
@@ -133,8 +133,7 @@ namespace Ucpf.Core.Model
 		///   親要素から自分自身を削除します。
 		/// </summary>
 		/// <returns>親要素</returns>
-		public IUnifiedElement Remove()
-		{
+		public IUnifiedElement Remove() {
 			return Parent.RemoveChild(this);
 		}
 
@@ -146,8 +145,7 @@ namespace Ucpf.Core.Model
 		/// <param name = "oldChild">元の子要素</param>
 		/// <returns></returns>
 		public T SetParentOfChild<T>(T child, IUnifiedElement oldChild)
-			where T : class, IUnifiedElement
-		{
+				where T : class, IUnifiedElement {
 			if (child != null) {
 				if (child.Parent != null) {
 					throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
@@ -160,8 +158,7 @@ namespace Ucpf.Core.Model
 		}
 
 		private static void Write(object obj, string content, StringBuilder buffer,
-		                          int depth)
-		{
+		                          int depth) {
 			for (int i = 0; i < depth; i++) {
 				buffer.Append("  ");
 			}
@@ -175,20 +172,17 @@ namespace Ucpf.Core.Model
 		}
 
 		private static void WriteTypeWithoutContent(object obj, StringBuilder buffer,
-		                                            int depth)
-		{
+		                                            int depth) {
 			Write(obj, "", buffer, depth);
 		}
 
 		private static void WriteTypeAndContent(object obj, StringBuilder buffer,
-		                                        int depth)
-		{
+		                                        int depth) {
 			Write(obj, obj + "", buffer, depth);
 		}
 
 		private static void WriteUnifiedElement(UnifiedElement elem,
-		                                        StringBuilder buffer, int depth)
-		{
+		                                        StringBuilder buffer, int depth) {
 			WriteTypeWithoutContent(elem, buffer, depth);
 			// write items of enumerable
 			var seq = elem as IEnumerable;
@@ -201,18 +195,17 @@ namespace Ucpf.Core.Model
 			}
 			// write properties without indexer
 			var values = elem.GetType().GetProperties()
-				.Where(prop => prop.Name != "Parent")
-				// TODO: 集合を表現する要素は他のプロパティを持たないはず
-				//.Where(prop => prop.GetIndexParameters().Length == 0)
-				.Select(prop => prop.GetValue(elem, null));
+					.Where(prop => prop.Name != "Parent")
+					// TODO: 集合を表現する要素は他のプロパティを持たないはず
+					//.Where(prop => prop.GetIndexParameters().Length == 0)
+					.Select(prop => prop.GetValue(elem, null));
 			foreach (var value in values) {
 				ToStringRecursively(value, buffer, depth + 1);
 			}
 		}
 
 		private static void WriteNonUnifiedElement(object obj, StringBuilder buffer,
-		                                           int depth)
-		{
+		                                           int depth) {
 			var seq = obj as IEnumerable;
 			if (!(seq is string) && seq != null) {
 				WriteTypeWithoutContent(obj, buffer, depth);
@@ -225,8 +218,7 @@ namespace Ucpf.Core.Model
 		}
 
 		private static void ToStringRecursively(object obj, StringBuilder buffer,
-		                                        int depth)
-		{
+		                                        int depth) {
 			var elem = obj as UnifiedElement;
 			if (elem != null) {
 				WriteUnifiedElement(elem, buffer, depth);
@@ -235,8 +227,7 @@ namespace Ucpf.Core.Model
 			}
 		}
 
-		public override string ToString()
-		{
+		public override string ToString() {
 			var buffer = new StringBuilder();
 			ToStringRecursively(this, buffer, 0);
 			return buffer.ToString();

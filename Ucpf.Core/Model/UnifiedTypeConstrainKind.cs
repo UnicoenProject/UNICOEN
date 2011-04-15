@@ -1,10 +1,8 @@
-﻿namespace Ucpf.Core.Model
-{
+﻿namespace Ucpf.Core.Model {
 	/// <summary>
 	///   型が持つ制約の種類を表します。
 	/// </summary>
-	public enum UnifiedTypeConstrainKind
-	{
+	public enum UnifiedTypeConstrainKind {
 		/// <summary>
 		///   継承を表します。
 		///   e.g. Javeにおける継承(<c>class Child extends Parent</c>)
@@ -36,7 +34,6 @@
 		/// </summary>
 		ValueType,
 		/// <summary>
-		/// 
 		/// </summary>
 		Super
 	}

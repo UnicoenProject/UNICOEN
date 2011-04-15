@@ -71,27 +71,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
     <Compile Include="Model\Collections\UnifiedVariableDefinitionBodyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedClassKind.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlockKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedBoolean.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedNullLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionList.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
+    <Compile Include="Model\Expressions\UnifiedQualifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\UnifiedTernaryExpression.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperatorKind.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Model\Comparers\StructuralEqualityComparer.cs" />
     <Compile Include="Model\Extensions\ModelSweeper.cs" />
+    <Compile Include="Model\Extensions\ModelExtensionsForVisitor.cs" />
     <Compile Include="Model\IUnifiedElement.cs" />
     <Compile Include="Model\Collections\IUnifiedElementCollection.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
@@ -137,6 +141,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />
     <Compile Include="Model\UnifiedCase.cs" />
     <Compile Include="Model\Collections\UnifiedCaseCollection.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedCharLiteral.cs" />
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedImport.cs" />

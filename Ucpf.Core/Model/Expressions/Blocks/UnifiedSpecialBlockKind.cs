@@ -1,11 +1,9 @@
-﻿namespace Ucpf.Core.Model
-{
+﻿namespace Ucpf.Core.Model {
 	/// <summary>
 	///   UnifiedSpecialBlockの種類を表します。
 	/// </summary>
-	public enum UnifiedSpecialBlockKind
-	{
-		Synchrnoized,
+	public enum UnifiedSpecialBlockKind {
+		Synchronized,
 		Fix,
 		Using,
 	}

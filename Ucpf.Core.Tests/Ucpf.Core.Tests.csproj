@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="StructuralEqualityComparerForDebug.cs" />
-    <Compile Include="CodeModelToCode.cs" />
     <Compile Include="CSharpAndJavaSpecificationTest.cs" />
     <Compile Include="Fixture.cs" />
     <Compile Include="ModelFeatureTest.cs" />

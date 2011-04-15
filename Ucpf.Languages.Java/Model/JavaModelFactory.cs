@@ -1,206 +1,1665 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Code2Xml.Languages.Java.XmlGenerators;
+using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Extensions;
 
-namespace Ucpf.Languages.Java.Model
-{
-	public class JavaModelFactory
-	{
-		#region Expression
-
-		public static IUnifiedExpression CreateExpression(XElement node)
-		{
+namespace Ucpf.Languages.Java.Model {
+	public class JavaModelFactory {
+		public static UnifiedProgram CreateCompilationUnit(XElement node) {
 			Contract.Requires(node != null);
-			//Contract.Requires(node.Name().ToLower().EndsWith("expression"));
-			//UnaryExpressionの際に<primary>が来る可能性もある
+			Contract.Requires(node.Name() == "compilationUnit");
+			/*
+			 * compilationUnit 
+			 * :   ( (annotations)? packageDeclaration )? (importDeclaration)* (typeDeclaration)*
+			 */
+			var program = UnifiedProgram.Create();
+			IUnifiedElementCollection<IUnifiedExpression> expressions = program;
 
-			//TODO IMPLEMENT: more operators
-			var binaryOperator = new[] { "+", "-", "*", "/", "%", "<", ">" };
+			if (node.FirstElement().Name() == "annotations") {
+				// TODO: use annotations
+				var annotations = CreateAnnotations(node.FirstElement());
+				var packageDeclaration = CreatePackageDeclaration(node.NthElement(1));
+				expressions.Add(packageDeclaration);
+				expressions = packageDeclaration.Body;
+			}
+			foreach (var e in node.Elements("importDeclaration")) {
+				var importDeclaration = CreateImportDeclaration(e);
+				expressions.Add(importDeclaration);
+			}
+			foreach (var e in node.Elements("typeDeclaration")) {
+				var typeDeclaration = CreateTypeDeclaration(e);
+				expressions.AddRange(typeDeclaration);
+			}
+			return program;
+		}
 
+		public static UnifiedClassDefinition CreatePackageDeclaration(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "packageDeclaration");
+			/*
+			 * packageDeclaration 
+			 * :   'package' qualifiedName ';'
+			 */
+			var name = CreateQualifiedName(node.Element("qualifiedName"));
+			return UnifiedClassDefinition.CreateNamespace(name);
+		}
+
+		public static UnifiedImport CreateImportDeclaration(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "importDeclaration");
+			/*
+			 * importDeclaration  
+			 * :   'import' ('static')? IDENTIFIER '.' '*' ';'
+			 * |   'import' ('static')? IDENTIFIER ('.' IDENTIFIER)+ ('.' '*')? ';' 
+			 */
+
+			var idStrs = node.Elements("IDENTIFIER").Select(e => e.Value);
+			if (node.HasElementByContent("*"))
+				idStrs = idStrs.Concat("*");
+
+			// TODO CreateUnknownより詳しい情報を
+			var name = idStrs.Select(UnifiedIdentifier.CreateUnknown).ToQualified(".");
+			var modifiers = node.HasElementByContent("static")
+			                		? UnifiedModifier.Create(node.NthElement(1).Value).
+			                		  		ToCollection() : null;
+
+			return UnifiedImport.Create(name, modifiers);
+		}
+
+		public static IEnumerable<UnifiedClassDefinition> CreateTypeDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeDeclaration");
+			/*
+			 * typeDeclaration 
+			 * :   classOrInterfaceDeclaration
+			 * |   ';' 
+			 */
+			if (node.FirstElement().Name() == "classOrInterfaceDeclaration") {
+				yield return CreateClassOrInterfaceDeclaration(node.FirstElement());
+			}
+		}
+
+		public static UnifiedClassDefinition CreateClassOrInterfaceDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "classOrInterfaceDeclaration");
+			/*
+			 * classOrInterfaceDeclaration 
+			 * :    classDeclaration
+			 * |   interfaceDeclaration 
+			 */
+			var first = node.FirstElement();
+			if (first.Name() == "classDeclaration") {
+				return CreateClassDeclaration(first);
+			}
+			if (first.Name() == "interfaceDeclaration") {
+				return CreateInterfaceDeclaration(first);
+			}
+			throw new InvalidOperationException();
+		}
+
+		public static UnifiedModifierCollection CreateModifiers(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "modifiers");
+			/*
+			 * modifiers  
+			 * :
+			 * (    annotation
+			 * |   'public'
+			 * |   'protected'
+			 * |   'private'
+			 * |   'static'
+			 * |   'abstract'
+			 * |   'final'
+			 * |   'native'
+			 * |   'synchronized'
+			 * |   'transient'
+			 * |   'volatile'
+			 * |   'strictfp'
+			 * )* 
+			 */
+			var modifiers = UnifiedModifierCollection.Create();
+			foreach (var e in node.Elements()) {
+				if (e.Name() == "annotation") {
+					//TODO まだUnifiedAnnotationは未実装
+					//modifiers.Add(UnifiedAnnotation.Create());
+				} else {
+					modifiers.Add(UnifiedModifier.Create(e.Value));
+				}
+			}
+			return modifiers;
+		}
+
+		public static UnifiedModifierCollection CreateVariableModifiers(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "variableModifiers");
+			/*
+			 * variableModifiers 
+			 * :   ( 'final' | annotation )* 
+			 */
+			var modifiers = UnifiedModifierCollection.Create();
+			foreach (var e in node.Elements()) {
+				if (e.Name() == "annotation") {
+					//TODO まだUnifiedAnnotationは未実装
+					//modifiers.Add(UnifiedAnnotation.Create());
+				} else {
+					modifiers.Add(UnifiedModifier.Create(e.Value));
+				}
+			}
+			return modifiers;
+		}
+
+		public static UnifiedClassDefinition CreateClassDeclaration(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "classDeclaration");
+			/*
+			 * classDeclaration 
+			 * :   normalClassDeclaration | enumDeclaration 
+			 */
+			var first = node.FirstElement();
+			if (first.Name() == "normalClassDeclaration") {
+				return CreateNormalClassDeclaration(first);
+			}
+			if (first.Name() == "enumDeclaration") {
+				return CreateEnumDeclaration(first);
+			}
+			throw new InvalidOperationException();
+		}
+
+		public static UnifiedClassDefinition CreateNormalClassDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "normalClassDeclaration");
+			/*
+			 * normalClassDeclaration 
+			 * :   modifiers 'class' IDENTIFIER (typeParameters)? ('extends' type)? ('implements' typeList)? classBody 
+			 */
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			var name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
+			var typeParameters = node.HasElement("typeParameters")
+			                     		? CreateTypeParameters(node.Element("typeParameters"))
+			                     		: null;
+			var constrains = UnifiedTypeConstrainCollection.Create();
+			if (node.HasElement("type")) {
+				constrains.Add(UnifiedTypeConstrain.CreateExtends(
+						CreateType(node.Element("type"))));
+			}
+			if (node.HasElement("typeList")) {
+				foreach (var type in CreateTypeList(node.Element("typeList"))) {
+					constrains.Add(UnifiedTypeConstrain.CreateImplements(type));
+				}
+			}
+			var body = CreateClassBody(node.Element("classBody"));
+			return UnifiedClassDefinition.Create(modifiers, UnifiedClassKind.Class, name,
+					typeParameters,
+					constrains, body);
+		}
+
+		public static UnifiedTypeParameterCollection CreateTypeParameters(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeParameters");
+			/*
+			 * typeParameters 
+			 * :   '<' typeParameter (',' typeParameter )* '>' 
+			 */
+			return node.Elements("typeParameter")
+					.Select(CreateTypeParameter)
+					.ToCollection();
+		}
+
+		public static UnifiedTypeParameter CreateTypeParameter(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeParameter");
+			/*
+			 * typeParameter 
+			 * :   IDENTIFIER ('extends' typeBound)? 
+			 */
+			if (node.Elements().Count() == 1) {
+				return UnifiedTypeParameter.Create(
+						UnifiedType.CreateUsingString(node.FirstElement().Value));
+			}
+			return UnifiedTypeParameter.Create(
+					UnifiedType.CreateUsingString(node.FirstElement().Value),
+					UnifiedTypeConstrainCollection.Create(
+							CreateTypeBound(node.LastElement())
+									.Select(UnifiedTypeConstrain.CreateExtendsOrImplements))
+					);
+		}
+
+		public static IEnumerable<UnifiedType> CreateTypeBound(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeBound");
+			/*
+			 * typeBound 
+			 * :   type ('&' type)* 
+			 */
+			return node.Elements("type").Select(CreateType);
+		}
+
+		public static UnifiedClassDefinition CreateEnumDeclaration(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "enumDeclaration");
+			/*
+			 * enumDeclaration 
+			 * :   modifiers ('enum') IDENTIFIER ('implements' typeList)? enumBody 
+			 */
+			var modifiers = CreateModifiers(node);
+			var name = node.NthElement(2).Value;
+			var typeListNode = node.Element("typeList");
+			var constrains = typeListNode != null
+			                 		? CreateTypeList(typeListNode)
+			                 		  		.Select(UnifiedTypeConstrain.CreateImplements)
+			                 		  		.ToCollection()
+			                 		: null;
+			var enumBody = CreateEnumBody(node.Element("enumBody"));
+			return UnifiedClassDefinition.Create(modifiers,
+					UnifiedClassKind.Enum,
+					UnifiedIdentifier.CreateType(name),
+					null,
+					constrains,
+					enumBody);
+		}
+
+		public static UnifiedBlock CreateEnumBody(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "enumBody");
+			/*
+			 * enumBody 
+			 * :   '{' (enumConstants)? ','? (enumBodyDeclarations)? '}' 
+			 */
+			var block = UnifiedBlock.Create();
+			var enumConstantsNode = node.Element("enumConstants");
+			if (enumConstantsNode != null)
+				block.AddRange(CreateEnumConstants(enumConstantsNode));
+			var enumBodyDeclarationsNode = node.Element("enumBodyDeclarations");
+			if (enumBodyDeclarationsNode != null)
+				block.AddRange(CreateEnumBodyDeclarations(enumBodyDeclarationsNode));
+			return block;
+		}
+
+		public static IEnumerable<IUnifiedExpression> CreateEnumConstants(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "enumConstants");
+			/*
+			 * enumConstants 
+			 * :   enumConstant (',' enumConstant)* 
+			 */
+			return node.Elements("enumConstant")
+					.Select(CreateEnumConstant);
+		}
+
+		public static IUnifiedExpression CreateEnumConstant(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "enumConstant");
+			/*
+			 * enumConstant 
+			 * :   (annotations)? IDENTIFIER (arguments)? (classBody)?
+			 */
+			var annotationsNode = node.Element("annotations");
+			var argumentsNode = node.Element("arguments");
+			var classBodyNode = node.Element("classBody");
+			// TODO: use annotations
+			var annotations = annotationsNode != null
+			                  		? CreateAnnotations(annotationsNode)
+			                  		: null;
+			var name = node.ElementByContent().Value;
+			var arguments = argumentsNode != null
+			                		? CreateArguments(argumentsNode)
+			                		: null;
+			var classBody = classBodyNode != null
+			                		? CreateClassBody(classBodyNode)
+			                		: null;
+			return UnifiedVariableDefinition.CreateSingle(
+					null,
+					null,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					null,
+					arguments,
+					classBody);
+		}
+
+		public static IEnumerable<IUnifiedExpression> CreateEnumBodyDeclarations(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "enumBodyDeclarations");
+			/*
+			 * enumBodyDeclarations 
+			 * :   ';' (classBodyDeclaration)* 
+			 */
+			return node.Elements("classBodyDeclaration")
+					.SelectMany(CreateClassBodyDeclaration);
+		}
+
+		public static UnifiedClassDefinition CreateInterfaceDeclaration(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "interfaceDeclaration");
+			/*
+			 * interfaceDeclaration 
+			 * :   normalInterfaceDeclaration | annotationTypeDeclaration 
+			 */
+			var first = node.FirstElement();
+			if (first.Name() == "normalInterfaceDeclaration") {
+				return CreateNormalInterfaceDeclaration(first);
+			}
+			if (first.Name() == "annotationTypeDeclaration") {
+				return CreateAnnotationTypeDeclaration(first);
+			}
+			throw new InvalidOperationException();
+		}
+
+		public static UnifiedClassDefinition CreateNormalInterfaceDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "normalInterfaceDeclaration");
+			/*
+			 * normalInterfaceDeclaration 
+			 * :   modifiers 'interface' IDENTIFIER (typeParameters)? ('extends' typeList)? interfaceBody 
+			 */
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			var name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
+			var typeParameters = node.Element("typeParameters") != null
+			                     		? CreateTypeParameters(node.Element("typeParameters"))
+			                     		: null;
+			var constrains = node.Element("typeList") != null
+			                 		? UnifiedTypeConstrainCollection.Create(
+			                 				CreateTypeList(node.Element("typeList")).Select(
+			                 						UnifiedTypeConstrain.CreateExtends))
+			                 		: null;
+			var body = CreateInterfaceBody(node.Element("interfaceBody"));
+
+			//TODO UnifiedClassDefinitionのCreateの整理
+			return UnifiedClassDefinition.Create(modifiers, UnifiedClassKind.Interface,
+					name, typeParameters, constrains, body);
+		}
+
+		public static IEnumerable<UnifiedType> CreateTypeList(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeList");
+			/*
+			 * typeList 
+			 * :   type (',' type)* 
+			 */
+			return node.Elements("type")
+					.Select(CreateType);
+		}
+
+		public static UnifiedBlock CreateClassBody(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "classBody");
+			/*
+			 * classBody 
+			 * :   '{' (classBodyDeclaration)* '}' 
+			 */
+			return node.Elements("classBodyDeclaration")
+					.SelectMany(CreateClassBodyDeclaration)
+					.ToBlock();
+		}
+
+		public static UnifiedBlock CreateInterfaceBody(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "interfaceBody");
+			/*
+			 * interfaceBody 
+			 * :   '{' (interfaceBodyDeclaration)* '}' 
+			 */
+			return node.Elements("interfaceBodyDeclaration")
+					.SelectMany(CreateInterfaceBodyDeclaration)
+					.ToBlock();
+		}
+
+		public static IEnumerable<IUnifiedExpression> CreateClassBodyDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "classBodyDeclaration");
+			/*
+			 * classBodyDeclaration 
+			 * :   ';'
+			 * |   ('static')? block
+			 * |   memberDecl 
+			 */
+			if (node.HasElement("block")) {
+				//case static initializer
+				var modifier = node.HasContent("static")
+				               		? UnifiedModifier.Create("static")
+				               		: null;
+				yield return UnifiedConstructorDefinition.Create(
+						CreateBlock(node.Element("block")),
+						modifier,
+						null,
+						UnifiedConstructorDefinitionKind.StaticInitializer);
+			}
+			if (node.HasElement("memberDecl")) {
+				yield return CreateMemberDecl(node.Element("memberDecl"));
+			}
+		}
+
+		public static IUnifiedExpression CreateMemberDecl(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "memberDecl");
+			/*
+			 * memberDecl 
+			 * :    fieldDeclaration
+			 * |    methodDeclaration
+			 * |    classDeclaration
+			 * |    interfaceDeclaration 
+			 */
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "fieldDeclaration":
+				return CreateFieldDeclaration(first);
+			case "methodDeclaration":
+				return CreateMethodDeclaration(first);
+			case "classDeclaration":
+				return CreateClassDeclaration(first);
+			case "interfaceDeclaration":
+				return CreateInterfaceDeclaration(first);
+			default:
+				throw new InvalidOperationException();
+			}
+		}
+
+		public static IUnifiedExpression CreateMethodDeclaration(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "methodDeclaration");
+			/*
+			 * methodDeclaration 
+			 * :   //constructor
+			 *     modifiers (typeParameters)? IDENTIFIER formalParameters ('throws' qualifiedNameList)? 
+				   '{' (explicitConstructorInvocation)? (blockStatement)* '}'
+			 * |   modifiers (typeParameters)? (type | 'void') IDENTIFIER formalParameters
+			 *     ('[' ']')* ('throws' qualifiedNameList)? (block | ';' ) 
+			 */
+
+			/* コード例
+			 * public int[] getName(String name) [] throws Error {
+			 *	   int[][] a = null;
+			 *     return a;
+			 * } 
+			 */
+
+			var name = UnifiedIdentifier.Create(
+					node.Element("IDENTIFIER").Value,
+					UnifiedIdentifierKind.Function
+					);
+			var typeParameters = node.HasElement("typeParameters")
+			                     		? CreateTypeParameters(node.Element("typeParameters"))
+			                     		: null;
+			var type = CreateType(node.Element("type")); //コンストラクタの場合はnullになるがどうせ使わない
+			var dimension = node.ElementsByContent("[").Count();
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			var parameters = CreateFormalParameters(node.Element("formalParameters"));
+			var throws = node.HasElement("qualifiedNameList")
+			             		? CreateQualifiedNameList(node.Element("qualifiedNameList"))
+			             		  		.Select(e => UnifiedType.Create(e, null, null))
+			             		  		.ToCollection()
+			             		: null;
+			var body = node.HasElement("block")
+			           		? CreateBlock(node.Element("block")) : null;
+
+			if (!node.HasElement("type") && !node.HasElementByContent("void")) {
+				//case constructor
+				var invocationNode =
+						node.Element("explicitConstructorInvocation");
+				var invocations = invocationNode != null
+				                  		? Enumerable.Repeat(CreateExplicitConstructorInvocation(
+				                  				invocationNode), 1)
+				                  		: Enumerable.Empty<IUnifiedExpression>();
+				var block =
+						invocations.Concat(
+								node.Elements("blockStatement")
+										.SelectMany(CreateBlockStatement)
+								)
+								.ToBlock();
+
+				return UnifiedConstructorDefinition.Create(
+						block,
+						modifiers,
+						parameters,
+						typeParameters,
+						throws,
+						UnifiedConstructorDefinitionKind.Constructor);
+			}
+			//TODO UnifiedFunctionDefinition.Createの整備
+			return UnifiedFunctionDefinition.CreateFunction(
+				modifiers,
+					type,
+					typeParameters,
+					name,
+					parameters, throws, body);
+		}
+
+		public static UnifiedVariableDefinition CreateFieldDeclaration(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "fieldDeclaration");
+			/*
+			 * fieldDeclaration 
+			 * :   modifiers type variableDeclarator (',' variableDeclarator)* ';' 
+			 */
+			var bodys = node.Elements("variableDeclarator")
+					.Select(CreateVariableDeclarator)
+					.ToCollection();
+			return UnifiedVariableDefinition.Create(
+					CreateModifiers(node.Element("modifiers")),
+					CreateType(node.Element("type")),
+					bodys);
+		}
+
+		public static UnifiedVariableDefinitionBody CreateVariableDeclarator(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "variableDeclarator");
+			/*
+			 * variableDeclarator 
+			 * :   IDENTIFIER ('[' ']')* ('=' variableInitializer)? 
+			 */
+			var initializer = node.HasElement("variableInitializer")
+			                  		? CreateVariableInitializer(
+			                  				node.Element("variableInitializer")) : null;
+			var dimension = node.ElementsByContent("[").Count();
+			var supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+			return UnifiedVariableDefinitionBody.Create(
+					node.Element("IDENTIFIER").Value, supplements, initializer);
+		}
+
+		public static IEnumerable<IUnifiedExpression> CreateInterfaceBodyDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "interfaceBodyDeclaration");
+			/*
+			 * interfaceBodyDeclaration 
+			 * :   interfaceFieldDeclaration
+			 * |   interfaceMethodDeclaration
+			 * |   interfaceDeclaration
+			 * |   classDeclaration
+			 * |   ';' 
+			 */
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "interfaceFieldDeclaration":
+				yield return CreateInterfaceFieldDeclaration(first);
+				break;
+			case "interfaceMethodDeclaration":
+				yield return CreateInterfaceMethodDeclaration(first);
+				break;
+			case "interfaceDeclaration":
+				yield return CreateInterfaceDeclaration(first);
+				break;
+			case "classDeclaration":
+				yield return CreateClassDeclaration(first);
+				break;
+			default:
+				yield break;
+			}
+		}
+
+		public static UnifiedFunctionDefinition CreateInterfaceMethodDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "interfaceMethodDeclaration");
+			/*
+			 * interfaceMethodDeclaration 
+			 * :   modifiers (typeParameters)? (type |'void') IDENTIFIER formalParameters
+				   ('[' ']')* ('throws' qualifiedNameList)? ';' 
+			 */
+			var modifiers = CreateModifiers(node.Element("modifiers"));
+			// TODO: 未使用
+			var typeParameters = node.HasElement("typeParameters")
+			                     		? CreateTypeParameters(node.Element("typeParameters"))
+			                     		: null;
+			var type = CreateType(node.Element("type"));
+			var dimension = node.ElementsByContent("[").Count();
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			var name = UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+					UnifiedIdentifierKind.Function);
+			var parameters = CreateFormalParameters(node.Element("formalParameters"));
+
+			var throws = node.HasElement("qualifiedNameList")
+			             		? UnifiedTypeCollection.Create(
+			             				CreateQualifiedNameList(node.Element("qualifiedNameList"))
+			             		  		.Select(e => UnifiedType.Create(e, null, null)))
+			             		: null;
+
+			//TODO UnifiedFunctionDefinitionのCreateの整理
+			//TODO 引数が8個のCreateを実装
+			return UnifiedFunctionDefinition.CreateFunction(
+					modifiers,
+					type,
+					null,
+					name,
+					parameters,
+					throws,
+					null);
+		}
+
+		public static UnifiedVariableDefinition CreateInterfaceFieldDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "interfaceFieldDeclaration");
 			/* 
-			 * in descendants of <expression> node, if
-			 * it has more than 2 child-node OR
-			 * it has only one child whose name is <IDENTIFIER> OR
-			 * it has only one child whose name is <TOKEN> 
-			 * these are some actual expression
-			*/
-			var expressionList =
-				node.DescendantsAndSelf().Where(e => {
-					var c = e.Elements().Count();
-					return c > 1 || (c == 1 && e.Element("IDENTIFIER") != null) ||
-					       (c == 1 && e.Element("TOKEN") != null);
-				});
-
-			//Ensure that node has some expression
-			Debug.Assert(expressionList.Count() != 0);
-
-			var topExpressionElement = expressionList.First();
-
-			//case <primary>: child is IDENTIFIER or TOKEN
-			if (topExpressionElement.Elements().Count() == 1) {
-				//case true or false literal
-				switch (topExpressionElement.Value) {
-				case "true":
-				case "false":
-					return CreateBooleanLiteral(topExpressionElement);
-				}
-
-				//case Variable
-				var regex = new Regex(@"^[a-zA-Z_]{1}[a-zA-Z0-9_]*$");
-				if (regex.IsMatch(topExpressionElement.Value))
-					return CreateVariable(topExpressionElement);
-
-				//other cases
-				return CreateLiteral(topExpressionElement);
-			}
-
-			//case BinaryExpression
-			var binaryOperatorString = topExpressionElement.Elements().ElementAt(1).Value;
-			if (binaryOperator.Contains(binaryOperatorString)) {
-				return CreateBinaryExpression(topExpressionElement);
-			}
-			if (topExpressionElement.Name() == "expression") {
-				return CreateBinaryExpression(topExpressionElement);
-			}
-
-			switch (topExpressionElement.Name()) {
-			case "unaryExpression":
-				return CreateUnaryExpression(topExpressionElement);
-			case "unaryExpressionNotPlusMinus":
-				return CreateUnaryExpressionNotPlusMinus(topExpressionElement);
-			case "primary":
-				//case CallExpression
-				return CreatePrimary(topExpressionElement);
-			case "parExpression":
-				// expression を () で囲ったような場合
-				return CreateExpression(topExpressionElement.Elements().ElementAt(1));
-			case "castExpression":
-				//case CastExpression
-				return CreateCast(topExpressionElement);
-			case "creator":
-			case "arrayCreator":
-				// "new"で始まるジェネリックや配列など
-				return CreateNew(topExpressionElement);
-			}
-
-			//TODO IMPLEMENT: other cases
-			throw new NotImplementedException();
-		}
-
-		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Elements().Count() == 3);
-			/*
-			 * AST上に<BinaryExpression>という名前の要素は存在しない
-			   <multiplicativeExpression>などのいずれかが該当する
-			   事前条件は"左辺","演算子","右辺"からなる子要素３つを持つこととする
-			*/
-			return UnifiedBinaryExpression.Create(CreateExpression(node.NthElement(0)),
-				CreateBinaryOperator(node.NthElement(1)),
-				CreateExpression(node.NthElement(2)));
-		}
-
-		public static IUnifiedExpression CreateUnaryExpressionNotPlusMinus(
-			XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name().StartsWith("unaryExpressionNotPlusMinus"));
-			/*
-			 * unaryExpressionNotPlusMinus 
-			 *		: '~' unaryExpression
-			 *		| '!' unaryExpression
-			 *		| castExpression
-			 *		| primary (selector)* ( '++' | '--' )?
+			 * interfaceFieldDeclaration 
+			 * :   modifiers type variableDeclarator (',' variableDeclarator)* ';' 
 			 */
-			var firstElement = node.FirstElement();
-			switch (firstElement.Name()) {
-			case "castExpression":
-				return CreateCast(firstElement);
-			case "primary":
-				var result = CreatePrimary(firstElement);
-
-				result = node.Elements("selector")
-					.Aggregate(result, CreateSelector);
-
-				var lastNode = node.LastElement();
-				if (!lastNode.HasElement()) {
-					var ope = lastNode.Value;
-					result = UnifiedUnaryExpression.Create(result,
-						UnifiedUnaryOperator.Create(ope,
-							ope == "++" ? UnifiedUnaryOperatorKind.PostIncrementAssign
-								: UnifiedUnaryOperatorKind.PostDecrementAssign));
-				}
-				return result;
-			}
-			return UnifiedUnaryExpression.Create(
-				CreateExpression(node.NthElement(1)),
-				CreatePrefixUnaryOperator(firstElement.Value));
+			var bodys = node.Elements("variableDeclarator")
+					.Select(CreateVariableDeclarator)
+					.ToCollection();
+			return UnifiedVariableDefinition.Create(
+					CreateModifiers(node.Element("modifiers")),
+					CreateType(node.Element("type")),
+					bodys);
 		}
 
-		public static UnifiedCast CreateCast(XElement node)
-		{
+		public static UnifiedType CreateType(XElement node) {
+			Contract.Requires(node == null || node.Name() == "type");
+			/*
+			 * type 
+			 * :   classOrInterfaceType ('[' ']')*
+			 * |   primitiveType ('[' ']')* 
+			 */
+
+			if (node == null)
+				return UnifiedType.CreateUsingString("void");
+
+			var first = node.FirstElement();
+			UnifiedType type;
+
+			switch (first.Name()) {
+			case "classOrInterfaceType":
+				type = CreateClassOrInterfaceType(first);
+				break;
+			case "primitiveType":
+				type = CreatePrimitiveType(first);
+				break;
+			default:
+				throw new InvalidOperationException();
+			}
+			var dimension = node.ElementsByContent("[").Count();
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			return type;
+		}
+
+		public static UnifiedType CreateClassOrInterfaceType(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "castExpression");
+			Contract.Requires(node.Name() == "classOrInterfaceType");
+			/*
+			 * classOrInterfaceType 
+			 * :   IDENTIFIER (typeArguments)? ('.' IDENTIFIER (typeArguments)? )* 
+			 */
+
+			var innerTypes = node.Elements("IDENTIFIER")
+					.Select(e => {
+						var typeArgumentsNode = e.NextElementOrDefault();
+						var typeArguments = typeArgumentsNode != null &&
+						                    typeArgumentsNode.Name() == "typeArguments"
+						                    		? CreateTypeArguments(typeArgumentsNode)
+						                    		: null;
+						return UnifiedType.Create(
+								UnifiedIdentifier.CreateType(e.Value),
+								typeArguments,
+								null);
+					}).ToList();
+			if (innerTypes.Count == 1)
+				return innerTypes[0];
+			var lastType = innerTypes[innerTypes.Count - 1];
+			var lastArguments = lastType.Arguments;
+			lastType.Arguments.Remove();
+			return UnifiedType.Create(innerTypes.ToProperty("."), lastArguments, null);
+		}
+
+		public static UnifiedType CreatePrimitiveType(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "primitiveType");
 			/* 
-			 * castExpression 
-				:   '(' primitiveType ')' unaryExpression
-				|   '(' type ')' unaryExpressionNotPlusMinus 
+			 * primitiveType  
+			 * :   'boolean' | 'char' | 'byte' | 'short' | 'int' | 'long' | 'float' | 'double' 
 			 */
-			var type = node.NthElement(1).Name() == "type"
-			           	? CreateTypeOrCreatedName(node.NthElement(1))
-			           	: CreatePrimitiveType(node.NthElement(1));
-			return UnifiedCast.Create(type, CreateExpression(node.NthElement(3)));
+			return UnifiedType.CreateUsingString(node.Value);
 		}
 
-		public static IUnifiedExpression CreateSelector(IUnifiedExpression prefix,
-		                                                XElement node)
-		{
+		public static UnifiedTypeArgumentCollection CreateTypeArguments(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "selector");
-			/*
-			 *  selector  
-				:   '.' IDENTIFIER (arguments)? //student.getName()
-				|   '.' 'this' //OuterClass.this
-				|   '.' 'super' superSuffix //Outer.super()
-				|   innerCreator
-				|   '[' expression ']' 
+			Contract.Requires(node.Name() == "typeArguments");
+			/* 
+			 * typeArguments 
+			 * :   '<' typeArgument (',' typeArgument)* '>' 
 			 */
-			var secondElement = node.NthElement(1);
-			if (secondElement == null)
-				return CreateInnerCreator(prefix, node.FirstElement());
+			return node.Elements("typeArgument")
+					.Select(CreateTypeArgument)
+					.ToCollection();
+		}
 
-			if (secondElement.Name() == "IDENTIFIER") {
-				prefix = UnifiedProperty.Create(prefix, secondElement.Value, ".");
-				var arguments = node.Element("arguments");
-				if (arguments != null) {
-					prefix = UnifiedCall.Create(prefix, CreateArguments(arguments));
-				}
-				return prefix;
+		public static UnifiedTypeArgument CreateTypeArgument(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "typeArgument");
+			/*
+			 * typeArgument 
+			 * :   type
+			 * |   '?' (('extends' | 'super') type)? 
+			 */
+			if (node.FirstElement().Name() == "type") {
+				return UnifiedTypeArgument.Create(CreateType(node.FirstElement()), null);
 			}
 
-			throw new NotImplementedException();
+			var type = UnifiedType.CreateUsingString(node.NthElement(0).Value);
+			UnifiedTypeConstrain constrains = null;
+
+			if (node.HasElement("type")) {
+				if (node.NthElement(1).Value == "extends") {
+					constrains = UnifiedTypeConstrain.Create(CreateType(node.Element("type")),
+							UnifiedTypeConstrainKind.Extends);
+				} else {
+					constrains = UnifiedTypeConstrain.Create(CreateType(node.Element("type")),
+							UnifiedTypeConstrainKind.Super);
+				}
+			}
+			return UnifiedTypeArgument.Create(type, null, constrains.ToCollection());
 		}
 
-		private static IUnifiedExpression CreateInnerCreator(
-			IUnifiedExpression prefix, XElement node)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static IUnifiedExpression CreateUnaryExpression(XElement node)
-		{
+		public static IEnumerable<IUnifiedExpression> CreateQualifiedNameList(
+				XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name().StartsWith("unaryExpression"));
+			Contract.Requires(node.Name() == "qualifiedNameList");
+			/* 
+			 * qualifiedNameList 
+			 * :   qualifiedName (',' qualifiedName)* 
+			 */
+			return node.Elements("qualifiedName").Select(CreateQualifiedName);
+		}
+
+		public static UnifiedParameterCollection CreateFormalParameters(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "formalParameters");
+			/*
+			 * formalParameters 
+			 * :   '(' (formalParameterDecls)? ')' 
+			 */
+			var element = node.Element("formalParameterDecls");
+			if (element == null)
+					// ()が付いているので空集合を返す
+				return UnifiedParameterCollection.Create();
+			return CreateFormalParameterDecls(element);
+		}
+
+		public static UnifiedParameterCollection CreateFormalParameterDecls(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "formalParameterDecls");
+			/*
+			 * formalParameterDecls 
+			 * :   ellipsisParameterDecl
+			 * |   normalParameterDecl (',' normalParameterDecl)*
+			 * |   (normalParameterDecl ',')+ ellipsisParameterDecl 
+			 */
+			return node.Elements()
+					.OddIndexElements()
+					.Select(e => e.Name() == "normalParameterDecl"
+					             		? CreateNormalParameterDecl(e)
+					             		: CreateEllipsisParameterDecl(e))
+					.ToCollection();
+		}
+
+		public static UnifiedParameter CreateNormalParameterDecl(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "normalParameterDecl");
+			/*
+			 * normalParameterDecl 
+			 * :   variableModifiers type IDENTIFIER ('[' ']')*
+			 */
+			var modifiers = CreateVariableModifiers(node.Element("variableModifiers"));
+			var type = CreateType(node.Element("type"));
+			var dimension = node.ElementsByContent("[").Count();
+			for (var i = 0; i < dimension; i++)
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			return UnifiedParameter.Create(
+					node.Element("IDENTIFIER").Value,
+					type,
+					modifiers
+					);
+		}
+
+		public static UnifiedParameter CreateEllipsisParameterDecl(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "ellipsisParameterDecl");
+			/*
+			 * ellipsisParameterDecl  
+			 * :   variableModifiers type '...' IDENTIFIER 
+			 */
+			var modifiers = CreateVariableModifiers(node.Element("variableModifiers"));
+			modifiers.Add(UnifiedModifier.Create("..."));
+			var type = CreateType(node.Element("type"));
+			return UnifiedParameter.Create(
+					node.Element("IDENTIFIER").Value,
+					type,
+					modifiers
+					);
+		}
+
+		public static IUnifiedExpression CreateExplicitConstructorInvocation(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "explicitConstructorInvocation");
+			/*
+			 * explicitConstructorInvocation 
+			 * :   (nonWildcardTypeArguments)? ('this'|'super') arguments ';'
+			 * |   primary '.' (nonWildcardTypeArguments)? 'super' arguments ';' 
+			 */
+
+			var aruguments = CreateArguments(node.Element("arguments"));
+			var typeArguments = node.HasElement("nonWildcardTypeArguments")
+			                    		? CreateNonWildcardTypeArguments(
+			                    				node.Element("nonWildcardTypeArguments")) : null;
+
+			if (node.FirstElement().Name() == "primary") {
+				var prop = UnifiedProperty.Create(
+						CreatePrimary(node.Element("primary")),
+						UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+				return UnifiedCall.Create(prop, aruguments, typeArguments);
+			}
+
+			var target = node.FirstElement().Value == "this"
+			             		? UnifiedIdentifier.Create("this",
+			             				UnifiedIdentifierKind.Unknown)
+			             		: UnifiedIdentifier.Create("super",
+			             				UnifiedIdentifierKind.Super);
+			return UnifiedCall.Create(target, aruguments, typeArguments);
+		}
+
+		public static IUnifiedExpression CreateQualifiedName(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "qualifiedName");
+			/*
+			 * qualifiedName 
+			 * :   IDENTIFIER ('.' IDENTIFIER)* 
+			 */
+			var ids = node.Elements()
+					.OddIndexElements()
+					.Select(e => UnifiedIdentifier.CreateUnknown(e.Value));
+			return ids.ToProperty(".");
+		}
+
+		public static IUnifiedElement CreateAnnotations(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "annotations");
+			/*
+			 * annotations 
+			 * :   (annotation)+ 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static IUnifiedElement CreateAnnotation(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "annotation");
+			/* 
+			 * annotation 
+			 * :   '@' qualifiedName( '(' ( elementValuePairs | elementValue )? ')' )? 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static IUnifiedElement CreateElementValuePairs(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "elementValuePairs");
+			/*
+			 * elementValuePairs 
+			 * :   elementValuePair (',' elementValuePair)* 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static IUnifiedElement CreateElementValuePair(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "elementValuePair");
+			/*
+			 * elementValuePair 
+			 * :   IDENTIFIER '=' elementValue 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static IUnifiedElement CreateElementValue(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "elementValue");
+			/* 
+			 * elementValue 
+			 * :   conditionalExpression
+			 * |   annotation
+			 * |   elementValueArrayInitializer 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static IUnifiedElement CreateElementValueArrayInitializer(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "elementValueArrayInitializer");
+			/*
+			 * elementValueArrayInitializer 
+			 * :   '{' (elementValue ( ',' elementValue)* )? (',')? '}' 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static UnifiedClassDefinition CreateAnnotationTypeDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "annotationTypeDeclaration");
+			/*
+			 * annotationTypeDeclaration 
+			 * :   modifiers '@' 'interface' IDENTIFIER annotationTypeBody 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static IUnifiedElement CreateAnnotationTypeBody(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "annotationTypeBody");
+			/* 
+			 * annotationTypeBody 
+			 * :   '{' (annotationTypeElementDeclaration)* '}' 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static IEnumerable<IUnifiedExpression>
+				CreateAnnotationTypeElementDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "annotationTypeElementDeclaration");
+			/*
+			 * annotationTypeElementDeclaration 
+			 * :   annotationMethodDeclaration
+			 * |   interfaceFieldDeclaration
+			 * |   normalClassDeclaration
+			 * |   normalInterfaceDeclaration
+			 * |   enumDeclaration
+			 * |   annotationTypeDeclaration
+			 * |   ';' 
+			 */
+
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "annotationMethodDeclaration":
+				yield return CreateAnnotationMethodDeclaration(first);
+				break;
+			case "interfaceFieldDeclaration":
+				yield return CreateInterfaceFieldDeclaration(first);
+				break;
+			case "normalClassDeclaration":
+				yield return CreateNormalClassDeclaration(first);
+				break;
+			case "normalInterfaceDeclaration":
+				yield return CreateNormalInterfaceDeclaration(first);
+				break;
+			case "enumDeclaration":
+				yield return CreateEnumDeclaration(first);
+				break;
+			case "annotationTypeDeclaration":
+				yield return CreateAnnotationTypeDeclaration(first);
+				break;
+			default:
+				yield break;
+			}
+		}
+
+		public static IUnifiedExpression CreateAnnotationMethodDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "annotationMethodDeclaration");
+			/*
+			 * annotationMethodDeclaration 
+			 * :   modifiers type IDENTIFIER '(' ')' ('default' elementValue)? ';' 
+			 */
+
+			throw new NotImplementedException();
+		}
+
+		public static UnifiedBlock CreateBlock(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "block");
+			/*
+			 * block 
+			 * :   '{' (blockStatement)* '}' 
+			 */
+			return node.Elements("blockStatement")
+					.SelectMany(CreateBlockStatement)
+					.ToBlock();
+		}
+
+		public static IEnumerable<IUnifiedExpression> CreateBlockStatement(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "blockStatement");
+			/*
+			 * blockStatement 
+			 * :   localVariableDeclarationStatement
+			 * |   classOrInterfaceDeclaration
+			 * |   statement 
+			 */
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "localVariableDeclarationStatement":
+				yield return CreateLocalVariableDeclarationStatement(first);
+				break;
+			case "classOrInterfaceDeclaration":
+				yield return CreateClassOrInterfaceDeclaration(first);
+				break;
+			case "statement":
+				foreach (var stmt in CreateStatement(first)) {
+					yield return stmt;
+				}
+				break;
+			default:
+				throw new InvalidOperationException();
+			}
+		}
+
+		public static UnifiedVariableDefinition
+				CreateLocalVariableDeclarationStatement(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "localVariableDeclarationStatement");
+			/*
+			 * localVariableDeclarationStatement 
+			 * :   localVariableDeclaration ';' 
+			 */
+			return CreateLocalVariableDeclaration(node.FirstElement());
+		}
+
+		public static UnifiedVariableDefinition CreateLocalVariableDeclaration(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "localVariableDeclaration");
+			/*
+			 * localVariableDeclaration 
+			 * :   variableModifiers type variableDeclarator (',' variableDeclarator )* 
+			 */
+			var bodys = node.Elements("variableDeclarator")
+					.Select(CreateVariableDeclarator)
+					.ToCollection();
+			return UnifiedVariableDefinition.Create(
+					CreateVariableModifiers(node.Element("variableModifiers")),
+					CreateType(node.Element("type")),
+					bodys);
+		}
+
+		public static IEnumerable<IUnifiedExpression> CreateStatement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			/*
+			 * statement 
+			 * :   block
+			 * |   ('assert') expression (':' expression)? ';'
+			 * |   'assert'  expression (':' expression)? ';'            
+			 * |   'if' parExpression statement ('else' statement)?          
+			 * |   forstatement
+			 * |   'while' parExpression statement
+			 * |   'do' statement 'while' parExpression ';'
+			 * |   trystatement
+			 * |   'switch' parExpression '{' switchBlockStatementGroups '}'
+			 * |   'synchronized' parExpression block
+			 * |   'return' (expression )? ';'
+			 * |   'throw' expression ';'
+			 * |   'break' (IDENTIFIER)? ';'
+			 * |   'continue' (IDENTIFIER)? ';'
+			 * |   expression  ';'     
+			 * |   IDENTIFIER ':' statement
+			 * |   ';' 
+			 */
+
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "block":
+				yield return CreateBlock(first);
+				yield break;
+			case "forstatement":
+				yield return CreateForstatement(first);
+				yield break;
+			case "trystatement":
+				yield return CreateTrystatement(first);
+				yield break;
+			case "expression":
+				yield return CreateExpression(first);
+				yield break;
+			case "IDENTIFIER":
+				yield return UnifiedLabel.Create(first.Value);
+				foreach (var stmt in CreateStatement(node.LastElement())) {
+					yield return stmt;
+				}
+				yield break;
+			}
+			switch (first.Value) {
+			case "assert":
+				// TODO assert
+				throw new NotImplementedException();
+			case "if":
+				yield return CreateIf(node);
+				break;
+			case "while":
+				yield return CreateWhile(node);
+				break;
+			case "do":
+				yield return CreateDoWhile(node);
+				break;
+			case "switch":
+				yield return CreateSwitch(node);
+				break;
+			case "synchronized":
+				yield return CreateSynchronized(node);
+				break;
+			case "return":
+				yield return CreateReturn(node);
+				break;
+			case "throw":
+				yield return CreateThrow(node);
+				break;
+			case "break":
+				yield return CreateBreak(node);
+				break;
+			case "continue":
+				yield return CreateContinue(node);
+				break;
+			case ";":
+				break;
+			default:
+				throw new IndexOutOfRangeException();
+			}
+		}
+
+		public static UnifiedCaseCollection CreateSwitchBlockStatementGroups(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "switchBlockStatementGroups");
+			/*
+			 * switchBlockStatementGroups 
+			 * :   (switchBlockStatementGroup )* 
+			 */
+			return node.Elements("switchBlockStatementGroup")
+					.Select(CreateSwitchBlockStatementGroup)
+					.ToCollection();
+		}
+
+		public static UnifiedCase CreateSwitchBlockStatementGroup(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "switchBlockStatementGroup");
+			/*
+			 * switchBlockStatementGroup 
+			 * :   switchLabel (blockStatement)* 
+			 */
+			var body = node.Elements("blockStatement")
+					.SelectMany(CreateBlockStatement)
+					.ToBlock();
+			return UnifiedCase.Create(CreateSwitchLabel(node.Element("switchLabel")),
+					body);
+		}
+
+		public static IUnifiedExpression CreateSwitchLabel(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "switchLabel");
+			/*
+			 * switchLabel 
+			 * :   'case' expression ':'
+			 * |   'default' ':' 
+			 */
+			if (node.HasElement("expression")) {
+				return CreateExpression(node.Element("expression"));
+			}
+			return null;
+		}
+
+		public static UnifiedTry CreateTrystatement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "trystatement");
+			/*
+			 * trystatement 
+			 * :   'try' block (catches 'finally' block | catches | 'finally' block) 
+			 */
+			var body = CreateBlock(node.NthElement(1));
+			var catches = node.HasElement("catches")
+			              		? CreateCatches(node.Element("catches"))
+			              		: null;
+			var finallyBlock = node.HasElement("FINALLY")
+			                   		? CreateBlock(node.Elements("block").ElementAt(1))
+			                   		: null;
+			return UnifiedTry.Create(body, catches, finallyBlock);
+		}
+
+		public static UnifiedCatchCollection CreateCatches(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "catches");
+			/*
+			 * catches 
+			 * :   catchClause (catchClause)* 
+			 */
+			return node.Elements("catchClause")
+					.Select(CreateCatchClause)
+					.ToCollection();
+		}
+
+		public static UnifiedCatch CreateCatchClause(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "catchClause");
+			/*
+			 * catchClause 
+			 * :   'catch' '(' formalParameter ')' block  
+			 */
+			return UnifiedCatch.Create(
+					CreateFormalParameter(node.Element("formalParameter")),
+					CreateBlock(node.Element("block")));
+		}
+
+		public static UnifiedParameterCollection CreateFormalParameter(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "formalParameter");
+			/*
+			 * formalParameter 
+			 * :   variableModifiers type IDENTIFIER ('[' ']')* 
+			 */
+
+			var type = CreateType(node.NthElement(1));
+			var dimension = node.ElementsByContent("[").Count();
+			for (int i = 0; i < dimension; i++) {
+				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			}
+
+			return UnifiedParameterCollection.Create(
+					UnifiedParameter.Create(
+							node.NthElement(2).Value,
+							type,
+							CreateVariableModifiers(node.FirstElement())
+							)
+					);
+		}
+
+		public static IUnifiedExpression CreateForstatement(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "forstatement");
+			/*
+			 * forstatement 
+			 * // enhanced for loop
+			 *     'for' '(' variableModifiers type IDENTIFIER ':' expression ')' statement
+			 * // normal for loop
+			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement 
+			 */
+			if (node.NthElement(2).Name() == "variableModifiers") {
+				return UnifiedForeach.Create(
+						UnifiedVariableDefinition.CreateSingle(
+								CreateType(node.Element("type")),
+								CreateVariableModifiers(node.Element("variableModifiers")),
+								null,
+								node.Element("IDENTIFIER").Value
+								),
+						CreateExpression(node.Element("expression")),
+						CreateStatement(node.Element("statement"))
+								.ToBlock()
+						);
+			} else {
+				var forInit = node.HasElement("forInit")
+				              		? CreateForInit(node.Element("forInit"))
+				              		: null;
+				var condition = node.HasElement("expression")
+				                		? CreateExpression(node.Element("expression"))
+				                		: null;
+				var step = node.HasElement("expressionList")
+				           		? CreateExpressionList(node.Element("expressionList"))
+				           		  		.ToExpressionList()
+				           		: null;
+				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+
+				return UnifiedFor.Create(
+						forInit,
+						condition,
+						step,
+						body
+						);
+			}
+		}
+
+		public static IUnifiedExpression CreateForInit(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "forInit");
+			/*
+			 * forInit 
+			 * :   localVariableDeclaration
+			 * |   expressionList 
+			 */
+
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "localVariableDeclaration":
+				return CreateLocalVariableDeclaration(first);
+			case "expressionList":
+				return CreateExpressionList(first).ToExpressionList();
+			default:
+				throw new InvalidOperationException();
+			}
+		}
+
+		public static IUnifiedExpression CreateParExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "parExpression");
+			/*
+			 * parExpression 
+			 * :   '(' expression ')' 
+			 */
+
+			return CreateExpression(node.NthElement(1));
+		}
+
+		public static IEnumerable<IUnifiedExpression> CreateExpressionList(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "expressionList");
+			/*
+			 * expressionList : expression (',' expression )* ;
+			 */
+
+			return node.Elements("expression").Select(CreateExpression);
+		}
+
+		public static IUnifiedExpression CreateExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "expression");
+			/*
+			 * expression 
+			 * :   conditionalExpression (assignmentOperator expression)? 
+			 */
+
+			if (node.HasElement("expression"))
+				return UnifiedBinaryExpression.Create(
+						CreateConditionalExpression(node.FirstElement()),
+						CreateAssignmentOperator(node.NthElement(1)),
+						CreateExpression(node.NthElement(2))
+						);
+			return CreateConditionalExpression(node.FirstElement());
+		}
+
+		public static UnifiedBinaryOperator CreateAssignmentOperator(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "assignmentOperator");
+			/*
+			 * assignmentOperator 
+			 * :   '='
+			 * |   '+='
+			 * |   '-='
+			 * |   '*='
+			 * |   '/='
+			 * |   '&='
+			 * |   '|='
+			 * |   '^='
+			 * |   '%='
+			 * |    '<' '<' '='
+			 * |    '>' '>' '>' '='
+			 * |    '>' '>' '=' 
+			 */
+			var name = node.Value;
+			UnifiedBinaryOperatorKind kind;
+			switch (name) {
+			case "=":
+				kind = UnifiedBinaryOperatorKind.Assign;
+				break;
+			case "+=":
+				kind = UnifiedBinaryOperatorKind.AddAssign;
+				break;
+			case "-=":
+				kind = UnifiedBinaryOperatorKind.SubtractAssign;
+				break;
+			case "*=":
+				kind = UnifiedBinaryOperatorKind.MultiplyAssign;
+				break;
+			case "/=":
+				kind = UnifiedBinaryOperatorKind.DivideAssign;
+				break;
+			case "&=":
+				kind = UnifiedBinaryOperatorKind.AndAssign;
+				break;
+			case "|=":
+				kind = UnifiedBinaryOperatorKind.OrAssign;
+				break;
+			case "^=":
+				kind = UnifiedBinaryOperatorKind.ExclusiveOrAssign;
+				break;
+			case "%=":
+				kind = UnifiedBinaryOperatorKind.ModuloAssign;
+				break;
+			case "<<=":
+				kind = UnifiedBinaryOperatorKind.LogicalLeftShiftAssign;
+				break;
+			case ">>>=":
+				kind = UnifiedBinaryOperatorKind.LogicalRightShiftAssign;
+				break;
+			case ">>=":
+				kind = UnifiedBinaryOperatorKind.ArithmeticRightShiftAssign;
+				break;
+			default:
+				throw new IndexOutOfRangeException();
+			}
+			return UnifiedBinaryOperator.Create(name, kind);
+		}
+
+		public static IUnifiedExpression CreateConditionalExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "conditionalExpression");
+			/*
+			 * conditionalExpression 
+			 * :   conditionalOrExpression ('?' expression ':' conditionalExpression)?
+			 */
+
+			if (node.HasElement("expression")) {
+				return UnifiedTernaryExpression.Create(
+						CreateConditionalOrExpression(node.NthElement(0)),
+						UnifiedTernaryOperator.Create(
+								node.NthElement(1).Value,
+								node.NthElement(3).Value,
+								UnifiedTernaryOperatorKind.Conditional
+								),
+						CreateExpression(node.NthElement(2)),
+						CreateConditionalExpression(node.NthElement(4))
+						);
+			}
+			return CreateConditionalOrExpression(node.FirstElement());
+		}
+
+		public static IUnifiedExpression CreateConditionalOrExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "conditionalOrExpression");
+			/*
+			 * conditionalOrExpression 
+			 * :   conditionalAndExpression ('||' conditionalAndExpression)* 
+			 */
+			return CreateBinaryExpression(node, CreateConditionalAndExpression);
+		}
+
+		public static IUnifiedExpression CreateConditionalAndExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "conditionalAndExpression");
+			/*
+			 * conditionalAndExpression 
+			 * :   inclusiveOrExpression ('&&' inclusiveOrExpression)* 
+			 */
+			return CreateBinaryExpression(node, CreateInclusiveOrExpression);
+		}
+
+		public static IUnifiedExpression CreateInclusiveOrExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "inclusiveOrExpression");
+			/* 
+			 * inclusiveOrExpression 
+			 * :   exclusiveOrExpression ('|' exclusiveOrExpression)* 
+			 */
+			return CreateBinaryExpression(node, CreateExclusiveOrExpression);
+		}
+
+		public static IUnifiedExpression CreateExclusiveOrExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "exclusiveOrExpression");
+			/*
+			 * exclusiveOrExpression 
+			 * :   andExpression ('^' andExpression)* 
+			 */
+			return CreateBinaryExpression(node, CreateAndExpression);
+		}
+
+		public static IUnifiedExpression CreateAndExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "andExpression");
+			/*
+			 * andExpression 
+			 * :   equalityExpression ('&' equalityExpression)* 
+			 */
+			return CreateBinaryExpression(node, CreateEqualityExpression);
+		}
+
+		public static IUnifiedExpression CreateEqualityExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "equalityExpression");
+			/*
+			 * equalityExpression 
+			 * :   instanceOfExpression ( ( '==' | '!=' ) instanceOfExpression)* 
+			 */
+			return CreateBinaryExpression(node, CreateInstanceOfExpression);
+		}
+
+		public static IUnifiedExpression CreateInstanceOfExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "instanceOfExpression");
+			/*
+			 * instanceOfExpression 
+			 * :   relationalExpression ('instanceof' type)?
+			 */
+			var ret = CreateRelationalExpression(node.FirstElement());
+			if (node.Elements().Count() > 1) {
+				ret = UnifiedBinaryExpression.Create(ret,
+						CreateBinaryOperator(node.NthElement(1).Value),
+						CreateType(node.LastElement()));
+			}
+			return ret;
+		}
+
+		public static IUnifiedExpression CreateRelationalExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "relationalExpression");
+			/*
+			 * relationalExpression 
+			 * :   shiftExpression (relationalOp shiftExpression)* 
+			 */
+			return CreateBinaryExpression(node, CreateShiftExpression);
+		}
+
+		public static UnifiedBinaryOperator CreateRelationalOp(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "relationalOp");
+			/*
+			 * relationalOp 
+			 * :   '<' '='
+			 * |   '>' '='
+			 * |   '<'
+			 * |   '>'
+			 */
+
+			var name = node.Value;
+			UnifiedBinaryOperatorKind kind;
+
+			switch (name) {
+			case "<=":
+				kind = UnifiedBinaryOperatorKind.LessThanOrEqual;
+				break;
+			case ">=":
+				kind = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
+				break;
+			case "<":
+				kind = UnifiedBinaryOperatorKind.LessThan;
+				break;
+			case ">":
+				kind = UnifiedBinaryOperatorKind.GreaterThan;
+				break;
+			default:
+				throw new IndexOutOfRangeException();
+			}
+			return UnifiedBinaryOperator.Create(name, kind);
+		}
+
+		public static IUnifiedExpression CreateShiftExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "shiftExpression");
+			/*
+			 * shiftExpression 
+			 * :   additiveExpression (shiftOp additiveExpression)*
+			 */
+			return CreateBinaryExpression(node, CreateAdditiveExpression);
+		}
+
+		public static IUnifiedElement CreateShiftOp(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "shiftOp");
+			/*
+			 * shiftOp 
+			 * :    '<' '<'
+			 * |    '>' '>' '>'
+			 * |    '>' '>' 
+			 */
+
+			var name = node.Value;
+			UnifiedBinaryOperatorKind kind;
+
+			switch (name) {
+			case "<<":
+				kind = UnifiedBinaryOperatorKind.LogicalLeftShift;
+				break;
+			case ">>>":
+				kind = UnifiedBinaryOperatorKind.LogicalRightShift;
+				break;
+			case ">>":
+				kind = UnifiedBinaryOperatorKind.ArithmeticRightShift;
+				break;
+			default:
+				throw new InvalidOperationException();
+			}
+			return UnifiedBinaryOperator.Create(name, kind);
+		}
+
+		public static IUnifiedExpression CreateAdditiveExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "additiveExpression");
+			/*
+			 * additiveExpression 
+			 * :   multiplicativeExpression ( ( '+' | '-' ) multiplicativeExpression )* 
+			 */
+			return CreateBinaryExpression(node, CreateMultiplicativeExpression);
+		}
+
+		public static IUnifiedExpression CreateMultiplicativeExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "multiplicativeExpression");
+			/*
+			 * multiplicativeExpression 
+			 * :   unaryExpression ( ( '*' | '/' | '%' ) unaryExpression)*
+			 */
+			return CreateBinaryExpression(node, CreateUnaryExpression);
+		}
+
+		public static IUnifiedExpression CreateUnaryExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "unaryExpression");
 			/*
 			 * unaryExpression 
 			 *	: '+' unaryExpression
@@ -214,12 +1673,68 @@ namespace Ucpf.Languages.Java.Model
 				return CreateUnaryExpressionNotPlusMinus(firstElement);
 			}
 			return UnifiedUnaryExpression.Create(
-				CreateUnaryExpression(node.NthElement(1)),
-				CreatePrefixUnaryOperator(firstElement.Value));
+					CreateUnaryExpression(node.NthElement(1)),
+					CreatePrefixUnaryOperator(firstElement.Value));
 		}
 
-		public static IUnifiedExpression CreatePrimary(XElement node)
-		{
+		public static IUnifiedExpression CreateUnaryExpressionNotPlusMinus(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "unaryExpressionNotPlusMinus");
+			/*
+			 * unaryExpressionNotPlusMinus 
+			 *		: '~' unaryExpression
+			 *		| '!' unaryExpression
+			 *		| castExpression
+			 *		| primary (selector)* ( '++' | '--' )?
+			 */
+			var firstElement = node.FirstElement();
+			switch (firstElement.Name()) {
+			case "castExpression":
+				return CreateCastExpression(firstElement);
+			case "primary":
+				var result = CreatePrimary(firstElement);
+
+				result = node.Elements("selector")
+						.Aggregate(result, CreateSelector);
+
+				var lastNode = node.LastElement();
+				if (!lastNode.HasElement()) {
+					var ope = lastNode.Value;
+					result = UnifiedUnaryExpression.Create(result,
+							UnifiedUnaryOperator.Create(ope,
+									ope == "++" ? UnifiedUnaryOperatorKind.PostIncrementAssign
+											: UnifiedUnaryOperatorKind.PostDecrementAssign));
+				}
+				return result;
+			}
+			return UnifiedUnaryExpression.Create(
+					CreateUnaryExpression(node.NthElement(1)),
+					CreatePrefixUnaryOperator(firstElement.Value));
+		}
+
+		public static UnifiedCast CreateCastExpression(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "castExpression");
+			/*
+			 * castExpression 
+			 * :   '(' primitiveType ')' unaryExpression
+			 * |   '(' type ')' unaryExpressionNotPlusMinus 
+			 */
+
+			if (node.FirstElement().Name() == "primitiveType") {
+				return UnifiedCast.Create(
+						CreatePrimitiveType(node.NthElement(1)),
+						CreateUnaryExpression(node.NthElement(3))
+						);
+			}
+			return UnifiedCast.Create(
+					CreateType(node.NthElement(1)),
+					CreateUnaryExpressionNotPlusMinus(node.NthElement(3))
+					);
+		}
+
+		public static IUnifiedExpression CreatePrimary(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary");
 			/*
@@ -234,16 +1749,27 @@ namespace Ucpf.Languages.Java.Model
 			 * |   'void' '.' 'class'
 			 */
 			var first = node.FirstElement();
+			if (first.Name() == "parExpression") {
+				return CreateParExpression(first);
+			}
 			if (first.HasContent("this") || first.Name() == "IDENTIFIER") {
-				var variable = UnifiedIdentifier.CreateUnknown(first.Value);
-				var prop = first.NextElements("IDENTIFIER")
-					.Aggregate((IUnifiedExpression)variable,
-						(e, v) => UnifiedProperty.Create(e, v.Value, "."));
-				return CreateIdentifierSuffix(node.Element("identifierSuffix"), prop);
+				var prefix = node.Elements()
+						.OddIndexElements()
+						.Select(e => e.Value);
+				var identifierSuffixNode = node.Element("identifierSuffix");
+
+				var prefixProp = prefix.Select(UnifiedIdentifier.CreateUnknown)
+						.ToProperty(".");
+	
+				var id = prefix.Select(UnifiedIdentifier.CreateUnknown).ToProperty(".");
+				var type = UnifiedType.Create(id, null, null);
+				return identifierSuffixNode == null
+				       		? prefixProp
+				       		: CreateIdentifierSuffix(prefixProp, type, identifierSuffixNode);
 			}
 			if (first.HasContent("super")) {
 				var super = UnifiedIdentifier.CreateUnknown("super");
-				return CreateSuperSuffix(node.Element("superSuffix"), super);
+				return CreateSuperSuffix(super, node.Element("superSuffix"));
 			}
 			if (first.Name() == "literal") {
 				return CreateLiteral(first);
@@ -253,25 +1779,20 @@ namespace Ucpf.Languages.Java.Model
 			}
 			if (first.Name() == "primitiveType") {
 				var type = node.Elements()
-					.Take(node.Elements().Count() - 2)
-					.Aggregate("", (s, e) => s + e.Value);
-				return UnifiedProperty.Create(UnifiedType.CreateUsingString(type), "class", ".");
+						.Take(node.Elements().Count() - 2)
+						.Aggregate("", (s, e) => s + e.Value);
+				return UnifiedProperty.Create(UnifiedType.CreateUsingString(type), "class",
+						".");
 			}
 			if (first.HasContent("void")) {
 				return UnifiedProperty.Create(UnifiedIdentifier.CreateUnknown(first.Value),
-					"class", ".");
+						"class", ".");
 			}
 			throw new InvalidOperationException();
 		}
 
-		private static IUnifiedExpression CreateCreator(XElement first)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static IUnifiedExpression CreateSuperSuffix(XElement node,
-		                                                   IUnifiedExpression prefix)
-		{
+		public static IUnifiedExpression CreateSuperSuffix(IUnifiedExpression prefix,
+		                                                   XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "superSuffix");
 			/*
@@ -280,16 +1801,31 @@ namespace Ucpf.Languages.Java.Model
 			 * |   '.' (typeArguments)? IDENTIFIER (arguments)?
 			 */
 			if (node.FirstElement().Name == "arguments") {
+				// super(arg1, arg2)
 				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
 			}
-			throw new NotImplementedException();
+			var typeArgumentsNode = node.Element("typeArguments");
+			var typeArguments = typeArgumentsNode != null
+			                    		? CreateTypeArguments(typeArgumentsNode)
+			                    		: null;
+			var argumentsNode = node.Element("arguments");
+			var arguments = argumentsNode != null
+			                		? CreateArguments(argumentsNode)
+			                		: null;
+			var property = UnifiedProperty.Create(prefix,
+					node.Element("IDENTIFIER").Value, ".");
+			if (arguments != null) {
+				// super.<Integer>method(arg1)
+				return UnifiedCall.Create(property, arguments, typeArguments);
+			}
+			// super.field1
+			return property;
 		}
 
-		public static IUnifiedExpression CreateIdentifierSuffix(XElement node,
-		                                                        IUnifiedExpression
-		                                                        	prefix)
-		{
-			Contract.Requires(node == null || node.Name() == "identifierSuffix");
+		public static IUnifiedExpression CreateIdentifierSuffix(
+				IUnifiedExpression prefixProp, UnifiedType prefixType, XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "identifierSuffix");
 			/*
 			 * identifierSuffix
 			 * :   ('[' ']')+ '.' 'class'	// java.lang.String[].class
@@ -303,173 +1839,355 @@ namespace Ucpf.Languages.Java.Model
 			 * |   innerCreator				// new Outer().new <Integer> Inner<String>(1);
 			 */
 
-			if (node == null) {
-				return prefix;
-			}
 			var second = node.NthElementOrDefault(1);
+			// ('[' expression ']' )+	// strs[10]
 			if (second != null && second.Name() == "expression") {
 				return node.Elements("expression")
-					.Select(CreateExpression)
-					.Aggregate(prefix, (current, exp) =>
-					                   UnifiedIndexer.Create(current,
-					                   	UnifiedArgumentCollection.Create(
-					                   		UnifiedArgument.Create(exp)))
-					);
+						.Select(CreateExpression)
+						.Aggregate(prefixProp, (current, exp) =>
+						                       UnifiedIndexer.Create(current,
+						                       		UnifiedArgumentCollection.Create(
+						                       				UnifiedArgument.Create(exp)))
+						);
 			}
+			// arguments				// func(1, 2)
 			if (node.FirstElement().Name() == "arguments") {
-				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
+				return UnifiedCall.Create(prefixProp, CreateArguments(node.FirstElement()));
 			}
-			throw new NotImplementedException();
+			// innerCreator				// new Outer().new <Integer> Inner<String>(1);
+			if (node.FirstElement().Name() == "innerCreator") {
+				return CreateInnerCreator(prefixProp, node.Element("innerCreator"));
+			}
+			// '.' 'class'				// java.lang.String.class
+			if (second.Value == "class") {
+				return UnifiedProperty.Create(prefixType,
+						UnifiedIdentifier.Create("class", UnifiedIdentifierKind.ClassObject), ".");
+			}
+			// ('[' ']')+ '.' 'class'	// java.lang.String[].class
+			if (node.LastElement().Value == "class") {
+				var d = node.ElementsByContent("[").Count();
+				var suplpements = UnifiedTypeSupplementCollection.CreateArray(d);
+				prefixType.Supplements = suplpements;
+				return UnifiedProperty.Create(prefixType,
+						UnifiedIdentifier.Create("class", UnifiedIdentifierKind.ClassObject), ".");
+			}
+			// '.' nonWildcardTypeArguments IDENTIFIER arguments
+			if (second.Name() == "nonWildcardTypeArguments") {
+				var prop = UnifiedProperty.Create(prefixProp,
+						UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+								UnifiedIdentifierKind.Unknown), ".");
+				return UnifiedCall.Create(prop, CreateArguments(node.Element("arguments")),
+						CreateNonWildcardTypeArguments(node.Element("nonWildcardTypeArguments")));
+			}
+			// '.' 'this'				// Outer.this
+			if (second.Value == "this") {
+				return UnifiedProperty.Create(prefixType,
+						UnifiedIdentifier.Create("this", UnifiedIdentifierKind.Unknown), ".");
+			}
+			// '.' 'super' arguments	// new Outer().super();
+			if (second.Value == "super") {
+				var prop = UnifiedProperty.Create(prefixProp,
+						UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+				return UnifiedCall.Create(prop, CreateArguments(node.Element("arguments")));
+			}
+
+			throw new InvalidOperationException();
 		}
 
-		private static UnifiedArgumentCollection CreateArguments(XElement node)
-		{
+		public static IUnifiedExpression CreateSelector(IUnifiedExpression prefix,
+		                                                XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "selector");
+			/*
+			 *  selector  
+				:   '.' IDENTIFIER (arguments)? //student.getName()
+				|   '.' 'this' //OuterClass.this
+				|   '.' 'super' superSuffix //Outer.super()
+				|   innerCreator
+				|   '[' expression ']' 
+			 */
+			var secondElement = node.NthElementOrDefault(1);
+			if (secondElement == null)
+				return CreateInnerCreator(prefix, node.FirstElement());
+
+			if (secondElement.Name() == "IDENTIFIER") {
+				prefix = UnifiedProperty.Create(prefix, secondElement.Value, ".");
+				var arguments = node.Element("arguments");
+				if (arguments != null) {
+					prefix = UnifiedCall.Create(prefix, CreateArguments(arguments));
+				}
+				return prefix;
+			}
+			if (secondElement.Value == "this") {
+				return UnifiedProperty.Create(prefix, "this", ".");
+			}
+			if (secondElement.Value == "super") {
+				var prop = UnifiedProperty.Create(prefix,
+						UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+				return CreateSuperSuffix(prop, node.Element("superSuffix"));
+			}
+			if (secondElement.Name() == "expression") {
+				return UnifiedIndexer.Create(prefix,
+						UnifiedArgument.Create(CreateExpression(node.Element("expresion"))).
+								ToCollection());
+			}
+
+			throw new InvalidOperationException();
+		}
+
+		public static IUnifiedExpression CreateCreator(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "creator");
+			/*
+			 * creator 
+			 * :   'new' nonWildcardTypeArguments classOrInterfaceType classCreatorRest
+			 * |   'new' classOrInterfaceType classCreatorRest
+			 * |   arrayCreator 
+			 */
+
+			//コード例
+			//Sample<String> Sample = new <Integer> Sample<String> (1,2){ int z = 0; };
+
+			var first = node.FirstElement();
+
+			if (first.Name() == "arrayCreator") {
+				return CreateArrayCreator(first);
+			}
+
+			var creatorRest = CreateClassCreatorRest(node.Element("classCreatorRest"));
+			if (node.Elements().Count() == 4)
+				return UnifiedNew.Create(
+						CreateClassOrInterfaceType(node.NthElement(2)) /*Type*/,
+						creatorRest.Item1 /*Argument*/,
+						CreateNonWildcardTypeArguments(node.Element("nonWildcardTypeArguments"))
+						/*TypeArguments*/,
+						null /*InitialValues*/,
+						creatorRest.Item2 /*Body*/
+						);
+
+			return UnifiedNew.Create(
+					CreateClassOrInterfaceType(node.NthElement(1)) /*Type*/,
+					creatorRest.Item1 /*Argument*/,
+					null /*TypeParameters*/,
+					null /*InitialValues*/,
+					creatorRest.Item2 /*Body*/
+					);
+		}
+
+		public static UnifiedNew CreateArrayCreator(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "arrayCreator");
+			/*
+			 * arrayCreator 
+			 * :   'new' createdName '[' ']' ('[' ']')* arrayInitializer
+			 * |   'new' createdName '[' expression ']' ( '[' expression ']' )* ('[' ']')* 
+			 */
+
+			var type = CreateCreatedName(node.NthElement(1));
+
+			if (node.HasElement("arrayInitializer")) {
+				var initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
+				var dimension = node.ElementsByContent("[").Count();
+				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+				return UnifiedNew.Create(type, null, null, initVal, null);
+			}
+
+			var supplements = UnifiedTypeSupplementCollection.Create();
+			foreach (var exp in node.Elements("expression")) {
+				var supplement = UnifiedTypeSupplement.CreateArray(
+						CreateExpression(exp).ToArgument());
+				supplements.Add(supplement);
+			}
+			{
+				var dimension = node.ElementsByContent("[")
+						.Where(e => e.NextElement().Value == "]")
+						.Count();
+				for (var i = 0; i < dimension; i++)
+					supplements.Add(UnifiedTypeSupplement.CreateArray());
+			}
+			type.Supplements = supplements;
+			return UnifiedNew.Create(type);
+		}
+
+		public static IUnifiedExpression CreateVariableInitializer(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "variableInitializer");
+			/*
+			 * variableInitializer 
+			 * :   arrayInitializer
+			 * |   expression 
+			 */
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "arrayInitializer":
+				return CreateArrayInitializer(first);
+			case "expression":
+				return CreateExpression(first);
+			default:
+				throw new IndexOutOfRangeException();
+			}
+		}
+
+		public static UnifiedExpressionList CreateArrayInitializer(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "arrayInitializer");
+			/*
+			 * arrayInitializer 
+			 * :   '{' (variableInitializer (',' variableInitializer)* )? (',')? '}'
+			 */
+			return node.Elements("variableInitializer")
+					.Select(CreateVariableInitializer)
+					.ToExpressionList();
+		}
+
+		public static UnifiedType CreateCreatedName(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "createdName");
+			/*
+			 * createdName 
+			 * :   classOrInterfaceType
+			 * |   primitiveType 
+			 */
+
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "classOrInterfaceType":
+				return CreateClassOrInterfaceType(first);
+			case "primitiveType":
+				return CreatePrimitiveType(first);
+			default:
+				throw new IndexOutOfRangeException();
+			}
+		}
+
+		public static IUnifiedExpression CreateInnerCreator(IUnifiedExpression prefix,
+		                                                    XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "innerCreator");
+			/*
+			 * innerCreator  
+			 * :   '.' 'new' (nonWildcardTypeArguments)? IDENTIFIER (typeArguments)? classCreatorRest 
+			 */
+
+			//コード例
+			// X . new <T> Sample <E> (1,2){}
+
+			var typeArguments = node.HasElement("typeArguments")
+			                    		? CreateTypeArguments(node.Element("typeArguments"))
+			                    		: null;
+			var type = UnifiedType.CreateUsingString(node.Element("IDENTIFIER").Value,
+					typeArguments);
+			var creatorRest = CreateClassCreatorRest(node.Element("classCreatorRest"));
+			var typeParameters = node.HasElement("nonWildcardTypeArguments")
+			                     		? CreateNonWildcardTypeArguments(
+			                     				node.Element("nonWildcardTypeArguments")) : null;
+			var prop = UnifiedNew.Create(
+					type,
+					creatorRest.Item1,
+					typeParameters,
+					null,
+					creatorRest.Item2
+					);
+
+			return UnifiedProperty.Create(prefix, prop, ".");
+		}
+
+		public static Tuple<UnifiedArgumentCollection, UnifiedBlock>
+				CreateClassCreatorRest(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "classCreatorRest");
+			/*
+			 * classCreatorRest 
+			 * :   arguments (classBody)? 
+			 */
+
+			var body = node.HasElement("classBody")
+			           		? CreateClassBody(node.Element("classBody")) : null;
+			return
+					new Tuple<UnifiedArgumentCollection, UnifiedBlock>(
+							CreateArguments(node.Element("arguments")), body);
+		}
+
+		public static UnifiedTypeArgumentCollection CreateNonWildcardTypeArguments(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "nonWildcardTypeArguments");
+			/*
+			 * nonWildcardTypeArguments 
+			 * :   '<' typeList '>'
+			 */
+
+			var typeList = CreateTypeList(node.NthElement(1));
+			var typeArguments = UnifiedTypeArgumentCollection.Create();
+
+			foreach (var type in typeList) {
+				var argument = UnifiedTypeArgument.Create(type);
+				typeArguments.Add(argument);
+			}
+			return typeArguments;
+		}
+
+		public static UnifiedArgumentCollection CreateArguments(XElement node) {
+			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arguments");
 			/*
 			 * arguments : '(' (expressionList)? ')'
 			 */
-
 			var expressionListNode = node.Element("expressionList");
 			if (expressionListNode == null)
+					// ()がついているので空集合を返す
 				return UnifiedArgumentCollection.Create();
 
-			var args = CreateExpressionList(expressionListNode)
-				.Select(e => {
-					e.Remove();
-					return UnifiedArgument.Create(e);
-				});
-			return UnifiedArgumentCollection.Create(args);
+			return CreateExpressionList(expressionListNode)
+					.Select(UnifiedArgument.Create)
+					.ToCollection();
 		}
 
-		public static UnifiedExpressionList CreateExpressionList(XElement node)
-		{
-			Contract.Requires(node.Name() == "expressionList");
+		public static UnifiedLiteral CreateLiteral(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "literal");
 			/*
-			 * expressionList : expression (',' expression )* ;
+			 * literal 
+			 * :   intLiteral
+			 * |   longLiteral
+			 * |   floatLiteral
+			 * |   doubleLiteral
+			 * |   charLiteral
+			 * |   stringLiteral
+			 * |   trueLiteral
+			 * |   falseLiteral
+			 * |   nullLiteral
 			 */
 
-			var expressions = node.Elements("expression")
-				.Select(CreateExpression);
-			return expressions.ToExpressionList();
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "intLiteral":
+				return UnifiedIntegerLiteral.Create(Int32.Parse(first.Value));
+			case "longLiteral":
+				return UnifiedIntegerLiteral.Create(Int32.Parse(first.Value));
+			case "floatLiteral":
+				return UnifiedDecimalLiteral.Create(Decimal.Parse(first.Value));
+			case "doubleLiteral":
+				return UnifiedDecimalLiteral.Create(Decimal.Parse(first.Value));
+			case "charLiteral":
+				return UnifiedCharLiteral.Create(first.Value);
+			case "stringLiteral":
+				return UnifiedStringLiteral.Create(first.Value);
+			case "trueLiteral":
+				return UnifiedBooleanLiteral.Create(true);
+			case "falseLiteral":
+				return UnifiedBooleanLiteral.Create(false);
+			case "nullLiteral":
+				return UnifiedNullLiteral.Create();
+			}
+			throw new InvalidOperationException();
 		}
 
-		/* expressionList
-		 * :   expression (',' expression)*
-		 */
-
-		/*
-		 * innerCreator  
-		 * :   '.' 'new' (nonWildcardTypeArguments)? IDENTIFIER (typeArguments)? classCreatorRest
-		 */
-
-		public static IUnifiedExpression CreateNew(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name().ToLower().EndsWith("creator"));
-			/* 
-			 * creator 
-				:   'new' nonWildcardTypeArguments classOrInterfaceType classCreatorRest
-				|   'new' classOrInterfaceType classCreatorRest
-				|   arrayCreator
-
-			   arrayCreator 
-				:   'new' createdName
-					'[' ']'
-					( '[' ']' )*
-					arrayInitializer
-			    |   'new' createdName
-					'[' expression ']'
-					( '[' expression ']' )*
-					( '[' ']' )*
-			*/
-
-			if (node.Name() == "creator") {
-				if (
-					node.Element("classCreatorRest").Element("arguments").Element(
-						"expressionList") == null)
-					return
-						UnifiedNew.Create(
-							CreateClassOrInterfaceType(node.Element("classOrInterfaceType")),
-							UnifiedArgumentCollection.Create());
-
-				return
-					UnifiedNew.Create(
-						CreateClassOrInterfaceType(node.Element("classOrInterfaceType")),
-						UnifiedArgumentCollection.Create(node.Element("classCreatorRest")
-							.Element("arguments")
-							.Element("expressionList")
-							.Elements("expression")
-							.Select(CreateArgument))
-						);
-			} else {
-				//case "arrayCreator"
-				UnifiedExpressionList initialValues = null;
-				UnifiedArgumentCollection args = null;
-				if (node.HasContent("arrayInitializer")) {
-					initialValues = node.Element("arrayInitializer")
-						.Elements("variableInitializer")
-						.Select(e => CreateExpression(e.Element("expression")))
-						.ToExpressionList();
-				}
-				var type = CreateTypeOrCreatedName(node.Element("createdName"));
-				foreach (var e in node.ElementsByContent("[")) {
-					if (e.NextElement().Name() == "expression") {
-						var expression = CreateExpression(e.NextElement());
-						type.AddSupplement(UnifiedTypeSupplement.CreateArray(expression));
-					} else {
-						type.AddSupplement(UnifiedTypeSupplement.CreateArray());						
-					}
-				}
-				return UnifiedNew.Create(type, args, initialValues);
-			}
-		}
-
-		public static UnifiedIdentifier CreateVariable(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "primary" || node.Name() == "literal");
-			return UnifiedIdentifier.CreateUnknown(node.Value);
-		}
-
-		public static UnifiedLiteral CreateLiteral(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "primary" || node.Name() == "literal");
-
-			int i;
-			if (Int32.TryParse(node.Value, NumberStyles.Any, null, out i)) {
-				return UnifiedIntegerLiteral.Create(i);
-			}
-
-			decimal d;
-			if (Decimal.TryParse(node.Value, NumberStyles.Any, null, out d)) {
-				return UnifiedDecimalLiteral.Create(d);
-			}
-
-			var regex = new Regex(@"^""[a-zA-Z0-9_]*""$");
-			if (regex.IsMatch(node.Value)) {
-				var r = new Regex(@"[a-zA-Z_]{1}[a-zA-Z0-9_]*");
-				var match = r.Match(node.Value);
-				return UnifiedStringLiteral.Create(match.Value);
-			}
-
-			//TODO IMPLEMENT: other literal cases
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
-		#region Operator
-
-		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node)
-		{
-			Contract.Requires(node != null);
-			//TODO implement more OperatorType cases
-			var name = node.Value;
+		private static UnifiedBinaryOperator CreateBinaryOperator(string name) {
+			Contract.Requires(name != null);
 			UnifiedBinaryOperatorKind kind;
-
 			switch (name) {
-				//Arithmetic
+				// Arithmetic
 			case "+":
 				kind = UnifiedBinaryOperatorKind.Add;
 				break;
@@ -485,14 +2203,17 @@ namespace Ucpf.Languages.Java.Model
 			case "%":
 				kind = UnifiedBinaryOperatorKind.Modulo;
 				break;
-				//Shift
+				// Shift
 			case "<<":
 				kind = UnifiedBinaryOperatorKind.ArithmeticLeftShift;
 				break;
 			case ">>":
 				kind = UnifiedBinaryOperatorKind.ArithmeticRightShift;
 				break;
-				//Comparison
+			case ">>>":
+				kind = UnifiedBinaryOperatorKind.LogicalRightShift;
+				break;
+				// Comparison
 			case ">":
 				kind = UnifiedBinaryOperatorKind.GreaterThan;
 				break;
@@ -511,14 +2232,14 @@ namespace Ucpf.Languages.Java.Model
 			case "!=":
 				kind = UnifiedBinaryOperatorKind.NotEqual;
 				break;
-				//Logocal
+				// Logocal
 			case "&&":
 				kind = UnifiedBinaryOperatorKind.AndAlso;
 				break;
 			case "||":
 				kind = UnifiedBinaryOperatorKind.OrElse;
 				break;
-				//Bit
+				// Bit
 			case "&":
 				kind = UnifiedBinaryOperatorKind.And;
 				break;
@@ -528,7 +2249,7 @@ namespace Ucpf.Languages.Java.Model
 			case "^":
 				kind = UnifiedBinaryOperatorKind.ExclusiveOr;
 				break;
-				//Assignment
+				// Assignment
 			case "=":
 				kind = UnifiedBinaryOperatorKind.Assign;
 				break;
@@ -547,14 +2268,16 @@ namespace Ucpf.Languages.Java.Model
 			case "%=":
 				kind = UnifiedBinaryOperatorKind.ModuloAssign;
 				break;
+			case "instanceof":
+				kind = UnifiedBinaryOperatorKind.InstanceOf;
+				break;
 			default:
 				throw new InvalidOperationException();
 			}
 			return UnifiedBinaryOperator.Create(name, kind);
 		}
 
-		public static UnifiedUnaryOperator CreatePrefixUnaryOperator(string name)
-		{
+		private static UnifiedUnaryOperator CreatePrefixUnaryOperator(string name) {
 			Contract.Requires(name != null);
 			UnifiedUnaryOperatorKind kind;
 			switch (name) {
@@ -582,634 +2305,146 @@ namespace Ucpf.Languages.Java.Model
 			return UnifiedUnaryOperator.Create(name, kind);
 		}
 
-		#endregion
+		private static IUnifiedExpression CreateBinaryExpression(XElement node,
+		                                                         Func
+		                                                         		<XElement,
+		                                                         		IUnifiedExpression>
+		                                                         		createExpression) {
+			var nodes = node.Elements().OddIndexElements();
+			return nodes.Skip(1).Aggregate(createExpression(nodes.First()),
+					(e, n) => UnifiedBinaryExpression.Create(
+							e, CreateBinaryOperator(n.PreviousElement().Value),
+							createExpression(n)));
+		}
 
-		#region Statement
-
-		public static IUnifiedExpression CreateStatement(XElement node)
-		{
+		private static UnifiedIf CreateIf(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			/*
-			 * statement 
-			 * :   block
-			 * |   ('assert') expression (':' expression)? ';'
-			 * |   'assert'  expression (':' expression)? ';'            
-			 * |   'if' parExpression statement ('else' statement)?          
-			 * |   forstatement
-			 * |   'while' parExpression statement
-			 * |   'do' statement 'while' parExpression ';'
-			 * |   trystatement
-			 * |   'switch' parExpression '{' switchBlockStatementGroups '}'
-			 * |   'synchronized' parExpression block
-			 * |   'return' (expression )? ';'
-			 * |   'throw' expression ';'
-			 * |   'break' (IDENTIFIER )? ';'
-			 * |   'continue' (IDENTIFIER)? ';'
-			 * |   expression  ';'     
-			 * |   IDENTIFIER ':' statement
-			 * |   ';'
-			 * ;*/
-			var element = node.FirstElement();
-
-			switch (element.Name()) {
-			case "block":
-				return CreateBlock(element);
-			case "IF":
-				return CreateIf(node);
-			case "forstatement":
-				return CreateForstatement(element);
-			case "WHILE":
-				return CreateWhile(node);
-			case "DO":
-				return CreateDo(node);
-			case "SWITCH":
-				return CreateSwitch(node);
-			case "RETURN":
-				return CreateReturn(node);
-			case "BREAK":
-				return CreateBreak(node);
-			case "CONTINUE":
-				return CreateContinue(node);
-			case "expression":
-				return CreateExpression(element);
-			default:
-				throw new NotImplementedException();
-			}
-		}
-
-		public static UnifiedBlock CreateBlock(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "block");
-			/*
-			 * block : '{' (blockStatement )* '}'
+			Contract.Requires(node.FirstElement().Name() == "IF");
+			/*  
+			 * 'if' parExpression statement ('else' statement)? 
 			 */
-
-			var list = new List<IUnifiedExpression>();
-
-			foreach (var e in node.Elements()) {
-				if (e.Name() == "blockStatement") {
-					list.Add(CreateBlockStatement(e));
-				}
-			}
-			return UnifiedBlock.Create(list);
-		}
-
-		public static IUnifiedExpression CreateBlockStatement(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "blockStatement");
-			/*  blockStatement
-			 * :   localVariableDeclarationStatement
-			 * |   classOrInterfaceDeclaration
-			 * |   statement
-			 */
-			var e = node.Elements().First();
-			switch (e.Name()) {
-			case "statement":
-				return CreateStatement(e);
-			case "localVariableDeclarationStatement":
-				return CreateLocalVariableDeclarationStatement(e);
-			case "classOrInterfaceDeclaration":
-				throw new NotImplementedException();
-			default:
-				throw new InvalidOperationException();
-			}
-		}
-
-		public static UnifiedIf CreateIf(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.Elements().First().Name() == "IF");
-			/*  'if' parExpression statement ('else' statement)? */
-			var trueBody = UnifiedBlock.Create(
-				CreateStatement(node.Element("statement")));
+			var trueBody = CreateStatement(node.Element("statement"))
+					.ToBlock();
 
 			UnifiedBlock falseBody = null;
 			if (node.Elements("statement").Count() == 2) {
 				var falseNode = node.Elements("statement").ElementAt(1);
-				falseBody = UnifiedBlock.Create(
-					CreateStatement(falseNode));
+				falseBody = CreateStatement(falseNode).ToBlock();
 			}
-			return UnifiedIf.Create(CreateExpression(node
-				.Element("parExpression")
-				.Element("expression")),
-				trueBody, falseBody);
+			return UnifiedIf.Create(
+					CreateParExpression(node.Element("parExpression")),
+					trueBody,
+					falseBody
+					);
 		}
 
-		public static UnifiedWhile CreateWhile(XElement node)
-		{
+		private static UnifiedWhile CreateWhile(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.Elements().First().Name() == "WHILE");
-			/* 'while' parExpression statement */
+			Contract.Requires(node.FirstElement().Name() == "WHILE");
+			/* 
+			 * 'while' parExpression statement
+			 */
 			return UnifiedWhile.Create(
-				UnifiedBlock.Create(
-					CreateStatement(node.Element("statement"))
-				),
-				CreateExpression(node.Element("parExpression").Element("expression"))
-				);
+					UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
+					CreateParExpression(node.Element("parExpression"))
+					);
 		}
 
-		public static UnifiedDoWhile CreateDo(XElement node)
-		{
+		private static UnifiedDoWhile CreateDoWhile(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.Elements().First().Name() == "DO");
-			/* 'do' statement 'while' parExpression ';' */
+			Contract.Requires(node.FirstElement().Name() == "DO");
+			/* 
+			 * 'do' statement 'while' parExpression ';' 
+			 */
 			return UnifiedDoWhile.Create(
-				UnifiedBlock.Create(
-					CreateStatement(node.Element("statement"))
-				),
-				CreateExpression(node.Element("parExpression").Element("expression"))
-				);
+					UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
+					CreateParExpression(node.Element("parExpression"))
+					);
 		}
 
-		public static IUnifiedExpression CreateForstatement(XElement forstatement)
-		{
-			Contract.Requires(forstatement != null);
-			Contract.Requires(forstatement.Name() == "forstatement");
-			/*	forstatement :   
-			 * // enhanced for loop
-			 *     'for' '(' variableModifiers type IDENTIFIER ':' expression ')' statement
-			 * // normal for loop
-			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement
-			 * ; */
-			if (forstatement.NthElement(2).Name() == "variableModifiers") {
-				return UnifiedForeach.Create(
-					UnifiedVariableDefinition.CreateSingle(
-						CreateTypeOrCreatedName(forstatement.Element("type")),
-						CreateVariableModifiers(forstatement.Element("variableModifiers")),
-						null,
-						forstatement.Element("IDENTIFIER").Value
-						),
-					CreateExpression(forstatement.Element("expression")),
-					UnifiedBlock.Create(
-						CreateStatement(forstatement.Element("statement"))
-						)
-					);
-			} else {
-				var forInit = forstatement.Element("forInit");
-				var initializer = forInit != null ? CreateForInit(forInit) : null;
-
-				var expression = forstatement.Element("expression");
-				var condition = expression != null ? CreateExpression(expression) : null;
-
-				var expressionList = forstatement.Element("expressionList");
-				var step = expressionList != null
-				           	? CreateExpressionList(expressionList) : null;
-
-				var body = CreateStatement(forstatement.Element("statement"));
-				return UnifiedFor.Create(
-					initializer,
-					condition,
-					step,
-					UnifiedBlock.Create(body)
-					);
-			}
-		}
-
-		public static UnifiedSwitch CreateSwitch(XElement node)
-		{
+		private static UnifiedSwitch CreateSwitch(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("switch"));
-			/* 'switch' parExpression '{' switchBlockStatementGroups '}' */
-			return
-				UnifiedSwitch.Create(
-					CreateExpression(node.Element("parExpression").Element("expression")),
-					CreateCaseCollection(node.Element("switchBlockStatementGroups")));
-		}
-
-		public static UnifiedCaseCollection CreateCaseCollection(XElement node)
-		{
-			//Top node is <switchBlockStatementGroups>.
-			return
-				UnifiedCaseCollection.Create(
-					node.Elements("switchBlockStatementGroup").Select(CreateCase));
-		}
-
-		public static UnifiedCase CreateCase(XElement node)
-		{
-			//Top node is <switchBlockStatementGroup>.
-			var cond = node.Element("switchLabel").Element("expression");
-			var body = UnifiedBlock.Create(
-				CreateBlockStatement(node.Element("blockStatement"))
-			);
-			//var body = CreateBlock(node);
-			if (cond == null) {
-				return UnifiedCase.Create(null, body);
-			}
-			return UnifiedCase.Create(CreateExpression(cond), body);
-		}
-
-		public static UnifiedSpecialExpression CreateBreak(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.HasElementByContent("break"));
-			/* 'break' (IDENTIFIER )? ';' */
-			if (node.Elements().Count() > 2)
-				throw new NotImplementedException();
-			return UnifiedSpecialExpression.CreateBreak();
-		}
-
-		public static UnifiedSpecialExpression CreateContinue(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "statement");
-			Contract.Requires(node.HasElementByContent("continue"));
-			/* 'continue' (IDENTIFIER)? ';' */
-			if (node.Elements().Count() > 2)
-				throw new NotImplementedException();
-			return UnifiedSpecialExpression.CreateContinue();
-		}
-
-		private static IUnifiedExpression CreateForInit(XElement node)
-		{
-			Contract.Requires(node.Name() == "forInit");
-			/* forInit : localVariableDeclaration | expressionList ;
-		 */
-			switch (node.FirstElement().Name()) {
-			case "localVariableDeclaration":
-				return CreateLocalVariableDeclarationOrFieldDeclaration(node.FirstElement());
-			case "expressionList":
-				return CreateExpressionList(node.FirstElement());
-			}
-			throw new InvalidOperationException();
-		}
-
-		private static UnifiedModifierCollection CreateVariableModifiers(
-			XElement xElement)
-		{
-			/*
-			 * variableModifiers : ( 'final' | annotation )* ;
+			/* 
+			 * 'switch' parExpression '{' switchBlockStatementGroups '}' 
 			 */
-			if (xElement.Elements().Count() == 0)
-				return UnifiedModifierCollection.Create();
-			else throw new NotImplementedException();
+			return UnifiedSwitch.Create(
+					CreateParExpression(node.Element("parExpression")),
+					CreateSwitchBlockStatementGroups(node.Element("switchBlockStatementGroups"))
+					);
 		}
 
-		public static UnifiedSpecialExpression CreateReturn(XElement node)
-		{
+		private static UnifiedSpecialExpression CreateReturn(XElement node) {
 			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("return"));
+			/*
+			 * 'return' (expression)? ';'
+			 */
 			IUnifiedExpression value = null;
-			var i = node.Elements().Count();
 			if (node.Elements().Count() == 3) {
 				value = CreateExpression(node.Element("expression"));
 			}
 			return UnifiedSpecialExpression.CreateReturn(value);
 		}
 
-		#endregion
-
-		#region Function
-
-		/*
-		 * methodDeclaration
-		 * :
-		 * // Constructor
-		 *   modifiers (typeParameters)? IDENTIFIER formalParameters ('throws' qualifiedNameList)? '{' (explicitConstructorInvocation)? (blockStatement)* '}'
-		 * // Method
-		 * | modifiers (typeParameters)? (type | 'void') IDENTIFIER formalParameters ('[' ']')* ('throws' qualifiedNameList)? (block | ';');
-		 * 
-		 */
-
-		public static IUnifiedExpression CreateDefineFunction(XElement node)
-		{
+		private static UnifiedSpecialExpression CreateBreak(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "methodDeclaration");
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("break"));
+			/* 'break' (IDENTIFIER )? ';' */
+			if (node.Elements().Count() > 2)
+				return UnifiedSpecialExpression.CreateBreak(
+						UnifiedIdentifier.CreateUnknown(node.Element("IDENTIFIER").Value));
+			return UnifiedSpecialExpression.CreateBreak();
+		}
 
-			if (node.Element("type") == null && node.Element("VOID") == null) {
-				//case Constructor
-				return UnifiedConstructorDefinition.Create(
-					UnifiedBlock.Create(
-						CreateBlockStatement(node.Element("blockStatement"))
-					),
-					CreateModifierCollection(node),
-					CreateFormalParameters(node.Element("formalParameters"))
+		private static UnifiedSpecialExpression CreateContinue(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("continue"));
+			/* 'continue' (IDENTIFIER)? ';' */
+			if (node.Elements().Count() > 2)
+				return UnifiedSpecialExpression.CreateContinue(
+						UnifiedIdentifier.CreateUnknown(node.Element("IDENTIFIER").Value));
+			return UnifiedSpecialExpression.CreateContinue();
+		}
+
+		private static UnifiedSpecialBlock CreateSynchronized(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("synchronized"));
+			/* 
+			 * 'synchronized' parExpression block 
+			 */
+			return UnifiedSpecialBlock.Create(
+					UnifiedSpecialBlockKind.Synchronized,
+					CreateParExpression(node.Element("parExpression")),
+					CreateBlock(node.Element("block"))
 					);
-			}
-			//if (node.Element("IDENTIFIER").PreviousElement().Name() == "")
-			return UnifiedFunctionDefinition.CreateFunction(
-				node.Element("IDENTIFIER").Value,
-				CreateTypeOrCreatedName(node.Element("type")),
-				CreateModifierCollection(node),
-				CreateFormalParameters(node.Element("formalParameters")),
-				//TODO IMPLEMENT:
-				CreateBlock(node.Element("block"))
-				);
 		}
 
-		public static UnifiedModifier CreateVariableModifier(XElement node)
-		{
+		private static UnifiedSpecialExpression CreateThrow(XElement node) {
 			Contract.Requires(node != null);
-			return UnifiedModifier.Create(node.Value);
-		}
-
-		public static UnifiedModifier CreateModifier(XElement node)
-		{
-			Contract.Requires(node != null);
-			return UnifiedModifier.Create(node.Value);
-		}
-
-		public static UnifiedModifierCollection CreateModifierCollection(XElement node)
-		{
-			Contract.Requires(node != null);
-			return UnifiedModifierCollection.Create(node
-				.Element("modifiers")
-				.Elements()
-				.Select(CreateModifier));
-		}
-
-		public static UnifiedType CreateTypeOrCreatedName(XElement node)
-		{
-			Contract.Requires(node == null || node.Name() == "type" ||
-			                  node.Name() == "createdName");
-			/* 
-			 * type 
-				:   classOrInterfaceType ('[' ']')*
-				|   primitiveType ('[' ']')*
-			*/
-
-			if (node == null)
-				return UnifiedType.CreateUsingString("void");
-
-			var firstNode = node.FirstElement();
-			UnifiedType result;
-			switch (firstNode.Name()) {
-			case "classOrInterfaceType":
-				result = CreateClassOrInterfaceType(firstNode);
-				break;
-			case "primitiveType":
-				result = CreatePrimitiveType(firstNode);
-				break;
-			default:
-				throw new InvalidOperationException();
-			}
-
-			foreach (var e in node.ElementsByContent("[")) {
-				result.AddSupplement(UnifiedTypeSupplement.CreateArray());
-			}
-			return result;
-		}
-
-		public static UnifiedType CreateClassOrInterfaceType(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "classOrInterfaceType");
-			/* 
-			 * classOrInterfaceType 
-				:   IDENTIFIER (typeArguments)? ('.' IDENTIFIER (typeArguments)? )*
-			  
-			   typeArguments 
-			 * :   '<' typeArgument (',' typeArgument )* '>'
-			 */
-			//TODO 末尾修飾子が付く場合にはどのように名前を与えるか
-			//-> とりあえず、CreateClassOrInterfaceType()の中で親の値に遡って代入する
-
-			var name = node.Element("IDENTIFIER").Value;
-			if (node.HasElement("typeArguments")) {
-				return UnifiedType.CreateUsingString(name, UnifiedTypeArgumentCollection.Create(
-					node.Element("typeArguments")
-						.Elements("typeArgument")
-						.Select(CreatTypeParameter)));
-			}
-			return UnifiedType.CreateUsingString(name);
-			//TODO ('.' IDENTIFIER (typeArguments)? )*はどう扱えばいいのか
-		}
-
-		public static UnifiedType CreatePrimitiveType(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "primitiveType");
+			Contract.Requires(node.Name() == "statement");
+			Contract.Requires(node.HasElementByContent("throw"));
 			/*
-			 * primitiveType  
-				:   'boolean' | 'char' | 'byte' | 'short' | 'int' | 'long' | 'float' | 'double' 
+			 * 'throw' expression ';' 
 			 */
-			return UnifiedType.CreateUsingString(node.Value);
+			return UnifiedSpecialExpression.CreateThrow(
+					CreateExpression(node.Element("expression")));
 		}
 
-		public static UnifiedTypeArgument CreatTypeParameter(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "typeArgument");
-			/* 
-			 * typeArgument 
-				:   type
-				|   '?' ( ('extends'|'super' ) type )?
-			 */
-			if (node.FirstElement().Name() == "type") {
-				return
-					UnifiedTypeArgument.Create(CreateTypeOrCreatedName(node.Element("type")),
-						null);
-			}
-			throw new NotImplementedException();
-			//TODO ?はどのように扱うのか
-			var modifier = node.NthElement(1) != null
-			               	? UnifiedModifierCollection.Create() : null;
-			var type = node.NthElement(2) != null
-			           	? CreateTypeOrCreatedName(node.Element("type")) : null;
-			return UnifiedTypeArgument.Create(type, modifier);
-		}
-
-		public static UnifiedParameterCollection CreateFormalParameters(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "formalParameters");
-			var element = node.Element("formalParameterDecls");
-			if (element == null)
-				return UnifiedParameterCollection.Create();
-
-			return UnifiedParameterCollection.Create(element
-				.Elements()
-				.Select(e => {
-					if (e.Name() == "normalParameterDecl")
-						return CreateNormalParameterDecl(e);
-					if (e.Name() == "ellipsisParameterDecl")
-						return CreateEllipsisParameterDecl(e);
-					return null;
-				})
-				.Where(e => e != null));
-		}
-
-		public static UnifiedParameter CreateNormalParameterDecl(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "normalParameterDecl");
-			/* 
-			 * normalParameterDecl 
-				:   variableModifiers type IDENTIFIER ('[' ']')* 
-			 */
-			return UnifiedParameter.Create(
-				node.Element("IDENTIFIER").Value,
-				CreateTypeOrCreatedName(node.Element("type")),
-				UnifiedModifierCollection.Create(node
-					.Element("variableModifiers")
-					.Elements()
-					.Select(CreateVariableModifier)));
-		}
-
-		public static UnifiedParameter CreateEllipsisParameterDecl(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "ellipsisParameterDecl");
-			throw new NotImplementedException();
-		}
-
-		public static UnifiedArgument CreateArgument(XElement node)
-		{
-			Contract.Requires(node != null);
-			return UnifiedArgument.Create(CreateExpression(node));
-		}
-
-		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node)
-		{
-			Contract.Requires(node != null);
-			var element = node
-				.Element("identifierSuffix")
-				.Element("arguments")
-				.Element("expressionList")
-				.Elements()
-				.Select(CreateArgument);
-			return UnifiedArgumentCollection.Create(element);
-		}
-
-		#endregion
-
-		public static UnifiedVariableDefinition
-			CreateLocalVariableDeclarationStatement(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "localVariableDeclarationStatement");
-			return
-				CreateLocalVariableDeclarationOrFieldDeclaration(
-					node.Element("localVariableDeclaration"));
-		}
-
-		public static UnifiedVariableDefinition
-			CreateLocalVariableDeclarationOrFieldDeclaration(XElement node)
-		{
-			Contract.Requires(node.Name() == "localVariableDeclaration" ||
-			                  node.Name() == "fieldDeclaration");
-			/* localVariableDeclaration 
-			 *   :   variableModifiers type variableDeclarator (',' variableDeclarator )* ;
-			 */
-
-			/*
-			 * fieldDeclaration 
-			 *   :   modifiers type variableDeclarator (',' variableDeclarator )* ';' 
-			 */
-
-			var init =
-				node.Element("variableDeclarator").Element("variableInitializer") != null
-					? CreateExpression(node.Element("variableDeclarator")
-					  	.Element("variableInitializer")
-					  	.Element("expression")) : null;
-			return UnifiedVariableDefinition.CreateSingle(
-				/*InitialValue = CreateExpression(
-						node.Element("variableDeclarator")
-						.Element("variableInitializer")
-						.Element("expression")), */
-				CreateTypeOrCreatedName(node.Element("type")),
-				UnifiedModifierCollection.Create(
-					node.ElementAt(0)
-						.Elements()
-						.Select(CreateVariableModifier)),
-				init,
-				node.Element("variableDeclarator").Element("IDENTIFIER").Value
-				);
-		}
-
-		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Elements().First().Value == "true" ||
-			                  node.Elements().First().Value == "false");
-			var tokenNode = node.FirstElement();
-			return UnifiedBooleanLiteral.Create(tokenNode.Value == "true");
-		}
-
-		public static UnifiedClassDefinition CreateClassDeclaration(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "classDeclaration");
-			/*
-			 * classDeclaration 
-			    :   normalClassDeclaration
-				|   enumDeclaration 
-			 */
-			if (node.HasElement("normalClassDeclaration")) {
-				//var modifiers = CreateModifierCollection(node);
-				var name = node
-					.Element("normalClassDeclaration")
-					.Element("IDENTIFIER")
-					.Value;
-				var body = CreateClassBody(node
-					.Element("normalClassDeclaration")
-					.Element("classBody"));
-				return UnifiedClassDefinition.CreateClass(name, body);
-			}
-			throw new NotImplementedException();
-		}
-
-		public static UnifiedBlock CreateClassBody(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "classBody");
-			/*
-			 * classBody 
-			    :   '{' (classBodyDeclaration)* '}' 
-			 */
-			return UnifiedBlock.Create(node
-				.Elements("classBodyDeclaration")
-				.Select(CreateClassBodyDeclaration));
-		}
-
-		public static IUnifiedExpression CreateClassBodyDeclaration(XElement node)
-		{
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "classBodyDeclaration");
-			/*
-			 * memberDecl 
-				:    fieldDeclaration
-				|    methodDeclaration
-				|    classDeclaration
-				|    interfaceDeclaration 
-			 */
-			var memType = node.Element("memberDecl").FirstElement();
-			switch (memType.Name()) {
-			case "fieldDeclaration":
-				return CreateLocalVariableDeclarationOrFieldDeclaration(memType);
-			case "methodDeclaration":
-				return CreateDefineFunction(memType);
-			case "classDeclaration":
-				return CreateClassDeclaration(memType);
-			default:
-				throw new NotImplementedException();
-			}
-		}
-
-		public static UnifiedProgram CreateProgram(XElement node)
-		{
-			Contract.Requires(node != null);
-			var model = UnifiedProgram.Create(
-				CreateClassDeclaration(node
-					.Element("typeDeclaration")
-					.Element("classOrInterfaceDeclaration")
-					.Element("classDeclaration"))
-				);
-			model.Normalize();
-			return model;
-		}
-
-		public static UnifiedProgram CreateModel(string source)
-		{
+		public static UnifiedProgram CreateModel(string source) {
 			Contract.Requires(source != null);
 			var ast = JavaXmlGenerator.Instance.Generate(source);
-			return CreateProgram(ast);
+			var model = CreateCompilationUnit(ast);
+			model.Normalize();
+			return model;
 		}
 	}
 }

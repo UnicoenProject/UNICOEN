@@ -1,8 +1,5 @@
-﻿namespace Ucpf.Core.Model.Visitors
-{
-	public interface IUnifiedModelVisitor
-	{
-		void Visit<T>(UnifiedTypedLiteral<T> element);
+﻿namespace Ucpf.Core.Model.Visitors {
+	public interface IUnifiedModelVisitor {
 		void Visit(UnifiedBinaryOperator element);
 		void Visit(UnifiedUnaryOperator element);
 		void Visit(UnifiedArgument element);
@@ -23,7 +20,6 @@
 		void Visit(UnifiedClassDefinition element);
 		void Visit(UnifiedVariableDefinition element);
 		void Visit(UnifiedNew element);
-		void Visit(UnifiedLiteral element);
 		void Visit(UnifiedFor element);
 		void Visit(UnifiedForeach element);
 		void Visit(UnifiedUnaryExpression element);
@@ -55,11 +51,83 @@
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(UnifiedVariableDefinitionBody element);
 		void Visit(UnifiedVariableDefinitionBodyCollection element);
+		void Visit(UnifiedIdentifierCollection element);
+		void Visit(UnifiedQualifiedIdentifier element);
+		void Visit(UnifiedLabel element);
+		void Visit(UnifiedExpressionList element);
+		void Visit(UnifiedBooleanLiteral element);
+		void Visit(UnifiedDecimalLiteral element);
+		void Visit(UnifiedIntegerLiteral element);
+		void Visit(UnifiedStringLiteral element);
+		void Visit(UnifiedCharLiteral element);
+		void Visit(UnifiedNullLiteral element);
 	}
 
-	public interface IUnifiedModelVisitor<in TData, out TResult>
-	{
-		TResult Visit<TValue>(UnifiedTypedLiteral<TValue> element, TData data);
+	public interface IUnifiedModelVisitor<in TData> {
+		void Visit(UnifiedBinaryOperator element, TData data);
+		void Visit(UnifiedUnaryOperator element, TData data);
+		void Visit(UnifiedArgument element, TData data);
+		void Visit(UnifiedArgumentCollection element, TData data);
+		void Visit(UnifiedBinaryExpression element, TData data);
+		void Visit(UnifiedBlock element, TData data);
+		void Visit(UnifiedCall element, TData data);
+		void Visit(UnifiedFunctionDefinition element, TData data);
+		void Visit(UnifiedIf element, TData data);
+		void Visit(UnifiedParameter element, TData data);
+		void Visit(UnifiedParameterCollection element, TData data);
+		void Visit(UnifiedIdentifier element, TData data);
+		void Visit(UnifiedModifier element, TData data);
+		void Visit(UnifiedModifierCollection element, TData data);
+		void Visit(UnifiedImport element, TData data);
+		void Visit(UnifiedConstructorDefinition element, TData data);
+		void Visit(UnifiedProgram element, TData data);
+		void Visit(UnifiedClassDefinition element, TData data);
+		void Visit(UnifiedVariableDefinition element, TData data);
+		void Visit(UnifiedNew element, TData data);
+		void Visit(UnifiedFor element, TData data);
+		void Visit(UnifiedForeach element, TData data);
+		void Visit(UnifiedUnaryExpression element, TData data);
+		void Visit(UnifiedProperty element, TData data);
+		void Visit(UnifiedType element, TData data);
+		void Visit(UnifiedExpressionCollection element, TData data);
+		void Visit(UnifiedWhile element, TData data);
+		void Visit(UnifiedDoWhile element, TData data);
+		void Visit(UnifiedIndexer element, TData data);
+		void Visit(UnifiedTypeArgument element, TData data);
+		void Visit(UnifiedTypeArgumentCollection element, TData data);
+		void Visit(UnifiedSwitch element, TData data);
+		void Visit(UnifiedCaseCollection element, TData data);
+		void Visit(UnifiedCase element, TData data);
+		void Visit(UnifiedSpecialExpression element, TData data);
+		void Visit(UnifiedSpecialBlock element, TData data);
+		void Visit(UnifiedCatch element, TData data);
+		void Visit(UnifiedTypeCollection element, TData data);
+		void Visit(UnifiedCatchCollection element, TData data);
+		void Visit(UnifiedTry element, TData data);
+		void Visit(UnifiedCast element, TData data);
+		void Visit(UnifiedTypeParameterCollection element, TData data);
+		void Visit(UnifiedTypeConstrain element, TData data);
+		void Visit(UnifiedTypeConstrainCollection element, TData data);
+		void Visit(UnifiedTypeParameter element, TData data);
+		void Visit(UnifiedTypeSupplement element, TData data);
+		void Visit(UnifiedTypeSupplementCollection element, TData data);
+		void Visit(UnifiedTernaryOperator element, TData data);
+		void Visit(UnifiedTernaryExpression element, TData data);
+		void Visit(UnifiedVariableDefinitionBody element, TData data);
+		void Visit(UnifiedVariableDefinitionBodyCollection element, TData data);
+		void Visit(UnifiedIdentifierCollection element, TData data);
+		void Visit(UnifiedQualifiedIdentifier element, TData data);
+		void Visit(UnifiedLabel element, TData data);
+		void Visit(UnifiedExpressionList element, TData data);
+		void Visit(UnifiedBooleanLiteral element, TData data);
+		void Visit(UnifiedDecimalLiteral element, TData data);
+		void Visit(UnifiedIntegerLiteral element, TData data);
+		void Visit(UnifiedStringLiteral element, TData data);
+		void Visit(UnifiedCharLiteral element, TData data);
+		void Visit(UnifiedNullLiteral element, TData data);
+	}
+
+	public interface IUnifiedModelVisitor<in TData, out TResult> {
 		TResult Visit(UnifiedBinaryOperator element, TData data);
 		TResult Visit(UnifiedUnaryOperator element, TData data);
 		TResult Visit(UnifiedArgument element, TData data);
@@ -80,7 +148,6 @@
 		TResult Visit(UnifiedClassDefinition element, TData data);
 		TResult Visit(UnifiedVariableDefinition element, TData data);
 		TResult Visit(UnifiedNew element, TData data);
-		TResult Visit(UnifiedLiteral element, TData data);
 		TResult Visit(UnifiedFor element, TData data);
 		TResult Visit(UnifiedForeach element, TData data);
 		TResult Visit(UnifiedUnaryExpression element, TData data);
@@ -112,5 +179,15 @@
 		TResult Visit(UnifiedTernaryExpression element, TData data);
 		TResult Visit(UnifiedVariableDefinitionBody element, TData data);
 		TResult Visit(UnifiedVariableDefinitionBodyCollection element, TData data);
+		TResult Visit(UnifiedIdentifierCollection element, TData data);
+		TResult Visit(UnifiedQualifiedIdentifier element, TData data);
+		TResult Visit(UnifiedLabel element, TData data);
+		TResult Visit(UnifiedExpressionList element, TData data);
+		TResult Visit(UnifiedBooleanLiteral element, TData data);
+		TResult Visit(UnifiedDecimalLiteral element, TData data);
+		TResult Visit(UnifiedIntegerLiteral element, TData data);
+		TResult Visit(UnifiedStringLiteral element, TData data);
+		TResult Visit(UnifiedCharLiteral element, TData data);
+		TResult Visit(UnifiedNullLiteral element, TData data);
 	}
 }

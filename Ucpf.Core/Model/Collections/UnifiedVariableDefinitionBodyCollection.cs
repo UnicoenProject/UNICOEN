@@ -1,48 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
-	///  修飾子や型を除いた変数宣言の集合を表します。
+	///   修飾子や型を除いた変数宣言の集合を表します。
 	/// </summary>
 	public class UnifiedVariableDefinitionBodyCollection
-		: UnifiedElementCollection<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection>
-	{
+			: UnifiedElementCollection
+			  		<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection> {
 		private UnifiedVariableDefinitionBodyCollection() {}
 
-		private UnifiedVariableDefinitionBodyCollection(IEnumerable<UnifiedVariableDefinitionBody> elements)
-			: base(elements) {}
+		private UnifiedVariableDefinitionBodyCollection(
+				IEnumerable<UnifiedVariableDefinitionBody> elements)
+				: base(elements) {}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data) {
+			visitor.Visit(this, data);
+		}
+
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create()
-		{
+		public static UnifiedVariableDefinitionBodyCollection Create() {
 			return new UnifiedVariableDefinitionBodyCollection();
 		}
 
 		public static UnifiedVariableDefinitionBodyCollection Create(
-			params UnifiedVariableDefinitionBody[] elements)
-		{
+				params UnifiedVariableDefinitionBody[] elements) {
 			return new UnifiedVariableDefinitionBodyCollection(elements);
 		}
 
 		public static UnifiedVariableDefinitionBodyCollection Create(
-			IEnumerable<UnifiedVariableDefinitionBody> elements)
-		{
+				IEnumerable<UnifiedVariableDefinitionBody> elements) {
 			return new UnifiedVariableDefinitionBodyCollection(elements);
 		}
-	}
+			  		}
 }

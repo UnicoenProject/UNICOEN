@@ -2,64 +2,60 @@
 using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
 	///   catch節を表します。
 	/// </summary>
-	public class UnifiedCatch : UnifiedExpressionWithBlock<UnifiedCatch>
-	{
+	public class UnifiedCatch : UnifiedExpressionWithBlock<UnifiedCatch> {
 		private UnifiedParameterCollection _parameters;
 
-		public UnifiedParameterCollection Parameters
-		{
+		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
 			set { _parameters = SetParentOfChild(value, _parameters); }
 		}
 
 		private UnifiedCatch() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data) {
+			visitor.Visit(this, data);
+		}
+
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements()
-		{
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Parameters;
 			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndSetters()
-		{
+				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Parameters, v => Parameters = (UnifiedParameterCollection)v);
+					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Body, v => Body = (UnifiedBlock)v);
+					(Body, v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndDirectSetters()
-		{
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Parameters, v => _parameters = (UnifiedParameterCollection)v);
+					(Parameters, v => _parameters = (UnifiedParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Body, v => _body = (UnifiedBlock)v);
+					(Body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedCatch Create(UnifiedParameterCollection definition,
-		                                  UnifiedBlock body)
-		{
+		                                  UnifiedBlock body) {
 			return new UnifiedCatch {
-				Parameters = definition,
-				Body = body,
+					Parameters = definition,
+					Body = body,
 			};
 		}
 	}
