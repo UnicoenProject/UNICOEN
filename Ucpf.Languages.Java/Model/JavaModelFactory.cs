@@ -1829,7 +1829,7 @@ namespace Ucpf.Languages.Java.Model
 			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedExpression CreateSuperSuffix(UnifiedIdentifier prefix,
+		public static IUnifiedExpression CreateSuperSuffix(IUnifiedExpression prefix,
 		                                                   XElement node)
 		{
 			Contract.Requires(node != null);
@@ -1903,8 +1903,6 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "selector");
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "selector");
 			/*
 			 *  selector  
 				:   '.' IDENTIFIER (arguments)? //student.getName()
@@ -1925,8 +1923,21 @@ namespace Ucpf.Languages.Java.Model
 				}
 				return prefix;
 			}
-			// TODO implement
-			throw new NotImplementedException();
+			if(secondElement.Value == "this") {
+				return UnifiedProperty.Create(prefix, "this", ".");
+			}
+			if(secondElement.Value == "super") {
+				var prop = UnifiedProperty.Create(prefix,
+					UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+				return CreateSuperSuffix(prop, node.Element("superSuffix"));
+			}
+			if(secondElement.Name() == "expression") {
+				return UnifiedIndexer.Create(prefix,
+					UnifiedArgument.Create(CreateExpression(node.Element("expresion"))).
+						ToCollection());
+			}
+
+			throw new InvalidOperationException();
 		}
 
 		public static IUnifiedExpression CreateCreator(XElement node)
