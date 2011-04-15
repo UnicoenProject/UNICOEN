@@ -44,8 +44,8 @@ namespace Ucpf.Languages.Java.Tests
 				return new[] {
 					//"ActionListener.java",
 					"Block1.java",
-					//"Block2.java",
-					//"Block3.java",
+					"Block2.java",
+					"Block3.java",
 					//"Class.java",
 					//"Condition.java",
 					//"ControlFlow.java",

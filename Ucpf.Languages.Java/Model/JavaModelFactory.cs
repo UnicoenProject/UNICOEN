@@ -1949,7 +1949,7 @@ namespace Ucpf.Languages.Java.Model
 
 			var type = CreateCreatedName(node.NthElement(1));
 
-			if (node.HasContent("arrayInitializer")) {
+			if (node.HasElement("arrayInitializer")) {
 				var initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
 				var dimension = node.ElementsByContent("[").Count();
 				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
