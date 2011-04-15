@@ -49,6 +49,9 @@ namespace Ucpf.Languages.CSharp.Tests
 				try {
 					using (var p = Process.Start(info)) {
 						p.WaitForExit();
+						if (p.ExitCode != 0) {
+							throw new InvalidOperationException("Failed to compile the code.");
+						}
 					}
 				} catch (Win32Exception e) {
 					throw new InvalidOperationException("Failed to launch 'csc': " + CscPath, e);
@@ -71,6 +74,10 @@ namespace Ucpf.Languages.CSharp.Tests
 				try {
 					using (var p = Process.Start(info)) {
 						var str = p.StandardOutput.ReadToEnd();
+						p.WaitForExit();
+						if (p.ExitCode != 0) {
+							throw new InvalidOperationException("Failed to disassemble the exe file.");
+						}
 						return str.Replace("\r\n", "\n").Split('\n')
 							.Select(l => l.Trim())
 							.Where(l => !l.StartsWith("//"))

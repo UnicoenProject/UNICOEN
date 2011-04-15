@@ -39,6 +39,9 @@ namespace Ucpf.Languages.Java.Tests
 			try {
 				using (var p = Process.Start(info)) {
 					p.WaitForExit();
+					if (p.ExitCode != 0) {
+						throw new InvalidOperationException("Failed to compile the code.");
+					}
 				}
 			} catch (Win32Exception e) {
 				throw new InvalidOperationException("Failed to launch 'javac'.", e);
