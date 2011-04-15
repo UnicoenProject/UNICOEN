@@ -392,7 +392,7 @@ namespace Ucpf.Languages.Java.Model
 				name, typeParameters, constrains, body);
 		}
 
-		public static UnifiedTypeCollection CreateTypeList(XElement node)
+		public static IEnumerable<UnifiedType> CreateTypeList(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeList");
@@ -401,7 +401,7 @@ namespace Ucpf.Languages.Java.Model
 			 * :   type (',' type)* 
 			 */
 			return node.Elements("type")
-				.Select(CreateType).ToCollection();
+				.Select(CreateType);
 		}
 
 		public static UnifiedBlock CreateClassBody(XElement node)
@@ -2247,9 +2247,9 @@ namespace Ucpf.Languages.Java.Model
 			}
 
 			//case STRINGLITERAL
-			var regex = new Regex(@"^""[a-zA-Z0-9_]*""$");
+			var regex = new Regex(@"^""[a-zA-Z0-9_\s]*""$");
 			if (regex.IsMatch(value)) {
-				var r = new Regex(@"[a-zA-Z_]{1}[a-zA-Z0-9_]*");
+				var r = new Regex(@"[a-zA-Z_]{1}[a-zA-Z0-9_\s]*");
 				var match = r.Match(value);
 				return UnifiedStringLiteral.Create("\"" + match.Value + "\"");
 			}
