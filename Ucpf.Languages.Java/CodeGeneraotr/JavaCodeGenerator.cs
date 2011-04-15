@@ -20,6 +20,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		private readonly TextWriter _writer;
 		private int _indent;
 
+		private static TokenInfo _withParen =
+			new TokenInfo { MostLeft = "(", MostRight = ")" };
+
+		private static TokenInfo _withoutParen = new TokenInfo();
+
 		public string IndentSpace { get; set; }
 
 		private JavaCodeGenerator(TextWriter writer)
@@ -138,7 +143,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			_indent++;
 			foreach (var stmt in element) {
 				WriteIndent();
-				if (stmt.TryAccept(this, data))
+				if (stmt.TryAccept(this, _withoutParen))
 					_writer.Write(";");
 			}
 			_indent--;
@@ -154,14 +159,14 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			_writer.Write(element.Kind);
 			if (element.Value != null) {
 				_writer.Write("(");
-				_writer.Write(element.Value);
+				element.Value.TryAccept(this, _withoutParen);
 				_writer.Write(")");
 			}
 			_writer.Write("{");
 			_indent++;
 			foreach (var stmt in element.Body) {
 				WriteIndent();
-				if (stmt.TryAccept(this, data))
+				if (stmt.TryAccept(this, _withoutParen))
 					_writer.Write(";");
 			}
 			_indent--;
