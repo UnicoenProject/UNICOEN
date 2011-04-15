@@ -1,5 +1,4 @@
-﻿namespace Ucpf.Core.Model
-{
+﻿namespace Ucpf.Core.Model {
 	/// <summary>
 	///   式を表します。
 	/// </summary>

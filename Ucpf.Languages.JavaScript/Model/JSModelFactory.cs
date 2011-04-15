@@ -6,20 +6,16 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Code2Xml.Languages.JavaScript.XmlGenerators;
 using Ucpf.Core.Model;
-using Ucpf.Core.Model.Extensions;
 
-namespace Ucpf.Languages.JavaScript.Model
-{
-	public class JSModelFactory
-	{
+namespace Ucpf.Languages.JavaScript.Model {
+	public class JSModelFactory {
 		#region Expression
 
-		public static IUnifiedExpression CreateExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 
 			String[] binaryOperator = {
-				"+", "-", "*", "/", "%", "<", ">"
+					"+", "-", "*", "/", "%", "<", ">"
 			};
 
 			/* 
@@ -30,11 +26,11 @@ namespace Ucpf.Languages.JavaScript.Model
 			 * these are some actual expression
 			*/
 			var expressionList =
-				node.Descendants().Where(e => {
-					var c = e.Elements().Count();
-					return c > 1 || (c == 1 && e.Element("Identifier") != null) ||
-					       (c == 1 && e.Element("TOKEN") != null);
-				});
+					node.Descendants().Where(e => {
+						var c = e.Elements().Count();
+						return c > 1 || (c == 1 && e.Element("Identifier") != null) ||
+						       (c == 1 && e.Element("TOKEN") != null);
+					});
 
 			//Ensure that node has some expression
 			if (expressionList.Count() == 0) {
@@ -71,7 +67,7 @@ namespace Ucpf.Languages.JavaScript.Model
 
 			//case BinaryExpression
 			if (
-				binaryOperator.Contains(topExpressionElement.Elements().ElementAt(1).Value)) {
+					binaryOperator.Contains(topExpressionElement.Elements().ElementAt(1).Value)) {
 				return CreateBinaryExpression(topExpressionElement);
 			}
 
@@ -79,40 +75,35 @@ namespace Ucpf.Languages.JavaScript.Model
 			throw new NotImplementedException();
 		}
 
-		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node)
-		{
+		public static UnifiedBinaryExpression CreateBinaryExpression(XElement node) {
 			return
-				UnifiedBinaryExpression.Create(
-					CreateExpression(node.Elements().ElementAt(0)),
-					CreateBinaryOperator(node.Elements().ElementAt(1)),
-					CreateExpression(node.Elements().ElementAt(2)));
+					UnifiedBinaryExpression.Create(
+							CreateExpression(node.Elements().ElementAt(0)),
+							CreateBinaryOperator(node.Elements().ElementAt(1)),
+							CreateExpression(node.Elements().ElementAt(2)));
 		}
 
-		public static UnifiedCall CreateCallExpression(XElement node)
-		{
+		public static UnifiedCall CreateCallExpression(XElement node) {
 			return UnifiedCall.Create(
-				CreateExpression(node),
-				CreateArgumentCollection(node));
+					CreateExpression(node),
+					CreateArgumentCollection(node));
 			//Function = new UnifiedVariable(identifier)
 			//TODO consider: function identifier should to be which Variable or Literal
 		}
 
-		public static IUnifiedExpression CreatePostfixUnaryExpression(XElement node)
-		{
+		public static IUnifiedExpression CreatePostfixUnaryExpression(XElement node) {
 			//node.Elements().ElementAt(0),
 			//CreateUnaryOperator.CreatePostfixOperator(node.Elements().ElementAt(1)));
 			return null;
 		}
 
-		public static IUnifiedExpression CreatePrefixUnaryExpression(XElement node)
-		{
+		public static IUnifiedExpression CreatePrefixUnaryExpression(XElement node) {
 			//node.Elements().ElementAt(1),
 			//CreateUnaryOperator.CreatePrefixOperator(node.Elements().ElementAt(0)));
 			return null;
 		}
 
-		public static IUnifiedExpression CreateLiteral(XElement node)
-		{
+		public static IUnifiedExpression CreateLiteral(XElement node) {
 			int i;
 			if (Int32.TryParse(node.Value, NumberStyles.Any, null, out i)) {
 				return UnifiedIntegerLiteral.Create(i);
@@ -126,8 +117,7 @@ namespace Ucpf.Languages.JavaScript.Model
 
 		#region Operator
 
-		public static UnifiedUnaryOperator CreatePrefixUnaryOperator(XElement node)
-		{
+		public static UnifiedUnaryOperator CreatePrefixUnaryOperator(XElement node) {
 			var name = node.Value;
 			UnifiedUnaryOperatorKind kind;
 
@@ -146,8 +136,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			return UnifiedUnaryOperator.Create(name, kind);
 		}
 
-		public static UnifiedUnaryOperator CreatePostfixUnaryOperator(XElement node)
-		{
+		public static UnifiedUnaryOperator CreatePostfixUnaryOperator(XElement node) {
 			var name = node.Value;
 			UnifiedUnaryOperatorKind kind;
 
@@ -165,8 +154,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			return UnifiedUnaryOperator.Create(name, kind);
 		}
 
-		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node)
-		{
+		public static UnifiedBinaryOperator CreateBinaryOperator(XElement node) {
 			//TODO implement more OperatorType cases
 			var name = node.Value;
 			UnifiedBinaryOperatorKind kind;
@@ -261,8 +249,7 @@ namespace Ucpf.Languages.JavaScript.Model
 
 		#region Statement
 
-		public static IUnifiedExpression CreateStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("statement"));
 			/* 
@@ -303,8 +290,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			}
 		}
 
-		private static IUnifiedExpression CreateIteration(XElement element)
-		{
+		private static IUnifiedExpression CreateIteration(XElement element) {
 			Contract.Requires(element != null);
 			Contract.Requires(element.Name.LocalName.EndsWith("iterationStatement"));
 			/*
@@ -330,8 +316,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			}
 		}
 
-		public static UnifiedFor CreateFor(XElement node)
-		{
+		public static UnifiedFor CreateFor(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("forStatement"));
 			/* 
@@ -347,17 +332,16 @@ namespace Ucpf.Languages.JavaScript.Model
 			//TODO 途中のexpressionがない場合を考慮しないといけない
 			//TODO Initializerをどう実装するか考える
 			return UnifiedFor.Create(
-				null,
-				CreateExpression(node.Elements("expression").ElementAt(0)),
-				CreateExpression(node.Elements("expression").ElementAt(1)),
-				UnifiedBlock.Create(
-					CreateStatement(node.Element("statement"))
-					)
-				);
+					null,
+					CreateExpression(node.Elements("expression").ElementAt(0)),
+					CreateExpression(node.Elements("expression").ElementAt(1)),
+					UnifiedBlock.Create(
+							CreateStatement(node.Element("statement"))
+							)
+					);
 		}
 
-		public static UnifiedForeach CreateForeach(XElement node)
-		{
+		public static UnifiedForeach CreateForeach(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("forInStatement"));
 			/* 
@@ -366,16 +350,15 @@ namespace Ucpf.Languages.JavaScript.Model
 			 */
 			//TODO Initializerをどう実装するか考える
 			return UnifiedForeach.Create(
-				null,
-				CreateExpression(node.Element("expression")),
-				UnifiedBlock.Create(
-					CreateStatement(node.Element("statement"))
-					)
-				);
+					null,
+					CreateExpression(node.Element("expression")),
+					UnifiedBlock.Create(
+							CreateStatement(node.Element("statement"))
+							)
+					);
 		}
 
-		public static UnifiedDoWhile CreateDoWhile(XElement node)
-		{
+		public static UnifiedDoWhile CreateDoWhile(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("doWhileStatement"));
 			/* 
@@ -383,15 +366,14 @@ namespace Ucpf.Languages.JavaScript.Model
 				: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';') 
 			 */
 			return UnifiedDoWhile.Create(
-				UnifiedBlock.Create(new[] {
-					CreateStatement(node.Element("statement"))
-				}),
-				CreateExpression(node.Element("expression"))
-				);
+					UnifiedBlock.Create(new[] {
+							CreateStatement(node.Element("statement"))
+					}),
+					CreateExpression(node.Element("expression"))
+					);
 		}
 
-		public static UnifiedBlock CreateVariableStatementList(XElement node)
-		{
+		public static UnifiedBlock CreateVariableStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("variableStatement"));
 			/*
@@ -405,33 +387,28 @@ namespace Ucpf.Languages.JavaScript.Model
 				: Identifier LT!* initialiser? 
 			 */
 			return UnifiedBlock.Create(
-				node.Element("variableDeclarationList")
-					.Elements("variableDeclaration")
-					.Select(CreateVariableDefinition));
+					node.Element("variableDeclarationList")
+							.Elements("variableDeclaration")
+							.Select(CreateVariableDefinition));
 		}
 
-		public static IUnifiedExpression CreateVariableDefinition(XElement node)
-		{
+		public static IUnifiedExpression CreateVariableDefinition(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("variableDeclaration"));
 
 			if (false /*TODO 以下にfunctionExpressionを持つ場合はクラスを返す*/) {
-				return UnifiedClassDefinition.CreateClass(
-					node.Element("Identifier").Value,
-					null,
-					null
-					);
+				return UnifiedClassDefinition.Create(UnifiedIdentifier.Create(node.Element("Identifier").Value, UnifiedIdentifierKind.Type),
+						null, null, UnifiedClassKind.Class);
 			}
 			return UnifiedVariableDefinition.CreateSingle(
-				null,
-				null,
-				CreateExpression(node.Element("initialiser")),
-				node.Element("Identifier").Value
-				);
+					null,
+					null,
+					CreateExpression(node.Element("initialiser")),
+					node.Element("Identifier").Value
+					);
 		}
 
-		public static UnifiedBlock CreateBlock(XElement node)
-		{
+		public static UnifiedBlock CreateBlock(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "statementBlock");
 			/*
@@ -440,13 +417,12 @@ namespace Ucpf.Languages.JavaScript.Model
 			 */
 
 			return UnifiedBlock.Create(
-				node.Element("statementList").Elements("statement")
-					.Select(CreateStatement).ToList()
-				);
+					node.Element("statementList").Elements("statement")
+							.Select(CreateStatement).ToList()
+					);
 		}
 
-		public static UnifiedBlock CreateFunctionBody(XElement node)
-		{
+		public static UnifiedBlock CreateFunctionBody(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "functionBody");
 			/*
@@ -456,16 +432,15 @@ namespace Ucpf.Languages.JavaScript.Model
 
 			//TODO 関数内の関数宣言をどう扱うか
 			return UnifiedBlock.Create(
-				node.Element("sourceElements").Elements("sourceElement")
-					.SelectMany(e =>
-					            e.Elements("statement").Select(
-					            	CreateStatement)
-					).ToList()
-				);
+					node.Element("sourceElements").Elements("sourceElement")
+							.SelectMany(e =>
+							            e.Elements("statement").Select(
+							            		CreateStatement)
+							).ToList()
+					);
 		}
 
-		public static IUnifiedExpression CreateIf(XElement node)
-		{
+		public static IUnifiedExpression CreateIf(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "ifStatement");
 			/*
@@ -473,14 +448,13 @@ namespace Ucpf.Languages.JavaScript.Model
 				: 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)? 
 			 */
 			return UnifiedIf.Create(
-				//TODO consider how deal with else block
-				CreateExpression(node.Element("expression")),
-				(UnifiedBlock)CreateStatement(node.Element("statement")),
-				(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1)));
+					//TODO consider how deal with else block
+					CreateExpression(node.Element("expression")),
+					(UnifiedBlock)CreateStatement(node.Element("statement")),
+					(UnifiedBlock)CreateStatement(node.Elements("statement").ElementAt(1)));
 		}
 
-		public static UnifiedWhile CreateWhile(XElement node)
-		{
+		public static UnifiedWhile CreateWhile(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "whileStatement");
 			/*
@@ -489,15 +463,14 @@ namespace Ucpf.Languages.JavaScript.Model
 			 */
 
 			return UnifiedWhile.Create(
-				UnifiedBlock.Create(new[] {
-					CreateStatement(node.Element("statement"))
-				}),
-				CreateExpression(node.Element("expression"))
-				);
+					UnifiedBlock.Create(new[] {
+							CreateStatement(node.Element("statement"))
+					}),
+					CreateExpression(node.Element("expression"))
+					);
 		}
 
-		public static UnifiedSwitch CreateSwitch(XElement node)
-		{
+		public static UnifiedSwitch CreateSwitch(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "switchStatement");
 			/*
@@ -506,11 +479,10 @@ namespace Ucpf.Languages.JavaScript.Model
 			 */
 
 			return UnifiedSwitch.Create(CreateExpression(node.Element("expression")),
-				CreateCaseCollection(node.Element("caseBlock")));
+					CreateCaseCollection(node.Element("caseBlock")));
 		}
 
-		public static UnifiedCaseCollection CreateCaseCollection(XElement node)
-		{
+		public static UnifiedCaseCollection CreateCaseCollection(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "caseBlock");
 			/*
@@ -521,8 +493,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			return UnifiedCaseCollection.Create(node.Elements().Select(CreateCase));
 		}
 
-		public static UnifiedCase CreateCase(XElement node)
-		{
+		public static UnifiedCase CreateCase(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName.EndsWith("Clause"));
 			/*
@@ -534,10 +505,10 @@ namespace Ucpf.Languages.JavaScript.Model
 			 */
 
 			var body = UnifiedBlock.Create(node
-				.Element("statementList")
-				.Elements("statement")
-				.Select(CreateStatement).ToList()
-				);
+					.Element("statementList")
+					.Elements("statement")
+					.Select(CreateStatement).ToList()
+					);
 
 			if (node.Name.LocalName == "caseClause") {
 				return UnifiedCase.Create(CreateExpression(node.Element("expression")), body);
@@ -546,8 +517,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			return UnifiedCase.Create(body);
 		}
 
-		public static UnifiedSpecialExpression CreateReturn(XElement node)
-		{
+		public static UnifiedSpecialExpression CreateReturn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "returnStatement");
 			/*
@@ -556,7 +526,9 @@ namespace Ucpf.Languages.JavaScript.Model
 			 */
 
 			if (node.Element("expression") != null) {
-				return UnifiedSpecialExpression.CreateReturn(CreateExpression(node.Element("expression")));
+				return
+						UnifiedSpecialExpression.CreateReturn(
+								CreateExpression(node.Element("expression")));
 			} else {
 				return UnifiedSpecialExpression.CreateReturn();
 			}
@@ -566,56 +538,49 @@ namespace Ucpf.Languages.JavaScript.Model
 
 		#region Function
 
-		public static UnifiedFunctionDefinition CreateFunction(XElement node)
-		{
+		public static UnifiedFunctionDefinition CreateFunction(XElement node) {
 			return UnifiedFunctionDefinition.CreateFunction(
-				node.Element("Identifier").Value,
-				CreateParameterCollection(node),
-				CreateFunctionBody(node.Element("functionBody")));
+					node.Element("Identifier").Value,
+					CreateParameterCollection(node),
+					CreateFunctionBody(node.Element("functionBody")));
 		}
 
-		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node)
-		{
+		public static UnifiedArgumentCollection CreateArgumentCollection(XElement node) {
 			return UnifiedArgumentCollection.Create(node.Element("arguments")
-				.Elements()
-				.Where(e => e.Name.LocalName != "TOKEN")
-				.Select(e2 => CreateArgument(e2))
-				);
+					.Elements()
+					.Where(e => e.Name.LocalName != "TOKEN")
+					.Select(e2 => CreateArgument(e2))
+					);
 		}
 
-		public static UnifiedArgument CreateArgument(XElement node)
-		{
+		public static UnifiedArgument CreateArgument(XElement node) {
 			return UnifiedArgument.Create(CreateExpression(node));
 		}
 
 		public static UnifiedParameterCollection CreateParameterCollection(
-			XElement node)
-		{
+				XElement node) {
 			return UnifiedParameterCollection.Create(
-				node.Element("formalParameterList").Elements("Identifier")
-					.Select(e => CreateParameter(e))
-				);
+					node.Element("formalParameterList").Elements("Identifier")
+							.Select(e => CreateParameter(e))
+					);
 		}
 
-		public static UnifiedParameter CreateParameter(XElement node)
-		{
+		public static UnifiedParameter CreateParameter(XElement node) {
 			return UnifiedParameter.Create(node.Value);
 		}
 
 		#endregion
 
-		public static UnifiedProgram CreateProgram(XElement node)
-		{
+		public static UnifiedProgram CreateProgram(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "program");
 
 			var elements = node.Element("sourceElements")
-				.Elements("sourceElement");
+					.Elements("sourceElement");
 			return UnifiedProgram.Create(elements.Select(CreateSourceElement));
 		}
 
-		public static IUnifiedExpression CreateSourceElement(XElement node)
-		{
+		public static IUnifiedExpression CreateSourceElement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name.LocalName == "sourceElement");
 
@@ -629,8 +594,7 @@ namespace Ucpf.Languages.JavaScript.Model
 			}
 		}
 
-		public static UnifiedProgram CreateModel(string source)
-		{
+		public static UnifiedProgram CreateModel(string source) {
 			Contract.Requires(source != null);
 			var ast = JavaScriptXmlGenerator.Instance.Generate(source);
 			return CreateProgram(ast);

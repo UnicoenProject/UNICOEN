@@ -1,49 +1,41 @@
 ﻿using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
 	///   UnifiedCatchの集合を表します。
 	/// </summary>
 	public class UnifiedCatchCollection
-		: UnifiedElementCollection<UnifiedCatch, UnifiedCatchCollection>
-	{
+			: UnifiedElementCollection<UnifiedCatch, UnifiedCatchCollection> {
 		private UnifiedCatchCollection() {}
 
 		private UnifiedCatchCollection(IEnumerable<UnifiedCatch> elements)
-			: base(elements) {}
+				: base(elements) {}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
-		                                   TData data)
-		{
+		                                   TData data) {
 			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public static UnifiedCatchCollection Create()
-		{
+		public static UnifiedCatchCollection Create() {
 			return new UnifiedCatchCollection();
 		}
 
-		public static UnifiedCatchCollection Create(params UnifiedCatch[] elements)
-		{
+		public static UnifiedCatchCollection Create(params UnifiedCatch[] elements) {
 			return new UnifiedCatchCollection(elements);
 		}
 
-		public static UnifiedCatchCollection Create(IEnumerable<UnifiedCatch> elements)
-		{
+		public static UnifiedCatchCollection Create(IEnumerable<UnifiedCatch> elements) {
 			return new UnifiedCatchCollection(elements);
 		}
-	}
+			}
 }

@@ -9,11 +9,12 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			_writer.Write("(");
 			element.Type.TryAccept(this, data);
 			_writer.Write(")");
-			element.Expression.TryAccept(this, _withParen);
+			element.Expression.TryAccept(this, WithParen);
 			return true;
 		}
 
-		private static Tuple<string, string> GetKeyword(UnifiedTernaryOperatorKind kind) {
+		private static Tuple<string, string> GetKeyword(
+				UnifiedTernaryOperatorKind kind) {
 			switch (kind) {
 			case UnifiedTernaryOperatorKind.Conditional:
 				return Tuple.Create("?", ":");
@@ -24,11 +25,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 
 		public bool Visit(UnifiedTernaryExpression element, TokenInfo data) {
 			var keywords = GetKeyword(element.Operator.Kind);
-			element.FirstExpression.TryAccept(this, _withParen);
+			element.FirstExpression.TryAccept(this, WithParen);
 			_writer.Write(" " + keywords.Item1 + " ");
-			element.SecondExpression.TryAccept(this, _withParen);
+			element.SecondExpression.TryAccept(this, WithParen);
 			_writer.Write(" " + keywords.Item2 + " ");
-			element.LastExpression.TryAccept(this, _withParen);
+			element.LastExpression.TryAccept(this, WithParen);
 			return true;
 		}
 
@@ -36,18 +37,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			_writer.Write("import ");
 			element.Modifiers.TryAccept(this, data);
 			element.Name.TryAccept(this, data);
-			_writer.Write(";");
-			_writer.WriteLine();
 			return true;
 		}
 
 		public bool Visit(UnifiedBinaryExpression element, TokenInfo data) {
 			_writer.Write(data.MostLeft);
-			element.LeftHandSide.TryAccept(this, _withParen);
+			element.LeftHandSide.TryAccept(this, WithParen);
 			WriteSpace();
 			element.Operator.TryAccept(this, data);
 			WriteSpace();
-			element.RightHandSide.TryAccept(this, _withParen);
+			element.RightHandSide.TryAccept(this, WithParen);
 			_writer.Write(data.MostRight);
 			return true;
 		}
@@ -105,12 +104,19 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		public bool Visit(UnifiedUnaryExpression element, TokenInfo data) {
 			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
 			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
-				element.Operand.TryAccept(this, _withParen);
+				element.Operand.TryAccept(this, WithParen);
 				element.Operator.TryAccept(this, data);
 			} else {
-				element.Operator.TryAccept(this, _withParen);
+				element.Operator.TryAccept(this, WithParen);
 				element.Operand.TryAccept(this, data);
 			}
+			return true;
+		}
+
+		public bool Visit(UnifiedProperty element, TokenInfo data) {
+			element.Owner.TryAccept(this, data);
+			_writer.Write(element.Delimiter);
+			element.Name.TryAccept(this, data);
 			return true;
 		}
 	}

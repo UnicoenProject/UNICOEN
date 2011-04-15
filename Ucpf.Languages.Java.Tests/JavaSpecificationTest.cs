@@ -4,42 +4,32 @@ using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Tests;
 using Ucpf.Languages.Java.Model;
 
-namespace Ucpf.Languages.Java.Tests
-{
+namespace Ucpf.Languages.Java.Tests {
 	[Ignore, TestFixture]
-	public class JavaSpecificationTest
-	{
-		public static UnifiedProgram AnonymousClassModel
-		{
-			get
-			{
+	public class JavaSpecificationTest {
+		public static UnifiedProgram AnonymousClassModel {
+			get {
 				return CSharpAndJavaSpecificationTest.
-					CreateClassAndMethod(UnifiedBlock.Create(
-						UnifiedNew.Create(
-							UnifiedType.CreateUsingString("Interface"),
-							UnifiedArgumentCollection.Create(), null,
-							null, UnifiedBlock.Create())));
+						CreateClassAndMethod(UnifiedBlock.Create(
+								UnifiedNew.Create(
+										UnifiedType.CreateUsingString("Interface"),
+										UnifiedArgumentCollection.Create(), null,
+										null, UnifiedBlock.Create())));
 			}
 		}
 
-		public static UnifiedProgram ThrowsModel
-		{
-			get
-			{
+		public static UnifiedProgram ThrowsModel {
+			get {
 				return UnifiedProgram.Create(
-					"A".ToClassDefinition()
-						.AddToBody(
-							UnifiedFunctionDefinition.CreateFunction(
-								"M1",
-								"void".ToType(),
-								UnifiedModifierCollection.Create(),
-								UnifiedParameterCollection.Create(),
-								UnifiedTypeCollection.Create(
-									UnifiedType.CreateUsingString("Exception")),
-								UnifiedBlock.Create()
+						"A".ToClassDefinition()
+								.AddToBody(
+										UnifiedFunctionDefinition.CreateFunction(UnifiedModifierCollection.Create(),
+												"void".ToType(),
+												"M1",
+												UnifiedParameterCollection.Create(), UnifiedTypeCollection.Create(
+														UnifiedType.CreateUsingString("Exception")), UnifiedBlock.Create())
 								)
-						)
-					);
+						);
 			}
 		}
 
@@ -47,56 +37,52 @@ namespace Ucpf.Languages.Java.Tests
 		[TestCase("while(true) return;")]
 		[TestCase("while(true) { return; }")]
 		[TestCase("while(true) { { return; } }")]
-		public void CreateWhile(string fragment)
-		{
+		public void CreateWhile(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.WhileModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.WhileModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
 		[TestCase("do return; while(true);")]
 		[TestCase("do { return; } while(true);")]
 		[TestCase("do { { return; } } while(true);")]
-		public void CreateDoWhile(string fragment)
-		{
+		public void CreateDoWhile(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.DoWhileModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.DoWhileModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
 		[TestCase("for (int i = 0; i < 1; i++) break;")]
 		[TestCase("for (int i = 0; i < 1; i++) { break; }")]
 		[TestCase("for (int i = 0; i < 1; i++) { { break; } }")]
-		public void CreateFor(string fragment)
-		{
+		public void CreateFor(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.ForModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.ForModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("for (int i : new int[] { 1 }) continue;")]
 		[TestCase("for (int i : new int[] { 1 }) { continue; }")]
 		[TestCase("for (int i : new int[] { 1 }) { { continue; } }")]
-		public void CreateForeach(string fragment)
-		{
+		public void CreateForeach(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.ForeachModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.ForeachModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -104,14 +90,13 @@ namespace Ucpf.Languages.Java.Tests
 		[TestCase("if (true) { return -1; }")]
 		[TestCase("if (true) { { return -1; } }")]
 		[TestCase("if (true) { { { return -1; } } }")]
-		public void CreateIf(string fragment)
-		{
+		public void CreateIf(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.IfModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.IfModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
@@ -127,169 +112,155 @@ namespace Ucpf.Languages.Java.Tests
 		[TestCase("if (false) return -1; else { { { return 0.1; } } }")]
 		[TestCase("if (false) { { { return -1; } } } else return 0.1;")]
 		[TestCase("if (false) { { { return -1; } } } else { { { return 0.1; } } }")]
-		public void CreateIfElse(string fragment)
-		{
+		public void CreateIfElse(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.IfElseModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.IfElseModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("new List<List<int>>();")]
-		public void CreateNewGenericType(string fragment)
-		{
+		public void CreateNewGenericType(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.NewGenericTypeModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.NewGenericTypeModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
 		[TestCase("int a = +1;")]
-		public void CreatePlusIntegerLiteral(string fragment)
-		{
+		public void CreatePlusIntegerLiteral(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.PlusIntegerLiteralModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.PlusIntegerLiteralModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
 		[TestCase("switch (1) { case 1: break; }")]
-		public void CreateSwitchCase(string fragment)
-		{
+		public void CreateSwitchCase(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
 		[TestCase("switch (1) { case 1: break; default: break; }")]
-		public void CreateSwitchCaseWithDefault(string fragment)
-		{
+		public void CreateSwitchCaseWithDefault(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.SwitchCaseWithDefaultModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Test]
 		[TestCase("Integer i = (Integer)1;")]
-		public void CreateCast(string fragment)
-		{
+		public void CreateCast(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.CastModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.CastModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("synchronized (this) { M1(); }")]
-		public void CreateSynchronized(string fragment)
-		{
+		public void CreateSynchronized(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.SynchronizedModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.SynchronizedModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("throw new Exception();")]
-		public void CreateThrow(string fragment)
-		{
+		public void CreateThrow(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.ThrowModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.ThrowModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("new Interface() { };")]
-		public void CreateAnonymousClass(string fragment)
-		{
+		public void CreateAnonymousClass(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(AnonymousClassModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(AnonymousClassModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("try { int i = 0; } catch(Exception e) { }")]
-		public void CreateTryCatchWithVariable(string fragment)
-		{
+		public void CreateTryCatchWithVariable(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithVariableModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithVariableModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("try { int i = 0; } catch(Exception e) { } catch(Exception e) { }")]
-		public void CreateTryTwoCatchWithVariable(string fragment)
-		{
+		public void CreateTryTwoCatchWithVariable(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithTwoVariableModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchWithTwoVariableModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("try { int i = 0; } finally { }")]
-		public void CreateTryFinally(string fragment)
-		{
+		public void CreateTryFinally(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.TryFinallyModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.TryFinallyModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
 		[TestCase("try { int i = 0; } catch(Exception e) { } finally { }")]
-		public void CreateTryCatchFinally(string fragment)
-		{
+		public void CreateTryCatchFinally(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual = JavaModelFactory.CreateModel(code);
 
 			Assert.That(actual,
-				Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchFinallyModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(CSharpAndJavaSpecificationTest.TryCatchFinallyModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		[Ignore, Test]
-		public void CreateThrows(string fragment)
-		{
+		public void CreateThrows(string fragment) {
 			var code = CSharpAndJavaSpecificationTest.CreateCode(fragment);
 			var actual =
-				JavaModelFactory.CreateModel("class A { void M1() throws Exception { } }");
+					JavaModelFactory.CreateModel("class A { void M1() throws Exception { } }");
 			Assert.That(actual,
-				Is.EqualTo(ThrowsModel)
-					.Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(ThrowsModel)
+							.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 	}
 }
