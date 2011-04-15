@@ -1142,8 +1142,11 @@ namespace Ucpf.Languages.Java.Model
 				yield return CreateExpression(first);
 				yield break;
 			case "IDENTIFIER":
-				// TODO implement
-				throw new NotImplementedException();
+				yield return UnifiedLabel.Create(first.Value);
+				foreach (var stmt in CreateStatement(node.LastElement())) {
+					yield return stmt;
+				}
+				yield break;
 			}
 			switch (first.Value) {
 			case "assert":

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model
@@ -14,13 +15,7 @@ namespace Ucpf.Core.Model
 			set { _name = SetParentOfChild(value, _name); }
 		}
 
-		private IUnifiedExpression _expression;
-
-		public IUnifiedExpression Expression
-		{
-			get { return _expression; }
-			set { _expression = SetParentOfChild(value, _expression); }
-		}
+		private UnifiedLabel() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor)
 		{
@@ -42,7 +37,6 @@ namespace Ucpf.Core.Model
 		public override IEnumerable<IUnifiedElement> GetElements()
 		{
 			yield return Name;
-			yield return Expression;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -50,8 +44,6 @@ namespace Ucpf.Core.Model
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(Name, v => Name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Expression, v => Expression = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -59,8 +51,13 @@ namespace Ucpf.Core.Model
 		{
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 				(_name, v => _name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_expression, v => _expression = (IUnifiedExpression)v);
+		}
+
+		public static IUnifiedExpression Create(string value)
+		{
+			return new UnifiedLabel {
+				Name = UnifiedIdentifier.Create(value, UnifiedIdentifierKind.Unknown),
+			};
 		}
 	}
 }
