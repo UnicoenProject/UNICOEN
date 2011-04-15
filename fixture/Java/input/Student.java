@@ -9,6 +9,9 @@ public class Student {
 		return _name;
 	}
 	
+	public static void write(String name) {
+	}
+	
 	public static void main(String[] args) {
 		Student[] students = new Student[2];
 		students[0] = new Student("Tom");
