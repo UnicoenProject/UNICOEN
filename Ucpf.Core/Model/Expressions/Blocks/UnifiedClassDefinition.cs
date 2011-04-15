@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
 	///   クラスの定義部分を表します。
 	/// </summary>
 	public class UnifiedClassDefinition
-		: UnifiedExpressionWithBlock<UnifiedClassDefinition>
-	{
+			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
 		public UnifiedClassKind Kind { get; set; }
 
 		private UnifiedModifierCollection _modifiers;
 
-		public UnifiedModifierCollection Modifiers
-		{
+		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
@@ -24,52 +21,44 @@ namespace Ucpf.Core.Model
 		private UnifiedQualifiedIdentifier _name;
 
 		// TODO: A.B.C を UnifiedPropertyで表現
-		public UnifiedQualifiedIdentifier Name
-		{
+		public UnifiedQualifiedIdentifier Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
 		}
 
 		private UnifiedTypeParameterCollection _typeParameters;
 
-		public UnifiedTypeParameterCollection TypeParameters
-		{
+		public UnifiedTypeParameterCollection TypeParameters {
 			get { return _typeParameters; }
 			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
 		}
 
 		private UnifiedTypeConstrainCollection _constrains;
 
-		public UnifiedTypeConstrainCollection Constrains
-		{
+		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
 			set { _constrains = SetParentOfChild(value, _constrains); }
 		}
 
-		private UnifiedClassDefinition()
-		{
+		private UnifiedClassDefinition() {
 			Modifiers = UnifiedModifierCollection.Create();
 		}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
-		                                   TData data)
-		{
+		                                   TData data) {
 			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements()
-		{
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Modifiers;
 			yield return Name;
 			yield return TypeParameters;
@@ -78,153 +67,141 @@ namespace Ucpf.Core.Model
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndSetters()
-		{
+				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Name, v => Name = (UnifiedQualifiedIdentifier)v);
+					(Name, v => Name = (UnifiedQualifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+					(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Body, v => Body = (UnifiedBlock)v);
+					(Body, v => Body = (UnifiedBlock)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndDirectSetters()
-		{
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_name, v => _name = (UnifiedQualifiedIdentifier)v);
+					(_name, v => _name = (UnifiedQualifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v);
+					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
+					;
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_body, v => _body = (UnifiedBlock)v);
+					(_body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedClassDefinition Create(UnifiedQualifiedIdentifier name,
 		                                            UnifiedBlock body,
 		                                            UnifiedModifierCollection
-		                                            	modifiers, UnifiedClassKind kind)
-		{
+		                                            		modifiers, UnifiedClassKind kind) {
 			return new UnifiedClassDefinition {
-				Body = body,
-				Name = name,
-				Modifiers = modifiers,
-				Kind = kind,
+					Body = body,
+					Name = name,
+					Modifiers = modifiers,
+					Kind = kind,
 			};
 		}
 
 		public static UnifiedClassDefinition Create(UnifiedIdentifier name,
 		                                            UnifiedBlock body,
 		                                            UnifiedModifierCollection
-		                                            	modifiers, UnifiedClassKind kind)
-		{
+		                                            		modifiers, UnifiedClassKind kind) {
 			return new UnifiedClassDefinition {
-				Body = body,
-				Name = name.ToQualified(),
-				Modifiers = modifiers,
-				Kind = kind,
+					Body = body,
+					Name = name.ToQualified(),
+					Modifiers = modifiers,
+					Kind = kind,
 			};
 		}
 
-		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name)
-		{
+		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name) {
 			return Create(name, UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
-				UnifiedClassKind.Class);
+					UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
 		                                                 UnifiedModifierCollection
-		                                                 	modifiers)
-		{
+		                                                 		modifiers) {
 			return Create(name, UnifiedBlock.Create(), modifiers, UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
-		                                                 UnifiedBlock body)
-		{
+		                                                 UnifiedBlock body) {
 			return Create(name, body, UnifiedModifierCollection.Create(),
-				UnifiedClassKind.Class);
+					UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(UnifiedIdentifier name,
 		                                                 UnifiedBlock body,
 		                                                 UnifiedModifierCollection
-		                                                 	modifiers)
-		{
+		                                                 		modifiers) {
 			return Create(name, body, modifiers, UnifiedClassKind.Class);
 		}
 
-		public static UnifiedClassDefinition CreateClass(string name)
-		{
+		public static UnifiedClassDefinition CreateClass(string name) {
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-				UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
-				UnifiedClassKind.Class);
+					UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
+					UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
 		                                                 UnifiedModifierCollection
-		                                                 	modifiers)
-		{
+		                                                 		modifiers) {
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-				UnifiedBlock.Create(), modifiers, UnifiedClassKind.Class);
+					UnifiedBlock.Create(), modifiers, UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
-		                                                 UnifiedBlock body)
-		{
+		                                                 UnifiedBlock body) {
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-				body, UnifiedModifierCollection.Create(), UnifiedClassKind.Class);
+					body, UnifiedModifierCollection.Create(), UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name,
 		                                                 UnifiedBlock body,
 		                                                 UnifiedModifierCollection
-		                                                 	modifiers)
-		{
+		                                                 		modifiers) {
 			return Create(UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-				body, modifiers, UnifiedClassKind.Class);
+					body, modifiers, UnifiedClassKind.Class);
 		}
 
 		public static UnifiedClassDefinition Create(
-			UnifiedModifierCollection modifiers, UnifiedClassKind kind,
-			UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters,
-			UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
-		{
+				UnifiedModifierCollection modifiers, UnifiedClassKind kind,
+				UnifiedIdentifier name, UnifiedTypeParameterCollection typeParameters,
+				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
-				Modifiers = modifiers,
-				Kind = kind,
-				Name = name.ToQualified(),
-				TypeParameters = typeParameters,
-				Constrains = constrains,
-				Body = body,
+					Modifiers = modifiers,
+					Kind = kind,
+					Name = name.ToQualified(),
+					TypeParameters = typeParameters,
+					Constrains = constrains,
+					Body = body,
 			};
 		}
 
 		public static UnifiedClassDefinition Create(
-			UnifiedModifierCollection modifiers, UnifiedClassKind kind,
-			UnifiedQualifiedIdentifier name,
-			UnifiedTypeParameterCollection typeParameters,
-			UnifiedTypeConstrainCollection constrains, UnifiedBlock body)
-		{
+				UnifiedModifierCollection modifiers, UnifiedClassKind kind,
+				UnifiedQualifiedIdentifier name,
+				UnifiedTypeParameterCollection typeParameters,
+				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
-				Modifiers = modifiers,
-				Kind = kind,
-				Name = name,
-				TypeParameters = typeParameters,
-				Constrains = constrains,
-				Body = body,
+					Modifiers = modifiers,
+					Kind = kind,
+					Name = name,
+					TypeParameters = typeParameters,
+					Constrains = constrains,
+					Body = body,
 			};
 		}
 
-		public static UnifiedClassDefinition CreateNamespace(UnifiedQualifiedIdentifier name) {
+		public static UnifiedClassDefinition CreateNamespace(
+				UnifiedQualifiedIdentifier name) {
 			return Create(name, UnifiedBlock.Create(), null, UnifiedClassKind.Namespace);
 		}
-	}
+			}
 }

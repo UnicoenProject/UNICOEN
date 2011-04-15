@@ -2,78 +2,67 @@
 using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
 	///   Cast演算子を表します。
 	/// </summary>
-	public class UnifiedCast : UnifiedElement, IUnifiedExpression
-	{
+	public class UnifiedCast : UnifiedElement, IUnifiedExpression {
 		private UnifiedType _type;
 
-		public UnifiedType Type
-		{
+		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		private IUnifiedExpression _expression;
 
-		public IUnifiedExpression Expression
-		{
+		public IUnifiedExpression Expression {
 			get { return _expression; }
 			set { _expression = SetParentOfChild(value, _expression); }
 		}
 
 		private UnifiedCast() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
-		                                   TData data)
-		{
+		                                   TData data) {
 			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements()
-		{
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Type;
 			yield return Expression;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndSetters()
-		{
+				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Type, v => Type = (UnifiedType)v);
+					(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Expression, v => Expression = (IUnifiedExpression)v);
+					(Expression, v => Expression = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndDirectSetters()
-		{
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_type, v => _type = (UnifiedType)v);
+					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_expression, v => _expression = (IUnifiedExpression)v);
+					(_expression, v => _expression = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedCast Create(UnifiedType type,
-		                                 IUnifiedExpression createExpression)
-		{
+		                                 IUnifiedExpression createExpression) {
 			return new UnifiedCast {
-				Type = type,
-				Expression = createExpression
+					Type = type,
+					Expression = createExpression
 			};
 		}
 	}

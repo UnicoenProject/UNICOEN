@@ -1,10 +1,8 @@
-﻿namespace Ucpf.Core.Model
-{
+﻿namespace Ucpf.Core.Model {
 	/// <summary>
 	///   UnifiedTypeSupplementの種類を表します。
 	/// </summary>
-	public enum UnifiedTypeSupplementKind
-	{
+	public enum UnifiedTypeSupplementKind {
 		/// <summary>
 		///   e.g. C, C++, C#におけるポインタ(<c>int *p;</c>)
 		/// </summary>

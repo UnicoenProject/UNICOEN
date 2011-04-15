@@ -2,47 +2,42 @@
 using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
-	/// nullであるリテラルを表します。
+	///   nullであるリテラルを表します。
 	/// </summary>
-	public class UnifiedNullLiteral : UnifiedLiteral
-	{
+	public class UnifiedNullLiteral : UnifiedLiteral {
 		private UnifiedNullLiteral() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor, TData data)
-		{
+		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
+		                                   TData data) {
 			visitor.Visit(this, data);
 		}
 
-		public override TResult Accept<TData, TResult>(IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+		public override TResult Accept<TData, TResult>(
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements()
-		{
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>> GetElementAndSetters()
-		{
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+				GetElementAndSetters() {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>> GetElementAndDirectSetters()
-		{
+		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+				GetElementAndDirectSetters() {
 			yield break;
 		}
 
-		public static UnifiedNullLiteral Create()
-		{
+		public static UnifiedNullLiteral Create() {
 			return new UnifiedNullLiteral();
 		}
 	}

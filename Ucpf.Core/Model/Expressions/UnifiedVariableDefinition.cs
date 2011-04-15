@@ -3,198 +3,178 @@ using System.Collections.Generic;
 using Ucpf.Core.Model.Extensions;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
 	///   変数宣言部分を表します。
 	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>
 	/// </summary>
-	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression
-	{
+	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
 		private UnifiedModifierCollection _modifiers;
 
-		public UnifiedModifierCollection Modifiers
-		{
+		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
 
-		public UnifiedType Type
-		{
+		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }
 		}
 
 		private UnifiedVariableDefinitionBodyCollection _bodys;
 
-		public UnifiedVariableDefinitionBodyCollection Bodys
-		{
+		public UnifiedVariableDefinitionBodyCollection Bodys {
 			get { return _bodys; }
 			set { _bodys = SetParentOfChild(value, _bodys); }
 		}
 
-		private UnifiedVariableDefinition()
-		{
+		private UnifiedVariableDefinition() {
 			Modifiers = UnifiedModifierCollection.Create();
 		}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
-		                                   TData data)
-		{
+		                                   TData data) {
 			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements()
-		{
+		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Modifiers;
 			yield return Type;
 			yield return Bodys;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndSetters()
-		{
+				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Type, v => Type = (UnifiedType)v);
+					(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
+					(Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-			GetElementAndDirectSetters()
-		{
+				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_type, v => _type = (UnifiedType)v);
+					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
+					(_bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
-		public static UnifiedVariableDefinition CreateSingle(string name)
-		{
+		public static UnifiedVariableDefinition CreateSingle(string name) {
 			return CreateSingle(
-				null,
-				null,
-				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				null,
-				null,
-				null);
+					null,
+					null,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					null,
+					null,
+					null);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
-		                                                     string name)
-		{
+		                                                     string name) {
 			return CreateSingle(
-				null,
-				type,
-				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				null,
-				null,
-				null);
+					null,
+					type,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					null,
+					null,
+					null);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(string name,
 		                                                     IUnifiedExpression
-		                                                     	initialValue)
-		{
+		                                                     		initialValue) {
 			return CreateSingle(
-				null,
-				null,
-				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				initialValue,
-				null,
-				null);
+					null,
+					null,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					initialValue,
+					null,
+					null);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
 		                                                     string name,
 		                                                     IUnifiedExpression
-		                                                     	initialValue)
-		{
+		                                                     		initialValue) {
 			return CreateSingle(
-				null,
-				type,
-				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				initialValue,
-				null,
-				null);
+					null,
+					type,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					initialValue,
+					null,
+					null);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
 		                                                     UnifiedModifierCollection
-		                                                     	modifiers,
+		                                                     		modifiers,
 		                                                     IUnifiedExpression
-		                                                     	initialValue,
-		                                                     string name)
-		{
+		                                                     		initialValue,
+		                                                     string name) {
 			return CreateSingle(
-				modifiers,
-				type,
-				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				initialValue,
-				null,
-				null);
+					modifiers,
+					type,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					initialValue,
+					null,
+					null);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(UnifiedType type,
 		                                                     string name,
 		                                                     UnifiedModifierCollection
-		                                                     	modifiers)
-		{
+		                                                     		modifiers) {
 			return CreateSingle(
-				modifiers,
-				type,
-				UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-				null,
-				null,
-				null);
+					modifiers,
+					type,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					null,
+					null,
+					null);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(
-			UnifiedModifierCollection modifiers,
-			UnifiedType type,
-			UnifiedIdentifier name,
-			IUnifiedExpression initialValues,
-			UnifiedArgumentCollection arguments,
-			UnifiedBlock block)
-		{
+				UnifiedModifierCollection modifiers,
+				UnifiedType type,
+				UnifiedIdentifier name,
+				IUnifiedExpression initialValues,
+				UnifiedArgumentCollection arguments,
+				UnifiedBlock block) {
 			return Create(
-				modifiers,
-				type,
-				UnifiedVariableDefinitionBody.Create(
-					name,
-					null,
-					initialValues,
-					arguments,
-					block).ToCollection()
-				);
+					modifiers,
+					type,
+					UnifiedVariableDefinitionBody.Create(
+							name,
+							null,
+							initialValues,
+							arguments,
+							block).ToCollection()
+					);
 		}
 
 		public static UnifiedVariableDefinition Create(
-			UnifiedModifierCollection modifiers,
-			UnifiedType type,
-			UnifiedVariableDefinitionBodyCollection bodys)
-		{
+				UnifiedModifierCollection modifiers,
+				UnifiedType type,
+				UnifiedVariableDefinitionBodyCollection bodys) {
 			return new UnifiedVariableDefinition {
-				Modifiers = modifiers,
-				Type = type,
-				Bodys = bodys,
+					Modifiers = modifiers,
+					Type = type,
+					Bodys = bodys,
 			};
 		}
 	}

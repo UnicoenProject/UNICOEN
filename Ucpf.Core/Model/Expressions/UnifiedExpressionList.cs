@@ -1,49 +1,42 @@
 ﻿using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	public class UnifiedExpressionList
-		: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionList>, IUnifiedExpression
-	{
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionList>,
+			  IUnifiedExpression {
 		protected UnifiedExpressionList() {}
 
 		protected UnifiedExpressionList(
-			IEnumerable<IUnifiedExpression> expressions)
-			: base(expressions) {}
+				IEnumerable<IUnifiedExpression> expressions)
+				: base(expressions) {}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
-		                                   TData data)
-		{
+		                                   TData data) {
 			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
-		public static UnifiedExpressionList Create()
-		{
+		public static UnifiedExpressionList Create() {
 			return new UnifiedExpressionList();
 		}
 
 		public static UnifiedExpressionList Create(
-			params IUnifiedExpression[] elements)
-		{
+				params IUnifiedExpression[] elements) {
 			return new UnifiedExpressionList(elements);
 		}
 
 		public static UnifiedExpressionList Create(
-			IEnumerable<IUnifiedExpression> elements)
-		{
+				IEnumerable<IUnifiedExpression> elements) {
 			return new UnifiedExpressionList(elements);
 		}
-	}
+			  }
 }

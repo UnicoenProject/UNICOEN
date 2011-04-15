@@ -13,7 +13,8 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			return true;
 		}
 
-		private static Tuple<string, string> GetKeyword(UnifiedTernaryOperatorKind kind) {
+		private static Tuple<string, string> GetKeyword(
+				UnifiedTernaryOperatorKind kind) {
 			switch (kind) {
 			case UnifiedTernaryOperatorKind.Conditional:
 				return Tuple.Create("?", ":");

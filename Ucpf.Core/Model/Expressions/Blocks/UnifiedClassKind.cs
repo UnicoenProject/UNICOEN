@@ -1,10 +1,8 @@
-﻿namespace Ucpf.Core.Model
-{
+﻿namespace Ucpf.Core.Model {
 	/// <summary>
 	///   UnifiedClassDefinitionの種類を表します。
 	/// </summary>
-	public enum UnifiedClassKind
-	{
+	public enum UnifiedClassKind {
 		Class,
 		/// <summary>
 		///   interface in Java, C#

@@ -2,13 +2,11 @@
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Extensions;
 
-namespace Ucpf.Languages.Java.CodeGeneraotr
-{
+namespace Ucpf.Languages.Java.CodeGeneraotr {
 	/// <summary>
 	///   MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
 	/// </summary>
-	public class TokenInfo
-	{
+	public class TokenInfo {
 		/// <summary>
 		///   左端の文字
 		/// </summary>
@@ -34,8 +32,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		/// </summary>
 		public string Delimiter;
 
-		public TokenInfo()
-		{
+		public TokenInfo() {
 			MostLeft = "";
 			MostRight = "";
 			EachLeft = "";
@@ -49,13 +46,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		//public int Index;
 	}
 
-	public partial class JavaCodeGenerator
-	{
+	public partial class JavaCodeGenerator {
 		public void VisitCollection<T, TSelf>(
-			UnifiedElementCollection<T, TSelf> elements, TokenInfo data)
-			where T : class, IUnifiedElement
-			where TSelf : UnifiedElementCollection<T, TSelf>
-		{
+				UnifiedElementCollection<T, TSelf> elements, TokenInfo data)
+				where T : class, IUnifiedElement
+				where TSelf : UnifiedElementCollection<T, TSelf> {
 			_writer.Write(data.MostLeft);
 			var splitter = "";
 			foreach (var e in elements) {
@@ -68,56 +63,50 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			_writer.Write(data.MostRight);
 		}
 
-		public bool Visit(UnifiedParameterCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedParameterCollection element, TokenInfo data) {
 			VisitCollection(element, new TokenInfo {
-				MostLeft = "(",
-				MostRight = ")",
-				Delimiter = ", ",
+					MostLeft = "(",
+					MostRight = ")",
+					Delimiter = ", ",
 			});
 			return false;
 		}
 
-		public bool Visit(UnifiedModifierCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedModifierCollection element, TokenInfo data) {
 			VisitCollection(element, new TokenInfo {
-				EachRight = " ",
+					EachRight = " ",
 			});
 			return false;
 		}
 
 		// e.g. throws E1, E2 ...
-		public bool Visit(UnifiedTypeCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedTypeCollection element, TokenInfo data) {
 			VisitCollection(element, new TokenInfo {
-				MostRight = " ",
-				Delimiter = ", ",
+					MostRight = " ",
+					Delimiter = ", ",
 			});
 			return false;
 		}
 
 		// e.g. {...}catch(Exception1 e1){...}catch{Exception2 e2}{....}... ?
-		public bool Visit(UnifiedCatchCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedCatchCollection element, TokenInfo data) {
 			VisitCollection(element, new TokenInfo {
-				EachRight = "\n",
+					EachRight = "\n",
 			});
 			return false;
 		}
 
 		// e.g. Foo<A, B> ?
-		public bool Visit(UnifiedTypeParameterCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedTypeParameterCollection element, TokenInfo data) {
 			VisitCollection(element, new TokenInfo {
-				MostLeft = "<",
-				MostRight = ">",
-				Delimiter = ", ",
+					MostLeft = "<",
+					MostRight = ">",
+					Delimiter = ", ",
 			});
 			return false;
 		}
 
-		public static string GetKeyword(UnifiedTypeConstrainKind kind)
-		{
+		public static string GetKeyword(UnifiedTypeConstrainKind kind) {
 			switch (kind) {
 			case UnifiedTypeConstrainKind.Extends:
 			case UnifiedTypeConstrainKind.ExtendsOrImplements:
@@ -132,8 +121,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return "";
 		}
 
-		public bool Visit(UnifiedTypeConstrainCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedTypeConstrainCollection element, TokenInfo data) {
 			UnifiedTypeConstrain last = null;
 			for (int i = 0; i < element.Count; i++) {
 				var current = element[i];
@@ -148,47 +136,40 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return false;
 		}
 
-		public bool Visit(UnifiedTypeSupplementCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedTypeSupplementCollection element, TokenInfo data) {
 			VisitCollection(element, new TokenInfo { });
 			return false;
 		}
 
 		public bool Visit(UnifiedVariableDefinitionBodyCollection element,
-		                  TokenInfo data)
-		{
+		                  TokenInfo data) {
 			VisitCollection(element, new TokenInfo { Delimiter = ", " });
 			return false;
 		}
 
-		public bool Visit(UnifiedIdentifierCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedIdentifierCollection element, TokenInfo data) {
 			throw new InvalidOperationException();
 		}
 
-		public bool Visit(UnifiedArgumentCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedArgumentCollection element, TokenInfo data) {
 			VisitCollection(element, data);
 			return false;
 		}
 
-		public bool Visit(UnifiedExpressionCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedExpressionCollection element, TokenInfo data) {
 			throw new InvalidOperationException();
 		}
 
-		public bool Visit(UnifiedTypeArgumentCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedTypeArgumentCollection element, TokenInfo data) {
 			VisitCollection(element, new TokenInfo {
-				Delimiter = ", ",
-				MostLeft = "<",
-				MostRight = ">",
+					Delimiter = ", ",
+					MostLeft = "<",
+					MostRight = ">",
 			});
 			return false;
 		}
 
-		public bool Visit(UnifiedCaseCollection element, TokenInfo data)
-		{
+		public bool Visit(UnifiedCaseCollection element, TokenInfo data) {
 			_indent++;
 			foreach (var caseElement in element) {
 				WriteIndent();
@@ -198,8 +179,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return false;
 		}
 
-		public bool Visit(UnifiedExpressionList element, TokenInfo data)
-		{
+		public bool Visit(UnifiedExpressionList element, TokenInfo data) {
 			VisitCollection(element, data);
 			return false;
 		}

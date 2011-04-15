@@ -30,11 +30,11 @@ namespace Ucpf.Languages.Java.Tests {
 			CompileWithArguments(workPath, JavacPath, arguments);
 		}
 
-		private static IEnumerable<Tuple<string, byte[]>> GetAllByteCode(
+		private static IEnumerable<object[]> GetAllByteCode(
 				string workPath) {
 			return Directory.EnumerateFiles(workPath, "*.class",
 					SearchOption.AllDirectories)
-					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)));
+					.Select(path => new object[] { path, File.ReadAllBytes(path) });
 		}
 
 		private static void CompileWithArguments(string workPath, string command,
@@ -232,8 +232,8 @@ namespace Ucpf.Languages.Java.Tests {
 
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void CompareThroughModelUsingDirectory(string orgPath,
-														 string command,
-														 string arguments) {
+		                                              string command,
+		                                              string arguments) {
 			VerifyCompareThroughModelUsingDirectory(orgPath);
 		}
 	}

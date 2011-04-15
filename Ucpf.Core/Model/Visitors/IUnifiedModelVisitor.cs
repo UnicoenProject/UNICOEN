@@ -1,7 +1,5 @@
-﻿namespace Ucpf.Core.Model.Visitors
-{
-	public interface IUnifiedModelVisitor
-	{
+﻿namespace Ucpf.Core.Model.Visitors {
+	public interface IUnifiedModelVisitor {
 		void Visit(UnifiedBinaryOperator element);
 		void Visit(UnifiedUnaryOperator element);
 		void Visit(UnifiedArgument element);
@@ -65,8 +63,7 @@
 		void Visit(UnifiedNullLiteral element);
 	}
 
-	public interface IUnifiedModelVisitor<in TData>
-	{
+	public interface IUnifiedModelVisitor<in TData> {
 		void Visit(UnifiedBinaryOperator element, TData data);
 		void Visit(UnifiedUnaryOperator element, TData data);
 		void Visit(UnifiedArgument element, TData data);
@@ -130,8 +127,7 @@
 		void Visit(UnifiedNullLiteral element, TData data);
 	}
 
-	public interface IUnifiedModelVisitor<in TData, out TResult>
-	{
+	public interface IUnifiedModelVisitor<in TData, out TResult> {
 		TResult Visit(UnifiedBinaryOperator element, TData data);
 		TResult Visit(UnifiedUnaryOperator element, TData data);
 		TResult Visit(UnifiedArgument element, TData data);

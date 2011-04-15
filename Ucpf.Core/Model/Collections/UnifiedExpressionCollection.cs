@@ -1,34 +1,29 @@
 ﻿using System.Collections.Generic;
 using Ucpf.Core.Model.Visitors;
 
-namespace Ucpf.Core.Model
-{
+namespace Ucpf.Core.Model {
 	/// <summary>
 	///   式の集合を表します。
 	/// </summary>
 	public class UnifiedExpressionCollection
-		: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection>
-	{
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection> {
 		protected UnifiedExpressionCollection() {}
 
 		protected UnifiedExpressionCollection(
-			IEnumerable<IUnifiedExpression> expressions)
-			: base(expressions) {}
+				IEnumerable<IUnifiedExpression> expressions)
+				: base(expressions) {}
 
-		public override void Accept(IUnifiedModelVisitor visitor)
-		{
+		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(IUnifiedModelVisitor<TData> visitor,
-		                                   TData data)
-		{
+		                                   TData data) {
 			visitor.Visit(this, data);
 		}
 
 		public override TResult Accept<TData, TResult>(
-			IUnifiedModelVisitor<TData, TResult> visitor, TData data)
-		{
+				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
 			return visitor.Visit(this, data);
 		}
 
@@ -41,21 +36,18 @@ namespace Ucpf.Core.Model
 		//    return this;
 		//}
 
-		public static UnifiedExpressionCollection Create()
-		{
+		public static UnifiedExpressionCollection Create() {
 			return new UnifiedExpressionCollection();
 		}
 
 		public static UnifiedExpressionCollection Create(
-			params IUnifiedExpression[] elements)
-		{
+				params IUnifiedExpression[] elements) {
 			return new UnifiedExpressionCollection(elements);
 		}
 
 		public static UnifiedExpressionCollection Create(
-			IEnumerable<IUnifiedExpression> elements)
-		{
+				IEnumerable<IUnifiedExpression> elements) {
 			return new UnifiedExpressionCollection(elements);
 		}
-	}
+			}
 }

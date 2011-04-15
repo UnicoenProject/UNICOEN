@@ -35,21 +35,21 @@ namespace Ucpf.Languages.Java.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-					"ActionListener.java",
-					"Block1.java",
-					"Block2.java",
-					"Block3.java",
-					"Class.java",
-					"Condition.java",
-					"ControlFlow.java",
-					"Fibonacci.java",
-					"Method.java",
-					"Modifier.java",
-					"MyException.java",
-					"Operator.java", 
-					"Simple.java",
-					"Student.java",
-					"Variable.java",
+						"ActionListener.java",
+						"Block1.java",
+						"Block2.java",
+						"Block3.java",
+						"Class.java",
+						"Condition.java",
+						"ControlFlow.java",
+						"Fibonacci.java",
+						"Method.java",
+						"Modifier.java",
+						"MyException.java",
+						"Operator.java",
+						"Simple.java",
+						"Student.java",
+						"Variable.java",
 				}
 						.Select(s => new TestCaseData(Fixture.GetInputPath("Java", s)));
 				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))

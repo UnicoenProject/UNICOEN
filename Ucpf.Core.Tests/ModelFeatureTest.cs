@@ -5,22 +5,19 @@ using Paraiba.Linq;
 using Ucpf.Core.Model;
 using Ucpf.Core.Model.Extensions;
 
-namespace Ucpf.Core.Tests
-{
-	public abstract class ModelFeatureTest
-	{
+namespace Ucpf.Core.Tests {
+	public abstract class ModelFeatureTest {
 		protected abstract UnifiedProgram CreateModel(string code);
 
 		/// <summary>
 		///   深いコピーが正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyDeepCopy(string code)
-		{
+		protected void VerifyDeepCopy(string code) {
 			var model = CreateModel(code);
 			var copiedModel = model.DeepCopy();
 			Assert.That(copiedModel, Is.EqualTo(model)
-				.Using(StructuralEqualityComparer.Instance));
+					.Using(StructuralEqualityComparer.Instance));
 
 			var pairs = copiedModel.Descendants().Zip(model.Descendants());
 			foreach (var pair in pairs) {
@@ -32,8 +29,7 @@ namespace Ucpf.Core.Tests
 		///   子要素の列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyGetElements(string code)
-		{
+		protected void VerifyGetElements(string code) {
 			var model = CreateModel(code);
 			foreach (var element in model.Descendants()) {
 				var elements = element.GetElements();
@@ -43,7 +39,7 @@ namespace Ucpf.Core.Tests
 				Assert.That(elements, Is.EqualTo(propValues));
 				Assert.That(elementAndSetters.Select(t => t.Item1), Is.EqualTo(propValues));
 				Assert.That(elementAndDirectSetters.Select(t => t.Item1),
-					Is.EqualTo(propValues));
+						Is.EqualTo(propValues));
 			}
 		}
 
@@ -51,8 +47,7 @@ namespace Ucpf.Core.Tests
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyGetElementAndSetters(string code)
-		{
+		protected void VerifyGetElementAndSetters(string code) {
 			var model = CreateModel(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
@@ -72,8 +67,7 @@ namespace Ucpf.Core.Tests
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyGetElementAndDirectSetters(string code)
-		{
+		protected void VerifyGetElementAndDirectSetters(string code) {
 			var model = CreateModel(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
@@ -90,30 +84,27 @@ namespace Ucpf.Core.Tests
 		}
 
 		private static IEnumerable<IUnifiedElement> GetProperties(
-			IUnifiedElement element)
-		{
+				IUnifiedElement element) {
 			var elements = element as IEnumerable<IUnifiedElement>;
 			if (elements != null) {
 				return elements;
 			}
 			return element.GetType().GetProperties()
-				.Where(prop => prop.Name != "Parent")
-				.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType))
-				.Select(prop => (IUnifiedElement)prop.GetValue(element, null));
+					.Where(prop => prop.Name != "Parent")
+					.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType))
+					.Select(prop => (IUnifiedElement)prop.GetValue(element, null));
 		}
 
 		/// <summary>
 		///   親要素が不適切な要素がないかソースコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyParentProperty(string code)
-		{
+		protected void VerifyParentProperty(string code) {
 			var model = CreateModel(code);
 			VerifyParentProperty(model);
 		}
 
-		private static void VerifyParentProperty(IUnifiedElement parent)
-		{
+		private static void VerifyParentProperty(IUnifiedElement parent) {
 			foreach (var element in parent.GetElements()) {
 				if (element != null) {
 					Assert.That(element.Parent, Is.SameAs(parent));
@@ -126,8 +117,7 @@ namespace Ucpf.Core.Tests
 		///   全要素の文字列情報を取得できるかソースコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyToString(string code)
-		{
+		protected void VerifyToString(string code) {
 			var model = CreateModel(code);
 			foreach (var element in model.DescendantsAndSelf()) {
 				Assert.That(element.ToString(), Is.Not.Null);

@@ -1,5 +1,4 @@
-﻿namespace Ucpf.Core.Model
-{
+﻿namespace Ucpf.Core.Model {
 	/// <summary>
 	///   リテラルを表します。
 	/// </summary>

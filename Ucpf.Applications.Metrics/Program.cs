@@ -2,32 +2,28 @@
 using System.Linq;
 using Ucpf.Applications.Metrics.Cores;
 
-namespace Ucpf.Applications.Metrics
-{
-	public class Program
-	{
+namespace Ucpf.Applications.Metrics {
+	public class Program {
 		private const string S = "  ";
 		private const int W = 12;
 
 		private static readonly string Usage =
-			"Ucpf.Applications.Metrics 1.0.0" + "\n" +
-			"Copyright (C) 2011 Kazunori SAKAMOTO" + "\n" +
-			"" + "\n" +
-			"Usage: Metrics <command> [args]" + "\n" +
-			"" + "\n" +
-			"The commands are:" + "\n" +
-			S + "loc".PadRight(W) + "Meausre LOC (lines of code)" + "\n" +
-			S + "cyclomatic".PadRight(W) + "Measure cyclomatic complexity" + "\n" +
-			"";
+				"Ucpf.Applications.Metrics 1.0.0" + "\n" +
+				"Copyright (C) 2011 Kazunori SAKAMOTO" + "\n" +
+				"" + "\n" +
+				"Usage: Metrics <command> [args]" + "\n" +
+				"" + "\n" +
+				"The commands are:" + "\n" +
+				S + "loc".PadRight(W) + "Meausre LOC (lines of code)" + "\n" +
+				S + "cyclomatic".PadRight(W) + "Measure cyclomatic complexity" + "\n" +
+				"";
 
-		public static bool Print(string message)
-		{
+		public static bool Print(string message) {
 			Console.WriteLine(message);
 			return false;
 		}
 
-		private static bool Run(string[] args)
-		{
+		private static bool Run(string[] args) {
 			if (args.Length < 1)
 				return Print(Usage);
 
@@ -41,8 +37,7 @@ namespace Ucpf.Applications.Metrics
 			return Print(Usage);
 		}
 
-		private static void Main(string[] args)
-		{
+		private static void Main(string[] args) {
 			if (Run(args))
 				Environment.Exit(1);
 			Environment.Exit(0);
