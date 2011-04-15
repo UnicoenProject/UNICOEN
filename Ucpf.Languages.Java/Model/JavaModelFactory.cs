@@ -526,13 +526,25 @@ namespace Ucpf.Languages.Java.Model
 
 			if (!node.HasElement("type") && !node.HasElementByContent("void")) {
 				//case constructor
-				//TODO 考慮していない要素の実装
-				return UnifiedConstructorDefinition.Create(
+				var invocationNode =
+					node.Element("explicitConstructorInvocation");
+				var invocations = invocationNode != null
+				                  	? Enumerable.Repeat(CreateExplicitConstructorInvocation(
+				                  		invocationNode), 1)
+				                  	: Enumerable.Empty<IUnifiedExpression>();
+				var block = 
+					invocations.Concat(
 						node.Elements("blockStatement")
-							.SelectMany(CreateBlockStatement)
-							.ToBlock(),
+						.SelectMany(CreateBlockStatement)
+					)
+					.ToBlock();
+
+				return UnifiedConstructorDefinition.Create(
+					block,
 					modifiers,
 					parameters,
+					typeParameters,
+					throws,
 					UnifiedConstructorDefinitionKind.Constructor);
 			}
 			//TODO UnifiedFunctionDefinition.Createの整備
@@ -849,7 +861,7 @@ namespace Ucpf.Languages.Java.Model
 				);
 		}
 
-		public static IUnifiedElement CreateExplicitConstructorInvocation(
+		public static IUnifiedExpression CreateExplicitConstructorInvocation(
 			XElement node)
 		{
 			Contract.Requires(node != null);
@@ -1800,11 +1812,20 @@ namespace Ucpf.Languages.Java.Model
 				return CreateParExpression(first);
 			}
 			if (first.HasContent("this") || first.Name() == "IDENTIFIER") {
-				var variable = UnifiedIdentifier.CreateUnknown(first.Value);
-				var prop = first.NextElements("IDENTIFIER")
-					.Aggregate((IUnifiedExpression)variable,
-						(e, v) => UnifiedProperty.Create(e, v.Value, "."));
-				return CreateIdentifierSuffix(prop, node.Element("identifierSuffix"));
+				var prefix = node.Elements()
+					.OddIndexElements()
+					.Select(e => e.Value);
+				var identifierSuffixNode = node.Element("identifierSuffix");
+
+				var prefixProp = prefix.Skip(1).Aggregate(
+					(IUnifiedExpression)UnifiedIdentifier.CreateUnknown(prefix.First()),
+					(e, s) => UnifiedProperty.Create(e, s, "."));
+
+				var id = prefix.Select(UnifiedIdentifier.CreateUnknown).ToQualified(".");
+				var type = UnifiedType.Create(id, null, null);
+				return identifierSuffixNode == null
+					? prefixProp
+					: CreateIdentifierSuffix(prefixProp, type, identifierSuffixNode);
 			}
 			if (first.HasContent("super")) {
 				var super = UnifiedIdentifier.CreateUnknown("super");
@@ -1862,9 +1883,10 @@ namespace Ucpf.Languages.Java.Model
 		}
 
 		public static IUnifiedExpression CreateIdentifierSuffix(
-			IUnifiedExpression prefix, XElement node)
+			IUnifiedExpression prefixProp, UnifiedType prefixType, XElement node)
 		{
-			Contract.Requires(node == null || node.Name() == "identifierSuffix");
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "identifierSuffix");
 			/*
 			 * identifierSuffix
 			 * :   ('[' ']')+ '.' 'class'	// java.lang.String[].class
@@ -1878,24 +1900,50 @@ namespace Ucpf.Languages.Java.Model
 			 * |   innerCreator				// new Outer().new <Integer> Inner<String>(1);
 			 */
 
-			if (node == null) {
-				return prefix;
-			}
 			var second = node.NthElementOrDefault(1);
 			if (second != null && second.Name() == "expression") {
 				return node.Elements("expression")
 					.Select(CreateExpression)
-					.Aggregate(prefix, (current, exp) =>
+					.Aggregate(prefixProp, (current, exp) =>
 					                   UnifiedIndexer.Create(current,
 					                   	UnifiedArgumentCollection.Create(
 					                   		UnifiedArgument.Create(exp)))
 					);
 			}
 			if (node.FirstElement().Name() == "arguments") {
-				return UnifiedCall.Create(prefix, CreateArguments(node.FirstElement()));
+				return UnifiedCall.Create(prefixProp, CreateArguments(node.FirstElement()));
 			}
-			// TODO implement
-			throw new NotImplementedException();
+			if(node.FirstElement().Name() == "innerCreator") {
+				return CreateInnerCreator(prefixProp, node.Element("innerCreator"));
+			}
+			if(second.Value == "class") {
+				return UnifiedProperty.Create(prefixType,
+					UnifiedIdentifier.Create("class", UnifiedIdentifierKind.ClassObject), ".");
+			}
+			if(node.LastElement().Value == "class") {
+				var d = node.ElementsByContent("[").Count();
+				var suplpements = UnifiedTypeSupplementCollection.CreateArray(d);
+				prefixType.Supplements = suplpements;
+				return prefixType;
+			}
+			if(second.Name() == "nonWildcardTypeArguments") {
+				var prop = UnifiedProperty.Create(prefixProp,
+					UnifiedIdentifier.Create(node.Element("IDENTIFIER").Value,
+						UnifiedIdentifierKind.Unknown), ".");
+				return UnifiedCall.Create(prop, CreateArguments(node.Element("arguments")),
+					CreateNonWildcardTypeArguments(node.Element("nonWildcardTypeArguments")));
+			}
+			if(second.Value == "this") {
+				return UnifiedProperty.Create(prefixType,
+					UnifiedIdentifier.Create("this", UnifiedIdentifierKind.Unknown), ".");
+			}
+			if(second.Value == "super") {
+				var prop = UnifiedProperty.Create(prefixProp,
+					UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+				return UnifiedCall.Create(prop, CreateArguments(node.Element("arguments")));
+			}
+
+			throw new InvalidOperationException();
 		}
 
 		public static IUnifiedExpression CreateSelector(IUnifiedExpression prefix,
