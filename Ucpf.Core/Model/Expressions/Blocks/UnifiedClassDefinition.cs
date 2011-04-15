@@ -222,5 +222,9 @@ namespace Ucpf.Core.Model
 				Body = body,
 			};
 		}
+
+		public static UnifiedClassDefinition CreateNamespace(UnifiedQualifiedIdentifier name) {
+			return Create(name, UnifiedBlock.Create(), null, UnifiedClassKind.Namespace);
+		}
 	}
 }

@@ -30,6 +30,7 @@ namespace Ucpf.Languages.Java.Model
 				// TODO: use annotations
 				var annotations = CreateAnnotations(node.FirstElement());
 				var packageDeclaration = CreatePackageDeclaration(node.NthElement(1));
+				expressions.Add(packageDeclaration);
 				expressions = packageDeclaration.Body;
 			}
 			foreach (var e in node.Elements("importDeclaration")) {
@@ -47,8 +48,12 @@ namespace Ucpf.Languages.Java.Model
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "packageDeclaration");
-			// TODO: imeplement this
-			return null;
+			/*
+			 * packageDeclaration 
+			 * :   'package' qualifiedName ';'
+			 */
+			var name = CreateQualifiedName(node.Element("qualifiedName"));
+			return UnifiedClassDefinition.CreateNamespace(name, UnifiedBlock.Create());
 		}
 
 		public static UnifiedImport CreateImportDeclaration(XElement node)
