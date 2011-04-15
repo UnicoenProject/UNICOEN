@@ -156,7 +156,19 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 		public bool Visit(UnifiedSpecialBlock element, TokenInfo data)
 		{
 			WriteIndent();
-			_writer.Write(element.Kind);
+			switch (element.Kind) {
+				case UnifiedSpecialBlockKind.Synchronized:
+					_writer.Write("synchronized");
+					break;
+				case UnifiedSpecialBlockKind.Fix:
+					_writer.Write("fix");
+					break;
+				case UnifiedSpecialBlockKind.Using:
+					_writer.Write("using");
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 			if (element.Value != null) {
 				_writer.Write("(");
 				element.Value.TryAccept(this, _withoutParen);

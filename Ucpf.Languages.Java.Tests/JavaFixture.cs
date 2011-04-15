@@ -51,9 +51,9 @@ namespace Ucpf.Languages.Java.Tests
 					//"ControlFlow.java", TODO StringLiteralの実装が不十分
 					"Fibonacci.java",
 					"Method.java",
-					//"Modifier.java",
+					"Modifier.java",
 					//"MyException.java", TODO StringLiteralの実装が不十分
-					//"Operator.java",
+					//"Operator.java", TODO StringLiteralの実装が不十分
 					"Simple.java",
 					"Student.java",
 					"Variable.java",

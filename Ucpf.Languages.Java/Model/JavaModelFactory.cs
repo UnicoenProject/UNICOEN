@@ -2285,6 +2285,9 @@ namespace Ucpf.Languages.Java.Model
 			case ">>":
 				kind = UnifiedBinaryOperatorKind.ArithmeticRightShift;
 				break;
+			case ">>>":
+				kind = UnifiedBinaryOperatorKind.LogicalRightShift;
+				break;
 				// Comparison
 			case ">":
 				kind = UnifiedBinaryOperatorKind.GreaterThan;
@@ -2504,7 +2507,7 @@ namespace Ucpf.Languages.Java.Model
 			 * 'synchronized' parExpression block 
 			 */
 			return UnifiedSpecialBlock.Create(
-				UnifiedSpecialBlockKind.Synchrnoized,
+				UnifiedSpecialBlockKind.Synchronized,
 				CreateParExpression(node.Element("parExpression")),
 				CreateBlock(node.Element("block"))
 				);
