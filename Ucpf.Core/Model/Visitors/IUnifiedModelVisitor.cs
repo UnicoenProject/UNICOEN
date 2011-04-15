@@ -61,6 +61,8 @@
 		void Visit(UnifiedDecimalLiteral element);
 		void Visit(UnifiedIntegerLiteral element);
 		void Visit(UnifiedStringLiteral element);
+		void Visit(UnifiedCharLiteral element);
+		void Visit(UnifiedNullLiteral element);
 	}
 
 	public interface IUnifiedModelVisitor<in TData>
@@ -124,6 +126,8 @@
 		void Visit(UnifiedDecimalLiteral element, TData data);
 		void Visit(UnifiedIntegerLiteral element, TData data);
 		void Visit(UnifiedStringLiteral element, TData data);
+		void Visit(UnifiedCharLiteral element, TData data);
+		void Visit(UnifiedNullLiteral element, TData data);
 	}
 
 	public interface IUnifiedModelVisitor<in TData, out TResult>
@@ -187,5 +191,7 @@
 		TResult Visit(UnifiedDecimalLiteral element, TData data);
 		TResult Visit(UnifiedIntegerLiteral element, TData data);
 		TResult Visit(UnifiedStringLiteral element, TData data);
+		TResult Visit(UnifiedCharLiteral element, TData data);
+		TResult Visit(UnifiedNullLiteral element, TData data);
 	}
 }

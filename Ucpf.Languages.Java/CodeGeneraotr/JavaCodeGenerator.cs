@@ -103,6 +103,12 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			element.TypeParameters.TryAccept(this, data);
 			element.Name.TryAccept(this, data);
 			element.Parameters.TryAccept(this, data);
+			if(element.Throws != null) {
+				WriteSpace();
+				_writer.Write("throws");
+				WriteSpace();
+				element.Throws.TryAccept(this, data);
+			}
 			element.Body.TryAccept(this, data);
 			return element.Body == null;
 		}
@@ -320,6 +326,18 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 			return false;
 		}
 
+		public bool Visit(UnifiedCharLiteral element, TokenInfo data)
+		{
+			_writer.Write(element.Value);
+			return false;
+		}
+
+		public bool Visit(UnifiedNullLiteral element, TokenInfo data)
+		{
+			_writer.Write("null");
+			return false;
+		}
+
 		// There is not 'yield' in java?
 		public string GetKeyword(UnifiedSpecialExpressionKind kind)
 		{
@@ -526,9 +544,14 @@ namespace Ucpf.Languages.Java.CodeGeneraotr
 
 		public bool Visit(UnifiedCase element, TokenInfo data)
 		{
-			_writer.Write("case(");
-			element.Condition.TryAccept(this, data);
-			_writer.Write(") :\n");
+			if(element.Condition == null) {
+				_writer.Write("default :\n");
+			}
+			else {
+				_writer.Write("case(");
+				element.Condition.TryAccept(this, data);
+				_writer.Write(") :\n");
+			}
 			element.Body.TryAccept(this, data);
 			return false;
 		}
