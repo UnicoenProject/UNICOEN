@@ -6,7 +6,10 @@ namespace Ucpf.Core.Model
 {
 	/// <summary>
 	///   仮引数(パラメータ)を表します。
-	/// </summary>
+    /// </summary>
+    /// <example>
+    ///     <c>int method(double a)</c>の<c>double a</c>
+    /// </example>>
 	public class UnifiedParameter : UnifiedElement
 	{
 		private UnifiedModifierCollection _modifiers;
@@ -19,6 +22,10 @@ namespace Ucpf.Core.Model
 
 		private UnifiedType _type;
 
+		/// <summary>
+		///		パラメータの型を表します
+		///		e.g. Javaにおける<c>double a</c>の<c>double</c>
+		/// </summary>
 		public UnifiedType Type
 		{
 			get { return _type; }
@@ -27,6 +34,10 @@ namespace Ucpf.Core.Model
 
 		private UnifiedIdentifier _name;
 
+		/// <summary>
+		///		パラメータの名前を表します
+		///		e.g. Javaにおける<c>double a</c>の<c>a</c>
+		/// </summary>
 		public UnifiedIdentifier Name
 		{
 			get { return _name; }

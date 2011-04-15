@@ -11,6 +11,10 @@ namespace Ucpf.Core.Model
 	{
 		private IUnifiedExpression _condition;
 
+		/// <summary>
+		///		case式の条件式を表します
+		///		e.g. Javaにおける<c>switch(n){case(1): ...}</c>の<c>1</c>
+		/// </summary>
 		public IUnifiedExpression Condition
 		{
 			get { return _condition; }
@@ -19,6 +23,10 @@ namespace Ucpf.Core.Model
 
 		private UnifiedBlock _body;
 
+		/// <summary>
+		///		case式の中身を表します
+		///		e.g. Javaにおける<c>switch(n){case(1): return 0; break;}</c>の<c>return 0; break;</c>
+		/// </summary>
 		public UnifiedBlock Body
 		{
 			get { return _body; }

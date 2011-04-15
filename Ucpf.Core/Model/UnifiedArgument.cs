@@ -10,7 +10,7 @@ namespace Ucpf.Core.Model
 	public class UnifiedArgument : UnifiedElement
 	{
 		private IUnifiedExpression _value;
-
+		
 		public IUnifiedExpression Value
 		{
 			get { return _value; }
