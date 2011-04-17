@@ -28,14 +28,14 @@ namespace Ucpf.Core.Model {
 			set { _typeArguments = SetParentOfChild(value, _typeArguments); }
 		}
 
-		private UnifiedExpressionList _initialValues;
+		private UnifiedExpressionList _initialValue;
 
 		/// <summary>
 		///   Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分などが該当します。
 		/// </summary>
-		public UnifiedExpressionList InitialValues {
-			get { return _initialValues; }
-			set { _initialValues = SetParentOfChild(value, _initialValues); }
+		public UnifiedExpressionList InitialValue {
+			get { return _initialValue; }
+			set { _initialValue = SetParentOfChild(value, _initialValue); }
 		}
 
 		private UnifiedNew() {}
@@ -58,7 +58,7 @@ namespace Ucpf.Core.Model {
 			yield return Type;
 			yield return Arguments;
 			yield return TypeArguments;
-			yield return InitialValues;
+			yield return InitialValue;
 			yield return Body;
 		}
 
@@ -74,8 +74,8 @@ namespace Ucpf.Core.Model {
 					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(TypeArguments,
 							v => TypeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(InitialValues,
-							v => InitialValues = (UnifiedExpressionList)v);
+					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(InitialValue,
+							v => InitialValue = (UnifiedExpressionList)v);
 			yield return
 					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(Body,
 							v => Body = (UnifiedBlock)v);
@@ -93,8 +93,8 @@ namespace Ucpf.Core.Model {
 					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_typeArguments,
 							v => _typeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_initialValues,
-							v => _initialValues = (UnifiedExpressionList)v);
+					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_initialValue,
+							v => _initialValue = (UnifiedExpressionList)v);
 			yield return
 					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(_body,
 							v => _body = (UnifiedBlock)v);
@@ -133,7 +133,7 @@ namespace Ucpf.Core.Model {
 					Type = type,
 					Arguments = arguments,
 					TypeArguments = typeArguments,
-					InitialValues = initialValues,
+					InitialValue = initialValues,
 					Body = body,
 			};
 		}

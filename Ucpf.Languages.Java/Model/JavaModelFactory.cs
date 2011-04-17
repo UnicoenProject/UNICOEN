@@ -253,7 +253,7 @@ namespace Ucpf.Languages.Java.Model {
 			 * enumDeclaration 
 			 * :   modifiers ('enum') IDENTIFIER ('implements' typeList)? enumBody 
 			 */
-			var modifiers = CreateModifiers(node);
+			var modifiers = CreateModifiers(node.FirstElement());
 			var name = node.NthElement(2).Value;
 			var typeListNode = node.Element("typeList");
 			var constrains = typeListNode != null
@@ -280,14 +280,14 @@ namespace Ucpf.Languages.Java.Model {
 			var block = UnifiedBlock.Create();
 			var enumConstantsNode = node.Element("enumConstants");
 			if (enumConstantsNode != null)
-				block.AddRange(CreateEnumConstants(enumConstantsNode));
+				block.Add(CreateEnumConstants(enumConstantsNode));
 			var enumBodyDeclarationsNode = node.Element("enumBodyDeclarations");
 			if (enumBodyDeclarationsNode != null)
 				block.AddRange(CreateEnumBodyDeclarations(enumBodyDeclarationsNode));
 			return block;
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateEnumConstants(
+		public static UnifiedVariableDefinition CreateEnumConstants(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstants");
@@ -295,11 +295,16 @@ namespace Ucpf.Languages.Java.Model {
 			 * enumConstants 
 			 * :   enumConstant (',' enumConstant)* 
 			 */
-			return node.Elements("enumConstant")
-					.Select(CreateEnumConstant);
+			return UnifiedVariableDefinition.Create(
+					null,
+					null, // TODO: enum型の名前を与えてもよい
+					node.Elements("enumConstant")
+							.Select(CreateEnumConstant)
+							.ToCollection()
+					);
 		}
 
-		public static IUnifiedExpression CreateEnumConstant(XElement node) {
+		public static UnifiedVariableDefinitionBody CreateEnumConstant(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstant");
 			/*
@@ -317,16 +322,15 @@ namespace Ucpf.Languages.Java.Model {
 			var arguments = argumentsNode != null
 			                		? CreateArguments(argumentsNode)
 			                		: null;
-			var classBody = classBodyNode != null
+			var body = classBodyNode != null
 			                		? CreateClassBody(classBodyNode)
 			                		: null;
-			return UnifiedVariableDefinition.CreateSingle(
-					null,
-					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-					null,
-					arguments,
-					classBody);
+			return UnifiedVariableDefinitionBody.Create(
+				UnifiedIdentifier.CreateVariable(name),
+				null,
+				null,
+				arguments,
+					body);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateEnumBodyDeclarations(
@@ -567,7 +571,8 @@ namespace Ucpf.Languages.Java.Model {
 			 */
 			var initializer = node.HasElement("variableInitializer")
 			                  		? CreateVariableInitializer(
-			                  				node.Element("variableInitializer")) : null;
+			                  				node.Element("variableInitializer"))
+			                  		: null;
 			var dimension = node.ElementsByContent("[").Count();
 			var supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
 			return UnifiedVariableDefinitionBody.Create(
@@ -1723,8 +1728,7 @@ namespace Ucpf.Languages.Java.Model {
 			 * :   '(' primitiveType ')' unaryExpression
 			 * |   '(' type ')' unaryExpressionNotPlusMinus 
 			 */
-
-			if (node.FirstElement().Name() == "primitiveType") {
+			if (node.LastElement().Name() == "unaryExpression") {
 				return UnifiedCast.Create(
 						CreatePrimitiveType(node.NthElement(1)),
 						CreateUnaryExpression(node.NthElement(3))
@@ -1963,7 +1967,7 @@ namespace Ucpf.Languages.Java.Model {
 						creatorRest.Item1 /*Argument*/,
 						CreateNonWildcardTypeArguments(node.Element("nonWildcardTypeArguments"))
 						/*TypeArguments*/,
-						null /*InitialValues*/,
+						null /*InitialValue*/,
 						creatorRest.Item2 /*Body*/
 						);
 
@@ -1971,7 +1975,7 @@ namespace Ucpf.Languages.Java.Model {
 					CreateClassOrInterfaceType(node.NthElement(1)) /*Type*/,
 					creatorRest.Item1 /*Argument*/,
 					null /*TypeParameters*/,
-					null /*InitialValues*/,
+					null /*InitialValue*/,
 					creatorRest.Item2 /*Body*/
 					);
 		}

@@ -18,7 +18,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		private int _indent;
 
 		private static readonly TokenInfo WithParen =
-				new TokenInfo { MostLeft = "(", MostRight = ")" };
+				new TokenInfo { EachLeft = "(", EachRight = ")" };
 
 		private static readonly TokenInfo WithoutParen = new TokenInfo();
 
@@ -259,8 +259,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			element.Supplements.TryAccept(this, data);
 			if (element.InitialValue != null) {
 				_writer.Write(" = ");
-				element.InitialValue.TryAccept(this, data);
+				element.InitialValue.TryAccept(this,
+						new TokenInfo { MostLeft = "{", Delimiter = ",", MostRight = "}" });
 			}
+			element.Arguments.TryAccept(this,
+					new TokenInfo { MostLeft = "(", Delimiter = ",", MostRight = ")" });
 			element.Body.TryAccept(this, data);
 			return false;
 		}
@@ -452,11 +455,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 
 		public bool Visit(UnifiedFor element, TokenInfo data) {
 			_writer.Write("for(");
-			element.Initializer.TryAccept(this, data);
+			element.Initializer.TryAccept(this, new TokenInfo { Delimiter = "," });
 			_writer.Write("; ");
 			element.Condition.TryAccept(this, data);
 			_writer.Write(";");
-			element.Step.TryAccept(this, data);
+			element.Step.TryAccept(this, new TokenInfo { Delimiter = "," });
 			_writer.Write(")");
 
 			element.Body.TryAccept(this, data);
@@ -520,11 +523,11 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 
 		public bool Visit(UnifiedCase element, TokenInfo data) {
 			if (element.Condition == null) {
-				_writer.Write("default :\n");
+				_writer.Write("default:\n");
 			} else {
-				_writer.Write("case(");
-				element.Condition.TryAccept(this, data);
-				_writer.Write(") :\n");
+				_writer.Write("case ");
+				element.Condition.TryAccept(this, WithoutParen);
+				_writer.Write(":\n");
 			}
 			element.Body.TryAccept(this, data);
 			return false;

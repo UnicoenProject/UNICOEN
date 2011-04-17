@@ -24,12 +24,14 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		}
 
 		public bool Visit(UnifiedTernaryExpression element, TokenInfo data) {
+			_writer.Write(data.EachLeft);
 			var keywords = GetKeyword(element.Operator.Kind);
 			element.FirstExpression.TryAccept(this, WithParen);
 			_writer.Write(" " + keywords.Item1 + " ");
 			element.SecondExpression.TryAccept(this, WithParen);
 			_writer.Write(" " + keywords.Item2 + " ");
 			element.LastExpression.TryAccept(this, WithParen);
+			_writer.Write(data.EachRight);
 			return true;
 		}
 
@@ -41,13 +43,13 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		}
 
 		public bool Visit(UnifiedBinaryExpression element, TokenInfo data) {
-			_writer.Write(data.MostLeft);
+			_writer.Write(data.EachLeft);
 			element.LeftHandSide.TryAccept(this, WithParen);
 			WriteSpace();
 			element.Operator.TryAccept(this, data);
 			WriteSpace();
 			element.RightHandSide.TryAccept(this, WithParen);
-			_writer.Write(data.MostRight);
+			_writer.Write(data.EachRight);
 			return true;
 		}
 
@@ -95,7 +97,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			element.Type.TryAccept(this, data);
 			element.Arguments.TryAccept(this,
 					new TokenInfo { MostLeft = "(", Delimiter = ", ", MostRight = ")" });
-			element.InitialValues.TryAccept(this,
+			element.InitialValue.TryAccept(this,
 					new TokenInfo { MostLeft = "{", Delimiter = ", ", MostRight = "}" });
 			element.Body.TryAccept(this, data);
 			return true;
@@ -107,8 +109,8 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 				element.Operand.TryAccept(this, WithParen);
 				element.Operator.TryAccept(this, data);
 			} else {
-				element.Operator.TryAccept(this, WithParen);
-				element.Operand.TryAccept(this, data);
+				element.Operator.TryAccept(this, data);
+				element.Operand.TryAccept(this, WithParen);
 			}
 			return true;
 		}
