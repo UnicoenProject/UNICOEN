@@ -1,19 +1,19 @@
-interface Colorable {
+interface Colorable5 {
 	void setColor(int color);
 	int getColor();
 }
 enum Finish {MATTE, GLOSSY}
-interface Paintable extends Colorable {
+interface Paintable extends Colorable5 {
 	void setFinish(Finish finish);
 	Finish getFinish();
 }
-class Point { int x, y; }
-class ColoredPoint extends Point implements Colorable {
+class Point5 { int x, y; }
+class ColoredPoint5 extends Point5 implements Colorable5 {
 	int color;
 	public void setColor(int color) { this.color = color; }
 	public int getColor() { return color; }
 }
-class PaintedPoint extends ColoredPoint implements Paintable
+class PaintedPoint extends ColoredPoint5 implements Paintable
 {
 	Finish finish;
 	public void setFinish(Finish finish) {

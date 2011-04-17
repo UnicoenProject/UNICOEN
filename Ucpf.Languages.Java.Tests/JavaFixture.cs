@@ -47,6 +47,7 @@ namespace Ucpf.Languages.Java.Tests {
 			get {
 				return new[] {
 						new { DirName = "default", Command = "javac", Arguments = "*.java" },
+						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
 				}
 						.Select(o => new TestCaseData(Fixture.GetInputPath("Java", o.DirName),
 						             		o.Command, o.Arguments));
