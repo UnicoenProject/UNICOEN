@@ -56,10 +56,9 @@
 		void Visit(UnifiedLabel element);
 		void Visit(UnifiedExpressionList element);
 		void Visit(UnifiedBooleanLiteral element);
-		void Visit(UnifiedDecimalLiteral element);
+		void Visit(UnifiedFractionLiteral element);
 		void Visit(UnifiedIntegerLiteral element);
 		void Visit(UnifiedStringLiteral element);
-		void Visit(UnifiedCharLiteral element);
 		void Visit(UnifiedNullLiteral element);
 	}
 
@@ -120,10 +119,9 @@
 		void Visit(UnifiedLabel element, TData data);
 		void Visit(UnifiedExpressionList element, TData data);
 		void Visit(UnifiedBooleanLiteral element, TData data);
-		void Visit(UnifiedDecimalLiteral element, TData data);
+		void Visit(UnifiedFractionLiteral element, TData data);
 		void Visit(UnifiedIntegerLiteral element, TData data);
 		void Visit(UnifiedStringLiteral element, TData data);
-		void Visit(UnifiedCharLiteral element, TData data);
 		void Visit(UnifiedNullLiteral element, TData data);
 	}
 
@@ -184,10 +182,9 @@
 		TResult Visit(UnifiedLabel element, TData data);
 		TResult Visit(UnifiedExpressionList element, TData data);
 		TResult Visit(UnifiedBooleanLiteral element, TData data);
-		TResult Visit(UnifiedDecimalLiteral element, TData data);
+		TResult Visit(UnifiedFractionLiteral element, TData data);
 		TResult Visit(UnifiedIntegerLiteral element, TData data);
 		TResult Visit(UnifiedStringLiteral element, TData data);
-		TResult Visit(UnifiedCharLiteral element, TData data);
 		TResult Visit(UnifiedNullLiteral element, TData data);
 	}
 }

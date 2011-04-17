@@ -283,12 +283,12 @@ namespace Ucpf.Languages.CSharp {
 					return UnifiedIntegerLiteral.Create((int)primitive.Value);
 				}
 				if (primitive.Value is double) {
-					return UnifiedDecimalLiteral.Create((double)primitive.Value);
+					return UnifiedFractionLiteral.CreateDouble((double)primitive.Value);
 				}
 				break;
 			case LiteralFormat.StringLiteral:
 				if (primitive.Value is string) {
-					return UnifiedStringLiteral.Create((string)primitive.Value);
+					return UnifiedStringLiteral.CreateString((string)primitive.Value);
 				}
 				break;
 			case LiteralFormat.None:

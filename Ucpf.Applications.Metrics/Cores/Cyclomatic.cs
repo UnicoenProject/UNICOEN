@@ -19,7 +19,7 @@ namespace Ucpf.Applications.Metrics.Cores {
 						// or do a given path indicate file?
 				else if (File.Exists(arg)) {
 					// not check the extension
-					MetricsPrinter.PrintMetrics("LOC(lines of code)", arg, GetTargetElements);
+					MetricsPrinter.PrintMetrics("Cyclomatic complexity", arg, GetTargetElements);
 				}
 			}
 			return true;

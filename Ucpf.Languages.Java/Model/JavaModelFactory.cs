@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Xml.Linq;
 using Code2Xml.Languages.Java.XmlGenerators;
 using Paraiba.Linq;
@@ -532,7 +534,7 @@ namespace Ucpf.Languages.Java.Model {
 			}
 			//TODO UnifiedFunctionDefinition.Createの整備
 			return UnifiedFunctionDefinition.CreateFunction(
-				modifiers,
+					modifiers,
 					type,
 					typeParameters,
 					name,
@@ -1760,7 +1762,7 @@ namespace Ucpf.Languages.Java.Model {
 
 				var prefixProp = prefix.Select(UnifiedIdentifier.CreateUnknown)
 						.ToProperty(".");
-	
+
 				var id = prefix.Select(UnifiedIdentifier.CreateUnknown).ToProperty(".");
 				var type = UnifiedType.Create(id, null, null);
 				return identifierSuffixNode == null
@@ -2158,21 +2160,20 @@ namespace Ucpf.Languages.Java.Model {
 			 * |   falseLiteral
 			 * |   nullLiteral
 			 */
-
 			var first = node.FirstElement();
 			switch (first.Name()) {
 			case "intLiteral":
-				return UnifiedIntegerLiteral.Create(Int32.Parse(first.Value));
+				return CreateIntLiteral(first);
 			case "longLiteral":
-				return UnifiedIntegerLiteral.Create(Int32.Parse(first.Value));
+				return CreateLongLiteral(first);
 			case "floatLiteral":
-				return UnifiedDecimalLiteral.Create(Decimal.Parse(first.Value));
+				return CreateFloatLiteral(first);
 			case "doubleLiteral":
-				return UnifiedDecimalLiteral.Create(Decimal.Parse(first.Value));
+				return CreateDoubleLiteral(first);
 			case "charLiteral":
-				return UnifiedCharLiteral.Create(first.Value);
+				return UnifiedStringLiteral.CreateChar(first.Value.Substring(1, first.Value.Length - 2));
 			case "stringLiteral":
-				return UnifiedStringLiteral.Create(first.Value);
+				return UnifiedStringLiteral.CreateString(first.Value.Substring(1, first.Value.Length - 2));
 			case "trueLiteral":
 				return UnifiedBooleanLiteral.Create(true);
 			case "falseLiteral":
@@ -2181,6 +2182,152 @@ namespace Ucpf.Languages.Java.Model {
 				return UnifiedNullLiteral.Create();
 			}
 			throw new InvalidOperationException();
+		}
+
+		public static UnifiedLiteral CreateIntLiteral(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "intLiteral");
+			/*
+			 * intLiteral
+			 * : INTLITERAL
+			 * 
+			 * INTLITERAL
+			 * :   IntegerNumber 
+			 */
+			return UnifiedIntegerLiteral.CreateInt32(ParseInteger(node.Value));
+		}
+
+		public static UnifiedLiteral CreateLongLiteral(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "longLiteral");
+			/*
+			 * LONGLITERAL
+			 * :   IntegerNumber LongSuffix
+			 * 
+			 * fragment
+			 * LongSuffix
+			 * :   'l' | 'L'
+			 */
+			var str = node.Value;
+			return UnifiedIntegerLiteral.CreateInt64(
+				ParseInteger(str.Substring(0, str.Length - 1)));
+		}
+
+		private static BigInteger ParseInteger(string value) {
+			/*
+			 * fragment
+			 * IntegerNumber
+			 * :   '0' 
+			 * |   '1'..'9' ('0'..'9')*    
+			 * |   '0' ('0'..'7')+         
+			 * |   HexPrefix HexDigit+
+			 * 
+			 * fragment
+			 * HexPrefix
+			 * :   '0x' | '0X'
+			 */
+			BigInteger result = 0;
+			if (value != "0") {
+				if (value[0] != '0') {
+					result = BigInteger.Parse(value);
+				} else if (value[1] == 'x' || value[1] == 'X') {
+					result = BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber);
+				} else {
+					result = ParseOcatleNumber(value.Substring(1));
+				}
+			}
+			return result;
+		}
+
+		private static BigInteger ParseOcatleNumber(IEnumerable<char> str) {
+			return str.Aggregate<char, BigInteger>(0,
+				(current, ch) => current * 8 + (ch - '0'));
+		}
+
+		public static UnifiedLiteral CreateFloatLiteral(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "floatLiteral");
+			/*
+			 *  FLOATLITERAL
+			 *  :   NonIntegerNumber FloatSuffix
+			 *
+			 *  fragment
+			 *  FloatSuffix
+			 *  :   'f' | 'F'
+			 */
+			var value = node.Value;
+			var d = ParseFraction(value.Substring(0, value.Length - 1));
+			return UnifiedFractionLiteral.CreateSingle(d);
+		}
+
+		public static UnifiedLiteral CreateDoubleLiteral(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "doubleLiteral");
+			/*
+			 * fragment
+			 * DoubleSuffix
+			 * :   'd' | 'D'
+			 * 
+			 * DOUBLELITERAL
+			 * :   NonIntegerNumber DoubleSuffix?
+			 */
+			var value = node.Value;
+			if (value[value.Length - 1] == 'd' || value[value.Length - 1] == 'D')
+				value = value.Substring(0, value.Length - 1);
+			var d = ParseFraction(value);
+			return UnifiedFractionLiteral.CreateDouble(d);
+		}
+
+		private static double ParseFraction(string value) {
+			/*
+			 * fragment
+			 * NonIntegerNumber
+			 * :   ('0' .. '9')+ '.' ('0' .. '9')* Exponent?	// 0.00e+0
+			 * |   '.' ( '0' .. '9' )+ Exponent?				// .01E-0
+			 * |   ('0' .. '9')+ Exponent						// 01e5
+			 * |   ('0' .. '9')+								// 10
+			 * |   HexPrefix (HexDigit )*						// 0x1.Ap+1
+			 *     (    () 
+			 *     |    ('.' (HexDigit )* ) 
+			 *     ) 
+			 *     ( 'p' | 'P' ) 
+			 *     ( '+' | '-' )? 
+			 *     ( '0' .. '9' )+
+			 *     
+			 * fragment 
+			 * Exponent    
+			 * :   ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ 
+			 */
+			if (value[1] == 'x' || value[1] == 'X') {
+				return ParseHexFraction(value);
+			}
+			return double.Parse(value);
+		}
+
+		private static double ParseHexFraction(string value) {
+			value = value.ToLower();
+			var numAndExp = value.Split('p');
+			var number = numAndExp[0].Split('.');
+			var n = number[0].Aggregate(0.0,
+					(current, ch) => current * 16.0 +
+					                 ch > '9' ? ch - 'a' : ch - '0');
+			var f = number[1].Reverse().Aggregate(0.0,
+					(current, ch) => current / 16.0 +
+					                 ch > '9' ? ch - 'a' : ch - '0');
+			var result = n + f;
+			if (numAndExp[1].Length != 0) {
+				var expStr = numAndExp[1];
+				var power = 10;
+				if (expStr[0] == '-') {
+					expStr = expStr.Substring(1);
+					power = -10;
+				} else if (expStr[0] == '+') {
+					expStr = expStr.Substring(1);
+				}
+				var exp = int.Parse(expStr);
+				result *= Math.Pow(power, exp);
+			}
+			return result;
 		}
 
 		private static UnifiedBinaryOperator CreateBinaryOperator(string name) {

@@ -32,7 +32,7 @@ namespace Ucpf.Languages.Ruby18.Model {
 
 		public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "str");
-			return UnifiedStringLiteral.Create(node.Value);
+			return UnifiedStringLiteral.CreateString(node.Value);
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {
@@ -46,9 +46,9 @@ namespace Ucpf.Languages.Ruby18.Model {
 			throw new NotImplementedException();
 		}
 
-		public static UnifiedDecimalLiteral CreateDecimalLiteral(XElement node) {
+		public static UnifiedFractionLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
-			return UnifiedDecimalLiteral.Create(Decimal.Parse(node.Value));
+			return UnifiedFractionLiteral.CreateDouble(double.Parse(node.Value));
 		}
 
 		public static UnifiedBinaryOperator CreateOperator(string sign) {

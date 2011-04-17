@@ -84,11 +84,14 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlockKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedDecimalLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteralKind.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteralKind.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedNullLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedStringLiteralKind.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
@@ -141,7 +144,6 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />
     <Compile Include="Model\UnifiedCase.cs" />
     <Compile Include="Model\Collections\UnifiedCaseCollection.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedCharLiteral.cs" />
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedImport.cs" />

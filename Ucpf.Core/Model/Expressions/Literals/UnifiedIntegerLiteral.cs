@@ -5,22 +5,12 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	/// <summary>
-	///   整数型であるリテラルを返します。
+	///   整数のリテラルを表します。
 	/// </summary>
 	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
 		private UnifiedIntegerLiteral() {}
 
-		public static UnifiedIntegerLiteral Create(int value) {
-			return new UnifiedIntegerLiteral {
-					Value = value,
-			};
-		}
-
-		public static UnifiedIntegerLiteral Create(BigInteger value) {
-			return new UnifiedIntegerLiteral {
-					Value = value,
-			};
-		}
+		public UnifiedIntegerLiteralKind Kind { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -48,6 +38,37 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield break;
+		}
+
+		public static UnifiedIntegerLiteral Create(BigInteger value, UnifiedIntegerLiteralKind kind) {
+			return new UnifiedIntegerLiteral {
+					Value = value,
+					Kind = kind,
+			};
+		}
+
+		public static UnifiedIntegerLiteral Create(int value) {
+			return Create(value, UnifiedIntegerLiteralKind.Int32);
+		}
+
+		public static UnifiedIntegerLiteral CreateInt32(BigInteger value) {
+			return Create(value, UnifiedIntegerLiteralKind.Int32);
+		}
+
+		public static UnifiedIntegerLiteral Create(long value) {
+			return Create(value, UnifiedIntegerLiteralKind.Int64);
+		}
+
+		public static UnifiedIntegerLiteral CreateInt64(BigInteger value) {
+			return Create(value, UnifiedIntegerLiteralKind.Int64);
+		}
+
+		public static UnifiedIntegerLiteral Create(BigInteger value) {
+			return Create(value, UnifiedIntegerLiteralKind.BigInteger);
+		}
+
+		public static UnifiedIntegerLiteral CreateBigInteger(BigInteger value) {
+			return Create(value, UnifiedIntegerLiteralKind.BigInteger);
 		}
 	}
 }

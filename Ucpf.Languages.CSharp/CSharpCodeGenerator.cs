@@ -209,7 +209,7 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedDecimalLiteral element) {
+		public void Visit(UnifiedFractionLiteral element) {
 			throw new NotImplementedException();
 		}
 
@@ -218,10 +218,6 @@ namespace Ucpf.Languages.CSharp {
 		}
 
 		public void Visit(UnifiedStringLiteral element) {
-			throw new NotImplementedException();
-		}
-
-		public void Visit(UnifiedCharLiteral element) {
 			throw new NotImplementedException();
 		}
 

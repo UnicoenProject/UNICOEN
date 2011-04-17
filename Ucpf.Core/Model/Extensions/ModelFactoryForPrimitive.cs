@@ -42,8 +42,8 @@
 			return UnifiedIntegerLiteral.Create(value);
 		}
 
-		public static UnifiedDecimalLiteral ToLiteral(this double value) {
-			return UnifiedDecimalLiteral.Create(value);
+		public static UnifiedFractionLiteral ToLiteral(this double value) {
+			return UnifiedFractionLiteral.CreateDouble(value);
 		}
 	}
 }

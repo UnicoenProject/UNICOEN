@@ -4,18 +4,12 @@ using Ucpf.Core.Model.Visitors;
 
 namespace Ucpf.Core.Model {
 	/// <summary>
-	///   Decimal型であるリテラルを表します。
+	///   小数のリテラルを表します。
 	/// </summary>
-	public class UnifiedDecimalLiteral : UnifiedTypedLiteral<decimal> {
-		private UnifiedDecimalLiteral() {}
+	public class UnifiedFractionLiteral : UnifiedTypedLiteral<double> {
+		private UnifiedFractionLiteral() {}
 
-		public static UnifiedDecimalLiteral Create(double value) {
-			return Create((decimal)value);
-		}
-
-		public static UnifiedDecimalLiteral Create(decimal value) {
-			return new UnifiedDecimalLiteral { Value = value };
-		}
+		public UnifiedFractionLiteralKind Kind { get; set; }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -43,6 +37,21 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield break;
+		}
+
+		public static UnifiedFractionLiteral Create(double value, UnifiedFractionLiteralKind kind) {
+			return new UnifiedFractionLiteral {
+					Value = value,
+					Kind = kind,
+			};
+		}
+
+		public static UnifiedFractionLiteral CreateSingle(double value) {
+			return Create(value, UnifiedFractionLiteralKind.Single);
+		}
+
+		public static UnifiedFractionLiteral CreateDouble(double value) {
+			return Create(value, UnifiedFractionLiteralKind.Doulbe);
 		}
 	}
 }

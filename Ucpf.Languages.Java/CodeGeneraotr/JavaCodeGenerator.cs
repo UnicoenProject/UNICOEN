@@ -14,7 +14,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			return buff.ToString();
 		}
 
-		public TextWriter Writer { get; private set; }
+		private readonly TextWriter _writer;
 		private int _indent;
 
 		private static readonly TokenInfo WithParen =
@@ -25,18 +25,18 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		public string IndentSpace { get; set; }
 
 		public JavaCodeGenerator(TextWriter writer) {
-			Writer = writer;
+			_writer = writer;
 			_indent = 0;
 			IndentSpace = "\t";
 		}
 
 		private void WriteIndent() {
 			for (int i = 0; i < _indent; i++)
-				Writer.Write(IndentSpace);
+				_writer.Write(IndentSpace);
 		}
 
 		public void WriteSpace() {
-			Writer.Write(" ");
+			_writer.Write(" ");
 		}
 
 		#region program, namespace, class, method, filed ...
@@ -44,7 +44,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		public bool Visit(UnifiedProgram element, TokenInfo data) {
 			foreach (var stmt in element) {
 				if (stmt.TryAccept(this, WithoutParen))
-					Writer.Write(";");
+					_writer.Write(";");
 			}
 			return false;
 		}
@@ -70,14 +70,14 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		public bool Visit(UnifiedClassDefinition element, TokenInfo data) {
 			var keyword = GetKeyword(element.Kind);
 			if (element.Kind == UnifiedClassKind.Namespace) {
-				Writer.Write(keyword);
+				_writer.Write(keyword);
 				WriteSpace();
 				element.Name.TryAccept(this, data);
 				return true;
 			}
 			WriteIndent();
 			element.Modifiers.TryAccept(this, data);
-			Writer.Write(keyword);
+			_writer.Write(keyword);
 			WriteSpace();
 			element.Name.TryAccept(this, data);
 			element.TypeParameters.TryAccept(this, data);
@@ -96,7 +96,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			element.Parameters.TryAccept(this, data);
 			if (element.Throws != null) {
 				WriteSpace();
-				Writer.Write("throws");
+				_writer.Write("throws");
 				WriteSpace();
 				element.Throws.TryAccept(this, data);
 			}
@@ -110,13 +110,13 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			element.Type.TryAccept(this, data);
 			WriteSpace();
 			if (removed)
-				Writer.Write("... ");
-			Writer.Write(element.Name.Value);
+				_writer.Write("... ");
+			_writer.Write(element.Name.Value);
 			return false;
 		}
 
 		public bool Visit(UnifiedModifier element, TokenInfo data) {
-			Writer.Write(element.Name);
+			_writer.Write(element.Name);
 			return false;
 		}
 
@@ -133,16 +133,16 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 
 		public bool Visit(UnifiedBlock element, TokenInfo data) {
 			WriteIndent();
-			Writer.WriteLine("{");
+			_writer.WriteLine("{");
 			_indent++;
 			foreach (var stmt in element) {
 				WriteIndent();
 				if (stmt.TryAccept(this, WithoutParen))
-					Writer.Write(";");
+					_writer.Write(";");
 			}
 			_indent--;
 			WriteIndent();
-			Writer.WriteLine("}");
+			_writer.WriteLine("}");
 			return false;
 		}
 
@@ -151,43 +151,43 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			WriteIndent();
 			switch (element.Kind) {
 			case UnifiedSpecialBlockKind.Synchronized:
-				Writer.Write("synchronized");
+				_writer.Write("synchronized");
 				break;
 			case UnifiedSpecialBlockKind.Fix:
-				Writer.Write("fix");
+				_writer.Write("fix");
 				break;
 			case UnifiedSpecialBlockKind.Using:
-				Writer.Write("using");
+				_writer.Write("using");
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 			}
 			if (element.Value != null) {
-				Writer.Write("(");
+				_writer.Write("(");
 				element.Value.TryAccept(this, WithoutParen);
-				Writer.Write(")");
+				_writer.Write(")");
 			}
-			Writer.Write("{");
+			_writer.Write("{");
 			_indent++;
 			foreach (var stmt in element.Body) {
 				WriteIndent();
 				if (stmt.TryAccept(this, WithoutParen))
-					Writer.Write(";");
+					_writer.Write(";");
 			}
 			_indent--;
 			WriteIndent();
-			Writer.Write("}");
+			_writer.Write("}");
 			return false;
 		}
 
 		public bool Visit(UnifiedIf ifStatement, TokenInfo data) {
-			Writer.Write("if (");
+			_writer.Write("if (");
 			ifStatement.Condition.TryAccept(this, data);
-			Writer.WriteLine(")");
+			_writer.WriteLine(")");
 			ifStatement.Body.TryAccept(this, data);
 			if (ifStatement.FalseBody != null) {
 				WriteIndent();
-				Writer.WriteLine("else");
+				_writer.WriteLine("else");
 				ifStatement.FalseBody.TryAccept(this, data);
 			}
 			return false;
@@ -195,7 +195,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 
 		// e.g. catch(Exception e){...}
 		public bool Visit(UnifiedCatch element, TokenInfo data) {
-			Writer.Write("catch");
+			_writer.Write("catch");
 			element.Parameters.TryAccept(this, data);
 			element.Body.TryAccept(this, data);
 			return false;
@@ -204,7 +204,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		// e.g. try{...}catch(E e){...}finally{...}
 		public bool Visit(UnifiedTry element, TokenInfo data) {
 			// try block
-			Writer.Write("try");
+			_writer.Write("try");
 			element.Body.TryAccept(this, data);
 
 			// catch blocks
@@ -214,7 +214,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			var finallyBlock = element.FinallyBody;
 			// how judge whether finalluBlock exists or not???
 			if (finallyBlock != null) {
-				Writer.Write("finally");
+				_writer.Write("finally");
 				finallyBlock.TryAccept(this, data);
 			}
 			return false;
@@ -246,7 +246,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		public bool Visit(UnifiedTernaryOperator element, TokenInfo data) {
 			switch (element.Kind) {
 			case (UnifiedTernaryOperatorKind.Conditional):
-				Writer.Write(element.FirstSign);
+				_writer.Write(element.FirstSign);
 				break;
 			default:
 				break;
@@ -258,7 +258,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			element.Name.TryAccept(this, data);
 			element.Supplements.TryAccept(this, data);
 			if (element.InitialValue != null) {
-				Writer.Write(" = ");
+				_writer.Write(" = ");
 				element.InitialValue.TryAccept(this, data);
 			}
 			element.Body.TryAccept(this, data);
@@ -266,46 +266,72 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		}
 
 		public bool Visit(UnifiedQualifiedIdentifier element, TokenInfo data) {
-			Writer.Write(element.Value);
+			_writer.Write(element.Value);
 			return false;
 		}
 
 		public bool Visit(UnifiedLabel element, TokenInfo data) {
 			element.Name.TryAccept(this, data);
-			Writer.Write(":");
+			_writer.Write(":");
 			return false;
 		}
 
 		public bool Visit(UnifiedBooleanLiteral element, TokenInfo data) {
 			if (element.Value.ToString() == "True")
-				Writer.Write("true");
+				_writer.Write("true");
 			if (element.Value.ToString() == "False")
-				Writer.Write("false");
+				_writer.Write("false");
 			return false;
 		}
 
-		public bool Visit(UnifiedDecimalLiteral element, TokenInfo data) {
-			Writer.Write(element.Value);
+		public bool Visit(UnifiedFractionLiteral element, TokenInfo data) {
+			_writer.Write(element.Value);
+			switch (element.Kind) {
+			case UnifiedFractionLiteralKind.Single:
+				_writer.Write("f");
+				break;
+			case UnifiedFractionLiteralKind.Doulbe:
+				_writer.Write("d");
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
 			return false;
 		}
 
 		public bool Visit(UnifiedIntegerLiteral element, TokenInfo data) {
-			Writer.Write(element.Value);
+			_writer.Write(element.Value);
+			switch (element.Kind) {
+			case UnifiedIntegerLiteralKind.Int32:
+				break;
+			case UnifiedIntegerLiteralKind.Int64:
+				_writer.Write("l");
+				break;
+			case UnifiedIntegerLiteralKind.BigInteger:
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
 			return false;
 		}
 
 		public bool Visit(UnifiedStringLiteral element, TokenInfo data) {
-			Writer.Write(element.Value);
-			return false;
-		}
-
-		public bool Visit(UnifiedCharLiteral element, TokenInfo data) {
-			Writer.Write(element.Value);
+			var delimiter = '"';
+			switch (element.Kind) {
+			case UnifiedStringLiteralKind.Char:
+				delimiter = '\'';
+				break;
+			case UnifiedStringLiteralKind.String:
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
+			_writer.Write(delimiter + element.Value + delimiter);
 			return false;
 		}
 
 		public bool Visit(UnifiedNullLiteral element, TokenInfo data) {
-			Writer.Write("null");
+			_writer.Write("null");
 			return false;
 		}
 
@@ -340,7 +366,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		#region expression
 
 		public bool Visit(UnifiedBinaryOperator op, TokenInfo data) {
-			Writer.Write(op.Sign);
+			_writer.Write(op.Sign);
 			return false;
 		}
 
@@ -354,14 +380,14 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		#region value
 
 		public bool Visit(UnifiedIdentifier identifier, TokenInfo data) {
-			Writer.Write(identifier.Value);
+			_writer.Write(identifier.Value);
 			return false;
 		}
 
 		public bool Visit<T>(UnifiedTypedLiteral<T> lit, TokenInfo data) {
 			if (lit.Value is bool)
 				lit.Value = lit.Value;
-			Writer.Write(lit.Value);
+			_writer.Write(lit.Value);
 			return false;
 		}
 
@@ -371,27 +397,27 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			var kind = element.Kind;
 			switch (kind) {
 			case (UnifiedUnaryOperatorKind.Negate):
-				Writer.Write("-");
+				_writer.Write("-");
 				break;
 			case (UnifiedUnaryOperatorKind.Not):
-				Writer.Write("!");
+				_writer.Write("!");
 				break;
 			case (UnifiedUnaryOperatorKind.PostDecrementAssign):
 			case (UnifiedUnaryOperatorKind.PreDecrementAssign):
-				Writer.Write("--");
+				_writer.Write("--");
 				break;
 			case (UnifiedUnaryOperatorKind.PostIncrementAssign):
 			case (UnifiedUnaryOperatorKind.PreIncrementAssign):
-				Writer.Write("++");
+				_writer.Write("++");
 				break;
 			case (UnifiedUnaryOperatorKind.UnaryPlus):
-				Writer.Write("+");
+				_writer.Write("+");
 				break;
 			case (UnifiedUnaryOperatorKind.OnesComplement):
-				Writer.Write("~");
+				_writer.Write("~");
 				break;
 			case (UnifiedUnaryOperatorKind.Unknown):
-				Writer.Write(element.Sign);
+				_writer.Write(element.Sign);
 				break;
 			default:
 				throw new InvalidOperationException();
@@ -412,7 +438,7 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 				element.Body.TryAccept(this, data);
 				break;
 			case UnifiedConstructorDefinitionKind.StaticInitializer:
-				Writer.Write("static ");
+				_writer.Write("static ");
 				element.Body.TryAccept(this, data);
 				break;
 			case UnifiedConstructorDefinitionKind.InstanceInitializer:
@@ -425,46 +451,46 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		}
 
 		public bool Visit(UnifiedFor element, TokenInfo data) {
-			Writer.Write("for(");
+			_writer.Write("for(");
 			element.Initializer.TryAccept(this, data);
-			Writer.Write("; ");
+			_writer.Write("; ");
 			element.Condition.TryAccept(this, data);
-			Writer.Write(";");
+			_writer.Write(";");
 			element.Step.TryAccept(this, data);
-			Writer.Write(")");
+			_writer.Write(")");
 
 			element.Body.TryAccept(this, data);
 			return false;
 		}
 
 		public bool Visit(UnifiedForeach element, TokenInfo data) {
-			Writer.Write("for(");
+			_writer.Write("for(");
 			element.Element.TryAccept(this, data);
 			WriteSpace();
-			Writer.Write(":");
+			_writer.Write(":");
 			WriteSpace();
 			element.Set.TryAccept(this, data);
-			Writer.Write(")");
+			_writer.Write(")");
 
 			element.Body.TryAccept(this, data);
 			return false;
 		}
 
 		public bool Visit(UnifiedWhile element, TokenInfo data) {
-			Writer.Write("while(");
+			_writer.Write("while(");
 			element.Condition.TryAccept(this, data);
-			Writer.Write(")");
+			_writer.Write(")");
 
 			element.Body.TryAccept(this, data);
 			return false;
 		}
 
 		public bool Visit(UnifiedDoWhile element, TokenInfo data) {
-			Writer.Write("do");
+			_writer.Write("do");
 			element.Body.TryAccept(this, data);
-			Writer.Write("while(");
+			_writer.Write("while(");
 			element.Condition.TryAccept(this, data);
-			Writer.Write(");");
+			_writer.Write(");");
 			return false;
 		}
 
@@ -483,22 +509,22 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 		}
 
 		public bool Visit(UnifiedSwitch element, TokenInfo data) {
-			Writer.Write("switch(");
+			_writer.Write("switch(");
 			element.Value.TryAccept(this, data);
-			Writer.Write(") {");
+			_writer.Write(") {");
 
 			element.Cases.TryAccept(this, data);
-			Writer.Write("}");
+			_writer.Write("}");
 			return false;
 		}
 
 		public bool Visit(UnifiedCase element, TokenInfo data) {
 			if (element.Condition == null) {
-				Writer.Write("default :\n");
+				_writer.Write("default :\n");
 			} else {
-				Writer.Write("case(");
+				_writer.Write("case(");
 				element.Condition.TryAccept(this, data);
-				Writer.Write(") :\n");
+				_writer.Write(") :\n");
 			}
 			element.Body.TryAccept(this, data);
 			return false;

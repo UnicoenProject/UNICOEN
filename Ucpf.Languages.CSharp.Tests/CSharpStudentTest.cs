@@ -80,7 +80,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 																					UnifiedArgument.Create(UnifiedIntegerLiteral.Create(0)))),
 																	UnifiedNew.Create(UnifiedType.CreateUsingString("Student"),
 																			UnifiedArgumentCollection.Create(
-																					UnifiedArgument.Create(UnifiedStringLiteral.Create("Tom"))))
+																					UnifiedArgument.Create(UnifiedStringLiteral.CreateString("Tom"))))
 																	),
 															CSharpModelFactoryHelper.CreateAssignExpression(
 																	UnifiedIndexer.Create(
@@ -89,7 +89,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 																					UnifiedArgument.Create(UnifiedIntegerLiteral.Create(1)))),
 																	UnifiedNew.Create(UnifiedType.CreateUsingString("Student"),
 																			UnifiedArgumentCollection.Create(
-																					UnifiedArgument.Create(UnifiedStringLiteral.Create("Anna"))))
+																					UnifiedArgument.Create(UnifiedStringLiteral.CreateString("Anna"))))
 																	),
 															UnifiedFor.Create(
 																	UnifiedVariableDefinition.CreateSingle(
