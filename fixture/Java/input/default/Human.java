@@ -1,4 +1,4 @@
-class Person {
+public class Human {
 	String myName;
 	int myAge;
 
@@ -19,13 +19,13 @@ class Person {
 	}
 }
 
-class PersonTest {
+class HumanTest {
 	public static void main(String[] args) {
-		Person tanaka = new Person(); // 田中さんオブジェクトを作る
+		Human tanaka = new Human(); // 田中さんオブジェクトを作る
 		tanaka.SetName("Tanaka"); // 田中さんの名前を設定する
 		tanaka.SetAge(26); // 田中さんの年齢を設定する
 
-		Person suzuki = new Person(); // 鈴木さんオブジェクトを作る
+		Human suzuki = new Human(); // 鈴木さんオブジェクトを作る
 		suzuki.SetName("Suzuki"); // 鈴木さんの名前を設定する
 		suzuki.SetAge(32); // 鈴木さんの年齢を設定する
 
@@ -36,11 +36,11 @@ class PersonTest {
 	}
 }
 
-class Person2 {
+class Human2 {
 	String myName;
 	int myAge;
 
-	Person2(String name) {
+	Human2(String name) {
 		myName = name;
 	}
 
@@ -61,7 +61,7 @@ class Person2 {
 	}
 }
 
-class Member extends Person {
+class Member extends Human {
 	int myNumber;
 
 	public void SetNumber(int number) {
@@ -73,7 +73,7 @@ class Member extends Person {
 	}
 }
 
-class Member2 extends Person2 {
+class Member2 extends Human2 {
 	Member2() {
 		super("tanaka"); // 親クラスのコンストラクタを呼び出す
 		super.SetAge(26); // 親クラスのメソッドを呼び出す
