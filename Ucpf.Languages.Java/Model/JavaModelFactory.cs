@@ -2298,7 +2298,7 @@ namespace Ucpf.Languages.Java.Model {
 			 * Exponent    
 			 * :   ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ 
 			 */
-			if (value[1] == 'x' || value[1] == 'X') {
+			if (value.Count() > 1 && (value[1] == 'x' || value[1] == 'X')) {
 				return ParseHexFraction(value);
 			}
 			return double.Parse(value);

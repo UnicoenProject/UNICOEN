@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigDecimal.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />

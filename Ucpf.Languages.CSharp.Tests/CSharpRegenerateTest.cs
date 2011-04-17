@@ -164,7 +164,7 @@ namespace Ucpf.Languages.CSharp.Tests {
 			var model2 = CSharpModelFactory.CreateModel(code2);
 			var code3 = CSharpCodeGenerator.Generate(model2);
 			var model3 = CSharpModelFactory.CreateModel(code3);
-			Assert.That(model3, Is.EqualTo(model1)
+			Assert.That(model3, Is.EqualTo(model2)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 

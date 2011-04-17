@@ -172,7 +172,7 @@ namespace Ucpf.Languages.Java.Tests {
 			var model2 = JavaModelFactory.CreateModel(code2);
 			var code3 = JavaCodeGenerator.Generate(model2);
 			var model3 = JavaModelFactory.CreateModel(code3);
-			Assert.That(model3, Is.EqualTo(model1)
+			Assert.That(model3, Is.EqualTo(model2)
 					.Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
@@ -191,7 +191,7 @@ namespace Ucpf.Languages.Java.Tests {
 				var model2 = JavaModelFactory.CreateModel(code2);
 				var code3 = JavaCodeGenerator.Generate(model2);
 				var model3 = JavaModelFactory.CreateModel(code3);
-				Assert.That(model3, Is.EqualTo(model1)
+				Assert.That(model3, Is.EqualTo(model2)
 						.Using(StructuralEqualityComparerForDebug.Instance));
 			}
 		}
