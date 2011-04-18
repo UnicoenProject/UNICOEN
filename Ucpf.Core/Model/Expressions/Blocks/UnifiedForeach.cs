@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   foreach文あるいは拡張for文を表します。
+	///   e.g. Javaにおける<c>for(int n : array){...}</c>やC#における<c>foreach(var n in array){...}</c>
 	/// </summary>
 	public class UnifiedForeach : UnifiedExpressionWithBlock<UnifiedForeach> {
 		private UnifiedVariableDefinition _element;

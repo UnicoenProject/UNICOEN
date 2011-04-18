@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   if文を表します。
+	///   Javaにおける<c>if(con){...}else{...}</c>
 	/// </summary>
 	public class UnifiedIf : UnifiedExpressionWithBlock<UnifiedIf> {
 		private IUnifiedExpression _condition;

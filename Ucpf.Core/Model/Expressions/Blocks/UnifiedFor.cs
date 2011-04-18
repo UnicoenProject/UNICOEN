@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   for文を表します。
+	///   Javaにおける<c>for(int i = 10; i != 0; i--){...}</c>
 	/// </summary>
 	public class UnifiedFor : UnifiedExpressionWithBlock<UnifiedFor> {
 		private IUnifiedExpression _initializer;

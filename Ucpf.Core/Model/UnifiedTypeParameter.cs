@@ -9,6 +9,10 @@ namespace Ucpf.Core.Model {
 	public class UnifiedTypeParameter : UnifiedElement {
 		private UnifiedType _type;
 
+		/// <summary>
+		/// 　仮引数の型を表します
+		/// 　e.g. Javaにおける<code>method&lt;T&gt;{...}</code>の<code>T</code>
+		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }

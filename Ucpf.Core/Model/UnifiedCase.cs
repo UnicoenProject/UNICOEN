@@ -5,10 +5,15 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   switch文におけるcase式を表します。
+	///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>case 1: BLOCK1</c>
 	/// </summary>
 	public class UnifiedCase : UnifiedElement {
 		private IUnifiedExpression _condition;
 
+		/// <summary>
+		/// case式の分岐条件を表します
+		///  e.g. Javaにおける<c>switch(sw){case 1: EXPRESSION1 ...}</c>の<c>1</c>
+		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetParentOfChild(value, _condition); }
@@ -16,6 +21,10 @@ namespace Ucpf.Core.Model {
 
 		private UnifiedBlock _body;
 
+		/// <summary>
+		/// case式の分岐に対応する内容を表します
+		///  e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>BLOCK1</c>
+		/// </summary>
 		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetParentOfChild(value, _body); }

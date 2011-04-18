@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   コンストラクタの定義部分を表します。
+	///   Javaにおける<c>public class C extends D{...}</c>
 	/// </summary>
 	public class UnifiedConstructorDefinition
 			: UnifiedExpressionWithBlock<UnifiedConstructorDefinition> {

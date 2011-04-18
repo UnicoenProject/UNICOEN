@@ -10,10 +10,19 @@ namespace Ucpf.Core.Model {
 	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
 	/// </summary>
 	public class UnifiedTypeConstrain : UnifiedElement {
+		
+		/// <summary>
+		/// 制約の種類を表します
+		/// e.g. Javaにおける<c>class C extends P { ... }</c>の<c>extends</c>
+		/// </summary>
 		public UnifiedTypeConstrainKind Kind { get; set; }
 
 		private UnifiedType _type;
 
+		/// <summary>
+		/// 制約の対象を表します
+		/// e.g. Javaにおける<c>class C extends P { ... }</c>の<c>P</c>
+		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }
