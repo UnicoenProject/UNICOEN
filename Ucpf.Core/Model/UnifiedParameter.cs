@@ -5,10 +5,14 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   仮引数(パラメータ)を表します。
+	///   e.g. Javaにおける<code>public void method(int a)</code>の<code>int a</code>
 	/// </summary>
 	public class UnifiedParameter : UnifiedElement {
 		private UnifiedModifierCollection _modifiers;
 
+		/// <summary>
+		/// 仮引数の修飾子を表します
+		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetParentOfChild(value, _modifiers); }
@@ -16,6 +20,10 @@ namespace Ucpf.Core.Model {
 
 		private UnifiedType _type;
 
+		/// <summary>
+		/// 仮引数の型を表します
+		/// e.g. Javaにおける<code>public void method(int a)</code>の<code>int</code>
+		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }
@@ -23,6 +31,10 @@ namespace Ucpf.Core.Model {
 
 		private UnifiedIdentifier _name;
 
+		/// <summary>
+		/// 仮引数の引数名を表します
+		/// e.g. Javaにおける<code>method(int a)</code>の<code>a</code>
+		/// </summary>
 		public UnifiedIdentifier Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }

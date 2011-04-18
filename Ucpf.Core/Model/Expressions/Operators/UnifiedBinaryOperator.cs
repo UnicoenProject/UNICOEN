@@ -5,8 +5,12 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   二項演算子を表します。
+	///   e.g. <c>a + b</c>の<c>+</c>
 	/// </summary>
 	public class UnifiedBinaryOperator : UnifiedElement {
+		/// <summary>
+		/// 演算子の記号を表します
+		/// </summary>
 		public string Sign { get; private set; }
 
 		public UnifiedBinaryOperatorKind Kind { get; private set; }

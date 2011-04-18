@@ -4,6 +4,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   修飾子の集合を表します。
+	///   e.g. Javaにおける<code>public static void method(){...}</code>の<code>public static</code>
 	/// </summary>
 	public class UnifiedModifierCollection
 			: UnifiedElementCollection<UnifiedModifier, UnifiedModifierCollection> {

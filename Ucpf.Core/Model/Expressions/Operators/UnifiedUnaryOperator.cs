@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   単項演算子を表します。
+	///   e.g. Cにおける<c>^a</c>や<c>b++</c>の<c>^</c>や<c>++</c>
 	/// </summary>
 	public class UnifiedUnaryOperator : UnifiedElement {
 		public string Sign { get; private set; }

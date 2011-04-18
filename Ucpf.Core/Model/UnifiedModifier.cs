@@ -5,8 +5,12 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   修飾子を表します。
+	///   e.g. Javaにおける<code>public int methd(){...}</code>や<code>private String _str</code>の，<code>public</code>や<code>private</code>
 	/// </summary>
 	public class UnifiedModifier : UnifiedElement {
+		/// <summary>
+		/// 修飾子の名前を表します
+		/// </summary>
 		public string Name { get; set; }
 
 		private UnifiedModifier() {}

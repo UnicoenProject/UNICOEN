@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   catch節を表します。
+	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
 	public class UnifiedCatch : UnifiedExpressionWithBlock<UnifiedCatch> {
 		private UnifiedParameterCollection _parameters;

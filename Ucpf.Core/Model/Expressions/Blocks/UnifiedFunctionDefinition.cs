@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   関数、メソッド、コンストラクタなどの定義部分を表します。
+	///   Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
 	public class UnifiedFunctionDefinition
 			: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {

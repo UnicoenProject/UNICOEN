@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   synchronizedなど特殊なブロックを表します。
+	///   e.g. Javaにおける<c>synchronized{...}</c>など
 	/// </summary>
 	public class UnifiedSpecialBlock
 			: UnifiedExpressionWithBlock<UnifiedSpecialBlock> {

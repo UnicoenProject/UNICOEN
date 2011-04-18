@@ -5,6 +5,7 @@ using Ucpf.Core.Model.Visitors;
 namespace Ucpf.Core.Model {
 	/// <summary>
 	///   while文を表します。
+	///   e.g. Javaにおける<c>while(con){...}</c>
 	/// </summary>
 	public class UnifiedWhile
 			: UnifiedExpressionWithBlock<UnifiedWhile> {
