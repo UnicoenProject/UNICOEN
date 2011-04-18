@@ -60,16 +60,16 @@ namespace Ucpf.Languages.Java.Model {
 			 * :   'import' ('static')? IDENTIFIER '.' '*' ';'
 			 * |   'import' ('static')? IDENTIFIER ('.' IDENTIFIER)+ ('.' '*')? ';' 
 			 */
-
 			var idStrs = node.Elements("IDENTIFIER").Select(e => e.Value);
 			if (node.HasElementByContent("*"))
 				idStrs = idStrs.Concat("*");
 
 			// TODO CreateUnknownより詳しい情報を
-			var name = idStrs.Select(UnifiedIdentifier.CreateUnknown).ToQualified(".");
+			var name = idStrs.Select(UnifiedIdentifier.CreateUnknown).ToProperty(".");
 			var modifiers = node.HasElementByContent("static")
 			                		? UnifiedModifier.Create(node.NthElement(1).Value).
-			                		  		ToCollection() : null;
+			                		  		ToCollection()
+			                		: null;
 
 			return UnifiedImport.Create(name, modifiers);
 		}

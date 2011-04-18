@@ -52,7 +52,6 @@
 		void Visit(UnifiedVariableDefinitionBody element);
 		void Visit(UnifiedVariableDefinitionBodyCollection element);
 		void Visit(UnifiedIdentifierCollection element);
-		void Visit(UnifiedQualifiedIdentifier element);
 		void Visit(UnifiedLabel element);
 		void Visit(UnifiedExpressionList element);
 		void Visit(UnifiedBooleanLiteral element);
@@ -115,7 +114,6 @@
 		void Visit(UnifiedVariableDefinitionBody element, TData data);
 		void Visit(UnifiedVariableDefinitionBodyCollection element, TData data);
 		void Visit(UnifiedIdentifierCollection element, TData data);
-		void Visit(UnifiedQualifiedIdentifier element, TData data);
 		void Visit(UnifiedLabel element, TData data);
 		void Visit(UnifiedExpressionList element, TData data);
 		void Visit(UnifiedBooleanLiteral element, TData data);
@@ -178,7 +176,6 @@
 		TResult Visit(UnifiedVariableDefinitionBody element, TData data);
 		TResult Visit(UnifiedVariableDefinitionBodyCollection element, TData data);
 		TResult Visit(UnifiedIdentifierCollection element, TData data);
-		TResult Visit(UnifiedQualifiedIdentifier element, TData data);
 		TResult Visit(UnifiedLabel element, TData data);
 		TResult Visit(UnifiedExpressionList element, TData data);
 		TResult Visit(UnifiedBooleanLiteral element, TData data);

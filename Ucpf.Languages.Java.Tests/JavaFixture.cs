@@ -5,10 +5,12 @@ using NUnit.Framework;
 using Ucpf.Core.Tests;
 
 namespace Ucpf.Languages.Java.Tests {
+
 	public static class JavaFixture {
 		/// <summary>
-		///   A.javaファイルのメソッド宣言の中身としてテスト
-		///   <c>class A { public void M1() { ... } }</c>の...部分に埋め込んだのちテスト
+		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
+		///   <c>class A { public void M1() { ... } }</c>の...部分に
+		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
 		public static IEnumerable<TestCaseData> TestStatements {
 			get {
@@ -20,7 +22,9 @@ namespace Ucpf.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   A.javaファイルのソースコードとしてテスト
+		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
+		///   <c>class A { public void M1() { ... } }</c>の...部分に
+		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
 		public static IEnumerable<TestCaseData> TestCodes {
 			get {

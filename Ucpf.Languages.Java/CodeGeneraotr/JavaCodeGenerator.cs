@@ -268,11 +268,6 @@ namespace Ucpf.Languages.Java.CodeGeneraotr {
 			return false;
 		}
 
-		public bool Visit(UnifiedQualifiedIdentifier element, TokenInfo data) {
-			_writer.Write(element.Value);
-			return false;
-		}
-
 		public bool Visit(UnifiedLabel element, TokenInfo data) {
 			element.Name.TryAccept(this, data);
 			_writer.Write(":");

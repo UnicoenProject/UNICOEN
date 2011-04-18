@@ -7,9 +7,9 @@ namespace Ucpf.Core.Model {
 	///   使用する名前空間の指定や外部ファイルの読み込みを表します。
 	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
-		private UnifiedQualifiedIdentifier _name;
+		private IUnifiedExpression _name;
 
-		public UnifiedQualifiedIdentifier Name {
+		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
 		}
@@ -45,7 +45,7 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedQualifiedIdentifier)v);
+					(Name, v => Name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 		}
@@ -53,12 +53,12 @@ namespace Ucpf.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (UnifiedQualifiedIdentifier)v);
+					(_name, v => _name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 		}
 
-		public static UnifiedImport Create(UnifiedQualifiedIdentifier name,
+		public static UnifiedImport Create(IUnifiedExpression name,
 		                                   UnifiedModifierCollection modifiers) {
 			return new UnifiedImport {
 					Name = name,

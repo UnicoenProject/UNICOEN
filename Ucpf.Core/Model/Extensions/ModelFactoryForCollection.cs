@@ -84,17 +84,6 @@ namespace Ucpf.Core.Model.Extensions {
 				this UnifiedIdentifier singleton) {
 					return singleton;
 		}
-
-		public static UnifiedQualifiedIdentifier ToQualified(
-				this IEnumerable<UnifiedIdentifier> collection, string delimiter) {
-			return UnifiedQualifiedIdentifier.Create(collection, delimiter);
-		}
-
-		public static UnifiedQualifiedIdentifier ToQualified(
-				this UnifiedIdentifier singleton) {
-			return UnifiedQualifiedIdentifier.Create(singleton.ToCollection(), null);
-		}
-
 		public static UnifiedModifierCollection ToCollection(
 				this IEnumerable<UnifiedModifier> collection) {
 			return UnifiedModifierCollection.Create(collection);

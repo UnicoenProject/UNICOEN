@@ -193,10 +193,6 @@ namespace Ucpf.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedQualifiedIdentifier element) {
-			throw new NotImplementedException();
-		}
-
 		public void Visit(UnifiedLabel element) {
 			throw new NotImplementedException();
 		}
