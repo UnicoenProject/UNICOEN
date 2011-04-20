@@ -21,7 +21,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Languages.Java.CodeFactories {
-	public partial class JavaCodeGenerator {
+	public partial class JavaCodeFactory {
 		private static string GetKeyword(UnifiedTypeConstrainKind kind) {
 			switch (kind) {
 			case UnifiedTypeConstrainKind.Extends:

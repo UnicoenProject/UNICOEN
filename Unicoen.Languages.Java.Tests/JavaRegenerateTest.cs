@@ -144,7 +144,7 @@ namespace Unicoen.Languages.Java.Tests {
 			Compile(workPath, fileName);
 			var orgByteCode1 = GetAllByteCode(workPath);
 			var model1 = JavaModelFactoryHelper.CreateModel(orgCode1);
-			var code2 = JavaCodeGenerator.Instance.Generate(model1);
+			var code2 = JavaCodeFactory.Instance.Generate(model1);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			Compile(workPath, fileName);
 			var byteCode2 = GetAllByteCode(workPath);
@@ -170,7 +170,7 @@ namespace Unicoen.Languages.Java.Tests {
 			foreach (var codePath in codePaths) {
 				var orgCode1 = File.ReadAllText(codePath, XEncoding.SJIS);
 				var model1 = JavaModelFactoryHelper.CreateModel(orgCode1);
-				var code2 = JavaCodeGenerator.Instance.Generate(model1);
+				var code2 = JavaCodeFactory.Instance.Generate(model1);
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
 			CompileWithArguments(workPath, command, arguments);
@@ -186,9 +186,9 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "orgCode">再生成するソースコード</param>
 		public void VerifyCompareThroughModel(string orgCode) {
 			var model1 = JavaModelFactoryHelper.CreateModel(orgCode);
-			var code2 = JavaCodeGenerator.Instance.Generate(model1);
+			var code2 = JavaCodeFactory.Instance.Generate(model1);
 			var model2 = JavaModelFactoryHelper.CreateModel(code2);
-			var code3 = JavaCodeGenerator.Instance.Generate(model2);
+			var code3 = JavaCodeFactory.Instance.Generate(model2);
 			var model3 = JavaModelFactoryHelper.CreateModel(code3);
 			Assert.That(
 					model3, Is.EqualTo(model2)
@@ -206,9 +206,9 @@ namespace Unicoen.Languages.Java.Tests {
 			foreach (var codePath in codePaths) {
 				var orgCode = File.ReadAllText(codePath, XEncoding.SJIS);
 				var model1 = JavaModelFactoryHelper.CreateModel(orgCode);
-				var code2 = JavaCodeGenerator.Instance.Generate(model1);
+				var code2 = JavaCodeFactory.Instance.Generate(model1);
 				var model2 = JavaModelFactoryHelper.CreateModel(code2);
-				var code3 = JavaCodeGenerator.Instance.Generate(model2);
+				var code3 = JavaCodeFactory.Instance.Generate(model2);
 				var model3 = JavaModelFactoryHelper.CreateModel(code3);
 				Assert.That(
 						model3, Is.EqualTo(model2)

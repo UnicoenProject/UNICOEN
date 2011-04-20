@@ -78,9 +78,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\JavaCodeGenerator.cs" />
-    <Compile Include="CodeFactories\JavaCodeGeneratorForCollection.cs" />
-    <Compile Include="CodeFactories\JavaCodeGeneratorRequiringSemicolon.cs" />
+    <Compile Include="CodeFactories\JavaCodeFactory.cs" />
+    <Compile Include="CodeFactories\JavaCodeFactoryForCollection.cs" />
+    <Compile Include="CodeFactories\JavaCodeFactoryRequiringSemicolon.cs" />
     <Compile Include="CodeFactories\Decoration.cs" />
     <Compile Include="CodeFactories\VisitorState.cs" />
     <Compile Include="ModelFactories\JavaModelFactory.cs" />

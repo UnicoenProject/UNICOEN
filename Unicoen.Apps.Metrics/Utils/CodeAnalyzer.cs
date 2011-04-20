@@ -64,11 +64,11 @@ namespace Unicoen.Applications.Metrics.Utils {
 		private static string GetOutersName(IUnifiedElement element) {
 			var klass = element as UnifiedClassDefinition;
 			if (klass != null) {
-				return "[class] " + JavaCodeGenerator.Instance.Generate(klass.Name);
+				return "[class] " + JavaCodeFactory.Instance.Generate(klass.Name);
 			}
 			var method = element as UnifiedFunctionDefinition;
 			if (method != null) {
-				return "[method] " + JavaCodeGenerator.Instance.Generate(method.Name);
+				return "[method] " + JavaCodeFactory.Instance.Generate(method.Name);
 			}
 			return null;
 		}

@@ -62,13 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\JavaCodeGeneratorTestForStudent.cs" />
-    <Compile Include="JavaFibonacciTest.cs" />
     <Compile Include="JavaFixture.cs" />
     <Compile Include="JavaModelFeatureTest.cs" />
     <Compile Include="JavaRegenerateTest.cs" />
-    <Compile Include="JavaSpecificationTest.cs" />
-    <Compile Include="JavaStudentTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +88,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

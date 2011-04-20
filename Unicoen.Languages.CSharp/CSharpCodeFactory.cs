@@ -22,10 +22,10 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Languages.CSharp {
-	public class CSharpCodeGenerator : IUnifiedModelVisitor {
+	public class CSharpCodeFactory : IUnifiedModelVisitor {
 		public static string Generate(UnifiedProgram program) {
 			var buff = new StringWriter();
-			var visitor = new CSharpCodeGenerator(buff);
+			var visitor = new CSharpCodeFactory(buff);
 			visitor.Visit(program);
 			return buff.ToString();
 		}
@@ -35,7 +35,7 @@ namespace Unicoen.Languages.CSharp {
 
 		public string IndentSpace { get; set; }
 
-		private CSharpCodeGenerator(TextWriter writer) {
+		private CSharpCodeFactory(TextWriter writer) {
 			_writer = writer;
 			_indent = 0;
 			IndentSpace = "\t";

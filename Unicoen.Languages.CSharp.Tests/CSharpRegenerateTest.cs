@@ -168,7 +168,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 			File.WriteAllText(srcPath, orgCode1, XEncoding.SJIS);
 			var orgILCode1 = GetILCode(workPath, fileName);
 			var model1 = CSharpModelFactory.CreateModel(orgCode1);
-			var code2 = CSharpCodeGenerator.Generate(model1);
+			var code2 = CSharpCodeFactory.Generate(model1);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			var iLCode2 = GetILCode(workPath, fileName);
 			Assert.That(iLCode2, Is.EqualTo(orgILCode1));
@@ -182,9 +182,9 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// <param name = "orgCode">再生成するソースコードの内容</param>
 		public void VerifyCompareThroughModel(string orgCode) {
 			var model1 = CSharpModelFactory.CreateModel(orgCode);
-			var code2 = CSharpCodeGenerator.Generate(model1);
+			var code2 = CSharpCodeFactory.Generate(model1);
 			var model2 = CSharpModelFactory.CreateModel(code2);
-			var code3 = CSharpCodeGenerator.Generate(model2);
+			var code3 = CSharpCodeFactory.Generate(model2);
 			var model3 = CSharpModelFactory.CreateModel(code3);
 			Assert.That(
 					model3, Is.EqualTo(model2)

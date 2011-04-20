@@ -21,7 +21,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Languages.Java.CodeFactories {
-	public partial class JavaCodeGenerator {
+	public partial class JavaCodeFactory {
 		private static Tuple<string, string> GetKeyword(
 				UnifiedTernaryOperatorKind kind) {
 			switch (kind) {

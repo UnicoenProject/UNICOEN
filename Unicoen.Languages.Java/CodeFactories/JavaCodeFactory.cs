@@ -24,7 +24,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Languages.Java.CodeFactories {
-	public partial class JavaCodeGenerator
+	public partial class JavaCodeFactory
 			: CodeFactory, IUnifiedModelVisitor<VisitorState, bool> {
 		/// <summary>
 		/// Expressionが括弧を付けるためのDecorationです
@@ -58,7 +58,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration NewLineDelimiter =
 				new Decoration { Delimiter = "\n" };
 
-		public static JavaCodeGenerator Instance = new JavaCodeGenerator();
+		public static JavaCodeFactory Instance = new JavaCodeFactory();
 
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
