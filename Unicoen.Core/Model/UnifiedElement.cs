@@ -156,6 +156,14 @@ namespace Unicoen.Core.Model {
 			return Parent.RemoveChild(this);
 		}
 
+		public void AddBefore(IUnifiedElement node) {
+			throw new NotImplementedException();
+		}
+
+		public void AddAfter(IUnifiedElement node) {
+			throw new NotImplementedException();
+		}
+
 		/// <summary>
 		///   指定した子要素の親を指定した要素に設定します。
 		/// </summary>

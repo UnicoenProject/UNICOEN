@@ -83,6 +83,10 @@ namespace Unicoen.Core.Model {
 			}
 		}
 
+		public void Insert(int index, TElement element) {
+			Elements.Insert(index, element);
+		}
+
 		public bool Remove(TElement item) {
 			return Elements.Remove(item);
 		}

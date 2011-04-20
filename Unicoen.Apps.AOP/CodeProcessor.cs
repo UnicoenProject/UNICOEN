@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Code2Xml.Languages.Java.XmlGenerators;
 using Unicoen.Core.Model;
+using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Apps.AOP {
 	/// <summary>
@@ -65,6 +67,64 @@ namespace Unicoen.Apps.AOP {
 						return e;
 			}
 			return null;
+		}
+		
+		/// <summary>
+		/// すべての関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name="root">コードを追加するモデルのルートノード</param>
+		/// <param name="advice">挿入するコード断片</param>
+		public static void InsertBeforeAllFunction(IUnifiedElement root, string advice) {
+			//get function list
+			var functions = GetFunctionDefinitions(root);
+			//create advice as model
+			var actual = CreateAdvice(advice);
+
+			foreach (var e in functions) {
+				e.Body.Insert(0, actual);
+				throw new NotImplementedException();
+				//TODO どうやってe.Bodyの一番前に処理を追加するか検討する
+			}
+		}
+
+		/// <summary>
+		/// すべての関数の後に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name="root">コードを追加するモデルのルートノード</param>
+		/// <param name="advice">挿入するコード断片</param>
+		public static void InsertAfterAllFunction(IUnifiedElement root, string advice) {
+			//get function list
+			var functions = GetFunctionDefinitions(root);
+			//create advice as model
+			var actual = CreateAdvice(advice);
+
+			foreach (var function in functions) {
+				var returns =
+						GetElementsBySpecifiedType<UnifiedSpecialExpression>(function).Where(
+								e => e.Kind == UnifiedSpecialExpressionKind.Return);
+
+				if(returns.Count() == 0) { //case function don't have return statement
+					function.Body.Add(actual);
+				}
+				foreach (var returnStmt in returns) {
+					throw new NotImplementedException();
+					//TODO insertElementBefore(returnStmt, actual)みたいなメソッドが必要
+				}
+			}
+		}
+
+		/// <summary>
+		/// 与えられたコードを共通コードモデルとして生成します。
+		/// </summary>
+		/// <param name="code">コード断片</param>
+		/// <returns></returns>
+		public static UnifiedBlock CreateAdvice(string code) {
+			//generate model from string advice (as UnifiedBlock)
+			var ast = JavaXmlGenerator.Instance.Generate(code, p => p.block());
+			var actual = JavaModelFactoryHelper.CreateBlock(ast);
+			actual.Normalize();
+
+			return actual;
 		}
 	}
 }
