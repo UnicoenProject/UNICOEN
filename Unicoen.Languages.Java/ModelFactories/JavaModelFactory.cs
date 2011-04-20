@@ -22,6 +22,8 @@ using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.Java.ModelFactories {
 	public class JavaModelFactory : ModelFactory {
+		public static JavaModelFactory Instance = new JavaModelFactory();
+
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = JavaXmlGenerator.Instance.Generate(code);
 			return JavaModelFactoryHelper.CreateCompilationUnit(ast);
