@@ -9,7 +9,7 @@ using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Apps.AOP {
-	class Program {
+	public class Program {
 
 		private static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
