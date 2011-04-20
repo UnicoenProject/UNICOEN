@@ -97,7 +97,7 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_lastExpression, v => _lastExpression = (IUnifiedExpression)v);
 		}
-
+		
 		public static UnifiedTernaryExpression Create(
 				IUnifiedExpression firstExpression,
 				UnifiedTernaryOperator ternaryOperator,
