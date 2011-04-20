@@ -24,26 +24,18 @@ namespace Unicoen.Apps.AOP.Tests {
 		private string _code;
 		private UnifiedProgram _model;
 
-		private static UnifiedProgram CreateModel(string ext, string code) {
-			switch (ext.ToLower()) {
-			case ".cs":
-				return CSharpModelFactory.CreateModel(code);
-			case ".java":
-				return JavaModelFactoryHelper.CreateModel(code);
-			}
-			return null;
-		}
-
 		[SetUp]
 		public void Setup() {
 			_ext = Path.GetExtension(filePath);
 			_code = File.ReadAllText(filePath, XEncoding.SJIS);
-			_model = CreateModel(_ext, _code);
+			_model = Program.CreateModel(_ext, _code);
 		}
 
 		[Test]
+		[TestCase("method1")]
 		public void GetFunctionDefinitionByName(string name) {
-			
+			var e = CodeProcessor.GetFunctionDefinitionByName(_model, name);
+			Assert.That(e.Name.Value, Is.EqualTo(name));
 		}
 	}
 }
