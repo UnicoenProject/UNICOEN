@@ -34,7 +34,7 @@ namespace Unicoen.Languages.Java.Tests {
 				return new[] {
 						"M1();",
 						"new A();",
-				}.Select(s => new TestCaseData(CreateCode(s)));
+				}.Select(s => new TestCaseData(DecorateWithClassAndMethod(s)));
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace Unicoen.Languages.Java.Tests {
 			}
 		}
 
-		private static string CreateCode(string statement) {
+		private static string DecorateWithClassAndMethod(string statement) {
 			return "class A { public void M1() {" + statement + "} }";
 		}
 

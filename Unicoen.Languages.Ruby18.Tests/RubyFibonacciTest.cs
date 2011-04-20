@@ -23,7 +23,7 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Ruby18.Model;
 
 namespace Unicoen.Languages.Ruby18.Tests {
-	[TestFixture]
+	[TestFixture, Ignore]
 	public class RubyFibonacciTest {
 		private static UnifiedCall CreateCall(int? decrement) {
 			return UnifiedCall.Create(

@@ -26,31 +26,37 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Languages.Java.CodeFactories {
 	public partial class JavaCodeGenerator
 			: CodeFactory, IUnifiedModelVisitor<VisitorState, bool> {
+		/// <summary>
+		/// Expressionが括弧を付けるためのDecorationです
+		/// </summary>
 		private static readonly Decoration Paren =
-				new Decoration { EachLeft = "(", Delimiter = ", ", EachRight = ")" };
+				new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
 
 		private static readonly Decoration Bracket =
-				new Decoration { EachLeft = "{", Delimiter = ", ", EachRight = "}" };
+				new Decoration { MostLeft = "{", Delimiter = ", ", MostRight = "}" };
 
 		private static readonly Decoration SquareBracket =
-				new Decoration { EachLeft = "[", Delimiter = ", ", EachRight = "]" };
+				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
 
 		private static readonly Decoration InequalitySignParen =
-				new Decoration { EachLeft = "<", Delimiter = ", ", EachRight = ">" };
+				new Decoration { MostLeft = "<", Delimiter = ", ", MostRight = ">" };
+
+		private static readonly Decoration Throws =
+				new Decoration { MostLeft = "throws ", Delimiter = ", " };
 
 		private static readonly Decoration Empty = new Decoration();
 
-		private static readonly Decoration AndDelimiter = new Decoration
-		{ Delimiter = " & " };
+		private static readonly Decoration AndDelimiter =
+				new Decoration { Delimiter = " & " };
 
-		private static readonly Decoration CommaDelimiter = new Decoration
-		{ Delimiter = ", " };
+		private static readonly Decoration CommaDelimiter =
+				new Decoration { Delimiter = ", " };
 
-		private static readonly Decoration SpaceDelimiter = new Decoration
-		{ Delimiter = " " };
+		private static readonly Decoration SpaceDelimiter =
+				new Decoration { EachRight = " " };
 
-		private static readonly Decoration NewLineDelimiter = new Decoration
-		{ Delimiter = "\n" };
+		private static readonly Decoration NewLineDelimiter =
+				new Decoration { Delimiter = "\n" };
 
 		public static JavaCodeGenerator Instance = new JavaCodeGenerator();
 
@@ -113,7 +119,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedProgram element, VisitorState state) {
 			foreach (var stmt in element) {
-				if (stmt.TryAccept(this, state.Set(Empty)))
+				if (stmt.TryAccept(this, state))
 					state.Writer.Write(";");
 			}
 			return false;
@@ -148,12 +154,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			state.WriteSpace();
 			element.Name.TryAccept(this, state);
 			element.Parameters.TryAccept(this, state);
-			if (element.Throws != null) {
-				state.WriteSpace();
-				state.Writer.Write("throws");
-				state.WriteSpace();
-				element.Throws.TryAccept(this, state);
-			}
+			element.Throws.TryAccept(this, state.Set(Throws));
 			element.Body.TryAccept(this, state);
 			return element.Body == null;
 		}
@@ -195,7 +196,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			state = state.IncrementIndentDepth();
 			foreach (var stmt in element) {
 				state.WriteIndent();
-				if (stmt.TryAccept(this, state.Set(Empty)))
+				if (stmt.TryAccept(this, state))
 					state.Writer.Write(";");
 			}
 			state.WriteIndent();
@@ -222,14 +223,14 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			}
 			if (element.Value != null) {
 				state.Writer.Write("(");
-				element.Value.TryAccept(this, state.Set(Empty));
+				element.Value.TryAccept(this, state);
 				state.Writer.Write(")");
 			}
 			state.Writer.Write("{");
 			state = state.IncrementIndentDepth();
 			foreach (var stmt in element.Body) {
 				state.WriteIndent();
-				if (stmt.TryAccept(this, state.Set(Empty)))
+				if (stmt.TryAccept(this, state))
 					state.Writer.Write(";");
 			}
 			state.WriteIndent();
@@ -568,7 +569,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				state.Writer.Write("default:\n");
 			} else {
 				state.Writer.Write("case ");
-				element.Condition.TryAccept(this, state.Set(Empty));
+				element.Condition.TryAccept(this, state);
 				state.Writer.Write(":\n");
 			}
 			element.Body.TryAccept(this, state);

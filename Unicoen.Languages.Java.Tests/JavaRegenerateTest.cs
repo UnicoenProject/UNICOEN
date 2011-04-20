@@ -49,8 +49,7 @@ namespace Unicoen.Languages.Java.Tests {
 			CompileWithArguments(workPath, JavacPath, arguments);
 		}
 
-		private static IEnumerable<object[]> GetAllByteCode(
-				string workPath) {
+		private static IEnumerable<object[]> GetAllByteCode(string workPath) {
 			return Directory.EnumerateFiles(
 					workPath, "*.class",
 					SearchOption.AllDirectories)
@@ -58,8 +57,7 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		private static void CompileWithArguments(
-				string workPath, string command,
-				string arguments) {
+				string workPath, string command, string arguments) {
 			var info = new ProcessStartInfo {
 					FileName = command,
 					Arguments = arguments,
@@ -104,7 +102,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
-		public void TestCompareThroughByteCodeForSameCode(string orgPath) {
+		public void TestCompareThroughCompiledCodeForSameCode(string orgPath) {
 			var workPath = Fixture.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = Fixture.GetTemporalPath(fileName);
@@ -163,9 +161,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "command">コンパイルに用いるコマンド名</param>
 		/// <param name = "arguments">コンパイルに用いる引数リスト</param>
 		public void VerifyCompareThroughByteCodeUsingDirectory(
-				string dirPath,
-				string command,
-				string arguments) {
+				string dirPath, string command, string arguments) {
 			var workPath = Fixture.CleanTemporalPath();
 			FileUtility.CopyRecursively(dirPath, workPath);
 			CompileWithArguments(workPath, command, arguments);
@@ -254,17 +250,13 @@ namespace Unicoen.Languages.Java.Tests {
 
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void CompareThroughByteCodeUsingDirectory(
-				string orgPath,
-				string command,
-				string arguments) {
+				string orgPath, string command, string arguments) {
 			VerifyCompareThroughByteCodeUsingDirectory(orgPath, command, arguments);
 		}
 
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void CompareThroughModelUsingDirectory(
-				string orgPath,
-				string command,
-				string arguments) {
+				string orgPath, string command, string arguments) {
 			VerifyCompareThroughModelUsingDirectory(orgPath);
 		}
 	}

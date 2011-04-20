@@ -73,8 +73,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void VerifyDeepCopyUsingDirectory(
-				string dirPath, string command,
-				string arguments) {
+				string dirPath, string command, string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyDeepCopy(File.ReadAllText(path, XEncoding.SJIS));
@@ -107,8 +106,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void VerifyGetElementsUsingDirectory(
-				string dirPath, string command,
-				string arguments) {
+				string dirPath, string command, string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyGetElements(File.ReadAllText(path, XEncoding.SJIS));
@@ -141,9 +139,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void VerifyGetElementAndSettersUsingDirectory(
-				string dirPath,
-				string command,
-				string arguments) {
+				string dirPath, string command, string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyGetElementAndSetters(File.ReadAllText(path, XEncoding.SJIS));
@@ -176,9 +172,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void VerifyGetElementAndDirectSettersUsingDirectory(
-				string dirPath,
-				string command,
-				string arguments) {
+				string dirPath, string command, string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyGetElementAndDirectSetters(File.ReadAllText(path, XEncoding.SJIS));
@@ -211,8 +205,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void VerifyParentPropertyUsingDirectory(
-				string dirPath, string command,
-				string arguments) {
+				string dirPath, string command, string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyParentProperty(File.ReadAllText(path, XEncoding.SJIS));
@@ -245,8 +238,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
 		public void VerifyToStringUsingDirectory(
-				string dirPath, string command,
-				string arguments) {
+				string dirPath, string command, string arguments) {
 			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyToString(File.ReadAllText(path, XEncoding.SJIS));

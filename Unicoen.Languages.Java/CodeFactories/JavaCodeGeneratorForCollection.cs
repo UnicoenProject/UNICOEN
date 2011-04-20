@@ -69,13 +69,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		// e.g. throws E1, E2 ...
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeCollection element, VisitorState state) {
-			VisitCollection(
-					element, state.Set(
-							new Decoration {
-									MostLeft = "throws ",
-									Delimiter = ", ",
-									MostRight = " ",
-							}));
+			VisitCollection(element, state);
 			return false;
 		}
 

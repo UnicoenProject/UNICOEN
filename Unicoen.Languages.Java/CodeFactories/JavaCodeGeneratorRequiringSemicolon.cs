@@ -32,6 +32,15 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			}
 		}
 
+		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
+			var parent = element.Parent;
+			if (parent is UnifiedUnaryExpression ||
+			       parent is UnifiedBinaryExpression ||
+			       parent is UnifiedTernaryExpression)
+				return Tuple.Create("(", ")");
+			return Tuple.Create("", "");
+		}
+
 		// e.g. (Int)a  or (int)(a + b)
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedCast element, VisitorState state) {
@@ -44,14 +53,15 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTernaryExpression element, VisitorState state) {
-			state.Writer.Write(state.Decoration.EachLeft);
+			var paren = GetRequiredParen(element);
+			state.Writer.Write(paren.Item1);
 			var keywords = GetKeyword(element.Operator.Kind);
 			element.FirstExpression.TryAccept(this, state.Set(Paren));
 			state.Writer.Write(" " + keywords.Item1 + " ");
 			element.SecondExpression.TryAccept(this, state.Set(Paren));
 			state.Writer.Write(" " + keywords.Item2 + " ");
 			element.LastExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(state.Decoration.EachRight);
+			state.Writer.Write(paren.Item2);
 			return true;
 		}
 
@@ -65,13 +75,14 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedBinaryExpression element, VisitorState state) {
-			state.Writer.Write(state.Decoration.EachLeft);
+			var paren = GetRequiredParen(element);
+			state.Writer.Write(paren.Item1);
 			element.LeftHandSide.TryAccept(this, state.Set(Paren));
 			state.WriteSpace();
 			element.Operator.TryAccept(this, state);
 			state.WriteSpace();
 			element.RightHandSide.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(state.Decoration.EachRight);
+			state.Writer.Write(paren.Item2);
 			return true;
 		}
 
