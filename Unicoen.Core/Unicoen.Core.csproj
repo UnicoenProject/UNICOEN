@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unicoen.Core</RootNamespace>
+    <AssemblyName>Unicoen.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsContainerAnalysis>False</CodeContractsContainerAnalysis>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Paraiba">
+      <HintPath>..\lib\Paraiba.dll</HintPath>
+    </Reference>
+    <Reference Include="Paraiba.IO">
+      <HintPath>..\lib\Paraiba.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeFactories\CodeFactory.cs" />
+    <Compile Include="ModelFactories\ModelFactory.cs" />
+    <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedVariableDefinitionBodyCollection.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedClassKind.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlockKind.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteralKind.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteralKind.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedNullLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedStringLiteralKind.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
+    <Compile Include="Model\Expressions\UnifiedExpressionList.cs" />
+    <Compile Include="Model\Expressions\UnifiedLabel.cs" />
+    <Compile Include="Model\Expressions\UnifiedTernaryExpression.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperator.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperatorKind.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperator.cs" />
+    <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorKind.cs" />
+    <Compile Include="Model\Expressions\UnifiedBinaryExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedCall.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedClassDefinition.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinition.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedDoWhile.cs" />
+    <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedCast.cs" />
+    <Compile Include="Model\Collections\UnifiedCatchCollection.cs" />
+    <Compile Include="Model\Expressions\UnifiedCastKind.cs" />
+    <Compile Include="Model\Collections\UnifiedExpressionCollection.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedExpressionWithBlock.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedFor.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedForeach.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinition.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
+    <Compile Include="Model\Expressions\UnifiedIdentifierKind.cs" />
+    <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
+    <Compile Include="Model\Expressions\UnifiedSpecialExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedSpecialExpressionKind.cs" />
+    <Compile Include="Model\Expressions\UnifiedNew.cs" />
+    <Compile Include="Model\Expressions\UnifiedProperty.cs" />
+    <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
+    <Compile Include="Model\Expressions\UnifiedType.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
+    <Compile Include="Model\Expressions\UnifiedUnaryExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedIdentifier.cs" />
+    <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedWhile.cs" />
+    <Compile Include="Model\Extensions\ModelFactoryForCollection.cs" />
+    <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
+    <Compile Include="Comparers\StructuralEqualityComparer.cs" />
+    <Compile Include="Model\Extensions\ModelSweeper.cs" />
+    <Compile Include="Model\Extensions\ModelExtensionsForVisitor.cs" />
+    <Compile Include="Model\IUnifiedElement.cs" />
+    <Compile Include="Model\Collections\IUnifiedElementCollection.cs" />
+    <Compile Include="Model\UnifiedArgument.cs" />
+    <Compile Include="Model\Collections\UnifiedArgumentCollection.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />
+    <Compile Include="Model\UnifiedCase.cs" />
+    <Compile Include="Model\Collections\UnifiedCaseCollection.cs" />
+    <Compile Include="Model\UnifiedElement.cs" />
+    <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
+    <Compile Include="Model\Expressions\UnifiedImport.cs" />
+    <Compile Include="Model\UnifiedTypeConstrain.cs" />
+    <Compile Include="Model\UnifiedTypeConstrainKind.cs" />
+    <Compile Include="Model\UnifiedModifier.cs" />
+    <Compile Include="Model\Collections\UnifiedModifierCollection.cs" />
+    <Compile Include="Model\UnifiedParameter.cs" />
+    <Compile Include="Model\Collections\UnifiedParameterCollection.cs" />
+    <Compile Include="Model\UnifiedProgram.cs" />
+    <Compile Include="Model\UnifiedTypeArgument.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeArgumentCollection.cs" />
+    <Compile Include="Model\UnifiedTypeSupplement.cs" />
+    <Compile Include="Model\UnifiedTypeSupplementKind.cs" />
+    <Compile Include="Model\UnifiedTypeParameter.cs" />
+    <Compile Include="Model\UnifiedVariableDefinitionBody.cs" />
+    <Compile Include="Visitors\IUnifiedModelVisitor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ParserScripts\IronRubyParser\composite_sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\gauntlet_rubyparser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\racc\parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\ruby2ruby.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\ruby2ruby_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\ruby_lexer.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\ruby_parser.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\ruby_parser_extras.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\ruby_parser_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\sexp.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\SexpProcessor_README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\sexp_processor.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\sjis.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\stringio.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\strscan.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\unique.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\IronRubyParser\zkcount_08a2.rb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Python2\ast2xml.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParserScripts\Python3\st2xml.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

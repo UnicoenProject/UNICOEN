@@ -8,8 +8,8 @@
   <property name="partcover.home" value="C:/Program Files/PartCover/PartCover .NET 4.0"/>
   <property name="nunit.home" value="C:/Program Files/NUnit 2.5.9/bin/net-2.0"/>
   <property name="reportgenerator.home" value="C:/Users/exKAZUu/Dropbox/Private/Tools/Development/ReportGenerator"/>
-  <property name="partcover.target" value="AntlrHelper.Tests.dll Code2Xml.Tests.dll Ucpf.Common.Tests.dll Ucpf.Grammar.Tests.dll Ucpf.Languages.C.Tests.dll Ucpf.Languages.Java.Tests.dll Ucpf.Languages.JavaScript.Tests.dll Ucpf.Languages.Python2.Tests.dll Ucpf.Languages.Ruby18.Tests.dll Ucpf.Languages.Tests.dll"/>
-  <property name="partcover.include" value="[Ucpf.*]*"/>
+  <property name="partcover.target" value="AntlrHelper.Tests.dll Code2Xml.Tests.dll Unicoen.Common.Tests.dll Unicoen.Grammar.Tests.dll Unicoen.Languages.C.Tests.dll Unicoen.Languages.Java.Tests.dll Unicoen.Languages.JavaScript.Tests.dll Unicoen.Languages.Python2.Tests.dll Unicoen.Languages.Ruby18.Tests.dll Unicoen.Languages.Tests.dll"/>
+  <property name="partcover.include" value="[Unicoen.*]*"/>
   <property name="partcover.exclude1" value="[*.Tests]*"/>
   <property name="partcover.exclude2" value="[*]*.Properties.*"/>
   <property name="partcover.out" value="coverage.xml"/>
