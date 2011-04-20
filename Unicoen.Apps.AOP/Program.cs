@@ -11,12 +11,12 @@ using Unicoen.Languages.Java.ModelFactories;
 namespace Unicoen.Apps.AOP {
 	public class Program {
 
-		private static UnifiedProgram CreateModel(string ext, string code) {
+		public static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
 			case ".cs":
 				return CSharpModelFactory.CreateModel(code);
 			case ".java":
-				return JavaModelFactoryHelper.CreateModel(code);
+				return JavaModelFactory.Instance.Generate(code);
 			}
 			return null;
 		}
