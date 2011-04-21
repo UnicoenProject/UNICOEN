@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedIdentifierCollection
 			: UnifiedElementCollection
-			  		<UnifiedIdentifier, UnifiedIdentifierCollection> {
+			  		<UnifiedIdentifier, UnifiedIdentifierCollection>, IUnifiedIdentifierOrCollection {
 		private UnifiedIdentifierCollection() {}
 
 		private UnifiedIdentifierCollection(

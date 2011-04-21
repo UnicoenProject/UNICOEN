@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -39,7 +40,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		///   仮引数の型を表します
+		///   仮引数の型を表します。
 		///   e.g. Javaにおける<code>public void method(int a)</code>の<code>int</code>
 		/// </summary>
 		public UnifiedType Type {
@@ -47,15 +48,26 @@ namespace Unicoen.Core.Model {
 			set { _type = SetParentOfChild(value, _type); }
 		}
 
-		private UnifiedIdentifier _name;
+		private IUnifiedIdentifierOrCollection _name;
 
 		/// <summary>
-		///   仮引数の引数名を表します
+		///   仮引数の引数名を表します。
 		///   e.g. Javaにおける<code>method(int a)</code>の<code>a</code>
 		/// </summary>
-		public UnifiedIdentifier Name {
+		public IUnifiedIdentifierOrCollection Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
+		}
+
+		private IUnifiedExpression _defaultValue;
+
+		/// <summary>
+		///   仮引数のデフォルト値を表します。
+		///   e.g. C#における<code>method(int a = 0)</code>の<code>0</code>
+		/// </summary>
+		public IUnifiedExpression DefaultValue {
+			get { return _defaultValue; }
+			set { _defaultValue = SetParentOfChild(value, _defaultValue); }
 		}
 
 		private UnifiedParameter() {
@@ -81,6 +93,7 @@ namespace Unicoen.Core.Model {
 			yield return Modifiers;
 			yield return Type;
 			yield return Name;
+			yield return DefaultValue;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -90,7 +103,9 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Type, v => Type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedIdentifier)v);
+					(Name, v => Name = (IUnifiedIdentifierOrCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(DefaultValue, v => DefaultValue = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -100,30 +115,40 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_type, v => _type = (UnifiedType)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (UnifiedIdentifier)v);
+					(_name, v => _name = (IUnifiedIdentifierOrCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_defaultValue, v => _defaultValue = (IUnifiedExpression)v);
+		}
+
+		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, IUnifiedIdentifierOrCollection name, IUnifiedExpression defaultValue) {
+			return new UnifiedParameter {
+					Modifiers = modifiers,
+					Type = type,
+					Name = name,
+					DefaultValue = defaultValue,
+			};
+		}
+
+		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, IEnumerable<string> names, IUnifiedExpression defaultValue) {
+			return Create(
+					modifiers, type,
+					names.Select(UnifiedIdentifier.CreateVariable).ToCollection(), defaultValue);
+		}
+		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, string name, IUnifiedExpression defaultValue) {
+			return Create(
+					modifiers, type, UnifiedIdentifier.CreateVariable(name), defaultValue);
 		}
 
 		public static UnifiedParameter Create(string name) {
-			return new UnifiedParameter {
-					Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-			};
+			return Create(null, null, name, null);
 		}
 
 		public static UnifiedParameter Create(string name, UnifiedType type) {
-			return new UnifiedParameter {
-					Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-					Type = type,
-			};
+			return Create(null, type, name, null);
 		}
 
-		public static UnifiedParameter Create(
-				string name, UnifiedType type,
-				UnifiedModifierCollection modifiers) {
-			return new UnifiedParameter {
-					Name = UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
-					Type = type,
-					Modifiers = modifiers,
-			};
+		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, string name) {
+			return Create(modifiers, type, name, null);
 		}
 	}
 }

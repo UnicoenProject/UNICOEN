@@ -856,11 +856,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var dimension = node.ElementsByContent("[").Count();
 			for (var i = 0; i < dimension; i++)
 				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
-			return UnifiedParameter.Create(
-					node.Element("IDENTIFIER").Value,
-					type,
-					modifiers
-					);
+			return UnifiedParameter.Create(modifiers, type, node.Element("IDENTIFIER").Value);
 		}
 
 		public static UnifiedParameter CreateEllipsisParameterDecl(XElement node) {
@@ -873,11 +869,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var modifiers = CreateVariableModifiers(node.Element("variableModifiers"));
 			modifiers.Add(UnifiedModifier.Create("..."));
 			var type = CreateType(node.Element("type"));
-			return UnifiedParameter.Create(
-					node.Element("IDENTIFIER").Value,
-					type,
-					modifiers
-					);
+			return UnifiedParameter.Create(modifiers, type, node.Element("IDENTIFIER").Value);
 		}
 
 		public static IUnifiedExpression CreateExplicitConstructorInvocation(
@@ -1320,11 +1312,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 
 			return UnifiedParameterCollection.Create(
-					UnifiedParameter.Create(
-							node.NthElement(2).Value,
-							type,
-							CreateVariableModifiers(node.FirstElement())
-							)
+					UnifiedParameter.Create(CreateVariableModifiers(node.FirstElement()), type, node.NthElement(2).Value)
 					);
 		}
 
@@ -2516,11 +2504,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 		}
 
 		private static IUnifiedExpression CreateBinaryExpression(
-				XElement node,
-				Func
-						<XElement,
-						IUnifiedExpression>
-						createExpression) {
+				XElement node, Func <XElement, IUnifiedExpression> createExpression) {
 			var nodes = node.Elements().OddIndexElements();
 			return nodes.Skip(1).Aggregate(
 					createExpression(nodes.First()),

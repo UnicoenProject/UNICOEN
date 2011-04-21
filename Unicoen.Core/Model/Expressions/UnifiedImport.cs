@@ -25,11 +25,25 @@ namespace Unicoen.Core.Model {
 	///   使用する名前空間の指定や外部ファイルの読み込みを表します。
 	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _from;
+
+		public IUnifiedExpression From{
+			get { return _from; }
+			set { _from = SetParentOfChild(value, _from); }
+		}
+
 		private IUnifiedExpression _name;
 
 		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
+		}
+
+		private UnifiedIdentifier _alias;
+
+		public UnifiedIdentifier Alias {
+			get { return _alias; }
+			set { _alias = SetParentOfChild(value, _alias); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
@@ -57,14 +71,20 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return From;
 			yield return Name;
+			yield return Alias;
 			yield return Modifiers;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(From, v => From = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Name, v => Name = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(Alias, v => Alias = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 		}
@@ -72,18 +92,34 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_from, v => _from = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_name, v => _name = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_alias, v => _alias = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 		}
 
 		public static UnifiedImport Create(
+				IUnifiedExpression from,
 				IUnifiedExpression name,
+				string alias,
 				UnifiedModifierCollection modifiers) {
 			return new UnifiedImport {
+					From = from,
 					Name = name,
+					Alias = alias != null
+					        		? UnifiedIdentifier.CreateUnknown(alias)
+					        		: null,
 					Modifiers = modifiers,
 			};
+		}
+
+		public static UnifiedImport Create(
+				IUnifiedExpression name,
+				UnifiedModifierCollection modifiers) {
+			return Create(null, name, null, modifiers);
 		}
 	}
 }

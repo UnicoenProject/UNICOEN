@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -24,7 +25,7 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   変数を表します。
 	/// </summary>
-	public class UnifiedIdentifier : UnifiedElement, IUnifiedExpression {
+	public class UnifiedIdentifier : UnifiedElement, IUnifiedExpression, IUnifiedIdentifierOrCollection {
 		private UnifiedIdentifier() {}
 
 		public string Value { get; set; }
@@ -82,6 +83,14 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedIdentifier CreateVariableFunction(string name) {
 			return Create(name, UnifiedIdentifierKind.Function);
+		}
+
+		public IEnumerator<UnifiedIdentifier> GetEnumerator() {
+			yield return this;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
 		}
 	}
 }

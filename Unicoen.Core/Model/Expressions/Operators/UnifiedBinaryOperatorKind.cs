@@ -141,8 +141,13 @@ namespace Unicoen.Core.Model {
 		ModuloAssign,
 		/// <summary>
 		///   a ^= b in VB
+		///   a **= b in Python
 		/// </summary>
 		PowerAssign,
+		/// <summary>
+		///   a //= b in Python
+		/// </summary>
+		FloorDivideAssign,
 		/// <summary>
 		///   nothing in Java
 		/// </summary>
@@ -160,7 +165,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		LogicalRightShiftAssign,
 		/// <summary>
-		///   a &= b
+		///   a &amp;= b
 		/// </summary>
 		AndAssign,
 		/// <summary>
@@ -171,7 +176,8 @@ namespace Unicoen.Core.Model {
 		///   a ^= b
 		/// </summary>
 		ExclusiveOrAssign,
-		/// <summary>
+		/// <sum
+		/// mary>
 		///   a instanceof b
 		/// </summary>
 		InstanceOf,

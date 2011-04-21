@@ -30,6 +30,15 @@ namespace Unicoen.Core.Model {
 			return UnifiedBlock.Create(singleton);
 		}
 
+		public static UnifiedProgram ToProgram(
+				this IEnumerable<IUnifiedExpression> collection) {
+			return UnifiedProgram.Create(collection);
+		}
+
+		public static UnifiedProgram ToProgram(this IUnifiedExpression singleton) {
+			return UnifiedProgram.Create(singleton);
+		}
+
 		public static UnifiedArgumentCollection ToCollection(
 				this IEnumerable<UnifiedArgument> collection) {
 			return UnifiedArgumentCollection.Create(collection);

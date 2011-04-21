@@ -2,509 +2,764 @@
         public static IUnifiedElement CreateSingle_input(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "single_input");
-            return null;
+            /*
+             * single_input: NEWLINE | simple_stmt | compound_stmt NEWLINE
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateFile_input(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "file_input");
-            return null;
+            /*
+             * file_input: (NEWLINE | stmt)* ENDMARKER
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateEval_input(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "eval_input");
-            return null;
+            /*
+             * eval_input: testlist NEWLINE* ENDMARKER
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDecorator(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "decorator");
-            return null;
+            /*
+             * decorator: '@' dotted_name [ '(' [arglist] ')' ] NEWLINE
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDecorators(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "decorators");
-            return null;
+            /*
+             * decorators: decorator+
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDecorated(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "decorated");
-            return null;
+            /*
+             * decorated: decorators (classdef | funcdef)
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateFuncdef(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "funcdef");
-            return null;
+            /*
+             * funcdef: 'def' NAME parameters ':' suite
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateParameters(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "parameters");
-            return null;
+            /*
+             * parameters: '(' [varargslist] ')'
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateVarargslist(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "varargslist");
-            return null;
+            /*
+             * varargslist: ((fpdef ['=' test] ',')*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateFpdef(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "fpdef");
-            return null;
+            /*
+             * fpdef: NAME | '(' fplist ')'
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateFplist(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "fplist");
-            return null;
+            /*
+             * fplist: fpdef (',' fpdef)* [',']
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateStmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "stmt");
-            return null;
+            /*
+             * stmt: simple_stmt | compound_stmt
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateSimple_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "simple_stmt");
-            return null;
+            /*
+             * simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateSmall_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "small_stmt");
-            return null;
+            /*
+             * small_stmt: (expr_stmt | print_stmt  | del_stmt | pass_stmt | flow_stmt |
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateExpr_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "expr_stmt");
-            return null;
+            /*
+             * expr_stmt: testlist (augassign (yield_expr|testlist) |
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateAugassign(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "augassign");
-            return null;
+            /*
+             * augassign: ('+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '|=' | '^=' |
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreatePrint_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "print_stmt");
-            return null;
+            /*
+             * print_stmt: 'print' ( [ test (',' test)* [','] ] |
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDel_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "del_stmt");
-            return null;
+            /*
+             * del_stmt: 'del' exprlist
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreatePass_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "pass_stmt");
-            return null;
+            /*
+             * pass_stmt: 'pass'
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateFlow_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "flow_stmt");
-            return null;
+            /*
+             * flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateBreak_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "break_stmt");
-            return null;
+            /*
+             * break_stmt: 'break'
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateContinue_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "continue_stmt");
-            return null;
+            /*
+             * continue_stmt: 'continue'
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateReturn_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "return_stmt");
-            return null;
+            /*
+             * return_stmt: 'return' [testlist]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateYield_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "yield_stmt");
-            return null;
+            /*
+             * yield_stmt: yield_expr
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateRaise_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "raise_stmt");
-            return null;
+            /*
+             * raise_stmt: 'raise' [test [',' test [',' test]]]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateImport_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "import_stmt");
-            return null;
+            /*
+             * import_stmt: import_name | import_from
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateImport_name(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "import_name");
-            return null;
+            /*
+             * import_name: 'import' dotted_as_names
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateImport_from(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "import_from");
-            return null;
+            /*
+             * import_from: ('from' ('.'* dotted_name | '.'+)
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateImport_as_name(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "import_as_name");
-            return null;
+            /*
+             * import_as_name: NAME ['as' NAME]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDotted_as_name(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dotted_as_name");
-            return null;
+            /*
+             * dotted_as_name: dotted_name ['as' NAME]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateImport_as_names(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "import_as_names");
-            return null;
+            /*
+             * import_as_names: import_as_name (',' import_as_name)* [',']
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDotted_as_names(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dotted_as_names");
-            return null;
+            /*
+             * dotted_as_names: dotted_as_name (',' dotted_as_name)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDotted_name(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dotted_name");
-            return null;
+            /*
+             * dotted_name: NAME ('.' NAME)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateGlobal_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "global_stmt");
-            return null;
+            /*
+             * global_stmt: 'global' NAME (',' NAME)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateExec_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "exec_stmt");
-            return null;
+            /*
+             * exec_stmt: 'exec' expr ['in' test [',' test]]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateAssert_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "assert_stmt");
-            return null;
+            /*
+             * assert_stmt: 'assert' test [',' test]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateCompound_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "compound_stmt");
-            return null;
+            /*
+             * compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef | decorated
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateIf_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "if_stmt");
-            return null;
+            /*
+             * if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateWhile_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "while_stmt");
-            return null;
+            /*
+             * while_stmt: 'while' test ':' suite ['else' ':' suite]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateFor_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "for_stmt");
-            return null;
+            /*
+             * for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTry_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "try_stmt");
-            return null;
+            /*
+             * try_stmt: ('try' ':' suite
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateWith_stmt(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "with_stmt");
-            return null;
+            /*
+             * with_stmt: 'with' with_item (',' with_item)*  ':' suite
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateWith_item(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "with_item");
-            return null;
+            /*
+             * with_item: test ['as' expr]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateExcept_clause(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "except_clause");
-            return null;
+            /*
+             * except_clause: 'except' [test [('as' | ',') test]]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateSuite(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "suite");
-            return null;
+            /*
+             * suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTestlist_safe(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "testlist_safe");
-            return null;
+            /*
+             * testlist_safe: old_test [(',' old_test)+ [',']]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateOld_test(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "old_test");
-            return null;
+            /*
+             * old_test: or_test | old_lambdef
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateOld_lambdef(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "old_lambdef");
-            return null;
+            /*
+             * old_lambdef: 'lambda' [varargslist] ':' old_test
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTest(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "test");
-            return null;
+            /*
+             * test: or_test ['if' or_test 'else' test] | lambdef
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateOr_test(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "or_test");
-            return null;
+            /*
+             * or_test: and_test ('or' and_test)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateAnd_test(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "and_test");
-            return null;
+            /*
+             * and_test: not_test ('and' not_test)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateNot_test(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "not_test");
-            return null;
+            /*
+             * not_test: 'not' not_test | comparison
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateComparison(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "comparison");
-            return null;
+            /*
+             * comparison: expr (comp_op expr)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateComp_op(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "comp_op");
-            return null;
+            /*
+             * comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not'
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateExpr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "expr");
-            return null;
+            /*
+             * expr: xor_expr ('|' xor_expr)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateXor_expr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "xor_expr");
-            return null;
+            /*
+             * xor_expr: and_expr ('^' and_expr)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateAnd_expr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "and_expr");
-            return null;
+            /*
+             * and_expr: shift_expr ('&' shift_expr)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateShift_expr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "shift_expr");
-            return null;
+            /*
+             * shift_expr: arith_expr (('<<'|'>>') arith_expr)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateArith_expr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "arith_expr");
-            return null;
+            /*
+             * arith_expr: term (('+'|'-') term)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTerm(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "term");
-            return null;
+            /*
+             * term: factor (('*'|'/'|'%'|'//') factor)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateFactor(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "factor");
-            return null;
+            /*
+             * factor: ('+'|'-'|'~') factor | power
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreatePower(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "power");
-            return null;
+            /*
+             * power: atom trailer* ['**' factor]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateAtom(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "atom");
-            return null;
+            /*
+             * atom: ('(' [yield_expr|testlist_comp] ')' |
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateListmaker(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "listmaker");
-            return null;
+            /*
+             * listmaker: test ( list_for | (',' test)* [','] )
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTestlist_comp(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "testlist_comp");
-            return null;
+            /*
+             * testlist_comp: test ( comp_for | (',' test)* [','] )
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateLambdef(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "lambdef");
-            return null;
+            /*
+             * lambdef: 'lambda' [varargslist] ':' test
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTrailer(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "trailer");
-            return null;
+            /*
+             * trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateSubscriptlist(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "subscriptlist");
-            return null;
+            /*
+             * subscriptlist: subscript (',' subscript)* [',']
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateSubscript(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "subscript");
-            return null;
+            /*
+             * subscript: '.' '.' '.' | test | [test] ':' [test] [sliceop]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateSliceop(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "sliceop");
-            return null;
+            /*
+             * sliceop: ':' [test]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateExprlist(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "exprlist");
-            return null;
+            /*
+             * exprlist: expr (',' expr)* [',']
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTestlist(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "testlist");
-            return null;
+            /*
+             * testlist: test (',' test)* [',']
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateDictorsetmaker(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dictorsetmaker");
-            return null;
+            /*
+             * dictorsetmaker: ( (test ':' test (comp_for | (',' test ':' test)* [','])) |
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateClassdef(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "classdef");
-            return null;
+            /*
+             * classdef: 'class' NAME ['(' [testlist] ')'] ':' suite
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateArglist(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "arglist");
-            return null;
+            /*
+             * arglist: (argument ',')* (argument [',']
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateArgument(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "argument");
-            return null;
+            /*
+             * argument: test [comp_for] | test '=' test
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateList_iter(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "list_iter");
-            return null;
+            /*
+             * list_iter: list_for | list_if
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateList_for(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "list_for");
-            return null;
+            /*
+             * list_for: 'for' exprlist 'in' testlist_safe [list_iter]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateList_if(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "list_if");
-            return null;
+            /*
+             * list_if: 'if' old_test [list_iter]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateComp_iter(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "comp_iter");
-            return null;
+            /*
+             * comp_iter: comp_for | comp_if
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateComp_for(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "comp_for");
-            return null;
+            /*
+             * comp_for: 'for' exprlist 'in' or_test [comp_iter]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateComp_if(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "comp_if");
-            return null;
+            /*
+             * comp_if: 'if' old_test [comp_iter]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateTestlist1(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "testlist1");
-            return null;
+            /*
+             * testlist1: test (',' test)*
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateEncoding_decl(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "encoding_decl");
-            return null;
+            /*
+             * encoding_decl: NAME
+             */
+            throw new NotImplementedException(); //TODO: implement
         }
 
         public static IUnifiedElement CreateYield_expr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "yield_expr");
-            return null;
+            /*
+             * yield_expr: 'yield' [testlist]
+             */
+            throw new NotImplementedException(); //TODO: implement
         }

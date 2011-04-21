@@ -140,6 +140,7 @@
     <Compile Include="Model\Extensions\ModelExtensionsForVisitor.cs" />
     <Compile Include="Model\IUnifiedElement.cs" />
     <Compile Include="Model\Collections\IUnifiedElementCollection.cs" />
+    <Compile Include="Model\IUnifiedIdentifierOrCollection.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\Collections\UnifiedArgumentCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />

@@ -21,6 +21,7 @@ namespace Unicoen.Core.Model {
 	///   UnifiedSpecialExpressionの種類を表します。
 	/// </summary>
 	public enum UnifiedSpecialExpressionKind {
+		Assert,
 		Break,
 		Continue,
 		Goto,
@@ -39,5 +40,21 @@ namespace Unicoen.Core.Model {
 		///   yield in Ruby
 		/// </summary>
 		Yield,
+		/// <summary>
+		/// print in Python
+		/// </summary>
+		Print,
+		/// <summary>
+		/// print >> in Python
+		/// </summary>
+		PrintChevron,
+		/// <summary>
+		/// pass in Python
+		/// </summary>
+		Pass,
+		/// <summary>
+		/// del in Python
+		/// </summary>
+		Delete,
 	}
 }
