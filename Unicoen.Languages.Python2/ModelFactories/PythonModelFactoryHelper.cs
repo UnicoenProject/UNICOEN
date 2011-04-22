@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Paraiba.Linq;
 using Unicoen.Core.Model;
 using Mocomoco.Xml.Linq;
 
@@ -174,10 +175,11 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			/*
 			 * simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 			 */
-			return node.Elements("small_stmt").Select(CreateSmall_stmt);
+			return node.Elements("small_stmt")
+				.SelectMany(CreateSmall_stmt);
 		}
 
-		public static IUnifiedExpression CreateSmall_stmt(XElement node)
+		public static IEnumerable<IUnifiedExpression> CreateSmall_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "small_stmt");
@@ -188,23 +190,34 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			var first = node.FirstElement();
 			switch (first.Name()) {
 			case "expr_stmt":
-				return CreateExpr_stmt(first);
+				yield return CreateExpr_stmt(first);
+				break;
 			case "print_stmt":
-				return CreatePrint_stmt(first);
+				yield return CreatePrint_stmt(first);
+				break;
 			case "del_stmt":
-				return CreateDel_stmt(first);
+				yield return CreateDel_stmt(first);
+				break;
 			case "pass_stmt":
-				return CreatePass_stmt(first);
+				yield return CreatePass_stmt(first);
+				break;
 			case "flow_stmt":
-				return CreateFlow_stmt(first);
+				yield return CreateFlow_stmt(first);
+				break;
 			case "import_stmt":
-				return CreateImport_stmt(first);
+				foreach (var stmt in CreateImport_stmt(first)) {
+					yield return stmt;
+				}
+				break;
 			case "global_stmt":
-				return CreateGlobal_stmt(first);
+				yield return CreateGlobal_stmt(first);
+				break;
 			case "exec_stmt":
-				return CreateExec_stmt(first);
+				yield return CreateExec_stmt(first);
+				break;
 			case "assert_stmt":
-				return CreateAssert_stmt(first);
+				yield return CreateAssert_stmt(first);
+				break;
 			default:
 				throw new IndexOutOfRangeException();
 			}
@@ -386,27 +399,31 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Throw, tests);
 		}
 
-		public static IUnifiedExpression CreateImport_stmt(XElement node)
+		public static IEnumerable<UnifiedImport> CreateImport_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_stmt");
 			/*
 			 * import_stmt: import_name | import_from
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			return first.Name() == "import_name"
+			       		? CreateImport_name(first)
+			       		: CreateImport_from(first);
 		}
 
-		public static IUnifiedElement CreateImport_name(XElement node)
+		public static IEnumerable<UnifiedImport> CreateImport_name(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_name");
 			/*
 			 * import_name: 'import' dotted_as_names
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return CreateDotted_as_names(node.NthElement(1))
+					.Select(t => UnifiedImport.Create(null, t.Item1.ToProperty("."), t.Item2, null));
 		}
 
-		public static IUnifiedElement CreateImport_from(XElement node)
+		public static IEnumerable<UnifiedImport> CreateImport_from(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_from");
@@ -414,57 +431,82 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			 * import_from: ('from' ('.'* dotted_name | '.'+)
 			 *               'import' ('*' | '(' import_as_names ')' | import_as_names))
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var dotted_nameNode = node.Element("dotted_name");
+			var dotted_name = dotted_nameNode != null
+			                  		? CreateDotted_name(dotted_nameNode)
+			                  		: Enumerable.Empty<UnifiedIdentifier>();
+			var dotCount = node.ElementsByContent(".").Count();
+			var from = Enumerable.Repeat((UnifiedIdentifier)null, dotCount)
+					.Concat(dotted_name)
+					.ToProperty(".");
+			if (node.LastElement().Value == "*")
+				yield return UnifiedImport.Create(
+						from, UnifiedIdentifier.CreateUnknown("*"), null, null);
+			var results = CreateImport_as_names(node.Element("import_as_names"))
+					.Select(t => UnifiedImport.Create(from, t.Item1, t.Item2, null));
+			foreach (var result in results) {
+				yield return result;
+			}
 		}
 
-		public static IUnifiedElement CreateImport_as_name(XElement node)
+		public static Tuple<UnifiedIdentifier, string> CreateImport_as_name(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_as_name");
 			/*
 			 * import_as_name: NAME ['as' NAME]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			var asNode = first.NextElementOrDefault();
+			return Tuple.Create(
+					UnifiedIdentifier.CreateUnknown(first.Value),
+					asNode != null ? asNode.NextElement().Value : null);
 		}
 
-		public static IUnifiedElement CreateDotted_as_name(XElement node)
+		public static Tuple<IEnumerable<UnifiedIdentifier>, string> CreateDotted_as_name(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dotted_as_name");
 			/*
 			 * dotted_as_name: dotted_name ['as' NAME]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var name = node.Element("NAME");
+			return Tuple.Create(
+					CreateDotted_name(node.FirstElement()),
+					name != null ? name.Value : null);
 		}
 
-		public static IUnifiedElement CreateImport_as_names(XElement node)
+		public static IEnumerable<Tuple<UnifiedIdentifier, string>> CreateImport_as_names(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_as_names");
 			/*
 			 * import_as_names: import_as_name (',' import_as_name)* [',']
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements().OddIndexElements()
+					.Select(CreateImport_as_name);
 		}
 
-		public static IUnifiedElement CreateDotted_as_names(XElement node)
+		public static IEnumerable<Tuple<IEnumerable<UnifiedIdentifier>, string>> CreateDotted_as_names(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dotted_as_names");
 			/*
 			 * dotted_as_names: dotted_as_name (',' dotted_as_name)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements().OddIndexElements()
+					.Select(CreateDotted_as_name);
 		}
 
-		public static IUnifiedElement CreateDotted_name(XElement node)
+		public static IEnumerable<UnifiedIdentifier> CreateDotted_name(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dotted_name");
 			/*
 			 * dotted_name: NAME ('.' NAME)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements().OddIndexElements()
+					.Select(e => UnifiedIdentifier.CreateUnknown(e.Value));
 		}
 
 		public static IUnifiedExpression CreateGlobal_stmt(XElement node)
