@@ -56,5 +56,13 @@ namespace Unicoen.Core.Model {
 		/// del in Python
 		/// </summary>
 		Delete,
+		/// <summary>
+		/// global in Python
+		/// </summary>
+		Global,
+		/// <summary>
+		/// exec in Python
+		/// </summary>
+		Exec
 	}
 }
