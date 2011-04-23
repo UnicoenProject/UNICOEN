@@ -91,6 +91,10 @@ namespace Unicoen.Core.Model {
 			return Elements.Remove(item);
 		}
 
+		public int IndexOf(TElement element, int index) {
+			return Elements.IndexOf(element, index);
+		}
+
 		public bool Remove(Func<TElement, bool> predicator) {
 			var count = Elements.Count;
 			for (int i = 0; i < count; i++) {

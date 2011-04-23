@@ -6,6 +6,7 @@ using System.Text;
 using Paraiba.Text;
 using Unicoen.Core.Model;
 using Unicoen.Languages.CSharp;
+using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Apps.AOP {
@@ -27,16 +28,14 @@ namespace Unicoen.Apps.AOP {
 			 */
 			//var filePath = args[0];
 			const string filePath =
-					@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Block1.java";
+					@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Fibonacci.java";
 
 			var ext = Path.GetExtension(filePath);
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var model = CreateModel(ext, code);
 
-			foreach (var e in model.Descendants()) {
-				if(e is UnifiedBinaryExpression)
-					Console.Write(e.ToString());
-			}
+			CodeProcessor.InsertAfterAllFunction(model, "{Console.Write();}");
+			Console.Write(JavaCodeFactory.Instance.Generate(model));
 		}
 	}
 }
