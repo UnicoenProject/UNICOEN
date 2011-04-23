@@ -89,10 +89,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelFactories\PythonModelFactoryHelper.cs" />
     <Compile Include="Model\PythonModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mocomoco.Xml\Mocomoco.Xml.csproj">
+      <Project>{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}</Project>
+      <Name>Mocomoco.Xml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
