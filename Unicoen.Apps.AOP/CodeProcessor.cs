@@ -22,7 +22,7 @@ namespace Unicoen.Apps.AOP {
 		public static IEnumerable<T> GetElementsBySpecifiedType<T>(IUnifiedElement root)
 			where T : class
 		{
-			foreach (var e in root.DescendantsAndSelf()) {
+			foreach (var e in root.Descendants()) {
 				var result = e as T;
 				if(result != null) {
 					yield return result;
@@ -82,8 +82,6 @@ namespace Unicoen.Apps.AOP {
 
 			foreach (var e in functions) {
 				e.Body.Insert(0, actual);
-				throw new NotImplementedException();
-				//TODO どうやってe.Bodyの一番前に処理を追加するか検討する
 			}
 		}
 
@@ -99,16 +97,25 @@ namespace Unicoen.Apps.AOP {
 			var actual = CreateAdvice(advice);
 
 			foreach (var function in functions) {
+				/*ToList()を呼び出しておかないと例外を吐く
+				 * 【例外】
+				 * C# エラーメッセージ:コレクションが変更されました。
+				 * 列挙操作は実行されない可能性があります。
+				 */
 				var returns =
 						GetElementsBySpecifiedType<UnifiedSpecialExpression>(function).Where(
-								e => e.Kind == UnifiedSpecialExpressionKind.Return);
+								e => e.Kind == UnifiedSpecialExpressionKind.Return).ToList();
 
 				if(returns.Count() == 0) { //case function don't have return statement
 					function.Body.Add(actual);
 				}
-				foreach (var returnStmt in returns) {
-					throw new NotImplementedException();
-					//TODO insertElementBefore(returnStmt, actual)みたいなメソッドが必要
+				else {
+					foreach (var returnStmt in returns) {
+						var block = returnStmt.Parent as UnifiedBlock;
+						if (block == null)
+							continue;
+						block.Insert(block.IndexOf(returnStmt, 0), actual);
+					}
 				}
 			}
 		}
