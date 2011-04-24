@@ -167,7 +167,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			state.WriteSpace();
 			if (removed)
 				state.Writer.Write("... ");
-			state.Writer.Write(element.Name.Value);
+			element.Name.TryAccept(this, state);
 			return false;
 		}
 

@@ -33,6 +33,13 @@ namespace Unicoen.Core.Model {
 			set { _condition = SetParentOfChild(value, _condition); }
 		}
 
+		private UnifiedBlock _falseBody;
+
+		public UnifiedBlock FalseBody {
+			get { return _falseBody; }
+			set { _falseBody = SetParentOfChild(value, _falseBody); }
+		}
+
 		private UnifiedDoWhile() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -52,6 +59,7 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Condition;
+			yield return FalseBody;
 			yield return Body;
 		}
 
@@ -60,6 +68,8 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Condition, v => Condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(FalseBody, v => FalseBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
@@ -67,6 +77,8 @@ namespace Unicoen.Core.Model {
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_condition, v => _condition = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_falseBody, v => _falseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}

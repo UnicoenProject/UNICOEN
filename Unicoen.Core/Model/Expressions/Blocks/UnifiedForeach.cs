@@ -40,6 +40,13 @@ namespace Unicoen.Core.Model {
 			set { _set = SetParentOfChild(value, _set); }
 		}
 
+		private UnifiedBlock _falseBody;
+
+		public UnifiedBlock FalseBody {
+			get { return _falseBody; }
+			set { _falseBody = SetParentOfChild(value, _falseBody); }
+		}
+
 		private UnifiedForeach() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -60,6 +67,7 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Element;
 			yield return Set;
+			yield return FalseBody;
 			yield return Body;
 		}
 
@@ -70,6 +78,8 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Set, v => Set = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(FalseBody, v => FalseBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
@@ -79,6 +89,8 @@ namespace Unicoen.Core.Model {
 					(_element, v => _element = (UnifiedVariableDefinition)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_set, v => _set = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_falseBody, v => _falseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}

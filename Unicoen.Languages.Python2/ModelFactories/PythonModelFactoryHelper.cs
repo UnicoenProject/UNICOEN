@@ -66,7 +66,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateDecorated(XElement node)
+		public static IUnifiedExpression CreateDecorated(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "decorated");
@@ -76,7 +76,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateFuncdef(XElement node)
+		public static IUnifiedExpression CreateFuncdef(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "funcdef");
@@ -165,7 +165,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			var first = node.FirstElement();
 			return first.Name() == "simple_stmt"
 			       		? CreateSimple_stmt(first)
-			       		: CreateCompound_stmt(first);
+			       		: Enumerable.Repeat(CreateCompound_stmt(first), 1);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateSimple_stmt(XElement node)
@@ -395,6 +395,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			/*
 			 * raise_stmt: 'raise' [test [',' test [',' test]]]
 			 */
+			// TODO: change to dedicated class ?
 			var tests = node.Elements("test").Select(CreateTest).ToExpressionList();
 			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Throw, tests);
 		}
@@ -530,6 +531,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			/*
 			 * exec_stmt: 'exec' expr ['in' test [',' test]]
 			 */
+			// TODO: change to dedicated class ?
 			var expr = node.Element("expr");
 			return UnifiedSpecialExpression.Create(
 					UnifiedSpecialExpressionKind.Exec,
@@ -545,6 +547,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			/*
 			 * assert_stmt: 'assert' test [',' test]
 			 */
+			// TODO: change to dedicated class ?
 			return UnifiedSpecialExpression.Create(
 					UnifiedSpecialExpressionKind.Assert,
 					node.Elements("test").Select(CreateTest)
@@ -552,7 +555,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					);
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateCompound_stmt(XElement node)
+		public static IUnifiedExpression CreateCompound_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "compound_stmt");
@@ -582,18 +585,22 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			}
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateIf_stmt(XElement node)
+		public static UnifiedIf CreateIf_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "if_stmt");
 			/*
 			 * if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			var conditionAndBodies = node.Elements("test")
+					.Select(n => Tuple.Create(CreateTest(n), CreateSuite(n.NextElement(1))));
+			var elseSuiteNode = node.LastElement();
+			var elseSuite = elseSuiteNode.PreviousElement(1).Value == "else"
+			                		? CreateSuite(elseSuiteNode) : null;
+			return UnifiedIf.Create(conditionAndBodies, elseSuite);
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateWhile_stmt(XElement node)
+		public static IUnifiedExpression CreateWhile_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "while_stmt");
@@ -603,7 +610,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateFor_stmt(XElement node)
+		public static IUnifiedExpression CreateFor_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "for_stmt");
@@ -613,7 +620,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateTry_stmt(XElement node)
+		public static IUnifiedExpression CreateTry_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "try_stmt");
@@ -623,7 +630,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateWith_stmt(XElement node)
+		public static IUnifiedExpression CreateWith_stmt(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "with_stmt");
@@ -943,7 +950,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateClassdef(XElement node)
+		public static IUnifiedExpression CreateClassdef(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classdef");

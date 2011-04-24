@@ -102,7 +102,7 @@ namespace Unicoen.Languages.CSharp {
 		public void Visit(UnifiedParameter parameter) {
 			parameter.Type.Accept(this);
 			_writer.Write(" ");
-			_writer.Write(parameter.Name.Value);
+			parameter.Name.TryAccept(this);
 		}
 
 		#endregion

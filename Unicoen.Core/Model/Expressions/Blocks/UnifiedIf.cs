@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -40,10 +41,7 @@ namespace Unicoen.Core.Model {
 			set { _falseBody = SetParentOfChild(value, _falseBody); }
 		}
 
-		private UnifiedIf() {
-			Body = UnifiedBlock.Create();
-			FalseBody = UnifiedBlock.Create();
-		}
+		private UnifiedIf() { }
 
 		public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
 			FalseBody.Add(expression);
@@ -103,12 +101,24 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedIf Create(
-				UnifiedBlock body, IUnifiedExpression condition) {
+		public static UnifiedIf Create(IUnifiedExpression condition, UnifiedBlock body) {
 			return new UnifiedIf {
 					Body = body,
 					Condition = condition,
 			};
+		}
+
+		public static UnifiedIf Create(IEnumerable<Tuple<IUnifiedExpression, UnifiedBlock>> conditionAndBodies, UnifiedBlock lastFalseBody) {
+			var ifs = conditionAndBodies
+				.Select(t => Create(t.Item1, t.Item2))
+				.ToList();
+			for (int i = 1; i < ifs.Count; i++) {
+				ifs[i - 1].FalseBody = ifs[i].ToBlock();
+			}
+			if (lastFalseBody != null) {
+				ifs[ifs.Count - 1].FalseBody = lastFalseBody;
+			}
+			return ifs[0];
 		}
 
 		public static UnifiedIf Create(IUnifiedExpression condition) {
