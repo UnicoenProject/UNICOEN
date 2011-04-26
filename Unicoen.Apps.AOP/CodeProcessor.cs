@@ -119,6 +119,46 @@ namespace Unicoen.Apps.AOP {
 				}
 			}
 		}
+		
+		/// <summary>
+		/// すべての関数呼び出しの後に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name="root">コードを追加するモデルのルートノード</param>
+		/// <param name="advice">挿入するコード断片</param>
+		public static void InsertBeforeAllCall(IUnifiedElement root, string advice) {
+			//get cass list
+			var calls = GetElementsBySpecifiedType<UnifiedCall>(root).ToList();
+			//create advice as model
+			var actual = CreateAdvice(advice);
+
+			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
+			foreach (var call in calls) {
+				var block = call.Parent as UnifiedBlock;
+				if(block == null)
+					continue;
+				block.Insert(block.IndexOf(call, 0), actual);
+			}
+		}
+
+		/// <summary>
+		/// すべての関数呼び出しの後に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name="root">コードを追加するモデルのルードノード</param>
+		/// <param name="advice">挿入するコード断片</param>
+		public static void InsertAfterAllCall(IUnifiedElement root, string advice) {
+			//get cass list
+			var calls = GetElementsBySpecifiedType<UnifiedCall>(root).ToList();
+			//create advice as model
+			var actual = CreateAdvice(advice);
+
+			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
+			foreach (var call in calls) {
+				var block = call.Parent as UnifiedBlock;
+				if(block == null)
+					continue;
+				block.Insert(block.IndexOf(call, 0) + 1, actual);
+			}
+		}
 
 		/// <summary>
 		/// 与えられたコードを共通コードモデルとして生成します。

@@ -28,13 +28,13 @@ namespace Unicoen.Apps.AOP {
 			 */
 			//var filePath = args[0];
 			const string filePath =
-					@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Fibonacci.java";
+					@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Student.java";
 
 			var ext = Path.GetExtension(filePath);
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var model = CreateModel(ext, code);
 
-			CodeProcessor.InsertAfterAllFunction(model, "{Console.Write();}");
+			CodeProcessor.InsertAfterAllCall(model, "{Console.Write();}");
 			Console.Write(JavaCodeFactory.Instance.Generate(model));
 		}
 	}
