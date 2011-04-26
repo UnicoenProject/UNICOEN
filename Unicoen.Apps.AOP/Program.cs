@@ -34,7 +34,7 @@ namespace Unicoen.Apps.AOP {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var model = CreateModel(ext, code);
 
-			CodeProcessor.InsertAfterAllCall(model, "{Console.Write();}");
+			CodeProcessor.InsertAtAfterCallAll(model, "{Console.Write();}");
 			Console.Write(JavaCodeFactory.Instance.Generate(model));
 		}
 	}
