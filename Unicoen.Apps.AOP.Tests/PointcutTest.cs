@@ -14,11 +14,10 @@ namespace Unicoen.Apps.AOP.Tests {
 	/// </summary>
 	[TestFixture]
 	class PointcutTest {
-		private const string FilePath =
+		private const string FibonacciPath =
 				@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Fibonacci.java";
-		private const string PathOfStudent =
+		private const string StudentPath =
 				@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Student.java";
-
 		
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
@@ -28,8 +27,10 @@ namespace Unicoen.Apps.AOP.Tests {
 
 		[Test]
 		public void WeavingAtFunctionBeforeCorrectly() {
-			var model = CreateModel(FilePath);
-			var actual = JavaModelFactory.Instance.Generate("public class Fibonacci { public static int fibonacci(int n) { { Console.Write(); } if (n < 2) { return n; } else { return fibonacci(n - 1) + fibonacci(n - 2); } } }");
+			var model = CreateModel(FibonacciPath);
+			var actual =
+					CreateModel(
+							@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\aspect_expectation\Fibonacci_functionBefore.java");
 			
 			CodeProcessor.InsertBeforeAllFunction(model, "{Console.Write();}");
 
@@ -39,8 +40,10 @@ namespace Unicoen.Apps.AOP.Tests {
 
 		[Test]
 		public void WeavingAtFunctionAfterCorrectly() {
-			var model = CreateModel(FilePath);
-			var actual = JavaModelFactory.Instance.Generate("public class Fibonacci { public static int fibonacci(int n) { if (n < 2) { { Console.Write(); } return n; } else { { Console.Write(); } return fibonacci(n - 1) + fibonacci(n - 2); } } }");
+			var model = CreateModel(FibonacciPath);
+			var actual =
+					CreateModel(
+							@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\aspect_expectation\Fibonacci_functionAfter.java");
 			
 			CodeProcessor.InsertAfterAllFunction(model, "{Console.Write();}");
 
@@ -50,8 +53,10 @@ namespace Unicoen.Apps.AOP.Tests {
 
 		[Test]
 		public void WeavingAtCallBeforeCorrectly() {
-			var model = CreateModel(PathOfStudent);
-			var actual = JavaModelFactory.Instance.Generate("public class Student { private String _name; public Student(String name) { _name = name; } public String getName() { return _name; } public static void write(String name) { } public static void main(String[] args) { Student[] students = new Student[2]; students[0] = new Student(\"Tom\"); students[1] = new Student(\"Anna\"); for (int i = 0; i < 2; i++) {  {Console.Write();} write(students[i].getName()); } for (Student student : students) { {Console.Write();} write(student.getName()); } } }");
+			var model = CreateModel(StudentPath);
+			var actual =
+					CreateModel(
+							@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\aspect_expectation\Student_callBefore.java");
 
 			CodeProcessor.InsertBeforeAllCall(model, "{Console.Write();}");
 
@@ -61,8 +66,10 @@ namespace Unicoen.Apps.AOP.Tests {
 
 		[Test]
 		public void WeavingAtCallAfterCorrectly() {
-			var model = CreateModel(PathOfStudent);
-			var actual = JavaModelFactory.Instance.Generate("public class Student { private String _name; public Student(String name) { _name = name; } public String getName() { return _name; } public static void write(String name) { } public static void main(String[] args) { Student[] students = new Student[2]; students[0] = new Student(\"Tom\"); students[1] = new Student(\"Anna\"); for (int i = 0; i < 2; i++) { write(students[i].getName()); {Console.Write();} } for (Student student : students) { write(student.getName()); {Console.Write();} } } }");
+			var model = CreateModel(StudentPath);
+			var actual =
+					CreateModel(
+							@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\aspect_expectation\Student_callAfter.java");
 
 			CodeProcessor.InsertAfterAllCall(model, "{Console.Write();}");
 
