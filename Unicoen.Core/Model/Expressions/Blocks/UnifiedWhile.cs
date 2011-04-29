@@ -29,6 +29,10 @@ namespace Unicoen.Core.Model {
 			: UnifiedExpressionWithBlock<UnifiedWhile> {
 		private IUnifiedExpression _condition;
 
+		/// <summary>
+		/// 条件式を表します
+		/// e.g. Javaにおける<c>while(con){...}</c>の<c>con</c>
+		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetParentOfChild(value, _condition); }

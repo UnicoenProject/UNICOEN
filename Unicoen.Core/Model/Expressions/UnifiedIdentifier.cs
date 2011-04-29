@@ -28,6 +28,9 @@ namespace Unicoen.Core.Model {
 	public class UnifiedIdentifier : UnifiedElement, IUnifiedExpression, IUnifiedIdentifierOrCollection {
 		private UnifiedIdentifier() {}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public string Value { get; set; }
 
 		public UnifiedIdentifierKind Kind { get; set; }

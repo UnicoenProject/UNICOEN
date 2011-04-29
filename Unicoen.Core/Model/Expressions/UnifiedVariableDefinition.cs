@@ -28,6 +28,10 @@ namespace Unicoen.Core.Model {
 	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
 		private UnifiedModifierCollection _modifiers;
 
+		/// <summary>
+		/// 変数に付随する修飾子の集合を表します
+		/// e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
+		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetParentOfChild(value, _modifiers); }
@@ -35,6 +39,10 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedType _type;
 
+		/// <summary>
+		/// 変数の型を表します
+		/// e.g. Javaにおける<c>public static int a</c>の<c>int</c>
+		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }

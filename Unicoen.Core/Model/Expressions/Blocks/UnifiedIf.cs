@@ -24,11 +24,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   if文を表します。
-	///   Javaにおける<c>if(con){...}else{...}</c>
+	///   e.g. Javaにおける<c>if(con){...}else{...}</c>
 	/// </summary>
 	public class UnifiedIf : UnifiedExpressionWithBlock<UnifiedIf> {
 		private IUnifiedExpression _condition;
 
+		/// <summary>
+		/// 条件式を表します
+		/// <c>if(con){...}else{...}</c>の<c>con</c>
+		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetParentOfChild(value, _condition); }

@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   使用する名前空間の指定や外部ファイルの読み込みを表します。
+	///   e.g. Javaにおける<c>import package</c>
 	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _from;

@@ -38,6 +38,9 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public string SecondSign { get; private set; }
 
+		/// <summary>
+		/// 三項演算子の種類を表します
+		/// </summary>
 		public UnifiedTernaryOperatorKind Kind { get; private set; }
 
 		private UnifiedTernaryOperator() {}

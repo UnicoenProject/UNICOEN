@@ -23,10 +23,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   Cast演算子を表します。
+	///   e.g. Javaにおける<c>(int)a</c>の<c>(int)</c>
 	/// </summary>
 	public class UnifiedCast : UnifiedElement, IUnifiedExpression {
 		private UnifiedType _type;
 
+		/// <summary>
+		/// キャスト先の型を表します
+		/// e.g. Javaにおける<c>(int)a</c>の<c>int</c>
+		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }
@@ -34,6 +39,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _expression;
 
+		/// <summary>
+		/// キャスト対象の式を表します
+		/// e.g. Javaにおける<c>(int)a</c>の<c>a</c>
+		/// </summary>
 		public IUnifiedExpression Expression {
 			get { return _expression; }
 			set { _expression = SetParentOfChild(value, _expression); }

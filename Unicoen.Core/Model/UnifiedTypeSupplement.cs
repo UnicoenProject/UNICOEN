@@ -31,11 +31,18 @@ namespace Unicoen.Core.Model {
 	public class UnifiedTypeSupplement : UnifiedElement {
 		private UnifiedArgumentCollection _arguments;
 
+		/// <summary>
+		/// 実引数の集合を表します
+		/// e.g. Cにおける<c>int* a, b, c</c>の<c>a, b, c</c>
+		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
+		/// <summary>
+		/// UnifiedTypeSupplementの種類を表します
+		/// </summary>
 		public UnifiedTypeSupplementKind Kind { get; set; }
 
 		private UnifiedTypeSupplement() {}

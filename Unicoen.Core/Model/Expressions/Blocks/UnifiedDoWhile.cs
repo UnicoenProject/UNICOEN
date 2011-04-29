@@ -28,6 +28,10 @@ namespace Unicoen.Core.Model {
 	public class UnifiedDoWhile : UnifiedExpressionWithBlock<UnifiedDoWhile> {
 		private IUnifiedExpression _condition;
 
+		/// <summary>
+		/// 条件式を表します
+		/// e.g. Javaにおける<c>do{...}while(con)</c>の<c>con</c>
+		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetParentOfChild(value, _condition); }

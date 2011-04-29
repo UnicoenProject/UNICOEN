@@ -23,11 +23,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   for文を表します。
-	///   Javaにおける<c>for(int i = 10; i != 0; i--){...}</c>
+	///   e.g. Javaにおける<c>for(int i = 10; i != 0; i--){...}</c>
 	/// </summary>
 	public class UnifiedFor : UnifiedExpressionWithBlock<UnifiedFor> {
 		private IUnifiedExpression _initializer;
 
+		/// <summary>
+		/// 初期条件を表します
+		/// e.g. Javaにおける<c>for(int i = 10; i != 0; i--){...}</c><c>int i = 0s</c>
+		/// </summary>
 		public IUnifiedExpression Initializer {
 			get { return _initializer; }
 			set { _initializer = SetParentOfChild(value, _initializer); }
@@ -35,6 +39,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _condition;
 
+		/// <summary>
+		/// 実行条件を表します
+		/// e.g. Javaにおける<c>for(int i = 10; i != 0; i--){...}</c>の<c>i != 0</c>
+		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetParentOfChild(value, _condition); }
@@ -42,6 +50,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _step;
 
+		/// <summary>
+		/// ステップを表します
+		/// e.g. Javaにおける<c>for(int i = 10; i != 0; i--){...}</c>の<c>i--</c>
+		/// </summary>
 		public IUnifiedExpression Step {
 			get { return _step; }
 			set { _step = SetParentOfChild(value, _step); }

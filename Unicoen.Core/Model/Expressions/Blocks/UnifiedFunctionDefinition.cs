@@ -23,12 +23,16 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   関数、メソッド、コンストラクタなどの定義部分を表します。
-	///   Javaにおける<c>public void method(int a){...}</c>
+	///   e.g. Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
 	public class UnifiedFunctionDefinition
 			: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
 		private UnifiedModifierCollection _modifiers;
-
+		
+		/// <summary>
+		/// メソッドにつく修飾子の集合を表します
+		/// e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
+		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetParentOfChild(value, _modifiers); }
@@ -36,6 +40,10 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedType _type;
 
+		/// <summary>
+		/// メソッドの名前を表します
+		/// e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
+		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetParentOfChild(value, _type); }

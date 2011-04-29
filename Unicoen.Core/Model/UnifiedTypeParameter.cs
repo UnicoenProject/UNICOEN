@@ -38,6 +38,9 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedTypeConstrainCollection _constrains;
 
+		/// <summary>
+		/// 型が持つ制約の集合を表します
+		/// </summary>
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
 			set { _constrains = SetParentOfChild(value, _constrains); }

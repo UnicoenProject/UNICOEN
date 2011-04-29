@@ -23,10 +23,14 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   型を表します。
+	///   Javaにおける<c>int, double, char</c>
 	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _name;
 
+		/// <summary>
+		/// 型の名前を表します
+		/// </summary>
 		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetParentOfChild(value, _name); }
@@ -34,6 +38,10 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedTypeArgumentCollection _arguments;
 
+		/// <summary>
+		/// ジェネリックタイプにおける実引数の集合を表します
+		/// e.g. Javaにおける<c>HashMap&ltInteger, String&gt</c>の<c>Integer, String</c>
+		/// </summary>
 		public UnifiedTypeArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetParentOfChild(value, _arguments); }

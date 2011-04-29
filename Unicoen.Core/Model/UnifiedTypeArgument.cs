@@ -23,10 +23,14 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   ジェネリクスパラメータなど型に対する実引数を表します。
+	///  
 	/// </summary>
 	public class UnifiedTypeArgument : UnifiedElement {
 		private UnifiedModifierCollection _modifiers;
 
+		/// <summary>
+		/// 修飾子の集合を表します
+		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetParentOfChild(value, _modifiers); }

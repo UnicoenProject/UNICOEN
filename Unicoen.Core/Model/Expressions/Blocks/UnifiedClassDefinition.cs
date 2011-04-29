@@ -23,13 +23,19 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   クラスの定義部分を表します。
+	///   e.g. Javaにおける<c>public class Klass extends E implements I{....}</c>
 	/// </summary>
 	public class UnifiedClassDefinition
 			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
 		public UnifiedClassKind Kind { get; set; }
 
+		
 		private UnifiedModifierCollection _modifiers;
 
+		/// <summary>
+		/// クラスの修飾子の集合を表します
+		/// <c>public class Klass extends E implements I{....}</c>の<c>public</c>
+		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetParentOfChild(value, _modifiers); }

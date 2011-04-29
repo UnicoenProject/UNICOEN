@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	/// </summary>
 	public class UnifiedExpressionList
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionList>,
 			  IUnifiedExpression {
