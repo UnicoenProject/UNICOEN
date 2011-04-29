@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   実引数を表します。
+	///   e.g. Javaにおける<c>method(a, b, c)</c>の<c>a</c>
 	/// </summary>
 	public class UnifiedArgument : UnifiedElement {
 		private IUnifiedExpression _value;

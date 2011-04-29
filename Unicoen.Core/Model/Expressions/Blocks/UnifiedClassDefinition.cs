@@ -23,7 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class Klass extends E implements I{....}</c>
+	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
 	public class UnifiedClassDefinition
 			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
@@ -34,7 +34,7 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		/// クラスの修飾子の集合を表します
-		/// <c>public class Klass extends E implements I{....}</c>の<c>public</c>
+		/// <c>public class A{....}</c>の<c>public</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }

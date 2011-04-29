@@ -22,7 +22,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   仮引数の集合を表します。
-	///   e.g. Javaにおける<c>int method(int a, double b){....}</c>の<c>int a, double b</c>
+	///   e.g. Javaにおける<c>int method(int a, double b){....}</c>の<c>(int a, double b)</c>
 	/// </summary>
 	public class UnifiedParameterCollection
 			: UnifiedElementCollection<UnifiedParameter, UnifiedParameterCollection> {

@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   boolean型であるリテラルを表します。
+	///   e.g. Javaにおける<c>Boolean flag = true;</c>の<c>true</c>の部分
 	/// </summary>
 	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<bool> {
 		private UnifiedBooleanLiteral() {}

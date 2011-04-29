@@ -23,7 +23,8 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   修飾子を表します。
-	///   e.g. Javaにおける<code>public int methd(){...}</code>や<code>private String _str</code>の，<code>public</code>や<code>private</code>
+	///   e.g. Javaにおける<c>public int method(){...}</c>の<c>public</c>
+	///   e.g. Javaにおける<c>private String _str</c>の<c>private</c>
 	/// </summary>
 	public class UnifiedModifier : UnifiedElement {
 		/// <summary>

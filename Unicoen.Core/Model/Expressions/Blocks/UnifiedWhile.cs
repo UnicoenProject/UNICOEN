@@ -23,7 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   while文を表します。
-	///   e.g. Javaにおける<c>while(con){...}</c>
+	///   e.g. Javaにおける<c>while(cond){...}</c>
 	/// </summary>
 	public class UnifiedWhile
 			: UnifiedExpressionWithBlock<UnifiedWhile> {
@@ -31,7 +31,7 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		/// 条件式を表します
-		/// e.g. Javaにおける<c>while(con){...}</c>の<c>con</c>
+		/// e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }

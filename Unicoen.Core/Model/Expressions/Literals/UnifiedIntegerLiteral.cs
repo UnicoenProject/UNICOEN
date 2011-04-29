@@ -24,6 +24,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   整数のリテラルを表します。
+	///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分
 	/// </summary>
 	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
 		private UnifiedIntegerLiteral() {}

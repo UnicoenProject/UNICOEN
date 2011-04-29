@@ -22,7 +22,7 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   try節を表します。
+	///   try文を表します。
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>
 	/// </summary>
 	public class UnifiedTry : UnifiedExpressionWithBlock<UnifiedTry> {

@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   nullであるリテラルを表します。
+	///   e.g. Javaにおける<c>null</c>
 	/// </summary>
 	public class UnifiedNullLiteral : UnifiedLiteral {
 		private UnifiedNullLiteral() {}

@@ -23,13 +23,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   ジェネリクスパラメータなど型に対する仮引数を表します。
+	///   e.g. Javaにおける<code>public &lt;T&gt; void method(){...}</code>
+	///   e.g. C#における<code>public void method&lt;T&gt;(){...}</code>
 	/// </summary>
 	public class UnifiedTypeParameter : UnifiedElement {
 		private UnifiedType _type;
 
 		/// <summary>
 		///   仮引数の型を表します
-		///   e.g. Javaにおける<code>method&lt;T&gt;{...}</code>の<code>T</code>
+		///   e.g. Javaにおける<code>public &lt;T&gt; void method(){...}</code>の<code>T</code>
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }

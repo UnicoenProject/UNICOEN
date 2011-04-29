@@ -24,9 +24,9 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   配列型やポインタ型などを表すために型に付加される修飾子を表します。
-	///   例えば、"int* p;"の"*"部分が該当します。
-	///   例えば、"int[10] a;"の"[10]"部分が該当します。
-	///   例えば、"int[10, 10] a;"の"[10, 10]"部分が該当します。
+	///   e.g. <c>int* p;</c>の<c>*</c>部分
+	///   e.g. <c>int[10] a;</c>の<c>[10]</c>部分
+	///   e.g. <c>int[10, 10] a;</c>の<c>[10, 10]</c>部分
 	/// </summary>
 	public class UnifiedTypeSupplement : UnifiedElement {
 		private UnifiedArgumentCollection _arguments;

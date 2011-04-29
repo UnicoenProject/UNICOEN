@@ -22,7 +22,7 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   関数、メソッド、コンストラクタなどの定義部分を表します。
+	///   関数やメソッドなどのサブルーチンの定義部分を表します。
 	///   e.g. Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
 	public class UnifiedFunctionDefinition

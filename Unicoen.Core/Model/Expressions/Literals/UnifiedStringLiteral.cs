@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   文字列であるリテラルを表します。
+	///   e.g. Javaにおける<c>String str = "abc"</c>の<c>"abc"</c>の部分
 	/// </summary>
 	public class UnifiedStringLiteral : UnifiedTypedLiteral<string> {
 		private UnifiedStringLiteral() {}

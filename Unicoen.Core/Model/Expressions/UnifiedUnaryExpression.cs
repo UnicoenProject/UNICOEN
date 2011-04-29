@@ -23,7 +23,9 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   単項式を表します。
-	///   e.g. Javaにおける<c>a++</c>, <c>-b</c>, <c>!c</c>など
+	///   e.g. Javaにおける<c>a++</c>
+	///   e.g. Javaにおける<c>-b</c>
+	///   e.g. Javaにおける<c>!c</c>
 	/// </summary>
 	public class UnifiedUnaryExpression : UnifiedElement, IUnifiedExpression {
 		private UnifiedUnaryOperator _operator;

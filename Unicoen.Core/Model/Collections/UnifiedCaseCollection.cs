@@ -22,7 +22,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   case式の集合を表します。
-	///   e.g. Javaにおける<c>switch(sw){case c1: ... case c2: ...}</c>の<c>{}</c>の中身
+	///   e.g. Javaにおける<c>switch(v){case c1: ... case c2: ...}</c>の<c>case c1: ... case c2: ...</c>
 	/// </summary>
 	public class UnifiedCaseCollection
 			: UnifiedElementCollection<UnifiedCase, UnifiedCaseCollection> {

@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   配列の生成を含むコンストラクタ呼び出しを表します。
+	///   e.g. Javaにおける<c>Object o = new Object();</c>の<c>new Object()</c>の部分
 	/// </summary>
 	public class UnifiedNew : UnifiedExpressionWithBlock<UnifiedNew> {
 		private UnifiedType _type;
@@ -49,7 +50,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedExpressionList _initialValue;
 
 		/// <summary>
-		///   Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分などが該当します。
+		///   配列生成時の初期値を表します。
+		///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
 		/// </summary>
 		public UnifiedExpressionList InitialValue {
 			get { return _initialValue; }

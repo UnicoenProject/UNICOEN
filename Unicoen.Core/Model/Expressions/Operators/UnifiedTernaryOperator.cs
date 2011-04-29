@@ -23,18 +23,18 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   3項演算子を表します
-	///   e.g. <c>a ? b : c</c>
+	///   e.g. Javaにおける<c>a ? b : c</c>
 	/// </summary>
 	public class UnifiedTernaryOperator : UnifiedElement {
 		/// <summary>
-		///   最初の項を表します
-		///   e.g. <c>a ? b : c</c>の<c>b</c>
+		///   最初の識別子を表します
+		///   e.g. Javaにおける<c>a ? b : c</c>の<c>?</c>
 		/// </summary>
 		public string FirstSign { get; private set; }
 
 		/// <summary>
-		///   2番目の項を表します
-		///   e.g. <c>a ? b : c</c>の<c>c</c>
+		///   2番目の識別子を表します
+		///   e.g. Javaにおける<c>a ? b : c</c>の<c>:</c>
 		/// </summary>
 		public string SecondSign { get; private set; }
 

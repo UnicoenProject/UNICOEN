@@ -354,7 +354,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			case UnifiedFractionLiteralKind.Single:
 				state.Writer.Write("f");
 				break;
-			case UnifiedFractionLiteralKind.Doulbe:
+			case UnifiedFractionLiteralKind.Double:
 				state.Writer.Write("d");
 				break;
 			default:

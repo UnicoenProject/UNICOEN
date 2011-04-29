@@ -22,8 +22,8 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   Cast演算子を表します。
-	///   e.g. Javaにおける<c>(int)a</c>の<c>(int)</c>
+	///   Cast式を表します。
+	///   e.g. Javaにおける<c>(int)a</c>
 	/// </summary>
 	public class UnifiedCast : UnifiedElement, IUnifiedExpression {
 		private UnifiedType _type;

@@ -21,7 +21,7 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   "{}"で囲まれた式の列を表します。
+	///   e.g <c>{}</c>で囲まれた式の列を表します。
 	/// </summary>
 	public class UnifiedBlock
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>,

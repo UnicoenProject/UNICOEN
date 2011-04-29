@@ -21,7 +21,7 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   ジェネリックタイプにおける実引数の集合を表します。
+	///   
 	/// </summary>
 	public class UnifiedIdentifierCollection
 			: UnifiedElementCollection

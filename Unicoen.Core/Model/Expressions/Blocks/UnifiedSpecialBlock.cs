@@ -23,7 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   synchronizedなど特殊なブロックを表します。
-	///   e.g. Javaにおける<c>synchronized{...}</c>など
+	///   e.g. Javaにおける<c>synchronized(this) {...}</c>
 	/// </summary>
 	public class UnifiedSpecialBlock
 			: UnifiedExpressionWithBlock<UnifiedSpecialBlock> {

@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   小数のリテラルを表します。
+	///   e.g. Javaにおける<c>double d = 1.0;</c>の<c>1.0</c>の部分
 	/// </summary>
 	public class UnifiedFractionLiteral : UnifiedTypedLiteral<double> {
 		private UnifiedFractionLiteral() {}
@@ -71,7 +72,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedFractionLiteral CreateDouble(double value) {
-			return Create(value, UnifiedFractionLiteralKind.Doulbe);
+			return Create(value, UnifiedFractionLiteralKind.Double);
 		}
 	}
 }

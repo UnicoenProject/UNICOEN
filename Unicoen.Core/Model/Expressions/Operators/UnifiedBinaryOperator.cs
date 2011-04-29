@@ -27,7 +27,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedBinaryOperator : UnifiedElement {
 		/// <summary>
-		///   演算子の記号を表します
+		///   演算子の識別子を表します
 		/// </summary>
 		public string Sign { get; private set; }
 

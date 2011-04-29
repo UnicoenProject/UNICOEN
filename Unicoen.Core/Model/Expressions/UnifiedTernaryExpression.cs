@@ -30,6 +30,7 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		/// 3項式の第1オペランドを表します
+		/// e.g. Javaにおける<c>a ? b : c</c>の<c>a</c>
 		/// </summary>
 		public IUnifiedExpression FirstExpression {
 			get { return _firstExpression; }
@@ -40,6 +41,7 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		/// 3項式の演算子を表します
+		/// e.g. Javaにおける<c>a ? b : c</c>の<c>?と:</c>
 		/// </summary>
 		public UnifiedTernaryOperator Operator {
 			get { return _operator; }

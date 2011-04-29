@@ -23,13 +23,14 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   switch文を表します。
+	///   e.g. Javaにおける<c>switch(v){...}</c>
 	/// </summary>
 	public class UnifiedSwitch : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _value;
 
 		/// <summary>
 		/// caseの分岐に使用される式を表します
-		/// Javaにおける<c>switch(sw){...}</c>の<c>sw</c>
+		/// e.g. Javaにおける<c>switch(v){...}</c>の<c>v</c>
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
