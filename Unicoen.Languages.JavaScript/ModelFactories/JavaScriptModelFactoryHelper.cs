@@ -17,321 +17,552 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			Contract.Requires(node.Name() == "program");
 			/*
 			 * program
+			 *  	: LT!* sourceElements LT!* EOF!
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			return UnifiedProgram.Create(
+				CreateSourceElements(node.Element("sourceElements")));
 		}
 
-		public static IUnifiedElement CreateSourceElements(XElement node)
+		public static IEnumerable<IUnifiedExpression> CreateSourceElements(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "sourceElements");
 			/*
 			 * sourceElements
+ 			 *  	: sourceElement (LT!* sourceElement)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var sourceElements =
+					node.Elements("sourceElement").Select(CreateSourceElement);
+			return sourceElements;
 		}
 
-		public static IUnifiedElement CreateSourceElement(XElement node)
+		public static IUnifiedExpression CreateSourceElement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "sourceElement");
 			/*
 			 * sourceElement
+			 *		: functionDeclaration
+			 *		| statement
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var first = node.NthElement(0);
+			switch (first.Name()) {
+				case "functionDeclaration":
+					return CreateFunctionDeclaration(first);
+				case "statement":
+					return CreateStatement(first);
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
-		public static IUnifiedElement CreateFunctionDeclaration(XElement node)
+		public static UnifiedFunctionDefinition CreateFunctionDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionDeclaration");
 			/*
 			 * functionDeclaration
+			 *		: 'function' LT!* Identifier LT!* formalParameterList LT!* functionBody
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var name = node.Element("Identifier").Value;
+			var parameters =
+					CreateFormalParameterList(node.Element("formalParameterList"));
+			var body = CreateFunctionBody(node.Element("functionBody"));
+
+			return UnifiedFunctionDefinition.CreateFunction(name, parameters, body);
 		}
 
-		public static IUnifiedElement CreateFunctionExpression(XElement node)
+		//TODO FunctionExpressionをどう扱うか
+		public static IUnifiedExpression CreateFunctionExpression(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionExpression");
 			/*
 			 * functionExpression
+			 *		: 'function' LT!* Identifier? LT!* formalParameterList LT!* functionBody
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var name = node.Element("Identifier") != null
+			           		? node.Element("Identifier").Value : null;
+			var parameters =
+					CreateFormalParameterList(node.Element("formalParameterList"));
+			var body = CreateFunctionBody(node.Element("functionBody"));
+
+			return UnifiedFunctionDefinition.CreateFunction(name, parameters, body);
 		}
 
-		public static IUnifiedElement CreateFormalParameterList(XElement node)
+		public static UnifiedParameterCollection CreateFormalParameterList(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameterList");
 			/*
 			 * formalParameterList
+			 *		: '(' (LT!* Identifier (LT!* ',' LT!* Identifier)*)? LT!* ')'
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var parameters =
+					node.Elements("Identifier").Select(e => UnifiedParameter.Create(e.Value)).
+							ToCollection();
+			return parameters;
 		}
 
-		public static IUnifiedElement CreateFunctionBody(XElement node)
+		public static UnifiedBlock CreateFunctionBody(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionBody");
 			/*
 			 * functionBody
+			 *		: '{' LT!* sourceElements LT!* '}'
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			return UnifiedBlock.Create(
+				CreateSourceElements(node.Element("sourceElements")));
 		}
 
-		public static IUnifiedElement CreateStatement(XElement node)
+		public static IUnifiedExpression CreateStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			/*
 			 * statement
+			 *		: statementBlock
+			 *		| variableStatement
+			 *		| emptyStatement
+			 *		| expressionStatement
+			 *		| ifStatement
+			 *		| iterationStatement
+			 *		| continueStatement
+			 *		| breakStatement
+			 *		| returnStatement
+			 *		| withStatement
+			 *		| labelledStatement
+			 *		| switchStatement
+			 *		| throwStatement
+			 *		| tryStatement
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var first = node.NthElement(0);
+			switch (first.Name()) {
+				case "statementBlock":
+					return CreateStatementBlock(first);
+				case "variableStatement":
+					return CreateVariableStatement(first);
+				case "emptyStatement":
+					return CreateEmptyStatement(first);
+				case "expressionStatement":
+					return CreateExpressionStatement(first);
+				case "ifStatement":
+					return CreateIfStatement(first);
+				case "iterationStatement":
+					return CreateIterationStatement(first);
+				case "continueStatement":
+					return CreateContinueStatement(first);
+				case "breakStatement":
+					return CreateBreakStatement(first);
+				case "returnStatement":
+					return CreateReturnStatement(first);
+				case "withStatement":
+					return CreateWithStatement(first);
+				case "labelledStatement":
+					return CreateLabelledStatement(first);
+				case "switchStatement":
+					return CreateSwitchStatement(first);
+				case "throwStatement":
+					return CreateThrowStatement(first);
+				case "tryStatement":
+					return CreateTryStatement(first);
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
-		public static IUnifiedElement CreateStatementBlock(XElement node)
+		public static UnifiedBlock CreateStatementBlock(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statementBlock");
 			/*
 			 * statementBlock
+			 *		: '{' LT!* statementList? LT!* '}'
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var statementList = node.Element("statementList") != null
+			                    		? CreateStatementList(node.Element("statementList"))
+			                    		: null;
+			return UnifiedBlock.Create(statementList);
 		}
 
-		public static IUnifiedElement CreateStatementList(XElement node)
+		public static IEnumerable<IUnifiedExpression> CreateStatementList(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statementList");
 			/*
 			 * statementList
+			 *		: statement (LT!* statement)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			//TODO ToList()して返却したほうがいいのか？
+			return node.Elements("statement").Select(CreateStatement);
 		}
 
-		public static IUnifiedElement CreateVariableStatement(XElement node)
+		public static IUnifiedExpression CreateVariableStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableStatement");
 			/*
 			 * variableStatement
+			 *		: 'var' LT!* variableDeclarationList (LT | ';')
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var bodys =
+					CreateVariableDeclarationList(node.Element("variableDeclarationList"));
+
+			return UnifiedVariableDefinition.Create(null, null, bodys);
 		}
 
-		public static IUnifiedElement CreateVariableDeclarationList(XElement node)
+		public static UnifiedVariableDefinitionBodyCollection CreateVariableDeclarationList(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationList");
 			/*
 			 * variableDeclarationList
+			 *		: variableDeclaration (LT!* ',' LT!* variableDeclaration)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			return node.Elements("variableDeclaration")
+					.Select(CreateVariableDeclaration)
+					.ToCollection();
 		}
 
-		public static IUnifiedElement CreateVariableDeclarationListNoIn(XElement node)
+		public static UnifiedVariableDefinitionBodyCollection CreateVariableDeclarationListNoIn(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationListNoIn");
 			/*
 			 * variableDeclarationListNoIn
+			 *		: variableDeclarationNoIn (LT!* ',' LT!* variableDeclarationNoIn)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements("variableDeclarationNoIn")
+					.Select(CreateVariableDeclarationNoIn)
+					.ToCollection();
 		}
 
-		public static IUnifiedElement CreateVariableDeclaration(XElement node)
+		public static UnifiedVariableDefinitionBody CreateVariableDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclaration");
 			/*
 			 * variableDeclaration
+			 *		: Identifier LT!* initialiser?
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var name = UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
+			var init = node.Element("initialiser") != null
+			           		? CreateInitialiser(node.Element("initialiser")) : null;
+
+			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
 		}
 
-		public static IUnifiedElement CreateVariableDeclarationNoIn(XElement node)
+		public static UnifiedVariableDefinitionBody CreateVariableDeclarationNoIn(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationNoIn");
 			/*
 			 * variableDeclarationNoIn
+			 *		: Identifier LT!* initialiserNoIn?
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var name = UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
+			var init = node.Element("initialiserNoIn") != null
+			           		? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
+
+			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
 		}
 
-		public static IUnifiedElement CreateInitialiser(XElement node)
+		public static IUnifiedExpression CreateInitialiser(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "initialiser");
 			/*
 			 * initialiser
+			 *		: '=' LT!* assignmentExpression
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			return CreateAssignmentExpression(node.Element("assignmentExpression"));
 		}
 
-		public static IUnifiedElement CreateInitialiserNoIn(XElement node)
+		public static IUnifiedExpression CreateInitialiserNoIn(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "initialiserNoIn");
 			/*
 			 * initialiserNoIn
+			 *		: '=' LT!* assignmentExpressionNoIn
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			return CreateAssignmentExpressionNoIn(
+				node.Element("assignmentExpressionNoIn"));
 		}
 
-		public static IUnifiedElement CreateEmptyStatement(XElement node)
+		public static IUnifiedExpression CreateEmptyStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "emptyStatement");
 			/*
 			 * emptyStatement
+			 *		: ';'
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			return UnifiedBlock.Create();
 		}
 
-		public static IUnifiedElement CreateExpressionStatement(XElement node)
+		public static IUnifiedExpression CreateExpressionStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expressionStatement");
 			/*
 			 * expressionStatement
+			 *		: expression (LT | ';')
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			return CreateExpression(node.NthElement(0));
 		}
 
-		public static IUnifiedElement CreateIfStatement(XElement node)
+		public static UnifiedIf CreateIfStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "ifStatement");
 			/*
 			 * ifStatement
+			 *		: 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var cond = CreateExpression(node.Element("expression"));
+			var trueBody = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+			var falseBody = node.HasContent("else")
+			        		? UnifiedBlock.Create(
+			        				CreateStatement(node.Elements("statement").ElementAt(1))) : null;
+
+			return UnifiedIf.Create(cond, trueBody, falseBody);
 		}
 
-		public static IUnifiedElement CreateIterationStatement(XElement node)
+		public static IUnifiedExpression CreateIterationStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iterationStatement");
 			/*
 			 * iterationStatement
+			 *		: doWhileStatement
+			 *		| whileStatement
+			 *		| forStatement
+			 *		| forInStatement
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var first = node.NthElement(0);
+			switch(first.Name()) {
+				case "doWhileStatement":
+					return CreateDoWhileStatement(first);
+				case "whileStatement":
+					return CreateWhileStatement(first);
+				case "forStatement":
+					return CreateForStatement(first);
+				case "forInStatement":
+					return CreateForInStatement(first);
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
-		public static IUnifiedElement CreateDoWhileStatement(XElement node)
+		public static UnifiedDoWhile CreateDoWhileStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "doWhileStatement");
 			/*
 			 * doWhileStatement
+			 *		: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';')
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+			var cond = CreateExpression(node.Element("expression"));
+
+			return UnifiedDoWhile.Create(body, cond);
 		}
 
-		public static IUnifiedElement CreateWhileStatement(XElement node)
+		public static UnifiedWhile CreateWhileStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "whileStatement");
 			/*
 			 * whileStatement
+			 *		: 'while' LT!* '(' LT!* expression LT!* ')' LT!* statement
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+			var cond = CreateExpression(node.Element("expression"));
+
+			return UnifiedWhile.Create(body, cond);
 		}
 
-		public static IUnifiedElement CreateForStatement(XElement node)
+		public static UnifiedFor CreateForStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forStatement");
 			/*
 			 * forStatement
+			 *		: 'for' LT!* '(' (LT!* forStatementInitialiserPart)? LT!* ';' (LT!* expression)? LT!* ';' (LT!* expression)? LT!* ')' LT!* statement
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var init = node.HasElement("forStatementInitialiserPart")
+			           		? CreateForStatementInitialiserPart(
+			           				node.Element("forStatementInitialiserPart")) : null;
+
+			//expressionを区別できないので、セミコロンの位置から条件なのかステップなのかを判断
+			var semicolons = node.Elements().Where(e => e.Value == ";");
+			var first = semicolons.ElementAt(0).NextElement();
+			var second = semicolons.ElementAt(1).NextElement();
+			
+			var cond = first.Name() == "expression" ? CreateExpression(first) : null;
+			var step = second.Name() == "expression" ? CreateExpression(first) : null;
+			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+
+			return UnifiedFor.Create(init, cond, step, body);
 		}
 
-		public static IUnifiedElement CreateForStatementInitialiserPart(XElement node)
+		public static IUnifiedExpression CreateForStatementInitialiserPart(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forStatementInitialiserPart");
 			/*
 			 * forStatementInitialiserPart
+			 *		: expressionNoIn
+			 *		| 'var' LT!* variableDeclarationListNoIn
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			if(node.NthElement(0).Name() == "expressionNoIn")
+				return CreateExpressionNoIn(node.NthElement(0));
+			if(node.HasElement("variableDeclarationListNoIn"))
+				return UnifiedVariableDefinition.Create(
+						null, null,
+						CreateVariableDeclarationListNoIn(
+								node.Element("variableDeclarationListNoIn")));
+			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedElement CreateForInStatement(XElement node)
+		public static UnifiedForeach CreateForInStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forInStatement");
 			/*
 			 * forInStatement
+			 *		: 'for' LT!* '(' LT!* forInStatementInitialiserPart LT!* 'in' LT!* expression LT!* ')' LT!* statement
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var element =
+					CreateForInStatementInitialiserPart(
+							node.Element("forInStatementInitialiserPart"));
+			var set = CreateExpression(node.Element("expression"));
+			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+
+			return UnifiedForeach.Create(element, set, body);
 		}
 
-		public static IUnifiedElement CreateForInStatementInitialiserPart(XElement node)
+		public static UnifiedVariableDefinition CreateForInStatementInitialiserPart(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forInStatementInitialiserPart");
 			/*
 			 * forInStatementInitialiserPart
+			 *		: leftHandSideExpression
+			 *		| 'var' LT!* variableDeclarationNoIn
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			if(node.NthElement(0).Name() == "leftHandSideExpression")
+				return CreateLeftHandSideExpression(node.NthElement(0));
+			if(node.HasElement("variableDeclarationNoIn"))
+				return UnifiedVariableDefinition.Create(
+						null, null,
+						CreateVariableDeclarationNoIn(node.Element("variableDeclarationNoIn")).
+								ToCollection());
+			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedElement CreateContinueStatement(XElement node)
+		public static UnifiedSpecialExpression CreateContinueStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "continueStatement");
 			/*
 			 * continueStatement
+			 *		: 'continue' Identifier? (LT | ';')
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var identifier = node.HasElement("Identifier")
+			                 		? UnifiedIdentifier.CreateUnknown(
+			                 				node.Element("Identifier").Value) : null;
+
+			return UnifiedSpecialExpression.CreateContinue(identifier);
 		}
 
-		public static IUnifiedElement CreateBreakStatement(XElement node)
+		public static UnifiedSpecialExpression CreateBreakStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "breakStatement");
 			/*
 			 * breakStatement
+			 *		: 'break' Identifier? (LT | ';')
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var identifier = node.HasElement("Identifier")
+			                 		? UnifiedIdentifier.CreateUnknown(
+			                 				node.Element("Identifier").Value) : null;
+
+			return UnifiedSpecialExpression.CreateBreak(identifier);
 		}
 
-		public static IUnifiedElement CreateReturnStatement(XElement node)
+		public static IUnifiedExpression CreateReturnStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "returnStatement");
 			/*
 			 * returnStatement
+			 *		: 'return' expression? (LT | ';')
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var expression = node.HasElement("expression")
+			                 		? CreateExpression(node.Element("expression")) : null;
+
+			return UnifiedSpecialExpression.CreateReturn(expression);
 		}
 
-		public static IUnifiedElement CreateWithStatement(XElement node)
+		public static IUnifiedExpression CreateWithStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "withStatement");
 			/*
 			 * withStatement
+			 *		: 'with' LT!* '(' LT!* expression LT!* ')' LT!* statement
 			 */
+			//TODO 対応する共通コードモデルを作成する	
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLabelledStatement(XElement node)
+		public static IUnifiedExpression CreateLabelledStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labelledStatement");
 			/*
-			 * labelledStatement
+			 * labelledStatement	
+			 *		: Identifier LT!* ':' LT!* statement
 			 */
-			throw new NotImplementedException(); //TODO: implement
+
+			var list = UnifiedExpressionList.Create();
+			list.Add(UnifiedLabel.Create(node.NthElement(0).Value));
+			list.Add(CreateStatement(node.Element("statement")));
+
+			return list;
 		}
 
-		public static IUnifiedElement CreateSwitchStatement(XElement node)
+		public static IUnifiedExpression CreateSwitchStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "switchStatement");
@@ -371,7 +602,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateThrowStatement(XElement node)
+		public static IUnifiedExpression CreateThrowStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "throwStatement");
@@ -381,7 +612,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTryStatement(XElement node)
+		public static IUnifiedExpression CreateTryStatement(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "tryStatement");
@@ -411,7 +642,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateExpression(XElement node)
+		public static IUnifiedExpression CreateExpression(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression");
@@ -421,7 +652,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateExpressionNoIn(XElement node)
+		public static IUnifiedExpression CreateExpressionNoIn(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expressionNoIn");
@@ -431,7 +662,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAssignmentExpression(XElement node)
+		public static IUnifiedExpression CreateAssignmentExpression(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignmentExpression");
@@ -441,7 +672,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAssignmentExpressionNoIn(XElement node)
+		public static IUnifiedExpression CreateAssignmentExpressionNoIn(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignmentExpressionNoIn");
@@ -451,7 +682,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLeftHandSideExpression(XElement node)
+		public static UnifiedVariableDefinition CreateLeftHandSideExpression(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "leftHandSideExpression");

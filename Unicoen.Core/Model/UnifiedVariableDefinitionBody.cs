@@ -24,7 +24,7 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   変数宣言における修飾子と型を省略した部分を表します。
 	///   なお、変数宣言(UnifiedVariableDefinition)は修飾子と型と本クラスの集合クラス(UnifiedVariableDefinitionBodyCollection)によって表現されます。
-	///   e.g. Javaにおける<c>final int a = b + c;</c>の<c>b + c</c>の部分
+	///   e.g. Javaにおける<c>final int a = b + c;</c>の<c>a = b + c</c>の部分
 	/// </summary>
 	public class UnifiedVariableDefinitionBody : UnifiedElement {
 		private UnifiedIdentifier _name;
