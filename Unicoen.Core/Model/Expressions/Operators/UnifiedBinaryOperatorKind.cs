@@ -176,10 +176,9 @@ namespace Unicoen.Core.Model {
 		///   a ^= b
 		/// </summary>
 		ExclusiveOrAssign,
-		/// <sum
-		/// mary>
+		/// <sum mary>
 		///   a instanceof b
-		/// </summary>
+		///   </summary>
 		InstanceOf,
 	}
 }

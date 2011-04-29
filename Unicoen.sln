@@ -41,9 +41,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Xml.Tests", "Mocom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Metrics", "Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj", "{0F43ECA9-FAA3-4565-A585-A33BA2B12883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.AOP", "Unicoen.Apps.AOP\Unicoen.Apps.AOP.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop", "Unicoen.Apps.AOP\Unicoen.Apps.Aop.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.AOP.Tests", "Unicoen.Apps.AOP.Tests\Unicoen.Apps.AOP.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Tests", "Unicoen.Apps.AOP.Tests\Unicoen.Apps.Aop.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

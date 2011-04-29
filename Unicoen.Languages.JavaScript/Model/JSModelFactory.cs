@@ -22,7 +22,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using Code2Xml.Languages.JavaScript.XmlGenerators;
+using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Languages.JavaScript.Model {
@@ -626,7 +626,7 @@ namespace Unicoen.Languages.JavaScript.Model {
 
 		public static UnifiedProgram CreateModel(string source) {
 			Contract.Requires(source != null);
-			var ast = JavaScriptXmlGenerator.Instance.Generate(source);
+			var ast = JavaScriptCodeToXml.Instance.Generate(source);
 			return CreateProgram(ast);
 		}
 	}

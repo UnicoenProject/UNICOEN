@@ -25,7 +25,8 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   変数を表します。
 	/// </summary>
-	public class UnifiedIdentifier : UnifiedElement, IUnifiedExpression, IUnifiedIdentifierOrCollection {
+	public class UnifiedIdentifier
+			: UnifiedElement, IUnifiedExpression, IUnifiedIdentifierOrCollection {
 		private UnifiedIdentifier() {}
 
 		public string Value { get; set; }
@@ -92,5 +93,5 @@ namespace Unicoen.Core.Model {
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
-	}
+			}
 }

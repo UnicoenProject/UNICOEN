@@ -35,8 +35,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedUnaryExpression ||
-			       parent is UnifiedBinaryExpression ||
-			       parent is UnifiedTernaryExpression)
+			    parent is UnifiedBinaryExpression ||
+			    parent is UnifiedTernaryExpression)
 				return Tuple.Create("(", ")");
 			return Tuple.Create("", "");
 		}

@@ -41,7 +41,7 @@ namespace Unicoen.Core.Model {
 			set { _falseBody = SetParentOfChild(value, _falseBody); }
 		}
 
-		private UnifiedIf() { }
+		private UnifiedIf() {}
 
 		public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
 			FalseBody.Add(expression);
@@ -101,17 +101,20 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedIf Create(IUnifiedExpression condition, UnifiedBlock body) {
+		public static UnifiedIf Create(
+				IUnifiedExpression condition, UnifiedBlock body) {
 			return new UnifiedIf {
 					Body = body,
 					Condition = condition,
 			};
 		}
 
-		public static UnifiedIf Create(IEnumerable<Tuple<IUnifiedExpression, UnifiedBlock>> conditionAndBodies, UnifiedBlock lastFalseBody) {
+		public static UnifiedIf Create(
+				IEnumerable<Tuple<IUnifiedExpression, UnifiedBlock>> conditionAndBodies,
+				UnifiedBlock lastFalseBody) {
 			var ifs = conditionAndBodies
-				.Select(t => Create(t.Item1, t.Item2))
-				.ToList();
+					.Select(t => Create(t.Item1, t.Item2))
+					.ToList();
 			for (int i = 1; i < ifs.Count; i++) {
 				ifs[i - 1].FalseBody = ifs[i].ToBlock();
 			}

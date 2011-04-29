@@ -41,27 +41,27 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		Yield,
 		/// <summary>
-		/// print in Python
+		///   print in Python
 		/// </summary>
 		Print,
 		/// <summary>
-		/// print >> in Python
+		///   print >> in Python
 		/// </summary>
 		PrintChevron,
 		/// <summary>
-		/// pass in Python
+		///   pass in Python
 		/// </summary>
 		Pass,
 		/// <summary>
-		/// del in Python
+		///   del in Python
 		/// </summary>
 		Delete,
 		/// <summary>
-		/// global in Python
+		///   global in Python
 		/// </summary>
 		Global,
 		/// <summary>
-		/// exec in Python
+		///   exec in Python
 		/// </summary>
 		Exec
 	}

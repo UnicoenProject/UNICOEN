@@ -23,7 +23,7 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.Java.XmlGenerators;
+using Code2Xml.Languages.Java.CodeToXmls;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
@@ -856,7 +856,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var dimension = node.ElementsByContent("[").Count();
 			for (var i = 0; i < dimension; i++)
 				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
-			return UnifiedParameter.Create(modifiers, type, node.Element("IDENTIFIER").Value);
+			return UnifiedParameter.Create(
+					modifiers, type, node.Element("IDENTIFIER").Value);
 		}
 
 		public static UnifiedParameter CreateEllipsisParameterDecl(XElement node) {
@@ -869,7 +870,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var modifiers = CreateVariableModifiers(node.Element("variableModifiers"));
 			modifiers.Add(UnifiedModifier.Create("..."));
 			var type = CreateType(node.Element("type"));
-			return UnifiedParameter.Create(modifiers, type, node.Element("IDENTIFIER").Value);
+			return UnifiedParameter.Create(
+					modifiers, type, node.Element("IDENTIFIER").Value);
 		}
 
 		public static IUnifiedExpression CreateExplicitConstructorInvocation(
@@ -1312,7 +1314,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 
 			return UnifiedParameterCollection.Create(
-					UnifiedParameter.Create(CreateVariableModifiers(node.FirstElement()), type, node.NthElement(2).Value)
+					UnifiedParameter.Create(
+							CreateVariableModifiers(node.FirstElement()), type,
+							node.NthElement(2).Value)
 					);
 		}
 
@@ -2504,7 +2508,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 		}
 
 		private static IUnifiedExpression CreateBinaryExpression(
-				XElement node, Func <XElement, IUnifiedExpression> createExpression) {
+				XElement node, Func<XElement, IUnifiedExpression> createExpression) {
 			var nodes = node.Elements().OddIndexElements();
 			return nodes.Skip(1).Aggregate(
 					createExpression(nodes.First()),
@@ -2638,7 +2642,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 
 		public static UnifiedProgram CreateModel(string source) {
 			Contract.Requires(source != null);
-			var ast = JavaXmlGenerator.Instance.Generate(source);
+			var ast = JavaCodeToXml.Instance.Generate(source);
 			var model = CreateCompilationUnit(ast);
 			model.Normalize();
 			return model;

@@ -16,7 +16,7 @@
 
 #endregion
 
-using Code2Xml.Languages.Java.XmlGenerators;
+using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.Core.Model;
 using Unicoen.Core.ModelFactories;
 
@@ -25,7 +25,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 		public static JavaModelFactory Instance = new JavaModelFactory();
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
-			var ast = JavaXmlGenerator.Instance.Generate(code);
+			var ast = JavaCodeToXml.Instance.Generate(code);
 			return JavaModelFactoryHelper.CreateCompilationUnit(ast);
 		}
 	}

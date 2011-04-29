@@ -16,7 +16,7 @@
 
 #endregion
 
-using Code2Xml.Languages.Python2.XmlGenerators;
+using Code2Xml.Languages.Python2.CodeToXmls;
 using NUnit.Framework;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
@@ -113,7 +113,7 @@ print fib(20)
 
 		[Test, Ignore]
 		public void TestFibonacci() {
-			var xml = Python2XmlGenerator.Instance.Generate(TestCode);
+			var xml = Python2CodeToXml.Instance.Generate(TestCode);
 			var model = PythonModelFactory.CreateBlock(xml);
 			Assert.That(
 					model, Is.EqualTo(ExpectedModel)

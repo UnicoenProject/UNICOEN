@@ -18,7 +18,7 @@
 
 using System.Linq;
 using System.Xml.Linq;
-using Code2Xml.Languages.JavaScript.XmlGenerators;
+using Code2Xml.Languages.JavaScript.CodeToXmls;
 using NUnit.Framework;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
@@ -32,7 +32,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 
 		[SetUp]
 		public void SetUp() {
-			_ast = JavaScriptXmlGenerator.Instance.GenerateFromFile(InputPath);
+			_ast = JavaScriptCodeToXml.Instance.GenerateFromFile(InputPath);
 			_root = _ast.Descendants("functionDeclaration").First();
 			_func = JSModelFactory.CreateFunction(_root);
 		}

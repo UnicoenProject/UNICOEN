@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model.Expressions {
+namespace Unicoen.Core.Model {
 	/// <summary>
 	///   UnifiedCastの種類を表します。
 	/// </summary>

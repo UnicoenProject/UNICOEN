@@ -27,7 +27,7 @@ namespace Unicoen.Core.Model {
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _from;
 
-		public IUnifiedExpression From{
+		public IUnifiedExpression From {
 			get { return _from; }
 			set { _from = SetParentOfChild(value, _from); }
 		}

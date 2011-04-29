@@ -16,7 +16,7 @@
 
 #endregion
 
-using Code2Xml.Languages.Ruby18.XmlGenerators;
+using Code2Xml.Languages.Ruby18.CodeToXmls;
 using NUnit.Framework;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
@@ -43,7 +43,7 @@ namespace Unicoen.Languages.Ruby18.Tests {
 
 		[Test]
 		public void CreateDefineFunction() {
-			var ast = Ruby18XmlGenerator.Instance.Generate(@"
+			var ast = Ruby18CodeToXml.Instance.Generate(@"
 def fibonacci(n)
 end");
 			var actual = RubyModelFactory.CreateDefineFunction(ast);
@@ -61,7 +61,7 @@ end");
 		[Test]
 		public void CreateReturn() {
 			var ast =
-					Ruby18XmlGenerator.Instance.Generate(@"
+					Ruby18CodeToXml.Instance.Generate(@"
 def fibonacci(n)
 	return n
 end");
@@ -84,7 +84,7 @@ end");
 		[Test]
 		public void CreateFunctionCall() {
 			var ast =
-					Ruby18XmlGenerator.Instance.Generate(
+					Ruby18CodeToXml.Instance.Generate(
 							@"
 def fibonacci(n)
 	return fibonacci(n)
@@ -107,7 +107,7 @@ end");
 		[Test]
 		public void CreateFunctionCall2() {
 			var ast =
-					Ruby18XmlGenerator.Instance.Generate(
+					Ruby18CodeToXml.Instance.Generate(
 							@"
 def fibonacci(n)
 	return fibonacci(n - 1) + fibonacci(n - 2)
@@ -135,7 +135,7 @@ end");
 		[Test]
 		public void CreateIf() {
 			var ast =
-					Ruby18XmlGenerator.Instance.Generate(
+					Ruby18CodeToXml.Instance.Generate(
 							@"
 def fibonacci(n)
 	if (n < 2)
@@ -176,7 +176,7 @@ end
 		[Test]
 		public void CreateFibonacci() {
 			var ast =
-					Ruby18XmlGenerator.Instance.Generate(
+					Ruby18CodeToXml.Instance.Generate(
 							@"
 def fibonacci(n)
 	if (n < 2)

@@ -1,80 +1,101 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Code2Xml.Languages.Java.XmlGenerators;
+using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.Core.Model;
 using Unicoen.Languages.Java.ModelFactories;
 
-namespace Unicoen.Apps.AOP {
+namespace Unicoen.Apps.Aop {
 	/// <summary>
-	/// アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
+	///   アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
 	/// </summary>
 	public class CodeProcessor {
-		
 		/// <summary>
-		/// 指定されたモデルから、指定されたタイプのリストを返します。
+		///   指定されたモデルから、指定されたタイプのリストを返します。
 		/// </summary>
-		/// <typeparam name="T">指定する共通コードモデルのタイプ</typeparam>
-		/// <param name="root">要素を取得する共通コードモデルのルートノード</param>
+		/// <typeparam name = "T">指定する共通コードモデルのタイプ</typeparam>
+		/// <param name = "root">要素を取得する共通コードモデルのルートノード</param>
 		/// <returns></returns>
 		//GetElementsBySpecifiedComponent<UnifiedNew>(null);
-		public static IEnumerable<T> GetElementsBySpecifiedType<T>(IUnifiedElement root)
-			where T : class
-		{
+		public static IEnumerable<T> GetElementsBySpecifiedType<T>(
+				IUnifiedElement root)
+				where T : class {
 			foreach (var e in root.Descendants()) {
 				var result = e as T;
-				if(result != null) {
+				if (result != null) {
 					yield return result;
 				}
 			}
 		}
-		
+
 		//TODO このメソッドは必要か？
 		/// <summary>
-		/// 指定されたモデルから、指定されたタイプのリストを返します。
+		///   指定されたモデルから、指定されたタイプのリストを返します。
 		/// </summary>
-		/// <param name="root">要素を取得する共通コードモデルのルートノード</param>
-		/// <param name="type">指定する共通コードモデルのタイプ</param>
+		/// <param name = "root">要素を取得する共通コードモデルのルートノード</param>
+		/// <param name = "type">指定する共通コードモデルのタイプ</param>
 		/// <returns></returns>
 		//GetElementsBySpecifiedComponent(null, typeof(UnifiedNew));
-		public static IEnumerable<IUnifiedElement> GetElementsBySpecifiedType(IUnifiedElement root, Type type) {
+		public static IEnumerable<IUnifiedElement> GetElementsBySpecifiedType(
+				IUnifiedElement root, Type type) {
 			foreach (var e in root.DescendantsAndSelf()) {
-				if(type.IsInstanceOfType(e)) {
+				if (type.IsInstanceOfType(e)) {
 					yield return e;
 				}
 			}
 		}
 
 		/// <summary>
-		/// 指定されたモデルから、関数のリストを返します。
+		///   指定されたモデルから、関数のリストを返します。
 		/// </summary>
-		/// <param name="root">要素を取得する共通コードモデルのルートノード</param>
+		/// <param name = "root">要素を取得する共通コードモデルのルートノード</param>
 		/// <returns></returns>
-		public static IEnumerable<UnifiedFunctionDefinition> GetFunctionDefinitions(IUnifiedElement root) {
+		public static IEnumerable<UnifiedFunctionDefinition> GetFunctionDefinitions(
+				IUnifiedElement root) {
 			return GetElementsBySpecifiedType<UnifiedFunctionDefinition>(root);
 		}
 
 		/// <summary>
-		/// 指定されたモデルから、指定された名前を持つ関数を返します。
+		///   指定されたモデルから、指定された名前を持つ関数を返します。
 		/// </summary>
-		/// <param name="root">要素を取得する共通コードモデルのルートノード</param>
-		/// <param name="name">要素を取得する関数の名前</param>
+		/// <param name = "root">要素を取得する共通コードモデルのルートノード</param>
+		/// <param name = "name">要素を取得する関数の名前</param>
 		/// <returns></returns>
-		public static UnifiedFunctionDefinition GetFunctionDefinitionByName(IUnifiedElement root, string name) {
-			foreach (var e in GetElementsBySpecifiedType<UnifiedFunctionDefinition>(root)) {
+		public static UnifiedFunctionDefinition GetFunctionDefinitionByName(
+				IUnifiedElement root, string name) {
+			foreach (var e in GetElementsBySpecifiedType<UnifiedFunctionDefinition>(root)
+					) {
 				if (e.Name.Value == name)
-						return e;
+					return e;
 			}
 			return null;
 		}
-		
+
 		/// <summary>
-		/// すべての関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		///   すべての関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
-		/// <param name="root">コードを追加するモデルのルートノード</param>
-		/// <param name="advice">挿入するコード断片</param>
-		public static void InsertBeforeAllFunction(IUnifiedElement root, string advice) {
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertBeforeAllFunction(
+				IUnifiedElement root, string advice) {
 			//get function list
 			var functions = GetFunctionDefinitions(root);
 			//create advice as model
@@ -86,10 +107,10 @@ namespace Unicoen.Apps.AOP {
 		}
 
 		/// <summary>
-		/// すべての関数の後に、指定されたコードを共通コードモデルとして挿入します。
+		///   すべての関数の後に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
-		/// <param name="root">コードを追加するモデルのルートノード</param>
-		/// <param name="advice">挿入するコード断片</param>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAfterAllFunction(IUnifiedElement root, string advice) {
 			//get function list
 			var functions = GetFunctionDefinitions(root);
@@ -106,10 +127,10 @@ namespace Unicoen.Apps.AOP {
 						GetElementsBySpecifiedType<UnifiedSpecialExpression>(function).Where(
 								e => e.Kind == UnifiedSpecialExpressionKind.Return).ToList();
 
-				if(returns.Count() == 0) { //case function don't have return statement
+				if (returns.Count() == 0) {
+					//case function don't have return statement
 					function.Body.Add(actual);
-				}
-				else {
+				} else {
 					foreach (var returnStmt in returns) {
 						var block = returnStmt.Parent as UnifiedBlock;
 						if (block == null)
@@ -121,13 +142,13 @@ namespace Unicoen.Apps.AOP {
 		}
 
 		/// <summary>
-		/// 与えられたコードを共通コードモデルとして生成します。
+		///   与えられたコードを共通コードモデルとして生成します。
 		/// </summary>
-		/// <param name="code">コード断片</param>
+		/// <param name = "code">コード断片</param>
 		/// <returns></returns>
 		public static UnifiedBlock CreateAdvice(string code) {
 			//generate model from string advice (as UnifiedBlock)
-			var ast = JavaXmlGenerator.Instance.Generate(code, p => p.block());
+			var ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
 			var actual = JavaModelFactoryHelper.CreateBlock(ast);
 			actual.Normalize();
 

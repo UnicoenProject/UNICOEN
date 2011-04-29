@@ -1,19 +1,33 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
+using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
-using Mocomoco.Xml.Linq;
 
-namespace Unicoen.Languages.Python2.ModelFactories
-{
-	public static class PythonModelFactoryHelper
-	{
-		public static IUnifiedElement CreateSingle_input(XElement node)
-		{
+namespace Unicoen.Languages.Python2.ModelFactories {
+	public static class PythonModelFactoryHelper {
+		public static IUnifiedElement CreateSingle_input(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "single_input");
 			/*
@@ -24,8 +38,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					.ToProgram();
 		}
 
-		public static UnifiedProgram CreateFile_input(XElement node)
-		{
+		public static UnifiedProgram CreateFile_input(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "file_input");
 			/*
@@ -36,8 +49,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					.ToProgram();
 		}
 
-		public static IUnifiedElement CreateEval_input(XElement node)
-		{
+		public static IUnifiedElement CreateEval_input(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "eval_input");
 			/*
@@ -46,8 +58,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDecorator(XElement node)
-		{
+		public static IUnifiedElement CreateDecorator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "decorator");
 			/*
@@ -56,8 +67,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDecorators(XElement node)
-		{
+		public static IUnifiedElement CreateDecorators(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "decorators");
 			/*
@@ -66,8 +76,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateDecorated(XElement node)
-		{
+		public static IUnifiedExpression CreateDecorated(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "decorated");
 			/*
@@ -76,8 +85,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateFuncdef(XElement node)
-		{
+		public static IUnifiedExpression CreateFuncdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "funcdef");
 			/*
@@ -90,8 +98,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					);
 		}
 
-		public static UnifiedParameterCollection CreateParameters(XElement node)
-		{
+		public static UnifiedParameterCollection CreateParameters(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameters");
 			/*
@@ -99,12 +106,11 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			 */
 			var varargslist = node.Element("varargslist");
 			return varargslist != null
-				? CreateVarargslist(varargslist)
-				: UnifiedParameterCollection.Create();
+			       		? CreateVarargslist(varargslist)
+			       		: UnifiedParameterCollection.Create();
 		}
 
-		public static UnifiedParameterCollection CreateVarargslist(XElement node)
-		{
+		public static UnifiedParameterCollection CreateVarargslist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "varargslist");
 			/*
@@ -131,8 +137,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return ps.Concat(ps2).ToCollection();
 		}
 
-		public static IEnumerable<string> CreateFpdef(XElement node)
-		{
+		public static IEnumerable<string> CreateFpdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "fpdef");
 			/*
@@ -144,8 +149,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			       		: CreateFplist(node.NthElement(1));
 		}
 
-		public static IEnumerable<string> CreateFplist(XElement node)
-		{
+		public static IEnumerable<string> CreateFplist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "fplist");
 			/*
@@ -155,8 +159,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					.SelectMany(CreateFpdef);
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateStmt(XElement node)
-		{
+		public static IEnumerable<IUnifiedExpression> CreateStmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "stmt");
 			/*
@@ -168,19 +171,17 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			       		: Enumerable.Repeat(CreateCompound_stmt(first), 1);
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateSimple_stmt(XElement node)
-		{
+		public static IEnumerable<IUnifiedExpression> CreateSimple_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "simple_stmt");
 			/*
 			 * simple_stmt: small_stmt (';' small_stmt)* [';'] NEWLINE
 			 */
 			return node.Elements("small_stmt")
-				.SelectMany(CreateSmall_stmt);
+					.SelectMany(CreateSmall_stmt);
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateSmall_stmt(XElement node)
-		{
+		public static IEnumerable<IUnifiedExpression> CreateSmall_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "small_stmt");
 			/*
@@ -223,8 +224,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			}
 		}
 
-		public static IUnifiedExpression CreateExpr_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateExpr_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expr_stmt");
 			/*
@@ -234,8 +234,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAugassign(XElement node)
-		{
+		public static IUnifiedElement CreateAugassign(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "augassign");
 			/*
@@ -244,7 +243,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			 */
 			UnifiedBinaryOperatorKind kind;
 			switch (node.Value) {
-			// Assignment
+				// Assignment
 			case "+=":
 				kind = UnifiedBinaryOperatorKind.AddAssign;
 				break;
@@ -287,8 +286,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return UnifiedBinaryOperator.Create(node.Value, kind);
 		}
 
-		public static IUnifiedExpression CreatePrint_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreatePrint_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "print_stmt");
 			/*
@@ -300,21 +298,21 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			if (second.SafeName() == ">>") {
 				kind = UnifiedSpecialExpressionKind.PrintChevron;
 			}
-			return UnifiedSpecialExpression.Create(kind, node.Elements("test").Select(CreateTest).ToExpressionList());
+			return UnifiedSpecialExpression.Create(
+					kind, node.Elements("test").Select(CreateTest).ToExpressionList());
 		}
 
-		public static IUnifiedExpression CreateDel_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateDel_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "del_stmt");
 			/*
 			 * del_stmt: 'del' exprlist
 			 */
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Delete, CreateExprlist(node.NthElement(1)));
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Delete, CreateExprlist(node.NthElement(1)));
 		}
 
-		public static IUnifiedExpression CreatePass_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreatePass_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "pass_stmt");
 			/*
@@ -323,8 +321,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Pass);
 		}
 
-		public static IUnifiedExpression CreateFlow_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateFlow_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "flow_stmt");
 			/*
@@ -347,8 +344,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			}
 		}
 
-		public static IUnifiedExpression CreateBreak_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateBreak_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "break_stmt");
 			/*
@@ -357,8 +353,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Break);
 		}
 
-		public static IUnifiedExpression CreateContinue_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateContinue_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "continue_stmt");
 			/*
@@ -367,19 +362,19 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Continue);
 		}
 
-		public static IUnifiedExpression CreateReturn_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateReturn_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "return_stmt");
 			/*
 			 * return_stmt: 'return' [testlist]
 			 */
-			var testlist=  node.Elements("testlist").Select(CreateTestlist).FirstOrDefault();
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Return, testlist);
+			var testlist =
+					node.Elements("testlist").Select(CreateTestlist).FirstOrDefault();
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Return, testlist);
 		}
 
-		public static IUnifiedExpression CreateYield_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateYield_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "yield_stmt");
 			/*
@@ -388,8 +383,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return CreateYield_expr(node.FirstElement());
 		}
 
-		public static IUnifiedExpression CreateRaise_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateRaise_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "raise_stmt");
 			/*
@@ -397,11 +391,11 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			 */
 			// TODO: change to dedicated class ?
 			var tests = node.Elements("test").Select(CreateTest).ToExpressionList();
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Throw, tests);
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Throw, tests);
 		}
 
-		public static IEnumerable<UnifiedImport> CreateImport_stmt(XElement node)
-		{
+		public static IEnumerable<UnifiedImport> CreateImport_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_stmt");
 			/*
@@ -413,19 +407,18 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			       		: CreateImport_from(first);
 		}
 
-		public static IEnumerable<UnifiedImport> CreateImport_name(XElement node)
-		{
+		public static IEnumerable<UnifiedImport> CreateImport_name(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_name");
 			/*
 			 * import_name: 'import' dotted_as_names
 			 */
 			return CreateDotted_as_names(node.NthElement(1))
-					.Select(t => UnifiedImport.Create(null, t.Item1.ToProperty("."), t.Item2, null));
+					.Select(
+							t => UnifiedImport.Create(null, t.Item1.ToProperty("."), t.Item2, null));
 		}
 
-		public static IEnumerable<UnifiedImport> CreateImport_from(XElement node)
-		{
+		public static IEnumerable<UnifiedImport> CreateImport_from(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_from");
 			/*
@@ -450,8 +443,8 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			}
 		}
 
-		public static Tuple<UnifiedIdentifier, string> CreateImport_as_name(XElement node)
-		{
+		public static Tuple<UnifiedIdentifier, string> CreateImport_as_name(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_as_name");
 			/*
@@ -464,8 +457,8 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					asNode != null ? asNode.NextElement().Value : null);
 		}
 
-		public static Tuple<IEnumerable<UnifiedIdentifier>, string> CreateDotted_as_name(XElement node)
-		{
+		public static Tuple<IEnumerable<UnifiedIdentifier>, string>
+				CreateDotted_as_name(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dotted_as_name");
 			/*
@@ -477,8 +470,8 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					name != null ? name.Value : null);
 		}
 
-		public static IEnumerable<Tuple<UnifiedIdentifier, string>> CreateImport_as_names(XElement node)
-		{
+		public static IEnumerable<Tuple<UnifiedIdentifier, string>>
+				CreateImport_as_names(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_as_names");
 			/*
@@ -488,8 +481,8 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					.Select(CreateImport_as_name);
 		}
 
-		public static IEnumerable<Tuple<IEnumerable<UnifiedIdentifier>, string>> CreateDotted_as_names(XElement node)
-		{
+		public static IEnumerable<Tuple<IEnumerable<UnifiedIdentifier>, string>>
+				CreateDotted_as_names(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dotted_as_names");
 			/*
@@ -499,8 +492,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					.Select(CreateDotted_as_name);
 		}
 
-		public static IEnumerable<UnifiedIdentifier> CreateDotted_name(XElement node)
-		{
+		public static IEnumerable<UnifiedIdentifier> CreateDotted_name(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dotted_name");
 			/*
@@ -510,8 +502,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					.Select(e => UnifiedIdentifier.CreateUnknown(e.Value));
 		}
 
-		public static IUnifiedExpression CreateGlobal_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateGlobal_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "global_stmt");
 			/*
@@ -524,8 +515,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 							.ToExpressionList());
 		}
 
-		public static IUnifiedExpression CreateExec_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateExec_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "exec_stmt");
 			/*
@@ -540,8 +530,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 							.ToExpressionList());
 		}
 
-		public static IUnifiedExpression CreateAssert_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateAssert_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assert_stmt");
 			/*
@@ -555,8 +544,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 					);
 		}
 
-		public static IUnifiedExpression CreateCompound_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateCompound_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "compound_stmt");
 			/*
@@ -585,8 +573,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			}
 		}
 
-		public static UnifiedIf CreateIf_stmt(XElement node)
-		{
+		public static UnifiedIf CreateIf_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "if_stmt");
 			/*
@@ -600,8 +587,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			return UnifiedIf.Create(conditionAndBodies, elseSuite);
 		}
 
-		public static IUnifiedExpression CreateWhile_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateWhile_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "while_stmt");
 			/*
@@ -610,8 +596,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateFor_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateFor_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "for_stmt");
 			/*
@@ -620,8 +605,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateTry_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateTry_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "try_stmt");
 			/*
@@ -630,8 +614,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateWith_stmt(XElement node)
-		{
+		public static IUnifiedExpression CreateWith_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "with_stmt");
 			/*
@@ -640,8 +623,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateWith_item(XElement node)
-		{
+		public static IUnifiedElement CreateWith_item(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "with_item");
 			/*
@@ -650,8 +632,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateExcept_clause(XElement node)
-		{
+		public static IUnifiedElement CreateExcept_clause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "except_clause");
 			/*
@@ -660,8 +641,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static UnifiedBlock CreateSuite(XElement node)
-		{
+		public static UnifiedBlock CreateSuite(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "suite");
 			/*
@@ -670,8 +650,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTestlist_safe(XElement node)
-		{
+		public static IUnifiedElement CreateTestlist_safe(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist_safe");
 			/*
@@ -680,8 +659,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateOld_test(XElement node)
-		{
+		public static IUnifiedElement CreateOld_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "old_test");
 			/*
@@ -690,8 +668,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateOld_lambdef(XElement node)
-		{
+		public static IUnifiedElement CreateOld_lambdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "old_lambdef");
 			/*
@@ -700,8 +677,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateTest(XElement node)
-		{
+		public static IUnifiedExpression CreateTest(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "test");
 			/*
@@ -710,8 +686,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateOr_test(XElement node)
-		{
+		public static IUnifiedElement CreateOr_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "or_test");
 			/*
@@ -720,8 +695,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAnd_test(XElement node)
-		{
+		public static IUnifiedElement CreateAnd_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "and_test");
 			/*
@@ -730,8 +704,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateNot_test(XElement node)
-		{
+		public static IUnifiedElement CreateNot_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "not_test");
 			/*
@@ -740,8 +713,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateComparison(XElement node)
-		{
+		public static IUnifiedElement CreateComparison(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comparison");
 			/*
@@ -750,8 +722,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateComp_op(XElement node)
-		{
+		public static IUnifiedElement CreateComp_op(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comp_op");
 			/*
@@ -760,8 +731,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateExpr(XElement node)
-		{
+		public static IUnifiedExpression CreateExpr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expr");
 			/*
@@ -770,8 +740,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateXor_expr(XElement node)
-		{
+		public static IUnifiedElement CreateXor_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "xor_expr");
 			/*
@@ -780,8 +749,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAnd_expr(XElement node)
-		{
+		public static IUnifiedElement CreateAnd_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "and_expr");
 			/*
@@ -790,8 +758,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateShift_expr(XElement node)
-		{
+		public static IUnifiedElement CreateShift_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "shift_expr");
 			/*
@@ -800,8 +767,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateArith_expr(XElement node)
-		{
+		public static IUnifiedElement CreateArith_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arith_expr");
 			/*
@@ -810,8 +776,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTerm(XElement node)
-		{
+		public static IUnifiedElement CreateTerm(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "term");
 			/*
@@ -820,8 +785,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateFactor(XElement node)
-		{
+		public static IUnifiedElement CreateFactor(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "factor");
 			/*
@@ -830,8 +794,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreatePower(XElement node)
-		{
+		public static IUnifiedElement CreatePower(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "power");
 			/*
@@ -840,8 +803,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAtom(XElement node)
-		{
+		public static IUnifiedElement CreateAtom(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "atom");
 			/*
@@ -850,8 +812,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateListmaker(XElement node)
-		{
+		public static IUnifiedElement CreateListmaker(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "listmaker");
 			/*
@@ -860,8 +821,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTestlist_comp(XElement node)
-		{
+		public static IUnifiedElement CreateTestlist_comp(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist_comp");
 			/*
@@ -870,8 +830,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLambdef(XElement node)
-		{
+		public static IUnifiedElement CreateLambdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lambdef");
 			/*
@@ -880,8 +839,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTrailer(XElement node)
-		{
+		public static IUnifiedElement CreateTrailer(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "trailer");
 			/*
@@ -890,8 +848,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSubscriptlist(XElement node)
-		{
+		public static IUnifiedElement CreateSubscriptlist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "subscriptlist");
 			/*
@@ -900,8 +857,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSubscript(XElement node)
-		{
+		public static IUnifiedElement CreateSubscript(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "subscript");
 			/*
@@ -910,8 +866,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSliceop(XElement node)
-		{
+		public static IUnifiedElement CreateSliceop(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "sliceop");
 			/*
@@ -920,8 +875,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateExprlist(XElement node)
-		{
+		public static IUnifiedExpression CreateExprlist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "exprlist");
 			/*
@@ -930,8 +884,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateTestlist(XElement node)
-		{
+		public static IUnifiedExpression CreateTestlist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist");
 			/*
@@ -940,8 +893,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDictorsetmaker(XElement node)
-		{
+		public static IUnifiedElement CreateDictorsetmaker(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dictorsetmaker");
 			/*
@@ -950,8 +902,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateClassdef(XElement node)
-		{
+		public static IUnifiedExpression CreateClassdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classdef");
 			/*
@@ -960,8 +911,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateArglist(XElement node)
-		{
+		public static IUnifiedElement CreateArglist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arglist");
 			/*
@@ -970,8 +920,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateArgument(XElement node)
-		{
+		public static IUnifiedElement CreateArgument(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "argument");
 			/*
@@ -980,8 +929,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateList_iter(XElement node)
-		{
+		public static IUnifiedElement CreateList_iter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "list_iter");
 			/*
@@ -990,8 +938,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateList_for(XElement node)
-		{
+		public static IUnifiedElement CreateList_for(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "list_for");
 			/*
@@ -1000,8 +947,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateList_if(XElement node)
-		{
+		public static IUnifiedElement CreateList_if(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "list_if");
 			/*
@@ -1010,8 +956,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateComp_iter(XElement node)
-		{
+		public static IUnifiedElement CreateComp_iter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comp_iter");
 			/*
@@ -1020,8 +965,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateComp_for(XElement node)
-		{
+		public static IUnifiedElement CreateComp_for(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comp_for");
 			/*
@@ -1030,8 +974,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateComp_if(XElement node)
-		{
+		public static IUnifiedElement CreateComp_if(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comp_if");
 			/*
@@ -1040,8 +983,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTestlist1(XElement node)
-		{
+		public static IUnifiedElement CreateTestlist1(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist1");
 			/*
@@ -1050,8 +992,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateEncoding_decl(XElement node)
-		{
+		public static IUnifiedElement CreateEncoding_decl(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "encoding_decl");
 			/*
@@ -1060,8 +1001,7 @@ namespace Unicoen.Languages.Python2.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateYield_expr(XElement node)
-		{
+		public static IUnifiedExpression CreateYield_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "yield_expr");
 			/*

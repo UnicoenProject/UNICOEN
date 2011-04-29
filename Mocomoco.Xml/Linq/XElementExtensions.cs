@@ -178,7 +178,7 @@ namespace Mocomoco.Xml.Linq {
 		///   element.ElementsBeforeSelf().ElementAt(index)です。
 		/// </summary>
 		/// <param name = "element"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
 		public static XElement PreviousElement(this XElement element, int index) {
@@ -190,10 +190,11 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
-		public static XElement PreviousElement(this XElement element, string name, int index) {
+		public static XElement PreviousElement(
+				this XElement element, string name, int index) {
 			return element.ElementsBeforeSelf(name).ElementAt(index);
 		}
 
@@ -201,10 +202,11 @@ namespace Mocomoco.Xml.Linq {
 		///   element.ElementsBeforeSelf().ElementAtOrDefault(index)です。
 		/// </summary>
 		/// <param name = "element"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
-		public static XElement PreviousElementOrDefault(this XElement element, int index) {
+		public static XElement PreviousElementOrDefault(
+				this XElement element, int index) {
 			return element.ElementsBeforeSelf().ElementAtOrDefault(index);
 		}
 
@@ -213,7 +215,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
 		public static XElement PreviousElementOrDefault(
@@ -332,7 +334,7 @@ namespace Mocomoco.Xml.Linq {
 		///   element.ElementsAfterSelf().ElementAt(index)です。
 		/// </summary>
 		/// <param name = "element"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
 		public static XElement NextElement(this XElement element, int index) {
@@ -344,10 +346,11 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
-		public static XElement NextElement(this XElement element, string name, int index) {
+		public static XElement NextElement(
+				this XElement element, string name, int index) {
 			return element.ElementsAfterSelf(name).ElementAt(index);
 		}
 
@@ -377,7 +380,7 @@ namespace Mocomoco.Xml.Linq {
 		///   element.ElementsAfterSelf().ElementAtOrDefault(index)です。
 		/// </summary>
 		/// <param name = "element"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
 		public static XElement NextElementOrDefault(this XElement element, int index) {
@@ -389,7 +392,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
-		/// <param name="index"></param>
+		/// <param name = "index"></param>
 		/// <returns></returns>
 		[Pure]
 		public static XElement NextElementOrDefault(

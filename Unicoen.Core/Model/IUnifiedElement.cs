@@ -106,16 +106,15 @@ namespace Unicoen.Core.Model {
 		IUnifiedElement Remove();
 
 		/// <summary>
-		/// 自分自身より前の兄弟として、与えられた要素を追加します。
+		///   自分自身より前の兄弟として、与えられた要素を追加します。
 		/// </summary>
-		/// <param name="node"></param>
+		/// <param name = "node"></param>
 		void AddBefore(IUnifiedElement node);
 
 		/// <summary>
-		/// 自分自身より後ろの兄弟として、与えられた要素を追加します。
+		///   自分自身より後ろの兄弟として、与えられた要素を追加します。
 		/// </summary>
-		/// <param name="node"></param>
+		/// <param name = "node"></param>
 		void AddAfter(IUnifiedElement node);
-
 	}
 }

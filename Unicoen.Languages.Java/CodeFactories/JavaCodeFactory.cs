@@ -27,7 +27,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 	public partial class JavaCodeFactory
 			: CodeFactory, IUnifiedModelVisitor<VisitorState, bool> {
 		/// <summary>
-		/// Expressionが括弧を付けるためのDecorationです
+		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>
 		private static readonly Decoration Paren =
 				new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };

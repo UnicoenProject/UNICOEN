@@ -16,7 +16,7 @@
 
 #endregion
 
-using Code2Xml.Languages.Python2.XmlGenerators;
+using Code2Xml.Languages.Python2.CodeToXmls;
 using NUnit.Framework;
 using Unicoen.Languages.Python2.Model;
 
@@ -27,7 +27,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		[TestCase("'1'", "1")]
 		[TestCase("\"1\"", "1")]
 		public void ParseStringLiteral(string code, string expectation) {
-			var ast = Python2XmlGenerator.Instance.Generate(code);
+			var ast = Python2CodeToXml.Instance.Generate(code);
 			var lit = PythonModelFactory.CreateStringLiteral(ast);
 			Assert.That(lit.Value, Is.EqualTo(expectation));
 		}

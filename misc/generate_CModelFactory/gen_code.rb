@@ -1,10 +1,17 @@
-methods = open('java.g', 'r') { |f| f.readlines.map { |s| s.strip } }
+methods = open('grammar.txt', 'r') { |f|
+  f.readlines
+    .select { |s| s.size > 0 && /^[a-zA-Z]/ === s }
+    .map { |s| s.strip }
+}
 
 source = methods.map { |m|
 %Q{
         public static IUnifiedElement Create#{m[0].upcase + m[1..-1]}(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "#{m}");
+            /*
+             * #{m}
+             */
             throw new NotImplementedException(); //TODO: implement
         }
 }

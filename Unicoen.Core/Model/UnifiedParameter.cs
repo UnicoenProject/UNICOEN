@@ -120,7 +120,9 @@ namespace Unicoen.Core.Model {
 					(_defaultValue, v => _defaultValue = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, IUnifiedIdentifierOrCollection name, IUnifiedExpression defaultValue) {
+		public static UnifiedParameter Create(
+				UnifiedModifierCollection modifiers, UnifiedType type,
+				IUnifiedIdentifierOrCollection name, IUnifiedExpression defaultValue) {
 			return new UnifiedParameter {
 					Modifiers = modifiers,
 					Type = type,
@@ -129,12 +131,17 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, IEnumerable<string> names, IUnifiedExpression defaultValue) {
+		public static UnifiedParameter Create(
+				UnifiedModifierCollection modifiers, UnifiedType type,
+				IEnumerable<string> names, IUnifiedExpression defaultValue) {
 			return Create(
 					modifiers, type,
 					names.Select(UnifiedIdentifier.CreateVariable).ToCollection(), defaultValue);
 		}
-		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, string name, IUnifiedExpression defaultValue) {
+
+		public static UnifiedParameter Create(
+				UnifiedModifierCollection modifiers, UnifiedType type, string name,
+				IUnifiedExpression defaultValue) {
 			return Create(
 					modifiers, type, UnifiedIdentifier.CreateVariable(name), defaultValue);
 		}
@@ -147,7 +154,8 @@ namespace Unicoen.Core.Model {
 			return Create(null, type, name, null);
 		}
 
-		public static UnifiedParameter Create(UnifiedModifierCollection modifiers, UnifiedType type, string name) {
+		public static UnifiedParameter Create(
+				UnifiedModifierCollection modifiers, UnifiedType type, string name) {
 			return Create(modifiers, type, name, null);
 		}
 	}
