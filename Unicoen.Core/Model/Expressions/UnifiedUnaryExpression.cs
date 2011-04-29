@@ -23,10 +23,17 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   単項式を表します。
+	///   e.g. Javaにおける<c>a++</c>
+	///   e.g. Javaにおける<c>-b</c>
+	///   e.g. Javaにおける<c>!c</c>
 	/// </summary>
 	public class UnifiedUnaryExpression : UnifiedElement, IUnifiedExpression {
 		private UnifiedUnaryOperator _operator;
 
+		/// <summary>
+		/// 単項式の演算式を表します
+		/// e.g. Javaにおける<c>a++</c>の<c>++</c>
+		/// </summary>
 		public UnifiedUnaryOperator Operator {
 			get { return _operator; }
 			set { _operator = SetParentOfChild(value, _operator); }
@@ -34,6 +41,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _operand;
 
+		/// <summary>
+		/// 単項式のオペランドを表します
+		/// e.g. Javaにおける<c>a++</c>の<c>a</c>
+		/// </summary>
 		public IUnifiedExpression Operand {
 			get { return _operand; }
 			set { _operand = SetParentOfChild(value, _operand); }

@@ -28,6 +28,10 @@ namespace Unicoen.Core.Model {
 	public class UnifiedForeach : UnifiedExpressionWithBlock<UnifiedForeach> {
 		private UnifiedVariableDefinition _element;
 
+		/// <summary>
+		/// 集合から取り出した要素を表します
+		/// e.g. Javaにおける<c>for(int n : array){...}</c>の<c>int n</c>
+		/// </summary>
 		public UnifiedVariableDefinition Element {
 			get { return _element; }
 			set { _element = SetParentOfChild(value, _element); }
@@ -35,6 +39,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _set;
 
+		/// <summary>
+		/// 対象の集合を表します
+		/// e.g. Javaにおける<c>for(int n : array){...}</c>の<c>array</c>
+		/// </summary>
 		public IUnifiedExpression Set {
 			get { return _set; }
 			set { _set = SetParentOfChild(value, _set); }

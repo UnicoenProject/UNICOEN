@@ -31,6 +31,7 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		///   仮引数の修飾子を表します
+		///   e.g. Javaにおける<code>public void method(final int a)</code>の<code>final</code>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }

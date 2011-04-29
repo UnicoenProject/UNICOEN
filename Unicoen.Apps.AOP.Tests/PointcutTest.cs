@@ -17,10 +17,12 @@
 #endregion
 
 using System.IO;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
+using Unicoen.Apps.AOP;
 using Unicoen.Core.Model;
-using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Core.Tests;
 
 namespace Unicoen.Apps.Aop.Tests {
 	/// <summary>
@@ -28,40 +30,183 @@ namespace Unicoen.Apps.Aop.Tests {
 	/// </summary>
 	[TestFixture]
 	internal class PointcutTest {
-		private const string filePath =
-				@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Fibonacci.java";
-
-		private string _ext;
-		private string _code;
-		private UnifiedProgram _model;
-
-		[SetUp]
-		public void Setup() {
-			_ext = Path.GetExtension(filePath);
-			_code = File.ReadAllText(filePath, XEncoding.SJIS);
-			_model = Program.CreateModel(_ext, _code);
+		private readonly string _fibonacciPath =
+				Fixture.GetInputPath("Java", "Default", "Fibonacci.java");
+		private readonly string _studentPath =
+				Fixture.GetInputPath("Java", "Default", "Student.java");
+		
+		public UnifiedProgram CreateModel(string path) {
+			var ext = Path.GetExtension(path);
+			var code = File.ReadAllText(path, XEncoding.SJIS);
+			return Program.CreateModel(ext, code);
 		}
 
 		[Test]
-		public void WeavingAtFunctionBeforeCorrectly() {
+		public void WeavingAtBeforeExecutionAll() {
+			var model = CreateModel(_fibonacciPath);
 			var actual =
-					JavaModelFactory.Instance.Generate(
-							"public class Fibonacci { public static int fibonacci(int n) { { Console.Write(); } if (n < 2) { return n; } else { return fibonacci(n - 1) + fibonacci(n - 2); } } }");
-			CodeProcessor.InsertBeforeAllFunction(_model, "{Console.Write();}");
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionBefore.java"));
+			
+			CodeProcessor.InsertAtBeforeExecutionAll(model, "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
-			Assert.That(_model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
 
 		[Test]
-		public void WeavingAtFunctionAfterCorrectly() {
+		public void WeavingAtAfterExecutionAll() {
+			var model = CreateModel(_fibonacciPath);
 			var actual =
-					JavaModelFactory.Instance.Generate(
-							"public class Fibonacci { public static int fibonacci(int n) { if (n < 2) { { Console.Write(); } return n; } else { { Console.Write(); } return fibonacci(n - 1) + fibonacci(n - 2); } } }");
-			CodeProcessor.InsertAfterAllFunction(_model, "{Console.Write();}");
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
+			
+			CodeProcessor.InsertAtAfterExecutionAll(model, "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
-			Assert.That(_model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
+
+		[Test]
+		[TestCase("^fib")]
+		public void WeavingAtBeforeExecutionByRegex(string regex) {
+			var model = CreateModel(_fibonacciPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionBefore.java"));
+			
+			CodeProcessor.InsertAtBeforeExecution(model, new Regex(regex), "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		[Test]
+		[TestCase("^fib")]
+		public void WeavingAtAfterExecutionByRegex(string regex) {
+			var model = CreateModel(_fibonacciPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
+			
+			CodeProcessor.InsertAtAfterExecution(model, new Regex(regex), "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		[Test]
+		[TestCase("fibonacci")]
+		public void WeavingAtBeforeExecutionByName(string name) {
+			var model = CreateModel(_fibonacciPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionBefore.java"));
+			
+			CodeProcessor.InsertAtBeforeExecutionByName(model, name, "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		[Test]
+		[TestCase("fibonacci")]
+		public void WeavingAtAfterExecutionByName(string name) {
+			var model = CreateModel(_fibonacciPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
+			
+			CodeProcessor.InsertAtAfterExecutionByName(model, name, "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+
+		[Test]
+		public void WeavingAtBeforeCallAll() {
+			var model = CreateModel(_studentPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Student_callBefore.java"));
+
+			CodeProcessor.InsertAtBeforeCallAll(model, "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		[Test]
+		public void WeavingAtAfterCallAll() {
+			var model = CreateModel(_studentPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Student_callAfter.java"));
+
+			CodeProcessor.InsertAtAfterCallAll(model, "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		//TODO 関数呼び出し(UnifiedCall)の名前の抽出が現状ではできないので、一旦無視する
+		[Test, Ignore]
+		[TestCase("^w")]
+		public void WeavingAtBeforeCallByRegex(string regex) {
+			var model = CreateModel(_studentPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Student_callBefore.java"));
+
+			CodeProcessor.InsertAtBeforeCall(model, new Regex(regex), "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		[Test, Ignore]
+		[TestCase("^w")]
+		public void WeavingAtAfterCallByRegex(string regex) {
+			var model = CreateModel(_studentPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Student_callAfter.java"));
+
+			CodeProcessor.InsertAtAfterCall(model, new Regex(regex), "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		[Test, Ignore]
+		[TestCase("write")]
+		public void WeavingAtBeforeCallByName(string name) {
+			var model = CreateModel(_studentPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Student_callBefore.java"));
+
+			CodeProcessor.InsertAtBeforeCallByName(model, name, "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		[Test, Ignore]
+		[TestCase("write")]
+		public void WeavingAtAfterCallByName(string name) {
+			var model = CreateModel(_studentPath);
+			var actual =
+					CreateModel(
+							Fixture.GetAopExpectationPath("Java", "Student_callAfter.java"));
+
+			CodeProcessor.InsertAtAfterCallByName(model, name, "{Console.Write();}");
+
+			//TODO ToString()しないと比較できないか
+			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+		}
+
+		//TODO 多項式中や関数の引数として現れるUnifiedCallに対しては、処理が行われないことを確認するテストを書く
 	}
 }

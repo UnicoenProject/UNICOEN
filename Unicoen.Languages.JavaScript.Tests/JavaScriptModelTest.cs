@@ -25,7 +25,7 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.JavaScript.Model;
 
 namespace Unicoen.Languages.JavaScript.Tests {
-	[TestFixture]
+	[Ignore, TestFixture]
 	public class JavaScriptModelTest {
 		private static readonly string InputPath =
 				Fixture.GetInputPath("JavaScript", "fibonacci.js");

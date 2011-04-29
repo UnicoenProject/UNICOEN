@@ -20,6 +20,9 @@ using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	///   自分自身が式である式の集合を表します。
+	/// </summary>
 	public class UnifiedExpressionList
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionList>,
 			  IUnifiedExpression {

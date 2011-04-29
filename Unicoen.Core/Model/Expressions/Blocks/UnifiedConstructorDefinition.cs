@@ -23,7 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   コンストラクタの定義部分を表します。
-	///   Javaにおける<c>public class C extends D{...}</c>
+	///   e.g. Javaにおける<c>class C{ C(){...} }</c>の<c>C(){...}</c>
 	/// </summary>
 	public class UnifiedConstructorDefinition
 			: UnifiedExpressionWithBlock<UnifiedConstructorDefinition> {

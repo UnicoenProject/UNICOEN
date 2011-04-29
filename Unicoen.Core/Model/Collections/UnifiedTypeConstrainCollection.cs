@@ -22,6 +22,8 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   型が持つ性質の集合を表します。
+	///   e.g. Javaにおける<c>public class A extends B</c>の<c>extends B</c>
+	///   e.g. Javaにおける<c>ArrayList&lt;? extends Object&gt;</c>の<c>extends Object</c>
 	/// </summary>
 	public class UnifiedTypeConstrainCollection
 			: UnifiedElementCollection

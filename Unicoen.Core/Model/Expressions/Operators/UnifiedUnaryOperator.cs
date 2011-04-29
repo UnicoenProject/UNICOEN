@@ -23,7 +23,8 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   単項演算子を表します。
-	///   e.g. Cにおける<c>^a</c>や<c>b++</c>の<c>^</c>や<c>++</c>
+	///   e.g. Javaにおける<c>^a</c>の<c>^</c>
+	///   e.g. Javaにおける<c>b++</c>の<c>++</c>
 	/// </summary>
 	public class UnifiedUnaryOperator : UnifiedElement {
 		public string Sign { get; private set; }

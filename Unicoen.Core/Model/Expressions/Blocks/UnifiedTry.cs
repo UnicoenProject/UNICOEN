@@ -22,12 +22,16 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   try節を表します。
-	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>try{...}</c>
+	///   try文を表します。
+	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>
 	/// </summary>
 	public class UnifiedTry : UnifiedExpressionWithBlock<UnifiedTry> {
 		private UnifiedCatchCollection _catches;
 
+		/// <summary>
+		/// 付随するcatch節の集合を表します
+		/// e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>
+		/// </summary>
 		public UnifiedCatchCollection Catches {
 			get { return _catches; }
 			set { _catches = SetParentOfChild(value, _catches); }
@@ -35,6 +39,10 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedBlock _finallyBody;
 
+		/// <summary>
+		/// 付随するfinally節を表します
+		/// e.g. Javaにおける<c>try{...}catch(Exception e){...}finally{...}</c>の<c>finally{...}</c>
+		/// </summary>
 		public UnifiedBlock FinallyBody {
 			get { return _finallyBody; }
 			set { _finallyBody = SetParentOfChild(value, _finallyBody); }

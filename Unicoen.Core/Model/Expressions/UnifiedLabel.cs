@@ -21,6 +21,10 @@ using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	///   ラベル式を表します。
+	///   e.g. Javaにおける<c>loop: while(cond){ ... }</c>の<c>loop</c>の部分
+	/// </summary>
 	public class UnifiedLabel : UnifiedElement, IUnifiedExpression {
 		private UnifiedIdentifier _name;
 

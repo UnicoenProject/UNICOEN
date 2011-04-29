@@ -23,11 +23,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   do-while文を表します。
-	///   e.g. Javaにおける<c>do{...}while(con)</c>
+	///   e.g. Javaにおける<c>do{...}while(cond)</c>
 	/// </summary>
 	public class UnifiedDoWhile : UnifiedExpressionWithBlock<UnifiedDoWhile> {
 		private IUnifiedExpression _condition;
 
+		/// <summary>
+		/// 条件式を表します
+		/// e.g. Javaにおける<c>do{...}while(cond)</c>の<c>cond</c>
+		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetParentOfChild(value, _condition); }

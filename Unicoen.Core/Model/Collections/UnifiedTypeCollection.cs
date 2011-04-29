@@ -22,6 +22,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   UnifiedTypeの集合を表します。
+	///   e.g. Javaにおける<c>throws e1, e2...</c>の<c>e1, e2...</c>
 	/// </summary>
 	public class UnifiedTypeCollection
 			: UnifiedElementCollection<UnifiedType, UnifiedTypeCollection> {

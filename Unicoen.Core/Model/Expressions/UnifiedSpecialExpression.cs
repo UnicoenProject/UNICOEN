@@ -23,12 +23,13 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   予約語によって表現される特殊な式（ステートメント含む）を表します。
+	///   e.g. Javaにおける<c>return value;</c>
 	/// </summary>
 	public class UnifiedSpecialExpression : UnifiedElement, IUnifiedExpression {
 		public UnifiedSpecialExpressionKind Kind { get; set; }
 
 		private IUnifiedExpression _value;
-
+		
 		public IUnifiedExpression Value {
 			get { return _value; }
 			set { _value = SetParentOfChild(value, _value); }

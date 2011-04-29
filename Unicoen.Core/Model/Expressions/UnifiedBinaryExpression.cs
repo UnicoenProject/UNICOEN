@@ -23,10 +23,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   二項式を表します。
+	///   e.g. JavaやCにおける<c>a + b</c>など
 	/// </summary>
 	public class UnifiedBinaryExpression : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _leftHandSide;
 
+		/// <summary>
+		/// 第1オペランドを表します
+		/// e.g. <c>a + b</c>の<c>a</c>
+		/// </summary>
 		public IUnifiedExpression LeftHandSide {
 			get { return _leftHandSide; }
 			set { _leftHandSide = SetParentOfChild(value, _leftHandSide); }
@@ -34,6 +39,10 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedBinaryOperator _operator;
 
+		/// <summary>
+		/// 演算子を表します
+		/// e.g. <c>a + b</c>の<c>+</c>
+		/// </summary>
 		public UnifiedBinaryOperator Operator {
 			get { return _operator; }
 			set { _operator = SetParentOfChild(value, _operator); }
@@ -41,6 +50,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _rightHandSide;
 
+		/// <summary>
+		/// 第2オペランドを表します
+		/// e.g. <c>a + b</c>の<c>b</c>
+		/// </summary>
 		public IUnifiedExpression RightHandSide {
 			get { return _rightHandSide; }
 			set { _rightHandSide = SetParentOfChild(value, _rightHandSide); }

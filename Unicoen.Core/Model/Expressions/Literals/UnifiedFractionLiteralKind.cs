@@ -19,6 +19,6 @@
 namespace Unicoen.Core.Model {
 	public enum UnifiedFractionLiteralKind {
 		Single,
-		Doulbe
+		Double
 	}
 }

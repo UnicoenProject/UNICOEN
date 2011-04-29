@@ -23,10 +23,10 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   関数呼び出しを表します。
+	///   e.g. Javaにおける<c>method(a, b, c)</c>
 	/// </summary>
 	public class UnifiedCall : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _function;
-
 		public IUnifiedExpression Function {
 			get { return _function; }
 			set { _function = SetParentOfChild(value, _function); }
@@ -41,6 +41,10 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedArgumentCollection _arguments;
 
+		/// <summary>
+		/// 実引数の集合を表します
+		/// e.g. Javaにおける<c>method(a, b, c)</c>の<c>a, b, c</c>の部分
+		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetParentOfChild(value, _arguments); }

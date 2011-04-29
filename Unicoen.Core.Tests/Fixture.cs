@@ -22,6 +22,7 @@ using System.Linq;
 namespace Unicoen.Core.Tests {
 	public static class Fixture {
 		public static string FixturePath = Path.Combine("..", "..", "fixture");
+		public const string AopExpectationName = "aspect_expectation";
 		public const string ExpectationName = "expectation";
 		public const string InputName = "input";
 		public const string FailedInputName = "failed_input";
@@ -73,6 +74,11 @@ namespace Unicoen.Core.Tests {
 
 		public static string GetExpectationPath(string lang, params string[] names) {
 			return Path.Combine(FixturePath, lang, ExpectationName)
+					.GetFullPathAddingSubNames(names);
+		}
+
+		public static string GetAopExpectationPath(string lang, params string[] names) {
+			return Path.Combine(FixturePath, lang, AopExpectationName)
 					.GetFullPathAddingSubNames(names);
 		}
 

@@ -23,6 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   配列の添え字を表します。
+	///   e.g. Javaにおける<c>int x = a[10]</c>の<c>[10]</c>
 	/// </summary>
 	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _target;

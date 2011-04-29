@@ -23,12 +23,15 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   変数を表します。
+	///   識別子を表します。
 	/// </summary>
 	public class UnifiedIdentifier
 			: UnifiedElement, IUnifiedExpression, IUnifiedIdentifierOrCollection {
 		private UnifiedIdentifier() {}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public string Value { get; set; }
 
 		public UnifiedIdentifierKind Kind { get; set; }

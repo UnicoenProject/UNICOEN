@@ -23,7 +23,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   UnifiedTypeSupplement（配列型やポインタ型などを表すために型に付加される修飾子）の集合を表します。
-	///   例えば、"int** p;"の"**"部分が該当します。
+	///   例えば、<c>int** p;</c>の<c>**</c>部分が該当します。
 	/// </summary>
 	public class UnifiedTypeSupplementCollection
 			: UnifiedElementCollection

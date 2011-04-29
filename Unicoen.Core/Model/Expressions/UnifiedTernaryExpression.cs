@@ -21,9 +21,17 @@ using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	/// 3項式を表します
+	/// Javaにおける<c>a ? b : c</c>
+	/// </summary>
 	public class UnifiedTernaryExpression : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _firstExpression;
 
+		/// <summary>
+		/// 3項式の第1オペランドを表します
+		/// e.g. Javaにおける<c>a ? b : c</c>の<c>a</c>
+		/// </summary>
 		public IUnifiedExpression FirstExpression {
 			get { return _firstExpression; }
 			set { _firstExpression = SetParentOfChild(value, _firstExpression); }
@@ -31,6 +39,10 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedTernaryOperator _operator;
 
+		/// <summary>
+		/// 3項式の演算子を表します
+		/// e.g. Javaにおける<c>a ? b : c</c>の<c>?と:</c>
+		/// </summary>
 		public UnifiedTernaryOperator Operator {
 			get { return _operator; }
 			set { _operator = SetParentOfChild(value, _operator); }
@@ -38,6 +50,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _secondExpression;
 
+		/// <summary>
+		/// 3項式の第2オペランドを表します
+		/// Javaにおける<c>a ? b : c</c>の<c>b</c>
+		/// </summary>
 		public IUnifiedExpression SecondExpression {
 			get { return _secondExpression; }
 			set { _secondExpression = SetParentOfChild(value, _secondExpression); }
@@ -45,6 +61,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _lastExpression;
 
+		/// <summary>
+		/// 3項式の第3オペランドを表します
+		/// Javaにおける<c>a ? b : c</c>の<c>c</c>
+		/// </summary>
 		public IUnifiedExpression LastExpression {
 			get { return _lastExpression; }
 			set { _lastExpression = SetParentOfChild(value, _lastExpression); }

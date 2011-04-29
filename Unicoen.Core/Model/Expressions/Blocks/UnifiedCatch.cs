@@ -28,6 +28,10 @@ namespace Unicoen.Core.Model {
 	public class UnifiedCatch : UnifiedExpressionWithBlock<UnifiedCatch> {
 		private UnifiedParameterCollection _parameters;
 
+		/// <summary>
+		/// catch節内の仮引数の集合を表します
+		/// e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
+		/// </summary>
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
 			set { _parameters = SetParentOfChild(value, _parameters); }

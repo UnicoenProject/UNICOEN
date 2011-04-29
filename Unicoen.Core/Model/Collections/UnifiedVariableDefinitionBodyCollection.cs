@@ -22,6 +22,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   修飾子や型を除いた変数宣言の集合を表します。
+	///   e.g. Javaにおける<c>int a, b;</c>の<c>a, b;</c>
 	/// </summary>
 	public class UnifiedVariableDefinitionBodyCollection
 			: UnifiedElementCollection

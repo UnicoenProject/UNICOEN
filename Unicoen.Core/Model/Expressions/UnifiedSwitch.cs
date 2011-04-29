@@ -23,10 +23,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   switch文を表します。
+	///   e.g. Javaにおける<c>switch(v){...}</c>
 	/// </summary>
 	public class UnifiedSwitch : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _value;
 
+		/// <summary>
+		/// caseの分岐に使用される式を表します
+		/// e.g. Javaにおける<c>switch(v){...}</c>の<c>v</c>
+		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
 			set { _value = SetParentOfChild(value, _value); }
@@ -34,6 +39,9 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedCaseCollection _cases;
 
+		/// <summary>
+		/// switch文に付随するcase節の集合を表します
+		/// </summary>
 		public UnifiedCaseCollection Cases {
 			get { return _cases; }
 			set { _cases = SetParentOfChild(value, _cases); }
