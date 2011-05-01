@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="CodeFactories\CCodeFactory.cs" />
     <Compile Include="CodeFactories\CCodeFactoryForCollection.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryRequiringSemicolon.cs" />
     <Compile Include="CodeFactories\Decoration.cs" />
     <Compile Include="CodeFactories\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ModelFactories\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Unicoen.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
