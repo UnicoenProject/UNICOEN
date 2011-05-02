@@ -107,11 +107,19 @@
     <Compile Include="ModelFactories\CModelFactoryHelperForLiteral.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelperForOperator.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelperForStatement.cs" />
+    <Compile Include="CodeFactories\CCodeFactory.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryForCollection.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryRequiringSemicolon.cs" />
+    <Compile Include="CodeFactories\Decoration.cs" />
+    <Compile Include="CodeFactories\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="C.g" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ModelFactories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mocomoco.Xml\Mocomoco.Xml.csproj">

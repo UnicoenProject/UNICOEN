@@ -340,9 +340,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedBooleanLiteral element, VisitorState state) {
-			if (element.Value.ToString() == "True")
+			if (element.Value)
 				state.Writer.Write("true");
-			if (element.Value.ToString() == "False")
+			else
 				state.Writer.Write("false");
 			return false;
 		}
