@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop", "Unicoen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Tests", "Unicoen.Apps.AOP.Tests\Unicoen.Apps.Aop.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator", "Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj", "{87A5C023-95DB-40D4-A638-28D578D06572}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -324,6 +326,18 @@ Global
 		{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}.Release|Win32.ActiveCfg = Release|Any CPU
 		{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}.Release|x86.ActiveCfg = Release|Any CPU
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Win32.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|x86.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|x86.Build.0 = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Any CPU.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Mixed Platforms.Build.0 = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Win32.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|x86.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
