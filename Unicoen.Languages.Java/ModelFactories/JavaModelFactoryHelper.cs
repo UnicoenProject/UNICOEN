@@ -1295,11 +1295,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   'catch' '(' formalParameter ')' block  
 			 */
 			return UnifiedCatch.Create(
-					CreateFormalParameter(node.Element("formalParameter")),
+					CreateFormalParameter(node.Element("formalParameter")).ToCollection(),
 					CreateBlock(node.Element("block")));
 		}
 
-		public static UnifiedParameterCollection CreateFormalParameter(XElement node) {
+		public static UnifiedMatcher CreateFormalParameter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameter");
 			/*
@@ -1312,12 +1312,10 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			for (int i = 0; i < dimension; i++) {
 				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
 			}
-
-			return UnifiedParameterCollection.Create(
-					UnifiedParameter.Create(
-							CreateVariableModifiers(node.FirstElement()), type,
-							node.NthElement(2).Value)
-					);
+			return UnifiedMatcher.Create(
+					CreateVariableModifiers(node.FirstElement()),
+					type,
+					UnifiedIdentifier.CreateVariable(node.NthElement(2).Value));
 		}
 
 		public static IUnifiedExpression CreateForstatement(XElement node) {
@@ -2546,10 +2544,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			/* 
 			 * 'while' parExpression statement
 			 */
-			return UnifiedWhile.Create(
-					UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
-					CreateParExpression(node.Element("parExpression"))
-					);
+			return UnifiedWhile.Create(CreateParExpression(node.Element("parExpression")), UnifiedBlock.Create(CreateStatement(node.Element("statement"))));
 		}
 
 		private static UnifiedDoWhile CreateDoWhile(XElement node) {

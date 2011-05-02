@@ -74,6 +74,7 @@
     <Compile Include="CodeFactories\CodeFactory.cs" />
     <Compile Include="ModelFactories\ModelFactory.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedMatcherCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlockKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedUsing.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteralKind.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionList.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
+    <Compile Include="Model\Expressions\UnifiedListComprehension.cs" />
     <Compile Include="Model\Expressions\UnifiedTernaryExpression.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperatorKind.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedImport.cs" />
+    <Compile Include="Model\UnifiedMatcher.cs" />
     <Compile Include="Model\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedTypeConstrainKind.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />

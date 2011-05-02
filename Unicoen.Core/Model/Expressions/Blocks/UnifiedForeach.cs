@@ -48,11 +48,11 @@ namespace Unicoen.Core.Model {
 			set { _set = SetParentOfChild(value, _set); }
 		}
 
-		private UnifiedBlock _falseBody;
+		private UnifiedBlock _elseBody;
 
-		public UnifiedBlock FalseBody {
-			get { return _falseBody; }
-			set { _falseBody = SetParentOfChild(value, _falseBody); }
+		public UnifiedBlock ElseBody {
+			get { return _elseBody; }
+			set { _elseBody = SetParentOfChild(value, _elseBody); }
 		}
 
 		private UnifiedForeach() {}
@@ -63,19 +63,19 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData data) {
-			visitor.Visit(this, data);
+				TData state) {
+			visitor.Visit(this, state);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
-			return visitor.Visit(this, data);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			return visitor.Visit(this, state);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Element;
 			yield return Set;
-			yield return FalseBody;
+			yield return ElseBody;
 			yield return Body;
 		}
 
@@ -86,7 +86,7 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Set, v => Set = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(FalseBody, v => FalseBody = (UnifiedBlock)v);
+					(ElseBody, v => ElseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
@@ -98,7 +98,7 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_set, v => _set = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_falseBody, v => _falseBody = (UnifiedBlock)v);
+					(_elseBody, v => _elseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
@@ -106,19 +106,21 @@ namespace Unicoen.Core.Model {
 		public static UnifiedForeach Create(
 				UnifiedVariableDefinition element,
 				IUnifiedExpression set) {
-			return new UnifiedForeach {
-					Element = element,
-					Set = set,
-			};
+			return Create(element, set, null, null);
 		}
 
 		public static UnifiedForeach Create(
 				UnifiedVariableDefinition element,
 				IUnifiedExpression set, UnifiedBlock body) {
+			return Create(element, set, body, null);
+		}
+
+		public static UnifiedForeach Create(UnifiedVariableDefinition element, IUnifiedExpression set, UnifiedBlock body, UnifiedBlock elseBody) {
 			return new UnifiedForeach {
 					Element = element,
 					Set = set,
 					Body = body,
+					ElseBody = elseBody,
 			};
 		}
 	}

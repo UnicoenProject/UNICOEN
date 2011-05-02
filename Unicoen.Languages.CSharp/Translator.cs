@@ -221,7 +221,7 @@ namespace Unicoen.Languages.CSharp {
 
 			switch (pos) {
 			case ConditionPosition.Start:
-				return UnifiedWhile.Create(uBody, uCond);
+				return UnifiedWhile.Create(uCond, uBody);
 			case ConditionPosition.End:
 				return UnifiedDoWhile.Create(uBody, uCond);
 			}

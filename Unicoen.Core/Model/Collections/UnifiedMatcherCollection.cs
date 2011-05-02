@@ -20,15 +20,11 @@ using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   仮引数の集合を表します。
-	///   e.g. Javaにおける<c>int method(int a, double b){....}</c>の<c>(int a, double b)</c>
-	/// </summary>
-	public class UnifiedParameterCollection
-			: UnifiedElementCollection<UnifiedParameter, UnifiedParameterCollection> {
-		private UnifiedParameterCollection() {}
+	public class UnifiedMatcherCollection
+			: UnifiedElementCollection<UnifiedMatcher, UnifiedMatcherCollection> {
+		private UnifiedMatcherCollection() {}
 
-		private UnifiedParameterCollection(IEnumerable<UnifiedParameter> elements)
+		private UnifiedMatcherCollection(IEnumerable<UnifiedMatcher> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -46,18 +42,18 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedParameterCollection Create() {
-			return new UnifiedParameterCollection();
+		public static UnifiedMatcherCollection Create() {
+			return new UnifiedMatcherCollection();
 		}
 
-		public static UnifiedParameterCollection Create(
-				params UnifiedParameter[] elements) {
-			return new UnifiedParameterCollection(elements);
+		public static UnifiedMatcherCollection Create(
+				params UnifiedMatcher[] elements) {
+			return new UnifiedMatcherCollection(elements);
 		}
 
-		public static UnifiedParameterCollection Create(
-				IEnumerable<UnifiedParameter> elements) {
-			return new UnifiedParameterCollection(elements);
+		public static UnifiedMatcherCollection Create(
+				IEnumerable<UnifiedMatcher> elements) {
+			return new UnifiedMatcherCollection(elements);
 		}
 			}
 }

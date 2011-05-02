@@ -153,5 +153,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			VisitCollection(element, state);
 			return false;
 		}
+		public bool Visit(UnifiedMatcherCollection element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
+		}
 	}
 }

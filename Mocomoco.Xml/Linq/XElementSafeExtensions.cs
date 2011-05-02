@@ -343,7 +343,7 @@ namespace Mocomoco.Xml.Linq {
 		}
 
 		/// <summary>
-		///   レシーバーがnullであっても動作するXElement.ElementsAfterSelf().First()です。
+		///   レシーバーがnullであっても動作するXElement.NextElement()です。
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
@@ -351,7 +351,47 @@ namespace Mocomoco.Xml.Linq {
 		public static XElement SafeNextElement(this XElement element) {
 			if (element == null)
 				return null;
-			return element.FirstElementAfterSelfOrDefault();
+			return element.NextElement();
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElement.NextElement(int index)です。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		[Pure]
+		public static XElement SafeNextElement(this XElement element, int index) {
+			if (element == null)
+				return null;
+			return element.NextElement(index);
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElement.NextElement(string name)です。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		[Pure]
+		public static XElement SafeNextElement(this XElement element, string name) {
+			if (element == null)
+				return null;
+			return element.NextElement(name);
+		}
+
+		/// <summary>
+		///   レシーバーがnullであっても動作するXElement.NextElement(string name, int index)です。
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name="name"></param>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		[Pure]
+		public static XElement SafeNextElement(this XElement element, string name, int index) {
+			if (element == null)
+				return null;
+			return element.NextElement(name, index);
 		}
 
 		/// <summary>

@@ -239,6 +239,18 @@ namespace Unicoen.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedMatcher element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedMatcherCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedUsing element) {
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedSpecialExpressionKind kind) {
 			switch (kind) {
 			case UnifiedSpecialExpressionKind.Break:
