@@ -80,6 +80,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 		}
 
 		//TODO FunctionExpressionをどう扱うか
+		//-> 名前がない場合、祖先をたどって左辺の名前を使うのか
 		public static IUnifiedExpression CreateFunctionExpression(XElement node)
 		{
 			Contract.Requires(node != null);
@@ -799,8 +800,20 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: memberExpression
 			 *		| 'new' LT!* newExpression
 			 */
-			//TODO typeがないので、CreateNewする際のパラメータをどうするか考える
-			throw new NotImplementedException();
+			
+			/* コード例
+			 *	function r() {
+			 *		this.f = function() {
+			 *			return 3;
+			 *		}
+			 *	}
+			 *	new new r().f
+			 */
+
+			if(node.NthElement(0).Name() == "memberExpression")
+				return CreateMemberExpression(node.NthElement(0));
+
+			return UnifiedNew.Create(UnifiedType.Create(CreateNewExpression(node.Element("newExpression")), null, null));
 		}
 
 		public static IUnifiedExpression CreateMemberExpression(XElement node)
@@ -811,6 +824,30 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * memberExpression
 			 *		: (primaryExpression | functionExpression | 'new' LT!* memberExpression LT!* arguments) (LT!* memberExpressionSuffix)*
 			 */
+
+			IUnifiedExpression exp = null;
+			var first = node.NthElement(0);
+
+			switch(first.Name()) {
+				case "primaryExpression":
+				exp = CreatePrimaryExpression(first);
+				break;
+				case "functionExpression":
+				exp = CreateFunctionExpression(first);
+				break;
+				//TODO newノードの名前の確認
+				case "NEW":
+				exp = UnifiedNew.Create(
+								UnifiedType.Create(
+										CreateMemberExpression(node.Element("memberExpression")), null, null),
+										CreateArguments(node.Element("arguments"))
+										);
+				break;
+				default: 
+					throw new InvalidOperationException();
+			}
+
+			//TODO expにmemberExpressionSuffixを何度もくっつける -> UnifiedPropertyを使う
 			throw new NotImplementedException(); //TODO: implement
 		}
 
@@ -820,6 +857,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			Contract.Requires(node.Name() == "memberExpressionSuffix");
 			/*
 			 * memberExpressionSuffix
+			 *		: indexSuffix
+			 *		| propertyReferenceSuffix
 			 */
 			throw new NotImplementedException(); //TODO: implement
 		}
@@ -1256,6 +1295,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* ']'
 			 */
 			//TODO UnifiedIndexerなのかUnifiedSupplementなのか
+			//-> 型宣言しないので、UnifiedIndexerしか取りえないか
 			throw new NotImplementedException(); //TODO: implement
 		}
 
