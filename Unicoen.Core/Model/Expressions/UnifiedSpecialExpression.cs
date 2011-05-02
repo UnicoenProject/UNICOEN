@@ -91,6 +91,14 @@ namespace Unicoen.Core.Model {
 			return Create(UnifiedSpecialExpressionKind.Return, value);
 		}
 
+		public static UnifiedSpecialExpression CreateYieldReturn() {
+			return Create(UnifiedSpecialExpressionKind.YieldReturn);
+		}
+
+		public static UnifiedSpecialExpression CreateYieldReturn(IUnifiedExpression value) {
+			return Create(UnifiedSpecialExpressionKind.YieldReturn, value);
+		}
+
 		public static UnifiedSpecialExpression CreateBreak() {
 			return Create(UnifiedSpecialExpressionKind.Break);
 		}

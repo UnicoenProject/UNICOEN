@@ -27,6 +27,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedFunctionDefinition
 			: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
+		/// <summary>
+		/// サブルーチン定義の種類を表します．
+		/// </summary>
+		public UnifiedFunctionDefinitionKind Kind { get; set; }
+
 		private UnifiedModifierCollection _modifiers;
 		
 		/// <summary>
@@ -141,6 +146,38 @@ namespace Unicoen.Core.Model {
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 
+		public static UnifiedFunctionDefinition CreateLambda(
+				UnifiedModifierCollection modifiers,
+				UnifiedType type,
+				UnifiedTypeParameterCollection typeParameters,
+				UnifiedIdentifier name,
+				UnifiedParameterCollection parameters,
+				UnifiedTypeCollection throws,
+				UnifiedBlock body) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Type = type,
+					TypeParameters = typeParameters,
+					Modifiers = modifiers,
+					Parameters = parameters,
+					Throws = throws,
+					Body = body,
+			};
+		}
+
+		public static UnifiedFunctionDefinition CreateLambda(
+				UnifiedParameterCollection parameters,
+				UnifiedBlock body) {
+			return CreateLambda(
+					null,
+					null,
+					null,
+					null,
+					parameters,
+					null,
+					body);
+		}
+
 		public static UnifiedFunctionDefinition CreateFunction(
 				UnifiedModifierCollection modifiers,
 				UnifiedType type,
@@ -180,7 +217,10 @@ namespace Unicoen.Core.Model {
 		public static UnifiedFunctionDefinition CreateFunction(string name) {
 			return CreateFunction(
 					UnifiedModifierCollection.Create(),
-					null, name, UnifiedParameterCollection.Create(), null,
+					null,
+					name,
+					UnifiedParameterCollection.Create(),
+					null,
 					UnifiedBlock.Create());
 		}
 
@@ -188,14 +228,23 @@ namespace Unicoen.Core.Model {
 				UnifiedModifierCollection modifiers, UnifiedType type, string name,
 				UnifiedParameterCollection parameters) {
 			return CreateFunction(
-					modifiers, type, name,
-					parameters, null, UnifiedBlock.Create());
+					modifiers,
+					type,
+					name,
+					parameters,
+					null,
+					UnifiedBlock.Create());
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(
 				UnifiedModifierCollection modifiers, UnifiedType type, string name,
 				UnifiedParameterCollection parameters, UnifiedBlock body) {
-			return CreateFunction(modifiers, type, name, parameters, null, body);
+			return CreateFunction(modifiers,
+				type,
+				name,
+				parameters,
+				null,
+				body);
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(

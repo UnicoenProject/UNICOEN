@@ -157,5 +157,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			VisitCollection(element, state);
 			return false;
 		}
+
+		public bool Visit(UnifiedListComprehension element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedIfExpression element, VisitorState state) {
+			throw new NotImplementedException();
+		}
 	}
 }

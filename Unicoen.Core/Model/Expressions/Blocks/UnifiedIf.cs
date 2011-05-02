@@ -38,22 +38,22 @@ namespace Unicoen.Core.Model {
 			set { _condition = SetParentOfChild(value, _condition); }
 		}
 
-		private UnifiedBlock _falseBody;
+		private UnifiedBlock _elseBody;
 
-		public UnifiedBlock FalseBody {
-			get { return _falseBody; }
-			set { _falseBody = SetParentOfChild(value, _falseBody); }
+		public UnifiedBlock ElseBody {
+			get { return _elseBody; }
+			set { _elseBody = SetParentOfChild(value, _elseBody); }
 		}
 
 		private UnifiedIf() {}
 
 		public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
-			FalseBody.Add(expression);
+			ElseBody.Add(expression);
 			return this;
 		}
 
 		public UnifiedIf RemoveFalseBody() {
-			FalseBody = null;
+			ElseBody = null;
 			return this;
 		}
 
@@ -73,9 +73,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			// TODO: Fix to proper order
 			yield return Condition;
-			yield return FalseBody;
+			yield return ElseBody;
 			yield return Body;
 		}
 
@@ -84,7 +83,7 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Condition, v => Condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(FalseBody, v => FalseBody = (UnifiedBlock)v);
+					(ElseBody, v => ElseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
@@ -94,7 +93,7 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_condition, v => _condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_falseBody, v => _falseBody = (UnifiedBlock)v);
+					(_elseBody, v => _elseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
@@ -113,17 +112,23 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
+		/// <summary>
+		/// 一個以上のelse if節によって構成されているif-else式に分解してモデルを構築します．
+		/// </summary>
+		/// <param name="conditionAndBodies"></param>
+		/// <param name="lastElseBody"></param>
+		/// <returns></returns>
 		public static UnifiedIf Create(
 				IEnumerable<Tuple<IUnifiedExpression, UnifiedBlock>> conditionAndBodies,
-				UnifiedBlock lastFalseBody) {
+				UnifiedBlock lastElseBody) {
 			var ifs = conditionAndBodies
 					.Select(t => Create(t.Item1, t.Item2))
 					.ToList();
 			for (int i = 1; i < ifs.Count; i++) {
-				ifs[i - 1].FalseBody = ifs[i].ToBlock();
+				ifs[i - 1].ElseBody = ifs[i].ToBlock();
 			}
-			if (lastFalseBody != null) {
-				ifs[ifs.Count - 1].FalseBody = lastFalseBody;
+			if (lastElseBody != null) {
+				ifs[ifs.Count - 1].ElseBody = lastElseBody;
 			}
 			return ifs[0];
 		}
@@ -140,7 +145,7 @@ namespace Unicoen.Core.Model {
 			return new UnifiedIf {
 					Body = body,
 					Condition = condition,
-					FalseBody = falseBody,
+					ElseBody = falseBody,
 			};
 		}
 	}

@@ -244,10 +244,10 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			ifStatement.Condition.TryAccept(this, state);
 			state.Writer.WriteLine(")");
 			ifStatement.Body.TryAccept(this, state);
-			if (ifStatement.FalseBody != null) {
+			if (ifStatement.ElseBody != null) {
 				state.WriteIndent();
 				state.Writer.WriteLine("else");
-				ifStatement.FalseBody.TryAccept(this, state);
+				ifStatement.ElseBody.TryAccept(this, state);
 			}
 			return false;
 		}

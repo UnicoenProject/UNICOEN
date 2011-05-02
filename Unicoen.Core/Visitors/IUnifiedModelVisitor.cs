@@ -17,7 +17,6 @@
 #endregion
 
 using Unicoen.Core.Model;
-using Unicoen.Core.Model.Expressions;
 
 namespace Unicoen.Core.Visitors {
 	public interface IUnifiedModelVisitor {
@@ -84,6 +83,7 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedMatcherCollection element);
 		void Visit(UnifiedUsing element);
 		void Visit(UnifiedListComprehension element);
+		void Visit(UnifiedIfExpression element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -150,6 +150,7 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedMatcherCollection element, TState state);
 		void Visit(UnifiedUsing element, TState state);
 		void Visit(UnifiedListComprehension element, TState state);
+		void Visit(UnifiedIfExpression element, TState state);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -216,5 +217,6 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedMatcherCollection element, TState state);
 		TResult Visit(UnifiedUsing element, TState state);
 		TResult Visit(UnifiedListComprehension element, TState state);
+		TResult Visit(UnifiedIfExpression element, TState state);
 	}
 }

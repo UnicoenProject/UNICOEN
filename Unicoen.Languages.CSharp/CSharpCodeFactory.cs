@@ -128,10 +128,10 @@ namespace Unicoen.Languages.CSharp {
 			ifStmt.Condition.Accept(this);
 			_writer.WriteLine(")");
 			ifStmt.Body.Accept(this);
-			if (ifStmt.FalseBody != null) {
+			if (ifStmt.ElseBody != null) {
 				WriteIndent();
 				_writer.WriteLine("else");
-				ifStmt.FalseBody.Accept(this);
+				ifStmt.ElseBody.Accept(this);
 			}
 		}
 
@@ -248,6 +248,14 @@ namespace Unicoen.Languages.CSharp {
 		}
 
 		public void Visit(UnifiedUsing element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedListComprehension element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedIfExpression element) {
 			throw new NotImplementedException();
 		}
 

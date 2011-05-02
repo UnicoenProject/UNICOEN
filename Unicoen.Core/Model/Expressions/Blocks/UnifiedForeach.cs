@@ -26,13 +26,13 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>for(int n : array){...}</c>やC#における<c>foreach(var n in array){...}</c>
 	/// </summary>
 	public class UnifiedForeach : UnifiedExpressionWithBlock<UnifiedForeach> {
-		private UnifiedVariableDefinition _element;
+		private IUnifiedExpression _element;
 
 		/// <summary>
-		/// 集合から取り出した要素を表します
-		/// e.g. Javaにおける<c>for(int n : array){...}</c>の<c>int n</c>
+		///   集合から取り出した要素を表します
+		///   e.g. Javaにおける<c>for(int n : array){...}</c>の<c>int n</c>
 		/// </summary>
-		public UnifiedVariableDefinition Element {
+		public IUnifiedExpression Element {
 			get { return _element; }
 			set { _element = SetParentOfChild(value, _element); }
 		}
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _set;
 
 		/// <summary>
-		/// 対象の集合を表します
-		/// e.g. Javaにおける<c>for(int n : array){...}</c>の<c>array</c>
+		///   対象の集合を表します
+		///   e.g. Javaにおける<c>for(int n : array){...}</c>の<c>array</c>
 		/// </summary>
 		public IUnifiedExpression Set {
 			get { return _set; }
@@ -82,7 +82,7 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Element, v => Element = (UnifiedVariableDefinition)v);
+					(Element, v => Element = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Set, v => Set = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -94,7 +94,7 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_element, v => _element = (UnifiedVariableDefinition)v);
+					(_element, v => _element = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_set, v => _set = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -104,18 +104,20 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedForeach Create(
-				UnifiedVariableDefinition element,
+				IUnifiedExpression element,
 				IUnifiedExpression set) {
 			return Create(element, set, null, null);
 		}
 
 		public static UnifiedForeach Create(
-				UnifiedVariableDefinition element,
+				IUnifiedExpression element,
 				IUnifiedExpression set, UnifiedBlock body) {
 			return Create(element, set, body, null);
 		}
 
-		public static UnifiedForeach Create(UnifiedVariableDefinition element, IUnifiedExpression set, UnifiedBlock body, UnifiedBlock elseBody) {
+		public static UnifiedForeach Create(
+				IUnifiedExpression element, IUnifiedExpression set, UnifiedBlock body,
+				UnifiedBlock elseBody) {
 			return new UnifiedForeach {
 					Element = element,
 					Set = set,

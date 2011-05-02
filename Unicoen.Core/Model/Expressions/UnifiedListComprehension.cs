@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Unicoen.Core.Visitors;
 
-namespace Unicoen.Core.Model.Expressions
+namespace Unicoen.Core.Model
 {
 	/// <summary>
 	/// リスト内包表記の式を表します．
