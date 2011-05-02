@@ -20,17 +20,28 @@ namespace Unicoen.Languages.C.ModelFactories
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "translation_unit");
 			/*
-			 * translation_unit
+			 * translation_unit: external_declaration+ ;
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var program = UnifiedProgram.Create();
+			IUnifiedElementCollection<IUnifiedExpression> expressions = program;
+			foreach (var e in node.Elements("external_declaration")) {
+				var external_declaration = CreateExternalDeclaration(e);
+				expressions.Add(external_declaration);
+			}
+
+			return program;
 		}
 
-		public static IUnifiedElement CreateExternalDeclaration(XElement node)
+		public static IUnifiedExpression CreateExternalDeclaration(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "external_declaration");
 			/*
-			 * external_declaration
+			 * external_declaration 
+			 * options {k=1;}
+			 * : ( declaration_specifiers? declarator declaration* '{' )=> function_definition
+			 * | declaration
+			 * ;
 			 */
 			throw new NotImplementedException(); //TODO: implement
 		}
