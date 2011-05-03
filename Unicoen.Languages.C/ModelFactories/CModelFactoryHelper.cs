@@ -126,13 +126,15 @@ namespace Unicoen.Languages.C.ModelFactories
 						throw new InvalidOperationException();
 				}
 			}
-			if (types.Count() != 1)
-				throw new ArgumentException("There are more than two return types.");
-
-
 			modifiers = ms.IsEmpty() ? null : ms;
-			type = types.First();
 
+			String s = "";
+			String prefix = "";
+			foreach (var t in types) {
+				s += prefix + t.Name;
+				prefix = " ";
+			}
+			type = UnifiedType.Create(s);
 		}
 
 		public static IUnifiedElement CreateInitDeclaratorList(XElement node)
@@ -192,7 +194,10 @@ namespace Unicoen.Languages.C.ModelFactories
 			 * | enum_specifier
 			 * | type_id
 			 */
-
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "struct_or_union_specifier"
+			}
 			throw new NotImplementedException(); //TODO: implement
 		}
 
