@@ -13,11 +13,11 @@ namespace Unicoen.Apps.Translator
 		static void Main(string[] args)
 		{
 			const string filePath =
-					@"C:\Users\T.Kamiya\Desktop\Unicoen\fixture\Java\input\default\Student.java";
+					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
 			var code = File.ReadAllText(filePath, Encoding.Default);
 			var model = JavaModelFactory.Instance.Generate(code);
-			var cCode = CCodeFactory.Instance.Generate(model);
-			File.WriteAllText("test.txt", cCode);
+
+			Searcher.GetAllFunctions(model);
 		}
 
 		public static string GetExtention(LanguageType type)
