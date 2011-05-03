@@ -254,5 +254,16 @@ namespace Unicoen.Core.Model {
 					null,
 					name, parameters, null, body);
 		}
+
+		public static IUnifiedExpression CreateLambda(string name, UnifiedParameterCollection parameters, UnifiedBlock body) {
+			return CreateLambda(
+					null,
+					null,
+					null,
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function),
+					parameters,
+					null,
+					body);
 			}
+		}
 }

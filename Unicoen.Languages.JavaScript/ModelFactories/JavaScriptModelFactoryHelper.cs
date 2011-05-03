@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Numerics;
@@ -79,8 +80,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			//共通コードモデルではUnifiedFunctionDefinitionとして扱う
 		}
 
-		//TODO FunctionExpressionをどう扱うか
-		//-> 名前がない場合、祖先をたどって左辺の名前を使うのか
 		public static IUnifiedExpression CreateFunctionExpression(XElement node)
 		{
 			Contract.Requires(node != null);
@@ -89,14 +88,15 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * functionExpression
 			 *		: 'function' LT!* Identifier? LT!* formalParameterList LT!* functionBody
 			 */
-
+			
+			//名前をつけられるが、無名関数として定義する場合にその識別子で参照はできない
 			var name = node.Element("Identifier") != null
 			           		? node.Element("Identifier").Value : null;
 			var parameters =
 					CreateFormalParameterList(node.Element("formalParameterList"));
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
-			return UnifiedFunctionDefinition.CreateFunction(name, parameters, body);
+			return UnifiedFunctionDefinition.CreateLambda(name, parameters, body);
 		}
 
 		public static UnifiedParameterCollection CreateFormalParameterList(XElement node)
@@ -207,8 +207,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * statementList
 			 *		: statement (LT!* statement)*
 			 */
-
-			//TODO ToList()して返却したほうがいいのか？
 			return node.Elements("statement").Select(CreateStatement);
 		}
 
@@ -407,7 +405,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 			var cond = CreateExpression(node.Element("expression"));
 
-			return UnifiedWhile.Create(body, cond);
+			return UnifiedWhile.Create(cond, body);
 		}
 
 		public static UnifiedFor CreateForStatement(XElement node)
@@ -473,7 +471,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedForeach.Create(element, set, body);
 		}
 
-		public static UnifiedVariableDefinition CreateForInStatementInitialiserPart(XElement node)
+		public static IUnifiedExpression CreateForInStatementInitialiserPart(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forInStatementInitialiserPart");
@@ -483,9 +481,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| 'var' LT!* variableDeclarationNoIn
 			 */
 
-			//TODO さすがに左辺がcallになるってことはないと思われるが。。。
-			//if(node.NthElement(0).Name() == "leftHandSideExpression")
-			//	  return CreateLeftHandSideExpression(node.NthElement(0));
+			//左辺がCall or Newになる場合のコードはまだ未確認
+			if(node.NthElement(0).Name() == "leftHandSideExpression")
+				return CreateLeftHandSideExpression(node.NthElement(0));
 			
 			if(node.HasElement("variableDeclarationNoIn"))
 				return UnifiedVariableDefinition.Create(
@@ -548,8 +546,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * withStatement
 			 *		: 'with' LT!* '(' LT!* expression LT!* ')' LT!* statement
 			 */
-			//TODO 対応する共通コードモデルを作成する	
-			throw new NotImplementedException(); //TODO: implement
+			var exp = CreateExpression(node.Element("expression"));
+			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+
+			return UnifiedSpecialBlock.Create(UnifiedSpecialBlockKind.With, exp, body);
 		}
 
 		public static IUnifiedExpression CreateLabelledStatement(XElement node)
@@ -593,13 +593,11 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var cases = UnifiedCaseCollection.Create();
-			foreach (var e in node.Elements("caseClause")) {
-				cases.Add(CreateCaseClause(e));
-			}
-			if(node.HasElement("defaultClause"))
-				cases.Add(CreateDefaultClause(node.Element("defaultClause")));
 
-			//TODO default文を常に最後にしてしまって大丈夫か
+			foreach (var e in node.Elements().Where(e => e.Name().EndsWith("Clause"))) {
+				cases.Add(
+						e.Name() == "caseClause" ? CreateCaseClause(e) : CreateDefaultClause(e));
+			}
 			return cases;
 		}
 
@@ -674,10 +672,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'catch' LT!* '(' LT!* Identifier LT!* ')' LT!* statementBlock
 			 */
 
-			var parameters =
-					UnifiedParameter.Create(node.Element("Identifier").Value).ToCollection();
+			var matchers =
+					UnifiedMatcher.Create(
+							UnifiedIdentifier.Create(
+									node.Element("Identifier").Value, UnifiedIdentifierKind.Unknown), null)
+							.ToCollection();
 			var body = CreateStatementBlock(node.Element("statementBlock"));
-			var catchClause = UnifiedCatch.Create(parameters, body);
+			var catchClause = UnifiedCatch.Create(matchers, body);
 
 			return catchClause.ToCollection();
 		}
@@ -830,28 +831,28 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			switch(first.Name()) {
 				case "primaryExpression":
-				exp = CreatePrimaryExpression(first);
-				break;
+					exp = CreatePrimaryExpression(first);
+					break;
 				case "functionExpression":
-				exp = CreateFunctionExpression(first);
-				break;
-				//TODO newノードの名前の確認
-				case "NEW":
+					exp = CreateFunctionExpression(first);
+					break;
+				case "TOKEN": //case 'new'
 				exp = UnifiedNew.Create(
-								UnifiedType.Create(
-										CreateMemberExpression(node.Element("memberExpression")), null, null),
-										CreateArguments(node.Element("arguments"))
-										);
-				break;
+						UnifiedType.Create(
+								CreateArguments(
+										CreateMemberExpression(node.Element("memberExpression")),
+										node.Element("arguments")), null, null));
+					break;
 				default: 
 					throw new InvalidOperationException();
 			}
 
-			//TODO expにmemberExpressionSuffixを何度もくっつける -> UnifiedPropertyを使う
-			throw new NotImplementedException(); //TODO: implement
+			//TODO Javaを参考に移行しただけなので、要確認
+			exp = node.Elements("memberExpressionSuffix").Aggregate(exp, CreateMemberExpressionSuffix);
+			return exp;		
 		}
 
-		public static IUnifiedElement CreateMemberExpressionSuffix(XElement node)
+		public static IUnifiedExpression CreateMemberExpressionSuffix(IUnifiedExpression prefix, XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "memberExpressionSuffix");
@@ -860,7 +861,15 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: indexSuffix
 			 *		| propertyReferenceSuffix
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.NthElement(0);
+			switch(first.Name()) {
+				case "indexSuffix":
+					return CreateIndexSuffix(prefix, first);
+				case "propertyReferenceSuffix":
+					return CreatePropertyReferenceSuffix(prefix, first);
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
 		public static IUnifiedExpression CreateCallExpression(XElement node)
@@ -872,13 +881,18 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: memberExpression LT!* arguments (LT!* callExpressionSuffix)*
 			 */
 
-			return
-					UnifiedCall.Create(
+			//実際のUnifiedCallインスタンスの生成はCreateArguments内で行われる
+			IUnifiedExpression exp =
+					CreateArguments(
 							CreateMemberExpression(node.Element("memberExpression")),
-							CreateArguments(node.Element("arguments")));
+							node.Element("arguments"));
+			exp = node.Elements("callExpressionSuffix").Aggregate(
+					exp, CreateCallExpressionSuffix);
+			return exp;
+
 		}
 
-		public static IUnifiedElement CreateCallExpressionSuffix(XElement node)
+		public static IUnifiedExpression CreateCallExpressionSuffix(IUnifiedExpression prefix, XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "callExpressionSuffix");
@@ -888,11 +902,20 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| indexSuffix
 			 *		| propertyReferenceSuffix
 			 */
-			//TODO Callの返り値がfunctionExpressionの可能性があるので、それに対してargunmentsを書けるということか
-			throw new NotImplementedException();
+			var first = node.NthElement(0);
+			switch(first.Name()) {
+				case "arguments":
+					return CreateArguments(prefix, first);
+				case "indexSuffix":
+					return CreateIndexSuffix(prefix, first);
+				case "propertyReferenceSuffix":
+					return CreatePropertyReferenceSuffix(prefix, first);
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
-		public static UnifiedArgumentCollection CreateArguments(XElement node)
+		public static UnifiedCall CreateArguments(IUnifiedExpression prefix, XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arguments");
@@ -901,11 +924,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* ')'
 			 */
 
-			return node.Elements("assignmentExpression").Select(
+			var arguments = node.Elements("assignmentExpression").Select(
 					e => UnifiedArgument.Create(CreateAssignmentExpression(e))).ToCollection();
+			return UnifiedCall.Create(prefix, arguments);
 		}
 
-		public static UnifiedIndexer CreateIndexSuffix(XElement node)
+		public static UnifiedIndexer CreateIndexSuffix(IUnifiedExpression prefix, XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "indexSuffix");
@@ -914,11 +938,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '[' LT!* expression LT!* ']'
 			 */
 
-			//TODO 第2引数がnullでいいのか確認
-			return UnifiedIndexer.Create(CreateExpression(node.Element("expression")), null);
+			return UnifiedIndexer.Create(
+					prefix,
+					UnifiedArgument.Create(CreateExpression(node.Element("expression"))).
+							ToCollection());
 		}
 
-		public static UnifiedProperty CreatePropertyReferenceSuffix(XElement node, IUnifiedExpression prefix)
+		public static UnifiedProperty CreatePropertyReferenceSuffix(IUnifiedExpression prefix, XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "propertyReferenceSuffix");
@@ -926,7 +952,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * propertyReferenceSuffix
 			 *		: '.' LT!* Identifier
 			 */
-
 			return UnifiedProperty.Create(prefix, node.Element("Identifier").Value, ".");
 		}
 
@@ -1286,7 +1311,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			}
 		}
 
-		public static IUnifiedExpression CreateArrayLiteral(XElement node)
+		public static UnifiedNew CreateArrayLiteral(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arrayLiteral");
@@ -1294,9 +1319,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * arrayLiteral
 			 *		: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* ']'
 			 */
-			//TODO UnifiedIndexerなのかUnifiedSupplementなのか
-			//-> 型宣言しないので、UnifiedIndexerしか取りえないか
-			throw new NotImplementedException(); //TODO: implement
+			//コード例：var array = [1, 2, 3];
+
+			var exps = UnifiedExpressionList.Create();
+			foreach (var e in node.Elements("assignmentExpression")) {
+				exps.Add(CreateAssignmentExpression(e));
+			}
+			return UnifiedNew.CreateArray(exps);
 		}
 
 		public static IUnifiedExpression CreateObjectLiteral(XElement node)
@@ -1307,6 +1336,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * objectLiteral
 			 *		: '{' LT!* propertyNameAndValue (LT!* ',' LT!* propertyNameAndValue)* LT!* '}'
 			 */
+			//例えばJSONなど
 
 			var body =
 					UnifiedBlock.Create(
@@ -1345,7 +1375,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| StringLiteral
 			 *		| NumericLiteral
 			 */
-			//TODO 最終的に文字列だけ取得するが、要素を場合分けるのか検討
 			return UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
 		}
 
@@ -1399,7 +1428,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			/*
 			 * stringliteral
 			 */
-			//TODO 確認：nodeから""または''を除いた文字列
 			return UnifiedStringLiteral.CreateString(
 								node.Value.Substring(1, node.Value.Length - 2));
 		}
@@ -1408,7 +1436,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 		private static IUnifiedExpression CreateBinaryExpression(
 				XElement node, Func<XElement, IUnifiedExpression> createExpression) {
 			var nodes = node.Elements().OddIndexElements();
-			//TODO LT!*は無視されるのか？
 			return nodes.Skip(1).Aggregate(
 					createExpression(nodes.First()),
 					(e, n) => UnifiedBinaryExpression.Create(

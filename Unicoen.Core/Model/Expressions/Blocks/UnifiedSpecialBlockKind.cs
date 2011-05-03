@@ -24,5 +24,6 @@ namespace Unicoen.Core.Model {
 		Synchronized,
 		Fix,
 		Using,
+		With,
 	}
 }
