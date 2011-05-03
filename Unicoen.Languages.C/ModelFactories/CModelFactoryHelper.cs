@@ -134,7 +134,7 @@ namespace Unicoen.Languages.C.ModelFactories
 				s += prefix + t.Name;
 				prefix = " ";
 			}
-			type = UnifiedType.Create(s);
+			type = UnifiedType.Create(UnifiedIdentifier.Create(s, UnifiedIdentifierKind.Type));
 		}
 
 		public static IUnifiedElement CreateInitDeclaratorList(XElement node)
@@ -196,7 +196,9 @@ namespace Unicoen.Languages.C.ModelFactories
 			 */
 			var first = node.FirstElement();
 			switch (first.Name()) {
-			case "struct_or_union_specifier"
+				case "struct_or_union_specifier":
+				return CreateStructOrUnionSpecifier(first);
+
 			}
 			throw new NotImplementedException(); //TODO: implement
 		}
@@ -213,7 +215,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateStructOrUnionSpecifier(XElement node)
+		public static UnifiedType CreateStructOrUnionSpecifier(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_or_union_specifier");

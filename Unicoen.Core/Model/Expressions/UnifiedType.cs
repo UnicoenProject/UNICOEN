@@ -26,6 +26,8 @@ namespace Unicoen.Core.Model {
 	///   Javaにおける<c>int, double, char</c>
 	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
+		// パッケージ名が付いているときに
+		// UnifiedProperty が name に入る時があるので
 		private IUnifiedExpression _name;
 
 		/// <summary>
@@ -149,6 +151,11 @@ namespace Unicoen.Core.Model {
 					Arguments = arguments,
 					Supplements = supplements,
 			};
+		}
+
+		public static UnifiedType Create(
+			IUnifiedExpression name) {
+			return Create(name, null, null);
 		}
 
 		public static UnifiedType Create(
