@@ -62,6 +62,8 @@ namespace Unicoen.Languages.C.ModelFactories
 			 *   |	compound_statement				// ANSI style
 			 * )
 			 */
+			//Tuple<UnifiedModifierCollection, UnifiedType> tuple = Tuple.Create();
+
 			UnifiedModifierCollection modifiers = null;
 			UnifiedType type = null;
 			UnifiedTypeParameterCollection typeParameters = null;
@@ -72,11 +74,11 @@ namespace Unicoen.Languages.C.ModelFactories
 
 			var first = node.FirstElement();
 			if (first.Name() == "declaration_specifiers") {
-				modifiers = CreateDeclarationSpecifiers(first);
+				CreateDeclarationSpecifiers(first, out modifiers, out type);
 			}
 
 			CreateDeclarator(node.Element("declarator"), 
-				out type,　out typeParameters, out name, out parameters);
+				out typeParameters, out name, out parameters);
 
 			return UnifiedFunctionDefinition.CreateFunction(
 				modifiers, type, typeParameters, name, parameters, throws, body);
@@ -96,7 +98,9 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static UnifiedModifierCollection CreateDeclarationSpecifiers(XElement node)
+		public static void CreateDeclarationSpecifiers(XElement node,
+			out UnifiedModifierCollection modifiers,
+			out UnifiedType type)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration_specifiers");
@@ -105,11 +109,30 @@ namespace Unicoen.Languages.C.ModelFactories
 			 *       |   type_specifier
 			 *       |   type_qualifier      )+
 			 */
-			UnifiedModifierCollection modifiers = UnifiedModifierCollection.Create();
+			var ms = UnifiedModifierCollection.Create();
+			IList<UnifiedType> types = new List<UnifiedType>();
 			foreach (var e in node.Elements()) {
-				
+				switch (e.Name()) {
+					case "storage_class_specifier":
+						ms.Add(CreateStorageClassSpecifier(e));
+					break;
+					case "type_specifier":
+						types.Add(CreateTypeSpecifier(e));
+					break;
+					case "type_qualifier":
+						ms.Add(CreateTypeQualifier(e));
+					break;
+					default:
+						throw new InvalidOperationException();
+				}
 			}
-			throw new NotImplementedException(); //TODO: implement
+			if (types.Count() != 1)
+				throw new ArgumentException("There are more than two return types.");
+
+
+			modifiers = ms.IsEmpty() ? null : ms;
+			type = types.First();
+
 		}
 
 		public static IUnifiedElement CreateInitDeclaratorList(XElement node)
@@ -136,7 +159,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateStorageClassSpecifier(XElement node)
+		public static UnifiedModifier CreateStorageClassSpecifier(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "storage_class_specifier");
@@ -147,14 +170,10 @@ namespace Unicoen.Languages.C.ModelFactories
 			 * | 'auto'
 			 * | 'register'
 			 */
-			var modifiers = UnifiedModifierCollection.Create();
-			foreach (var e in node.Elements()) {
-				modifiers.Add(UnifiedModifier.Create(e.Value));
-			}
-			return modifiers;
+			return UnifiedModifier.Create(node.FirstElement().Value);
 		}
 
-		public static IUnifiedElement CreateTypeSpecifier(XElement node)
+		public static UnifiedType CreateTypeSpecifier(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_specifier");
@@ -313,7 +332,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTypeQualifier(XElement node)
+		public static UnifiedModifier CreateTypeQualifier(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_qualifier");
@@ -326,7 +345,6 @@ namespace Unicoen.Languages.C.ModelFactories
 		}
 
 		public static void CreateDeclarator(XElement node,
-			out UnifiedType type, 
 			out UnifiedTypeParameterCollection typeParameters,
 			out UnifiedIdentifier name,
 			out UnifiedParameterCollection parameters )
