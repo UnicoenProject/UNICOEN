@@ -1,43 +1,21 @@
-﻿#region License
-
-// Copyright (C) 2011 The Unicoen Project
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-#endregion
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Unicoen.Core.Visitors;
 
-namespace Unicoen.Core.Model {
-	/// <summary>
-	///   catch節を表します。
-	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
-	/// </summary>
-	public class UnifiedCatch : UnifiedExpressionWithBlock<UnifiedCatch> {
+namespace Unicoen.Core.Model
+{
+	public class UnifiedUsing 
+			: UnifiedExpressionWithBlock<UnifiedUsing> {
 		private UnifiedMatcherCollection _matchers;
 
-		/// <summary>
-		/// catch節内の仮引数の集合を表します
-		/// e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
-		/// </summary>
 		public UnifiedMatcherCollection Matchers {
 			get { return _matchers; }
 			set { _matchers = SetParentOfChild(value, _matchers); }
 		}
 
-		private UnifiedCatch() {}
+		private UnifiedUsing() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -70,18 +48,18 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Matchers, v => _matchers = (UnifiedMatcherCollection)v);
+					(_matchers, v => _matchers = (UnifiedMatcherCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => _body = (UnifiedBlock)v);
+					(_body, v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedCatch Create(
+		public static UnifiedUsing Create(
 				UnifiedMatcherCollection matchers,
 				UnifiedBlock body) {
-			return new UnifiedCatch {
+			return new UnifiedUsing {
 					Matchers = matchers,
 					Body = body,
 			};
 		}
-	}
+			}
 }

@@ -110,5 +110,25 @@ namespace Unicoen.Languages.C.CodeFactories
 
 			return false;
 		}
+
+		public bool Visit(UnifiedMatcher element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedMatcherCollection element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedUsing element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedListComprehension element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedIfExpression element, VisitorState state) {
+			throw new NotImplementedException();
+		}
 	}
 }

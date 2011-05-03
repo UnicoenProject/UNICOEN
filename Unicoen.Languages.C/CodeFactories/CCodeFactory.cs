@@ -171,10 +171,10 @@ namespace Unicoen.Languages.C.CodeFactories
 			state.Writer.Write(")");
 			element.Body.TryAccept(this, state);
 			// else...
-			if (element.FalseBody != null)
+			if (element.ElseBody != null)
 			{
 				state.Writer.Write("else");
-				element.FalseBody.TryAccept(this, state);
+				element.ElseBody.TryAccept(this, state);
 			}
 
 			return false;

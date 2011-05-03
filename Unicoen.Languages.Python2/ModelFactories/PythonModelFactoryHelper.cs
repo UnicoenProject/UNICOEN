@@ -24,9 +24,20 @@ using System.Xml.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
+using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public static class PythonModelFactoryHelper {
+		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
+		public static Dictionary<string, UnifiedUnaryOperator> Sign2PrefixUnaryOperator;
+
+		static PythonModelFactoryHelper() {
+			Sign2BinaryOperator =
+					ModelFactoryHelper.CreateBinaryOperatorDictionary();
+			Sign2PrefixUnaryOperator =
+					ModelFactoryHelper.CreatePrefixUnaryOperatorDictionaryForJava();
+		}
+
 		public static IUnifiedElement CreateSingle_input(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "single_input");
@@ -309,7 +320,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * del_stmt: 'del' exprlist
 			 */
 			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Delete, CreateExprlist(node.NthElement(1)));
+					UnifiedSpecialExpressionKind.Delete,
+					CreateExprlist(node.NthElement(1)).ToExpressionList());
 		}
 
 		public static IUnifiedExpression CreatePass_stmt(XElement node) {
@@ -368,10 +380,11 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * return_stmt: 'return' [testlist]
 			 */
-			var testlist =
-					node.Elements("testlist").Select(CreateTestlist).FirstOrDefault();
+			var testlist = node.Elements("testlist")
+					.Select(CreateTestlist)
+					.FirstOrDefault();
 			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Return, testlist);
+					UnifiedSpecialExpressionKind.Return, testlist.ToExpressionList());
 		}
 
 		public static IUnifiedExpression CreateYield_stmt(XElement node) {
@@ -593,7 +606,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * while_stmt: 'while' test ':' suite ['else' ':' suite]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var test = CreateTest(node.Element("test"));
+			var suite = CreateSuite(node.Element("suite"));
+			var elseSuite = node.HasElementByContent("else")
+			                		? CreateSuite(node.LastElement())
+									: null;
+			return UnifiedWhile.Create(test, suite, elseSuite);
 		}
 
 		public static IUnifiedExpression CreateFor_stmt(XElement node) {
@@ -602,7 +620,23 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * for_stmt: 'for' exprlist 'in' testlist ':' suite ['else' ':' suite]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var exprlist = CreateExprlist(node.Element("exprlist"));
+			var testlist = CreateTestlist(node.Element("testlist"));
+			var suite = CreateSuite(node.Element("suite"));
+			var elseSuite = node.HasElementByContent("else")
+			                		? CreateSuite(node.LastElement())
+									: null;
+			return UnifiedForeach.Create(
+					UnifiedVariableDefinition.Create(
+							null,
+							null,
+							exprlist.Select(
+									e =>
+									UnifiedVariableDefinitionBody.Create((UnifiedIdentifier)e))
+									.ToCollection()),
+					testlist.ToExpressionList(),
+					suite,
+					elseSuite);
 		}
 
 		public static IUnifiedExpression CreateTry_stmt(XElement node) {
@@ -610,8 +644,31 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			Contract.Requires(node.Name() == "try_stmt");
 			/*
 			 * try_stmt: ('try' ':' suite
+			 *		((except_clause ':' suite)+
+			 *		['else' ':' suite]
+			 *		['finally' ':' suite] |
+			 *		'finally' ':' suite))
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var trySuite = CreateSuite(node.Element("suite"));
+			var exceptClauseNodes = node.Elements("except_clause");
+			var exceptClauseSuites = exceptClauseNodes
+					.Select(e => CreateSuite(e.NextElement(1)));
+			var catches = exceptClauseNodes
+					.Select(CreateExcept_clause)
+					.Zip(exceptClauseSuites)
+					.Select(t => UnifiedCatch.Create(t.Item1.ToCollection(), t.Item2))
+					.ToCollection();
+			var elseSuiteNode = node.ElementByContent("else")
+					.SafeNextElement(1);
+			var elseSuite = elseSuiteNode != null
+			                		? CreateSuite(elseSuiteNode)
+			                		: null;
+			var finallySuiteNode = node.ElementByContent("finally")
+					.SafeNextElement(1);
+			var finallySuite = finallySuiteNode != null
+			                		? CreateSuite(finallySuiteNode)
+			                		: null;
+			return UnifiedTry.Create(trySuite, catches, elseSuite, finallySuite);
 		}
 
 		public static IUnifiedExpression CreateWith_stmt(XElement node) {
@@ -620,25 +677,45 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * with_stmt: 'with' with_item (',' with_item)*  ':' suite
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var matchers = node.Elements("with_item")
+					.Select(CreateWith_item)
+					.ToCollection();
+			var suite = CreateSuite(node.Element("suite"));
+			return UnifiedUsing.Create(matchers, suite);
 		}
 
-		public static IUnifiedElement CreateWith_item(XElement node) {
+		public static UnifiedMatcher CreateWith_item(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "with_item");
 			/*
 			 * with_item: test ['as' expr]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var testNode = node.Element("test");
+			var test = testNode != null
+			           		? CreateTest(testNode)
+			           		: null;
+			var exprNode = node.Element("expr");
+			var expr = exprNode != null
+			           		? CreateExpr(exprNode)
+			           		: null;
+			return UnifiedMatcher.Create(test, expr);
 		}
 
-		public static IUnifiedElement CreateExcept_clause(XElement node) {
+		public static UnifiedMatcher CreateExcept_clause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "except_clause");
 			/*
 			 * except_clause: 'except' [test [('as' | ',') test]]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var firstTestNode = node.NthElementOrDefault(1);
+			var firstTest = firstTestNode != null
+			                		? CreateTest(firstTestNode)
+			                		: null;
+			var lastTestNode = node.NthElementOrDefault(3);
+			var lastTest = lastTestNode != null
+			                		? CreateTest(lastTestNode)
+			                		: null;
+			return UnifiedMatcher.Create(firstTest, lastTest);
 		}
 
 		public static UnifiedBlock CreateSuite(XElement node) {
@@ -647,34 +724,49 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var simpleStmtNode = node.Element("simple_stmt");
+			if (simpleStmtNode != null)
+				return CreateSimple_stmt(simpleStmtNode).ToBlock();
+			return node.Elements("stmt")
+					.SelectMany(CreateStmt)
+					.ToBlock();
 		}
 
-		public static IUnifiedElement CreateTestlist_safe(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateTestlist_safe(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist_safe");
 			/*
 			 * testlist_safe: old_test [(',' old_test)+ [',']]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements("old_test")
+					.Select(CreateOld_test);
 		}
 
-		public static IUnifiedElement CreateOld_test(XElement node) {
+		public static IUnifiedExpression CreateOld_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "old_test");
 			/*
 			 * old_test: or_test | old_lambdef
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			return first.Name() == "or_test"
+			       		? CreateOr_test(first)
+			       		: CreateOld_lambdef(first);
 		}
 
-		public static IUnifiedElement CreateOld_lambdef(XElement node) {
+		public static IUnifiedExpression CreateOld_lambdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "old_lambdef");
 			/*
 			 * old_lambdef: 'lambda' [varargslist] ':' old_test
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var varargslistNode = node.Element("varargslist");
+			return UnifiedFunctionDefinition.CreateLambda(
+					varargslistNode != null
+							? CreateVarargslist(varargslistNode)
+							: null,
+					CreateOld_test(node.LastElement()).ToBlock()
+					);
 		}
 
 		public static IUnifiedExpression CreateTest(XElement node) {
@@ -683,136 +775,161 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * test: or_test ['if' or_test 'else' test] | lambdef
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			if (first.Name() == "lambdef")
+				return CreateLambdef(first);
+
+			var last = node.LastElement();
+			if (last.Name() != "test")
+				return CreateOr_test(first);
+			return UnifiedIfExpression.Create(
+					CreateOr_test(node.NthElement(2)),
+					CreateOr_test(first),
+					CreateTest(last));
 		}
 
-		public static IUnifiedElement CreateOr_test(XElement node) {
+		public static IUnifiedExpression CreateOr_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "or_test");
 			/*
 			 * or_test: and_test ('or' and_test)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateAnd_test, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateAnd_test(XElement node) {
+		public static IUnifiedExpression CreateAnd_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "and_test");
 			/*
 			 * and_test: not_test ('and' not_test)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateNot_test, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateNot_test(XElement node) {
+		public static IUnifiedExpression CreateNot_test(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "not_test");
 			/*
 			 * not_test: 'not' not_test | comparison
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			if (first.Name() == "comparison")
+				return CreateComparison(first);
+			return ModelFactoryHelper.CreatePrefixUnaryExpression(
+					node, CreateNot_test, Sign2PrefixUnaryOperator);
 		}
 
-		public static IUnifiedElement CreateComparison(XElement node) {
+		public static IUnifiedExpression CreateComparison(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comparison");
 			/*
 			 * comparison: expr (comp_op expr)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateExpr, Sign2BinaryOperator);
 		}
-
-		public static IUnifiedElement CreateComp_op(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "comp_op");
-			/*
-			 * comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not'
-			 */
-			throw new NotImplementedException(); //TODO: implement
-		}
-
 		public static IUnifiedExpression CreateExpr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expr");
 			/*
 			 * expr: xor_expr ('|' xor_expr)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateXor_expr, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateXor_expr(XElement node) {
+		public static IUnifiedExpression CreateXor_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "xor_expr");
 			/*
 			 * xor_expr: and_expr ('^' and_expr)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateAnd_expr, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateAnd_expr(XElement node) {
+		public static IUnifiedExpression CreateAnd_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "and_expr");
 			/*
 			 * and_expr: shift_expr ('&' shift_expr)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateShift_expr, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateShift_expr(XElement node) {
+		public static IUnifiedExpression CreateShift_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "shift_expr");
 			/*
 			 * shift_expr: arith_expr (('<<'|'>>') arith_expr)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateArith_expr, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateArith_expr(XElement node) {
+		public static IUnifiedExpression CreateArith_expr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arith_expr");
 			/*
 			 * arith_expr: term (('+'|'-') term)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateTerm, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateTerm(XElement node) {
+		public static IUnifiedExpression CreateTerm(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "term");
 			/*
 			 * term: factor (('*'|'/'|'%'|'//') factor)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateFactor, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedElement CreateFactor(XElement node) {
+		public static IUnifiedExpression CreateFactor(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "factor");
 			/*
 			 * factor: ('+'|'-'|'~') factor | power
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			if (first.Name() == "power")
+				return CreatePower(first);
+			return ModelFactoryHelper.CreatePrefixUnaryExpression(
+					node, CreateFactor, Sign2PrefixUnaryOperator);
 		}
 
-		public static IUnifiedElement CreatePower(XElement node) {
+		public static IUnifiedExpression CreatePower(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "power");
 			/*
 			 * power: atom trailer* ['**' factor]
 			 */
+			var last = node.LastElement();
+			if (last.Name() == "factor") {
+				
+			}
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAtom(XElement node) {
+		public static IUnifiedExpression CreateAtom(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "atom");
 			/*
 			 * atom: ('(' [yield_expr|testlist_comp] ')' |
+			 *		'[' [listmaker] ']' |
+			 *		'{' [dictorsetmaker] '}' |
+			 *		'`' testlist1 '`' |
+			 *		NAME | NUMBER | STRING+)
 			 */
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateListmaker(XElement node) {
+		public static IUnifiedExpression CreateListmaker(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "listmaker");
 			/*
@@ -821,7 +938,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTestlist_comp(XElement node) {
+		public static IUnifiedExpression CreateTestlist_comp(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist_comp");
 			/*
@@ -830,16 +947,22 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLambdef(XElement node) {
+		public static IUnifiedExpression CreateLambdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lambdef");
 			/*
 			 * lambdef: 'lambda' [varargslist] ':' test
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var varargslistNode = node.Element("varargslist");
+			return UnifiedFunctionDefinition.CreateLambda(
+					varargslistNode != null
+							? CreateVarargslist(varargslistNode)
+							: null,
+					CreateTest(node.LastElement()).ToBlock()
+					);
 		}
 
-		public static IUnifiedElement CreateTrailer(XElement node) {
+		public static IUnifiedExpression CreateTrailer(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "trailer");
 			/*
@@ -848,7 +971,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSubscriptlist(XElement node) {
+		public static IUnifiedExpression CreateSubscriptlist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "subscriptlist");
 			/*
@@ -857,7 +980,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSubscript(XElement node) {
+		public static IUnifiedExpression CreateSubscript(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "subscript");
 			/*
@@ -866,7 +989,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSliceop(XElement node) {
+		public static IUnifiedExpression CreateSliceop(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "sliceop");
 			/*
@@ -875,22 +998,24 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateExprlist(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateExprlist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "exprlist");
 			/*
 			 * exprlist: expr (',' expr)* [',']
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements().OddIndexElements()
+					.Select(CreateExpr);
 		}
 
-		public static IUnifiedExpression CreateTestlist(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateTestlist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist");
 			/*
 			 * testlist: test (',' test)* [',']
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements().OddIndexElements()
+					.Select(CreateTest);
 		}
 
 		public static IUnifiedElement CreateDictorsetmaker(XElement node) {
@@ -929,67 +1054,104 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateList_iter(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateList_iter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "list_iter");
 			/*
 			 * list_iter: list_for | list_if
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			if (first.Name() == "list_for")
+				return CreateList_for(first);
+			return CreateList_if(first);
 		}
 
-		public static IUnifiedElement CreateList_for(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateList_for(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "list_for");
 			/*
 			 * list_for: 'for' exprlist 'in' testlist_safe [list_iter]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			yield return
+					UnifiedForeach.Create(
+							CreateExprlist(node.NthElement(1)).ToExpressionList(),
+							CreateTestlist_safe(node.NthElement(3)).ToExpressionList());
+
+			var last = node.LastElement();
+			if (last.Name() != "list_iter")
+				yield break;
+			foreach (var result in CreateList_iter(last))
+				yield return result;
 		}
 
-		public static IUnifiedElement CreateList_if(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateList_if(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "list_if");
 			/*
 			 * list_if: 'if' old_test [list_iter]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			yield return UnifiedIf.Create(CreateOld_test(node.NthElement(1)));
+
+			var last = node.LastElement();
+			if (last.Name() != "list_iter")
+				yield break;
+			foreach (var result in CreateList_iter(last))
+				yield return result;
 		}
 
-		public static IUnifiedElement CreateComp_iter(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateComp_iter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comp_iter");
 			/*
 			 * comp_iter: comp_for | comp_if
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.FirstElement();
+			if (first.Name() == "comp_for")
+				return CreateComp_for(first);
+			return CreateComp_if(first);
 		}
 
-		public static IUnifiedElement CreateComp_for(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateComp_for(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comp_for");
 			/*
 			 * comp_for: 'for' exprlist 'in' or_test [comp_iter]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			yield return
+					UnifiedForeach.Create(
+							CreateExprlist(node.NthElement(1)).ToExpressionList(),
+							CreateOr_test(node.NthElement(3)));
+
+			var last = node.LastElement();
+			if (last.Name() != "comp_iter")
+				yield break;
+			foreach (var result in CreateComp_iter(last))
+				yield return result;
 		}
 
-		public static IUnifiedElement CreateComp_if(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateComp_if(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "comp_if");
 			/*
 			 * comp_if: 'if' old_test [comp_iter]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			yield return UnifiedIf.Create(CreateOld_test(node.NthElement(1)));
+
+			var last = node.LastElement();
+			if (last.Name() != "comp_iter")
+				yield break;
+			foreach (var result in CreateComp_iter(last))
+				yield return result;
 		}
 
-		public static IUnifiedElement CreateTestlist1(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateTestlist1(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist1");
 			/*
 			 * testlist1: test (',' test)*
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements("test")
+					.Select(CreateTest);
 		}
 
 		public static IUnifiedElement CreateEncoding_decl(XElement node) {
@@ -1007,7 +1169,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * yield_expr: 'yield' [testlist]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			if (node.Elements().Count() == 1)
+				return UnifiedSpecialExpression.CreateYieldReturn();
+			return UnifiedSpecialExpression.CreateYieldReturn(
+					CreateTestlist(node.LastElement()).ToExpressionList());
 		}
 	}
 }

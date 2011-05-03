@@ -103,7 +103,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var block = _func.Body;
 			var expStmt = block.First();
 			var ifStmt = (UnifiedIf)expStmt;
-			var fBlock = ifStmt.FalseBody;
+			var fBlock = ifStmt.ElseBody;
 			var returnStmt = (UnifiedSpecialExpression)fBlock.First();
 			var binaryExp = (UnifiedBinaryExpression)returnStmt.Value;
 
@@ -116,7 +116,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var block = _func.Body;
 			var expStmt = block.First();
 			var ifStmt = (UnifiedIf)expStmt;
-			var fBlock = ifStmt.FalseBody;
+			var fBlock = ifStmt.ElseBody;
 			var returnStmt = (UnifiedSpecialExpression)fBlock.First();
 			var binaryExp = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp = (UnifiedCall)binaryExp.LeftHandSide;
@@ -130,7 +130,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var block = _func.Body;
 			var expStmt = block.First();
 			var ifStmt = (UnifiedIf)expStmt;
-			var fBlock = ifStmt.FalseBody;
+			var fBlock = ifStmt.ElseBody;
 			var returnStmt = (UnifiedSpecialExpression)fBlock.First();
 			var binaryExp = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp = (UnifiedCall)binaryExp.LeftHandSide;
@@ -154,7 +154,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var block = _func.Body;
 			var expStmt = block.First();
 			var ifStmt = (UnifiedIf)expStmt;
-			var fBlock = ifStmt.FalseBody;
+			var fBlock = ifStmt.ElseBody;
 			var returnStmt = (UnifiedSpecialExpression)fBlock.First();
 			var binaryExp = (UnifiedBinaryExpression)returnStmt.Value;
 

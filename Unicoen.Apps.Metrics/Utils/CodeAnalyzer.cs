@@ -34,7 +34,7 @@ namespace Unicoen.Applications.Metrics.Utils {
 			case ".cs":
 				return CSharpModelFactory.CreateModel(code);
 			case ".java":
-				return JavaModelFactoryHelper.CreateModel(code);
+				return JavaModelFactory.Instance.Generate(code);
 			}
 			return null;
 		}

@@ -244,10 +244,10 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			ifStatement.Condition.TryAccept(this, state);
 			state.Writer.WriteLine(")");
 			ifStatement.Body.TryAccept(this, state);
-			if (ifStatement.FalseBody != null) {
+			if (ifStatement.ElseBody != null) {
 				state.WriteIndent();
 				state.Writer.WriteLine("else");
-				ifStatement.FalseBody.TryAccept(this, state);
+				ifStatement.ElseBody.TryAccept(this, state);
 			}
 			return false;
 		}
@@ -256,7 +256,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedCatch element, VisitorState state) {
 			state.Writer.Write("catch");
-			element.Parameters.TryAccept(this, state);
+			element.Matchers.TryAccept(this, state.Set(Paren));
 			element.Body.TryAccept(this, state);
 			return false;
 		}
@@ -574,6 +574,19 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			}
 			element.Body.TryAccept(this, state);
 			return false;
+		}
+
+		public bool Visit(UnifiedMatcher element, VisitorState state) {
+			element.Modifiers.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.Matcher.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.As.TryAccept(this, state);
+			return false;
+		}
+
+		public bool Visit(UnifiedUsing element, VisitorState state) {
+			throw new NotImplementedException(); // TODO: implement
 		}
 			}
 }

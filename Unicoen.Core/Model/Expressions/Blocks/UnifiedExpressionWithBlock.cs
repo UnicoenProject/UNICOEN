@@ -31,10 +31,6 @@ namespace Unicoen.Core.Model {
 			get { return _body; }
 			set { _body = SetParentOfChild(value, _body); }
 		}
-
-		protected UnifiedExpressionWithBlock() {
-			Body = UnifiedBlock.Create();
-		}
 			}
 
 	/// <summary>

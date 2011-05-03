@@ -79,6 +79,11 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedIntegerLiteral element);
 		void Visit(UnifiedStringLiteral element);
 		void Visit(UnifiedNullLiteral element);
+		void Visit(UnifiedMatcher element);
+		void Visit(UnifiedMatcherCollection element);
+		void Visit(UnifiedUsing element);
+		void Visit(UnifiedListComprehension element);
+		void Visit(UnifiedIfExpression element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -141,6 +146,11 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedIntegerLiteral element, TState state);
 		void Visit(UnifiedStringLiteral element, TState state);
 		void Visit(UnifiedNullLiteral element, TState state);
+		void Visit(UnifiedMatcher element, TState state);
+		void Visit(UnifiedMatcherCollection element, TState state);
+		void Visit(UnifiedUsing element, TState state);
+		void Visit(UnifiedListComprehension element, TState state);
+		void Visit(UnifiedIfExpression element, TState state);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -203,5 +213,10 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedIntegerLiteral element, TState state);
 		TResult Visit(UnifiedStringLiteral element, TState state);
 		TResult Visit(UnifiedNullLiteral element, TState state);
+		TResult Visit(UnifiedMatcher element, TState state);
+		TResult Visit(UnifiedMatcherCollection element, TState state);
+		TResult Visit(UnifiedUsing element, TState state);
+		TResult Visit(UnifiedListComprehension element, TState state);
+		TResult Visit(UnifiedIfExpression element, TState state);
 	}
 }

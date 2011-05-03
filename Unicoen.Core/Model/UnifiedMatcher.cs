@@ -21,42 +21,36 @@ using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   switch文におけるcase式を表します。
-	///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>case 1: BLOCK1</c>
-	/// </summary>
-	public class UnifiedCase : UnifiedElement {
-		private IUnifiedExpression _condition;
+	public class UnifiedMatcher : UnifiedElement {
+		private UnifiedModifierCollection _modifiers;
 
-		/// <summary>
-		///   case式の分岐条件を表します
-		///   e.g. Javaにおける<c>switch(sw){case 1: EXPRESSION1 ...}</c>の<c>1</c>
-		/// </summary>
-		public IUnifiedExpression Condition {
-			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
-		private UnifiedBlock _body;
+		private IUnifiedExpression _matcher;
 
-		/// <summary>
-		///   case式の分岐に対応する内容を表します
-		///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>BLOCK1</c>
-		/// </summary>
-		public UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetParentOfChild(value, _body); }
+		public IUnifiedExpression Matcher {
+			get { return _matcher; }
+			set { _matcher = SetParentOfChild(value, _matcher); }
 		}
 
-		private UnifiedCase() { }
+		private IUnifiedExpression _as;
+
+		public IUnifiedExpression As {
+			get { return _as; }
+			set { _as = SetParentOfChild(value, _as); }
+		}
+
+		private UnifiedMatcher() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
+				IUnifiedModelVisitor<TData> visitor, TData state) {
 			visitor.Visit(this, state);
 		}
 
@@ -66,43 +60,40 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Condition;
-			yield return Body;
+			yield return Modifiers;
+			yield return Matcher;
+			yield return As;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Condition, v => Condition = (IUnifiedExpression)v);
+					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+					(Matcher, v => Matcher = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(As, v => As = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_condition, v => _condition = (IUnifiedExpression)v);
+					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+					(_matcher, v => _matcher = (IUnifiedExpression)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_as, v => _as = (IUnifiedExpression)v);
 		}
 
-		public UnifiedCase AddToBody(IUnifiedExpression expression) {
-			Body.Add(expression);
-			return this;
+		public static UnifiedMatcher Create(IUnifiedExpression matcher, IUnifiedExpression asExp) {
+			return Create(null, matcher, asExp);
 		}
 
-		public static UnifiedCase Create(UnifiedBlock body) {
-			return new UnifiedCase {
-					Body = body,
-			};
-		}
-
-		public static UnifiedCase Create(
-				IUnifiedExpression condtion,
-				UnifiedBlock body) {
-			return new UnifiedCase {
-					Body = body,
-					Condition = condtion,
+		public static UnifiedMatcher Create(UnifiedModifierCollection modifiers, IUnifiedExpression matcher, IUnifiedExpression asExp) {
+			return new UnifiedMatcher {
+					Modifiers = modifiers,
+					Matcher = matcher,
+					As = asExp,
 			};
 		}
 	}
