@@ -7,10 +7,15 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model
 {
 	/// <summary>
-	/// リスト内包表記の式を表します．
+	/// リスト内包表記式もしくはジェネレータ式を表します．
 	/// </summary>
-	public class UnifiedListComprehension : UnifiedElement
+	public class UnifiedListComprehension : UnifiedElement, IUnifiedExpression
 	{
+		/// <summary>
+		/// 種類を表します．
+		/// </summary>
+		public UnifiedListComprehensionKind Kind { get; set; }
+
 		private IUnifiedExpression _element;
 
 		/// <summary>
@@ -68,13 +73,33 @@ namespace Unicoen.Core.Model
 					(_collection, v => _collection = (UnifiedExpressionCollection)v);
 		}
 
-		public static UnifiedListComprehension Create(
+		private static UnifiedListComprehension Create(
+				UnifiedListComprehensionKind kind,
 				IUnifiedExpression element,
 				UnifiedExpressionCollection collection) {
 			return new UnifiedListComprehension {
+				Kind = kind,
 				Element = element,
 				Collection = collection,
 			};
+		}
+
+		public static UnifiedListComprehension CreateListComprehension(
+				IUnifiedExpression element,
+				UnifiedExpressionCollection collection) {
+			return Create(
+					UnifiedListComprehensionKind.ListComprehension,
+					element,
+					collection);
+		}
+
+		public static UnifiedListComprehension CreateGenerator(
+				IUnifiedExpression element,
+				UnifiedExpressionCollection collection) {
+			return Create(
+					UnifiedListComprehensionKind.Generator,
+					element,
+					collection);
 		}
 	}
 }

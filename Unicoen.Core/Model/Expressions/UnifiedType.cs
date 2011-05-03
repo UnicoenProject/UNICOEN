@@ -29,7 +29,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _name;
 
 		/// <summary>
-		/// 型の名前を表します
+		/// 型の名前を表します．
+		/// e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
 		/// </summary>
 		public IUnifiedExpression Name {
 			get { return _name; }

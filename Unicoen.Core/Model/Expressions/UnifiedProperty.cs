@@ -23,7 +23,9 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   フィールド、メンバー、プロパティなどへのアクセス式を表します。
-	///   Javaにおける<c>int a = b.c</c>の<c>b.c</c>
+	///   e.g. Javaにおける<c>int a = b.c;</c>の<c>b.c</c>
+	///   e.g. Javaにおける<c>Package.ClassA a = null;</c>の<c>Package.ClassA</c>
+	///   e.g. Javaにおける<c>import Package.SubPackage;</c>の<c>Package.SubPackage</c>
 	/// </summary>
 	public class UnifiedProperty : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _owner;
