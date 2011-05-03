@@ -962,12 +962,21 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					);
 		}
 
-		public static IUnifiedExpression CreateTrailer(XElement node) {
+		public static IUnifiedExpression CreateTrailer(IUnifiedExpression prefix, XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "trailer");
 			/*
 			 * trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
 			 */
+			var second = node.NthElement(1);
+			switch (node.FirstElement().Value) {
+			case "(":
+				return UnifiedCall.Create(prefix, CreateArglist(second));
+			case "[":
+				throw new NotImplementedException(); //TODO: implement
+			case ".":
+				throw new NotImplementedException(); //TODO: implement
+			}
 			throw new NotImplementedException(); //TODO: implement
 		}
 
@@ -1036,21 +1045,40 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateArglist(XElement node) {
+		public static UnifiedArgumentCollection CreateArglist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arglist");
 			/*
 			 * arglist: (argument ',')* (argument [',']
+             *							  |'*' test (',' argument)* [',' '**' test] 
+             *							  |'**' test)
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements()
+					.Where(e => e.Name() == "argument" || e.Name() == "test")
+					.Select(
+							e => e.Name() == "argument"
+							     		? CreateArgument(e) :
+										UnifiedArgument.Create(
+							     				UnifiedModifier.Create(e.PreviousElement().Value).
+							     						ToCollection(),
+							     				CreateTest(e)))
+								.ToCollection();
 		}
 
-		public static IUnifiedElement CreateArgument(XElement node) {
+		public static UnifiedArgument CreateArgument(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "argument");
 			/*
 			 * argument: test [comp_for] | test '=' test
 			 */
+			var test = CreateTest(node.FirstElement());
+			// TODO: comp_for
+			var second = node.NthElementOrDefault(1);
+			if (second == null)
+				return UnifiedArgument.Create(test);
+			if (second.Value == "=")
+				return UnifiedArgument.Create(
+						null, test, CreateTest(node.LastElement()));
 			throw new NotImplementedException(); //TODO: implement
 		}
 
