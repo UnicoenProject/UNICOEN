@@ -9,9 +9,20 @@ using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
+using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.JavaScript.ModelFactories {
 	public static class JavaScriptModelFactoryHelper {
+		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
+		public static Dictionary<string, UnifiedUnaryOperator> Sign2PrefixUnaryOperator;
+
+		static JavaScriptModelFactoryHelper() {
+			Sign2BinaryOperator =
+					ModelFactoryHelper.CreateBinaryOperatorDictionary();
+			Sign2PrefixUnaryOperator =
+					ModelFactoryHelper.CreatePrefixUnaryOperatorDictionaryForJava();
+		}
+
 		public static UnifiedProgram CreateProgram(XElement node)
 		{
 			Contract.Requires(node != null);
@@ -1057,7 +1068,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * logicalORExpression
 			 *		: logicalANDExpression (LT!* '||' LT!* logicalANDExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateLogicalANDExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateLogicalANDExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateLogicalORExpressionNoIn(XElement node)
@@ -1068,7 +1080,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * logicalORExpressionNoIn
 			 *		: logicalANDExpressionNoIn (LT!* '||' LT!* logicalANDExpressionNoIn)*
 			 */
-			return CreateBinaryExpression(node, CreateLogicalANDExpressionNoIn);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateLogicalANDExpressionNoIn, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateLogicalANDExpression(XElement node)
@@ -1079,7 +1092,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * logicalANDExpression
 			 *		: bitwiseORExpression (LT!* '&&' LT!* bitwiseORExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateBitwiseORExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateBitwiseORExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateLogicalANDExpressionNoIn(XElement node)
@@ -1090,7 +1104,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * logicalANDExpressionNoIn
 			 *		: bitwiseORExpressionNoIn (LT!* '&&' LT!* bitwiseORExpressionNoIn)*
 			 */
-			return CreateBinaryExpression(node, CreateBitwiseORExpressionNoIn);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateBitwiseORExpressionNoIn, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateBitwiseORExpression(XElement node)
@@ -1101,7 +1116,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * bitwiseORExpression
 			 *		: bitwiseXORExpression (LT!* '|' LT!* bitwiseXORExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateBitwiseXORExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateBitwiseXORExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateBitwiseORExpressionNoIn(XElement node)
@@ -1112,7 +1128,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * bitwiseORExpressionNoIn
 			 *		: bitwiseXORExpressionNoIn (LT!* '|' LT!* bitwiseXORExpressionNoIn)*
 			 */
-			return CreateBinaryExpression(node, CreateBitwiseXORExpressionNoIn);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateBitwiseXORExpressionNoIn, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateBitwiseXORExpression(XElement node)
@@ -1123,7 +1140,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * bitwiseXORExpression
 			 *		: bitwiseANDExpression (LT!* '^' LT!* bitwiseANDExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateBitwiseANDExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateBitwiseANDExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateBitwiseXORExpressionNoIn(XElement node)
@@ -1134,7 +1152,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * bitwiseXORExpressionNoIn
 			 *		: bitwiseANDExpressionNoIn (LT!* '^' LT!* bitwiseANDExpressionNoIn)*
 			 */
-			return CreateBinaryExpression(node, CreateBitwiseANDExpressionNoIn);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateBitwiseANDExpressionNoIn, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateBitwiseANDExpression(XElement node)
@@ -1145,7 +1164,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * bitwiseANDExpression
 			 *		: equalityExpression (LT!* '&' LT!* equalityExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateEqualityExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateEqualityExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateBitwiseANDExpressionNoIn(XElement node)
@@ -1156,7 +1176,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * bitwiseANDExpressionNoIn
 			 *		: equalityExpressionNoIn (LT!* '&' LT!* equalityExpressionNoIn)*
 			 */
-			return CreateBinaryExpression(node, CreateEqualityExpressionNoIn);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateEqualityExpressionNoIn, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateEqualityExpression(XElement node)
@@ -1168,7 +1189,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: relationalExpression (LT!* ('==' | '!=' | '===' | '!==') LT!* relationalExpression)*
 			 */
 			//TODO ===演算子などを加える
-			return CreateBinaryExpression(node, CreateRelationalExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateRelationalExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateEqualityExpressionNoIn(XElement node)
@@ -1179,7 +1201,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * equalityExpressionNoIn
 			 *		: relationalExpressionNoIn (LT!* ('==' | '!=' | '===' | '!==') LT!* relationalExpressionNoIn)*
 			 */
-			return CreateBinaryExpression(node, CreateRelationalExpressionNoIn);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateRelationalExpressionNoIn, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateRelationalExpression(XElement node)
@@ -1190,7 +1213,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * relationalExpression
 			 *		: shiftExpression (LT!* ('<' | '>' | '<=' | '>=' | 'instanceof' | 'in') LT!* shiftExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateShiftExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateShiftExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateRelationalExpressionNoIn(XElement node)
@@ -1201,7 +1225,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * relationalExpressionNoIn
 			 *		: shiftExpression (LT!* ('<' | '>' | '<=' | '>=' | 'instanceof') LT!* shiftExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateShiftExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateShiftExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateShiftExpression(XElement node)
@@ -1212,7 +1237,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * shiftExpression
 			 *		: additiveExpression (LT!* ('<<' | '>>' | '>>>') LT!* additiveExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateAdditiveExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateAdditiveExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateAdditiveExpression(XElement node)
@@ -1223,7 +1249,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * additiveExpression
 			 *		: multiplicativeExpression (LT!* ('+' | '-') LT!* multiplicativeExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateMultiplicativeExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateMultiplicativeExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateMultiplicativeExpression(XElement node)
@@ -1234,7 +1261,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * multiplicativeExpression
 			 *		: unaryExpression (LT!* ('*' | '/' | '%') LT!* unaryExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateUnaryExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateUnaryExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateUnaryExpression(XElement node)
@@ -1249,7 +1277,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var first = node.NthElement(0);
 			if(first.Name() == "postfixExpression")
 				return CreatePostfixExpression(first);
-			//TODO delete演算子などの実装
 			return
 					UnifiedUnaryExpression.Create(
 							CreateUnaryExpression(node.NthElement(1)),
@@ -1432,112 +1459,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 								node.Value.Substring(1, node.Value.Length - 2));
 		}
 
-		//TODO copy from JavaModelFactoryHelper
-		private static IUnifiedExpression CreateBinaryExpression(
-				XElement node, Func<XElement, IUnifiedExpression> createExpression) {
-			var nodes = node.Elements().OddIndexElements();
-			return nodes.Skip(1).Aggregate(
-					createExpression(nodes.First()),
-					(e, n) => UnifiedBinaryExpression.Create(
-							e, CreateBinaryOperator(n.PreviousElement().Value),
-							createExpression(n)));
-		}
-
-		//TODO copy from JavaModelFactoryHelper
-		private static UnifiedBinaryOperator CreateBinaryOperator(string name) {
-			Contract.Requires(name != null);
-			UnifiedBinaryOperatorKind kind;
-			switch (name) {
-				// Arithmetic
-			case "+":
-				kind = UnifiedBinaryOperatorKind.Add;
-				break;
-			case "-":
-				kind = UnifiedBinaryOperatorKind.Subtract;
-				break;
-			case "*":
-				kind = UnifiedBinaryOperatorKind.Multiply;
-				break;
-			case "/":
-				kind = UnifiedBinaryOperatorKind.Divide;
-				break;
-			case "%":
-				kind = UnifiedBinaryOperatorKind.Modulo;
-				break;
-				// Shift
-			case "<<":
-				kind = UnifiedBinaryOperatorKind.ArithmeticLeftShift;
-				break;
-			case ">>":
-				kind = UnifiedBinaryOperatorKind.ArithmeticRightShift;
-				break;
-			case ">>>":
-				kind = UnifiedBinaryOperatorKind.LogicalRightShift;
-				break;
-				// Comparison
-			case ">":
-				kind = UnifiedBinaryOperatorKind.GreaterThan;
-				break;
-			case ">=":
-				kind = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
-				break;
-			case "<":
-				kind = UnifiedBinaryOperatorKind.LessThan;
-				break;
-			case "<=":
-				kind = UnifiedBinaryOperatorKind.LessThanOrEqual;
-				break;
-			case "==":
-				kind = UnifiedBinaryOperatorKind.Equal;
-				break;
-			case "!=":
-				kind = UnifiedBinaryOperatorKind.NotEqual;
-				break;
-				// Logocal
-			case "&&":
-				kind = UnifiedBinaryOperatorKind.AndAlso;
-				break;
-			case "||":
-				kind = UnifiedBinaryOperatorKind.OrElse;
-				break;
-				// Bit
-			case "&":
-				kind = UnifiedBinaryOperatorKind.And;
-				break;
-			case "|":
-				kind = UnifiedBinaryOperatorKind.Or;
-				break;
-			case "^":
-				kind = UnifiedBinaryOperatorKind.ExclusiveOr;
-				break;
-				// Assignment
-			case "=":
-				kind = UnifiedBinaryOperatorKind.Assign;
-				break;
-			case "+=":
-				kind = UnifiedBinaryOperatorKind.AddAssign;
-				break;
-			case "-=":
-				kind = UnifiedBinaryOperatorKind.SubtractAssign;
-				break;
-			case "*=":
-				kind = UnifiedBinaryOperatorKind.MultiplyAssign;
-				break;
-			case "/=":
-				kind = UnifiedBinaryOperatorKind.DivideAssign;
-				break;
-			case "%=":
-				kind = UnifiedBinaryOperatorKind.ModuloAssign;
-				break;
-			case "instanceof":
-				kind = UnifiedBinaryOperatorKind.InstanceOf;
-				break;
-			default:
-				throw new InvalidOperationException();
-			}
-			return UnifiedBinaryOperator.Create(name, kind);
-		}
-
 		private static UnifiedUnaryOperator CreatePrefixUnaryOperator(string name) {
 			Contract.Requires(name != null);
 			UnifiedUnaryOperatorKind kind;
@@ -1559,6 +1480,15 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				break;
 			case "!":
 				kind = UnifiedUnaryOperatorKind.Not;
+				break;
+			case "delete":
+				kind = UnifiedUnaryOperatorKind.Unknown;
+				break;
+			case "void":
+				kind = UnifiedUnaryOperatorKind.Unknown;
+				break;
+			case "typeof":
+				kind = UnifiedUnaryOperatorKind.Unknown;
 				break;
 			default:
 				throw new InvalidOperationException();
