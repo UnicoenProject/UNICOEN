@@ -28,6 +28,7 @@ namespace Unicoen.Core.Model {
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
 		// パッケージ名が付いているときに
 		// UnifiedProperty が name に入る時があるので
+		// isntace.Class
 		private IUnifiedExpression _name;
 
 		/// <summary>
