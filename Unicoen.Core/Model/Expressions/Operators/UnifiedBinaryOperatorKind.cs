@@ -48,8 +48,13 @@ namespace Unicoen.Core.Model {
 		Modulo,
 		/// <summary>
 		///   a ^ b in VB
+		///   a ** b in Python
 		/// </summary>
 		Power,
+		/// <summary>
+		///   a // b in Python
+		/// </summary>
+		FloorDivide,
 		/// <summary>
 		///   nothing in Java
 		/// </summary>
@@ -91,9 +96,25 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		Equal,
 		/// <summary>
-		///   a == b
+		///   a != b
 		/// </summary>
 		NotEqual,
+		/// <summary>
+		///   a is b in Python
+		/// </summary>
+		ReferenceEqual,
+		/// <summary>
+		///   a is not b in Python
+		/// </summary>
+		ReferenceNotEqual,
+		/// <summary>
+		///   a in b in Python
+		/// </summary>
+		In,
+		/// <summary>
+		///   a not in b in Python
+		/// </summary>
+		NotIn,
 		/// <summary>
 		///   a && b
 		/// </summary>
@@ -114,7 +135,6 @@ namespace Unicoen.Core.Model {
 		///   a ^ b
 		/// </summary>
 		ExclusiveOr,
-
 		/// <summary>
 		///   a = b
 		/// </summary>

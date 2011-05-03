@@ -23,13 +23,23 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.Java.CodeToXmls;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
+using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.Java.ModelFactories {
 	public static class JavaModelFactoryHelper {
+		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
+		public static Dictionary<string, UnifiedUnaryOperator> Sign2PrefixUnaryOperator;
+
+		static JavaModelFactoryHelper() {
+			Sign2BinaryOperator =
+					ModelFactoryHelper.CreateBinaryOperatorDictionary();
+			Sign2PrefixUnaryOperator =
+					ModelFactoryHelper.CreatePrefixUnaryOperatorDictionaryForJava();
+		}
+
 		public static UnifiedProgram CreateCompilationUnit(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "compilationUnit");
@@ -1295,11 +1305,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   'catch' '(' formalParameter ')' block  
 			 */
 			return UnifiedCatch.Create(
-					CreateFormalParameter(node.Element("formalParameter")),
+					CreateFormalParameter(node.Element("formalParameter")).ToCollection(),
 					CreateBlock(node.Element("block")));
 		}
 
-		public static UnifiedParameterCollection CreateFormalParameter(XElement node) {
+		public static UnifiedMatcher CreateFormalParameter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameter");
 			/*
@@ -1312,12 +1322,10 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			for (int i = 0; i < dimension; i++) {
 				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
 			}
-
-			return UnifiedParameterCollection.Create(
-					UnifiedParameter.Create(
-							CreateVariableModifiers(node.FirstElement()), type,
-							node.NthElement(2).Value)
-					);
+			return UnifiedMatcher.Create(
+					CreateVariableModifiers(node.FirstElement()),
+					type,
+					UnifiedIdentifier.CreateVariable(node.NthElement(2).Value));
 		}
 
 		public static IUnifiedExpression CreateForstatement(XElement node) {
@@ -1414,76 +1422,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   conditionalExpression (assignmentOperator expression)? 
 			 */
 
-			if (node.HasElement("expression"))
-				return UnifiedBinaryExpression.Create(
-						CreateConditionalExpression(node.FirstElement()),
-						CreateAssignmentOperator(node.NthElement(1)),
-						CreateExpression(node.NthElement(2))
-						);
-			return CreateConditionalExpression(node.FirstElement());
-		}
-
-		public static UnifiedBinaryOperator CreateAssignmentOperator(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "assignmentOperator");
-			/*
-			 * assignmentOperator 
-			 * :   '='
-			 * |   '+='
-			 * |   '-='
-			 * |   '*='
-			 * |   '/='
-			 * |   '&='
-			 * |   '|='
-			 * |   '^='
-			 * |   '%='
-			 * |    '<' '<' '='
-			 * |    '>' '>' '>' '='
-			 * |    '>' '>' '=' 
-			 */
-			var name = node.Value;
-			UnifiedBinaryOperatorKind kind;
-			switch (name) {
-			case "=":
-				kind = UnifiedBinaryOperatorKind.Assign;
-				break;
-			case "+=":
-				kind = UnifiedBinaryOperatorKind.AddAssign;
-				break;
-			case "-=":
-				kind = UnifiedBinaryOperatorKind.SubtractAssign;
-				break;
-			case "*=":
-				kind = UnifiedBinaryOperatorKind.MultiplyAssign;
-				break;
-			case "/=":
-				kind = UnifiedBinaryOperatorKind.DivideAssign;
-				break;
-			case "&=":
-				kind = UnifiedBinaryOperatorKind.AndAssign;
-				break;
-			case "|=":
-				kind = UnifiedBinaryOperatorKind.OrAssign;
-				break;
-			case "^=":
-				kind = UnifiedBinaryOperatorKind.ExclusiveOrAssign;
-				break;
-			case "%=":
-				kind = UnifiedBinaryOperatorKind.ModuloAssign;
-				break;
-			case "<<=":
-				kind = UnifiedBinaryOperatorKind.LogicalLeftShiftAssign;
-				break;
-			case ">>>=":
-				kind = UnifiedBinaryOperatorKind.LogicalRightShiftAssign;
-				break;
-			case ">>=":
-				kind = UnifiedBinaryOperatorKind.ArithmeticRightShiftAssign;
-				break;
-			default:
-				throw new IndexOutOfRangeException();
-			}
-			return UnifiedBinaryOperator.Create(name, kind);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateConditionalExpression, CreateExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateConditionalExpression(XElement node) {
@@ -1516,7 +1456,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * conditionalOrExpression 
 			 * :   conditionalAndExpression ('||' conditionalAndExpression)* 
 			 */
-			return CreateBinaryExpression(node, CreateConditionalAndExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateConditionalAndExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateConditionalAndExpression(XElement node) {
@@ -1526,7 +1467,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * conditionalAndExpression 
 			 * :   inclusiveOrExpression ('&&' inclusiveOrExpression)* 
 			 */
-			return CreateBinaryExpression(node, CreateInclusiveOrExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateInclusiveOrExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateInclusiveOrExpression(XElement node) {
@@ -1536,7 +1478,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * inclusiveOrExpression 
 			 * :   exclusiveOrExpression ('|' exclusiveOrExpression)* 
 			 */
-			return CreateBinaryExpression(node, CreateExclusiveOrExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateExclusiveOrExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateExclusiveOrExpression(XElement node) {
@@ -1546,7 +1489,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * exclusiveOrExpression 
 			 * :   andExpression ('^' andExpression)* 
 			 */
-			return CreateBinaryExpression(node, CreateAndExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateAndExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateAndExpression(XElement node) {
@@ -1556,7 +1500,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * andExpression 
 			 * :   equalityExpression ('&' equalityExpression)* 
 			 */
-			return CreateBinaryExpression(node, CreateEqualityExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateEqualityExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateEqualityExpression(XElement node) {
@@ -1566,7 +1511,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * equalityExpression 
 			 * :   instanceOfExpression ( ( '==' | '!=' ) instanceOfExpression)* 
 			 */
-			return CreateBinaryExpression(node, CreateInstanceOfExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateInstanceOfExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateInstanceOfExpression(XElement node) {
@@ -1576,14 +1522,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * instanceOfExpression 
 			 * :   relationalExpression ('instanceof' type)?
 			 */
-			var ret = CreateRelationalExpression(node.FirstElement());
-			if (node.Elements().Count() > 1) {
-				ret = UnifiedBinaryExpression.Create(
-						ret,
-						CreateBinaryOperator(node.NthElement(1).Value),
-						CreateType(node.LastElement()));
-			}
-			return ret;
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateRelationalExpression, CreateType, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateRelationalExpression(XElement node) {
@@ -1593,40 +1533,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * relationalExpression 
 			 * :   shiftExpression (relationalOp shiftExpression)* 
 			 */
-			return CreateBinaryExpression(node, CreateShiftExpression);
-		}
-
-		public static UnifiedBinaryOperator CreateRelationalOp(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "relationalOp");
-			/*
-			 * relationalOp 
-			 * :   '<' '='
-			 * |   '>' '='
-			 * |   '<'
-			 * |   '>'
-			 */
-
-			var name = node.Value;
-			UnifiedBinaryOperatorKind kind;
-
-			switch (name) {
-			case "<=":
-				kind = UnifiedBinaryOperatorKind.LessThanOrEqual;
-				break;
-			case ">=":
-				kind = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
-				break;
-			case "<":
-				kind = UnifiedBinaryOperatorKind.LessThan;
-				break;
-			case ">":
-				kind = UnifiedBinaryOperatorKind.GreaterThan;
-				break;
-			default:
-				throw new IndexOutOfRangeException();
-			}
-			return UnifiedBinaryOperator.Create(name, kind);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateShiftExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateShiftExpression(XElement node) {
@@ -1636,36 +1544,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * shiftExpression 
 			 * :   additiveExpression (shiftOp additiveExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateAdditiveExpression);
-		}
-
-		public static IUnifiedElement CreateShiftOp(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "shiftOp");
-			/*
-			 * shiftOp 
-			 * :    '<' '<'
-			 * |    '>' '>' '>'
-			 * |    '>' '>' 
-			 */
-
-			var name = node.Value;
-			UnifiedBinaryOperatorKind kind;
-
-			switch (name) {
-			case "<<":
-				kind = UnifiedBinaryOperatorKind.LogicalLeftShift;
-				break;
-			case ">>>":
-				kind = UnifiedBinaryOperatorKind.LogicalRightShift;
-				break;
-			case ">>":
-				kind = UnifiedBinaryOperatorKind.ArithmeticRightShift;
-				break;
-			default:
-				throw new InvalidOperationException();
-			}
-			return UnifiedBinaryOperator.Create(name, kind);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateAdditiveExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateAdditiveExpression(XElement node) {
@@ -1675,7 +1555,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * additiveExpression 
 			 * :   multiplicativeExpression ( ( '+' | '-' ) multiplicativeExpression )* 
 			 */
-			return CreateBinaryExpression(node, CreateMultiplicativeExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateMultiplicativeExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateMultiplicativeExpression(XElement node) {
@@ -1685,7 +1566,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * multiplicativeExpression 
 			 * :   unaryExpression ( ( '*' | '/' | '%' ) unaryExpression)*
 			 */
-			return CreateBinaryExpression(node, CreateUnaryExpression);
+			return ModelFactoryHelper.CreateBinaryExpression(
+					node, CreateUnaryExpression, Sign2BinaryOperator);
 		}
 
 		public static IUnifiedExpression CreateUnaryExpression(XElement node) {
@@ -1703,9 +1585,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (firstElement.Name() == "unaryExpressionNotPlusMinus") {
 				return CreateUnaryExpressionNotPlusMinus(firstElement);
 			}
-			return UnifiedUnaryExpression.Create(
-					CreateUnaryExpression(node.NthElement(1)),
-					CreatePrefixUnaryOperator(firstElement.Value));
+			return ModelFactoryHelper.CreatePrefixUnaryExpression(
+					node, CreateUnaryExpression, Sign2PrefixUnaryOperator);
 		}
 
 		public static IUnifiedExpression CreateUnaryExpressionNotPlusMinus(
@@ -1741,9 +1622,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				}
 				return result;
 			}
-			return UnifiedUnaryExpression.Create(
-					CreateUnaryExpression(node.NthElement(1)),
-					CreatePrefixUnaryOperator(firstElement.Value));
+			return ModelFactoryHelper.CreatePrefixUnaryExpression(
+					node, CreateUnaryExpression, Sign2PrefixUnaryOperator);
 		}
 
 		public static UnifiedCast CreateCastExpression(XElement node) {
@@ -2384,139 +2264,6 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			return result;
 		}
-
-		private static UnifiedBinaryOperator CreateBinaryOperator(string name) {
-			Contract.Requires(name != null);
-			UnifiedBinaryOperatorKind kind;
-			switch (name) {
-				// Arithmetic
-			case "+":
-				kind = UnifiedBinaryOperatorKind.Add;
-				break;
-			case "-":
-				kind = UnifiedBinaryOperatorKind.Subtract;
-				break;
-			case "*":
-				kind = UnifiedBinaryOperatorKind.Multiply;
-				break;
-			case "/":
-				kind = UnifiedBinaryOperatorKind.Divide;
-				break;
-			case "%":
-				kind = UnifiedBinaryOperatorKind.Modulo;
-				break;
-				// Shift
-			case "<<":
-				kind = UnifiedBinaryOperatorKind.ArithmeticLeftShift;
-				break;
-			case ">>":
-				kind = UnifiedBinaryOperatorKind.ArithmeticRightShift;
-				break;
-			case ">>>":
-				kind = UnifiedBinaryOperatorKind.LogicalRightShift;
-				break;
-				// Comparison
-			case ">":
-				kind = UnifiedBinaryOperatorKind.GreaterThan;
-				break;
-			case ">=":
-				kind = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
-				break;
-			case "<":
-				kind = UnifiedBinaryOperatorKind.LessThan;
-				break;
-			case "<=":
-				kind = UnifiedBinaryOperatorKind.LessThanOrEqual;
-				break;
-			case "==":
-				kind = UnifiedBinaryOperatorKind.Equal;
-				break;
-			case "!=":
-				kind = UnifiedBinaryOperatorKind.NotEqual;
-				break;
-				// Logocal
-			case "&&":
-				kind = UnifiedBinaryOperatorKind.AndAlso;
-				break;
-			case "||":
-				kind = UnifiedBinaryOperatorKind.OrElse;
-				break;
-				// Bit
-			case "&":
-				kind = UnifiedBinaryOperatorKind.And;
-				break;
-			case "|":
-				kind = UnifiedBinaryOperatorKind.Or;
-				break;
-			case "^":
-				kind = UnifiedBinaryOperatorKind.ExclusiveOr;
-				break;
-				// Assignment
-			case "=":
-				kind = UnifiedBinaryOperatorKind.Assign;
-				break;
-			case "+=":
-				kind = UnifiedBinaryOperatorKind.AddAssign;
-				break;
-			case "-=":
-				kind = UnifiedBinaryOperatorKind.SubtractAssign;
-				break;
-			case "*=":
-				kind = UnifiedBinaryOperatorKind.MultiplyAssign;
-				break;
-			case "/=":
-				kind = UnifiedBinaryOperatorKind.DivideAssign;
-				break;
-			case "%=":
-				kind = UnifiedBinaryOperatorKind.ModuloAssign;
-				break;
-			case "instanceof":
-				kind = UnifiedBinaryOperatorKind.InstanceOf;
-				break;
-			default:
-				throw new InvalidOperationException();
-			}
-			return UnifiedBinaryOperator.Create(name, kind);
-		}
-
-		private static UnifiedUnaryOperator CreatePrefixUnaryOperator(string name) {
-			Contract.Requires(name != null);
-			UnifiedUnaryOperatorKind kind;
-			switch (name) {
-			case "+":
-				kind = UnifiedUnaryOperatorKind.UnaryPlus;
-				break;
-			case "-":
-				kind = UnifiedUnaryOperatorKind.Negate;
-				break;
-			case "++":
-				kind = UnifiedUnaryOperatorKind.PreIncrementAssign;
-				break;
-			case "--":
-				kind = UnifiedUnaryOperatorKind.PreDecrementAssign;
-				break;
-			case "~":
-				kind = UnifiedUnaryOperatorKind.OnesComplement;
-				break;
-			case "!":
-				kind = UnifiedUnaryOperatorKind.Not;
-				break;
-			default:
-				throw new InvalidOperationException();
-			}
-			return UnifiedUnaryOperator.Create(name, kind);
-		}
-
-		private static IUnifiedExpression CreateBinaryExpression(
-				XElement node, Func<XElement, IUnifiedExpression> createExpression) {
-			var nodes = node.Elements().OddIndexElements();
-			return nodes.Skip(1).Aggregate(
-					createExpression(nodes.First()),
-					(e, n) => UnifiedBinaryExpression.Create(
-							e, CreateBinaryOperator(n.PreviousElement().Value),
-							createExpression(n)));
-		}
-
 		private static UnifiedIf CreateIf(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
@@ -2547,9 +2294,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * 'while' parExpression statement
 			 */
 			return UnifiedWhile.Create(
-					UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
-					CreateParExpression(node.Element("parExpression"))
-					);
+					CreateParExpression(node.Element("parExpression")),
+					UnifiedBlock.Create(CreateStatement(node.Element("statement"))));
 		}
 
 		private static UnifiedDoWhile CreateDoWhile(XElement node) {
@@ -2597,7 +2343,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("break"));
-			/* 'break' (IDENTIFIER )? ';' */
+			/*
+			 * 'break' (IDENTIFIER )? ';'
+			 */
 			if (node.Elements().Count() > 2)
 				return UnifiedSpecialExpression.CreateBreak(
 						UnifiedIdentifier.CreateUnknown(node.Element("IDENTIFIER").Value));
@@ -2608,7 +2356,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("continue"));
-			/* 'continue' (IDENTIFIER)? ';' */
+			/*
+			 * 'continue' (IDENTIFIER)? ';' 
+			 */
 			if (node.Elements().Count() > 2)
 				return UnifiedSpecialExpression.CreateContinue(
 						UnifiedIdentifier.CreateUnknown(node.Element("IDENTIFIER").Value));
@@ -2638,14 +2388,6 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			return UnifiedSpecialExpression.CreateThrow(
 					CreateExpression(node.Element("expression")));
-		}
-
-		public static UnifiedProgram CreateModel(string source) {
-			Contract.Requires(source != null);
-			var ast = JavaCodeToXml.Instance.Generate(source);
-			var model = CreateCompilationUnit(ast);
-			model.Normalize();
-			return model;
 		}
 	}
 }

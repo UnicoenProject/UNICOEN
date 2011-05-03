@@ -40,21 +40,21 @@ namespace Unicoen.Core.Model {
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
 		/// <param name = "visitor"></param>
-		/// <param name = "data"></param>
-		public abstract void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData data);
+		/// <param name = "state"></param>
+		public abstract void Accept<TState>(
+				IUnifiedModelVisitor<TState> visitor,
+				TState state);
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
-		/// <typeparam name = "TData"></typeparam>
+		/// <typeparam name = "TState"></typeparam>
 		/// <typeparam name = "TResult"></typeparam>
 		/// <param name = "visitor"></param>
-		/// <param name = "data"></param>
+		/// <param name = "state"></param>
 		/// <returns></returns>
-		public abstract TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data);
+		public abstract TResult Accept<TState, TResult>(
+				IUnifiedModelVisitor<TState, TResult> visitor, TState state);
 
 		/// <summary>
 		///   子要素を列挙します。

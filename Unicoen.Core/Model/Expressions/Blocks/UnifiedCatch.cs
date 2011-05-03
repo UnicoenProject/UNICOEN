@@ -26,15 +26,15 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
 	public class UnifiedCatch : UnifiedExpressionWithBlock<UnifiedCatch> {
-		private UnifiedParameterCollection _parameters;
+		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>
 		/// catch節内の仮引数の集合を表します
 		/// e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
 		/// </summary>
-		public UnifiedParameterCollection Parameters {
-			get { return _parameters; }
-			set { _parameters = SetParentOfChild(value, _parameters); }
+		public UnifiedMatcherCollection Matchers {
+			get { return _matchers; }
+			set { _matchers = SetParentOfChild(value, _matchers); }
 		}
 
 		private UnifiedCatch() {}
@@ -45,24 +45,24 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData data) {
-			visitor.Visit(this, data);
+				TData state) {
+			visitor.Visit(this, state);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
-			return visitor.Visit(this, data);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			return visitor.Visit(this, state);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Parameters;
+			yield return Matchers;
 			yield return Body;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
+					(Matchers, v => Matchers = (UnifiedMatcherCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
@@ -70,16 +70,16 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Parameters, v => _parameters = (UnifiedParameterCollection)v);
+					(Matchers, v => _matchers = (UnifiedMatcherCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedCatch Create(
-				UnifiedParameterCollection definition,
+				UnifiedMatcherCollection matchers,
 				UnifiedBlock body) {
 			return new UnifiedCatch {
-					Parameters = definition,
+					Matchers = matchers,
 					Body = body,
 			};
 		}

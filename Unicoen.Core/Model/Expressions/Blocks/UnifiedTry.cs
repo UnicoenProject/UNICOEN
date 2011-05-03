@@ -29,7 +29,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedCatchCollection _catches;
 
 		/// <summary>
-		/// 付随するcatch節の集合を表します
+		/// catch節の集合を表します
 		/// e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>
 		/// </summary>
 		public UnifiedCatchCollection Catches {
@@ -37,10 +37,21 @@ namespace Unicoen.Core.Model {
 			set { _catches = SetParentOfChild(value, _catches); }
 		}
 
+		private UnifiedBlock _elseBody;
+
+		/// <summary>
+		/// else節を表します
+		/// e.g. Pythonにおける<c>try: ...  else: ... finally: ...</c>の<c>else: ...</c>
+		/// </summary>
+		public UnifiedBlock ElseBody {
+			get { return _elseBody; }
+			set { _elseBody = SetParentOfChild(value, _elseBody); }
+		}
+
 		private UnifiedBlock _finallyBody;
 
 		/// <summary>
-		/// 付随するfinally節を表します
+		/// finally節を表します
 		/// e.g. Javaにおける<c>try{...}catch(Exception e){...}finally{...}</c>の<c>finally{...}</c>
 		/// </summary>
 		public UnifiedBlock FinallyBody {
@@ -48,11 +59,7 @@ namespace Unicoen.Core.Model {
 			set { _finallyBody = SetParentOfChild(value, _finallyBody); }
 		}
 
-		private UnifiedTry() {
-			Body = UnifiedBlock.Create();
-			Catches = UnifiedCatchCollection.Create();
-			FinallyBody = UnifiedBlock.Create();
-		}
+		private UnifiedTry() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -60,17 +67,18 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData data) {
-			visitor.Visit(this, data);
+				TData state) {
+			visitor.Visit(this, state);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
-			return visitor.Visit(this, data);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			return visitor.Visit(this, state);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Catches;
+			yield return ElseBody;
 			yield return FinallyBody;
 			yield return Body;
 		}
@@ -80,6 +88,8 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Catches, v => Catches = (UnifiedCatchCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(ElseBody, v => ElseBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(FinallyBody, v => FinallyBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
@@ -88,20 +98,27 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Catches, v => _catches = (UnifiedCatchCollection)v);
+					(_catches, v => _catches = (UnifiedCatchCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(FinallyBody, v => _finallyBody = (UnifiedBlock)v);
+					(_elseBody, v => _elseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => _body = (UnifiedBlock)v);
+					(_finallyBody, v => _finallyBody = (UnifiedBlock)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedTry Create(
 				UnifiedBlock body,
 				UnifiedCatchCollection catches,
 				UnifiedBlock finallyBody) {
+			return Create(body, catches, null, finallyBody);
+		}
+
+		public static UnifiedTry Create(UnifiedBlock body, UnifiedCatchCollection catches, UnifiedBlock elseBody, UnifiedBlock finallyBody) {
 			return new UnifiedTry {
 					Body = body,
 					Catches = catches,
+					ElseBody = elseBody,
 					FinallyBody = finallyBody,
 			};
 		}

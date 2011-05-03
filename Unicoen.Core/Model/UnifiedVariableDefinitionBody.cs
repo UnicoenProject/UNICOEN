@@ -91,19 +91,21 @@ namespace Unicoen.Core.Model {
 			set { _body = SetParentOfChild(value, _body); }
 		}
 
+		private UnifiedVariableDefinitionBody() {}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData data) {
-			visitor.Visit(this, data);
+				TData state) {
+			visitor.Visit(this, state);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
-			return visitor.Visit(this, data);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			return visitor.Visit(this, state);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
@@ -144,10 +146,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedVariableDefinitionBody Create(
 				string name,
-				UnifiedTypeSupplementCollection
-						supplements,
-				IUnifiedExpression
-						initialValues) {
+				UnifiedTypeSupplementCollection supplements,
+				IUnifiedExpression initialValues) {
 			return Create(
 					UnifiedIdentifier.CreateVariable(name),
 					supplements,
@@ -157,13 +157,15 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedVariableDefinitionBody Create(
+				UnifiedIdentifier name) {
+			return Create(name, null, null, null, null);
+		}
+
+		public static UnifiedVariableDefinitionBody Create(
 				UnifiedIdentifier name,
-				UnifiedTypeSupplementCollection
-						supplements,
-				IUnifiedExpression
-						initialValues,
-				UnifiedArgumentCollection
-						arguments,
+				UnifiedTypeSupplementCollection supplements,
+				IUnifiedExpression initialValues,
+				UnifiedArgumentCollection arguments,
 				UnifiedBlock block) {
 			return new UnifiedVariableDefinitionBody {
 					Name = name,

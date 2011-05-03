@@ -48,9 +48,7 @@ namespace Unicoen.Core.Model {
 			set { _body = SetParentOfChild(value, _body); }
 		}
 
-		private UnifiedCase() {
-			Body = UnifiedBlock.Create();
-		}
+		private UnifiedCase() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -58,13 +56,13 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData data) {
-			visitor.Visit(this, data);
+				TData state) {
+			visitor.Visit(this, state);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
-			return visitor.Visit(this, data);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			return visitor.Visit(this, state);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {

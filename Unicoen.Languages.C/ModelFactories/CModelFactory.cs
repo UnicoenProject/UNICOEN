@@ -14,7 +14,7 @@ namespace Unicoen.Languages.C.ModelFactories
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = CCodeToXml.Instance.Generate(code);
-			return CModelFactoryHelper.CreateTranslation_unit(ast);
+			return CModelFactoryHelper.CreateTranslationUnit(ast);
 		}
 	}
 }

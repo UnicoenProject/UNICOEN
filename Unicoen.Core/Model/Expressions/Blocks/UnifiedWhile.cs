@@ -30,19 +30,19 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		/// 条件式を表します
-		/// e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
+		///   条件式を表します
+		///   e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetParentOfChild(value, _condition); }
 		}
 
-		private UnifiedBlock _falseBody;
+		private UnifiedBlock _elseBody;
 
-		public UnifiedBlock FalseBody {
-			get { return _falseBody; }
-			set { _falseBody = SetParentOfChild(value, _falseBody); }
+		public UnifiedBlock ElseBody {
+			get { return _elseBody; }
+			set { _elseBody = SetParentOfChild(value, _elseBody); }
 		}
 
 		private UnifiedWhile() {}
@@ -53,18 +53,18 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData data) {
-			visitor.Visit(this, data);
+				TData state) {
+			visitor.Visit(this, state);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData data) {
-			return visitor.Visit(this, data);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			return visitor.Visit(this, state);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Condition;
-			yield return FalseBody;
+			yield return ElseBody;
 			yield return Body;
 		}
 
@@ -73,7 +73,7 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Condition, v => Condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(FalseBody, v => FalseBody = (UnifiedBlock)v);
+					(ElseBody, v => ElseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Body, v => Body = (UnifiedBlock)v);
 		}
@@ -83,24 +83,27 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_condition, v => _condition = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_falseBody, v => _falseBody = (UnifiedBlock)v);
+					(_elseBody, v => _elseBody = (UnifiedBlock)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedWhile Create(
-				UnifiedBlock body,
-				IUnifiedExpression condition) {
+				IUnifiedExpression condition, UnifiedBlock body, UnifiedBlock elseBody) {
 			return new UnifiedWhile {
-					Body = body,
 					Condition = condition,
+					Body = body,
+					ElseBody = elseBody,
 			};
 		}
 
+		public static UnifiedWhile Create(
+				IUnifiedExpression condition, UnifiedBlock body) {
+			return Create(condition, body, null);
+		}
+
 		public static UnifiedWhile Create(IUnifiedExpression condition) {
-			return new UnifiedWhile {
-					Condition = condition,
-			};
+			return Create(condition, null, null);
 		}
 			}
 }

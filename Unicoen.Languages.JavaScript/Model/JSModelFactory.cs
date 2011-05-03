@@ -486,13 +486,10 @@ namespace Unicoen.Languages.JavaScript.Model {
 				: 'while' LT!* '(' LT!* expression LT!* ')' LT!* statement
 			 */
 
-			return UnifiedWhile.Create(
-					UnifiedBlock.Create(
-							new[] {
-									CreateStatement(node.Element("statement"))
-							}),
-					CreateExpression(node.Element("expression"))
-					);
+			return UnifiedWhile.Create(CreateExpression(node.Element("expression")), UnifiedBlock.Create(
+					new[] {
+							CreateStatement(node.Element("statement"))
+					}));
 		}
 
 		public static UnifiedSwitch CreateSwitch(XElement node) {

@@ -55,7 +55,6 @@
     <Compile Include="CSharpFixture.cs" />
     <Compile Include="CSharpModelFeatureTest.cs" />
     <Compile Include="CSharpRegenerateTest.cs" />
-    <Compile Include="CSharpSpecificationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CSharpStudentTest.cs" />
   </ItemGroup>

@@ -22,5 +22,6 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public enum UnifiedFunctionDefinitionKind {
 		Function,
+		Lambda,
 	}
 }
