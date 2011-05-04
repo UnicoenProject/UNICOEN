@@ -26,6 +26,18 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedProgram
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedProgram> {
+
+		private UnifiedComment _comments;
+
+		/// <summary>
+		/// ソースコードの先頭に表記されたマジックコメントを表します．
+		/// e.g. Pythonにおける<c># -*- coding: utf-8 -*-</c>
+		/// </summary>
+		public UnifiedComment Comments {
+			get { return _comments; }
+			set { _comments = SetParentOfChild(value, _comments); }
+		}
+
 		private UnifiedProgram() {}
 
 		private UnifiedProgram(IEnumerable<IUnifiedExpression> elements)

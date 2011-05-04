@@ -22,7 +22,7 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   リスト内包表記式もしくはジェネレータ式を表します．
+	///   リスト内包表記式やジェネレータ式などを表します．
 	/// </summary>
 	public class UnifiedListComprehension : UnifiedElement, IUnifiedExpression {
 		/// <summary>

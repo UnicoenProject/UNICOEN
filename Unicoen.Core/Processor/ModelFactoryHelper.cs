@@ -34,6 +34,41 @@ namespace Unicoen.Core.ModelFactories {
 					(UnifiedUnaryOperator)op2Kind[node.FirstElement().Value].DeepCopy());
 		}
 
+		public static IUnifiedExpression CreateBinaryExpressionForRightAssociation(
+				XElement node,
+				Func<XElement, IUnifiedExpression> firstCreateExpression,
+				Func<XElement, IUnifiedExpression> otherCreateExpression,
+				IDictionary<string, UnifiedBinaryOperator> op2Kind) {
+			var nodes = node.Elements().OddIndexElements().ToList();
+			var count = nodes.Count;
+			if (count == 1)
+				return firstCreateExpression(nodes[0]);
+			if (count == 2)
+				return UnifiedBinaryExpression.Create(
+					firstCreateExpression(nodes[0]),
+					(UnifiedBinaryOperator)op2Kind[nodes[0].NextElement().Value].DeepCopy(),
+					otherCreateExpression(nodes[1]));
+				var seed = UnifiedBinaryExpression.Create(
+					otherCreateExpression(nodes[count - 2]),
+					(UnifiedBinaryOperator)op2Kind[nodes[count - 2].NextElement().Value].DeepCopy(),
+					otherCreateExpression(nodes[count - 1]));
+			for (int i = nodes.Count - 2; i >= 0; i--) {
+				seed = UnifiedBinaryExpression.Create(
+						otherCreateExpression(nodes[count - 2]),
+						(UnifiedBinaryOperator)
+					op2Kind[nodes[count - 2].NextElement().Value].DeepCopy(),
+						seed);
+
+			}
+			
+			return nodes.Skip(1).Aggregate(
+					firstCreateExpression(nodes.First()),
+					(e, n) => UnifiedBinaryExpression.Create(
+							e,
+							(UnifiedBinaryOperator)op2Kind[n.PreviousElement().Value].DeepCopy(),
+							otherCreateExpression(n)));
+		}
+
 		public static IUnifiedExpression CreateBinaryExpression(
 				XElement node,
 				Func<XElement, IUnifiedExpression> firstCreateExpression,

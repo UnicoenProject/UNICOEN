@@ -24,7 +24,7 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   辞書リテラルを表します．
 	/// </summary>
-	internal class UnifiedDictonary : UnifiedElement, IUnifiedExpression {
+	public class UnifiedDictonary : UnifiedElement, IUnifiedExpression {
 		private UnifiedKeyValueCollection _keyValues;
 
 		/// <summary>

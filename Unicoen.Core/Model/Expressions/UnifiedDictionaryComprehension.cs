@@ -36,12 +36,12 @@ namespace Unicoen.Core.Model {
 			set { _element = SetParentOfChild(value, _element); }
 		}
 
-		private UnifiedKeyValueCollection _generator;
+		private UnifiedExpressionCollection _generator;
 
 		/// <summary>
 		///   辞書内包表記の集合を生成する式を表します．
 		/// </summary>
-		public UnifiedKeyValueCollection Generator {
+		public UnifiedExpressionCollection Generator {
 			get { return _generator; }
 			set { _generator = SetParentOfChild(value, _generator); }
 		}
@@ -73,7 +73,7 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Element, v => Element = (UnifiedKeyValue)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Generator, v => Generator = (UnifiedKeyValueCollection)v);
+					(Generator, v => Generator = (UnifiedExpressionCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -81,12 +81,12 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_element, v => _element = (UnifiedKeyValue)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_generator, v => _generator = (UnifiedKeyValueCollection)v);
+					(_generator, v => _generator = (UnifiedExpressionCollection)v);
 		}
 
 		public static UnifiedDictionaryComprehension Create(
 				UnifiedKeyValue element,
-				UnifiedKeyValueCollection generator) {
+				UnifiedExpressionCollection generator) {
 			return new UnifiedDictionaryComprehension {
 					Element = element,
 					Generator = generator,

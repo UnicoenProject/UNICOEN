@@ -259,6 +259,34 @@ namespace Unicoen.Languages.CSharp {
 			throw new NotImplementedException();
 		}
 
+		public void Visit(UnifiedList element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedKeyValue element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedDictionaryComprehension element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedKeyValueCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedDictonary element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedSlice element) {
+			throw new NotImplementedException();
+		}
+
+		public void Visit(UnifiedComment element) {
+			throw new NotImplementedException();
+		}
+
 		public string GetKeyword(UnifiedSpecialExpressionKind kind) {
 			switch (kind) {
 			case UnifiedSpecialExpressionKind.Break:
