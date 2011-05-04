@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Tests", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator", "Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj", "{87A5C023-95DB-40D4-A638-28D578D06572}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator.Tests", "Unicoen.Apps.Translator.Tests\Unicoen.Apps.Translator.Tests.csproj", "{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -338,6 +340,18 @@ Global
 		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Win32.ActiveCfg = Release|x86
 		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|x86.ActiveCfg = Release|x86
 		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|x86.Build.0 = Release|x86
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
