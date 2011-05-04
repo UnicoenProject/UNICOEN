@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 
 namespace Unicoen.Languages.CSharp {
-	public class CSharpCodeFactory {
+	public class CSharpFactory {
 	}
 }

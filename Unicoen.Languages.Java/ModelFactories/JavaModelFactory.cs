@@ -28,5 +28,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var ast = JavaCodeToXml.Instance.Generate(code);
 			return JavaModelFactoryHelper.CreateCompilationUnit(ast);
 		}
+
+		public new static UnifiedProgram Generate(string code) {
+			return null;
+		}
 	}
 }
