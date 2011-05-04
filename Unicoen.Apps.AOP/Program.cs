@@ -15,8 +15,7 @@ namespace Unicoen.Apps.AOP {
 		public static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
 			case ".cs":
-				//return CSharpModelFactory.CreateModel(code);
-				throw new NotImplementedException();
+				return CSharpFactory.GenerateModel(code);
 			case ".java":
 				return JavaModelFactory.Instance.Generate(code);
 			}

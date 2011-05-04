@@ -73,8 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CSharpCodeFactory.cs" />
-    <Compile Include="CSharpModelFactory.cs" />
+    <Compile Include="CodeFactories\CSharpCodeFactory.cs" />
+    <Compile Include="CSharpFactory.cs" />
+    <Compile Include="ModelFactories\CSharpModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
