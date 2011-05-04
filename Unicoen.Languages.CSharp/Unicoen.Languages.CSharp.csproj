@@ -75,10 +75,7 @@
   <ItemGroup>
     <Compile Include="CSharpCodeFactory.cs" />
     <Compile Include="CSharpModelFactory.cs" />
-    <Compile Include="CSharpModelFactoryHelper.cs" />
-    <Compile Include="Translator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Translator.Helper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
