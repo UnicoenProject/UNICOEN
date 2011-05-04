@@ -84,6 +84,13 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedUsing element);
 		void Visit(UnifiedListComprehension element);
 		void Visit(UnifiedIfExpression element);
+		void Visit(UnifiedList element);
+		void Visit(UnifiedKeyValue element);
+		void Visit(UnifiedDictionaryComprehension element);
+		void Visit(UnifiedKeyValueCollection element);
+		void Visit(UnifiedDictonary element);
+		void Visit(UnifiedSlice element);
+		void Visit(UnifiedComment element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -151,6 +158,13 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedUsing element, TState state);
 		void Visit(UnifiedListComprehension element, TState state);
 		void Visit(UnifiedIfExpression element, TState state);
+		void Visit(UnifiedList element, TState state);
+		void Visit(UnifiedKeyValue element, TState state);
+		void Visit(UnifiedDictionaryComprehension element, TState state);
+		void Visit(UnifiedKeyValueCollection element, TState state);
+		void Visit(UnifiedDictonary element, TState state);
+		void Visit(UnifiedSlice element, TState state);
+		void Visit(UnifiedComment element, TState state);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -218,5 +232,12 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedUsing element, TState state);
 		TResult Visit(UnifiedListComprehension element, TState state);
 		TResult Visit(UnifiedIfExpression element, TState state);
+		TResult Visit(UnifiedList element, TState state);
+		TResult Visit(UnifiedKeyValue element, TState state);
+		TResult Visit(UnifiedDictionaryComprehension element, TState state);
+		TResult Visit(UnifiedKeyValueCollection element, TState state);
+		TResult Visit(UnifiedDictonary element, TState state);
+		TResult Visit(UnifiedSlice element, TState state);
+		TResult Visit(UnifiedComment element, TState state);
 	}
 }

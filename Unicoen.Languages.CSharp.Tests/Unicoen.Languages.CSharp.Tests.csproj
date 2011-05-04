@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="CSharpFixture.cs" />
     <Compile Include="CSharpModelFeatureTest.cs" />
-    <Compile Include="CSharpRegenerateTest.cs" />
+    <Compile Include="CSharpRegeunerateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

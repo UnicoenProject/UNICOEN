@@ -22,25 +22,20 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   配列の添え字を表します。
-	///   e.g. Javaにおける<c>int x = a[10]</c>の<c>[10]</c>
+	///   辞書リテラルを表します．
 	/// </summary>
-	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _target;
+	public class UnifiedDictonary : UnifiedElement, IUnifiedExpression {
+		private UnifiedKeyValueCollection _keyValues;
 
-		public IUnifiedExpression Target {
-			get { return _target; }
-			set { _target = SetParentOfChild(value, _target); }
+		/// <summary>
+		///   辞書を構成する要素の集合を表します．
+		/// </summary>
+		public UnifiedKeyValueCollection KeyValues {
+			get { return _keyValues; }
+			set { _keyValues = SetParentOfChild(value, _keyValues); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
-
-		public UnifiedArgumentCollection Arguments {
-			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
-		}
-
-		private UnifiedIndexer() {}
+		private UnifiedDictonary() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -58,32 +53,25 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Target;
-			yield return Arguments;
+			yield return KeyValues;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Target, v => Target = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+					(KeyValues, v => KeyValues = (UnifiedKeyValueCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_target, v => _target = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+					(_keyValues, v => _keyValues = (UnifiedKeyValueCollection)v);
 		}
 
-		public static UnifiedIndexer Create(
-				IUnifiedExpression current,
-				UnifiedArgumentCollection create) {
-			return new UnifiedIndexer {
-					Target = current,
-					Arguments = create
+		public static UnifiedDictonary Create(
+				UnifiedKeyValueCollection keyValues) {
+			return new UnifiedDictonary {
+					KeyValues = keyValues,
 			};
 		}
 	}

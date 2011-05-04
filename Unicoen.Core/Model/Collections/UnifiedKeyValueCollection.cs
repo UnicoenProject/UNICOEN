@@ -16,36 +16,16 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   二項演算子を表します。
-	///   e.g. <c>a + b</c>の<c>+</c>
-	/// </summary>
-	public class UnifiedBinaryOperator : UnifiedElement {
-		/// <summary>
-		///   演算子の識別子を表します
-		/// </summary>
-		public string Sign { get; private set; }
+	public class UnifiedKeyValueCollection
+			: UnifiedElementCollection<UnifiedKeyValue, UnifiedKeyValueCollection> {
+		private UnifiedKeyValueCollection() {}
 
-		/// <summary>
-		///   演算子の種類を表します
-		/// </summary>
-		public UnifiedBinaryOperatorKind Kind { get; private set; }
-
-		private UnifiedBinaryOperator() {}
-
-		public static UnifiedBinaryOperator Create(
-				string sign,
-				UnifiedBinaryOperatorKind kind) {
-			return new UnifiedBinaryOperator {
-					Sign = sign,
-					Kind = kind,
-			};
-		}
+		private UnifiedKeyValueCollection(IEnumerable<UnifiedKeyValue> elements)
+				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -62,18 +42,18 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield break;
+		public static UnifiedKeyValueCollection Create() {
+			return new UnifiedKeyValueCollection();
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield break;
+		public static UnifiedKeyValueCollection Create(
+				params UnifiedKeyValue[] elements) {
+			return new UnifiedKeyValueCollection(elements);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield break;
+		public static UnifiedKeyValueCollection Create(
+				IEnumerable<UnifiedKeyValue> elements) {
+			return new UnifiedKeyValueCollection(elements);
 		}
-	}
+			}
 }

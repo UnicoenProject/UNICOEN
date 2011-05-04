@@ -22,42 +22,44 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   実引数を表します。
-	///   e.g. Javaにおける<c>method(a, b, c)</c>の<c>a</c>
+	///   スライス表記を表します．
+	///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>
 	/// </summary>
-	public class UnifiedArgument : UnifiedElement {
-		private UnifiedModifierCollection _modifiers;
+	public class UnifiedSlice : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _start;
 
 		/// <summary>
-		///   実引数の修飾子を表します．
-		///   e.g. C#における<code>method(out v);</code>の<code>out</code>
+		///   開始インデックスを表します．
+		///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>0</c>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
-			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+		public IUnifiedExpression Start {
+			get { return _start; }
+			set { _start = SetParentOfChild(value, _start); }
 		}
 
-		private IUnifiedExpression _value;
+		private IUnifiedExpression _end;
 
 		/// <summary>
-		/// 実引数の値を表します．
+		///   終了インデックスを表します．
+		///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>10</c>
 		/// </summary>
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+		public IUnifiedExpression End {
+			get { return _end; }
+			set { _end = SetParentOfChild(value, _end); }
 		}
 
-		private IUnifiedExpression _target;
+		private IUnifiedExpression _step;
 
 		/// <summary>
-		/// 実引数の値を表します．
+		///   ステップを表します．
+		///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>2</c>
 		/// </summary>
-		public IUnifiedExpression Target {
-			get { return _target; }
-			set { _target = SetParentOfChild(Target, _target); }
+		public IUnifiedExpression Step {
+			get { return _step; }
+			set { _step = SetParentOfChild(value, _step); }
 		}
 
-		private UnifiedArgument() {}
+		private UnifiedSlice() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -75,45 +77,40 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Modifiers;
-			yield return Value;
-			yield return Target;
+			yield return Start;
+			yield return End;
+			yield return Step;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(Start, v => Start = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Value, v => Value = (IUnifiedExpression)v);
+					(End, v => End = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Target, v => Target = (IUnifiedExpression)v);
+					(Step, v => Step = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(_start, v => _start = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_value, v => _value = (IUnifiedExpression)v);
+					(_end, v => _end = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_target, v => _target = (IUnifiedExpression)v);
+					(_step, v => _step = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedArgument Create(UnifiedModifierCollection modifiers, IUnifiedExpression value, IUnifiedExpression target) {
-			return new UnifiedArgument {
-					Modifiers = modifiers,
-					Value = value,
-					Target = target,
+		public static UnifiedSlice Create(
+				IUnifiedExpression initializer,
+				IUnifiedExpression condition,
+				IUnifiedExpression step) {
+			return new UnifiedSlice {
+					Start = initializer,
+					End = condition,
+					Step = step,
 			};
-		}
-
-		public static UnifiedArgument Create(UnifiedModifierCollection modifiers, IUnifiedExpression value) {
-			return Create(modifiers, value, null);
-		}
-
-		public static UnifiedArgument Create(IUnifiedExpression value) {
-			return Create(null, value, null);
 		}
 	}
 }

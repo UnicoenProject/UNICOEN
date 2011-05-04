@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _value;
 
 		/// <summary>
-		/// caseの分岐に使用される式を表します
-		/// e.g. Javaにおける<c>switch(v){...}</c>の<c>v</c>
+		///   caseの分岐に使用される式を表します
+		///   e.g. Javaにおける<c>switch(v){...}</c>の<c>v</c>
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
@@ -40,14 +40,14 @@ namespace Unicoen.Core.Model {
 		private UnifiedCaseCollection _cases;
 
 		/// <summary>
-		/// switch文に付随するcase節の集合を表します
+		///   switch文に付随するcase節の集合を表します
 		/// </summary>
 		public UnifiedCaseCollection Cases {
 			get { return _cases; }
 			set { _cases = SetParentOfChild(value, _cases); }
 		}
 
-		private UnifiedSwitch() { }
+		private UnifiedSwitch() {}
 
 		public UnifiedSwitch AddToCases(UnifiedCase kase) {
 			Cases.Add(kase);

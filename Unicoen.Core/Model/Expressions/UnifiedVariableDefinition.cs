@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		/// 変数に付随する修飾子の集合を表します
-		/// e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
+		///   変数に付随する修飾子の集合を表します
+		///   e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		/// 変数の型を表します
-		/// e.g. Javaにおける<c>public static int a</c>の<c>int</c>
+		///   変数の型を表します
+		///   e.g. Javaにおける<c>public static int a</c>の<c>int</c>
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
@@ -55,7 +55,7 @@ namespace Unicoen.Core.Model {
 			set { _bodys = SetParentOfChild(value, _bodys); }
 		}
 
-		private UnifiedVariableDefinition() { }
+		private UnifiedVariableDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

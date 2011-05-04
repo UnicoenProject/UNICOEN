@@ -227,10 +227,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				}
 			}
 			var body = CreateClassBody(node.Element("classBody"));
-			return UnifiedClassDefinition.Create(
-					modifiers, UnifiedClassKind.Class, name,
-					typeParameters,
-					constrains, body);
+			return UnifiedClassDefinition.Create(UnifiedClassKind.Class, modifiers,
+					name,
+					typeParameters, constrains, body);
 		}
 
 		public static UnifiedTypeParameterCollection CreateTypeParameters(
@@ -291,13 +290,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                 		  		.ToCollection()
 			                 		: null;
 			var enumBody = CreateEnumBody(node.Element("enumBody"));
-			return UnifiedClassDefinition.Create(
+			return UnifiedClassDefinition.Create(UnifiedClassKind.Enum,
 					modifiers,
-					UnifiedClassKind.Enum,
 					UnifiedIdentifier.CreateType(name),
 					null,
-					constrains,
-					enumBody);
+					constrains, enumBody);
 		}
 
 		public static UnifiedBlock CreateEnumBody(XElement node) {
@@ -413,9 +410,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var body = CreateInterfaceBody(node.Element("interfaceBody"));
 
 			//TODO UnifiedClassDefinitionのCreateの整理
-			return UnifiedClassDefinition.Create(
-					modifiers, UnifiedClassKind.Interface,
-					name, typeParameters, constrains, body);
+			return UnifiedClassDefinition.Create(UnifiedClassKind.Interface,
+					modifiers, name, typeParameters, constrains, body);
 		}
 
 		public static IEnumerable<UnifiedType> CreateTypeList(XElement node) {

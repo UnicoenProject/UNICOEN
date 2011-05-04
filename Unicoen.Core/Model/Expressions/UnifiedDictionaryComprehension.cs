@@ -22,25 +22,31 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   配列の添え字を表します。
-	///   e.g. Javaにおける<c>int x = a[10]</c>の<c>[10]</c>
+	///   辞書内包表記を表します．
 	/// </summary>
-	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _target;
+	public class UnifiedDictionaryComprehension
+			: UnifiedElement, IUnifiedExpression {
+		private UnifiedKeyValue _element;
 
-		public IUnifiedExpression Target {
-			get { return _target; }
-			set { _target = SetParentOfChild(value, _target); }
+		/// <summary>
+		///   辞書内包表記によって生成される要素部分の式を表します．
+		/// </summary>
+		public UnifiedKeyValue Element {
+			get { return _element; }
+			set { _element = SetParentOfChild(value, _element); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
+		private UnifiedExpressionCollection _generator;
 
-		public UnifiedArgumentCollection Arguments {
-			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+		/// <summary>
+		///   辞書内包表記の集合を生成する式を表します．
+		/// </summary>
+		public UnifiedExpressionCollection Generator {
+			get { return _generator; }
+			set { _generator = SetParentOfChild(value, _generator); }
 		}
 
-		private UnifiedIndexer() {}
+		private UnifiedDictionaryComprehension() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -58,33 +64,33 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Target;
-			yield return Arguments;
+			yield return Element;
+			yield return Generator;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Target, v => Target = (IUnifiedExpression)v);
+					(Element, v => Element = (UnifiedKeyValue)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+					(Generator, v => Generator = (UnifiedExpressionCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_target, v => _target = (IUnifiedExpression)v);
+					(_element, v => _element = (UnifiedKeyValue)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+					(_generator, v => _generator = (UnifiedExpressionCollection)v);
 		}
 
-		public static UnifiedIndexer Create(
-				IUnifiedExpression current,
-				UnifiedArgumentCollection create) {
-			return new UnifiedIndexer {
-					Target = current,
-					Arguments = create
+		public static UnifiedDictionaryComprehension Create(
+				UnifiedKeyValue element,
+				UnifiedExpressionCollection generator) {
+			return new UnifiedDictionaryComprehension {
+					Element = element,
+					Generator = generator,
 			};
 		}
-	}
+			}
 }

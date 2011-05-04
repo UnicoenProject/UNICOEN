@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>
-		/// catch節内の仮引数の集合を表します
-		/// e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
+		///   catch節内の仮引数の集合を表します
+		///   e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
 		/// </summary>
 		public UnifiedMatcherCollection Matchers {
 			get { return _matchers; }

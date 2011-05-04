@@ -29,7 +29,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _name;
 
 		/// <summary>
-		/// 型の名前を表します
+		///   型の名前を表します．
+		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
 		/// </summary>
 		public IUnifiedExpression Name {
 			get { return _name; }
@@ -39,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedTypeArgumentCollection _arguments;
 
 		/// <summary>
-		/// ジェネリックタイプにおける実引数の集合を表します
-		/// e.g. Javaにおける<c>HashMap&ltInteger, String&gt</c>の<c>Integer, String</c>
+		///   ジェネリックタイプにおける実引数の集合を表します
+		///   e.g. Javaにおける<c>HashMap&ltInteger, String&gt</c>の<c>Integer, String</c>
 		/// </summary>
 		public UnifiedTypeArgumentCollection Arguments {
 			get { return _arguments; }
@@ -59,7 +60,7 @@ namespace Unicoen.Core.Model {
 			set { _supplements = SetParentOfChild(value, _supplements); }
 		}
 
-		private UnifiedType() { }
+		private UnifiedType() {}
 
 		public UnifiedType AddToParameters(IUnifiedExpression expression) {
 			Arguments.Add(expression.ToTypeParameter());

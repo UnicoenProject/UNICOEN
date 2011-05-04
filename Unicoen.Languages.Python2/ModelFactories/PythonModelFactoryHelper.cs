@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
+using Mocomoco.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
@@ -29,7 +30,9 @@ using Unicoen.Core.ModelFactories;
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public static class PythonModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
-		public static Dictionary<string, UnifiedUnaryOperator> Sign2PrefixUnaryOperator;
+
+		public static Dictionary<string, UnifiedUnaryOperator>
+				Sign2PrefixUnaryOperator;
 
 		static PythonModelFactoryHelper() {
 			Sign2BinaryOperator =
@@ -242,7 +245,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * expr_stmt: testlist (augassign (yield_expr|testlist) |
 			 *								  ('=' (yield_expr|testlist))*)
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return ModelFactoryHelper.CreateBinaryExpressionForRightAssociation(
+					node,
+					e => CreateTestlist(e).ToTupleLiteral(),
+					e => e.Name() == "yield_expr"
+						? CreateYield_expr(e)
+						: CreateTestlist(e).ToTupleLiteral(),
+					Sign2BinaryOperator);
 		}
 
 		public static IUnifiedElement CreateAugassign(XElement node) {
@@ -384,7 +393,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.Select(CreateTestlist)
 					.FirstOrDefault();
 			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Return, testlist.ToExpressionList());
+					UnifiedSpecialExpressionKind.Return, testlist.ToTupleLiteral());
 		}
 
 		public static IUnifiedExpression CreateYield_stmt(XElement node) {
@@ -610,7 +619,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var suite = CreateSuite(node.Element("suite"));
 			var elseSuite = node.HasElementByContent("else")
 			                		? CreateSuite(node.LastElement())
-									: null;
+			                		: null;
 			return UnifiedWhile.Create(test, suite, elseSuite);
 		}
 
@@ -625,7 +634,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var suite = CreateSuite(node.Element("suite"));
 			var elseSuite = node.HasElementByContent("else")
 			                		? CreateSuite(node.LastElement())
-									: null;
+			                		: null;
 			return UnifiedForeach.Create(
 					UnifiedVariableDefinition.Create(
 							null,
@@ -634,7 +643,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 									e =>
 									UnifiedVariableDefinitionBody.Create((UnifiedIdentifier)e))
 									.ToCollection()),
-					testlist.ToExpressionList(),
+					testlist.ToTupleLiteral(),
 					suite,
 					elseSuite);
 		}
@@ -666,8 +675,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var finallySuiteNode = node.ElementByContent("finally")
 					.SafeNextElement(1);
 			var finallySuite = finallySuiteNode != null
-			                		? CreateSuite(finallySuiteNode)
-			                		: null;
+			                   		? CreateSuite(finallySuiteNode)
+			                   		: null;
 			return UnifiedTry.Create(trySuite, catches, elseSuite, finallySuite);
 		}
 
@@ -713,8 +722,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			                		: null;
 			var lastTestNode = node.NthElementOrDefault(3);
 			var lastTest = lastTestNode != null
-			                		? CreateTest(lastTestNode)
-			                		: null;
+			               		? CreateTest(lastTestNode)
+			               		: null;
 			return UnifiedMatcher.Create(firstTest, lastTest);
 		}
 
@@ -732,7 +741,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.ToBlock();
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateTestlist_safe(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateTestlist_safe(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist_safe");
 			/*
@@ -830,6 +840,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			return ModelFactoryHelper.CreateBinaryExpression(
 					node, CreateExpr, Sign2BinaryOperator);
 		}
+
 		public static IUnifiedExpression CreateExpr(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expr");
@@ -909,11 +920,15 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * power: atom trailer* ['**' factor]
 			 */
-			var last = node.LastElement();
-			if (last.Name() == "factor") {
-				
-			}
-			throw new NotImplementedException(); //TODO: implement
+			var atom = CreateAtom(node.FirstElement());
+			var left = node.Elements("trailer")
+					.Aggregate(atom, CreateTrailer);
+			var lastNode = node.LastElement();
+			if (lastNode.Name() != "factor")
+				return left;
+			return UnifiedBinaryExpression.Create(
+					left, UnifiedBinaryOperator.Create("**", UnifiedBinaryOperatorKind.Power),
+					CreateFactor(lastNode));
 		}
 
 		public static IUnifiedExpression CreateAtom(XElement node) {
@@ -935,7 +950,15 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * listmaker: test ( list_for | (',' test)* [','] )
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var list_forNode = node.Element("list_for");
+			if (list_forNode == null) {
+				return node.Elements("test")
+						.Select(CreateTest)
+						.ToListLiteral();
+			}
+			return UnifiedListComprehension.CreateList(
+					CreateTest(node.FirstElement()),
+					CreateComp_for(list_forNode).ToCollection());
 		}
 
 		public static IUnifiedExpression CreateTestlist_comp(XElement node) {
@@ -944,7 +967,15 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * testlist_comp: test ( comp_for | (',' test)* [','] )
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var comp_forNode = node.Element("comp_for");
+			if (comp_forNode == null) {
+				return node.Elements("test")
+						.Select(CreateTest)
+						.ToTupleLiteral();
+			}
+			return UnifiedListComprehension.CreateLazyList(
+					CreateTest(node.FirstElement()),
+					CreateComp_for(comp_forNode).ToCollection());
 		}
 
 		public static IUnifiedExpression CreateLambdef(XElement node) {
@@ -962,13 +993,25 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					);
 		}
 
-		public static IUnifiedExpression CreateTrailer(XElement node) {
+		public static IUnifiedExpression CreateTrailer(
+				IUnifiedExpression prefix, XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "trailer");
 			/*
 			 * trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var second = node.NthElement(1);
+			switch (node.FirstElement().Value) {
+			case "(":
+				return UnifiedCall.Create(prefix, CreateArglist(second));
+			case "[":
+				return UnifiedIndexer.Create(
+						prefix, CreateSubscriptlist(second).ToArgument().ToCollection());
+			case ".":
+				return UnifiedProperty.Create(prefix, node.LastElement().Value, ".");
+			default:
+				throw new IndexOutOfRangeException();
+			}
 		}
 
 		public static IUnifiedExpression CreateSubscriptlist(XElement node) {
@@ -977,7 +1020,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * subscriptlist: subscript (',' subscript)* [',']
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var subscripts = node.Elements("subscript")
+					.Select(CreateSubscript)
+					.ToList();
+			return subscripts.Count > 1
+			       		? UnifiedList.CreateTuple(subscripts.ToCollection())
+			       		: subscripts[0];
 		}
 
 		public static IUnifiedExpression CreateSubscript(XElement node) {
@@ -986,7 +1034,24 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * subscript: '.' '.' '.' | test | [test] ':' [test] [sliceop]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			if (node.HasElementByContent("."))
+				return UnifiedIdentifier.CreateVariable("...");
+			var colon = node.ElementByContent(":");
+			if (colon == null)
+				return CreateTest(node.FirstElement());
+			var firstTestNode = colon.PreviousElementOrDefault();
+			var firstTest = firstTestNode != null
+			                		? CreateTest(firstTestNode)
+			                		: null;
+			var secondTestNode = colon.NextElementOrDefault("test");
+			var secondTest = secondTestNode != null
+			                 		? CreateTest(secondTestNode)
+			                 		: null;
+			var lastTestNode = node.Element("sliceop");
+			var lastTest = lastTestNode != null
+			               		? CreateSliceop(lastTestNode)
+			               		: null;
+			return UnifiedSlice.Create(firstTest, secondTest, lastTest);
 		}
 
 		public static IUnifiedExpression CreateSliceop(XElement node) {
@@ -995,7 +1060,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * sliceop: ':' [test]
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var testNode = node.Element("test");
+			return testNode != null
+			       		? CreateTest(testNode)
+			       		: null;
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateExprlist(XElement node) {
@@ -1022,9 +1090,34 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dictorsetmaker");
 			/*
-			 * dictorsetmaker: ( (test ':' test (comp_for | (',' test ':' test)* [','])) |
+			 * dictorsetmaker: (
+			 *					 (test ':' test (comp_for | (',' test ':' test)* [',']))
+			 *				   | (test (comp_for | (',' test)* [',']))
+			 *				   )
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var comp_forNode = node.Element("comp_for");
+			if (node.NthElement(1).Value == ":") {
+				if (comp_forNode == null) {
+					return node.Elements("test")
+							.Select(CreateTest)
+							.Split2()
+							.Select(UnifiedKeyValue.Create)
+							.ToCollection();
+				}
+				return UnifiedDictionaryComprehension.Create(
+						UnifiedKeyValue.Create(
+								CreateTest(node.NthElement(0)),
+								CreateTest(node.NthElement(2))),
+						CreateComp_for(comp_forNode).ToCollection());
+			}
+			if (comp_forNode == null) {
+				return node.Elements("test")
+						.Select(CreateTest)
+						.ToSetLiteral();
+			}
+			return UnifiedListComprehension.CreateSet(
+					CreateTest(node.FirstElement()),
+					CreateComp_for(comp_forNode).ToCollection());
 		}
 
 		public static IUnifiedExpression CreateClassdef(XElement node) {
@@ -1033,25 +1126,57 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * classdef: 'class' NAME ['(' [testlist] ')'] ':' suite
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var testlistNodes = node.Element("testlist");
+			var testlist = testlistNodes != null
+			               		? CreateTestlist(testlistNodes)
+			               		  		.Select(
+			               		  				e => UnifiedTypeConstrain.CreateExtendsOrImplements(
+			               		  						UnifiedType.Create(e, null, null)))
+			               		  		.ToCollection()
+			               		: null;
+			return UnifiedClassDefinition.CreateClass(
+					node.NthElement(1).Value,
+					testlist,
+					CreateSuite(node.LastElement()));
 		}
 
-		public static IUnifiedElement CreateArglist(XElement node) {
+		public static UnifiedArgumentCollection CreateArglist(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arglist");
 			/*
 			 * arglist: (argument ',')* (argument [',']
+             *							  |'*' test (',' argument)* [',' '**' test] 
+             *							  |'**' test)
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements()
+					.Where(e => e.Name() == "argument" || e.Name() == "test")
+					.Select(
+							e => e.Name() == "argument"
+							     		? CreateArgument(e)
+							     		: UnifiedArgument.Create(
+							     				UnifiedModifier.Create(
+							     						e.PreviousElement().Value).
+							     						ToCollection(),
+							     				CreateTest(e)))
+					.ToCollection();
 		}
 
-		public static IUnifiedElement CreateArgument(XElement node) {
+		public static UnifiedArgument CreateArgument(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "argument");
 			/*
 			 * argument: test [comp_for] | test '=' test
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			var test = CreateTest(node.FirstElement());
+			var second = node.NthElementOrDefault(1);
+			if (second == null)
+				return UnifiedArgument.Create(test);
+			if (second.Value == "=")
+				return UnifiedArgument.Create(
+						null, test, CreateTest(node.LastElement()));
+			return UnifiedArgument.Create(
+					UnifiedListComprehension.CreateLazyList(
+							test, CreateComp_for(second).ToCollection()));
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateList_iter(XElement node) {
@@ -1061,9 +1186,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * list_iter: list_for | list_if
 			 */
 			var first = node.FirstElement();
-			if (first.Name() == "list_for")
-				return CreateList_for(first);
-			return CreateList_if(first);
+			return first.Name() == "list_for"
+			       		? CreateList_for(first)
+			       		: CreateList_if(first);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateList_for(XElement node) {
@@ -1172,7 +1297,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			if (node.Elements().Count() == 1)
 				return UnifiedSpecialExpression.CreateYieldReturn();
 			return UnifiedSpecialExpression.CreateYieldReturn(
-					CreateTestlist(node.LastElement()).ToExpressionList());
+					CreateTestlist(node.LastElement()).ToTupleLiteral());
 		}
 	}
 }

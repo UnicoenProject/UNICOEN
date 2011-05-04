@@ -27,14 +27,16 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedClassDefinition
 			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
+		/// <summary>
+		///   種類を表します．
+		/// </summary>
 		public UnifiedClassKind Kind { get; set; }
 
-		
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		/// クラスの修飾子の集合を表します
-		/// <c>public class A{....}</c>の<c>public</c>
+		///   クラスの修飾子の集合を表します
+		///   <c>public class A{....}</c>の<c>public</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -62,7 +64,7 @@ namespace Unicoen.Core.Model {
 			set { _constrains = SetParentOfChild(value, _constrains); }
 		}
 
-		private UnifiedClassDefinition() { }
+		private UnifiedClassDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -116,38 +118,40 @@ namespace Unicoen.Core.Model {
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedClassDefinition Create(
-				IUnifiedExpression name,
-				UnifiedBlock body,
-				UnifiedModifierCollection
-						modifiers, UnifiedClassKind kind) {
-			return new UnifiedClassDefinition {
-					Body = body,
-					Name = name,
-					Modifiers = modifiers,
-					Kind = kind,
-			};
-		}
-
 		public static UnifiedClassDefinition CreateClass(string name) {
 			return Create(
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-					UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
-					UnifiedClassKind.Class);
+					UnifiedClassKind.Class,
+					UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type), null,
+					null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedClassDefinition CreateClass(
 				string name,
 				UnifiedBlock body) {
 			return Create(
+					UnifiedClassKind.Class,
+					UnifiedModifierCollection.Create(),
 					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-					body, UnifiedModifierCollection.Create(), UnifiedClassKind.Class);
+					null,
+					null, body);
+		}
+
+		public static UnifiedClassDefinition CreateClass(
+				string name,
+				UnifiedTypeConstrainCollection contrains,
+				UnifiedBlock body) {
+			return Create(
+					UnifiedClassKind.Class,
+					UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
+					null,
+					contrains, body);
 		}
 
 		public static UnifiedClassDefinition Create(
-				UnifiedModifierCollection modifiers, UnifiedClassKind kind,
-				IUnifiedExpression name,
-				UnifiedTypeParameterCollection typeParameters,
+				UnifiedClassKind kind, UnifiedModifierCollection modifiers,
+				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
 				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
 					Modifiers = modifiers,
@@ -160,7 +164,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateNamespace(IUnifiedExpression name) {
-			return Create(name, UnifiedBlock.Create(), null, UnifiedClassKind.Namespace);
+			return Create(
+					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
 		}
 			}
 }

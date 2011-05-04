@@ -28,15 +28,15 @@ namespace Unicoen.Core.Model {
 	public class UnifiedFunctionDefinition
 			: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
 		/// <summary>
-		/// サブルーチン定義の種類を表します．
+		///   サブルーチン定義の種類を表します．
 		/// </summary>
 		public UnifiedFunctionDefinitionKind Kind { get; set; }
 
 		private UnifiedModifierCollection _modifiers;
-		
+
 		/// <summary>
-		/// メソッドにつく修飾子の集合を表します
-		/// e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
+		///   メソッドにつく修飾子の集合を表します
+		///   e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -46,8 +46,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		/// メソッドの名前を表します
-		/// e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
+		///   メソッドの名前を表します
+		///   e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
@@ -82,7 +82,7 @@ namespace Unicoen.Core.Model {
 			set { _throws = SetParentOfChild(value, _throws); }
 		}
 
-		private UnifiedFunctionDefinition() { }
+		private UnifiedFunctionDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -239,12 +239,13 @@ namespace Unicoen.Core.Model {
 		public static UnifiedFunctionDefinition CreateFunction(
 				UnifiedModifierCollection modifiers, UnifiedType type, string name,
 				UnifiedParameterCollection parameters, UnifiedBlock body) {
-			return CreateFunction(modifiers,
-				type,
-				name,
-				parameters,
-				null,
-				body);
+			return CreateFunction(
+					modifiers,
+					type,
+					name,
+					parameters,
+					null,
+					body);
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(
