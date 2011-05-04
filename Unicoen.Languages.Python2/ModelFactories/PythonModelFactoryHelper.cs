@@ -245,7 +245,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * expr_stmt: testlist (augassign (yield_expr|testlist) |
 			 *								  ('=' (yield_expr|testlist))*)
 			 */
-			ModelFactoryHelper.CreateBinaryExpression(
+			return ModelFactoryHelper.CreateBinaryExpressionForRightAssociation(
 					node,
 					e => CreateTestlist(e).ToTupleLiteral(),
 					e => e.Name() == "yield_expr"

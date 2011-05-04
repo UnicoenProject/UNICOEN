@@ -26,6 +26,13 @@ using Unicoen.Core.Model;
 
 namespace Unicoen.Core.ModelFactories {
 	public static class ModelFactoryHelper {
+		/// <summary>
+		///   指定したXMLノードから演算子が項の前に付くUnaryExpressionを作成します．
+		/// </summary>
+		/// <param name = "node"></param>
+		/// <param name = "createExpression"></param>
+		/// <param name = "op2Kind"></param>
+		/// <returns></returns>
 		public static IUnifiedExpression CreatePrefixUnaryExpression(
 				XElement node, Func<XElement, IUnifiedExpression> createExpression,
 				IDictionary<string, UnifiedUnaryOperator> op2Kind) {
@@ -34,41 +41,61 @@ namespace Unicoen.Core.ModelFactories {
 					(UnifiedUnaryOperator)op2Kind[node.FirstElement().Value].DeepCopy());
 		}
 
+		/// <summary>
+		///   指定したXMLノードから右結合のBinaryExpressionを作成します．
+		/// </summary>
+		/// <param name = "node"></param>
+		/// <param name = "firstCreateExpression"></param>
+		/// <param name = "otherCreateExpression"></param>
+		/// <param name = "op2Kind"></param>
+		/// <returns></returns>
 		public static IUnifiedExpression CreateBinaryExpressionForRightAssociation(
 				XElement node,
 				Func<XElement, IUnifiedExpression> firstCreateExpression,
 				Func<XElement, IUnifiedExpression> otherCreateExpression,
 				IDictionary<string, UnifiedBinaryOperator> op2Kind) {
 			var nodes = node.Elements().OddIndexElements().ToList();
-			var count = nodes.Count;
-			if (count == 1)
-				return firstCreateExpression(nodes[0]);
-			if (count == 2)
-				return UnifiedBinaryExpression.Create(
-					firstCreateExpression(nodes[0]),
-					(UnifiedBinaryOperator)op2Kind[nodes[0].NextElement().Value].DeepCopy(),
-					otherCreateExpression(nodes[1]));
-				var seed = UnifiedBinaryExpression.Create(
-					otherCreateExpression(nodes[count - 2]),
-					(UnifiedBinaryOperator)op2Kind[nodes[count - 2].NextElement().Value].DeepCopy(),
-					otherCreateExpression(nodes[count - 1]));
-			for (int i = nodes.Count - 2; i >= 0; i--) {
+			var count = nodes.Count - 1;
+			var seed = otherCreateExpression(nodes[count]);
+			for (count--; count >= 0; count--) {
+				var n = nodes[count];
 				seed = UnifiedBinaryExpression.Create(
-						otherCreateExpression(nodes[count - 2]),
+						count > 0
+								? otherCreateExpression(n)
+								: firstCreateExpression(n),
 						(UnifiedBinaryOperator)
-					op2Kind[nodes[count - 2].NextElement().Value].DeepCopy(),
+						op2Kind[n.NextElement().Value].DeepCopy(),
 						seed);
-
 			}
-			
-			return nodes.Skip(1).Aggregate(
-					firstCreateExpression(nodes.First()),
-					(e, n) => UnifiedBinaryExpression.Create(
-							e,
-							(UnifiedBinaryOperator)op2Kind[n.PreviousElement().Value].DeepCopy(),
-							otherCreateExpression(n)));
+			return seed;
 		}
 
+		/// <summary>
+		///   指定したXMLノードから右結合のBinaryExpressionを作成します．
+		/// </summary>
+		/// <param name = "node"></param>
+		/// <param name = "createExpression"></param>
+		/// <param name = "op2Kind"></param>
+		/// <returns></returns>
+		public static IUnifiedExpression CreateBinaryExpressionForRightAssociation(
+				XElement node,
+				Func<XElement, IUnifiedExpression> createExpression,
+				IDictionary<string, UnifiedBinaryOperator> op2Kind) {
+			return CreateBinaryExpressionForRightAssociation(
+					node,
+					createExpression,
+					createExpression,
+					op2Kind);
+		}
+
+		/// <summary>
+		///   指定したXMLノードから左結合のBinaryExpressionを作成します．
+		/// </summary>
+		/// <param name = "node"></param>
+		/// <param name = "firstCreateExpression"></param>
+		/// <param name = "otherCreateExpression"></param>
+		/// <param name = "op2Kind"></param>
+		/// <returns></returns>
 		public static IUnifiedExpression CreateBinaryExpression(
 				XElement node,
 				Func<XElement, IUnifiedExpression> firstCreateExpression,
@@ -83,6 +110,13 @@ namespace Unicoen.Core.ModelFactories {
 							otherCreateExpression(n)));
 		}
 
+		/// <summary>
+		///   指定したXMLノードから左結合のBinaryExpressionを作成します．
+		/// </summary>
+		/// <param name = "node"></param>
+		/// <param name = "createExpression"></param>
+		/// <param name = "op2Kind"></param>
+		/// <returns></returns>
 		public static IUnifiedExpression CreateBinaryExpression(
 				XElement node,
 				Func<XElement, IUnifiedExpression> createExpression,
@@ -91,6 +125,10 @@ namespace Unicoen.Core.ModelFactories {
 					node, createExpression, createExpression, op2Kind);
 		}
 
+		/// <summary>
+		///   二項演算子の文字列からUnifiedBinaryOperatorへの標準的な辞書を作成します．
+		/// </summary>
+		/// <returns></returns>
 		public static Dictionary<string, UnifiedBinaryOperator>
 				CreateBinaryOperatorDictionary() {
 			var dict = new[] {
@@ -119,7 +157,8 @@ namespace Unicoen.Core.ModelFactories {
 					UnifiedBinaryOperator.Create("==", UnifiedBinaryOperatorKind.Equal),
 					UnifiedBinaryOperator.Create("!=", UnifiedBinaryOperatorKind.NotEqual),
 					UnifiedBinaryOperator.Create("<>", UnifiedBinaryOperatorKind.NotEqual),
-					UnifiedBinaryOperator.Create("is", UnifiedBinaryOperatorKind.ReferenceEqual),
+					UnifiedBinaryOperator.Create(
+							"is", UnifiedBinaryOperatorKind.ReferenceEqual),
 					UnifiedBinaryOperator.Create("in", UnifiedBinaryOperatorKind.In),
 					// Logocal
 					UnifiedBinaryOperator.Create("&&", UnifiedBinaryOperatorKind.AndAlso),
@@ -140,12 +179,14 @@ namespace Unicoen.Core.ModelFactories {
 					UnifiedBinaryOperator.Create(
 							"**=", UnifiedBinaryOperatorKind.PowerAssign),
 					UnifiedBinaryOperator.Create("/=", UnifiedBinaryOperatorKind.DivideAssign),
-					UnifiedBinaryOperator.Create("//=", UnifiedBinaryOperatorKind.FloorDivideAssign),
+					UnifiedBinaryOperator.Create(
+							"//=", UnifiedBinaryOperatorKind.FloorDivideAssign),
 					UnifiedBinaryOperator.Create("%=", UnifiedBinaryOperatorKind.ModuloAssign),
 					// Bit Assignment
 					UnifiedBinaryOperator.Create("&=", UnifiedBinaryOperatorKind.AndAssign),
 					UnifiedBinaryOperator.Create("|=", UnifiedBinaryOperatorKind.OrAssign),
-					UnifiedBinaryOperator.Create("^=", UnifiedBinaryOperatorKind.ExclusiveOrAssign),
+					UnifiedBinaryOperator.Create(
+							"^=", UnifiedBinaryOperatorKind.ExclusiveOrAssign),
 					// Shift Assignment
 					UnifiedBinaryOperator.Create(
 							"<<=", UnifiedBinaryOperatorKind.LogicalLeftShiftAssign),
@@ -158,11 +199,17 @@ namespace Unicoen.Core.ModelFactories {
 							"instanceof", UnifiedBinaryOperatorKind.InstanceOf),
 			}
 					.ToDictionary(o => o.Sign);
-			dict["isnot"] = UnifiedBinaryOperator.Create("is not", UnifiedBinaryOperatorKind.ReferenceNotEqual);
-			dict["notin"] = UnifiedBinaryOperator.Create("not in", UnifiedBinaryOperatorKind.NotIn);
+			dict["isnot"] = UnifiedBinaryOperator.Create(
+					"is not", UnifiedBinaryOperatorKind.ReferenceNotEqual);
+			dict["notin"] = UnifiedBinaryOperator.Create(
+					"not in", UnifiedBinaryOperatorKind.NotIn);
 			return dict;
 		}
 
+		/// <summary>
+		///   項の前に付く単項演算子の文字列からUnifiedUnaryOperatorへの標準的な辞書を作成します．
+		/// </summary>
+		/// <returns></returns>
 		public static Dictionary<string, UnifiedUnaryOperator>
 				CreatePrefixUnaryOperatorDictionaryForJava() {
 			return new[] {
