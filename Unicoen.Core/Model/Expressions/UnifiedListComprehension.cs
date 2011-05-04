@@ -1,41 +1,56 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Unicoen.Core.Visitors;
 
-namespace Unicoen.Core.Model
-{
+namespace Unicoen.Core.Model {
 	/// <summary>
-	/// リスト内包表記式もしくはジェネレータ式を表します．
+	///   リスト内包表記式もしくはジェネレータ式を表します．
 	/// </summary>
-	public class UnifiedListComprehension : UnifiedElement, IUnifiedExpression
-	{
+	public class UnifiedListComprehension : UnifiedElement, IUnifiedExpression {
 		/// <summary>
-		/// 種類を表します．
+		///   種類を表します．
 		/// </summary>
-		public UnifiedListComprehensionKind Kind { get; set; }
+		public UnifiedListKind Kind { get; set; }
 
 		private IUnifiedExpression _element;
 
 		/// <summary>
-		/// リスト内包表記によって生成される要素部分の式を表します．
+		///   リスト内包表記によって生成される要素部分の式を表します．
 		/// </summary>
 		public IUnifiedExpression Element {
 			get { return _element; }
 			set { _element = SetParentOfChild(value, _element); }
 		}
 
-		private UnifiedExpressionCollection _collection;
+		private UnifiedExpressionCollection _generator;
 
 		/// <summary>
-		/// リスト内包表記の集合部分の式を表します．
+		///   リスト内包表記の集合部分の式を表します．
 		/// </summary>
-		public UnifiedExpressionCollection Collection {
-			get { return _collection; }
-			set { _collection = SetParentOfChild(value, _collection); }
+		public UnifiedExpressionCollection Generator {
+			get { return _generator; }
+			set { _generator = SetParentOfChild(value, _generator); }
 		}
-		private UnifiedListComprehension() { }
+
+		private UnifiedListComprehension() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -54,7 +69,7 @@ namespace Unicoen.Core.Model
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Element;
-			yield return Collection;
+			yield return Generator;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -62,7 +77,7 @@ namespace Unicoen.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Element, v => Element = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Collection, v => Collection = (UnifiedExpressionCollection)v);
+					(Generator, v => Generator = (UnifiedExpressionCollection)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
@@ -70,36 +85,45 @@ namespace Unicoen.Core.Model
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_element, v => _element = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_collection, v => _collection = (UnifiedExpressionCollection)v);
+					(_generator, v => _generator = (UnifiedExpressionCollection)v);
 		}
 
 		private static UnifiedListComprehension Create(
-				UnifiedListComprehensionKind kind,
+				UnifiedListKind kind,
 				IUnifiedExpression element,
-				UnifiedExpressionCollection collection) {
+				UnifiedExpressionCollection generator) {
 			return new UnifiedListComprehension {
-				Kind = kind,
-				Element = element,
-				Collection = collection,
+					Kind = kind,
+					Element = element,
+					Generator = generator,
 			};
 		}
 
-		public static UnifiedListComprehension CreateListComprehension(
+		public static UnifiedListComprehension CreateList(
 				IUnifiedExpression element,
-				UnifiedExpressionCollection collection) {
+				UnifiedExpressionCollection generator) {
 			return Create(
-					UnifiedListComprehensionKind.ListComprehension,
+					UnifiedListKind.List,
 					element,
-					collection);
+					generator);
 		}
 
-		public static UnifiedListComprehension CreateGenerator(
+		public static UnifiedListComprehension CreateLazyList(
 				IUnifiedExpression element,
-				UnifiedExpressionCollection collection) {
+				UnifiedExpressionCollection generator) {
 			return Create(
-					UnifiedListComprehensionKind.Generator,
+					UnifiedListKind.LazyList,
 					element,
-					collection);
+					generator);
+		}
+
+		public static UnifiedListComprehension CreateSet(
+				IUnifiedExpression element,
+				UnifiedExpressionCollection generator) {
+			return Create(
+					UnifiedListKind.Set,
+					element,
+					generator);
 		}
 	}
 }

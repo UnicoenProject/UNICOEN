@@ -30,8 +30,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		/// 条件式を表します
-		/// <c>if(cond){...}else{...}</c>の<c>con</c>
+		///   条件式を表します
+		///   <c>if(cond){...}else{...}</c>の<c>con</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
@@ -113,10 +113,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 一個以上のelse if節によって構成されているif-else式に分解してモデルを構築します．
+		///   一個以上のelse if節によって構成されているif-else式に分解してモデルを構築します．
 		/// </summary>
-		/// <param name="conditionAndBodies"></param>
-		/// <param name="lastElseBody"></param>
+		/// <param name = "conditionAndBodies"></param>
+		/// <param name = "lastElseBody"></param>
 		/// <returns></returns>
 		public static UnifiedIf Create(
 				IEnumerable<Tuple<IUnifiedExpression, UnifiedBlock>> conditionAndBodies,

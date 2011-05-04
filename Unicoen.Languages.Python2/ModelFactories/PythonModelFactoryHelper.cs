@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
+using Mocomoco.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
@@ -976,7 +977,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			case "(":
 				return UnifiedCall.Create(prefix, CreateArglist(second));
 			case "[":
-				throw new NotImplementedException(); //TODO: implement
+				return UnifiedIndexer.Create(prefix, CreateSubscriptlist(second));
 			case ".":
 				throw new NotImplementedException(); //TODO: implement
 			}
@@ -1034,8 +1035,21 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dictorsetmaker");
 			/*
-			 * dictorsetmaker: ( (test ':' test (comp_for | (',' test ':' test)* [','])) |
+			 * dictorsetmaker: (
+			 *					 (test ':' test (comp_for | (',' test ':' test)* [',']))
+			 *				   | (test (comp_for | (',' test)* [',']))
+			 *				   )
 			 */
+			var comp_forNode = node.Element("comp_for");
+			if (node.NthElement(1).Value == ":") {
+				if (comp_forNode == null) {
+					node.Elements("test")
+							.Select(CreateTest)
+							.Split2()
+							.Select(UnifiedKeyValue.Create)
+							.ToCollection();
+				}
+			}
 			throw new NotImplementedException(); //TODO: implement
 		}
 
@@ -1048,18 +1062,15 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var testlistNodes = node.Element("testlist");
 			var testlist = testlistNodes != null
 			               		? CreateTestlist(testlistNodes)
-									.Select(e => UnifiedTypeConstrain.CreateExtendsOrImplements(e))
+			               		  		.Select(
+			               		  				e => UnifiedTypeConstrain.CreateExtendsOrImplements(
+			               		  						UnifiedType.Create(e, null, null)))
+			               		  		.ToCollection()
 			               		: null;
-			UnifiedClassDefinition.CreateClass(
-				node.NthElement(1).Value,
-				
-
-				
-				
-				CreateSuite(node.LastElement()),
-
-
-			throw new NotImplementedException(); //TODO: implement
+			return UnifiedClassDefinition.CreateClass(
+					node.NthElement(1).Value,
+					testlist,
+					CreateSuite(node.LastElement()));
 		}
 
 		public static UnifiedArgumentCollection CreateArglist(XElement node) {
@@ -1097,7 +1108,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				return UnifiedArgument.Create(
 						null, test, CreateTest(node.LastElement()));
 			return UnifiedArgument.Create(
-					UnifiedListComprehension.CreateGenerator(
+					UnifiedListComprehension.CreateLazyList(
 							test, CreateComp_for(second).ToCollection()));
 		}
 
@@ -1108,9 +1119,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * list_iter: list_for | list_if
 			 */
 			var first = node.FirstElement();
-			if (first.Name() == "list_for")
-				return CreateList_for(first);
-			return CreateList_if(first);
+			return first.Name() == "list_for"
+			       		? CreateList_for(first)
+			       		: CreateList_if(first);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateList_for(XElement node) {

@@ -113,6 +113,16 @@ namespace Unicoen.Core.Model {
 			return singleton;
 		}
 
+		public static UnifiedKeyValueCollection ToCollection(
+				this IEnumerable<UnifiedKeyValue> collection) {
+			return UnifiedKeyValueCollection.Create(collection);
+		}
+
+		public static UnifiedKeyValueCollection ToCollection(
+				this UnifiedKeyValue singleton) {
+			return UnifiedKeyValueCollection.Create(singleton);
+		}
+
 		public static UnifiedMatcherCollection ToCollection(
 				this IEnumerable<UnifiedMatcher> collection) {
 			return UnifiedMatcherCollection.Create(collection);

@@ -22,25 +22,32 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   配列の添え字を表します。
-	///   e.g. Javaにおける<c>int x = a[10]</c>の<c>[10]</c>
+	///   辞書リテラルにおけるキー/バリューペアを表します．
 	/// </summary>
-	public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _target;
+	public class UnifiedKeyValue : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _key;
 
-		public IUnifiedExpression Target {
-			get { return _target; }
-			set { _target = SetParentOfChild(value, _target); }
+		/// <summary>
+		///   辞書リテラルにおけるキーを表します．
+		///   e.g. Pythonにおける<c>{ "key" : 1 }</c>の<c>"key"</c>
+		/// </summary>
+		public IUnifiedExpression Key {
+			get { return _key; }
+			set { _key = SetParentOfChild(value, _key); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
+		private IUnifiedExpression _value;
 
-		public UnifiedArgumentCollection Arguments {
-			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+		/// <summary>
+		///   辞書リテラルにおけるバリューを表します．
+		///   e.g. Pythonにおける<c>{ "key" : 1 }</c>の<c>1</c>
+		/// </summary>
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetParentOfChild(value, _value); }
 		}
 
-		private UnifiedIndexer() {}
+		private UnifiedKeyValue() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -58,32 +65,34 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Target;
-			yield return Arguments;
+			yield return Key;
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Target, v => Target = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+					(Key, v => Key = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_target, v => _target = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+					(_key, v => _key = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedIndexer Create(
-				IUnifiedExpression current,
-				UnifiedArgumentCollection create) {
-			return new UnifiedIndexer {
-					Target = current,
-					Arguments = create
+		public static UnifiedKeyValue Create(
+				IUnifiedExpression key, IUnifiedExpression value) {
+			return new UnifiedKeyValue {
+					Key = key,
+					Value = value,
+			};
+		}
+
+		public static UnifiedKeyValue Create(
+				Tuple<IUnifiedExpression, IUnifiedExpression> keyValue) {
+			return new UnifiedKeyValue {
+					Key = keyValue.Item1,
+					Value = keyValue.Item2,
 			};
 		}
 	}

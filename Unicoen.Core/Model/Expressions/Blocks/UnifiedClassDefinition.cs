@@ -110,7 +110,8 @@ namespace Unicoen.Core.Model {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_name, v => _name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v) ;
+					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
+					;
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -118,15 +119,18 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name) {
-			return Create(UnifiedClassKind.Class,
-					UnifiedModifierCollection.Create(), UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type), null,
+			return Create(
+					UnifiedClassKind.Class,
+					UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type), null,
 					null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedClassDefinition CreateClass(
 				string name,
 				UnifiedBlock body) {
-			return Create(UnifiedClassKind.Class,
+			return Create(
+					UnifiedClassKind.Class,
 					UnifiedModifierCollection.Create(),
 					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 					null,
@@ -137,14 +141,18 @@ namespace Unicoen.Core.Model {
 				string name,
 				UnifiedTypeConstrainCollection contrains,
 				UnifiedBlock body) {
-			return Create(UnifiedClassKind.Class,
+			return Create(
+					UnifiedClassKind.Class,
 					UnifiedModifierCollection.Create(),
 					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
 					null,
 					contrains, body);
 		}
 
-		public static UnifiedClassDefinition Create(UnifiedClassKind kind, UnifiedModifierCollection modifiers, IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
+		public static UnifiedClassDefinition Create(
+				UnifiedClassKind kind, UnifiedModifierCollection modifiers,
+				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
+				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
 					Modifiers = modifiers,
 					Kind = kind,
@@ -156,7 +164,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateNamespace(IUnifiedExpression name) {
-			return Create(UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
+			return Create(
+					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
 		}
 			}
 }

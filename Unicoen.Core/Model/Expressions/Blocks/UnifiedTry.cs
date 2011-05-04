@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedCatchCollection _catches;
 
 		/// <summary>
-		/// catch節の集合を表します
-		/// e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>
+		///   catch節の集合を表します
+		///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>
 		/// </summary>
 		public UnifiedCatchCollection Catches {
 			get { return _catches; }
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedBlock _elseBody;
 
 		/// <summary>
-		/// else節を表します
-		/// e.g. Pythonにおける<c>try: ...  else: ... finally: ...</c>の<c>else: ...</c>
+		///   else節を表します
+		///   e.g. Pythonにおける<c>try: ...  else: ... finally: ...</c>の<c>else: ...</c>
 		/// </summary>
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
@@ -51,15 +51,15 @@ namespace Unicoen.Core.Model {
 		private UnifiedBlock _finallyBody;
 
 		/// <summary>
-		/// finally節を表します
-		/// e.g. Javaにおける<c>try{...}catch(Exception e){...}finally{...}</c>の<c>finally{...}</c>
+		///   finally節を表します
+		///   e.g. Javaにおける<c>try{...}catch(Exception e){...}finally{...}</c>の<c>finally{...}</c>
 		/// </summary>
 		public UnifiedBlock FinallyBody {
 			get { return _finallyBody; }
 			set { _finallyBody = SetParentOfChild(value, _finallyBody); }
 		}
 
-		private UnifiedTry() { }
+		private UnifiedTry() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -114,7 +114,9 @@ namespace Unicoen.Core.Model {
 			return Create(body, catches, null, finallyBody);
 		}
 
-		public static UnifiedTry Create(UnifiedBlock body, UnifiedCatchCollection catches, UnifiedBlock elseBody, UnifiedBlock finallyBody) {
+		public static UnifiedTry Create(
+				UnifiedBlock body, UnifiedCatchCollection catches, UnifiedBlock elseBody,
+				UnifiedBlock finallyBody) {
 			return new UnifiedTry {
 					Body = body,
 					Catches = catches,

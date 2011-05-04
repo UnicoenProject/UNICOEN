@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _initializer;
 
 		/// <summary>
-		/// 初期条件を表します
-		/// e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c><c>int i = 0</c>
+		///   初期条件を表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c><c>int i = 0</c>
 		/// </summary>
 		public IUnifiedExpression Initializer {
 			get { return _initializer; }
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		/// 実行条件を表します
-		/// e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
+		///   実行条件を表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
@@ -51,8 +51,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _step;
 
 		/// <summary>
-		/// ステップを表します
-		/// e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i++</c>
+		///   ステップを表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i++</c>
 		/// </summary>
 		public IUnifiedExpression Step {
 			get { return _step; }
