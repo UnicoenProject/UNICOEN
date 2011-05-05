@@ -127,7 +127,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 				prefix = " ";
 			}
 			type =
-					UnifiedType.Create(UnifiedIdentifier.Create(s, UnifiedIdentifierKind.Type));
+					UnifiedType.Create(UnifiedIdentifier.CreateType(s));
 		}
 
 		public static IUnifiedElement CreateInitDeclaratorList(XElement node) {
@@ -192,7 +192,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			case "type_id":
 				return CreateTypeId(first);
 			default:
-				var ui = UnifiedIdentifier.Create(first.Name(), UnifiedIdentifierKind.Type);
+				var ui = UnifiedIdentifier.CreateType(first.Name());
 				return UnifiedType.Create(ui);
 			}
 		}
