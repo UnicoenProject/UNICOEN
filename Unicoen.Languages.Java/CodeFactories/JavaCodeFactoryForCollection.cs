@@ -165,5 +165,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public bool Visit(UnifiedIfExpression element, VisitorState state) {
 			throw new NotImplementedException();
 		}
+
+		public bool Visit(UnifiedSlice element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedComment element, VisitorState state) {
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -40,7 +40,7 @@ namespace Unicoen.Core.Model {
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
-		private UnifiedIndexer() { }
+		private UnifiedIndexer() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

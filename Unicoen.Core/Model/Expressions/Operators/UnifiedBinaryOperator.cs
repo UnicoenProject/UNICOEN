@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		public string Sign { get; private set; }
 
 		/// <summary>
-		/// 演算子の種類を表します
+		///   演算子の種類を表します
 		/// </summary>
 		public UnifiedBinaryOperatorKind Kind { get; private set; }
 

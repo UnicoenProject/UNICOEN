@@ -57,7 +57,7 @@ namespace Unicoen.Core.Model {
 			set { _throws = SetParentOfChild(value, _throws); }
 		}
 
-		private UnifiedConstructorDefinition() { }
+		private UnifiedConstructorDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

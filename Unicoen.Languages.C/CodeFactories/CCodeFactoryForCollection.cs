@@ -130,5 +130,33 @@ namespace Unicoen.Languages.C.CodeFactories
 		public bool Visit(UnifiedIfExpression element, VisitorState state) {
 			throw new NotImplementedException();
 		}
+
+		public bool Visit(UnifiedList element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedKeyValue element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedDictionaryComprehension element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedKeyValueCollection element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedDictonary element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSlice element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedComment element, VisitorState state) {
+			throw new NotImplementedException();
+		}
 	}
 }

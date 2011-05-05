@@ -18,9 +18,8 @@
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	/// 浮動小数点の種類を表します
+	///   浮動小数点の種類を表します
 	/// </summary>
-	
 	public enum UnifiedFractionLiteralKind {
 		Single,
 		Double

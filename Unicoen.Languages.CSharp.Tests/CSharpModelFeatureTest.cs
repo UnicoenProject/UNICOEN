@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
@@ -39,7 +40,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {
-			return CSharpModelFactory.CreateModel(code);
+			throw new NotImplementedException();
+			//return CSharpModelFactory.CreateModel(code);
 		}
 
 		/// <summary>

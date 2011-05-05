@@ -28,7 +28,6 @@ namespace Unicoen.Core.Model {
 	public class UnifiedIdentifier
 			: UnifiedElement, IUnifiedExpression, IUnifiedIdentifierOrCollection {
 		/// <summary>
-		/// 
 		/// </summary>
 		public string Value { get; set; }
 
