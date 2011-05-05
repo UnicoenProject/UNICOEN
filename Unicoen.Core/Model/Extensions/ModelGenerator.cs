@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ namespace Unicoen.Core.Model
 	public static class ModelGenerator
 	{
 		/// <summary>
-		/// æ·±ã„ã‚³ãƒ”ãƒ¼ã‚’å–å¾—ã—ã¾ã™ï¼
+		/// [‚¢ƒRƒs[‚ğæ“¾‚µ‚Ü‚·D
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="self"></param>

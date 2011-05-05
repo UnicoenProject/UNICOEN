@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
@@ -706,7 +707,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return CreateStatementBlock(node.Element("statementBlock"));
 		}
 
-		public static UnifiedExpressionList CreateExpression(XElement node)
+		public static IUnifiedExpression CreateExpression(XElement node)
 		{
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression");
@@ -714,10 +715,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * expression
 			 *		: assignmentExpression (LT!* ',' LT!* assignmentExpression)*
 			 */
-
-			return node.Elements("assignmentExpression")
-					.Select(CreateAssignmentExpression)
-					.ToExpressionList();
+			var expressions =
+					node.Elements("assignmentExpression").Select(CreateAssignmentExpression);
+			return UnifiedBlock.Create(expressions);
 		}
 
 		public static UnifiedExpressionList CreateExpressionNoIn(XElement node)
@@ -1444,8 +1444,53 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: DecimalLiteral
 			 *		| HexIntegerLiteral
 			 */
-			//TODO Javaを参考にLiteralまわりの実装方針を決める
-			throw new NotImplementedException(); //TODO: implement
+			var first = node.NthElement(0);
+			switch(first.Name()) {
+				case "DecimalLiteral":
+					return CreateDecimalLiteral(first);
+				case "HexIntegerLiteral":
+					return CreateHexLiteral(first);
+				default:
+					throw new InvalidOperationException();
+			}
+		}
+		
+		public static UnifiedLiteral CreateDecimalLiteral(XElement node) {
+			/*
+			 * fragment DecimalLiteral
+			 *		: DecimalDigit+ '.' DecimalDigit* ExponentPart?
+			 *		| '.'? DecimalDigit+ ExponentPart?
+			 */
+
+			if(node.Value.Contains("."))
+				return CreateDoubleLiteral(node);
+			return CreateIntegerLiteral(node);
+		}
+
+		public static UnifiedIntegerLiteral CreateIntegerLiteral(XElement node) {
+			return UnifiedIntegerLiteral.CreateBigInteger(BigInteger.Parse(node.Value));
+		}
+
+		public static UnifiedFractionLiteral CreateDoubleLiteral(XElement node) {
+			double result;
+			Double.TryParse(node.Value, NumberStyles.Number, null, out result);
+			return UnifiedFractionLiteral.CreateDouble(result);
+		}
+
+		public static UnifiedIntegerLiteral CreateHexLiteral(XElement node) {
+			/*
+			 * fragment HexIntegerLiteral
+			 *		: '0' ('x' | 'X') HexDigit+
+			 *		
+			 * fragment HexDigit
+			 *		: DecimalDigit | ('a'..'f') | ('A'..'F')
+			 *	
+			 * fragment DecimalDigit
+			 *		: ('0'..'9')
+			 */
+
+			var result = BigInteger.Parse(node.Value.Substring(2), NumberStyles.HexNumber);
+			return UnifiedIntegerLiteral.CreateBigInteger(result);
 		}
 
 		public static UnifiedLiteral CreateStringliteral(XElement node)

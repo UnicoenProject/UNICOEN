@@ -48,6 +48,16 @@ namespace Unicoen.Core.Model {
 			set { _supplements = SetParentOfChild(value, _supplements); }
 		}
 
+		private UnifiedIntegerLiteral _bitField;
+
+		/// <summary>
+		/// C の struct におけるビットフィールド
+		/// </summary>
+		public UnifiedIntegerLiteral BitField {
+			get { return _bitField;  }
+			set { _bitField = value; }
+		}
+
 		private IUnifiedExpression _initialValue;
 
 		/// <summary>
@@ -93,6 +103,7 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedVariableDefinitionBody() {}
 
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -111,6 +122,7 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Name;
 			yield return Supplements;
+			yield return BitField;
 			yield return InitialValue;
 			yield return Arguments;
 			yield return Body;
@@ -122,6 +134,8 @@ namespace Unicoen.Core.Model {
 					(Name, v => Name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(BitField, v => BitField = (UnifiedIntegerLiteral)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(InitialValue, v => InitialValue = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -136,6 +150,8 @@ namespace Unicoen.Core.Model {
 					(_name, v => _name = (UnifiedIdentifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+					(_bitField, v => _bitField = (UnifiedIntegerLiteral)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_initialValue, v => _initialValue = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -179,6 +195,23 @@ namespace Unicoen.Core.Model {
 			return new UnifiedVariableDefinitionBody {
 					Name = name,
 					Supplements = supplements,
+					InitialValue = initialValues,
+					Arguments = arguments,
+					Body = block,
+			};
+		}
+
+		public static UnifiedVariableDefinitionBody Create(
+				UnifiedIdentifier name,
+				UnifiedTypeSupplementCollection supplements,
+				UnifiedIntegerLiteral bitField,
+				IUnifiedExpression initialValues,
+				UnifiedArgumentCollection arguments,
+				UnifiedBlock block) {
+			return new UnifiedVariableDefinitionBody {
+					Name = name,
+					Supplements = supplements,
+					BitField = bitField,
 					InitialValue = initialValues,
 					Arguments = arguments,
 					Body = block,
