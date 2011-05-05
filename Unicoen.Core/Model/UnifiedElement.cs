@@ -104,7 +104,7 @@ namespace Unicoen.Core.Model {
 		///   深いコピーを取得します。
 		/// </summary>
 		/// <returns>深いコピー</returns>
-		public virtual IUnifiedElement DeepCopy() {
+		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
 			foreach (var elemAndSetter in ret.GetElementAndDirectSetters()) {
@@ -116,15 +116,6 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		///   深いコピーを取得します。
-		/// </summary>
-		/// <returns>深いコピー</returns>
-		public virtual T DeepCopy<T>()
-				where T : IUnifiedElement {
-			return (T)DeepCopy();
-		}
-
-		/// <summary>
 		///   Creates a new object that is a copy of the current instance.
 		/// </summary>
 		/// <returns>
@@ -132,7 +123,7 @@ namespace Unicoen.Core.Model {
 		/// </returns>
 		/// <filterpriority>2</filterpriority>
 		public object Clone() {
-			return DeepCopy();
+			return this.DeepCopy();
 		}
 
 		/// <summary>
@@ -217,7 +208,7 @@ namespace Unicoen.Core.Model {
 			WriteTypeWithoutContent(elem, buffer, depth);
 			// write items of enumerable
 			var seq = elem as IEnumerable;
-			if (seq != null && !(elem is UnifiedIdentifier)) {
+			if (seq != null) {
 				foreach (var item in seq) {
 					ToStringRecursively(item, buffer, depth + 1);
 				}

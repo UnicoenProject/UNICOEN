@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
+    <Compile Include="Model\Extensions\ModelGenerator.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Processor\CodeFactory.cs" />
     <Compile Include="Processor\ModelFactory.cs" />

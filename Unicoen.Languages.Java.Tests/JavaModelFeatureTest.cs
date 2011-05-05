@@ -44,7 +44,7 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {
-			return JavaModelFactory.Instance.Generate(code);
+			return JavaFactory.GenerateModel(code);
 		}
 
 		/// <summary>

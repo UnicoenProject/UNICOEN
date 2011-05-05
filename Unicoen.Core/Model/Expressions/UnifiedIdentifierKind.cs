@@ -27,6 +27,7 @@ namespace Unicoen.Core.Model {
 		Function,
 		ClassObject,
 		Super,
-		Unknown
+		This,
+		Unknown,
 	}
 }

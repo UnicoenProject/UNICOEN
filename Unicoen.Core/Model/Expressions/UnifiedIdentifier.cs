@@ -64,12 +64,28 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
-		public static UnifiedIdentifier Create(
+		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
+			yield return this;
+		}
+
+		private static UnifiedIdentifier Create(
 				string name, UnifiedIdentifierKind kind) {
 			return new UnifiedIdentifier {
 					Value = name,
 					Kind = kind
 			};
+		}
+
+		public static UnifiedIdentifier CreateThis(string name) {
+			return Create(name, UnifiedIdentifierKind.This);
+		}
+
+		public static UnifiedIdentifier CreateSuper(string name) {
+			return Create(name, UnifiedIdentifierKind.Super);
+		}
+
+		public static UnifiedIdentifier CreateClassObject(string name) {
+			return Create(name, UnifiedIdentifierKind.ClassObject);
 		}
 
 		public static UnifiedIdentifier CreateUnknown(string name) {
@@ -84,16 +100,8 @@ namespace Unicoen.Core.Model {
 			return Create(name, UnifiedIdentifierKind.Type);
 		}
 
-		public static UnifiedIdentifier CreateVariableFunction(string name) {
+		public static UnifiedIdentifier CreateFunction(string name) {
 			return Create(name, UnifiedIdentifierKind.Function);
-		}
-
-		public IEnumerator<UnifiedIdentifier> GetEnumerator() {
-			yield return this;
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
 		}
 			}
 }

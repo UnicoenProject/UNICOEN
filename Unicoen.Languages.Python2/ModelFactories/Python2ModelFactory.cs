@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 
 // Copyright (C) 2011 The Unicoen Project
 // 

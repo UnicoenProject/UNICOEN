@@ -122,7 +122,8 @@ namespace Unicoen.Core.Model {
 			return Create(
 					UnifiedClassKind.Class,
 					UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type), null,
+					UnifiedIdentifier.CreateType(name),
+					null,
 					null, UnifiedBlock.Create());
 		}
 
@@ -132,7 +133,7 @@ namespace Unicoen.Core.Model {
 			return Create(
 					UnifiedClassKind.Class,
 					UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
+					UnifiedIdentifier.CreateType(name),
 					null,
 					null, body);
 		}
@@ -144,7 +145,7 @@ namespace Unicoen.Core.Model {
 			return Create(
 					UnifiedClassKind.Class,
 					UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
+					UnifiedIdentifier.CreateType(name),
 					null,
 					contrains, body);
 		}

@@ -208,7 +208,7 @@ namespace Unicoen.Core.Model {
 					modifiers,
 					type,
 					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function),
+					UnifiedIdentifier.CreateFunction(name),
 					parameters,
 					throws,
 					body);
@@ -261,7 +261,7 @@ namespace Unicoen.Core.Model {
 					null,
 					null,
 					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function),
+					UnifiedIdentifier.CreateFunction(name),
 					parameters,
 					null,
 					body);

@@ -9,8 +9,13 @@ using Unicoen.Languages.CSharp.ModelFactories;
 namespace Unicoen.Languages.CSharp {
 	public static class CSharpFactory {
 
-		private static readonly CSharpCodeFactory CodeFactory = new CSharpCodeFactory();
-		private static readonly CSharpModelFactory ModelFactory = new CSharpModelFactory();
+		public static readonly CSharpCodeFactory CodeFactory;
+		public static readonly CSharpModelFactory ModelFactory;
+
+		static CSharpFactory() {
+			CodeFactory = new CSharpCodeFactory();
+			ModelFactory = new CSharpModelFactory();
+		}
 
 		public static string GenerateCode(IUnifiedElement model) {
 			return CodeFactory.Generate(model);
