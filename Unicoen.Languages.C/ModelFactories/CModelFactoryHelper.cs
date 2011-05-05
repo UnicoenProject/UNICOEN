@@ -168,8 +168,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static UnifiedType CreateTypeSpecifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_specifier");
-			/*
-			type_specifier
+			/*	type_specifier
 			 * : 'void'
 			 * | 'char'
 			 * | 'short'
