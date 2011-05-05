@@ -66,14 +66,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		/// <returns>子要素</returns>
 		public abstract IEnumerable<ElementReference>
-				GetElementAndSetters();
+				GetElementReferences();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
 		public abstract IEnumerable<ElementReference>
-				GetElementAndDirectSetters();
+				GetElementReferenecesOfPrivateFields();
 
 		/// <summary>
 		///   コードモデルを正規化します。
@@ -90,7 +90,7 @@ namespace Unicoen.Core.Model {
 		///   子要素に対して正規化を再帰的に行います。
 		/// </summary>
 		public void NormalizeChildren() {
-			foreach (var reference in GetElementAndDirectSetters()) {
+			foreach (var reference in GetElementReferenecesOfPrivateFields()) {
 				if (reference.Element != null) {
 					var child = reference.Element.Normalize();
 					reference.Element = child;
@@ -106,7 +106,7 @@ namespace Unicoen.Core.Model {
 		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
-			foreach (var reference in ret.GetElementAndDirectSetters()) {
+			foreach (var reference in ret.GetElementReferenecesOfPrivateFields()) {
 				if (reference.Element != null) {
 					reference.Element = reference.Element.DeepCopy();
 				}
@@ -131,9 +131,9 @@ namespace Unicoen.Core.Model {
 		/// <param name = "target">自分自身</param>
 		/// <returns></returns>
 		public virtual IUnifiedElement RemoveChild(IUnifiedElement target) {
-			var elem = GetElementAndDirectSetters()
+			var reference = GetElementReferenecesOfPrivateFields()
 					.First(e => ReferenceEquals(target, e.Element));
-			elem.Element = null;
+			reference.Element = null;
 			((UnifiedElement)target).Parent = null;
 			return this;
 		}

@@ -81,7 +81,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
@@ -91,7 +91,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndDirectSetters() {
+				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create

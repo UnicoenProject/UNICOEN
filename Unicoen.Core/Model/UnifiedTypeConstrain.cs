@@ -67,13 +67,13 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => Type, v => Type = (UnifiedType)v);
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndDirectSetters() {
+				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _type, v => _type = (UnifiedType)v);
 		}

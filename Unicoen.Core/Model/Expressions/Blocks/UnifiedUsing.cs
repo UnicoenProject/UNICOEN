@@ -53,7 +53,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => Matchers, v => Matchers = (UnifiedMatcherCollection)v);
 			yield return ElementReference.Create
@@ -61,7 +61,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndDirectSetters() {
+				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _matchers, v => _matchers = (UnifiedMatcherCollection)v);
 			yield return ElementReference.Create

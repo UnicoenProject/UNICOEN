@@ -73,7 +73,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => Operator, v => Operator = (UnifiedUnaryOperator)v);
 			yield return ElementReference.Create
@@ -81,7 +81,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndDirectSetters() {
+				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _operator, v => _operator = (UnifiedUnaryOperator)v);
 			yield return ElementReference.Create

@@ -62,7 +62,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return ElementReference.Create

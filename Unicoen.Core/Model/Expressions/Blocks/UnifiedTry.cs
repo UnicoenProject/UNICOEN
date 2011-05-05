@@ -84,7 +84,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => Catches, v => Catches = (UnifiedCatchCollection)v);
 			yield return ElementReference.Create
@@ -96,7 +96,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndDirectSetters() {
+				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _catches, v => _catches = (UnifiedCatchCollection)v);
 			yield return ElementReference.Create

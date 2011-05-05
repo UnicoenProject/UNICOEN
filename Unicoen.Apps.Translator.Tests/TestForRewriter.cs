@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Unicoen.Core.Model;
+using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
 
@@ -16,12 +17,12 @@ namespace Unicoen.Apps.Translator.Tests {
 			const string filePath =
 					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
 			var code = File.ReadAllText(filePath, Encoding.Default);
-			_program = JavaModelFactory.Instance.Generate(code);
+			_program = JavaFactory.GenerateModel(code);
 		}
 
 		[Test]
 		public void メソッド名を書き換えられる() {
-			Console.WriteLine(JavaCodeFactory.Instance.Generate(_program));
+			Console.WriteLine(JavaFactory.GenerateCode(_program));
 			
 			var functions =
 					Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
@@ -34,12 +35,12 @@ namespace Unicoen.Apps.Translator.Tests {
 			f = functions.ElementAt(0);
 			Assert.That(f.Name.Value, Is.EqualTo("getName2"));
 
-			Console.WriteLine(JavaCodeFactory.Instance.Generate(_program));
+			Console.WriteLine(JavaFactory.GenerateCode(_program));
 		}
 
 		[Test]
 		public void メソッドを削除できる() {
-			Console.WriteLine(JavaCodeFactory.Instance.Generate(_program));
+			Console.WriteLine(JavaFactory.GenerateCode(_program));
 
 			var functions =
 					Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
@@ -52,7 +53,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			f = functions.ElementAt(0);
 			Rewriter.Instance.DeleteElement(f);	
 
-			Console.WriteLine(JavaCodeFactory.Instance.Generate(_program));
+			Console.WriteLine(JavaFactory.GenerateCode(_program));
 		}
 
 		[Test]
@@ -69,7 +70,7 @@ namespace Unicoen.Apps.Translator.Tests {
 
 			
 
-			Console.WriteLine(JavaCodeFactory.Instance.Generate(_program));
+			Console.WriteLine(JavaFactory.GenerateCode(_program));
 		}
 	}
 }

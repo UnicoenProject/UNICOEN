@@ -67,7 +67,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => Owner, v => Owner = (IUnifiedExpression)v);
 			yield return ElementReference.Create
@@ -75,7 +75,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndDirectSetters() {
+				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _owner, v => _owner = (IUnifiedExpression)v);
 			yield return ElementReference.Create

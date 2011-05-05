@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Unicoen.Core.Model;
+using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Apps.Translator.Tests {
@@ -17,7 +18,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			const string filePath =
 					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
 			var code = File.ReadAllText(filePath, Encoding.Default);
-			_program = JavaModelFactory.Instance.Generate(code);
+			_program = JavaFactory.GenerateModel(code);
 		}
 
 		[Test]

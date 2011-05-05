@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Unicoen.Core.Model;
 using Unicoen.Languages.C.CodeFactories;
+using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
 
@@ -14,7 +15,7 @@ namespace Unicoen.Apps.Translator {
 			const string filePath =
 					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
 			var code = File.ReadAllText(filePath, Encoding.Default);
-			var model = JavaModelFactory.Instance.Generate(code);
+			var model = JavaFactory.GenerateModel(code);
 
 			var functions =
 					Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(model);
@@ -38,7 +39,7 @@ namespace Unicoen.Apps.Translator {
 		}
 
 		public void Dump(UnifiedProgram program) {
-			var generatedSourceCode = JavaCodeFactory.Instance.Generate(program);
+			var generatedSourceCode = JavaFactory.GenerateCode(program);
 			Console.WriteLine(generatedSourceCode);
 		}
 		

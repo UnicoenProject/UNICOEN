@@ -97,13 +97,13 @@ namespace Unicoen.Core.Tests {
 			var model = ModelFactory.Generate(code);
 			foreach (var element in model.Descendants()) {
 				var elements = element.GetElements();
-				var elementAndSetters = element.GetElementAndSetters();
-				var elementAndDirectSetters = element.GetElementAndDirectSetters();
+				var references = element.GetElementReferences();
+				var referenecesOfPrivateFields = element.GetElementReferenecesOfPrivateFields();
 				var propValues = GetProperties(element);
 				Assert.That(elements, Is.EqualTo(propValues));
-				Assert.That(elementAndSetters.Select(t => t.Element), Is.EqualTo(propValues));
+				Assert.That(references.Select(t => t.Element), Is.EqualTo(propValues));
 				Assert.That(
-						elementAndDirectSetters.Select(t => t.Element),
+						referenecesOfPrivateFields.Select(t => t.Element),
 						Is.EqualTo(propValues));
 			}
 		}
@@ -138,9 +138,9 @@ namespace Unicoen.Core.Tests {
 			var model = ModelFactory.Generate(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
-				var elementAndSetters = element.GetElementAndSetters();
-				foreach (var elementAndSetter in elementAndSetters) {
-					elementAndSetter.Element = null;
+				var references = element.GetElementReferences();
+				foreach (var reference in references) {
+					reference.Element = null;
 				}
 			}
 			foreach (var element in elements) {
@@ -180,9 +180,9 @@ namespace Unicoen.Core.Tests {
 			var model = ModelFactory.Generate(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
-				var elementAndSetters = element.GetElementAndDirectSetters();
-				foreach (var elementAndSetter in elementAndSetters) {
-					elementAndSetter.Element = null;
+				var references = element.GetElementReferenecesOfPrivateFields();
+				foreach (var reference in references) {
+					reference.Element = null;
 				}
 			}
 			foreach (var element in elements) {

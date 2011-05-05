@@ -95,7 +95,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndSetters() {
+				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => FirstExpression, v => FirstExpression = (IUnifiedExpression)v);
 			yield return ElementReference.Create
@@ -107,7 +107,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<ElementReference>
-				GetElementAndDirectSetters() {
+				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _firstExpression, v => _firstExpression = (IUnifiedExpression)v);
 			yield return ElementReference.Create

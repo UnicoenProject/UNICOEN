@@ -20,9 +20,9 @@ namespace Unicoen.Apps.Translator {
 		// ある要素を置き換える
 		public void ExchageElement(UnifiedType from, UnifiedType to) {
 			var parent = from.Parent;
-			var target =
-					parent.GetElementAndSetters().Where(e => ReferenceEquals(e.Item1, from)).ElementAt(0);
-			target.Item2(to);
+			var reference =
+					parent.GetElementReferences().Where(e => ReferenceEquals(e.Element, from)).ElementAt(0);
+			reference.Element = to;
 
 			return;
 		}
