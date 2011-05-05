@@ -39,7 +39,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
-						"class A { }",
+						"a = 1;",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
@@ -72,7 +72,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		}
 
 		private static string CreateCode(string statement) {
-			return "class A { public void M1() {" + statement + "} }";
+			return statement;
 		}
 	}
 }

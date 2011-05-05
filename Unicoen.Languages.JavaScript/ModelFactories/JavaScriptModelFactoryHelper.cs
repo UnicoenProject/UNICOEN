@@ -1256,17 +1256,17 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: leftHandSideExpression ('++' | '--')?
 			 */
 
-			UnifiedUnaryOperator ope = null;
 			if (node.Elements().Count() == 2) {
-				ope = node.NthElement(1).Value == "++"
+				var ope = node.NthElement(1).Value == "++"
 				      		? UnifiedUnaryOperator.Create(
 				      				"++", UnifiedUnaryOperatorKind.PostIncrementAssign)
 				      		: UnifiedUnaryOperator.Create(
 				      				"--", UnifiedUnaryOperatorKind.PostDecrementAssign);
-			}
-			return
+				return
 					UnifiedUnaryExpression.Create(
 							CreateLeftHandSideExpression(node.NthElement(0)), ope);
+			}
+			return CreateLeftHandSideExpression(node.NthElement(0));
 		}
 
 		public static IUnifiedExpression CreatePrimaryExpression(XElement node) {
@@ -1373,8 +1373,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'null'
 			 *		| 'true'
 			 *		| 'false'
-			 *		| StringLiteral
-			 *		| NumericLiteral
+			 *		| stringliteral
+			 *		| numericliteral
 			 */
 			var first = node.NthElement(0);
 			if (first.Value == "null")
@@ -1385,9 +1385,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				return UnifiedBooleanLiteral.Create(false);
 
 			switch (first.Name()) {
-			case "StringLiteral":
+			case "stringliteral":
 				return CreateStringliteral(first);
-			case "NumericLiteral":
+			case "numericliteral":
 				return CreateNumericliteral(first);
 			default:
 				throw new InvalidOperationException();
@@ -1402,7 +1402,11 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: DecimalLiteral
 			 *		| HexIntegerLiteral
 			 */
+
 			var first = node.NthElement(0);
+			return CreateDecimalLiteral(first);
+
+			//TODO 新しい文法ファイルを見て修正する
 			switch (first.Name()) {
 			case "DecimalLiteral":
 				return CreateDecimalLiteral(first);
