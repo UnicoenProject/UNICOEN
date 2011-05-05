@@ -29,13 +29,21 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		/// 型名の修飾子を表します。
-		/// e.g. C における struct と union
+		/// e.g. (*(volatile char*)0xC4001DF5) = 1;
 		/// </summary>
-		private UnifiedModifier _modifier;
+		/* [16:02:24] Kazunori SAKAMOTO: const int
+		 * [16:02:29 | 16:02:37を編集しました] Kazunori SAKAMOTO: const int method const()
+		 * [16:02:59] Kazunori SAKAMOTO: volatile int method
+		 * [16:03:09] Kazunori SAKAMOTO: static int method
+		 * [16:05:11] Kazunori SAKAMOTO: volatile int i
+		 * [16:05:34] Kazunori SAKAMOTO: static volatile int method() { }
+		 * [16:05:37] Kazunori SAKAMOTO: volatile int
+		 */
+		private UnifiedModifierCollection _modifiers;
 
-		public UnifiedModifier Modifier {
-			get { return _modifier; }
-			set { _modifier = SetParentOfChild(value, _modifier); }
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetParentOfChild(value, _modifiers); }
 		}
 
 
@@ -104,7 +112,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Modifier;
+			yield return Modifiers;
 			yield return Name;
 			yield return Arguments;
 			yield return Supplements;
@@ -113,7 +121,7 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-							(Modifier, v => Modifier = (UnifiedModifier)v);
+							(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Name, v => Name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -125,7 +133,7 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-				(_modifier, v => _modifier = (UnifiedModifier)v);
+				(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_name, v => _name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -188,12 +196,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedType Create(
-				UnifiedModifier modifier,
+				UnifiedModifierCollection modifiers,
 				IUnifiedExpression name,
 				UnifiedTypeArgumentCollection arguments,
 				UnifiedTypeSupplementCollection supplements) {
 			return new UnifiedType {
-					Modifier = modifier,
+					Modifiers = modifiers,
 					Name = name,
 					Arguments = arguments,
 					Supplements = supplements,

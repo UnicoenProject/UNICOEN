@@ -50,6 +50,7 @@ namespace Unicoen.Core.Model {
 			set { _name = SetParentOfChild(value, _name); }
 		}
 
+		// generics とか
 		private UnifiedTypeParameterCollection _typeParameters;
 
 		public UnifiedTypeParameterCollection TypeParameters {
@@ -57,12 +58,14 @@ namespace Unicoen.Core.Model {
 			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
 		}
 
+		// 継承とか
 		private UnifiedTypeConstrainCollection _constrains;
 
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
 			set { _constrains = SetParentOfChild(value, _constrains); }
 		}
+
 
 		private UnifiedClassDefinition() {}
 

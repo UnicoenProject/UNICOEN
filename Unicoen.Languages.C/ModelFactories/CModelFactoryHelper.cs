@@ -218,27 +218,26 @@ namespace Unicoen.Languages.C.ModelFactories {
 			// 常に UnifiedTyep を返すが、
 			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
 
-			UnifiedIdentifier id = null;
+			
+			UnifiedIdentifier name = null;
+			UnifiedClassKind kind = node.FirstElement().Name() == "struct"
+			                        		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
 			if (node.Element("IDENTIFIER") != null) {
-				id = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
+				name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
 			}
+
 			if (node.Elements().Count() == 2) {
-				return UnifiedType.Create(
-						UnifiedModifier.Create(node.FirstElement().Name()), id, null, null);
-			}
-			switch (node.FirstElement().Name()) {
-			case "struct":
-
-				break;
-			case "union" :
-
-				break;
+				var modifiers =
+						UnifiedModifierCollection.Create(
+								UnifiedModifier.Create(node.FirstElement().Name()));
+				return UnifiedType.Create(modifiers, name, null, null);
 			}
 
+			var body =
+					CreateStructDeclarationList(node.Element("struct_declaration_list"));
+			var structOrUnion = UnifiedClassDefinition.Create(kind, null, name, null, null, body);
 
-
-
-			throw new NotImplementedException(); //TODO: implement
+			return UnifiedType.Create(null, structOrUnion, null, null);
 		}
 
 		public static IUnifiedElement CreateStructOrUnion(XElement node) {
@@ -252,58 +251,93 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new InvalidOperationException("this method isn't supported.");
 		}
 
-		public static IUnifiedElement CreateStructDeclarationList(XElement node) {
+		public static UnifiedBlock CreateStructDeclarationList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declaration_list");
-			/*
-			struct_declaration_list
-			: struct_declaration+
-			*/
-
-			throw new NotImplementedException(); //TODO: implement
+			/* struct_declaration_list
+			 * : struct_declaration+
+			 */
+			return
+					UnifiedBlock.Create(
+							node.Elements("struct_declaration").Select(CreateStructDeclaration));
 		}
 
-		public static IUnifiedElement CreateStructDeclaration(XElement node) {
+		public static IUnifiedExpression CreateStructDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declaration");
 			/*
-			struct_declaration
-			: specifier_qualifier_list struct_declarator_list ';'
+			 * struct_declaration
+			 * : specifier_qualifier_list struct_declarator_list ';'
 			 */
+			UnifiedModifierCollection modifiers = null;
+			UnifiedType type;
 
-			throw new NotImplementedException(); //TODO: implement
+			CreateSpecifierQualifierList(node.Element("specifier_qualifier_list"),
+				 out modifiers, out type);
+
+			return UnifiedVariableDefinition.Create(
+					modifiers, type,
+					CreateStructDeclaratorList(node.Element("struct_declarator_list")));
 		}
 
-		public static IUnifiedElement CreateSpecifierQualifierList(XElement node) {
+		public static void CreateSpecifierQualifierList(XElement node,
+			out UnifiedModifierCollection modifiers, out UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "specifier_qualifier_list");
 			/*
-			specifier_qualifier_list
-			: ( type_qualifier | type_specifier )+
-			*/
+			 * specifier_qualifier_list
+			 * : ( type_qualifier | type_specifier )+
+			 */
+			modifiers = UnifiedModifierCollection.Create();
+			var types = UnifiedTypeCollection.Create();
+			foreach (var e in node.Elements()) {
+				switch(e.Name()) {
+				case "type_qualifier":
+					modifiers.Add(CreateTypeQualifier(e));
+					break;
+				case "type_specifier":
+					types.Add(CreateTypeSpecifier(e));
+					break;
+				}
+			}
 
-			throw new NotImplementedException(); //TODO: implement
+			modifiers = modifiers.IsEmpty() ? null : modifiers;
+
+			String s = "";
+			String prefix = "";
+			foreach (UnifiedType t in types) {
+				s += prefix + t.Name;
+				prefix = " ";
+			}
+			type = s.Equals("")  ? null : UnifiedType.Create(UnifiedIdentifier.CreateType(s));
+
 		}
 
-		public static IUnifiedElement CreateStructDeclaratorList(XElement node) {
+		public static UnifiedVariableDefinitionBodyCollection CreateStructDeclaratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");
 			/*
-			struct_declarator_list
-			: struct_declarator (',' struct_declarator)*
-			*/
+			 * struct_declarator_list
+			 * : struct_declarator (',' struct_declarator)*
+			 * */
 
-			throw new NotImplementedException(); //TODO: implement
+			var declarators = UnifiedVariableDefinitionBodyCollection.Create();
+			foreach (var e in node.Elements("struct_declarator")) {
+				declarators.Add(CreateStructDeclarator(e));
+			}
+			return declarators;
 		}
 
-		public static IUnifiedElement CreateStructDeclarator(XElement node) {
+		public static UnifiedVariableDefinitionBody CreateStructDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator");
 			/*
-			struct_declarator
-			: declarator (':' constant_expression)?
-			| ':' constant_expression
-			*/
+			 * struct_declarator
+			 * : declarator (':' constant_expression)?
+			 * | ':' constant_expression
+			 * */
+
+			//UnifiedVariableDefinitionBody.Create();
 
 			throw new NotImplementedException(); //TODO: implement
 		}
@@ -345,12 +379,11 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static UnifiedModifier CreateTypeQualifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_qualifier");
-			/*
-			type_qualifier
-			: 'const'
-			| 'volatile'
-			*/
-			throw new NotImplementedException(); //TODO: implement
+			/* type_qualifier
+			 * : 'const'
+			 * | 'volatile'
+			 */
+			return UnifiedModifier.Create(node.FirstElement().Value);
 		}
 
 		public static void CreateDeclarator(
