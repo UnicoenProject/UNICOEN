@@ -1418,7 +1418,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   conditionalExpression (assignmentOperator expression)? 
 			 */
 
-			return ModelFactoryHelper.CreateBinaryExpression(
+			return ModelFactoryHelper.CreateBinaryExpressionForRightAssociation(
 					node, CreateConditionalExpression, CreateExpression, Sign2BinaryOperator);
 		}
 
