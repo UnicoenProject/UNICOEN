@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Xml.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
@@ -53,7 +54,6 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 *   |	compound_statement				// ANSI style
 			 * )
 			 */
-			//Tuple<UnifiedModifierCollection, UnifiedType> tuple = Tuple.Create();
 
 			UnifiedModifierCollection modifiers = null;
 			UnifiedType type = null;
@@ -85,7 +85,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 				init_declarator_list ';' // special case, looking for typedef	
 			| declaration_specifiers init_declarator_list? ';'
 			 */
-
+			// declaration_specifiers init_declarator_list? ';' において init_declarator がない時だけ
+			// struct, と union を UnifiedClassDefenition とする。その他は UnifiedType でラップする
 			throw new NotImplementedException(); //TODO: implement
 		}
 
@@ -190,11 +191,13 @@ namespace Unicoen.Languages.C.ModelFactories {
 				return CreateEnumSpecifier(first);
 			case "type_id":
 				return CreateTypeId(first);
+			default:
+				var ui = UnifiedIdentifier.Create(first.Name(), UnifiedIdentifierKind.Type);
+				return UnifiedType.Create(ui);
 			}
-			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateTypeId(XElement node) {
+		public static UnifiedType CreateTypeId(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_id");
 			/*
@@ -208,11 +211,33 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static UnifiedType CreateStructOrUnionSpecifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_or_union_specifier");
-			/*
-			struct_or_union_specifier
-			: struct_or_union IDENTIFIER? '{' struct_declaration_list '}'
-			| struct_or_union IDENTIFIER
-			*/
+			/*	struct_or_union_specifier
+			 * : struct_or_union IDENTIFIER? '{' struct_declaration_list '}'
+			 * | struct_or_union IDENTIFIER
+			 */
+			// 構造体の定義と宣言の両方をこのメソッドで作成
+			// 常に UnifiedTyep を返すが、
+			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
+
+			UnifiedIdentifier id = null;
+			if (node.Element("IDENTIFIER") != null) {
+				id = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
+			}
+			if (node.Elements().Count() == 2) {
+				return UnifiedType.Create(
+						UnifiedModifier.Create(node.FirstElement().Name()), id, null, null);
+			}
+			switch (node.FirstElement().Name()) {
+			case "struct":
+
+				break;
+			case "union" :
+
+				break;
+			}
+
+
+
 
 			throw new NotImplementedException(); //TODO: implement
 		}
@@ -220,13 +245,12 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static IUnifiedElement CreateStructOrUnion(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_or_union");
-			/*
-			struct_or_union
-			: 'struct'
-			| 'union'
+			/* struct_or_union
+			 * : 'struct'
+			 * | 'union'
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			// CreateStructOrUnionSpecifier からしか呼び出されていないので使わない
+			throw new InvalidOperationException("this method isn't supported.");
 		}
 
 		public static IUnifiedElement CreateStructDeclarationList(XElement node) {
@@ -285,7 +309,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static UnifiedClassDefinition CreateEnumSpecifier(XElement node) {
+		public static UnifiedType CreateEnumSpecifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enum_specifier");
 			/*

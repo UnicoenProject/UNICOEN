@@ -26,6 +26,19 @@ namespace Unicoen.Core.Model {
 	///   Javaにおける<c>int, double, char</c>
 	/// </summary>
 	public class UnifiedType : UnifiedElement, IUnifiedExpression {
+
+		/// <summary>
+		/// 型名の修飾子を表します。
+		/// e.g. C における struct と union
+		/// </summary>
+		private UnifiedModifier _modifier;
+
+		public UnifiedModifier Modifier {
+			get { return _modifier; }
+			set { _modifier = SetParentOfChild(value, _modifier); }
+		}
+
+
 		// パッケージ名が付いているときに
 		// UnifiedProperty が name に入る時があるので
 		// isntace.Class
@@ -91,6 +104,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Modifier;
 			yield return Name;
 			yield return Arguments;
 			yield return Supplements;
@@ -98,6 +112,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndSetters() {
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+							(Modifier, v => Modifier = (UnifiedModifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(Name, v => Name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -108,6 +124,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
 				GetElementAndDirectSetters() {
+			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+				(_modifier, v => _modifier = (UnifiedModifier)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
 					(_name, v => _name = (IUnifiedExpression)v);
 			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
@@ -156,14 +174,26 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedType Create(
 			IUnifiedExpression name) {
-			return Create(name, null, null);
+			return Create(null, name, null, null);
 		}
-
 		public static UnifiedType Create(
 				IUnifiedExpression name,
 				UnifiedTypeArgumentCollection arguments,
 				UnifiedTypeSupplementCollection supplements) {
 			return new UnifiedType {
+				Name = name,
+				Arguments = arguments,
+				Supplements = supplements,
+			};
+		}
+
+		public static UnifiedType Create(
+				UnifiedModifier modifier,
+				IUnifiedExpression name,
+				UnifiedTypeArgumentCollection arguments,
+				UnifiedTypeSupplementCollection supplements) {
+			return new UnifiedType {
+					Modifier = modifier,
 					Name = name,
 					Arguments = arguments,
 					Supplements = supplements,
