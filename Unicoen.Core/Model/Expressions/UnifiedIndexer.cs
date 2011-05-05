@@ -62,19 +62,19 @@ namespace Unicoen.Core.Model {
 			yield return Arguments;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Target, v => Target = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_target, v => _target = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 

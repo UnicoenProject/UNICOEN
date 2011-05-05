@@ -83,50 +83,50 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							Target,
 							v => Target = (UnifiedType)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							Arguments,
 							v => Arguments = (UnifiedArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							TypeArguments,
 							v => TypeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							InitialValue,
 							v => InitialValue = (UnifiedExpressionList)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							Body,
 							v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							_target,
 							v => _target = (UnifiedType)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							_arguments,
 							v => _arguments = (UnifiedArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							_typeArguments,
 							v => _typeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							_initialValue,
 							v => _initialValue = (UnifiedExpressionList)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
+					ElementReference.Create(
 							_body,
 							v => _body = (UnifiedBlock)v);
 		}

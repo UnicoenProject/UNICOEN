@@ -31,8 +31,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedUnaryOperator _operator;
 
 		/// <summary>
-		/// 単項式の演算式を表します
-		/// e.g. Javaにおける<c>a++</c>の<c>++</c>
+		///   単項式の演算式を表します
+		///   e.g. Javaにおける<c>a++</c>の<c>++</c>
 		/// </summary>
 		public UnifiedUnaryOperator Operator {
 			get { return _operator; }
@@ -42,8 +42,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _operand;
 
 		/// <summary>
-		/// 単項式のオペランドを表します
-		/// e.g. Javaにおける<c>a++</c>の<c>a</c>
+		///   単項式のオペランドを表します
+		///   e.g. Javaにおける<c>a++</c>の<c>a</c>
 		/// </summary>
 		public IUnifiedExpression Operand {
 			get { return _operand; }
@@ -72,19 +72,19 @@ namespace Unicoen.Core.Model {
 			yield return Operand;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Operator, v => Operator = (UnifiedUnaryOperator)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Operand, v => Operand = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_operator, v => _operator = (UnifiedUnaryOperator)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_operand, v => _operand = (IUnifiedExpression)v);
 		}
 

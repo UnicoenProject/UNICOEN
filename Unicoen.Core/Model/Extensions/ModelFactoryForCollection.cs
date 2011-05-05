@@ -212,11 +212,13 @@ namespace Unicoen.Core.Model {
 			return UnifiedVariableDefinitionBodyCollection.Create(singleton);
 		}
 
-		public static UnifiedList ToListLiteral(this UnifiedExpressionCollection collection) {
+		public static UnifiedList ToListLiteral(
+				this UnifiedExpressionCollection collection) {
 			return UnifiedList.CreateList(collection);
 		}
 
-		public static UnifiedList ToListLiteral(this IEnumerable<IUnifiedExpression> expressions) {
+		public static UnifiedList ToListLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
 			return UnifiedList.CreateList(expressions.ToCollection());
 		}
 
@@ -224,11 +226,13 @@ namespace Unicoen.Core.Model {
 			return UnifiedList.CreateList(singleton.ToCollection());
 		}
 
-		public static UnifiedList ToArrayLiteral(this UnifiedExpressionCollection collection) {
+		public static UnifiedList ToArrayLiteral(
+				this UnifiedExpressionCollection collection) {
 			return UnifiedList.CreateArray(collection);
 		}
 
-		public static UnifiedList ToArrayLiteral(this IEnumerable<IUnifiedExpression> expressions) {
+		public static UnifiedList ToArrayLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
 			return UnifiedList.CreateArray(expressions.ToCollection());
 		}
 
@@ -236,11 +240,13 @@ namespace Unicoen.Core.Model {
 			return UnifiedList.CreateArray(singleton.ToCollection());
 		}
 
-		public static UnifiedList ToSetLiteral(this UnifiedExpressionCollection collection) {
+		public static UnifiedList ToSetLiteral(
+				this UnifiedExpressionCollection collection) {
 			return UnifiedList.CreateSet(collection);
 		}
 
-		public static UnifiedList ToSetLiteral(this IEnumerable<IUnifiedExpression> expressions) {
+		public static UnifiedList ToSetLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
 			return UnifiedList.CreateSet(expressions.ToCollection());
 		}
 
@@ -248,11 +254,13 @@ namespace Unicoen.Core.Model {
 			return UnifiedList.CreateSet(singleton.ToCollection());
 		}
 
-		public static UnifiedList ToLazyListLiteral(this UnifiedExpressionCollection collection) {
+		public static UnifiedList ToLazyListLiteral(
+				this UnifiedExpressionCollection collection) {
 			return UnifiedList.CreateLazyList(collection);
 		}
 
-		public static UnifiedList ToLazyListLiteral(this IEnumerable<IUnifiedExpression> expressions) {
+		public static UnifiedList ToLazyListLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
 			return UnifiedList.CreateLazyList(expressions.ToCollection());
 		}
 
@@ -260,11 +268,13 @@ namespace Unicoen.Core.Model {
 			return UnifiedList.CreateLazyList(singleton.ToCollection());
 		}
 
-		public static UnifiedList ToTupleLiteral(this UnifiedExpressionCollection collection) {
+		public static UnifiedList ToTupleLiteral(
+				this UnifiedExpressionCollection collection) {
 			return UnifiedList.CreateTuple(collection);
 		}
 
-		public static UnifiedList ToTupleLiteral(this IEnumerable<IUnifiedExpression> expressions) {
+		public static UnifiedList ToTupleLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
 			return UnifiedList.CreateTuple(expressions.ToCollection());
 		}
 

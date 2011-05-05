@@ -49,16 +49,16 @@ namespace Unicoen.Core.Model {
 			set { _type = SetParentOfChild(value, _type); }
 		}
 
-		private IUnifiedIdentifierOrCollection _name;
+		private UnifiedIdentifierCollection _names;
 
 		/// <summary>
 		///   仮引数の引数名を表します。
 		///   e.g. Javaにおける<c>method(int a)</c>の<c>a</c>
 		///   e.g. Pythonにおける<c>def f((a,b)=[1,2], c)</c>の<c>a,b</c>と<c>c</c>
 		/// </summary>
-		public IUnifiedIdentifierOrCollection Name {
-			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+		public UnifiedIdentifierCollection Names {
+			get { return _names; }
+			set { _names = SetParentOfChild(value, _names); }
 		}
 
 		private IUnifiedExpression _defaultValue;
@@ -72,7 +72,7 @@ namespace Unicoen.Core.Model {
 			set { _defaultValue = SetParentOfChild(value, _defaultValue); }
 		}
 
-		private UnifiedParameter() { }
+		private UnifiedParameter() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -92,41 +92,41 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Modifiers;
 			yield return Type;
-			yield return Name;
+			yield return Names;
 			yield return DefaultValue;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (IUnifiedIdentifierOrCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
+					(Names, v => Names = (UnifiedIdentifierCollection)v);
+			yield return ElementReference.Create
 					(DefaultValue, v => DefaultValue = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (IUnifiedIdentifierOrCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
+					(_names, v => _names = (UnifiedIdentifierCollection)v);
+			yield return ElementReference.Create
 					(_defaultValue, v => _defaultValue = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedParameter Create(
 				UnifiedModifierCollection modifiers, UnifiedType type,
-				IUnifiedIdentifierOrCollection name, IUnifiedExpression defaultValue) {
+				UnifiedIdentifierCollection names, IUnifiedExpression defaultValue) {
 			return new UnifiedParameter {
 					Modifiers = modifiers,
 					Type = type,
-					Name = name,
+					Names = names,
 					DefaultValue = defaultValue,
 			};
 		}
@@ -143,7 +143,8 @@ namespace Unicoen.Core.Model {
 				UnifiedModifierCollection modifiers, UnifiedType type, string name,
 				IUnifiedExpression defaultValue) {
 			return Create(
-					modifiers, type, UnifiedIdentifier.CreateVariable(name), defaultValue);
+					modifiers, type, UnifiedIdentifier.CreateVariable(name).ToCollection(),
+					defaultValue);
 		}
 
 		public static UnifiedParameter Create(string name) {

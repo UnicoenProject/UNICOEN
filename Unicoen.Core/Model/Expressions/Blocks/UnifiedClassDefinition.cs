@@ -66,7 +66,6 @@ namespace Unicoen.Core.Model {
 			set { _constrains = SetParentOfChild(value, _constrains); }
 		}
 
-
 		private UnifiedClassDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -92,32 +91,32 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Name, v => Name = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_name, v => _name = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
 					;
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 

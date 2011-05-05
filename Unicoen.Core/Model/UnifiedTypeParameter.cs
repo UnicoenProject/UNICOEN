@@ -41,7 +41,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedTypeConstrainCollection _constrains;
 
 		/// <summary>
-		/// 型が持つ制約の集合を表します
+		///   型が持つ制約の集合を表します
 		/// </summary>
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
@@ -70,19 +70,19 @@ namespace Unicoen.Core.Model {
 			yield return Constrains;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 		}
 

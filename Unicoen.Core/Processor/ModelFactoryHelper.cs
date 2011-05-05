@@ -59,7 +59,7 @@ namespace Unicoen.Core.ModelFactories {
 			var n = nodes[count];
 			var seed = count > 0
 			           		? otherCreateExpression(n)
-			           		: firstCreateExpression(n); 
+			           		: firstCreateExpression(n);
 			for (count--; count >= 0; count--) {
 				n = nodes[count];
 				seed = UnifiedBinaryExpression.Create(

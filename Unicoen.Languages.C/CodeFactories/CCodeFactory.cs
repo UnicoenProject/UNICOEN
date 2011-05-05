@@ -183,7 +183,7 @@ namespace Unicoen.Languages.C.CodeFactories
 		{
 			element.Type.TryAccept(this, state);
 			state.WriteSpace();
-			element.Name.TryAccept(this, state);
+			element.Names.TryAccept(this, state);
 
 			return false;
 		}

@@ -165,7 +165,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			state.WriteSpace();
 			if (removed)
 				state.Writer.Write("... ");
-			element.Name.TryAccept(this, state);
+			element.Names.TryAccept(this, state.Set(CommaDelimiter));
 			return false;
 		}
 
@@ -598,12 +598,23 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public bool Visit(UnifiedDictionaryComprehension element, VisitorState state) {
 			throw new NotImplementedException();
 		}
-
-		public bool Visit(UnifiedKeyValueCollection element, VisitorState state) {
+		public bool Visit(UnifiedDictonary element, VisitorState state) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedDictonary element, VisitorState state) {
+		public bool Visit(UnifiedListComprehension element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedIfExpression element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSlice element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedComment element, VisitorState state) {
 			throw new NotImplementedException();
 		}
 			}

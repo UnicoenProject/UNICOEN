@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -26,7 +25,7 @@ namespace Unicoen.Core.Model {
 	///   識別子を表します。
 	/// </summary>
 	public class UnifiedIdentifier
-			: UnifiedElement, IUnifiedExpression, IUnifiedIdentifierOrCollection {
+			: UnifiedElement, IUnifiedExpression {
 		/// <summary>
 		/// </summary>
 		public string Value { get; set; }
@@ -54,12 +53,12 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
 			yield break;
 		}

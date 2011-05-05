@@ -51,10 +51,10 @@ namespace Unicoen.Core.Model {
 		private UnifiedIntegerLiteral _bitField;
 
 		/// <summary>
-		/// C の struct におけるビットフィールド
+		///   C の struct におけるビットフィールド
 		/// </summary>
 		public UnifiedIntegerLiteral BitField {
-			get { return _bitField;  }
+			get { return _bitField; }
 			set { _bitField = value; }
 		}
 
@@ -103,7 +103,6 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedVariableDefinitionBody() {}
 
-
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -128,35 +127,35 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
+					(() => Name, v => Name = (UnifiedIdentifier)v);
+			yield return ElementReference.Create
+					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
+			yield return ElementReference.Create
 					(BitField, v => BitField = (UnifiedIntegerLiteral)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(InitialValue, v => InitialValue = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_name, v => _name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_bitField, v => _bitField = (UnifiedIntegerLiteral)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_initialValue, v => _initialValue = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 

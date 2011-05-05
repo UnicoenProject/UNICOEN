@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _leftHandSide;
 
 		/// <summary>
-		/// 第1オペランドを表します
-		/// e.g. <c>a + b</c>の<c>a</c>
+		///   第1オペランドを表します
+		///   e.g. <c>a + b</c>の<c>a</c>
 		/// </summary>
 		public IUnifiedExpression LeftHandSide {
 			get { return _leftHandSide; }
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedBinaryOperator _operator;
 
 		/// <summary>
-		/// 演算子を表します
-		/// e.g. <c>a + b</c>の<c>+</c>
+		///   演算子を表します
+		///   e.g. <c>a + b</c>の<c>+</c>
 		/// </summary>
 		public UnifiedBinaryOperator Operator {
 			get { return _operator; }
@@ -51,8 +51,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _rightHandSide;
 
 		/// <summary>
-		/// 第2オペランドを表します
-		/// e.g. <c>a + b</c>の<c>b</c>
+		///   第2オペランドを表します
+		///   e.g. <c>a + b</c>の<c>b</c>
 		/// </summary>
 		public IUnifiedExpression RightHandSide {
 			get { return _rightHandSide; }
@@ -82,23 +82,23 @@ namespace Unicoen.Core.Model {
 			yield return RightHandSide;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(LeftHandSide, v => LeftHandSide = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(Operator, v => Operator = (UnifiedBinaryOperator)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(RightHandSide, v => RightHandSide = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference<IUnifiedElement>>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_leftHandSide, v => _leftHandSide = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_operator, v => _operator = (UnifiedBinaryOperator)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
+			yield return ElementReference.Create
 					(_rightHandSide, v => _rightHandSide = (IUnifiedExpression)v);
 		}
 
