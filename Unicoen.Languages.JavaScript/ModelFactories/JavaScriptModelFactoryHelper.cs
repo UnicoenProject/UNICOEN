@@ -1,21 +1,38 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Mocomoco.Xml.Linq;
-using Paraiba.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.JavaScript.ModelFactories {
 	public static class JavaScriptModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
-		public static Dictionary<string, UnifiedUnaryOperator> Sign2PrefixUnaryOperator;
+
+		public static Dictionary<string, UnifiedUnaryOperator>
+				Sign2PrefixUnaryOperator;
 
 		static JavaScriptModelFactoryHelper() {
 			Sign2BinaryOperator =
@@ -24,8 +41,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					ModelFactoryHelper.CreatePrefixUnaryOperatorDictionaryForJava();
 		}
 
-		public static UnifiedProgram CreateProgram(XElement node)
-		{
+		public static UnifiedProgram CreateProgram(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "program");
 			/*
@@ -34,11 +50,11 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			return UnifiedProgram.Create(
-				CreateSourceElements(node.Element("sourceElements")));
+					CreateSourceElements(node.Element("sourceElements")));
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateSourceElements(XElement node)
-		{
+		public static IEnumerable<IUnifiedExpression> CreateSourceElements(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "sourceElements");
 			/*
@@ -51,8 +67,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return sourceElements;
 		}
 
-		public static IUnifiedExpression CreateSourceElement(XElement node)
-		{
+		public static IUnifiedExpression CreateSourceElement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "sourceElement");
 			/*
@@ -63,17 +78,17 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var first = node.NthElement(0);
 			switch (first.Name()) {
-				case "functionDeclaration":
-					return CreateFunctionDeclaration(first);
-				case "statement":
-					return CreateStatement(first);
-				default:
-					throw new InvalidOperationException();
+			case "functionDeclaration":
+				return CreateFunctionDeclaration(first);
+			case "statement":
+				return CreateStatement(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static UnifiedFunctionDefinition CreateFunctionDeclaration(XElement node)
-		{
+		public static UnifiedFunctionDefinition CreateFunctionDeclaration(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionDeclaration");
 			/*
@@ -92,15 +107,14 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			//共通コードモデルではUnifiedFunctionDefinitionとして扱う
 		}
 
-		public static IUnifiedExpression CreateFunctionExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateFunctionExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionExpression");
 			/*
 			 * functionExpression
 			 *		: 'function' LT!* Identifier? LT!* formalParameterList LT!* functionBody
 			 */
-			
+
 			//名前をつけられるが、無名関数として定義する場合にその識別子で参照はできない
 			var name = node.Element("Identifier") != null
 			           		? node.Element("Identifier").Value : null;
@@ -111,8 +125,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedFunctionDefinition.CreateLambda(name, parameters, body);
 		}
 
-		public static UnifiedParameterCollection CreateFormalParameterList(XElement node)
-		{
+		public static UnifiedParameterCollection CreateFormalParameterList(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameterList");
 			/*
@@ -126,8 +140,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return parameters;
 		}
 
-		public static UnifiedBlock CreateFunctionBody(XElement node)
-		{
+		public static UnifiedBlock CreateFunctionBody(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionBody");
 			/*
@@ -136,11 +149,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			return UnifiedBlock.Create(
-				CreateSourceElements(node.Element("sourceElements")));
+					CreateSourceElements(node.Element("sourceElements")));
 		}
 
-		public static IUnifiedExpression CreateStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			/*
@@ -163,41 +175,40 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var first = node.NthElement(0);
 			switch (first.Name()) {
-				case "statementBlock":
-					return CreateStatementBlock(first);
-				case "variableStatement":
-					return CreateVariableStatement(first);
-				case "emptyStatement":
-					return CreateEmptyStatement(first);
-				case "expressionStatement":
-					return CreateExpressionStatement(first);
-				case "ifStatement":
-					return CreateIfStatement(first);
-				case "iterationStatement":
-					return CreateIterationStatement(first);
-				case "continueStatement":
-					return CreateContinueStatement(first);
-				case "breakStatement":
-					return CreateBreakStatement(first);
-				case "returnStatement":
-					return CreateReturnStatement(first);
-				case "withStatement":
-					return CreateWithStatement(first);
-				case "labelledStatement":
-					return CreateLabelledStatement(first);
-				case "switchStatement":
-					return CreateSwitchStatement(first);
-				case "throwStatement":
-					return CreateThrowStatement(first);
-				case "tryStatement":
-					return CreateTryStatement(first);
-				default:
-					throw new InvalidOperationException();
+			case "statementBlock":
+				return CreateStatementBlock(first);
+			case "variableStatement":
+				return CreateVariableStatement(first);
+			case "emptyStatement":
+				return CreateEmptyStatement(first);
+			case "expressionStatement":
+				return CreateExpressionStatement(first);
+			case "ifStatement":
+				return CreateIfStatement(first);
+			case "iterationStatement":
+				return CreateIterationStatement(first);
+			case "continueStatement":
+				return CreateContinueStatement(first);
+			case "breakStatement":
+				return CreateBreakStatement(first);
+			case "returnStatement":
+				return CreateReturnStatement(first);
+			case "withStatement":
+				return CreateWithStatement(first);
+			case "labelledStatement":
+				return CreateLabelledStatement(first);
+			case "switchStatement":
+				return CreateSwitchStatement(first);
+			case "throwStatement":
+				return CreateThrowStatement(first);
+			case "tryStatement":
+				return CreateTryStatement(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static UnifiedBlock CreateStatementBlock(XElement node)
-		{
+		public static UnifiedBlock CreateStatementBlock(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statementBlock");
 			/*
@@ -211,8 +222,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedBlock.Create(statementList);
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateStatementList(XElement node)
-		{
+		public static IEnumerable<IUnifiedExpression> CreateStatementList(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statementList");
 			/*
@@ -222,8 +233,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return node.Elements("statement").Select(CreateStatement);
 		}
 
-		public static IUnifiedExpression CreateVariableStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateVariableStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableStatement");
 			/*
@@ -237,8 +247,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedVariableDefinition.Create(null, null, bodys);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection CreateVariableDeclarationList(XElement node)
-		{
+		public static UnifiedVariableDefinitionBodyCollection
+				CreateVariableDeclarationList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationList");
 			/*
@@ -251,8 +261,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection CreateVariableDeclarationListNoIn(XElement node)
-		{
+		public static UnifiedVariableDefinitionBodyCollection
+				CreateVariableDeclarationListNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationListNoIn");
 			/*
@@ -264,8 +274,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedVariableDefinitionBody CreateVariableDeclaration(XElement node)
-		{
+		public static UnifiedVariableDefinitionBody CreateVariableDeclaration(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclaration");
 			/*
@@ -280,8 +290,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
 		}
 
-		public static UnifiedVariableDefinitionBody CreateVariableDeclarationNoIn(XElement node)
-		{
+		public static UnifiedVariableDefinitionBody CreateVariableDeclarationNoIn(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationNoIn");
 			/*
@@ -296,8 +306,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
 		}
 
-		public static IUnifiedExpression CreateInitialiser(XElement node)
-		{
+		public static IUnifiedExpression CreateInitialiser(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "initialiser");
 			/*
@@ -308,8 +317,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return CreateAssignmentExpression(node.Element("assignmentExpression"));
 		}
 
-		public static IUnifiedExpression CreateInitialiserNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateInitialiserNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "initialiserNoIn");
 			/*
@@ -318,11 +326,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			return CreateAssignmentExpressionNoIn(
-				node.Element("assignmentExpressionNoIn"));
+					node.Element("assignmentExpressionNoIn"));
 		}
 
-		public static IUnifiedExpression CreateEmptyStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateEmptyStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "emptyStatement");
 			/*
@@ -333,8 +340,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedBlock.Create();
 		}
 
-		public static IUnifiedExpression CreateExpressionStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateExpressionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expressionStatement");
 			/*
@@ -345,8 +351,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return CreateExpression(node.NthElement(0));
 		}
 
-		public static UnifiedIf CreateIfStatement(XElement node)
-		{
+		public static UnifiedIf CreateIfStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "ifStatement");
 			/*
@@ -355,16 +360,17 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var cond = CreateExpression(node.Element("expression"));
-			var trueBody = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+			var trueBody = UnifiedBlock.Create(
+					CreateStatement(node.Element("statement")));
 			var falseBody = node.HasContent("else")
-			        		? UnifiedBlock.Create(
-			        				CreateStatement(node.Elements("statement").ElementAt(1))) : null;
+			                		? UnifiedBlock.Create(
+			                				CreateStatement(node.Elements("statement").ElementAt(1)))
+			                		: null;
 
 			return UnifiedIf.Create(cond, trueBody, falseBody);
 		}
 
-		public static IUnifiedExpression CreateIterationStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateIterationStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iterationStatement");
 			/*
@@ -376,22 +382,21 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var first = node.NthElement(0);
-			switch(first.Name()) {
-				case "doWhileStatement":
-					return CreateDoWhileStatement(first);
-				case "whileStatement":
-					return CreateWhileStatement(first);
-				case "forStatement":
-					return CreateForStatement(first);
-				case "forInStatement":
-					return CreateForInStatement(first);
-				default:
-					throw new InvalidOperationException();
+			switch (first.Name()) {
+			case "doWhileStatement":
+				return CreateDoWhileStatement(first);
+			case "whileStatement":
+				return CreateWhileStatement(first);
+			case "forStatement":
+				return CreateForStatement(first);
+			case "forInStatement":
+				return CreateForInStatement(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static UnifiedDoWhile CreateDoWhileStatement(XElement node)
-		{
+		public static UnifiedDoWhile CreateDoWhileStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "doWhileStatement");
 			/*
@@ -405,8 +410,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedDoWhile.Create(body, cond);
 		}
 
-		public static UnifiedWhile CreateWhileStatement(XElement node)
-		{
+		public static UnifiedWhile CreateWhileStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "whileStatement");
 			/*
@@ -420,8 +424,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedWhile.Create(cond, body);
 		}
 
-		public static UnifiedFor CreateForStatement(XElement node)
-		{
+		public static UnifiedFor CreateForStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forStatement");
 			/*
@@ -437,7 +440,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var semicolons = node.Elements().Where(e => e.Value == ";");
 			var first = semicolons.ElementAt(0).NextElement();
 			var second = semicolons.ElementAt(1).NextElement();
-			
+
 			var cond = first.Name() == "expression" ? CreateExpression(first) : null;
 			var step = second.Name() == "expression" ? CreateExpression(first) : null;
 			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
@@ -445,8 +448,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedFor.Create(init, cond, step, body);
 		}
 
-		public static IUnifiedExpression CreateForStatementInitialiserPart(XElement node)
-		{
+		public static IUnifiedExpression CreateForStatementInitialiserPart(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forStatementInitialiserPart");
 			/*
@@ -455,9 +458,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| 'var' LT!* variableDeclarationListNoIn
 			 */
 
-			if(node.NthElement(0).Name() == "expressionNoIn")
+			if (node.NthElement(0).Name() == "expressionNoIn")
 				return CreateExpressionNoIn(node.NthElement(0));
-			if(node.HasElement("variableDeclarationListNoIn"))
+			if (node.HasElement("variableDeclarationListNoIn"))
 				return UnifiedVariableDefinition.Create(
 						null, null,
 						CreateVariableDeclarationListNoIn(
@@ -465,8 +468,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedForeach CreateForInStatement(XElement node)
-		{
+		public static UnifiedForeach CreateForInStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forInStatement");
 			/*
@@ -483,8 +485,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedForeach.Create(element, set, body);
 		}
 
-		public static IUnifiedExpression CreateForInStatementInitialiserPart(XElement node)
-		{
+		public static IUnifiedExpression CreateForInStatementInitialiserPart(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "forInStatementInitialiserPart");
 			/*
@@ -494,10 +496,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			//左辺がCall or Newになる場合のコードはまだ未確認
-			if(node.NthElement(0).Name() == "leftHandSideExpression")
+			if (node.NthElement(0).Name() == "leftHandSideExpression")
 				return CreateLeftHandSideExpression(node.NthElement(0));
-			
-			if(node.HasElement("variableDeclarationNoIn"))
+
+			if (node.HasElement("variableDeclarationNoIn"))
 				return UnifiedVariableDefinition.Create(
 						null, null,
 						CreateVariableDeclarationNoIn(node.Element("variableDeclarationNoIn")).
@@ -505,8 +507,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedSpecialExpression CreateContinueStatement(XElement node)
-		{
+		public static UnifiedSpecialExpression CreateContinueStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "continueStatement");
 			/*
@@ -521,8 +522,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedSpecialExpression.CreateContinue(identifier);
 		}
 
-		public static UnifiedSpecialExpression CreateBreakStatement(XElement node)
-		{
+		public static UnifiedSpecialExpression CreateBreakStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "breakStatement");
 			/*
@@ -536,8 +536,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedSpecialExpression.CreateBreak(identifier);
 		}
 
-		public static IUnifiedExpression CreateReturnStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateReturnStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "returnStatement");
 			/*
@@ -550,8 +549,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedSpecialExpression.CreateReturn(expression);
 		}
 
-		public static IUnifiedExpression CreateWithStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateWithStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "withStatement");
 			/*
@@ -564,8 +562,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedSpecialBlock.Create(UnifiedSpecialBlockKind.With, exp, body);
 		}
 
-		public static IUnifiedExpression CreateLabelledStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateLabelledStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labelledStatement");
 			/*
@@ -580,8 +577,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return list;
 		}
 
-		public static IUnifiedExpression CreateSwitchStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateSwitchStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "switchStatement");
 			/*
@@ -595,8 +591,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedSwitch.Create(value, cases);
 		}
 
-		public static UnifiedCaseCollection CreateCaseBlock(XElement node)
-		{
+		public static UnifiedCaseCollection CreateCaseBlock(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "caseBlock");
 			/*
@@ -613,8 +608,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return cases;
 		}
 
-		public static UnifiedCase CreateCaseClause(XElement node)
-		{
+		public static UnifiedCase CreateCaseClause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "caseClause");
 			/*
@@ -628,8 +622,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedCase.Create(cond, UnifiedBlock.Create(body));
 		}
 
-		public static UnifiedCase CreateDefaultClause(XElement node)
-		{
+		public static UnifiedCase CreateDefaultClause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "defaultClause");
 			/*
@@ -642,8 +635,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedCase.Create(null, UnifiedBlock.Create(body));
 		}
 
-		public static UnifiedSpecialExpression CreateThrowStatement(XElement node)
-		{
+		public static UnifiedSpecialExpression CreateThrowStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "throwStatement");
 			/*
@@ -656,8 +648,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					CreateExpression(node.Element("expression")));
 		}
 
-		public static IUnifiedExpression CreateTryStatement(XElement node)
-		{
+		public static IUnifiedExpression CreateTryStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "tryStatement");
 			/*
@@ -675,8 +666,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedTry.Create(body, catches, finallyBody);
 		}
 
-		public static UnifiedCatchCollection CreateCatchClause(XElement node)
-		{
+		public static UnifiedCatchCollection CreateCatchClause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "catchClause");
 			/*
@@ -695,8 +685,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return catchClause.ToCollection();
 		}
 
-		public static UnifiedBlock CreateFinallyClause(XElement node)
-		{
+		public static UnifiedBlock CreateFinallyClause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "finallyClause");
 			/*
@@ -707,8 +696,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return CreateStatementBlock(node.Element("statementBlock"));
 		}
 
-		public static IUnifiedExpression CreateExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression");
 			/*
@@ -720,8 +708,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedBlock.Create(expressions);
 		}
 
-		public static UnifiedExpressionList CreateExpressionNoIn(XElement node)
-		{
+		public static UnifiedExpressionList CreateExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expressionNoIn");
 			/*
@@ -734,8 +721,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToExpressionList();
 		}
 
-		public static IUnifiedExpression CreateAssignmentExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateAssignmentExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignmentExpression");
 			/*
@@ -745,21 +731,20 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var first = node.NthElement(0);
-			switch(first.Name()) {
-				case "conditionalExpression":
-					return CreateConditionalExpression(first);
-				case "leftHandSideExpression":
-					return UnifiedBinaryExpression.Create(
+			switch (first.Name()) {
+			case "conditionalExpression":
+				return CreateConditionalExpression(first);
+			case "leftHandSideExpression":
+				return UnifiedBinaryExpression.Create(
 						CreateLeftHandSideExpression(first),
 						CreateAssignmentOperator(node.Element("assignmentOperator")),
 						CreateAssignmentExpression(node.Element("assignmentExpression")));
-				default:
-					throw new InvalidOperationException();
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static IUnifiedExpression CreateAssignmentExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateAssignmentExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignmentExpressionNoIn");
 			/*
@@ -769,21 +754,20 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var first = node.NthElement(0);
-			switch(first.Name()) {
-				case "conditionalExpressionNoIn":
-					return CreateConditionalExpressionNoIn(first);
-				case "leftHandSideExpression":
-					return UnifiedBinaryExpression.Create(
+			switch (first.Name()) {
+			case "conditionalExpressionNoIn":
+				return CreateConditionalExpressionNoIn(first);
+			case "leftHandSideExpression":
+				return UnifiedBinaryExpression.Create(
 						CreateLeftHandSideExpression(first),
 						CreateAssignmentOperator(node.Element("assignmentOperator")),
 						CreateAssignmentExpressionNoIn(node.Element("assignmentExpressionNoIn")));
-				default:
-					throw new InvalidOperationException();
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static IUnifiedExpression CreateLeftHandSideExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateLeftHandSideExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "leftHandSideExpression");
 			/*
@@ -793,18 +777,17 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var first = node.NthElement(0);
-			switch(first.Name()) {
-				case "callExpression":
-					return CreateCallExpression(first);
-				case "newExpression":
-					return CreateNewExpression(first);
-				default:
-					throw new InvalidOperationException();
+			switch (first.Name()) {
+			case "callExpression":
+				return CreateCallExpression(first);
+			case "newExpression":
+				return CreateNewExpression(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static IUnifiedExpression CreateNewExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateNewExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "newExpression");
 			/*
@@ -812,7 +795,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: memberExpression
 			 *		| 'new' LT!* newExpression
 			 */
-			
+
 			/* コード例
 			 *	function r() {
 			 *		this.f = function() {
@@ -822,49 +805,53 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *	new new r().f
 			 */
 
-			if(node.NthElement(0).Name() == "memberExpression")
+			if (node.NthElement(0).Name() == "memberExpression")
 				return CreateMemberExpression(node.NthElement(0));
 
-			return UnifiedNew.Create(UnifiedType.Create(CreateNewExpression(node.Element("newExpression")), null, null));
+			return
+					UnifiedNew.Create(
+							UnifiedType.Create(
+									CreateNewExpression(node.Element("newExpression")), null, null));
 		}
 
-		public static IUnifiedExpression CreateMemberExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateMemberExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "memberExpression");
 			/*
 			 * memberExpression
-			 *		: (primaryExpression | functionExpression | 'new' LT!* memberExpression LT!* arguments) (LT!* memberExpressionSuffix)*
+			 *		: (primaryExpression
+			 *			| functionExpression
+			 *			| 'new' LT!* memberExpression LT!* arguments)
+			 *		  (LT!* memberExpressionSuffix)*
 			 */
 
 			IUnifiedExpression exp = null;
 			var first = node.NthElement(0);
 
-			switch(first.Name()) {
-				case "primaryExpression":
-					exp = CreatePrimaryExpression(first);
-					break;
-				case "functionExpression":
-					exp = CreateFunctionExpression(first);
-					break;
-				case "TOKEN": //case 'new'
+			switch (first.Name()) {
+			case "primaryExpression":
+				exp = CreatePrimaryExpression(first);
+				break;
+			case "functionExpression":
+				exp = CreateFunctionExpression(first);
+				break;
+			case "TOKEN": //case 'new'
 				exp = UnifiedNew.Create(
-						UnifiedType.Create(
-								CreateArguments(
-										CreateMemberExpression(node.Element("memberExpression")),
-										node.Element("arguments")), null, null));
-					break;
-				default: 
-					throw new InvalidOperationException();
+						CreateMemberExpression(node.Element("memberExpression")),
+						CreateArguments(node.Element("arguments")));
+				break;
+			default:
+				throw new InvalidOperationException();
 			}
 
 			//TODO Javaを参考に移行しただけなので、要確認
-			exp = node.Elements("memberExpressionSuffix").Aggregate(exp, CreateMemberExpressionSuffix);
-			return exp;		
+			exp = node.Elements("memberExpressionSuffix").Aggregate(
+					exp, CreateMemberExpressionSuffix);
+			return exp;
 		}
 
-		public static IUnifiedExpression CreateMemberExpressionSuffix(IUnifiedExpression prefix, XElement node)
-		{
+		public static IUnifiedExpression CreateMemberExpressionSuffix(
+				IUnifiedExpression prefix, XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "memberExpressionSuffix");
 			/*
@@ -873,18 +860,17 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| propertyReferenceSuffix
 			 */
 			var first = node.NthElement(0);
-			switch(first.Name()) {
-				case "indexSuffix":
-					return CreateIndexSuffix(prefix, first);
-				case "propertyReferenceSuffix":
-					return CreatePropertyReferenceSuffix(prefix, first);
-				default:
-					throw new InvalidOperationException();
+			switch (first.Name()) {
+			case "indexSuffix":
+				return CreateIndexSuffix(prefix, first);
+			case "propertyReferenceSuffix":
+				return CreatePropertyReferenceSuffix(prefix, first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static IUnifiedExpression CreateCallExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateCallExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "callExpression");
 			/*
@@ -894,17 +880,17 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			//実際のUnifiedCallインスタンスの生成はCreateArguments内で行われる
 			IUnifiedExpression exp =
-					CreateArguments(
+					UnifiedCall.Create(
 							CreateMemberExpression(node.Element("memberExpression")),
-							node.Element("arguments"));
+							CreateArguments(
+									node.Element("arguments")));
 			exp = node.Elements("callExpressionSuffix").Aggregate(
 					exp, CreateCallExpressionSuffix);
 			return exp;
-
 		}
 
-		public static IUnifiedExpression CreateCallExpressionSuffix(IUnifiedExpression prefix, XElement node)
-		{
+		public static IUnifiedExpression CreateCallExpressionSuffix(
+				IUnifiedExpression prefix, XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "callExpressionSuffix");
 			/*
@@ -914,20 +900,19 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| propertyReferenceSuffix
 			 */
 			var first = node.NthElement(0);
-			switch(first.Name()) {
-				case "arguments":
-					return CreateArguments(prefix, first);
-				case "indexSuffix":
-					return CreateIndexSuffix(prefix, first);
-				case "propertyReferenceSuffix":
-					return CreatePropertyReferenceSuffix(prefix, first);
-				default:
-					throw new InvalidOperationException();
+			switch (first.Name()) {
+			case "arguments":
+				return UnifiedCall.Create(prefix, CreateArguments(first));
+			case "indexSuffix":
+				return CreateIndexSuffix(prefix, first);
+			case "propertyReferenceSuffix":
+				return CreatePropertyReferenceSuffix(prefix, first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static UnifiedCall CreateArguments(IUnifiedExpression prefix, XElement node)
-		{
+		public static UnifiedArgumentCollection CreateArguments(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arguments");
 			/*
@@ -937,11 +922,11 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var arguments = node.Elements("assignmentExpression").Select(
 					e => UnifiedArgument.Create(CreateAssignmentExpression(e))).ToCollection();
-			return UnifiedCall.Create(prefix, arguments);
+			return arguments.ToCollection();
 		}
 
-		public static UnifiedIndexer CreateIndexSuffix(IUnifiedExpression prefix, XElement node)
-		{
+		public static UnifiedIndexer CreateIndexSuffix(
+				IUnifiedExpression prefix, XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "indexSuffix");
 			/*
@@ -955,8 +940,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 							ToCollection());
 		}
 
-		public static UnifiedProperty CreatePropertyReferenceSuffix(IUnifiedExpression prefix, XElement node)
-		{
+		public static UnifiedProperty CreatePropertyReferenceSuffix(
+				IUnifiedExpression prefix, XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "propertyReferenceSuffix");
 			/*
@@ -966,8 +951,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedProperty.Create(prefix, node.Element("Identifier").Value, ".");
 		}
 
-		public static UnifiedBinaryOperator CreateAssignmentOperator(XElement node)
-		{
+		public static UnifiedBinaryOperator CreateAssignmentOperator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignmentOperator");
 			/*
@@ -1020,15 +1004,14 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedBinaryOperator.Create(name, kind);
 		}
 
-		public static IUnifiedExpression CreateConditionalExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateConditionalExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "conditionalExpression");
 			/*
 			 * conditionalExpression
 			 *		: logicalORExpression (LT!* '?' LT!* assignmentExpression LT!* ':' LT!* assignmentExpression)?
 			 */
-			if(node.HasElement("assignmentExpression")) {
+			if (node.HasElement("assignmentExpression")) {
 				return UnifiedTernaryExpression.Create(
 						CreateLogicalORExpression(node.Element("logicalORExpression")),
 						UnifiedTernaryOperator.Create(
@@ -1040,15 +1023,15 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return CreateLogicalORExpression(node.NthElement(0));
 		}
 
-		public static IUnifiedExpression CreateConditionalExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateConditionalExpressionNoIn(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "conditionalExpressionNoIn");
 			/*
 			 * conditionalExpressionNoIn
 			 *		: logicalORExpressionNoIn (LT!* '?' LT!* assignmentExpressionNoIn LT!* ':' LT!* assignmentExpressionNoIn)?
 			 */
-			if(node.HasElement("assignmentExpressionNoIn")) {
+			if (node.HasElement("assignmentExpressionNoIn")) {
 				return UnifiedTernaryExpression.Create(
 						CreateLogicalORExpressionNoIn(node.Element("logicalORExpressionNoIn")),
 						UnifiedTernaryOperator.Create(
@@ -1060,8 +1043,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return CreateLogicalORExpressionNoIn(node.NthElement(0));
 		}
 
-		public static IUnifiedExpression CreateLogicalORExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateLogicalORExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logicalORExpression");
 			/*
@@ -1072,8 +1054,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateLogicalANDExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateLogicalORExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateLogicalORExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logicalORExpressionNoIn");
 			/*
@@ -1084,8 +1065,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateLogicalANDExpressionNoIn, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateLogicalANDExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateLogicalANDExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logicalANDExpression");
 			/*
@@ -1096,8 +1076,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateBitwiseORExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateLogicalANDExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateLogicalANDExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logicalANDExpressionNoIn");
 			/*
@@ -1108,8 +1087,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateBitwiseORExpressionNoIn, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateBitwiseORExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateBitwiseORExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "bitwiseORExpression");
 			/*
@@ -1120,8 +1098,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateBitwiseXORExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateBitwiseORExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateBitwiseORExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "bitwiseORExpressionNoIn");
 			/*
@@ -1132,8 +1109,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateBitwiseXORExpressionNoIn, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateBitwiseXORExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateBitwiseXORExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "bitwiseXORExpression");
 			/*
@@ -1144,8 +1120,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateBitwiseANDExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateBitwiseXORExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateBitwiseXORExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "bitwiseXORExpressionNoIn");
 			/*
@@ -1156,8 +1131,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateBitwiseANDExpressionNoIn, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateBitwiseANDExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateBitwiseANDExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "bitwiseANDExpression");
 			/*
@@ -1168,8 +1142,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateEqualityExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateBitwiseANDExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateBitwiseANDExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "bitwiseANDExpressionNoIn");
 			/*
@@ -1180,8 +1153,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateEqualityExpressionNoIn, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateEqualityExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateEqualityExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "equalityExpression");
 			/*
@@ -1193,8 +1165,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateRelationalExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateEqualityExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateEqualityExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "equalityExpressionNoIn");
 			/*
@@ -1205,8 +1176,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateRelationalExpressionNoIn, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateRelationalExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateRelationalExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "relationalExpression");
 			/*
@@ -1217,8 +1187,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateShiftExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateRelationalExpressionNoIn(XElement node)
-		{
+		public static IUnifiedExpression CreateRelationalExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "relationalExpressionNoIn");
 			/*
@@ -1229,8 +1198,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateShiftExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateShiftExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateShiftExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "shiftExpression");
 			/*
@@ -1241,8 +1209,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateAdditiveExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateAdditiveExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateAdditiveExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "additiveExpression");
 			/*
@@ -1253,8 +1220,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateMultiplicativeExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateMultiplicativeExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateMultiplicativeExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "multiplicativeExpression");
 			/*
@@ -1265,8 +1231,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node, CreateUnaryExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateUnaryExpression(XElement node)
-		{
+		public static IUnifiedExpression CreateUnaryExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "unaryExpression");
 			/*
@@ -1275,7 +1240,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| ('delete' | 'void' | 'typeof' | '++' | '--' | '+' | '-' | '~' | '!') unaryExpression
 			 */
 			var first = node.NthElement(0);
-			if(first.Name() == "postfixExpression")
+			if (first.Name() == "postfixExpression")
 				return CreatePostfixExpression(first);
 			return
 					UnifiedUnaryExpression.Create(
@@ -1283,8 +1248,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 							CreatePrefixUnaryOperator(first.Value));
 		}
 
-		public static IUnifiedExpression CreatePostfixExpression(XElement node)
-		{
+		public static IUnifiedExpression CreatePostfixExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "postfixExpression");
 			/*
@@ -1293,7 +1257,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			UnifiedUnaryOperator ope = null;
-			if(node.Elements().Count() == 2) {
+			if (node.Elements().Count() == 2) {
 				ope = node.NthElement(1).Value == "++"
 				      		? UnifiedUnaryOperator.Create(
 				      				"++", UnifiedUnaryOperatorKind.PostIncrementAssign)
@@ -1305,8 +1269,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 							CreateLeftHandSideExpression(node.NthElement(0)), ope);
 		}
 
-		public static IUnifiedExpression CreatePrimaryExpression(XElement node)
-		{
+		public static IUnifiedExpression CreatePrimaryExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primaryExpression");
 			/*
@@ -1319,27 +1282,26 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| '(' LT!* expression LT!* ')'
 			 */
 			var first = node.NthElement(0);
-			if(first.Value == "this")
+			if (first.Value == "this")
 				return UnifiedIdentifier.CreateUnknown("this");
-			if(first.Value == "(")
+			if (first.Value == "(")
 				return CreateExpression(node.Element("expression"));
 
-			switch(first.Name()) {
-				case "Identifier":
-					return UnifiedIdentifier.CreateVariable(first.Value);
-				case "literal":
-					return CreateLiteral(first);
-				case "arrayLiteral":
-					return CreateArrayLiteral(first);
-				case "objectLiteral":
-					return CreateObjectLiteral(first);
-				default:
-					throw new InvalidOperationException();
+			switch (first.Name()) {
+			case "Identifier":
+				return UnifiedIdentifier.CreateVariable(first.Value);
+			case "literal":
+				return CreateLiteral(first);
+			case "arrayLiteral":
+				return CreateArrayLiteral(first);
+			case "objectLiteral":
+				return CreateObjectLiteral(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static UnifiedNew CreateArrayLiteral(XElement node)
-		{
+		public static UnifiedNew CreateArrayLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arrayLiteral");
 			/*
@@ -1355,8 +1317,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedNew.CreateArray(exps);
 		}
 
-		public static IUnifiedExpression CreateObjectLiteral(XElement node)
-		{
+		public static IUnifiedExpression CreateObjectLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "objectLiteral");
 			/*
@@ -1376,8 +1337,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 									Element("Identifier").Value, body);
 		}
 
-		public static IUnifiedExpression CreatePropertyNameAndValue(XElement node)
-		{
+		public static IUnifiedExpression CreatePropertyNameAndValue(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "propertyNameAndValue");
 			/*
@@ -1388,12 +1348,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			//プロパティ宣言を変数宣言でとりあえずは代用
 			var body = UnifiedVariableDefinitionBody.Create(
 					CreatePropertyName(node.Element("propertyName")).Value, null,
-					CreateAssignmentExpression(node.Element("assignmentExpression"))).ToCollection();
+					CreateAssignmentExpression(node.Element("assignmentExpression"))).
+					ToCollection();
 			return UnifiedVariableDefinition.Create(null, null, body);
 		}
 
-		public static UnifiedIdentifier CreatePropertyName(XElement node)
-		{
+		public static UnifiedIdentifier CreatePropertyName(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "propertyName");
 			/*
@@ -1405,8 +1365,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
 		}
 
-		public static UnifiedLiteral CreateLiteral(XElement node)
-		{
+		public static UnifiedLiteral CreateLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "literal");
 			/*
@@ -1418,25 +1377,24 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| NumericLiteral
 			 */
 			var first = node.NthElement(0);
-			if(first.Value == "null")
+			if (first.Value == "null")
 				return UnifiedNullLiteral.Create();
-			if(first.Value == "true")
+			if (first.Value == "true")
 				return UnifiedBooleanLiteral.Create(true);
-			if(first.Value == "false")
+			if (first.Value == "false")
 				return UnifiedBooleanLiteral.Create(false);
 
-			switch(first.Name()) {
-				case "StringLiteral":
-					return CreateStringliteral(first);
-				case "NumericLiteral":
-					return CreateNumericliteral(first);
-				default:
-					throw new InvalidOperationException();
+			switch (first.Name()) {
+			case "StringLiteral":
+				return CreateStringliteral(first);
+			case "NumericLiteral":
+				return CreateNumericliteral(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
 
-		public static UnifiedLiteral CreateNumericliteral(XElement node)
-		{
+		public static UnifiedLiteral CreateNumericliteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "numericliteral");
 			/*
@@ -1445,16 +1403,16 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| HexIntegerLiteral
 			 */
 			var first = node.NthElement(0);
-			switch(first.Name()) {
-				case "DecimalLiteral":
-					return CreateDecimalLiteral(first);
-				case "HexIntegerLiteral":
-					return CreateHexLiteral(first);
-				default:
-					throw new InvalidOperationException();
+			switch (first.Name()) {
+			case "DecimalLiteral":
+				return CreateDecimalLiteral(first);
+			case "HexIntegerLiteral":
+				return CreateHexLiteral(first);
+			default:
+				throw new InvalidOperationException();
 			}
 		}
-		
+
 		public static UnifiedLiteral CreateDecimalLiteral(XElement node) {
 			/*
 			 * fragment DecimalLiteral
@@ -1462,7 +1420,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| '.'? DecimalDigit+ ExponentPart?
 			 */
 
-			if(node.Value.Contains("."))
+			if (node.Value.Contains("."))
 				return CreateDoubleLiteral(node);
 			return CreateIntegerLiteral(node);
 		}
@@ -1489,19 +1447,19 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: ('0'..'9')
 			 */
 
-			var result = BigInteger.Parse(node.Value.Substring(2), NumberStyles.HexNumber);
+			var result = BigInteger.Parse(
+					node.Value.Substring(2), NumberStyles.HexNumber);
 			return UnifiedIntegerLiteral.CreateBigInteger(result);
 		}
 
-		public static UnifiedLiteral CreateStringliteral(XElement node)
-		{
+		public static UnifiedLiteral CreateStringliteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "stringliteral");
 			/*
 			 * stringliteral
 			 */
 			return UnifiedStringLiteral.CreateString(
-								node.Value.Substring(1, node.Value.Length - 2));
+					node.Value.Substring(1, node.Value.Length - 2));
 		}
 
 		private static UnifiedUnaryOperator CreatePrefixUnaryOperator(string name) {
