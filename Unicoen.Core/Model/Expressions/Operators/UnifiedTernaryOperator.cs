@@ -74,12 +74,12 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield break;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield break;
 		}

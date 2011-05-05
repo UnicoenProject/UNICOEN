@@ -101,9 +101,9 @@ namespace Unicoen.Core.Tests {
 				var elementAndDirectSetters = element.GetElementAndDirectSetters();
 				var propValues = GetProperties(element);
 				Assert.That(elements, Is.EqualTo(propValues));
-				Assert.That(elementAndSetters.Select(t => t.Item1), Is.EqualTo(propValues));
+				Assert.That(elementAndSetters.Select(t => t.Element), Is.EqualTo(propValues));
 				Assert.That(
-						elementAndDirectSetters.Select(t => t.Item1),
+						elementAndDirectSetters.Select(t => t.Element),
 						Is.EqualTo(propValues));
 			}
 		}
@@ -140,7 +140,7 @@ namespace Unicoen.Core.Tests {
 			foreach (var element in elements) {
 				var elementAndSetters = element.GetElementAndSetters();
 				foreach (var elementAndSetter in elementAndSetters) {
-					elementAndSetter.Item2(null);
+					elementAndSetter.Element = null;
 				}
 			}
 			foreach (var element in elements) {
@@ -182,7 +182,7 @@ namespace Unicoen.Core.Tests {
 			foreach (var element in elements) {
 				var elementAndSetters = element.GetElementAndDirectSetters();
 				foreach (var elementAndSetter in elementAndSetters) {
-					elementAndSetter.Item2(null);
+					elementAndSetter.Element = null;
 				}
 			}
 			foreach (var element in elements) {

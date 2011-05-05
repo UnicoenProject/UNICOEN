@@ -25,14 +25,10 @@ namespace Unicoen.Core {
 				Func<IUnifiedElement> getter, Action<IUnifiedElement> setter)
 				: base(getter, setter) {}
 
-		public static ElementReference<IUnifiedElement> Create(
+		public new static ElementReference Create(
 				Func<IUnifiedElement> getter, Action<IUnifiedElement> setter) {
-			return new ElementReference<IUnifiedElement>(getter, setter);
+			return new ElementReference(getter, setter);
 		}
-
-//		public static ElementReference<T> Create<T>(Func<T> getter, Action<T> setter) {
-//			return new ElementReference<T>(getter, setter);
-//		}
 	}
 
 	public class ElementReference<T> {
@@ -47,6 +43,10 @@ namespace Unicoen.Core {
 		public T Element {
 			get { return _getter(); }
 			set { _setter(value); }
+		}
+
+		public static ElementReference<T> Create(Func<T> getter, Action<T> setter) {
+			return new ElementReference<T>(getter, setter);
 		}
 	}
 }

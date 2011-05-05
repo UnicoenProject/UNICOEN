@@ -96,28 +96,28 @@ namespace Unicoen.Core.Model {
 			yield return DefaultValue;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(Type, v => Type = (UnifiedType)v);
+					(() => Type, v => Type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(Names, v => Names = (UnifiedIdentifierCollection)v);
+					(() => Names, v => Names = (UnifiedIdentifierCollection)v);
 			yield return ElementReference.Create
-					(DefaultValue, v => DefaultValue = (IUnifiedExpression)v);
+					(() => DefaultValue, v => DefaultValue = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(_type, v => _type = (UnifiedType)v);
+					(() => _type, v => _type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(_names, v => _names = (UnifiedIdentifierCollection)v);
+					(() => _names, v => _names = (UnifiedIdentifierCollection)v);
 			yield return ElementReference.Create
-					(_defaultValue, v => _defaultValue = (IUnifiedExpression)v);
+					(() => _defaultValue, v => _defaultValue = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedParameter Create(

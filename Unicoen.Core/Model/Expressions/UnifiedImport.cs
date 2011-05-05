@@ -78,28 +78,28 @@ namespace Unicoen.Core.Model {
 			yield return Modifiers;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(From, v => From = (IUnifiedExpression)v);
+					(() => From, v => From = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Name, v => Name = (IUnifiedExpression)v);
+					(() => Name, v => Name = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Alias, v => Alias = (UnifiedIdentifier)v);
+					(() => Alias, v => Alias = (UnifiedIdentifier)v);
 			yield return ElementReference.Create
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_from, v => _from = (IUnifiedExpression)v);
+					(() => _from, v => _from = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_name, v => _name = (IUnifiedExpression)v);
+					(() => _name, v => _name = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_alias, v => _alias = (UnifiedIdentifier)v);
+					(() => _alias, v => _alias = (UnifiedIdentifier)v);
 			yield return ElementReference.Create
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 		}
 
 		public static UnifiedImport Create(

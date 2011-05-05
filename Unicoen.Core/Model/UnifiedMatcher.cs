@@ -65,24 +65,24 @@ namespace Unicoen.Core.Model {
 			yield return As;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(Matcher, v => Matcher = (IUnifiedExpression)v);
+					(() => Matcher, v => Matcher = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(As, v => As = (IUnifiedExpression)v);
+					(() => As, v => As = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(_matcher, v => _matcher = (IUnifiedExpression)v);
+					(() => _matcher, v => _matcher = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_as, v => _as = (IUnifiedExpression)v);
+					(() => _as, v => _as = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedMatcher Create(

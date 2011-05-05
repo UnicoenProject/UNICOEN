@@ -56,16 +56,16 @@ namespace Unicoen.Core.Model {
 			yield return KeyValues;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(KeyValues, v => KeyValues = (UnifiedKeyValueCollection)v);
+					(() => KeyValues, v => KeyValues = (UnifiedKeyValueCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_keyValues, v => _keyValues = (UnifiedKeyValueCollection)v);
+					(() => _keyValues, v => _keyValues = (UnifiedKeyValueCollection)v);
 		}
 
 		public static UnifiedDictonary Create(

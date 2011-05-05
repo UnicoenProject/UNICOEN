@@ -52,20 +52,20 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Matchers, v => Matchers = (UnifiedMatcherCollection)v);
+					(() => Matchers, v => Matchers = (UnifiedMatcherCollection)v);
 			yield return ElementReference.Create
-					(Body, v => Body = (UnifiedBlock)v);
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_matchers, v => _matchers = (UnifiedMatcherCollection)v);
+					(() => _matchers, v => _matchers = (UnifiedMatcherCollection)v);
 			yield return ElementReference.Create
-					(_body, v => _body = (UnifiedBlock)v);
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedUsing Create(

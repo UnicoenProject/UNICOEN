@@ -70,20 +70,20 @@ namespace Unicoen.Core.Model {
 			yield return Constrains;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Type, v => Type = (UnifiedType)v);
+					(() => Type, v => Type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+					(() => Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_type, v => _type = (UnifiedType)v);
+					(() => _type, v => _type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+					(() => _constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
 		public static UnifiedTypeParameter Create(

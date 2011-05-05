@@ -66,20 +66,20 @@ namespace Unicoen.Core.Model {
 			yield return Name;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Owner, v => Owner = (IUnifiedExpression)v);
+					(() => Owner, v => Owner = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Name, v => Name = (IUnifiedExpression)v);
+					(() => Name, v => Name = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_owner, v => _owner = (IUnifiedExpression)v);
+					(() => _owner, v => _owner = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_name, v => _name = (IUnifiedExpression)v);
+					(() => _name, v => _name = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedProperty Create(

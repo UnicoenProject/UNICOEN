@@ -61,12 +61,12 @@ namespace Unicoen.Core.Model {
 			return this;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return ElementReference.Create
-						(this[i], v => this[i] = (IUnifiedExpression)v);
+						(() => this[i], v => this[i] = (IUnifiedExpression)v);
 			}
 		}
 

@@ -82,33 +82,33 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
+					(() => Parameters, v => Parameters = (UnifiedParameterCollection)v);
 			yield return ElementReference.Create
-					(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+					(() => TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
 			yield return ElementReference.Create
-					(Throws, v => Throws = (UnifiedTypeCollection)v);
+					(() => Throws, v => Throws = (UnifiedTypeCollection)v);
 			yield return ElementReference.Create
-					(Body, v => Body = (UnifiedBlock)v);
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
+					(() => _parameters, v => _parameters = (UnifiedParameterCollection)v);
 			yield return ElementReference.Create
-					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
+					(() => _typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
 					;
 			yield return ElementReference.Create
-					(_throws, v => _throws = (UnifiedTypeCollection)v);
+					(() => _throws, v => _throws = (UnifiedTypeCollection)v);
 			yield return ElementReference.Create
-					(_body, v => _body = (UnifiedBlock)v);
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedConstructorDefinition Create() {

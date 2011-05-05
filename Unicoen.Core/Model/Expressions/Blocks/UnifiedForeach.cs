@@ -79,28 +79,28 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Element, v => Element = (IUnifiedExpression)v);
+					(() => Element, v => Element = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Set, v => Set = (IUnifiedExpression)v);
+					(() => Set, v => Set = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(ElseBody, v => ElseBody = (UnifiedBlock)v);
+					(() => ElseBody, v => ElseBody = (UnifiedBlock)v);
 			yield return ElementReference.Create
-					(Body, v => Body = (UnifiedBlock)v);
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_element, v => _element = (IUnifiedExpression)v);
+					(() => _element, v => _element = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_set, v => _set = (IUnifiedExpression)v);
+					(() => _set, v => _set = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_elseBody, v => _elseBody = (UnifiedBlock)v);
+					(() => _elseBody, v => _elseBody = (UnifiedBlock)v);
 			yield return ElementReference.Create
-					(_body, v => _body = (UnifiedBlock)v);
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedForeach Create(

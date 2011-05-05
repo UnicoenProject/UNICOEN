@@ -116,28 +116,28 @@ namespace Unicoen.Core.Model {
 			yield return Supplements;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(Name, v => Name = (IUnifiedExpression)v);
+					(() => Name, v => Name = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Arguments, v => Arguments = (UnifiedTypeArgumentCollection)v);
+					(() => Arguments, v => Arguments = (UnifiedTypeArgumentCollection)v);
 			yield return ElementReference.Create
-					(Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
+					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(_name, v => _name = (IUnifiedExpression)v);
+					(() => _name, v => _name = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
+					(() => _arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
 			yield return ElementReference.Create
-					(_supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
+					(() => _supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
 		}
 
 		public void AddSupplement(UnifiedTypeSupplement supplement) {

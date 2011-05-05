@@ -127,36 +127,36 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
 					(() => Name, v => Name = (UnifiedIdentifier)v);
 			yield return ElementReference.Create
 					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
 			yield return ElementReference.Create
-					(BitField, v => BitField = (UnifiedIntegerLiteral)v);
+					(() => BitField, v => BitField = (UnifiedIntegerLiteral)v);
 			yield return ElementReference.Create
-					(InitialValue, v => InitialValue = (IUnifiedExpression)v);
+					(() => InitialValue, v => InitialValue = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 			yield return ElementReference.Create
-					(Body, v => Body = (UnifiedBlock)v);
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_name, v => _name = (UnifiedIdentifier)v);
+					(() => _name, v => _name = (UnifiedIdentifier)v);
 			yield return ElementReference.Create
-					(_supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
+					(() => _supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
 			yield return ElementReference.Create
-					(_bitField, v => _bitField = (UnifiedIntegerLiteral)v);
+					(() => _bitField, v => _bitField = (UnifiedIntegerLiteral)v);
 			yield return ElementReference.Create
-					(_initialValue, v => _initialValue = (IUnifiedExpression)v);
+					(() => _initialValue, v => _initialValue = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
 			yield return ElementReference.Create
-					(_body, v => _body = (UnifiedBlock)v);
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedVariableDefinitionBody Create(string name) {

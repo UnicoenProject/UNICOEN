@@ -134,21 +134,21 @@ namespace Unicoen.Core.Model {
 			return this;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return ElementReference.Create
-						(this[i], v => this[i] = (TElement)v);
+						(() => this[i], v => this[i] = (TElement)v);
 			}
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
 				yield return ElementReference.Create
-						(Elements[i], v => Elements[i] = (TElement)v);
+						(() => Elements[i], v => Elements[i] = (TElement)v);
 			}
 		}
 

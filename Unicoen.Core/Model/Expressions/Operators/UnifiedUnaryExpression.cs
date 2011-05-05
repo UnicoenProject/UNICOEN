@@ -72,20 +72,20 @@ namespace Unicoen.Core.Model {
 			yield return Operand;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Operator, v => Operator = (UnifiedUnaryOperator)v);
+					(() => Operator, v => Operator = (UnifiedUnaryOperator)v);
 			yield return ElementReference.Create
-					(Operand, v => Operand = (IUnifiedExpression)v);
+					(() => Operand, v => Operand = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_operator, v => _operator = (UnifiedUnaryOperator)v);
+					(() => _operator, v => _operator = (UnifiedUnaryOperator)v);
 			yield return ElementReference.Create
-					(_operand, v => _operand = (IUnifiedExpression)v);
+					(() => _operand, v => _operand = (IUnifiedExpression)v);
 		}
 
 		public override IUnifiedElement Normalize() {

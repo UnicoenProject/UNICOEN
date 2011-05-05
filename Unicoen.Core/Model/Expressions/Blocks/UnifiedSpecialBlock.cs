@@ -58,20 +58,20 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Value, v => Value = (IUnifiedExpression)v);
+					(() => Value, v => Value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Body, v => Body = (UnifiedBlock)v);
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_value, v => _value = (IUnifiedExpression)v);
+					(() => _value, v => _value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_body, v => _body = (UnifiedBlock)v);
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedSpecialBlock Create(

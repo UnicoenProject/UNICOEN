@@ -70,20 +70,20 @@ namespace Unicoen.Core.Model {
 			yield return Expression;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Type, v => Type = (UnifiedType)v);
+					(() => Type, v => Type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(Expression, v => Expression = (IUnifiedExpression)v);
+					(() => Expression, v => Expression = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_type, v => _type = (UnifiedType)v);
+					(() => _type, v => _type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(_expression, v => _expression = (IUnifiedExpression)v);
+					(() => _expression, v => _expression = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedCast Create(

@@ -74,24 +74,24 @@ namespace Unicoen.Core.Model {
 			yield return Arguments;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Function, v => Function = (IUnifiedExpression)v);
+					(() => Function, v => Function = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(TypeArguments, v => TypeArguments = (UnifiedTypeArgumentCollection)v);
+					(() => TypeArguments, v => TypeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return ElementReference.Create
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_function, v => _function = (IUnifiedExpression)v);
+					(() => _function, v => _function = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_typeArguments, v => _typeArguments = (UnifiedTypeArgumentCollection)v);
+					(() => _typeArguments, v => _typeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return ElementReference.Create
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public static UnifiedCall Create(

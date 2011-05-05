@@ -68,20 +68,20 @@ namespace Unicoen.Core.Model {
 			yield return Generator;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Element, v => Element = (UnifiedKeyValue)v);
+					(() => Element, v => Element = (UnifiedKeyValue)v);
 			yield return ElementReference.Create
-					(Generator, v => Generator = (UnifiedExpressionCollection)v);
+					(() => Generator, v => Generator = (UnifiedExpressionCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_element, v => _element = (UnifiedKeyValue)v);
+					(() => _element, v => _element = (UnifiedKeyValue)v);
 			yield return ElementReference.Create
-					(_generator, v => _generator = (UnifiedExpressionCollection)v);
+					(() => _generator, v => _generator = (UnifiedExpressionCollection)v);
 		}
 
 		public static UnifiedDictionaryComprehension Create(

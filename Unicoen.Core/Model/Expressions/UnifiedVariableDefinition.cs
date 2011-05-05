@@ -78,24 +78,24 @@ namespace Unicoen.Core.Model {
 			yield return Bodys;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(Type, v => Type = (UnifiedType)v);
+					(() => Type, v => Type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
+					(() => Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(_type, v => _type = (UnifiedType)v);
+					(() => _type, v => _type = (UnifiedType)v);
 			yield return ElementReference.Create
-					(_bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
+					(() => _bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(string name) {

@@ -73,24 +73,24 @@ namespace Unicoen.Core.Model {
 			yield return Constrains;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(Value, v => Value = (IUnifiedExpression)v);
+					(() => Value, v => Value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+					(() => Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
-					(_value, v => _value = (IUnifiedExpression)v);
+					(() => _value, v => _value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+					(() => _constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
 		public static UnifiedTypeArgument Create(IUnifiedExpression value) {

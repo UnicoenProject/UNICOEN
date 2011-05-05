@@ -94,28 +94,28 @@ namespace Unicoen.Core.Model {
 			yield return LastExpression;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(FirstExpression, v => FirstExpression = (IUnifiedExpression)v);
+					(() => FirstExpression, v => FirstExpression = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Operator, v => Operator = (UnifiedTernaryOperator)v);
+					(() => Operator, v => Operator = (UnifiedTernaryOperator)v);
 			yield return ElementReference.Create
-					(SecondExpression, v => SecondExpression = (IUnifiedExpression)v);
+					(() => SecondExpression, v => SecondExpression = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(LastExpression, v => LastExpression = (IUnifiedExpression)v);
+					(() => LastExpression, v => LastExpression = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_firstExpression, v => _firstExpression = (IUnifiedExpression)v);
+					(() => _firstExpression, v => _firstExpression = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_operator, v => _operator = (UnifiedTernaryOperator)v);
+					(() => _operator, v => _operator = (UnifiedTernaryOperator)v);
 			yield return ElementReference.Create
-					(_secondExpression, v => _secondExpression = (IUnifiedExpression)v);
+					(() => _secondExpression, v => _secondExpression = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_lastExpression, v => _lastExpression = (IUnifiedExpression)v);
+					(() => _lastExpression, v => _lastExpression = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedTernaryExpression Create(

@@ -61,16 +61,16 @@ namespace Unicoen.Core.Model {
 			yield return Elements;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Elements, v => Elements = (UnifiedExpressionCollection)v);
+					(() => Elements, v => Elements = (UnifiedExpressionCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_elements, v => _elements = (UnifiedExpressionCollection)v);
+					(() => _elements, v => _elements = (UnifiedExpressionCollection)v);
 		}
 
 		private static UnifiedList Create(

@@ -74,24 +74,24 @@ namespace Unicoen.Core.Model {
 			yield return Expression;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Condition, v => Condition = (IUnifiedExpression)v);
+					(() => Condition, v => Condition = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(ElseExpression, v => ElseExpression = (UnifiedBlock)v);
+					(() => ElseExpression, v => ElseExpression = (UnifiedBlock)v);
 			yield return ElementReference.Create
-					(Expression, v => Expression = (UnifiedBlock)v);
+					(() => Expression, v => Expression = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_condition, v => _condition = (IUnifiedExpression)v);
+					(() => _condition, v => _condition = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_elseExpression, v => _elseExpression = (UnifiedBlock)v);
+					(() => _elseExpression, v => _elseExpression = (UnifiedBlock)v);
 			yield return ElementReference.Create
-					(_expression, v => _expression = (UnifiedBlock)v);
+					(() => _expression, v => _expression = (UnifiedBlock)v);
 		}
 
 		public static UnifiedIfExpression Create(

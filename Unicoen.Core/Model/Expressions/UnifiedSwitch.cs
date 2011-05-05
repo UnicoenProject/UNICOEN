@@ -74,20 +74,20 @@ namespace Unicoen.Core.Model {
 			yield return Cases;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Value, v => Value = (IUnifiedExpression)v);
+					(() => Value, v => Value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Cases, v => Cases = (UnifiedCaseCollection)v);
+					(() => Cases, v => Cases = (UnifiedCaseCollection)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_value, v => _value = (IUnifiedExpression)v);
+					(() => _value, v => _value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_cases, v => _cases = (UnifiedCaseCollection)v);
+					(() => _cases, v => _cases = (UnifiedCaseCollection)v);
 		}
 
 		public static UnifiedSwitch Create(IUnifiedExpression value) {

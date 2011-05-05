@@ -368,8 +368,8 @@ propertyNameAndValue
 
 propertyName
 	: Identifier
-	| StringLiteral
-	| NumericLiteral
+	| stringliteral
+	| numericliteral
 	;
 
 // primitive literal definition.
@@ -377,8 +377,16 @@ literal
 	: 'null'
 	| 'true'
 	| 'false'
-	| StringLiteral
-	| NumericLiteral
+	| stringliteral
+	| numericliteral
+	;
+
+numericliteral
+	: NumericLiteral
+	;
+	
+stringliteral
+	: StringLiteral
 	;
 	
 // lexer rules.

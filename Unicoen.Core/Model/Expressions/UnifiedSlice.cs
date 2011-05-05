@@ -82,24 +82,24 @@ namespace Unicoen.Core.Model {
 			yield return Step;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(Start, v => Start = (IUnifiedExpression)v);
+					(() => Start, v => Start = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(End, v => End = (IUnifiedExpression)v);
+					(() => End, v => End = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Step, v => Step = (IUnifiedExpression)v);
+					(() => Step, v => Step = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_start, v => _start = (IUnifiedExpression)v);
+					(() => _start, v => _start = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_end, v => _end = (IUnifiedExpression)v);
+					(() => _end, v => _end = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_step, v => _step = (IUnifiedExpression)v);
+					(() => _step, v => _step = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedSlice Create(

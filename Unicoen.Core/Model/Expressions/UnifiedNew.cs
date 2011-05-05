@@ -83,51 +83,51 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return
 					ElementReference.Create(
-							Target,
+							() => Target,
 							v => Target = (UnifiedType)v);
 			yield return
 					ElementReference.Create(
-							Arguments,
+							() => Arguments,
 							v => Arguments = (UnifiedArgumentCollection)v);
 			yield return
 					ElementReference.Create(
-							TypeArguments,
+							() => TypeArguments,
 							v => TypeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
 					ElementReference.Create(
-							InitialValue,
+							() => InitialValue,
 							v => InitialValue = (UnifiedExpressionList)v);
 			yield return
 					ElementReference.Create(
-							Body,
+							() => Body,
 							v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return
 					ElementReference.Create(
-							_target,
+							() => _target,
 							v => _target = (UnifiedType)v);
 			yield return
 					ElementReference.Create(
-							_arguments,
+							() => _arguments,
 							v => _arguments = (UnifiedArgumentCollection)v);
 			yield return
 					ElementReference.Create(
-							_typeArguments,
+							() => _typeArguments,
 							v => _typeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
 					ElementReference.Create(
-							_initialValue,
+							() => _initialValue,
 							v => _initialValue = (UnifiedExpressionList)v);
 			yield return
 					ElementReference.Create(
-							_body,
+							() => _body,
 							v => _body = (UnifiedBlock)v);
 		}
 

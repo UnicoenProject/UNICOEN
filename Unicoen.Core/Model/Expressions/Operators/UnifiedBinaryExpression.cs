@@ -82,24 +82,24 @@ namespace Unicoen.Core.Model {
 			yield return RightHandSide;
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield return ElementReference.Create
-					(LeftHandSide, v => LeftHandSide = (IUnifiedExpression)v);
+					(() => LeftHandSide, v => LeftHandSide = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(Operator, v => Operator = (UnifiedBinaryOperator)v);
+					(() => Operator, v => Operator = (UnifiedBinaryOperator)v);
 			yield return ElementReference.Create
-					(RightHandSide, v => RightHandSide = (IUnifiedExpression)v);
+					(() => RightHandSide, v => RightHandSide = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<ElementReference<IUnifiedElement>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield return ElementReference.Create
-					(_leftHandSide, v => _leftHandSide = (IUnifiedExpression)v);
+					(() => _leftHandSide, v => _leftHandSide = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(_operator, v => _operator = (UnifiedBinaryOperator)v);
+					(() => _operator, v => _operator = (UnifiedBinaryOperator)v);
 			yield return ElementReference.Create
-					(_rightHandSide, v => _rightHandSide = (IUnifiedExpression)v);
+					(() => _rightHandSide, v => _rightHandSide = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedBinaryExpression Create(
