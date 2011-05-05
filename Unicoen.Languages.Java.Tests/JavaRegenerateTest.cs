@@ -123,8 +123,8 @@ namespace Unicoen.Languages.Java.Tests {
 		[Test, TestCase(@"..\..\fixture\Java\input\Fibonacci.java")]
 		public void TestCompareThroughModelForSameCode(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
-			var expected = JavaModelFactory.Instance.Generate(orgCode);
-			var actual = JavaModelFactory.Instance.Generate(orgCode);
+			var expected = JavaFactory.GenerateModel(orgCode);
+			var actual = JavaFactory.GenerateModel(orgCode);
 			Assert.That(
 					actual, Is.EqualTo(expected)
 					        		.Using(StructuralEqualityComparerForDebug.Instance));
@@ -144,8 +144,8 @@ namespace Unicoen.Languages.Java.Tests {
 			File.WriteAllText(srcPath, orgCode1, XEncoding.SJIS);
 			Compile(workPath, fileName);
 			var orgByteCode1 = GetAllByteCode(workPath);
-			var model1 = JavaModelFactory.Instance.Generate(orgCode1);
-			var code2 = JavaCodeFactory.Instance.Generate(model1);
+			var model1 = JavaFactory.GenerateModel(orgCode1);
+			var code2 = JavaFactory.GenerateCode(model1);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			Compile(workPath, fileName);
 			var byteCode2 = GetAllByteCode(workPath);
@@ -170,8 +170,8 @@ namespace Unicoen.Languages.Java.Tests {
 			var codePaths = JavaFixture.GetAllSourceFilePaths(workPath);
 			foreach (var codePath in codePaths) {
 				var orgCode1 = File.ReadAllText(codePath, XEncoding.SJIS);
-				var model1 = JavaModelFactory.Instance.Generate(orgCode1);
-				var code2 = JavaCodeFactory.Instance.Generate(model1);
+				var model1 = JavaFactory.GenerateModel(orgCode1);
+				var code2 = JavaFactory.GenerateCode(model1);
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
 			CompileWithArguments(workPath, command, arguments);
@@ -186,11 +186,11 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "orgCode">再生成するソースコード</param>
 		public void VerifyCompareThroughModel(string orgCode) {
-			var model1 = JavaModelFactory.Instance.Generate(orgCode);
-			var code2 = JavaCodeFactory.Instance.Generate(model1);
-			var model2 = JavaModelFactory.Instance.Generate(code2);
-			var code3 = JavaCodeFactory.Instance.Generate(model2);
-			var model3 = JavaModelFactory.Instance.Generate(code3);
+			var model1 = JavaFactory.GenerateModel(orgCode);
+			var code2 = JavaFactory.GenerateCode(model1);
+			var model2 = JavaFactory.GenerateModel(code2);
+			var code3 = JavaFactory.GenerateCode(model2);
+			var model3 = JavaFactory.GenerateModel(code3);
 			Assert.That(
 					model3, Is.EqualTo(model2)
 					        		.Using(StructuralEqualityComparerForDebug.Instance));
@@ -206,11 +206,11 @@ namespace Unicoen.Languages.Java.Tests {
 			var codePaths = JavaFixture.GetAllSourceFilePaths(dirPath);
 			foreach (var codePath in codePaths) {
 				var orgCode = File.ReadAllText(codePath, XEncoding.SJIS);
-				var model1 = JavaModelFactory.Instance.Generate(orgCode);
-				var code2 = JavaCodeFactory.Instance.Generate(model1);
-				var model2 = JavaModelFactory.Instance.Generate(code2);
-				var code3 = JavaCodeFactory.Instance.Generate(model2);
-				var model3 = JavaModelFactory.Instance.Generate(code3);
+				var model1 = JavaFactory.GenerateModel(orgCode);
+				var code2 = JavaFactory.GenerateCode(model1);
+				var model2 = JavaFactory.GenerateModel(code2);
+				var code3 = JavaFactory.GenerateCode(model2);
+				var model3 = JavaFactory.GenerateModel(code3);
 				Assert.That(
 						model3, Is.EqualTo(model2)
 						        		.Using(StructuralEqualityComparerForDebug.Instance));

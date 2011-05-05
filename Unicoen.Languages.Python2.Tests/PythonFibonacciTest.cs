@@ -20,7 +20,7 @@ using Code2Xml.Languages.Python2.CodeToXmls;
 using NUnit.Framework;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
-using Unicoen.Languages.Python2.Model;
+using Unicoen.Languages.Python2.ModelFactories;
 
 namespace Unicoen.Languages.Python2.Tests {
 	[TestFixture]
@@ -114,7 +114,7 @@ print fib(20)
 		[Test, Ignore]
 		public void TestFibonacci() {
 			var xml = Python2CodeToXml.Instance.Generate(TestCode);
-			var model = PythonModelFactory.CreateBlock(xml);
+			var model = Python2ModelFactory.CreateBlock(xml);
 			Assert.That(
 					model, Is.EqualTo(ExpectedModel)
 					       		.Using(StructuralEqualityComparerForDebug.Instance));

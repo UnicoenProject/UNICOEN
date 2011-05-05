@@ -46,7 +46,7 @@ namespace Unicoen.Core.Model {
 			set {
 				if (value != null) {
 					if (value.Parent != null)
-						value = (TElement)value.DeepCopy();
+						value = value.DeepCopy();
 					((UnifiedElement)(IUnifiedElement)value).Parent = this;
 				}
 				Elements[index] = value;
@@ -107,12 +107,14 @@ namespace Unicoen.Core.Model {
 			return false;
 		}
 
-		public override IUnifiedElement DeepCopy() {
+
+		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElementCollection<TElement, TSelf>)MemberwiseClone();
 			ret.Parent = null;
+			// Elementsの深いコピーが必要なため,UnifiedElementとは別の処理が必要
 			ret.Elements = new List<TElement>();
 			foreach (var element in this) {
-				ret.Add((TElement)element.DeepCopy());
+				ret.Add(element.DeepCopy());
 			}
 			return ret;
 		}

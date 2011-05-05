@@ -58,8 +58,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration NewLineDelimiter =
 				new Decoration { Delimiter = "\n" };
 
-		public static JavaCodeFactory Instance = new JavaCodeFactory();
-
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			var buff = new StringWriter();

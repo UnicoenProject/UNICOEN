@@ -68,7 +68,7 @@ namespace Unicoen.Core.Model {
 
 		public static IUnifiedExpression Create(string value) {
 			return new UnifiedLabel {
-					Name = UnifiedIdentifier.Create(value, UnifiedIdentifierKind.Unknown),
+					Name = UnifiedIdentifier.CreateUnknown(value),
 			};
 		}
 	}

@@ -16,15 +16,19 @@
 
 #endregion
 
-using Code2Xml.Languages.Java.CodeToXmls;
+using System;
+using System.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.ModelFactories;
 
-namespace Unicoen.Languages.Java.ModelFactories {
-	public class JavaModelFactory : ModelFactory {
+namespace Unicoen.Languages.Python2.ModelFactories {
+	public class Python2ModelFactory : ModelFactory {
+		public static UnifiedBlock CreateBlock(XElement elem) {
+			throw new NotImplementedException();
+		}
+
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
-			var ast = JavaCodeToXml.Instance.Generate(code);
-			return JavaModelFactoryHelper.CreateCompilationUnit(ast);
+			throw new NotImplementedException();
 		}
 	}
 }

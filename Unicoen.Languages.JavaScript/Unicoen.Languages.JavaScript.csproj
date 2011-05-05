@@ -76,6 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFactories\JavaScriptCodeFactory.cs" />
+    <Compile Include="JavaScriptFactory.cs" />
     <Compile Include="ModelFactories\JavaScriptModelFactory.cs" />
     <Compile Include="ModelFactories\JavaScriptModelFactoryHelper.cs" />
     <Compile Include="Model\JSModelFactory.cs" />

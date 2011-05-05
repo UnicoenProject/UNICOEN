@@ -16,20 +16,26 @@
 
 #endregion
 
-using Code2Xml.Languages.Python2.CodeToXmls;
-using NUnit.Framework;
-using Unicoen.Languages.Python2.Model;
+using Unicoen.Core.Model;
+using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Languages.Java.ModelFactories;
 
-namespace Unicoen.Languages.Python2.Tests {
-	[TestFixture]
-	public class PythonLiteralTest {
-		[Test]
-		[TestCase("'1'", "1")]
-		[TestCase("\"1\"", "1")]
-		public void ParseStringLiteral(string code, string expectation) {
-			var ast = Python2CodeToXml.Instance.Generate(code);
-			var lit = PythonModelFactory.CreateStringLiteral(ast);
-			Assert.That(lit.Value, Is.EqualTo(expectation));
+namespace Unicoen.Languages.Java {
+	public static class JavaFactory {
+		public static readonly JavaCodeFactory CodeFactory;
+		public static readonly JavaModelFactory ModelFactory;
+
+		static JavaFactory() {
+			CodeFactory = new JavaCodeFactory();
+			ModelFactory = new JavaModelFactory();
+		}
+
+		public static string GenerateCode(IUnifiedElement model) {
+			return CodeFactory.Generate(model);
+		}
+
+		public static UnifiedProgram GenerateModel(string code) {
+			return ModelFactory.Generate(code);
 		}
 	}
 }

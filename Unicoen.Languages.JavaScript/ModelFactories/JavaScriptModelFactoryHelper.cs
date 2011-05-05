@@ -685,8 +685,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var matchers =
 					UnifiedMatcher.Create(
-							UnifiedIdentifier.Create(
-									node.Element("Identifier").Value, UnifiedIdentifierKind.Unknown), null)
+							UnifiedIdentifier.CreateUnknown(
+									node.Element("Identifier").Value), null)
 							.ToCollection();
 			var body = CreateStatementBlock(node.Element("statementBlock"));
 			var catchClause = UnifiedCatch.Create(matchers, body);
@@ -1320,13 +1320,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			var first = node.NthElement(0);
 			if(first.Value == "this")
-				return UnifiedIdentifier.Create("this", UnifiedIdentifierKind.Unknown);
+				return UnifiedIdentifier.CreateUnknown("this");
 			if(first.Value == "(")
 				return CreateExpression(node.Element("expression"));
 
 			switch(first.Name()) {
 				case "Identifier":
-					return UnifiedIdentifier.Create(first.Value, UnifiedIdentifierKind.Variable);
+					return UnifiedIdentifier.CreateVariable(first.Value);
 				case "literal":
 					return CreateLiteral(first);
 				case "arrayLiteral":

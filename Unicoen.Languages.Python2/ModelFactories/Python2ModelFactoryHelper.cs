@@ -28,13 +28,13 @@ using Unicoen.Core.Model;
 using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
-	public static class PythonModelFactoryHelper {
+	public static class Python2ModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static PythonModelFactoryHelper() {
+		static Python2ModelFactoryHelper() {
 			Sign2BinaryOperator =
 					ModelFactoryHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =
@@ -249,8 +249,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					node,
 					e => CreateTestlist(e).ToTupleLiteral(),
 					e => e.Name() == "yield_expr"
-						? CreateYield_expr(e)
-						: CreateTestlist(e).ToTupleLiteral(),
+					     		? CreateYield_expr(e)
+					     		: CreateTestlist(e).ToTupleLiteral(),
 					Sign2BinaryOperator);
 		}
 
@@ -530,11 +530,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * global_stmt: 'global' NAME (',' NAME)*
 			 */
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Global,
+			return UnifiedVariableDefinition.Create(
+					UnifiedModifier.Create("global").ToCollection(),
+					null,
 					node.Elements("NAME").Select(
-							e => UnifiedIdentifier.CreateVariable(e.Value))
-							.ToExpressionList());
+							e => UnifiedVariableDefinitionBody.Create(e.Value))
+							.ToCollection());
 		}
 
 		public static IUnifiedExpression CreateExec_stmt(XElement node) {
@@ -1199,8 +1200,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			yield return
 					UnifiedForeach.Create(
-							CreateExprlist(node.NthElement(1)).ToExpressionList(),
-							CreateTestlist_safe(node.NthElement(3)).ToExpressionList());
+							CreateExprlist(node.NthElement(1)).ToTupleLiteral(),
+							CreateTestlist_safe(node.NthElement(3)).ToTupleLiteral());
 
 			var last = node.LastElement();
 			if (last.Name() != "list_iter")
@@ -1244,7 +1245,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			yield return
 					UnifiedForeach.Create(
-							CreateExprlist(node.NthElement(1)).ToExpressionList(),
+							CreateExprlist(node.NthElement(1)).ToTupleLiteral(),
 							CreateOr_test(node.NthElement(3)));
 
 			var last = node.LastElement();

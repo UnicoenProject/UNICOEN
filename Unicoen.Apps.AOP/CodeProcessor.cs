@@ -7,7 +7,7 @@ using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.Core.Model;
 using Unicoen.Languages.Java.ModelFactories;
 
-namespace Unicoen.Apps.AOP {
+namespace Unicoen.Apps.Aop {
 	/// <summary>
 	/// アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
 	/// </summary>

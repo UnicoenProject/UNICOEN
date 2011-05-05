@@ -102,7 +102,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					null,
 					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					null,
 					null,
 					null);
@@ -114,7 +114,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					null,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					null,
 					null,
 					null);
@@ -127,7 +127,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					null,
 					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					initialValue,
 					null,
 					null);
@@ -141,7 +141,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					null,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					initialValue,
 					null,
 					null);
@@ -157,7 +157,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					modifiers,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					initialValue,
 					null,
 					null);
@@ -171,7 +171,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					modifiers,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					null,
 					null,
 					null);
