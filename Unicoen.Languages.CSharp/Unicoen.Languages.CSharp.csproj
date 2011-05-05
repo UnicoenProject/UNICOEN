@@ -76,6 +76,7 @@
     <Compile Include="CodeFactories\CSharpCodeFactory.cs" />
     <Compile Include="CSharpFactory.cs" />
     <Compile Include="ModelFactories\CSharpModelFactory.cs" />
+    <Compile Include="ModelFactories\NRefactoryModelVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
