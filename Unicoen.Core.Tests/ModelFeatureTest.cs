@@ -106,7 +106,7 @@ namespace Unicoen.Core.Tests {
 		private static IEnumerable<IUnifiedElement> GetProperties(
 				IUnifiedElement element) {
 			var elements = element as IEnumerable<IUnifiedElement>;
-			if (elements != null && !(element is UnifiedIdentifier)) {
+			if (elements != null) {
 				return elements;
 			}
 			return element.GetType().GetProperties()

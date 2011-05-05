@@ -208,7 +208,7 @@ namespace Unicoen.Core.Model {
 			WriteTypeWithoutContent(elem, buffer, depth);
 			// write items of enumerable
 			var seq = elem as IEnumerable;
-			if (seq != null && !(elem is UnifiedIdentifier)) {
+			if (seq != null) {
 				foreach (var item in seq) {
 					ToStringRecursively(item, buffer, depth + 1);
 				}

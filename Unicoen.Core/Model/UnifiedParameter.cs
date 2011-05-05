@@ -53,7 +53,8 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		///   仮引数の引数名を表します。
-		///   e.g. Javaにおける<code>method(int a)</code>の<code>a</code>
+		///   e.g. Javaにおける<c>method(int a)</c>の<c>a</c>
+		///   e.g. Pythonにおける<c>def f((a,b)=[1,2], c)</c>の<c>a,b</c>と<c>c</c>
 		/// </summary>
 		public IUnifiedIdentifierOrCollection Name {
 			get { return _name; }

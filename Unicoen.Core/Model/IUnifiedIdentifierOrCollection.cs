@@ -20,5 +20,7 @@ using System.Collections.Generic;
 
 namespace Unicoen.Core.Model {
 	public interface IUnifiedIdentifierOrCollection
-			: IUnifiedElement, IEnumerable<UnifiedIdentifier> {}
+			: IUnifiedElement {
+		IEnumerable<UnifiedIdentifier> GetIdentifiers();
+			}
 }

@@ -64,6 +64,10 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
+		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
+			yield return this;
+		}
+
 		private static UnifiedIdentifier Create(
 				string name, UnifiedIdentifierKind kind) {
 			return new UnifiedIdentifier {
@@ -98,14 +102,6 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedIdentifier CreateFunction(string name) {
 			return Create(name, UnifiedIdentifierKind.Function);
-		}
-
-		public IEnumerator<UnifiedIdentifier> GetEnumerator() {
-			yield return this;
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
 		}
 			}
 }
