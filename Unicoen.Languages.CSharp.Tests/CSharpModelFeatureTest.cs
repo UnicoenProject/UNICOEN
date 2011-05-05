@@ -16,30 +16,24 @@
 
 #endregion
 
-using System.Collections.Generic;
-using System.IO;
 using NUnit.Framework;
-using Paraiba.Text;
-using Unicoen.Core.Model;
+using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
+using Unicoen.Languages.CSharp.ModelFactories;
 
 namespace Unicoen.Languages.CSharp.Tests {
 	[TestFixture]
 	public class CSharpModelFeatureTest : ModelFeatureTest {
-		public IEnumerable<TestCaseData> TestStatements {
-			get { return CSharpRegenerateTest.TestStatements; }
+		private readonly CSharpFixture _fixture = new CSharpFixture();
+
+		protected override LanguageFixture Fixture {
+			get { return _fixture; }
 		}
 
-		public IEnumerable<TestCaseData> TestCodes {
-			get { return CSharpRegenerateTest.TestCodes; }
-		}
+		private readonly CSharpModelFactory _modelFactory = new CSharpModelFactory();
 
-		public IEnumerable<TestCaseData> TestFilePathes {
-			get { return CSharpRegenerateTest.TestFilePathes; }
-		}
-
-		protected override UnifiedProgram CreateModel(string code) {
-			return CSharpModelFactory.CreateModel(code);
+		protected override ModelFactory ModelFactory {
+			get { return _modelFactory; }
 		}
 
 		/// <summary>
@@ -47,8 +41,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyDeepCopyUsingCode(string code) {
-			VerifyDeepCopy(code);
+		public override void VerifyDeepCopyUsingCode(string code) {
+			base.VerifyDeepCopyUsingCode(code);
 		}
 
 		/// <summary>
@@ -56,8 +50,20 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyDeepCopyUsingFile(string path) {
-			VerifyDeepCopy(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyDeepCopyUsingFile(string path) {
+			base.VerifyDeepCopyUsingFile(path);
+		}
+
+		/// <summary>
+		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public override void VerifyDeepCopyUsingDirectory(
+				string dirPath, string command, string arguments) {
+			base.VerifyDeepCopyUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -65,8 +71,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementsUsingCode(string code) {
-			VerifyGetElements(code);
+		public override void VerifyGetElementsUsingCode(string code) {
+			base.VerifyGetElementsUsingCode(code);
 		}
 
 		/// <summary>
@@ -74,8 +80,20 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementsUsingFile(string path) {
-			VerifyGetElements(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyGetElementsUsingFile(string path) {
+			base.VerifyGetElementsUsingFile(path);
+		}
+
+		/// <summary>
+		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public override void VerifyGetElementsUsingDirectory(
+				string dirPath, string command, string arguments) {
+			base.VerifyGetElementsUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -83,8 +101,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementAndSettersUsingCode(string code) {
-			VerifyGetElementAndSetters(code);
+		public override void VerifyGetElementAndSettersUsingCode(string code) {
+			base.VerifyGetElementAndSettersUsingCode(code);
 		}
 
 		/// <summary>
@@ -92,8 +110,20 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndSettersUsingFile(string path) {
-			VerifyGetElementAndSetters(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyGetElementAndSettersUsingFile(string path) {
+			base.VerifyGetElementAndSettersUsingFile(path);
+		}
+
+		/// <summary>
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public override void VerifyGetElementAndSettersUsingDirectory(
+				string dirPath, string command, string arguments) {
+			base.VerifyGetElementAndSettersUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -101,8 +131,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementAndDirectSettersUsingCode(string code) {
-			VerifyGetElementAndDirectSetters(code);
+		public override void VerifyGetElementAndDirectSettersUsingCode(string code) {
+			base.VerifyGetElementAndDirectSettersUsingCode(code);
 		}
 
 		/// <summary>
@@ -110,8 +140,21 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndDirectSettersUsingFile(string path) {
-			VerifyGetElementAndDirectSetters(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyGetElementAndDirectSettersUsingFile(string path) {
+			base.VerifyGetElementAndDirectSettersUsingFile(path);
+		}
+
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public override void VerifyGetElementAndDirectSettersUsingDirectory(
+				string dirPath, string command, string arguments) {
+			base.VerifyGetElementAndDirectSettersUsingDirectory(
+					dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -119,8 +162,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyParentPropertyUsingCode(string code) {
-			VerifyParentProperty(code);
+		public override void VerifyParentPropertyUsingCode(string code) {
+			base.VerifyParentPropertyUsingCode(code);
 		}
 
 		/// <summary>
@@ -128,8 +171,20 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyParentPropertyUsingFile(string path) {
-			VerifyParentProperty(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyParentPropertyUsingFile(string path) {
+			base.VerifyParentPropertyUsingFile(path);
+		}
+
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public override void VerifyParentPropertyUsingDirectory(
+				string dirPath, string command, string arguments) {
+			base.VerifyParentPropertyUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -137,8 +192,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyToStringUsingCode(string code) {
-			VerifyToString(code);
+		public override void VerifyToStringUsingCode(string code) {
+			base.VerifyToStringUsingCode(code);
 		}
 
 		/// <summary>
@@ -146,8 +201,20 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyToStringUsingFile(string path) {
-			VerifyToString(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyToStringUsingFile(string path) {
+			base.VerifyToStringUsingFile(path);
+		}
+
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		[Test, TestCaseSource("TestDirectoryPathes")]
+		public override void VerifyToStringUsingDirectory(
+				string dirPath, string command, string arguments) {
+			base.VerifyToStringUsingDirectory(dirPath, command, arguments);
 		}
 	}
 }

@@ -42,8 +42,7 @@ namespace Unicoen.Core.Model {
 		/// <param name = "visitor"></param>
 		/// <param name = "state"></param>
 		public abstract void Accept<TState>(
-				IUnifiedModelVisitor<TState> visitor,
-				TState state);
+				IUnifiedModelVisitor<TState> visitor, TState state);
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -66,14 +65,14 @@ namespace Unicoen.Core.Model {
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public abstract IEnumerable<ElementReference>
 				GetElementAndSetters();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public abstract IEnumerable<ElementReference>
 				GetElementAndDirectSetters();
 
 		/// <summary>
@@ -91,10 +90,10 @@ namespace Unicoen.Core.Model {
 		///   子要素に対して正規化を再帰的に行います。
 		/// </summary>
 		public void NormalizeChildren() {
-			foreach (var elemAndSetter in GetElementAndDirectSetters()) {
-				if (elemAndSetter.Item1 != null) {
-					var child = elemAndSetter.Item1.Normalize();
-					elemAndSetter.Item2(child);
+			foreach (var reference in GetElementAndDirectSetters()) {
+				if (reference.Element != null) {
+					var child = reference.Element.Normalize();
+					reference.Element = child;
 					((UnifiedElement)child).Parent = this;
 				}
 			}
@@ -104,24 +103,15 @@ namespace Unicoen.Core.Model {
 		///   深いコピーを取得します。
 		/// </summary>
 		/// <returns>深いコピー</returns>
-		public virtual IUnifiedElement DeepCopy() {
+		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
-			foreach (var elemAndSetter in ret.GetElementAndDirectSetters()) {
-				if (elemAndSetter.Item1 != null) {
-					elemAndSetter.Item2(elemAndSetter.Item1.DeepCopy());
+			foreach (var reference in ret.GetElementAndDirectSetters()) {
+				if (reference.Element != null) {
+					reference.Element = reference.Element.DeepCopy();
 				}
 			}
 			return ret;
-		}
-
-		/// <summary>
-		///   深いコピーを取得します。
-		/// </summary>
-		/// <returns>深いコピー</returns>
-		public virtual T DeepCopy<T>()
-				where T : IUnifiedElement {
-			return (T)DeepCopy();
 		}
 
 		/// <summary>
@@ -132,7 +122,7 @@ namespace Unicoen.Core.Model {
 		/// </returns>
 		/// <filterpriority>2</filterpriority>
 		public object Clone() {
-			return DeepCopy();
+			return this.DeepCopy();
 		}
 
 		/// <summary>
@@ -142,8 +132,8 @@ namespace Unicoen.Core.Model {
 		/// <returns></returns>
 		public virtual IUnifiedElement RemoveChild(IUnifiedElement target) {
 			var elem = GetElementAndDirectSetters()
-					.First(e => ReferenceEquals(target, e.Item1));
-			elem.Item2(null);
+					.First(e => ReferenceEquals(target, e.Element));
+			elem.Element = null;
 			((UnifiedElement)target).Parent = null;
 			return this;
 		}
@@ -185,8 +175,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		private static void Write(
-				object obj, string content, StringBuilder buffer,
-				int depth) {
+				object obj, string content, StringBuilder buffer, int depth) {
 			for (int i = 0; i < depth; i++) {
 				buffer.Append("  ");
 			}
@@ -200,24 +189,21 @@ namespace Unicoen.Core.Model {
 		}
 
 		private static void WriteTypeWithoutContent(
-				object obj, StringBuilder buffer,
-				int depth) {
+				object obj, StringBuilder buffer, int depth) {
 			Write(obj, "", buffer, depth);
 		}
 
 		private static void WriteTypeAndContent(
-				object obj, StringBuilder buffer,
-				int depth) {
+				object obj, StringBuilder buffer, int depth) {
 			Write(obj, obj + "", buffer, depth);
 		}
 
 		private static void WriteUnifiedElement(
-				UnifiedElement elem,
-				StringBuilder buffer, int depth) {
+				UnifiedElement elem, StringBuilder buffer, int depth) {
 			WriteTypeWithoutContent(elem, buffer, depth);
 			// write items of enumerable
 			var seq = elem as IEnumerable;
-			if (seq != null && !(elem is UnifiedIdentifier)) {
+			if (seq != null) {
 				foreach (var item in seq) {
 					ToStringRecursively(item, buffer, depth + 1);
 				}
@@ -236,8 +222,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		private static void WriteNonUnifiedElement(
-				object obj, StringBuilder buffer,
-				int depth) {
+				object obj, StringBuilder buffer, int depth) {
 			var seq = obj as IEnumerable;
 			if (!(seq is string) && seq != null) {
 				WriteTypeWithoutContent(obj, buffer, depth);
@@ -250,8 +235,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		private static void ToStringRecursively(
-				object obj, StringBuilder buffer,
-				int depth) {
+				object obj, StringBuilder buffer, int depth) {
 			var elem = obj as UnifiedElement;
 			if (elem != null) {
 				WriteUnifiedElement(elem, buffer, depth);

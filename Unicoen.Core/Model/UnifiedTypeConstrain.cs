@@ -66,16 +66,16 @@ namespace Unicoen.Core.Model {
 			yield return Type;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Type, v => Type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => Type, v => Type = (UnifiedType)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_type, v => _type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => _type, v => _type = (UnifiedType)v);
 		}
 
 		public static UnifiedTypeConstrain Create(

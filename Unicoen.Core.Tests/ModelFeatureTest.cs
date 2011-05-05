@@ -17,22 +17,45 @@
 #endregion
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Linq;
+using Paraiba.Text;
 using Unicoen.Core.Comparers;
 using Unicoen.Core.Model;
+using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Core.Tests {
 	public abstract class ModelFeatureTest {
-		protected abstract UnifiedProgram CreateModel(string code);
+		protected abstract LanguageFixture Fixture { get; }
+		protected abstract ModelFactory ModelFactory { get; }
+
+		protected IEnumerable<TestCaseData> TestStatements {
+			get { return Fixture.TestStatements; }
+		}
+
+		protected IEnumerable<TestCaseData> TestCodes
+		{
+			get { return Fixture.TestCodes; }
+		}
+
+		protected IEnumerable<TestCaseData> TestFilePathes
+		{
+			get { return Fixture.TestFilePathes; }
+		}
+
+		protected IEnumerable<TestCaseData> TestDirectoryPathes
+		{
+			get { return Fixture.TestDirectoryPathes; }
+		}
 
 		/// <summary>
 		///   深いコピーが正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyDeepCopy(string code) {
-			var model = CreateModel(code);
+		public virtual void VerifyDeepCopyUsingCode(string code) {
+			var model = ModelFactory.Generate(code);
 			var copiedModel = model.DeepCopy();
 			Assert.That(
 					copiedModel, Is.EqualTo(model)
@@ -45,21 +68,65 @@ namespace Unicoen.Core.Tests {
 		}
 
 		/// <summary>
+		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		public virtual void VerifyDeepCopyUsingFile(string path) {
+			VerifyDeepCopyUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+		}
+
+		/// <summary>
+		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		public virtual void VerifyDeepCopyUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyDeepCopyUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+			}
+		}
+
+		/// <summary>
 		///   子要素の列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyGetElements(string code) {
-			var model = CreateModel(code);
+		public virtual void VerifyGetElementsUsingCode(string code) {
+			var model = ModelFactory.Generate(code);
 			foreach (var element in model.Descendants()) {
 				var elements = element.GetElements();
 				var elementAndSetters = element.GetElementAndSetters();
 				var elementAndDirectSetters = element.GetElementAndDirectSetters();
 				var propValues = GetProperties(element);
 				Assert.That(elements, Is.EqualTo(propValues));
-				Assert.That(elementAndSetters.Select(t => t.Item1), Is.EqualTo(propValues));
+				Assert.That(elementAndSetters.Select(t => t.Element), Is.EqualTo(propValues));
 				Assert.That(
-						elementAndDirectSetters.Select(t => t.Item1),
+						elementAndDirectSetters.Select(t => t.Element),
 						Is.EqualTo(propValues));
+			}
+		}
+
+		/// <summary>
+		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		public virtual void VerifyGetElementsUsingFile(string path) {
+			VerifyGetElementsUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+		}
+
+		/// <summary>
+		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		public virtual void VerifyGetElementsUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyGetElementsUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
@@ -67,13 +134,13 @@ namespace Unicoen.Core.Tests {
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyGetElementAndSetters(string code) {
-			var model = CreateModel(code);
+		public virtual void VerifyGetElementAndSettersUsingCode(string code) {
+			var model = ModelFactory.Generate(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
 				var elementAndSetters = element.GetElementAndSetters();
 				foreach (var elementAndSetter in elementAndSetters) {
-					elementAndSetter.Item2(null);
+					elementAndSetter.Element = null;
 				}
 			}
 			foreach (var element in elements) {
@@ -84,16 +151,38 @@ namespace Unicoen.Core.Tests {
 		}
 
 		/// <summary>
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		public virtual void VerifyGetElementAndSettersUsingFile(string path) {
+			VerifyGetElementAndSettersUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+		}
+
+		/// <summary>
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		public virtual void VerifyGetElementAndSettersUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyGetElementAndSettersUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+			}
+		}
+
+		/// <summary>
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyGetElementAndDirectSetters(string code) {
-			var model = CreateModel(code);
+		public virtual void VerifyGetElementAndDirectSettersUsingCode(string code) {
+			var model = ModelFactory.Generate(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
 				var elementAndSetters = element.GetElementAndDirectSetters();
 				foreach (var elementAndSetter in elementAndSetters) {
-					elementAndSetter.Item2(null);
+					elementAndSetter.Element = null;
 				}
 			}
 			foreach (var element in elements) {
@@ -103,10 +192,32 @@ namespace Unicoen.Core.Tests {
 			}
 		}
 
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		public virtual void VerifyGetElementAndDirectSettersUsingFile(string path) {
+			VerifyGetElementAndDirectSettersUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+		}
+
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		public virtual void VerifyGetElementAndDirectSettersUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyGetElementAndDirectSettersUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+			}
+		}
+
 		private static IEnumerable<IUnifiedElement> GetProperties(
 				IUnifiedElement element) {
 			var elements = element as IEnumerable<IUnifiedElement>;
-			if (elements != null && !(element is UnifiedIdentifier)) {
+			if (elements != null) {
 				return elements;
 			}
 			return element.GetType().GetProperties()
@@ -119,16 +230,38 @@ namespace Unicoen.Core.Tests {
 		///   親要素が不適切な要素がないかソースコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyParentProperty(string code) {
-			var model = CreateModel(code);
-			VerifyParentProperty(model);
+		public virtual void VerifyParentPropertyUsingCode(string code) {
+			var model = ModelFactory.Generate(code);
+			VerifyParentPropertyUsingCode(model);
 		}
 
-		private static void VerifyParentProperty(IUnifiedElement parent) {
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		public virtual void VerifyParentPropertyUsingFile(string path) {
+			VerifyParentPropertyUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+		}
+
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		public virtual void VerifyParentPropertyUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyParentPropertyUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+			}
+		}
+
+		private static void VerifyParentPropertyUsingCode(IUnifiedElement parent) {
 			foreach (var element in parent.GetElements()) {
 				if (element != null) {
 					Assert.That(element.Parent, Is.SameAs(parent));
-					VerifyParentProperty(element);
+					VerifyParentPropertyUsingCode(element);
 				}
 			}
 		}
@@ -137,10 +270,32 @@ namespace Unicoen.Core.Tests {
 		///   全要素の文字列情報を取得できるかソースコードを指定してテストします。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		protected void VerifyToString(string code) {
-			var model = CreateModel(code);
+		public virtual void VerifyToStringUsingCode(string code) {
+			var model = ModelFactory.Generate(code);
 			foreach (var element in model.DescendantsAndSelf()) {
 				Assert.That(element.ToString(), Is.Not.Null);
+			}
+		}
+
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
+		public virtual void VerifyToStringUsingFile(string path) {
+			VerifyToStringUsingCode(File.ReadAllText(path, XEncoding.SJIS));
+		}
+
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
+		public virtual void VerifyToStringUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				VerifyToStringUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 	}

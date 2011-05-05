@@ -48,7 +48,7 @@ namespace Unicoen.Core.Model {
 			set { _body = SetParentOfChild(value, _body); }
 		}
 
-		private UnifiedCase() { }
+		private UnifiedCase() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -70,20 +70,20 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Condition, v => Condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Condition, v => Condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_condition, v => _condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _condition, v => _condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public UnifiedCase AddToBody(IUnifiedExpression expression) {

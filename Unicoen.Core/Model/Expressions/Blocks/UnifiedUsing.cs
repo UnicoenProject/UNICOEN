@@ -1,12 +1,27 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Unicoen.Core.Visitors;
 
-namespace Unicoen.Core.Model
-{
-	public class UnifiedUsing 
+namespace Unicoen.Core.Model {
+	public class UnifiedUsing
 			: UnifiedExpressionWithBlock<UnifiedUsing> {
 		private UnifiedMatcherCollection _matchers;
 
@@ -37,20 +52,20 @@ namespace Unicoen.Core.Model
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Matchers, v => Matchers = (UnifiedMatcherCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Matchers, v => Matchers = (UnifiedMatcherCollection)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_matchers, v => _matchers = (UnifiedMatcherCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _matchers, v => _matchers = (UnifiedMatcherCollection)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedUsing Create(

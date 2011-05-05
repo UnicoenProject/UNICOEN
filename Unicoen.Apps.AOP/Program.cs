@@ -6,18 +6,17 @@ using System.Text;
 using Paraiba.Text;
 using Unicoen.Core.Model;
 using Unicoen.Languages.CSharp;
-using Unicoen.Languages.Java.CodeFactories;
-using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.Java;
 
-namespace Unicoen.Apps.AOP {
+namespace Unicoen.Apps.Aop {
 	public class Program {
 
 		public static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
 			case ".cs":
-				return CSharpModelFactory.CreateModel(code);
+				return CSharpFactory.GenerateModel(code);
 			case ".java":
-				return JavaModelFactory.Instance.Generate(code);
+				return JavaFactory.GenerateModel(code);
 			}
 			return null;
 		}
@@ -35,7 +34,7 @@ namespace Unicoen.Apps.AOP {
 			var model = CreateModel(ext, code);
 
 			CodeProcessor.InsertAtAfterCallAll(model, "{Console.Write();}");
-			Console.Write(JavaCodeFactory.Instance.Generate(model));
+			Console.Write(JavaFactory.GenerateCode(model));
 		}
 	}
 }

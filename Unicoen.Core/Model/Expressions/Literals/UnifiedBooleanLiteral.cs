@@ -51,12 +51,12 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield break;
 		}

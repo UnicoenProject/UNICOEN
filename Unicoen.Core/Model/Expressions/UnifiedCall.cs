@@ -27,6 +27,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedCall : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _function;
+
 		public IUnifiedExpression Function {
 			get { return _function; }
 			set { _function = SetParentOfChild(value, _function); }
@@ -42,15 +43,15 @@ namespace Unicoen.Core.Model {
 		private UnifiedArgumentCollection _arguments;
 
 		/// <summary>
-		/// 実引数の集合を表します
-		/// e.g. Javaにおける<c>method(a, b, c)</c>の<c>a, b, c</c>の部分
+		///   実引数の集合を表します
+		///   e.g. Javaにおける<c>method(a, b, c)</c>の<c>a, b, c</c>の部分
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetParentOfChild(value, _arguments); }
 		}
 
-		private UnifiedCall() { }
+		private UnifiedCall() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -73,24 +74,24 @@ namespace Unicoen.Core.Model {
 			yield return Arguments;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Function, v => Function = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(TypeArguments, v => TypeArguments = (UnifiedTypeArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => Function, v => Function = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => TypeArguments, v => TypeArguments = (UnifiedTypeArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_function, v => _function = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_typeArguments, v => _typeArguments = (UnifiedTypeArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => _function, v => _function = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _typeArguments, v => _typeArguments = (UnifiedTypeArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public static UnifiedCall Create(

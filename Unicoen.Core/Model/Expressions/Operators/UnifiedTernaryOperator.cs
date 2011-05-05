@@ -39,7 +39,7 @@ namespace Unicoen.Core.Model {
 		public string SecondSign { get; private set; }
 
 		/// <summary>
-		/// 三項演算子の種類を表します
+		///   三項演算子の種類を表します
 		/// </summary>
 		public UnifiedTernaryOperatorKind Kind { get; private set; }
 
@@ -74,12 +74,12 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield break;
 		}

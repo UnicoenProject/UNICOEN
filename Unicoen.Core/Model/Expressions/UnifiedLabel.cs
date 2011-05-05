@@ -54,21 +54,21 @@ namespace Unicoen.Core.Model {
 			yield return Name;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedIdentifier)v);
+			yield return ElementReference.Create
+					(() => Name, v => Name = (UnifiedIdentifier)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (UnifiedIdentifier)v);
+			yield return ElementReference.Create
+					(() => _name, v => _name = (UnifiedIdentifier)v);
 		}
 
 		public static IUnifiedExpression Create(string value) {
 			return new UnifiedLabel {
-					Name = UnifiedIdentifier.Create(value, UnifiedIdentifierKind.Unknown),
+					Name = UnifiedIdentifier.CreateUnknown(value),
 			};
 		}
 	}

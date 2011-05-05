@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>
-		/// catch節内の仮引数の集合を表します
-		/// e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
+		///   catch節内の仮引数の集合を表します
+		///   e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
 		/// </summary>
 		public UnifiedMatcherCollection Matchers {
 			get { return _matchers; }
@@ -59,20 +59,20 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Matchers, v => Matchers = (UnifiedMatcherCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Matchers, v => Matchers = (UnifiedMatcherCollection)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Matchers, v => _matchers = (UnifiedMatcherCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Matchers, v => _matchers = (UnifiedMatcherCollection)v);
+			yield return ElementReference.Create
+					(() => Body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedCatch Create(

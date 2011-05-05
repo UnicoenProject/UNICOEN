@@ -32,8 +32,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedArgumentCollection _arguments;
 
 		/// <summary>
-		/// 実引数の集合を表します
-		/// e.g. Cにおける<c>int* a, b, c</c>の<c>a, b, c</c>
+		///   実引数の集合を表します
+		///   e.g. Cにおける<c>int* a, b, c</c>の<c>a, b, c</c>
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
@@ -41,7 +41,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// UnifiedTypeSupplementの種類を表します
+		///   UnifiedTypeSupplementの種類を表します
 		/// </summary>
 		public UnifiedTypeSupplementKind Kind { get; set; }
 
@@ -66,16 +66,16 @@ namespace Unicoen.Core.Model {
 			yield return Arguments;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public static UnifiedTypeSupplement Create(

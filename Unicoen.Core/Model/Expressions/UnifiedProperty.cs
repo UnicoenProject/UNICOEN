@@ -23,7 +23,9 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   フィールド、メンバー、プロパティなどへのアクセス式を表します。
-	///   Javaにおける<c>int a = b.c</c>の<c>b.c</c>
+	///   e.g. Javaにおける<c>int a = b.c;</c>の<c>b.c</c>
+	///   e.g. Javaにおける<c>Package.ClassA a = null;</c>の<c>Package.ClassA</c>
+	///   e.g. Javaにおける<c>import Package.SubPackage;</c>の<c>Package.SubPackage</c>
 	/// </summary>
 	public class UnifiedProperty : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _owner;
@@ -64,20 +66,20 @@ namespace Unicoen.Core.Model {
 			yield return Name;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Owner, v => Owner = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Owner, v => Owner = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Name, v => Name = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_owner, v => _owner = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _owner, v => _owner = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _name, v => _name = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedProperty Create(

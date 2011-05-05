@@ -48,7 +48,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Paraiba.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba.IO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
     </Reference>

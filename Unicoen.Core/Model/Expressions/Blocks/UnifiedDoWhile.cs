@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		/// 条件式を表します
-		/// e.g. Javaにおける<c>do{...}while(cond)</c>の<c>cond</c>
+		///   条件式を表します
+		///   e.g. Javaにおける<c>do{...}while(cond)</c>の<c>cond</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
@@ -67,24 +67,24 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Condition, v => Condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(FalseBody, v => FalseBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Condition, v => Condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => FalseBody, v => FalseBody = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_condition, v => _condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_falseBody, v => _falseBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _condition, v => _condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _falseBody, v => _falseBody = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedDoWhile Create() {

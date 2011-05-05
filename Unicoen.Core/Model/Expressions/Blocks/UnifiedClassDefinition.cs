@@ -27,14 +27,16 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedClassDefinition
 			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
+		/// <summary>
+		///   種類を表します．
+		/// </summary>
 		public UnifiedClassKind Kind { get; set; }
 
-		
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		/// クラスの修飾子の集合を表します
-		/// <c>public class A{....}</c>の<c>public</c>
+		///   クラスの修飾子の集合を表します
+		///   <c>public class A{....}</c>の<c>public</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -48,6 +50,7 @@ namespace Unicoen.Core.Model {
 			set { _name = SetParentOfChild(value, _name); }
 		}
 
+		// generics とか
 		private UnifiedTypeParameterCollection _typeParameters;
 
 		public UnifiedTypeParameterCollection TypeParameters {
@@ -55,6 +58,7 @@ namespace Unicoen.Core.Model {
 			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
 		}
 
+		// 継承とか
 		private UnifiedTypeConstrainCollection _constrains;
 
 		public UnifiedTypeConstrainCollection Constrains {
@@ -62,7 +66,7 @@ namespace Unicoen.Core.Model {
 			set { _constrains = SetParentOfChild(value, _constrains); }
 		}
 
-		private UnifiedClassDefinition() { }
+		private UnifiedClassDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -87,67 +91,70 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => Name, v => Name = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+			yield return ElementReference.Create
+					(() => Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
+			yield return ElementReference.Create
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => _name, v => _name = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
 					;
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
-		}
-
-		public static UnifiedClassDefinition Create(
-				IUnifiedExpression name,
-				UnifiedBlock body,
-				UnifiedModifierCollection
-						modifiers, UnifiedClassKind kind) {
-			return new UnifiedClassDefinition {
-					Body = body,
-					Name = name,
-					Modifiers = modifiers,
-					Kind = kind,
-			};
+			yield return ElementReference.Create
+					(() => _constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name) {
 			return Create(
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-					UnifiedBlock.Create(), UnifiedModifierCollection.Create(),
-					UnifiedClassKind.Class);
+					UnifiedClassKind.Class,
+					UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.CreateType(name),
+					null,
+					null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedClassDefinition CreateClass(
 				string name,
 				UnifiedBlock body) {
 			return Create(
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type),
-					body, UnifiedModifierCollection.Create(), UnifiedClassKind.Class);
+					UnifiedClassKind.Class,
+					UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.CreateType(name),
+					null,
+					null, body);
+		}
+
+		public static UnifiedClassDefinition CreateClass(
+				string name,
+				UnifiedTypeConstrainCollection contrains,
+				UnifiedBlock body) {
+			return Create(
+					UnifiedClassKind.Class,
+					UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.CreateType(name),
+					null,
+					contrains, body);
 		}
 
 		public static UnifiedClassDefinition Create(
-				UnifiedModifierCollection modifiers, UnifiedClassKind kind,
-				IUnifiedExpression name,
-				UnifiedTypeParameterCollection typeParameters,
+				UnifiedClassKind kind, UnifiedModifierCollection modifiers,
+				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
 				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
 					Modifiers = modifiers,
@@ -160,7 +167,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateNamespace(IUnifiedExpression name) {
-			return Create(name, UnifiedBlock.Create(), null, UnifiedClassKind.Namespace);
+			return Create(
+					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
 		}
 			}
 }

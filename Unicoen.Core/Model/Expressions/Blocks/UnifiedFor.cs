@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _initializer;
 
 		/// <summary>
-		/// 初期条件を表します
-		/// e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c><c>int i = 0</c>
+		///   初期条件を表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c><c>int i = 0</c>
 		/// </summary>
 		public IUnifiedExpression Initializer {
 			get { return _initializer; }
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		/// 実行条件を表します
-		/// e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
+		///   実行条件を表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
@@ -51,8 +51,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _step;
 
 		/// <summary>
-		/// ステップを表します
-		/// e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i++</c>
+		///   ステップを表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i++</c>
 		/// </summary>
 		public IUnifiedExpression Step {
 			get { return _step; }
@@ -91,32 +91,32 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Initializer, v => Initializer = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Condition, v => Condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Step, v => Step = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(FalseBody, v => FalseBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Initializer, v => Initializer = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Condition, v => Condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Step, v => Step = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => FalseBody, v => FalseBody = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_initializer, v => _initializer = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_condition, v => _condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_step, v => _step = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_falseBody, v => _falseBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _initializer, v => _initializer = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _condition, v => _condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _step, v => _step = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _falseBody, v => _falseBody = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedFor Create(

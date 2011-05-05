@@ -337,13 +337,37 @@ primary_expression
 	;
 
 constant
-    :   HEX_LITERAL
-    |   OCTAL_LITERAL
-    |   DECIMAL_LITERAL
-    |	CHARACTER_LITERAL
-	|	STRING_LITERAL
-    |   FLOATING_POINT_LITERAL
+    :   hex_literal
+    |   octal_literal
+    |   decimal_literal
+    |   character_literal
+    |   string_literal
+    |   floating_point_literal
     ;
+
+hex_literal
+	:	HEX_LITERAL
+	;
+
+octal_literal
+	:	OCTAL_LITERAL
+	;
+
+decimal_literal
+	:	DECIMAL_LITERAL
+	;
+
+character_literal
+	:	CHARACTER_LITERAL
+	;
+
+string_literal
+	:	STRING_LITERAL
+	;
+
+floating_point_literal
+	:	FLOATING_POINT_LITERAL
+	;
 
 /////
 

@@ -30,8 +30,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		/// 条件式を表します
-		/// <c>if(cond){...}else{...}</c>の<c>con</c>
+		///   条件式を表します
+		///   <c>if(cond){...}else{...}</c>の<c>con</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
@@ -78,24 +78,24 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Condition, v => Condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(ElseBody, v => ElseBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Condition, v => Condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => ElseBody, v => ElseBody = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_condition, v => _condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_elseBody, v => _elseBody = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _condition, v => _condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _elseBody, v => _elseBody = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedIf Create(UnifiedBlock body) {
@@ -113,10 +113,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 一個以上のelse if節によって構成されているif-else式に分解してモデルを構築します．
+		///   一個以上のelse if節によって構成されているif-else式に分解してモデルを構築します．
 		/// </summary>
-		/// <param name="conditionAndBodies"></param>
-		/// <param name="lastElseBody"></param>
+		/// <param name = "conditionAndBodies"></param>
+		/// <param name = "lastElseBody"></param>
 		/// <returns></returns>
 		public static UnifiedIf Create(
 				IEnumerable<Tuple<IUnifiedExpression, UnifiedBlock>> conditionAndBodies,

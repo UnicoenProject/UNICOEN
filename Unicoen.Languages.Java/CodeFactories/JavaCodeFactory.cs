@@ -58,8 +58,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration NewLineDelimiter =
 				new Decoration { Delimiter = "\n" };
 
-		public static JavaCodeFactory Instance = new JavaCodeFactory();
-
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			var buff = new StringWriter();
@@ -167,7 +165,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			state.WriteSpace();
 			if (removed)
 				state.Writer.Write("... ");
-			element.Name.TryAccept(this, state);
+			element.Names.TryAccept(this, state.Set(CommaDelimiter));
 			return false;
 		}
 
@@ -587,6 +585,37 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public bool Visit(UnifiedUsing element, VisitorState state) {
 			throw new NotImplementedException(); // TODO: implement
+		}
+
+		public bool Visit(UnifiedList element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedKeyValue element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedDictionaryComprehension element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+		public bool Visit(UnifiedDictonary element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedListComprehension element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedIfExpression element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSlice element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedComment element, VisitorState state) {
+			throw new NotImplementedException();
 		}
 			}
 }

@@ -31,8 +31,6 @@ namespace Unicoen.Languages.C.CodeFactories
 		private static readonly Decoration NewLineDelimiter =
 				new Decoration { Delimiter = "\n" };
 
-		public static CCodeFactory Instance = new CCodeFactory();
-
 		public override string Generate(IUnifiedElement model, TextWriter writer, string indentSign)
 		{
 			var buff = new StringWriter();
@@ -185,7 +183,7 @@ namespace Unicoen.Languages.C.CodeFactories
 		{
 			element.Type.TryAccept(this, state);
 			state.WriteSpace();
-			element.Name.TryAccept(this, state);
+			element.Names.TryAccept(this, state);
 
 			return false;
 		}

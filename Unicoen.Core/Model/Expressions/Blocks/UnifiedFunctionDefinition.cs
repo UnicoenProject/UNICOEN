@@ -28,15 +28,15 @@ namespace Unicoen.Core.Model {
 	public class UnifiedFunctionDefinition
 			: UnifiedExpressionWithBlock<UnifiedFunctionDefinition> {
 		/// <summary>
-		/// サブルーチン定義の種類を表します．
+		///   サブルーチン定義の種類を表します．
 		/// </summary>
 		public UnifiedFunctionDefinitionKind Kind { get; set; }
 
 		private UnifiedModifierCollection _modifiers;
-		
+
 		/// <summary>
-		/// メソッドにつく修飾子の集合を表します
-		/// e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
+		///   メソッドにつく修飾子の集合を表します
+		///   e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -46,8 +46,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		/// メソッドの名前を表します
-		/// e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
+		///   メソッドの名前を表します
+		///   e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
@@ -82,7 +82,7 @@ namespace Unicoen.Core.Model {
 			set { _throws = SetParentOfChild(value, _throws); }
 		}
 
-		private UnifiedFunctionDefinition() { }
+		private UnifiedFunctionDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -109,41 +109,41 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Throws, v => Throws = (UnifiedTypeCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => Type, v => Type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+			yield return ElementReference.Create
+					(() => Name, v => Name = (UnifiedIdentifier)v);
+			yield return ElementReference.Create
+					(() => Parameters, v => Parameters = (UnifiedParameterCollection)v);
+			yield return ElementReference.Create
+					(() => Throws, v => Throws = (UnifiedTypeCollection)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
+			yield return ElementReference.Create
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => _type, v => _type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => _typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
 					;
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_throws, v => _throws = (UnifiedTypeCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _name, v => _name = (UnifiedIdentifier)v);
+			yield return ElementReference.Create
+					(() => _parameters, v => _parameters = (UnifiedParameterCollection)v);
+			yield return ElementReference.Create
+					(() => _throws, v => _throws = (UnifiedTypeCollection)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedFunctionDefinition CreateLambda(
@@ -208,7 +208,7 @@ namespace Unicoen.Core.Model {
 					modifiers,
 					type,
 					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function),
+					UnifiedIdentifier.CreateFunction(name),
 					parameters,
 					throws,
 					body);
@@ -239,12 +239,13 @@ namespace Unicoen.Core.Model {
 		public static UnifiedFunctionDefinition CreateFunction(
 				UnifiedModifierCollection modifiers, UnifiedType type, string name,
 				UnifiedParameterCollection parameters, UnifiedBlock body) {
-			return CreateFunction(modifiers,
-				type,
-				name,
-				parameters,
-				null,
-				body);
+			return CreateFunction(
+					modifiers,
+					type,
+					name,
+					parameters,
+					null,
+					body);
 		}
 
 		public static UnifiedFunctionDefinition CreateFunction(
@@ -253,6 +254,18 @@ namespace Unicoen.Core.Model {
 					UnifiedModifierCollection.Create(),
 					null,
 					name, parameters, null, body);
+		}
+
+		public static IUnifiedExpression CreateLambda(
+				string name, UnifiedParameterCollection parameters, UnifiedBlock body) {
+			return CreateLambda(
+					null,
+					null,
+					null,
+					UnifiedIdentifier.CreateFunction(name),
+					parameters,
+					null,
+					body);
 		}
 			}
 }

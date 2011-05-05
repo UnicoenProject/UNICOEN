@@ -20,7 +20,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Apps.AOP;
+using Unicoen.Apps.Aop;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
 

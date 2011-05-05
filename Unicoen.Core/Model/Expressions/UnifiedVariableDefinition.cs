@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		/// 変数に付随する修飾子の集合を表します
-		/// e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
+		///   変数に付随する修飾子の集合を表します
+		///   e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		/// 変数の型を表します
-		/// e.g. Javaにおける<c>public static int a</c>の<c>int</c>
+		///   変数の型を表します
+		///   e.g. Javaにおける<c>public static int a</c>の<c>int</c>
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
@@ -55,7 +55,7 @@ namespace Unicoen.Core.Model {
 			set { _bodys = SetParentOfChild(value, _bodys); }
 		}
 
-		private UnifiedVariableDefinition() { }
+		private UnifiedVariableDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -78,31 +78,31 @@ namespace Unicoen.Core.Model {
 			yield return Bodys;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
+			yield return ElementReference.Create
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => Type, v => Type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
+			yield return ElementReference.Create
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => _type, v => _type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => _bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(string name) {
 			return CreateSingle(
 					null,
 					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					null,
 					null,
 					null);
@@ -114,7 +114,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					null,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					null,
 					null,
 					null);
@@ -127,7 +127,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					null,
 					null,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					initialValue,
 					null,
 					null);
@@ -141,7 +141,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					null,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					initialValue,
 					null,
 					null);
@@ -157,7 +157,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					modifiers,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					initialValue,
 					null,
 					null);
@@ -171,7 +171,7 @@ namespace Unicoen.Core.Model {
 			return CreateSingle(
 					modifiers,
 					type,
-					UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable),
+					UnifiedIdentifier.CreateVariable(name),
 					null,
 					null,
 					null);

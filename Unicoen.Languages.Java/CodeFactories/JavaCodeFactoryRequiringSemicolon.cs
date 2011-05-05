@@ -130,7 +130,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				UnifiedNew element, VisitorState state) {
 			state.Writer.Write("new ");
 			element.TypeArguments.TryAccept(this, state);
-			element.Type.TryAccept(this, state);
+			element.Target.TryAccept(this, state);
 			element.Arguments.TryAccept(this, state.Set(Paren));
 			element.InitialValue.TryAccept(this, state.Set(Bracket));
 			element.Body.TryAccept(this, state);

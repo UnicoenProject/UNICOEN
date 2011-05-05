@@ -16,35 +16,24 @@
 
 #endregion
 
-using System.Collections.Generic;
-using System.IO;
 using NUnit.Framework;
-using Paraiba.Text;
-using Unicoen.Core.Model;
+using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Languages.Java.Tests {
 	[TestFixture]
 	public class JavaModelFeatureTest : ModelFeatureTest {
-		public IEnumerable<TestCaseData> TestStatements {
-			get { return JavaRegenerateTest.TestStatements; }
+		private readonly JavaFixture _fixture = new JavaFixture();
+
+		protected override LanguageFixture Fixture {
+			get { return _fixture; }
 		}
 
-		public IEnumerable<TestCaseData> TestCodes {
-			get { return JavaRegenerateTest.TestCodes; }
-		}
+		private readonly JavaModelFactory _modelFactory = new JavaModelFactory();
 
-		public IEnumerable<TestCaseData> TestFilePathes {
-			get { return JavaRegenerateTest.TestFilePathes; }
-		}
-
-		public IEnumerable<TestCaseData> TestDirectoryPathes {
-			get { return JavaRegenerateTest.TestDirectoryPathes; }
-		}
-
-		protected override UnifiedProgram CreateModel(string code) {
-			return JavaModelFactory.Instance.Generate(code);
+		protected override ModelFactory ModelFactory {
+			get { return _modelFactory; }
 		}
 
 		/// <summary>
@@ -52,8 +41,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyDeepCopyUsingCode(string code) {
-			VerifyDeepCopy(code);
+		public override void VerifyDeepCopyUsingCode(string code) {
+			base.VerifyDeepCopyUsingCode(code);
 		}
 
 		/// <summary>
@@ -61,8 +50,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyDeepCopyUsingFile(string path) {
-			VerifyDeepCopy(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyDeepCopyUsingFile(string path) {
+			base.VerifyDeepCopyUsingFile(path);
 		}
 
 		/// <summary>
@@ -72,12 +61,9 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyDeepCopyUsingDirectory(
+		public override void VerifyDeepCopyUsingDirectory(
 				string dirPath, string command, string arguments) {
-			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
-			foreach (var path in paths) {
-				VerifyDeepCopy(File.ReadAllText(path, XEncoding.SJIS));
-			}
+			base.VerifyDeepCopyUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -85,8 +71,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementsUsingCode(string code) {
-			VerifyGetElements(code);
+		public override void VerifyGetElementsUsingCode(string code) {
+			base.VerifyGetElementsUsingCode(code);
 		}
 
 		/// <summary>
@@ -94,8 +80,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementsUsingFile(string path) {
-			VerifyGetElements(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyGetElementsUsingFile(string path) {
+			base.VerifyGetElementsUsingFile(path);
 		}
 
 		/// <summary>
@@ -105,12 +91,9 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyGetElementsUsingDirectory(
+		public override void VerifyGetElementsUsingDirectory(
 				string dirPath, string command, string arguments) {
-			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
-			foreach (var path in paths) {
-				VerifyGetElements(File.ReadAllText(path, XEncoding.SJIS));
-			}
+			base.VerifyGetElementsUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -118,8 +101,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementAndSettersUsingCode(string code) {
-			VerifyGetElementAndSetters(code);
+		public override void VerifyGetElementAndSettersUsingCode(string code) {
+			base.VerifyGetElementAndSettersUsingCode(code);
 		}
 
 		/// <summary>
@@ -127,8 +110,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndSettersUsingFile(string path) {
-			VerifyGetElementAndSetters(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyGetElementAndSettersUsingFile(string path) {
+			base.VerifyGetElementAndSettersUsingFile(path);
 		}
 
 		/// <summary>
@@ -138,12 +121,9 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyGetElementAndSettersUsingDirectory(
+		public override void VerifyGetElementAndSettersUsingDirectory(
 				string dirPath, string command, string arguments) {
-			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
-			foreach (var path in paths) {
-				VerifyGetElementAndSetters(File.ReadAllText(path, XEncoding.SJIS));
-			}
+			base.VerifyGetElementAndSettersUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -151,8 +131,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyGetElementAndDirectSettersUsingCode(string code) {
-			VerifyGetElementAndDirectSetters(code);
+		public override void VerifyGetElementAndDirectSettersUsingCode(string code) {
+			base.VerifyGetElementAndDirectSettersUsingCode(code);
 		}
 
 		/// <summary>
@@ -160,8 +140,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndDirectSettersUsingFile(string path) {
-			VerifyGetElementAndDirectSetters(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyGetElementAndDirectSettersUsingFile(string path) {
+			base.VerifyGetElementAndDirectSettersUsingFile(path);
 		}
 
 		/// <summary>
@@ -171,12 +151,10 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyGetElementAndDirectSettersUsingDirectory(
+		public override void VerifyGetElementAndDirectSettersUsingDirectory(
 				string dirPath, string command, string arguments) {
-			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
-			foreach (var path in paths) {
-				VerifyGetElementAndDirectSetters(File.ReadAllText(path, XEncoding.SJIS));
-			}
+			base.VerifyGetElementAndDirectSettersUsingDirectory(
+					dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -184,8 +162,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyParentPropertyUsingCode(string code) {
-			VerifyParentProperty(code);
+		public override void VerifyParentPropertyUsingCode(string code) {
+			base.VerifyParentPropertyUsingCode(code);
 		}
 
 		/// <summary>
@@ -193,8 +171,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyParentPropertyUsingFile(string path) {
-			VerifyParentProperty(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyParentPropertyUsingFile(string path) {
+			base.VerifyParentPropertyUsingFile(path);
 		}
 
 		/// <summary>
@@ -204,12 +182,9 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyParentPropertyUsingDirectory(
+		public override void VerifyParentPropertyUsingDirectory(
 				string dirPath, string command, string arguments) {
-			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
-			foreach (var path in paths) {
-				VerifyParentProperty(File.ReadAllText(path, XEncoding.SJIS));
-			}
+			base.VerifyParentPropertyUsingDirectory(dirPath, command, arguments);
 		}
 
 		/// <summary>
@@ -217,8 +192,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
-		public void VerifyToStringUsingCode(string code) {
-			VerifyToString(code);
+		public override void VerifyToStringUsingCode(string code) {
+			base.VerifyToStringUsingCode(code);
 		}
 
 		/// <summary>
@@ -226,8 +201,8 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyToStringUsingFile(string path) {
-			VerifyToString(File.ReadAllText(path, XEncoding.SJIS));
+		public override void VerifyToStringUsingFile(string path) {
+			base.VerifyToStringUsingFile(path);
 		}
 
 		/// <summary>
@@ -237,12 +212,9 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyToStringUsingDirectory(
+		public override void VerifyToStringUsingDirectory(
 				string dirPath, string command, string arguments) {
-			var paths = JavaFixture.GetAllSourceFilePaths(dirPath);
-			foreach (var path in paths) {
-				VerifyToString(File.ReadAllText(path, XEncoding.SJIS));
-			}
+			base.VerifyToStringUsingDirectory(dirPath, command, arguments);
 		}
 	}
 }

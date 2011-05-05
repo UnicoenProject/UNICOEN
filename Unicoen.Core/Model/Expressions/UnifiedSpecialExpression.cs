@@ -29,7 +29,7 @@ namespace Unicoen.Core.Model {
 		public UnifiedSpecialExpressionKind Kind { get; set; }
 
 		private IUnifiedExpression _value;
-		
+
 		public IUnifiedExpression Value {
 			get { return _value; }
 			set { _value = SetParentOfChild(value, _value); }
@@ -56,16 +56,16 @@ namespace Unicoen.Core.Model {
 			yield return Value;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Value, v => Value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Value, v => Value = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_value, v => _value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _value, v => _value = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedSpecialExpression Create(
@@ -95,7 +95,8 @@ namespace Unicoen.Core.Model {
 			return Create(UnifiedSpecialExpressionKind.YieldReturn);
 		}
 
-		public static UnifiedSpecialExpression CreateYieldReturn(IUnifiedExpression value) {
+		public static UnifiedSpecialExpression CreateYieldReturn(
+				IUnifiedExpression value) {
 			return Create(UnifiedSpecialExpressionKind.YieldReturn, value);
 		}
 

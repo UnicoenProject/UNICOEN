@@ -17,19 +17,25 @@
 #endregion
 
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
-	public static class JavaFixture {
+	public class JavaFixture : LanguageFixture {
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を表します．
+		/// </summary>
+		public override string Extension {
+			get { return ".java"; }
+		}
+
 		/// <summary>
 		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
 		///   <c>class A { public void M1() { ... } }</c>の...部分に
 		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
-		public static IEnumerable<TestCaseData> TestStatements {
+		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
 						"M1();",
@@ -43,7 +49,7 @@ namespace Unicoen.Languages.Java.Tests {
 		///   <c>class A { public void M1() { ... } }</c>の...部分に
 		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
-		public static IEnumerable<TestCaseData> TestCodes {
+		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
 						"class A { }",
@@ -52,19 +58,20 @@ namespace Unicoen.Languages.Java.Tests {
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestFilePathes {
+		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"Fibonacci.java",
+						"Fibonacci",
 				}
-						.Select(s => new TestCaseData(Fixture.GetInputPath("Java", s)));
+						.Select(
+								s => new TestCaseData(Fixture.GetInputPath("Java", s + Extension)));
 				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))
 				//    .Select(path => new TestCaseData(path));
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestDirectoryPathes {
 			get {
 				return new[] {
 						new { DirName = "default", Command = "javac", Arguments = "*.java" },
@@ -79,12 +86,6 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private static string DecorateWithClassAndMethod(string statement) {
 			return "class A { public void M1() {" + statement + "} }";
-		}
-
-		public static IEnumerable<string> GetAllSourceFilePaths(string workPath) {
-			return Directory.EnumerateFiles(
-					workPath, "*.java",
-					SearchOption.AllDirectories);
 		}
 	}
 }

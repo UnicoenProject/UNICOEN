@@ -83,6 +83,7 @@
     <Compile Include="CodeFactories\JavaCodeFactoryRequiringSemicolon.cs" />
     <Compile Include="CodeFactories\Decoration.cs" />
     <Compile Include="CodeFactories\VisitorState.cs" />
+    <Compile Include="JavaFactory.cs" />
     <Compile Include="ModelFactories\JavaModelFactory.cs" />
     <Compile Include="ModelFactories\JavaModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

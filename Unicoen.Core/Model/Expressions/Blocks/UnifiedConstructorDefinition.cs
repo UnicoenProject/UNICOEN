@@ -57,7 +57,7 @@ namespace Unicoen.Core.Model {
 			set { _throws = SetParentOfChild(value, _throws); }
 		}
 
-		private UnifiedConstructorDefinition() { }
+		private UnifiedConstructorDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -82,33 +82,33 @@ namespace Unicoen.Core.Model {
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Parameters, v => Parameters = (UnifiedParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Throws, v => Throws = (UnifiedTypeCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => Parameters, v => Parameters = (UnifiedParameterCollection)v);
+			yield return ElementReference.Create
+					(() => TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+			yield return ElementReference.Create
+					(() => Throws, v => Throws = (UnifiedTypeCollection)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_parameters, v => _parameters = (UnifiedParameterCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
+			yield return ElementReference.Create
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => _parameters, v => _parameters = (UnifiedParameterCollection)v);
+			yield return ElementReference.Create
+					(() => _typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
 					;
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_throws, v => _throws = (UnifiedTypeCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _throws, v => _throws = (UnifiedTypeCollection)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedConstructorDefinition Create() {

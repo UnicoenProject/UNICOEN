@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		public string Sign { get; private set; }
 
 		/// <summary>
-		/// 演算子の種類を表します
+		///   演算子の種類を表します
 		/// </summary>
 		public UnifiedBinaryOperatorKind Kind { get; private set; }
 
@@ -66,12 +66,12 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
 			yield break;
 		}

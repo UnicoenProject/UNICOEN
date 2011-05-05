@@ -24,6 +24,7 @@ using Paraiba.Collections.Generic;
 using Paraiba.Text;
 using Unicoen.Core.Model;
 using Unicoen.Languages.CSharp;
+using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
 
@@ -32,9 +33,9 @@ namespace Unicoen.Applications.Metrics.Utils {
 		private static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
 			case ".cs":
-				return CSharpModelFactory.CreateModel(code);
+				return CSharpFactory.GenerateModel(code);
 			case ".java":
-				return JavaModelFactory.Instance.Generate(code);
+				return JavaFactory.GenerateModel(code);
 			}
 			return null;
 		}
@@ -64,11 +65,11 @@ namespace Unicoen.Applications.Metrics.Utils {
 		private static string GetOutersName(IUnifiedElement element) {
 			var klass = element as UnifiedClassDefinition;
 			if (klass != null) {
-				return "[class] " + JavaCodeFactory.Instance.Generate(klass.Name);
+				return "[class] " + JavaFactory.GenerateCode(klass.Name);
 			}
 			var method = element as UnifiedFunctionDefinition;
 			if (method != null) {
-				return "[method] " + JavaCodeFactory.Instance.Generate(method.Name);
+				return "[method] " + JavaFactory.GenerateCode(method.Name);
 			}
 			return null;
 		}

@@ -29,8 +29,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		/// キャスト先の型を表します
-		/// e.g. Javaにおける<c>(int)a</c>の<c>int</c>
+		///   キャスト先の型を表します
+		///   e.g. Javaにおける<c>(int)a</c>の<c>int</c>
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
@@ -40,8 +40,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _expression;
 
 		/// <summary>
-		/// キャスト対象の式を表します
-		/// e.g. Javaにおける<c>(int)a</c>の<c>a</c>
+		///   キャスト対象の式を表します
+		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
 		/// </summary>
 		public IUnifiedExpression Expression {
 			get { return _expression; }
@@ -70,20 +70,20 @@ namespace Unicoen.Core.Model {
 			yield return Expression;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Type, v => Type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Expression, v => Expression = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Type, v => Type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => Expression, v => Expression = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
+		public override IEnumerable<ElementReference>
 				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_type, v => _type = (UnifiedType)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_expression, v => _expression = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _type, v => _type = (UnifiedType)v);
+			yield return ElementReference.Create
+					(() => _expression, v => _expression = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedCast Create(

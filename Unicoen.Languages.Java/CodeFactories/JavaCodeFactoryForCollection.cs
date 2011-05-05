@@ -118,7 +118,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedIdentifierCollection element, VisitorState state) {
-			throw new InvalidOperationException();
+			VisitCollection(element, state);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
@@ -129,7 +130,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedExpressionCollection element, VisitorState state) {
-			throw new InvalidOperationException();
+			VisitCollection(element, state);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
@@ -153,17 +155,14 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			VisitCollection(element, state);
 			return false;
 		}
+
 		public bool Visit(UnifiedMatcherCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;
 		}
-
-		public bool Visit(UnifiedListComprehension element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedIfExpression element, VisitorState state) {
-			throw new NotImplementedException();
+		public bool Visit(UnifiedKeyValueCollection element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
 		}
 	}
 }
