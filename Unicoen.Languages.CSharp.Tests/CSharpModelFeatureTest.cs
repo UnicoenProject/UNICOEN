@@ -26,7 +26,7 @@ using Unicoen.Core.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
 
-	[TestFixture]
+	[Ignore, TestFixture]
 	public class CSharpModelFeatureTest : ModelFeatureTest {
 		public IEnumerable<TestCaseData> TestStatements {
 			get { return CSharpRegenerateTest.TestStatements; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
 using Unicoen.Core.Model;
@@ -220,20 +221,16 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			Contract.Requires<ArgumentNullException>(dec != null);
 			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedClassDefinition);
 
-
-			throw new NotImplementedException("TypeDeclaration");
-		}
-
-		private UnifiedClassKind LookUpClassKind(ClassType type) {
-			switch (type) {
-			case ClassType.Class:
-				return UnifiedClassKind.Class;
-			case ClassType.Struct:
-				throw new NotImplementedException("struct");
-			case ClassType.Interface:
-				return UnifiedClassKind.Interface;
+			var kind = LookupClassKind(dec.ClassType);
+			var mods = LookupModifier(dec.Modifiers);
+			var name = UnifiedIdentifier.CreateType(dec.Name);
+			var body = UnifiedBlock.Create();
+			foreach (var node in dec.Members) {
+				var uExpr = node.AcceptVisitor(this, data) as IUnifiedExpression;
+				if (uExpr != null)
+					body.Add(uExpr);
 			}
-			throw new InvalidOperationException(type.ToString() + "には対応していません。");
+			return UnifiedClassDefinition.Create(kind, mods, name, /*TODO*/null, /*TODO*/null, body);
 		}
 
 		public IUnifiedElement VisitUsingAliasDeclaration(UsingAliasDeclaration usingAliasDeclaration, object data) {
@@ -300,7 +297,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("GotoStatement");
 		}
 
-		public IUnifiedElement VisitIfElseStatement(IfElseStatement ifElseStatement, object data) {
+		public IUnifiedElement VisitIfElseStatement(IfElseStatement stmt, object data) {
+			Contract.Requires<ArgumentNullException>(stmt != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedIf);
+			var cond = stmt.Condition;
+			var trueBlock = stmt.TrueStatement;
+			var falseBlock = stmt.FalseStatement;
+
 			throw new NotImplementedException("IfElseStatement");
 		}
 
@@ -404,8 +407,21 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("IndexerDeclaration");
 		}
 
-		public IUnifiedElement VisitMethodDeclaration(MethodDeclaration methodDeclaration, object data) {
-			throw new NotImplementedException("MethodDeclaration");
+		public IUnifiedElement VisitMethodDeclaration(MethodDeclaration dec, object data) {
+			Contract.Requires<ArgumentNullException>(dec != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedFunctionDefinition);
+
+			var mods = LookupModifier(dec.Modifiers);
+			var type = LookupType(dec.ReturnType);
+			var name = dec.Name;
+			var body = UnifiedBlock.Create();
+			foreach (var node in dec.Body) {
+				var uExpr = node.AcceptVisitor(this, data) as IUnifiedExpression;
+				if (uExpr != null)
+					body.Add(uExpr);
+			}
+
+			return UnifiedFunctionDefinition.CreateFunction(mods, type, name, null, body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(OperatorDeclaration operatorDeclaration, object data) {
@@ -464,8 +480,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("Constraint");
 		}
 
-		public IUnifiedElement VisitCSharpTokenNode(CSharpTokenNode cSharpTokenNode, object data) {
-			throw new NotImplementedException("CSharpTokenNode");
+		public IUnifiedElement VisitCSharpTokenNode(CSharpTokenNode tokenNode, object data) {
+			// TODO よく分からないから調べる
+			return null;
+			//throw new NotImplementedException("CSharpTokenNode");
 		}
 
 		public IUnifiedElement VisitIdentifier(Identifier identifier, object data) {
