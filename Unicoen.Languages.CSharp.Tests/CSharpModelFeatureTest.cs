@@ -25,6 +25,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
+
 	[TestFixture]
 	public class CSharpModelFeatureTest : ModelFeatureTest {
 		public IEnumerable<TestCaseData> TestStatements {
@@ -40,8 +41,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		protected override UnifiedProgram CreateModel(string code) {
-			throw new NotImplementedException();
-			//return CSharpModelFactory.CreateModel(code);
+			return CSharpFactory.GenerateModel(code);
 		}
 
 		/// <summary>

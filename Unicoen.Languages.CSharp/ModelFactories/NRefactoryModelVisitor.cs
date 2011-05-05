@@ -4,21 +4,25 @@ using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
 using Unicoen.Core.Model;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
+using ICSharpCode.NRefactory.TypeSystem;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 
-	class NRefactoryModelVisitor : IAstVisitor<object, IUnifiedElement> {
+	internal partial class NRefactoryModelVisitor : IAstVisitor<object, IUnifiedElement> {
 
 
 		public IUnifiedElement VisitCompilationUnit(CompilationUnit unit, object data) {
 			Contract.Requires<ArgumentNullException>(unit != null);
 			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedProgram);
 
-			throw new NotImplementedException("CompilationUnit");
+			var prog = UnifiedProgram.Create();
+			foreach (var child in unit.Children) {
+				var elem = child.AcceptVisitor(this, data) as IUnifiedExpression;
+				if (elem != null)
+					prog.Add(elem);
+			}
+			return prog;
 		}
-
-
-
 
 		public IUnifiedElement VisitAnonymousMethodExpression(AnonymousMethodExpression anonymousMethodExpression, object data) {
 			throw new NotImplementedException("AnonymousMethodExpression");
@@ -212,8 +216,24 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("NamespaceDeclaration");
 		}
 
-		public IUnifiedElement VisitTypeDeclaration(TypeDeclaration typeDeclaration, object data) {
+		public IUnifiedElement VisitTypeDeclaration(TypeDeclaration dec, object data) {
+			Contract.Requires<ArgumentNullException>(dec != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedClassDefinition);
+
+
 			throw new NotImplementedException("TypeDeclaration");
+		}
+
+		private UnifiedClassKind LookUpClassKind(ClassType type) {
+			switch (type) {
+			case ClassType.Class:
+				return UnifiedClassKind.Class;
+			case ClassType.Struct:
+				throw new NotImplementedException("struct");
+			case ClassType.Interface:
+				return UnifiedClassKind.Interface;
+			}
+			throw new InvalidOperationException(type.ToString() + "には対応していません。");
 		}
 
 		public IUnifiedElement VisitUsingAliasDeclaration(UsingAliasDeclaration usingAliasDeclaration, object data) {
