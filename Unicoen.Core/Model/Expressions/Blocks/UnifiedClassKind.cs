@@ -37,6 +37,10 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		Enum,
 		/// <summary>
+		///   struct in C, C++, C#
+		/// </summary>
+		Struct,
+		/// <summary>
 		///   module in Ruby
 		/// </summary>
 		Module,

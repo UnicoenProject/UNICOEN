@@ -524,10 +524,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * } 
 			 */
 
-			var name = UnifiedIdentifier.Create(
-					node.Element("IDENTIFIER").Value,
-					UnifiedIdentifierKind.Function
-					);
+			var name = UnifiedIdentifier.CreateFunction(
+					node.Element("IDENTIFIER").Value);
 			var typeParameters = node.HasElement("typeParameters")
 			                     		? CreateTypeParameters(node.Element("typeParameters"))
 			                     		: null;
@@ -653,7 +651,6 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				   ('[' ']')* ('throws' qualifiedNameList)? ';' 
 			 */
 			var modifiers = CreateModifiers(node.Element("modifiers"));
-			// TODO: 未使用
 			var typeParameters = node.HasElement("typeParameters")
 			                     		? CreateTypeParameters(node.Element("typeParameters"))
 			                     		: null;
@@ -661,9 +658,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var dimension = node.ElementsByContent("[").Count();
 			for (var i = 0; i < dimension; i++)
 				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
-			var name = UnifiedIdentifier.Create(
-					node.Element("IDENTIFIER").Value,
-					UnifiedIdentifierKind.Function);
+			var name = UnifiedIdentifier.CreateFunction(
+					node.Element("IDENTIFIER").Value);
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 
 			var throws = node.HasElement("qualifiedNameList")
@@ -672,12 +668,10 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			             						.Select(e => UnifiedType.Create(e, null, null)))
 			             		: null;
 
-			//TODO UnifiedFunctionDefinitionのCreateの整理
-			//TODO 引数が8個のCreateを実装
 			return UnifiedFunctionDefinition.CreateFunction(
 					modifiers,
 					type,
-					null,
+					typeParameters,
 					name,
 					parameters,
 					throws,
@@ -903,17 +897,13 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (node.FirstElement().Name() == "primary") {
 				var prop = UnifiedProperty.Create(
 						CreatePrimary(node.Element("primary")),
-						UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+						UnifiedIdentifier.CreateSuper("super"), ".");
 				return UnifiedCall.Create(prop, aruguments, typeArguments);
 			}
 
 			var target = node.FirstElement().Value == "this"
-			             		? UnifiedIdentifier.Create(
-			             				"this",
-			             				UnifiedIdentifierKind.Unknown)
-			             		: UnifiedIdentifier.Create(
-			             				"super",
-			             				UnifiedIdentifierKind.Super);
+			             		? UnifiedIdentifier.CreateThis("this")
+			             		: UnifiedIdentifier.CreateSuper("super");
 			return UnifiedCall.Create(target, aruguments, typeArguments);
 		}
 
@@ -1781,7 +1771,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (second.Value == "class") {
 				return UnifiedProperty.Create(
 						prefixType,
-						UnifiedIdentifier.Create("class", UnifiedIdentifierKind.ClassObject), ".");
+						UnifiedIdentifier.CreateClassObject("class"), ".");
 			}
 			// ('[' ']')+ '.' 'class'	// java.lang.String[].class
 			if (node.LastElement().Value == "class") {
@@ -1790,15 +1780,14 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				prefixType.Supplements = suplpements;
 				return UnifiedProperty.Create(
 						prefixType,
-						UnifiedIdentifier.Create("class", UnifiedIdentifierKind.ClassObject), ".");
+						UnifiedIdentifier.CreateClassObject("class"), ".");
 			}
 			// '.' nonWildcardTypeArguments IDENTIFIER arguments
 			if (second.Name() == "nonWildcardTypeArguments") {
 				var prop = UnifiedProperty.Create(
 						prefixProp,
-						UnifiedIdentifier.Create(
-								node.Element("IDENTIFIER").Value,
-								UnifiedIdentifierKind.Unknown), ".");
+						UnifiedIdentifier.CreateUnknown(
+								node.Element("IDENTIFIER").Value), ".");
 				return UnifiedCall.Create(
 						prop, CreateArguments(node.Element("arguments")),
 						CreateNonWildcardTypeArguments(node.Element("nonWildcardTypeArguments")));
@@ -1807,13 +1796,13 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (second.Value == "this") {
 				return UnifiedProperty.Create(
 						prefixType,
-						UnifiedIdentifier.Create("this", UnifiedIdentifierKind.Unknown), ".");
+						UnifiedIdentifier.CreateThis("this"), ".");
 			}
 			// '.' 'super' arguments	// new Outer().super();
 			if (second.Value == "super") {
 				var prop = UnifiedProperty.Create(
 						prefixProp,
-						UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+						UnifiedIdentifier.CreateSuper("super"), ".");
 				return UnifiedCall.Create(prop, CreateArguments(node.Element("arguments")));
 			}
 
@@ -1851,7 +1840,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (secondElement.Value == "super") {
 				var prop = UnifiedProperty.Create(
 						prefix,
-						UnifiedIdentifier.Create("super", UnifiedIdentifierKind.Super), ".");
+						UnifiedIdentifier.CreateSuper("super"), ".");
 				return CreateSuperSuffix(prop, node.Element("superSuffix"));
 			}
 			if (secondElement.Name() == "expression") {
