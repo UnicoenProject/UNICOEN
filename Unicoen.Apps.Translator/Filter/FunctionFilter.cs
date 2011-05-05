@@ -21,6 +21,8 @@ namespace Unicoen.Apps.Translator {
 			return filteredList;
 		}
 
+		
+
 		public List<UnifiedFunctionDefinition> FindByReturnType(UnifiedType type, List<UnifiedFunctionDefinition> list) {
 			var filteredList = new List<UnifiedFunctionDefinition>();
 

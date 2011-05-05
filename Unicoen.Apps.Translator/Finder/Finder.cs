@@ -6,7 +6,10 @@ using Unicoen.Core.Model;
 
 namespace Unicoen.Apps.Translator {
 	public class Finder {
-		public static Boolean HasParameter(UnifiedFunctionDefinition func, Parameter param) {
+		// adapt Singleton pattern
+		public static Finder Instance = new Finder();
+
+		public Boolean HasParameter(UnifiedFunctionDefinition func, Parameter param) {
 			if (func.Name.Equals(param.Name) && func.Type.Name.Equals(param.TypeName)) {
 				return true;
 			}
@@ -22,7 +25,7 @@ namespace Unicoen.Apps.Translator {
 		/// <typeparam name="T"></typeparam>
 		/// <param name="program"></param>
 		/// <returns></returns>
-		public static List<T> GetAllElements<T>(UnifiedProgram program) {
+		public List<T> GetAllElements<T>(UnifiedProgram program) {
 			var elements = program.GetElements();
 			var list = new List<T>();
 

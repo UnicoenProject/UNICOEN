@@ -44,11 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filter\Filter.cs" />
-    <Compile Include="Filter\FunctionFinder.cs" />
+    <Compile Include="Filter\FunctionFilter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Finder\Finder.cs" />
+    <Compile Include="Rewriter\Rewriter.cs" />
     <Compile Include="Translator.cs" />
+    <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
@@ -64,9 +66,7 @@
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rewriter\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
