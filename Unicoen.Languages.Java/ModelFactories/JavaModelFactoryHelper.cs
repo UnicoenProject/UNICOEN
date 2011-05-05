@@ -31,7 +31,9 @@ using Unicoen.Core.ModelFactories;
 namespace Unicoen.Languages.Java.ModelFactories {
 	public static class JavaModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
-		public static Dictionary<string, UnifiedUnaryOperator> Sign2PrefixUnaryOperator;
+
+		public static Dictionary<string, UnifiedUnaryOperator>
+				Sign2PrefixUnaryOperator;
 
 		static JavaModelFactoryHelper() {
 			Sign2BinaryOperator =
@@ -227,7 +229,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				}
 			}
 			var body = CreateClassBody(node.Element("classBody"));
-			return UnifiedClassDefinition.Create(UnifiedClassKind.Class, modifiers,
+			return UnifiedClassDefinition.Create(
+					UnifiedClassKind.Class, modifiers,
 					name,
 					typeParameters, constrains, body);
 		}
@@ -290,7 +293,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                 		  		.ToCollection()
 			                 		: null;
 			var enumBody = CreateEnumBody(node.Element("enumBody"));
-			return UnifiedClassDefinition.Create(UnifiedClassKind.Enum,
+			return UnifiedClassDefinition.Create(
+					UnifiedClassKind.Enum,
 					modifiers,
 					UnifiedIdentifier.CreateType(name),
 					null,
@@ -410,7 +414,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var body = CreateInterfaceBody(node.Element("interfaceBody"));
 
 			//TODO UnifiedClassDefinitionのCreateの整理
-			return UnifiedClassDefinition.Create(UnifiedClassKind.Interface,
+			return UnifiedClassDefinition.Create(
+					UnifiedClassKind.Interface,
 					modifiers, name, typeParameters, constrains, body);
 		}
 
@@ -2260,6 +2265,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			return result;
 		}
+
 		private static UnifiedIf CreateIf(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");

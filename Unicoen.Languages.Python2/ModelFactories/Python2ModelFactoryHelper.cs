@@ -28,13 +28,13 @@ using Unicoen.Core.Model;
 using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
-	public static class PythonModelFactoryHelper {
+	public static class Python2ModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static PythonModelFactoryHelper() {
+		static Python2ModelFactoryHelper() {
 			Sign2BinaryOperator =
 					ModelFactoryHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =

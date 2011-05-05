@@ -16,18 +16,26 @@
 
 #endregion
 
-using System;
-using System.Xml.Linq;
 using Unicoen.Core.Model;
+using Unicoen.Languages.Python2.CodeFactories;
+using Unicoen.Languages.Python2.ModelFactories;
 
-namespace Unicoen.Languages.Python2.Model {
-	public class PythonModelFactory {
-		public static UnifiedStringLiteral CreateStringLiteral(XElement ast) {
-			return UnifiedStringLiteral.CreateString("1");
+namespace Unicoen.Languages.Python2 {
+	public static class Python2Factory {
+		public static readonly Python2CodeFactory CodeFactory;
+		public static readonly Python2ModelFactory ModelFactory;
+
+		static Python2Factory() {
+			CodeFactory = new Python2CodeFactory();
+			ModelFactory = new Python2ModelFactory();
 		}
 
-		public static UnifiedBlock CreateBlock(XElement elem) {
-			throw new NotImplementedException();
+		public static string GenerateCode(IUnifiedElement model) {
+			return CodeFactory.Generate(model);
+		}
+
+		public static UnifiedProgram GenerateModel(string code) {
+			return ModelFactory.Generate(code);
 		}
 	}
 }
