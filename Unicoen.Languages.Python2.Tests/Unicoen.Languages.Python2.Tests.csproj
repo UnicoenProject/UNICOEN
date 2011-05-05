@@ -43,6 +43,9 @@
     <Reference Include="nunit.mocks, Version=2.5.9.10348, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.mocks.dll</HintPath>
     </Reference>
+    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\lib\Paraiba.dll</HintPath>
+    </Reference>
     <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
     </Reference>
@@ -56,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Python2Fixture.cs" />
+    <Compile Include="Python2ModelFeatureTest.cs" />
+    <Compile Include="Python2RegenerateTest.cs" />
     <Compile Include="PythonFibonacciTest.cs" />
     <Compile Include="PythonModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

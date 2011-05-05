@@ -1,4 +1,4 @@
-#region License
+ï»¿#region License
 
 // Copyright (C) 2011 The Unicoen Project
 // 
@@ -19,45 +19,46 @@
 using NUnit.Framework;
 using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
-using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.JavaScript.ModelFactories;
 
-namespace Unicoen.Languages.Java.Tests {
+namespace Unicoen.Languages.JavaScript.Tests {
 	[TestFixture]
-	public class JavaModelFeatureTest : ModelFeatureTest {
-		private readonly JavaFixture _fixture = new JavaFixture();
+	public class JavaScriptModelFeatureTest : ModelFeatureTest {
+		private readonly JavaScriptFixture _fixture = new JavaScriptFixture();
 
 		protected override LanguageFixture Fixture {
 			get { return _fixture; }
 		}
 
-		private readonly JavaModelFactory _modelFactory = new JavaModelFactory();
+		private readonly JavaScriptModelFactory _modelFactory =
+				new JavaScriptModelFactory();
 
 		protected override ModelFactory ModelFactory {
 			get { return _modelFactory; }
 		}
 
 		/// <summary>
-		///   [‚¢ƒRƒs[‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   æ·±ã„ã‚³ãƒ”ãƒ¼ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "code">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh</param>
+		/// <param name = "code">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
 		public override void VerifyDeepCopyUsingCode(string code) {
 			base.VerifyDeepCopyUsingCode(code);
 		}
 
 		/// <summary>
-		///   [‚¢ƒRƒs[‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   æ·±ã„ã‚³ãƒ”ãƒ¼ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "path">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ÌƒpƒX</param>
+		/// <param name = "path">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyDeepCopyUsingFile(string path) {
 			base.VerifyDeepCopyUsingFile(path);
 		}
 
 		/// <summary>
-		///   [‚¢ƒRƒs[‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   æ·±ã„ã‚³ãƒ”ãƒ¼ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "dirPath">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠƒpƒX</param>
+		/// <param name = "dirPath">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
@@ -67,27 +68,27 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   q—v‘f‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "code">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh</param>
+		/// <param name = "code">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
 		public override void VerifyGetElementsUsingCode(string code) {
 			base.VerifyGetElementsUsingCode(code);
 		}
 
 		/// <summary>
-		///   q—v‘f‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "path">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ÌƒpƒX</param>
+		/// <param name = "path">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementsUsingFile(string path) {
 			base.VerifyGetElementsUsingFile(path);
 		}
 
 		/// <summary>
-		///   q—v‘f‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "dirPath">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠƒpƒX</param>
+		/// <param name = "dirPath">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
@@ -97,27 +98,27 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   q—v‘f‚ÆƒZƒbƒ^[‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã¨ã‚»ãƒƒã‚¿ãƒ¼ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "code">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh</param>
+		/// <param name = "code">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
 		public override void VerifyGetElementAndSettersUsingCode(string code) {
 			base.VerifyGetElementAndSettersUsingCode(code);
 		}
 
 		/// <summary>
-		///   q—v‘f‚ÆƒZƒbƒ^[‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã¨ã‚»ãƒƒã‚¿ãƒ¼ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "path">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ÌƒpƒX</param>
+		/// <param name = "path">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementAndSettersUsingFile(string path) {
 			base.VerifyGetElementAndSettersUsingFile(path);
 		}
 
 		/// <summary>
-		///   q—v‘f‚ÆƒZƒbƒ^[‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã¨ã‚»ãƒƒã‚¿ãƒ¼ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "dirPath">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠƒpƒX</param>
+		/// <param name = "dirPath">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
@@ -127,27 +128,27 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   q—v‘f‚ÆƒvƒƒpƒeƒB‚ğ‰î‚³‚È‚¢ƒZƒbƒ^[‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ä»‹ã•ãªã„ã‚»ãƒƒã‚¿ãƒ¼ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "code">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh</param>
+		/// <param name = "code">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
 		public override void VerifyGetElementAndDirectSettersUsingCode(string code) {
 			base.VerifyGetElementAndDirectSettersUsingCode(code);
 		}
 
 		/// <summary>
-		///   q—v‘f‚ÆƒvƒƒpƒeƒB‚ğ‰î‚³‚È‚¢ƒZƒbƒ^[‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ä»‹ã•ãªã„ã‚»ãƒƒã‚¿ãƒ¼ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "path">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ÌƒpƒX</param>
+		/// <param name = "path">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementAndDirectSettersUsingFile(string path) {
 			base.VerifyGetElementAndDirectSettersUsingFile(path);
 		}
 
 		/// <summary>
-		///   q—v‘f‚ÆƒvƒƒpƒeƒB‚ğ‰î‚³‚È‚¢ƒZƒbƒ^[‚Ì—ñ‹“‹@”\‚ª³í‚É“®ì‚·‚é‚©ƒ\[ƒX[ƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å­è¦ç´ ã¨ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ä»‹ã•ãªã„ã‚»ãƒƒã‚¿ãƒ¼ã®åˆ—æŒ™æ©Ÿèƒ½ãŒæ­£å¸¸ã«å‹•ä½œã™ã‚‹ã‹ã‚½ãƒ¼ã‚¹ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "dirPath">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠƒpƒX</param>
+		/// <param name = "dirPath">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
@@ -158,27 +159,27 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   e—v‘f‚ª•s“KØ‚È—v‘f‚ª‚È‚¢‚©ƒ\[ƒXƒR[ƒh‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   è¦ªè¦ç´ ãŒä¸é©åˆ‡ãªè¦ç´ ãŒãªã„ã‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "code">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh</param>
+		/// <param name = "code">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
 		public override void VerifyParentPropertyUsingCode(string code) {
 			base.VerifyParentPropertyUsingCode(code);
 		}
 
 		/// <summary>
-		///   e—v‘f‚ª•s“KØ‚È—v‘f‚ª‚È‚¢‚©ƒ\[ƒXƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   è¦ªè¦ç´ ãŒä¸é©åˆ‡ãªè¦ç´ ãŒãªã„ã‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "path">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ÌƒpƒX</param>
+		/// <param name = "path">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyParentPropertyUsingFile(string path) {
 			base.VerifyParentPropertyUsingFile(path);
 		}
 
 		/// <summary>
-		///   e—v‘f‚ª•s“KØ‚È—v‘f‚ª‚È‚¢‚©ƒ\[ƒXƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   è¦ªè¦ç´ ãŒä¸é©åˆ‡ãªè¦ç´ ãŒãªã„ã‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "dirPath">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠƒpƒX</param>
+		/// <param name = "dirPath">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]
@@ -188,27 +189,27 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   ‘S—v‘f‚Ì•¶š—ñî•ñ‚ğæ“¾‚Å‚«‚é‚©ƒ\[ƒXƒR[ƒh‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å…¨è¦ç´ ã®æ–‡å­—åˆ—æƒ…å ±ã‚’å–å¾—ã§ãã‚‹ã‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "code">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh</param>
+		/// <param name = "code">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰</param>
 		[Test, TestCaseSource("TestCodes"), TestCaseSource("TestStatements")]
 		public override void VerifyToStringUsingCode(string code) {
 			base.VerifyToStringUsingCode(code);
 		}
 
 		/// <summary>
-		///   ‘S—v‘f‚Ì•¶š—ñî•ñ‚ğæ“¾‚Å‚«‚é‚©ƒ\[ƒXƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å…¨è¦ç´ ã®æ–‡å­—åˆ—æƒ…å ±ã‚’å–å¾—ã§ãã‚‹ã‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "path">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ÌƒpƒX</param>
+		/// <param name = "path">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyToStringUsingFile(string path) {
 			base.VerifyToStringUsingFile(path);
 		}
 
 		/// <summary>
-		///   ‘S—v‘f‚Ì•¶š—ñî•ñ‚ğæ“¾‚Å‚«‚é‚©ƒ\[ƒXƒR[ƒh‚ÌƒpƒX‚ğw’è‚µ‚ÄƒeƒXƒg‚µ‚Ü‚·B
+		///   å…¨è¦ç´ ã®æ–‡å­—åˆ—æƒ…å ±ã‚’å–å¾—ã§ãã‚‹ã‹ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒ†ã‚¹ãƒˆã—ã¾ã™ã€‚
 		/// </summary>
-		/// <param name = "dirPath">ƒeƒXƒg‘ÎÛ‚Ìƒ\[ƒXƒR[ƒh‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠƒpƒX</param>
+		/// <param name = "dirPath">ãƒ†ã‚¹ãƒˆå¯¾è±¡ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
 		[Test, TestCaseSource("TestDirectoryPathes")]

@@ -16,44 +16,30 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.Tests;
 
-namespace Unicoen.Languages.Java.Tests {
-	public class JavaFixture : LanguageFixture {
-		/// <summary>
-		///   対応する言語のソースコードの拡張子を表します．
-		/// </summary>
+namespace Unicoen.Languages.JavaScript.Tests {
+	public class JavaScriptFixture : LanguageFixture {
 		public override string Extension {
-			get { return ".java"; }
+			get { return ".js"; }
 		}
 
-		/// <summary>
-		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
-		///   <c>class A { public void M1() { ... } }</c>の...部分に
-		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-		/// </summary>
 		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
-						"M1();",
-						"new A();",
-				}.Select(s => new TestCaseData(DecorateWithClassAndMethod(s)));
+						"{ M1(); }",
+				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
 
-		/// <summary>
-		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
-		///   <c>class A { public void M1() { ... } }</c>の...部分に
-		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-		/// </summary>
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
 						"class A { }",
-						"public class A { }",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
@@ -65,14 +51,15 @@ namespace Unicoen.Languages.Java.Tests {
 						"Fibonacci",
 				}
 						.Select(
-								s => new TestCaseData(Fixture.GetInputPath("Java", s + Extension)));
-				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))
-				//    .Select(path => new TestCaseData(path));
+								s => new TestCaseData(Fixture.GetInputPath("JavaScript", s + Extension)));
+				//return Directory.EnumerateFiles(GetInputPath("JavaScript"))
+				//        .Select(path => new TestCaseData(path));
 			}
 		}
 
 		public override IEnumerable<TestCaseData> TestDirectoryPathes {
 			get {
+				throw new NotImplementedException();
 				return new[] {
 						new { DirName = "default", Command = "javac", Arguments = "*.java" },
 						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
@@ -84,7 +71,7 @@ namespace Unicoen.Languages.Java.Tests {
 			}
 		}
 
-		private static string DecorateWithClassAndMethod(string statement) {
+		private static string CreateCode(string statement) {
 			return "class A { public void M1() {" + statement + "} }";
 		}
 	}

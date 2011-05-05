@@ -16,14 +16,19 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
-	public static class CSharpFixture {
-		public static IEnumerable<TestCaseData> TestStatements {
+	public class CSharpFixture : LanguageFixture {
+		public override string Extension {
+			get { return ".cs"; }
+		}
+
+		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
 						"{ M1(); }",
@@ -31,7 +36,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestCodes {
+		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
 						"class A { }",
@@ -39,19 +44,30 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestFilePathes {
+		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						//"Block1.cs",
-						//"Block2.cs",
-						//"Block3.cs",
-						"Fibonacci.cs",
-						//"Student.cs",
+						"Fibonacci",
 				}
-						.Select(s => new TestCaseData(Fixture.GetInputPath("CSharp", s)));
+						.Select(
+								s => new TestCaseData(Fixture.GetInputPath("CSharp", s + Extension)));
 				//return Directory.EnumerateFiles(GetInputPath("CSharp"))
 				//        .Select(path => new TestCaseData(path));
+			}
+		}
+
+		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+			get {
+				throw new NotImplementedException();
+				return new[] {
+						new { DirName = "default", Command = "javac", Arguments = "*.java" },
+						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
+				}
+						.Select(
+								o => new TestCaseData(
+								     		Fixture.GetInputPath("Java", o.DirName),
+								     		o.Command, o.Arguments));
 			}
 		}
 

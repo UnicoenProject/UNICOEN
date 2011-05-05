@@ -27,10 +27,10 @@ using Paraiba.Core;
 using Unicoen.Core.CodeFactories;
 using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
-using Unicoen.Languages.CSharp.CodeFactories;
-using Unicoen.Languages.CSharp.ModelFactories;
+using Unicoen.Languages.C.CodeFactories;
+using Unicoen.Languages.C.ModelFactories;
 
-namespace Unicoen.Languages.CSharp.Tests {
+namespace Unicoen.Languages.C.Tests {
 	/// <summary>
 	///   再生成したソースコードが変化していないかテストします。
 	///   元コード1→モデル1→コード2→... のように再生成します。
@@ -38,7 +38,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 	///   もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
 	[Ignore, TestFixture]
-	public class CSharpRegenerateTest : RegenerateTest {
+	public class CRegenerateTest : RegenerateTest {
 		private const string CscPath =
 				@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
 
@@ -47,25 +47,26 @@ namespace Unicoen.Languages.CSharp.Tests {
 				@"C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe",
 		};
 
-		private readonly CSharpFixture _fixture = new CSharpFixture();
+		private readonly CFixture _fixture = new CFixture();
 
 		public override LanguageFixture Fixture {
 			get { return _fixture; }
 		}
 
-		private readonly CSharpCodeFactory _codeFactory = new CSharpCodeFactory();
+		private readonly CCodeFactory _codeFactory = new CCodeFactory();
 
 		public override CodeFactory CodeFactory {
 			get { return _codeFactory; }
 		}
 
-		private readonly CSharpModelFactory _modelFactory = new CSharpModelFactory();
+		private readonly CModelFactory _modelFactory = new CModelFactory();
 
 		public override ModelFactory ModelFactory {
 			get { return _modelFactory; }
 		}
 
 		protected override void Compile(string workPath, string fileName) {
+			throw new NotImplementedException();
 			var exeFilePath = Path.Combine(
 					workPath,
 					Path.ChangeExtension(fileName, "dll"));
@@ -80,6 +81,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		protected override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+			throw new NotImplementedException();
 			return Directory.EnumerateFiles(
 					workPath, "*.dll",
 					SearchOption.AllDirectories)
@@ -111,6 +113,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		private static string GetByteCode(string workPath, string exeFilePath) {
+			throw new NotImplementedException();
 			var ildasmPath = IldasmPathes.First(File.Exists);
 			var args = new[] { "/text", exeFilePath };
 			var info = new ProcessStartInfo {
@@ -144,13 +147,13 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
-		[Test, TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
+		[Test, TestCase(@"..\..\fixture\C\input\Fibonacci.c")]
 		public override void VerifyCompareThroughCompiledCodeForSameCode(
 				string orgPath) {
 			base.VerifyCompareThroughCompiledCodeForSameCode(orgPath);
 		}
 
-		[Test, TestCase(@"..\..\fixture\CSharp\input\Fibonacci.cs")]
+		[Test, TestCase(@"..\..\fixture\C\input\Fibonacci.c")]
 		public override void VerifyCompareThroughModelForSameCode(string orgPath) {
 			base.VerifyCompareThroughModelForSameCode(orgPath);
 		}
