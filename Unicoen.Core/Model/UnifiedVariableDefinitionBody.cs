@@ -144,6 +144,15 @@ namespace Unicoen.Core.Model {
 					(_body, v => _body = (UnifiedBlock)v);
 		}
 
+		public static UnifiedVariableDefinitionBody Create(string name) {
+			return Create(
+					UnifiedIdentifier.CreateVariable(name),
+					null,
+					null,
+					null,
+					null);
+		}
+
 		public static UnifiedVariableDefinitionBody Create(
 				string name,
 				UnifiedTypeSupplementCollection supplements,

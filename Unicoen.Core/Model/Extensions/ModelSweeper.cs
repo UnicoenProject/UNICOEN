@@ -22,6 +22,17 @@ using System.Linq;
 
 namespace Unicoen.Core.Model {
 	public static class ModelSweeper {
+		/// <summary>
+		/// 深いコピーを取得します．
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="self"></param>
+		/// <returns></returns>
+		public static T DeepCopy<T>(this T self)
+			where T : IUnifiedElement {
+			return (T)self.PrivateDeepCopy();
+		}
+
 		public static IEnumerable<IUnifiedElement> Ancestors(
 				this IUnifiedElement element) {
 			Contract.Requires(element != null);

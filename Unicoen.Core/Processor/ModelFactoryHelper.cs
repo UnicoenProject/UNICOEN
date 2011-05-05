@@ -38,7 +38,7 @@ namespace Unicoen.Core.ModelFactories {
 				IDictionary<string, UnifiedUnaryOperator> op2Kind) {
 			return UnifiedUnaryExpression.Create(
 					createExpression(node.NthElement(1)),
-					(UnifiedUnaryOperator)op2Kind[node.FirstElement().Value].DeepCopy());
+					op2Kind[node.FirstElement().Value].DeepCopy());
 		}
 
 		/// <summary>
@@ -63,7 +63,6 @@ namespace Unicoen.Core.ModelFactories {
 						count > 0
 								? otherCreateExpression(n)
 								: firstCreateExpression(n),
-						(UnifiedBinaryOperator)
 						op2Kind[n.NextElement().Value].DeepCopy(),
 						seed);
 			}
@@ -106,7 +105,7 @@ namespace Unicoen.Core.ModelFactories {
 					firstCreateExpression(nodes.First()),
 					(e, n) => UnifiedBinaryExpression.Create(
 							e,
-							(UnifiedBinaryOperator)op2Kind[n.PreviousElement().Value].DeepCopy(),
+							op2Kind[n.PreviousElement().Value].DeepCopy(),
 							otherCreateExpression(n)));
 		}
 

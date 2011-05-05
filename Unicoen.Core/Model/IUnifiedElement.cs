@@ -83,14 +83,7 @@ namespace Unicoen.Core.Model {
 		///   深いコピーを取得します。
 		/// </summary>
 		/// <returns>深いコピー</returns>
-		IUnifiedElement DeepCopy();
-
-		/// <summary>
-		///   深いコピーを取得します。
-		/// </summary>
-		/// <returns>深いコピー</returns>
-		T DeepCopy<T>()
-				where T : IUnifiedElement;
+		IUnifiedElement PrivateDeepCopy();
 
 		/// <summary>
 		///   指定した子要素を削除して、自分自身を取得します。
