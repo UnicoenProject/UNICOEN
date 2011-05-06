@@ -6,6 +6,7 @@ using System.Text;
 using Unicoen.Core.CodeFactories;
 using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
+using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Languages.C.CodeFactories
 {

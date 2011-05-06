@@ -37,7 +37,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 	///   コードは、コンパイルしたアセンブリファイルの逆コンパイル結果同士、
 	///   もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class JavaScriptRegenerateTest : RegenerateTest {
 		private const string CscPath =
 				@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";

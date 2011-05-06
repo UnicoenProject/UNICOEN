@@ -362,7 +362,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var cond = CreateExpression(node.Element("expression"));
 			var trueBody = UnifiedBlock.Create(
 					CreateStatement(node.Element("statement")));
-			var falseBody = node.HasContent("else")
+			var falseBody = node.Elements("statement").Count() == 2
 			                		? UnifiedBlock.Create(
 			                				CreateStatement(node.Elements("statement").ElementAt(1)))
 			                		: null;

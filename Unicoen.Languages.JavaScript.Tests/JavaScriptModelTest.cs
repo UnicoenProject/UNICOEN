@@ -23,6 +23,7 @@ using NUnit.Framework;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.JavaScript.Model;
+using Unicoen.Languages.JavaScript.ModelFactories;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	[Ignore, TestFixture]
@@ -34,7 +35,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		public void SetUp() {
 			_ast = JavaScriptCodeToXml.Instance.GenerateFromFile(InputPath);
 			_root = _ast.Descendants("functionDeclaration").First();
-			_func = JSModelFactory.CreateFunction(_root);
+			_func = JavaScriptModelFactoryHelper.CreateFunctionDeclaration(_root);
 		}
 
 		private XElement _ast;
@@ -45,16 +46,19 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		public void If文の条件式を取得する() {
 			//actual
 			var block = _func.Body;
-			var expStmt = block.First();
-			var ifStmt = (UnifiedIf)expStmt;
-			var cond = ifStmt.Condition;
+			var expStmt = block.First() as UnifiedIf;
+			if (expStmt == null) return;
+			var cond = expStmt.Condition;
 
 			//expectation
 			var expectation =
+				UnifiedBlock.Create(
 					UnifiedBinaryExpression.Create(
-							UnifiedIdentifier.CreateUnknown("n"),
+							UnifiedIdentifier.CreateVariable("n"),
 							UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorKind.LessThan),
-							UnifiedIntegerLiteral.Create(2));
+							UnifiedIntegerLiteral.CreateBigInteger(2)
+					)
+				);
 
 			Assert.That(
 					cond, Is.EqualTo(expectation)
@@ -90,7 +94,13 @@ namespace Unicoen.Languages.JavaScript.Tests {
 
 			//expectation
 			var expectation =
-					UnifiedSpecialExpression.CreateReturn(UnifiedIdentifier.CreateUnknown("n"));
+				UnifiedBlock.Create(
+					UnifiedSpecialExpression.CreateReturn(
+						UnifiedBlock.Create(
+							UnifiedIdentifier.CreateVariable("n")
+						)
+					)
+				);
 
 			Assert.That(
 					returnStmt, Is.EqualTo(expectation)
@@ -128,10 +138,13 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		[Test]
 		public void 呼び出す関数の引数を取得する() {
 			var block = _func.Body;
-			var expStmt = block.First();
-			var ifStmt = (UnifiedIf)expStmt;
+			var ifStmt = block.First() as UnifiedIf;
+			if (ifStmt == null) return;
 			var fBlock = ifStmt.ElseBody;
-			var returnStmt = (UnifiedSpecialExpression)fBlock.First();
+			var returnStmt =
+					(UnifiedSpecialExpression)
+					ModelSweeper.Descendants(fBlock).Where(e => e is UnifiedSpecialExpression).
+							First();
 			var binaryExp = (UnifiedBinaryExpression)returnStmt.Value;
 			var callExp = (UnifiedCall)binaryExp.LeftHandSide;
 			var firstArg = callExp.Arguments.First().Value;
