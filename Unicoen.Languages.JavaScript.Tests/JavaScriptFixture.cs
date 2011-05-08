@@ -16,23 +16,35 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.Core.CodeFactories;
+using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
+using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.JavaScript.Tests {
+	//[Export(typeof(LanguageFixture))]
 	public class JavaScriptFixture : LanguageFixture {
 		public override string Extension {
 			get { return ".js"; }
+		}
+
+		public override ModelFactory ModelFactory {
+			get { return JavaScriptFactory.ModelFactory; }
+		}
+
+		public override CodeFactory CodeFactory {
+			get { return JavaScriptFactory.CodeFactory; }
 		}
 
 		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
 						"{ M1(); }",
-				}.Select(s => new TestCaseData(CreateCode(s)));
+				}.Select(s => new TestCaseData(this, CreateCode(s)));
 			}
 		}
 
@@ -40,7 +52,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				return new[] {
 						"class A { }",
-				}.Select(s => new TestCaseData(s));
+				}.Select(s => new TestCaseData(this, s));
 			}
 		}
 
@@ -51,9 +63,8 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						"Fibonacci",
 				}
 						.Select(
-								s => new TestCaseData(Fixture.GetInputPath("JavaScript", s + Extension)));
-				//return Directory.EnumerateFiles(GetInputPath("JavaScript"))
-				//        .Select(path => new TestCaseData(path));
+								s =>
+								new TestCaseData(this, FixtureUtil.GetInputPath("JavaScript", s + Extension)));
 			}
 		}
 
@@ -70,6 +81,15 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				//								     		o.Command, o.Arguments));
 			}
 		}
+
+		public override void Compile(string workPath, string fileName) {}
+
+		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+			return null;
+		}
+
+		public override void CompileWithArguments(
+				string workPath, string command, string arguments) {}
 
 		private static string CreateCode(string statement) {
 			return "class A { public void M1() {" + statement + "} }";

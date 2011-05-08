@@ -16,23 +16,35 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.Core.CodeFactories;
+using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
+using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
+	//[Export(typeof(LanguageFixture))]
 	public class Python2Fixture : LanguageFixture {
 		public override string Extension {
 			get { return ".py"; }
+		}
+
+		public override ModelFactory ModelFactory {
+			get { return Python2Factory.ModelFactory; }
+		}
+
+		public override CodeFactory CodeFactory {
+			get { return Python2Factory.CodeFactory; }
 		}
 
 		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
 						"{ M1(); }",
-				}.Select(s => new TestCaseData(CreateCode(s)));
+				}.Select(s => new TestCaseData(this, CreateCode(s)));
 			}
 		}
 
@@ -40,7 +52,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			get {
 				return new[] {
 						"class A { }",
-				}.Select(s => new TestCaseData(s));
+				}.Select(s => new TestCaseData(this, s));
 			}
 		}
 
@@ -51,7 +63,8 @@ namespace Unicoen.Languages.Python2.Tests {
 						"Fibonacci",
 				}
 						.Select(
-								s => new TestCaseData(Fixture.GetInputPath("Python2", s + Extension)));
+								s =>
+								new TestCaseData(this, FixtureUtil.GetInputPath("Python2", s + Extension)));
 				//return Directory.EnumerateFiles(GetInputPath("Python2"))
 				//        .Select(path => new TestCaseData(path));
 			}
@@ -70,6 +83,15 @@ namespace Unicoen.Languages.Python2.Tests {
 				//								     		o.Command, o.Arguments));
 			}
 		}
+
+		public override void Compile(string workPath, string fileName) {}
+
+		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+			return null;
+		}
+
+		public override void CompileWithArguments(
+				string workPath, string command, string arguments) {}
 
 		private static string CreateCode(string statement) {
 			return "class A { public void M1() {" + statement + "} }";

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
 
@@ -160,6 +159,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			VisitCollection(element, state);
 			return false;
 		}
+
 		public bool Visit(UnifiedKeyValueCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;

@@ -1,4 +1,22 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -218,7 +236,6 @@ namespace Unicoen.Languages.C.ModelFactories {
 			// 常に UnifiedTyep を返すが、
 			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
 
-			
 			UnifiedIdentifier name = null;
 			UnifiedClassKind kind = node.FirstElement().Name() == "struct"
 			                        		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
@@ -235,7 +252,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
-			var structOrUnion = UnifiedClassDefinition.Create(kind, null, name, null, null, body);
+			var structOrUnion = UnifiedClassDefinition.Create(
+					kind, null, name, null, null, body);
 
 			return UnifiedType.Create(null, structOrUnion, null, null);
 		}
@@ -272,16 +290,18 @@ namespace Unicoen.Languages.C.ModelFactories {
 			UnifiedModifierCollection modifiers = null;
 			UnifiedType type;
 
-			CreateSpecifierQualifierList(node.Element("specifier_qualifier_list"),
-				 out modifiers, out type);
+			CreateSpecifierQualifierList(
+					node.Element("specifier_qualifier_list"),
+					out modifiers, out type);
 
 			return UnifiedVariableDefinition.Create(
 					modifiers, type,
 					CreateStructDeclaratorList(node.Element("struct_declarator_list")));
 		}
 
-		public static void CreateSpecifierQualifierList(XElement node,
-			out UnifiedModifierCollection modifiers, out UnifiedType type) {
+		public static void CreateSpecifierQualifierList(
+				XElement node,
+				out UnifiedModifierCollection modifiers, out UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "specifier_qualifier_list");
 			/*
@@ -291,7 +311,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			modifiers = UnifiedModifierCollection.Create();
 			var types = UnifiedTypeCollection.Create();
 			foreach (var e in node.Elements()) {
-				switch(e.Name()) {
+				switch (e.Name()) {
 				case "type_qualifier":
 					modifiers.Add(CreateTypeQualifier(e));
 					break;
@@ -309,11 +329,12 @@ namespace Unicoen.Languages.C.ModelFactories {
 				s += prefix + t.Name;
 				prefix = " ";
 			}
-			type = s.Equals("")  ? null : UnifiedType.Create(UnifiedIdentifier.CreateType(s));
-
+			type = s.Equals("")
+			       		? null : UnifiedType.Create(UnifiedIdentifier.CreateType(s));
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection CreateStructDeclaratorList(XElement node) {
+		public static UnifiedVariableDefinitionBodyCollection
+				CreateStructDeclaratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");
 			/*
@@ -328,7 +349,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 			return declarators;
 		}
 
-		public static UnifiedVariableDefinitionBody CreateStructDeclarator(XElement node) {
+		public static UnifiedVariableDefinitionBody CreateStructDeclarator(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator");
 			/*

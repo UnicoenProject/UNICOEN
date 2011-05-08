@@ -16,31 +16,43 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.Core.CodeFactories;
+using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
+using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
+	//[Export(typeof(LanguageFixture))]
 	public class CFixture : LanguageFixture {
 		public override string Extension {
 			get { return ".c"; }
 		}
 
+		public override ModelFactory ModelFactory {
+			get { return CFactory.ModelFactory; }
+		}
+
+		public override CodeFactory CodeFactory {
+			get { return CFactory.CodeFactory; }
+		}
+
 		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
-						"{ M1(); }",
-				}.Select(s => new TestCaseData(CreateCode(s)));
+						"{ main(); }",
+				}.Select(s => new TestCaseData(this, CreateCode(s)));
 			}
 		}
 
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
-						"class A { }",
-				}.Select(s => new TestCaseData(s));
+						"int main() { return 0; }",
+				}.Select(s => new TestCaseData(this, s));
 			}
 		}
 
@@ -50,9 +62,9 @@ namespace Unicoen.Languages.C.Tests {
 				return new[] {
 						"Fibonacci.c",
 				}
-						.Select(s => new TestCaseData(Fixture.GetInputPath("C", s + Extension)));
-				//return Directory.EnumerateFiles(GetInputPath("C"))
-				//        .Select(path => new TestCaseData(path));
+						.Select(
+								s =>
+								new TestCaseData(this, FixtureUtil.GetInputPath("C", s + Extension)));
 			}
 		}
 
@@ -70,8 +82,17 @@ namespace Unicoen.Languages.C.Tests {
 			}
 		}
 
+		public override void Compile(string workPath, string fileName) {}
+
+		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+			return null;
+		}
+
+		public override void CompileWithArguments(
+				string workPath, string command, string arguments) {}
+
 		private static string CreateCode(string statement) {
-			return "class A { public void M1() {" + statement + "} }";
+			return "int main() {" + statement + "} }";
 		}
 	}
 }

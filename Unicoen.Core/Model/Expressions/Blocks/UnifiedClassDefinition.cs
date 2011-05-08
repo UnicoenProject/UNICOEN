@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -98,7 +97,9 @@ namespace Unicoen.Core.Model {
 			yield return ElementReference.Create
 					(() => Name, v => Name = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(() => TypeParameters, v => TypeParameters = (UnifiedTypeParameterCollection)v);
+					(
+							() => TypeParameters,
+							v => TypeParameters = (UnifiedTypeParameterCollection)v);
 			yield return ElementReference.Create
 					(() => Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 			yield return ElementReference.Create
@@ -112,7 +113,9 @@ namespace Unicoen.Core.Model {
 			yield return ElementReference.Create
 					(() => _name, v => _name = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(() => _typeParameters, v => _typeParameters = (UnifiedTypeParameterCollection)v)
+					(
+							() => _typeParameters,
+							v => _typeParameters = (UnifiedTypeParameterCollection)v)
 					;
 			yield return ElementReference.Create
 					(() => _constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);

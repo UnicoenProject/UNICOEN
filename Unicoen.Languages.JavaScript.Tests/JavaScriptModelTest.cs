@@ -28,7 +28,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 	[Ignore, TestFixture]
 	public class JavaScriptModelTest {
 		private static readonly string InputPath =
-				Fixture.GetInputPath("JavaScript", "fibonacci.js");
+				FixtureUtil.GetInputPath("JavaScript", "fibonacci.js");
 
 		[SetUp]
 		public void SetUp() {

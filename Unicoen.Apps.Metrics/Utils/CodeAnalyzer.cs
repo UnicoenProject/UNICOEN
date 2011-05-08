@@ -25,8 +25,6 @@ using Paraiba.Text;
 using Unicoen.Core.Model;
 using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java;
-using Unicoen.Languages.Java.CodeFactories;
-using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Applications.Metrics.Utils {
 	public static class CodeAnalyzer {

@@ -20,7 +20,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Apps.Aop;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
 
@@ -31,10 +30,11 @@ namespace Unicoen.Apps.Aop.Tests {
 	[TestFixture]
 	internal class PointcutTest {
 		private readonly string _fibonacciPath =
-				Fixture.GetInputPath("Java", "Default", "Fibonacci.java");
+				FixtureUtil.GetInputPath("Java", "Default", "Fibonacci.java");
+
 		private readonly string _studentPath =
-				Fixture.GetInputPath("Java", "Default", "Student.java");
-		
+				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
+
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
 			var code = File.ReadAllText(path, XEncoding.SJIS);
@@ -46,8 +46,9 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_fibonacciPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionBefore.java"));
-			
+							FixtureUtil.GetAopExpectationPath(
+									"Java", "Fibonacci_functionBefore.java"));
+
 			CodeProcessor.InsertAtBeforeExecutionAll(model, "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
@@ -59,8 +60,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_fibonacciPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
-			
+							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
+
 			CodeProcessor.InsertAtAfterExecutionAll(model, "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
@@ -73,9 +74,11 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_fibonacciPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionBefore.java"));
-			
-			CodeProcessor.InsertAtBeforeExecution(model, new Regex(regex), "{Console.Write();}");
+							FixtureUtil.GetAopExpectationPath(
+									"Java", "Fibonacci_functionBefore.java"));
+
+			CodeProcessor.InsertAtBeforeExecution(
+					model, new Regex(regex), "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
@@ -87,9 +90,10 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_fibonacciPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
-			
-			CodeProcessor.InsertAtAfterExecution(model, new Regex(regex), "{Console.Write();}");
+							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
+
+			CodeProcessor.InsertAtAfterExecution(
+					model, new Regex(regex), "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
@@ -101,9 +105,11 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_fibonacciPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionBefore.java"));
-			
-			CodeProcessor.InsertAtBeforeExecutionByName(model, name, "{Console.Write();}");
+							FixtureUtil.GetAopExpectationPath(
+									"Java", "Fibonacci_functionBefore.java"));
+
+			CodeProcessor.InsertAtBeforeExecutionByName(
+					model, name, "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
@@ -115,21 +121,20 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_fibonacciPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
-			
+							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
+
 			CodeProcessor.InsertAtAfterExecutionByName(model, name, "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
 
-
 		[Test]
 		public void WeavingAtBeforeCallAll() {
 			var model = CreateModel(_studentPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Student_callBefore.java"));
+							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			CodeProcessor.InsertAtBeforeCallAll(model, "{Console.Write();}");
 
@@ -142,7 +147,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_studentPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Student_callAfter.java"));
+							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			CodeProcessor.InsertAtAfterCallAll(model, "{Console.Write();}");
 
@@ -157,9 +162,10 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_studentPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Student_callBefore.java"));
+							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
-			CodeProcessor.InsertAtBeforeCall(model, new Regex(regex), "{Console.Write();}");
+			CodeProcessor.InsertAtBeforeCall(
+					model, new Regex(regex), "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
@@ -171,9 +177,10 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_studentPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Student_callAfter.java"));
+							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
-			CodeProcessor.InsertAtAfterCall(model, new Regex(regex), "{Console.Write();}");
+			CodeProcessor.InsertAtAfterCall(
+					model, new Regex(regex), "{Console.Write();}");
 
 			//TODO ToString()しないと比較できないか
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
@@ -185,7 +192,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_studentPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Student_callBefore.java"));
+							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			CodeProcessor.InsertAtBeforeCallByName(model, name, "{Console.Write();}");
 
@@ -199,7 +206,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			var model = CreateModel(_studentPath);
 			var actual =
 					CreateModel(
-							Fixture.GetAopExpectationPath("Java", "Student_callAfter.java"));
+							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			CodeProcessor.InsertAtAfterCallByName(model, name, "{Console.Write();}");
 

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -137,7 +136,9 @@ namespace Unicoen.Core.Model {
 			yield return ElementReference.Create
 					(() => _arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
 			yield return ElementReference.Create
-					(() => _supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
+					(
+							() => _supplements,
+							v => _supplements = (UnifiedTypeSupplementCollection)v);
 		}
 
 		public void AddSupplement(UnifiedTypeSupplement supplement) {

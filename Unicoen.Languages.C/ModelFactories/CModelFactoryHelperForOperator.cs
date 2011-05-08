@@ -1,22 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Linq;
-using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.C.CodeToXmls;
 using Mocomoco.Xml.Linq;
-using Paraiba.Linq;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Languages.C.ModelFactories
-{
-	public static partial class CModelFactoryHelper
-	{
+namespace Unicoen.Languages.C.ModelFactories {
+	public static partial class CModelFactoryHelper {
 		// Operator
-		public static IUnifiedElement CreateUnaryOperator(XElement node)
-		{
+		public static IUnifiedElement CreateUnaryOperator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "unary_operator");
 			/*
@@ -32,8 +41,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAssignmentOperator(XElement node)
-		{
+		public static IUnifiedElement CreateAssignmentOperator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignment_operator");
 			/*

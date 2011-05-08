@@ -598,6 +598,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public bool Visit(UnifiedDictionaryComprehension element, VisitorState state) {
 			throw new NotImplementedException();
 		}
+
 		public bool Visit(UnifiedDictonary element, VisitorState state) {
 			throw new NotImplementedException();
 		}

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -79,7 +78,9 @@ namespace Unicoen.Core.Model {
 			yield return ElementReference.Create
 					(() => Function, v => Function = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(() => TypeArguments, v => TypeArguments = (UnifiedTypeArgumentCollection)v);
+					(
+							() => TypeArguments,
+							v => TypeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return ElementReference.Create
 					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 		}
@@ -89,7 +90,9 @@ namespace Unicoen.Core.Model {
 			yield return ElementReference.Create
 					(() => _function, v => _function = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(() => _typeArguments, v => _typeArguments = (UnifiedTypeArgumentCollection)v);
+					(
+							() => _typeArguments,
+							v => _typeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return ElementReference.Create
 					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
