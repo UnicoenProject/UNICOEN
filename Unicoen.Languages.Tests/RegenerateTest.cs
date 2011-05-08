@@ -51,7 +51,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "fixture"></param>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyCompareThroughCompiledCodeForSameCode(
+		public void VerifyCompareCompiledCodeOfSameCode(
 				LanguageFixture fixture, string orgPath) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
@@ -71,7 +71,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "fixture"></param>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyCompareThroughModelForSameCode(
+		public void VerifyCompareModelOfSameCode(
 				LanguageFixture fixture, string orgPath) {
 			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
 			var expected = fixture.ModelFactory.Generate(orgCode);
@@ -90,7 +90,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "fixture"></param>
 		/// <param name = "orgCode">再生成するソースコード</param>
 		/// <param name = "fileName">再生成するソースコードのファイル名</param>
-		private static void VerifyCompareThroughCompiledCode(
+		private static void VerifyCompareCompiledCode(
 				LanguageFixture fixture, string orgCode, string fileName) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			var srcPath = FixtureUtil.GetTemporalPath(fileName);
@@ -115,7 +115,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "dirPath">再生成するソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command">コンパイルに用いるコマンド名</param>
 		/// <param name = "arguments">コンパイルに用いる引数リスト</param>
-		private static void VerifyCompareThroughCompiledCodeUsingDirectory(
+		private static void VerifyCompareCompiledCodeUsingDirectory(
 				LanguageFixture fixture, string dirPath, string command, string arguments) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			FileUtility.CopyRecursively(dirPath, workPath);
@@ -140,7 +140,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "fixture"></param>
 		/// <param name = "orgCode">再生成するソースコード</param>
-		private static void VerifyCompareThroughModel(
+		private static void VerifyCompareModel(
 				LanguageFixture fixture, string orgCode) {
 			var model1 = fixture.ModelFactory.Generate(orgCode);
 			var code2 = fixture.CodeFactory.Generate(model1);
@@ -159,7 +159,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">再生成するソースコードが格納されているディレクトリパス</param>
-		private static void VerifyCompareThroughModelUsingDirectory(
+		private static void VerifyCompareModelUsingDirectory(
 				LanguageFixture fixture, string dirPath) {
 			var codePaths = fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var codePath in codePaths) {
@@ -176,42 +176,42 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		[Test, TestCaseSource("TestCodes")]
-		public void CompareThroughByteCodeUsingCode(
+		public void CompareCompiledCodeUsingCode(
 				LanguageFixture fixture, string code) {
-			VerifyCompareThroughCompiledCode(fixture, code, "A" + fixture.Extension);
+			VerifyCompareCompiledCode(fixture, code, "A" + fixture.Extension);
 		}
 
 		[Test, TestCaseSource("TestCodes")]
-		public void CompareThroughModelUsingCode(LanguageFixture fixture, string code) {
-			VerifyCompareThroughModel(fixture, code);
+		public void CompareModelUsingCode(LanguageFixture fixture, string code) {
+			VerifyCompareModel(fixture, code);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
-		public void CompareThroughByteCodeUsingFile(
+		public void CompareCompiledCodeUsingFile(
 				LanguageFixture fixture, string orgPath) {
 			var fileName = Path.GetFileName(orgPath);
-			VerifyCompareThroughCompiledCode(
+			VerifyCompareCompiledCode(
 					fixture,
 					File.ReadAllText(orgPath, XEncoding.SJIS), fileName);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
-		public void CompareThroughModelUsingFile(
+		public void CompareModelUsingFile(
 				LanguageFixture fixture, string orgPath) {
-			VerifyCompareThroughModel(fixture, File.ReadAllText(orgPath, XEncoding.SJIS));
+			VerifyCompareModel(fixture, File.ReadAllText(orgPath, XEncoding.SJIS));
 		}
 
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void CompareThroughByteCodeUsingDirectory(
+		public void CompareCompiledCodeUsingDirectory(
 				LanguageFixture fixture, string orgPath, string command, string arguments) {
-			VerifyCompareThroughCompiledCodeUsingDirectory(
+			VerifyCompareCompiledCodeUsingDirectory(
 					fixture, orgPath, command, arguments);
 		}
 
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void CompareThroughModelUsingDirectory(
+		public void CompareModelUsingDirectory(
 				LanguageFixture fixture, string orgPath, string command, string arguments) {
-			VerifyCompareThroughModelUsingDirectory(fixture, orgPath);
+			VerifyCompareModelUsingDirectory(fixture, orgPath);
 		}
 	}
 }
