@@ -1,22 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Linq;
-using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.C.CodeToXmls;
 using Mocomoco.Xml.Linq;
-using Paraiba.Linq;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Languages.C.ModelFactories
-{
+namespace Unicoen.Languages.C.ModelFactories {
 	// for Statement
-	public static partial class CModelFactoryHelper
-	{
-		public static IUnifiedElement CreateStatement(XElement node)
-		{
+	public static partial class CModelFactoryHelper {
+		public static IUnifiedElement CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			/*
@@ -28,12 +37,11 @@ namespace Unicoen.Languages.C.ModelFactories
 			| iteration_statement
 			| jump_statement
 			 */
-	
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLabeledStatement(XElement node)
-		{
+		public static IUnifiedElement CreateLabeledStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labeled_statement");
 			/*
@@ -42,36 +50,33 @@ namespace Unicoen.Languages.C.ModelFactories
 			| 'case' constant_expression ':' statement
 			| 'default' ':' statement
 			 */
-	
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateCompoundStatement(XElement node)
-		{
+		public static IUnifiedElement CreateCompoundStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "compound_statement");
 			/*
 			compound_statement
 			: '{' declaration* statement_list? '}'
 			 */
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateStatementList(XElement node)
-		{
+		public static IUnifiedElement CreateStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
 			/*
 			statement_list
 			: statement+
 			 */
-	
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateExpressionStatement(XElement node)
-		{
+		public static IUnifiedElement CreateExpressionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression_statement");
 			/*
@@ -79,12 +84,11 @@ namespace Unicoen.Languages.C.ModelFactories
 			: ';'
 			| expression ';'
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSelectionStatement(XElement node)
-		{
+		public static IUnifiedElement CreateSelectionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "selection_statement");
 			/*
@@ -92,12 +96,11 @@ namespace Unicoen.Languages.C.ModelFactories
 			: 'if' '(' expression ')' statement (options {k=1; backtrack=false;}:'else' statement)?
 			| 'switch' '(' expression ')' statement
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateIterationStatement(XElement node)
-		{
+		public static IUnifiedElement CreateIterationStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iteration_statement");
 			/*
@@ -106,12 +109,11 @@ namespace Unicoen.Languages.C.ModelFactories
 			| 'do' statement 'while' '(' expression ')' ';'
 			| 'for' '(' expression_statement expression_statement expression? ')' statement
 			 */
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateJumpStatement(XElement node)
-		{
+		public static IUnifiedElement CreateJumpStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "jump_statement");
 			/*

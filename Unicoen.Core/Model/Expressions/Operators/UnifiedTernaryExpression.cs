@@ -16,21 +16,20 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	/// 3項式を表します
-	/// Javaにおける<c>a ? b : c</c>
+	///   3項式を表します
+	///   Javaにおける<c>a ? b : c</c>
 	/// </summary>
 	public class UnifiedTernaryExpression : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _firstExpression;
 
 		/// <summary>
-		/// 3項式の第1オペランドを表します
-		/// e.g. Javaにおける<c>a ? b : c</c>の<c>a</c>
+		///   3項式の第1オペランドを表します
+		///   e.g. Javaにおける<c>a ? b : c</c>の<c>a</c>
 		/// </summary>
 		public IUnifiedExpression FirstExpression {
 			get { return _firstExpression; }
@@ -40,8 +39,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedTernaryOperator _operator;
 
 		/// <summary>
-		/// 3項式の演算子を表します
-		/// e.g. Javaにおける<c>a ? b : c</c>の<c>?と:</c>
+		///   3項式の演算子を表します
+		///   e.g. Javaにおける<c>a ? b : c</c>の<c>?と:</c>
 		/// </summary>
 		public UnifiedTernaryOperator Operator {
 			get { return _operator; }
@@ -51,8 +50,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _secondExpression;
 
 		/// <summary>
-		/// 3項式の第2オペランドを表します
-		/// Javaにおける<c>a ? b : c</c>の<c>b</c>
+		///   3項式の第2オペランドを表します
+		///   Javaにおける<c>a ? b : c</c>の<c>b</c>
 		/// </summary>
 		public IUnifiedExpression SecondExpression {
 			get { return _secondExpression; }
@@ -62,8 +61,8 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _lastExpression;
 
 		/// <summary>
-		/// 3項式の第3オペランドを表します
-		/// Javaにおける<c>a ? b : c</c>の<c>c</c>
+		///   3項式の第3オペランドを表します
+		///   Javaにおける<c>a ? b : c</c>の<c>c</c>
 		/// </summary>
 		public IUnifiedExpression LastExpression {
 			get { return _lastExpression; }
@@ -94,28 +93,28 @@ namespace Unicoen.Core.Model {
 			yield return LastExpression;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(FirstExpression, v => FirstExpression = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Operator, v => Operator = (UnifiedTernaryOperator)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(SecondExpression, v => SecondExpression = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(LastExpression, v => LastExpression = (IUnifiedExpression)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => FirstExpression, v => FirstExpression = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Operator, v => Operator = (UnifiedTernaryOperator)v);
+			yield return ElementReference.Create
+					(() => SecondExpression, v => SecondExpression = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => LastExpression, v => LastExpression = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_firstExpression, v => _firstExpression = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_operator, v => _operator = (UnifiedTernaryOperator)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_secondExpression, v => _secondExpression = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_lastExpression, v => _lastExpression = (IUnifiedExpression)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _firstExpression, v => _firstExpression = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _operator, v => _operator = (UnifiedTernaryOperator)v);
+			yield return ElementReference.Create
+					(() => _secondExpression, v => _secondExpression = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _lastExpression, v => _lastExpression = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedTernaryExpression Create(

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -72,20 +71,20 @@ namespace Unicoen.Core.Model {
 			yield return Generator;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Element, v => Element = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Generator, v => Generator = (UnifiedExpressionCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Element, v => Element = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Generator, v => Generator = (UnifiedExpressionCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_element, v => _element = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_generator, v => _generator = (UnifiedExpressionCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _element, v => _element = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _generator, v => _generator = (UnifiedExpressionCollection)v);
 		}
 
 		private static UnifiedListComprehension Create(

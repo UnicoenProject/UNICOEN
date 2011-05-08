@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -26,11 +25,11 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>Object o = new Object();</c>の<c>new Object()</c>の部分
 	/// </summary>
 	public class UnifiedNew : UnifiedExpressionWithBlock<UnifiedNew> {
-		private UnifiedType _type;
+		private IUnifiedExpression _target;
 
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+		public IUnifiedExpression Target {
+			get { return _target; }
+			set { _target = SetParentOfChild(value, _target); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -76,96 +75,96 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Type;
+			yield return Target;
 			yield return Arguments;
 			yield return TypeArguments;
 			yield return InitialValue;
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							Type,
-							v => Type = (UnifiedType)v);
+					ElementReference.Create(
+							() => Target,
+							v => Target = (UnifiedType)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							Arguments,
+					ElementReference.Create(
+							() => Arguments,
 							v => Arguments = (UnifiedArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							TypeArguments,
+					ElementReference.Create(
+							() => TypeArguments,
 							v => TypeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							InitialValue,
+					ElementReference.Create(
+							() => InitialValue,
 							v => InitialValue = (UnifiedExpressionList)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							Body,
+					ElementReference.Create(
+							() => Body,
 							v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							_type,
-							v => _type = (UnifiedType)v);
+					ElementReference.Create(
+							() => _target,
+							v => _target = (UnifiedType)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							_arguments,
+					ElementReference.Create(
+							() => _arguments,
 							v => _arguments = (UnifiedArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							_typeArguments,
+					ElementReference.Create(
+							() => _typeArguments,
 							v => _typeArguments = (UnifiedTypeArgumentCollection)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							_initialValue,
+					ElementReference.Create(
+							() => _initialValue,
 							v => _initialValue = (UnifiedExpressionList)v);
 			yield return
-					Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>(
-							_body,
+					ElementReference.Create(
+							() => _body,
 							v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedNew Create(UnifiedType type) {
-			return Create(type, null, null, null, null);
+		public static UnifiedNew Create(IUnifiedExpression target) {
+			return Create(target, null, null, null, null);
 		}
 
 		public static UnifiedNew Create(
-				UnifiedType type,
+				IUnifiedExpression target,
 				UnifiedArgumentCollection arguments) {
-			return Create(type, arguments, null, null, null);
+			return Create(target, arguments, null, null, null);
 		}
 
 		public static UnifiedNew Create(
-				UnifiedType type,
+				IUnifiedExpression target,
 				UnifiedBlock body) {
 			return new UnifiedNew {
-					Type = type,
+					Target = target,
 					Arguments = null,
 					Body = body
 			};
 		}
 
 		public static UnifiedNew Create(
-				UnifiedType type,
+				IUnifiedExpression target,
 				UnifiedArgumentCollection arguments,
 				UnifiedExpressionList initialValues) {
-			return Create(type, arguments, null, initialValues, null);
+			return Create(target, arguments, null, initialValues, null);
 		}
 
 		public static UnifiedNew Create(
-				UnifiedType type,
+				IUnifiedExpression target,
 				UnifiedArgumentCollection arguments,
 				UnifiedTypeArgumentCollection typeArguments,
 				UnifiedExpressionList initialValues,
 				UnifiedBlock body) {
 			return new UnifiedNew {
-					Type = type,
+					Target = target,
 					Arguments = arguments,
 					TypeArguments = typeArguments,
 					InitialValue = initialValues,

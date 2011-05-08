@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -56,16 +55,16 @@ namespace Unicoen.Core.Model {
 			yield return KeyValues;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(KeyValues, v => KeyValues = (UnifiedKeyValueCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => KeyValues, v => KeyValues = (UnifiedKeyValueCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_keyValues, v => _keyValues = (UnifiedKeyValueCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _keyValues, v => _keyValues = (UnifiedKeyValueCollection)v);
 		}
 
 		public static UnifiedDictonary Create(

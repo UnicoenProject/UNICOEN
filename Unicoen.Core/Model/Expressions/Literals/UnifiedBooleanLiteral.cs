@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -51,13 +50,13 @@ namespace Unicoen.Core.Model {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
 			yield break;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
 			yield break;
 		}
 	}

@@ -1,16 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.TypeSystem;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
-
-	partial class NRefactoryModelVisitor {
-
+	internal partial class NRefactoryModelVisitor {
 		#region Lookups
 
 		private static UnifiedClassKind LookupClassKind(ClassType type) {
@@ -34,17 +48,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					new { Mod = Modifiers.Internal, Name = "internal" },
 					new { Mod = Modifiers.Abstract, Name = "abstract" },
 					new { Mod = Modifiers.Private, Name = "private" },
-
 					new { Mod = Modifiers.Partial, Name = "partial" },
 					new { Mod = Modifiers.Static, Name = "static" },
 					new { Mod = Modifiers.Sealed, Name = "sealed" },
 					new { Mod = Modifiers.Const, Name = "const" },
 					new { Mod = Modifiers.Readonly, Name = "readonly" },
-
 					new { Mod = Modifiers.New, Name = "new" },
 					new { Mod = Modifiers.Override, Name = "override" },
 					new { Mod = Modifiers.Virtual, Name = "virtual" },
-
 					new { Mod = Modifiers.Extern, Name = "extern" },
 					new { Mod = Modifiers.Fixed, Name = "fixed" },
 					new { Mod = Modifiers.Unsafe, Name = "unsafe" },
@@ -70,6 +81,5 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		#endregion
-
 	}
 }

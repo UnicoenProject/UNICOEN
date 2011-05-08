@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -29,7 +28,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		/// 修飾子の集合を表します
+		///   修飾子の集合を表します
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -73,24 +72,24 @@ namespace Unicoen.Core.Model {
 			yield return Constrains;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Value, v => Value = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => Value, v => Value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Constrains, v => Constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_value, v => _value = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => _value, v => _value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _constrains, v => _constrains = (UnifiedTypeConstrainCollection)v);
 		}
 
 		public static UnifiedTypeArgument Create(IUnifiedExpression value) {

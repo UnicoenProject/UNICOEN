@@ -21,12 +21,10 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   
 	/// </summary>
 	public class UnifiedIdentifierCollection
 			: UnifiedElementCollection
-			  		<UnifiedIdentifier, UnifiedIdentifierCollection>,
-			  IUnifiedIdentifierOrCollection {
+			  		<UnifiedIdentifier, UnifiedIdentifierCollection> {
 		private UnifiedIdentifierCollection() {}
 
 		private UnifiedIdentifierCollection(
@@ -48,6 +46,10 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
+		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
+			return this;
+		}
+
 		public static UnifiedIdentifierCollection Create() {
 			return new UnifiedIdentifierCollection();
 		}
@@ -61,5 +63,5 @@ namespace Unicoen.Core.Model {
 				IEnumerable<UnifiedIdentifier> elements) {
 			return new UnifiedIdentifierCollection(elements);
 		}
-			  }
+			  		}
 }

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -74,20 +73,20 @@ namespace Unicoen.Core.Model {
 			yield return Cases;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Value, v => Value = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Cases, v => Cases = (UnifiedCaseCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Value, v => Value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Cases, v => Cases = (UnifiedCaseCollection)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_value, v => _value = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_cases, v => _cases = (UnifiedCaseCollection)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _value, v => _value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _cases, v => _cases = (UnifiedCaseCollection)v);
 		}
 
 		public static UnifiedSwitch Create(IUnifiedExpression value) {

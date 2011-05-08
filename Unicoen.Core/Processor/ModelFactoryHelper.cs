@@ -56,9 +56,12 @@ namespace Unicoen.Core.ModelFactories {
 				IDictionary<string, UnifiedBinaryOperator> op2Kind) {
 			var nodes = node.Elements().OddIndexElements().ToList();
 			var count = nodes.Count - 1;
-			var seed = otherCreateExpression(nodes[count]);
+			var n = nodes[count];
+			var seed = count > 0
+			           		? otherCreateExpression(n)
+			           		: firstCreateExpression(n);
 			for (count--; count >= 0; count--) {
-				var n = nodes[count];
+				n = nodes[count];
 				seed = UnifiedBinaryExpression.Create(
 						count > 0
 								? otherCreateExpression(n)

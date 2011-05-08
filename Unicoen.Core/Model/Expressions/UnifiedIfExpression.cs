@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -74,24 +73,24 @@ namespace Unicoen.Core.Model {
 			yield return Expression;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Condition, v => Condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(ElseExpression, v => ElseExpression = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Expression, v => Expression = (UnifiedBlock)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Condition, v => Condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => ElseExpression, v => ElseExpression = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => Expression, v => Expression = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_condition, v => _condition = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_elseExpression, v => _elseExpression = (UnifiedBlock)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_expression, v => _expression = (UnifiedBlock)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _condition, v => _condition = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _elseExpression, v => _elseExpression = (UnifiedBlock)v);
+			yield return ElementReference.Create
+					(() => _expression, v => _expression = (UnifiedBlock)v);
 		}
 
 		public static UnifiedIfExpression Create(

@@ -1,60 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Linq;
-using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.C.CodeToXmls;
 using Mocomoco.Xml.Linq;
-using Paraiba.Linq;
 using Unicoen.Core.Model;
 
-
-namespace Unicoen.Languages.C.ModelFactories
-{
+namespace Unicoen.Languages.C.ModelFactories {
 	// for Expressions
-	public static partial class CModelFactoryHelper
-	{
+	public static partial class CModelFactoryHelper {
 		// Expressions
-		public static IUnifiedElement CreateArgumentExpressionList(XElement node)
-		{
+		public static IUnifiedElement CreateArgumentExpressionList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "argument_expression_list");
 			/*
 			argument_expression_list
 			:   assignment_expression (',' assignment_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAdditiveExpression(XElement node)
-		{
+		public static IUnifiedElement CreateAdditiveExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "additive_expression");
 			/*
 			additive_expression
 			: (multiplicative_expression) ('+' multiplicative_expression | '-' multiplicative_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateMultiplicativeExpression(XElement node)
-		{
+		public static IUnifiedElement CreateMultiplicativeExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "multiplicative_expression");
 			/*
 			multiplicative_expression
 			: (cast_expression) ('*' cast_expression | '/' cast_expression | '%' cast_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateCastExpression(XElement node)
-		{
+		public static IUnifiedElement CreateCastExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "cast_expression");
 			/*
@@ -62,12 +67,11 @@ namespace Unicoen.Languages.C.ModelFactories
 			: '(' type_name ')' cast_expression
 			| unary_expression
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateUnaryExpression(XElement node)
-		{
+		public static IUnifiedElement CreateUnaryExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "unary_expression");
 			/*
@@ -79,12 +83,11 @@ namespace Unicoen.Languages.C.ModelFactories
 			| 'sizeof' unary_expression
 			| 'sizeof' '(' type_name ')'
 			 */
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreatePostfixExpression(XElement node)
-		{
+		public static IUnifiedElement CreatePostfixExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "postfix_expression");
 			/*
@@ -99,14 +102,11 @@ namespace Unicoen.Languages.C.ModelFactories
 				|   '--'
 				)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-
-
-		public static IUnifiedElement CreatePrimaryExpression(XElement node)
-		{
+		public static IUnifiedElement CreatePrimaryExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary_expression");
 			/*
@@ -115,12 +115,11 @@ namespace Unicoen.Languages.C.ModelFactories
 			| constant
 			| '(' expression ')'
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateConstant(XElement node)
-		{
+		public static IUnifiedElement CreateConstant(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "constant");
 			/*
@@ -132,38 +131,33 @@ namespace Unicoen.Languages.C.ModelFactories
 			|	STRING_LITERAL
 			|   FLOATING_POINT_LITERAL
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		
-
-		public static IUnifiedElement CreateExpression(XElement node)
-		{
+		public static IUnifiedElement CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression");
 			/*
 			expression
 			: assignment_expression (',' assignment_expression)*
 			 */
-	
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateConstantExpression(XElement node)
-		{
+		public static IUnifiedElement CreateConstantExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "constant_expression");
 			/*
 			constant_expression
 			: conditional_expression
 			 */
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAssignmentExpression(XElement node)
-		{
+		public static IUnifiedElement CreateAssignmentExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignment_expression");
 			/*
@@ -175,46 +169,40 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLvalue(XElement node)
-		{
+		public static IUnifiedElement CreateLvalue(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lvalue");
 			/*
 			lvalue
 			:	unary_expression
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		
-
-		public static IUnifiedElement CreateConditionalExpression(XElement node)
-		{
+		public static IUnifiedElement CreateConditionalExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "conditional_expression");
 			/*
 			conditional_expression
 			: logical_or_expression ('?' expression ':' conditional_expression)?
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLogicalOrExpression(XElement node)
-		{
+		public static IUnifiedElement CreateLogicalOrExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logical_or_expression");
 			/*
 			logical_or_expression
 			: logical_and_expression ('||' logical_and_expression)*
 			 */
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateLogicalAndExpression(XElement node)
-		{
+		public static IUnifiedElement CreateLogicalAndExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logical_and_expression");
 			/*
@@ -225,75 +213,69 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateInclusiveOrExpression(XElement node)
-		{
+		public static IUnifiedElement CreateInclusiveOrExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "inclusive_or_expression");
 			/*
 			inclusive_or_expression
 			: exclusive_or_expression ('|' exclusive_or_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateExclusiveOrExpression(XElement node)
-		{
+		public static IUnifiedElement CreateExclusiveOrExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "exclusive_or_expression");
 			/*
 			exclusive_or_expression
 			: and_expression ('^' and_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateAndExpression(XElement node)
-		{
+		public static IUnifiedElement CreateAndExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "and_expression");
 			/*
 			and_expression
 			: equality_expression ('&' equality_expression)*
 			 */
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateEqualityExpression(XElement node)
-		{
+		public static IUnifiedElement CreateEqualityExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "equality_expression");
 			/*
 			equality_expression
 			: relational_expression (('=='|'!=') relational_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateRelationalExpression(XElement node)
-		{
+		public static IUnifiedElement CreateRelationalExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "relational_expression");
 			/*
 			relational_expression
 			: shift_expression (('<'|'>'|'<='|'>=') shift_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateShiftExpression(XElement node)
-		{
+		public static IUnifiedElement CreateShiftExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "shift_expression");
 			/*
 			shift_expression
 			: additive_expression (('<<'|'>>') additive_expression)*
 			*/
-			
+
 			throw new NotImplementedException(); //TODO: implement
 		}
 	}

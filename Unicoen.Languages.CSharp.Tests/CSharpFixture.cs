@@ -16,42 +16,162 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Paraiba.Core;
+using Unicoen.Core.CodeFactories;
+using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
+using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
-	public static class CSharpFixture {
-		public static IEnumerable<TestCaseData> TestStatements {
+	//[Export(typeof(LanguageFixture))]
+	public class CSharpFixture : LanguageFixture {
+		private const string CscPath =
+				@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
+
+		private static readonly string[] IldasmPathes = new[] {
+				@"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe",
+				@"C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe",
+		};
+
+		public override string Extension {
+			get { return ".cs"; }
+		}
+
+		public override ModelFactory ModelFactory {
+			get { return CSharpFactory.ModelFactory; }
+		}
+
+		public override CodeFactory CodeFactory {
+			get { return CSharpFactory.CodeFactory; }
+		}
+
+		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
 						"{ M1(); }",
-				}.Select(s => new TestCaseData(CreateCode(s)));
+				}.Select(s => new TestCaseData(this, CreateCode(s)));
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestCodes {
+		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
 						"class A { }",
-				}.Select(s => new TestCaseData(s));
+				}.Select(s => new TestCaseData(this, s));
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestFilePathes {
+		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						//"Block1.cs",
-						//"Block2.cs",
-						//"Block3.cs",
-						"Fibonacci.cs",
-						//"Student.cs",
+						"Fibonacci",
 				}
-						.Select(s => new TestCaseData(Fixture.GetInputPath("CSharp", s)));
+						.Select(
+								s => new TestCaseData(this, FixtureUtil.GetInputPath("CSharp", s + Extension)));
 				//return Directory.EnumerateFiles(GetInputPath("CSharp"))
 				//        .Select(path => new TestCaseData(path));
+			}
+		}
+
+		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+			get {
+				yield break;
+				//				return new[] {
+				//						new { DirName = "default", Command = "javac", Arguments = "*.java" },
+				//						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
+				//				}
+				//						.Select(
+				//								o => new TestCaseData(
+				//								     		Fixture.GetInputPath("Java", o.DirName),
+				//								     		o.Command, o.Arguments));
+			}
+		}
+
+		public override void Compile(string workPath, string fileName) {
+			var exeFilePath = Path.Combine(
+					workPath,
+					Path.ChangeExtension(fileName, "dll"));
+			var args = new[] {
+					"/optimize+",
+					"/t:library",
+					"\"/out:" + exeFilePath + "\"",
+					"\"" + Path.Combine(workPath, fileName) + "\""
+			};
+			var arguments = args.JoinString(" ");
+			CompileWithArguments(workPath, CscPath, arguments);
+		}
+
+		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+			return Directory.EnumerateFiles(
+					workPath, "*.dll",
+					SearchOption.AllDirectories)
+					.Select(path => new object[] { path, GetByteCode(workPath, path) });
+		}
+
+		public override void CompileWithArguments(
+				string workPath, string command, string arguments) {
+			var info = new ProcessStartInfo {
+					FileName = command,
+					Arguments = arguments,
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					WorkingDirectory = workPath,
+					RedirectStandardError = true,
+			};
+			try {
+				using (var p = Process.Start(info)) {
+					var errorMessage = p.StandardError.ReadToEnd();
+					p.WaitForExit();
+					if (p.ExitCode != 0) {
+						throw new InvalidOperationException(
+								"Failed to compile the code.\n" + errorMessage);
+					}
+				}
+			} catch (Win32Exception e) {
+				throw new InvalidOperationException("Failed to launch compiler.", e);
+			}
+		}
+
+		private static string GetByteCode(string workPath, string exeFilePath) {
+			var ildasmPath = IldasmPathes.First(File.Exists);
+			var args = new[] { "/text", exeFilePath };
+			var info = new ProcessStartInfo {
+					FileName = ildasmPath,
+					Arguments = args.JoinString(" "),
+					CreateNoWindow = true,
+					RedirectStandardInput = true,
+					RedirectStandardOutput = true,
+					UseShellExecute = false,
+					WorkingDirectory = workPath,
+			};
+
+			try {
+				using (var p = Process.Start(info)) {
+					var str = p.StandardOutput.ReadToEnd();
+					p.WaitForExit();
+					if (p.ExitCode != 0) {
+						throw new InvalidOperationException(
+								"Failed to disassemble the exe file.");
+					}
+					return str.Replace("\r\n", "\n").Split('\n')
+							.Select(l => l.Trim())
+							.Where(l => !l.StartsWith("//"))
+							.Where(l => !l.StartsWith(".assembly"))
+							.Where(l => !l.StartsWith(".module"))
+							.JoinString("\n");
+				}
+			} catch (Win32Exception e) {
+				throw new InvalidOperationException(
+						"Failed to launch 'ildasmPath': " + ildasmPath, e);
 			}
 		}
 

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -46,6 +45,16 @@ namespace Unicoen.Core.Model {
 		public UnifiedTypeSupplementCollection Supplements {
 			get { return _supplements; }
 			set { _supplements = SetParentOfChild(value, _supplements); }
+		}
+
+		private UnifiedIntegerLiteral _bitField;
+
+		/// <summary>
+		///   C の struct におけるビットフィールド
+		/// </summary>
+		public UnifiedIntegerLiteral BitField {
+			get { return _bitField; }
+			set { _bitField = value; }
 		}
 
 		private IUnifiedExpression _initialValue;
@@ -111,37 +120,44 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Name;
 			yield return Supplements;
+			yield return BitField;
 			yield return InitialValue;
 			yield return Arguments;
 			yield return Body;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Name, v => Name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(InitialValue, v => InitialValue = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Body, v => Body = (UnifiedBlock)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Name, v => Name = (UnifiedIdentifier)v);
+			yield return ElementReference.Create
+					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
+			yield return ElementReference.Create
+					(() => BitField, v => BitField = (UnifiedIntegerLiteral)v);
+			yield return ElementReference.Create
+					(() => InitialValue, v => InitialValue = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => Body, v => Body = (UnifiedBlock)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_name, v => _name = (UnifiedIdentifier)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_supplements, v => _supplements = (UnifiedTypeSupplementCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_initialValue, v => _initialValue = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_arguments, v => _arguments = (UnifiedArgumentCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_body, v => _body = (UnifiedBlock)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _name, v => _name = (UnifiedIdentifier)v);
+			yield return ElementReference.Create
+					(
+							() => _supplements,
+							v => _supplements = (UnifiedTypeSupplementCollection)v);
+			yield return ElementReference.Create
+					(() => _bitField, v => _bitField = (UnifiedIntegerLiteral)v);
+			yield return ElementReference.Create
+					(() => _initialValue, v => _initialValue = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
+			yield return ElementReference.Create
+					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedVariableDefinitionBody Create(string name) {
@@ -179,6 +195,23 @@ namespace Unicoen.Core.Model {
 			return new UnifiedVariableDefinitionBody {
 					Name = name,
 					Supplements = supplements,
+					InitialValue = initialValues,
+					Arguments = arguments,
+					Body = block,
+			};
+		}
+
+		public static UnifiedVariableDefinitionBody Create(
+				UnifiedIdentifier name,
+				UnifiedTypeSupplementCollection supplements,
+				UnifiedIntegerLiteral bitField,
+				IUnifiedExpression initialValues,
+				UnifiedArgumentCollection arguments,
+				UnifiedBlock block) {
+			return new UnifiedVariableDefinitionBody {
+					Name = name,
+					Supplements = supplements,
+					BitField = bitField,
 					InitialValue = initialValues,
 					Arguments = arguments,
 					Body = block,

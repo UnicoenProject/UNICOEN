@@ -69,7 +69,7 @@ namespace Unicoen.Core.Comparers {
 				return false;
 
 			var xs = x as IEnumerable;
-			if (xs != null && !(x is UnifiedIdentifier)) {
+			if (xs != null) {
 				var ret = xs.Cast<object>().SequenceEqual(
 						((IEnumerable)y).Cast<object>(),
 						Instance);

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -65,31 +64,34 @@ namespace Unicoen.Core.Model {
 			yield return As;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Matcher, v => Matcher = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(As, v => As = (IUnifiedExpression)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => Matcher, v => Matcher = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => As, v => As = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_matcher, v => _matcher = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_as, v => _as = (IUnifiedExpression)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => _matcher, v => _matcher = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _as, v => _as = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedMatcher Create(IUnifiedExpression matcher, IUnifiedExpression asExp) {
+		public static UnifiedMatcher Create(
+				IUnifiedExpression matcher, IUnifiedExpression asExp) {
 			return Create(null, matcher, asExp);
 		}
 
-		public static UnifiedMatcher Create(UnifiedModifierCollection modifiers, IUnifiedExpression matcher, IUnifiedExpression asExp) {
+		public static UnifiedMatcher Create(
+				UnifiedModifierCollection modifiers, IUnifiedExpression matcher,
+				IUnifiedExpression asExp) {
 			return new UnifiedMatcher {
 					Modifiers = modifiers,
 					Matcher = matcher,

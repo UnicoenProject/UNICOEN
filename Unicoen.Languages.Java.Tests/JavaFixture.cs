@@ -16,25 +16,51 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Paraiba.Core;
+using Unicoen.Core.CodeFactories;
+using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
+using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
-	public static class JavaFixture {
+	[Export(typeof(LanguageFixture))]
+	public class JavaFixture : LanguageFixture {
+		private const string JavacPath = "javac";
+
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を表します．
+		/// </summary>
+		public override string Extension {
+			get { return ".java"; }
+		}
+
+		public override ModelFactory ModelFactory {
+			get { return JavaFactory.ModelFactory; }
+		}
+
+		public override CodeFactory CodeFactory {
+			get { return JavaFactory.CodeFactory; }
+		}
+
 		/// <summary>
 		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
 		///   <c>class A { public void M1() { ... } }</c>の...部分に
 		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
-		public static IEnumerable<TestCaseData> TestStatements {
+		public override IEnumerable<TestCaseData> TestStatements {
 			get {
 				return new[] {
 						"M1();",
 						"new A();",
-				}.Select(s => new TestCaseData(DecorateWithClassAndMethod(s)));
+				}.Select(s => new TestCaseData(this, DecorateWithClassAndMethod(s)));
 			}
 		}
 
@@ -43,28 +69,28 @@ namespace Unicoen.Languages.Java.Tests {
 		///   <c>class A { public void M1() { ... } }</c>の...部分に
 		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
-		public static IEnumerable<TestCaseData> TestCodes {
+		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
 						"class A { }",
 						"public class A { }",
-				}.Select(s => new TestCaseData(s));
+				}.Select(s => new TestCaseData(this, s));
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestFilePathes {
+		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"Fibonacci.java",
+						"Fibonacci",
 				}
-						.Select(s => new TestCaseData(Fixture.GetInputPath("Java", s)));
-				//return Directory.EnumerateFiles(Fixture.GetInputPath("Java"))
-				//    .Select(path => new TestCaseData(path));
+						.Select(
+								s =>
+								new TestCaseData(this, FixtureUtil.GetInputPath("Java", s + Extension)));
 			}
 		}
 
-		public static IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestDirectoryPathes {
 			get {
 				return new[] {
 						new { DirName = "default", Command = "javac", Arguments = "*.java" },
@@ -72,19 +98,54 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => new TestCaseData(
-								     		Fixture.GetInputPath("Java", o.DirName),
-								     		o.Command, o.Arguments));
+								     		this,
+								     		FixtureUtil.GetInputPath("Java", o.DirName),
+								     		o.Command,
+								     		o.Arguments));
+			}
+		}
+
+		public override void Compile(string workPath, string fileName) {
+			var args = new[] {
+					"\"" + Path.Combine(workPath, fileName) + "\""
+			};
+			var arguments = args.JoinString(" ");
+			CompileWithArguments(workPath, JavacPath, arguments);
+		}
+
+		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+			return Directory.EnumerateFiles(
+					workPath, "*.class",
+					SearchOption.AllDirectories)
+					.Select(path => new object[] { path, File.ReadAllBytes(path) });
+		}
+
+		public override void CompileWithArguments(
+				string workPath, string command, string arguments) {
+			var info = new ProcessStartInfo {
+					FileName = command,
+					Arguments = arguments,
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					WorkingDirectory = workPath,
+					RedirectStandardError = true,
+			};
+			try {
+				using (var p = Process.Start(info)) {
+					var errorMessage = p.StandardError.ReadToEnd();
+					p.WaitForExit();
+					if (p.ExitCode != 0) {
+						throw new InvalidOperationException(
+								"Failed to compile the code.\n" + errorMessage);
+					}
+				}
+			} catch (Win32Exception e) {
+				throw new InvalidOperationException("Failed to launch compiler.", e);
 			}
 		}
 
 		private static string DecorateWithClassAndMethod(string statement) {
 			return "class A { public void M1() {" + statement + "} }";
-		}
-
-		public static IEnumerable<string> GetAllSourceFilePaths(string workPath) {
-			return Directory.EnumerateFiles(
-					workPath, "*.java",
-					SearchOption.AllDirectories);
 		}
 	}
 }

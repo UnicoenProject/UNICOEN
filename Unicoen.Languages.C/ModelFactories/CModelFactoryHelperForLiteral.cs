@@ -1,22 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Linq;
-using System.Numerics;
 using System.Xml.Linq;
-using Code2Xml.Languages.C.CodeToXmls;
 using Mocomoco.Xml.Linq;
-using Paraiba.Linq;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Languages.C.ModelFactories
-{
-	public static partial class CModelFactoryHelper
-	{
+namespace Unicoen.Languages.C.ModelFactories {
+	public static partial class CModelFactoryHelper {
 		// literals
-		public static IUnifiedElement CreateHexLiteral(XElement node)
-		{
+		public static IUnifiedElement CreateHexLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "hex_literal");
 			/*
@@ -26,8 +35,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateOctalLiteral(XElement node)
-		{
+		public static IUnifiedElement CreateOctalLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "octal_literal");
 			/*
@@ -36,8 +44,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDecimalLiteral(XElement node)
-		{
+		public static IUnifiedElement CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "decimal_literal");
 			/*
@@ -47,8 +54,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateCharacterLiteral(XElement node)
-		{
+		public static IUnifiedElement CreateCharacterLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "character_literal");
 			/*
@@ -58,8 +64,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateStringLiteral(XElement node)
-		{
+		public static IUnifiedElement CreateStringLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "string_literal");
 			/*
@@ -69,8 +74,7 @@ namespace Unicoen.Languages.C.ModelFactories
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateFloatingPointLiteral(XElement node)
-		{
+		public static IUnifiedElement CreateFloatingPointLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "floating_point_literal");
 			/*

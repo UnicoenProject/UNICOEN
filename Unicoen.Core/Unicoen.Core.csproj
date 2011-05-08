@@ -75,6 +75,7 @@
     <Compile Include="Model\Extensions\ModelGenerator.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Processor\CodeFactory.cs" />
+    <Compile Include="Processor\Decoration.cs" />
     <Compile Include="Processor\ModelFactory.cs" />
     <Compile Include="Processor\ModelFactoryHelper.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
@@ -156,7 +157,6 @@
     <Compile Include="Model\Extensions\ModelExtensionsForVisitor.cs" />
     <Compile Include="Model\IUnifiedElement.cs" />
     <Compile Include="Model\Collections\IUnifiedElementCollection.cs" />
-    <Compile Include="Model\IUnifiedIdentifierOrCollection.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\Collections\UnifiedArgumentCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedBlock.cs" />
@@ -180,7 +180,9 @@
     <Compile Include="Model\UnifiedTypeParameter.cs" />
     <Compile Include="Model\UnifiedVariableDefinitionBody.cs" />
     <Compile Include="Processor\IUnifiedModelVisitor.cs" />
+    <Compile Include="Processor\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ElementReference.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ParserScripts\IronRubyParser\composite_sexp_processor.rb">

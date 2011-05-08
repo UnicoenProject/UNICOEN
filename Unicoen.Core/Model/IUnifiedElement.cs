@@ -61,15 +61,13 @@ namespace Unicoen.Core.Model {
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters();
+		IEnumerable<ElementReference> GetElementReferences();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters();
+		IEnumerable<ElementReference> GetElementReferenecesOfPrivateFields();
 
 		/// <summary>
 		///   コードモデルを正規化します。

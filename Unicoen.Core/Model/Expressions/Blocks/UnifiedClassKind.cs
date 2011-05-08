@@ -46,6 +46,10 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		Struct,
 		/// <summary>
+		///   union in C, C++
+		/// </summary>
+		Union,
+		/// <summary>
 		///   module in Ruby
 		/// </summary>
 		Module,

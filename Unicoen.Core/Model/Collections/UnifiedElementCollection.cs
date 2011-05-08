@@ -107,7 +107,6 @@ namespace Unicoen.Core.Model {
 			return false;
 		}
 
-
 		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElementCollection<TElement, TSelf>)MemberwiseClone();
 			ret.Parent = null;
@@ -135,21 +134,21 @@ namespace Unicoen.Core.Model {
 			return this;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
-				yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-						(this[i], v => this[i] = (TElement)v);
+				yield return ElementReference.Create
+						(() => this[i], v => this[i] = (TElement)v);
 			}
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
 			var count = Count;
 			for (int i = 0; i < count; i++) {
-				yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-						(Elements[i], v => Elements[i] = (TElement)v);
+				yield return ElementReference.Create
+						(() => Elements[i], v => Elements[i] = (TElement)v);
 			}
 		}
 

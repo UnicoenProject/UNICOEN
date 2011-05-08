@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -40,7 +39,7 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _value;
 
 		/// <summary>
-		/// 実引数の値を表します．
+		///   実引数の値を表します．
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
@@ -50,7 +49,7 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _target;
 
 		/// <summary>
-		/// 実引数の値を表します．
+		///   実引数の値を表します．
 		/// </summary>
 		public IUnifiedExpression Target {
 			get { return _target; }
@@ -80,27 +79,29 @@ namespace Unicoen.Core.Model {
 			yield return Target;
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Value, v => Value = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(Target, v => Target = (IUnifiedExpression)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => Value, v => Value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Target, v => Target = (IUnifiedExpression)v);
 		}
 
-		public override IEnumerable<Tuple<IUnifiedElement, Action<IUnifiedElement>>>
-				GetElementAndDirectSetters() {
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_value, v => _value = (IUnifiedExpression)v);
-			yield return Tuple.Create<IUnifiedElement, Action<IUnifiedElement>>
-					(_target, v => _target = (IUnifiedExpression)v);
+		public override IEnumerable<ElementReference>
+				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
+			yield return ElementReference.Create
+					(() => _value, v => _value = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _target, v => _target = (IUnifiedExpression)v);
 		}
 
-		public static UnifiedArgument Create(UnifiedModifierCollection modifiers, IUnifiedExpression value, IUnifiedExpression target) {
+		public static UnifiedArgument Create(
+				UnifiedModifierCollection modifiers, IUnifiedExpression value,
+				IUnifiedExpression target) {
 			return new UnifiedArgument {
 					Modifiers = modifiers,
 					Value = value,
@@ -108,7 +109,8 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedArgument Create(UnifiedModifierCollection modifiers, IUnifiedExpression value) {
+		public static UnifiedArgument Create(
+				UnifiedModifierCollection modifiers, IUnifiedExpression value) {
 			return Create(modifiers, value, null);
 		}
 

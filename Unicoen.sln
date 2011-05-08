@@ -47,6 +47,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Tests", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Linq", "Mocomoco.Linq\Mocomoco.Linq.csproj", "{973D0B49-BA07-4F3D-B640-74107F23D8DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator", "Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj", "{87A5C023-95DB-40D4-A638-28D578D06572}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator.Tests", "Unicoen.Apps.Translator.Tests\Unicoen.Apps.Translator.Tests.csproj", "{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Tests", "Unicoen.Languages.Tests\Unicoen.Languages.Tests.csproj", "{BC8744B2-0E75-4855-8C01-35E2198546EE}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -338,6 +344,42 @@ Global
 		{973D0B49-BA07-4F3D-B640-74107F23D8DA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{973D0B49-BA07-4F3D-B640-74107F23D8DA}.Release|Win32.ActiveCfg = Release|Any CPU
 		{973D0B49-BA07-4F3D-B640-74107F23D8DA}.Release|x86.ActiveCfg = Release|Any CPU
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|Win32.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|x86.ActiveCfg = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Debug|x86.Build.0 = Debug|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Any CPU.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Mixed Platforms.Build.0 = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|Win32.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|x86.ActiveCfg = Release|x86
+		{87A5C023-95DB-40D4-A638-28D578D06572}.Release|x86.Build.0 = Release|x86
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}.Release|x86.ActiveCfg = Release|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|Win32.ActiveCfg = Release|Any CPU
+		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

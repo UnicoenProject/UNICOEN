@@ -23,10 +23,10 @@ using System.Linq;
 namespace Unicoen.Core.Model {
 	public static class ModelSweeper {
 		/// <summary>
-		/// 指定した型に限定して，指定した要素の祖先を列挙します．
+		///   指定した型に限定して，指定した要素の祖先を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> Ancestors<T>(
 				this IUnifiedElement element) {
@@ -35,11 +35,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した型に限定して，指定した要素の祖先を列挙します．
+		///   指定した型に限定して，指定した要素の祖先を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
-		/// <param name="dummyForInference"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
+		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> Ancestors<T>(
 				this IUnifiedElement element, T dummyForInference) {
@@ -48,9 +48,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した要素の祖先を列挙します．
+		///   指定した要素の祖先を列挙します．
 		/// </summary>
-		/// <param name="element"></param>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> Ancestors(
 				this IUnifiedElement element) {
@@ -62,10 +62,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した型に限定して，指定した要素とその祖先を列挙します．
+		///   指定した型に限定して，指定した要素とその祖先を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> AncestorsAndSelf<T>(
 				this IUnifiedElement element) {
@@ -74,11 +74,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した型に限定して，指定した要素とその祖先を列挙します．
+		///   指定した型に限定して，指定した要素とその祖先を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
-		/// <param name="dummyForInference"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
+		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> AncestorsAndSelf<T>(
 				this IUnifiedElement element, T dummyForInference) {
@@ -87,9 +87,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した要素とその祖先を列挙します．
+		///   指定した要素とその祖先を列挙します．
 		/// </summary>
-		/// <param name="element"></param>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> AncestorsAndSelf(
 				this IUnifiedElement element) {
@@ -102,10 +102,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した型に限定して，指定した要素の子孫を列挙します．
+		///   指定した型に限定して，指定した要素の子孫を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> Descendants<T>(
 				this IUnifiedElement element) {
@@ -114,11 +114,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した型に限定して，指定した要素の子孫を列挙します．
+		///   指定した型に限定して，指定した要素の子孫を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
-		/// <param name="dummyForInference"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
+		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> Descendants<T>(
 				this IUnifiedElement element, T dummyForInference) {
@@ -127,9 +127,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した要素の子孫を列挙します．
+		///   指定した要素の子孫を列挙します．
 		/// </summary>
-		/// <param name="element"></param>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> Descendants(
 				this IUnifiedElement element) {
@@ -142,10 +142,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した型に限定して，指定した要素とその子孫を列挙します．
+		///   指定した型に限定して，指定した要素とその子孫を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> DescendantsAndSelf<T>(
 				this IUnifiedElement element) {
@@ -154,11 +154,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した型に限定して，指定した要素とその子孫を列挙します．
+		///   指定した型に限定して，指定した要素とその子孫を列挙します．
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="element"></param>
-		/// <param name="dummyForInference"></param>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "element"></param>
+		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> DescendantsAndSelf<T>(
 				this IUnifiedElement element, T dummyForInference) {
@@ -167,9 +167,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 指定した要素とその子孫を列挙します．
+		///   指定した要素とその子孫を列挙します．
 		/// </summary>
-		/// <param name="element"></param>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<IUnifiedElement> DescendantsAndSelf(
 				this IUnifiedElement element) {
