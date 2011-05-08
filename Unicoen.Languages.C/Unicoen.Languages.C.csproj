@@ -111,8 +111,6 @@
     <Compile Include="CodeFactories\CCodeFactory.cs" />
     <Compile Include="CodeFactories\CCodeFactoryForCollection.cs" />
     <Compile Include="CodeFactories\CCodeFactoryRequiringSemicolon.cs" />
-    <Compile Include="CodeFactories\Decoration.cs" />
-    <Compile Include="CodeFactories\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

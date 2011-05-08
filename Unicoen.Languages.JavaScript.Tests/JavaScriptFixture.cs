@@ -17,7 +17,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.CodeFactories;
@@ -51,7 +50,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
-						"class A { }",
+						"a = 1;",
 				}.Select(s => new TestCaseData(this, s));
 			}
 		}
@@ -64,7 +63,8 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				}
 						.Select(
 								s =>
-								new TestCaseData(this, FixtureUtil.GetInputPath("JavaScript", s + Extension)));
+								new TestCaseData(
+										this, FixtureUtil.GetInputPath("JavaScript", s + Extension)));
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				string workPath, string command, string arguments) {}
 
 		private static string CreateCode(string statement) {
-			return "class A { public void M1() {" + statement + "} }";
+			return statement;
 		}
 	}
 }
