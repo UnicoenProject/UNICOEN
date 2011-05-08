@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -31,8 +30,7 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
-	[Export(typeof(LanguageFixture))]
-	public class JavaFixture : LanguageFixture {
+	public class JavaFixture : Fixture {
 		private const string JavacPath = "javac";
 
 		/// <summary>
@@ -60,7 +58,7 @@ namespace Unicoen.Languages.Java.Tests {
 				return new[] {
 						"M1();",
 						"new A();",
-				}.Select(s => new TestCaseData(this, DecorateWithClassAndMethod(s)));
+				}.Select(s => new TestCaseData(DecorateWithClassAndMethod(s)));
 			}
 		}
 
@@ -74,7 +72,7 @@ namespace Unicoen.Languages.Java.Tests {
 				return new[] {
 						"class A { }",
 						"public class A { }",
-				}.Select(s => new TestCaseData(this, s));
+				}.Select(s => new TestCaseData(s));
 			}
 		}
 
@@ -86,7 +84,7 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								s =>
-								new TestCaseData(this, FixtureUtil.GetInputPath("Java", s + Extension)));
+								new TestCaseData(FixtureUtil.GetInputPath("Java", s + Extension)));
 			}
 		}
 
@@ -98,7 +96,6 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => new TestCaseData(
-								     		this,
 								     		FixtureUtil.GetInputPath("Java", o.DirName),
 								     		o.Command,
 								     		o.Arguments));

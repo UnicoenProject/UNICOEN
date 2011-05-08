@@ -23,7 +23,7 @@ using Unicoen.Core.CodeFactories;
 using Unicoen.Core.ModelFactories;
 
 namespace Unicoen.Languages.Tests {
-	public abstract class LanguageFixture {
+	public abstract class Fixture {
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
 		/// </summary>

@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -31,8 +30,7 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
-	//[Export(typeof(LanguageFixture))]
-	public class CSharpFixture : LanguageFixture {
+	public class CSharpFixture : Fixture {
 		private const string CscPath =
 				@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
 
@@ -57,7 +55,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 			get {
 				return new[] {
 						"{ M1(); }",
-				}.Select(s => new TestCaseData(this, CreateCode(s)));
+				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
 
@@ -65,7 +63,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 			get {
 				return new[] {
 						"class A { }",
-				}.Select(s => new TestCaseData(this, s));
+				}.Select(s => new TestCaseData(s));
 			}
 		}
 
@@ -76,7 +74,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 						"Fibonacci",
 				}
 						.Select(
-								s => new TestCaseData(this, FixtureUtil.GetInputPath("CSharp", s + Extension)));
+								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
 				//return Directory.EnumerateFiles(GetInputPath("CSharp"))
 				//        .Select(path => new TestCaseData(path));
 			}

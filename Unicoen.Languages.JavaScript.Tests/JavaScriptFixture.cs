@@ -25,8 +25,7 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.JavaScript.Tests {
-	//[Export(typeof(LanguageFixture))]
-	public class JavaScriptFixture : LanguageFixture {
+	public class JavaScriptFixture : Fixture {
 		public override string Extension {
 			get { return ".js"; }
 		}
@@ -43,7 +42,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				return new[] {
 						"{ M1(); }",
-				}.Select(s => new TestCaseData(this, CreateCode(s)));
+				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
 
@@ -51,7 +50,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				return new[] {
 						"a = 1;",
-				}.Select(s => new TestCaseData(this, s));
+				}.Select(s => new TestCaseData(s));
 			}
 		}
 
@@ -64,7 +63,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						.Select(
 								s =>
 								new TestCaseData(
-										this, FixtureUtil.GetInputPath("JavaScript", s + Extension)));
+										FixtureUtil.GetInputPath("JavaScript", s + Extension)));
 			}
 		}
 

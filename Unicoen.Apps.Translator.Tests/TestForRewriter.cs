@@ -23,6 +23,7 @@ using System.Text;
 using NUnit.Framework;
 using Unicoen.Apps.Translator.Filter;
 using Unicoen.Core.Model;
+using Unicoen.Core.Tests;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator.Tests {
@@ -31,8 +32,7 @@ namespace Unicoen.Apps.Translator.Tests {
 
 		[SetUp]
 		public void SetUp() {
-			const string filePath =
-					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
+			var filePath = FixtureUtil.GetInputPath("Java", "default", "Student.java");
 			var code = File.ReadAllText(filePath, Encoding.Default);
 			_program = JavaFactory.GenerateModel(code);
 		}

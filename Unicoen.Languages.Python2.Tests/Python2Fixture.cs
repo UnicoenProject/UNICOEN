@@ -17,7 +17,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.CodeFactories;
@@ -26,8 +25,7 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
-	//[Export(typeof(LanguageFixture))]
-	public class Python2Fixture : LanguageFixture {
+	public class Python2Fixture : Fixture {
 		public override string Extension {
 			get { return ".py"; }
 		}
@@ -44,7 +42,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			get {
 				return new[] {
 						"{ M1(); }",
-				}.Select(s => new TestCaseData(this, CreateCode(s)));
+				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
 
@@ -52,7 +50,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			get {
 				return new[] {
 						"class A { }",
-				}.Select(s => new TestCaseData(this, s));
+				}.Select(s => new TestCaseData(s));
 			}
 		}
 
@@ -64,7 +62,7 @@ namespace Unicoen.Languages.Python2.Tests {
 				}
 						.Select(
 								s =>
-								new TestCaseData(this, FixtureUtil.GetInputPath("Python2", s + Extension)));
+								new TestCaseData(FixtureUtil.GetInputPath("Python2", s + Extension)));
 				//return Directory.EnumerateFiles(GetInputPath("Python2"))
 				//        .Select(path => new TestCaseData(path));
 			}

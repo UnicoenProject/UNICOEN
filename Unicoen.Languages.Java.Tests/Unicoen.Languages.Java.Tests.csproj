@@ -52,7 +52,6 @@
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
@@ -63,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaFixture.cs" />
+    <Compile Include="JavaModelFeatureTest.cs" />
+    <Compile Include="JavaRegenerateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,10 +74,6 @@
     <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Languages.CSharp.Tests\Unicoen.Languages.CSharp.Tests.csproj">
-      <Project>{CBE372FD-4C31-4BDB-B704-49A5C3349A35}</Project>
-      <Name>Unicoen.Languages.CSharp.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicoen.Languages.Java\Unicoen.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>

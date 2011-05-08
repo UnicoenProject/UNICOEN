@@ -26,28 +26,13 @@ using Unicoen.Core.Comparers;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Languages.Tests {
-	[TestFixture]
-	public class ModelFeatureTest {
-		protected IEnumerable<TestCaseData> TestCodes {
-			get { return LanguageFixtureLoader.AllTestCodes; }
-		}
-
-		protected IEnumerable<TestCaseData> TestFilePathes {
-			get { return LanguageFixtureLoader.AllTestFilePathes; }
-		}
-
-		protected IEnumerable<TestCaseData> TestDirectoryPathes {
-			get { return LanguageFixtureLoader.AllTestDirectoryPathes; }
-		}
-
+	public abstract class ModelFeatureTest : LanguageTestBase {
 		/// <summary>
 		///   深いコピーが正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
-		public void VerifyDeepCopyUsingCode(LanguageFixture fixture, string code) {
-			var model = fixture.ModelFactory.Generate(code);
+		public virtual void VerifyDeepCopyUsingCode(string code) {
+			var model = Fixture.ModelFactory.Generate(code);
 			var copiedModel = model.DeepCopy();
 			Assert.That(
 					copiedModel, Is.EqualTo(model)
@@ -62,39 +47,33 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyDeepCopyUsingFile(
-				LanguageFixture fixture, string path) {
-			VerifyDeepCopyUsingCode(fixture, File.ReadAllText(path, XEncoding.SJIS));
+		public virtual void VerifyDeepCopyUsingFile(
+				string path) {
+			VerifyDeepCopyUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
 		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyDeepCopyUsingDirectory(
-				LanguageFixture fixture, string dirPath, string command, string arguments) {
-			var paths = fixture.GetAllSourceFilePaths(dirPath);
+		public virtual void VerifyDeepCopyUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyDeepCopyUsingCode(fixture, File.ReadAllText(path, XEncoding.SJIS));
+				VerifyDeepCopyUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
 		/// <summary>
 		///   子要素の列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
-		public void VerifyGetElementsUsingCode(
-				LanguageFixture fixture, string code) {
-			var model = fixture.ModelFactory.Generate(code);
+		public virtual void VerifyGetElementsUsingCode(
+				string code) {
+			var model = Fixture.ModelFactory.Generate(code);
 			foreach (var element in model.Descendants()) {
 				var elements = element.GetElements();
 				var references = element.GetElementReferences();
@@ -112,39 +91,33 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementsUsingFile(
-				LanguageFixture fixture, string path) {
-			VerifyGetElementsUsingCode(fixture, File.ReadAllText(path, XEncoding.SJIS));
+		public virtual void VerifyGetElementsUsingFile(
+				string path) {
+			VerifyGetElementsUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
 		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementsUsingDirectory(
-				LanguageFixture fixture, string dirPath, string command, string arguments) {
-			var paths = fixture.GetAllSourceFilePaths(dirPath);
+		public virtual void VerifyGetElementsUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyGetElementsUsingCode(fixture, File.ReadAllText(path, XEncoding.SJIS));
+				VerifyGetElementsUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
 		/// <summary>
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
-		public void VerifyGetElementAndSettersUsingCode(
-				LanguageFixture fixture, string code) {
-			var model = fixture.ModelFactory.Generate(code);
+		public virtual void VerifyGetElementAndSettersUsingCode(
+				string code) {
+			var model = Fixture.ModelFactory.Generate(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
 				var references = element.GetElementReferences();
@@ -162,41 +135,35 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndSettersUsingFile(
-				LanguageFixture fixture, string path) {
+		public virtual void VerifyGetElementAndSettersUsingFile(
+				string path) {
 			VerifyGetElementAndSettersUsingCode(
-					fixture, File.ReadAllText(path, XEncoding.SJIS));
+					File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyGetElementAndSettersUsingDirectory(
-				LanguageFixture fixture, string dirPath, string command, string arguments) {
-			var paths = fixture.GetAllSourceFilePaths(dirPath);
+		public virtual void VerifyGetElementAndSettersUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyGetElementAndSettersUsingCode(
-						fixture, File.ReadAllText(path, XEncoding.SJIS));
+						File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
-		public void VerifyGetElementAndDirectSettersUsingCode(
-				LanguageFixture fixture, string code) {
-			var model = fixture.ModelFactory.Generate(code);
+		public virtual void VerifyGetElementAndDirectSettersUsingCode(
+				string code) {
+			var model = Fixture.ModelFactory.Generate(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
 				var references = element.GetElementReferenecesOfPrivateFields();
@@ -214,30 +181,24 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyGetElementAndDirectSettersUsingFile(
-				LanguageFixture fixture, string path) {
+		public virtual void VerifyGetElementAndDirectSettersUsingFile(
+				string path) {
 			VerifyGetElementAndDirectSettersUsingCode(
-					fixture,
 					File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyGetElementAndDirectSettersUsingDirectory(
-				LanguageFixture fixture, string dirPath, string command, string arguments) {
-			var paths = fixture.GetAllSourceFilePaths(dirPath);
+		public virtual void VerifyGetElementAndDirectSettersUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyGetElementAndDirectSettersUsingCode(
-						fixture,
 						File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
@@ -257,41 +218,35 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   親要素が不適切な要素がないかソースコードを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
-		public void VerifyParentPropertyUsingCode(
-				LanguageFixture fixture, string code) {
-			var model = fixture.ModelFactory.Generate(code);
+		public virtual void VerifyParentPropertyUsingCode(
+				string code) {
+			var model = Fixture.ModelFactory.Generate(code);
 			VerifyParentPropertyRecusively(model);
 		}
 
 		/// <summary>
 		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyParentPropertyUsingFile(
-				LanguageFixture fixture, string path) {
+		public virtual void VerifyParentPropertyUsingFile(
+				string path) {
 			VerifyParentPropertyUsingCode(
-					fixture, File.ReadAllText(path, XEncoding.SJIS));
+					File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
 		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyParentPropertyUsingDirectory(
-				LanguageFixture fixture, string dirPath, string command, string arguments) {
-			var paths = fixture.GetAllSourceFilePaths(dirPath);
+		public virtual void VerifyParentPropertyUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				VerifyParentPropertyUsingCode(
-						fixture, File.ReadAllText(path, XEncoding.SJIS));
+						File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 
@@ -307,12 +262,10 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   全要素の文字列情報を取得できるかソースコードを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
-		public void VerifyToStringUsingCode(
-				LanguageFixture fixture, string code) {
-			var model = fixture.ModelFactory.Generate(code);
+		public virtual void VerifyToStringUsingCode(
+				string code) {
+			var model = Fixture.ModelFactory.Generate(code);
 			foreach (var element in model.DescendantsAndSelf()) {
 				Assert.That(element.ToString(), Is.Not.Null);
 			}
@@ -321,27 +274,23 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "path">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyToStringUsingFile(
-				LanguageFixture fixture, string path) {
-			VerifyToStringUsingCode(fixture, File.ReadAllText(path, XEncoding.SJIS));
+		public virtual void VerifyToStringUsingFile(
+				string path) {
+			VerifyToStringUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 		}
 
 		/// <summary>
 		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command"></param>
 		/// <param name = "arguments"></param>
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void VerifyToStringUsingDirectory(
-				LanguageFixture fixture, string dirPath, string command, string arguments) {
-			var paths = fixture.GetAllSourceFilePaths(dirPath);
+		public virtual void VerifyToStringUsingDirectory(
+				string dirPath, string command, string arguments) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				VerifyToStringUsingCode(fixture, File.ReadAllText(path, XEncoding.SJIS));
+				VerifyToStringUsingCode(File.ReadAllText(path, XEncoding.SJIS));
 			}
 		}
 	}

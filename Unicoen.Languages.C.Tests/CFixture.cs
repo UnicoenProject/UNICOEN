@@ -17,7 +17,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.CodeFactories;
@@ -26,8 +25,7 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-	//[Export(typeof(LanguageFixture))]
-	public class CFixture : LanguageFixture {
+	public class CFixture : Fixture {
 		public override string Extension {
 			get { return ".c"; }
 		}
@@ -44,7 +42,7 @@ namespace Unicoen.Languages.C.Tests {
 			get {
 				return new[] {
 						"{ main(); }",
-				}.Select(s => new TestCaseData(this, CreateCode(s)));
+				}.Select(s => new TestCaseData(CreateCode(s)));
 			}
 		}
 
@@ -52,7 +50,7 @@ namespace Unicoen.Languages.C.Tests {
 			get {
 				return new[] {
 						"int main() { return 0; }",
-				}.Select(s => new TestCaseData(this, s));
+				}.Select(s => new TestCaseData(s));
 			}
 		}
 
@@ -64,7 +62,7 @@ namespace Unicoen.Languages.C.Tests {
 				}
 						.Select(
 								s =>
-								new TestCaseData(this, FixtureUtil.GetInputPath("C", s + Extension)));
+								new TestCaseData(FixtureUtil.GetInputPath("C", s + Extension)));
 			}
 		}
 

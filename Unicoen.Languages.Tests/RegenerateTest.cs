@@ -30,37 +30,22 @@ namespace Unicoen.Languages.Tests {
 	///   コードは、コンパイルしたclassファイル同士、
 	///   もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
-	[TestFixture]
-	public class RegenerateTest {
-		public IEnumerable<TestCaseData> TestCodes {
-			get { return LanguageFixtureLoader.AllTestCodes; }
-		}
-
-		public IEnumerable<TestCaseData> TestFilePathes {
-			get { return LanguageFixtureLoader.AllTestFilePathes; }
-		}
-
-		public IEnumerable<TestCaseData> TestDirectoryPathes {
-			get { return LanguageFixtureLoader.AllTestDirectoryPathes; }
-		}
-
+	public abstract class RegenerateTest : LanguageTestBase {
 		/// <summary>
 		///   再生成を行わずVerifyCompareThroughCompiledCodeが正常に動作するかテストします。
 		///   全く同じコードをコンパイルしたバイナリファイル同士で比較します。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyCompareCompiledCodeOfSameCode(
-				LanguageFixture fixture, string orgPath) {
+		public virtual void CompareCompiledCodeOfSameCode(
+				string orgPath) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = FixtureUtil.GetTemporalPath(fileName);
 			File.Copy(orgPath, srcPath);
-			fixture.Compile(workPath, fileName);
-			var expected = fixture.GetAllCompiledCode(workPath);
-			fixture.Compile(workPath, fileName);
-			var actual = fixture.GetAllCompiledCode(workPath);
+			Fixture.Compile(workPath, fileName);
+			var expected = Fixture.GetAllCompiledCode(workPath);
+			Fixture.Compile(workPath, fileName);
+			var actual = Fixture.GetAllCompiledCode(workPath);
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 
@@ -68,14 +53,12 @@ namespace Unicoen.Languages.Tests {
 		///   再生成を行わずVerifyCompareThroughModelが正常に動作するかテストします。
 		///   全く同じコードから生成したモデル同士で比較します。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyCompareModelOfSameCode(
-				LanguageFixture fixture, string orgPath) {
+		public virtual void CompareModelOfSameCode(
+				string orgPath) {
 			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
-			var expected = fixture.ModelFactory.Generate(orgCode);
-			var actual = fixture.ModelFactory.Generate(orgCode);
+			var expected = Fixture.ModelFactory.Generate(orgCode);
+			var actual = Fixture.ModelFactory.Generate(orgCode);
 			Assert.That(
 					actual, Is.EqualTo(expected)
 					        		.Using(StructuralEqualityComparerForDebug.Instance));
@@ -87,21 +70,20 @@ namespace Unicoen.Languages.Tests {
 		///   コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
 		///   元コード1とコード2を比較します。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "orgCode">再生成するソースコード</param>
 		/// <param name = "fileName">再生成するソースコードのファイル名</param>
-		private static void VerifyCompareCompiledCode(
-				LanguageFixture fixture, string orgCode, string fileName) {
+		private void VerifyCompareCompiledCode(
+				string orgCode, string fileName) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			var srcPath = FixtureUtil.GetTemporalPath(fileName);
 			File.WriteAllText(srcPath, orgCode, XEncoding.SJIS);
-			fixture.Compile(workPath, fileName);
-			var orgByteCode1 = fixture.GetAllCompiledCode(workPath);
-			var model1 = fixture.ModelFactory.Generate(orgCode);
-			var code2 = fixture.CodeFactory.Generate(model1);
+			Fixture.Compile(workPath, fileName);
+			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
+			var model1 = Fixture.ModelFactory.Generate(orgCode);
+			var code2 = Fixture.CodeFactory.Generate(model1);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
-			fixture.Compile(workPath, fileName);
-			var byteCode2 = fixture.GetAllCompiledCode(workPath);
+			Fixture.Compile(workPath, fileName);
+			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
 			Assert.That(byteCode2, Is.EqualTo(orgByteCode1));
 		}
 
@@ -111,25 +93,24 @@ namespace Unicoen.Languages.Tests {
 		///   コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
 		///   元コード1とコード2を比較します。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">再生成するソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command">コンパイルに用いるコマンド名</param>
 		/// <param name = "arguments">コンパイルに用いる引数リスト</param>
-		private static void VerifyCompareCompiledCodeUsingDirectory(
-				LanguageFixture fixture, string dirPath, string command, string arguments) {
+		private void VerifyCompareCompiledCodeUsingDirectory(
+				string dirPath, string command, string arguments) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			FileUtility.CopyRecursively(dirPath, workPath);
-			fixture.CompileWithArguments(workPath, command, arguments);
-			var orgByteCode1 = fixture.GetAllCompiledCode(workPath);
-			var codePaths = fixture.GetAllSourceFilePaths(workPath);
+			Fixture.CompileWithArguments(workPath, command, arguments);
+			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
+			var codePaths = Fixture.GetAllSourceFilePaths(workPath);
 			foreach (var codePath in codePaths) {
 				var orgCode1 = File.ReadAllText(codePath, XEncoding.SJIS);
-				var model1 = fixture.ModelFactory.Generate(orgCode1);
-				var code2 = fixture.CodeFactory.Generate(model1);
+				var model1 = Fixture.ModelFactory.Generate(orgCode1);
+				var code2 = Fixture.CodeFactory.Generate(model1);
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
-			fixture.CompileWithArguments(workPath, command, arguments);
-			var byteCode2 = fixture.GetAllCompiledCode(workPath);
+			Fixture.CompileWithArguments(workPath, command, arguments);
+			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
 			Assert.That(byteCode2, Is.EqualTo(orgByteCode1));
 		}
 
@@ -138,15 +119,14 @@ namespace Unicoen.Languages.Tests {
 		///   元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
 		///   モデル2とモデル3を比較します。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "orgCode">再生成するソースコード</param>
-		private static void VerifyCompareModel(
-				LanguageFixture fixture, string orgCode) {
-			var model1 = fixture.ModelFactory.Generate(orgCode);
-			var code2 = fixture.CodeFactory.Generate(model1);
-			var model2 = fixture.ModelFactory.Generate(code2);
-			var code3 = fixture.CodeFactory.Generate(model2);
-			var model3 = fixture.ModelFactory.Generate(code3);
+		private void VerifyCompareModel(
+				string orgCode) {
+			var model1 = Fixture.ModelFactory.Generate(orgCode);
+			var code2 = Fixture.CodeFactory.Generate(model1);
+			var model2 = Fixture.ModelFactory.Generate(code2);
+			var code3 = Fixture.CodeFactory.Generate(model2);
+			var model3 = Fixture.ModelFactory.Generate(code3);
 			Assert.That(
 					model3, Is.EqualTo(model2)
 					        		.Using(StructuralEqualityComparerForDebug.Instance));
@@ -157,61 +137,53 @@ namespace Unicoen.Languages.Tests {
 		///   元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
 		///   モデル2とモデル3を比較します。
 		/// </summary>
-		/// <param name = "fixture"></param>
 		/// <param name = "dirPath">再生成するソースコードが格納されているディレクトリパス</param>
-		private static void VerifyCompareModelUsingDirectory(
-				LanguageFixture fixture, string dirPath) {
-			var codePaths = fixture.GetAllSourceFilePaths(dirPath);
+		private void VerifyCompareModelUsingDirectory(
+				string dirPath) {
+			var codePaths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var codePath in codePaths) {
 				var orgCode = File.ReadAllText(codePath, XEncoding.SJIS);
-				var model1 = fixture.ModelFactory.Generate(orgCode);
-				var code2 = fixture.CodeFactory.Generate(model1);
-				var model2 = fixture.ModelFactory.Generate(code2);
-				var code3 = fixture.CodeFactory.Generate(model2);
-				var model3 = fixture.ModelFactory.Generate(code3);
+				var model1 = Fixture.ModelFactory.Generate(orgCode);
+				var code2 = Fixture.CodeFactory.Generate(model1);
+				var model2 = Fixture.ModelFactory.Generate(code2);
+				var code3 = Fixture.CodeFactory.Generate(model2);
+				var model3 = Fixture.ModelFactory.Generate(code3);
 				Assert.That(
 						model3, Is.EqualTo(model2)
 						        		.Using(StructuralEqualityComparerForDebug.Instance));
 			}
 		}
 
-		[Test, TestCaseSource("TestCodes")]
-		public void CompareCompiledCodeUsingCode(
-				LanguageFixture fixture, string code) {
-			VerifyCompareCompiledCode(fixture, code, "A" + fixture.Extension);
+		public virtual void CompareCompiledCodeUsingCode(
+				string code) {
+			VerifyCompareCompiledCode(code, "A" + Fixture.Extension);
 		}
 
-		[Test, TestCaseSource("TestCodes")]
-		public void CompareModelUsingCode(LanguageFixture fixture, string code) {
-			VerifyCompareModel(fixture, code);
+		public virtual void CompareModelUsingCode(string code) {
+			VerifyCompareModel(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
-		public void CompareCompiledCodeUsingFile(
-				LanguageFixture fixture, string orgPath) {
+		public virtual void CompareCompiledCodeUsingFile(
+				string orgPath) {
 			var fileName = Path.GetFileName(orgPath);
 			VerifyCompareCompiledCode(
-					fixture,
 					File.ReadAllText(orgPath, XEncoding.SJIS), fileName);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
-		public void CompareModelUsingFile(
-				LanguageFixture fixture, string orgPath) {
-			VerifyCompareModel(fixture, File.ReadAllText(orgPath, XEncoding.SJIS));
+		public virtual void CompareModelUsingFile(
+				string orgPath) {
+			VerifyCompareModel(File.ReadAllText(orgPath, XEncoding.SJIS));
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void CompareCompiledCodeUsingDirectory(
-				LanguageFixture fixture, string orgPath, string command, string arguments) {
+		public virtual void CompareCompiledCodeUsingDirectory(
+				string orgPath, string command, string arguments) {
 			VerifyCompareCompiledCodeUsingDirectory(
-					fixture, orgPath, command, arguments);
+					orgPath, command, arguments);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public void CompareModelUsingDirectory(
-				LanguageFixture fixture, string orgPath, string command, string arguments) {
-			VerifyCompareModelUsingDirectory(fixture, orgPath);
+		public virtual void CompareModelUsingDirectory(
+				string orgPath, string command, string arguments) {
+			VerifyCompareModelUsingDirectory(orgPath);
 		}
 	}
 }

@@ -24,7 +24,7 @@ using Unicoen.Core.ModelFactories;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {
-	public class Ruby18Fixture : LanguageFixture {
+	public class Ruby18Fixture : Fixture {
 		public override string Extension {
 			get { return ".rb"; }
 		}
