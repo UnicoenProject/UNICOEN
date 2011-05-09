@@ -32,6 +32,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		private static readonly Decoration Bracket =
 				new Decoration { MostLeft = "{", Delimiter = ", ", MostRight = "}" };
 
+		private static readonly Decoration SquareBracket =
+				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
+
 		private static readonly Decoration CommaDelimiter =
 				new Decoration { Delimiter = ", " };
 
@@ -44,6 +47,31 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override string Generate(IUnifiedElement model, TextWriter writer) {
 			return Generate(model, writer, "\t");
+		}
+		
+		private static string GetKeyword(UnifiedSpecialExpressionKind kind) {
+			switch (kind) {
+			case UnifiedSpecialExpressionKind.Break:
+				return "break";
+			case UnifiedSpecialExpressionKind.Continue:
+				return "continue";
+			case UnifiedSpecialExpressionKind.Goto:
+				return "goto";
+			case UnifiedSpecialExpressionKind.Return:
+				return "return";
+			case UnifiedSpecialExpressionKind.YieldReturn:
+				return "/* yield return in C# */";
+			case UnifiedSpecialExpressionKind.Throw:
+				return "throw";
+			case UnifiedSpecialExpressionKind.Retry:
+				return "/* retry in Ruby */";
+			case UnifiedSpecialExpressionKind.Redo:
+				return "/* redo in Ruby */";
+			case UnifiedSpecialExpressionKind.Yield:
+				return "/* yield in Ruby */";
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
@@ -271,102 +299,155 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedIndexer element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Target.TryAccept(this, state);
+			element.Arguments.TryAccept(this, state.Set(SquareBracket));
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeArgument element, VisitorState state) {
-			throw new NotImplementedException();
+			//JavaScriptでは型引数は出現しない
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeArgumentCollection element, VisitorState state) {
-			throw new NotImplementedException();
+			//JavaScriptでは型引数は出現しない
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedSwitch element, VisitorState state) {
-			throw new NotImplementedException();
-		}
+			state.Writer.Write("switch(");
+			element.Value.TryAccept(this, state);
+			state.Writer.Write(") {");
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCaseCollection element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Cases.TryAccept(this, state);
+			state.Writer.Write("}");
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedCase element, VisitorState state) {
-			throw new NotImplementedException();
+			if (element.Condition == null) {
+				state.Writer.Write("default:\n");
+			} else {
+				state.Writer.Write("case ");
+				element.Condition.TryAccept(this, state);
+				state.Writer.Write(":\n");
+			}
+			element.Body.TryAccept(this, state);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedSpecialExpression element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write(GetKeyword(element.Kind));
+			if (element.Value != null) {
+				state.WriteSpace();
+				element.Value.TryAccept(this, state);
+			}
+			return true;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedSpecialBlock element, VisitorState state) {
-			throw new NotImplementedException();
+			state.WriteIndent();
+			switch (element.Kind) {
+			case UnifiedSpecialBlockKind.With:
+				state.Writer.Write("with");
+				break;
+			default:
+				//JavaScriptではwith文のみ使用可能
+				//TODO 他の言語モデルの変換の際に、synchronizedなどが来たらどう対処するのか
+				throw new ArgumentOutOfRangeException();
+			}
+			if (element.Value != null) {
+				state.Writer.Write("(");
+				element.Value.TryAccept(this, state);
+				state.Writer.Write(")");
+			}
+
+			//TODO なぜelement.Body.TryAcceptしないのか(Javaからの流用)
+			state.Writer.Write("{");
+			state = state.IncrementIndentDepth();
+			foreach (var stmt in element.Body) {
+				state.WriteIndent();
+				if (stmt.TryAccept(this, state))
+					state.Writer.Write(";");
+			}
+			state.WriteIndent();
+			state.Writer.Write("}");
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedCatch element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeCollection element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write("catch");
+			element.Matchers.TryAccept(this, state.Set(Paren));
+			element.Body.TryAccept(this, state);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedCatchCollection element, VisitorState state) {
+			//JavaScriptではcatch節の列挙は出現しない
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTry element, VisitorState state) {
-			throw new NotImplementedException();
-		}
+			// try block
+			state.Writer.Write("try");
+			element.Body.TryAccept(this, state);
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCast element, VisitorState state) {
-			throw new NotImplementedException();
-		}
+			// catch blocks
+			element.Catches.TryAccept(this, state);
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeParameterCollection element, VisitorState state) {
-			throw new NotImplementedException();
+			// finally block
+			var finallyBlock = element.FinallyBody;
+			// how judge whether finalluBlock exists or not???
+			if (finallyBlock != null) {
+				state.Writer.Write("finally");
+				finallyBlock.TryAccept(this, state);
+			}
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeConstrain element, VisitorState state) {
+			//JavaScriptでは継承を示す識別子は出現しない(?)
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeConstrainCollection element, VisitorState state) {
+			//JavaScriptでは継承を示す識別子は出現しない(?)
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeParameter element, VisitorState state) {
+			//JavaScriptでは型パラメータは出現しない
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeSupplement element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeSupplementCollection element, VisitorState state) {
+			//JavaScriptでは型宣言時に'[]'は出現しない
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTernaryOperator element, VisitorState state) {
-			throw new NotImplementedException();
+			switch (element.Kind) {
+			case (UnifiedTernaryOperatorKind.Conditional):
+				state.Writer.Write(element.FirstSign);
+				break;
+			default:
+				break;
+			}
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(

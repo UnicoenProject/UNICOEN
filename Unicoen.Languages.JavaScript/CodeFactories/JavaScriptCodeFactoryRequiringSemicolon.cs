@@ -79,5 +79,14 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Arguments.TryAccept(this, state.Set(Paren));
 			return true;
 		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedCast element, VisitorState state) {
+			state.Writer.Write("(");
+			element.Type.TryAccept(this, state);
+			state.Writer.Write(")");
+			element.Expression.TryAccept(this, state.Set(Paren));
+			return true;
+		}
 	}
 }
