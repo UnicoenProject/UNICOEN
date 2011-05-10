@@ -705,6 +705,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			var expressions =
 					node.Elements("assignmentExpression").Select(CreateAssignmentExpression);
+			//式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
+			if(expressions.Count() == 1)
+				return expressions.First();
 			return UnifiedBlock.Create(expressions);
 		}
 

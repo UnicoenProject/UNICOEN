@@ -35,6 +35,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		private static readonly Decoration SquareBracket =
 				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
 
+		private static readonly Decoration ForBlock = 
+				new Decoration { MostLeft = "{", Delimiter = "\n", MostRight = "}" };
+
 		private static readonly Decoration CommaDelimiter =
 				new Decoration { Delimiter = ", " };
 
@@ -130,16 +133,32 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedBlock element, VisitorState state) {
-			state.WriteIndent();
-			state.Writer.WriteLine("{");
-			state = state.IncrementIndentDepth();
-			foreach (var stmt in element) {
+			var decoration = state.Decoration;
+			//for Block
+			if(decoration.MostLeft == "{") {
 				state.WriteIndent();
-				if (stmt.TryAccept(this, state))
-					state.Writer.Write(";");
+				state.Writer.WriteLine(decoration.MostLeft);
+				state = state.IncrementIndentDepth();
+				
+				//TODO ブロックの各要素間は改行しないのか
+				foreach (var stmt in element) {
+					state.WriteIndent();
+					if (stmt.TryAccept(this, state))
+						state.Writer.Write(";");
+					state.Writer.Write(decoration.Delimiter);
+				}
+				state.WriteIndent();
+				state.Writer.WriteLine(decoration.MostRight);
+				return false;
 			}
-			state.WriteIndent();
-			state.Writer.WriteLine("}");
+
+			//for expressionList
+			var comma = "";
+			foreach (var e in element) {
+				state.Writer.Write(comma);
+				e.TryAccept(this, state);
+				comma = decoration.Delimiter;
+			}
 			return false;
 		}
 
@@ -150,20 +169,20 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			state.WriteSpace();
 			element.Name.TryAccept(this, state);
 			element.Parameters.TryAccept(this, state);
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return element.Body == null;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedIf ifStatement, VisitorState state) {
 			state.Writer.Write("if (");
-			ifStatement.Condition.TryAccept(this, state);
+			ifStatement.Condition.TryAccept(this, state.Set(CommaDelimiter));
 			state.Writer.WriteLine(")");
-			ifStatement.Body.TryAccept(this, state);
+			ifStatement.Body.TryAccept(this, state.Set(ForBlock));
 			if (ifStatement.ElseBody != null) {
 				state.WriteIndent();
 				state.Writer.WriteLine("else");
-				ifStatement.ElseBody.TryAccept(this, state);
+				ifStatement.ElseBody.TryAccept(this, state.Set(ForBlock));
 			}
 			return false;
 		}
@@ -210,7 +229,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedClassDefinition element, VisitorState state) {
 			//JavaScriptの場合はオブジェクト宣言を表します
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
 
@@ -230,7 +249,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Step.TryAccept(this, state.Set(CommaDelimiter));
 			state.Writer.Write(")");
 
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
 
@@ -244,7 +263,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Set.TryAccept(this, state);
 			state.Writer.Write(")");
 
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
 
@@ -282,14 +301,14 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Condition.TryAccept(this, state);
 			state.Writer.Write(")");
 
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedDoWhile element, VisitorState state) {
 			state.Writer.Write("do");
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			state.Writer.Write("while(");
 			element.Condition.TryAccept(this, state);
 			//TODO セミコロンが付かないことも許容されるがどうするか
@@ -336,7 +355,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				element.Condition.TryAccept(this, state);
 				state.Writer.Write(":\n");
 			}
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
 
@@ -345,7 +364,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			state.Writer.Write(GetKeyword(element.Kind));
 			if (element.Value != null) {
 				state.WriteSpace();
-				element.Value.TryAccept(this, state);
+				//return a,b;のような際にvalueはUnifiedBlockであるが、
+				//"{}"を付加するとエラーになるのでそのための対策
+				element.Value.TryAccept(this, state.Set(CommaDelimiter));
 			}
 			return true;
 		}
@@ -385,7 +406,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedCatch element, VisitorState state) {
 			state.Writer.Write("catch");
 			element.Matchers.TryAccept(this, state.Set(Paren));
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
 
@@ -399,7 +420,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedTry element, VisitorState state) {
 			// try block
 			state.Writer.Write("try");
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 
 			// catch blocks
 			element.Catches.TryAccept(this, state);
@@ -409,7 +430,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			// how judge whether finalluBlock exists or not???
 			if (finallyBlock != null) {
 				state.Writer.Write("finally");
-				finallyBlock.TryAccept(this, state);
+				finallyBlock.TryAccept(this, state.Set(ForBlock));
 			}
 			return false;
 		}
@@ -460,7 +481,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				element.InitialValue.TryAccept(this, state.Set(Bracket));
 			}
 			element.Arguments.TryAccept(this, state.Set(Paren));
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
 
