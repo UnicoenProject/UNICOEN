@@ -440,6 +440,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTernaryOperator element, VisitorState state) {
+			//TODO é¿ç€Ç…ÇÕåƒÇŒÇÍÇ»Ç¢(?)
 			switch (element.Kind) {
 			case (UnifiedTernaryOperatorKind.Conditional):
 				state.Writer.Write(element.FirstSign);
@@ -451,68 +452,66 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryExpression element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedVariableDefinitionBody element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIdentifierCollection element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Name.TryAccept(this, state);
+			element.Supplements.TryAccept(this, state);
+			if (element.InitialValue != null) {
+				state.Writer.Write(" = ");
+				element.InitialValue.TryAccept(this, state.Set(Bracket));
+			}
+			element.Arguments.TryAccept(this, state.Set(Paren));
+			element.Body.TryAccept(this, state);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedLabel element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedExpressionList element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Name.TryAccept(this, state);
+			state.Writer.Write(":");
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedBooleanLiteral element, VisitorState state) {
-			throw new NotImplementedException();
+			if (element.Value)
+				state.Writer.Write("true");
+			else
+				state.Writer.Write("false");
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedFractionLiteral element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write(element.Value);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedIntegerLiteral element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write(element.Value);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedStringLiteral element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write('"' + element.Value + '"');
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedNullLiteral element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write("null");
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedMatcher element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedMatcherCollection element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Modifiers.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.Matcher.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.As.TryAccept(this, state);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(

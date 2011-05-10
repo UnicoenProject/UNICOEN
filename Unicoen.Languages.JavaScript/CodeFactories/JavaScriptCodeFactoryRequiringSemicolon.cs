@@ -23,6 +23,17 @@ using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactory {
+		
+		private static Tuple<string, string> GetKeyword(
+				UnifiedTernaryOperatorKind kind) {
+			switch (kind) {
+			case UnifiedTernaryOperatorKind.Conditional:
+				return Tuple.Create("?", ":");
+			default:
+				throw new ArgumentOutOfRangeException("kind");
+			}
+		}
+		
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedUnaryExpression ||
@@ -86,6 +97,20 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Type.TryAccept(this, state);
 			state.Writer.Write(")");
 			element.Expression.TryAccept(this, state.Set(Paren));
+			return true;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedTernaryExpression element, VisitorState state) {
+			var paren = GetRequiredParen(element);
+			state.Writer.Write(paren.Item1);
+			var keywords = GetKeyword(element.Operator.Kind);
+			element.FirstExpression.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" " + keywords.Item1 + " ");
+			element.SecondExpression.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" " + keywords.Item2 + " ");
+			element.LastExpression.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(paren.Item2);
 			return true;
 		}
 	}

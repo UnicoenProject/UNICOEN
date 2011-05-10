@@ -91,5 +91,29 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			//JavaScriptでは型宣言時に'[]'は出現しない
 			throw new NotImplementedException();
 		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
+			VisitCollection(element, state.Set(CommaDelimiter));
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedIdentifierCollection element, VisitorState state) {
+			VisitCollection(element, state.Set(CommaDelimiter));
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedExpressionList element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedMatcherCollection element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
+		}
 	}
 }

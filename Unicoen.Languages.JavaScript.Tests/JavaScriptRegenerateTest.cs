@@ -20,7 +20,7 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.JavaScript.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class JavaScriptRegenerateTest : RegenerateTest {
 		private readonly Fixture _fixture = new JavaScriptFixture();
 
