@@ -1320,7 +1320,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedNew.CreateArray(exps);
 		}
 
-		public static IUnifiedExpression CreateObjectLiteral(XElement node) {
+		public static UnifiedDictonary CreateObjectLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "objectLiteral");
 			/*
@@ -1329,31 +1329,27 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			//例えばJSONなど
 
-			var body =
-					UnifiedBlock.Create(
-							node.Elements("propertyNameAndValue").Select(CreatePropertyNameAndValue));
-
-			//TODO 確認：nodeの祖先をたどって、変数宣言部分の兄弟から識別子を得る
-			return
-					UnifiedClassDefinition.CreateClass(
-							node.Ancestors().Where(e => e.Name() == "variableDeclaration").First().
-									Element("Identifier").Value, body);
+			var keyValues = UnifiedKeyValueCollection.Create();
+			foreach (var e in node.Elements("propertyNameAndValue")) {
+				keyValues.Add(CreatePropertyNameAndValue(e));
+			}
+			return UnifiedDictonary.Create(keyValues);
 		}
 
-		public static IUnifiedExpression CreatePropertyNameAndValue(XElement node) {
+		public static UnifiedKeyValue CreatePropertyNameAndValue(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "propertyNameAndValue");
 			/*
 			 * propertyNameAndValue
 			 *		: propertyName LT!* ':' LT!* assignmentExpression
 			 */
+			// e.g. a : 1, b : function() { }
 
-			//プロパティ宣言を変数宣言でとりあえずは代用
-			var body = UnifiedVariableDefinitionBody.Create(
-					CreatePropertyName(node.Element("propertyName")).Value, null,
-					CreateAssignmentExpression(node.Element("assignmentExpression"))).
-					ToCollection();
-			return UnifiedVariableDefinition.Create(null, null, body);
+			//プロパティ宣言をKeyAndValueで代用
+			return UnifiedKeyValue.Create(
+				CreatePropertyName(node.Element("propertyName")), 
+				CreateAssignmentExpression(node.Element("assignmentExpression"))
+				);
 		}
 
 		public static UnifiedIdentifier CreatePropertyName(XElement node) {

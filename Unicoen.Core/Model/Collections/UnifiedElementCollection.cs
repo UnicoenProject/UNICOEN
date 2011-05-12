@@ -36,6 +36,7 @@ namespace Unicoen.Core.Model {
 
 		protected UnifiedElementCollection(IEnumerable<TElement> elements)
 				: this() {
+			if (elements == null) return;
 			foreach (var element in elements) {
 				Add(element);
 			}

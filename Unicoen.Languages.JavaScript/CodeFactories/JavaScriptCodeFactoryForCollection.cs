@@ -94,6 +94,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
+			state.Writer.Write("var ");
 			VisitCollection(element, state.Set(CommaDelimiter));
 			return false;
 		}
@@ -112,6 +113,12 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedMatcherCollection element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedKeyValueCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;
 		}

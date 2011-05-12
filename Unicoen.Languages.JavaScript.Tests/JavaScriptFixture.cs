@@ -58,7 +58,11 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"Fibonacci",
+						"fibonacci",
+						"student",
+						"Block1",
+						"Block2",
+						"Block3"
 				}
 						.Select(
 								s =>

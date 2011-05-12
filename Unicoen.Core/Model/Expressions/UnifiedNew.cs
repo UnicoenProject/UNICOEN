@@ -87,7 +87,7 @@ namespace Unicoen.Core.Model {
 			yield return
 					ElementReference.Create(
 							() => Target,
-							v => Target = (UnifiedType)v);
+							v => Target = (IUnifiedExpression)v);
 			yield return
 					ElementReference.Create(
 							() => Arguments,
@@ -111,7 +111,7 @@ namespace Unicoen.Core.Model {
 			yield return
 					ElementReference.Create(
 							() => _target,
-							v => _target = (UnifiedType)v);
+							v => _target = (IUnifiedExpression)v);
 			yield return
 					ElementReference.Create(
 							() => _arguments,

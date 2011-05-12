@@ -136,19 +136,18 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			var decoration = state.Decoration;
 			//for Block
 			if(decoration.MostLeft == "{") {
-				state.WriteIndent();
 				state.Writer.WriteLine(decoration.MostLeft);
 				state = state.IncrementIndentDepth();
 				
-				//TODO ブロックの各要素間は改行しないのか
 				foreach (var stmt in element) {
 					state.WriteIndent();
 					if (stmt.TryAccept(this, state))
 						state.Writer.Write(";");
 					state.Writer.Write(decoration.Delimiter);
 				}
+				//TODO ここでインデントを１つ戻したい
 				state.WriteIndent();
-				state.Writer.WriteLine(decoration.MostRight);
+				state.Writer.Write(decoration.MostRight);
 				return false;
 			}
 
@@ -177,7 +176,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedIf ifStatement, VisitorState state) {
 			state.Writer.Write("if (");
 			ifStatement.Condition.TryAccept(this, state.Set(CommaDelimiter));
-			state.Writer.WriteLine(")");
+			state.Writer.Write(")");
 			ifStatement.Body.TryAccept(this, state.Set(ForBlock));
 			if (ifStatement.ElseBody != null) {
 				state.WriteIndent();
@@ -220,8 +219,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedProgram element, VisitorState state) {
 			foreach (var sourceElement in element) {
+				//TODO sourceElementは基本的に改行してよいと思われるがどうか
 				if (sourceElement.TryAccept(this, state))
-					state.Writer.Write(";");
+					state.Writer.WriteLine(";");
 			}
 			return false;
 		}
@@ -339,7 +339,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedSwitch element, VisitorState state) {
 			state.Writer.Write("switch(");
 			element.Value.TryAccept(this, state);
-			state.Writer.Write(") {");
+			state.Writer.WriteLine(") {");
 
 			element.Cases.TryAccept(this, state);
 			state.Writer.Write("}");
@@ -390,12 +390,12 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			}
 
 			//TODO なぜelement.Body.TryAcceptしないのか(Javaからの流用)
-			state.Writer.Write("{");
+			state.Writer.WriteLine("{");
 			state = state.IncrementIndentDepth();
 			foreach (var stmt in element.Body) {
 				state.WriteIndent();
 				if (stmt.TryAccept(this, state))
-					state.Writer.Write(";");
+					state.Writer.WriteLine(";");
 			}
 			state.WriteIndent();
 			state.Writer.Write("}");
@@ -557,7 +557,11 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedKeyValue element, VisitorState state) {
-			throw new NotImplementedException();
+			state.WriteIndent();
+			element.Key.TryAccept(this, state);
+			state.Writer.Write(":");
+			element.Value.TryAccept(this, state);
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
@@ -566,13 +570,12 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedKeyValueCollection element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedDictonary element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write("{");
+		    element.KeyValues.TryAccept(this, state.Set(CommaDelimiter));
+			state.WriteIndent();
+			state.Writer.Write("}");
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
