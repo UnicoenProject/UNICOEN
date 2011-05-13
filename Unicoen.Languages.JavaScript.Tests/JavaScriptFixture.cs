@@ -62,7 +62,9 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						"student",
 						"Block1",
 						"Block2",
-						"Block3"
+						"Block3",
+						"Sample",
+						//"Waseda"
 				}
 						.Select(
 								s =>

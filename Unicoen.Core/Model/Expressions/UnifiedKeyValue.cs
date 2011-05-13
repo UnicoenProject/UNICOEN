@@ -66,18 +66,23 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Key;
+			yield return Value;
 		}
 
 		public override IEnumerable<ElementReference>
 				GetElementReferences() {
 			yield return ElementReference.Create
 					(() => Key, v => Key = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => Value, v => Value = (IUnifiedExpression)v);
 		}
 
 		public override IEnumerable<ElementReference>
 				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
 					(() => _key, v => _key = (IUnifiedExpression)v);
+			yield return ElementReference.Create
+					(() => _value, v => _value = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedKeyValue Create(
