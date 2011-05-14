@@ -1017,8 +1017,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.HasElement("assignmentExpression")) {
 				return UnifiedTernaryExpression.Create(
 						CreateLogicalORExpression(node.Element("logicalORExpression")),
-						UnifiedTernaryOperator.Create(
-								"?", ":", UnifiedTernaryOperatorKind.Conditional),
 						CreateAssignmentExpression(node.Element("assignmentExpression")),
 						CreateAssignmentExpression(
 								node.Elements("assignmentExpression").ElementAt(1)));
@@ -1037,8 +1035,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.HasElement("assignmentExpressionNoIn")) {
 				return UnifiedTernaryExpression.Create(
 						CreateLogicalORExpressionNoIn(node.Element("logicalORExpressionNoIn")),
-						UnifiedTernaryOperator.Create(
-								"?", ":", UnifiedTernaryOperatorKind.Conditional),
 						CreateAssignmentExpressionNoIn(node.Element("assignmentExpressionNoIn")),
 						CreateAssignmentExpressionNoIn(
 								node.Elements("assignmentExpressionNoIn").ElementAt(1)));

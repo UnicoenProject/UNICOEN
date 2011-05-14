@@ -149,10 +149,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedIfExpression element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
 		public bool Visit(UnifiedList element, VisitorState state) {
 			throw new NotImplementedException();
 		}
