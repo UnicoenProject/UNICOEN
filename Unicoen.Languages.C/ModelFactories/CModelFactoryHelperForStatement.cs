@@ -29,20 +29,34 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			/*
-			statement
-			: labeled_statement
-			| compound_statement
-			| expression_statement
-			| selection_statement
-			| iteration_statement
-			| jump_statement
+			/* statement
+			 * : labeled_statement
+			 * | compound_statement
+			 * | expression_statement
+			 * | selection_statement
+			 * | iteration_statement
+			 * | jump_statement
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			var firstElement = node.FirstElement();
+			switch (firstElement.Name.LocalName) {
+			case "labeled_statement":
+				return CreateLabeledStatement(firstElement);
+			case "compound_statement":
+				return CreateCompoundStatement(firstElement);
+			case "expression_statement":
+				return CreateExpressionStatement(firstElement);
+			case "selection_statement":
+				return CreateSelectionStatement(firstElement);
+			case "iteration_statement":
+				return CreateIterationStatement(firstElement);
+			case "jump_statement":
+				return CreateJumpStatement(firstElement);
+			default:
+				throw new InvalidOperationException();
+			}
 		}
 
-		public static IUnifiedElement CreateLabeledStatement(XElement node) {
+		public static IUnifiedExpression CreateLabeledStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labeled_statement");
 			/*
@@ -89,7 +103,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			return statementList;
 		}
 
-		public static IUnifiedElement CreateExpressionStatement(XElement node) {
+		public static IUnifiedExpression CreateExpressionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression_statement");
 			/*
@@ -101,7 +115,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSelectionStatement(XElement node) {
+		public static IUnifiedExpression CreateSelectionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "selection_statement");
 			/*
@@ -113,7 +127,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateIterationStatement(XElement node) {
+		public static IUnifiedExpression CreateIterationStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iteration_statement");
 			/*
@@ -126,7 +140,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateJumpStatement(XElement node) {
+		public static IUnifiedExpression CreateJumpStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "jump_statement");
 			/*
