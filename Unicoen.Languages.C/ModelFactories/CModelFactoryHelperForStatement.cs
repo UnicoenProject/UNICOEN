@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
 using Mocomoco.Xml.Linq;
@@ -25,7 +26,7 @@ using Unicoen.Core.Model;
 namespace Unicoen.Languages.C.ModelFactories {
 	// for Statement
 	public static partial class CModelFactoryHelper {
-		public static IUnifiedElement CreateStatement(XElement node) {
+		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			/*
@@ -65,9 +66,11 @@ namespace Unicoen.Languages.C.ModelFactories {
 			foreach (var declaration in node.Elements("declaration")) {
 				block.Add(CreateDeclaration(declaration));
 			}
-			var statement_list = node.Element("statement_list");
-			if (statement_list != null) {
-				block.Add (CreateStatementList(statement_list));
+			var statementList = node.Element("statement_list");
+			if (statementList != null) {
+				foreach (var statement in CreateStatementList(statementList)) {
+					block.Add(statement);
+				}
 			}
 
 			throw new NotImplementedException(); //TODO: implement
@@ -76,12 +79,14 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static UnifiedExpressionCollection CreateStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
-			/*
-			statement_list
-			: statement+
+			/* statement_list
+			 * : statement+
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			var statementList = UnifiedExpressionCollection.Create();
+			foreach (var statement in node.Elements("statement_list")) {
+				statementList.Add(CreateStatement(statement));
+			}
+			return statementList;
 		}
 
 		public static IUnifiedElement CreateExpressionStatement(XElement node) {
