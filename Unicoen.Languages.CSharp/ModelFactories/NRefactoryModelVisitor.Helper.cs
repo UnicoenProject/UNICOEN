@@ -76,6 +76,18 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			if (prim != null) {
 				return UnifiedType.CreateUsingString(prim.Keyword);
 			}
+			var sim = type as SimpleType;
+			if (sim != null) {
+				return UnifiedType.CreateUsingString(sim.Identifier);
+			}
+			var com = type as ComposedType;
+			if (com != null) {
+				var baseType = LookupType(com.BaseType);
+				foreach (var aSpec in  com.ArraySpecifiers) {
+					baseType.AddSupplement(UnifiedTypeSupplement.CreateRectangleArray(aSpec.Dimensions));
+				}
+				return baseType;
+			}
 
 			throw new NotImplementedException("LookupType");
 		}
