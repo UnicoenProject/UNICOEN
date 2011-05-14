@@ -143,16 +143,32 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static IUnifiedExpression CreateJumpStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "jump_statement");
-			/*
-			jump_statement
-			: 'goto' IDENTIFIER ';'
-			| 'continue' ';'
-			| 'break' ';'
-			| 'return' ';'
-			| 'return' expression ';'
+			/* jump_statement
+			 * : 'goto' IDENTIFIER ';'
+			 * | 'continue' ';'
+			 * | 'break' ';'
+			 * | 'return' ';'
+			 * | 'return' expression ';'
 			 */
+			var firstElement = node.FirstElement();
+			switch (firstElement.Value) {
+			case "goto":
 
-			throw new NotImplementedException(); //TODO: implement
+			case "continue":
+				return UnifiedSpecialExpression.CreateContinue();
+			case "break":
+				return UnifiedSpecialExpression.CreateBreak();
+			case "return":
+				var expression = node.Element("expression");
+				if (expression != null) {
+					return UnifiedSpecialExpression.CreateReturn(
+							CreateExpression(expression));
+				} else {
+					return UnifiedSpecialExpression.CreateReturn();
+				}
+			default:
+				throw new InvalidOperationException();
+			}
 		}
 	}
 }
