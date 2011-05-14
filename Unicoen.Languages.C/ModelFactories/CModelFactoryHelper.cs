@@ -237,7 +237,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
 
 			UnifiedIdentifier name = null;
-			UnifiedClassKind kind = node.FirstElement().Name() == "struct"
+			var kind = node.FirstElement().Name() == "struct"
 			                        		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
 			if (node.Element("IDENTIFIER") != null) {
 				name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
@@ -252,8 +252,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
-			var structOrUnion = UnifiedClassDefinition.Create(
-					kind, null, name, null, null, body);
+			var structOrUnion = UnifiedClassDefinition.Create(kind, null, name, null, null, body);
 
 			return UnifiedType.Create(null, structOrUnion, null, null);
 		}

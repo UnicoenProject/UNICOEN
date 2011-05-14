@@ -243,7 +243,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				if (uExpr != null)
 					body.Add(uExpr);
 			}
-			return UnifiedClassDefinition.Create(kind, mods, name, /*TODO*/null, /*TODO*/null, body);
+			return UnifiedClassDefinition.Create(kind, mods, name, null, null, body);
 		}
 
 		public IUnifiedElement VisitUsingAliasDeclaration(UsingAliasDeclaration usingAliasDeclaration, object data) {

@@ -428,7 +428,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedLabel element, VisitorState state) {
 			element.Name.TryAccept(this, state);
-			state.Writer.Write(" :");
+			state.Writer.Write(": ");
 
 			return false;
 		}

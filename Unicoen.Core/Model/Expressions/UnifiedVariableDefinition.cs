@@ -25,6 +25,16 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>
 	/// </summary>
 	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetParentOfChild(value, _annotations); }
+		}
+
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>

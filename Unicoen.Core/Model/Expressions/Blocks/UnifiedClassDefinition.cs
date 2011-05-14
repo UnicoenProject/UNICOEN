@@ -31,6 +31,16 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedClassKind Kind { get; set; }
 
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetParentOfChild(value, _annotations); }
+		}
+
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
@@ -83,6 +93,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Annotations;
 			yield return Modifiers;
 			yield return Name;
 			yield return TypeParameters;
@@ -92,6 +103,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<ElementReference>
 				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
 			yield return ElementReference.Create
 					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
@@ -109,6 +122,8 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<ElementReference>
 				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
+					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
+			yield return ElementReference.Create
 					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
 					(() => _name, v => _name = (IUnifiedExpression)v);
@@ -124,42 +139,35 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name) {
-			return Create(
-					UnifiedClassKind.Class,
-					UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.CreateType(name),
-					null,
-					null, UnifiedBlock.Create());
+			return Create(UnifiedClassKind.Class, UnifiedModifierCollection.Create(), UnifiedIdentifier.CreateType(name), null, null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedClassDefinition CreateClass(
 				string name,
 				UnifiedBlock body) {
-			return Create(
-					UnifiedClassKind.Class,
-					UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.CreateType(name),
-					null,
-					null, body);
+			return Create(UnifiedClassKind.Class, UnifiedModifierCollection.Create(), UnifiedIdentifier.CreateType(name), null, null, body);
 		}
 
 		public static UnifiedClassDefinition CreateClass(
 				string name,
 				UnifiedTypeConstrainCollection contrains,
 				UnifiedBlock body) {
-			return Create(
-					UnifiedClassKind.Class,
-					UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.CreateType(name),
-					null,
-					contrains, body);
+			return Create(UnifiedClassKind.Class, UnifiedModifierCollection.Create(), UnifiedIdentifier.CreateType(name), null, contrains, body);
 		}
 
 		public static UnifiedClassDefinition Create(
 				UnifiedClassKind kind, UnifiedModifierCollection modifiers,
 				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
 				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
+			return Create(kind, modifiers, name, typeParameters, constrains, body);
+		}
+
+		public static UnifiedClassDefinition Create(
+				UnifiedClassKind kind, UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers,
+				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
+				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
+					Annotations = annotations,
 					Modifiers = modifiers,
 					Kind = kind,
 					Name = name,
@@ -170,8 +178,23 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateNamespace(IUnifiedExpression name) {
-			return Create(
-					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
+			return Create(UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
+		}
+
+		public static UnifiedClassDefinition CreateAnnotation(IUnifiedExpression name) {
+			return Create(UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
+		}
+
+		public static UnifiedClassDefinition CreateAnnotation(UnifiedModifierCollection modifiers, UnifiedIdentifier name, UnifiedBlock body) {
+			return Create(UnifiedClassKind.Annotation, modifiers, name, null, null, body);
+		}
+
+		public static UnifiedClassDefinition CreateClass(UnifiedModifierCollection modifiers, string name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
+			return Create(UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name), typeParameters, constrains, body);
+		}
+
+		public static UnifiedClassDefinition CreateClass(UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, string name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
+			return Create(UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name), typeParameters, constrains, body);
 		}
 			}
 }

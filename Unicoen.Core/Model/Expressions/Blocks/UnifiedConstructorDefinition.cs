@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
@@ -27,6 +28,16 @@ namespace Unicoen.Core.Model {
 	public class UnifiedConstructorDefinition
 			: UnifiedExpressionWithBlock<UnifiedConstructorDefinition> {
 		public UnifiedConstructorDefinitionKind Kind { get; set; }
+
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetParentOfChild(value, _annotations); }
+		}
 
 		private UnifiedModifierCollection _modifiers;
 
@@ -170,6 +181,17 @@ namespace Unicoen.Core.Model {
 				UnifiedTypeCollection throws,
 				UnifiedConstructorDefinitionKind
 						kind) {
+			return new UnifiedConstructorDefinition {
+					Body = body,
+					Modifiers = modifiers,
+					Parameters = parameters,
+					TypeParameters = typeParameters,
+					Throws = throws,
+					Kind = kind,
+			};
+		}
+
+		public static IUnifiedExpression Create(UnifiedBlock body, UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters, UnifiedTypeParameterCollection typeParameters, UnifiedTypeCollection throws, UnifiedConstructorDefinitionKind kind) {
 			return new UnifiedConstructorDefinition {
 					Body = body,
 					Modifiers = modifiers,

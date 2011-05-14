@@ -1173,8 +1173,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			if (second == null)
 				return UnifiedArgument.Create(test);
 			if (second.Value == "=")
+				// TODO: test '=' test => NAME '=' test のように扱っているが大丈夫か？
 				return UnifiedArgument.Create(
-						null, test, CreateTest(node.LastElement()));
+						null, (UnifiedIdentifier)test, CreateTest(node.LastElement()));
 			return UnifiedArgument.Create(
 					UnifiedListComprehension.CreateLazyList(
 							test, CreateComp_for(second).ToCollection()));

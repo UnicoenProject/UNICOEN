@@ -418,9 +418,8 @@ namespace Unicoen.Languages.JavaScript.Model {
 
 			if (false /*TODO 以下にfunctionExpressionを持つ場合はクラスを返す*/) {
 				return
-						UnifiedClassDefinition.Create(
-								UnifiedClassKind.Class, null, UnifiedIdentifier.CreateType(
-										node.Element("Identifier").Value), null, null, null);
+						UnifiedClassDefinition.Create(UnifiedClassKind.Class, null, UnifiedIdentifier.CreateType(
+								node.Element("Identifier").Value), null, null, null);
 			}
 			return UnifiedVariableDefinition.CreateSingle(
 					null,

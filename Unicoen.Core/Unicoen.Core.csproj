@@ -71,8 +71,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
     <Compile Include="Model\Extensions\ModelGenerator.cs" />
+    <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Processor\CodeFactory.cs" />
     <Compile Include="Processor\Decoration.cs" />

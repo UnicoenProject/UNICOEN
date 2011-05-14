@@ -46,12 +46,12 @@ namespace Unicoen.Core.Model {
 			set { _value = SetParentOfChild(value, _value); }
 		}
 
-		private IUnifiedExpression _target;
+		private UnifiedIdentifier _target;
 
 		/// <summary>
-		///   実引数の値を表します．
+		///   実引数の代入先の変数名を表します．
 		/// </summary>
-		public IUnifiedExpression Target {
+		public UnifiedIdentifier Target {
 			get { return _target; }
 			set { _target = SetParentOfChild(Target, _target); }
 		}
@@ -86,7 +86,7 @@ namespace Unicoen.Core.Model {
 			yield return ElementReference.Create
 					(() => Value, v => Value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(() => Target, v => Target = (IUnifiedExpression)v);
+					(() => Target, v => Target = (UnifiedIdentifier)v);
 		}
 
 		public override IEnumerable<ElementReference>
@@ -96,12 +96,13 @@ namespace Unicoen.Core.Model {
 			yield return ElementReference.Create
 					(() => _value, v => _value = (IUnifiedExpression)v);
 			yield return ElementReference.Create
-					(() => _target, v => _target = (IUnifiedExpression)v);
+					(() => _target, v => _target = (UnifiedIdentifier)v);
 		}
 
 		public static UnifiedArgument Create(
-				UnifiedModifierCollection modifiers, IUnifiedExpression value,
-				IUnifiedExpression target) {
+				UnifiedModifierCollection modifiers,
+				UnifiedIdentifier target,
+				IUnifiedExpression value) {
 			return new UnifiedArgument {
 					Modifiers = modifiers,
 					Value = value,
@@ -111,11 +112,11 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedArgument Create(
 				UnifiedModifierCollection modifiers, IUnifiedExpression value) {
-			return Create(modifiers, value, null);
+			return Create(modifiers, null, value);
 		}
 
 		public static UnifiedArgument Create(IUnifiedExpression value) {
-			return Create(null, value, null);
+			return Create(null, null, value);
 		}
 	}
 }

@@ -39,6 +39,16 @@ namespace Unicoen.Core.Model {
 			return UnifiedProgram.Create(singleton);
 		}
 
+		public static UnifiedAnnotationCollection ToCollection(
+				this IEnumerable<UnifiedAnnotation> collection) {
+					return UnifiedAnnotationCollection.Create(collection);
+		}
+
+		public static UnifiedAnnotationCollection ToCollection(
+				this UnifiedAnnotation singleton) {
+					return UnifiedAnnotationCollection.Create(singleton);
+		}
+
 		public static UnifiedArgumentCollection ToCollection(
 				this IEnumerable<UnifiedArgument> collection) {
 			return UnifiedArgumentCollection.Create(collection);

@@ -31,6 +31,16 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedFunctionDefinitionKind Kind { get; set; }
 
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetParentOfChild(value, _annotations); }
+		}
+
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
@@ -100,6 +110,7 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			yield return Modifiers;
+			yield return Annotations;
 			yield return Type;
 			yield return TypeParameters;
 			yield return Name;

@@ -26,6 +26,16 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<code>public void method(int a)</code>の<code>int a</code>
 	/// </summary>
 	public class UnifiedParameter : UnifiedElement {
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetParentOfChild(value, _annotations); }
+		}
+
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
@@ -120,9 +130,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedParameter Create(
-				UnifiedModifierCollection modifiers, UnifiedType type,
+				UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, UnifiedType type,
 				UnifiedIdentifierCollection names, IUnifiedExpression defaultValue) {
 			return new UnifiedParameter {
+					Annotations = annotations,
 					Modifiers = modifiers,
 					Type = type,
 					Names = names,
@@ -134,6 +145,7 @@ namespace Unicoen.Core.Model {
 				UnifiedModifierCollection modifiers, UnifiedType type,
 				IEnumerable<string> names, IUnifiedExpression defaultValue) {
 			return Create(
+				null,
 					modifiers, type,
 					names.Select(UnifiedIdentifier.CreateVariable).ToCollection(), defaultValue);
 		}
@@ -142,6 +154,7 @@ namespace Unicoen.Core.Model {
 				UnifiedModifierCollection modifiers, UnifiedType type, string name,
 				IUnifiedExpression defaultValue) {
 			return Create(
+				null,
 					modifiers, type, UnifiedIdentifier.CreateVariable(name).ToCollection(),
 					defaultValue);
 		}

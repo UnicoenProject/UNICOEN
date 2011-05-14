@@ -122,5 +122,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			VisitCollection(element, state);
 			return false;
 		}
+
+		public bool Visit(UnifiedAnnotation element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
+			throw new NotImplementedException();
+		}
 	}
 }
