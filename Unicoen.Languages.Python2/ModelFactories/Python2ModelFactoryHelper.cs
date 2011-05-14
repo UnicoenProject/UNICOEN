@@ -138,16 +138,22 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 								var next = e.NextElementOrDefault();
 								var names = CreateFpdef(e);
 								if (next == null || next.Value != "=")
-									return UnifiedParameter.Create(null, null, names, null);
+									return UnifiedParameter.Create(
+											null,
+											null, null,
+											names.Select(UnifiedIdentifier.CreateVariable).ToCollection(), null);
 								return UnifiedParameter.Create(
-										null, null, names, CreateTest(next.NextElement()));
+										null,
+										null, null,
+										names.Select(UnifiedIdentifier.CreateVariable).ToCollection(), CreateTest(next.NextElement()));
 							});
 			var ps2 = node.Elements("NAME")
 					.Select(
 							e =>
 							UnifiedParameter.Create(
-									UnifiedModifier.Create(e.PreviousElement().Value).ToCollection(),
-									null, e.Value));
+									null,
+									UnifiedModifier.Create(e.PreviousElement().Value).ToCollection(), null, UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
+									null));
 			return ps.Concat(ps2).ToCollection();
 		}
 
@@ -531,6 +537,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * global_stmt: 'global' NAME (',' NAME)*
 			 */
 			return UnifiedVariableDefinition.Create(
+				null,
 					UnifiedModifier.Create("global").ToCollection(),
 					null,
 					node.Elements("NAME").Select(
@@ -638,6 +645,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 									: null;
 			return UnifiedForeach.Create(
 					UnifiedVariableDefinition.Create(
+					null,
 							null,
 							null,
 							exprlist.Select(

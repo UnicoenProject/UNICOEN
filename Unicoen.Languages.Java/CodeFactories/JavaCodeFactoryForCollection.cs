@@ -17,6 +17,8 @@
 #endregion
 
 using System;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
 
@@ -172,6 +174,27 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
 			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+			var first = element.First();
+			var firstTypeString = GenerateOrEmpty(first.Type);
+			first.Annotations.TryAccept(this, state);
+			state.WriteSpace();
+			first.Modifiers.TryAccept(this, state);
+			state.WriteSpace();
+			state.Writer.Write(firstTypeString);
+			state.WriteSpace();
+			var delimiter = "";
+			foreach (var varDef in element) {
+				state.Writer.Write(delimiter);
+				delimiter = ", ";
+				var typeString = GenerateOrEmpty(varDef.Type);
+				Contract.Assert(typeString.StartsWith(firstTypeString));
+				state.Writer.Write(typeString.Substring(firstTypeString.Length));
+				varDef.Bodys.TryAccept(this, state);
+			}
+			return true;
 		}
 	}
 }

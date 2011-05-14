@@ -82,6 +82,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Annotations;
 			yield return Modifiers;
 			yield return Type;
 			yield return Bodys;
@@ -89,6 +90,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<ElementReference>
 				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
 			yield return ElementReference.Create
 					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
@@ -100,6 +103,8 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<ElementReference>
 				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
+					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
+			yield return ElementReference.Create
 					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
 					(() => _type, v => _type = (UnifiedType)v);
@@ -109,6 +114,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedVariableDefinition CreateSingle(string name) {
 			return CreateSingle(
+				null,
 					null,
 					null,
 					UnifiedIdentifier.CreateVariable(name),
@@ -121,6 +127,7 @@ namespace Unicoen.Core.Model {
 				UnifiedType type,
 				string name) {
 			return CreateSingle(
+				null,
 					null,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -134,6 +141,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression
 						initialValue) {
 			return CreateSingle(
+				null,
 					null,
 					null,
 					UnifiedIdentifier.CreateVariable(name),
@@ -148,6 +156,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression
 						initialValue) {
 			return CreateSingle(
+				null,
 					null,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -164,6 +173,7 @@ namespace Unicoen.Core.Model {
 						initialValue,
 				string name) {
 			return CreateSingle(
+				null,
 					modifiers,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -178,6 +188,7 @@ namespace Unicoen.Core.Model {
 				UnifiedModifierCollection
 						modifiers) {
 			return CreateSingle(
+				null,
 					modifiers,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -187,13 +198,16 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedVariableDefinition CreateSingle(
-				UnifiedModifierCollection modifiers,
-				UnifiedType type,
-				UnifiedIdentifier name,
-				IUnifiedExpression initialValues,
-				UnifiedArgumentCollection arguments,
-				UnifiedBlock block) {
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null,
+				UnifiedIdentifier name = null,
+				IUnifiedExpression initialValues = null,
+				UnifiedArgumentCollection arguments = null,
+				UnifiedBlock block = null)
+		{
 			return Create(
+					null,
 					modifiers,
 					type,
 					UnifiedVariableDefinitionBody.Create(
@@ -205,11 +219,34 @@ namespace Unicoen.Core.Model {
 					);
 		}
 
+		public static UnifiedVariableDefinition CreateSingle(
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null,
+				string name = null,
+				IUnifiedExpression initialValues = null,
+				UnifiedArgumentCollection arguments = null,
+				UnifiedBlock block = null)
+		{
+			return Create(
+					null,
+					modifiers,
+					type,
+					UnifiedVariableDefinitionBody.Create(
+							UnifiedIdentifier.CreateVariable(name),
+							null,
+							initialValues,
+							arguments,
+							block).ToCollection()
+					);
+		}
+
 		public static UnifiedVariableDefinition Create(
-				UnifiedModifierCollection modifiers,
-				UnifiedType type,
-				UnifiedVariableDefinitionBodyCollection bodys) {
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null, UnifiedType type = null,
+				UnifiedVariableDefinitionBodyCollection bodys = null) {
 			return new UnifiedVariableDefinition {
+					Annotations = annotations,
 					Modifiers = modifiers,
 					Type = type,
 					Bodys = bodys,

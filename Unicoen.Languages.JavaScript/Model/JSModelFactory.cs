@@ -592,7 +592,10 @@ namespace Unicoen.Languages.JavaScript.Model {
 		}
 
 		public static UnifiedParameter CreateParameter(XElement node) {
-			return UnifiedParameter.Create(node.Value);
+			return UnifiedParameter.Create(
+					null,
+					null, null, UnifiedIdentifier.CreateVariable(node.Value).ToCollection(),
+					null);
 		}
 
 		#endregion

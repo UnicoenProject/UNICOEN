@@ -109,8 +109,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Modifiers;
 			yield return Annotations;
+			yield return Modifiers;
 			yield return Type;
 			yield return TypeParameters;
 			yield return Name;
@@ -121,6 +121,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<ElementReference>
 				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
 			yield return ElementReference.Create
 					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
@@ -141,7 +143,9 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<ElementReference>
 				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
+					yield return ElementReference.Create
+					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
+					yield return ElementReference.Create
 					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
 					(() => _type, v => _type = (UnifiedType)v);
@@ -158,6 +162,28 @@ namespace Unicoen.Core.Model {
 					(() => _throws, v => _throws = (UnifiedTypeCollection)v);
 			yield return ElementReference.Create
 					(() => _body, v => _body = (UnifiedBlock)v);
+		}
+
+		public static UnifiedFunctionDefinition Create(
+				UnifiedFunctionDefinitionKind kind,
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null,
+				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedIdentifier name = null,
+				UnifiedParameterCollection parameters = null,
+				UnifiedTypeCollection throws = null,
+				UnifiedBlock body = null) {
+			return new UnifiedFunctionDefinition {
+					Name = name,
+					Annotations = annotations,
+					Type = type,
+					TypeParameters = typeParameters,
+					Modifiers = modifiers,
+					Parameters = parameters,
+					Throws = throws,
+					Body = body,
+			};
 		}
 
 		public static UnifiedFunctionDefinition CreateLambda(

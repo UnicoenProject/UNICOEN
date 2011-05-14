@@ -85,6 +85,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Annotations;
 			yield return Modifiers;
 			yield return Parameters;
 			yield return TypeParameters;
@@ -94,6 +95,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<ElementReference>
 				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
 			yield return ElementReference.Create
 					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
@@ -110,6 +113,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<ElementReference>
 				GetElementReferenecesOfPrivateFields() {
+			yield return ElementReference.Create
+					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
 			yield return ElementReference.Create
 					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create

@@ -70,7 +70,10 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var firstParam = _func.Parameters.First();
 
 			//expectation
-			var expectation = UnifiedParameter.Create("n");
+			var expectation = UnifiedParameter.Create(
+					null,
+					null, null, UnifiedIdentifier.CreateVariable("n").ToCollection(),
+					null);
 
 			Assert.That(
 					firstParam, Is.EqualTo(expectation)

@@ -294,6 +294,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 					out modifiers, out type);
 
 			return UnifiedVariableDefinition.Create(
+				null,
 					modifiers, type,
 					CreateStructDeclaratorList(node.Element("struct_declarator_list")));
 		}

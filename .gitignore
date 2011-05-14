@@ -30,3 +30,4 @@ _ReSharper*/
 ipch/
 target
 output
+*.docstates

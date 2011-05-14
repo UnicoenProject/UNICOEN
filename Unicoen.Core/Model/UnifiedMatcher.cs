@@ -16,11 +16,21 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedMatcher : UnifiedElement {
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetParentOfChild(value, _annotations); }
+		}
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
@@ -59,6 +69,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {
+			yield return Annotations;
 			yield return Modifiers;
 			yield return Matcher;
 			yield return As;
@@ -66,6 +77,8 @@ namespace Unicoen.Core.Model {
 
 		public override IEnumerable<ElementReference>
 				GetElementReferences() {
+			yield return ElementReference.Create
+					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
 			yield return ElementReference.Create
 					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
@@ -77,6 +90,8 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<ElementReference>
 				GetElementReferenecesOfPrivateFields() {
 			yield return ElementReference.Create
+					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
+			yield return ElementReference.Create
 					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 			yield return ElementReference.Create
 					(() => _matcher, v => _matcher = (IUnifiedExpression)v);
@@ -86,13 +101,15 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedMatcher Create(
 				IUnifiedExpression matcher, IUnifiedExpression asExp) {
-			return Create(null, matcher, asExp);
+			return Create(null, null, matcher, asExp);
 		}
 
 		public static UnifiedMatcher Create(
+			UnifiedAnnotationCollection annotations,
 				UnifiedModifierCollection modifiers, IUnifiedExpression matcher,
 				IUnifiedExpression asExp) {
 			return new UnifiedMatcher {
+
 					Modifiers = modifiers,
 					Matcher = matcher,
 					As = asExp,

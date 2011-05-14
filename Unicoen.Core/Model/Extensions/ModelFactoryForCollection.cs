@@ -222,6 +222,17 @@ namespace Unicoen.Core.Model {
 			return UnifiedVariableDefinitionBodyCollection.Create(singleton);
 		}
 
+		public static UnifiedVariableDefinitionList ToCollection(
+				this IEnumerable<UnifiedVariableDefinition> collection) {
+					return UnifiedVariableDefinitionList.Create(collection);
+		}
+
+		public static UnifiedVariableDefinitionList ToCollection(
+				this UnifiedVariableDefinition singleton)
+		{
+					return UnifiedVariableDefinitionList.Create(singleton);
+		}
+
 		public static UnifiedList ToListLiteral(
 				this UnifiedExpressionCollection collection) {
 			return UnifiedList.CreateList(collection);
