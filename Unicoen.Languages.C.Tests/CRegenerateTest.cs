@@ -20,7 +20,7 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class CRegenerateTest : RegenerateTest {
 		private readonly Fixture _fixture = new CFixture();
 
@@ -28,42 +28,42 @@ namespace Unicoen.Languages.C.Tests {
 			get { return _fixture; }
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void CompareCompiledCodeOfSameCode(string orgPath) {
 			base.CompareCompiledCodeOfSameCode(orgPath);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void CompareModelOfSameCode(string orgPath) {
 			base.CompareModelOfSameCode(orgPath);
 		}
 
-		[Test, TestCaseSource("TestCodes")]
+		[Ignore, Test, TestCaseSource("TestCodes")]
 		public override void CompareCompiledCodeUsingCode(string code) {
 			base.CompareCompiledCodeUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestCodes")]
+		[Ignore, Test, TestCaseSource("TestCodes")]
 		public override void CompareModelUsingCode(string code) {
 			base.CompareModelUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void CompareCompiledCodeUsingFile(string orgPath) {
 			base.CompareCompiledCodeUsingFile(orgPath);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void CompareModelUsingFile(string orgPath) {
 			base.CompareModelUsingFile(orgPath);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void CompareCompiledCodeUsingDirectory(string orgPath, string command, string arguments) {
 			base.CompareCompiledCodeUsingDirectory(orgPath, command, arguments);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void CompareModelUsingDirectory(string orgPath, string command, string arguments) {
 			base.CompareModelUsingDirectory(orgPath, command, arguments);
 		}

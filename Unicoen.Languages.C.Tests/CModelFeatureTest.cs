@@ -20,7 +20,7 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class CModelFeatureTest : ModelFeatureTest {
 		private readonly Fixture _fixture = new CFixture();
 
@@ -33,27 +33,27 @@ namespace Unicoen.Languages.C.Tests {
 			base.VerifyDeepCopyUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyDeepCopyUsingFile(string path) {
 			base.VerifyDeepCopyUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void VerifyDeepCopyUsingDirectory(string dirPath, string command, string arguments) {
 			base.VerifyDeepCopyUsingDirectory(dirPath, command, arguments);
 		}
 
-		[Test, TestCaseSource("TestCodes")]
+		[Ignore, Test, TestCaseSource("TestCodes")]
 		public override void VerifyGetElementsUsingCode(string code) {
 			base.VerifyGetElementsUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementsUsingFile(string path) {
 			base.VerifyGetElementsUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void VerifyGetElementsUsingDirectory(string dirPath, string command, string arguments) {
 			base.VerifyGetElementsUsingDirectory(dirPath, command, arguments);
 		}
@@ -63,12 +63,12 @@ namespace Unicoen.Languages.C.Tests {
 			base.VerifyGetElementAndSettersUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementAndSettersUsingFile(string path) {
 			base.VerifyGetElementAndSettersUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void VerifyGetElementAndSettersUsingDirectory(string dirPath, string command, string arguments) {
 			base.VerifyGetElementAndSettersUsingDirectory(dirPath, command, arguments);
 		}
@@ -78,12 +78,12 @@ namespace Unicoen.Languages.C.Tests {
 			base.VerifyGetElementAndDirectSettersUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementAndDirectSettersUsingFile(string path) {
 			base.VerifyGetElementAndDirectSettersUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void VerifyGetElementAndDirectSettersUsingDirectory(string dirPath, string command, string arguments) {
 			base.VerifyGetElementAndDirectSettersUsingDirectory(dirPath, command, arguments);
 		}
@@ -93,12 +93,12 @@ namespace Unicoen.Languages.C.Tests {
 			base.VerifyParentPropertyUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyParentPropertyUsingFile(string path) {
 			base.VerifyParentPropertyUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void VerifyParentPropertyUsingDirectory(string dirPath, string command, string arguments) {
 			base.VerifyParentPropertyUsingDirectory(dirPath, command, arguments);
 		}
@@ -108,12 +108,12 @@ namespace Unicoen.Languages.C.Tests {
 			base.VerifyToStringUsingCode(code);
 		}
 
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyToStringUsingFile(string path) {
 			base.VerifyToStringUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
+		[Ignore, Test, TestCaseSource("TestDirectoryPathes")]
 		public override void VerifyToStringUsingDirectory(string dirPath, string command, string arguments) {
 			base.VerifyToStringUsingDirectory(dirPath, command, arguments);
 		}

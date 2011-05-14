@@ -54,7 +54,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateCompoundStatement(XElement node) {
+		public static UnifiedBlock CreateCompoundStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "compound_statement");
 			/*

@@ -88,7 +88,13 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			CreateDeclarator(
 					node.Element("declarator"),
-					out typeParameters, out name, out parameters);
+					out name, out parameters);
+
+			if (!node.Elements("declaration").IsEmpty()) {
+				throw new NotImplementedException(); //TODO: implement
+			}
+
+			body = CreateCompoundStatement(node.Element("compound_statement"));
 
 			return UnifiedFunctionDefinition.CreateFunction(
 					modifiers, type, typeParameters, name, parameters, throws, body);
@@ -410,7 +416,6 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 		public static void CreateDeclarator(
 				XElement node,
-				out UnifiedTypeParameterCollection typeParameters,
 				out UnifiedIdentifier name,
 				out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
@@ -420,24 +425,50 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * | pointer
 			 */
 
+			if (node.Element("direct_declarator") != null) {
+				if (node.Element("pointer") != null) {
+					throw new NotImplementedException(); //TODO: implement
+				}
+
+				CreateDirectDeclarator(node.Element("direct_declarator"),
+				                 out name, out parameters);
+
+			} else {
+				throw new NotImplementedException(); //TODO: implement
+			}
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDirectDeclarator(XElement node) {
+		public static void CreateDirectDeclarator(
+				XElement node,
+				out UnifiedIdentifier name,
+				out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "direct_declarator");
-			/*
-			direct_declarator
-			:   (	IDENTIFIER
-				|	'(' declarator ')'
-				)
-				declarator_suffix*
-			*/
+			/* direct_declarator
+			 * :   (	IDENTIFIER  | '(' declarator ')' ) declarator_suffix*
+			 */
+
+			if (node.Element("IDENTIFIER") != null) {
+				name = UnifiedIdentifier.CreateFunction(node.Element("IDENTIFIER").Value);
+			} else if (node.Element("declarator") != null) {
+				throw new NotImplementedException(); //TODO: implement
+			} else {
+				throw new InvalidOperationException();
+			}
+
+			if (node.Elements("declarator_suffix").Count() > 1) {
+				throw new NotImplementedException(); //TODO: implement
+			} else if (node.Elements("declarator_suffix").Count() == 1) {
+				CreateDeclaratorSuffix(node.Element("declarator_suffix"),
+				                       out parameters);
+			}
 
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDeclaratorSuffix(XElement node) {
+		public static IUnifiedElement CreateDeclaratorSuffix(XElement node,
+			out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator_suffix");
 			/*
