@@ -59,33 +59,33 @@ namespace Unicoen.Languages.Python2.Tests {
 		}
 
 		[Test, TestCaseSource("TestCodes")]
-		public override void VerifyGetElementAndSettersUsingCode(string code) {
-			base.VerifyGetElementAndSettersUsingCode(code);
+		public override void VerifyGetElementReferencesUsingCode(string code) {
+			base.VerifyGetElementReferencesUsingCode(code);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
-		public override void VerifyGetElementAndSettersUsingFile(string path) {
-			base.VerifyGetElementAndSettersUsingFile(path);
+		public override void VerifyGetElementReferencesUsingFile(string path) {
+			base.VerifyGetElementReferencesUsingFile(path);
 		}
 
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyGetElementAndSettersUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyGetElementAndSettersUsingDirectory(dirPath, command, arguments);
+		public override void VerifyGetElementReferencesUsingDirectory(string dirPath, string command, string arguments) {
+			base.VerifyGetElementReferencesUsingDirectory(dirPath, command, arguments);
 		}
 
 		[Test, TestCaseSource("TestCodes")]
-		public override void VerifyGetElementAndDirectSettersUsingCode(string code) {
-			base.VerifyGetElementAndDirectSettersUsingCode(code);
+		public override void VerifyGetElementReferenecesOfPrivateFieldsUsingCode(string code) {
+			base.VerifyGetElementReferenecesOfPrivateFieldsUsingCode(code);
 		}
 
 		[Test, TestCaseSource("TestFilePathes")]
-		public override void VerifyGetElementAndDirectSettersUsingFile(string path) {
-			base.VerifyGetElementAndDirectSettersUsingFile(path);
+		public override void VerifyGetElementReferenecesOfPrivateFieldsUsingFile(string path) {
+			base.VerifyGetElementReferenecesOfPrivateFieldsUsingFile(path);
 		}
 
 		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyGetElementAndDirectSettersUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyGetElementAndDirectSettersUsingDirectory(dirPath, command, arguments);
+		public override void VerifyGetElementReferenecesOfPrivateFieldsUsingDirectory(string dirPath, string command, string arguments) {
+			base.VerifyGetElementReferenecesOfPrivateFieldsUsingDirectory(dirPath, command, arguments);
 		}
 
 		[Test, TestCaseSource("TestCodes")]
