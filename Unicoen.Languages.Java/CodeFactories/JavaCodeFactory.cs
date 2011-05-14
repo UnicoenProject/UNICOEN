@@ -303,19 +303,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		// a ? b : c
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryOperator element, VisitorState state) {
-			switch (element.Kind) {
-			case (UnifiedTernaryOperatorKind.Conditional):
-				state.Writer.Write(element.FirstSign);
-				break;
-			default:
-				break;
-			}
-			return false;
-		}
-
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedVariableDefinitionBody element, VisitorState state) {
 			element.Name.TryAccept(this, state);
@@ -604,10 +591,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public bool Visit(UnifiedListComprehension element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedIfExpression element, VisitorState state) {
 			throw new NotImplementedException();
 		}
 

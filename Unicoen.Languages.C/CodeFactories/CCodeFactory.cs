@@ -426,19 +426,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryOperator element, VisitorState state) {
-			switch (element.Kind) {
-			case UnifiedTernaryOperatorKind.Conditional:
-				state.Writer.Write(element.FirstSign);
-				break;
-			default:
-				break;
-			}
-
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedLabel element, VisitorState state) {
 			element.Name.TryAccept(this, state);
 			state.Writer.Write(" :");

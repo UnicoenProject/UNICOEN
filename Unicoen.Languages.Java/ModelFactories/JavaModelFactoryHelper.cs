@@ -1428,11 +1428,6 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (node.HasElement("expression")) {
 				return UnifiedTernaryExpression.Create(
 						CreateConditionalOrExpression(node.NthElement(0)),
-						UnifiedTernaryOperator.Create(
-								node.NthElement(1).Value,
-								node.NthElement(3).Value,
-								UnifiedTernaryOperatorKind.Conditional
-								),
 						CreateExpression(node.NthElement(2)),
 						CreateConditionalExpression(node.NthElement(4))
 						);

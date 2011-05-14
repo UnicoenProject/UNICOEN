@@ -110,14 +110,11 @@
     <Compile Include="Model\Expressions\UnifiedDictionaryComprehension.cs" />
     <Compile Include="Model\Expressions\UnifiedDictonary.cs" />
     <Compile Include="Model\Expressions\UnifiedExpressionList.cs" />
-    <Compile Include="Model\Expressions\UnifiedIfExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedKeyValue.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
     <Compile Include="Model\Expressions\UnifiedList.cs" />
     <Compile Include="Model\Expressions\UnifiedListComprehension.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryExpression.cs" />
-    <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperator.cs" />
-    <Compile Include="Model\Expressions\Operators\UnifiedTernaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryExpression.cs" />

@@ -32,16 +32,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return Tuple.Create("", "");
 		}
 
-		private static Tuple<string, string> GetKeyword(
-				UnifiedTernaryOperatorKind kind) {
-			switch (kind) {
-			case UnifiedTernaryOperatorKind.Conditional:
-				return Tuple.Create("?", ":");
-			default:
-				throw new ArgumentException("kind");
-			}
-		}
-
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedBinaryExpression element, VisitorState state) {
 			var paren = GetRequiredParen(element);
@@ -113,14 +103,13 @@ namespace Unicoen.Languages.C.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTernaryExpression element, VisitorState state) {
 			var paren = GetRequiredParen(element);
-			var keywords = GetKeyword(element.Operator.Kind);
 
 			state.Writer.Write(paren.Item1);
-			element.FirstExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" " + keywords.Item1 + " ");
-			element.SecondExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" " + keywords.Item2 + " ");
-			element.LastExpression.TryAccept(this, state.Set(Paren));
+			element.Condition.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" ? ");
+			element.TrueExpression.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" : ");
+			element.FalseExpression.TryAccept(this, state.Set(Paren));
 
 			return true;
 		}

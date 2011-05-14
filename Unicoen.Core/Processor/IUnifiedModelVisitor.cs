@@ -67,7 +67,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTypeParameter element);
 		void Visit(UnifiedTypeSupplement element);
 		void Visit(UnifiedTypeSupplementCollection element);
-		void Visit(UnifiedTernaryOperator element);
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(UnifiedVariableDefinitionBody element);
 		void Visit(UnifiedVariableDefinitionBodyCollection element);
@@ -83,7 +82,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedMatcherCollection element);
 		void Visit(UnifiedUsing element);
 		void Visit(UnifiedListComprehension element);
-		void Visit(UnifiedIfExpression element);
 		void Visit(UnifiedList element);
 		void Visit(UnifiedKeyValue element);
 		void Visit(UnifiedDictionaryComprehension element);
@@ -141,7 +139,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTypeParameter element, TState state);
 		void Visit(UnifiedTypeSupplement element, TState state);
 		void Visit(UnifiedTypeSupplementCollection element, TState state);
-		void Visit(UnifiedTernaryOperator element, TState state);
 		void Visit(UnifiedTernaryExpression element, TState state);
 		void Visit(UnifiedVariableDefinitionBody element, TState state);
 		void Visit(UnifiedVariableDefinitionBodyCollection element, TState state);
@@ -157,7 +154,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedMatcherCollection element, TState state);
 		void Visit(UnifiedUsing element, TState state);
 		void Visit(UnifiedListComprehension element, TState state);
-		void Visit(UnifiedIfExpression element, TState state);
 		void Visit(UnifiedList element, TState state);
 		void Visit(UnifiedKeyValue element, TState state);
 		void Visit(UnifiedDictionaryComprehension element, TState state);
@@ -215,7 +211,6 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedTypeParameter element, TState state);
 		TResult Visit(UnifiedTypeSupplement element, TState state);
 		TResult Visit(UnifiedTypeSupplementCollection element, TState state);
-		TResult Visit(UnifiedTernaryOperator element, TState state);
 		TResult Visit(UnifiedTernaryExpression element, TState state);
 		TResult Visit(UnifiedVariableDefinitionBody element, TState state);
 		TResult Visit(UnifiedVariableDefinitionBodyCollection element, TState state);
@@ -231,7 +226,6 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedMatcherCollection element, TState state);
 		TResult Visit(UnifiedUsing element, TState state);
 		TResult Visit(UnifiedListComprehension element, TState state);
-		TResult Visit(UnifiedIfExpression element, TState state);
 		TResult Visit(UnifiedList element, TState state);
 		TResult Visit(UnifiedKeyValue element, TState state);
 		TResult Visit(UnifiedDictionaryComprehension element, TState state);

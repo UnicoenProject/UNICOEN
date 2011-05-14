@@ -460,19 +460,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryOperator element, VisitorState state) {
-			//TODO é¿ç€Ç…ÇÕåƒÇŒÇÍÇ»Ç¢(?)
-			switch (element.Kind) {
-			case (UnifiedTernaryOperatorKind.Conditional):
-				state.Writer.Write(element.FirstSign);
-				break;
-			default:
-				break;
-			}
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedVariableDefinitionBody element, VisitorState state) {
 			element.Name.TryAccept(this, state);
 			element.Supplements.TryAccept(this, state);
@@ -542,11 +529,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedListComprehension element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIfExpression element, VisitorState state) {
 			throw new NotImplementedException();
 		}
 
