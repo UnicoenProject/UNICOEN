@@ -72,6 +72,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
 						"Fibonacci",
+						"Student",
 				}
 						.Select(
 								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
@@ -118,12 +119,12 @@ namespace Unicoen.Languages.CSharp.Tests {
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {
 			var info = new ProcessStartInfo {
-					FileName = command,
-					Arguments = arguments,
-					CreateNoWindow = true,
-					UseShellExecute = false,
-					WorkingDirectory = workPath,
-					RedirectStandardError = true,
+				FileName = command,
+				Arguments = arguments,
+				CreateNoWindow = true,
+				UseShellExecute = false,
+				WorkingDirectory = workPath,
+				RedirectStandardError = true,
 			};
 			try {
 				using (var p = Process.Start(info)) {
@@ -134,7 +135,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 								"Failed to compile the code.\n" + errorMessage);
 					}
 				}
-			} catch (Win32Exception e) {
+			}
+			catch (Win32Exception e) {
 				throw new InvalidOperationException("Failed to launch compiler.", e);
 			}
 		}
@@ -143,13 +145,13 @@ namespace Unicoen.Languages.CSharp.Tests {
 			var ildasmPath = IldasmPathes.First(File.Exists);
 			var args = new[] { "/text", exeFilePath };
 			var info = new ProcessStartInfo {
-					FileName = ildasmPath,
-					Arguments = args.JoinString(" "),
-					CreateNoWindow = true,
-					RedirectStandardInput = true,
-					RedirectStandardOutput = true,
-					UseShellExecute = false,
-					WorkingDirectory = workPath,
+				FileName = ildasmPath,
+				Arguments = args.JoinString(" "),
+				CreateNoWindow = true,
+				RedirectStandardInput = true,
+				RedirectStandardOutput = true,
+				UseShellExecute = false,
+				WorkingDirectory = workPath,
 			};
 
 			try {
@@ -167,7 +169,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 							.Where(l => !l.StartsWith(".module"))
 							.JoinString("\n");
 				}
-			} catch (Win32Exception e) {
+			}
+			catch (Win32Exception e) {
 				throw new InvalidOperationException(
 						"Failed to launch 'ildasmPath': " + ildasmPath, e);
 			}

@@ -44,7 +44,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedTypeSupplementKind Kind { get; set; }
 
-		private UnifiedTypeSupplement() {}
+		private UnifiedTypeSupplement() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -82,11 +82,10 @@ namespace Unicoen.Core.Model {
 				UnifiedTypeSupplementKind kind) {
 			// arguments.Countが2以上の場合はC#の長方形配列を指定してください。
 			Contract.Requires(
-					kind == UnifiedTypeSupplementKind.Array &&
-					arguments.Count == 1);
+					kind != UnifiedTypeSupplementKind.Array || arguments.Count == 1);
 			return new UnifiedTypeSupplement {
-					Arguments = arguments,
-					Kind = kind,
+				Arguments = arguments,
+				Kind = kind,
 			};
 		}
 
@@ -104,6 +103,25 @@ namespace Unicoen.Core.Model {
 		/// <returns></returns>
 		public static UnifiedTypeSupplement CreateArray(UnifiedArgument argument) {
 			return Create(argument.ToCollection(), UnifiedTypeSupplementKind.Array);
+		}
+
+		/// <summary>
+		///   実引数を取る長方形配列を作成します。
+		/// </summary>
+		/// <returns></returns>
+		public static UnifiedTypeSupplement CreateRectangleArray(int dimension) {
+			var args = UnifiedArgumentCollection.Create();
+			for (int i = 0; i < dimension; i++)
+				args.Add(UnifiedArgument.Create(null));
+			return Create(args, UnifiedTypeSupplementKind.MultidimensionArray);
+		}
+
+		/// <summary>
+		///   実引数を取る長方形配列を作成します。
+		/// </summary>
+		/// <returns></returns>
+		public static UnifiedTypeSupplement CreateRectangleArray(UnifiedArgument argument) {
+			return Create(argument.ToCollection(), UnifiedTypeSupplementKind.MultidimensionArray);
 		}
 	}
 }
