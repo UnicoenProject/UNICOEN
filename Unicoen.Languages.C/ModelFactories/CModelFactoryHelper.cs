@@ -467,21 +467,34 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDeclaratorSuffix(XElement node,
+		public static void CreateDeclaratorSuffix(XElement node,
 			out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator_suffix");
-			/*
-			declarator_suffix
-			:   '[' constant_expression ']'
-			|   '[' ']'
-			|   '(' parameter_type_list ')'
-			|   '(' identifier_list ')'
-			|   '(' ')'
-			;
+			/* declarator_suffix
+			 * :   '[' constant_expression ']'
+			 * |   '[' ']'
+			 * |   '(' parameter_type_list ')'
+			 * |   '(' identifier_list ')'
+			 * |   '(' ')'
+			 * ;
 			*/
 
-			throw new NotImplementedException(); //TODO: implement
+			if (node.FirstElement().Value.Equals("(")
+				&& node.LastElement().Value.Equals(")")) {
+					if (node.Element("parameter_type_list") != null) {
+						throw new NotImplementedException(); //TODO: implement
+					} else if (node.Element("identifier_list") != null) {
+						throw new NotImplementedException(); //TODO: implement
+					} else {
+						parameters = UnifiedParameterCollection.Create();
+					}
+			} else if (node.FirstElement().Value.Equals("[")
+				&& node.LastElement().Value.Equals("]")) {
+				throw new NotImplementedException(); //TODO: implement
+			} else {
+				throw new InvalidOperationException();
+			}
 		}
 
 		public static IUnifiedElement CreatePointer(XElement node) {

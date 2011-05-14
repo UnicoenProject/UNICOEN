@@ -57,15 +57,23 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static UnifiedBlock CreateCompoundStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "compound_statement");
-			/*
-			compound_statement
-			: '{' declaration* statement_list? '}'
+			/* compound_statement
+			 * : '{' declaration* statement_list? '}'
 			 */
+
+			var block = UnifiedBlock.Create();
+			foreach (var declaration in node.Elements("declaration")) {
+				block.Add(CreateDeclaration(declaration));
+			}
+			var statement_list = node.Element("statement_list");
+			if (statement_list != null) {
+				block.Add (CreateStatementList(statement_list));
+			}
 
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateStatementList(XElement node) {
+		public static UnifiedExpressionCollection CreateStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
 			/*
