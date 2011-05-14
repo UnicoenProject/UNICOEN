@@ -135,12 +135,11 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedExpression CreateExpression(XElement node) {
+		public static UnifiedExpressionList CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression");
-			/*
-			expression
-			: assignment_expression (',' assignment_expression)*
+			/* expression
+			 * : assignment_expression (',' assignment_expression)*
 			 */
 
 			throw new NotImplementedException(); //TODO: implement
