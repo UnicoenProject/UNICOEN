@@ -32,11 +32,11 @@ July 2006
 */
 grammar C;
 options {
-    backtrack=true;
-    memoize=true;
-    k=2;
-    output=AST;
-    language=CSharp2;
+	backtrack=true;
+	memoize=true;
+	k=2;
+	output=AST;
+	language=CSharp2;
 }
 
 scope Symbols {
@@ -109,8 +109,8 @@ scope {
 declaration_specifiers
 	:   (   storage_class_specifier
 		|   type_specifier
-        |   type_qualifier
-        )+
+		|   type_qualifier
+		)+
 	;
 
 init_declarator_list
@@ -144,9 +144,9 @@ type_specifier
 	;
 
 type_id
-    :   {isTypeName(input.LT(1).getText())}? IDENTIFIER
+	:   {isTypeName(input.LT(1).getText())}? IDENTIFIER
 //    	{System.out.println($IDENTIFIER.text+" is a type");}
-    ;
+	;
 
 struct_or_union_specifier
 options {k=3;}
@@ -219,15 +219,15 @@ direct_declarator
 			}
 		|	'(' declarator ')'
 		)
-        declarator_suffix*
+		declarator_suffix*
 	;
 
 declarator_suffix
 	:   '[' constant_expression ']'
-    |   '[' ']'
-    |   '(' parameter_type_list ')'
-    |   '(' identifier_list ')'
-    |   '(' ')'
+	|   '[' ']'
+	|   '(' parameter_type_list ')'
+	|   '(' identifier_list ')'
+	|   '(' ')'
 	;
 
 pointer
@@ -311,14 +311,14 @@ unary_expression
 
 postfix_expression
 	:   primary_expression
-        (   '[' expression ']'
-        |   '(' ')'
-        |   '(' argument_expression_list ')'
-        |   '.' IDENTIFIER
-        |   '->' IDENTIFIER
-        |   '++'
-        |   '--'
-        )*
+		(   '[' expression ']'
+		|   '(' ')'
+		|   '(' argument_expression_list ')'
+		|   '.' IDENTIFIER
+		|   '->' IDENTIFIER
+		|   '++'
+		|   '--'
+		)*
 	;
 
 unary_operator
@@ -337,13 +337,13 @@ primary_expression
 	;
 
 constant
-    :   hex_literal
-    |   octal_literal
-    |   decimal_literal
-    |   character_literal
-    |   string_literal
-    |   floating_point_literal
-    ;
+	:   hex_literal
+	|   octal_literal
+	|   decimal_literal
+	|   character_literal
+	|   string_literal
+	|   floating_point_literal
+	;
 
 hex_literal
 	:	HEX_LITERAL
@@ -503,12 +503,12 @@ LETTER
 	;
 
 CHARACTER_LITERAL
-    :   '\'' ( EscapeSequence | ~('\''|'\\') ) '\''
-    ;
+	:   '\'' ( EscapeSequence | ~('\''|'\\') ) '\''
+	;
 
 STRING_LITERAL
-    :  '"' ( EscapeSequence | ~('\\'|'"') )* '"'
-    ;
+	:  '"' ( EscapeSequence | ~('\\'|'"') )* '"'
+	;
 
 HEX_LITERAL : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;
 
@@ -526,10 +526,10 @@ IntegerTypeSuffix
 	;
 
 FLOATING_POINT_LITERAL
-    :   ('0'..'9')+ '.' ('0'..'9')* Exponent? FloatTypeSuffix?
-    |   '.' ('0'..'9')+ Exponent? FloatTypeSuffix?
-    |   ('0'..'9')+ Exponent FloatTypeSuffix?
-    |   ('0'..'9')+ Exponent? FloatTypeSuffix
+	:   ('0'..'9')+ '.' ('0'..'9')* Exponent? FloatTypeSuffix?
+	|   '.' ('0'..'9')+ Exponent? FloatTypeSuffix?
+	|   ('0'..'9')+ Exponent FloatTypeSuffix?
+	|   ('0'..'9')+ Exponent? FloatTypeSuffix
 	;
 
 fragment
@@ -540,34 +540,34 @@ FloatTypeSuffix : ('f'|'F'|'d'|'D') ;
 
 fragment
 EscapeSequence
-    :   '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
-    |   OctalEscape
-    ;
+	:   '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
+	|   OctalEscape
+	;
 
 fragment
 OctalEscape
-    :   '\\' ('0'..'3') ('0'..'7') ('0'..'7')
-    |   '\\' ('0'..'7') ('0'..'7')
-    |   '\\' ('0'..'7')
-    ;
+	:   '\\' ('0'..'3') ('0'..'7') ('0'..'7')
+	|   '\\' ('0'..'7') ('0'..'7')
+	|   '\\' ('0'..'7')
+	;
 
 fragment
 UnicodeEscape
-    :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
-    ;
+	:   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
+	;
 
 WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}
-    ;
+	;
 
 COMMENT
-    :   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
-    ;
+	:   '/*' ( options {greedy=false;} : . )* '*/' {$channel=HIDDEN;}
+	;
 
 LINE_COMMENT
-    : '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    ;
+	: '//' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+	;
 
 // ignore #line info for now
 LINE_COMMAND 
-    : '#' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
-    ;
+	: '#' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
+	;

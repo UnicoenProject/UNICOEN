@@ -448,9 +448,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 			/* direct_declarator
 			 * :   (	IDENTIFIER  | '(' declarator ')' ) declarator_suffix*
 			 */
-
-			if (node.Element("IDENTIFIER") != null) {
-				name = UnifiedIdentifier.CreateFunction(node.Element("IDENTIFIER").Value);
+			var identifier = node.Element("IDENTIFIER");
+			if (identifier != null) {
+				name = UnifiedIdentifier.CreateFunction(identifier.Value);
 			} else if (node.Element("declarator") != null) {
 				throw new NotImplementedException(); //TODO: implement
 			} else {
