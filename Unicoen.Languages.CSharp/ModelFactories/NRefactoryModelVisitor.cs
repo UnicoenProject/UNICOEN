@@ -66,8 +66,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("BaseReferenceExpression");
 		}
 
-		public IUnifiedElement VisitBinaryOperatorExpression(BinaryOperatorExpression binaryOperatorExpression, object data) {
-			throw new NotImplementedException("BinaryOperatorExpression");
+		public IUnifiedElement VisitBinaryOperatorExpression(BinaryOperatorExpression expr, object data) {
+			Contract.Requires<ArgumentNullException>(expr != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedBinaryExpression);
+
+			var op = LookupBinaryOperator(expr.Operator);
+			var left = expr.Left.AcceptVisitor(this, data) as IUnifiedExpression;
+			var right = expr.Right.AcceptVisitor(this, data) as IUnifiedExpression;
+			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
 		public IUnifiedElement VisitCastExpression(CastExpression castExpression, object data) {
@@ -90,16 +96,28 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("DirectionExpression");
 		}
 
-		public IUnifiedElement VisitIdentifierExpression(IdentifierExpression identifierExpression, object data) {
-			throw new NotImplementedException("IdentifierExpression");
+		public IUnifiedElement VisitIdentifierExpression(IdentifierExpression ident, object data) {
+			Contract.Requires<ArgumentNullException>(ident != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedIdentifier);
+
+			return UnifiedIdentifier.CreateVariable(ident.Identifier);
 		}
 
 		public IUnifiedElement VisitIndexerExpression(IndexerExpression indexerExpression, object data) {
 			throw new NotImplementedException("IndexerExpression");
 		}
 
-		public IUnifiedElement VisitInvocationExpression(InvocationExpression invocationExpression, object data) {
-			throw new NotImplementedException("InvocationExpression");
+		public IUnifiedElement VisitInvocationExpression(InvocationExpression invoc, object data) {
+			Contract.Requires<ArgumentNullException>(invoc != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedCall);
+
+			var target = invoc.Target.AcceptVisitor(this, data) as IUnifiedExpression;
+			var uArgs = UnifiedArgumentCollection.Create();
+			foreach (var arg in invoc.Arguments) {
+				var value = arg.AcceptVisitor(this, data) as IUnifiedExpression;
+				uArgs.Add(UnifiedArgument.Create(value));
+			}
+			return UnifiedCall.Create(target, uArgs);
 		}
 
 		public IUnifiedElement VisitIsExpression(IsExpression isExpression, object data) {
@@ -138,8 +156,11 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("PointerReferenceExpression");
 		}
 
-		public IUnifiedElement VisitPrimitiveExpression(PrimitiveExpression primitiveExpression, object data) {
-			throw new NotImplementedException("PrimitiveExpression");
+		public IUnifiedElement VisitPrimitiveExpression(PrimitiveExpression prim, object data) {
+			Contract.Requires<ArgumentNullException>(prim != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedLiteral);
+
+			return ParseValue(prim.Value);
 		}
 
 		public IUnifiedElement VisitSizeOfExpression(SizeOfExpression sizeOfExpression, object data) {
@@ -258,8 +279,17 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("ExternAliasDeclaration");
 		}
 
-		public IUnifiedElement VisitBlockStatement(BlockStatement blockStatement, object data) {
-			throw new NotImplementedException("BlockStatement");
+		public IUnifiedElement VisitBlockStatement(BlockStatement block, object data) {
+			Contract.Requires<ArgumentNullException>(block != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedBlock);
+
+			var uBlock = UnifiedBlock.Create();
+			foreach (var stmt in block.Statements) {
+				var uStmt = stmt.AcceptVisitor(this, data) as IUnifiedExpression;
+				if (uStmt != null)
+					uBlock.Add(uStmt);
+			}
+			return uBlock;
 		}
 
 		public IUnifiedElement VisitBreakStatement(BreakStatement breakStatement, object data) {
@@ -313,11 +343,16 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitIfElseStatement(IfElseStatement stmt, object data) {
 			Contract.Requires<ArgumentNullException>(stmt != null);
 			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedIf);
-			var cond = stmt.Condition;
-			var trueBlock = stmt.TrueStatement;
-			var falseBlock = stmt.FalseStatement;
 
-			throw new NotImplementedException("IfElseStatement");
+			var cond = stmt.Condition.AcceptVisitor(this, data) as IUnifiedExpression;
+			var trueBlock = stmt.TrueStatement.AcceptVisitor(this, data) as UnifiedBlock;
+
+			var nElseStmt = stmt.FalseStatement;
+			var falseBlock = null as UnifiedBlock;
+			if (nElseStmt != null)
+				falseBlock = stmt.FalseStatement.AcceptVisitor(this, data) as UnifiedBlock;
+
+			return UnifiedIf.Create(cond, trueBlock, falseBlock);
 		}
 
 		public IUnifiedElement VisitLabelStatement(LabelStatement labelStatement, object data) {
@@ -328,8 +363,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("LockStatement");
 		}
 
-		public IUnifiedElement VisitReturnStatement(ReturnStatement returnStatement, object data) {
-			throw new NotImplementedException("ReturnStatement");
+		public IUnifiedElement VisitReturnStatement(ReturnStatement retStmt, object data) {
+			Contract.Requires<ArgumentNullException>(retStmt != null);
+			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedSpecialExpression);
+
+			var nExpr = retStmt.Expression;
+			var uExpr = nExpr == null ? null : retStmt.Expression.AcceptVisitor(this, data) as IUnifiedExpression;
+			return UnifiedSpecialExpression.CreateReturn(uExpr);
 		}
 
 		public IUnifiedElement VisitSwitchStatement(SwitchStatement switchStatement, object data) {
