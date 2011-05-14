@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		///   実引数の集合を表します
-		///   e.g. Cにおける<c>int* a, b, c</c>の<c>a, b, c</c>
+		///   e.g. Cにおける<c>new int[10]</c>の<c>10</c>
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
