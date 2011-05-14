@@ -44,13 +44,6 @@ namespace Unicoen.Languages.Tests {
 		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
 		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
-		public abstract IEnumerable<TestCaseData> TestStatements { get; }
-
-		/// <summary>
-		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
-		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
-		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-		/// </summary>
 		public abstract IEnumerable<TestCaseData> TestCodes { get; }
 
 		/// <summary>

@@ -26,26 +26,32 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public class Python2Fixture : Fixture {
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
 		public override string Extension {
 			get { return ".py"; }
 		}
 
+		/// <summary>
+		///   対応する言語のモデル生成器を取得します．
+		/// </summary>
 		public override ModelFactory ModelFactory {
 			get { return Python2Factory.ModelFactory; }
 		}
 
+		/// <summary>
+		///   対応する言語のコード生成器を取得します．
+		/// </summary>
 		public override CodeFactory CodeFactory {
 			get { return Python2Factory.CodeFactory; }
 		}
 
-		public override IEnumerable<TestCaseData> TestStatements {
-			get {
-				return new[] {
-						"{ M1(); }",
-				}.Select(s => new TestCaseData(CreateCode(s)));
-			}
-		}
-
+		/// <summary>
+		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
+		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
+		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
@@ -54,6 +60,9 @@ namespace Unicoen.Languages.Python2.Tests {
 			}
 		}
 
+		/// <summary>
+		///   テスト時に入力するファイルパスの集合です．
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
@@ -63,11 +72,12 @@ namespace Unicoen.Languages.Python2.Tests {
 						.Select(
 								s =>
 								new TestCaseData(FixtureUtil.GetInputPath("Python2", s + Extension)));
-				//return Directory.EnumerateFiles(GetInputPath("Python2"))
-				//        .Select(path => new TestCaseData(path));
 			}
 		}
 
+		/// <summary>
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestDirectoryPathes {
 			get {
 				yield break;
@@ -90,9 +100,5 @@ namespace Unicoen.Languages.Python2.Tests {
 
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {}
-
-		private static string CreateCode(string statement) {
-			return "class A { public void M1() {" + statement + "} }";
-		}
 	}
 }

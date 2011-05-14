@@ -36,11 +36,6 @@ namespace Unicoen.Languages.Ruby18.Tests {
 		public override CodeFactory CodeFactory {
 			get { throw new NotImplementedException(); }
 		}
-
-		public override IEnumerable<TestCaseData> TestStatements {
-			get { throw new NotImplementedException(); }
-		}
-
 		public override IEnumerable<TestCaseData> TestCodes {
 			get { throw new NotImplementedException(); }
 		}

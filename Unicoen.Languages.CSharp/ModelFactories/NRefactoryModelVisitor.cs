@@ -434,7 +434,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				var uInitValue = nInitValue == null ? null : nInitValue.AcceptVisitor(this, data) as IUnifiedExpression;
 				uBodies.Add(UnifiedVariableDefinitionBody.Create(name, null, uInitValue));
 			}
-			return UnifiedVariableDefinition.Create(uMods, uType, uBodies);
+			return UnifiedVariableDefinition.Create(null, uMods, uType, uBodies);
 
 
 			throw new NotImplementedException("VariableDeclarationStatement");
@@ -464,7 +464,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			foreach (var param in ctorDec.Parameters) {
 				var type = LookupType(param.Type);
 				var name = param.Name;
-				var uParam = UnifiedParameter.Create(name, type);
+				var uParam = UnifiedParameter.Create(null, null, type, name);
 				uParms.Add(uParam);
 			}
 
@@ -505,7 +505,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				var uInitValue = nInitValue == null ? null : nInitValue.AcceptVisitor(this, data) as IUnifiedExpression;
 				uBodies.Add(UnifiedVariableDefinitionBody.Create(name, null, uInitValue));
 			}
-			return UnifiedVariableDefinition.Create(uMods, uType, uBodies);
+			return UnifiedVariableDefinition.Create(null, uMods, uType, uBodies);
 		}
 
 		public IUnifiedElement VisitIndexerDeclaration(IndexerDeclaration indexerDeclaration, object data) {
