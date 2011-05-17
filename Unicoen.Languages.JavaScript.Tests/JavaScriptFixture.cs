@@ -97,7 +97,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				return new[] {
 						new { DirName = "Blocks", Command = "java", Arguments = "-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js" },
-						//new { DirName = "Waseda", Command = "java", Arguments = "*.js" },
+						new { DirName = "Waseda", Command = "java", Arguments = "-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js" },
 				}
 						.Select(
 								o => new TestCaseData(
