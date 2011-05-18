@@ -78,13 +78,13 @@ namespace Unicoen.Languages.Tests {
 				var elements = element.GetElements();
 				var references = element.GetElementReferences();
 				var referenecesOfPrivateFields =
-						element.GetElementReferenecesOfPrivateFields();
-				var propValues = GetProperties(element);
+						element.GetElementReferencesOfFields();
+				var propValues = GetProperties(element).ToList();
+				var refElements = references.Select(t => t.Element).ToList();
+				var privateRefElements = referenecesOfPrivateFields.Select(t => t.Element).ToList();
 				Assert.That(elements, Is.EqualTo(propValues));
-				Assert.That(references.Select(t => t.Element), Is.EqualTo(propValues));
-				Assert.That(
-						referenecesOfPrivateFields.Select(t => t.Element),
-						Is.EqualTo(propValues));
+				Assert.That(refElements, Is.EqualTo(propValues));
+				Assert.That(privateRefElements, Is.EqualTo(propValues));
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace Unicoen.Languages.Tests {
 			var model = Fixture.ModelFactory.Generate(code);
 			var elements = model.Descendants().ToList();
 			foreach (var element in elements) {
-				var references = element.GetElementReferenecesOfPrivateFields();
+				var references = element.GetElementReferencesOfFields();
 				foreach (var reference in references) {
 					reference.Element = null;
 				}
@@ -207,12 +207,17 @@ namespace Unicoen.Languages.Tests {
 				IUnifiedElement element) {
 			var elements = element as IEnumerable<IUnifiedElement>;
 			if (elements != null) {
-				return elements;
+				foreach (var e in elements) {
+					yield return e;
+				}
 			}
-			return element.GetType().GetProperties()
+			var props = element.GetType().GetProperties()
 					.Where(prop => prop.Name != "Parent")
-					.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType))
-					.Select(prop => (IUnifiedElement)prop.GetValue(element, null));
+					.Where(prop => prop.GetIndexParameters().Length == 0)
+					.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType));
+			foreach (var prop in props) {
+				yield return (IUnifiedElement)prop.GetValue(element, null);
+			}
 		}
 
 		/// <summary>

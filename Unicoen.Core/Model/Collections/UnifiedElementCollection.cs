@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedElementCollection<TElement, TSelf>
@@ -42,6 +43,52 @@ namespace Unicoen.Core.Model {
 			}
 		}
 
+		/// <summary>
+		///   子要素を列挙します。
+		/// </summary>
+		/// <returns>子要素</returns>
+		public override IEnumerable<IUnifiedElement> GetElements() {
+			return this.Concat(base.GetElements());
+		}
+
+		/// <summary>
+		///   子要素とセッターのペアを列挙します。
+		/// </summary>
+		/// <returns>子要素</returns>
+		public override IEnumerable<ElementReference> GetElementReferences() {
+			var count = Count;
+			for (int i = 0; i < count; i++) {
+				yield return ElementReference.Create(
+						() => this[i],
+						e => this[i] = (TElement)e);
+			}
+			foreach (var reference in base.GetElementReferences()) {
+				yield return reference;
+			}
+		}
+
+		/// <summary>
+		///   子要素とプロパティを介さないセッターのペアを列挙します。
+		/// </summary>
+		/// <returns>子要素</returns>
+		public override IEnumerable<ElementReference>
+				GetElementReferencesOfFields() {
+			var count = Elements.Count;
+			for (int i = 0; i < count; i++) {
+				yield return ElementReference.Create(
+						() => Elements[i],
+						e => Elements[i] = (TElement)e);
+			}
+			foreach (var reference in base.GetElementReferencesOfFields()) {
+				yield return reference;
+			}
+		}
+
+		public void RemoveAt(int index) {
+			((UnifiedElement)(IUnifiedElement)Elements[index]).Parent = null;
+			Elements.RemoveAt(index);
+		}
+
 		public TElement this[int index] {
 			get { return Elements[index]; }
 			set {
@@ -56,6 +103,10 @@ namespace Unicoen.Core.Model {
 
 		public int Count {
 			get { return Elements.Count; }
+		}
+
+		public bool IsReadOnly {
+			get { return false; }
 		}
 
 		#region IEnumerable<TElement> Members
@@ -76,12 +127,31 @@ namespace Unicoen.Core.Model {
 				((UnifiedElement)(IUnifiedElement)element).Parent = this;
 		}
 
+		public void Clear() {
+			foreach (var element in Elements) {
+				((UnifiedElement)(IUnifiedElement)element).Parent = null;
+			}
+			Elements.Clear();
+		}
+
+		public bool Contains(TElement item) {
+			return Elements.Contains(item);
+		}
+
+		public void CopyTo(TElement[] array, int arrayIndex) {
+			Elements.CopyTo(array, arrayIndex);
+		}
+
 		public void AddRange(IEnumerable<TElement> elements) {
 			Elements.AddRange(elements);
 			foreach (var element in elements) {
 				if (element != null)
 					((UnifiedElement)(IUnifiedElement)element).Parent = this;
 			}
+		}
+
+		public int IndexOf(TElement item) {
+			return Elements.IndexOf(item);
 		}
 
 		public void Insert(int index, TElement element) {
@@ -131,27 +201,6 @@ namespace Unicoen.Core.Model {
 		}
 
 		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			return this;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			var count = Count;
-			for (int i = 0; i < count; i++) {
-				yield return ElementReference.Create
-						(() => this[i], v => this[i] = (TElement)v);
-			}
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			var count = Count;
-			for (int i = 0; i < count; i++) {
-				yield return ElementReference.Create
-						(() => Elements[i], v => Elements[i] = (TElement)v);
-			}
-		}
 
 		public override IUnifiedElement Normalize() {
 			NormalizeChildren();

@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -82,52 +81,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Annotations;
-			yield return Modifiers;
-			yield return Parameters;
-			yield return TypeParameters;
-			yield return Throws;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Parameters, v => Parameters = (UnifiedParameterCollection)v);
-			yield return ElementReference.Create
-					(
-							() => TypeParameters,
-							v => TypeParameters = (UnifiedTypeParameterCollection)v);
-			yield return ElementReference.Create
-					(() => Throws, v => Throws = (UnifiedTypeCollection)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _parameters, v => _parameters = (UnifiedParameterCollection)v);
-			yield return ElementReference.Create
-					(
-							() => _typeParameters,
-							v => _typeParameters = (UnifiedTypeParameterCollection)v)
-					;
-			yield return ElementReference.Create
-					(() => _throws, v => _throws = (UnifiedTypeCollection)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedConstructorDefinition Create() {

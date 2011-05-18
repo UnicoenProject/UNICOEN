@@ -56,19 +56,6 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			return this;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			var count = Count;
-			for (int i = 0; i < count; i++) {
-				yield return ElementReference.Create
-						(() => this[i], v => this[i] = (IUnifiedExpression)v);
-			}
-		}
-
 		public static UnifiedProgram Create() {
 			return new UnifiedProgram();
 		}

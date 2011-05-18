@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -64,27 +63,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Operator;
-			yield return Operand;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Operator, v => Operator = (UnifiedUnaryOperator)v);
-			yield return ElementReference.Create
-					(() => Operand, v => Operand = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _operator, v => _operator = (UnifiedUnaryOperator)v);
-			yield return ElementReference.Create
-					(() => _operand, v => _operand = (IUnifiedExpression)v);
 		}
 
 		public override IUnifiedElement Normalize() {

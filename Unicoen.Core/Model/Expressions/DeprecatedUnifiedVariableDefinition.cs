@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -79,37 +78,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Annotations;
-			yield return Modifiers;
-			yield return Type;
-			yield return Bodys;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Type, v => Type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _type, v => _type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => _bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
 		}
 
 		public static DeprecatedUnifiedVariableDefinition CreateSingle(string name) {

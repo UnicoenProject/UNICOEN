@@ -17,7 +17,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -149,50 +148,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Annotations;
-			yield return Modifiers;
-			yield return Type;
-			yield return Name;
-			yield return Supplements;
-			yield return BitField;
-			yield return InitialValue;
-			yield return Arguments;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Type, v => Type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => Name, v => Name = (UnifiedIdentifier)v);
-			yield return ElementReference.Create
-					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
-			yield return ElementReference.Create
-					(() => BitField, v => BitField = (UnifiedIntegerLiteral)v);
-			yield return ElementReference.Create
-					(() => InitialValue, v => InitialValue = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _type, v => _type = (UnifiedType)v);
 		}
 	}
 }

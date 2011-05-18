@@ -48,20 +48,6 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield break;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield break;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield break;
-		}
-
 		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
 			yield return this;
 		}

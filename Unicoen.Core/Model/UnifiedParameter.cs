@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -95,42 +94,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Annotations;
-			yield return Modifiers;
-			yield return Type;
-			yield return Names;
-			yield return DefaultValue;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Type, v => Type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => Names, v => Names = (UnifiedIdentifierCollection)v);
-			yield return ElementReference.Create
-					(() => DefaultValue, v => DefaultValue = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _type, v => _type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => _names, v => _names = (UnifiedIdentifierCollection)v);
-			yield return ElementReference.Create
-					(() => _defaultValue, v => _defaultValue = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedParameter Create(

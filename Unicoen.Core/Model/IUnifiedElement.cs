@@ -67,7 +67,7 @@ namespace Unicoen.Core.Model {
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<ElementReference> GetElementReferenecesOfPrivateFields();
+		IEnumerable<ElementReference> GetElementReferencesOfFields();
 
 		/// <summary>
 		///   コードモデルを正規化します。

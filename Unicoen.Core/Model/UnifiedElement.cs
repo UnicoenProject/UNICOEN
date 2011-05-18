@@ -20,11 +20,48 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedElement : IUnifiedElement {
+		private IList<PropertyInfo> _propertyInfos;
+
+		/// <summary>
+		///   GetElementReferencesの対象となるプロパティのメタ情報を取得します．
+		/// </summary>
+		public IList<PropertyInfo> PropertyInfos {
+			get {
+				if (_propertyInfos == null) {
+					_propertyInfos = GetType().GetProperties()
+							.Where(p => p.Name != "Parent")
+							.Where(p => p.GetIndexParameters().Length == 0)
+							.Where(p => typeof(IUnifiedElement).IsAssignableFrom(p.PropertyType))
+							.ToList();
+				}
+				return _propertyInfos;
+			}
+		}
+
+		private IList<FieldInfo> _fieldInfos;
+
+		/// <summary>
+		///   GetElementReferencesOfFieldsの対象となるプロパティのメタ情報を取得します．
+		/// </summary>
+		public IList<FieldInfo> FieldInfos {
+			get {
+				if (_fieldInfos == null) {
+					_fieldInfos =
+							GetType().GetFields(
+									BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.SetField)
+									.Where(p => typeof(IUnifiedElement).IsAssignableFrom(p.FieldType))
+									.ToList();
+				}
+				return _fieldInfos;
+			}
+		}
+
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。
 		/// </summary>
@@ -59,21 +96,33 @@ namespace Unicoen.Core.Model {
 		///   子要素を列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<IUnifiedElement> GetElements();
+		public virtual IEnumerable<IUnifiedElement> GetElements() {
+			return
+					PropertyInfos.Select(prop => (IUnifiedElement)prop.GetValue(this, null));
+		}
 
 		/// <summary>
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<ElementReference>
-				GetElementReferences();
+		public virtual IEnumerable<ElementReference> GetElementReferences() {
+			return PropertyInfos.Select(
+					prop => ElementReference.Create(
+							() => (IUnifiedElement)prop.GetValue(this, null),
+							e => prop.SetValue(this, e, null)));
+		}
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public abstract IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields();
+		public virtual IEnumerable<ElementReference>
+				GetElementReferencesOfFields() {
+			return FieldInfos.Select(
+					field => ElementReference.Create(
+							() => (IUnifiedElement)field.GetValue(this),
+							e => field.SetValue(this, e)));
+		}
 
 		/// <summary>
 		///   コードモデルを正規化します。
@@ -90,7 +139,7 @@ namespace Unicoen.Core.Model {
 		///   子要素に対して正規化を再帰的に行います。
 		/// </summary>
 		public void NormalizeChildren() {
-			foreach (var reference in GetElementReferenecesOfPrivateFields()) {
+			foreach (var reference in GetElementReferencesOfFields()) {
 				if (reference.Element != null) {
 					var child = reference.Element.Normalize();
 					reference.Element = child;
@@ -106,7 +155,7 @@ namespace Unicoen.Core.Model {
 		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
-			foreach (var reference in ret.GetElementReferenecesOfPrivateFields()) {
+			foreach (var reference in ret.GetElementReferencesOfFields()) {
 				if (reference.Element != null) {
 					reference.Element = reference.Element.DeepCopy();
 				}
@@ -131,7 +180,7 @@ namespace Unicoen.Core.Model {
 		/// <param name = "target">自分自身</param>
 		/// <returns></returns>
 		public virtual IUnifiedElement RemoveChild(IUnifiedElement target) {
-			var reference = GetElementReferenecesOfPrivateFields()
+			var reference = GetElementReferencesOfFields()
 					.First(e => ReferenceEquals(target, e.Element));
 			reference.Element = null;
 			((UnifiedElement)target).Parent = null;

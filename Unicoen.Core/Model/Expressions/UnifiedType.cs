@@ -108,39 +108,6 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Modifiers;
-			yield return Name;
-			yield return Arguments;
-			yield return Supplements;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Name, v => Name = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Arguments, v => Arguments = (UnifiedTypeArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _name, v => _name = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
-			yield return ElementReference.Create
-					(
-							() => _supplements,
-							v => _supplements = (UnifiedTypeSupplementCollection)v);
-		}
-
 		public void AddSupplement(UnifiedTypeSupplement supplement) {
 			if (Supplements == null)
 				Supplements = UnifiedTypeSupplementCollection.Create();

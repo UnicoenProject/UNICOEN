@@ -72,32 +72,6 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Condition;
-			yield return ElseBody;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Condition, v => Condition = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => ElseBody, v => ElseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _condition, v => _condition = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _elseBody, v => _elseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
-		}
-
 		public static UnifiedIf Create(UnifiedBlock body) {
 			return new UnifiedIf {
 					Body = body,

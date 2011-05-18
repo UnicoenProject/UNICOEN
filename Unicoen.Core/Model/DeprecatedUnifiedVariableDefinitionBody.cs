@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -115,49 +114,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Name;
-			yield return Supplements;
-			yield return BitField;
-			yield return InitialValue;
-			yield return Arguments;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Name, v => Name = (UnifiedIdentifier)v);
-			yield return ElementReference.Create
-					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
-			yield return ElementReference.Create
-					(() => BitField, v => BitField = (UnifiedIntegerLiteral)v);
-			yield return ElementReference.Create
-					(() => InitialValue, v => InitialValue = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _name, v => _name = (UnifiedIdentifier)v);
-			yield return ElementReference.Create
-					(
-							() => _supplements,
-							v => _supplements = (UnifiedTypeSupplementCollection)v);
-			yield return ElementReference.Create
-					(() => _bitField, v => _bitField = (UnifiedIntegerLiteral)v);
-			yield return ElementReference.Create
-					(() => _initialValue, v => _initialValue = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static DeprecatedUnifiedVariableDefinitionBody Create(string name) {
