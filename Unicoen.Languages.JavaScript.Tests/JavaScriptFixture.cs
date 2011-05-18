@@ -32,8 +32,8 @@ using Unicoen.Languages.Tests;
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
 
-		private const string exeJavaPath = "java";
-		private readonly string[] jscCommandArguments = new[] {
+		private const string ExeJavaPath = "java";
+		private readonly string[] _jscCommandArguments = new[] {
 			"-cp",
 			"..\\..\\lib\\js.jar",
 			"org.mozilla.javascript.tools.jsc.Main"
@@ -107,13 +107,13 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		}
 
 		public override void Compile(string workPath, string fileName) {
-			var args = jscCommandArguments.Concat(
+			var args = _jscCommandArguments.Concat(
 					new[] {
 							"\"" + Path.Combine(workPath, fileName) + "\""
 					});
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(workPath, exeJavaPath, arguments);
+			CompileWithArguments(workPath, ExeJavaPath, arguments);
 		}
 
 		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
