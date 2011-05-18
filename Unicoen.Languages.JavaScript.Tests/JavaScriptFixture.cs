@@ -31,9 +31,9 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
-		private const string ExeJavaPath = "java";
+		private const string CompileCommand = "java";
 
-		private readonly string[] _jscCommandArguments = new[] {
+		private readonly string[] _compileArguments = new[] {
 				"-cp",
 				"..\\..\\lib\\js.jar",
 				"org.mozilla.javascript.tools.jsc.Main"
@@ -95,19 +95,18 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
+				var arguments = _compileArguments.JoinString(" ") + " *.js";
 				return new[] {
 						new {
-								DirName = "Blocks", Command = "java",
-								Arguments =
-										"-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js"
-						}
-						,
+								DirName = "Blocks",
+								Command = CompileCommand,
+								Arguments = arguments,
+						},
 						new {
-								DirName = "Waseda", Command = "java",
-								Arguments =
-										"-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js"
-						}
-						,
+								DirName = "Waseda",
+								Command = CompileCommand,
+								Arguments = arguments,
+						},
 				}
 						.Select(
 								o => new TestCaseData(
@@ -122,13 +121,13 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
 		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
 		public override void Compile(string dirPath, string fileName) {
-			var args = _jscCommandArguments.Concat(
+			var args = _compileArguments.Concat(
 					new[] {
 							"\"" + Path.Combine(dirPath, fileName) + "\""
 					});
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, ExeJavaPath, arguments);
+			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
 		/// <summary>

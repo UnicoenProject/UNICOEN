@@ -46,10 +46,16 @@ namespace Unicoen.Core.Model {
 			set { _supplements = SetParentOfChild(value, _supplements); }
 		}
 
+		private UnifiedIntegerLiteral _bitField;
+
 		/// <summary>
-		///   C の struct におけるビットフィールド
+		///   ビットフィールドを取得または設定します．
+		///   e.g. Cにおける<c>struct s { signed b1 : 1; signed b2 : 2; }</c>の<c>1</c>や<c>2</c>の部分
 		/// </summary>
-		public UnifiedIntegerLiteral BitField { get; set; }
+		public UnifiedIntegerLiteral BitField {
+			get { return _bitField; }
+			set { _bitField = SetParentOfChild(value, _bitField); }
+		}
 
 		private IUnifiedExpression _initialValue;
 

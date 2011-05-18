@@ -82,7 +82,6 @@
     <Compile Include="JavaScriptFactory.cs" />
     <Compile Include="ModelFactories\JavaScriptModelFactory.cs" />
     <Compile Include="ModelFactories\JavaScriptModelFactoryHelper.cs" />
-    <Compile Include="Model\JSModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -31,7 +31,7 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
 	public class JavaFixture : Fixture {
-		private const string JavacPath = "javac";
+		private const string CompileCommand = "javac";
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
@@ -99,9 +99,11 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
+				const string cmd = CompileCommand;
+				const string args = "*.java";
 				return new[] {
-						new { DirName = "default", Command = "javac", Arguments = "*.java" },
-						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
+						new { DirName = "default", Command = cmd, Arguments = args },
+						new { DirName = "NewTestFiles", Command = cmd, Arguments = args },
 				}
 						.Select(
 								o => new TestCaseData(
@@ -121,7 +123,7 @@ namespace Unicoen.Languages.Java.Tests {
 					"\"" + Path.Combine(dirPath, fileName) + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, JavacPath, arguments);
+			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
 		/// <summary>
