@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedTypeSupplementKind Kind { get; set; }
 
-		private UnifiedTypeSupplement() { }
+		private UnifiedTypeSupplement() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -67,8 +67,8 @@ namespace Unicoen.Core.Model {
 			Contract.Requires(
 					kind != UnifiedTypeSupplementKind.Array || arguments.Count == 1);
 			return new UnifiedTypeSupplement {
-				Arguments = arguments,
-				Kind = kind,
+					Arguments = arguments,
+					Kind = kind,
 			};
 		}
 
@@ -103,8 +103,10 @@ namespace Unicoen.Core.Model {
 		///   実引数を取る長方形配列を作成します。
 		/// </summary>
 		/// <returns></returns>
-		public static UnifiedTypeSupplement CreateRectangleArray(UnifiedArgument argument) {
-			return Create(argument.ToCollection(), UnifiedTypeSupplementKind.MultidimensionArray);
+		public static UnifiedTypeSupplement CreateRectangleArray(
+				UnifiedArgument argument) {
+			return Create(
+					argument.ToCollection(), UnifiedTypeSupplementKind.MultidimensionArray);
 		}
 	}
 }

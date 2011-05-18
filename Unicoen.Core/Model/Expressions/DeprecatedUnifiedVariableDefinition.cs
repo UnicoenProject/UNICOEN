@@ -23,7 +23,8 @@ namespace Unicoen.Core.Model {
 	///   変数宣言部分を表します。
 	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>
 	/// </summary>
-	public class DeprecatedUnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
+	public class DeprecatedUnifiedVariableDefinition
+			: UnifiedElement, IUnifiedExpression {
 		private UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
@@ -82,7 +83,7 @@ namespace Unicoen.Core.Model {
 
 		public static DeprecatedUnifiedVariableDefinition CreateSingle(string name) {
 			return CreateSingle(
-				null,
+					null,
 					null,
 					null,
 					UnifiedIdentifier.CreateVariable(name),
@@ -95,7 +96,7 @@ namespace Unicoen.Core.Model {
 				UnifiedType type,
 				string name) {
 			return CreateSingle(
-				null,
+					null,
 					null,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -109,7 +110,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression
 						initialValue) {
 			return CreateSingle(
-				null,
+					null,
 					null,
 					null,
 					UnifiedIdentifier.CreateVariable(name),
@@ -124,7 +125,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression
 						initialValue) {
 			return CreateSingle(
-				null,
+					null,
 					null,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -141,7 +142,7 @@ namespace Unicoen.Core.Model {
 						initialValue,
 				string name) {
 			return CreateSingle(
-				null,
+					null,
 					modifiers,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -156,7 +157,7 @@ namespace Unicoen.Core.Model {
 				UnifiedModifierCollection
 						modifiers) {
 			return CreateSingle(
-				null,
+					null,
 					modifiers,
 					type,
 					UnifiedIdentifier.CreateVariable(name),
@@ -172,8 +173,7 @@ namespace Unicoen.Core.Model {
 				UnifiedIdentifier name = null,
 				IUnifiedExpression initialValues = null,
 				UnifiedArgumentCollection arguments = null,
-				UnifiedBlock block = null)
-		{
+				UnifiedBlock block = null) {
 			return Create(
 					null,
 					modifiers,
@@ -194,8 +194,7 @@ namespace Unicoen.Core.Model {
 				string name = null,
 				IUnifiedExpression initialValues = null,
 				UnifiedArgumentCollection arguments = null,
-				UnifiedBlock block = null)
-		{
+				UnifiedBlock block = null) {
 			return Create(
 					null,
 					modifiers,
@@ -220,5 +219,5 @@ namespace Unicoen.Core.Model {
 					Bodys = bodys,
 			};
 		}
-	}
+			}
 }

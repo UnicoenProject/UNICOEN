@@ -92,20 +92,26 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateClass(string name) {
-			return Create(UnifiedClassKind.Class, UnifiedModifierCollection.Create(), UnifiedIdentifier.CreateType(name), null, null, UnifiedBlock.Create());
+			return Create(
+					UnifiedClassKind.Class, UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.CreateType(name), null, null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedClassDefinition CreateClass(
 				string name,
 				UnifiedBlock body) {
-			return Create(UnifiedClassKind.Class, UnifiedModifierCollection.Create(), UnifiedIdentifier.CreateType(name), null, null, body);
+			return Create(
+					UnifiedClassKind.Class, UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.CreateType(name), null, null, body);
 		}
 
 		public static UnifiedClassDefinition CreateClass(
 				string name,
 				UnifiedTypeConstrainCollection contrains,
 				UnifiedBlock body) {
-			return Create(UnifiedClassKind.Class, UnifiedModifierCollection.Create(), UnifiedIdentifier.CreateType(name), null, contrains, body);
+			return Create(
+					UnifiedClassKind.Class, UnifiedModifierCollection.Create(),
+					UnifiedIdentifier.CreateType(name), null, contrains, body);
 		}
 
 		public static UnifiedClassDefinition Create(
@@ -116,7 +122,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition Create(
-				UnifiedClassKind kind, UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers,
+				UnifiedClassKind kind, UnifiedAnnotationCollection annotations,
+				UnifiedModifierCollection modifiers,
 				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
 				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
 			return new UnifiedClassDefinition {
@@ -131,23 +138,38 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedClassDefinition CreateNamespace(IUnifiedExpression name) {
-			return Create(UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
+			return Create(
+					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedClassDefinition CreateAnnotation(IUnifiedExpression name) {
-			return Create(UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
+			return Create(
+					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
 		}
 
-		public static UnifiedClassDefinition CreateAnnotation(UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, UnifiedIdentifier name, UnifiedBlock body) {
-			return Create(UnifiedClassKind.Annotation, annotations, modifiers, name, null, null, body);
+		public static UnifiedClassDefinition CreateAnnotation(
+				UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers,
+				UnifiedIdentifier name, UnifiedBlock body) {
+			return Create(
+					UnifiedClassKind.Annotation, annotations, modifiers, name, null, null, body);
 		}
 
-		public static UnifiedClassDefinition CreateClass(UnifiedModifierCollection modifiers, string name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
-			return Create(UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name), typeParameters, constrains, body);
+		public static UnifiedClassDefinition CreateClass(
+				UnifiedModifierCollection modifiers, string name,
+				UnifiedTypeParameterCollection typeParameters,
+				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
+			return Create(
+					UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name),
+					typeParameters, constrains, body);
 		}
 
-		public static UnifiedClassDefinition CreateClass(UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, string name, UnifiedTypeParameterCollection typeParameters, UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
-			return Create(UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name), typeParameters, constrains, body);
+		public static UnifiedClassDefinition CreateClass(
+				UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers,
+				string name, UnifiedTypeParameterCollection typeParameters,
+				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
+			return Create(
+					UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name),
+					typeParameters, constrains, body);
 		}
 			}
 }

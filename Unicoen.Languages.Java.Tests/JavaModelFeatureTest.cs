@@ -24,98 +24,192 @@ namespace Unicoen.Languages.Java.Tests {
 	public class JavaModelFeatureTest : ModelFeatureTest {
 		private readonly Fixture _fixture = new JavaFixture();
 
+		/// <summary>
+		///   テストフィクスチャを取得します．
+		/// </summary>
 		protected override Fixture Fixture {
 			get { return _fixture; }
 		}
 
+		/// <summary>
+		///   深いコピーが正常に動作するかソースーコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes")]
 		public override void VerifyDeepCopyUsingCode(string code) {
 			base.VerifyDeepCopyUsingCode(code);
 		}
 
+		/// <summary>
+		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyDeepCopyUsingFile(string path) {
 			base.VerifyDeepCopyUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyDeepCopyUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyDeepCopyUsingDirectory(dirPath, command, arguments);
+		/// <summary>
+		///   深いコピーが正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">使用しません</param>
+		/// <param name = "arguments">使用しません</param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public override void VerifyDeepCopyUsingProject(
+				string dirPath, string command, string arguments) {
+			base.VerifyDeepCopyUsingProject(dirPath, command, arguments);
 		}
 
+		/// <summary>
+		///   子要素の列挙機能が正常に動作するかソースーコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes")]
 		public override void VerifyGetElementsUsingCode(string code) {
 			base.VerifyGetElementsUsingCode(code);
 		}
 
+		/// <summary>
+		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementsUsingFile(string path) {
 			base.VerifyGetElementsUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyGetElementsUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyGetElementsUsingDirectory(dirPath, command, arguments);
+		/// <summary>
+		///   子要素の列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">使用しません</param>
+		/// <param name = "arguments">使用しません</param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public override void VerifyGetElementsUsingProject(
+				string dirPath, string command, string arguments) {
+			base.VerifyGetElementsUsingProject(dirPath, command, arguments);
 		}
 
+		/// <summary>
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes")]
 		public override void VerifyGetElementReferencesUsingCode(string code) {
 			base.VerifyGetElementReferencesUsingCode(code);
 		}
 
+		/// <summary>
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyGetElementReferencesUsingFile(string path) {
 			base.VerifyGetElementReferencesUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyGetElementReferencesUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyGetElementReferencesUsingDirectory(dirPath, command, arguments);
+		/// <summary>
+		///   子要素とセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">使用しません</param>
+		/// <param name = "arguments">使用しません</param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public override void VerifyGetElementReferencesUsingProject(
+				string dirPath, string command, string arguments) {
+			base.VerifyGetElementReferencesUsingProject(dirPath, command, arguments);
 		}
 
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes")]
-		public override void VerifyGetElementReferenecesOfPrivateFieldsUsingCode(string code) {
-			base.VerifyGetElementReferenecesOfPrivateFieldsUsingCode(code);
+		public override void VerifyGetElementReferenecesOfFieldsUsingCode(string code) {
+			base.VerifyGetElementReferenecesOfFieldsUsingCode(code);
 		}
 
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
-		public override void VerifyGetElementReferenecesOfPrivateFieldsUsingFile(string path) {
-			base.VerifyGetElementReferenecesOfPrivateFieldsUsingFile(path);
+		public override void VerifyGetElementReferenecesOfFieldsUsingFile(string path) {
+			base.VerifyGetElementReferenecesOfFieldsUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyGetElementReferenecesOfPrivateFieldsUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyGetElementReferenecesOfPrivateFieldsUsingDirectory(dirPath, command, arguments);
+		/// <summary>
+		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">使用しません</param>
+		/// <param name = "arguments">使用しません</param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public override void VerifyGetElementReferenecesOfFieldsUsingProject(
+				string dirPath, string command, string arguments) {
+			base.VerifyGetElementReferenecesOfFieldsUsingProject(
+					dirPath, command, arguments);
 		}
 
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes")]
 		public override void VerifyParentPropertyUsingCode(string code) {
 			base.VerifyParentPropertyUsingCode(code);
 		}
 
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyParentPropertyUsingFile(string path) {
 			base.VerifyParentPropertyUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyParentPropertyUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyParentPropertyUsingDirectory(dirPath, command, arguments);
+		/// <summary>
+		///   親要素が不適切な要素がないかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">使用しません</param>
+		/// <param name = "arguments">使用しません</param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public override void VerifyParentPropertyUsingProject(
+				string dirPath, string command, string arguments) {
+			base.VerifyParentPropertyUsingProject(dirPath, command, arguments);
 		}
 
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードを指定してテストします。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
 		[Test, TestCaseSource("TestCodes")]
 		public override void VerifyToStringUsingCode(string code) {
 			base.VerifyToStringUsingCode(code);
 		}
 
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "path">テスト対象のソースコードのパス</param>
 		[Test, TestCaseSource("TestFilePathes")]
 		public override void VerifyToStringUsingFile(string path) {
 			base.VerifyToStringUsingFile(path);
 		}
 
-		[Test, TestCaseSource("TestDirectoryPathes")]
-		public override void VerifyToStringUsingDirectory(string dirPath, string command, string arguments) {
-			base.VerifyToStringUsingDirectory(dirPath, command, arguments);
+		/// <summary>
+		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">使用しません</param>
+		/// <param name = "arguments">使用しません</param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public override void VerifyToStringUsingProject(
+				string dirPath, string command, string arguments) {
+			base.VerifyToStringUsingProject(dirPath, command, arguments);
 		}
 	}
 }

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -149,7 +148,11 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static IUnifiedExpression Create(UnifiedBlock body, UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters, UnifiedTypeParameterCollection typeParameters, UnifiedTypeCollection throws, UnifiedConstructorDefinitionKind kind) {
+		public static IUnifiedExpression Create(
+				UnifiedBlock body, UnifiedAnnotationCollection annotations,
+				UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters,
+				UnifiedTypeParameterCollection typeParameters, UnifiedTypeCollection throws,
+				UnifiedConstructorDefinitionKind kind) {
 			return new UnifiedConstructorDefinition {
 					Body = body,
 					Modifiers = modifiers,

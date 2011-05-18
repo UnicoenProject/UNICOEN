@@ -41,12 +41,12 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedAnnotationCollection ToCollection(
 				this IEnumerable<UnifiedAnnotation> collection) {
-					return UnifiedAnnotationCollection.Create(collection);
+			return UnifiedAnnotationCollection.Create(collection);
 		}
 
 		public static UnifiedAnnotationCollection ToCollection(
 				this UnifiedAnnotation singleton) {
-					return UnifiedAnnotationCollection.Create(singleton);
+			return UnifiedAnnotationCollection.Create(singleton);
 		}
 
 		public static UnifiedArgumentCollection ToCollection(
@@ -224,13 +224,12 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedVariableDefinitionList ToCollection(
 				this IEnumerable<DeprecatedUnifiedVariableDefinition> collection) {
-					return UnifiedVariableDefinitionList.Create(collection);
+			return UnifiedVariableDefinitionList.Create(collection);
 		}
 
 		public static UnifiedVariableDefinitionList ToCollection(
-				this DeprecatedUnifiedVariableDefinition singleton)
-		{
-					return UnifiedVariableDefinitionList.Create(singleton);
+				this DeprecatedUnifiedVariableDefinition singleton) {
+			return UnifiedVariableDefinitionList.Create(singleton);
 		}
 
 		public static UnifiedList ToListLiteral(

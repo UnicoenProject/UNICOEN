@@ -26,7 +26,8 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedVariableDefinitionBodyCollection
 			: UnifiedElementCollection
-			  		<DeprecatedUnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection> {
+			  		<DeprecatedUnifiedVariableDefinitionBody,
+			  		UnifiedVariableDefinitionBodyCollection> {
 		private UnifiedVariableDefinitionBodyCollection() {}
 
 		private UnifiedVariableDefinitionBodyCollection(

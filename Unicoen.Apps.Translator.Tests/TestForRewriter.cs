@@ -44,7 +44,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			var functions =
 					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
 			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
-					// getName()
+			// getName()
 			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
 
 			functions =
@@ -62,7 +62,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			var functions =
 					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
 			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
-					// getName()
+			// getName()
 			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
 
 			functions =

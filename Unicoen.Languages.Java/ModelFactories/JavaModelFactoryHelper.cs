@@ -334,11 +334,15 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return node.Elements("enumConstant")
 					.Select(CreateEnumConstant)
 					.Select(
-							t => DeprecatedUnifiedVariableDefinition.Create(t.Item1, null, null, t.Item2.ToCollection()))
+							t =>
+							DeprecatedUnifiedVariableDefinition.Create(
+									t.Item1, null, null, t.Item2.ToCollection()))
 					.ToCollection();
 		}
 
-		public static Tuple<UnifiedAnnotationCollection, DeprecatedUnifiedVariableDefinitionBody> CreateEnumConstant(XElement node) {
+		public static
+				Tuple<UnifiedAnnotationCollection, DeprecatedUnifiedVariableDefinitionBody>
+				CreateEnumConstant(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumConstant");
 			/*
@@ -358,12 +362,13 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var body = classBodyNode != null
 			           		? CreateClassBody(classBodyNode)
 			           		: null;
-			return Tuple.Create(annotations, DeprecatedUnifiedVariableDefinitionBody.Create(
-					UnifiedIdentifier.CreateVariable(name),
-					null,
-					null,
-					arguments,
-					body));
+			return Tuple.Create(
+					annotations, DeprecatedUnifiedVariableDefinitionBody.Create(
+							UnifiedIdentifier.CreateVariable(name),
+							null,
+							null,
+							arguments,
+							body));
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateEnumBodyDeclarations(
@@ -586,7 +591,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					body);
 		}
 
-		public static DeprecatedUnifiedVariableDefinition CreateFieldDeclaration(XElement node) {
+		public static DeprecatedUnifiedVariableDefinition CreateFieldDeclaration(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "fieldDeclaration");
 			/*
@@ -604,7 +610,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					bodys);
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBody CreateVariableDeclarator(
+		public static DeprecatedUnifiedVariableDefinitionBody CreateVariableDeclarator
+				(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarator");
@@ -692,7 +699,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					null);
 		}
 
-		public static DeprecatedUnifiedVariableDefinition CreateInterfaceFieldDeclaration(
+		public static DeprecatedUnifiedVariableDefinition
+				CreateInterfaceFieldDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "interfaceFieldDeclaration");
@@ -1159,7 +1167,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return CreateLocalVariableDeclaration(node.FirstElement());
 		}
 
-		public static DeprecatedUnifiedVariableDefinition CreateLocalVariableDeclaration(
+		public static DeprecatedUnifiedVariableDefinition
+				CreateLocalVariableDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "localVariableDeclaration");
@@ -1170,7 +1179,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var bodys = node.Elements("variableDeclarator")
 					.Select(CreateVariableDeclarator)
 					.ToCollection();
-			var annotationsAndModifiers = CreateVariableModifiers(node.Element("variableModifiers"));
+			var annotationsAndModifiers =
+					CreateVariableModifiers(node.Element("variableModifiers"));
 			return DeprecatedUnifiedVariableDefinition.Create(
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
@@ -1379,7 +1389,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * |   'for' '(' (forInit)? ';' (expression)? ';' (expressionList)? ')' statement 
 			 */
 			if (node.NthElement(2).Name() == "variableModifiers") {
-				var annotationsAndModifiers = CreateVariableModifiers(node.Element("variableModifiers"));
+				var annotationsAndModifiers =
+						CreateVariableModifiers(node.Element("variableModifiers"));
 				return UnifiedForeach.Create(
 						DeprecatedUnifiedVariableDefinition.CreateSingle(
 								annotationsAndModifiers.Item1,

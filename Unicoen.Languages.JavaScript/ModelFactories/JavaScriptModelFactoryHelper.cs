@@ -117,7 +117,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			//名前をつけられるが、無名関数として定義する場合にその識別子で参照はできない
 			var name = node.Element("Identifier") != null
-							? node.Element("Identifier").Value : null;
+			           		? node.Element("Identifier").Value : null;
 			var parameters =
 					CreateFormalParameterList(node.Element("formalParameterList"));
 			var body = CreateFunctionBody(node.Element("functionBody"));
@@ -135,10 +135,11 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var parameters =
-					node.Elements("Identifier").Select(e => UnifiedParameter.Create(
-							null,
-							null, null, UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
-							null)).
+					node.Elements("Identifier").Select(
+							e => UnifiedParameter.Create(
+									null,
+									null, null, UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
+									null)).
 							ToCollection();
 			return parameters;
 		}
@@ -220,8 +221,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var statementList = node.Element("statementList") != null
-										? CreateStatementList(node.Element("statementList"))
-										: null;
+			                    		? CreateStatementList(node.Element("statementList"))
+			                    		: null;
 			return UnifiedBlock.Create(statementList);
 		}
 
@@ -277,7 +278,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToCollection();
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBody CreateVariableDeclaration(
+		public static DeprecatedUnifiedVariableDefinitionBody
+				CreateVariableDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclaration");
@@ -288,12 +290,14 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var name = UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
 			var init = node.Element("initialiser") != null
-							? CreateInitialiser(node.Element("initialiser")) : null;
+			           		? CreateInitialiser(node.Element("initialiser")) : null;
 
-			return DeprecatedUnifiedVariableDefinitionBody.Create(name, null, init, null, null);
+			return DeprecatedUnifiedVariableDefinitionBody.Create(
+					name, null, init, null, null);
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBody CreateVariableDeclarationNoIn(
+		public static DeprecatedUnifiedVariableDefinitionBody
+				CreateVariableDeclarationNoIn(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationNoIn");
@@ -304,9 +308,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var name = UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
 			var init = node.Element("initialiserNoIn") != null
-							? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
+			           		? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
 
-			return DeprecatedUnifiedVariableDefinitionBody.Create(name, null, init, null, null);
+			return DeprecatedUnifiedVariableDefinitionBody.Create(
+					name, null, init, null, null);
 		}
 
 		public static IUnifiedExpression CreateInitialiser(XElement node) {
@@ -366,9 +371,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var trueBody = UnifiedBlock.Create(
 					CreateStatement(node.Element("statement")));
 			var falseBody = node.Elements("statement").Count() == 2
-									? UnifiedBlock.Create(
-											CreateStatement(node.Elements("statement").ElementAt(1)))
-									: null;
+			                		? UnifiedBlock.Create(
+			                				CreateStatement(node.Elements("statement").ElementAt(1)))
+			                		: null;
 
 			return UnifiedIf.Create(cond, trueBody, falseBody);
 		}
@@ -436,8 +441,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var init = node.HasElement("forStatementInitialiserPart")
-							? CreateForStatementInitialiserPart(
-									node.Element("forStatementInitialiserPart")) : null;
+			           		? CreateForStatementInitialiserPart(
+			           				node.Element("forStatementInitialiserPart")) : null;
 
 			//expressionを区別できないので、セミコロンの位置から条件なのかステップなのかを判断
 			var semicolons = node.Elements().Where(e => e.Value == ";");
@@ -505,7 +510,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.HasElement("variableDeclarationNoIn"))
 				return DeprecatedUnifiedVariableDefinition.Create(
 						null, null,
-						null, CreateVariableDeclarationNoIn(node.Element("variableDeclarationNoIn")).
+						null,
+						CreateVariableDeclarationNoIn(node.Element("variableDeclarationNoIn")).
 								ToCollection());
 			throw new InvalidOperationException();
 		}
@@ -519,8 +525,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var identifier = node.HasElement("Identifier")
-									? UnifiedIdentifier.CreateUnknown(
-											node.Element("Identifier").Value) : null;
+			                 		? UnifiedIdentifier.CreateUnknown(
+			                 				node.Element("Identifier").Value) : null;
 
 			return UnifiedSpecialExpression.CreateContinue(identifier);
 		}
@@ -533,8 +539,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'break' Identifier? (LT | ';')
 			 */
 			var identifier = node.HasElement("Identifier")
-									? UnifiedIdentifier.CreateUnknown(
-											node.Element("Identifier").Value) : null;
+			                 		? UnifiedIdentifier.CreateUnknown(
+			                 				node.Element("Identifier").Value) : null;
 
 			return UnifiedSpecialExpression.CreateBreak(identifier);
 		}
@@ -547,7 +553,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'return' expression? (LT | ';')
 			 */
 			var expression = node.HasElement("expression")
-									? CreateExpression(node.Element("expression")) : null;
+			                 		? CreateExpression(node.Element("expression")) : null;
 
 			return UnifiedSpecialExpression.CreateReturn(expression);
 		}
@@ -620,7 +626,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			var cond = CreateExpression(node.Element("expression"));
 			var body = node.HasElement("statementList")
-							? CreateStatementList(node.Element("statementList")) : null;
+			           		? CreateStatementList(node.Element("statementList")) : null;
 
 			return UnifiedCase.Create(cond, UnifiedBlock.Create(body));
 		}
@@ -633,7 +639,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'default' LT!* ':' LT!* statementList?
 			 */
 			var body = node.HasElement("statementList")
-							? CreateStatementList(node.Element("statementList")) : null;
+			           		? CreateStatementList(node.Element("statementList")) : null;
 
 			return UnifiedCase.Create(null, UnifiedBlock.Create(body));
 		}
@@ -661,10 +667,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var body = CreateStatementBlock(node.Element("statementBlock"));
 			var catches = node.HasElement("catchClause")
-								? CreateCatchClause(node.Element("catchClause")) : null;
+			              		? CreateCatchClause(node.Element("catchClause")) : null;
 			var finallyBody = node.HasElement("finallyClause")
-									? CreateFinallyClause(node.Element("finallyClause"))
-									: null;
+			                  		? CreateFinallyClause(node.Element("finallyClause"))
+			                  		: null;
 
 			return UnifiedTry.Create(body, catches, finallyBody);
 		}
@@ -709,7 +715,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var expressions =
 					node.Elements("assignmentExpression").Select(CreateAssignmentExpression);
 			//式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
-			if(expressions.Count() == 1)
+			if (expressions.Count() == 1)
 				return expressions.First();
 			return UnifiedBlock.Create(expressions);
 		}
@@ -1260,10 +1266,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			if (node.Elements().Count() == 2) {
 				var ope = node.NthElement(1).Value == "++"
-								? UnifiedUnaryOperator.Create(
-										"++", UnifiedUnaryOperatorKind.PostIncrementAssign)
-								: UnifiedUnaryOperator.Create(
-										"--", UnifiedUnaryOperatorKind.PostDecrementAssign);
+				          		? UnifiedUnaryOperator.Create(
+				          				"++", UnifiedUnaryOperatorKind.PostIncrementAssign)
+				          		: UnifiedUnaryOperator.Create(
+				          				"--", UnifiedUnaryOperatorKind.PostDecrementAssign);
 				return
 						UnifiedUnaryExpression.Create(
 								CreateLeftHandSideExpression(node.NthElement(0)), ope);
@@ -1346,9 +1352,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			//プロパティ宣言をKeyAndValueで代用
 			return UnifiedKeyValue.Create(
-				CreatePropertyName(node.Element("propertyName")), 
-				CreateAssignmentExpression(node.Element("assignmentExpression"))
-				);
+					CreatePropertyName(node.Element("propertyName")),
+					CreateAssignmentExpression(node.Element("assignmentExpression"))
+					);
 		}
 
 		public static UnifiedIdentifier CreatePropertyName(XElement node) {

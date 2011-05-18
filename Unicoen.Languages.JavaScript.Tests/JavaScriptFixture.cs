@@ -31,12 +31,12 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
-
 		private const string ExeJavaPath = "java";
+
 		private readonly string[] _jscCommandArguments = new[] {
-			"-cp",
-			"..\\..\\lib\\js.jar",
-			"org.mozilla.javascript.tools.jsc.Main"
+				"-cp",
+				"..\\..\\lib\\js.jar",
+				"org.mozilla.javascript.tools.jsc.Main"
 		};
 
 		/// <summary>
@@ -93,41 +93,68 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <summary>
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
 		/// </summary>
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
 				return new[] {
-						new { DirName = "Blocks", Command = "java", Arguments = "-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js" },
-						new { DirName = "Waseda", Command = "java", Arguments = "-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js" },
+						new {
+								DirName = "Blocks", Command = "java",
+								Arguments =
+										"-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js"
+						}
+						,
+						new {
+								DirName = "Waseda", Command = "java",
+								Arguments =
+										"-cp ..\\..\\lib\\js.jar org.mozilla.javascript.tools.jsc.Main *.js"
+						}
+						,
 				}
 						.Select(
 								o => new TestCaseData(
-											FixtureUtil.GetInputPath("JavaScript", o.DirName),
-											o.Command, o.Arguments));
+								     		FixtureUtil.GetInputPath("JavaScript", o.DirName),
+								     		o.Command, o.Arguments));
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string dirPath, string fileName) {
 			var args = _jscCommandArguments.Concat(
 					new[] {
-							"\"" + Path.Combine(workPath, fileName) + "\""
+							"\"" + Path.Combine(dirPath, fileName) + "\""
 					});
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(workPath, ExeJavaPath, arguments);
+			CompileWithArguments(dirPath, ExeJavaPath, arguments);
 		}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
-					workPath, "*.class",
+					dirPath, "*.class",
 					SearchOption.AllDirectories)
 					.Select(path => new object[] { path, File.ReadAllBytes(path) });
 		}
 
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {
 			var info = new ProcessStartInfo {
 					FileName = command, //java
-					Arguments = arguments, //-cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
+					Arguments = arguments,
+					//-cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 					CreateNoWindow = true,
 					UseShellExecute = false,
 					WorkingDirectory = workPath,

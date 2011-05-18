@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -30,6 +29,7 @@ namespace Unicoen.Core.Model {
 			get { return _annotations; }
 			set { _annotations = SetParentOfChild(value, _annotations); }
 		}
+
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
@@ -73,11 +73,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedMatcher Create(
-			UnifiedAnnotationCollection annotations,
+				UnifiedAnnotationCollection annotations,
 				UnifiedModifierCollection modifiers, IUnifiedExpression matcher,
 				IUnifiedExpression asExp) {
 			return new UnifiedMatcher {
-
 					Modifiers = modifiers,
 					Matcher = matcher,
 					As = asExp,

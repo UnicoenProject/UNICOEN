@@ -22,7 +22,8 @@ namespace Unicoen.Core.Model {
 			return UnifiedIdentifier.CreateUnknown(name);
 		}
 
-		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(this string name) {
+		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
+				this string name) {
 			return DeprecatedUnifiedVariableDefinition.CreateSingle(name);
 		}
 
@@ -44,7 +45,8 @@ namespace Unicoen.Core.Model {
 				UnifiedType type,
 				IUnifiedExpression
 						initialValue) {
-			return DeprecatedUnifiedVariableDefinition.CreateSingle(type, name, initialValue);
+			return DeprecatedUnifiedVariableDefinition.CreateSingle(
+					type, name, initialValue);
 		}
 
 		public static UnifiedType ToType(this string name) {

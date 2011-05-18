@@ -238,7 +238,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			UnifiedIdentifier name = null;
 			var kind = node.FirstElement().Name() == "struct"
-			                        		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
+			           		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
 			if (node.Element("IDENTIFIER") != null) {
 				name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
 			}
@@ -252,7 +252,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
-			var structOrUnion = UnifiedClassDefinition.Create(kind, null, name, null, null, body);
+			var structOrUnion = UnifiedClassDefinition.Create(
+					kind, null, name, null, null, body);
 
 			return UnifiedType.Create(null, structOrUnion, null, null);
 		}
@@ -294,7 +295,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 					out modifiers, out type);
 
 			return DeprecatedUnifiedVariableDefinition.Create(
-				null,
+					null,
 					modifiers, type,
 					CreateStructDeclaratorList(node.Element("struct_declarator_list")));
 		}

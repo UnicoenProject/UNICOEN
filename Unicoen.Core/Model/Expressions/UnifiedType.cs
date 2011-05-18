@@ -194,12 +194,12 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedType CreateRectangleArray(string name, int dimension) {
 			return new UnifiedType {
-				Name = name != null
-							? UnifiedIdentifier.CreateType(name)
-							: null,
-				Arguments = null,
-				Supplements = UnifiedTypeSupplementCollection.Create(
-						UnifiedTypeSupplement.CreateRectangleArray(dimension)),
+					Name = name != null
+					       		? UnifiedIdentifier.CreateType(name)
+					       		: null,
+					Arguments = null,
+					Supplements = UnifiedTypeSupplementCollection.Create(
+							UnifiedTypeSupplement.CreateRectangleArray(dimension)),
 			};
 		}
 	}

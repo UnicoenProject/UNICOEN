@@ -1,4 +1,4 @@
-#region License
+ï»¿#region License
 
 // Copyright (C) 2011 The Unicoen Project
 // 
@@ -35,7 +35,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		private static readonly Decoration SquareBracket =
 				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
 
-		private static readonly Decoration ForBlock = 
+		private static readonly Decoration ForBlock =
 				new Decoration { MostLeft = "{", Delimiter = "\n", MostRight = "}" };
 
 		private static readonly Decoration CommaDelimiter =
@@ -51,7 +51,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override string Generate(IUnifiedElement model, TextWriter writer) {
 			return Generate(model, writer, "\t");
 		}
-		
+
 		private static string GetKeyword(UnifiedSpecialExpressionKind kind) {
 			switch (kind) {
 			case UnifiedSpecialExpressionKind.Break:
@@ -135,17 +135,17 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedBlock element, VisitorState state) {
 			var decoration = state.Decoration;
 			//for Block
-			if(decoration.MostLeft == "{") {
+			if (decoration.MostLeft == "{") {
 				state.Writer.WriteLine(decoration.MostLeft);
 				state = state.IncrementIndentDepth();
-				
+
 				foreach (var stmt in element) {
 					state.WriteIndent();
 					if (stmt.TryAccept(this, state))
 						state.Writer.Write(";");
 					state.Writer.Write(decoration.Delimiter);
 				}
-				//TODO ‚±‚±‚ÅƒCƒ“ƒfƒ“ƒg‚ğ‚P‚Â–ß‚µ‚½‚¢
+				//TODO ï¿½ï¿½ï¿½ï¿½ï¿½ÅƒCï¿½ï¿½ï¿½fï¿½ï¿½ï¿½gï¿½ï¿½Pï¿½Â–ß‚ï¿½ï¿½ï¿½ï¿½ï¿½
 				state.WriteIndent();
 				state.Writer.Write(decoration.MostRight);
 				return false;
@@ -200,26 +200,26 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedModifier element, VisitorState state) {
-			//JavaScript‚Å‚ÍCüq‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ÍCï¿½ï¿½ï¿½qï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedImport element, VisitorState state) {
-			//JavaScript‚Å‚ÍŠO•”ƒtƒ@ƒCƒ‹“Ç‚İ‚İ•¶‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ÍŠOï¿½ï¿½ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½Ç‚İï¿½ï¿½İ•ï¿½ï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedConstructorDefinition element, VisitorState state) {
-			//JavaScript‚Å‚ÍƒRƒ“ƒXƒgƒ‰ƒNƒ^éŒ¾‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ÍƒRï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½éŒ¾ï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedProgram element, VisitorState state) {
 			foreach (var sourceElement in element) {
-				//TODO sourceElement‚ÍŠî–{“I‚É‰üs‚µ‚Ä‚æ‚¢‚Æv‚í‚ê‚é‚ª‚Ç‚¤‚©
+				//TODO sourceElementï¿½ÍŠï¿½{ï¿½Iï¿½É‰ï¿½ï¿½sï¿½ï¿½ï¿½Ä‚æ‚¢ï¿½Ævï¿½ï¿½ï¿½é‚ªï¿½Ç‚ï¿½ï¿½ï¿½
 				if (sourceElement.TryAccept(this, state))
 					state.Writer.WriteLine(";");
 			}
@@ -228,7 +228,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedClassDefinition element, VisitorState state) {
-			//JavaScript‚Ìê‡‚ÍƒIƒuƒWƒFƒNƒgéŒ¾‚ğ•\‚µ‚Ü‚·
+			//JavaScriptï¿½Ìê‡ï¿½ÍƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½éŒ¾ï¿½ï¿½\ï¿½ï¿½ï¿½Ü‚ï¿½
 			element.Body.TryAccept(this, state.Set(ForBlock));
 			return false;
 		}
@@ -311,7 +311,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Body.TryAccept(this, state.Set(ForBlock));
 			state.Writer.Write("while(");
 			element.Condition.TryAccept(this, state);
-			//TODO ƒZƒ~ƒRƒƒ“‚ª•t‚©‚È‚¢‚±‚Æ‚à‹–—e‚³‚ê‚é‚ª‚Ç‚¤‚·‚é‚©
+			//TODO ï¿½Zï¿½~ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½eï¿½ï¿½ï¿½ï¿½é‚ªï¿½Ç‚ï¿½ï¿½ï¿½ï¿½é‚©
 			state.Writer.Write(");");
 			return false;
 		}
@@ -325,13 +325,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeArgument element, VisitorState state) {
-			//JavaScript‚Å‚ÍŒ^ˆø”‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ÍŒ^ï¿½ï¿½ï¿½ï¿½ï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeArgumentCollection element, VisitorState state) {
-			//JavaScript‚Å‚ÍŒ^ˆø”‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ÍŒ^ï¿½ï¿½ï¿½ï¿½ï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			return false;
 		}
 
@@ -364,8 +364,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			state.Writer.Write(GetKeyword(element.Kind));
 			if (element.Value != null) {
 				state.WriteSpace();
-				//return a,b;‚Ì‚æ‚¤‚ÈÛ‚Évalue‚ÍUnifiedBlock‚Å‚ ‚é‚ªA
-				//"{}"‚ğ•t‰Á‚·‚é‚ÆƒGƒ‰[‚É‚È‚é‚Ì‚Å‚»‚Ì‚½‚ß‚Ì‘Îô
+				//return a,b;ï¿½Ì‚æ‚¤ï¿½ÈÛ‚ï¿½valueï¿½ï¿½UnifiedBlockï¿½Å‚ï¿½ï¿½é‚ªï¿½A
+				//"{}"ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆƒGï¿½ï¿½ï¿½[ï¿½É‚È‚ï¿½Ì‚Å‚ï¿½ï¿½Ì‚ï¿½ï¿½ß‚Ì‘Îï¿½
 				element.Value.TryAccept(this, state.Set(CommaDelimiter));
 			}
 			return true;
@@ -379,8 +379,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				state.Writer.Write("with");
 				break;
 			default:
-				//JavaScript‚Å‚Íwith•¶‚Ì‚İg—p‰Â”\
-				//TODO ‘¼‚ÌŒ¾Œêƒ‚ƒfƒ‹‚Ì•ÏŠ·‚ÌÛ‚ÉAsynchronized‚È‚Ç‚ª—ˆ‚½‚ç‚Ç‚¤‘Îˆ‚·‚é‚Ì‚©
+				//JavaScriptï¿½Å‚ï¿½withï¿½ï¿½ï¿½Ì‚İgï¿½pï¿½Â”\
+				//TODO ï¿½ï¿½ï¿½ÌŒï¿½ï¿½êƒ‚ï¿½fï¿½ï¿½ï¿½Ì•ÏŠï¿½ï¿½ÌÛ‚ÉAsynchronizedï¿½È‚Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½
 				throw new ArgumentOutOfRangeException();
 			}
 			if (element.Value != null) {
@@ -389,7 +389,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				state.Writer.Write(")");
 			}
 
-			//TODO ‚È‚ºelement.Body.TryAccept‚µ‚È‚¢‚Ì‚©(Java‚©‚ç‚Ì—¬—p)
+			//TODO ï¿½È‚ï¿½element.Body.TryAcceptï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ï¿½(Javaï¿½ï¿½ï¿½ï¿½Ì—ï¿½ï¿½p)
 			state.Writer.WriteLine("{");
 			state = state.IncrementIndentDepth();
 			foreach (var stmt in element.Body) {
@@ -412,7 +412,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedCatchCollection element, VisitorState state) {
-			//JavaScript‚Å‚Ícatchß‚Ì—ñ‹“‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ï¿½catchï¿½ß‚Ì—ñ‹“‚Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			throw new NotImplementedException();
 		}
 
@@ -437,25 +437,25 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeConstrain element, VisitorState state) {
-			//JavaScript‚Å‚ÍŒp³‚ğ¦‚·¯•Êq‚ÍoŒ»‚µ‚È‚¢(?)
+			//JavaScriptï¿½Å‚ÍŒpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êqï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½(?)
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeConstrainCollection element, VisitorState state) {
-			//JavaScript‚Å‚ÍŒp³‚ğ¦‚·¯•Êq‚ÍoŒ»‚µ‚È‚¢(?)
+			//JavaScriptï¿½Å‚ÍŒpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êqï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½(?)
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeParameter element, VisitorState state) {
-			//JavaScript‚Å‚ÍŒ^ƒpƒ‰ƒ[ƒ^‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ÍŒ^ï¿½pï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½^ï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTypeSupplement element, VisitorState state) {
-			//JavaScript‚Å‚ÍŒ^éŒ¾‚É'[]'‚ÍoŒ»‚µ‚È‚¢
+			//JavaScriptï¿½Å‚ÍŒ^ï¿½éŒ¾ï¿½ï¿½ï¿½ï¿½'[]'ï¿½Íoï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½
 			throw new NotImplementedException();
 		}
 
@@ -554,7 +554,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedDictonary element, VisitorState state) {
 			state.Writer.Write("{");
-		    element.KeyValues.TryAccept(this, state.Set(CommaDelimiter));
+			element.KeyValues.TryAccept(this, state.Set(CommaDelimiter));
 			state.WriteIndent();
 			state.Writer.Write("}");
 			return false;

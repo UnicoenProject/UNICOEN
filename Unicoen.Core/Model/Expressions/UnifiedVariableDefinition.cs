@@ -1,5 +1,4 @@
-﻿
-#region License
+﻿#region License
 
 // Copyright (C) 2011 The Unicoen Project
 // 
@@ -121,10 +120,10 @@ namespace Unicoen.Core.Model {
 		///  e.g. Javaにおけるenumの定数に付随するブロック
 		///  <code>
 		///    enum E {
-		///      E1 {
-		///        @override public String toString() { return ""; }
-		///      },
-		///      E2
+		///    E1 {
+		///    @override public String toString() { return ""; }
+		///    },
+		///    E2
 		///    }
 		///  </code>
 		///</summary>
@@ -133,7 +132,7 @@ namespace Unicoen.Core.Model {
 			set { _body = SetParentOfChild(value, _body); }
 		}
 
-		private UnifiedVariableDefinition() { }
+		private UnifiedVariableDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
