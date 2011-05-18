@@ -22,29 +22,29 @@ namespace Unicoen.Core.Model {
 			return UnifiedIdentifier.CreateUnknown(name);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(this string name) {
-			return UnifiedVariableDefinition.CreateSingle(name);
+		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(this string name) {
+			return DeprecatedUnifiedVariableDefinition.CreateSingle(name);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(
+		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
 				this string name,
 				UnifiedType type) {
-			return UnifiedVariableDefinition.CreateSingle(type, name);
+			return DeprecatedUnifiedVariableDefinition.CreateSingle(type, name);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(
+		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
 				this string name,
 				IUnifiedExpression
 						initialValue) {
-			return UnifiedVariableDefinition.CreateSingle(name, initialValue);
+			return DeprecatedUnifiedVariableDefinition.CreateSingle(name, initialValue);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(
+		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
 				this string name,
 				UnifiedType type,
 				IUnifiedExpression
 						initialValue) {
-			return UnifiedVariableDefinition.CreateSingle(type, name, initialValue);
+			return DeprecatedUnifiedVariableDefinition.CreateSingle(type, name, initialValue);
 		}
 
 		public static UnifiedType ToType(this string name) {

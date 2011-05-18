@@ -247,7 +247,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var bodys =
 					CreateVariableDeclarationList(node.Element("variableDeclarationList"));
 
-			return UnifiedVariableDefinition.Create(null, null, null, bodys);
+			return DeprecatedUnifiedVariableDefinition.Create(null, null, null, bodys);
 		}
 
 		public static UnifiedVariableDefinitionBodyCollection
@@ -277,7 +277,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedVariableDefinitionBody CreateVariableDeclaration(
+		public static DeprecatedUnifiedVariableDefinitionBody CreateVariableDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclaration");
@@ -290,10 +290,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var init = node.Element("initialiser") != null
 							? CreateInitialiser(node.Element("initialiser")) : null;
 
-			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
+			return DeprecatedUnifiedVariableDefinitionBody.Create(name, null, init, null, null);
 		}
 
-		public static UnifiedVariableDefinitionBody CreateVariableDeclarationNoIn(
+		public static DeprecatedUnifiedVariableDefinitionBody CreateVariableDeclarationNoIn(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationNoIn");
@@ -306,7 +306,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var init = node.Element("initialiserNoIn") != null
 							? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
 
-			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
+			return DeprecatedUnifiedVariableDefinitionBody.Create(name, null, init, null, null);
 		}
 
 		public static IUnifiedExpression CreateInitialiser(XElement node) {
@@ -464,7 +464,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.NthElement(0).Name() == "expressionNoIn")
 				return CreateExpressionNoIn(node.NthElement(0));
 			if (node.HasElement("variableDeclarationListNoIn"))
-				return UnifiedVariableDefinition.Create(
+				return DeprecatedUnifiedVariableDefinition.Create(
 						null, null, null,
 						CreateVariableDeclarationListNoIn(
 								node.Element("variableDeclarationListNoIn")));
@@ -503,7 +503,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				return CreateLeftHandSideExpression(node.NthElement(0));
 
 			if (node.HasElement("variableDeclarationNoIn"))
-				return UnifiedVariableDefinition.Create(
+				return DeprecatedUnifiedVariableDefinition.Create(
 						null, null,
 						null, CreateVariableDeclarationNoIn(node.Element("variableDeclarationNoIn")).
 								ToCollection());

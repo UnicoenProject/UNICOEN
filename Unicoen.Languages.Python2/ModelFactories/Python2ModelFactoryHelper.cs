@@ -536,12 +536,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * global_stmt: 'global' NAME (',' NAME)*
 			 */
-			return UnifiedVariableDefinition.Create(
+			return DeprecatedUnifiedVariableDefinition.Create(
 				null,
 					UnifiedModifier.Create("global").ToCollection(),
 					null,
 					node.Elements("NAME").Select(
-							e => UnifiedVariableDefinitionBody.Create(e.Value))
+							e => DeprecatedUnifiedVariableDefinitionBody.Create(e.Value))
 							.ToCollection());
 		}
 
@@ -644,13 +644,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 									? CreateSuite(node.LastElement())
 									: null;
 			return UnifiedForeach.Create(
-					UnifiedVariableDefinition.Create(
+					DeprecatedUnifiedVariableDefinition.Create(
 					null,
 							null,
 							null,
 							exprlist.Select(
 									e =>
-									UnifiedVariableDefinitionBody.Create((UnifiedIdentifier)e))
+									DeprecatedUnifiedVariableDefinitionBody.Create((UnifiedIdentifier)e))
 									.ToCollection()),
 					testlist.ToTupleLiteral(),
 					suite,

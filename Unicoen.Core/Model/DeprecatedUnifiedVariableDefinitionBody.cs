@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	///   なお、変数宣言(UnifiedVariableDefinition)は修飾子と型と本クラスの集合クラス(UnifiedVariableDefinitionBodyCollection)によって表現されます。
 	///   e.g. Javaにおける<c>final int a = b + c;</c>の<c>a = b + c</c>の部分
 	/// </summary>
-	public class UnifiedVariableDefinitionBody : UnifiedElement {
+	public class DeprecatedUnifiedVariableDefinitionBody : UnifiedElement {
 		private UnifiedIdentifier _name;
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace Unicoen.Core.Model {
 			set { _body = SetParentOfChild(value, _body); }
 		}
 
-		private UnifiedVariableDefinitionBody() {}
+		private DeprecatedUnifiedVariableDefinitionBody() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -160,7 +160,7 @@ namespace Unicoen.Core.Model {
 					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(string name) {
+		public static DeprecatedUnifiedVariableDefinitionBody Create(string name) {
 			return Create(
 					UnifiedIdentifier.CreateVariable(name),
 					null,
@@ -169,7 +169,7 @@ namespace Unicoen.Core.Model {
 					null);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				string name,
 				UnifiedTypeSupplementCollection supplements,
 				IUnifiedExpression initialValues) {
@@ -181,18 +181,18 @@ namespace Unicoen.Core.Model {
 					null);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				UnifiedIdentifier name) {
 			return Create(name, null, null, null, null);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				UnifiedIdentifier name,
 				UnifiedTypeSupplementCollection supplements,
 				IUnifiedExpression initialValues,
 				UnifiedArgumentCollection arguments,
 				UnifiedBlock block) {
-			return new UnifiedVariableDefinitionBody {
+			return new DeprecatedUnifiedVariableDefinitionBody {
 					Name = name,
 					Supplements = supplements,
 					InitialValue = initialValues,
@@ -201,14 +201,14 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				UnifiedIdentifier name,
 				UnifiedTypeSupplementCollection supplements,
 				UnifiedIntegerLiteral bitField,
 				IUnifiedExpression initialValues,
 				UnifiedArgumentCollection arguments,
 				UnifiedBlock block) {
-			return new UnifiedVariableDefinitionBody {
+			return new DeprecatedUnifiedVariableDefinitionBody {
 					Name = name,
 					Supplements = supplements,
 					BitField = bitField,

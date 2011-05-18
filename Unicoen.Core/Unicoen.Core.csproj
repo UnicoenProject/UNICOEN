@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
+    <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinitionList.cs" />
     <Compile Include="Model\Extensions\ModelGenerator.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
@@ -147,7 +148,7 @@
     <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedIdentifier.cs" />
-    <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
+    <Compile Include="Model\Expressions\DeprecatedUnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedWhile.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForCollection.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
@@ -178,7 +179,7 @@
     <Compile Include="Model\UnifiedTypeSupplement.cs" />
     <Compile Include="Model\UnifiedTypeSupplementKind.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
-    <Compile Include="Model\UnifiedVariableDefinitionBody.cs" />
+    <Compile Include="Model\DeprecatedUnifiedVariableDefinitionBody.cs" />
     <Compile Include="Processor\IUnifiedModelVisitor.cs" />
     <Compile Include="Processor\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

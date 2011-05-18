@@ -146,14 +146,6 @@ namespace Unicoen.Core.Model {
 			return Parent.RemoveChild(this);
 		}
 
-		public void AddBefore(IUnifiedElement node) {
-			throw new NotImplementedException();
-		}
-
-		public void AddAfter(IUnifiedElement node) {
-			throw new NotImplementedException();
-		}
-
 		/// <summary>
 		///   指定した子要素の親を指定した要素に設定します。
 		/// </summary>
@@ -207,14 +199,11 @@ namespace Unicoen.Core.Model {
 				foreach (var item in seq) {
 					ToStringRecursively(item, buffer, depth + 1);
 				}
-				// TODO: 集合を表現する要素は他のプロパティを持たないはず
-				return;
 			}
 			// write properties without indexer
 			var values = elem.GetType().GetProperties()
 					.Where(prop => prop.Name != "Parent")
-					// TODO: 集合を表現する要素は他のプロパティを持たないはず
-					//.Where(prop => prop.GetIndexParameters().Length == 0)
+					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Select(prop => prop.GetValue(elem, null));
 			foreach (var value in values) {
 				ToStringRecursively(value, buffer, depth + 1);

@@ -39,7 +39,7 @@ namespace Unicoen.Core.Model {
 				UnifiedType variableType,
 				string variableName) {
 			return UnifiedForeach.Create(
-					UnifiedVariableDefinition.CreateSingle(variableType, variableName),
+					DeprecatedUnifiedVariableDefinition.CreateSingle(variableType, variableName),
 					set
 					);
 		}

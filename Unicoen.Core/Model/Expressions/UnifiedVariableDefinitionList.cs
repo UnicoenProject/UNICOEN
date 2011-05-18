@@ -22,7 +22,7 @@ using Unicoen.Core.Visitors;
 namespace Unicoen.Core.Model {
 	public class UnifiedVariableDefinitionList
 			: UnifiedElementCollection
-			  		<UnifiedVariableDefinition, UnifiedVariableDefinitionList>,
+			  		<DeprecatedUnifiedVariableDefinition, UnifiedVariableDefinitionList>,
 			  IUnifiedExpression {
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -42,7 +42,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedVariableDefinitionList() {}
 
 		private UnifiedVariableDefinitionList(
-				IEnumerable<UnifiedVariableDefinition> elements)
+				IEnumerable<DeprecatedUnifiedVariableDefinition> elements)
 				: base(elements) {}
 
 		public static UnifiedVariableDefinitionList Create() {
@@ -50,12 +50,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedVariableDefinitionList Create(
-				params UnifiedVariableDefinition[] elements) {
+				params DeprecatedUnifiedVariableDefinition[] elements) {
 			return new UnifiedVariableDefinitionList(elements);
 		}
 
 		public static UnifiedVariableDefinitionList Create(
-				IEnumerable<UnifiedVariableDefinition> elements) {
+				IEnumerable<DeprecatedUnifiedVariableDefinition> elements) {
 			return new UnifiedVariableDefinitionList(elements);
 		}
 			  }

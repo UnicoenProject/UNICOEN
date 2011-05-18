@@ -293,7 +293,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 					node.Element("specifier_qualifier_list"),
 					out modifiers, out type);
 
-			return UnifiedVariableDefinition.Create(
+			return DeprecatedUnifiedVariableDefinition.Create(
 				null,
 					modifiers, type,
 					CreateStructDeclaratorList(node.Element("struct_declarator_list")));
@@ -349,7 +349,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			return declarators;
 		}
 
-		public static UnifiedVariableDefinitionBody CreateStructDeclarator(
+		public static DeprecatedUnifiedVariableDefinitionBody CreateStructDeclarator(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator");

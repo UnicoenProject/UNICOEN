@@ -188,5 +188,9 @@ namespace Unicoen.Languages.C.CodeFactories {
 		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
 			throw new NotImplementedException();
 		}
+
+		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -106,7 +106,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		// e.g. int a = 5
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinition element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinition element, VisitorState state) {
 			element.Modifiers.TryAccept(this, state);
 			state.WriteSpace();
 			element.Type.TryAccept(this, state);

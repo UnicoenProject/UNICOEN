@@ -47,7 +47,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinition element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinition element, VisitorState state) {
 			element.Modifiers.TryAccept(this, state);
 			state.WriteSpace();
 			element.Type.TryAccept(this, state);
@@ -115,7 +115,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBody element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinitionBody element, VisitorState state) {
 			element.Name.TryAccept(this, state);
 			if (element.InitialValue != null) {
 				state.Writer.Write(" = ");

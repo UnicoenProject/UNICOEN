@@ -421,7 +421,7 @@ namespace Unicoen.Languages.JavaScript.Model {
 						UnifiedClassDefinition.Create(UnifiedClassKind.Class, null, UnifiedIdentifier.CreateType(
 								node.Element("Identifier").Value), null, null, null);
 			}
-			return UnifiedVariableDefinition.CreateSingle(
+			return DeprecatedUnifiedVariableDefinition.CreateSingle(
 					null,
 					null,
 					CreateExpression(node.Element("initialiser")),

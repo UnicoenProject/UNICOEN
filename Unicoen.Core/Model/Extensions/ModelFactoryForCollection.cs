@@ -213,22 +213,22 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedVariableDefinitionBodyCollection ToCollection(
-				this IEnumerable<UnifiedVariableDefinitionBody> collection) {
+				this IEnumerable<DeprecatedUnifiedVariableDefinitionBody> collection) {
 			return UnifiedVariableDefinitionBodyCollection.Create(collection);
 		}
 
 		public static UnifiedVariableDefinitionBodyCollection ToCollection(
-				this UnifiedVariableDefinitionBody singleton) {
+				this DeprecatedUnifiedVariableDefinitionBody singleton) {
 			return UnifiedVariableDefinitionBodyCollection.Create(singleton);
 		}
 
 		public static UnifiedVariableDefinitionList ToCollection(
-				this IEnumerable<UnifiedVariableDefinition> collection) {
+				this IEnumerable<DeprecatedUnifiedVariableDefinition> collection) {
 					return UnifiedVariableDefinitionList.Create(collection);
 		}
 
 		public static UnifiedVariableDefinitionList ToCollection(
-				this UnifiedVariableDefinition singleton)
+				this DeprecatedUnifiedVariableDefinition singleton)
 		{
 					return UnifiedVariableDefinitionList.Create(singleton);
 		}

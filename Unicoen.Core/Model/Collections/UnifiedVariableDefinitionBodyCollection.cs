@@ -26,11 +26,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedVariableDefinitionBodyCollection
 			: UnifiedElementCollection
-			  		<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection> {
+			  		<DeprecatedUnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection> {
 		private UnifiedVariableDefinitionBodyCollection() {}
 
 		private UnifiedVariableDefinitionBodyCollection(
-				IEnumerable<UnifiedVariableDefinitionBody> elements)
+				IEnumerable<DeprecatedUnifiedVariableDefinitionBody> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -53,12 +53,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedVariableDefinitionBodyCollection Create(
-				params UnifiedVariableDefinitionBody[] elements) {
+				params DeprecatedUnifiedVariableDefinitionBody[] elements) {
 			return new UnifiedVariableDefinitionBodyCollection(elements);
 		}
 
 		public static UnifiedVariableDefinitionBodyCollection Create(
-				IEnumerable<UnifiedVariableDefinitionBody> elements) {
+				IEnumerable<DeprecatedUnifiedVariableDefinitionBody> elements) {
 			return new UnifiedVariableDefinitionBodyCollection(elements);
 		}
 			  		}

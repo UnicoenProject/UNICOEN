@@ -432,9 +432,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				var name = nVar.Name;
 				var nInitValue = nVar.Initializer;
 				var uInitValue = nInitValue == null ? null : nInitValue.AcceptVisitor(this, data) as IUnifiedExpression;
-				uBodies.Add(UnifiedVariableDefinitionBody.Create(name, null, uInitValue));
+				uBodies.Add(DeprecatedUnifiedVariableDefinitionBody.Create(name, null, uInitValue));
 			}
-			return UnifiedVariableDefinition.Create(null, uMods, uType, uBodies);
+			return DeprecatedUnifiedVariableDefinition.Create(null, uMods, uType, uBodies);
 
 
 			throw new NotImplementedException("VariableDeclarationStatement");
@@ -503,9 +503,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				var name = nVar.Name;
 				var nInitValue = nVar.Initializer;
 				var uInitValue = nInitValue == null ? null : nInitValue.AcceptVisitor(this, data) as IUnifiedExpression;
-				uBodies.Add(UnifiedVariableDefinitionBody.Create(name, null, uInitValue));
+				uBodies.Add(DeprecatedUnifiedVariableDefinitionBody.Create(name, null, uInitValue));
 			}
-			return UnifiedVariableDefinition.Create(null, uMods, uType, uBodies);
+			return DeprecatedUnifiedVariableDefinition.Create(null, uMods, uType, uBodies);
 		}
 
 		public IUnifiedElement VisitIndexerDeclaration(IndexerDeclaration indexerDeclaration, object data) {

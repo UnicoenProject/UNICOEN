@@ -234,7 +234,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinition element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinition element, VisitorState state) {
 			element.Bodys.TryAccept(this, state);
 			return true;
 		}
@@ -460,7 +460,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBody element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinitionBody element, VisitorState state) {
 			element.Name.TryAccept(this, state);
 			element.Supplements.TryAccept(this, state);
 			if (element.InitialValue != null) {
