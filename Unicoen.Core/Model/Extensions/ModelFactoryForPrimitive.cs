@@ -50,7 +50,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedType ToType(this string name) {
-			return UnifiedType.CreateUsingString(name);
+			return UnifiedType.Create(name);
 		}
 
 		public static UnifiedClassDefinition ToClassDefinition(this string name) {

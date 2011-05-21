@@ -117,16 +117,12 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedNew CreateArray(string name, UnifiedArgument argument) {
 			return Create(
-					UnifiedType.CreateUsingString(
-							name,
-							null));
+					UnifiedType.Create());
 		}
 
 		public static UnifiedNew CreateArray(UnifiedExpressionList initialValues) {
 			return Create(
-					UnifiedType.CreateUsingString(
-							null,
-							null),
+					UnifiedType.Create(),
 					null,
 					null,
 					initialValues,

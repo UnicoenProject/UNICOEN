@@ -22,13 +22,15 @@ using System.Linq;
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
 		public static UnifiedSimpleType Create(string name) {
-			Contract.Requires(!string.IsNullOrEmpty(name));
+			// new[] の場合，NameExpressionがnullなUnifiedSimpleTypeを生成する．
 			return new UnifiedSimpleType {
-					NameExpression = UnifiedIdentifier.CreateType(name),
+					NameExpression = name != null
+					                 		? UnifiedIdentifier.CreateType(name)
+					                 		: null,
 			};
 		}
 
-		public static UnifiedSimpleType Create(IUnifiedExpression nameExpression) {
+		public static UnifiedSimpleType Create(IUnifiedExpression nameExpression = null) {
 			return new UnifiedSimpleType {
 					NameExpression = nameExpression,
 			};
