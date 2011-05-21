@@ -288,7 +288,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedType element, VisitorState state) {
 			element.NameExpression.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state);
 			return false;
 		}
 
