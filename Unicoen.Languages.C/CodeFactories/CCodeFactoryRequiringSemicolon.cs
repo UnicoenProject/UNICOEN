@@ -22,7 +22,9 @@ using Unicoen.Core.Visitors;
 using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Languages.C.CodeFactories {
+	
 	public partial class CCodeFactory {
+
 		public static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedBinaryExpression || parent is UnifiedUnaryExpression

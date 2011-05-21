@@ -823,7 +823,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return
 					UnifiedNew.Create(
 							UnifiedType.Create(
-									CreateNewExpression(node.Element("newExpression")), null));
+									CreateNewExpression(node.Element("newExpression"))));
 		}
 
 		public static IUnifiedExpression CreateMemberExpression(XElement node) {
