@@ -28,14 +28,14 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Function {
 			get { return _function; }
-			set { _function = SetParentOfChild(value, _function); }
+			set { _function = SetChild(value, _function); }
 		}
 
 		private UnifiedTypeArgumentCollection _typeArguments;
 
 		public UnifiedTypeArgumentCollection TypeArguments {
 			get { return _typeArguments; }
-			set { _typeArguments = SetParentOfChild(value, _typeArguments); }
+			set { _typeArguments = SetChild(value, _typeArguments); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -46,7 +46,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		private UnifiedCall() {}

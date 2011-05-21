@@ -35,7 +35,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedExpressionCollection Elements {
 			get { return _elements; }
-			set { _elements = SetParentOfChild(value, _elements); }
+			set { _elements = SetChild(value, _elements); }
 		}
 
 		private UnifiedList() {}

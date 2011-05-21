@@ -28,28 +28,28 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression From {
 			get { return _from; }
-			set { _from = SetParentOfChild(value, _from); }
+			set { _from = SetChild(value, _from); }
 		}
 
 		private IUnifiedExpression _name;
 
 		public IUnifiedExpression Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedIdentifier _alias;
 
 		public UnifiedIdentifier Alias {
 			get { return _alias; }
-			set { _alias = SetParentOfChild(value, _alias); }
+			set { _alias = SetChild(value, _alias); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedImport() {}

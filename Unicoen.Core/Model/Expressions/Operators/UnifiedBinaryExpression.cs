@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression LeftHandSide {
 			get { return _leftHandSide; }
-			set { _leftHandSide = SetParentOfChild(value, _leftHandSide); }
+			set { _leftHandSide = SetChild(value, _leftHandSide); }
 		}
 
 		private UnifiedBinaryOperator _operator;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedBinaryOperator Operator {
 			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
+			set { _operator = SetChild(value, _operator); }
 		}
 
 		private IUnifiedExpression _rightHandSide;
@@ -54,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression RightHandSide {
 			get { return _rightHandSide; }
-			set { _rightHandSide = SetParentOfChild(value, _rightHandSide); }
+			set { _rightHandSide = SetChild(value, _rightHandSide); }
 		}
 
 		private UnifiedBinaryExpression() {}

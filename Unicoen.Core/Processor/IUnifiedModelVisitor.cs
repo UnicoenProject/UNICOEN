@@ -93,6 +93,8 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedAnnotationCollection element);
 		void Visit(UnifiedVariableDefinitionList element);
 		void Visit(UnifiedVariableDefinition element);
+		void Visit(UnifiedArrayType element);
+		void Visit(UnifiedSupplementType element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -169,6 +171,8 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedAnnotationCollection element, TState state);
 		void Visit(UnifiedVariableDefinitionList element, TState state);
 		void Visit(UnifiedVariableDefinition element, TState state);
+		void Visit(UnifiedArrayType element, TState state);
+		void Visit(UnifiedSupplementType element, TState state);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -245,5 +249,7 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedAnnotationCollection element, TState state);
 		TResult Visit(UnifiedVariableDefinitionList element, TState state);
 		TResult Visit(UnifiedVariableDefinition element, TState state);
+		TResult Visit(UnifiedArrayType element, TState state);
+		TResult Visit(UnifiedSupplementType element, TState state);
 	}
 }

@@ -27,28 +27,28 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private IUnifiedExpression _matcher;
 
 		public IUnifiedExpression Matcher {
 			get { return _matcher; }
-			set { _matcher = SetParentOfChild(value, _matcher); }
+			set { _matcher = SetChild(value, _matcher); }
 		}
 
 		private IUnifiedExpression _as;
 
 		public IUnifiedExpression As {
 			get { return _as; }
-			set { _as = SetParentOfChild(value, _as); }
+			set { _as = SetChild(value, _as); }
 		}
 
 		private UnifiedMatcher() {}

@@ -34,35 +34,35 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
-			set { _parameters = SetParentOfChild(value, _parameters); }
+			set { _parameters = SetChild(value, _parameters); }
 		}
 
 		private UnifiedTypeParameterCollection _typeParameters;
 
 		public UnifiedTypeParameterCollection TypeParameters {
 			get { return _typeParameters; }
-			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
+			set { _typeParameters = SetChild(value, _typeParameters); }
 		}
 
 		private UnifiedTypeCollection _throws;
 
 		public UnifiedTypeCollection Throws {
 			get { return _throws; }
-			set { _throws = SetParentOfChild(value, _throws); }
+			set { _throws = SetChild(value, _throws); }
 		}
 
 		private UnifiedConstructorDefinition() {}

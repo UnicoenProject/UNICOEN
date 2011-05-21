@@ -40,7 +40,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
 		private UnifiedTypeConstrain() {}

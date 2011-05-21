@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedCatchCollection Catches {
 			get { return _catches; }
-			set { _catches = SetParentOfChild(value, _catches); }
+			set { _catches = SetChild(value, _catches); }
 		}
 
 		private UnifiedBlock _elseBody;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
-			set { _elseBody = SetParentOfChild(value, _elseBody); }
+			set { _elseBody = SetChild(value, _elseBody); }
 		}
 
 		private UnifiedBlock _finallyBody;
@@ -54,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedBlock FinallyBody {
 			get { return _finallyBody; }
-			set { _finallyBody = SetParentOfChild(value, _finallyBody); }
+			set { _finallyBody = SetChild(value, _finallyBody); }
 		}
 
 		private UnifiedTry() {}

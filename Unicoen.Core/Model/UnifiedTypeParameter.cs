@@ -33,7 +33,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
 		private UnifiedTypeConstrainCollection _constrains;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
-			set { _constrains = SetParentOfChild(value, _constrains); }
+			set { _constrains = SetChild(value, _constrains); }
 		}
 
 		private UnifiedTypeParameter() {}

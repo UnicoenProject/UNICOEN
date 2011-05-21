@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Initializer {
 			get { return _initializer; }
-			set { _initializer = SetParentOfChild(value, _initializer); }
+			set { _initializer = SetChild(value, _initializer); }
 		}
 
 		private IUnifiedExpression _condition;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set { _condition = SetChild(value, _condition); }
 		}
 
 		private IUnifiedExpression _step;
@@ -54,14 +54,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Step {
 			get { return _step; }
-			set { _step = SetParentOfChild(value, _step); }
+			set { _step = SetChild(value, _step); }
 		}
 
 		private UnifiedBlock _falseBody;
 
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
-			set { _falseBody = SetParentOfChild(value, _falseBody); }
+			set { _falseBody = SetChild(value, _falseBody); }
 		}
 
 		private UnifiedFor() {}

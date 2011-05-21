@@ -35,7 +35,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		/// <summary>

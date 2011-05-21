@@ -33,14 +33,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set { _condition = SetChild(value, _condition); }
 		}
 
 		private UnifiedBlock _elseBody;
 
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
-			set { _elseBody = SetParentOfChild(value, _elseBody); }
+			set { _elseBody = SetChild(value, _elseBody); }
 		}
 
 		private UnifiedWhile() {}

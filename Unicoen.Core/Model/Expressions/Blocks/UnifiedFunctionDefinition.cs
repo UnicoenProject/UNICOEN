@@ -37,7 +37,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
@@ -48,7 +48,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
@@ -59,35 +59,35 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
 		private UnifiedTypeParameterCollection _typeParameters;
 
 		public UnifiedTypeParameterCollection TypeParameters {
 			get { return _typeParameters; }
-			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
+			set { _typeParameters = SetChild(value, _typeParameters); }
 		}
 
 		private UnifiedIdentifier _name;
 
 		public UnifiedIdentifier Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
-			set { _parameters = SetParentOfChild(value, _parameters); }
+			set { _parameters = SetChild(value, _parameters); }
 		}
 
 		private UnifiedTypeCollection _throws;
 
 		public UnifiedTypeCollection Throws {
 			get { return _throws; }
-			set { _throws = SetParentOfChild(value, _throws); }
+			set { _throws = SetChild(value, _throws); }
 		}
 
 		private UnifiedFunctionDefinition() {}

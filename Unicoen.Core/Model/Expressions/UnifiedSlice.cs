@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Start {
 			get { return _start; }
-			set { _start = SetParentOfChild(value, _start); }
+			set { _start = SetChild(value, _start); }
 		}
 
 		private IUnifiedExpression _end;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression End {
 			get { return _end; }
-			set { _end = SetParentOfChild(value, _end); }
+			set { _end = SetChild(value, _end); }
 		}
 
 		private IUnifiedExpression _step;
@@ -54,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Step {
 			get { return _step; }
-			set { _step = SetParentOfChild(value, _step); }
+			set { _step = SetChild(value, _step); }
 		}
 
 		private UnifiedSlice() {}

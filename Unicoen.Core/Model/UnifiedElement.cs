@@ -202,7 +202,7 @@ namespace Unicoen.Core.Model {
 		/// <param name = "child">新たに設定する子要素</param>
 		/// <param name = "oldChild">元の子要素</param>
 		/// <returns></returns>
-		public T SetParentOfChild<T>(T child, IUnifiedElement oldChild)
+		public T SetChild<T>(T child, IUnifiedElement oldChild)
 				where T : class, IUnifiedElement {
 			if (child != null) {
 				if (child.Parent != null) {

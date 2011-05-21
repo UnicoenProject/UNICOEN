@@ -31,21 +31,21 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private IUnifiedExpression _value;
 
 		public IUnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set { _value = SetChild(value, _value); }
 		}
 
 		private UnifiedTypeConstrainCollection _constrains;
 
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
-			set { _constrains = SetParentOfChild(value, _constrains); }
+			set { _constrains = SetChild(value, _constrains); }
 		}
 
 		private UnifiedTypeArgument() {}

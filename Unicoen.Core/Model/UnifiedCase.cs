@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set { _condition = SetChild(value, _condition); }
 		}
 
 		private UnifiedBlock _body;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedBlock Body {
 			get { return _body; }
-			set { _body = SetParentOfChild(value, _body); }
+			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedCase() {}

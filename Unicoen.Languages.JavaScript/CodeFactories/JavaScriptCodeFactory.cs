@@ -291,7 +291,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedType element, VisitorState state) {
-			element.Name.TryAccept(this, state);
+			element.NameExpression.TryAccept(this, state);
 			return false;
 		}
 

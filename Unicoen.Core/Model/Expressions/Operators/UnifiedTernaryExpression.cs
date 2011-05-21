@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set { _condition = SetChild(value, _condition); }
 		}
 
 		private IUnifiedExpression _trueExpression;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression TrueExpression {
 			get { return _trueExpression; }
-			set { _trueExpression = SetParentOfChild(value, _trueExpression); }
+			set { _trueExpression = SetChild(value, _trueExpression); }
 		}
 
 		private IUnifiedExpression _falseExpression;
@@ -54,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression FalseExpression {
 			get { return _falseExpression; }
-			set { _falseExpression = SetParentOfChild(value, _falseExpression); }
+			set { _falseExpression = SetChild(value, _falseExpression); }
 		}
 
 		private UnifiedTernaryExpression() {}

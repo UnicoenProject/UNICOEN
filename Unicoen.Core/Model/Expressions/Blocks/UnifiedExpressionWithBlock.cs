@@ -29,7 +29,7 @@ namespace Unicoen.Core.Model {
 
 		public UnifiedBlock Body {
 			get { return _body; }
-			set { _body = SetParentOfChild(value, _body); }
+			set { _body = SetChild(value, _body); }
 		}
 			}
 

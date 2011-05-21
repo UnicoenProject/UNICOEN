@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private IUnifiedExpression _value;
@@ -42,7 +42,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set { _value = SetChild(value, _value); }
 		}
 
 		private UnifiedIdentifier _target;
@@ -52,7 +52,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedIdentifier Target {
 			get { return _target; }
-			set { _target = SetParentOfChild(Target, _target); }
+			set { _target = SetChild(Target, _target); }
 		}
 
 		private UnifiedArgument() {}

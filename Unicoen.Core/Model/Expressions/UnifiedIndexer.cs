@@ -28,14 +28,14 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Target {
 			get { return _target; }
-			set { _target = SetParentOfChild(value, _target); }
+			set { _target = SetChild(value, _target); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		private UnifiedIndexer() {}

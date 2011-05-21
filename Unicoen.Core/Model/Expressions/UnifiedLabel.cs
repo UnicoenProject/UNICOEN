@@ -28,7 +28,7 @@ namespace Unicoen.Core.Model {
 
 		public UnifiedIdentifier Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedLabel() {}

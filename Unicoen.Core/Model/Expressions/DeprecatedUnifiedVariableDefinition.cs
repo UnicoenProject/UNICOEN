@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
@@ -54,14 +54,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
 		private UnifiedVariableDefinitionBodyCollection _bodys;
 
 		public UnifiedVariableDefinitionBodyCollection Bodys {
 			get { return _bodys; }
-			set { _bodys = SetParentOfChild(value, _bodys); }
+			set { _bodys = SetChild(value, _bodys); }
 		}
 
 		private DeprecatedUnifiedVariableDefinition() {}

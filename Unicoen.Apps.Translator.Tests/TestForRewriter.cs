@@ -81,8 +81,8 @@ namespace Unicoen.Apps.Translator.Tests {
 					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
 			var f = functions.ElementAt(0);
 			var type = f.Type;
-			Console.WriteLine(type.Name);
-			Console.WriteLine(newType.Name);
+			Console.WriteLine(type.NameExpression);
+			Console.WriteLine(newType.NameExpression);
 			Rewriter.Rewriter.Instance.ExchageElement(type, newType);
 
 			Console.WriteLine(JavaFactory.GenerateCode(_program));

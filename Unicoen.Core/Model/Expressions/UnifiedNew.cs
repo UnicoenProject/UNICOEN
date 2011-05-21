@@ -28,21 +28,21 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Target {
 			get { return _target; }
-			set { _target = SetParentOfChild(value, _target); }
+			set { _target = SetChild(value, _target); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		private UnifiedTypeArgumentCollection _typeArguments;
 
 		public UnifiedTypeArgumentCollection TypeArguments {
 			get { return _typeArguments; }
-			set { _typeArguments = SetParentOfChild(value, _typeArguments); }
+			set { _typeArguments = SetChild(value, _typeArguments); }
 		}
 
 		private UnifiedExpressionList _initialValue;
@@ -53,7 +53,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedExpressionList InitialValue {
 			get { return _initialValue; }
-			set { _initialValue = SetParentOfChild(value, _initialValue); }
+			set { _initialValue = SetChild(value, _initialValue); }
 		}
 
 		private UnifiedNew() {}
@@ -119,18 +119,14 @@ namespace Unicoen.Core.Model {
 			return Create(
 					UnifiedType.CreateUsingString(
 							name,
-							null,
-							UnifiedTypeSupplementCollection.Create(
-									UnifiedTypeSupplement.CreateArray(argument))));
+							null));
 		}
 
 		public static UnifiedNew CreateArray(UnifiedExpressionList initialValues) {
 			return Create(
 					UnifiedType.CreateUsingString(
 							null,
-							null,
-							UnifiedTypeSupplementCollection.Create(
-									UnifiedTypeSupplement.CreateArray())),
+							null),
 					null,
 					null,
 					initialValues,

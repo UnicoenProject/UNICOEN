@@ -30,7 +30,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedKeyValueCollection KeyValues {
 			get { return _keyValues; }
-			set { _keyValues = SetParentOfChild(value, _keyValues); }
+			set { _keyValues = SetChild(value, _keyValues); }
 		}
 
 		private UnifiedDictonary() {}

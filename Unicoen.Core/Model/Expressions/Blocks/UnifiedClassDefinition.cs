@@ -37,7 +37,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
@@ -48,14 +48,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private IUnifiedExpression _name;
 
 		public IUnifiedExpression Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		// generics とか
@@ -63,7 +63,7 @@ namespace Unicoen.Core.Model {
 
 		public UnifiedTypeParameterCollection TypeParameters {
 			get { return _typeParameters; }
-			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
+			set { _typeParameters = SetChild(value, _typeParameters); }
 		}
 
 		// 継承とか
@@ -71,7 +71,7 @@ namespace Unicoen.Core.Model {
 
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
-			set { _constrains = SetParentOfChild(value, _constrains); }
+			set { _constrains = SetChild(value, _constrains); }
 		}
 
 		private UnifiedClassDefinition() {}

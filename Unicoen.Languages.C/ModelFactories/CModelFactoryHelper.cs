@@ -141,7 +141,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			String s = "";
 			String prefix = "";
 			foreach (UnifiedType t in types) {
-				s += prefix + t.Name;
+				s += prefix + t.NameExpression;
 				prefix = " ";
 			}
 			type =
@@ -327,7 +327,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			String s = "";
 			String prefix = "";
 			foreach (UnifiedType t in types) {
-				s += prefix + t.Name;
+				s += prefix + t.NameExpression;
 				prefix = " ";
 			}
 			type = s.Equals("")

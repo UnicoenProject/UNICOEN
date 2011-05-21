@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Element {
 			get { return _element; }
-			set { _element = SetParentOfChild(value, _element); }
+			set { _element = SetChild(value, _element); }
 		}
 
 		private IUnifiedExpression _set;
@@ -43,14 +43,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Set {
 			get { return _set; }
-			set { _set = SetParentOfChild(value, _set); }
+			set { _set = SetChild(value, _set); }
 		}
 
 		private UnifiedBlock _elseBody;
 
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
-			set { _elseBody = SetParentOfChild(value, _elseBody); }
+			set { _elseBody = SetChild(value, _elseBody); }
 		}
 
 		private UnifiedForeach() {}

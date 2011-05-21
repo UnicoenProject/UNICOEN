@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 
 		public UnifiedMatcherCollection Matchers {
 			get { return _matchers; }
-			set { _matchers = SetParentOfChild(value, _matchers); }
+			set { _matchers = SetChild(value, _matchers); }
 		}
 
 		private UnifiedUsing() {}

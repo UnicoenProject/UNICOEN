@@ -30,7 +30,7 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set { _value = SetChild(value, _value); }
 		}
 
 		private UnifiedSpecialExpression() {}

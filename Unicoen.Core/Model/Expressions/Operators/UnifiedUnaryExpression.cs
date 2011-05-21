@@ -34,7 +34,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedUnaryOperator Operator {
 			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
+			set { _operator = SetChild(value, _operator); }
 		}
 
 		private IUnifiedExpression _operand;
@@ -45,7 +45,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Operand {
 			get { return _operand; }
-			set { _operand = SetParentOfChild(value, _operand); }
+			set { _operand = SetChild(value, _operand); }
 		}
 
 		private UnifiedUnaryExpression() {}

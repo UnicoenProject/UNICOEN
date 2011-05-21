@@ -548,7 +548,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 			var throws = node.HasElement("qualifiedNameList")
 			             		? CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			             		  		.Select(e => UnifiedType.Create(e, null, null))
+			             		  		.Select(e => UnifiedType.Create(e, null))
 			             		  		.ToCollection()
 			             		: null;
 			var body = node.HasElement("block")
@@ -684,7 +684,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var throws = node.HasElement("qualifiedNameList")
 			             		? UnifiedTypeCollection.Create(
 			             				CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			             						.Select(e => UnifiedType.Create(e, null, null)))
+			             						.Select(e => UnifiedType.Create(e, null)))
 			             		: null;
 
 			return UnifiedFunctionDefinition.Create(
@@ -767,15 +767,14 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								                    		: null;
 								return UnifiedType.Create(
 										UnifiedIdentifier.CreateType(e.Value),
-										typeArguments,
-										null);
+										typeArguments);
 							}).ToList();
 			if (innerTypes.Count == 1)
 				return innerTypes[0];
 			var lastType = innerTypes[innerTypes.Count - 1];
 			var lastArguments = lastType.Arguments;
 			lastType.Arguments.Remove();
-			return UnifiedType.Create(innerTypes.ToProperty("."), lastArguments, null);
+			return UnifiedType.Create(innerTypes.ToProperty("."), lastArguments);
 		}
 
 		public static UnifiedType CreatePrimitiveType(XElement node) {
@@ -1721,7 +1720,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 						.ToProperty(".");
 
 				var id = prefix.Select(UnifiedIdentifier.CreateUnknown).ToProperty(".");
-				var type = UnifiedType.Create(id, null, null);
+				var type = UnifiedType.Create(id, null);
 				return identifierSuffixNode == null
 				       		? prefixProp
 				       		: CreateIdentifierSuffix(prefixProp, type, identifierSuffixNode);

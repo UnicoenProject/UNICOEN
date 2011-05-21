@@ -19,10 +19,17 @@
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
-	public class UnifiedAnnotation : UnifiedElement, IUnifiedExpression {
-		private UnifiedType _type;
+	/// <summary>
+	///   Javaにおける<c>int[10] a;</c>の<c>[10]</c>部分、
+	///   <c>int[] a;</c>の<c>[]</c>部分などが該当します。
+	/// </summary>
+	public class UnifiedArrayType : UnifiedTypeBase {
+		private UnifiedTypeBase _type;
 
-		public UnifiedType Type {
+		/// <summary>
+		///   修飾しているベースとなる型を取得します．
+		/// </summary>
+		public UnifiedTypeBase Type {
 			get { return _type; }
 			set { _type = SetChild(value, _type); }
 		}
@@ -30,34 +37,39 @@ namespace Unicoen.Core.Model {
 		private UnifiedArgumentCollection _arguments;
 
 		/// <summary>
-		///   実引数の集合を表します
-		///   e.g. Javaにおける<c>method(a, b, c)</c>の<c>a, b, c</c>の部分
+		///   実引数の集合を取得します．
+		///   e.g. Cにおける<c>new int[10]</c>の<c>10</c>
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
 
-		private UnifiedAnnotation() {}
+		/// <summary>
+		///   長方形配列化どうか取得します．
+		/// </summary>
+		public bool IsRectangleArray {
+			get { return _arguments != null && _arguments.Count >= 2; }
+		}
+
+		private UnifiedArrayType() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
+		public override void Accept<TState>(
+				IUnifiedModelVisitor<TState> visitor, TState state) {
 			visitor.Visit(this, state);
 		}
 
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+		public override TResult Accept<TState, TResult>(
+				IUnifiedModelVisitor<TState, TResult> visitor, TState state) {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedAnnotation Create(
-				UnifiedType type, UnifiedArgumentCollection arguments) {
-			return new UnifiedAnnotation {
+		public static UnifiedArrayType Create(UnifiedTypeBase type, UnifiedArgumentCollection arguments = null) {
+			return new UnifiedArrayType {
 					Type = type,
 					Arguments = arguments,
 			};

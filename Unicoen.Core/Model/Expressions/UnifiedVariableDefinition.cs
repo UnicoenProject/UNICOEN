@@ -31,7 +31,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
@@ -42,7 +42,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
@@ -53,7 +53,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
 		private UnifiedIdentifier _name;
@@ -64,7 +64,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedIdentifier Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedTypeSupplementCollection _supplements;
@@ -75,7 +75,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedTypeSupplementCollection Supplements {
 			get { return _supplements; }
-			set { _supplements = SetParentOfChild(value, _supplements); }
+			set { _supplements = SetChild(value, _supplements); }
 		}
 
 		private UnifiedIntegerLiteral _bitField;
@@ -86,7 +86,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedIntegerLiteral BitField {
 			get { return _bitField; }
-			set { _bitField = SetParentOfChild(value, _bitField); }
+			set { _bitField = SetChild(value, _bitField); }
 		}
 
 		private IUnifiedExpression _initialValue;
@@ -99,7 +99,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression InitialValue {
 			get { return _initialValue; }
-			set { _initialValue = SetParentOfChild(value, _initialValue); }
+			set { _initialValue = SetChild(value, _initialValue); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -110,7 +110,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		private UnifiedBlock _body;
@@ -129,7 +129,7 @@ namespace Unicoen.Core.Model {
 		///</summary>
 		public UnifiedBlock Body {
 			get { return _body; }
-			set { _body = SetParentOfChild(value, _body); }
+			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedVariableDefinition() {}

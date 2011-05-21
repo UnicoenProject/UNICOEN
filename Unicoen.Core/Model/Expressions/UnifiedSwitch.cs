@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set { _value = SetChild(value, _value); }
 		}
 
 		private UnifiedCaseCollection _cases;
@@ -42,7 +42,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedCaseCollection Cases {
 			get { return _cases; }
-			set { _cases = SetParentOfChild(value, _cases); }
+			set { _cases = SetChild(value, _cases); }
 		}
 
 		private UnifiedSwitch() {}

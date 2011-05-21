@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedMatcherCollection Matchers {
 			get { return _matchers; }
-			set { _matchers = SetParentOfChild(value, _matchers); }
+			set { _matchers = SetChild(value, _matchers); }
 		}
 
 		private UnifiedCatch() {}

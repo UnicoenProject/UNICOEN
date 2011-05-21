@@ -30,14 +30,14 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Owner {
 			get { return _owner; }
-			set { _owner = SetParentOfChild(value, _owner); }
+			set { _owner = SetChild(value, _owner); }
 		}
 
 		private IUnifiedExpression _name;
 
 		public IUnifiedExpression Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		public string Delimiter { get; set; }

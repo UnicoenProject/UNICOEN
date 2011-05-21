@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
 		private IUnifiedExpression _expression;
@@ -43,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Expression {
 			get { return _expression; }
-			set { _expression = SetParentOfChild(value, _expression); }
+			set { _expression = SetChild(value, _expression); }
 		}
 
 		private UnifiedCast() {}

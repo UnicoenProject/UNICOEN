@@ -33,7 +33,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedComment Comments {
 			get { return _comments; }
-			set { _comments = SetParentOfChild(value, _comments); }
+			set { _comments = SetChild(value, _comments); }
 		}
 
 		private UnifiedProgram() {}
