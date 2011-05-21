@@ -260,10 +260,10 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			if (node.Elements().Count() == 1) {
 				return UnifiedTypeParameter.Create(
-						UnifiedType.CreateUsingString(node.FirstElement().Value));
+						UnifiedType.Create(node.FirstElement().Value));
 			}
 			return UnifiedTypeParameter.Create(
-					UnifiedType.CreateUsingString(node.FirstElement().Value),
+					UnifiedType.Create(node.FirstElement().Value),
 					UnifiedTypeConstrainCollection.Create(
 							CreateTypeBound(node.LastElement())
 									.Select(UnifiedTypeConstrain.CreateExtendsOrImplements))
@@ -542,13 +542,13 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                     		: null;
 			var type = CreateType(node.Element("type")); //コンストラクタの場合はnullになるがどうせ使わない
 			var dimension = node.ElementsByContent("[").Count();
-			for (var i = 0; i < dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			type = type.WrapArrayRepeatedly(dimension);
+
 			var annotationsAndModifiers = CreateModifiers(node.Element("modifiers"));
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 			var throws = node.HasElement("qualifiedNameList")
 			             		? CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			             		  		.Select(e => UnifiedType.Create(e, null))
+			             		  		.Select(e => UnifiedType.Create(e))
 			             		  		.ToCollection()
 			             		: null;
 			var body = node.HasElement("block")
@@ -675,8 +675,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                     		: null;
 			var type = CreateType(node.Element("type"));
 			var dimension = node.ElementsByContent("[").Count();
-			for (var i = 0; i < dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			type = type.WrapArrayRepeatedly(dimension);
 			var name = UnifiedIdentifier.CreateFunction(
 					node.Element("IDENTIFIER").Value);
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
@@ -684,7 +683,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var throws = node.HasElement("qualifiedNameList")
 			             		? UnifiedTypeCollection.Create(
 			             				CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			             						.Select(e => UnifiedType.Create(e, null)))
+			             						.Select(e => UnifiedType.Create(e)))
 			             		: null;
 
 			return UnifiedFunctionDefinition.Create(
@@ -728,7 +727,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 
 			if (node == null)
-				return UnifiedType.CreateUsingString("void");
+				return UnifiedType.Create("void");
 
 			var first = node.FirstElement();
 			UnifiedType type;
@@ -744,8 +743,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				throw new InvalidOperationException();
 			}
 			var dimension = node.ElementsByContent("[").Count();
-			for (var i = 0; i < dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			type = type.WrapArrayRepeatedly(dimension);
 			return type;
 		}
 
@@ -766,15 +764,15 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								                    		? CreateTypeArguments(typeArgumentsNode)
 								                    		: null;
 								return UnifiedType.Create(
-										UnifiedIdentifier.CreateType(e.Value),
-										typeArguments);
+										UnifiedIdentifier.CreateType(e.Value)).WrapGeneric(typeArguments);
 							}).ToList();
 			if (innerTypes.Count == 1)
 				return innerTypes[0];
 			var lastType = innerTypes[innerTypes.Count - 1];
 			var lastArguments = lastType.Arguments;
 			lastType.Arguments.Remove();
-			return UnifiedType.Create(innerTypes.ToProperty("."), lastArguments);
+			return
+					UnifiedType.Create(innerTypes.ToProperty(".")).WrapGeneric(lastArguments);
 		}
 
 		public static UnifiedType CreatePrimitiveType(XElement node) {
@@ -784,7 +782,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * primitiveType  
 			 * :   'boolean' | 'char' | 'byte' | 'short' | 'int' | 'long' | 'float' | 'double' 
 			 */
-			return UnifiedType.CreateUsingString(node.Value);
+			return UnifiedType.Create(node.Value);
 		}
 
 		public static UnifiedTypeArgumentCollection CreateTypeArguments(XElement node) {
@@ -811,7 +809,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				return UnifiedTypeArgument.Create(CreateType(node.FirstElement()), null);
 			}
 
-			var type = UnifiedType.CreateUsingString(node.NthElement(0).Value);
+			var type = UnifiedType.Create(node.NthElement(0).Value);
 			UnifiedTypeConstrain constrains = null;
 
 			if (node.HasElement("type")) {
@@ -883,8 +881,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					CreateVariableModifiers(node.Element("variableModifiers"));
 			var type = CreateType(node.Element("type"));
 			var dimension = node.ElementsByContent("[").Count();
-			for (var i = 0; i < dimension; i++)
-				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
+			type = type.WrapArrayRepeatedly(dimension);
 			return UnifiedParameter.Create(
 					annotationsAndModifiers.Item1, annotationsAndModifiers.Item2, type,
 					node.Element("IDENTIFIER").Value);
@@ -1366,9 +1363,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 
 			var type = CreateType(node.NthElement(1));
 			var dimension = node.ElementsByContent("[").Count();
-			for (int i = 0; i < dimension; i++) {
-				type.AddSupplement(UnifiedTypeSupplement.CreateArray());
-			}
+			type = type.WrapArrayRepeatedly(dimension);
 			var annotationsAndModifiers = CreateVariableModifiers(node.FirstElement());
 			return UnifiedMatcher.Create(
 					annotationsAndModifiers.Item1,
@@ -1720,7 +1715,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 						.ToProperty(".");
 
 				var id = prefix.Select(UnifiedIdentifier.CreateUnknown).ToProperty(".");
-				var type = UnifiedType.Create(id, null);
+				var type = UnifiedType.Create(id);
 				return identifierSuffixNode == null
 				       		? prefixProp
 				       		: CreateIdentifierSuffix(prefixProp, type, identifierSuffixNode);
@@ -1740,7 +1735,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 						.Take(node.Elements().Count() - 2)
 						.Aggregate("", (s, e) => s + e.Value);
 				return UnifiedProperty.Create(
-						UnifiedType.CreateUsingString(type), "class",
+						UnifiedType.Create(type), "class",
 						".");
 			}
 			if (first.HasContent("void")) {
@@ -1831,8 +1826,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			// ('[' ']')+ '.' 'class'	// java.lang.String[].class
 			if (node.LastElement().Value == "class") {
 				var d = node.ElementsByContent("[").Count();
-				var suplpements = UnifiedTypeSupplementCollection.CreateArray(d);
-				prefixType.Supplements = suplpements;
+				prefixType = prefixType.WrapArrayRepeatedly(d);
 				return UnifiedProperty.Create(
 						prefixType,
 						UnifiedIdentifier.CreateClassObject("class"), ".");
@@ -1961,24 +1955,20 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (node.HasElement("arrayInitializer")) {
 				var initVal = CreateArrayInitializer(node.Element("arrayInitializer"));
 				var dimension = node.ElementsByContent("[").Count();
-				type.Supplements = UnifiedTypeSupplementCollection.CreateArray(dimension);
+				type = type.WrapArrayRepeatedly(dimension);
 				return UnifiedNew.Create(type, null, null, initVal, null);
 			}
 
 			var supplements = UnifiedTypeSupplementCollection.Create();
 			foreach (var exp in node.Elements("expression")) {
-				var supplement = UnifiedTypeSupplement.CreateArray(
-						CreateExpression(exp).ToArgument());
-				supplements.Add(supplement);
+				type = type.WrapArray(CreateExpression(exp).ToArgument());
 			}
 			{
 				var dimension = node.ElementsByContent("[")
 						.Where(e => e.NextElement().Value == "]")
 						.Count();
-				for (var i = 0; i < dimension; i++)
-					supplements.Add(UnifiedTypeSupplement.CreateArray());
+				type = type.WrapArrayRepeatedly(dimension);
 			}
-			type.Supplements = supplements;
 			return UnifiedNew.Create(type);
 		}
 
@@ -2049,9 +2039,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var typeArguments = node.HasElement("typeArguments")
 			                    		? CreateTypeArguments(node.Element("typeArguments"))
 			                    		: null;
-			var type = UnifiedType.CreateUsingString(
-					node.Element("IDENTIFIER").Value,
-					typeArguments);
+			var type = UnifiedType.Create(
+					node.Element("IDENTIFIER").Value).WrapGeneric(typeArguments);
 			var creatorRest = CreateClassCreatorRest(node.Element("classCreatorRest"));
 			var typeParameters = node.HasElement("nonWildcardTypeArguments")
 			                     		? CreateNonWildcardTypeArguments(

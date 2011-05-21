@@ -196,17 +196,5 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			}
 			return true;
 		}
-
-		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedSupplementType element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedArrayType element, VisitorState state) {
-			throw new NotImplementedException();
-		}
 	}
 }
