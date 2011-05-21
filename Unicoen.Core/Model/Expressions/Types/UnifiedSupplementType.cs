@@ -22,19 +22,8 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   Cにおける<c>int** a;</c>の<c>**</c>部分、
 	/// </summary>
-	public class UnifiedSupplementType : UnifiedType {
+	public class UnifiedSupplementType : UnifiedWrapType {
 		public UnifiedSupplementTypeKind Kind { get; set; }
-
-		private UnifiedType _type;
-
-		/// <summary>
-		///   修飾しているベースとなる型を取得します．
-		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
-		}
-
 		internal UnifiedSupplementType() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {

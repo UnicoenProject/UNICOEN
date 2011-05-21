@@ -21,6 +21,8 @@ using System.Linq;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
+		public abstract IUnifiedExpression NameExpression { get; set; }
+
 		public static UnifiedSimpleType Create(string name) {
 			// new[] の場合，NameExpressionがnullなUnifiedSimpleTypeを生成する．
 			return new UnifiedSimpleType {
@@ -30,7 +32,8 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedSimpleType Create(IUnifiedExpression nameExpression = null) {
+		public static UnifiedSimpleType Create(
+				IUnifiedExpression nameExpression = null) {
 			return new UnifiedSimpleType {
 					NameExpression = nameExpression,
 			};

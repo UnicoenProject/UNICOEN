@@ -1142,7 +1142,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			               		? CreateTestlist(testlistNodes)
 			               		  		.Select(
 			               		  				e => UnifiedTypeConstrain.CreateExtendsOrImplements(
-			               		  						UnifiedType.Create(e, null)))
+			               		  						UnifiedType.Create(e)))
 			               		  		.ToCollection()
 			               		: null;
 			return UnifiedClassDefinition.CreateClass(
