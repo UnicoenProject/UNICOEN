@@ -34,14 +34,18 @@ namespace Unicoen.Core.Model {
 		public IList<PropertyInfo> PropertyInfos {
 			get {
 				if (_propertyInfos == null) {
-					_propertyInfos = GetType().GetProperties()
-							.Where(p => p.Name != "Parent")
-							.Where(p => p.GetIndexParameters().Length == 0)
-							.Where(p => typeof(IUnifiedElement).IsAssignableFrom(p.PropertyType))
-							.ToList();
+					_propertyInfos = GetPropertyInfos();
 				}
 				return _propertyInfos;
 			}
+		}
+
+		protected virtual List<PropertyInfo> GetPropertyInfos() {
+			return GetType().GetProperties()
+					.Where(p => p.Name != "Parent")
+					.Where(p => p.GetIndexParameters().Length == 0)
+					.Where(p => typeof(IUnifiedElement).IsAssignableFrom(p.PropertyType))
+					.ToList();
 		}
 
 		private IList<FieldInfo> _fieldInfos;

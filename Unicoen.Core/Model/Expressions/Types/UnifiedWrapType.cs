@@ -16,9 +16,13 @@
 
 #endregion
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedWrapType : UnifiedType {
-		private UnifiedType _type;
+		protected UnifiedType _type;
 
 		/// <summary>
 		///   修飾しているベースとなる型を取得します．
@@ -35,6 +39,14 @@ namespace Unicoen.Core.Model {
 		public override IUnifiedExpression NameExpression {
 			get { return Type.NameExpression; }
 			set { Type.NameExpression = value; }
+		}
+
+		protected override List<PropertyInfo> GetPropertyInfos() {
+			return GetType().GetProperties()
+					.Where(p => p.Name != "Parent" && p.Name != "NameExpression")
+					.Where(p => p.GetIndexParameters().Length == 0)
+					.Where(p => typeof(IUnifiedElement).IsAssignableFrom(p.PropertyType))
+					.ToList();
 		}
 	}
 }

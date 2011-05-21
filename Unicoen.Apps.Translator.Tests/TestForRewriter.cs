@@ -75,7 +75,7 @@ namespace Unicoen.Apps.Translator.Tests {
 
 		[Test]
 		public void 要素を付け替えられる() {
-			var newType = UnifiedType.CreateUsingString("Integer");
+			var newType = UnifiedType.Create("Integer");
 
 			var functions =
 					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
