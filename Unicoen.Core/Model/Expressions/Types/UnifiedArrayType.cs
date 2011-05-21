@@ -23,17 +23,7 @@ namespace Unicoen.Core.Model {
 	///   Javaにおける<c>int[10] a;</c>の<c>[10]</c>部分、
 	///   <c>int[] a;</c>の<c>[]</c>部分などが該当します。
 	/// </summary>
-	public class UnifiedArrayType : UnifiedType {
-		private UnifiedType _type;
-
-		/// <summary>
-		///   修飾しているベースとなる型を取得します．
-		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
-		}
-
+	public class UnifiedArrayType : UnifiedWrapType {
 		private UnifiedArgumentCollection _arguments;
 
 		/// <summary>
@@ -52,7 +42,7 @@ namespace Unicoen.Core.Model {
 			get { return _arguments != null && _arguments.Count >= 2; }
 		}
 
-		internal UnifiedArrayType() { }
+		internal UnifiedArrayType() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

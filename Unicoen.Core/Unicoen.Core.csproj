@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedWrapType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedArrayType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedSupplementType.cs" />

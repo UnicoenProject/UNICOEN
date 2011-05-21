@@ -197,6 +197,10 @@ namespace Unicoen.Languages.C.CodeFactories {
 			throw new NotImplementedException();
 		}
 
+		public bool Visit(UnifiedGenericType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
 		public bool Visit(UnifiedArrayType element, VisitorState state) {
 			throw new NotImplementedException();
 		}

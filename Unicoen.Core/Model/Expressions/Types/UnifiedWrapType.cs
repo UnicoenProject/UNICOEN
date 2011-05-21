@@ -16,43 +16,25 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
-
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   型を表します。
-	///   Javaにおける<c>int, double, char</c>
-	/// </summary>
-	public class UnifiedSimpleType : UnifiedType {
-		// パッケージ名が付いているときに
-		// UnifiedProperty が name に入る時があるので
-		// isntace.Class
-		private IUnifiedExpression _nameExpression;
+	public abstract class UnifiedWrapType : UnifiedType {
+		private UnifiedType _type;
+
+		/// <summary>
+		///   修飾しているベースとなる型を取得します．
+		/// </summary>
+		public UnifiedType Type {
+			get { return _type; }
+			set { _type = SetChild(value, _type); }
+		}
 
 		/// <summary>
 		///   型の名前を表します．
 		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
 		/// </summary>
 		public override IUnifiedExpression NameExpression {
-			get { return _nameExpression; }
-			set { _nameExpression = SetChild(value, _nameExpression); }
-		}
-
-		internal UnifiedSimpleType() {}
-
-		public override void Accept(IUnifiedModelVisitor visitor) {
-			visitor.Visit(this);
-		}
-
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
-		}
-
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+			get { return Type.NameExpression; }
+			set { Type.NameExpression = value; }
 		}
 	}
 }
