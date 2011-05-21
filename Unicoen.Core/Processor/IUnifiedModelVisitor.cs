@@ -44,7 +44,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedForeach element);
 		void Visit(UnifiedUnaryExpression element);
 		void Visit(UnifiedProperty element);
-		void Visit(UnifiedType element);
 		void Visit(UnifiedExpressionCollection element);
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
@@ -96,6 +95,7 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedArrayType element);
 		void Visit(UnifiedSupplementType element);
 		void Visit(UnifiedGenericType element);
+		void Visit(UnifiedSimpleType element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -123,7 +123,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedForeach element, TState state);
 		void Visit(UnifiedUnaryExpression element, TState state);
 		void Visit(UnifiedProperty element, TState state);
-		void Visit(UnifiedType element, TState state);
 		void Visit(UnifiedExpressionCollection element, TState state);
 		void Visit(UnifiedWhile element, TState state);
 		void Visit(UnifiedDoWhile element, TState state);
@@ -175,6 +174,7 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedArrayType element, TState state);
 		void Visit(UnifiedSupplementType element, TState state);
 		void Visit(UnifiedGenericType element, TState state);
+		void Visit(UnifiedSimpleType element, TState state);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -202,7 +202,6 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedForeach element, TState state);
 		TResult Visit(UnifiedUnaryExpression element, TState state);
 		TResult Visit(UnifiedProperty element, TState state);
-		TResult Visit(UnifiedType element, TState state);
 		TResult Visit(UnifiedExpressionCollection element, TState state);
 		TResult Visit(UnifiedWhile element, TState state);
 		TResult Visit(UnifiedDoWhile element, TState state);
@@ -254,5 +253,6 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedArrayType element, TState state);
 		TResult Visit(UnifiedSupplementType element, TState state);
 		TResult Visit(UnifiedGenericType element, TState state);
+		TResult Visit(UnifiedSimpleType element, TState state);
 	}
 }
