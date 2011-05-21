@@ -236,26 +236,24 @@ namespace Unicoen.Languages.C.ModelFactories {
 			// 常に UnifiedTyep を返すが、
 			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
 
-			UnifiedIdentifier name = null;
 			var kind = node.FirstElement().Name() == "struct"
 			           		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
-			if (node.Element("IDENTIFIER") != null) {
-				name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
-			}
+			var identElem = node.Element("IDENTIFIER");
+			var uIdent = identElem == null ? null : UnifiedIdentifier.CreateType(identElem.Value);
 
 			if (node.Elements().Count() == 2) {
-				var modifiers =
-						UnifiedModifierCollection.Create(
-								UnifiedModifier.Create(node.FirstElement().Name()));
-				return UnifiedType.Create(modifiers, name, null, null);
+				var baseType = UnifiedType.Create(uIdent);
+				return kind == UnifiedClassKind.Struct
+					? baseType.WrapStruct()
+					: baseType.WrapUnion();
 			}
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
 			var structOrUnion = UnifiedClassDefinition.Create(
-					kind, null, name, null, null, body);
+					kind, null, uIdent, null, null, body);
 
-			return UnifiedType.Create(null, structOrUnion, null, null);
+			return UnifiedType.Create(structOrUnion);
 		}
 
 		public static IUnifiedElement CreateStructOrUnion(XElement node) {

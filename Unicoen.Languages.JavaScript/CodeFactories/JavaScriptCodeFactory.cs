@@ -290,12 +290,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedType element, VisitorState state) {
-			element.NameExpression.TryAccept(this, state);
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedWhile element, VisitorState state) {
 			state.Writer.Write("while(");
 			element.Condition.TryAccept(this, state);
