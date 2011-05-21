@@ -16,10 +16,18 @@
 
 #endregion
 
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
+		public static UnifiedSimpleType Create(string name) {
+			Contract.Requires(!string.IsNullOrEmpty(name));
+			return new UnifiedSimpleType {
+					NameExpression = UnifiedIdentifier.CreateType(name),
+			};
+		}
+
 		public static UnifiedSimpleType Create(IUnifiedExpression nameExpression) {
 			return new UnifiedSimpleType {
 					NameExpression = nameExpression,
@@ -27,6 +35,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public UnifiedType WrapArrayRepeatedly(int count) {
+			Contract.Requires(count >= 0);
 			var type = this;
 			for (int i = 0; i < count; i++) {
 				type = type.WrapArray();
@@ -42,13 +51,16 @@ namespace Unicoen.Core.Model {
 		}
 
 		public UnifiedArrayType WrapRectangleArray(int dimension) {
+			Contract.Requires(dimension >= 1);
 			return new UnifiedArrayType {
 					Type = this,
-					Arguments = Enumerable.Repeat<UnifiedArgument>(null, dimension).ToCollection(),
+					Arguments =
+							Enumerable.Repeat<UnifiedArgument>(null, dimension).ToCollection(),
 			};
 		}
 
-		public UnifiedArrayType WrapRectangleArray(UnifiedArgumentCollection arguments = null) {
+		public UnifiedArrayType WrapRectangleArray(
+				UnifiedArgumentCollection arguments = null) {
 			return new UnifiedArrayType {
 					Type = this,
 					Arguments = arguments,
