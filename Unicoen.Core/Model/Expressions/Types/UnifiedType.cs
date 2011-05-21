@@ -17,107 +17,92 @@
 #endregion
 
 using System.Linq;
-using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   型を表します。
-	///   Javaにおける<c>int, double, char</c>
-	/// </summary>
-	public class UnifiedType : UnifiedTypeBase {
-		// パッケージ名が付いているときに
-		// UnifiedProperty が name に入る時があるので
-		// isntace.Class
-		private IUnifiedExpression _nameExpression;
-
-		/// <summary>
-		///   型の名前を表します．
-		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
-		/// </summary>
-		public IUnifiedExpression NameExpression {
-			get { return _nameExpression; }
-			set { _nameExpression = SetChild(value, _nameExpression); }
-		}
-
-		private UnifiedTypeArgumentCollection _arguments;
-
-		/// <summary>
-		///   ジェネリックタイプにおける実引数の集合を表します
-		///   e.g. Javaにおける<c>HashMap&ltInteger, String&gt</c>の<c>Integer, String</c>
-		/// </summary>
-		public UnifiedTypeArgumentCollection Arguments {
-			get { return _arguments; }
-			set { _arguments = SetChild(value, _arguments); }
-		}
-
-		private UnifiedType() {}
-
-		public UnifiedType AddToParameters(IUnifiedExpression expression) {
-			Arguments.Add(expression.ToTypeParameter());
-			return this;
-		}
-
-		public UnifiedType AddToParameters(UnifiedTypeArgument argument) {
-			Arguments.Add(argument);
-			return this;
-		}
-
-		public override void Accept(IUnifiedModelVisitor visitor) {
-			visitor.Visit(this);
-		}
-
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
-		}
-
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedType Create(
-				IUnifiedExpression nameExpression,
-				UnifiedTypeArgumentCollection arguments = null) {
-			return new UnifiedType {
+	public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
+		public static UnifiedSimpleType Create(IUnifiedExpression nameExpression) {
+			return new UnifiedSimpleType {
 					NameExpression = nameExpression,
+			};
+		}
+
+		public UnifiedType WrapArrayRepeatedly(int count) {
+			var type = this;
+			for (int i = 0; i < count; i++) {
+				type = type.WrapArray();
+			}
+			return type;
+		}
+
+		public UnifiedArrayType WrapArray(UnifiedArgument argument = null) {
+			return new UnifiedArrayType {
+					Type = this,
+					Arguments = argument.ToCollection(),
+			};
+		}
+
+		public UnifiedArrayType WrapRectangleArray(int dimension) {
+			return new UnifiedArrayType {
+					Type = this,
+					Arguments = Enumerable.Repeat<UnifiedArgument>(null, dimension).ToCollection(),
+			};
+		}
+
+		public UnifiedArrayType WrapRectangleArray(UnifiedArgumentCollection arguments = null) {
+			return new UnifiedArrayType {
+					Type = this,
 					Arguments = arguments,
 			};
 		}
 
-		public static UnifiedType CreateUsingString(
-				string name,
+		public UnifiedGenericType WrapGeneric(
 				UnifiedTypeArgumentCollection arguments = null) {
-			return new UnifiedType {
-					NameExpression = name != null
-					                 		? UnifiedIdentifier.CreateType(name)
-					                 		: null,
+			return new UnifiedGenericType {
+					Type = this,
 					Arguments = arguments,
 			};
 		}
 
-		public static UnifiedArrayType CreateArray(
-				string name, UnifiedArgument argument = null) {
-			return UnifiedArrayType.Create(
-					CreateUsingString(name),
-					argument != null
-							? argument.ToCollection()
-							: null
-					);
+		public UnifiedSupplementType WrapPointer() {
+			return new UnifiedSupplementType {
+					Type = this,
+					Kind = UnifiedSupplementTypeKind.Pointer,
+			};
 		}
 
-		public static UnifiedArrayType CreateRectangleArray(
-				string name, int dimension) {
-			return UnifiedArrayType.Create(
-					CreateUsingString(name),
-					Enumerable.Repeat<UnifiedArgument>(null, dimension).ToCollection()
-					);
+		public UnifiedSupplementType WrapReference() {
+			return new UnifiedSupplementType {
+					Type = this,
+					Kind = UnifiedSupplementTypeKind.Reference,
+			};
 		}
 
-		public static UnifiedArrayType CreateRectangleArray(
-				string name, UnifiedArgumentCollection arguments) {
-			return UnifiedArrayType.Create(CreateUsingString(name), arguments);
+		public UnifiedSupplementType WrapConst() {
+			return new UnifiedSupplementType {
+					Type = this,
+					Kind = UnifiedSupplementTypeKind.Const,
+			};
+		}
+
+		public UnifiedSupplementType WrapVolatile() {
+			return new UnifiedSupplementType {
+					Type = this,
+					Kind = UnifiedSupplementTypeKind.Volatile,
+			};
+		}
+
+		public UnifiedSupplementType WrapUnion() {
+			return new UnifiedSupplementType {
+					Type = this,
+					Kind = UnifiedSupplementTypeKind.Union,
+			};
+		}
+
+		public UnifiedSupplementType WrapStruct() {
+			return new UnifiedSupplementType {
+					Type = this,
+					Kind = UnifiedSupplementTypeKind.Struct,
+			};
 		}
 	}
 }

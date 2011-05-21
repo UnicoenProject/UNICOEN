@@ -16,38 +16,44 @@
 
 #endregion
 
+using System.Collections.Generic;
+using System.Linq;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   Cにおける<c>int** a;</c>の<c>**</c>部分、
+	///   型を表します。
+	///   Javaにおける<c>int, double, char</c>
 	/// </summary>
-	public class UnifiedSupplementType : UnifiedType {
-		public UnifiedSupplementTypeKind Kind { get; set; }
-
-		private UnifiedType _type;
+	public class UnifiedSimpleType : UnifiedType {
+		// パッケージ名が付いているときに
+		// UnifiedProperty が name に入る時があるので
+		// isntace.Class
+		private IUnifiedExpression _nameExpression;
 
 		/// <summary>
-		///   修飾しているベースとなる型を取得します．
+		///   型の名前を表します．
+		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
 		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
+		public IUnifiedExpression NameExpression {
+			get { return _nameExpression; }
+			set { _nameExpression = SetChild(value, _nameExpression); }
 		}
 
-		internal UnifiedSupplementType() {}
+		internal UnifiedSimpleType() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TState>(
-				IUnifiedModelVisitor<TState> visitor, TState state) {
+		public override void Accept<TData>(
+				IUnifiedModelVisitor<TData> visitor,
+				TData state) {
 			visitor.Visit(this, state);
 		}
 
-		public override TResult Accept<TState, TResult>(
-				IUnifiedModelVisitor<TState, TResult> visitor, TState state) {
+		public override TResult Accept<TData, TResult>(
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
 		}
 	}

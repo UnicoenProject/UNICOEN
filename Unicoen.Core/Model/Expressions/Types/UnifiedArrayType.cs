@@ -23,13 +23,13 @@ namespace Unicoen.Core.Model {
 	///   Javaにおける<c>int[10] a;</c>の<c>[10]</c>部分、
 	///   <c>int[] a;</c>の<c>[]</c>部分などが該当します。
 	/// </summary>
-	public class UnifiedArrayType : UnifiedTypeBase {
-		private UnifiedTypeBase _type;
+	public class UnifiedArrayType : UnifiedType {
+		private UnifiedType _type;
 
 		/// <summary>
 		///   修飾しているベースとなる型を取得します．
 		/// </summary>
-		public UnifiedTypeBase Type {
+		public UnifiedType Type {
 			get { return _type; }
 			set { _type = SetChild(value, _type); }
 		}
@@ -52,7 +52,7 @@ namespace Unicoen.Core.Model {
 			get { return _arguments != null && _arguments.Count >= 2; }
 		}
 
-		private UnifiedArrayType() { }
+		internal UnifiedArrayType() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -66,13 +66,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TState, TResult>(
 				IUnifiedModelVisitor<TState, TResult> visitor, TState state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedArrayType Create(UnifiedTypeBase type, UnifiedArgumentCollection arguments = null) {
-			return new UnifiedArrayType {
-					Type = type,
-					Arguments = arguments,
-			};
 		}
 	}
 }

@@ -289,7 +289,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 				UnifiedType element, VisitorState state) {
 			element.NameExpression.TryAccept(this, state);
 			element.Arguments.TryAccept(this, state);
-			element.Supplements.TryAccept(this, state);
 			return false;
 		}
 

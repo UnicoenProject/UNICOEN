@@ -22,5 +22,7 @@ namespace Unicoen.Core.Model {
 		Pointer,
 		Reference,
 		Volatile,
+		Struct,
+		Union,
 	}
 }
