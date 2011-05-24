@@ -198,7 +198,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public bool Visit(UnifiedSimpleType element, VisitorState state) {
-			throw new NotImplementedException();
+			element.NameExpression.TryAccept(this, state);
+			return true;
 		}
 	}
 }

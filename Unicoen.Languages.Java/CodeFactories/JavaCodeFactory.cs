@@ -599,15 +599,49 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public bool Visit(UnifiedSupplementType element, VisitorState state) {
-			throw new NotImplementedException();
+			switch (element.Kind) {
+			case UnifiedSupplementTypeKind.Const:
+				state.Write("final ");
+				element.Type.TryAccept(this, state);
+				break;
+			case UnifiedSupplementTypeKind.Pointer:
+				element.Type.TryAccept(this, state);
+				state.Write("/* * */");
+				break;
+			case UnifiedSupplementTypeKind.Reference:
+				element.Type.TryAccept(this, state);
+				state.Write("/* & */");
+				break;
+			case UnifiedSupplementTypeKind.Volatile:
+				state.Write("volatile ");
+				element.Type.TryAccept(this, state);
+				break;
+			case UnifiedSupplementTypeKind.Struct:
+				element.Type.TryAccept(this, state);
+				break;
+			case UnifiedSupplementTypeKind.Union:
+				element.Type.TryAccept(this, state);
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
+			return true;
 		}
 
 		public bool Visit(UnifiedGenericType element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Type.TryAccept(this, state);
+			state.Write("<");
+			element.Arguments.TryAccept(this, state);
+			state.Write(">");
+			return true;
 		}
 
 		public bool Visit(UnifiedArrayType element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Type.TryAccept(this, state);
+			state.Write("[");
+			element.Arguments.TryAccept(this, state.Set(CommaDelimiter));
+			state.Write("]");
+			return true;
 		}
 			
 	}
