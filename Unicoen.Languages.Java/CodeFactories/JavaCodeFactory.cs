@@ -563,7 +563,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public bool Visit(UnifiedUsing element, VisitorState state) {
-			throw new NotImplementedException(); // TODO: implement
+			state.Writer.Write("/* using ");
+			element.Matchers.TryAccept(this, state);
+			state.Writer.WriteLine(" { */");
+			element.Matchers.TryAccept(this, state);
+			state.Writer.WriteLine("//extracted from above");
+			state.Writer.WriteLine("/* } */");
+			return false;
 		}
 
 		public bool Visit(UnifiedList element, VisitorState state) {
@@ -630,9 +636,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public bool Visit(UnifiedGenericType element, VisitorState state) {
 			element.Type.TryAccept(this, state);
-			state.Write("<");
+			//state.Write("<");
 			element.Arguments.TryAccept(this, state);
-			state.Write(">");
+			//state.Write(">");
 			return true;
 		}
 

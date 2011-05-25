@@ -751,10 +751,20 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classOrInterfaceType");
 			/*
-			 * classOrInterfaceType 
+			 * classOrInterfaceType
 			 * :   IDENTIFIER (typeArguments)? ('.' IDENTIFIER (typeArguments)? )* 
 			 */
 
+			//A<T1>.B<T2>.C.D<T3>
+			//GenericTypeがどこまで包むのか微妙なので、それをはっきりさせる
+			//(T2((T1(A)).B))なのか、T1(A).T2(B)なのか
+			/*
+			 *GenericType
+				SimpleType
+					Property
+						Left: A<T1> <- GenericType
+						Right: B 
+			 */
 			var innerTypes = node.Elements("IDENTIFIER")
 					.Select(
 							e => {
@@ -763,16 +773,24 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								                    typeArgumentsNode.Name() == "typeArguments"
 								                    		? CreateTypeArguments(typeArgumentsNode)
 								                    		: null;
-								return UnifiedType.Create(
-										UnifiedIdentifier.CreateType(e.Value)).WrapGeneric(typeArguments);
+								return Tuple.Create(e.Value, typeArguments);
 							}).ToList();
-			if (innerTypes.Count == 1)
-				return innerTypes[0];
-			var lastType = innerTypes[innerTypes.Count - 1];
-			var lastArguments = lastType.Arguments;
-			lastType.Arguments.Remove();
-			return
-					UnifiedType.Create(innerTypes.ToProperty(".")).WrapGeneric(lastArguments);
+
+			UnifiedType simpleType = UnifiedType.Create(innerTypes[0].Item1);
+			var firstType = innerTypes[0].Item2 == null
+			                		? simpleType
+			                		: simpleType.WrapGeneric(innerTypes[0].Item2);
+
+			return innerTypes
+				.Skip(1)
+				.Aggregate(
+					firstType, (type, tuple) => {
+						var prop = UnifiedProperty.Create(type, tuple.Item1, ".");
+						UnifiedType newType = UnifiedType.Create(prop);
+						return tuple.Item2 == null
+						       		? newType
+						       		: newType.WrapGeneric(tuple.Item2);
+					});
 		}
 
 		public static UnifiedType CreatePrimitiveType(XElement node) {
