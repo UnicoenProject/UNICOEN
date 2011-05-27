@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedElementCollection<TElement, TSelf>
@@ -41,6 +42,19 @@ namespace Unicoen.Core.Model {
 			foreach (var element in elements) {
 				Add(element);
 			}
+		}
+
+		public override void Accept<TData>(
+				IUnifiedModelVisitor<TData> visitor,
+				TData state) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException("You should override this method.");
+		}
+
+		public override TResult Accept<TData, TResult>(
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException("You should override this method.");
 		}
 
 		/// <summary>

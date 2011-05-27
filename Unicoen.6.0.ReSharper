@@ -89,6 +89,9 @@
         <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
       </Naming2>
     </CSharp>
+    <HTML>
+      <FormatSettings />
+    </HTML>
     <JavaScript>
       <FormatSettings />
       <Naming2 />

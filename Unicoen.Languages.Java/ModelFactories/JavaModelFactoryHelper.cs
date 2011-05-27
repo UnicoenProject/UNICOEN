@@ -2213,9 +2213,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			BigInteger result = 0;
 			if (value != "0") {
 				if (value[0] != '0') {
-					result = BigInteger.Parse(value);
+					result = Int32.Parse(value);
 				} else if (value[1] == 'x' || value[1] == 'X') {
-					result = BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber);
+					result = Int32.Parse(value.Substring(2), NumberStyles.HexNumber);
 				} else {
 					result = ParseOcatleNumber(value.Substring(1));
 				}
