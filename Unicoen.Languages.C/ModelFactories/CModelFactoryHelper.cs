@@ -336,7 +336,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			       		? null : UnifiedType.Create(UnifiedIdentifier.CreateType(s));
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection
 				CreateStructDeclaratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");
@@ -345,7 +345,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * : struct_declarator (',' struct_declarator)*
 			 * */
 
-			var declarators = UnifiedVariableDefinitionBodyCollection.Create();
+			var declarators = DeprecatedUnifiedVariableDefinitionBodyCollection.Create();
 			foreach (var e in node.Elements("struct_declarator")) {
 				declarators.Add(CreateStructDeclarator(e));
 			}

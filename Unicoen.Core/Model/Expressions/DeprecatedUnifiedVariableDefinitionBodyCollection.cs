@@ -24,13 +24,13 @@ namespace Unicoen.Core.Model {
 	///   修飾子や型を除いた変数宣言の集合を表します。
 	///   e.g. Javaにおける<c>int a, b;</c>の<c>a, b;</c>
 	/// </summary>
-	public class UnifiedVariableDefinitionBodyCollection
+	public class DeprecatedUnifiedVariableDefinitionBodyCollection
 			: UnifiedElementCollection
 			  		<DeprecatedUnifiedVariableDefinitionBody,
-			  		UnifiedVariableDefinitionBodyCollection> {
-		private UnifiedVariableDefinitionBodyCollection() {}
+			  		DeprecatedUnifiedVariableDefinitionBodyCollection> {
+		private DeprecatedUnifiedVariableDefinitionBodyCollection() {}
 
-		private UnifiedVariableDefinitionBodyCollection(
+		private DeprecatedUnifiedVariableDefinitionBodyCollection(
 				IEnumerable<DeprecatedUnifiedVariableDefinitionBody> elements)
 				: base(elements) {}
 
@@ -49,18 +49,18 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create() {
-			return new UnifiedVariableDefinitionBodyCollection();
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection Create() {
+			return new DeprecatedUnifiedVariableDefinitionBodyCollection();
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create(
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection Create(
 				params DeprecatedUnifiedVariableDefinitionBody[] elements) {
-			return new UnifiedVariableDefinitionBodyCollection(elements);
+			return new DeprecatedUnifiedVariableDefinitionBodyCollection(elements);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create(
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection Create(
 				IEnumerable<DeprecatedUnifiedVariableDefinitionBody> elements) {
-			return new UnifiedVariableDefinitionBodyCollection(elements);
+			return new DeprecatedUnifiedVariableDefinitionBodyCollection(elements);
 		}
 			  		}
 }

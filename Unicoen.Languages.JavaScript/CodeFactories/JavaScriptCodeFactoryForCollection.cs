@@ -93,7 +93,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinitionBodyCollection element, VisitorState state) {
 			state.Writer.Write("var ");
 			VisitCollection(element, state.Set(CommaDelimiter));
 			return false;

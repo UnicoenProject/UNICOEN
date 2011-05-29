@@ -57,9 +57,9 @@ namespace Unicoen.Core.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedVariableDefinitionBodyCollection _bodys;
+		private DeprecatedUnifiedVariableDefinitionBodyCollection _bodys;
 
-		public UnifiedVariableDefinitionBodyCollection Bodys {
+		public DeprecatedUnifiedVariableDefinitionBodyCollection Bodys {
 			get { return _bodys; }
 			set { _bodys = SetChild(value, _bodys); }
 		}
@@ -211,7 +211,7 @@ namespace Unicoen.Core.Model {
 		public static DeprecatedUnifiedVariableDefinition Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null, UnifiedType type = null,
-				UnifiedVariableDefinitionBodyCollection bodys = null) {
+				DeprecatedUnifiedVariableDefinitionBodyCollection bodys = null) {
 			return new DeprecatedUnifiedVariableDefinition {
 					Annotations = annotations,
 					Modifiers = modifiers,

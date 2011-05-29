@@ -116,7 +116,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinitionBodyCollection element, VisitorState state) {
 			VisitCollection(element, state.Set(CommaDelimiter));
 			return false;
 		}

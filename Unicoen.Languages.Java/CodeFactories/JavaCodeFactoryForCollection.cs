@@ -112,7 +112,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element,
+				DeprecatedUnifiedVariableDefinitionBodyCollection element,
 				VisitorState state) {
 			VisitCollection(element, state.Set(CommaDelimiter));
 			return false;
