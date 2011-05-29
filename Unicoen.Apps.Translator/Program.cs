@@ -25,8 +25,11 @@ using Unicoen.Core.Model;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator {
-	internal class Program {
-		private static void Main(string[] args) {
+	class Program {
+		public static void Main(string[] args) {
+			#region garbage
+
+			/*
 			const string filePath =
 					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
 			var code = File.ReadAllText(filePath, Encoding.Default);
@@ -48,6 +51,18 @@ namespace Unicoen.Apps.Translator {
 				Console.WriteLine(f.Name.Value);
 			}
 			a = FunctionFinder.Instance.FindByName("getName", functions);
+			 * */
+			#endregion
+
+			var filePath = args[0];
+			var destLang = args[1];
+
+			var code = File.ReadAllText(filePath, Encoding.Default);
+			var model = JavaFactory.GenerateModel(code);
+
+			var output = JavaFactory.GenerateCode(model);
+
+			Console.WriteLine(output);
 		}
 
 		public void Dump(UnifiedProgram program) {
