@@ -52,7 +52,7 @@ namespace Unicoen.Core.Model {
 			yield return this;
 		}
 
-		private static UnifiedIdentifier Create(
+		internal static UnifiedIdentifier Create(
 				string name, UnifiedIdentifierKind kind) {
 			return new UnifiedIdentifier {
 					Value = name,

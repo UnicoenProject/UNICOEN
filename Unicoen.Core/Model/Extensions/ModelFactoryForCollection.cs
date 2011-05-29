@@ -222,13 +222,13 @@ namespace Unicoen.Core.Model {
 			return UnifiedVariableDefinitionBodyCollection.Create(singleton);
 		}
 
-		public static UnifiedVariableDefinitionList ToCollection(
-				this IEnumerable<DeprecatedUnifiedVariableDefinition> collection) {
+		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
+				this IEnumerable<UnifiedVariableDefinition> collection) {
 			return UnifiedVariableDefinitionList.Create(collection);
 		}
 
-		public static UnifiedVariableDefinitionList ToCollection(
-				this DeprecatedUnifiedVariableDefinition singleton) {
+		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
+				this UnifiedVariableDefinition singleton) {
 			return UnifiedVariableDefinitionList.Create(singleton);
 		}
 
