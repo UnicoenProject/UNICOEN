@@ -22,9 +22,14 @@ using System.Linq;
 using System.Text;
 using Unicoen.Apps.Translator.Filter;
 using Unicoen.Core.Model;
+using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator {
+	internal delegate string CodeGenerator(UnifiedProgram model);
+
+	internal delegate UnifiedProgram ModelGenerator(string code);
+
 	class Program {
 		public static void Main(string[] args) {
 			#region garbage
@@ -55,13 +60,54 @@ namespace Unicoen.Apps.Translator {
 			 * */
 			#endregion
 
+			if (args.Length != 3) {
+				Console.WriteLine("error");
+				return;
+			}
+
+
 			var filePath = args[0];
-			var destLang = args[1];
+			var srcLang = args[1];
+
+
+			
+			ModelGenerator modelGenerator;
+			switch (srcLang) {
+				case "java":
+				case "Java":
+					modelGenerator = new ModelGenerator(JavaFactory.GenerateModel);
+					break;
+				case "c":
+				case "C":
+					modelGenerator = new ModelGenerator(CFactory.GenerateModel);
+					break;
+				default:
+					modelGenerator = new ModelGenerator(CFactory.GenerateModel);
+					break;
+
+			}
+
+			// return;
+
+			var destLang = args[2];
+			CodeGenerator codeGenerator;
+			switch (destLang) {
+				case "java":
+				case "Java":
+					codeGenerator = new CodeGenerator(JavaFactory.GenerateCode);
+					break;
+				case "c":
+				case "C":
+					codeGenerator = new CodeGenerator(CFactory.GenerateCode);
+					break;
+				default:
+					codeGenerator = new CodeGenerator(CFactory.GenerateCode);
+					break;
+			}
 
 			var code = File.ReadAllText(filePath, Encoding.Default);
-			var model = JavaFactory.GenerateModel(code);
-
-			var output = JavaFactory.GenerateCode(model);
+			var model = modelGenerator(code);
+			var output = codeGenerator(model);
 
 			Console.WriteLine(output);
 		}
