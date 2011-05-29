@@ -66,42 +66,27 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedList CreateList(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.List,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.List, elements);
 		}
 
 		public static UnifiedList CreateLazyList(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.LazyList,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.LazyList, elements);
 		}
 
 		public static UnifiedList CreateTuple(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Tuple,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.Tuple, elements);
 		}
 
 		public static UnifiedList CreateArray(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Array,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.Array, elements);
 		}
 
 		public static UnifiedList CreateSet(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Set,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.Set, elements);
 		}
 	}
 }

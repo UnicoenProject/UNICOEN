@@ -1048,8 +1048,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * elementValueArrayInitializer 
 			 * :   '{' (elementValue ( ',' elementValue)* )? (',')? '}' 
 			 */
-			return UnifiedList.CreateArray(
-					node.Elements("elementValue").Select(CreateElementValue).ToCollection());
+			return node.Elements("elementValue")
+					.Select(CreateElementValue)
+					.ToArrayLiteral();
 		}
 
 		public static UnifiedClassDefinition CreateAnnotationTypeDeclaration(
@@ -1260,8 +1261,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				yield return UnifiedSpecialExpression.Create(
 						UnifiedSpecialExpressionKind.Assert,
 						// TODO tuple?
-						UnifiedList.CreateTuple(
-								node.Elements("expression").Select(CreateExpression).ToCollection()));
+						node.Elements("expression").Select(CreateExpression).ToTupleLiteral());
 				break;
 			case "if":
 				yield return CreateIf(node);
@@ -1430,10 +1430,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				                		? CreateExpression(node.Element("expression"))
 				                		: null;
 				var step = node.HasElement("expressionList")
-							   // TODO tuple?
-				           		? UnifiedList.CreateTuple(
-				           				CreateExpressionList(node.Element("expressionList")).
-				           						ToCollection())
+				           // TODO tuple?
+				           		? CreateExpressionList(node.Element("expressionList")).
+				           		  		ToTupleLiteral()
 				           		: null;
 				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 
@@ -1460,8 +1459,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			case "localVariableDeclaration":
 				return CreateLocalVariableDeclaration(first);
 			case "expressionList":
-			   // TODO tuple?
-				return UnifiedList.CreateTuple(CreateExpressionList(first).ToCollection());
+				// TODO tuple?
+				return CreateExpressionList(first).ToTupleLiteral();
 			default:
 				throw new InvalidOperationException();
 			}
@@ -2027,11 +2026,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * arrayInitializer 
 			 * :   '{' (variableInitializer (',' variableInitializer)* )? (',')? '}'
 			 */
-			return UnifiedList.CreateArray(
-					node.Elements("variableInitializer")
-							.Select(CreateVariableInitializer)
-							.ToCollection()
-					);
+			return node.Elements("variableInitializer")
+					.Select(CreateVariableInitializer)
+					.ToArrayLiteral();
 		}
 
 		public static UnifiedType CreateCreatedName(XElement node) {

@@ -1340,11 +1340,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* ']'
 			 */
 			//コード例：var array = [1, 2, 3];
-			var list = UnifiedList.CreateArray(
-					node.Elements("assignmentExpression")
+			var list =  node.Elements("assignmentExpression")
 							.Select(CreateAssignmentExpression)
-							.ToCollection()
-					);
+							.ToArrayLiteral();
 			return UnifiedNew.CreateArray(list);
 		}
 
