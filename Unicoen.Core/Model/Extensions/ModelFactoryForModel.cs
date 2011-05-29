@@ -34,17 +34,6 @@ namespace Unicoen.Core.Model {
 			return UnifiedDoWhile.Create(condition);
 		}
 
-		public static UnifiedForeach ToForeach(
-				this IUnifiedExpression set,
-				UnifiedType variableType,
-				string variableName) {
-			return UnifiedForeach.Create(
-					DeprecatedUnifiedVariableDefinition.CreateSingle(
-							variableType, variableName),
-					set
-					);
-		}
-
 		public static UnifiedIf ToIf(this IUnifiedExpression condition) {
 			return UnifiedIf.Create(condition);
 		}

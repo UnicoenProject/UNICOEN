@@ -234,12 +234,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				DeprecatedUnifiedVariableDefinition element, VisitorState state) {
-			element.Bodys.TryAccept(this, state);
-			return true;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedFor element, VisitorState state) {
 			state.Writer.Write("for(");
 			element.Initializer.TryAccept(this, state.Set(CommaDelimiter));

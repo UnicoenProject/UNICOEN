@@ -49,17 +49,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				DeprecatedUnifiedVariableDefinition element, VisitorState state) {
-			element.Modifiers.TryAccept(this, state);
-			state.WriteSpace();
-			element.Type.TryAccept(this, state);
-			state.WriteSpace();
-			element.Bodys.TryAccept(this, state);
-
-			return true;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedUnaryExpression element, VisitorState state) {
 			var paren = GetRequiredParen(element);
 			state.Writer.Write(paren.Item1);
@@ -112,17 +101,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			element.TrueExpression.TryAccept(this, state.Set(Paren));
 			state.Writer.Write(" : ");
 			element.FalseExpression.TryAccept(this, state.Set(Paren));
-
-			return true;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				DeprecatedUnifiedVariableDefinitionBody element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			if (element.InitialValue != null) {
-				state.Writer.Write(" = ");
-				element.InitialValue.TryAccept(this, state);
-			}
 
 			return true;
 		}

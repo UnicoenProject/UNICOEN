@@ -212,16 +212,6 @@ namespace Unicoen.Core.Model {
 			return UnifiedTypeSupplementCollection.Create(singleton);
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBodyCollection ToCollection(
-				this IEnumerable<DeprecatedUnifiedVariableDefinitionBody> collection) {
-			return DeprecatedUnifiedVariableDefinitionBodyCollection.Create(collection);
-		}
-
-		public static DeprecatedUnifiedVariableDefinitionBodyCollection ToCollection(
-				this DeprecatedUnifiedVariableDefinitionBody singleton) {
-			return DeprecatedUnifiedVariableDefinitionBodyCollection.Create(singleton);
-		}
-
 		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
 				this IEnumerable<UnifiedVariableDefinition> collection) {
 			return UnifiedVariableDefinitionList.Create(collection);

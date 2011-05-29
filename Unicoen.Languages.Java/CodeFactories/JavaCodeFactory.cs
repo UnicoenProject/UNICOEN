@@ -299,19 +299,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				DeprecatedUnifiedVariableDefinitionBody element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			element.Supplements.TryAccept(this, state);
-			if (element.InitialValue != null) {
-				state.Writer.Write(" = ");
-				element.InitialValue.TryAccept(this, state.Set(Bracket));
-			}
-			element.Arguments.TryAccept(this, state.Set(Paren));
-			element.Body.TryAccept(this, state);
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedLabel element, VisitorState state) {
 			element.Name.TryAccept(this, state);
 			state.Writer.Write(":");

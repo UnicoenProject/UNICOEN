@@ -643,14 +643,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			                		? CreateSuite(node.LastElement())
 			                		: null;
 			return UnifiedForeach.Create(
-					DeprecatedUnifiedVariableDefinition.Create(
-							null,
-							null,
-							null,
-							exprlist.Select(
-									e =>
-									DeprecatedUnifiedVariableDefinitionBody.Create((UnifiedIdentifier)e))
-									.ToCollection()),
+					exprlist.Select(
+							e => UnifiedVariableDefinition.Create(name: (UnifiedIdentifier)e))
+							.ToVariableDefinitionList(),
 					testlist.ToTupleLiteral(),
 					suite,
 					elseSuite);

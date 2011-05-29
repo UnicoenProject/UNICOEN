@@ -94,7 +94,6 @@
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
-    <Compile Include="Model\Expressions\DeprecatedUnifiedVariableDefinitionBodyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedClassKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
@@ -154,7 +153,6 @@
     <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedIdentifier.cs" />
-    <Compile Include="Model\Expressions\DeprecatedUnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedWhile.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForCollection.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
@@ -185,7 +183,6 @@
     <Compile Include="Model\UnifiedTypeSupplement.cs" />
     <Compile Include="Model\UnifiedTypeSupplementKind.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
-    <Compile Include="Model\Expressions\DeprecatedUnifiedVariableDefinitionBody.cs" />
     <Compile Include="Processor\IUnifiedModelVisitor.cs" />
     <Compile Include="Processor\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
