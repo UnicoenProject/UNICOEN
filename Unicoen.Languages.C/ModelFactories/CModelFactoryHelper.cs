@@ -278,7 +278,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 							node.Elements("struct_declaration").Select(CreateStructDeclaration));
 		}
 
-		public static IUnifiedExpression CreateStructDeclaration(XElement node) {
+		public static UnifiedVariableDefinitionList CreateStructDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declaration");
 			/*
@@ -292,14 +292,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 					node.Element("specifier_qualifier_list"),
 					out modifiers, out type);
 
-			var defenitionList = UnifiedVariableDefinitionList.Create(); //
-
-
-
-			return DeprecatedUnifiedVariableDefinition.Create(
-					null,
-					modifiers, type,
-					CreateStructDeclaratorList(node.Element("struct_declarator_list")));
+			return CreateStructDeclaratorList(
+					node.Element("struct_declarator_list"),
+					modifiers, type);
 		}
 
 		public static void CreateSpecifierQualifierList(
@@ -336,8 +331,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 			       		? null : UnifiedType.Create(UnifiedIdentifier.CreateType(s));
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBodyCollection
-				CreateStructDeclaratorList(XElement node) {
+		public static UnifiedVariableDefinitionList
+				CreateStructDeclaratorList(XElement node, 
+				UnifiedModifierCollection modifiers, UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");
 			/*
@@ -345,15 +341,18 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * : struct_declarator (',' struct_declarator)*
 			 * */
 
-			var declarators = DeprecatedUnifiedVariableDefinitionBodyCollection.Create();
+			var variableDefinitionList = UnifiedVariableDefinitionList.Create();
 			foreach (var e in node.Elements("struct_declarator")) {
-				declarators.Add(CreateStructDeclarator(e));
+				var variableDefinition = UnifiedVariableDefinition.Create(
+						modifiers: modifiers.DeepCopy(),
+						type: type.DeepCopy());
+				variableDefinitionList.Add(CreateStructDeclarator(e, variableDefinition));
 			}
-			return declarators;
+			return variableDefinitionList;
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBody CreateStructDeclarator(
-				XElement node) {
+		public static UnifiedVariableDefinition CreateStructDeclarator(
+				XElement node, UnifiedVariableDefinition variableDefinition) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator");
 			/*
