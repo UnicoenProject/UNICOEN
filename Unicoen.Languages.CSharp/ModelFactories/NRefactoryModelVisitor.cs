@@ -18,6 +18,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
 using Unicoen.Core.Model;
@@ -507,20 +508,21 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 			var uType = LookupType(dec.Type);
 			var uMods = LookupModifier(dec.Modifiers);
-			var uBodies = UnifiedVariableDefinitionBodyCollection.Create();
-			foreach (var nVar in dec.Variables) {
-				var name = nVar.Name;
-				var nInitValue = nVar.Initializer;
-				var uInitValue = nInitValue == null
-				                 		? null
-				                 		: nInitValue.AcceptVisitor(this, data) as
-				                 		  IUnifiedExpression;
-				uBodies.Add(
-						DeprecatedUnifiedVariableDefinitionBody.Create(name, null, uInitValue));
-			}
-			return DeprecatedUnifiedVariableDefinition.Create(
-					null, uMods, uType, uBodies);
 
+			return dec.Variables.Select(
+					nVar => {
+						var name = nVar.Name;
+						var nInitValue = nVar.Initializer;
+						var uInitValue = nInitValue == null
+						                 		? null
+						                 		: nInitValue.AcceptVisitor(this, data) as
+						                 		  IUnifiedExpression;
+						return UnifiedVariableDefinition.Create(
+								type: uType.DeepCopy(),
+								modifiers: uMods.DeepCopy(),
+								name: name.ToVariableIdentifier(),
+								initialValue: uInitValue);
+					}).ToVariableDefinitionList();
 			throw new NotImplementedException("VariableDeclarationStatement");
 		}
 
@@ -592,19 +594,20 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 			var uType = LookupType(dec.ReturnType);
 			var uMods = LookupModifier(dec.Modifiers);
-			var uBodies = UnifiedVariableDefinitionBodyCollection.Create();
-			foreach (var nVar in dec.Variables) {
-				var name = nVar.Name;
-				var nInitValue = nVar.Initializer;
-				var uInitValue = nInitValue == null
-				                 		? null
-				                 		: nInitValue.AcceptVisitor(this, data) as
-				                 		  IUnifiedExpression;
-				uBodies.Add(
-						DeprecatedUnifiedVariableDefinitionBody.Create(name, null, uInitValue));
-			}
-			return DeprecatedUnifiedVariableDefinition.Create(
-					null, uMods, uType, uBodies);
+			return dec.Variables.Select(
+					nVar => {
+						var name = nVar.Name;
+						var nInitValue = nVar.Initializer;
+						var uInitValue = nInitValue == null
+						                 		? null
+						                 		: nInitValue.AcceptVisitor(this, data) as
+						                 		  IUnifiedExpression;
+						return UnifiedVariableDefinition.Create(
+								type: uType.DeepCopy(),
+								modifiers: uMods.DeepCopy(),
+								name: name.ToVariableIdentifier(),
+								initialValue: uInitValue);
+					}).ToVariableDefinitionList();
 		}
 
 		public IUnifiedElement VisitIndexerDeclaration(
