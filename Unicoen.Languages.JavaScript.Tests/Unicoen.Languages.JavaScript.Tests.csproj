@@ -65,7 +65,6 @@
     <Compile Include="JavaScriptModelFeatureTest.cs" />
     <Compile Include="JavaScriptRegenerateTest.cs" />
     <Compile Include="JavaScriptFixture.cs" />
-    <Compile Include="JavaScriptModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

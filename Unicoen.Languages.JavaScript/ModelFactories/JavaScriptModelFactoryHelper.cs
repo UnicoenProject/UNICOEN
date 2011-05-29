@@ -62,12 +62,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *  	: sourceElement (LT!* sourceElement)*
 			 */
 
-			var sourceElements =
-					node.Elements("sourceElement").Select(CreateSourceElement);
-			return sourceElements;
+			return node.Elements("sourceElement")
+					.SelectMany(CreateSourceElement);
 		}
 
-		public static IUnifiedExpression CreateSourceElement(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateSourceElement(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "sourceElement");
 			/*
@@ -79,9 +79,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var first = node.NthElement(0);
 			switch (first.Name()) {
 			case "functionDeclaration":
-				return CreateFunctionDeclaration(first);
+				yield return CreateFunctionDeclaration(first);
+				break;
 			case "statement":
-				return CreateStatement(first);
+				foreach (var stmt in CreateStatement(first)) {
+					yield return stmt;
+				}
+				break;
 			default:
 				throw new InvalidOperationException();
 			}
@@ -156,7 +160,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					CreateSourceElements(node.Element("sourceElements")));
 		}
 
-		public static IUnifiedExpression CreateStatement(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			/*
@@ -180,33 +184,49 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var first = node.NthElement(0);
 			switch (first.Name()) {
 			case "statementBlock":
-				return CreateStatementBlock(first);
+				yield return CreateStatementBlock(first);
+				break;
 			case "variableStatement":
-				return CreateVariableStatement(first);
+				yield return CreateVariableStatement(first);
+				break;
 			case "emptyStatement":
-				return CreateEmptyStatement(first);
+				yield return CreateEmptyStatement(first);
+				break;
 			case "expressionStatement":
-				return CreateExpressionStatement(first);
+				yield return CreateExpressionStatement(first);
+				break;
 			case "ifStatement":
-				return CreateIfStatement(first);
+				yield return CreateIfStatement(first);
+				break;
 			case "iterationStatement":
-				return CreateIterationStatement(first);
+				yield return CreateIterationStatement(first);
+				break;
 			case "continueStatement":
-				return CreateContinueStatement(first);
+				yield return CreateContinueStatement(first);
+				break;
 			case "breakStatement":
-				return CreateBreakStatement(first);
+				yield return CreateBreakStatement(first);
+				break;
 			case "returnStatement":
-				return CreateReturnStatement(first);
+				yield return CreateReturnStatement(first);
+				break;
 			case "withStatement":
-				return CreateWithStatement(first);
+				yield return CreateWithStatement(first);
+				break;
 			case "labelledStatement":
-				return CreateLabelledStatement(first);
+				foreach (var stmt in CreateLabelledStatement(first)) {
+					yield return stmt;
+				}
+				break;
 			case "switchStatement":
-				return CreateSwitchStatement(first);
+				yield return CreateSwitchStatement(first);
+				break;
 			case "throwStatement":
-				return CreateThrowStatement(first);
+				yield return CreateThrowStatement(first);
+				break;
 			case "tryStatement":
-				return CreateTryStatement(first);
+				yield return CreateTryStatement(first);
+				break;
 			default:
 				throw new InvalidOperationException();
 			}
@@ -234,7 +254,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * statementList
 			 *		: statement (LT!* statement)*
 			 */
-			return node.Elements("statement").Select(CreateStatement);
+			return node.Elements("statement").SelectMany(CreateStatement);
 		}
 
 		public static IUnifiedExpression CreateVariableStatement(XElement node) {
@@ -571,19 +591,18 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedSpecialBlock.Create(UnifiedSpecialBlockKind.With, exp, body);
 		}
 
-		public static IUnifiedExpression CreateLabelledStatement(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateLabelledStatement(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labelledStatement");
 			/*
 			 * labelledStatement	
 			 *		: Identifier LT!* ':' LT!* statement
 			 */
-
-			var list = UnifiedBlock.Create();
-			list.Add(UnifiedLabel.Create(node.NthElement(0).Value));
-			list.Add(CreateStatement(node.Element("statement")));
-
-			return list;
+			yield return UnifiedLabel.Create(node.NthElement(0).Value);
+			foreach (var stmt in CreateStatement(node.Element("statement"))) {
+				yield return stmt;
+			}
 		}
 
 		public static IUnifiedExpression CreateSwitchStatement(XElement node) {
