@@ -245,13 +245,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'var' LT!* variableDeclarationList (LT | ';')
 			 */
 
-			var bodys =
-					CreateVariableDeclarationList(node.Element("variableDeclarationList"));
-
-			return DeprecatedUnifiedVariableDefinition.Create(null, null, null, bodys);
+			return CreateVariableDeclarationList(node.Element("variableDeclarationList"));
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBodyCollection
+		public static UnifiedVariableDefinitionList
 				CreateVariableDeclarationList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationList");
@@ -260,12 +257,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: variableDeclaration (LT!* ',' LT!* variableDeclaration)*
 			 */
 
-			return node.Elements("variableDeclaration")
-					.Select(CreateVariableDeclaration)
-					.ToCollection();
+			var declarators =
+					node.Elements("variableDeclaration").Select(CreateVariableDeclaration);
+
+			return UnifiedVariableDefinitionList.Create(declarators);
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBodyCollection
+		public static UnifiedVariableDefinitionList
 				CreateVariableDeclarationListNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationListNoIn");
@@ -273,12 +271,14 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * variableDeclarationListNoIn
 			 *		: variableDeclarationNoIn (LT!* ',' LT!* variableDeclarationNoIn)*
 			 */
-			return node.Elements("variableDeclarationNoIn")
-					.Select(CreateVariableDeclarationNoIn)
-					.ToCollection();
+			var declarators =
+					node.Elements("variableDeclarationNoIn").Select(
+							CreateVariableDeclarationNoIn);
+
+			return UnifiedVariableDefinitionList.Create(declarators);
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBody
+		public static UnifiedVariableDefinition
 				CreateVariableDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
@@ -292,11 +292,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var init = node.Element("initialiser") != null
 			           		? CreateInitialiser(node.Element("initialiser")) : null;
 
-			return DeprecatedUnifiedVariableDefinitionBody.Create(
-					name, null, init, null, null);
+			return UnifiedVariableDefinition.Create(
+				name: name,
+				initialValue: init
+				);
 		}
 
-		public static DeprecatedUnifiedVariableDefinitionBody
+		public static UnifiedVariableDefinition
 				CreateVariableDeclarationNoIn(
 				XElement node) {
 			Contract.Requires(node != null);
@@ -310,8 +312,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var init = node.Element("initialiserNoIn") != null
 			           		? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
 
-			return DeprecatedUnifiedVariableDefinitionBody.Create(
-					name, null, init, null, null);
+			return UnifiedVariableDefinition.Create(
+				name: name,
+				initialValue: init
+			);
 		}
 
 		public static IUnifiedExpression CreateInitialiser(XElement node) {
@@ -469,10 +473,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.NthElement(0).Name() == "expressionNoIn")
 				return CreateExpressionNoIn(node.NthElement(0));
 			if (node.HasElement("variableDeclarationListNoIn"))
-				return DeprecatedUnifiedVariableDefinition.Create(
-						null, null, null,
+				return
 						CreateVariableDeclarationListNoIn(
-								node.Element("variableDeclarationListNoIn")));
+								node.Element("variableDeclarationListNoIn"));
 			throw new InvalidOperationException();
 		}
 
@@ -508,11 +511,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				return CreateLeftHandSideExpression(node.NthElement(0));
 
 			if (node.HasElement("variableDeclarationNoIn"))
-				return DeprecatedUnifiedVariableDefinition.Create(
-						null, null,
-						null,
-						CreateVariableDeclarationNoIn(node.Element("variableDeclarationNoIn")).
-								ToCollection());
+				return CreateVariableDeclarationNoIn(
+						node.Element("variableDeclarationNoIn"));
 			throw new InvalidOperationException();
 		}
 

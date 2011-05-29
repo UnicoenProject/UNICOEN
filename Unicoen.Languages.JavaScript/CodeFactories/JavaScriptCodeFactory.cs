@@ -41,6 +41,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		private static readonly Decoration CommaDelimiter =
 				new Decoration { Delimiter = ", " };
 
+		private static readonly Decoration SemiColonDelimiter =
+				new Decoration { Delimiter = "; " };
+
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			var buff = new StringWriter();
