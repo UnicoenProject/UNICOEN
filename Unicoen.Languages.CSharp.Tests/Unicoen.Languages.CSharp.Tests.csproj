@@ -44,7 +44,6 @@
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
@@ -55,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSharpFixture.cs" />
+    <Compile Include="CSharpModelFeatureTest.cs" />
+    <Compile Include="CSharpRegenerateTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

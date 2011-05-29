@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -29,14 +28,14 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Function {
 			get { return _function; }
-			set { _function = SetParentOfChild(value, _function); }
+			set { _function = SetChild(value, _function); }
 		}
 
 		private UnifiedTypeArgumentCollection _typeArguments;
 
 		public UnifiedTypeArgumentCollection TypeArguments {
 			get { return _typeArguments; }
-			set { _typeArguments = SetParentOfChild(value, _typeArguments); }
+			set { _typeArguments = SetChild(value, _typeArguments); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -47,7 +46,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		private UnifiedCall() {}
@@ -65,36 +64,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Function;
-			yield return TypeArguments;
-			yield return Arguments;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Function, v => Function = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(
-							() => TypeArguments,
-							v => TypeArguments = (UnifiedTypeArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _function, v => _function = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(
-							() => _typeArguments,
-							v => _typeArguments = (UnifiedTypeArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
 		}
 
 		public static UnifiedCall Create(

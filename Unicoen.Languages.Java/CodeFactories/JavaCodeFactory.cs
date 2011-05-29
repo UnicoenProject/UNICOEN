@@ -58,6 +58,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration NewLineDelimiter =
 				new Decoration { Delimiter = "\n" };
 
+		private static readonly Decoration SemiColonDelimiter =
+				new Decoration { Delimiter = ";" };
+
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			var buff = new StringWriter();
@@ -172,14 +175,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedModifier element, VisitorState state) {
 			state.Writer.Write(element.Name);
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedType element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state);
-			element.Supplements.TryAccept(this, state);
 			return false;
 		}
 
@@ -300,32 +295,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			default:
 				break;
 			}
-			return false;
-		}
-
-		// a ? b : c
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryOperator element, VisitorState state) {
-			switch (element.Kind) {
-			case (UnifiedTernaryOperatorKind.Conditional):
-				state.Writer.Write(element.FirstSign);
-				break;
-			default:
-				break;
-			}
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBody element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			element.Supplements.TryAccept(this, state);
-			if (element.InitialValue != null) {
-				state.Writer.Write(" = ");
-				element.InitialValue.TryAccept(this, state.Set(Bracket));
-			}
-			element.Arguments.TryAccept(this, state.Set(Paren));
-			element.Body.TryAccept(this, state);
 			return false;
 		}
 
@@ -584,11 +553,18 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public bool Visit(UnifiedUsing element, VisitorState state) {
-			throw new NotImplementedException(); // TODO: implement
+			state.Writer.Write("/* using ");
+			element.Matchers.TryAccept(this, state);
+			state.Writer.WriteLine(" { */");
+			element.Matchers.TryAccept(this, state);
+			state.Writer.WriteLine("//extracted from above");
+			state.Writer.WriteLine("/* } */");
+			return false;
 		}
 
 		public bool Visit(UnifiedList element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Elements.TryAccept(this, state);
+			return false;
 		}
 
 		public bool Visit(UnifiedKeyValue element, VisitorState state) {
@@ -607,10 +583,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedIfExpression element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
 		public bool Visit(UnifiedSlice element, VisitorState state) {
 			throw new NotImplementedException();
 		}
@@ -618,5 +590,68 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public bool Visit(UnifiedComment element, VisitorState state) {
 			throw new NotImplementedException();
 		}
+		
+		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
+			element.Annotations.TryAccept(this, state);
+			element.Modifiers.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.Type.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.Name.TryAccept(this, state);
+			if (element.InitialValue != null) {
+				state.Writer.Write(" = ");
+				element.InitialValue.TryAccept(this, state.Set(Bracket));
 			}
+			element.Arguments.TryAccept(this, state.Set(Paren));
+			element.Body.TryAccept(this, state);
+			return false;
+		}
+
+		public bool Visit(UnifiedSupplementType element, VisitorState state) {
+			switch (element.Kind) {
+			case UnifiedSupplementTypeKind.Const:
+				state.Write("final ");
+				element.Type.TryAccept(this, state);
+				break;
+			case UnifiedSupplementTypeKind.Pointer:
+				element.Type.TryAccept(this, state);
+				state.Write("/* * */");
+				break;
+			case UnifiedSupplementTypeKind.Reference:
+				element.Type.TryAccept(this, state);
+				state.Write("/* & */");
+				break;
+			case UnifiedSupplementTypeKind.Volatile:
+				state.Write("volatile ");
+				element.Type.TryAccept(this, state);
+				break;
+			case UnifiedSupplementTypeKind.Struct:
+				element.Type.TryAccept(this, state);
+				break;
+			case UnifiedSupplementTypeKind.Union:
+				element.Type.TryAccept(this, state);
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
+			return true;
+		}
+
+		public bool Visit(UnifiedGenericType element, VisitorState state) {
+			element.Type.TryAccept(this, state);
+			//state.Write("<");
+			element.Arguments.TryAccept(this, state);
+			//state.Write(">");
+			return true;
+		}
+
+		public bool Visit(UnifiedArrayType element, VisitorState state) {
+			element.Type.TryAccept(this, state);
+			state.Write("[");
+			element.Arguments.TryAccept(this, state.Set(CommaDelimiter));
+			state.Write("]");
+			return true;
+		}
+			
+	}
 }

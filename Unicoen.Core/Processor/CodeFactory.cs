@@ -31,5 +31,13 @@ namespace Unicoen.Core.CodeFactories {
 			Generate(model, writer);
 			return writer.ToString();
 		}
+
+		public string GenerateOrEmpty(IUnifiedElement model) {
+			if (model == null)
+				return string.Empty;
+			var writer = new StringWriter();
+			Generate(model, writer);
+			return writer.ToString();
+		}
 	}
 }

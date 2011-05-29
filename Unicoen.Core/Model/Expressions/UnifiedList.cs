@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -36,7 +35,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedExpressionCollection Elements {
 			get { return _elements; }
-			set { _elements = SetParentOfChild(value, _elements); }
+			set { _elements = SetChild(value, _elements); }
 		}
 
 		private UnifiedList() {}
@@ -56,22 +55,6 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Elements;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Elements, v => Elements = (UnifiedExpressionCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _elements, v => _elements = (UnifiedExpressionCollection)v);
-		}
-
 		private static UnifiedList Create(
 				UnifiedListKind kind,
 				UnifiedExpressionCollection elements) {
@@ -83,42 +66,27 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedList CreateList(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.List,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.List, elements);
 		}
 
 		public static UnifiedList CreateLazyList(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.LazyList,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.LazyList, elements);
 		}
 
 		public static UnifiedList CreateTuple(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Tuple,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.Tuple, elements);
 		}
 
 		public static UnifiedList CreateArray(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Array,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.Array, elements);
 		}
 
 		public static UnifiedList CreateSet(
 				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Set,
-					Elements = elements,
-			};
+			return Create(UnifiedListKind.Set, elements);
 		}
 	}
 }

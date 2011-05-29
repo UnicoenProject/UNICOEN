@@ -16,6 +16,9 @@
 
 #endregion
 
+using System;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
 
@@ -109,13 +112,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element,
-				VisitorState state) {
-			VisitCollection(element, state.Set(CommaDelimiter));
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedIdentifierCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;
@@ -149,12 +145,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedExpressionList element, VisitorState state) {
-			VisitCollection(element, state);
-			return false;
-		}
-
 		public bool Visit(UnifiedMatcherCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;
@@ -163,6 +153,35 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public bool Visit(UnifiedKeyValueCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;
+		}
+
+		public bool Visit(UnifiedAnnotation element, VisitorState state) {
+			state.Writer.Write("@");
+			element.Name.TryAccept(this, state);
+			element.Arguments.TryAccept(this, state.Set(Paren));
+			state.Writer.WriteLine();
+			return false;
+		}
+
+		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
+		}
+
+		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+			var klass = element.Parent.Parent as UnifiedClassDefinition;
+			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
+				VisitCollection(element, state.Set(CommaDelimiter));
+			}
+			else {
+				VisitCollection(element, state.Set(SemiColonDelimiter));
+			}
+			return true;
+		}
+
+		public bool Visit(UnifiedSimpleType element, VisitorState state) {
+			element.NameExpression.TryAccept(this, state);
+			return true;
 		}
 	}
 }

@@ -124,7 +124,12 @@ namespace Unicoen.Languages.Ruby18.Model {
 					elems.First().Value,
 					UnifiedParameterCollection.Create(
 							elems.ElementAt(1).Elements()
-									.Select(e => UnifiedParameter.Create(e.Value))),
+									.Select(
+											e => UnifiedParameter.Create(
+													null,
+													null, null,
+													UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
+													null))),
 					CreateBlock(elems.ElementAt(2).Elements().First())
 					);
 		}

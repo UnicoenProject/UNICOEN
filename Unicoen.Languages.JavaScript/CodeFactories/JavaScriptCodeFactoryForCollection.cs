@@ -63,5 +63,92 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			//現在は使用していない
 			throw new InvalidOperationException();
 		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedCaseCollection element, VisitorState state) {
+			state = state.IncrementIndentDepth();
+			foreach (var caseElement in element) {
+				state.WriteIndent();
+				caseElement.TryAccept(this, state);
+			}
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedTypeCollection element, VisitorState state) {
+			//JavaScriptでは型の列挙は出現しない
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedTypeParameterCollection element, VisitorState state) {
+			//JavaScriptでは型パラメータは出現しない
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedTypeSupplementCollection element, VisitorState state) {
+			//JavaScriptでは型宣言時に'[]'は出現しない
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedIdentifierCollection element, VisitorState state) {
+			VisitCollection(element, state.Set(CommaDelimiter));
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedMatcherCollection element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
+				UnifiedKeyValueCollection element, VisitorState state) {
+			VisitCollection(element, state);
+			return false;
+		}
+
+		public bool Visit(UnifiedAnnotation element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+			VisitCollection(element, state.Set(SemiColonDelimiter));
+			return true;
+		}
+
+		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
+			state.Writer.Write("var ");
+			element.Name.TryAccept(this, state);
+			if (element.InitialValue != null) {
+				state.Writer.Write(" = ");
+				element.InitialValue.TryAccept(this, state.Set(Bracket));
+			}
+			element.Arguments.TryAccept(this, state.Set(Paren));
+			element.Body.TryAccept(this, state.Set(ForBlock));
+			return false;
+		}
+
+		public bool Visit(UnifiedSupplementType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedGenericType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSimpleType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedArrayType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
 	}
 }

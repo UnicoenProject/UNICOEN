@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -31,53 +30,58 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
-	[Export(typeof(LanguageFixture))]
-	public class JavaFixture : LanguageFixture {
-		private const string JavacPath = "javac";
+	public class JavaFixture : Fixture {
+		private const string CompileCommand = "javac";
 
 		/// <summary>
-		///   対応する言語のソースコードの拡張子を表します．
+		///   対応する言語のソースコードの拡張子を取得します．
 		/// </summary>
 		public override string Extension {
 			get { return ".java"; }
 		}
 
+		/// <summary>
+		///   対応する言語のモデル生成器を取得します．
+		/// </summary>
 		public override ModelFactory ModelFactory {
 			get { return JavaFactory.ModelFactory; }
 		}
 
+		/// <summary>
+		///   対応する言語のコード生成器を取得します．
+		/// </summary>
 		public override CodeFactory CodeFactory {
 			get { return JavaFactory.CodeFactory; }
 		}
 
 		/// <summary>
-		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
-		///   <c>class A { public void M1() { ... } }</c>の...部分に
-		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-		/// </summary>
-		public override IEnumerable<TestCaseData> TestStatements {
-			get {
-				return new[] {
-						"M1();",
-						"new A();",
-				}.Select(s => new TestCaseData(this, DecorateWithClassAndMethod(s)));
-			}
-		}
-
-		/// <summary>
-		///   テスト時に入力されるA.javaファイルのメソッド宣言の中身です。
-		///   <c>class A { public void M1() { ... } }</c>の...部分に
+		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
+		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
 		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
-				return new[] {
+				var statements = new[] {
+						"M1();",
+						"new A();",
+				}.Select(s => new TestCaseData(DecorateToCompile(s)));
+
+				var codes = new[] {
 						"class A { }",
 						"public class A { }",
-				}.Select(s => new TestCaseData(this, s));
+				}.Select(s => new TestCaseData(s));
+
+				return statements.Concat(codes);
 			}
 		}
 
+		private static string DecorateToCompile(string statement) {
+			return "class A { public void M1() {" + statement + "} }";
+		}
+
+		/// <summary>
+		///   テスト時に入力するファイルパスの集合です．
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
@@ -86,40 +90,60 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								s =>
-								new TestCaseData(this, FixtureUtil.GetInputPath("Java", s + Extension)));
+								new TestCaseData(FixtureUtil.GetInputPath("Java", s + Extension)));
 			}
 		}
 
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		/// <summary>
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		/// </summary>
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
+				const string cmd = CompileCommand;
+				const string args = "*.java";
 				return new[] {
-						new { DirName = "default", Command = "javac", Arguments = "*.java" },
-						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
+						new { DirName = "default", Command = cmd, Arguments = args },
+						new { DirName = "NewTestFiles", Command = cmd, Arguments = args },
 				}
 						.Select(
 								o => new TestCaseData(
-								     		this,
 								     		FixtureUtil.GetInputPath("Java", o.DirName),
 								     		o.Command,
 								     		o.Arguments));
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath"></param>
+		/// <param name = "fileName"></param>
+		public override void Compile(string dirPath, string fileName) {
 			var args = new[] {
-					"\"" + Path.Combine(workPath, fileName) + "\""
+					"\"" + Path.Combine(dirPath, fileName) + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(workPath, JavacPath, arguments);
+			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath"></param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
-					workPath, "*.class",
+					dirPath, "*.class",
 					SearchOption.AllDirectories)
 					.Select(path => new object[] { path, File.ReadAllBytes(path) });
 		}
 
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath"></param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {
 			var info = new ProcessStartInfo {
@@ -142,10 +166,6 @@ namespace Unicoen.Languages.Java.Tests {
 			} catch (Win32Exception e) {
 				throw new InvalidOperationException("Failed to launch compiler.", e);
 			}
-		}
-
-		private static string DecorateWithClassAndMethod(string statement) {
-			return "class A { public void M1() {" + statement + "} }";
 		}
 	}
 }

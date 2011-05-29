@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -36,7 +35,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Element {
 			get { return _element; }
-			set { _element = SetParentOfChild(value, _element); }
+			set { _element = SetChild(value, _element); }
 		}
 
 		private UnifiedExpressionCollection _generator;
@@ -46,7 +45,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedExpressionCollection Generator {
 			get { return _generator; }
-			set { _generator = SetParentOfChild(value, _generator); }
+			set { _generator = SetChild(value, _generator); }
 		}
 
 		private UnifiedListComprehension() {}
@@ -64,27 +63,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Element;
-			yield return Generator;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Element, v => Element = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Generator, v => Generator = (UnifiedExpressionCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _element, v => _element = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _generator, v => _generator = (UnifiedExpressionCollection)v);
 		}
 
 		private static UnifiedListComprehension Create(

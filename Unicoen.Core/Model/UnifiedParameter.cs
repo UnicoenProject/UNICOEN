@@ -16,8 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
-using System.Linq;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -26,6 +24,16 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<code>public void method(int a)</code>の<code>int a</code>
 	/// </summary>
 	public class UnifiedParameter : UnifiedElement {
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetChild(value, _annotations); }
+		}
+
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
@@ -34,7 +42,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
@@ -45,7 +53,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
 		private UnifiedIdentifierCollection _names;
@@ -57,7 +65,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedIdentifierCollection Names {
 			get { return _names; }
-			set { _names = SetParentOfChild(value, _names); }
+			set { _names = SetChild(value, _names); }
 		}
 
 		private IUnifiedExpression _defaultValue;
@@ -68,7 +76,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression DefaultValue {
 			get { return _defaultValue; }
-			set { _defaultValue = SetParentOfChild(value, _defaultValue); }
+			set { _defaultValue = SetChild(value, _defaultValue); }
 		}
 
 		private UnifiedParameter() {}
@@ -88,41 +96,14 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Modifiers;
-			yield return Type;
-			yield return Names;
-			yield return DefaultValue;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Type, v => Type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => Names, v => Names = (UnifiedIdentifierCollection)v);
-			yield return ElementReference.Create
-					(() => DefaultValue, v => DefaultValue = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _type, v => _type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => _names, v => _names = (UnifiedIdentifierCollection)v);
-			yield return ElementReference.Create
-					(() => _defaultValue, v => _defaultValue = (IUnifiedExpression)v);
-		}
-
 		public static UnifiedParameter Create(
-				UnifiedModifierCollection modifiers, UnifiedType type,
-				UnifiedIdentifierCollection names, IUnifiedExpression defaultValue) {
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null,
+				UnifiedIdentifierCollection names = null,
+				IUnifiedExpression defaultValue = null) {
 			return new UnifiedParameter {
+					Annotations = annotations,
 					Modifiers = modifiers,
 					Type = type,
 					Names = names,
@@ -131,32 +112,31 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedParameter Create(
-				UnifiedModifierCollection modifiers, UnifiedType type,
-				IEnumerable<string> names, IUnifiedExpression defaultValue) {
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null,
+				string name = null,
+				IUnifiedExpression defaultValue = null) {
 			return Create(
-					modifiers, type,
-					names.Select(UnifiedIdentifier.CreateVariable).ToCollection(), defaultValue);
-		}
-
-		public static UnifiedParameter Create(
-				UnifiedModifierCollection modifiers, UnifiedType type, string name,
-				IUnifiedExpression defaultValue) {
-			return Create(
-					modifiers, type, UnifiedIdentifier.CreateVariable(name).ToCollection(),
+					annotations,
+					modifiers,
+					type,
+					UnifiedIdentifier.CreateVariable(name).ToCollection(),
 					defaultValue);
 		}
 
-		public static UnifiedParameter Create(string name) {
-			return Create(null, null, name, null);
-		}
-
-		public static UnifiedParameter Create(string name, UnifiedType type) {
-			return Create(null, type, name, null);
-		}
-
 		public static UnifiedParameter Create(
-				UnifiedModifierCollection modifiers, UnifiedType type, string name) {
-			return Create(modifiers, type, name, null);
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null,
+				UnifiedIdentifier name = null,
+				IUnifiedExpression defaultValue = null) {
+			return Create(
+					annotations,
+					modifiers,
+					type,
+					name.ToCollection(),
+					defaultValue);
 		}
 	}
 }

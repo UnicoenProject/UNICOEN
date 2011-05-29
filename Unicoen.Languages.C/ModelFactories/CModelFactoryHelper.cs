@@ -141,7 +141,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			String s = "";
 			String prefix = "";
 			foreach (UnifiedType t in types) {
-				s += prefix + t.Name;
+				s += prefix + t.NameExpression;
 				prefix = " ";
 			}
 			type =
@@ -236,26 +236,24 @@ namespace Unicoen.Languages.C.ModelFactories {
 			// 常に UnifiedTyep を返すが、
 			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
 
-			UnifiedIdentifier name = null;
-			UnifiedClassKind kind = node.FirstElement().Name() == "struct"
-			                        		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
-			if (node.Element("IDENTIFIER") != null) {
-				name = UnifiedIdentifier.CreateType(node.Element("IDENTIFIER").Value);
-			}
+			var kind = node.FirstElement().Name() == "struct"
+			           		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
+			var identElem = node.Element("IDENTIFIER");
+			var uIdent = identElem == null ? null : UnifiedIdentifier.CreateType(identElem.Value);
 
 			if (node.Elements().Count() == 2) {
-				var modifiers =
-						UnifiedModifierCollection.Create(
-								UnifiedModifier.Create(node.FirstElement().Name()));
-				return UnifiedType.Create(modifiers, name, null, null);
+				var baseType = UnifiedType.Create(uIdent);
+				return kind == UnifiedClassKind.Struct
+					? baseType.WrapStruct()
+					: baseType.WrapUnion();
 			}
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
 			var structOrUnion = UnifiedClassDefinition.Create(
-					kind, null, name, null, null, body);
+					kind, null, uIdent, null, null, body);
 
-			return UnifiedType.Create(null, structOrUnion, null, null);
+			return UnifiedType.Create(structOrUnion);
 		}
 
 		public static IUnifiedElement CreateStructOrUnion(XElement node) {
@@ -280,7 +278,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 							node.Elements("struct_declaration").Select(CreateStructDeclaration));
 		}
 
-		public static IUnifiedExpression CreateStructDeclaration(XElement node) {
+		public static UnifiedVariableDefinitionList CreateStructDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declaration");
 			/*
@@ -294,9 +292,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 					node.Element("specifier_qualifier_list"),
 					out modifiers, out type);
 
-			return UnifiedVariableDefinition.Create(
-					modifiers, type,
-					CreateStructDeclaratorList(node.Element("struct_declarator_list")));
+			return CreateStructDeclaratorList(
+					node.Element("struct_declarator_list"),
+					modifiers, type);
 		}
 
 		public static void CreateSpecifierQualifierList(
@@ -326,15 +324,16 @@ namespace Unicoen.Languages.C.ModelFactories {
 			String s = "";
 			String prefix = "";
 			foreach (UnifiedType t in types) {
-				s += prefix + t.Name;
+				s += prefix + t.NameExpression;
 				prefix = " ";
 			}
 			type = s.Equals("")
 			       		? null : UnifiedType.Create(UnifiedIdentifier.CreateType(s));
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection
-				CreateStructDeclaratorList(XElement node) {
+		public static UnifiedVariableDefinitionList
+				CreateStructDeclaratorList(XElement node, 
+				UnifiedModifierCollection modifiers, UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");
 			/*
@@ -342,15 +341,18 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * : struct_declarator (',' struct_declarator)*
 			 * */
 
-			var declarators = UnifiedVariableDefinitionBodyCollection.Create();
+			var variableDefinitionList = UnifiedVariableDefinitionList.Create();
 			foreach (var e in node.Elements("struct_declarator")) {
-				declarators.Add(CreateStructDeclarator(e));
+				var variableDefinition = UnifiedVariableDefinition.Create(
+						modifiers: modifiers.DeepCopy(),
+						type: type.DeepCopy());
+				variableDefinitionList.Add(CreateStructDeclarator(e, variableDefinition));
 			}
-			return declarators;
+			return variableDefinitionList;
 		}
 
-		public static UnifiedVariableDefinitionBody CreateStructDeclarator(
-				XElement node) {
+		public static UnifiedVariableDefinition CreateStructDeclarator(
+				XElement node, UnifiedVariableDefinition variableDefinition) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator");
 			/*

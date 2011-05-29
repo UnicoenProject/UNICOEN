@@ -22,16 +22,6 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Languages.Java.CodeFactories {
 	public partial class JavaCodeFactory {
-		private static Tuple<string, string> GetKeyword(
-				UnifiedTernaryOperatorKind kind) {
-			switch (kind) {
-			case UnifiedTernaryOperatorKind.Conditional:
-				return Tuple.Create("?", ":");
-			default:
-				throw new ArgumentOutOfRangeException("kind");
-			}
-		}
-
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedUnaryExpression ||
@@ -55,12 +45,11 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				UnifiedTernaryExpression element, VisitorState state) {
 			var paren = GetRequiredParen(element);
 			state.Writer.Write(paren.Item1);
-			var keywords = GetKeyword(element.Operator.Kind);
-			element.FirstExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" " + keywords.Item1 + " ");
-			element.SecondExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" " + keywords.Item2 + " ");
-			element.LastExpression.TryAccept(this, state.Set(Paren));
+			element.Condition.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" ? ");
+			element.TrueExpression.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" : ");
+			element.FalseExpression.TryAccept(this, state.Set(Paren));
 			state.Writer.Write(paren.Item2);
 			return true;
 		}
@@ -112,17 +101,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				element.Function.TryAccept(this, state);
 			}
 			element.Arguments.TryAccept(this, state.Set(Paren));
-			return true;
-		}
-
-		// e.g. int a = 5
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinition element, VisitorState state) {
-			element.Modifiers.TryAccept(this, state);
-			state.WriteSpace();
-			element.Type.TryAccept(this, state);
-			state.WriteSpace();
-			element.Bodys.TryAccept(this, state);
 			return true;
 		}
 

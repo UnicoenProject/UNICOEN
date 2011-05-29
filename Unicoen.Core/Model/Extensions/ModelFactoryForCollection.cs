@@ -39,6 +39,16 @@ namespace Unicoen.Core.Model {
 			return UnifiedProgram.Create(singleton);
 		}
 
+		public static UnifiedAnnotationCollection ToCollection(
+				this IEnumerable<UnifiedAnnotation> collection) {
+			return UnifiedAnnotationCollection.Create(collection);
+		}
+
+		public static UnifiedAnnotationCollection ToCollection(
+				this UnifiedAnnotation singleton) {
+			return UnifiedAnnotationCollection.Create(singleton);
+		}
+
 		public static UnifiedArgumentCollection ToCollection(
 				this IEnumerable<UnifiedArgument> collection) {
 			return UnifiedArgumentCollection.Create(collection);
@@ -75,16 +85,6 @@ namespace Unicoen.Core.Model {
 		public static UnifiedExpressionCollection ToCollection(
 				this IUnifiedExpression singleton) {
 			return UnifiedExpressionCollection.Create(singleton);
-		}
-
-		public static UnifiedExpressionList ToExpressionList(
-				this IEnumerable<IUnifiedExpression> collection) {
-			return UnifiedExpressionList.Create(collection);
-		}
-
-		public static UnifiedExpressionList ToExpressionList(
-				this IUnifiedExpression singleton) {
-			return UnifiedExpressionList.Create(singleton);
 		}
 
 		public static UnifiedIdentifierCollection ToCollection(
@@ -202,14 +202,14 @@ namespace Unicoen.Core.Model {
 			return UnifiedTypeSupplementCollection.Create(singleton);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection ToCollection(
-				this IEnumerable<UnifiedVariableDefinitionBody> collection) {
-			return UnifiedVariableDefinitionBodyCollection.Create(collection);
+		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
+				this IEnumerable<UnifiedVariableDefinition> collection) {
+			return UnifiedVariableDefinitionList.Create(collection);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection ToCollection(
-				this UnifiedVariableDefinitionBody singleton) {
-			return UnifiedVariableDefinitionBodyCollection.Create(singleton);
+		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
+				this UnifiedVariableDefinition singleton) {
+			return UnifiedVariableDefinitionList.Create(singleton);
 		}
 
 		public static UnifiedList ToListLiteral(

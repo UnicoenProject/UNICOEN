@@ -24,7 +24,7 @@ using Unicoen.Core.ModelFactories;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {
-	public class Ruby18Fixture : LanguageFixture {
+	public class Ruby18Fixture : Fixture {
 		public override string Extension {
 			get { return ".rb"; }
 		}
@@ -37,10 +37,6 @@ namespace Unicoen.Languages.Ruby18.Tests {
 			get { throw new NotImplementedException(); }
 		}
 
-		public override IEnumerable<TestCaseData> TestStatements {
-			get { throw new NotImplementedException(); }
-		}
-
 		public override IEnumerable<TestCaseData> TestCodes {
 			get { throw new NotImplementedException(); }
 		}
@@ -49,15 +45,15 @@ namespace Unicoen.Languages.Ruby18.Tests {
 			get { throw new NotImplementedException(); }
 		}
 
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get { throw new NotImplementedException(); }
 		}
 
-		public override void Compile(string workPath, string fileName) {
+		public override void Compile(string dirPath, string fileName) {
 			throw new NotImplementedException();
 		}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			throw new NotImplementedException();
 		}
 

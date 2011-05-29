@@ -17,7 +17,6 @@
 #endregion
 
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.CodeFactories;
@@ -26,49 +25,70 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-	//[Export(typeof(LanguageFixture))]
-	public class CFixture : LanguageFixture {
+	public class CFixture : Fixture {
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
 		public override string Extension {
 			get { return ".c"; }
 		}
 
+		/// <summary>
+		///   対応する言語のモデル生成器を取得します．
+		/// </summary>
 		public override ModelFactory ModelFactory {
 			get { return CFactory.ModelFactory; }
 		}
 
+		/// <summary>
+		///   対応する言語のコード生成器を取得します．
+		/// </summary>
 		public override CodeFactory CodeFactory {
 			get { return CFactory.CodeFactory; }
 		}
 
-		public override IEnumerable<TestCaseData> TestStatements {
-			get {
-				return new[] {
-						"{ main(); }",
-				}.Select(s => new TestCaseData(this, CreateCode(s)));
-			}
-		}
-
+		/// <summary>
+		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
+		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
+		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
-				return new[] {
+				var statements = new[] {
+						"{ main(); }",
+				}.Select(s => new TestCaseData(DecorateToCompile(s)));
+
+				var codes = new[] {
 						"int main() { return 0; }",
-				}.Select(s => new TestCaseData(this, s));
+				}.Select(s => new TestCaseData(s));
+
+				return statements.Concat(codes);
 			}
 		}
 
+		private static string DecorateToCompile(string statement) {
+			return "int main() {" + statement + "} }";
+		}
+
+		/// <summary>
+		///   テスト時に入力するファイルパスの集合です．
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"Fibonacci.c",
+						"Fibonacci",
 				}
 						.Select(
 								s =>
-								new TestCaseData(this, FixtureUtil.GetInputPath("C", s + Extension)));
+								new TestCaseData(FixtureUtil.GetInputPath("C", s + Extension)));
 			}
 		}
 
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		/// <summary>
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		/// </summary>
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
 				yield break;
 				//				return new[] {
@@ -82,17 +102,29 @@ namespace Unicoen.Languages.C.Tests {
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {}
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string dirPath, string fileName) {}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			return null;
 		}
 
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {}
-
-		private static string CreateCode(string statement) {
-			return "int main() {" + statement + "} }";
-		}
 	}
 }

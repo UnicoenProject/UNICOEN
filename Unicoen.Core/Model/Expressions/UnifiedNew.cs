@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -29,32 +28,32 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Target {
 			get { return _target; }
-			set { _target = SetParentOfChild(value, _target); }
+			set { _target = SetChild(value, _target); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
 
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		private UnifiedTypeArgumentCollection _typeArguments;
 
 		public UnifiedTypeArgumentCollection TypeArguments {
 			get { return _typeArguments; }
-			set { _typeArguments = SetParentOfChild(value, _typeArguments); }
+			set { _typeArguments = SetChild(value, _typeArguments); }
 		}
 
-		private UnifiedExpressionList _initialValue;
+		private UnifiedList _initialValue;
 
 		/// <summary>
 		///   配列生成時の初期値を表します。
 		///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
 		/// </summary>
-		public UnifiedExpressionList InitialValue {
+		public UnifiedList InitialValue {
 			get { return _initialValue; }
-			set { _initialValue = SetParentOfChild(value, _initialValue); }
+			set { _initialValue = SetChild(value, _initialValue); }
 		}
 
 		private UnifiedNew() {}
@@ -72,62 +71,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Target;
-			yield return Arguments;
-			yield return TypeArguments;
-			yield return InitialValue;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return
-					ElementReference.Create(
-							() => Target,
-							v => Target = (UnifiedType)v);
-			yield return
-					ElementReference.Create(
-							() => Arguments,
-							v => Arguments = (UnifiedArgumentCollection)v);
-			yield return
-					ElementReference.Create(
-							() => TypeArguments,
-							v => TypeArguments = (UnifiedTypeArgumentCollection)v);
-			yield return
-					ElementReference.Create(
-							() => InitialValue,
-							v => InitialValue = (UnifiedExpressionList)v);
-			yield return
-					ElementReference.Create(
-							() => Body,
-							v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return
-					ElementReference.Create(
-							() => _target,
-							v => _target = (UnifiedType)v);
-			yield return
-					ElementReference.Create(
-							() => _arguments,
-							v => _arguments = (UnifiedArgumentCollection)v);
-			yield return
-					ElementReference.Create(
-							() => _typeArguments,
-							v => _typeArguments = (UnifiedTypeArgumentCollection)v);
-			yield return
-					ElementReference.Create(
-							() => _initialValue,
-							v => _initialValue = (UnifiedExpressionList)v);
-			yield return
-					ElementReference.Create(
-							() => _body,
-							v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedNew Create(IUnifiedExpression target) {
@@ -153,7 +96,7 @@ namespace Unicoen.Core.Model {
 		public static UnifiedNew Create(
 				IUnifiedExpression target,
 				UnifiedArgumentCollection arguments,
-				UnifiedExpressionList initialValues) {
+				UnifiedList initialValues) {
 			return Create(target, arguments, null, initialValues, null);
 		}
 
@@ -161,7 +104,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression target,
 				UnifiedArgumentCollection arguments,
 				UnifiedTypeArgumentCollection typeArguments,
-				UnifiedExpressionList initialValues,
+				UnifiedList initialValues,
 				UnifiedBlock body) {
 			return new UnifiedNew {
 					Target = target,
@@ -174,20 +117,12 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedNew CreateArray(string name, UnifiedArgument argument) {
 			return Create(
-					UnifiedType.CreateUsingString(
-							name,
-							null,
-							UnifiedTypeSupplementCollection.Create(
-									UnifiedTypeSupplement.CreateArray(argument))));
+					UnifiedType.Create());
 		}
 
-		public static UnifiedNew CreateArray(UnifiedExpressionList initialValues) {
+		public static UnifiedNew CreateArray(UnifiedList initialValues) {
 			return Create(
-					UnifiedType.CreateUsingString(
-							null,
-							null,
-							UnifiedTypeSupplementCollection.Create(
-									UnifiedTypeSupplement.CreateArray())),
+					UnifiedType.Create(),
 					null,
 					null,
 					initialValues,

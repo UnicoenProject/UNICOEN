@@ -16,57 +16,45 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   3項式を表します
+	///   3項式（条件式）を表します．
 	///   Javaにおける<c>a ? b : c</c>
 	/// </summary>
 	public class UnifiedTernaryExpression : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _firstExpression;
+		private IUnifiedExpression _condition;
 
 		/// <summary>
 		///   3項式の第1オペランドを表します
 		///   e.g. Javaにおける<c>a ? b : c</c>の<c>a</c>
 		/// </summary>
-		public IUnifiedExpression FirstExpression {
-			get { return _firstExpression; }
-			set { _firstExpression = SetParentOfChild(value, _firstExpression); }
+		public IUnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
 		}
 
-		private UnifiedTernaryOperator _operator;
-
-		/// <summary>
-		///   3項式の演算子を表します
-		///   e.g. Javaにおける<c>a ? b : c</c>の<c>?と:</c>
-		/// </summary>
-		public UnifiedTernaryOperator Operator {
-			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
-		}
-
-		private IUnifiedExpression _secondExpression;
+		private IUnifiedExpression _trueExpression;
 
 		/// <summary>
 		///   3項式の第2オペランドを表します
 		///   Javaにおける<c>a ? b : c</c>の<c>b</c>
 		/// </summary>
-		public IUnifiedExpression SecondExpression {
-			get { return _secondExpression; }
-			set { _secondExpression = SetParentOfChild(value, _secondExpression); }
+		public IUnifiedExpression TrueExpression {
+			get { return _trueExpression; }
+			set { _trueExpression = SetChild(value, _trueExpression); }
 		}
 
-		private IUnifiedExpression _lastExpression;
+		private IUnifiedExpression _falseExpression;
 
 		/// <summary>
 		///   3項式の第3オペランドを表します
 		///   Javaにおける<c>a ? b : c</c>の<c>c</c>
 		/// </summary>
-		public IUnifiedExpression LastExpression {
-			get { return _lastExpression; }
-			set { _lastExpression = SetParentOfChild(value, _lastExpression); }
+		public IUnifiedExpression FalseExpression {
+			get { return _falseExpression; }
+			set { _falseExpression = SetChild(value, _falseExpression); }
 		}
 
 		private UnifiedTernaryExpression() {}
@@ -86,47 +74,14 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return FirstExpression;
-			yield return Operator;
-			yield return SecondExpression;
-			yield return LastExpression;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => FirstExpression, v => FirstExpression = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Operator, v => Operator = (UnifiedTernaryOperator)v);
-			yield return ElementReference.Create
-					(() => SecondExpression, v => SecondExpression = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => LastExpression, v => LastExpression = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _firstExpression, v => _firstExpression = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _operator, v => _operator = (UnifiedTernaryOperator)v);
-			yield return ElementReference.Create
-					(() => _secondExpression, v => _secondExpression = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _lastExpression, v => _lastExpression = (IUnifiedExpression)v);
-		}
-
 		public static UnifiedTernaryExpression Create(
 				IUnifiedExpression firstExpression,
-				UnifiedTernaryOperator ternaryOperator,
 				IUnifiedExpression secondExpression,
 				IUnifiedExpression lastExpression) {
 			return new UnifiedTernaryExpression {
-					FirstExpression = firstExpression,
-					Operator = ternaryOperator,
-					SecondExpression = secondExpression,
-					LastExpression = lastExpression,
+					Condition = firstExpression,
+					TrueExpression = secondExpression,
+					FalseExpression = lastExpression,
 			};
 		}
 	}

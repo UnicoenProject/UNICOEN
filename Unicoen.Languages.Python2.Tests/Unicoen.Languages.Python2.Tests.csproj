@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Python2ModelFeatureTest.cs" />
+    <Compile Include="Python2RegenerateTest.cs" />
     <Compile Include="Python2Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

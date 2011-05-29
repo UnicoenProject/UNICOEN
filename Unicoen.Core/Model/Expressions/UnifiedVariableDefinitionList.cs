@@ -20,19 +20,10 @@ using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   修飾子や型を除いた変数宣言の集合を表します。
-	///   e.g. Javaにおける<c>int a, b;</c>の<c>a, b;</c>
-	/// </summary>
-	public class UnifiedVariableDefinitionBodyCollection
+	public class UnifiedVariableDefinitionList
 			: UnifiedElementCollection
-			  		<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection> {
-		private UnifiedVariableDefinitionBodyCollection() {}
-
-		private UnifiedVariableDefinitionBodyCollection(
-				IEnumerable<UnifiedVariableDefinitionBody> elements)
-				: base(elements) {}
-
+			  		<UnifiedVariableDefinition, UnifiedVariableDefinitionList>,
+			  IUnifiedExpression {
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -48,18 +39,24 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create() {
-			return new UnifiedVariableDefinitionBodyCollection();
+		private UnifiedVariableDefinitionList() {}
+
+		private UnifiedVariableDefinitionList(
+				IEnumerable<UnifiedVariableDefinition> elements)
+				: base(elements) {}
+
+		public static UnifiedVariableDefinitionList Create() {
+			return new UnifiedVariableDefinitionList();
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create(
-				params UnifiedVariableDefinitionBody[] elements) {
-			return new UnifiedVariableDefinitionBodyCollection(elements);
+		public static UnifiedVariableDefinitionList Create(
+				params UnifiedVariableDefinition[] elements) {
+			return new UnifiedVariableDefinitionList(elements);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create(
-				IEnumerable<UnifiedVariableDefinitionBody> elements) {
-			return new UnifiedVariableDefinitionBodyCollection(elements);
+		public static UnifiedVariableDefinitionList Create(
+				IEnumerable<UnifiedVariableDefinition> elements) {
+			return new UnifiedVariableDefinitionList(elements);
 		}
-			  		}
+			  }
 }

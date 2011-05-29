@@ -21,16 +21,15 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   自分自身が式である式の集合を表します。
+	///   アノテーションもしくは属性の集合を表します．
+	///   e.g. Javaにおける<c>@Override @Deprecated void method() { ... }</c>の<c>@Override @Deprecated</c>
 	/// </summary>
-	public class UnifiedExpressionList
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionList>,
-			  IUnifiedExpression {
-		protected UnifiedExpressionList() {}
+	public class UnifiedAnnotationCollection
+			: UnifiedElementCollection<UnifiedAnnotation, UnifiedAnnotationCollection> {
+		private UnifiedAnnotationCollection() {}
 
-		protected UnifiedExpressionList(
-				IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
+		private UnifiedAnnotationCollection(IEnumerable<UnifiedAnnotation> elements)
+				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -47,18 +46,18 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedExpressionList Create() {
-			return new UnifiedExpressionList();
+		public static UnifiedAnnotationCollection Create() {
+			return new UnifiedAnnotationCollection();
 		}
 
-		public static UnifiedExpressionList Create(
-				params IUnifiedExpression[] elements) {
-			return new UnifiedExpressionList(elements);
+		public static UnifiedAnnotationCollection Create(
+				params UnifiedAnnotation[] elements) {
+			return new UnifiedAnnotationCollection(elements);
 		}
 
-		public static UnifiedExpressionList Create(
-				IEnumerable<IUnifiedExpression> elements) {
-			return new UnifiedExpressionList(elements);
+		public static UnifiedAnnotationCollection Create(
+				IEnumerable<UnifiedAnnotation> elements) {
+			return new UnifiedAnnotationCollection(elements);
 		}
-			  }
+			}
 }

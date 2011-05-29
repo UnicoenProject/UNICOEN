@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Start {
 			get { return _start; }
-			set { _start = SetParentOfChild(value, _start); }
+			set { _start = SetChild(value, _start); }
 		}
 
 		private IUnifiedExpression _end;
@@ -44,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression End {
 			get { return _end; }
-			set { _end = SetParentOfChild(value, _end); }
+			set { _end = SetChild(value, _end); }
 		}
 
 		private IUnifiedExpression _step;
@@ -55,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Step {
 			get { return _step; }
-			set { _step = SetParentOfChild(value, _step); }
+			set { _step = SetChild(value, _step); }
 		}
 
 		private UnifiedSlice() {}
@@ -73,32 +72,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Start;
-			yield return End;
-			yield return Step;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Start, v => Start = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => End, v => End = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Step, v => Step = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _start, v => _start = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _end, v => _end = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _step, v => _step = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedSlice Create(

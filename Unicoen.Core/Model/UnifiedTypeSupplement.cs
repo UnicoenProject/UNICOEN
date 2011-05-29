@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using Unicoen.Core.Visitors;
 
@@ -32,11 +31,11 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		///   実引数の集合を表します
-		///   e.g. Cにおける<c>int* a, b, c</c>の<c>a, b, c</c>
+		///   e.g. Cにおける<c>new int[10]</c>の<c>10</c>
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		/// <summary>
@@ -61,29 +60,12 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Arguments;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
-		}
-
 		public static UnifiedTypeSupplement Create(
 				UnifiedArgumentCollection arguments,
 				UnifiedTypeSupplementKind kind) {
 			// arguments.Countが2以上の場合はC#の長方形配列を指定してください。
 			Contract.Requires(
-					kind == UnifiedTypeSupplementKind.Array &&
-					arguments.Count == 1);
+					kind != UnifiedTypeSupplementKind.Array || arguments.Count == 1);
 			return new UnifiedTypeSupplement {
 					Arguments = arguments,
 					Kind = kind,
@@ -104,6 +86,27 @@ namespace Unicoen.Core.Model {
 		/// <returns></returns>
 		public static UnifiedTypeSupplement CreateArray(UnifiedArgument argument) {
 			return Create(argument.ToCollection(), UnifiedTypeSupplementKind.Array);
+		}
+
+		/// <summary>
+		///   実引数を取る長方形配列を作成します。
+		/// </summary>
+		/// <returns></returns>
+		public static UnifiedTypeSupplement CreateRectangleArray(int dimension) {
+			var args = UnifiedArgumentCollection.Create();
+			for (int i = 0; i < dimension; i++)
+				args.Add(UnifiedArgument.Create(null));
+			return Create(args, UnifiedTypeSupplementKind.MultidimensionArray);
+		}
+
+		/// <summary>
+		///   実引数を取る長方形配列を作成します。
+		/// </summary>
+		/// <returns></returns>
+		public static UnifiedTypeSupplement CreateRectangleArray(
+				UnifiedArgument argument) {
+			return Create(
+					argument.ToCollection(), UnifiedTypeSupplementKind.MultidimensionArray);
 		}
 	}
 }

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedCatchCollection Catches {
 			get { return _catches; }
-			set { _catches = SetParentOfChild(value, _catches); }
+			set { _catches = SetChild(value, _catches); }
 		}
 
 		private UnifiedBlock _elseBody;
@@ -44,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
-			set { _elseBody = SetParentOfChild(value, _elseBody); }
+			set { _elseBody = SetChild(value, _elseBody); }
 		}
 
 		private UnifiedBlock _finallyBody;
@@ -55,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedBlock FinallyBody {
 			get { return _finallyBody; }
-			set { _finallyBody = SetParentOfChild(value, _finallyBody); }
+			set { _finallyBody = SetChild(value, _finallyBody); }
 		}
 
 		private UnifiedTry() {}
@@ -73,37 +72,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Catches;
-			yield return ElseBody;
-			yield return FinallyBody;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Catches, v => Catches = (UnifiedCatchCollection)v);
-			yield return ElementReference.Create
-					(() => ElseBody, v => ElseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => FinallyBody, v => FinallyBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _catches, v => _catches = (UnifiedCatchCollection)v);
-			yield return ElementReference.Create
-					(() => _elseBody, v => _elseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => _finallyBody, v => _finallyBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedTry Create(
