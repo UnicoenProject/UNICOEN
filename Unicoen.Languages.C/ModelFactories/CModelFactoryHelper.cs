@@ -292,6 +292,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 					node.Element("specifier_qualifier_list"),
 					out modifiers, out type);
 
+			var defenitionList = UnifiedVariableDefinitionList.Create(); //
+
 
 
 			return DeprecatedUnifiedVariableDefinition.Create(
