@@ -538,21 +538,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * global_stmt: 'global' NAME (',' NAME)*
 			 */
-					node.Elements("NAME").Select(
-							e => UnifiedVariableDefinition.Create(
-					modifiers: UnifiedModifier.Create("global").ToCollection(),
-					name: UnifiedIdentifier.CreateType(e.Value)));
-			return UnifiedVariableDefinition.Create(
-					node.Elements("NAME").Select(
-							e => DeprecatedUnifiedVariableDefinitionBody.Create(e.Value))
-							.ToCollection());
-			return DeprecatedUnifiedVariableDefinition.Create(
-					null,
-					UnifiedModifier.Create("global").ToCollection(),
-					null,
-					node.Elements("NAME").Select(
-							e => DeprecatedUnifiedVariableDefinitionBody.Create(e.Value))
-							.ToCollection());
+			return node.Elements("NAME").Select(
+					e => UnifiedVariableDefinition.Create(
+							modifiers: UnifiedModifier.Create("global").ToCollection(),
+							name: e.Value.ToVariableIdentifier())).ToVariableDefinitionList();
 		}
 
 		public static IUnifiedExpression CreateExec_stmt(XElement node) {

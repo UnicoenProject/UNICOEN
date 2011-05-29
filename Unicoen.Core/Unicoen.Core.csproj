@@ -94,7 +94,7 @@
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedVariableDefinitionBodyCollection.cs" />
+    <Compile Include="Model\Expressions\DeprecatedUnifiedVariableDefinitionBodyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedClassKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />

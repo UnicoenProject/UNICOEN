@@ -46,41 +46,6 @@ namespace Unicoen.Core.Model {
 			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function);
 		}
 
-		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
-				this string name) {
-			return DeprecatedUnifiedVariableDefinition.CreateSingle(name);
-		}
-
-		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
-				this string name,
-				UnifiedType type) {
-			return DeprecatedUnifiedVariableDefinition.CreateSingle(type, name);
-		}
-
-		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
-				this string name,
-				IUnifiedExpression
-						initialValue) {
-			return DeprecatedUnifiedVariableDefinition.CreateSingle(name, initialValue);
-		}
-
-		public static DeprecatedUnifiedVariableDefinition ToVariableDefinition(
-				this string name,
-				UnifiedType type,
-				IUnifiedExpression
-						initialValue) {
-			return DeprecatedUnifiedVariableDefinition.CreateSingle(
-					type, name, initialValue);
-		}
-
-		public static UnifiedType ToType(this string name) {
-			return UnifiedType.Create(name);
-		}
-
-		public static UnifiedClassDefinition ToClassDefinition(this string name) {
-			return UnifiedClassDefinition.CreateClass(name);
-		}
-
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
 			return UnifiedBooleanLiteral.Create(literal);
 		}
