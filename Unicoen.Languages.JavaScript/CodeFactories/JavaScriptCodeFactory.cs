@@ -41,6 +41,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		private static readonly Decoration CommaDelimiter =
 				new Decoration { Delimiter = ", " };
 
+		private static readonly Decoration SemiColonDelimiter =
+				new Decoration { Delimiter = "; " };
+
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			var buff = new StringWriter();
@@ -445,19 +448,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedTypeSupplement element, VisitorState state) {
 			//JavaScript�ł͌^�錾����'[]'�͏o�����Ȃ�
 			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				DeprecatedUnifiedVariableDefinitionBody element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			element.Supplements.TryAccept(this, state);
-			if (element.InitialValue != null) {
-				state.Writer.Write(" = ");
-				element.InitialValue.TryAccept(this, state.Set(Bracket));
-			}
-			element.Arguments.TryAccept(this, state.Set(Paren));
-			element.Body.TryAccept(this, state.Set(ForBlock));
-			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
