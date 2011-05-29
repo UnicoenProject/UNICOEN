@@ -72,6 +72,11 @@ namespace Unicoen.Core.Model {
 		/// <summary>
 		///   exec in Python
 		/// </summary>
-		Exec
+		Exec,
+
+		/// <summary>
+		///   exec in Python
+		/// </summary>
+		StringConversion,
 	}
 }
