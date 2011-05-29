@@ -20,11 +20,11 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedAnnotation : UnifiedElement, IUnifiedExpression {
-		private UnifiedType _type;
+		private IUnifiedExpression _name;
 
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
+		public IUnifiedExpression Name {
+			get { return _name; }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -56,9 +56,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedAnnotation Create(
-				UnifiedType type, UnifiedArgumentCollection arguments) {
+				IUnifiedExpression name = null,
+				UnifiedArgumentCollection arguments = null) {
 			return new UnifiedAnnotation {
-					Type = type,
+					Name = name,
 					Arguments = arguments,
 			};
 		}
