@@ -163,7 +163,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public bool Visit(UnifiedAnnotation element, VisitorState state) {
 			state.Writer.Write("@");
-			element.Type.TryAccept(this, state);
+			element.Name.TryAccept(this, state);
 			element.Arguments.TryAccept(this, state.Set(Paren));
 			state.Writer.WriteLine();
 			return false;
