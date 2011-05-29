@@ -67,17 +67,6 @@ namespace Unicoen.Core.Model {
 			set { _name = SetChild(value, _name); }
 		}
 
-		private UnifiedTypeSupplementCollection _supplements;
-
-		/// <summary>
-		///   変数名に付随する型情報を取得または設定します．
-		///   e.g. Javaにおける<c>int[][] a[] = new int[1][1][1];</c>の<c>[]</c>部分
-		/// </summary>
-		public UnifiedTypeSupplementCollection Supplements {
-			get { return _supplements; }
-			set { _supplements = SetChild(value, _supplements); }
-		}
-
 		private UnifiedIntegerLiteral _bitField;
 
 		/// <summary>
@@ -147,6 +136,27 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
+		}
+
+		public static UnifiedVariableDefinition Create(
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null,
+				UnifiedIdentifier name = null,
+				IUnifiedExpression initialValue = null,
+				UnifiedArgumentCollection arguments = null,
+				UnifiedIntegerLiteral bitField = null,
+				UnifiedBlock body = null) {
+			return new UnifiedVariableDefinition {
+					Annotations = annotations,
+					Arguments = arguments,
+					BitField = bitField,
+					Body = body,
+					InitialValue = initialValue,
+					Modifiers = modifiers,
+					Name = name,
+					Type = type,
+			};
 		}
 	}
 }

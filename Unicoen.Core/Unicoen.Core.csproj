@@ -185,7 +185,7 @@
     <Compile Include="Model\UnifiedTypeSupplement.cs" />
     <Compile Include="Model\UnifiedTypeSupplementKind.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
-    <Compile Include="Model\DeprecatedUnifiedVariableDefinitionBody.cs" />
+    <Compile Include="Model\Expressions\DeprecatedUnifiedVariableDefinitionBody.cs" />
     <Compile Include="Processor\IUnifiedModelVisitor.cs" />
     <Compile Include="Processor\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
