@@ -58,6 +58,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration NewLineDelimiter =
 				new Decoration { Delimiter = "\n" };
 
+		private static readonly Decoration SemiColonDelimiter =
+				new Decoration { Delimiter = ";" };
+
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			var buff = new StringWriter();
@@ -601,7 +604,19 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 		
 		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Annotations.TryAccept(this, state);
+			element.Modifiers.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.Type.TryAccept(this, state);
+			state.Writer.Write(" ");
+			element.Name.TryAccept(this, state);
+			if (element.InitialValue != null) {
+				state.Writer.Write(" = ");
+				element.InitialValue.TryAccept(this, state.Set(Bracket));
+			}
+			element.Arguments.TryAccept(this, state.Set(Paren));
+			element.Body.TryAccept(this, state);
+			return false;
 		}
 
 		public bool Visit(UnifiedSupplementType element, VisitorState state) {

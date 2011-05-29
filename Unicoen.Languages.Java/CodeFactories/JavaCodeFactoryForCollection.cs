@@ -169,30 +169,25 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public bool Visit(UnifiedAnnotation element, VisitorState state) {
-			throw new NotImplementedException();
+			state.Writer.Write("@");
+			element.Type.TryAccept(this, state);
+			element.Arguments.TryAccept(this, state.Set(Paren));
+			state.Writer.WriteLine();
+			return false;
 		}
 
 		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
-			throw new NotImplementedException();
+			VisitCollection(element, state);
+			return false;
 		}
 
 		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
-			var first = element.First();
-			var firstTypeString = GenerateOrEmpty(first.Type);
-			first.Annotations.TryAccept(this, state);
-			state.WriteSpace();
-			first.Modifiers.TryAccept(this, state);
-			state.WriteSpace();
-			state.Writer.Write(firstTypeString);
-			state.WriteSpace();
-			var delimiter = "";
-			foreach (var varDef in element) {
-				state.Writer.Write(delimiter);
-				delimiter = ", ";
-				var typeString = GenerateOrEmpty(varDef.Type);
-				Contract.Assert(typeString.StartsWith(firstTypeString));
-				state.Writer.Write(typeString.Substring(firstTypeString.Length));
-				varDef.Bodys.TryAccept(this, state);
+			var klass = element.Parent.Parent as UnifiedClassDefinition;
+			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
+				VisitCollection(element, state.Set(CommaDelimiter));
+			}
+			else {
+				VisitCollection(element, state.Set(SemiColonDelimiter));
 			}
 			return true;
 		}
