@@ -958,8 +958,41 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *		'`' testlist1 '`' |
 			 *		NAME | NUMBER | STRING+)
 			 */
+			var first = node.FirstElement();
+			switch (first.Name()) {
+			case "NAME":
+				return first.Value.ToVariableIdentifier();
+			case "NUMBER":
+				return Int32.Parse(first.Value).ToLiteral();
+			case "STRING":
+				return UnifiedStringLiteral.Create(first.Value, UnifiedStringLiteralKind.String);
+			}
 
-			throw new NotImplementedException(); //TODO: implement
+			var second = node.NthElement(1);
+			switch (first.Value) {
+			case "(":
+				if (second.Name() == "yield_expr") {
+					return CreateYield_expr(second);
+				}
+				if (second.Name() == "testlist_comp") {
+					return CreateTestlist_comp(second);
+				}
+				return UnifiedList.CreateTuple(UnifiedExpressionCollection.Create());
+			case "[":
+				if (second.Name() == "listmaker") {
+					return CreateListmaker(second);
+				}
+				return UnifiedList.CreateList(UnifiedExpressionCollection.Create());
+			case "{":
+				if (second.Name() == "dictorsetmaker") {
+					return CreateDictorsetmaker(second);
+				}
+				return UnifiedDictonary.Create(UnifiedKeyValueCollection.Create());
+			case "`":
+				return CreateTestlist1(second);
+			default:
+				throw new IndexOutOfRangeException();
+			}
 		}
 
 		public static IUnifiedExpression CreateListmaker(XElement node) {
@@ -974,6 +1007,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 						.Select(CreateTest)
 						.ToListLiteral();
 			}
+			// create list comprehension
 			return UnifiedListComprehension.CreateList(
 					CreateTest(node.FirstElement()),
 					CreateComp_for(list_forNode).ToCollection());
@@ -991,6 +1025,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 						.Select(CreateTest)
 						.ToTupleLiteral();
 			}
+			// create generator expression
 			return UnifiedListComprehension.CreateLazyList(
 					CreateTest(node.FirstElement()),
 					CreateComp_for(comp_forNode).ToCollection());
@@ -1104,7 +1139,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.Select(CreateTest);
 		}
 
-		public static IUnifiedElement CreateDictorsetmaker(XElement node) {
+		public static IUnifiedExpression CreateDictorsetmaker(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "dictorsetmaker");
 			/*
@@ -1116,12 +1151,14 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var comp_forNode = node.Element("comp_for");
 			if (node.NthElement(1).Value == ":") {
 				if (comp_forNode == null) {
-					return node.Elements("test")
-							.Select(CreateTest)
-							.Split2()
-							.Select(UnifiedKeyValue.Create)
-							.ToCollection();
+					return UnifiedDictonary.Create(
+							node.Elements("test")
+									.Select(CreateTest)
+									.Split2()
+									.Select(UnifiedKeyValue.Create)
+									.ToCollection());
 				}
+				// create dctionary
 				return UnifiedDictionaryComprehension.Create(
 						UnifiedKeyValue.Create(
 								CreateTest(node.NthElement(0)),
@@ -1133,6 +1170,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 						.Select(CreateTest)
 						.ToSetLiteral();
 			}
+			// create set
 			return UnifiedListComprehension.CreateSet(
 					CreateTest(node.FirstElement()),
 					CreateComp_for(comp_forNode).ToCollection());
@@ -1288,14 +1326,21 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				yield return result;
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateTestlist1(XElement node) {
+		public static IUnifiedExpression CreateTestlist1(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "testlist1");
 			/*
 			 * testlist1: test (',' test)*
 			 */
-			return node.Elements("test")
-					.Select(CreateTest);
+
+			var exps = node.Elements("test")
+					.Select(CreateTest)
+					.ToList();
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.StringConversion,
+					exps.Count == 1
+							? exps[0]
+							: UnifiedList.CreateTuple(exps.ToCollection()));
 		}
 
 		public static IUnifiedElement CreateEncoding_decl(XElement node) {
