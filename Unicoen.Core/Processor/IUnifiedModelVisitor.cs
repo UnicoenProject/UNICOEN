@@ -68,7 +68,7 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTypeSupplementCollection element);
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(DeprecatedUnifiedVariableDefinitionBody element);
-		void Visit(UnifiedVariableDefinitionBodyCollection element);
+		void Visit(DeprecatedUnifiedVariableDefinitionBodyCollection element);
 		void Visit(UnifiedIdentifierCollection element);
 		void Visit(UnifiedLabel element);
 		void Visit(UnifiedExpressionList element);
@@ -147,7 +147,7 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTypeSupplementCollection element, TState state);
 		void Visit(UnifiedTernaryExpression element, TState state);
 		void Visit(DeprecatedUnifiedVariableDefinitionBody element, TState state);
-		void Visit(UnifiedVariableDefinitionBodyCollection element, TState state);
+		void Visit(DeprecatedUnifiedVariableDefinitionBodyCollection element, TState state);
 		void Visit(UnifiedIdentifierCollection element, TState state);
 		void Visit(UnifiedLabel element, TState state);
 		void Visit(UnifiedExpressionList element, TState state);
@@ -226,7 +226,7 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedTypeSupplementCollection element, TState state);
 		TResult Visit(UnifiedTernaryExpression element, TState state);
 		TResult Visit(DeprecatedUnifiedVariableDefinitionBody element, TState state);
-		TResult Visit(UnifiedVariableDefinitionBodyCollection element, TState state);
+		TResult Visit(DeprecatedUnifiedVariableDefinitionBodyCollection element, TState state);
 		TResult Visit(UnifiedIdentifierCollection element, TState state);
 		TResult Visit(UnifiedLabel element, TState state);
 		TResult Visit(UnifiedExpressionList element, TState state);

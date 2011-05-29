@@ -251,7 +251,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return DeprecatedUnifiedVariableDefinition.Create(null, null, null, bodys);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection
 				CreateVariableDeclarationList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationList");
@@ -265,7 +265,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection
 				CreateVariableDeclarationListNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationListNoIn");
