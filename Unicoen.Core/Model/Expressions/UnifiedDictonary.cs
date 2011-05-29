@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -31,7 +30,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedKeyValueCollection KeyValues {
 			get { return _keyValues; }
-			set { _keyValues = SetParentOfChild(value, _keyValues); }
+			set { _keyValues = SetChild(value, _keyValues); }
 		}
 
 		private UnifiedDictonary() {}
@@ -49,22 +48,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return KeyValues;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => KeyValues, v => KeyValues = (UnifiedKeyValueCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _keyValues, v => _keyValues = (UnifiedKeyValueCollection)v);
 		}
 
 		public static UnifiedDictonary Create(

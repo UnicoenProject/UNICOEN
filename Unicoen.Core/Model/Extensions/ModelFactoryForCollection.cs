@@ -39,6 +39,16 @@ namespace Unicoen.Core.Model {
 			return UnifiedProgram.Create(singleton);
 		}
 
+		public static UnifiedAnnotationCollection ToCollection(
+				this IEnumerable<UnifiedAnnotation> collection) {
+			return UnifiedAnnotationCollection.Create(collection);
+		}
+
+		public static UnifiedAnnotationCollection ToCollection(
+				this UnifiedAnnotation singleton) {
+			return UnifiedAnnotationCollection.Create(singleton);
+		}
+
 		public static UnifiedArgumentCollection ToCollection(
 				this IEnumerable<UnifiedArgument> collection) {
 			return UnifiedArgumentCollection.Create(collection);
@@ -202,14 +212,24 @@ namespace Unicoen.Core.Model {
 			return UnifiedTypeSupplementCollection.Create(singleton);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection ToCollection(
-				this IEnumerable<UnifiedVariableDefinitionBody> collection) {
-			return UnifiedVariableDefinitionBodyCollection.Create(collection);
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection ToCollection(
+				this IEnumerable<DeprecatedUnifiedVariableDefinitionBody> collection) {
+			return DeprecatedUnifiedVariableDefinitionBodyCollection.Create(collection);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection ToCollection(
-				this UnifiedVariableDefinitionBody singleton) {
-			return UnifiedVariableDefinitionBodyCollection.Create(singleton);
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection ToCollection(
+				this DeprecatedUnifiedVariableDefinitionBody singleton) {
+			return DeprecatedUnifiedVariableDefinitionBodyCollection.Create(singleton);
+		}
+
+		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
+				this IEnumerable<UnifiedVariableDefinition> collection) {
+			return UnifiedVariableDefinitionList.Create(collection);
+		}
+
+		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
+				this UnifiedVariableDefinition singleton) {
+			return UnifiedVariableDefinitionList.Create(singleton);
 		}
 
 		public static UnifiedList ToListLiteral(

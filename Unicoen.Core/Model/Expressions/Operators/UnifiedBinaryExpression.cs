@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression LeftHandSide {
 			get { return _leftHandSide; }
-			set { _leftHandSide = SetParentOfChild(value, _leftHandSide); }
+			set { _leftHandSide = SetChild(value, _leftHandSide); }
 		}
 
 		private UnifiedBinaryOperator _operator;
@@ -44,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedBinaryOperator Operator {
 			get { return _operator; }
-			set { _operator = SetParentOfChild(value, _operator); }
+			set { _operator = SetChild(value, _operator); }
 		}
 
 		private IUnifiedExpression _rightHandSide;
@@ -55,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression RightHandSide {
 			get { return _rightHandSide; }
-			set { _rightHandSide = SetParentOfChild(value, _rightHandSide); }
+			set { _rightHandSide = SetChild(value, _rightHandSide); }
 		}
 
 		private UnifiedBinaryExpression() {}
@@ -73,32 +72,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return LeftHandSide;
-			yield return Operator;
-			yield return RightHandSide;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => LeftHandSide, v => LeftHandSide = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Operator, v => Operator = (UnifiedBinaryOperator)v);
-			yield return ElementReference.Create
-					(() => RightHandSide, v => RightHandSide = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _leftHandSide, v => _leftHandSide = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _operator, v => _operator = (UnifiedBinaryOperator)v);
-			yield return ElementReference.Create
-					(() => _rightHandSide, v => _rightHandSide = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedBinaryExpression Create(

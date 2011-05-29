@@ -21,7 +21,6 @@ namespace Unicoen.Core.Model {
 	///   UnifiedClassDefinitionの種類を表します。
 	/// </summary>
 	public enum UnifiedClassKind {
-
 		Class,
 
 		/// <summary>
@@ -42,13 +41,21 @@ namespace Unicoen.Core.Model {
 		Enum,
 
 		/// <summary>
+		///   annotation in Java
+		///   attribute in C#
+		/// </summary>
+		Annotation,
+
+		/// <summary>
 		///   struct in C, C++, C#
 		/// </summary>
 		Struct,
+
 		/// <summary>
 		///   union in C, C++
 		/// </summary>
 		Union,
+
 		/// <summary>
 		///   module in Ruby
 		/// </summary>

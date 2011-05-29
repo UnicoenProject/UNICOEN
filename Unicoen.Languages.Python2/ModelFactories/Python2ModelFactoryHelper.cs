@@ -129,16 +129,24 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 								var next = e.NextElementOrDefault();
 								var names = CreateFpdef(e);
 								if (next == null || next.Value != "=")
-									return UnifiedParameter.Create(null, null, names, null);
+									return UnifiedParameter.Create(
+											null,
+											null, null,
+											names.Select(UnifiedIdentifier.CreateVariable).ToCollection(), null);
 								return UnifiedParameter.Create(
-										null, null, names, CreateTest(next.NextElement()));
+										null,
+										null, null,
+										names.Select(UnifiedIdentifier.CreateVariable).ToCollection(),
+										CreateTest(next.NextElement()));
 							});
 			var ps2 = node.Elements("NAME")
 					.Select(
 							e =>
 							UnifiedParameter.Create(
-									UnifiedModifier.Create(e.PreviousElement().Value).ToCollection(),
-									null, e.Value));
+									null,
+									UnifiedModifier.Create(e.PreviousElement().Value).ToCollection(), null,
+									UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
+									null));
 			return ps.Concat(ps2).ToCollection();
 		}
 
@@ -521,12 +529,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * global_stmt: 'global' NAME (',' NAME)*
 			 */
-			return UnifiedVariableDefinition.Create(
-					UnifiedModifier.Create("global").ToCollection(),
-					null,
-					node.Elements("NAME").Select(
-							e => UnifiedVariableDefinitionBody.Create(e.Value))
-							.ToCollection());
+			return node.Elements("NAME").Select(
+					e => UnifiedVariableDefinition.Create(
+							modifiers: UnifiedModifier.Create("global").ToCollection(),
+							name: e.Value.ToVariableIdentifier())).ToVariableDefinitionList();
 		}
 
 		public static IUnifiedExpression CreateExec_stmt(XElement node) {
@@ -628,12 +634,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 									? CreateSuite(node.LastElement())
 									: null;
 			return UnifiedForeach.Create(
-					UnifiedVariableDefinition.Create(
+					DeprecatedUnifiedVariableDefinition.Create(
+							null,
 							null,
 							null,
 							exprlist.Select(
 									e =>
-									UnifiedVariableDefinitionBody.Create((UnifiedIdentifier)e))
+									DeprecatedUnifiedVariableDefinitionBody.Create((UnifiedIdentifier)e))
 									.ToCollection()),
 					testlist.ToTupleLiteral(),
 					suite,
@@ -784,7 +791,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var last = node.LastElement();
 			if (last.Name() != "test")
 				return CreateOr_test(first);
-			return UnifiedIfExpression.Create(
+			return UnifiedTernaryExpression.Create(
 					CreateOr_test(node.NthElement(2)),
 					CreateOr_test(first),
 					CreateTest(last));
@@ -1120,12 +1127,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			var testlistNodes = node.Element("testlist");
 			var testlist = testlistNodes != null
-								? CreateTestlist(testlistNodes)
-										.Select(
-												e => UnifiedTypeConstrain.CreateExtendsOrImplements(
-														UnifiedType.Create(e, null, null)))
-										.ToCollection()
-								: null;
+			               		? CreateTestlist(testlistNodes)
+			               		  		.Select(
+			               		  				e => UnifiedTypeConstrain.CreateExtendsOrImplements(
+			               		  						UnifiedType.Create(e)))
+			               		  		.ToCollection()
+			               		: null;
 			return UnifiedClassDefinition.CreateClass(
 					node.NthElement(1).Value,
 					testlist,
@@ -1164,8 +1171,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			if (second == null)
 				return UnifiedArgument.Create(test);
 			if (second.Value == "=")
+					// TODO: test '=' test => NAME '=' test のように扱っているが大丈夫か？
 				return UnifiedArgument.Create(
-						null, test, CreateTest(node.LastElement()));
+						null, (UnifiedIdentifier)test, CreateTest(node.LastElement()));
 			return UnifiedArgument.Create(
 					UnifiedListComprehension.CreateLazyList(
 							test, CreateComp_for(second).ToCollection()));

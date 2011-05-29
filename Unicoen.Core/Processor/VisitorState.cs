@@ -45,6 +45,10 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			};
 		}
 
+		public void Write(string text) {
+			Writer.Write(text);
+		}
+
 		public void WriteIndent() {
 			for (int i = 0; i < IndentDepth; i++)
 				Writer.Write(IndentSign);

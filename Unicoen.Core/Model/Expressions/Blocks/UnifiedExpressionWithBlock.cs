@@ -16,7 +16,9 @@
 
 #endregion
 
+using System;
 using System.Diagnostics;
+using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -29,7 +31,7 @@ namespace Unicoen.Core.Model {
 
 		public UnifiedBlock Body {
 			get { return _body; }
-			set { _body = SetParentOfChild(value, _body); }
+			set { _body = SetChild(value, _body); }
 		}
 			}
 
@@ -42,6 +44,19 @@ namespace Unicoen.Core.Model {
 			where TSelf : UnifiedExpressionWithBlock<TSelf> {
 		protected UnifiedExpressionWithBlock() {
 			Debug.Assert(typeof(TSelf).Equals(GetType()));
+		}
+
+		public override void Accept<TData>(
+				IUnifiedModelVisitor<TData> visitor,
+				TData state) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException("You should override this method.");
+		}
+
+		public override TResult Accept<TData, TResult>(
+				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException("You should override this method.");
 		}
 
 		public TSelf AddToBody(IUnifiedExpression expression) {

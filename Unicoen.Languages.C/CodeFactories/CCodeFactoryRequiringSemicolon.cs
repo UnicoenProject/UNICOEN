@@ -22,7 +22,9 @@ using Unicoen.Core.Visitors;
 using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Languages.C.CodeFactories {
+	
 	public partial class CCodeFactory {
+
 		public static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedBinaryExpression || parent is UnifiedUnaryExpression
@@ -30,16 +32,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 				return Tuple.Create("(", ")");
 			}
 			return Tuple.Create("", "");
-		}
-
-		private static Tuple<string, string> GetKeyword(
-				UnifiedTernaryOperatorKind kind) {
-			switch (kind) {
-			case UnifiedTernaryOperatorKind.Conditional:
-				return Tuple.Create("?", ":");
-			default:
-				throw new ArgumentException("kind");
-			}
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
@@ -57,7 +49,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinition element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinition element, VisitorState state) {
 			element.Modifiers.TryAccept(this, state);
 			state.WriteSpace();
 			element.Type.TryAccept(this, state);
@@ -113,20 +105,19 @@ namespace Unicoen.Languages.C.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedTernaryExpression element, VisitorState state) {
 			var paren = GetRequiredParen(element);
-			var keywords = GetKeyword(element.Operator.Kind);
 
 			state.Writer.Write(paren.Item1);
-			element.FirstExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" " + keywords.Item1 + " ");
-			element.SecondExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" " + keywords.Item2 + " ");
-			element.LastExpression.TryAccept(this, state.Set(Paren));
+			element.Condition.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" ? ");
+			element.TrueExpression.TryAccept(this, state.Set(Paren));
+			state.Writer.Write(" : ");
+			element.FalseExpression.TryAccept(this, state.Set(Paren));
 
 			return true;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBody element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinitionBody element, VisitorState state) {
 			element.Name.TryAccept(this, state);
 			if (element.InitialValue != null) {
 				state.Writer.Write(" = ");

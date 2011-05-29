@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -36,7 +35,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedExpressionCollection Elements {
 			get { return _elements; }
-			set { _elements = SetParentOfChild(value, _elements); }
+			set { _elements = SetChild(value, _elements); }
 		}
 
 		private UnifiedList() {}
@@ -54,22 +53,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Elements;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Elements, v => Elements = (UnifiedExpressionCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _elements, v => _elements = (UnifiedExpressionCollection)v);
 		}
 
 		private static UnifiedList Create(

@@ -26,176 +26,219 @@ namespace Unicoen.Core.Model {
 		///   種類が不明
 		/// </summary>
 		Unknown,
+
 		/// <summary>
 		///   a + b
 		/// </summary>
 		Add,
+
 		/// <summary>
 		///   a - b
 		/// </summary>
 		Subtract,
+
 		/// <summary>
 		///   a * b
 		/// </summary>
 		Multiply,
+
 		/// <summary>
 		///   a / b
 		/// </summary>
 		Divide,
+
 		/// <summary>
 		///   a % b
 		/// </summary>
 		Modulo,
+
 		/// <summary>
 		///   a ^ b in VB
 		///   a ** b in Python
 		/// </summary>
 		Power,
+
 		/// <summary>
 		///   a // b in Python
 		/// </summary>
 		FloorDivide,
+
 		/// <summary>
 		///   nothing in Java
 		/// </summary>
 		ArithmeticLeftShift,
+
 		/// <summary>
 		///   a >> b
 		/// </summary>
 		ArithmeticRightShift,
+
 		/// <summary>
 		///   a &lt;&lt; b
 		/// </summary>
 		LogicalLeftShift,
+
 		/// <summary>
 		///   a >>> b
 		/// </summary>
 		LogicalRightShift,
+
 		/// <summary>
 		///   a > b
 		/// </summary>
 		GreaterThan,
+
 		/// <summary>
 		///   a >= b
 		/// </summary>
 		GreaterThanOrEqual,
+
 		/// <summary>
 		///   a ?? b
 		/// </summary>
 		Coalesce,
+
 		/// <summary>
 		///   a &lt; b
 		/// </summary>
 		LessThan,
+
 		/// <summary>
 		///   a &lt;= b
 		/// </summary>
 		LessThanOrEqual,
+
 		/// <summary>
 		///   a == b
 		/// </summary>
 		Equal,
+
 		/// <summary>
 		///   a != b
 		/// </summary>
 		NotEqual,
+
 		/// <summary>
 		///   a is b in Python
 		/// </summary>
 		ReferenceEqual,
+
 		/// <summary>
 		///   a is not b in Python
 		/// </summary>
 		ReferenceNotEqual,
+
 		/// <summary>
 		///   a in b in Python
 		/// </summary>
 		In,
+
 		/// <summary>
 		///   a not in b in Python
 		/// </summary>
 		NotIn,
+
 		/// <summary>
 		///   a && b
 		/// </summary>
 		AndAlso,
+
 		/// <summary>
 		///   a || b
 		/// </summary>
 		OrElse,
+
 		/// <summary>
 		///   a & b
 		/// </summary>
 		And,
+
 		/// <summary>
 		///   a | b
 		/// </summary>
 		Or,
+
 		/// <summary>
 		///   a ^ b
 		/// </summary>
 		ExclusiveOr,
+
 		/// <summary>
 		///   a = b
 		/// </summary>
 		Assign,
+
 		/// <summary>
 		///   a += b
 		/// </summary>
 		AddAssign,
+
 		/// <summary>
 		///   a -= b
 		/// </summary>
 		SubtractAssign,
+
 		/// <summary>
 		///   a *= b
 		/// </summary>
 		MultiplyAssign,
+
 		/// <summary>
 		///   a /= b
 		/// </summary>
 		DivideAssign,
+
 		/// <summary>
 		///   a %= b
 		/// </summary>
 		ModuloAssign,
+
 		/// <summary>
 		///   a ^= b in VB
 		///   a **= b in Python
 		/// </summary>
 		PowerAssign,
+
 		/// <summary>
 		///   a //= b in Python
 		/// </summary>
 		FloorDivideAssign,
+
 		/// <summary>
 		///   nothing in Java
 		/// </summary>
 		ArithmeticLeftShiftAssign,
+
 		/// <summary>
 		///   a &lt;&lt;= b
 		/// </summary>
 		LogicalLeftShiftAssign,
+
 		/// <summary>
 		///   a >>= b
 		/// </summary>
 		ArithmeticRightShiftAssign,
+
 		/// <summary>
 		///   a >>>= b
 		/// </summary>
 		LogicalRightShiftAssign,
+
 		/// <summary>
 		///   a &amp;= b
 		/// </summary>
 		AndAssign,
+
 		/// <summary>
 		///   a |= b
 		/// </summary>
 		OrAssign,
+
 		/// <summary>
 		///   a ^= b
 		/// </summary>
 		ExclusiveOrAssign,
+
 		/// <sum mary>
 		///   a instanceof b
 		///   </summary>

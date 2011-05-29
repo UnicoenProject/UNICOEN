@@ -93,7 +93,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinitionBodyCollection element, VisitorState state) {
 			state.Writer.Write("var ");
 			VisitCollection(element, state.Set(CommaDelimiter));
 			return false;
@@ -121,6 +121,38 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedKeyValueCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;
+		}
+
+		public bool Visit(UnifiedAnnotation element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSupplementType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedGenericType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSimpleType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedArrayType element, VisitorState state) {
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -35,14 +35,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set { _condition = SetChild(value, _condition); }
 		}
 
 		private UnifiedBlock _elseBody;
 
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
-			set { _elseBody = SetParentOfChild(value, _elseBody); }
+			set { _elseBody = SetChild(value, _elseBody); }
 		}
 
 		private UnifiedIf() {}
@@ -70,32 +70,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Condition;
-			yield return ElseBody;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Condition, v => Condition = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => ElseBody, v => ElseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _condition, v => _condition = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _elseBody, v => _elseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedIf Create(UnifiedBlock body) {

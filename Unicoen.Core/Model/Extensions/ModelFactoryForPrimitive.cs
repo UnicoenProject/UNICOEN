@@ -18,41 +18,32 @@
 
 namespace Unicoen.Core.Model {
 	public static class ModelFactoryForPrimitive {
-		public static UnifiedIdentifier ToVariable(this string name) {
-			return UnifiedIdentifier.CreateUnknown(name);
+		public static UnifiedIdentifier ToThisIdentifier(this string name) {
+			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.This);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(this string name) {
-			return UnifiedVariableDefinition.CreateSingle(name);
+		public static UnifiedIdentifier ToSuperIdentifier(this string name) {
+			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Super);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(
-				this string name,
-				UnifiedType type) {
-			return UnifiedVariableDefinition.CreateSingle(type, name);
+		public static UnifiedIdentifier ToClassObjectIdentifier(this string name) {
+			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.ClassObject);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(
-				this string name,
-				IUnifiedExpression
-						initialValue) {
-			return UnifiedVariableDefinition.CreateSingle(name, initialValue);
+		public static UnifiedIdentifier ToUnknownIdentifier(this string name) {
+			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Unknown);
 		}
 
-		public static UnifiedVariableDefinition ToVariableDefinition(
-				this string name,
-				UnifiedType type,
-				IUnifiedExpression
-						initialValue) {
-			return UnifiedVariableDefinition.CreateSingle(type, name, initialValue);
+		public static UnifiedIdentifier ToVariableIdentifier(this string name) {
+			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable);
 		}
 
-		public static UnifiedType ToType(this string name) {
-			return UnifiedType.CreateUsingString(name);
+		public static UnifiedIdentifier ToTypeIdentifier(this string name) {
+			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type);
 		}
 
-		public static UnifiedClassDefinition ToClassDefinition(this string name) {
-			return UnifiedClassDefinition.CreateClass(name);
+		public static UnifiedIdentifier ToFunctionIdentifier(this string name) {
+			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function);
 		}
 
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {

@@ -44,7 +44,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			var functions =
 					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
 			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
-					// getName()
+			// getName()
 			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
 
 			functions =
@@ -62,7 +62,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			var functions =
 					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
 			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
-					// getName()
+			// getName()
 			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
 
 			functions =
@@ -75,14 +75,14 @@ namespace Unicoen.Apps.Translator.Tests {
 
 		[Test]
 		public void 要素を付け替えられる() {
-			var newType = UnifiedType.CreateUsingString("Integer");
+			var newType = UnifiedType.Create("Integer");
 
 			var functions =
 					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
 			var f = functions.ElementAt(0);
 			var type = f.Type;
-			Console.WriteLine(type.Name);
-			Console.WriteLine(newType.Name);
+			Console.WriteLine(type.NameExpression);
+			Console.WriteLine(newType.NameExpression);
 			Rewriter.Rewriter.Instance.ExchageElement(type, newType);
 
 			Console.WriteLine(JavaFactory.GenerateCode(_program));

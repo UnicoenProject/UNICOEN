@@ -39,39 +39,61 @@ namespace Unicoen.Languages.CSharp.Tests {
 				@"C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe",
 		};
 
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
 		public override string Extension {
 			get { return ".cs"; }
 		}
 
+		/// <summary>
+		///   対応する言語のモデル生成器を取得します．
+		/// </summary>
 		public override ModelFactory ModelFactory {
 			get { return CSharpFactory.ModelFactory; }
 		}
 
+		/// <summary>
+		///   対応する言語のコード生成器を取得します．
+		/// </summary>
 		public override CodeFactory CodeFactory {
 			get { return CSharpFactory.CodeFactory; }
 		}
 
-		public override IEnumerable<TestCaseData> TestStatements {
-			get {
-				return new[] {
-						"{ M1(); }",
-				}.Select(s => new TestCaseData(CreateCode(s)));
-			}
-		}
-
+		/// <summary>
+		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
+		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
+		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
-				return new[] {
+				var statements = new[] {
+						"M1();",
+						"new A();",
+				}.Select(s => new TestCaseData(DecorateToCompile(s)));
+
+				var codes = new[] {
 						"class A { }",
+						"public class A { }",
 				}.Select(s => new TestCaseData(s));
+
+				return statements.Concat(codes);
 			}
 		}
 
+		private static string DecorateToCompile(string statement) {
+			return "class A { public void M1() {" + statement + "} }";
+		}
+
+		/// <summary>
+		///   テスト時に入力するファイルパスの集合です．
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
 						"Fibonacci",
+						"Student",
 				}
 						.Select(
 								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
@@ -80,7 +102,10 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		/// <summary>
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		/// </summary>
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
 				yield break;
 				//				return new[] {
@@ -94,27 +119,43 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string dirPath, string fileName) {
 			var exeFilePath = Path.Combine(
-					workPath,
+					dirPath,
 					Path.ChangeExtension(fileName, "dll"));
 			var args = new[] {
 					"/optimize+",
 					"/t:library",
 					"\"/out:" + exeFilePath + "\"",
-					"\"" + Path.Combine(workPath, fileName) + "\""
+					"\"" + Path.Combine(dirPath, fileName) + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(workPath, CscPath, arguments);
+			CompileWithArguments(dirPath, CscPath, arguments);
 		}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
-					workPath, "*.dll",
+					dirPath, "*.dll",
 					SearchOption.AllDirectories)
-					.Select(path => new object[] { path, GetByteCode(workPath, path) });
+					.Select(path => new object[] { path, GetByteCode(dirPath, path) });
 		}
 
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {
 			var info = new ProcessStartInfo {
@@ -171,10 +212,6 @@ namespace Unicoen.Languages.CSharp.Tests {
 				throw new InvalidOperationException(
 						"Failed to launch 'ildasmPath': " + ildasmPath, e);
 			}
-		}
-
-		private static string CreateCode(string statement) {
-			return "class A { public void M1() {" + statement + "} }";
 		}
 	}
 }

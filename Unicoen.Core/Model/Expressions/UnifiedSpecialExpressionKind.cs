@@ -28,38 +28,47 @@ namespace Unicoen.Core.Model {
 		Return,
 		YieldReturn,
 		Throw,
+
 		/// <summary>
 		///   retry in Ruby
 		/// </summary>
 		Retry,
+
 		/// <summary>
 		///   redo in Ruby
 		/// </summary>
 		Redo,
+
 		/// <summary>
 		///   yield in Ruby
 		/// </summary>
 		Yield,
+
 		/// <summary>
 		///   print in Python
 		/// </summary>
 		Print,
+
 		/// <summary>
 		///   print >> in Python
 		/// </summary>
 		PrintChevron,
+
 		/// <summary>
 		///   pass in Python
 		/// </summary>
 		Pass,
+
 		/// <summary>
 		///   del in Python
 		/// </summary>
 		Delete,
+
 		/// <summary>
 		///   global in Python
 		/// </summary>
 		Global,
+
 		/// <summary>
 		///   exec in Python
 		/// </summary>

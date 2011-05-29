@@ -16,30 +16,39 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedMatcher : UnifiedElement {
+		private UnifiedAnnotationCollection _annotations;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetChild(value, _annotations); }
+		}
+
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private IUnifiedExpression _matcher;
 
 		public IUnifiedExpression Matcher {
 			get { return _matcher; }
-			set { _matcher = SetParentOfChild(value, _matcher); }
+			set { _matcher = SetChild(value, _matcher); }
 		}
 
 		private IUnifiedExpression _as;
 
 		public IUnifiedExpression As {
 			get { return _as; }
-			set { _as = SetParentOfChild(value, _as); }
+			set { _as = SetChild(value, _as); }
 		}
 
 		private UnifiedMatcher() {}
@@ -58,38 +67,13 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Modifiers;
-			yield return Matcher;
-			yield return As;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Matcher, v => Matcher = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => As, v => As = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _matcher, v => _matcher = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _as, v => _as = (IUnifiedExpression)v);
-		}
-
 		public static UnifiedMatcher Create(
 				IUnifiedExpression matcher, IUnifiedExpression asExp) {
-			return Create(null, matcher, asExp);
+			return Create(null, null, matcher, asExp);
 		}
 
 		public static UnifiedMatcher Create(
+				UnifiedAnnotationCollection annotations,
 				UnifiedModifierCollection modifiers, IUnifiedExpression matcher,
 				IUnifiedExpression asExp) {
 			return new UnifiedMatcher {

@@ -284,15 +284,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			element.Name.Accept(this, state);
 			return false;
 		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedType element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state);
-			element.Supplements.TryAccept(this, state);
-			return false;
-		}
-
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedWhile element, VisitorState state) {
 			state.Writer.Write("while (");
@@ -426,22 +417,9 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryOperator element, VisitorState state) {
-			switch (element.Kind) {
-			case UnifiedTernaryOperatorKind.Conditional:
-				state.Writer.Write(element.FirstSign);
-				break;
-			default:
-				break;
-			}
-
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedLabel element, VisitorState state) {
 			element.Name.TryAccept(this, state);
-			state.Writer.Write(" :");
+			state.Writer.Write(": ");
 
 			return false;
 		}

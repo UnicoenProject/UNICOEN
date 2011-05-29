@@ -59,7 +59,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			Contract.Requires(node.Name() == "sourceElements");
 			/*
 			 * sourceElements
- 			 *  	: sourceElement (LT!* sourceElement)*
+			 *  	: sourceElement (LT!* sourceElement)*
 			 */
 
 			var sourceElements =
@@ -135,7 +135,11 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var parameters =
-					node.Elements("Identifier").Select(e => UnifiedParameter.Create(e.Value)).
+					node.Elements("Identifier").Select(
+							e => UnifiedParameter.Create(
+									null,
+									null, null, UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
+									null)).
 							ToCollection();
 			return parameters;
 		}
@@ -244,10 +248,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var bodys =
 					CreateVariableDeclarationList(node.Element("variableDeclarationList"));
 
-			return UnifiedVariableDefinition.Create(null, null, bodys);
+			return DeprecatedUnifiedVariableDefinition.Create(null, null, null, bodys);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection
 				CreateVariableDeclarationList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationList");
@@ -261,7 +265,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection
+		public static DeprecatedUnifiedVariableDefinitionBodyCollection
 				CreateVariableDeclarationListNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationListNoIn");
@@ -274,7 +278,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedVariableDefinitionBody CreateVariableDeclaration(
+		public static DeprecatedUnifiedVariableDefinitionBody
+				CreateVariableDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclaration");
@@ -287,10 +292,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var init = node.Element("initialiser") != null
 			           		? CreateInitialiser(node.Element("initialiser")) : null;
 
-			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
+			return DeprecatedUnifiedVariableDefinitionBody.Create(
+					name, null, init, null, null);
 		}
 
-		public static UnifiedVariableDefinitionBody CreateVariableDeclarationNoIn(
+		public static DeprecatedUnifiedVariableDefinitionBody
+				CreateVariableDeclarationNoIn(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarationNoIn");
@@ -303,7 +310,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var init = node.Element("initialiserNoIn") != null
 			           		? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
 
-			return UnifiedVariableDefinitionBody.Create(name, null, init, null, null);
+			return DeprecatedUnifiedVariableDefinitionBody.Create(
+					name, null, init, null, null);
 		}
 
 		public static IUnifiedExpression CreateInitialiser(XElement node) {
@@ -461,8 +469,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.NthElement(0).Name() == "expressionNoIn")
 				return CreateExpressionNoIn(node.NthElement(0));
 			if (node.HasElement("variableDeclarationListNoIn"))
-				return UnifiedVariableDefinition.Create(
-						null, null,
+				return DeprecatedUnifiedVariableDefinition.Create(
+						null, null, null,
 						CreateVariableDeclarationListNoIn(
 								node.Element("variableDeclarationListNoIn")));
 			throw new InvalidOperationException();
@@ -500,8 +508,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				return CreateLeftHandSideExpression(node.NthElement(0));
 
 			if (node.HasElement("variableDeclarationNoIn"))
-				return UnifiedVariableDefinition.Create(
+				return DeprecatedUnifiedVariableDefinition.Create(
 						null, null,
+						null,
 						CreateVariableDeclarationNoIn(node.Element("variableDeclarationNoIn")).
 								ToCollection());
 			throw new InvalidOperationException();
@@ -706,7 +715,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var expressions =
 					node.Elements("assignmentExpression").Select(CreateAssignmentExpression);
 			//式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
-			if(expressions.Count() == 1)
+			if (expressions.Count() == 1)
 				return expressions.First();
 			return UnifiedBlock.Create(expressions);
 		}
@@ -814,7 +823,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return
 					UnifiedNew.Create(
 							UnifiedType.Create(
-									CreateNewExpression(node.Element("newExpression")), null, null));
+									CreateNewExpression(node.Element("newExpression"))));
 		}
 
 		public static IUnifiedExpression CreateMemberExpression(XElement node) {
@@ -1017,8 +1026,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.HasElement("assignmentExpression")) {
 				return UnifiedTernaryExpression.Create(
 						CreateLogicalORExpression(node.Element("logicalORExpression")),
-						UnifiedTernaryOperator.Create(
-								"?", ":", UnifiedTernaryOperatorKind.Conditional),
 						CreateAssignmentExpression(node.Element("assignmentExpression")),
 						CreateAssignmentExpression(
 								node.Elements("assignmentExpression").ElementAt(1)));
@@ -1037,8 +1044,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			if (node.HasElement("assignmentExpressionNoIn")) {
 				return UnifiedTernaryExpression.Create(
 						CreateLogicalORExpressionNoIn(node.Element("logicalORExpressionNoIn")),
-						UnifiedTernaryOperator.Create(
-								"?", ":", UnifiedTernaryOperatorKind.Conditional),
 						CreateAssignmentExpressionNoIn(node.Element("assignmentExpressionNoIn")),
 						CreateAssignmentExpressionNoIn(
 								node.Elements("assignmentExpressionNoIn").ElementAt(1)));
@@ -1347,9 +1352,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			//プロパティ宣言をKeyAndValueで代用
 			return UnifiedKeyValue.Create(
-				CreatePropertyName(node.Element("propertyName")), 
-				CreateAssignmentExpression(node.Element("assignmentExpression"))
-				);
+					CreatePropertyName(node.Element("propertyName")),
+					CreateAssignmentExpression(node.Element("assignmentExpression"))
+					);
 		}
 
 		public static UnifiedIdentifier CreatePropertyName(XElement node) {

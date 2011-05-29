@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -26,7 +25,7 @@ namespace Unicoen.Core.Model {
 
 		public UnifiedMatcherCollection Matchers {
 			get { return _matchers; }
-			set { _matchers = SetParentOfChild(value, _matchers); }
+			set { _matchers = SetChild(value, _matchers); }
 		}
 
 		private UnifiedUsing() {}
@@ -44,27 +43,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Matchers;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Matchers, v => Matchers = (UnifiedMatcherCollection)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _matchers, v => _matchers = (UnifiedMatcherCollection)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedUsing Create(

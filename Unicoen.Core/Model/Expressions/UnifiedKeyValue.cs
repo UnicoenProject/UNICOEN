@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Key {
 			get { return _key; }
-			set { _key = SetParentOfChild(value, _key); }
+			set { _key = SetChild(value, _key); }
 		}
 
 		private IUnifiedExpression _value;
@@ -44,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set { _value = SetChild(value, _value); }
 		}
 
 		private UnifiedKeyValue() {}
@@ -62,27 +61,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Key;
-			yield return Value;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Key, v => Key = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Value, v => Value = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _key, v => _key = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _value, v => _value = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedKeyValue Create(

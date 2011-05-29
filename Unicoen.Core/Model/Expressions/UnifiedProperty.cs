@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -31,14 +30,14 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression Owner {
 			get { return _owner; }
-			set { _owner = SetParentOfChild(value, _owner); }
+			set { _owner = SetChild(value, _owner); }
 		}
 
 		private IUnifiedExpression _name;
 
 		public IUnifiedExpression Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		public string Delimiter { get; set; }
@@ -58,27 +57,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Owner;
-			yield return Name;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Owner, v => Owner = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Name, v => Name = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _owner, v => _owner = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _name, v => _name = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedProperty Create(

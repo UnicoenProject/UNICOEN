@@ -116,7 +116,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
+				DeprecatedUnifiedVariableDefinitionBodyCollection element, VisitorState state) {
 			VisitCollection(element, state.Set(CommaDelimiter));
 			return false;
 		}
@@ -149,10 +149,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedIfExpression element, VisitorState state) {
-			throw new NotImplementedException();
-		}
-
 		public bool Visit(UnifiedList element, VisitorState state) {
 			throw new NotImplementedException();
 		}
@@ -178,6 +174,38 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public bool Visit(UnifiedComment element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedAnnotation element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSupplementType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedGenericType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSimpleType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedArrayType element, VisitorState state) {
 			throw new NotImplementedException();
 		}
 	}

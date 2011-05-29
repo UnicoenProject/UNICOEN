@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Element {
 			get { return _element; }
-			set { _element = SetParentOfChild(value, _element); }
+			set { _element = SetChild(value, _element); }
 		}
 
 		private IUnifiedExpression _set;
@@ -44,14 +43,14 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Set {
 			get { return _set; }
-			set { _set = SetParentOfChild(value, _set); }
+			set { _set = SetChild(value, _set); }
 		}
 
 		private UnifiedBlock _elseBody;
 
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
-			set { _elseBody = SetParentOfChild(value, _elseBody); }
+			set { _elseBody = SetChild(value, _elseBody); }
 		}
 
 		private UnifiedForeach() {}
@@ -69,37 +68,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Element;
-			yield return Set;
-			yield return ElseBody;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Element, v => Element = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Set, v => Set = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => ElseBody, v => ElseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _element, v => _element = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _set, v => _set = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _elseBody, v => _elseBody = (UnifiedBlock)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedForeach Create(

@@ -21,16 +21,14 @@ using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   修飾子や型を除いた変数宣言の集合を表します。
-	///   e.g. Javaにおける<c>int a, b;</c>の<c>a, b;</c>
+	///   アノテーションもしくは属性の集合を表します．
+	///   e.g. Javaにおける<c>@Override @Deprecated void method() { ... }</c>の<c>@Override @Deprecated</c>
 	/// </summary>
-	public class UnifiedVariableDefinitionBodyCollection
-			: UnifiedElementCollection
-			  		<UnifiedVariableDefinitionBody, UnifiedVariableDefinitionBodyCollection> {
-		private UnifiedVariableDefinitionBodyCollection() {}
+	public class UnifiedAnnotationCollection
+			: UnifiedElementCollection<UnifiedAnnotation, UnifiedAnnotationCollection> {
+		private UnifiedAnnotationCollection() {}
 
-		private UnifiedVariableDefinitionBodyCollection(
-				IEnumerable<UnifiedVariableDefinitionBody> elements)
+		private UnifiedAnnotationCollection(IEnumerable<UnifiedAnnotation> elements)
 				: base(elements) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -48,18 +46,18 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create() {
-			return new UnifiedVariableDefinitionBodyCollection();
+		public static UnifiedAnnotationCollection Create() {
+			return new UnifiedAnnotationCollection();
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create(
-				params UnifiedVariableDefinitionBody[] elements) {
-			return new UnifiedVariableDefinitionBodyCollection(elements);
+		public static UnifiedAnnotationCollection Create(
+				params UnifiedAnnotation[] elements) {
+			return new UnifiedAnnotationCollection(elements);
 		}
 
-		public static UnifiedVariableDefinitionBodyCollection Create(
-				IEnumerable<UnifiedVariableDefinitionBody> elements) {
-			return new UnifiedVariableDefinitionBodyCollection(elements);
+		public static UnifiedAnnotationCollection Create(
+				IEnumerable<UnifiedAnnotation> elements) {
+			return new UnifiedAnnotationCollection(elements);
 		}
-			  		}
+			}
 }

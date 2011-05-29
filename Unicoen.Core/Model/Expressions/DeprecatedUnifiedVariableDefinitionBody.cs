@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -25,7 +24,7 @@ namespace Unicoen.Core.Model {
 	///   なお、変数宣言(UnifiedVariableDefinition)は修飾子と型と本クラスの集合クラス(UnifiedVariableDefinitionBodyCollection)によって表現されます。
 	///   e.g. Javaにおける<c>final int a = b + c;</c>の<c>a = b + c</c>の部分
 	/// </summary>
-	public class UnifiedVariableDefinitionBody : UnifiedElement {
+	public class DeprecatedUnifiedVariableDefinitionBody : UnifiedElement {
 		private UnifiedIdentifier _name;
 
 		/// <summary>
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedIdentifier Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedTypeSupplementCollection _supplements;
@@ -44,17 +43,18 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedTypeSupplementCollection Supplements {
 			get { return _supplements; }
-			set { _supplements = SetParentOfChild(value, _supplements); }
+			set { _supplements = SetChild(value, _supplements); }
 		}
 
 		private UnifiedIntegerLiteral _bitField;
 
 		/// <summary>
-		///   C の struct におけるビットフィールド
+		///   ビットフィールドを取得または設定します．
+		///   e.g. Cにおける<c>struct s { signed b1 : 1; signed b2 : 2; }</c>の<c>1</c>や<c>2</c>の部分
 		/// </summary>
 		public UnifiedIntegerLiteral BitField {
 			get { return _bitField; }
-			set { _bitField = value; }
+			set { _bitField = SetChild(value, _bitField); }
 		}
 
 		private IUnifiedExpression _initialValue;
@@ -67,7 +67,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression InitialValue {
 			get { return _initialValue; }
-			set { _initialValue = SetParentOfChild(value, _initialValue); }
+			set { _initialValue = SetChild(value, _initialValue); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -78,7 +78,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
 		private UnifiedBlock _body;
@@ -97,10 +97,10 @@ namespace Unicoen.Core.Model {
 		///</summary>
 		public UnifiedBlock Body {
 			get { return _body; }
-			set { _body = SetParentOfChild(value, _body); }
+			set { _body = SetChild(value, _body); }
 		}
 
-		private UnifiedVariableDefinitionBody() {}
+		private DeprecatedUnifiedVariableDefinitionBody() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -117,50 +117,7 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Name;
-			yield return Supplements;
-			yield return BitField;
-			yield return InitialValue;
-			yield return Arguments;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Name, v => Name = (UnifiedIdentifier)v);
-			yield return ElementReference.Create
-					(() => Supplements, v => Supplements = (UnifiedTypeSupplementCollection)v);
-			yield return ElementReference.Create
-					(() => BitField, v => BitField = (UnifiedIntegerLiteral)v);
-			yield return ElementReference.Create
-					(() => InitialValue, v => InitialValue = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _name, v => _name = (UnifiedIdentifier)v);
-			yield return ElementReference.Create
-					(
-							() => _supplements,
-							v => _supplements = (UnifiedTypeSupplementCollection)v);
-			yield return ElementReference.Create
-					(() => _bitField, v => _bitField = (UnifiedIntegerLiteral)v);
-			yield return ElementReference.Create
-					(() => _initialValue, v => _initialValue = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
-		}
-
-		public static UnifiedVariableDefinitionBody Create(string name) {
+		public static DeprecatedUnifiedVariableDefinitionBody Create(string name) {
 			return Create(
 					UnifiedIdentifier.CreateVariable(name),
 					null,
@@ -169,7 +126,7 @@ namespace Unicoen.Core.Model {
 					null);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				string name,
 				UnifiedTypeSupplementCollection supplements,
 				IUnifiedExpression initialValues) {
@@ -181,18 +138,18 @@ namespace Unicoen.Core.Model {
 					null);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				UnifiedIdentifier name) {
 			return Create(name, null, null, null, null);
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				UnifiedIdentifier name,
 				UnifiedTypeSupplementCollection supplements,
 				IUnifiedExpression initialValues,
 				UnifiedArgumentCollection arguments,
 				UnifiedBlock block) {
-			return new UnifiedVariableDefinitionBody {
+			return new DeprecatedUnifiedVariableDefinitionBody {
 					Name = name,
 					Supplements = supplements,
 					InitialValue = initialValues,
@@ -201,14 +158,14 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedVariableDefinitionBody Create(
+		public static DeprecatedUnifiedVariableDefinitionBody Create(
 				UnifiedIdentifier name,
 				UnifiedTypeSupplementCollection supplements,
 				UnifiedIntegerLiteral bitField,
 				IUnifiedExpression initialValues,
 				UnifiedArgumentCollection arguments,
 				UnifiedBlock block) {
-			return new UnifiedVariableDefinitionBody {
+			return new DeprecatedUnifiedVariableDefinitionBody {
 					Name = name,
 					Supplements = supplements,
 					BitField = bitField,
