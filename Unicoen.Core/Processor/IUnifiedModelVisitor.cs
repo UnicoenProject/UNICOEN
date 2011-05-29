@@ -68,7 +68,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(UnifiedIdentifierCollection element);
 		void Visit(UnifiedLabel element);
-		void Visit(UnifiedExpressionList element);
 		void Visit(UnifiedBooleanLiteral element);
 		void Visit(UnifiedFractionLiteral element);
 		void Visit(UnifiedIntegerLiteral element);
@@ -144,7 +143,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTernaryExpression element, TState state);
 		void Visit(UnifiedIdentifierCollection element, TState state);
 		void Visit(UnifiedLabel element, TState state);
-		void Visit(UnifiedExpressionList element, TState state);
 		void Visit(UnifiedBooleanLiteral element, TState state);
 		void Visit(UnifiedFractionLiteral element, TState state);
 		void Visit(UnifiedIntegerLiteral element, TState state);
@@ -220,7 +218,6 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedTernaryExpression element, TState state);
 		TResult Visit(UnifiedIdentifierCollection element, TState state);
 		TResult Visit(UnifiedLabel element, TState state);
-		TResult Visit(UnifiedExpressionList element, TState state);
 		TResult Visit(UnifiedBooleanLiteral element, TState state);
 		TResult Visit(UnifiedFractionLiteral element, TState state);
 		TResult Visit(UnifiedIntegerLiteral element, TState state);

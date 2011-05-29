@@ -45,13 +45,13 @@ namespace Unicoen.Core.Model {
 			set { _typeArguments = SetChild(value, _typeArguments); }
 		}
 
-		private UnifiedExpressionList _initialValue;
+		private UnifiedList _initialValue;
 
 		/// <summary>
 		///   配列生成時の初期値を表します。
 		///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
 		/// </summary>
-		public UnifiedExpressionList InitialValue {
+		public UnifiedList InitialValue {
 			get { return _initialValue; }
 			set { _initialValue = SetChild(value, _initialValue); }
 		}
@@ -96,7 +96,7 @@ namespace Unicoen.Core.Model {
 		public static UnifiedNew Create(
 				IUnifiedExpression target,
 				UnifiedArgumentCollection arguments,
-				UnifiedExpressionList initialValues) {
+				UnifiedList initialValues) {
 			return Create(target, arguments, null, initialValues, null);
 		}
 
@@ -104,7 +104,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression target,
 				UnifiedArgumentCollection arguments,
 				UnifiedTypeArgumentCollection typeArguments,
-				UnifiedExpressionList initialValues,
+				UnifiedList initialValues,
 				UnifiedBlock body) {
 			return new UnifiedNew {
 					Target = target,
@@ -120,7 +120,7 @@ namespace Unicoen.Core.Model {
 					UnifiedType.Create());
 		}
 
-		public static UnifiedNew CreateArray(UnifiedExpressionList initialValues) {
+		public static UnifiedNew CreateArray(UnifiedList initialValues) {
 			return Create(
 					UnifiedType.Create(),
 					null,

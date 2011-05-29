@@ -87,16 +87,6 @@ namespace Unicoen.Core.Model {
 			return UnifiedExpressionCollection.Create(singleton);
 		}
 
-		public static UnifiedExpressionList ToExpressionList(
-				this IEnumerable<IUnifiedExpression> collection) {
-			return UnifiedExpressionList.Create(collection);
-		}
-
-		public static UnifiedExpressionList ToExpressionList(
-				this IUnifiedExpression singleton) {
-			return UnifiedExpressionList.Create(singleton);
-		}
-
 		public static UnifiedIdentifierCollection ToCollection(
 				this IEnumerable<UnifiedIdentifier> collection) {
 			return UnifiedIdentifierCollection.Create(collection);

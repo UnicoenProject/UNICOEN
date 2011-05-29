@@ -120,13 +120,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedExpressionList element, VisitorState state) {
-			VisitCollection(element, state);
-
-			return false;
-		}
-
 		public bool Visit(UnifiedMatcher element, VisitorState state) {
 			throw new NotImplementedException();
 		}

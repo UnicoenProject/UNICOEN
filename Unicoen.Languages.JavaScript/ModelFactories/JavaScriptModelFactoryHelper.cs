@@ -293,9 +293,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			           		? CreateInitialiser(node.Element("initialiser")) : null;
 
 			return UnifiedVariableDefinition.Create(
-				name: name,
-				initialValue: init
-				);
+					name: name,
+					initialValue: init
+					);
 		}
 
 		public static UnifiedVariableDefinition
@@ -313,9 +313,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			           		? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
 
 			return UnifiedVariableDefinition.Create(
-				name: name,
-				initialValue: init
-			);
+					name: name,
+					initialValue: init
+					);
 		}
 
 		public static IUnifiedExpression CreateInitialiser(XElement node) {
@@ -579,7 +579,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: Identifier LT!* ':' LT!* statement
 			 */
 
-			var list = UnifiedExpressionList.Create();
+			var list = UnifiedBlock.Create();
 			list.Add(UnifiedLabel.Create(node.NthElement(0).Value));
 			list.Add(CreateStatement(node.Element("statement")));
 
@@ -712,25 +712,29 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * expression
 			 *		: assignmentExpression (LT!* ',' LT!* assignmentExpression)*
 			 */
-			var expressions =
-					node.Elements("assignmentExpression").Select(CreateAssignmentExpression);
-			//式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
-			if (expressions.Count() == 1)
-				return expressions.First();
+			var expressions = node.Elements("assignmentExpression")
+					.Select(CreateAssignmentExpression)
+					.ToList();
+			// 式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
+			if (expressions.Count == 1)
+				return expressions[0];
 			return UnifiedBlock.Create(expressions);
 		}
 
-		public static UnifiedExpressionList CreateExpressionNoIn(XElement node) {
+		public static IUnifiedExpression CreateExpressionNoIn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expressionNoIn");
 			/*
 			 * expressionNoIn
 			 *		: assignmentExpressionNoIn (LT!* ',' LT!* assignmentExpressionNoIn)*
 			 */
-
-			return node.Elements("assignmentExpressionNoIn")
+			var expressions = node.Elements("assignmentExpressionNoIn")
 					.Select(CreateAssignmentExpressionNoIn)
-					.ToExpressionList();
+					.ToList();
+			// 式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
+			if (expressions.Count == 1)
+				return expressions[0];
+			return UnifiedBlock.Create(expressions);
 		}
 
 		public static IUnifiedExpression CreateAssignmentExpression(XElement node) {
@@ -1317,12 +1321,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* ']'
 			 */
 			//コード例：var array = [1, 2, 3];
-
-			var exps = UnifiedExpressionList.Create();
-			foreach (var e in node.Elements("assignmentExpression")) {
-				exps.Add(CreateAssignmentExpression(e));
-			}
-			return UnifiedNew.CreateArray(exps);
+			var list = UnifiedList.CreateArray(
+					node.Elements("assignmentExpression")
+							.Select(CreateAssignmentExpression)
+							.ToCollection()
+					);
+			return UnifiedNew.CreateArray(list);
 		}
 
 		public static UnifiedDictonary CreateObjectLiteral(XElement node) {

@@ -358,11 +358,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			           		: null;
 
 			return UnifiedVariableDefinition.Create(
-				annotations: annotations,
-				name: UnifiedIdentifier.CreateVariable(name),
-				arguments: arguments,
-				body: body
-			);
+					annotations: annotations,
+					name: UnifiedIdentifier.CreateVariable(name),
+					arguments: arguments,
+					body: body
+					);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateEnumBodyDeclarations(
@@ -599,13 +599,16 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.Select(
 							e =>
 							CreateVariableDeclarator(
-									e, annotationsAndModifiers.Item1.DeepCopy(), annotationsAndModifiers.Item2.DeepCopy(), type.DeepCopy()));
+									e, annotationsAndModifiers.Item1.DeepCopy(),
+									annotationsAndModifiers.Item2.DeepCopy(), type.DeepCopy()));
 
 			return UnifiedVariableDefinitionList.Create(declarators);
 		}
 
 		public static UnifiedVariableDefinition CreateVariableDeclarator
-				(XElement node, UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, UnifiedType type) {
+				(
+				XElement node, UnifiedAnnotationCollection annotations,
+				UnifiedModifierCollection modifiers, UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarator");
 			/*
@@ -620,12 +623,12 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			type = type.WrapArrayRepeatedly(dimension);
 
 			return UnifiedVariableDefinition.Create(
-				annotations: annotations,
-				modifiers: modifiers,
-				type: type,
-				name: UnifiedIdentifier.CreateVariable(node.Element("IDENTIFIER").Value),
-				initialValue: initializer
-			);
+					annotations: annotations,
+					modifiers: modifiers,
+					type: type,
+					name: UnifiedIdentifier.CreateVariable(node.Element("IDENTIFIER").Value),
+					initialValue: initializer
+					);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateInterfaceBodyDeclaration(
@@ -712,7 +715,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.Select(
 							e =>
 							CreateVariableDeclarator(
-									e, annotationsAndModifiers.Item1.DeepCopy(), annotationsAndModifiers.Item2.DeepCopy(),
+									e, annotationsAndModifiers.Item1.DeepCopy(),
+									annotationsAndModifiers.Item2.DeepCopy(),
 									type.DeepCopy()));
 
 			return UnifiedVariableDefinitionList.Create(declarators);
@@ -782,15 +786,15 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                		: simpleType.WrapGeneric(innerTypes[0].Item2);
 
 			return innerTypes
-				.Skip(1)
-				.Aggregate(
-					firstType, (type, tuple) => {
-						var prop = UnifiedProperty.Create(type, tuple.Item1, ".");
-						UnifiedType newType = UnifiedType.Create(prop);
-						return tuple.Item2 == null
-						       		? newType
-						       		: newType.WrapGeneric(tuple.Item2);
-					});
+					.Skip(1)
+					.Aggregate(
+							firstType, (type, tuple) => {
+								var prop = UnifiedProperty.Create(type, tuple.Item1, ".");
+								UnifiedType newType = UnifiedType.Create(prop);
+								return tuple.Item2 == null
+								       		? newType
+								       		: newType.WrapGeneric(tuple.Item2);
+							});
 		}
 
 		public static UnifiedType CreatePrimitiveType(XElement node) {
@@ -1199,7 +1203,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.Select(
 							e =>
 							CreateVariableDeclarator(
-									e, annotationsAndModifiers.Item1.DeepCopy(), annotationsAndModifiers.Item2.DeepCopy(), type.DeepCopy()));
+									e, annotationsAndModifiers.Item1.DeepCopy(),
+									annotationsAndModifiers.Item2.DeepCopy(), type.DeepCopy()));
 
 			return UnifiedVariableDefinitionList.Create(declarators);
 		}
@@ -1254,7 +1259,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				// TODO assert
 				yield return UnifiedSpecialExpression.Create(
 						UnifiedSpecialExpressionKind.Assert,
-						node.Elements("expression").Select(CreateExpression).ToExpressionList());
+						// TODO tuple?
+						UnifiedList.CreateTuple(
+								node.Elements("expression").Select(CreateExpression).ToCollection()));
 				break;
 			case "if":
 				yield return CreateIf(node);
@@ -1407,11 +1414,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 						CreateVariableModifiers(node.Element("variableModifiers"));
 				return UnifiedForeach.Create(
 						UnifiedVariableDefinition.Create(
-							annotations: annotationsAndModifiers.Item1,
-							modifiers: annotationsAndModifiers.Item2,
-							type: CreateType(node.Element("type")),
-							name: UnifiedIdentifier.CreateVariable(node.Element("IDENTIFIER").Value)
-						),
+								annotations: annotationsAndModifiers.Item1,
+								modifiers: annotationsAndModifiers.Item2,
+								type: CreateType(node.Element("type")),
+								name: UnifiedIdentifier.CreateVariable(node.Element("IDENTIFIER").Value)
+								),
 						CreateExpression(node.Element("expression")),
 						CreateStatement(node.Element("statement")).ToBlock()
 						);
@@ -1423,8 +1430,10 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				                		? CreateExpression(node.Element("expression"))
 				                		: null;
 				var step = node.HasElement("expressionList")
-				           		? CreateExpressionList(node.Element("expressionList"))
-				           		  		.ToExpressionList()
+							   // TODO tuple?
+				           		? UnifiedList.CreateTuple(
+				           				CreateExpressionList(node.Element("expressionList")).
+				           						ToCollection())
 				           		: null;
 				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 
@@ -1451,7 +1460,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			case "localVariableDeclaration":
 				return CreateLocalVariableDeclaration(first);
 			case "expressionList":
-				return CreateExpressionList(first).ToExpressionList();
+			   // TODO tuple?
+				return UnifiedList.CreateTuple(CreateExpressionList(first).ToCollection());
 			default:
 				throw new InvalidOperationException();
 			}
@@ -2010,16 +2020,18 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 		}
 
-		public static UnifiedExpressionList CreateArrayInitializer(XElement node) {
+		public static UnifiedList CreateArrayInitializer(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arrayInitializer");
 			/*
 			 * arrayInitializer 
 			 * :   '{' (variableInitializer (',' variableInitializer)* )? (',')? '}'
 			 */
-			return node.Elements("variableInitializer")
-					.Select(CreateVariableInitializer)
-					.ToExpressionList();
+			return UnifiedList.CreateArray(
+					node.Elements("variableInitializer")
+							.Select(CreateVariableInitializer)
+							.ToCollection()
+					);
 		}
 
 		public static UnifiedType CreateCreatedName(XElement node) {

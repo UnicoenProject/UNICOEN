@@ -335,7 +335,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				kind = UnifiedSpecialExpressionKind.PrintChevron;
 			}
 			return UnifiedSpecialExpression.Create(
-					kind, node.Elements("test").Select(CreateTest).ToExpressionList());
+					kind,
+					UnifiedList.CreateTuple(
+							node.Elements("test").Select(CreateTest).ToCollection()));
 		}
 
 		public static IUnifiedExpression CreateDel_stmt(XElement node) {
@@ -346,7 +348,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			return UnifiedSpecialExpression.Create(
 					UnifiedSpecialExpressionKind.Delete,
-					CreateExprlist(node.NthElement(1)).ToExpressionList());
+					UnifiedList.CreateTuple(CreateExprlist(node.NthElement(1)).ToCollection()));
 		}
 
 		public static IUnifiedExpression CreatePass_stmt(XElement node) {
@@ -428,7 +430,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * raise_stmt: 'raise' [test [',' test [',' test]]]
 			 */
 			// TODO: change to dedicated class ?
-			var tests = node.Elements("test").Select(CreateTest).ToExpressionList();
+			var tests = UnifiedList.CreateTuple(node.Elements("test").Select(CreateTest).ToCollection());
 			return UnifiedSpecialExpression.Create(
 					UnifiedSpecialExpressionKind.Throw, tests);
 		}
@@ -563,9 +565,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var expr = node.Element("expr");
 			return UnifiedSpecialExpression.Create(
 					UnifiedSpecialExpressionKind.Exec,
-					Enumerable.Repeat(CreateExpr(expr), 1)
-							.Concat(node.Elements("test").Select(CreateTest))
-							.ToExpressionList());
+					UnifiedList.CreateTuple(
+							Enumerable.Repeat(CreateExpr(expr), 1)
+									.Concat(node.Elements("test").Select(CreateTest))
+									.ToCollection()));
 		}
 
 		public static IUnifiedExpression CreateAssert_stmt(XElement node) {
@@ -577,8 +580,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			// TODO: change to dedicated class ?
 			return UnifiedSpecialExpression.Create(
 					UnifiedSpecialExpressionKind.Assert,
-					node.Elements("test").Select(CreateTest)
-							.ToExpressionList()
+					UnifiedList.CreateTuple(
+							node.Elements("test").Select(CreateTest)
+									.ToCollection())
 					);
 		}
 
@@ -960,7 +964,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			case "NUMBER":
 				return Int32.Parse(first.Value).ToLiteral();
 			case "STRING":
-				return UnifiedStringLiteral.Create(first.Value, UnifiedStringLiteralKind.String);
+				return UnifiedStringLiteral.Create(
+						first.Value, UnifiedStringLiteralKind.String);
 			}
 
 			var second = node.NthElement(1);

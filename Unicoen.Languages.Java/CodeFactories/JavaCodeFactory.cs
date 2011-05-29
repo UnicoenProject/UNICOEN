@@ -563,7 +563,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public bool Visit(UnifiedList element, VisitorState state) {
-			throw new NotImplementedException();
+			element.Elements.TryAccept(this, state);
+			return false;
 		}
 
 		public bool Visit(UnifiedKeyValue element, VisitorState state) {

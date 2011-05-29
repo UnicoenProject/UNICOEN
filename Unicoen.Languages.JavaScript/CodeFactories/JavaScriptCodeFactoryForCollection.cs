@@ -99,12 +99,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedExpressionList element, VisitorState state) {
-			VisitCollection(element, state);
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedMatcherCollection element, VisitorState state) {
 			VisitCollection(element, state);
 			return false;
