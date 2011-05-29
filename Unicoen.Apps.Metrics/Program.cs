@@ -42,10 +42,6 @@ namespace Unicoen.Applications.Metrics {
 		}
 
 		private static bool Run(string[] args) {
-			args = new[] {
-					"cyclomatic",
-					@"C:\Users\exKAZUu\Documents\Projects\UnifiedCodeProcessorFramework\fixture\Java\input\Block1.java"
-			};
 			if (args.Length < 1)
 				return Print(Usage);
 

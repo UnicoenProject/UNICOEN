@@ -21,7 +21,6 @@ namespace Unicoen.Core.Model {
 	///   UnifiedClassDefinitionの種類を表します。
 	/// </summary>
 	public enum UnifiedClassKind {
-
 		Class,
 
 		/// <summary>

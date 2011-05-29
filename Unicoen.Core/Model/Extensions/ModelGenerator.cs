@@ -25,7 +25,9 @@ namespace Unicoen.Core.Model {
 		/// <param name = "self"></param>
 		/// <returns></returns>
 		public static T DeepCopy<T>(this T self)
-				where T : IUnifiedElement {
+				where T : class, IUnifiedElement {
+			if (self == null)
+				return null;
 			return (T)self.PrivateDeepCopy();
 		}
 	}

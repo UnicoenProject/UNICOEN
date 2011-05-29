@@ -43,7 +43,8 @@ namespace Unicoen.Apps.Translator {
 			var func = a.ElementAt(0);
 			func.Name.Value = "RewittenFunctionName";
 
-			functions = Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(model);
+			functions =
+					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(model);
 			foreach (var f in functions) {
 				Console.WriteLine(f.Name.Value);
 			}

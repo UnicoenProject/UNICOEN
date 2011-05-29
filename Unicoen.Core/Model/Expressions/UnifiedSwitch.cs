@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
-			set { _value = SetParentOfChild(value, _value); }
+			set { _value = SetChild(value, _value); }
 		}
 
 		private UnifiedCaseCollection _cases;
@@ -43,7 +42,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedCaseCollection Cases {
 			get { return _cases; }
-			set { _cases = SetParentOfChild(value, _cases); }
+			set { _cases = SetChild(value, _cases); }
 		}
 
 		private UnifiedSwitch() {}
@@ -66,27 +65,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Value;
-			yield return Cases;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Value, v => Value = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Cases, v => Cases = (UnifiedCaseCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _value, v => _value = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _cases, v => _cases = (UnifiedCaseCollection)v);
 		}
 
 		public static UnifiedSwitch Create(IUnifiedExpression value) {

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Paraiba.IO;
@@ -36,8 +35,7 @@ namespace Unicoen.Languages.Tests {
 		///   全く同じコードをコンパイルしたバイナリファイル同士で比較します。
 		/// </summary>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
-		public virtual void CompareCompiledCodeOfSameCode(
-				string orgPath) {
+		public virtual void CompareCompiledCodeOfSameCode(string orgPath) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = FixtureUtil.GetTemporalPath(fileName);
@@ -54,14 +52,13 @@ namespace Unicoen.Languages.Tests {
 		///   全く同じコードから生成したモデル同士で比較します。
 		/// </summary>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
-		public virtual void CompareModelOfSameCode(
-				string orgPath) {
+		public virtual void CompareModelOfSameCode(string orgPath) {
 			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
 			var expected = Fixture.ModelFactory.Generate(orgCode);
 			var actual = Fixture.ModelFactory.Generate(orgCode);
 			Assert.That(
-					actual, Is.EqualTo(expected)
-					        		.Using(StructuralEqualityComparerForDebug.Instance));
+					actual,
+					Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		/// <summary>
@@ -72,8 +69,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "orgCode">再生成するソースコード</param>
 		/// <param name = "fileName">再生成するソースコードのファイル名</param>
-		private void VerifyCompareCompiledCode(
-				string orgCode, string fileName) {
+		private void VerifyCompareCompiledCode(string orgCode, string fileName) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			var srcPath = FixtureUtil.GetTemporalPath(fileName);
 			File.WriteAllText(srcPath, orgCode, XEncoding.SJIS);
@@ -96,7 +92,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "dirPath">再生成するソースコードが格納されているディレクトリパス</param>
 		/// <param name = "command">コンパイルに用いるコマンド名</param>
 		/// <param name = "arguments">コンパイルに用いる引数リスト</param>
-		private void VerifyCompareCompiledCodeUsingDirectory(
+		private void VerifyCompareCompiledCodeUsingProject(
 				string dirPath, string command, string arguments) {
 			var workPath = FixtureUtil.CleanTemporalPath();
 			FileUtility.CopyRecursively(dirPath, workPath);
@@ -120,16 +116,15 @@ namespace Unicoen.Languages.Tests {
 		///   モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name = "orgCode">再生成するソースコード</param>
-		private void VerifyCompareModel(
-				string orgCode) {
+		private void VerifyCompareModel(string orgCode) {
 			var model1 = Fixture.ModelFactory.Generate(orgCode);
 			var code2 = Fixture.CodeFactory.Generate(model1);
 			var model2 = Fixture.ModelFactory.Generate(code2);
 			var code3 = Fixture.CodeFactory.Generate(model2);
 			var model3 = Fixture.ModelFactory.Generate(code3);
 			Assert.That(
-					model3, Is.EqualTo(model2)
-					        		.Using(StructuralEqualityComparerForDebug.Instance));
+					model3,
+					Is.EqualTo(model2).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		/// <summary>
@@ -138,8 +133,7 @@ namespace Unicoen.Languages.Tests {
 		///   モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name = "dirPath">再生成するソースコードが格納されているディレクトリパス</param>
-		private void VerifyCompareModelUsingDirectory(
-				string dirPath) {
+		private void VerifyCompareModelUsingProject(string dirPath) {
 			var codePaths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var codePath in codePaths) {
 				var orgCode = File.ReadAllText(codePath, XEncoding.SJIS);
@@ -149,41 +143,80 @@ namespace Unicoen.Languages.Tests {
 				var code3 = Fixture.CodeFactory.Generate(model2);
 				var model3 = Fixture.ModelFactory.Generate(code3);
 				Assert.That(
-						model3, Is.EqualTo(model2)
-						        		.Using(StructuralEqualityComparerForDebug.Instance));
+						model3,
+						Is.EqualTo(model2).Using(StructuralEqualityComparerForDebug.Instance));
 			}
 		}
 
-		public virtual void CompareCompiledCodeUsingCode(
-				string code) {
+		/// <summary>
+		///   コンパイル結果を通して再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2と再生成します。
+		///   コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
+		///   元コード1とコード2を比較します。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
+		public virtual void CompareCompiledCodeUsingCode(string code) {
 			VerifyCompareCompiledCode(code, "A" + Fixture.Extension);
 		}
 
+		/// <summary>
+		///   モデルを通した再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
+		///   モデル2とモデル3を比較します。
+		/// </summary>
+		/// <param name = "code">テスト対象のソースコード</param>
 		public virtual void CompareModelUsingCode(string code) {
 			VerifyCompareModel(code);
 		}
 
-		public virtual void CompareCompiledCodeUsingFile(
-				string orgPath) {
+		/// <summary>
+		///   コンパイル結果を通して再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2と再生成します。
+		///   コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
+		///   元コード1とコード2を比較します。
+		/// </summary>
+		/// <param name = "orgPath">テスト対象のソースコードのパス</param>
+		public virtual void CompareCompiledCodeUsingFile(string orgPath) {
 			var fileName = Path.GetFileName(orgPath);
 			VerifyCompareCompiledCode(
 					File.ReadAllText(orgPath, XEncoding.SJIS), fileName);
 		}
 
-		public virtual void CompareModelUsingFile(
-				string orgPath) {
+		/// <summary>
+		///   モデルを通した再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
+		///   モデル2とモデル3を比較します。
+		/// </summary>
+		/// <param name = "orgPath">テスト対象のソースコードのパス</param>
+		public virtual void CompareModelUsingFile(string orgPath) {
 			VerifyCompareModel(File.ReadAllText(orgPath, XEncoding.SJIS));
 		}
 
-		public virtual void CompareCompiledCodeUsingDirectory(
-				string orgPath, string command, string arguments) {
-			VerifyCompareCompiledCodeUsingDirectory(
-					orgPath, command, arguments);
+		/// <summary>
+		///   コンパイル結果を通して再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2と再生成します。
+		///   コンパイルしたアセンブリファイルの逆コンパイル結果を通して、
+		///   元コード1とコード2を比較します。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象ソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
+		public virtual void CompareCompiledCodeUsingProject(
+				string dirPath, string command, string arguments) {
+			VerifyCompareCompiledCodeUsingProject(dirPath, command, arguments);
 		}
 
-		public virtual void CompareModelUsingDirectory(
-				string orgPath, string command, string arguments) {
-			VerifyCompareModelUsingDirectory(orgPath);
+		/// <summary>
+		///   モデルを通した再生成したコードが変化しないかテストします。
+		///   元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。
+		///   モデル2とモデル3を比較します。
+		/// </summary>
+		/// <param name = "dirPath">テスト対象ソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
+		public virtual void CompareModelUsingProject(
+				string dirPath, string command, string arguments) {
+			VerifyCompareModelUsingProject(dirPath);
 		}
 	}
 }

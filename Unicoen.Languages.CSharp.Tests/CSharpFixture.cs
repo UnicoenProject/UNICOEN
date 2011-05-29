@@ -105,7 +105,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// <summary>
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
 		/// </summary>
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
 				yield break;
 				//				return new[] {
@@ -119,36 +119,52 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string dirPath, string fileName) {
 			var exeFilePath = Path.Combine(
-					workPath,
+					dirPath,
 					Path.ChangeExtension(fileName, "dll"));
 			var args = new[] {
 					"/optimize+",
 					"/t:library",
 					"\"/out:" + exeFilePath + "\"",
-					"\"" + Path.Combine(workPath, fileName) + "\""
+					"\"" + Path.Combine(dirPath, fileName) + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(workPath, CscPath, arguments);
+			CompileWithArguments(dirPath, CscPath, arguments);
 		}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
-					workPath, "*.dll",
+					dirPath, "*.dll",
 					SearchOption.AllDirectories)
-					.Select(path => new object[] { path, GetByteCode(workPath, path) });
+					.Select(path => new object[] { path, GetByteCode(dirPath, path) });
 		}
 
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {
 			var info = new ProcessStartInfo {
-				FileName = command,
-				Arguments = arguments,
-				CreateNoWindow = true,
-				UseShellExecute = false,
-				WorkingDirectory = workPath,
-				RedirectStandardError = true,
+					FileName = command,
+					Arguments = arguments,
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					WorkingDirectory = workPath,
+					RedirectStandardError = true,
 			};
 			try {
 				using (var p = Process.Start(info)) {
@@ -159,8 +175,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 								"Failed to compile the code.\n" + errorMessage);
 					}
 				}
-			}
-			catch (Win32Exception e) {
+			} catch (Win32Exception e) {
 				throw new InvalidOperationException("Failed to launch compiler.", e);
 			}
 		}
@@ -169,13 +184,13 @@ namespace Unicoen.Languages.CSharp.Tests {
 			var ildasmPath = IldasmPathes.First(File.Exists);
 			var args = new[] { "/text", exeFilePath };
 			var info = new ProcessStartInfo {
-				FileName = ildasmPath,
-				Arguments = args.JoinString(" "),
-				CreateNoWindow = true,
-				RedirectStandardInput = true,
-				RedirectStandardOutput = true,
-				UseShellExecute = false,
-				WorkingDirectory = workPath,
+					FileName = ildasmPath,
+					Arguments = args.JoinString(" "),
+					CreateNoWindow = true,
+					RedirectStandardInput = true,
+					RedirectStandardOutput = true,
+					UseShellExecute = false,
+					WorkingDirectory = workPath,
 			};
 
 			try {
@@ -193,8 +208,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 							.Where(l => !l.StartsWith(".module"))
 							.JoinString("\n");
 				}
-			}
-			catch (Win32Exception e) {
+			} catch (Win32Exception e) {
 				throw new InvalidOperationException(
 						"Failed to launch 'ildasmPath': " + ildasmPath, e);
 			}

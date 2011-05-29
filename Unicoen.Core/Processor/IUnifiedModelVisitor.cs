@@ -38,13 +38,11 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedConstructorDefinition element);
 		void Visit(UnifiedProgram element);
 		void Visit(UnifiedClassDefinition element);
-		void Visit(UnifiedVariableDefinition element);
 		void Visit(UnifiedNew element);
 		void Visit(UnifiedFor element);
 		void Visit(UnifiedForeach element);
 		void Visit(UnifiedUnaryExpression element);
 		void Visit(UnifiedProperty element);
-		void Visit(UnifiedType element);
 		void Visit(UnifiedExpressionCollection element);
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
@@ -68,8 +66,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTypeSupplement element);
 		void Visit(UnifiedTypeSupplementCollection element);
 		void Visit(UnifiedTernaryExpression element);
-		void Visit(UnifiedVariableDefinitionBody element);
-		void Visit(UnifiedVariableDefinitionBodyCollection element);
 		void Visit(UnifiedIdentifierCollection element);
 		void Visit(UnifiedLabel element);
 		void Visit(UnifiedExpressionList element);
@@ -92,6 +88,11 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedAnnotation element);
 		void Visit(UnifiedAnnotationCollection element);
 		void Visit(UnifiedVariableDefinitionList element);
+		void Visit(UnifiedVariableDefinition element);
+		void Visit(UnifiedArrayType element);
+		void Visit(UnifiedSupplementType element);
+		void Visit(UnifiedGenericType element);
+		void Visit(UnifiedSimpleType element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -113,13 +114,11 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedConstructorDefinition element, TState state);
 		void Visit(UnifiedProgram element, TState state);
 		void Visit(UnifiedClassDefinition element, TState state);
-		void Visit(UnifiedVariableDefinition element, TState state);
 		void Visit(UnifiedNew element, TState state);
 		void Visit(UnifiedFor element, TState state);
 		void Visit(UnifiedForeach element, TState state);
 		void Visit(UnifiedUnaryExpression element, TState state);
 		void Visit(UnifiedProperty element, TState state);
-		void Visit(UnifiedType element, TState state);
 		void Visit(UnifiedExpressionCollection element, TState state);
 		void Visit(UnifiedWhile element, TState state);
 		void Visit(UnifiedDoWhile element, TState state);
@@ -143,8 +142,6 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedTypeSupplement element, TState state);
 		void Visit(UnifiedTypeSupplementCollection element, TState state);
 		void Visit(UnifiedTernaryExpression element, TState state);
-		void Visit(UnifiedVariableDefinitionBody element, TState state);
-		void Visit(UnifiedVariableDefinitionBodyCollection element, TState state);
 		void Visit(UnifiedIdentifierCollection element, TState state);
 		void Visit(UnifiedLabel element, TState state);
 		void Visit(UnifiedExpressionList element, TState state);
@@ -167,6 +164,11 @@ namespace Unicoen.Core.Visitors {
 		void Visit(UnifiedAnnotation element, TState state);
 		void Visit(UnifiedAnnotationCollection element, TState state);
 		void Visit(UnifiedVariableDefinitionList element, TState state);
+		void Visit(UnifiedVariableDefinition element, TState state);
+		void Visit(UnifiedArrayType element, TState state);
+		void Visit(UnifiedSupplementType element, TState state);
+		void Visit(UnifiedGenericType element, TState state);
+		void Visit(UnifiedSimpleType element, TState state);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -188,13 +190,11 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedConstructorDefinition element, TState state);
 		TResult Visit(UnifiedProgram element, TState state);
 		TResult Visit(UnifiedClassDefinition element, TState state);
-		TResult Visit(UnifiedVariableDefinition element, TState state);
 		TResult Visit(UnifiedNew element, TState state);
 		TResult Visit(UnifiedFor element, TState state);
 		TResult Visit(UnifiedForeach element, TState state);
 		TResult Visit(UnifiedUnaryExpression element, TState state);
 		TResult Visit(UnifiedProperty element, TState state);
-		TResult Visit(UnifiedType element, TState state);
 		TResult Visit(UnifiedExpressionCollection element, TState state);
 		TResult Visit(UnifiedWhile element, TState state);
 		TResult Visit(UnifiedDoWhile element, TState state);
@@ -218,8 +218,6 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedTypeSupplement element, TState state);
 		TResult Visit(UnifiedTypeSupplementCollection element, TState state);
 		TResult Visit(UnifiedTernaryExpression element, TState state);
-		TResult Visit(UnifiedVariableDefinitionBody element, TState state);
-		TResult Visit(UnifiedVariableDefinitionBodyCollection element, TState state);
 		TResult Visit(UnifiedIdentifierCollection element, TState state);
 		TResult Visit(UnifiedLabel element, TState state);
 		TResult Visit(UnifiedExpressionList element, TState state);
@@ -242,5 +240,10 @@ namespace Unicoen.Core.Visitors {
 		TResult Visit(UnifiedAnnotation element, TState state);
 		TResult Visit(UnifiedAnnotationCollection element, TState state);
 		TResult Visit(UnifiedVariableDefinitionList element, TState state);
+		TResult Visit(UnifiedVariableDefinition element, TState state);
+		TResult Visit(UnifiedArrayType element, TState state);
+		TResult Visit(UnifiedSupplementType element, TState state);
+		TResult Visit(UnifiedGenericType element, TState state);
+		TResult Visit(UnifiedSimpleType element, TState state);
 	}
 }

@@ -78,7 +78,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// <summary>
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
 		/// </summary>
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
 				yield break;
 				//				return new[] {
@@ -92,12 +92,28 @@ namespace Unicoen.Languages.Python2.Tests {
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {}
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string dirPath, string fileName) {}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			return null;
 		}
 
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {}
 	}

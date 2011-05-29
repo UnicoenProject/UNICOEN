@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
-			set { _condition = SetParentOfChild(value, _condition); }
+			set { _condition = SetChild(value, _condition); }
 		}
 
 		private IUnifiedExpression _trueExpression;
@@ -44,7 +43,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression TrueExpression {
 			get { return _trueExpression; }
-			set { _trueExpression = SetParentOfChild(value, _trueExpression); }
+			set { _trueExpression = SetChild(value, _trueExpression); }
 		}
 
 		private IUnifiedExpression _falseExpression;
@@ -55,7 +54,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public IUnifiedExpression FalseExpression {
 			get { return _falseExpression; }
-			set { _falseExpression = SetParentOfChild(value, _falseExpression); }
+			set { _falseExpression = SetChild(value, _falseExpression); }
 		}
 
 		private UnifiedTernaryExpression() {}
@@ -73,32 +72,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Condition;
-			yield return TrueExpression;
-			yield return FalseExpression;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Condition, v => Condition = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => TrueExpression, v => TrueExpression = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => FalseExpression, v => FalseExpression = (IUnifiedExpression)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _condition, v => _condition = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _trueExpression, v => _trueExpression = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _falseExpression, v => _falseExpression = (IUnifiedExpression)v);
 		}
 
 		public static UnifiedTernaryExpression Create(

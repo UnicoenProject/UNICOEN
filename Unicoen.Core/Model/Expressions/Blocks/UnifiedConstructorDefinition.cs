@@ -16,8 +16,6 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -36,35 +34,35 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
-			set { _parameters = SetParentOfChild(value, _parameters); }
+			set { _parameters = SetChild(value, _parameters); }
 		}
 
 		private UnifiedTypeParameterCollection _typeParameters;
 
 		public UnifiedTypeParameterCollection TypeParameters {
 			get { return _typeParameters; }
-			set { _typeParameters = SetParentOfChild(value, _typeParameters); }
+			set { _typeParameters = SetChild(value, _typeParameters); }
 		}
 
 		private UnifiedTypeCollection _throws;
 
 		public UnifiedTypeCollection Throws {
 			get { return _throws; }
-			set { _throws = SetParentOfChild(value, _throws); }
+			set { _throws = SetChild(value, _throws); }
 		}
 
 		private UnifiedConstructorDefinition() {}
@@ -82,52 +80,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Annotations;
-			yield return Modifiers;
-			yield return Parameters;
-			yield return TypeParameters;
-			yield return Throws;
-			yield return Body;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Parameters, v => Parameters = (UnifiedParameterCollection)v);
-			yield return ElementReference.Create
-					(
-							() => TypeParameters,
-							v => TypeParameters = (UnifiedTypeParameterCollection)v);
-			yield return ElementReference.Create
-					(() => Throws, v => Throws = (UnifiedTypeCollection)v);
-			yield return ElementReference.Create
-					(() => Body, v => Body = (UnifiedBlock)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _parameters, v => _parameters = (UnifiedParameterCollection)v);
-			yield return ElementReference.Create
-					(
-							() => _typeParameters,
-							v => _typeParameters = (UnifiedTypeParameterCollection)v)
-					;
-			yield return ElementReference.Create
-					(() => _throws, v => _throws = (UnifiedTypeCollection)v);
-			yield return ElementReference.Create
-					(() => _body, v => _body = (UnifiedBlock)v);
 		}
 
 		public static UnifiedConstructorDefinition Create() {
@@ -196,7 +148,11 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static IUnifiedExpression Create(UnifiedBlock body, UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters, UnifiedTypeParameterCollection typeParameters, UnifiedTypeCollection throws, UnifiedConstructorDefinitionKind kind) {
+		public static IUnifiedExpression Create(
+				UnifiedBlock body, UnifiedAnnotationCollection annotations,
+				UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters,
+				UnifiedTypeParameterCollection typeParameters, UnifiedTypeCollection throws,
+				UnifiedConstructorDefinitionKind kind) {
 			return new UnifiedConstructorDefinition {
 					Body = body,
 					Modifiers = modifiers,

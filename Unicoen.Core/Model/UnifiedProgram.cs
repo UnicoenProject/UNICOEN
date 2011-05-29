@@ -33,7 +33,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedComment Comments {
 			get { return _comments; }
-			set { _comments = SetParentOfChild(value, _comments); }
+			set { _comments = SetChild(value, _comments); }
 		}
 
 		private UnifiedProgram() {}
@@ -54,19 +54,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			return this;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			var count = Count;
-			for (int i = 0; i < count; i++) {
-				yield return ElementReference.Create
-						(() => this[i], v => this[i] = (IUnifiedExpression)v);
-			}
 		}
 
 		public static UnifiedProgram Create() {

@@ -72,7 +72,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedWrapType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedArrayType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedSupplementType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedSupplementTypeKind.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedType.cs" />
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
+    <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinitionList.cs" />
     <Compile Include="Model\Extensions\ModelGenerator.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
@@ -87,7 +94,6 @@
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedVariableDefinitionBodyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedClassKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
@@ -143,11 +149,10 @@
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
-    <Compile Include="Model\Expressions\UnifiedType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedSimpleType.cs" />
     <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedIdentifier.cs" />
-    <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedWhile.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForCollection.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
@@ -178,7 +183,6 @@
     <Compile Include="Model\UnifiedTypeSupplement.cs" />
     <Compile Include="Model\UnifiedTypeSupplementKind.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
-    <Compile Include="Model\UnifiedVariableDefinitionBody.cs" />
     <Compile Include="Processor\IUnifiedModelVisitor.cs" />
     <Compile Include="Processor\VisitorState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

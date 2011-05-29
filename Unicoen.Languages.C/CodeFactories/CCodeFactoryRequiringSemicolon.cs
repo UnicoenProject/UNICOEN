@@ -22,7 +22,9 @@ using Unicoen.Core.Visitors;
 using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Languages.C.CodeFactories {
+	
 	public partial class CCodeFactory {
+
 		public static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedBinaryExpression || parent is UnifiedUnaryExpression
@@ -42,17 +44,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			state.WriteSpace();
 			element.RightHandSide.TryAccept(this, state);
 			state.Writer.Write(paren.Item2);
-
-			return true;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinition element, VisitorState state) {
-			element.Modifiers.TryAccept(this, state);
-			state.WriteSpace();
-			element.Type.TryAccept(this, state);
-			state.WriteSpace();
-			element.Bodys.TryAccept(this, state);
 
 			return true;
 		}
@@ -110,17 +101,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			element.TrueExpression.TryAccept(this, state.Set(Paren));
 			state.Writer.Write(" : ");
 			element.FalseExpression.TryAccept(this, state.Set(Paren));
-
-			return true;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBody element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			if (element.InitialValue != null) {
-				state.Writer.Write(" = ");
-				element.InitialValue.TryAccept(this, state);
-			}
 
 			return true;
 		}

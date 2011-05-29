@@ -1,16 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedAnnotation : UnifiedElement, IUnifiedExpression {
-		private UnifiedType _type;
+		private IUnifiedExpression _name;
 
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+		public IUnifiedExpression Name {
+			get { return _name; }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -21,10 +35,10 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
-			set { _arguments = SetParentOfChild(value, _arguments); }
+			set { _arguments = SetChild(value, _arguments); }
 		}
 
-		private UnifiedAnnotation() { }
+		private UnifiedAnnotation() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -41,30 +55,11 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Type;
-			yield return Arguments;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Type, v => Type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _type, v => _type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);
-		}
-
-		public static UnifiedAnnotation Create(UnifiedType type, UnifiedArgumentCollection arguments) {
+		public static UnifiedAnnotation Create(
+				IUnifiedExpression name = null,
+				UnifiedArgumentCollection arguments = null) {
 			return new UnifiedAnnotation {
-					Type = type,
+					Name = name,
 					Arguments = arguments,
 			};
 		}

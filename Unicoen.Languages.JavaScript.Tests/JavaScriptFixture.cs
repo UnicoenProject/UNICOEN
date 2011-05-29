@@ -16,9 +16,14 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Paraiba.Core;
 using Unicoen.Core.CodeFactories;
 using Unicoen.Core.ModelFactories;
 using Unicoen.Core.Tests;
@@ -26,6 +31,14 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
+		private const string CompileCommand = "java";
+
+		private readonly string[] _compileArguments = new[] {
+				"-cp",
+				"..\\..\\lib\\js.jar",
+				"org.mozilla.javascript.tools.jsc.Main"
+		};
+
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
 		/// </summary>
@@ -55,7 +68,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
-						"a = 1;",
+						"var a = 1;",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
@@ -69,11 +82,6 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return new[] {
 						"fibonacci",
 						"student",
-						"Block1",
-						"Block2",
-						"Block3",
-						"Sample",
-						//"Waseda"
 				}
 						.Select(
 								s =>
@@ -85,27 +93,84 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <summary>
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
 		/// </summary>
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
-				yield break;
-				//				return new[] {
-				//						new { DirName = "default", Command = "javac", Arguments = "*.java" },
-				//						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
-				//				}
-				//						.Select(
-				//								o => new TestCaseData(
-				//								     		Fixture.GetInputPath("Java", o.DirName),
-				//								     		o.Command, o.Arguments));
+				var arguments = _compileArguments.JoinString(" ") + " *.js";
+				return new[] {
+						new {
+								DirName = "Blocks",
+								Command = CompileCommand,
+								Arguments = arguments,
+						},
+						new {
+								DirName = "Waseda",
+								Command = CompileCommand,
+								Arguments = arguments,
+						},
+				}
+						.Select(
+								o => new TestCaseData(
+								     		FixtureUtil.GetInputPath("JavaScript", o.DirName),
+								     		o.Command, o.Arguments));
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {}
-
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
-			return null;
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string dirPath, string fileName) {
+			var args = _compileArguments.Concat(
+					new[] {
+							"\"" + Path.Combine(dirPath, fileName) + "\""
+					});
+			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
+			var arguments = args.JoinString(" ");
+			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
+			return Directory.EnumerateFiles(
+					dirPath, "*.class",
+					SearchOption.AllDirectories)
+					.Select(path => new object[] { path, File.ReadAllBytes(path) });
+		}
+
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
+		/// <param name = "command">コンパイルのコマンド</param>
+		/// <param name = "arguments">コマンドの引数</param>
 		public override void CompileWithArguments(
-				string workPath, string command, string arguments) {}
+				string workPath, string command, string arguments) {
+			var info = new ProcessStartInfo {
+					FileName = command, //java
+					Arguments = arguments,
+					//-cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					WorkingDirectory = workPath,
+					RedirectStandardError = true,
+			};
+			try {
+				using (var p = Process.Start(info)) {
+					var errorMessage = p.StandardError.ReadToEnd();
+					p.WaitForExit();
+					if (p.ExitCode != 0) {
+						throw new InvalidOperationException(
+								"Failed to compile the code.\n" + errorMessage);
+					}
+				}
+			} catch (Win32Exception e) {
+				throw new InvalidOperationException("Failed to launch compiler.", e);
+			}
+		}
 	}
 }

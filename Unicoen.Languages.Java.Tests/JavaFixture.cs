@@ -31,7 +31,7 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
 	public class JavaFixture : Fixture {
-		private const string JavacPath = "javac";
+		private const string CompileCommand = "javac";
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
@@ -97,11 +97,13 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <summary>
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
 		/// </summary>
-		public override IEnumerable<TestCaseData> TestDirectoryPathes {
+		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
+				const string cmd = CompileCommand;
+				const string args = "*.java";
 				return new[] {
-						new { DirName = "default", Command = "javac", Arguments = "*.java" },
-						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
+						new { DirName = "default", Command = cmd, Arguments = args },
+						new { DirName = "NewTestFiles", Command = cmd, Arguments = args },
 				}
 						.Select(
 								o => new TestCaseData(
@@ -111,21 +113,37 @@ namespace Unicoen.Languages.Java.Tests {
 			}
 		}
 
-		public override void Compile(string workPath, string fileName) {
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath"></param>
+		/// <param name = "fileName"></param>
+		public override void Compile(string dirPath, string fileName) {
 			var args = new[] {
-					"\"" + Path.Combine(workPath, fileName) + "\""
+					"\"" + Path.Combine(dirPath, fileName) + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(workPath, JavacPath, arguments);
+			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
-		public override IEnumerable<object[]> GetAllCompiledCode(string workPath) {
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath"></param>
+		/// <returns></returns>
+		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
-					workPath, "*.class",
+					dirPath, "*.class",
 					SearchOption.AllDirectories)
 					.Select(path => new object[] { path, File.ReadAllBytes(path) });
 		}
 
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath"></param>
+		/// <param name = "command"></param>
+		/// <param name = "arguments"></param>
 		public override void CompileWithArguments(
 				string workPath, string command, string arguments) {
 			var info = new ProcessStartInfo {

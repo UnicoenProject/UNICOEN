@@ -284,15 +284,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			element.Name.Accept(this, state);
 			return false;
 		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedType element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state);
-			element.Supplements.TryAccept(this, state);
-			return false;
-		}
-
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedWhile element, VisitorState state) {
 			state.Writer.Write("while (");

@@ -16,52 +16,109 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   変数宣言部分を表します。
-	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>
+	///   変数宣言における１変数部分を表します。
+	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>の<c>int[] a[][]</c>
 	/// </summary>
 	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
 		private UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
-		///   付与されているアノテーションを取得もしくは設定します．
+		///   付与されているアノテーションを取得または設定します．
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
-			set { _annotations = SetParentOfChild(value, _annotations); }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		///   変数に付随する修飾子の集合を表します
+		///   変数に付随する修飾子の集合を取得または設定します．
 		///   e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedType _type;
 
 		/// <summary>
-		///   変数の型を表します
-		///   e.g. Javaにおける<c>public static int a</c>の<c>int</c>
+		///   変数の型を取得または設定します．
+		///   e.g. Javaにおける<c>public static int a[];</c>の<c>int</c>
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
-			set { _type = SetParentOfChild(value, _type); }
+			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedVariableDefinitionBodyCollection _bodys;
+		private UnifiedIdentifier _name;
 
-		public UnifiedVariableDefinitionBodyCollection Bodys {
-			get { return _bodys; }
-			set { _bodys = SetParentOfChild(value, _bodys); }
+		/// <summary>
+		///   変数名を取得または設定します．
+		///   e.g. Javaにおける<c>public static int a[];</c>の<c>a</c>
+		/// </summary>
+		public UnifiedIdentifier Name {
+			get { return _name; }
+			set { _name = SetChild(value, _name); }
+		}
+
+		private UnifiedIntegerLiteral _bitField;
+
+		/// <summary>
+		///   ビットフィールドを取得または設定します．
+		///   e.g. Cにおける<c>struct s { signed b1 : 1; signed b2 : 2; }</c>の<c>1</c>や<c>2</c>の部分
+		/// </summary>
+		public UnifiedIntegerLiteral BitField {
+			get { return _bitField; }
+			set { _bitField = SetChild(value, _bitField); }
+		}
+
+		private IUnifiedExpression _initialValue;
+
+		/// <summary>
+		///   変数の初期化部分を表します。
+		///   e.g. Javaにおける<c>int a[] = { 1 };</c>の<c>{ 1 }</c>部分
+		///   e.g. C#, Javaにおける<c>int[] a = { 1 };</c>の<c>{ 1 }</c>部分
+		///   e.g. C, C++, C#, Javaにおける<c>int i = 1;</c>の<c>{ 1 }</c>部分
+		/// </summary>
+		public IUnifiedExpression InitialValue {
+			get { return _initialValue; }
+			set { _initialValue = SetChild(value, _initialValue); }
+		}
+
+		private UnifiedArgumentCollection _arguments;
+
+		/// <summary>
+		///   変数の初期化のコンストラクタ呼び出しを表します。
+		///   e.g. C++における<c>Class c(1);</c>
+		/// </summary>
+		public UnifiedArgumentCollection Arguments {
+			get { return _arguments; }
+			set { _arguments = SetChild(value, _arguments); }
+		}
+
+		private UnifiedBlock _body;
+
+		///<summary>
+		///  変数に付随するブロックを表します。
+		///  e.g. Javaにおけるenumの定数に付随するブロック
+		///  <code>
+		///    enum E {
+		///    E1 {
+		///    @override public String toString() { return ""; }
+		///    },
+		///    E2
+		///    }
+		///  </code>
+		///</summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedVariableDefinition() {}
@@ -81,175 +138,24 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Annotations;
-			yield return Modifiers;
-			yield return Type;
-			yield return Bodys;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => Annotations, v => Annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => Type, v => Type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => Bodys, v => Bodys = (UnifiedVariableDefinitionBodyCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _annotations, v => _annotations = (UnifiedAnnotationCollection)v);
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
-			yield return ElementReference.Create
-					(() => _type, v => _type = (UnifiedType)v);
-			yield return ElementReference.Create
-					(() => _bodys, v => _bodys = (UnifiedVariableDefinitionBodyCollection)v);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(string name) {
-			return CreateSingle(
-				null,
-					null,
-					null,
-					UnifiedIdentifier.CreateVariable(name),
-					null,
-					null,
-					null);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(
-				UnifiedType type,
-				string name) {
-			return CreateSingle(
-				null,
-					null,
-					type,
-					UnifiedIdentifier.CreateVariable(name),
-					null,
-					null,
-					null);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(
-				string name,
-				IUnifiedExpression
-						initialValue) {
-			return CreateSingle(
-				null,
-					null,
-					null,
-					UnifiedIdentifier.CreateVariable(name),
-					initialValue,
-					null,
-					null);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(
-				UnifiedType type,
-				string name,
-				IUnifiedExpression
-						initialValue) {
-			return CreateSingle(
-				null,
-					null,
-					type,
-					UnifiedIdentifier.CreateVariable(name),
-					initialValue,
-					null,
-					null);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(
-				UnifiedType type,
-				UnifiedModifierCollection
-						modifiers,
-				IUnifiedExpression
-						initialValue,
-				string name) {
-			return CreateSingle(
-				null,
-					modifiers,
-					type,
-					UnifiedIdentifier.CreateVariable(name),
-					initialValue,
-					null,
-					null);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(
-				UnifiedType type,
-				string name,
-				UnifiedModifierCollection
-						modifiers) {
-			return CreateSingle(
-				null,
-					modifiers,
-					type,
-					UnifiedIdentifier.CreateVariable(name),
-					null,
-					null,
-					null);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(
+		public static UnifiedVariableDefinition Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null,
 				UnifiedIdentifier name = null,
-				IUnifiedExpression initialValues = null,
+				IUnifiedExpression initialValue = null,
 				UnifiedArgumentCollection arguments = null,
-				UnifiedBlock block = null)
-		{
-			return Create(
-					null,
-					modifiers,
-					type,
-					UnifiedVariableDefinitionBody.Create(
-							name,
-							null,
-							initialValues,
-							arguments,
-							block).ToCollection()
-					);
-		}
-
-		public static UnifiedVariableDefinition CreateSingle(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedType type = null,
-				string name = null,
-				IUnifiedExpression initialValues = null,
-				UnifiedArgumentCollection arguments = null,
-				UnifiedBlock block = null)
-		{
-			return Create(
-					null,
-					modifiers,
-					type,
-					UnifiedVariableDefinitionBody.Create(
-							UnifiedIdentifier.CreateVariable(name),
-							null,
-							initialValues,
-							arguments,
-							block).ToCollection()
-					);
-		}
-
-		public static UnifiedVariableDefinition Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null, UnifiedType type = null,
-				UnifiedVariableDefinitionBodyCollection bodys = null) {
+				UnifiedIntegerLiteral bitField = null,
+				UnifiedBlock body = null) {
 			return new UnifiedVariableDefinition {
 					Annotations = annotations,
+					Arguments = arguments,
+					BitField = bitField,
+					Body = body,
+					InitialValue = initialValue,
 					Modifiers = modifiers,
+					Name = name,
 					Type = type,
-					Bodys = bodys,
 			};
 		}
 	}

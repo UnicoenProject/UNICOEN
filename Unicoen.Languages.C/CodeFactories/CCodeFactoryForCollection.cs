@@ -116,12 +116,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedVariableDefinitionBodyCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(CommaDelimiter));
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedIdentifierCollection element, VisitorState state) {
 			throw new InvalidOperationException();
 		}
@@ -186,6 +180,26 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSupplementType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedGenericType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSimpleType element, VisitorState state) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedArrayType element, VisitorState state) {
 			throw new NotImplementedException();
 		}
 	}

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
@@ -29,28 +28,28 @@ namespace Unicoen.Core.Model {
 
 		public IUnifiedExpression From {
 			get { return _from; }
-			set { _from = SetParentOfChild(value, _from); }
+			set { _from = SetChild(value, _from); }
 		}
 
 		private IUnifiedExpression _name;
 
 		public IUnifiedExpression Name {
 			get { return _name; }
-			set { _name = SetParentOfChild(value, _name); }
+			set { _name = SetChild(value, _name); }
 		}
 
 		private UnifiedIdentifier _alias;
 
 		public UnifiedIdentifier Alias {
 			get { return _alias; }
-			set { _alias = SetParentOfChild(value, _alias); }
+			set { _alias = SetChild(value, _alias); }
 		}
 
 		private UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
-			set { _modifiers = SetParentOfChild(value, _modifiers); }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedImport() {}
@@ -68,37 +67,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return From;
-			yield return Name;
-			yield return Alias;
-			yield return Modifiers;
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferences() {
-			yield return ElementReference.Create
-					(() => From, v => From = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Name, v => Name = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => Alias, v => Alias = (UnifiedIdentifier)v);
-			yield return ElementReference.Create
-					(() => Modifiers, v => Modifiers = (UnifiedModifierCollection)v);
-		}
-
-		public override IEnumerable<ElementReference>
-				GetElementReferenecesOfPrivateFields() {
-			yield return ElementReference.Create
-					(() => _from, v => _from = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _name, v => _name = (IUnifiedExpression)v);
-			yield return ElementReference.Create
-					(() => _alias, v => _alias = (UnifiedIdentifier)v);
-			yield return ElementReference.Create
-					(() => _modifiers, v => _modifiers = (UnifiedModifierCollection)v);
 		}
 
 		public static UnifiedImport Create(
