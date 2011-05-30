@@ -26,10 +26,6 @@ using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator {
-	internal delegate string CodeGenerator(UnifiedProgram model);
-
-	internal delegate UnifiedProgram ModelGenerator(string code);
-
 	class Program {
 		public static void Main(string[] args) {
 			#region garbage
@@ -69,20 +65,18 @@ namespace Unicoen.Apps.Translator {
 			var filePath = args[0];
 			var srcLang = args[1];
 
-
-			
-			ModelGenerator modelGenerator;
+			Func<string, UnifiedProgram> modelGenerator;
 			switch (srcLang) {
 				case "java":
 				case "Java":
-					modelGenerator = new ModelGenerator(JavaFactory.GenerateModel);
+					modelGenerator = JavaFactory.GenerateModel;
 					break;
 				case "c":
 				case "C":
-					modelGenerator = new ModelGenerator(CFactory.GenerateModel);
+					modelGenerator = CFactory.GenerateModel;
 					break;
 				default:
-					modelGenerator = new ModelGenerator(CFactory.GenerateModel);
+					modelGenerator = CFactory.GenerateModel;
 					break;
 
 			}
@@ -90,18 +84,18 @@ namespace Unicoen.Apps.Translator {
 			// return;
 
 			var destLang = args[2];
-			CodeGenerator codeGenerator;
+			Func<IUnifiedElement, string> codeGenerator;
 			switch (destLang) {
 				case "java":
 				case "Java":
-					codeGenerator = new CodeGenerator(JavaFactory.GenerateCode);
+					codeGenerator = JavaFactory.GenerateCode;
 					break;
 				case "c":
 				case "C":
-					codeGenerator = new CodeGenerator(CFactory.GenerateCode);
+					codeGenerator = CFactory.GenerateCode;
 					break;
 				default:
-					codeGenerator = new CodeGenerator(CFactory.GenerateCode);
+					codeGenerator = CFactory.GenerateCode;
 					break;
 			}
 
