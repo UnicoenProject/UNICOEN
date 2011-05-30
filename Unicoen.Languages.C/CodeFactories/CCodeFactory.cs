@@ -234,11 +234,19 @@ namespace Unicoen.Languages.C.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedClassDefinition element, VisitorState state) {
 			switch (element.Kind) {
-			case (UnifiedClassKind.Enum):
+			case UnifiedClassKind.Enum:
 				state.Writer.Write("enum");
 				state.WriteSpace();
 				element.Name.TryAccept(this, state);
 				element.Body.TryAccept(this, state);
+				break;
+			case UnifiedClassKind.Class:
+				state.Writer.Write("/* class */");
+				element.Name.TryAccept(this, state);
+				state.Writer.WriteLine("/* { */");
+				element.Body.TryAccept(this, state);
+				state.Writer.WriteLine();
+				state.Writer.Write("/* } */");
 				break;
 			default:
 				state.Writer.WriteLine("/* ElementNotInC */");
