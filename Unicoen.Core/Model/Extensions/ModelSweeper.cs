@@ -181,9 +181,15 @@ namespace Unicoen.Core.Model {
 					(current, elem) => current.Concat(elem.Descendants()));
 		}
 
-		//public static bool IsEmptyOrNull<TElement, TSelf>(this IUnifiedElementCollection<TElement, TSelf> element)
-		//        where TElement : class, IUnifiedElement {
-		//    return false;
-		//}
+		/// <summary>
+		/// 指定した集合を表現する要素が空もしくはnullであるかどうか判定します．
+		/// </summary>
+		/// <typeparam name="TElement">空もしくはnullであるかどうかの判定結果</typeparam>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public static bool IsEmptyOrNull<TElement>(this IUnifiedElementCollection<TElement> element)
+		        where TElement : class, IUnifiedElement {
+		    return element != null && element.Count >= 1;
+		}
 	}
 }

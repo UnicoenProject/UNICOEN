@@ -119,11 +119,11 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedArgument element, VisitorState state) {
-					if (element.Modifiers != null && element.Modifiers.Count >= 1) {
-						state.Writer.Write("/*");
-						element.Modifiers.TryAccept(this, state);
-						state.Writer.Write("*/");
-					}
+			if (element.Modifiers.IsEmptyOrNull()) {
+				state.Writer.Write("/*");
+				element.Modifiers.TryAccept(this, state);
+				state.Writer.Write("*/");
+			}
 			element.Value.TryAccept(this, state);
 			return false;
 		}
@@ -251,9 +251,9 @@ namespace Unicoen.Languages.C.CodeFactories {
 				element.Body.TryAccept(this, state);
 				break;
 			case UnifiedClassKind.Class:
-				state.Writer.Write("/* class */");
+				state.Writer.Write("/* class");
 				element.Name.TryAccept(this, state);
-				state.Writer.WriteLine("/* { */");
+				state.Writer.WriteLine(" { */");
 				element.Body.TryAccept(this, state);
 				state.Writer.WriteLine();
 				state.Writer.Write("/* } */");
@@ -302,6 +302,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			element.Name.Accept(this, state);
 			return false;
 		}
+
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedWhile element, VisitorState state) {
 			state.Writer.Write("while (");
