@@ -16,14 +16,13 @@
 
 #endregion
 
-using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
+using Unicoen.Languages.Java.CodeFactories;
 
-namespace Unicoen.Languages.Java.CodeFactories {
-	public partial class JavaCodeFactory {
+namespace Unicoen.Languages.Python2.CodeFactories {
+	public partial class Python2CodeFactory
+	{
 		private static string GetKeyword(UnifiedTypeConstrainKind kind) {
 			switch (kind) {
 			case UnifiedTypeConstrainKind.Extends:

@@ -22,9 +22,10 @@ using System.Linq;
 using Unicoen.Core.CodeFactories;
 using Unicoen.Core.Model;
 using Unicoen.Core.Visitors;
+using Unicoen.Languages.Java.CodeFactories;
 
-namespace Unicoen.Languages.Java.CodeFactories {
-	public partial class JavaCodeFactory
+namespace Unicoen.Languages.Python2.CodeFactories {
+	public partial class Python2CodeFactory
 			: CodeFactory, IUnifiedModelVisitor<VisitorState, bool> {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
