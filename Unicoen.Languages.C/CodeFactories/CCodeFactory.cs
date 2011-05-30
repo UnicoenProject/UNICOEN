@@ -119,7 +119,12 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedArgument element, VisitorState state) {
-			element.TryAccept(this, state);
+					if (element.Modifiers != null && element.Modifiers.Count >= 1) {
+						state.Writer.Write("/*");
+						element.Modifiers.TryAccept(this, state);
+						state.Writer.Write("*/");
+					}
+			element.Value.TryAccept(this, state);
 			return false;
 		}
 
@@ -146,12 +151,17 @@ namespace Unicoen.Languages.C.CodeFactories {
 			if (prop != null) {
 				prop.Owner.TryAccept(this, state);
 				state.Writer.Write(prop.Delimiter);
+				element.TypeArguments.TryAccept(this, state);
 				prop.Name.TryAccept(this, state);
 			} else {
-				throw new NotImplementedException();
+				// Javaでifが実行されるケースは存在しないが、言語変換のため
+				if (element.TypeArguments != null)
+					state.Writer.Write("this.");
+				element.TypeArguments.TryAccept(this, state);
+				element.Function.TryAccept(this, state);
 			}
-
-			return false;
+			element.Arguments.TryAccept(this, state.Set(Paren));
+			return true;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(

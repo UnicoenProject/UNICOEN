@@ -56,6 +56,12 @@ namespace Unicoen.Apps.Translator {
 			 * */
 			#endregion
 
+			args = new string[] {
+					@"C:\Users\exKAZUu\Documents\Projects\Unicoen\bin\Debug\Fibonacci.java",
+					"java",
+					"c",
+			};
+
 			if (args.Length != 3) {
 				Console.WriteLine("error");
 				return;

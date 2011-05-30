@@ -180,5 +180,10 @@ namespace Unicoen.Core.Model {
 					children,
 					(current, elem) => current.Concat(elem.Descendants()));
 		}
+
+		//public static bool IsEmptyOrNull<TElement, TSelf>(this IUnifiedElementCollection<TElement, TSelf> element)
+		//        where TElement : class, IUnifiedElement {
+		//    return false;
+		//}
 	}
 }
