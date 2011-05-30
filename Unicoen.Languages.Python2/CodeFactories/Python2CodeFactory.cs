@@ -78,13 +78,19 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			case UnifiedClassKind.Class:
 				return "class";
 			case UnifiedClassKind.Interface:
-				return "interface";
+				return "class /*interface*/";
 			case UnifiedClassKind.Namespace:
+				// TODO
 				return "package";
 			case UnifiedClassKind.Enum:
-				return "enum";
+				// TODO
+				return "class /*enum*/";
 			case UnifiedClassKind.Module:
-				return "module";
+				return "class /*module*/";
+			case UnifiedClassKind.Annotation:
+				return "class /*module*/";
+			case UnifiedClassKind.Struct:
+			case UnifiedClassKind.Union:
 			default:
 				throw new ArgumentOutOfRangeException("kind");
 			}
@@ -115,19 +121,44 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			}
 		}
 
+
 		#region program, namespace, class, method, filed ...
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedProgram element, VisitorState state) {
 			foreach (var stmt in element) {
+				state.WriteIndent();
 				if (stmt.TryAccept(this, state))
-					state.Writer.Write(";");
+					state.WriteLine();
 			}
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedClassDefinition element, VisitorState state) {
+			switch (element.Kind) {
+			case UnifiedClassKind.Class:
+				state.Writer.Write("class ");
+				element.Name.TryAccept(this, state);
+				break;
+			case UnifiedClassKind.Interface:
+				break;
+			case UnifiedClassKind.Namespace:
+				break;
+			case UnifiedClassKind.Enum:
+				break;
+			case UnifiedClassKind.Annotation:
+				break;
+			case UnifiedClassKind.Struct:
+				break;
+			case UnifiedClassKind.Union:
+				break;
+			case UnifiedClassKind.Module:
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
+
 			var keyword = GetKeyword(element.Kind);
 			if (element.Kind == UnifiedClassKind.Namespace) {
 				state.Writer.Write(keyword);

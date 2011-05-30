@@ -20,7 +20,7 @@ using System.IO;
 
 namespace Unicoen.Languages.Java.CodeFactories {
 	public class VisitorState {
-		public TextWriter Writer { get; private set; }
+		public TextWriter Writer { get; set; }
 		public string IndentSign { get; private set; }
 		public int IndentDepth { get; private set; }
 		public Decoration Decoration { get; private set; }
@@ -47,6 +47,14 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public void Write(string text) {
 			Writer.Write(text);
+		}
+
+		public void WriteLine() {
+			Writer.WriteLine();
+		}
+
+		public void WriteLine(string text) {
+			Writer.WriteLine(text);
 		}
 
 		public void WriteIndent() {

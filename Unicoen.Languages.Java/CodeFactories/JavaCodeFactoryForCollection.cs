@@ -37,6 +37,23 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return "";
 		}
 
+		public void VisitCollection<T, TSelf>(
+				UnifiedElementCollection<T, TSelf> elements, VisitorState state)
+				where T : class, IUnifiedElement
+				where TSelf : UnifiedElementCollection<T, TSelf> {
+			var decoration = state.Decoration;
+			state.Writer.Write(decoration.MostLeft);
+			var splitter = "";
+			foreach (var e in elements) {
+				state.Writer.Write(splitter);
+				state.Writer.Write(decoration.EachLeft);
+				e.TryAccept(this, state);
+				state.Writer.Write(decoration.EachRight);
+				splitter = decoration.Delimiter;
+			}
+			state.Writer.Write(decoration.MostRight);
+		}
+
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
 				UnifiedParameterCollection element, VisitorState state) {
 			VisitCollection(element, state.Set(Paren));
