@@ -189,7 +189,8 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public bool Visit(UnifiedSimpleType element, VisitorState state) {
-			throw new NotImplementedException();
+			element.NameExpression.TryAccept(this, state);
+			return true;
 		}
 
 		public bool Visit(UnifiedArrayType element, VisitorState state) {

@@ -374,14 +374,17 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		#region expression
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedBinaryOperator op, VisitorState state) {
-			state.Writer.Write(op.Sign);
+				UnifiedBinaryOperator element, VisitorState state) {
+			state.Writer.Write(element.Sign);
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedArgument arg, VisitorState state) {
-			arg.Value.TryAccept(this, state);
+				UnifiedArgument element, VisitorState state) {
+			state.Writer.Write("/*");
+			element.Modifiers.TryAccept(this, state);
+			state.Writer.Write("*/");
+			element.Value.TryAccept(this, state);
 			return false;
 		}
 
