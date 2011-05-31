@@ -38,6 +38,5 @@ namespace Unicoen.Core.Model {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException("You should override this method.");
 		}
-
 	}
 }

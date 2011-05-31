@@ -362,7 +362,7 @@ namespace NUnit.Framework {
 										};
 									}
 								})
-						.Where(a => a != null)
+						.Where<>(a => a != null)
 						.Where(
 								a => a.MethodInfo
 								     		.GetParameters()

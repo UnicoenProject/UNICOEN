@@ -56,6 +56,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		#region Delegate Methods
+
 		public void WriteLine(string format, params object[] arg) {
 			_writer.WriteLine(format, arg);
 		}
@@ -195,6 +196,7 @@ namespace Unicoen.Core.Processor {
 		public void Write(char value) {
 			_writer.Write(value);
 		}
+
 		#endregion
 	}
 }

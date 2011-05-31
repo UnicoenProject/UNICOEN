@@ -92,8 +92,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedCall.Create(
 					UnifiedIdentifier.CreateUnknown(funcName),
 					UnifiedArgumentCollection.Create(
-							node.Elements().ElementAt(2).Elements()
-									.Select(e => UnifiedArgument.Create(CreateExpression(e)))));
+							(UnifiedArgument[])node.Elements().ElementAt(2).Elements()
+							                   		.Select(
+							                   				e => UnifiedArgument.Create(CreateExpression(e)))));
 		}
 
 		public static IUnifiedExpression CreateExpression(XElement node) {
@@ -123,13 +124,14 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedFunctionDefinition.CreateFunction(
 					elems.First().Value,
 					UnifiedParameterCollection.Create(
-							elems.ElementAt(1).Elements()
-									.Select(
-											e => UnifiedParameter.Create(
-													null,
-													null, null,
-													UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
-													null))),
+							(UnifiedParameter[])elems.ElementAt(1).Elements()
+							                    		.Select(
+							                    				e => UnifiedParameter.Create(
+							                    						null,
+							                    						null, null,
+							                    						UnifiedIdentifier.CreateVariable(e.Value).
+							                    								ToCollection(),
+							                    						null))),
 					CreateBlock(elems.ElementAt(2).Elements().First())
 					);
 		}
@@ -137,9 +139,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 		private static UnifiedBlock CreateBlock(XElement node) {
 			Contract.Requires(node.Name.LocalName == "block");
 			return UnifiedBlock.Create(
-					node.Elements()
-							.Where(e => e.Name.LocalName != "nil")
-							.Select(CreateExpression));
+					(IUnifiedExpression[])node.Elements()
+					                      		.Where(e => e.Name.LocalName != "nil")
+					                      		.Select(CreateExpression));
 		}
 	}
 }

@@ -109,20 +109,24 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedAnnotation element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAnnotation element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedAnnotationCollection element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAnnotationCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedVariableDefinitionList element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(SemiColonDelimiter));
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedVariableDefinition element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedVariableDefinition element, VisitorArgument arg) {
 			arg.Write("var ");
 			element.Name.TryAccept(this, arg);
 			if (element.InitialValue != null) {
@@ -134,19 +138,23 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedSupplementType element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSupplementType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedGenericType element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedGenericType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedSimpleType element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSimpleType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedArrayType element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArrayType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 	}

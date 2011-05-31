@@ -16,9 +16,6 @@
 
 #endregion
 
-using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
@@ -145,17 +142,20 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedMatcherCollection element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedMatcherCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedKeyValueCollection element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedKeyValueCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedAnnotation element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAnnotation element, VisitorArgument arg) {
 			arg.Write("@");
 			element.Name.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
@@ -163,23 +163,25 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedAnnotationCollection element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAnnotationCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedVariableDefinitionList element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			var klass = element.Parent.Parent as UnifiedClassDefinition;
 			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
 				VisitCollection(element, arg.Set(CommaDelimiter));
-			}
-			else {
+			} else {
 				VisitCollection(element, arg.Set(SemiColonDelimiter));
 			}
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedSimpleType element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSimpleType element, VisitorArgument arg) {
 			element.NameExpression.TryAccept(this, arg);
 			return true;
 		}

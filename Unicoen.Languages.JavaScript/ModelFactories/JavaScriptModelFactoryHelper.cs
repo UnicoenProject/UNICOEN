@@ -629,7 +629,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var cases = UnifiedCaseCollection.Create();
 
-			foreach (var e in node.Elements().Where(e => e.Name().EndsWith("Clause"))) {
+			foreach (
+					var e in
+							node.Elements().Where(e => XElementExtensions.Name(e).EndsWith("Clause"))
+					) {
 				cases.Add(
 						e.Name() == "caseClause" ? CreateCaseClause(e) : CreateDefaultClause(e));
 			}
@@ -1340,9 +1343,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* ']'
 			 */
 			//コード例：var array = [1, 2, 3];
-			var list =  node.Elements("assignmentExpression")
-							.Select(CreateAssignmentExpression)
-							.ToArrayLiteral();
+			var list = node.Elements("assignmentExpression")
+					.Select(CreateAssignmentExpression)
+					.ToArrayLiteral();
 			return UnifiedNew.CreateArray(list);
 		}
 
