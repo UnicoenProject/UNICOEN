@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedElementCollection<TElement, TSelf>

@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedElement : IUnifiedElement {

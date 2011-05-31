@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>

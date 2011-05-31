@@ -19,7 +19,7 @@
 using System.IO;
 using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	public class CSharpModelFactory : ModelFactory {

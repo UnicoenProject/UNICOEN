@@ -19,8 +19,7 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {

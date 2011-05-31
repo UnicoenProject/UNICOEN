@@ -18,7 +18,7 @@
 
 using System;
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public interface IUnifiedElement : ICloneable {

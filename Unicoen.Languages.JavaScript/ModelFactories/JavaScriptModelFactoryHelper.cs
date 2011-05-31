@@ -25,7 +25,7 @@ using System.Numerics;
 using System.Xml.Linq;
 using Mocomoco.Xml.Linq;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.ModelFactories {
 	public static class JavaScriptModelFactoryHelper {

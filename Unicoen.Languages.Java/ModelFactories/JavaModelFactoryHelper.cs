@@ -26,7 +26,7 @@ using System.Xml.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.ModelFactories {
 	public static class JavaModelFactoryHelper {

@@ -25,7 +25,7 @@ using Mocomoco.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public static class Python2ModelFactoryHelper {

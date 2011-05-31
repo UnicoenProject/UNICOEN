@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using Unicoen.Core.Model;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.CodeFactories {
 	public partial class JavaCodeFactory {
@@ -40,147 +40,147 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorState state)
+				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
 				where TSelf : UnifiedElementCollection<T, TSelf> {
-			var decoration = state.Decoration;
-			state.Writer.Write(decoration.MostLeft);
+			var decoration = arg.Decoration;
+			arg.Write(decoration.MostLeft);
 			var splitter = "";
 			foreach (var e in elements) {
-				state.Writer.Write(splitter);
-				state.Writer.Write(decoration.EachLeft);
-				e.TryAccept(this, state);
-				state.Writer.Write(decoration.EachRight);
+				arg.Write(splitter);
+				arg.Write(decoration.EachLeft);
+				e.TryAccept(this, arg);
+				arg.Write(decoration.EachRight);
 				splitter = decoration.Delimiter;
 			}
-			state.Writer.Write(decoration.MostRight);
+			arg.Write(decoration.MostRight);
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedParameterCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(Paren));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedParameterCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedModifierCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(SpaceDelimiter));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedModifierCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(SpaceDelimiter));
 			return false;
 		}
 
 		// e.g. throws E1, E2 ...
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
 		// e.g. {...}catch(Exception1 e1){...}catch{Exception2 e2}{....}... ?
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCatchCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(NewLineDelimiter));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCatchCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(NewLineDelimiter));
 			return false;
 		}
 
 		// e.g. Foo<A, B> ?
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeParameterCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(InequalitySignParen));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeParameterCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeConstrainCollection element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
 			UnifiedTypeConstrain last = null;
 			for (int i = 0; i < element.Count; i++) {
 				var current = element[i];
 				var keyword = GetKeyword(current.Kind);
 				if (last == null || last.Kind != current.Kind)
-					state.Writer.Write(" " + keyword + " ");
+					arg.Write(" " + keyword + " ");
 				else
-					state.Writer.Write(state.Decoration.Delimiter);
-				current.Type.TryAccept(this, state);
+					arg.Write(arg.Decoration.Delimiter);
+				current.Type.TryAccept(this, arg);
 				last = current;
 			}
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeSupplementCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(Empty));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeSupplementCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(Empty));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIdentifierCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIdentifierCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedArgumentCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArgumentCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedExpressionCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedExpressionCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeArgumentCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(InequalitySignParen));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCaseCollection element, VisitorState state) {
-			state = state.IncrementIndentDepth();
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCaseCollection element, VisitorArgument arg) {
+			arg = arg.IncrementIndentDepth();
 			foreach (var caseElement in element) {
-				state.WriteIndent();
-				caseElement.TryAccept(this, state);
+				arg.WriteIndent();
+				caseElement.TryAccept(this, arg);
 			}
 			return false;
 		}
 
-		public bool Visit(UnifiedMatcherCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedMatcherCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
-		public bool Visit(UnifiedKeyValueCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedKeyValueCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
-		public bool Visit(UnifiedAnnotation element, VisitorState state) {
-			state.Writer.Write("@");
-			element.Name.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state.Set(Paren));
-			state.Writer.WriteLine();
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedAnnotation element, VisitorArgument arg) {
+			arg.Write("@");
+			element.Name.TryAccept(this, arg);
+			element.Arguments.TryAccept(this, arg.Set(Paren));
+			arg.WriteLine();
 			return false;
 		}
 
-		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedAnnotationCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
-		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			var klass = element.Parent.Parent as UnifiedClassDefinition;
 			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
-				VisitCollection(element, state.Set(CommaDelimiter));
+				VisitCollection(element, arg.Set(CommaDelimiter));
 			}
 			else {
-				VisitCollection(element, state.Set(SemiColonDelimiter));
+				VisitCollection(element, arg.Set(SemiColonDelimiter));
 			}
 			return true;
 		}
 
-		public bool Visit(UnifiedSimpleType element, VisitorState state) {
-			element.NameExpression.TryAccept(this, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedSimpleType element, VisitorArgument arg) {
+			element.NameExpression.TryAccept(this, arg);
 			return true;
 		}
 	}

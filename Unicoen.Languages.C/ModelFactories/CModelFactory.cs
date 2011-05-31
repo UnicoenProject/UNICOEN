@@ -18,7 +18,7 @@
 
 using Code2Xml.Languages.C.CodeToXmls;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.ModelFactories {
 	public class CModelFactory : ModelFactory {

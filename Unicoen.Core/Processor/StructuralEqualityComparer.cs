@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Core.Comparers {
+namespace Unicoen.Core.Processor {
 	public class StructuralEqualityComparer : IEqualityComparer<object> {
 		public static StructuralEqualityComparer Instance =
 				new StructuralEqualityComparer();
