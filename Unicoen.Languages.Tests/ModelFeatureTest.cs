@@ -22,8 +22,8 @@ using System.Linq;
 using NUnit.Framework;
 using Paraiba.Linq;
 using Paraiba.Text;
-using Unicoen.Core.Comparers;
 using Unicoen.Core.Model;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Tests {
 	public abstract class ModelFeatureTest : LanguageTestBase {

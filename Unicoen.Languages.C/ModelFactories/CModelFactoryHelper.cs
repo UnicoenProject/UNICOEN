@@ -239,13 +239,14 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var kind = node.FirstElement().Name() == "struct"
 			           		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
 			var identElem = node.Element("IDENTIFIER");
-			var uIdent = identElem == null ? null : UnifiedIdentifier.CreateType(identElem.Value);
+			var uIdent = identElem == null
+			             		? null : UnifiedIdentifier.CreateType(identElem.Value);
 
 			if (node.Elements().Count() == 2) {
 				var baseType = UnifiedType.Create(uIdent);
 				return kind == UnifiedClassKind.Struct
-					? baseType.WrapStruct()
-					: baseType.WrapUnion();
+				       		? baseType.WrapStruct()
+				       		: baseType.WrapUnion();
 			}
 
 			var body =
@@ -278,7 +279,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 							node.Elements("struct_declaration").Select(CreateStructDeclaration));
 		}
 
-		public static UnifiedVariableDefinitionList CreateStructDeclaration(XElement node) {
+		public static UnifiedVariableDefinitionList CreateStructDeclaration(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declaration");
 			/*
@@ -332,7 +334,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 		}
 
 		public static UnifiedVariableDefinitionList
-				CreateStructDeclaratorList(XElement node, 
+				CreateStructDeclaratorList(
+				XElement node,
 				UnifiedModifierCollection modifiers, UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");

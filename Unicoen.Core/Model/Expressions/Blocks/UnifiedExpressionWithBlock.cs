@@ -18,7 +18,7 @@
 
 using System;
 using System.Diagnostics;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>

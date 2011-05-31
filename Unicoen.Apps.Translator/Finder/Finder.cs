@@ -26,7 +26,8 @@ namespace Unicoen.Apps.Translator.Finder {
 		public static Finder Instance = new Finder();
 
 		public Boolean HasParameter(UnifiedFunctionDefinition func, Parameter param) {
-			if (func.Name.Equals(param.Name) && func.Type.NameExpression.Equals(param.TypeName)) {
+			if (func.Name.Equals(param.Name)
+			    && func.Type.NameExpression.Equals(param.TypeName)) {
 				return true;
 			}
 			return false;

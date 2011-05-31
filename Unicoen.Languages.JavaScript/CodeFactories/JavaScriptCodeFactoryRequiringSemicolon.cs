@@ -18,8 +18,7 @@
 
 using System;
 using Unicoen.Core.Model;
-using Unicoen.Core.Visitors;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactory {
@@ -32,73 +31,73 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return Tuple.Create("", "");
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedBinaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			state.Writer.Write(paren.Item1);
-			element.LeftHandSide.TryAccept(this, state.Set(Paren));
-			state.WriteSpace();
-			element.Operator.TryAccept(this, state);
-			state.WriteSpace();
-			element.RightHandSide.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(paren.Item2);
+			arg.Write(paren.Item1);
+			element.LeftHandSide.TryAccept(this, arg.Set(Paren));
+			arg.WriteSpace();
+			element.Operator.TryAccept(this, arg);
+			arg.WriteSpace();
+			element.RightHandSide.TryAccept(this, arg.Set(Paren));
+			arg.Write(paren.Item2);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCall element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCall element, VisitorArgument arg) {
 			//JavaScriptではTypeArgumentsが存在しない(?)
 			var prop = element.Function as UnifiedProperty;
 			if (prop != null) {
-				prop.Owner.TryAccept(this, state);
-				state.Writer.Write(prop.Delimiter);
-				element.TypeArguments.TryAccept(this, state);
-				prop.Name.TryAccept(this, state);
+				prop.Owner.TryAccept(this, arg);
+				arg.Write(prop.Delimiter);
+				element.TypeArguments.TryAccept(this, arg);
+				prop.Name.TryAccept(this, arg);
 			} else {
 				//TODO このif文が行っていることがわからない
 				// Javaでifが実行されるケースは存在しないが、言語変換のため
 				if (element.TypeArguments != null)
-					state.Writer.Write("this.");
-				element.TypeArguments.TryAccept(this, state);
-				element.Function.TryAccept(this, state);
+					arg.Write("this.");
+				element.TypeArguments.TryAccept(this, arg);
+				element.Function.TryAccept(this, arg);
 			}
-			element.Arguments.TryAccept(this, state.Set(Paren));
+			element.Arguments.TryAccept(this, arg.Set(Paren));
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedNew element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedNew element, VisitorArgument arg) {
 			//e.g. var a = [1, 2, 3];
 			if (element.InitialValue != null) {
-				element.InitialValue.TryAccept(this, state.Set(Bracket));
+				element.InitialValue.TryAccept(this, arg.Set(Bracket));
 				return true;
 			}
 			//e.g. var a = new X();
-			state.Writer.Write("new ");
-			element.Target.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state.Set(Paren));
+			arg.Write("new ");
+			element.Target.TryAccept(this, arg);
+			element.Arguments.TryAccept(this, arg.Set(Paren));
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCast element, VisitorState state) {
-			state.Writer.Write("(");
-			element.Type.TryAccept(this, state);
-			state.Writer.Write(")");
-			element.Expression.TryAccept(this, state.Set(Paren));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCast element, VisitorArgument arg) {
+			arg.Write("(");
+			element.Type.TryAccept(this, arg);
+			arg.Write(")");
+			element.Expression.TryAccept(this, arg.Set(Paren));
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTernaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			state.Writer.Write(paren.Item1);
-			element.Condition.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" ? ");
-			element.TrueExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" : ");
-			element.FalseExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(paren.Item2);
+			arg.Write(paren.Item1);
+			element.Condition.TryAccept(this, arg.Set(Paren));
+			arg.Write(" ? ");
+			element.TrueExpression.TryAccept(this, arg.Set(Paren));
+			arg.Write(" : ");
+			element.FalseExpression.TryAccept(this, arg.Set(Paren));
+			arg.Write(paren.Item2);
 			return true;
 		}
 	}

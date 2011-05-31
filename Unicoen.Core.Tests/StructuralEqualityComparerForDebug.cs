@@ -19,8 +19,8 @@
 using System.Collections.Generic;
 using System.IO;
 using Paraiba.Text;
-using Unicoen.Core.Comparers;
 using Unicoen.Core.Model;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Tests {
 	public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {

@@ -18,15 +18,17 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Unicoen.Apps.Translator.Filter;
 using Unicoen.Core.Model;
+using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator {
 	internal class Program {
-		private static void Main(string[] args) {
+		public static void Main(string[] args) {
+			#region garbage
+
+			/*
 			const string filePath =
 					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
 			var code = File.ReadAllText(filePath, Encoding.Default);
@@ -49,6 +51,62 @@ namespace Unicoen.Apps.Translator {
 				Console.WriteLine(f.Name.Value);
 			}
 			a = FunctionFinder.Instance.FindByName("getName", functions);
+			 * */
+
+			#endregion
+
+			args = new[] {
+					@"C:\Users\exKAZUu\Documents\Projects\Unicoen\bin\Debug\Fibonacci.java",
+					"java",
+					"c",
+			};
+
+			if (args.Length != 3) {
+				Console.WriteLine("error");
+				return;
+			}
+
+			var filePath = args[0];
+			var srcLang = args[1];
+
+			Func<string, UnifiedProgram> modelGenerator;
+			switch (srcLang) {
+			case "java":
+			case "Java":
+				modelGenerator = JavaFactory.GenerateModel;
+				break;
+			case "c":
+			case "C":
+				modelGenerator = CFactory.GenerateModel;
+				break;
+			default:
+				modelGenerator = CFactory.GenerateModel;
+				break;
+			}
+
+			// return;
+
+			var destLang = args[2];
+			Func<IUnifiedElement, string> codeGenerator;
+			switch (destLang) {
+			case "java":
+			case "Java":
+				codeGenerator = JavaFactory.GenerateCode;
+				break;
+			case "c":
+			case "C":
+				codeGenerator = CFactory.GenerateCode;
+				break;
+			default:
+				codeGenerator = CFactory.GenerateCode;
+				break;
+			}
+
+			var code = File.ReadAllText(filePath, Encoding.Default);
+			var model = modelGenerator(code);
+			var output = codeGenerator(model);
+
+			Console.WriteLine(output);
 		}
 
 		public void Dump(UnifiedProgram program) {

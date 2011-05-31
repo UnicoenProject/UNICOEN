@@ -26,7 +26,7 @@ using System.Xml.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.ModelFactories {
 	public static class JavaModelFactoryHelper {
@@ -542,7 +542,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 			var throws = node.HasElement("qualifiedNameList")
 			             		? CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			             		  		.Select(e => UnifiedType.Create(e))
+			             		  		.Select(e => UnifiedType.Create((IUnifiedExpression)e))
 			             		  		.ToCollection()
 			             		: null;
 			var body = node.HasElement("block")
@@ -685,7 +685,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var throws = node.HasElement("qualifiedNameList")
 			             		? UnifiedTypeCollection.Create(
 			             				CreateQualifiedNameList(node.Element("qualifiedNameList"))
-			             						.Select(e => UnifiedType.Create(e)))
+			             						.Select(e => UnifiedType.Create((IUnifiedExpression)e)))
 			             		: null;
 
 			return UnifiedFunctionDefinition.Create(
@@ -772,7 +772,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var innerTypes = node.Elements("IDENTIFIER")
 					.Select(
 							e => {
-								var typeArgumentsNode = e.NextElementOrDefault();
+								var typeArgumentsNode = XElementExtensions.NextElementOrDefault(e);
 								var typeArguments = typeArgumentsNode != null &&
 								                    typeArgumentsNode.Name() == "typeArguments"
 								                    		? CreateTypeArguments(typeArgumentsNode)
@@ -886,7 +886,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return node.Elements()
 					.OddIndexElements()
 					.Select(
-							e => e.Name() == "normalParameterDecl"
+							e => XElementExtensions.Name(e) == "normalParameterDecl"
 							     		? CreateNormalParameterDecl(e)
 							     		: CreateEllipsisParameterDecl(e))
 					.ToCollection();
@@ -1993,7 +1993,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			{
 				var dimension = node.ElementsByContent("[")
-						.Where(e => e.NextElement().Value == "]")
+						.Where(e => XElementExtensions.NextElement(e).Value == "]")
 						.Count();
 				type = type.WrapArrayRepeatedly(dimension);
 			}

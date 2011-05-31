@@ -18,12 +18,10 @@
 
 using System;
 using Unicoen.Core.Model;
-using Unicoen.Core.Visitors;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
-	public partial class Python2CodeFactory
-	{
+	public partial class Python2CodeFactory {
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedUnaryExpression ||
@@ -34,107 +32,107 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		// e.g. (Int)a  or (int)(a + b)
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCast element, VisitorState state) {
-			state.Writer.Write("(");
-			element.Type.TryAccept(this, state);
-			state.Writer.Write(")");
-			element.Expression.TryAccept(this, state.Set(Paren));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCast element, VisitorArgument arg) {
+			arg.Write("(");
+			element.Type.TryAccept(this, arg);
+			arg.Write(")");
+			element.Expression.TryAccept(this, arg.Set(Paren));
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTernaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			state.Writer.Write(paren.Item1);
-			element.Condition.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" ? ");
-			element.TrueExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" : ");
-			element.FalseExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(paren.Item2);
+			arg.Write(paren.Item1);
+			element.Condition.TryAccept(this, arg.Set(Paren));
+			arg.Write(" ? ");
+			element.TrueExpression.TryAccept(this, arg.Set(Paren));
+			arg.Write(" : ");
+			element.FalseExpression.TryAccept(this, arg.Set(Paren));
+			arg.Write(paren.Item2);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedImport element, VisitorState state) {
-			state.Writer.Write("import ");
-			element.Modifiers.TryAccept(this, state);
-			element.Name.TryAccept(this, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedImport element, VisitorArgument arg) {
+			arg.Write("import ");
+			element.Modifiers.TryAccept(this, arg);
+			element.Name.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedBinaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			state.Writer.Write(paren.Item1);
-			element.LeftHandSide.TryAccept(this, state.Set(Paren));
-			state.WriteSpace();
-			element.Operator.TryAccept(this, state);
-			state.WriteSpace();
-			element.RightHandSide.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(paren.Item2);
+			arg.Write(paren.Item1);
+			element.LeftHandSide.TryAccept(this, arg.Set(Paren));
+			arg.WriteSpace();
+			element.Operator.TryAccept(this, arg);
+			arg.WriteSpace();
+			element.RightHandSide.TryAccept(this, arg.Set(Paren));
+			arg.Write(paren.Item2);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedSpecialExpression element, VisitorState state) {
-			state.Writer.Write(GetKeyword(element.Kind));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSpecialExpression element, VisitorArgument arg) {
+			arg.Write(GetKeyword(element.Kind));
 			if (element.Value != null) {
-				state.WriteSpace();
-				element.Value.TryAccept(this, state);
+				arg.WriteSpace();
+				element.Value.TryAccept(this, arg);
 			}
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCall element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCall element, VisitorArgument arg) {
 			var prop = element.Function as UnifiedProperty;
 			if (prop != null) {
-				prop.Owner.TryAccept(this, state);
-				state.Writer.Write(prop.Delimiter);
-				element.TypeArguments.TryAccept(this, state);
-				prop.Name.TryAccept(this, state);
+				prop.Owner.TryAccept(this, arg);
+				arg.Write(prop.Delimiter);
+				element.TypeArguments.TryAccept(this, arg);
+				prop.Name.TryAccept(this, arg);
 			} else {
 				// Javaでifが実行されるケースは存在しないが、言語変換のため
 				if (element.TypeArguments != null)
-					state.Writer.Write("this.");
-				element.TypeArguments.TryAccept(this, state);
-				element.Function.TryAccept(this, state);
+					arg.Write("this.");
+				element.TypeArguments.TryAccept(this, arg);
+				element.Function.TryAccept(this, arg);
 			}
-			element.Arguments.TryAccept(this, state.Set(Paren));
+			element.Arguments.TryAccept(this, arg.Set(Paren));
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedNew element, VisitorState state) {
-			state.Writer.Write("new ");
-			element.TypeArguments.TryAccept(this, state);
-			element.Target.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state.Set(Paren));
-			element.InitialValue.TryAccept(this, state.Set(Bracket));
-			element.Body.TryAccept(this, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedNew element, VisitorArgument arg) {
+			arg.Write("new ");
+			element.TypeArguments.TryAccept(this, arg);
+			element.Target.TryAccept(this, arg);
+			element.Arguments.TryAccept(this, arg.Set(Paren));
+			element.InitialValue.TryAccept(this, arg.Set(Bracket));
+			element.Body.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedUnaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedUnaryExpression element, VisitorArgument arg) {
 			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
 			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
-				element.Operand.TryAccept(this, state.Set(Paren));
-				element.Operator.TryAccept(this, state);
+				element.Operand.TryAccept(this, arg.Set(Paren));
+				element.Operator.TryAccept(this, arg);
 			} else {
-				element.Operator.TryAccept(this, state);
-				element.Operand.TryAccept(this, state.Set(Paren));
+				element.Operator.TryAccept(this, arg);
+				element.Operand.TryAccept(this, arg.Set(Paren));
 			}
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedProperty element, VisitorState state) {
-			element.Owner.TryAccept(this, state);
-			state.Writer.Write(element.Delimiter);
-			element.Name.TryAccept(this, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedProperty element, VisitorArgument arg) {
+			element.Owner.TryAccept(this, arg);
+			arg.Write(element.Delimiter);
+			element.Name.TryAccept(this, arg);
 			return true;
 		}
 	}

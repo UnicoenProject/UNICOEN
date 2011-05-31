@@ -19,8 +19,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
