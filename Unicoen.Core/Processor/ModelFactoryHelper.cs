@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Mocomoco.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
@@ -104,8 +105,8 @@ namespace Unicoen.Core.Processor {
 				Func<XElement, IUnifiedExpression> otherCreateExpression,
 				IDictionary<string, UnifiedBinaryOperator> op2Kind) {
 			var nodes = node.Elements().OddIndexElements();
-			return nodes.Skip(1).Aggregate(
-					firstCreateExpression(nodes.First()),
+			return nodes.AggregateApartFirst(
+					firstCreateExpression,
 					(e, n) => UnifiedBinaryExpression.Create(
 							e,
 							op2Kind[n.PreviousElement().Value].DeepCopy(),
