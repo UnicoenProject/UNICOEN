@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\Python2CodeFactory.cs" />
+    <Compile Include="CodeFactories\Python2CodeFactoryForCollection.cs" />
+    <Compile Include="CodeFactories\Python2CodeFactoryRequiringSemicolon.cs" />
     <Compile Include="ModelFactories\Python2ModelFactoryHelper.cs" />
     <Compile Include="ModelFactories\Python2ModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

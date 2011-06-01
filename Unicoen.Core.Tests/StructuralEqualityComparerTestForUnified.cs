@@ -17,8 +17,8 @@
 #endregion
 
 using NUnit.Framework;
-using Unicoen.Core.Comparers;
 using Unicoen.Core.Model;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Tests {
 	[TestFixture]

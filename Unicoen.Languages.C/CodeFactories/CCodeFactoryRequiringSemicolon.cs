@@ -18,13 +18,10 @@
 
 using System;
 using Unicoen.Core.Model;
-using Unicoen.Core.Visitors;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
-	
 	public partial class CCodeFactory {
-
 		public static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedBinaryExpression || parent is UnifiedUnaryExpression
@@ -34,73 +31,73 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return Tuple.Create("", "");
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedBinaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			state.Writer.Write(paren.Item1);
-			element.LeftHandSide.TryAccept(this, state);
-			state.WriteSpace();
-			element.Operator.TryAccept(this, state);
-			state.WriteSpace();
-			element.RightHandSide.TryAccept(this, state);
-			state.Writer.Write(paren.Item2);
+			arg.Write(paren.Item1);
+			element.LeftHandSide.TryAccept(this, arg);
+			arg.WriteSpace();
+			element.Operator.TryAccept(this, arg);
+			arg.WriteSpace();
+			element.RightHandSide.TryAccept(this, arg);
+			arg.Write(paren.Item2);
 
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedUnaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedUnaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			state.Writer.Write(paren.Item1);
+			arg.Write(paren.Item1);
 
 			var ope = element.Operator;
 			switch (ope.Kind) {
 			case UnifiedUnaryOperatorKind.PostDecrementAssign:
 			case UnifiedUnaryOperatorKind.PostIncrementAssign:
-				element.Operand.TryAccept(this, state);
-				ope.TryAccept(this, state);
+				element.Operand.TryAccept(this, arg);
+				ope.TryAccept(this, arg);
 				break;
 			default:
-				ope.TryAccept(this, state);
-				element.Operand.TryAccept(this, state);
+				ope.TryAccept(this, arg);
+				element.Operand.TryAccept(this, arg);
 				break;
 			}
 
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedSpecialExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSpecialExpression element, VisitorArgument arg) {
 			var keyword = GetKeyword(element.Kind);
-			state.Writer.Write(keyword);
-			state.WriteSpace();
-			element.Value.TryAccept(this, state);
+			arg.Write(keyword);
+			arg.WriteSpace();
+			element.Value.TryAccept(this, arg);
 
 			return true;
 		}
 
 		// (int)a, (int)(a + b)
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCast element, VisitorState state) {
-			state.Writer.Write("(");
-			element.Type.TryAccept(this, state);
-			state.Writer.Write(")");
-			element.Expression.TryAccept(this, state.Set(Paren));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCast element, VisitorArgument arg) {
+			arg.Write("(");
+			element.Type.TryAccept(this, arg);
+			arg.Write(")");
+			element.Expression.TryAccept(this, arg.Set(Paren));
 
 			return true;
 		}
 
 		// a ? b : c;
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTernaryExpression element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTernaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
 
-			state.Writer.Write(paren.Item1);
-			element.Condition.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" ? ");
-			element.TrueExpression.TryAccept(this, state.Set(Paren));
-			state.Writer.Write(" : ");
-			element.FalseExpression.TryAccept(this, state.Set(Paren));
+			arg.Write(paren.Item1);
+			element.Condition.TryAccept(this, arg.Set(Paren));
+			arg.Write(" ? ");
+			element.TrueExpression.TryAccept(this, arg.Set(Paren));
+			arg.Write(" : ");
+			element.FalseExpression.TryAccept(this, arg.Set(Paren));
 
 			return true;
 		}

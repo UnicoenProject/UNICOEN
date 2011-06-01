@@ -17,7 +17,7 @@
 #endregion
 
 using System.Numerics;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>

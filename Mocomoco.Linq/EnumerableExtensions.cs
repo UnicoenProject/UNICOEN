@@ -26,26 +26,6 @@ namespace Mocomoco.Linq {
 		///   指定したシーケンスに対して最初の要素をシード(seed)としてAggregateを計算します．
 		/// </summary>
 		/// <typeparam name = "T"></typeparam>
-		/// <param name = "source"></param>
-		/// <param name = "func"></param>
-		/// <returns></returns>
-		public static T AggregateApartFirst<T>(
-				this IEnumerable<T> source, Func<T, T, T> func) {
-			using (var enumerator = source.GetEnumerator()) {
-				if (!enumerator.MoveNext())
-					throw new ArgumentException();
-				var seed = enumerator.Current;
-				while (enumerator.MoveNext()) {
-					seed = func(seed, enumerator.Current);
-				}
-				return seed;
-			}
-		}
-
-		/// <summary>
-		///   指定したシーケンスに対して最初の要素をシード(seed)としてAggregateを計算します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
 		/// <typeparam name = "TAccumulate"></typeparam>
 		/// <param name = "source"></param>
 		/// <param name = "firstSelector"></param>
@@ -100,7 +80,7 @@ namespace Mocomoco.Linq {
 		/// <returns></returns>
 		public static T AggregateRight<T>(
 				this IEnumerable<T> source, Func<T, T, T> func) {
-			return source.Reverse().Aggregate(default(T), func);
+			return source.Reverse().Aggregate(func);
 		}
 
 		/// <summary>

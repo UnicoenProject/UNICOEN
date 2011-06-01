@@ -63,7 +63,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <returns></returns>
 		[Pure]
 		public static bool HasElementByContent(this XElement element, string content) {
-			return element.Elements().Any(e => e.HasContent(content));
+			return element.Elements().Any(e => HasContent(e, content));
 		}
 
 		/// <summary>
@@ -103,7 +103,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <returns></returns>
 		[Pure]
 		public static XElement ElementByContent(this XElement element) {
-			return element.Elements().FirstOrDefault(e => !e.HasElement());
+			return element.Elements().FirstOrDefault(e => !HasElement(e));
 		}
 
 		/// <summary>
@@ -114,7 +114,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <returns></returns>
 		[Pure]
 		public static XElement ElementByContent(this XElement element, string content) {
-			return element.Elements().FirstOrDefault(e => e.HasContent(content));
+			return element.Elements().FirstOrDefault(e => HasContent(e, content));
 		}
 
 		/// <summary>
@@ -137,7 +137,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <returns></returns>
 		[Pure]
 		public static IEnumerable<XElement> ElementsByContent(this XElement element) {
-			return element.Elements().Where(e => !e.HasElement());
+			return element.Elements().Where(e => !HasElement(e));
 		}
 
 		/// <summary>
@@ -150,7 +150,7 @@ namespace Mocomoco.Xml.Linq {
 		public static IEnumerable<XElement> ElementsByContent(
 				this XElement element,
 				string content) {
-			return element.Elements().Where(e => e.HasContent(content));
+			return element.Elements().Where(e => HasContent(e, content));
 		}
 
 		/// <summary>

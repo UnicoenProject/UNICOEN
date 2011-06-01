@@ -19,7 +19,7 @@
 using System;
 using System.Xml.Linq;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public class Python2ModelFactory : ModelFactory {

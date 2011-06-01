@@ -19,8 +19,7 @@
 using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Tests {
 	public abstract class Fixture {

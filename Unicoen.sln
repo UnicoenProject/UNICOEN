@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Tests", "Unicoen.Languages.Tests\Unicoen.Languages.Tests.csproj", "{BC8744B2-0E75-4855-8C01-35E2198546EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Linq.Tests", "Mocomoco.Linq.Tests\Mocomoco.Linq.Tests.csproj", "{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -380,6 +382,18 @@ Global
 		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|Win32.ActiveCfg = Release|Any CPU
 		{BC8744B2-0E75-4855-8C01-35E2198546EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|Win32.ActiveCfg = Release|Any CPU
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

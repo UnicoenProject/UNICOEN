@@ -25,7 +25,8 @@ using Mocomoco.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
+using EnumerableExtensions = Paraiba.Linq.EnumerableExtensions;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public static class Python2ModelFactoryHelper {
@@ -161,7 +162,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 							e =>
 							UnifiedParameter.Create(
 									null,
-									UnifiedModifier.Create(e.PreviousElement().Value).ToCollection(), null,
+									UnifiedModifier.Create(XElementExtensions.PreviousElement(e).Value).
+											ToCollection(), null,
 									UnifiedIdentifier.CreateVariable(e.Value).ToCollection(),
 									null));
 			return ps.Concat(ps2).ToCollection();
@@ -517,7 +519,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * import_as_names: import_as_name (',' import_as_name)* [',']
 			 */
-			return node.Elements().OddIndexElements()
+			return EnumerableExtensions.OddIndexElements(node.Elements())
 					.Select(CreateImport_as_name);
 		}
 
@@ -528,7 +530,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * dotted_as_names: dotted_as_name (',' dotted_as_name)*
 			 */
-			return node.Elements().OddIndexElements()
+			return EnumerableExtensions.OddIndexElements(node.Elements())
 					.Select(CreateDotted_as_name);
 		}
 
@@ -538,7 +540,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * dotted_name: NAME ('.' NAME)*
 			 */
-			return node.Elements().OddIndexElements()
+			return EnumerableExtensions.OddIndexElements(node.Elements())
 					.Select(e => UnifiedIdentifier.CreateUnknown(e.Value));
 		}
 
@@ -618,7 +620,11 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * if_stmt: 'if' test ':' suite ('elif' test ':' suite)* ['else' ':' suite]
 			 */
 			var conditionAndBodies = node.Elements("test")
-					.Select(n => Tuple.Create(CreateTest(n), CreateSuite(n.NextElement(1))));
+					.Select(
+							n =>
+							Tuple.Create(
+									CreateTest(n),
+									CreateSuite(XElementExtensions.NextElement((XElement)(n), 1))));
 			var elseSuiteNode = node.LastElement();
 			var elseSuite = elseSuiteNode.PreviousElement(1).Value == "else"
 			                		? CreateSuite(elseSuiteNode) : null;
@@ -673,7 +679,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var trySuite = CreateSuite(node.Element("suite"));
 			var exceptClauseNodes = node.Elements("except_clause");
 			var exceptClauseSuites = exceptClauseNodes
-					.Select(e => CreateSuite(e.NextElement(1)));
+					.Select(e => CreateSuite(XElementExtensions.NextElement((XElement)(e), 1)));
 			var catches = exceptClauseNodes
 					.Select(CreateExcept_clause)
 					.Zip(exceptClauseSuites)
@@ -1183,7 +1189,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			               		? CreateTestlist(testlistNodes)
 			               		  		.Select(
 			               		  				e => UnifiedTypeConstrain.CreateExtendsOrImplements(
-			               		  						UnifiedType.Create(e)))
+			               		  						UnifiedType.Create((IUnifiedExpression)e)))
 			               		  		.ToCollection()
 			               		: null;
 			return UnifiedClassDefinition.CreateClass(
@@ -1201,13 +1207,16 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *							  |'**' test)
 			 */
 			return node.Elements()
-					.Where(e => e.Name() == "argument" || e.Name() == "test")
+					.Where(
+							e =>
+							XElementExtensions.Name(e) == "argument"
+							|| XElementExtensions.Name(e) == "test")
 					.Select(
-							e => e.Name() == "argument"
+							e => XElementExtensions.Name(e) == "argument"
 							     		? CreateArgument(e)
 							     		: UnifiedArgument.Create(
 							     				UnifiedModifier.Create(
-							     						e.PreviousElement().Value).
+							     						XElementExtensions.PreviousElement(e).Value).
 							     						ToCollection(),
 							     				CreateTest(e)))
 					.ToCollection();

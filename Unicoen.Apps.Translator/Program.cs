@@ -18,15 +18,13 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using Unicoen.Apps.Translator.Filter;
 using Unicoen.Core.Model;
 using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator {
-	class Program {
+	internal class Program {
 		public static void Main(string[] args) {
 			#region garbage
 
@@ -54,9 +52,10 @@ namespace Unicoen.Apps.Translator {
 			}
 			a = FunctionFinder.Instance.FindByName("getName", functions);
 			 * */
+
 			#endregion
 
-			args = new string[] {
+			args = new[] {
 					@"C:\Users\exKAZUu\Documents\Projects\Unicoen\bin\Debug\Fibonacci.java",
 					"java",
 					"c",
@@ -67,24 +66,22 @@ namespace Unicoen.Apps.Translator {
 				return;
 			}
 
-
 			var filePath = args[0];
 			var srcLang = args[1];
 
 			Func<string, UnifiedProgram> modelGenerator;
 			switch (srcLang) {
-				case "java":
-				case "Java":
-					modelGenerator = JavaFactory.GenerateModel;
-					break;
-				case "c":
-				case "C":
-					modelGenerator = CFactory.GenerateModel;
-					break;
-				default:
-					modelGenerator = CFactory.GenerateModel;
-					break;
-
+			case "java":
+			case "Java":
+				modelGenerator = JavaFactory.GenerateModel;
+				break;
+			case "c":
+			case "C":
+				modelGenerator = CFactory.GenerateModel;
+				break;
+			default:
+				modelGenerator = CFactory.GenerateModel;
+				break;
 			}
 
 			// return;
@@ -92,17 +89,17 @@ namespace Unicoen.Apps.Translator {
 			var destLang = args[2];
 			Func<IUnifiedElement, string> codeGenerator;
 			switch (destLang) {
-				case "java":
-				case "Java":
-					codeGenerator = JavaFactory.GenerateCode;
-					break;
-				case "c":
-				case "C":
-					codeGenerator = CFactory.GenerateCode;
-					break;
-				default:
-					codeGenerator = CFactory.GenerateCode;
-					break;
+			case "java":
+			case "Java":
+				codeGenerator = JavaFactory.GenerateCode;
+				break;
+			case "c":
+			case "C":
+				codeGenerator = CFactory.GenerateCode;
+				break;
+			default:
+				codeGenerator = CFactory.GenerateCode;
+				break;
 			}
 
 			var code = File.ReadAllText(filePath, Encoding.Default);
