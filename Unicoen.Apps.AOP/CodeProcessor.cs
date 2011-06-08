@@ -29,40 +29,6 @@ namespace Unicoen.Apps.Aop {
 	///   アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
 	/// </summary>
 	public class CodeProcessor {
-		#region Utilities
-
-		/// <summary>
-		///   指定されたモデルから、指定されたタイプのリストを返します。
-		/// </summary>
-		/// <typeparam name = "T">指定する共通コードモデルのタイプ</typeparam>
-		/// <param name = "root">要素を取得する共通コードモデルのルートノード</param>
-		/// <returns></returns>
-		//GetElementsBySpecifiedComponent<UnifiedNew>(null);
-		public static IEnumerable<T> GetElementsByType<T>(IUnifiedElement root)
-				where T : class {
-			foreach (var e in root.Descendants()) {
-				var result = e as T;
-				if (result != null) {
-					yield return result;
-				}
-			}
-		}
-
-		/// <summary>
-		///   指定されたモデルから、指定されたタイプのリストを返します。
-		/// </summary>
-		/// <param name = "root">要素を取得する共通コードモデルのルートノード</param>
-		/// <param name = "type">指定する共通コードモデルのタイプ</param>
-		/// <returns></returns>
-		//GetElementsBySpecifiedComponent(null, typeof(UnifiedNew));
-		public static IEnumerable<IUnifiedElement> GetElementsByType(
-				IUnifiedElement root, Type type) {
-			foreach (var e in root.Descendants()) {
-				if (type.IsInstanceOfType(e)) {
-					yield return e;
-				}
-			}
-		}
 
 		/// <summary>
 		///   与えられたコードを共通コードモデルとして生成します。
@@ -78,8 +44,6 @@ namespace Unicoen.Apps.Aop {
 			return actual;
 		}
 
-		#endregion
-
 		#region Execution
 
 		/// <summary>
@@ -91,7 +55,7 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtBeforeExecution(
 				IUnifiedElement root, Regex regex, string advice) {
 			//get function list
-			var functions = GetElementsByType<UnifiedFunctionDefinition>(root);
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
 			//create advice as model
 			var actual = CreateAdvice(advice);
 
@@ -112,7 +76,7 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtAfterExecution(
 				IUnifiedElement root, Regex regex, string advice) {
 			//get function list
-			var functions = GetElementsByType<UnifiedFunctionDefinition>(root);
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
 			//create advice as model
 			var actual = CreateAdvice(advice);
 
@@ -128,7 +92,7 @@ namespace Unicoen.Apps.Aop {
 				 * 列挙操作は実行されない可能性があります。
 				 */
 				var returns =
-						GetElementsByType<UnifiedSpecialExpression>(function).Where(
+						function.Descendants<UnifiedSpecialExpression>().Where(
 								e => e.Kind == UnifiedSpecialExpressionKind.Return).ToList();
 
 				if (returns.Count() == 0) {
@@ -200,15 +164,20 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtBeforeCall(
 				IUnifiedElement root, Regex regex, string advice) {
 			//get cass list
-			var calls = GetElementsByType<UnifiedCall>(root).ToList();
+			var calls = root.Descendants<UnifiedCall>().ToList();
 			//create advice as model
 			var actual = CreateAdvice(advice);
 
 			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
 			foreach (var call in calls) {
-				//TODO IUnifiedExpressionとのマッチングをどのように行うのか考える
+				//プロパティでない関数呼び出しのみを扱う
+				//e.g. write()はOK. Math.max()はNG.
+				var functionName = call.Function as UnifiedIdentifier;
+				if(functionName == null)
+					continue;
+
 				// 現状ではToString()とのマッチングを行う。
-				var m = regex.Match(call.Function.ToString());
+				var m = regex.Match(functionName.Value);
 				if (!m.Success)
 					continue;
 
@@ -228,16 +197,19 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtAfterCall(
 				IUnifiedElement root, Regex regex, string advice) {
 			//get cass list
-			var calls = GetElementsByType<UnifiedCall>(root).ToList();
+			var calls = root.Descendants<UnifiedCall>().ToList();
 			//create advice as model
 			var actual = CreateAdvice(advice);
 
 			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
 			foreach (var call in calls) {
-				//TODO IUnifiedExpressionとのマッチングをどのように行うのか考える
-				// 現状ではToString()とのマッチングを行う-> 共通コードモデルのXMLが返ってくるので、
-				// 呼び出す関数の名前をexpressionから抽出する仕組みが必要
-				var m = regex.Match(call.Function.ToString());
+				//プロパティでない関数呼び出しのみを扱う
+				//e.g. write()はOK. Math.max()はNG.
+				var functionName = call.Function as UnifiedIdentifier;
+				if(functionName == null)
+					continue;
+
+				var m = regex.Match(functionName.Value);
 				if (!m.Success)
 					continue;
 

@@ -155,8 +155,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
 
-		//TODO 関数呼び出し(UnifiedCall)の名前の抽出が現状ではできないので、一旦無視する
-		[Test, Ignore]
+		[Test]
 		[TestCase("^w")]
 		public void WeavingAtBeforeCallByRegex(string regex) {
 			var model = CreateModel(_studentPath);
@@ -171,7 +170,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
 
-		[Test, Ignore]
+		[Test]
 		[TestCase("^w")]
 		public void WeavingAtAfterCallByRegex(string regex) {
 			var model = CreateModel(_studentPath);
@@ -186,7 +185,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
 
-		[Test, Ignore]
+		[Test]
 		[TestCase("write")]
 		public void WeavingAtBeforeCallByName(string name) {
 			var model = CreateModel(_studentPath);
@@ -200,7 +199,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
 
-		[Test, Ignore]
+		[Test]
 		[TestCase("write")]
 		public void WeavingAtAfterCallByName(string name) {
 			var model = CreateModel(_studentPath);
@@ -214,6 +213,6 @@ namespace Unicoen.Apps.Aop.Tests {
 			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
 		}
 
-		//TODO 多項式中や関数の引数として現れるUnifiedCallに対しては、処理が行われないことを確認するテストを書く
+		//TODO 多項式中や、プロパティとしての関数呼び出し、関数の引数として現れるUnifiedCallに対しては、処理が行われないことを確認するテストを書く
 	}
 }
