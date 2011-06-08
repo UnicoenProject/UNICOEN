@@ -29,6 +29,9 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
+	/// <summary>
+	/// テストに必要なデータを提供します．
+	/// </summary>
 	public class JavaFixture : Fixture {
 		private const string CompileCommand = "javac";
 

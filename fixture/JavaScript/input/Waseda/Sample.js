@@ -7,9 +7,8 @@ function effecton(_this){
         // delay:0, // 開始までの秒数 
         fps:60,
         duration: 0.1,
-        beforeStartInternal: function(effect) {return 1;}
-        // , //下の行を追加する場合はカンマを忘れない
+        beforeStartInternal: function(effect) {return 1;},
         //ブロック内が空だとテストが通らない 
-        //afterFinishInternal: function(effect) {}
+        afterFinishInternal: function(effect) {}
     });
 }

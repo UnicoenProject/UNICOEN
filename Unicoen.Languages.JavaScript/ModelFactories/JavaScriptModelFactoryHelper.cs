@@ -153,11 +153,14 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			Contract.Requires(node.Name() == "functionBody");
 			/*
 			 * functionBody
-			 *		: '{' LT!* sourceElements LT!* '}'
+			 *		: '{' LT!* sourceElements? LT!* '}'
 			 */
 
-			return UnifiedBlock.Create(
-					CreateSourceElements(node.Element("sourceElements")));
+			var sourceElementsNode = node.Element("sourceElements");
+			return sourceElementsNode != null
+			       		? UnifiedBlock.Create(
+			       				CreateSourceElements(sourceElementsNode))
+			       		: UnifiedBlock.Create();
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateStatement(XElement node) {
