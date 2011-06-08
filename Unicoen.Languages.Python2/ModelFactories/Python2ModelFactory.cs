@@ -18,17 +18,17 @@
 
 using System;
 using System.Xml.Linq;
+using Code2Xml.Languages.Python2.CodeToXmls;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public class Python2ModelFactory : ModelFactory {
-		public static UnifiedBlock CreateBlock(XElement elem) {
-			throw new NotImplementedException();
-		}
+		public static Python2ModelFactory Instance = new Python2ModelFactory();
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
-			throw new NotImplementedException();
+			var ast = Python2CodeToXml.Instance.Generate(code);
+			return Python2ModelFactoryHelper.CreateFile_input(ast);
 		}
 	}
 }

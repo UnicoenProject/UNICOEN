@@ -36,9 +36,9 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		public virtual void CompareCompiledCodeOfSameCode(string orgPath) {
-			var workPath = FixtureUtil.CleanTemporalPath();
+			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			var fileName = Path.GetFileName(orgPath);
-			var srcPath = FixtureUtil.GetTemporalPath(fileName);
+			var srcPath = FixtureUtil.GetOutputPath(fileName);
 			File.Copy(orgPath, srcPath);
 			Fixture.Compile(workPath, fileName);
 			var expected = Fixture.GetAllCompiledCode(workPath);
@@ -70,8 +70,8 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "orgCode">再生成するソースコード</param>
 		/// <param name = "fileName">再生成するソースコードのファイル名</param>
 		private void VerifyCompareCompiledCode(string orgCode, string fileName) {
-			var workPath = FixtureUtil.CleanTemporalPath();
-			var srcPath = FixtureUtil.GetTemporalPath(fileName);
+			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
+			var srcPath = FixtureUtil.GetOutputPath(fileName);
 			File.WriteAllText(srcPath, orgCode, XEncoding.SJIS);
 			Fixture.Compile(workPath, fileName);
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
@@ -94,7 +94,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "arguments">コンパイルに用いる引数リスト</param>
 		private void VerifyCompareCompiledCodeUsingProject(
 				string dirPath, string command, string arguments) {
-			var workPath = FixtureUtil.CleanTemporalPath();
+			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			FileUtility.CopyRecursively(dirPath, workPath);
 			Fixture.CompileWithArguments(workPath, command, arguments);
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);

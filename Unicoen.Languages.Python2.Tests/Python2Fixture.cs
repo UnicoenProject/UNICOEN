@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using IronPython.Hosting;
 using NUnit.Framework;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
@@ -54,7 +55,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
-						"class A { }",
+						"class A: pass",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
@@ -96,7 +97,13 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// </summary>
 		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
 		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {}
+		public override void Compile(string dirPath, string fileName) {
+			var engine = Python.CreateEngine();
+			var scope = engine.CreateScope();
+			var path = FixtureUtil.GetScriptPath("Python2", "pyc.py");
+			var source = engine.CreateScriptSourceFromFile(path);
+			source.Execute(scope);
+		}
 
 		/// <summary>
 		///   コンパイル済みのコードを全て取得します．

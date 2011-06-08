@@ -23,7 +23,7 @@ using NUnit.Framework;
 using Paraiba.Linq;
 using Paraiba.Text;
 using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Core.Tests;
 
 namespace Unicoen.Languages.Tests {
 	public abstract class ModelFeatureTest : LanguageTestBase {
@@ -35,7 +35,8 @@ namespace Unicoen.Languages.Tests {
 			var model = Fixture.ModelFactory.Generate(code);
 			var copiedModel = model.DeepCopy();
 			Assert.That(
-					copiedModel, Is.EqualTo(model).Using(StructuralEqualityComparer.Instance));
+					copiedModel,
+					Is.EqualTo(model).Using(StructuralEqualityComparerForDebug.Instance));
 
 			var pairs = copiedModel.Descendants().Zip(model.Descendants());
 			foreach (var pair in pairs) {
