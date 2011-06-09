@@ -29,14 +29,29 @@ namespace Unicoen.Apps.Aop {
 	///   アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
 	/// </summary>
 	public class CodeProcessor {
-
 		/// <summary>
 		///   与えられたコードを共通コードモデルとして生成します。
 		/// </summary>
+		/// <param name="language">対象言語</param>
 		/// <param name = "code">コード断片</param>
 		/// <returns></returns>
-		public static UnifiedBlock CreateAdvice(string code) {
+		public static UnifiedBlock CreateAdvice(string language, string code) {
 			//generate model from string advice (as UnifiedBlock)
+			var ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
+			var actual = JavaModelFactoryHelper.CreateBlock(ast);
+			actual.Normalize();
+
+			return actual;
+		}
+
+		/// <summary>
+		///   与えられたコードをインタータイプ宣言のために共通コードモデルとして生成します
+		/// </summary>
+		/// <param name="language">対象言語</param>
+		/// <param name="code">コード断片</param>
+		/// <returns></returns>
+		public static UnifiedBlock CreateIntertype(string language, string code) {
+			//TODO インタータイプ宣言向けに修正
 			var ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
 			var actual = JavaModelFactoryHelper.CreateBlock(ast);
 			actual.Normalize();
@@ -57,7 +72,7 @@ namespace Unicoen.Apps.Aop {
 			//get function list
 			var functions = root.Descendants<UnifiedFunctionDefinition>();
 			//create advice as model
-			var actual = CreateAdvice(advice);
+			var actual = CreateAdvice("Java", advice);
 
 			foreach (var e in functions) {
 				//weave given advice, when function's name matches given Regex
@@ -78,7 +93,7 @@ namespace Unicoen.Apps.Aop {
 			//get function list
 			var functions = root.Descendants<UnifiedFunctionDefinition>();
 			//create advice as model
-			var actual = CreateAdvice(advice);
+			var actual = CreateAdvice("Java", advice);
 
 			foreach (var function in functions) {
 				//when function's name doesn't match given Regex, ignore current functionDefinition
@@ -166,7 +181,7 @@ namespace Unicoen.Apps.Aop {
 			//get cass list
 			var calls = root.Descendants<UnifiedCall>().ToList();
 			//create advice as model
-			var actual = CreateAdvice(advice);
+			var actual = CreateAdvice("Java", advice);
 
 			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
 			foreach (var call in calls) {
@@ -199,7 +214,7 @@ namespace Unicoen.Apps.Aop {
 			//get cass list
 			var calls = root.Descendants<UnifiedCall>().ToList();
 			//create advice as model
-			var actual = CreateAdvice(advice);
+			var actual = CreateAdvice("Java", advice);
 
 			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
 			foreach (var call in calls) {

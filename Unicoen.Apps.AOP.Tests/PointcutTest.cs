@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
 using Unicoen.Core.Model;
+using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 
 namespace Unicoen.Apps.Aop.Tests {
@@ -51,8 +52,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			CodeProcessor.InsertAtBeforeExecutionAll(model, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -64,8 +65,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			CodeProcessor.InsertAtAfterExecutionAll(model, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -80,8 +81,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			CodeProcessor.InsertAtBeforeExecution(
 					model, new Regex(regex), "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);	
 		}
 
 		[Test]
@@ -95,8 +96,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			CodeProcessor.InsertAtAfterExecution(
 					model, new Regex(regex), "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -111,8 +112,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			CodeProcessor.InsertAtBeforeExecutionByName(
 					model, name, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -125,8 +126,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			CodeProcessor.InsertAtAfterExecutionByName(model, name, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -138,8 +139,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			CodeProcessor.InsertAtBeforeCallAll(model, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -151,8 +152,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			CodeProcessor.InsertAtAfterCallAll(model, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -166,8 +167,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			CodeProcessor.InsertAtBeforeCall(
 					model, new Regex(regex), "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -181,8 +182,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			CodeProcessor.InsertAtAfterCall(
 					model, new Regex(regex), "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -195,8 +196,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			CodeProcessor.InsertAtBeforeCallByName(model, name, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		[Test]
@@ -209,8 +210,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			CodeProcessor.InsertAtAfterCallByName(model, name, "{Console.Write();}");
 
-			//TODO ToString()しないと比較できないか
-			Assert.That(model.ToString(), Is.EqualTo(actual.ToString()));
+			Assert.That(
+					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
 		}
 
 		//TODO 多項式中や、プロパティとしての関数呼び出し、関数の引数として現れるUnifiedCallに対しては、処理が行われないことを確認するテストを書く
