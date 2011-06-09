@@ -37,12 +37,6 @@
     <Reference Include="Code2Xml.Languages.Python2">
       <HintPath>..\lib\Code2Xml.Languages.Python2.dll</HintPath>
     </Reference>
-    <Reference Include="IronPython, Version=2.7.0.10, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\lib\IronPython.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPython.Modules, Version=2.7.0.10, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\lib\IronPython.Modules.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.1.0.10, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\lib\Microsoft.Dynamic.dll</HintPath>
     </Reference>

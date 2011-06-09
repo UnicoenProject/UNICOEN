@@ -19,7 +19,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using IronPython.Hosting;
 using NUnit.Framework;
 using Paraiba.Core;
 using Unicoen.Core.Processor;
@@ -125,12 +124,6 @@ namespace Unicoen.Languages.Python2.Tests {
 			};
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(dirPath, CompileCommand, arguments);
-
-			var engine = Python.CreateEngine();
-			var scope = engine.CreateScope();
-			var path = FixtureUtil.GetScriptPath("Python2", "pyc.py");
-			var source = engine.CreateScriptSourceFromFile(path);
-			source.Execute(scope);
 		}
 	}
 }
