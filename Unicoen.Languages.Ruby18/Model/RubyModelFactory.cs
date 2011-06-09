@@ -51,7 +51,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "str");
-			return UnifiedStringLiteral.CreateString(node.Value);
+			return UnifiedStringLiteral.Create(node.Value);
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {

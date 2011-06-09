@@ -161,12 +161,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedParameter element, VisitorArgument arg) {
-			var removed = element.Modifiers.Remove(m => m.Name == "...");
-			element.Modifiers.TryAccept(this, arg);
+			var isVariableLength = element.Modifiers != null
+			                       && element.Modifiers.Remove(m => m.Name == "...");
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
-			if (removed)
+			if (isVariableLength) {
 				arg.Write("... ");
+			}
 			element.Names.TryAccept(this, arg.Set(CommaDelimiter));
 			return false;
 		}
@@ -185,7 +186,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				UnifiedBlock element, VisitorArgument arg) {
 			arg.WriteIndent();
 			arg.WriteLine("{");
-			arg = arg.IncrementIndentDepth();
+			arg = arg.IncrementDepth();
 			foreach (var stmt in element) {
 				arg.WriteIndent();
 				if (stmt.TryAccept(this, arg))
@@ -207,9 +208,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			case UnifiedSpecialBlockKind.Fix:
 				arg.Write("fix");
 				break;
-			case UnifiedSpecialBlockKind.Using:
-				arg.Write("using");
-				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 			}
@@ -219,7 +217,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				arg.Write(")");
 			}
 			arg.Write("{");
-			arg = arg.IncrementIndentDepth();
+			arg = arg.IncrementDepth();
 			foreach (var stmt in element.Body) {
 				arg.WriteIndent();
 				if (stmt.TryAccept(this, arg))
@@ -348,17 +346,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedStringLiteral element, VisitorArgument arg) {
-			var delimiter = '"';
-			switch (element.Kind) {
-			case UnifiedStringLiteralKind.Char:
-				delimiter = '\'';
-				break;
-			case UnifiedStringLiteralKind.String:
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-			arg.Write(delimiter + element.Value + delimiter);
+			arg.Write(element.Value);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCharLiteral element, VisitorArgument arg) {
+			arg.Write(element.Value);
 			return false;
 		}
 

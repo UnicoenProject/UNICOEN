@@ -1493,8 +1493,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			/*
 			 * stringliteral
 			 */
-			return UnifiedStringLiteral.CreateString(
-					node.Value.Substring(1, node.Value.Length - 2));
+			return UnifiedStringLiteral.Create(node.Value);
 		}
 
 		private static UnifiedUnaryOperator CreatePrefixUnaryOperator(string name) {

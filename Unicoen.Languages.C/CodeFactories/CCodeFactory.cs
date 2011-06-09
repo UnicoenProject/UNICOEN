@@ -130,7 +130,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 				UnifiedBlock element, VisitorArgument arg) {
 			arg.WriteIndent();
 			arg.WriteLine("{");
-			arg = arg.IncrementIndentDepth();
+			arg = arg.IncrementDepth();
 			foreach (var stmt in element) {
 				arg.WriteIndent();
 				if (stmt.TryAccept(this, arg)) {
@@ -488,22 +488,14 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCharLiteral element, VisitorArgument arg) {
+			arg.Write(element.Value);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedStringLiteral element, VisitorArgument arg) {
-			var kind = element.Kind;
-			var delimiter = "";
-
-			switch (kind) {
-			case UnifiedStringLiteralKind.Char:
-				delimiter = "'";
-				break;
-			case UnifiedStringLiteralKind.String:
-				delimiter = "\"";
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-
-			arg.Write(delimiter + element.Value + delimiter);
+			arg.Write(element.Value);
 			return false;
 		}
 

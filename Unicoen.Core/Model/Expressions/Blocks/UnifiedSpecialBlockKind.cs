@@ -23,7 +23,10 @@ namespace Unicoen.Core.Model {
 	public enum UnifiedSpecialBlockKind {
 		Synchronized,
 		Fix,
-		Using,
+		/// <summary>
+		/// with in JavaScript
+		/// Javaのstatic importのような役割
+		/// </summary>
 		With,
 	}
 }

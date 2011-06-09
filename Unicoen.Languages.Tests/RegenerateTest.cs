@@ -16,7 +16,10 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Paraiba.IO;
 using Paraiba.Text;
@@ -30,6 +33,44 @@ namespace Unicoen.Languages.Tests {
 	///   もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
 	public abstract class RegenerateTest : LanguageTestBase {
+
+		/// <summary>
+		/// 閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
+		/// </summary>
+		/// <param name="actual"></param>
+		/// <param name="expected"></param>
+		/// <returns></returns>
+		private bool FuzzyCompare(IEnumerable<Tuple<string, byte[]>> actual, IEnumerable<Tuple<string, byte[]>> expected) {
+			var actuals = actual.ToList();
+			var expecteds = expected.ToList();
+			if (actuals.Count != expecteds.Count)
+				return false;
+			for (int i = 0; i < actuals.Count; i++) {
+				if (actuals[0].Item1 != expecteds[0].Item1)
+					return false;
+				if (!FuzzyCompare(actuals[0].Item2, expecteds[0].Item2))
+					return false;
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// 閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
+		/// </summary>
+		/// <param name="actual"></param>
+		/// <param name="expected"></param>
+		/// <returns></returns>
+		private bool FuzzyCompare(byte[] actual, byte[] expected) {
+			if (actual.Length != expected.Length)
+				return false;
+			var count = Fixture.AllowedMismatchCount;
+			for (int i = 0; i < actual.Length; i++) {
+				if (actual[i] != expected[i] && --count < 0)
+					return false;
+			}
+			return true;
+		}
+
 		/// <summary>
 		///   再生成を行わずVerifyCompareThroughCompiledCodeが正常に動作するかテストします。
 		///   全く同じコードをコンパイルしたバイナリファイル同士で比較します。
@@ -44,7 +85,7 @@ namespace Unicoen.Languages.Tests {
 			var expected = Fixture.GetAllCompiledCode(workPath);
 			Fixture.Compile(workPath, fileName);
 			var actual = Fixture.GetAllCompiledCode(workPath);
-			Assert.That(actual, Is.EqualTo(expected));
+			Assert.That(FuzzyCompare(actual, expected), Is.True);
 		}
 
 		/// <summary>
@@ -80,7 +121,7 @@ namespace Unicoen.Languages.Tests {
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			Fixture.Compile(workPath, fileName);
 			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
-			Assert.That(byteCode2, Is.EqualTo(orgByteCode1));
+			Assert.That(FuzzyCompare(orgByteCode1, byteCode2), Is.True);
 		}
 
 		/// <summary>
@@ -107,7 +148,7 @@ namespace Unicoen.Languages.Tests {
 			}
 			Fixture.CompileWithArguments(workPath, command, arguments);
 			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
-			Assert.That(byteCode2, Is.EqualTo(orgByteCode1));
+			Assert.That(FuzzyCompare(orgByteCode1, byteCode2), Is.True);
 		}
 
 		/// <summary>

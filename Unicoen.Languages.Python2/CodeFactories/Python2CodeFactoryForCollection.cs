@@ -132,7 +132,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedCaseCollection element, VisitorArgument arg) {
-			arg = arg.IncrementIndentDepth();
+			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
 				arg.WriteIndent();
 				caseElement.TryAccept(this, arg);

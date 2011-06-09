@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedCharLiteral.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedWrapType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedArrayType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />
@@ -110,7 +111,6 @@
     <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedNullLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedStringLiteralKind.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
     <Compile Include="Model\Expressions\Operators\OldBinaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\OldUnaryOperatorType.cs" />

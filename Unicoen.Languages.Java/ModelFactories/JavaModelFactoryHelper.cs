@@ -2161,13 +2161,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			case "doubleLiteral":
 				return CreateDoubleLiteral(first);
 			case "charLiteral":
-				return
-						UnifiedStringLiteral.CreateChar(
-								first.Value.Substring(1, first.Value.Length - 2));
+				return UnifiedCharLiteral.Create(first.Value);
 			case "stringLiteral":
-				return
-						UnifiedStringLiteral.CreateString(
-								first.Value.Substring(1, first.Value.Length - 2));
+				return UnifiedStringLiteral.Create(first.Value);
 			case "trueLiteral":
 				return UnifiedBooleanLiteral.Create(true);
 			case "falseLiteral":

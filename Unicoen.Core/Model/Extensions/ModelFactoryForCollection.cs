@@ -281,5 +281,120 @@ namespace Unicoen.Core.Model {
 		public static UnifiedList ToTupleLiteral(this IUnifiedExpression singleton) {
 			return UnifiedList.CreateTuple(singleton.ToCollection());
 		}
+
+		public static IUnifiedExpression ToSmartListLiteral(
+				this UnifiedExpressionCollection collection) {
+			if (collection.Count == 1) {
+				var expression = collection[0];
+				expression.Remove();
+				return expression;
+			}
+			return UnifiedList.CreateList(collection);
+		}
+
+		public static IUnifiedExpression ToSmartListLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
+			var list = expressions.ToList();
+			if (list.Count == 1)
+				return list[0];
+			return UnifiedList.CreateList(list.ToCollection());
+		}
+
+		public static IUnifiedExpression ToSmartListLiteral(
+				this IUnifiedExpression singleton) {
+			return singleton;
+		}
+
+		public static IUnifiedExpression ToSmartArrayLiteral(
+				this UnifiedExpressionCollection collection) {
+			if (collection.Count == 1) {
+				var expression = collection[0];
+				expression.Remove();
+				return expression;
+			}
+			return UnifiedList.CreateArray(collection);
+		}
+
+		public static IUnifiedExpression ToSmartArrayLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
+			var list = expressions.ToList();
+			if (list.Count == 1)
+				return list[0];
+			return UnifiedList.CreateArray(list.ToCollection());
+		}
+
+		public static IUnifiedExpression ToSmartArrayLiteral(
+				this IUnifiedExpression singleton) {
+			return singleton;
+		}
+
+		public static IUnifiedExpression ToSmartSetLiteral(
+				this UnifiedExpressionCollection collection) {
+			if (collection.Count == 1) {
+				var expression = collection[0];
+				expression.Remove();
+				return expression;
+			}
+			return UnifiedList.CreateSet(collection);
+		}
+
+		public static IUnifiedExpression ToSmartSetLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
+			var list = expressions.ToList();
+			if (list.Count == 1)
+				return list[0];
+			return UnifiedList.CreateSet(list.ToCollection());
+		}
+
+		public static IUnifiedExpression ToSmartSetLiteral(
+				this IUnifiedExpression singleton) {
+			return singleton;
+		}
+
+		public static IUnifiedExpression ToSmartLazyListLiteral(
+				this UnifiedExpressionCollection collection) {
+			if (collection.Count == 1) {
+				var expression = collection[0];
+				expression.Remove();
+				return expression;
+			}
+			return UnifiedList.CreateLazyList(collection);
+		}
+
+		public static IUnifiedExpression ToSmartLazyListLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
+			var list = expressions.ToList();
+			if (list.Count == 1)
+				return list[0];
+			return UnifiedList.CreateLazyList(list.ToCollection());
+		}
+
+		public static IUnifiedExpression ToSmartLazyListLiteral(
+				this IUnifiedExpression singleton) {
+			return singleton;
+		}
+
+		public static IUnifiedExpression ToSmartTupleLiteral(
+				this UnifiedExpressionCollection collection) {
+			if (collection.Count == 1) {
+				var expression = collection[0];
+				expression.Remove();
+				return expression;
+			}
+			return UnifiedList.CreateTuple(collection);
+		}
+
+		public static IUnifiedExpression ToSmartTupleLiteral(
+				this IEnumerable<IUnifiedExpression> expressions) {
+			var list = expressions.ToList();
+			if (list.Count == 1)
+				return list[0];
+			return UnifiedList.CreateTuple(list.ToCollection());
+		}
+
+		public static IUnifiedExpression ToSmartTupleLiteral(
+				this IUnifiedExpression singleton) {
+			return singleton;
+		}
 	}
 }

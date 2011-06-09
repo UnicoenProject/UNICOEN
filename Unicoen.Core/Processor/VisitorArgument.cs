@@ -39,17 +39,10 @@ namespace Unicoen.Core.Processor {
 			};
 		}
 
-		public VisitorArgument IncrementIndentDepth() {
+		public VisitorArgument IncrementDepth() {
 			return new VisitorArgument(_writer, IndentSign) {
 					Decoration = Decoration,
 					IndentDepth = IndentDepth + 1,
-			};
-		}
-
-		public VisitorArgument DecrementIndentDepth() {
-			return new VisitorArgument(_writer, IndentSign) {
-					Decoration = Decoration,
-					IndentDepth = IndentDepth - 1,
 			};
 		}
 
