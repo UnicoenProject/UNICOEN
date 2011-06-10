@@ -110,7 +110,7 @@ namespace Unicoen.Apps.Aop.Tests {
 									"Java", "Fibonacci_functionBefore.java"));
 
 			CodeProcessor.InsertAtBeforeExecutionByName(
-					model, name, "{Console.Write();}");
+					model, name, "Console.Write();");
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
