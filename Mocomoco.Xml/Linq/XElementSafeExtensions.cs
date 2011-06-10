@@ -17,6 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -31,7 +32,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool SafeHasElement(this XElement element) {
 			if (element == null)
 				return false;
@@ -44,7 +45,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool SafeHasElement(
 				this XElement element,
 				string name) {
@@ -59,7 +60,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "value"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool SafeHasContent(
 				this XElement element,
 				string value) {
@@ -73,7 +74,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeElement(
 				this XElement element,
 				string name) {
@@ -87,7 +88,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeElements(this XElement element) {
 			if (element == null)
 				yield break;
@@ -101,7 +102,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeElements(
 				this XElement element,
 				string name) {
@@ -117,7 +118,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeElementsAfterSelf(
 				this XElement element) {
 			if (element == null)
@@ -132,7 +133,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeElementsAfterSelf(
 				this XElement element,
 				string name) {
@@ -148,7 +149,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeElementsBeforeSelf(
 				this XElement element) {
 			if (element == null)
@@ -163,7 +164,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeElementsBeforeSelf(
 				this XElement element,
 				string name) {
@@ -179,7 +180,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeDescendants(this XElement element) {
 			if (element == null)
 				yield break;
@@ -193,7 +194,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeDescendants(
 				this XElement element,
 				string name) {
@@ -209,7 +210,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeDescendantsAndSelf(
 				this XElement element) {
 			if (element == null)
@@ -224,7 +225,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeDescendantsAndSelf(
 				this XElement element, string name) {
 			if (element == null)
@@ -239,7 +240,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeAncestors(this XElement element) {
 			if (element == null)
 				yield break;
@@ -253,7 +254,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeAncestors(
 				this XElement element,
 				string name) {
@@ -269,7 +270,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeAncestorsAndSelf(
 				this XElement element) {
 			if (element == null)
@@ -284,7 +285,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> SafeAncestorsAndSelf(
 				this XElement element, string name) {
 			if (element == null)
@@ -299,7 +300,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static string SafeName(this XElement element) {
 			if (element == null)
 				return null;
@@ -311,7 +312,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static string SafeValue(this XElement element) {
 			if (element == null)
 				return null;
@@ -323,7 +324,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeParent(this XElement element) {
 			if (element == null)
 				return null;
@@ -335,7 +336,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafePreviousElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -347,7 +348,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeNextElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -360,7 +361,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeNextElement(this XElement element, int index) {
 			if (element == null)
 				return null;
@@ -373,7 +374,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeNextElement(this XElement element, string name) {
 			if (element == null)
 				return null;
@@ -387,7 +388,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeNextElement(
 				this XElement element, string name, int index) {
 			if (element == null)
@@ -400,7 +401,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeFirstElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -412,7 +413,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeLastElement(this XElement element) {
 			if (element == null)
 				return null;
@@ -424,7 +425,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeNthElement(this XElement element, int index) {
 			if (element == null)
 				return null;
@@ -436,7 +437,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeFirstElementBeforeSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -448,7 +449,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeLastElementBeforeSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -460,7 +461,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeNthElementBeforeSelf(
 				this XElement element,
 				int index) {
@@ -474,7 +475,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeFirstElementAfterSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -486,7 +487,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeLastElementAfterSelf(this XElement element) {
 			if (element == null)
 				return null;
@@ -498,7 +499,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement SafeNthElementAfterSelf(
 				this XElement element,
 				int index) {

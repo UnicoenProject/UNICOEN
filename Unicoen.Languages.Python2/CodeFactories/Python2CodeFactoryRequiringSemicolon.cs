@@ -38,7 +38,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			element.Type.TryAccept(this, arg);
 			arg.Write(")");
 			element.Expression.TryAccept(this, arg.Set(Paren));
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -51,7 +51,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			arg.Write(" : ");
 			element.FalseExpression.TryAccept(this, arg.Set(Paren));
 			arg.Write(paren.Item2);
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -59,7 +59,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			arg.Write("import ");
 			element.Modifiers.TryAccept(this, arg);
 			element.Name.TryAccept(this, arg);
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -72,17 +72,23 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			arg.WriteSpace();
 			element.RightHandSide.TryAccept(this, arg.Set(Paren));
 			arg.Write(paren.Item2);
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedSpecialExpression element, VisitorArgument arg) {
+			if (element.Kind == UnifiedSpecialExpressionKind.StringConversion) {
+				arg.Write("`");
+				element.Value.TryAccept(this, arg);
+				arg.Write("`");
+				return false;
+			}
 			arg.Write(GetKeyword(element.Kind));
 			if (element.Value != null) {
 				arg.WriteSpace();
 				element.Value.TryAccept(this, arg);
 			}
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -101,7 +107,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 				element.Function.TryAccept(this, arg);
 			}
 			element.Arguments.TryAccept(this, arg.Set(Paren));
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -112,7 +118,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			element.Arguments.TryAccept(this, arg.Set(Paren));
 			element.InitialValue.TryAccept(this, arg.Set(Bracket));
 			element.Body.TryAccept(this, arg);
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -125,7 +131,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 				element.Operator.TryAccept(this, arg);
 				element.Operand.TryAccept(this, arg.Set(Paren));
 			}
-			return true;
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -133,7 +139,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			element.Owner.TryAccept(this, arg);
 			arg.Write(element.Delimiter);
 			element.Name.TryAccept(this, arg);
-			return true;
+			return false;
 		}
 	}
 }

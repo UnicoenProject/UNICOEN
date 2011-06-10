@@ -17,6 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -28,7 +29,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool HasElement(this XElement element) {
 			return element.Elements().Any();
 		}
@@ -39,7 +40,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool HasElement(this XElement element, string name) {
 			return element.Element(name) != null;
 		}
@@ -50,7 +51,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "value"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool HasElementByValue(this XElement element, string value) {
 			return element.Elements().Any(e => e.Value == value);
 		}
@@ -61,7 +62,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "content"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool HasElementByContent(this XElement element, string content) {
 			return element.Elements().Any(e => HasContent(e, content));
 		}
@@ -70,7 +71,7 @@ namespace Mocomoco.Xml.Linq {
 		///   子要素を持っておらず、かつ、指定したコンテンツを持っているかどうか取得します。
 		/// </summary>
 		/// <returns>指定したコンテンツ(Value)を持っているかどうか</returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static bool HasContent(this XElement element, string value) {
 			return !element.HasElement() && element.Value == value;
 		}
@@ -80,7 +81,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static string Name(this XElement element) {
 			return element.Name.LocalName;
 		}
@@ -91,7 +92,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "value"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement ElementByValue(this XElement element, string value) {
 			return element.Elements().FirstOrDefault(e => e.Value == value);
 		}
@@ -101,7 +102,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement ElementByContent(this XElement element) {
 			return element.Elements().FirstOrDefault(e => !HasElement(e));
 		}
@@ -112,7 +113,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "content"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement ElementByContent(this XElement element, string content) {
 			return element.Elements().FirstOrDefault(e => HasContent(e, content));
 		}
@@ -123,7 +124,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "value"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> ElementsByValue(
 				this XElement element,
 				string value) {
@@ -135,7 +136,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> ElementsByContent(this XElement element) {
 			return element.Elements().Where(e => !HasElement(e));
 		}
@@ -146,7 +147,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "content"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> ElementsByContent(
 				this XElement element,
 				string content) {
@@ -158,7 +159,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElement(this XElement element) {
 			return element.LastElementBeforeSelf();
 		}
@@ -169,7 +170,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElement(this XElement element, string name) {
 			return element.LastElementBeforeSelf(name);
 		}
@@ -180,7 +181,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElement(this XElement element, int index) {
 			return element.ElementsBeforeSelf().ElementAt(index);
 		}
@@ -192,7 +193,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElement(
 				this XElement element, string name, int index) {
 			return element.ElementsBeforeSelf(name).ElementAt(index);
@@ -204,7 +205,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElementOrDefault(
 				this XElement element, int index) {
 			return element.ElementsBeforeSelf().ElementAtOrDefault(index);
@@ -217,7 +218,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElementOrDefault(
 				this XElement element,
 				string name, int index) {
@@ -229,7 +230,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElementOrDefault(this XElement element) {
 			return element.LastElementBeforeSelfOrDefault();
 		}
@@ -240,7 +241,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement PreviousElementOrDefault(
 				this XElement element,
 				string name) {
@@ -252,7 +253,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> PreviousElements(this XElement element) {
 			var node = element.PreviousNode;
 			while (node != null) {
@@ -269,7 +270,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> PreviousElements(
 				this XElement element,
 				string name) {
@@ -287,7 +288,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> PreviousElementsAndSelf(
 				this XElement element) {
 			yield return element;
@@ -302,7 +303,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> PreviousElementsAndSelf(
 				this XElement element, string name) {
 			return element.PreviousElementsAndSelf()
@@ -314,7 +315,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElement(this XElement element) {
 			return element.FirstElementAfterSelf();
 		}
@@ -325,7 +326,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElement(this XElement element, string name) {
 			return element.FirstElementAfterSelf(name);
 		}
@@ -336,7 +337,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElement(this XElement element, int index) {
 			return element.ElementsAfterSelf().ElementAt(index);
 		}
@@ -348,7 +349,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElement(
 				this XElement element, string name, int index) {
 			return element.ElementsAfterSelf(name).ElementAt(index);
@@ -359,7 +360,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElementOrDefault(this XElement element) {
 			return element.FirstElementAfterSelfOrDefault();
 		}
@@ -370,7 +371,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElementOrDefault(
 				this XElement element, string name) {
 			return element.FirstElementAfterSelfOrDefault(name);
@@ -382,7 +383,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElementOrDefault(this XElement element, int index) {
 			return element.ElementsAfterSelf().ElementAtOrDefault(index);
 		}
@@ -394,7 +395,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NextElementOrDefault(
 				this XElement element, string name, int index) {
 			return element.ElementsAfterSelf(name).ElementAtOrDefault(index);
@@ -405,7 +406,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> NextElements(this XElement element) {
 			return element.ElementsAfterSelf();
 		}
@@ -416,7 +417,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> NextElements(
 				this XElement element,
 				string name) {
@@ -428,7 +429,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> NextElementsAndSelf(this XElement element) {
 			yield return element;
 			foreach (var elem in element.NextElements()) {
@@ -442,7 +443,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static IEnumerable<XElement> NextElementsAndSelf(
 				this XElement element,
 				string name) {
@@ -455,7 +456,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElement(this XElement element) {
 			return element.Elements().First();
 		}
@@ -466,7 +467,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElement(this XElement element, string name) {
 			return element.Elements(name).First();
 		}
@@ -476,7 +477,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementOrDefault(this XElement element) {
 			return element.Elements().FirstOrDefault();
 		}
@@ -487,7 +488,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementOrDefault(
 				this XElement element,
 				string name) {
@@ -499,7 +500,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElement(this XElement element) {
 			return element.Elements().Last();
 		}
@@ -510,7 +511,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElement(this XElement element, string name) {
 			return element.Elements(name).Last();
 		}
@@ -520,7 +521,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementOrDefault(this XElement element) {
 			return element.Elements().LastOrDefault();
 		}
@@ -531,7 +532,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementOrDefault(
 				this XElement element, string name) {
 			return element.Elements(name).LastOrDefault();
@@ -543,7 +544,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElement(this XElement element, int index) {
 			return element.Elements().ElementAt(index);
 		}
@@ -555,7 +556,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElement(
 				this XElement element, string name,
 				int index) {
@@ -568,7 +569,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementOrDefault(this XElement element, int index) {
 			return element.Elements().ElementAtOrDefault(index);
 		}
@@ -580,7 +581,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementOrDefault(
 				this XElement element, string name,
 				int index) {
@@ -592,7 +593,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementBeforeSelf(this XElement element) {
 			return element.ElementsBeforeSelf().First();
 		}
@@ -603,7 +604,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementBeforeSelf(
 				this XElement element,
 				string name) {
@@ -615,7 +616,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementBeforeSelfOrDefault(this XElement element) {
 			return element.ElementsBeforeSelf().FirstOrDefault();
 		}
@@ -626,7 +627,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementBeforeSelfOrDefault(
 				this XElement element,
 				string name) {
@@ -638,7 +639,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementBeforeSelf(this XElement element) {
 			return element.ElementsBeforeSelf().Last();
 		}
@@ -649,7 +650,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementBeforeSelf(
 				this XElement element,
 				string name) {
@@ -661,7 +662,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementBeforeSelfOrDefault(this XElement element) {
 			return element.ElementsBeforeSelf().LastOrDefault();
 		}
@@ -672,7 +673,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementBeforeSelfOrDefault(
 				this XElement element,
 				string name) {
@@ -685,7 +686,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementBeforeSelf(this XElement element, int index) {
 			return element.ElementsBeforeSelf().ElementAt(index);
 		}
@@ -697,7 +698,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementBeforeSelf(
 				this XElement element, string name,
 				int index) {
@@ -710,7 +711,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementBeforeSelfOrDefault(
 				this XElement element,
 				int index) {
@@ -724,7 +725,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementBeforeSelfOrDefault(
 				this XElement element,
 				string name, int index) {
@@ -736,7 +737,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementAfterSelf(this XElement element) {
 			return element.ElementsAfterSelf().First();
 		}
@@ -747,7 +748,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementAfterSelf(
 				this XElement element,
 				string name) {
@@ -759,7 +760,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementAfterSelfOrDefault(this XElement element) {
 			return element.ElementsAfterSelf().FirstOrDefault();
 		}
@@ -770,7 +771,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement FirstElementAfterSelfOrDefault(
 				this XElement element,
 				string name) {
@@ -782,7 +783,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementAfterSelf(this XElement element) {
 			return element.ElementsAfterSelf().Last();
 		}
@@ -793,7 +794,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementAfterSelf(
 				this XElement element, string name) {
 			return element.ElementsAfterSelf(name).Last();
@@ -804,7 +805,7 @@ namespace Mocomoco.Xml.Linq {
 		/// </summary>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementAfterSelfOrDefault(this XElement element) {
 			return element.ElementsAfterSelf().LastOrDefault();
 		}
@@ -815,7 +816,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "name"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement LastElementAfterSelfOrDefault(
 				this XElement element,
 				string name) {
@@ -828,7 +829,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementAfterSelf(this XElement element, int index) {
 			return element.ElementsAfterSelf().ElementAt(index);
 		}
@@ -840,7 +841,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementAfterSelf(
 				this XElement element, string name,
 				int index) {
@@ -853,7 +854,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "element"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementAfterSelfOrDefault(
 				this XElement element,
 				int index) {
@@ -867,7 +868,7 @@ namespace Mocomoco.Xml.Linq {
 		/// <param name = "name"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		[Pure]
+		[Pure, DebuggerStepThrough]
 		public static XElement NthElementAfterSelfOrDefault(
 				this XElement element,
 				string name, int index) {

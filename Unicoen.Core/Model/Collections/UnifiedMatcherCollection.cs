@@ -20,6 +20,10 @@ using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	///   UnifiedMatchの集合を表します。
+	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+	/// </summary>
 	public class UnifiedMatcherCollection
 			: UnifiedElementCollection<UnifiedMatcher, UnifiedMatcherCollection> {
 		private UnifiedMatcherCollection() {}

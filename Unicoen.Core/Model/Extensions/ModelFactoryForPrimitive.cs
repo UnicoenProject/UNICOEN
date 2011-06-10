@@ -19,31 +19,31 @@
 namespace Unicoen.Core.Model {
 	public static class ModelFactoryForPrimitive {
 		public static UnifiedIdentifier ToThisIdentifier(this string name) {
-			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.This);
+			return UnifiedIdentifier.Create(UnifiedIdentifierKind.This, name);
 		}
 
 		public static UnifiedIdentifier ToSuperIdentifier(this string name) {
-			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Super);
+			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Super, name);
 		}
 
 		public static UnifiedIdentifier ToClassObjectIdentifier(this string name) {
-			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.ClassObject);
+			return UnifiedIdentifier.Create(UnifiedIdentifierKind.ClassObject, name);
 		}
 
 		public static UnifiedIdentifier ToUnknownIdentifier(this string name) {
-			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Unknown);
+			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, name);
 		}
 
 		public static UnifiedIdentifier ToVariableIdentifier(this string name) {
-			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Variable);
+			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, name);
 		}
 
 		public static UnifiedIdentifier ToTypeIdentifier(this string name) {
-			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Type);
+			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, name);
 		}
 
 		public static UnifiedIdentifier ToFunctionIdentifier(this string name) {
-			return UnifiedIdentifier.Create(name, UnifiedIdentifierKind.Function);
+			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name);
 		}
 
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
@@ -51,11 +51,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedIntegerLiteral ToLiteral(this int value) {
-			return UnifiedIntegerLiteral.Create(value);
+			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int32);
 		}
 
 		public static UnifiedFractionLiteral ToLiteral(this double value) {
-			return UnifiedFractionLiteral.CreateDouble(value);
+			return UnifiedFractionLiteral.Create(value, UnifiedFractionLiteralKind.Double);
 		}
 	}
 }

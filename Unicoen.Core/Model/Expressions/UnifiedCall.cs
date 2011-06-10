@@ -67,18 +67,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedCall Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection args) {
-			return new UnifiedCall {
-					Function = target,
-					Arguments = args,
-			};
-		}
-
-		public static UnifiedCall Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection args,
-				UnifiedTypeArgumentCollection typeArguments) {
+				IUnifiedExpression target = null,
+				UnifiedArgumentCollection args = null,
+				UnifiedTypeArgumentCollection typeArguments = null) {
 			return new UnifiedCall {
 					Function = target,
 					Arguments = args,

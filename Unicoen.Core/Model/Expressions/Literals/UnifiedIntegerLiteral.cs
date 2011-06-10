@@ -45,35 +45,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedIntegerLiteral Create(
-				BigInteger value, UnifiedIntegerLiteralKind kind) {
+				BigInteger value, 
+				UnifiedIntegerLiteralKind kind) {
 			return new UnifiedIntegerLiteral {
 					Value = value,
 					Kind = kind,
 			};
-		}
-
-		public static UnifiedIntegerLiteral Create(int value) {
-			return Create(value, UnifiedIntegerLiteralKind.Int32);
-		}
-
-		public static UnifiedIntegerLiteral CreateInt32(BigInteger value) {
-			return Create(value, UnifiedIntegerLiteralKind.Int32);
-		}
-
-		public static UnifiedIntegerLiteral Create(long value) {
-			return Create(value, UnifiedIntegerLiteralKind.Int64);
-		}
-
-		public static UnifiedIntegerLiteral CreateInt64(BigInteger value) {
-			return Create(value, UnifiedIntegerLiteralKind.Int64);
-		}
-
-		public static UnifiedIntegerLiteral Create(BigInteger value) {
-			return Create(value, UnifiedIntegerLiteralKind.BigInteger);
-		}
-
-		public static UnifiedIntegerLiteral CreateBigInteger(BigInteger value) {
-			return Create(value, UnifiedIntegerLiteralKind.BigInteger);
 		}
 	}
 }

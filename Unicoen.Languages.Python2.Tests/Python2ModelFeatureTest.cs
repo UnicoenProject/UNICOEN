@@ -20,7 +20,7 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class Python2ModelFeatureTest : ModelFeatureTest {
 		private readonly Fixture _fixture = new Python2Fixture();
 

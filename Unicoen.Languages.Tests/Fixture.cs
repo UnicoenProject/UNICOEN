@@ -16,8 +16,12 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.Processor;
 
@@ -27,6 +31,16 @@ namespace Unicoen.Languages.Tests {
 		///   対応する言語のソースコードの拡張子を取得します．
 		/// </summary>
 		public abstract string Extension { get; }
+
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
+		public abstract string CompiledExtension { get; }
+
+		/// <summary>
+		/// バイトコード同士を比較する際に許容する不一致の要素数を取得します．
+		/// </summary>
+		public virtual int AllowedMismatchCount { get { return 0; } }
 
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
@@ -63,20 +77,34 @@ namespace Unicoen.Languages.Tests {
 		public abstract void Compile(string dirPath, string fileName);
 
 		/// <summary>
-		///   コンパイル済みのコードを全て取得します．
-		/// </summary>
-		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
-		/// <returns></returns>
-		public abstract IEnumerable<object[]> GetAllCompiledCode(string dirPath);
-
-		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
 		/// </summary>
 		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
 		/// <param name = "command">コンパイルのコマンド</param>
 		/// <param name = "arguments">コマンドの引数</param>
-		public abstract void CompileWithArguments(
-				string workPath, string command, string arguments);
+		public virtual void CompileWithArguments(
+				string workPath, string command, string arguments) {
+			var info = new ProcessStartInfo {
+					FileName = command,
+					Arguments = arguments,
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					WorkingDirectory = workPath,
+					RedirectStandardError = true,
+			};
+			try {
+				using (var p = Process.Start(info)) {
+					var errorMessage = p.StandardError.ReadToEnd();
+					p.WaitForExit();
+					if (p.ExitCode != 0) {
+						throw new InvalidOperationException(
+								"Failed to compile the code.\n" + errorMessage);
+					}
+				}
+			} catch (Win32Exception e) {
+				throw new InvalidOperationException("Failed to launch compiler.", e);
+			}
+		}
 
 		/// <summary>
 		///   指定したディレクトリ内の全てのソースコードのパスを取得します．
@@ -87,6 +115,27 @@ namespace Unicoen.Languages.Tests {
 			return Directory.EnumerateFiles(
 					dirPath, "*" + Extension,
 					SearchOption.AllDirectories);
+		}
+
+		/// <summary>
+		/// コンパイル済みのコードのバイト列を取得します．
+		/// </summary>
+		/// <param name="path">コンパイル済みのコードのパス</param>
+		/// <returns>コンパイル済みのコードのバイト列</returns>
+		protected virtual byte[] GetCompiledByteCode(string path) {
+			return File.ReadAllBytes(path);
+		}
+
+		/// <summary>
+		///   コンパイル済みのコードを全て取得します．
+		/// </summary>
+		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
+		/// <returns></returns>
+		public IEnumerable<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
+			return Directory.EnumerateFiles(
+					dirPath, "*" + CompiledExtension,
+					SearchOption.AllDirectories)
+					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)));
 		}
 	}
 }

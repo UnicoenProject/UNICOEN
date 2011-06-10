@@ -70,24 +70,18 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedImport Create(
-				IUnifiedExpression from,
-				IUnifiedExpression name,
-				string alias,
-				UnifiedModifierCollection modifiers) {
+				IUnifiedExpression from = null,
+				IUnifiedExpression name = null,
+				string alias = null,
+				UnifiedModifierCollection modifiers = null) {
 			return new UnifiedImport {
 					From = from,
 					Name = name,
 					Alias = alias != null
-					        		? UnifiedIdentifier.CreateUnknown(alias)
+					        		? UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, alias)
 					        		: null,
 					Modifiers = modifiers,
 			};
-		}
-
-		public static UnifiedImport Create(
-				IUnifiedExpression name,
-				UnifiedModifierCollection modifiers) {
-			return Create(null, name, null, modifiers);
 		}
 	}
 }

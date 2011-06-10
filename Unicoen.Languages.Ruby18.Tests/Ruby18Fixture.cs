@@ -28,6 +28,10 @@ namespace Unicoen.Languages.Ruby18.Tests {
 			get { return ".rb"; }
 		}
 
+		public override string CompiledExtension {
+			get { throw new NotImplementedException(); }
+		}
+
 		public override ModelFactory ModelFactory {
 			get { throw new NotImplementedException(); }
 		}
@@ -49,10 +53,6 @@ namespace Unicoen.Languages.Ruby18.Tests {
 		}
 
 		public override void Compile(string dirPath, string fileName) {
-			throw new NotImplementedException();
-		}
-
-		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			throw new NotImplementedException();
 		}
 

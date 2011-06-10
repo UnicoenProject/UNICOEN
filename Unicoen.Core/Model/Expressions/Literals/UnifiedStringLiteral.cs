@@ -26,8 +26,6 @@ namespace Unicoen.Core.Model {
 	public class UnifiedStringLiteral : UnifiedTypedLiteral<string> {
 		private UnifiedStringLiteral() {}
 
-		public UnifiedStringLiteralKind Kind { get; set; }
-
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -43,20 +41,10 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedStringLiteral Create(
-				string value, UnifiedStringLiteralKind kind) {
+		public static UnifiedStringLiteral Create(string value) {
 			return new UnifiedStringLiteral {
 					Value = value,
-					Kind = kind,
 			};
-		}
-
-		public static UnifiedStringLiteral CreateChar(string value) {
-			return Create(value, UnifiedStringLiteralKind.Char);
-		}
-
-		public static UnifiedStringLiteral CreateString(string value) {
-			return Create(value, UnifiedStringLiteralKind.String);
 		}
 	}
 }

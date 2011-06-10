@@ -75,9 +75,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedSlice Create(
-				IUnifiedExpression initializer,
-				IUnifiedExpression condition,
-				IUnifiedExpression step) {
+				IUnifiedExpression initializer = null,
+				IUnifiedExpression condition = null,
+				IUnifiedExpression step = null) {
 			return new UnifiedSlice {
 					Start = initializer,
 					End = condition,

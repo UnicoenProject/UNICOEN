@@ -19,11 +19,13 @@
 namespace Unicoen.Core.Model {
 	public static class ModelFactoryForModel {
 		public static UnifiedArgument ToArgument(this IUnifiedExpression expression) {
-			return UnifiedArgument.Create(expression);
+			return UnifiedArgument.Create(null, null, expression);
 		}
 
 		public static UnifiedFunctionDefinition ToFunctionDefinition(this string name) {
-			return UnifiedFunctionDefinition.CreateFunction(name);
+			return UnifiedFunctionDefinition.Create(
+					UnifiedFunctionDefinitionKind.Function,
+					null, UnifiedModifierCollection.Create(), null, null, UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), UnifiedParameterCollection.Create(), null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedWhile ToWhile(this IUnifiedExpression condition) {
@@ -31,7 +33,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedDoWhile ToDoWhile(this IUnifiedExpression condition) {
-			return UnifiedDoWhile.Create(condition);
+			return UnifiedDoWhile.Create(null, condition);
 		}
 
 		public static UnifiedIf ToIf(this IUnifiedExpression condition) {
@@ -39,7 +41,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedSpecialExpression ToReturn(this IUnifiedExpression value) {
-			return UnifiedSpecialExpression.CreateReturn(value);
+			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Return, value);
 		}
 
 		public static UnifiedCase ToCase(this IUnifiedExpression condtion) {

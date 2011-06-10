@@ -51,68 +51,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedSpecialExpression Create(
-				UnifiedSpecialExpressionKind kind) {
-			return new UnifiedSpecialExpression {
-					Kind = kind,
-			};
-		}
-
-		public static UnifiedSpecialExpression Create(
-				UnifiedSpecialExpressionKind kind, IUnifiedExpression value) {
+				UnifiedSpecialExpressionKind kind, 
+				IUnifiedExpression value = null) {
 			return new UnifiedSpecialExpression {
 					Kind = kind,
 					Value = value,
 			};
-		}
-
-		public static UnifiedSpecialExpression CreateReturn() {
-			return Create(UnifiedSpecialExpressionKind.Return);
-		}
-
-		public static UnifiedSpecialExpression CreateReturn(IUnifiedExpression value) {
-			return Create(UnifiedSpecialExpressionKind.Return, value);
-		}
-
-		public static UnifiedSpecialExpression CreateYieldReturn() {
-			return Create(UnifiedSpecialExpressionKind.YieldReturn);
-		}
-
-		public static UnifiedSpecialExpression CreateYieldReturn(
-				IUnifiedExpression value) {
-			return Create(UnifiedSpecialExpressionKind.YieldReturn, value);
-		}
-
-		public static UnifiedSpecialExpression CreateBreak() {
-			return Create(UnifiedSpecialExpressionKind.Break);
-		}
-
-		public static UnifiedSpecialExpression CreateBreak(IUnifiedExpression value) {
-			return Create(UnifiedSpecialExpressionKind.Break, value);
-		}
-
-		public static UnifiedSpecialExpression CreateContinue() {
-			return Create(UnifiedSpecialExpressionKind.Continue);
-		}
-
-		public static UnifiedSpecialExpression CreateContinue(
-				IUnifiedExpression value) {
-			return Create(UnifiedSpecialExpressionKind.Continue, value);
-		}
-
-		public static UnifiedSpecialExpression CreateGoto() {
-			return Create(UnifiedSpecialExpressionKind.Goto);
-		}
-
-		public static UnifiedSpecialExpression CreateGoto(IUnifiedExpression value) {
-			return Create(UnifiedSpecialExpressionKind.Goto, value);
-		}
-
-		public static UnifiedSpecialExpression CreateThrow() {
-			return Create(UnifiedSpecialExpressionKind.Throw);
-		}
-
-		public static UnifiedSpecialExpression CreateThrow(IUnifiedExpression value) {
-			return Create(UnifiedSpecialExpressionKind.Throw, value);
 		}
 	}
 }

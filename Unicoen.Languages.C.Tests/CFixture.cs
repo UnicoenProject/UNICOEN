@@ -33,6 +33,13 @@ namespace Unicoen.Languages.C.Tests {
 		}
 
 		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
+		public override string CompiledExtension {
+			get { return ".exe"; }
+		}
+
+		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
 		/// </summary>
 		public override ModelFactory ModelFactory {
@@ -107,15 +114,6 @@ namespace Unicoen.Languages.C.Tests {
 		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
 		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
 		public override void Compile(string dirPath, string fileName) {}
-
-		/// <summary>
-		///   コンパイル済みのコードを全て取得します．
-		/// </summary>
-		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
-		/// <returns></returns>
-		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
-			return null;
-		}
 
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．

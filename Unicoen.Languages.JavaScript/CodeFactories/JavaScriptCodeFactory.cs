@@ -138,7 +138,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			//for Block
 			if (decoration.MostLeft == "{") {
 				arg.WriteLine(decoration.MostLeft);
-				arg = arg.IncrementIndentDepth();
+				arg = arg.IncrementDepth();
 
 				foreach (var stmt in element) {
 					arg.WriteIndent();
@@ -380,7 +380,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 			//TODO �Ȃ�element.Body.TryAccept���Ȃ��̂�(Java����̗��p)
 			arg.WriteLine("{");
-			arg = arg.IncrementIndentDepth();
+			arg = arg.IncrementDepth();
 			foreach (var stmt in element.Body) {
 				arg.WriteIndent();
 				if (stmt.TryAccept(this, arg))
@@ -478,7 +478,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedStringLiteral element, VisitorArgument arg) {
-			arg.Write('"' + element.Value + '"');
+			arg.Write(element.Value);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCharLiteral element, VisitorArgument arg) {
+			arg.Write(element.Value);
 			return false;
 		}
 

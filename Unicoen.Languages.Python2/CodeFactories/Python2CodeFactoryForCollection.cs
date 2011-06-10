@@ -132,7 +132,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedCaseCollection element, VisitorArgument arg) {
-			arg = arg.IncrementIndentDepth();
+			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
 				arg.WriteIndent();
 				caseElement.TryAccept(this, arg);
@@ -169,7 +169,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			var klass = element.Parent.Parent as UnifiedClassDefinition;
+			var klass = element.GrandParent() as UnifiedClassDefinition;
 			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {
