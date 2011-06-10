@@ -169,7 +169,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			var klass = element.Parent.Parent as UnifiedClassDefinition;
+			var klass = element.GrandParent() as UnifiedClassDefinition;
 			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {

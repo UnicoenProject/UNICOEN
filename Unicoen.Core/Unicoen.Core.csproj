@@ -83,6 +83,7 @@
     <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinitionList.cs" />
     <Compile Include="Model\Extensions\ModelGenerator.cs" />
+    <Compile Include="Model\Extensions\SafeModelSweeper.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Processor\CodeFactory.cs" />

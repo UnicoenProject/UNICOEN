@@ -198,5 +198,25 @@ namespace Unicoen.Core.Model {
 				where TElement : class, IUnifiedElement {
 			return element != null && element.Count >= 1;
 		}
+
+		/// <summary>
+		/// 親の親を取得します．
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public static IUnifiedElement GrandParent(this IUnifiedElement element) {
+			Contract.Requires(element != null);
+			return element.Parent.SafeParent();
+		}
+
+		/// <summary>
+		/// 親の親の親を取得します．
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public static IUnifiedElement GrandGrandParent(this IUnifiedElement element) {
+			Contract.Requires(element != null);
+			return element.Parent.SafeParent().SafeParent();
+		}
 	}
 }

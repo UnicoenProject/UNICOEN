@@ -83,6 +83,12 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				return "enum";
 			case UnifiedClassKind.Module:
 				return "module";
+			case UnifiedClassKind.Annotation:
+				return "@interface";
+			case UnifiedClassKind.Struct:
+				return "class /* struct */";
+			case UnifiedClassKind.Union:
+				return "class /* union */";
 			default:
 				throw new ArgumentOutOfRangeException("kind");
 			}
@@ -133,7 +139,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				arg.WriteSpace();
 				element.Name.TryAccept(this, arg);
 				return true;
-			}
+			} 
 			arg.WriteIndent();
 			element.Modifiers.TryAccept(this, arg);
 			arg.Write(keyword);
@@ -604,11 +610,19 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			element.Type.TryAccept(this, arg);
 			arg.Write(" ");
 			element.Name.TryAccept(this, arg);
+			element.Arguments.TryAccept(this, arg.Set(Paren));
+
+			// アノテーションの場合は String value() default "test";
+			var setterSign = " = ";
+			var klass = element.GrandParent() as UnifiedClassDefinition;
+			if (klass != null && klass.Kind == UnifiedClassKind.Annotation) {
+				setterSign = " default ";
+			}
+
 			if (element.InitialValue != null) {
-				arg.Write(" = ");
+				arg.Write(setterSign);
 				element.InitialValue.TryAccept(this, arg.Set(Bracket));
 			}
-			element.Arguments.TryAccept(this, arg.Set(Paren));
 			element.Body.TryAccept(this, arg);
 			return false;
 		}
