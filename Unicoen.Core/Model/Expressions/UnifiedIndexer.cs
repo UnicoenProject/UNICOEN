@@ -56,8 +56,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedIndexer Create(
-				IUnifiedExpression current,
-				UnifiedArgumentCollection create) {
+				IUnifiedExpression current = null,
+				UnifiedArgumentCollection create = null) {
 			return new UnifiedIndexer {
 					Target = current,
 					Arguments = create

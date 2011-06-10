@@ -23,6 +23,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Scripting.Math;
 using Unicoen.Core.Model;
+using BigInteger = System.Numerics.BigInteger;
 
 namespace Unicoen.Languages.Ruby18.Model {
 	public class RubyModelFactory {
@@ -58,8 +59,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			if (node.Name.LocalName == "lit") {
 				switch (node.Elements().First().Name.LocalName) {
 				case "Fixnum":
-					return UnifiedIntegerLiteral.Create(
-							BigInteger.Parse(node.Value));
+					return UnifiedIntegerLiteral.Create(Microsoft.Scripting.Math.BigInteger.Parse(node.Value), UnifiedIntegerLiteralKind.BigInteger);
 				}
 			}
 			throw new NotImplementedException();
@@ -67,7 +67,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		public static UnifiedFractionLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node.Name.LocalName == "lit");
-			return UnifiedFractionLiteral.CreateDouble(double.Parse(node.Value));
+			return UnifiedFractionLiteral.Create(double.Parse(node.Value), UnifiedFractionLiteralKind.Double);
 		}
 
 		public static UnifiedBinaryOperator CreateOperator(string sign) {
@@ -89,12 +89,10 @@ namespace Unicoen.Languages.Ruby18.Model {
 									CreateExpression(node.Elements().ElementAt(2).Elements().First()));
 				}
 			}
-			return UnifiedCall.Create(
-					UnifiedIdentifier.CreateUnknown(funcName),
-					UnifiedArgumentCollection.Create(
-							(UnifiedArgument[])node.Elements().ElementAt(2).Elements()
-							                   		.Select(
-							                   				e => UnifiedArgument.Create(CreateExpression(e)))));
+			return UnifiedCall.Create(UnifiedIdentifier.Create(funcName, UnifiedIdentifierKind.Unknown), UnifiedArgumentCollection.Create(
+					(UnifiedArgument[])node.Elements().ElementAt(2).Elements()
+					                   		.Select(
+					                   				e => UnifiedArgument.Create(null, null, CreateExpression(e)))));
 		}
 
 		public static IUnifiedExpression CreateExpression(XElement node) {
@@ -103,16 +101,13 @@ namespace Unicoen.Languages.Ruby18.Model {
 			case "lit":
 				return CreateLiteral(node);
 			case "lvar":
-				return UnifiedIdentifier.CreateUnknown(node.Value);
+				return UnifiedIdentifier.Create(node.Value, UnifiedIdentifierKind.Unknown);
 			case "call":
 				return CreateCall(node);
 			case "if":
-				return UnifiedIf.Create(
-						CreateExpression(elems.ElementAt(0)),
-						CreateBlock(elems.ElementAt(1)), CreateBlock(elems.ElementAt(2)));
+				return UnifiedIf.Create(CreateExpression(elems.ElementAt(0)), CreateBlock(elems.ElementAt(1)), CreateBlock(elems.ElementAt(2)));
 			case "return":
-				return UnifiedSpecialExpression.CreateReturn(
-						CreateExpression(elems.First()));
+				return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Return, CreateExpression(elems.First()));
 			default:
 				throw new NotImplementedException();
 			}
@@ -121,19 +116,17 @@ namespace Unicoen.Languages.Ruby18.Model {
 		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
-			return UnifiedFunctionDefinition.CreateFunction(
-					elems.First().Value,
-					UnifiedParameterCollection.Create(
+			return UnifiedFunctionDefinition.Create(
+					UnifiedFunctionDefinitionKind.Function,
+					null, UnifiedModifierCollection.Create(), null, null, UnifiedIdentifier.Create(elems.First().Value, UnifiedIdentifierKind.Function), UnifiedParameterCollection.Create(
 							(UnifiedParameter[])elems.ElementAt(1).Elements()
 							                    		.Select(
 							                    				e => UnifiedParameter.Create(
 							                    						null,
 							                    						null, null,
-							                    						UnifiedIdentifier.CreateVariable(e.Value).
+							                    						UnifiedIdentifier.Create(e.Value, UnifiedIdentifierKind.Variable).
 							                    								ToCollection(),
-							                    						null))),
-					CreateBlock(elems.ElementAt(2).Elements().First())
-					);
+							                    						null))), null, CreateBlock(elems.ElementAt(2).Elements().First()));
 		}
 
 		private static UnifiedBlock CreateBlock(XElement node) {

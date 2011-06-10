@@ -65,7 +65,7 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		private static UnifiedListComprehension Create(
+		public static UnifiedListComprehension Create(
 				UnifiedListKind kind,
 				IUnifiedExpression element,
 				UnifiedExpressionCollection generator) {
@@ -74,33 +74,6 @@ namespace Unicoen.Core.Model {
 					Element = element,
 					Generator = generator,
 			};
-		}
-
-		public static UnifiedListComprehension CreateList(
-				IUnifiedExpression element,
-				UnifiedExpressionCollection generator) {
-			return Create(
-					UnifiedListKind.List,
-					element,
-					generator);
-		}
-
-		public static UnifiedListComprehension CreateLazyList(
-				IUnifiedExpression element,
-				UnifiedExpressionCollection generator) {
-			return Create(
-					UnifiedListKind.LazyList,
-					element,
-					generator);
-		}
-
-		public static UnifiedListComprehension CreateSet(
-				IUnifiedExpression element,
-				UnifiedExpressionCollection generator) {
-			return Create(
-					UnifiedListKind.Set,
-					element,
-					generator);
 		}
 	}
 }

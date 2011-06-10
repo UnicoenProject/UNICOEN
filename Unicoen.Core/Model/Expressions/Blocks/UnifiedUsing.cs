@@ -55,13 +55,13 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedUsing Create(
-				UnifiedMatcherCollection matchers,
-				UnifiedBlock body) {
+		public static UnifiedUsing Create2(
+				UnifiedMatcherCollection matchers = null,
+				UnifiedBlock body = null) {
 			return new UnifiedUsing {
 					Matchers = matchers,
 					Body = body,
 			};
 		}
-			}
+	}
 }

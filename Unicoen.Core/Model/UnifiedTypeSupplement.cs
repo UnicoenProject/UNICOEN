@@ -77,7 +77,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		/// <returns></returns>
 		public static UnifiedTypeSupplement CreateArray() {
-			return CreateArray(UnifiedArgument.Create(null));
+			return CreateArray(UnifiedArgument.Create(null, null, null));
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace Unicoen.Core.Model {
 		public static UnifiedTypeSupplement CreateRectangleArray(int dimension) {
 			var args = UnifiedArgumentCollection.Create();
 			for (int i = 0; i < dimension; i++)
-				args.Add(UnifiedArgument.Create(null));
+				args.Add(UnifiedArgument.Create(null, null, null));
 			return Create(args, UnifiedTypeSupplementKind.MultidimensionArray);
 		}
 

@@ -82,85 +82,23 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedConstructorDefinition Create() {
-			return new UnifiedConstructorDefinition();
-		}
-
-		public static UnifiedConstructorDefinition Create(UnifiedBlock body) {
-			return new UnifiedConstructorDefinition {
+		public static UnifiedConstructorDefinition Create(
+			UnifiedConstructorDefinitionKind kind,	
+			UnifiedBlock body = null,
+			UnifiedAnnotationCollection annotations = null,
+			UnifiedModifierCollection modifiers = null, 
+			UnifiedParameterCollection parameters = null,
+			UnifiedTypeParameterCollection typeParameters = null,
+			UnifiedTypeCollection throws = null) {
+				return new UnifiedConstructorDefinition {
+					Kind = kind,
 					Body = body,
-			};
-		}
-
-		public static UnifiedConstructorDefinition Create(
-				UnifiedBlock body,
-				UnifiedModifier modifier,
-				UnifiedParameterCollection
-						parameters,
-				UnifiedConstructorDefinitionKind
-						kind) {
-			return Create(
-					body, UnifiedModifierCollection.Create(modifier), parameters,
-					null, null,
-					kind);
-		}
-
-		public static UnifiedConstructorDefinition Create(
-				UnifiedBlock body,
-				UnifiedModifier modifier,
-				UnifiedParameterCollection
-						parameters) {
-			return Create(
-					body, UnifiedModifierCollection.Create(modifier), parameters,
-					null, null,
-					UnifiedConstructorDefinitionKind.Constructor);
-		}
-
-		public static UnifiedConstructorDefinition Create(
-				UnifiedBlock body,
-				UnifiedModifierCollection
-						modifier,
-				UnifiedParameterCollection
-						parameters) {
-			return Create(
-					body, modifier, parameters, null, null,
-					UnifiedConstructorDefinitionKind.Constructor);
-		}
-
-		public static UnifiedConstructorDefinition Create(
-				UnifiedBlock body,
-				UnifiedModifierCollection
-						modifiers,
-				UnifiedParameterCollection
-						parameters,
-				UnifiedTypeParameterCollection
-						typeParameters,
-				UnifiedTypeCollection throws,
-				UnifiedConstructorDefinitionKind
-						kind) {
-			return new UnifiedConstructorDefinition {
-					Body = body,
+					Annotations = annotations,
 					Modifiers = modifiers,
 					Parameters = parameters,
 					TypeParameters = typeParameters,
 					Throws = throws,
-					Kind = kind,
-			};
+				};
 		}
-
-		public static IUnifiedExpression Create(
-				UnifiedBlock body, UnifiedAnnotationCollection annotations,
-				UnifiedModifierCollection modifiers, UnifiedParameterCollection parameters,
-				UnifiedTypeParameterCollection typeParameters, UnifiedTypeCollection throws,
-				UnifiedConstructorDefinitionKind kind) {
-			return new UnifiedConstructorDefinition {
-					Body = body,
-					Modifiers = modifiers,
-					Parameters = parameters,
-					TypeParameters = typeParameters,
-					Throws = throws,
-					Kind = kind,
-			};
-		}
-			}
+	}
 }

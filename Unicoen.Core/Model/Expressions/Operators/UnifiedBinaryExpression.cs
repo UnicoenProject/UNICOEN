@@ -76,8 +76,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedBinaryExpression Create(
 				IUnifiedExpression leftHandSide,
-				UnifiedBinaryOperator
-						binaryOperator,
+				UnifiedBinaryOperator binaryOperator,
 				IUnifiedExpression rightHandSide) {
 			return new UnifiedBinaryExpression {
 					LeftHandSide = leftHandSide,

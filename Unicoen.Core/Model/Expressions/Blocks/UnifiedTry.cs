@@ -75,15 +75,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedTry Create(
-				UnifiedBlock body,
-				UnifiedCatchCollection catches,
-				UnifiedBlock finallyBody) {
-			return Create(body, catches, null, finallyBody);
-		}
-
-		public static UnifiedTry Create(
-				UnifiedBlock body, UnifiedCatchCollection catches, UnifiedBlock elseBody,
-				UnifiedBlock finallyBody) {
+				UnifiedBlock body = null,
+				UnifiedCatchCollection catches = null,
+				UnifiedBlock elseBody = null,
+				UnifiedBlock finallyBody = null) {
 			return new UnifiedTry {
 					Body = body,
 					Catches = catches,
