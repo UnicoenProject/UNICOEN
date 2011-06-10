@@ -29,7 +29,7 @@ namespace Unicoen.Apps.Aop.Tests {
 	///   アスペクトが正しく織り込まれているかテストする。
 	/// </summary>
 	[TestFixture]
-	internal class PointcutTest {
+	public class WeavingTest {
 		private readonly string _fibonacciPath =
 				FixtureUtil.GetInputPath("Java", "Default", "Fibonacci.java");
 

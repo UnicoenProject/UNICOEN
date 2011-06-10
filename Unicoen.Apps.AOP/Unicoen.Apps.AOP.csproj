@@ -55,9 +55,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspectCompiler\AriesLexer.cs" />
+    <Compile Include="AspectCompiler\AriesParser.cs" />
+    <Compile Include="AspectElement\Advice.cs" />
+    <Compile Include="AspectElement\IAspectElement.cs" />
+    <Compile Include="AspectElement\Intertype.cs" />
+    <Compile Include="AspectElement\LanguageDependBlock.cs" />
+    <Compile Include="AspectElement\Pointcut.cs" />
     <Compile Include="CodeProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitor\AstVisitor.cs" />
+    <Compile Include="Visitor\DebugVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
@@ -76,6 +85,10 @@
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AspectCompiler\Aries.g" />
+    <None Include="AspectCompiler\Aries.tokens" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
