@@ -66,9 +66,14 @@ namespace Unicoen.Apps.Aop {
 		/// <param name="code">コード断片</param>
 		/// <returns></returns>
 		public static UnifiedBlock CreateIntertype(string language, string code) {
+			XElement ast = null;
+
+			
 			//TODO インタータイプ宣言向けに修正	
 			switch (language) {
 				case "Java":
+					ast = JavaCodeToXml.Instance.Generate(code, p => p.memberDecl());
+					var actual = JavaModelFactoryHelper.CreateMemberDecl(ast);
 					throw new NotImplementedException();
 				case "JavaScript":
 					throw new NotImplementedException();
