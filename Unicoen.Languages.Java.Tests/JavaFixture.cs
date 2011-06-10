@@ -116,10 +116,34 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => new TestCaseData(
-								     		FixtureUtil.GetInputPath("Java", o.DirName),
-								     		o.Command,
-								     		o.Arguments));
+											FixtureUtil.GetInputPath("Java", o.DirName),
+											o.Command,
+											o.Arguments))
+						.Concat(new[] {
+							SetUpJUnit(),
+						});
 			}
+		}
+		private static TestCaseData SetUpJUnit() {
+			var path = FixtureUtil.GetDownloadPath("Java", "JUnit4.8.2");
+			var srcPath = Path.Combine(path, "src.zip");
+			var depPath = Path.Combine(path, "dep.jar");
+			var args = new[] {
+					"-cp",
+					"\"" + path + "\";\"" + depPath + "\"",
+					"\"" + Path.Combine(path, @"org\junit\runner\*.java") + "\"",
+			};
+			var testCase = new TestCaseData(
+					path,
+					CompileCommand,
+					args.JoinString(" "));
+			if (Directory.Exists(path))
+				return testCase;
+			Directory.CreateDirectory(path);
+			FixtureManager.Download("https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
+			FixtureManager.Unzip(srcPath);
+			FixtureManager.Download("https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
+			return testCase;
 		}
 
 		/// <summary>

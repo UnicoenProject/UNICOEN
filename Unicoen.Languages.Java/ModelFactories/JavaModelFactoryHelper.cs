@@ -1028,7 +1028,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * |   elementValueArrayInitializer 
 			 */
 			var first = node.FirstElement();
-			switch (node.Name()) {
+			switch (first.Name()) {
 			case "conditionalExpression":
 				return CreateConditionalExpression(first);
 			case "annotation":

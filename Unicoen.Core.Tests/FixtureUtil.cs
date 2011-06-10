@@ -25,6 +25,7 @@ namespace Unicoen.Core.Tests {
 		public const string AopExpectationName = "aspect_expectation";
 		public const string ExpectationName = "expectation";
 		public const string InputName = "input";
+		public const string DownloadName = "download";
 		public const string FailedInputName = "failed_input";
 		public const string OutputName = "output";
 		public const string XmlExpectationName = "xmlexpectation";
@@ -53,6 +54,11 @@ namespace Unicoen.Core.Tests {
 
 		public static string GetInputPath(string lang, params string[] names) {
 			return Path.Combine(FixturePath, lang, InputName)
+					.GetFullPathAddingSubNames(names);
+		}
+
+		public static string GetDownloadPath(string lang, params string[] names) {
+			return Path.Combine(FixturePath, lang, DownloadName)
 					.GetFullPathAddingSubNames(names);
 		}
 
