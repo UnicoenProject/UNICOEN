@@ -50,13 +50,5 @@ namespace Unicoen.Core.Model {
 					Kind = kind,
 			};
 		}
-
-		public static UnifiedFractionLiteral CreateSingle(double value) {
-			return Create(value, UnifiedFractionLiteralKind.Single);
-		}
-
-		public static UnifiedFractionLiteral CreateDouble(double value) {
-			return Create(value, UnifiedFractionLiteralKind.Double);
-		}
 	}
 }

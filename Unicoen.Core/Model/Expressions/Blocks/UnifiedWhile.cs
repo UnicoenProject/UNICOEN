@@ -60,22 +60,16 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
+		
 		public static UnifiedWhile Create(
-				IUnifiedExpression condition, UnifiedBlock body, UnifiedBlock elseBody) {
+				IUnifiedExpression condition = null,
+				UnifiedBlock body = null,
+				UnifiedBlock elseBody = null) {
 			return new UnifiedWhile {
 					Condition = condition,
 					Body = body,
 					ElseBody = elseBody,
 			};
 		}
-
-		public static UnifiedWhile Create(
-				IUnifiedExpression condition, UnifiedBlock body) {
-			return Create(condition, body, null);
-		}
-
-		public static UnifiedWhile Create(IUnifiedExpression condition) {
-			return Create(condition, null, null);
-		}
-			}
+	}
 }

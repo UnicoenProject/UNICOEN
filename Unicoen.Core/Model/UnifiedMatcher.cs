@@ -81,15 +81,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedMatcher Create(
-				IUnifiedExpression matcher, IUnifiedExpression asExp) {
-			return Create(null, null, matcher, asExp);
-		}
-
-		public static UnifiedMatcher Create(
-				UnifiedAnnotationCollection annotations,
-				UnifiedModifierCollection modifiers, IUnifiedExpression matcher,
-				IUnifiedExpression asExp) {
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null, 
+				IUnifiedExpression matcher = null,
+				IUnifiedExpression asExp = null) {
 			return new UnifiedMatcher {
+					Annotations = annotations,
 					Modifiers = modifiers,
 					Matcher = matcher,
 					As = asExp,

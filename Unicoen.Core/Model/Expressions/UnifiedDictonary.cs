@@ -51,7 +51,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedDictonary Create(
-				UnifiedKeyValueCollection keyValues) {
+				UnifiedKeyValueCollection keyValues = null) {
 			return new UnifiedDictonary {
 					KeyValues = keyValues,
 			};

@@ -51,11 +51,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedIntegerLiteral ToLiteral(this int value) {
-			return UnifiedIntegerLiteral.Create(value);
+			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int32);
 		}
 
 		public static UnifiedFractionLiteral ToLiteral(this double value) {
-			return UnifiedFractionLiteral.CreateDouble(value);
+			return UnifiedFractionLiteral.Create(value, UnifiedFractionLiteralKind.Double);
 		}
 	}
 }
