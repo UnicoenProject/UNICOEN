@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -65,21 +66,37 @@ namespace Unicoen.Apps.Aop {
 		/// <param name="language">対象言語</param>
 		/// <param name="code">コード断片</param>
 		/// <returns></returns>
-		public static UnifiedBlock CreateIntertype(string language, string code) {
+		public static List<IUnifiedExpression> CreateIntertype(string language, string code) {
 			XElement ast = null;
+			var actual = new List<IUnifiedExpression>();
 
-			
-			//TODO インタータイプ宣言向けに修正	
 			switch (language) {
 				case "Java":
-					ast = JavaCodeToXml.Instance.Generate(code, p => p.memberDecl());
-					var actual = JavaModelFactoryHelper.CreateMemberDecl(ast);
-					throw new NotImplementedException();
+					//classBodyとしてパースするために中括弧を補う
+					code = "{ " + code + " }";
+					ast = JavaCodeToXml.Instance.Generate(code, p => p.classBody());
+					var classBody = JavaModelFactoryHelper.CreateClassBody(ast);
+					foreach (var e in classBody) {
+						var method = e as UnifiedFunctionDefinition;
+						var field = e as UnifiedVariableDefinitionList;
+						if(field != null)
+							actual.Add(field);
+						if(method != null)
+							actual.Add(method);
+					}
+					break;
+
 				case "JavaScript":
-					throw new NotImplementedException();
+					ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.program());
+					var program = JavaScriptModelFactoryHelper.CreateProgram(ast);
+					foreach(var e in program) {
+						actual.Add(e);
+					}
+					break;
 				default:
 					throw new NotImplementedException();
 			}
+			return actual;
 		}
 
 		#region Execution
