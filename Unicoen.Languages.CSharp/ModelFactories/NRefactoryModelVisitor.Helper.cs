@@ -139,7 +139,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedStringLiteral.Create(
 						(string)value);
 			if (value is int)
-				return UnifiedIntegerLiteral.Create((int)value);
+				return UnifiedIntegerLiteral.Create((int)value, UnifiedIntegerLiteralKind.Int32);
 
 			throw new NotImplementedException("ParseValue");
 		}

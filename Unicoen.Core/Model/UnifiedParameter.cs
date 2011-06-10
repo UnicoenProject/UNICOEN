@@ -110,33 +110,5 @@ namespace Unicoen.Core.Model {
 					DefaultValue = defaultValue,
 			};
 		}
-
-		public static UnifiedParameter Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedType type = null,
-				string name = null,
-				IUnifiedExpression defaultValue = null) {
-			return Create(
-					annotations,
-					modifiers,
-					type,
-					UnifiedIdentifier.CreateVariable(name).ToCollection(),
-					defaultValue);
-		}
-
-		public static UnifiedParameter Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedType type = null,
-				UnifiedIdentifier name = null,
-				IUnifiedExpression defaultValue = null) {
-			return Create(
-					annotations,
-					modifiers,
-					type,
-					name.ToCollection(),
-					defaultValue);
-		}
 	}
 }

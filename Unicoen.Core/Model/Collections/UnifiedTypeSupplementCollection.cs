@@ -79,7 +79,7 @@ namespace Unicoen.Core.Model {
 		/// <returns></returns>
 		public static UnifiedTypeSupplementCollection CreateArray(int dimension) {
 			return CreateArray(
-					Enumerable.Repeat(UnifiedArgument.Create(null), dimension));
+					Enumerable.Repeat(UnifiedArgument.Create(null, null, null), dimension));
 		}
 
 		/// <summary>

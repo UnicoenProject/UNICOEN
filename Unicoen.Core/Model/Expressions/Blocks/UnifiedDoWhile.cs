@@ -59,28 +59,14 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedDoWhile Create() {
-			return new UnifiedDoWhile();
-		}
-
-		public static UnifiedDoWhile Create(UnifiedBlock body) {
-			return new UnifiedDoWhile {
-					Body = body,
-			};
-		}
-
 		public static UnifiedDoWhile Create(
-				UnifiedBlock body,
-				IUnifiedExpression condition) {
+				UnifiedBlock body = null,
+				IUnifiedExpression condition = null,
+				UnifiedBlock falseBody = null) {
 			return new UnifiedDoWhile {
 					Body = body,
 					Condition = condition,
-			};
-		}
-
-		public static UnifiedDoWhile Create(IUnifiedExpression condition) {
-			return new UnifiedDoWhile {
-					Condition = condition,
+					FalseBody = falseBody,
 			};
 		}
 	}

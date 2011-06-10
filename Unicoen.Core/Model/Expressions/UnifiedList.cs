@@ -55,38 +55,13 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		private static UnifiedList Create(
+		public static UnifiedList Create(
 				UnifiedListKind kind,
-				UnifiedExpressionCollection elements) {
+				UnifiedExpressionCollection elements = null) {
 			return new UnifiedList {
 					Kind = kind,
 					Elements = elements,
 			};
-		}
-
-		public static UnifiedList CreateList(
-				UnifiedExpressionCollection elements) {
-			return Create(UnifiedListKind.List, elements);
-		}
-
-		public static UnifiedList CreateLazyList(
-				UnifiedExpressionCollection elements) {
-			return Create(UnifiedListKind.LazyList, elements);
-		}
-
-		public static UnifiedList CreateTuple(
-				UnifiedExpressionCollection elements) {
-			return Create(UnifiedListKind.Tuple, elements);
-		}
-
-		public static UnifiedList CreateArray(
-				UnifiedExpressionCollection elements) {
-			return Create(UnifiedListKind.Array, elements);
-		}
-
-		public static UnifiedList CreateSet(
-				UnifiedExpressionCollection elements) {
-			return Create(UnifiedListKind.Set, elements);
 		}
 	}
 }

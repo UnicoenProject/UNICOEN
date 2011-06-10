@@ -60,32 +60,13 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedProperty Create(
-				IUnifiedExpression owner,
-				UnifiedIdentifier name, string delimite) {
+				IUnifiedExpression owner = null,
+				IUnifiedExpression name = null, 
+				string delimiter = null) {
 			return new UnifiedProperty {
 					Owner = owner,
 					Name = name,
-					Delimiter = delimite,
-			};
-		}
-
-		public static UnifiedProperty Create(
-				IUnifiedExpression owner, string name,
-				string delimite) {
-			return new UnifiedProperty {
-					Owner = owner,
-					Name = UnifiedIdentifier.CreateUnknown(name),
-					Delimiter = delimite,
-			};
-		}
-
-		public static UnifiedProperty Create(
-				IUnifiedExpression owner,
-				IUnifiedExpression name, string delimite) {
-			return new UnifiedProperty {
-					Owner = owner,
-					Name = name,
-					Delimiter = delimite,
+					Delimiter = delimiter,
 			};
 		}
 	}

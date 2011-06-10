@@ -73,39 +73,12 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedNew Create(IUnifiedExpression target) {
-			return Create(target, null, null, null, null);
-		}
-
 		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection arguments) {
-			return Create(target, arguments, null, null, null);
-		}
-
-		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedBlock body) {
-			return new UnifiedNew {
-					Target = target,
-					Arguments = null,
-					Body = body
-			};
-		}
-
-		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection arguments,
-				UnifiedList initialValues) {
-			return Create(target, arguments, null, initialValues, null);
-		}
-
-		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection arguments,
-				UnifiedTypeArgumentCollection typeArguments,
-				UnifiedList initialValues,
-				UnifiedBlock body) {
+				IUnifiedExpression target = null,
+				UnifiedArgumentCollection arguments = null,
+				UnifiedTypeArgumentCollection typeArguments = null,
+				UnifiedList initialValues = null,
+				UnifiedBlock body = null) {
 			return new UnifiedNew {
 					Target = target,
 					Arguments = arguments,
@@ -113,20 +86,6 @@ namespace Unicoen.Core.Model {
 					InitialValue = initialValues,
 					Body = body,
 			};
-		}
-
-		public static UnifiedNew CreateArray(string name, UnifiedArgument argument) {
-			return Create(
-					UnifiedType.Create());
-		}
-
-		public static UnifiedNew CreateArray(UnifiedList initialValues) {
-			return Create(
-					UnifiedType.Create(),
-					null,
-					null,
-					initialValues,
-					null);
 		}
 	}
 }
