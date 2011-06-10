@@ -10,7 +10,20 @@ namespace Unicoen.Apps.Aop.Tests
 	[TestFixture]
 	public class IntertypeTest {
 
-		//TODO CreateAdvice()に関するテストを追加する
+		[Test]
+		public void Java言語向けコード片を正しくモデル化できる() {
+			const string code = "System.out.println(\"This is a test!\");";
+			var advice = CodeProcessor.CreateAdvice("Java", code);
+
+			Assert.That(advice.GetType(), Is.EqualTo(typeof(UnifiedBlock)));
+		}
+		
+		[Test]
+		public void JavaScript言語向けコード片を正しくモデル化できる() {
+			const string code = "alert(\"This is a test!\");";
+			var advice = CodeProcessor.CreateAdvice("JavaScript", code);
+			Assert.That(advice.GetType(), Is.EqualTo(typeof(UnifiedBlock)));
+		}
 
 		[Test]
 		public void Java言語向けメソッドインタータイプ宣言を正しくモデル化できる() {

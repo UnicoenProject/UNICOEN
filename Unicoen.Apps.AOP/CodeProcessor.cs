@@ -42,6 +42,7 @@ namespace Unicoen.Apps.Aop {
 			//generate model from string advice (as UnifiedBlock)
 			XElement ast = null;
 			UnifiedBlock actual = null;
+			code = "{ " + code + " }";
 
 			switch (language) {
 				case "Java":
