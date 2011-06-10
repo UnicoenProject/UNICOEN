@@ -17,12 +17,14 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
+using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Core.Model;
 using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.JavaScript.ModelFactories;
 
 namespace Unicoen.Apps.Aop {
 	/// <summary>
@@ -37,8 +39,21 @@ namespace Unicoen.Apps.Aop {
 		/// <returns></returns>
 		public static UnifiedBlock CreateAdvice(string language, string code) {
 			//generate model from string advice (as UnifiedBlock)
-			var ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
-			var actual = JavaModelFactoryHelper.CreateBlock(ast);
+			XElement ast = null;
+			UnifiedBlock actual = null;
+
+			switch (language) {
+				case "Java":
+					ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
+					actual = JavaModelFactoryHelper.CreateBlock(ast);
+					break;
+				case "JavaScript":
+					ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.statementBlock());
+					actual = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
+					break;
+				default:
+					throw new NotImplementedException();
+			}
 			actual.Normalize();
 
 			return actual;
@@ -51,12 +66,15 @@ namespace Unicoen.Apps.Aop {
 		/// <param name="code">コード断片</param>
 		/// <returns></returns>
 		public static UnifiedBlock CreateIntertype(string language, string code) {
-			//TODO インタータイプ宣言向けに修正
-			var ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
-			var actual = JavaModelFactoryHelper.CreateBlock(ast);
-			actual.Normalize();
-
-			return actual;
+			//TODO インタータイプ宣言向けに修正	
+			switch (language) {
+				case "Java":
+					throw new NotImplementedException();
+				case "JavaScript":
+					throw new NotImplementedException();
+				default:
+					throw new NotImplementedException();
+			}
 		}
 
 		#region Execution

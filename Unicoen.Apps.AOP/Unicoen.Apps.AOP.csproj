@@ -38,9 +38,11 @@
     <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\bin\Debug\Code2Xml.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Code2Xml.Languages.C, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Code2Xml.Languages.Java, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\lib\Code2Xml.Languages.Java.dll</HintPath>
     </Reference>
+    <Reference Include="Code2Xml.Languages.JavaScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
     </Reference>
@@ -65,6 +67,10 @@
     <ProjectReference Include="..\Unicoen.Languages.CSharp\Unicoen.Languages.CSharp.csproj">
       <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
       <Name>Unicoen.Languages.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicoen.Languages.JavaScript\Unicoen.Languages.JavaScript.csproj">
+      <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
+      <Name>Unicoen.Languages.JavaScript</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unicoen.Languages.Java\Unicoen.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
