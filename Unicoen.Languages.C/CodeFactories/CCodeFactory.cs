@@ -128,6 +128,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedBlock element, VisitorArgument arg) {
+			arg.WriteLine();	
 			arg.WriteIndent();
 			arg.WriteLine("{");
 			arg = arg.IncrementDepth();
@@ -139,7 +140,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			}
 
 			arg.WriteIndent();
-			arg.WriteLine(";");
+			arg.WriteLine("}");
 			return false;
 		}
 
@@ -167,7 +168,9 @@ namespace Unicoen.Languages.C.CodeFactories {
 			// C言語に存在しない要素は省略
 
 			arg.WriteIndent();
+			arg.Write("/* ");
 			element.Modifiers.TryAccept(this, arg);
+			arg.Write(" */");
 			// element.TypeParameters.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
@@ -250,15 +253,13 @@ namespace Unicoen.Languages.C.CodeFactories {
 				break;
 			case UnifiedClassKind.Class:
 				arg.Write("/* class");
+				arg.WriteSpace();
 				element.Name.TryAccept(this, arg);
-				arg.WriteLine(" { */");
+				arg.Write("*/");
+				
 				element.Body.TryAccept(this, arg);
-				arg.WriteLine();
-				arg.Write("/* } */");
 				break;
 			default:
-				arg.WriteLine("/* ElementNotInC */");
-				arg.WriteLine("/* " + element + " */");
 				break;
 			}
 
