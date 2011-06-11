@@ -18,37 +18,57 @@
 
 using System;
 using System.IO;
+using Antlr.Runtime.Tree;
 using Paraiba.Text;
-using Unicoen.Core.Model;
-using Unicoen.Languages.CSharp;
-using Unicoen.Languages.Java;
+using Unicoen.Apps.Aop.Visitor;
 
 namespace Unicoen.Apps.Aop {
 	public class Program {
-		public static UnifiedProgram CreateModel(string ext, string code) {
-			switch (ext.ToLower()) {
-			case ".cs":
-				return CSharpFactory.GenerateModel(code);
-			case ".java":
-				return JavaFactory.GenerateModel(code);
-			}
-			return null;
-		}
+
+		//TODO write usage
+		private const string Usage = "Usage:";
 
 		private static void Main(string[] args) {
-			/* parameters
-			 *  :  args[0] -> filePath
+			/* params
+			 *  :  args[0] -> コマンド名
+			 *  :  args[1] -> ウィーブ対象フォルダのパス
+			 *  :  args[2] -> アスペクトファイルのパス
 			 */
-			//var filePath = args[0];
-			const string filePath =
-					@"C:\Users\GreatAS\Desktop\Unicoen\fixture\Java\input\default\Student.java";
+			var symbol = args[0];
+			if(!symbol.Equals("aries")) {
+				Console.WriteLine(Usage);
+				return;
+			}
 
-			var ext = Path.GetExtension(filePath);
-			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var model = CreateModel(ext, code);
+			var filePath = args[1];
+			var aspectPath = args[2];
 
-			CodeProcessor.InsertAtAfterCallAll(model, "{Console.Write();}");
-			Console.Write(JavaFactory.GenerateCode(model));
+			//アスペクト情報を持つオブジェクトを生成する
+			var aspect = new Antlr.Runtime.ANTLRFileStream(aspectPath);
+			var lexer = new AriesLexer(aspect);
+			var tokens = new Antlr.Runtime.CommonTokenStream(lexer);
+			var parser = new AriesParser(tokens);
+
+			//アスペクトファイルを解析してASTを生成する
+			var result = parser.aspect();
+			var ast = (CommonTree) result.Tree;
+
+			//ASTを走査してパース結果をアスペクトオブジェクトとしてvisitor内に格納する
+			var visitor = new AstVisitor();
+			visitor.Visit(ast, 0, null);
+
+			//指定されたパス以下にあるソースコードをすべて取得します
+			var targetFiles = FileCollector.Collect(filePath);
+			//TODO ファイルを中身で返すか、パスで返すか検討
+			foreach (var file in targetFiles) {
+				var fileExtension = Path.GetExtension(filePath);
+				//TODO ソースコード以外のファイルだった場合にはcontinue
+				var code = File.ReadAllText(file, XEncoding.SJIS);
+				var model = CodeProcessor.CreateModel(fileExtension, code);
+
+				AspectAdaptor.Weave(model, visitor);
+				//TODO 出力処理 or ファイル書き出し処理
+			}
 		}
 	}
 }

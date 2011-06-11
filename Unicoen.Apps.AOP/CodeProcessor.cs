@@ -24,6 +24,8 @@ using System.Xml.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Core.Model;
+using Unicoen.Languages.CSharp;
+using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.ModelFactories;
 using Unicoen.Languages.JavaScript.ModelFactories;
 
@@ -32,6 +34,23 @@ namespace Unicoen.Apps.Aop {
 	///   アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
 	/// </summary>
 	public class CodeProcessor {
+		/// <summary>
+		/// 与えられたソースコードを共通モデルに変換します
+		/// </summary>
+		/// <param name="ext">対象言語の拡張子</param>
+		/// <param name="code">対象ソースコードの中身</param>
+		/// <returns></returns>
+		public static UnifiedProgram CreateModel(string ext, string code) {
+			switch (ext.ToLower()) {
+			case ".cs":
+				return CSharpFactory.GenerateModel(code);
+			case ".java":
+				return JavaFactory.GenerateModel(code);
+			}
+			//TODO implement 他の言語についても実装する
+			throw new NotImplementedException();
+		}
+
 		/// <summary>
 		///   与えられたコードを共通コードモデルとして生成します。
 		/// </summary>

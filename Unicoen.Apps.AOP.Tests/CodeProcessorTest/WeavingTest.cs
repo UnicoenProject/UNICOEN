@@ -39,7 +39,7 @@ namespace Unicoen.Apps.Aop.Tests {
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
 			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return Program.CreateModel(ext, code);
+			return CodeProcessor.CreateModel(ext, code);
 		}
 
 		[Test]
