@@ -99,12 +99,12 @@ namespace Unicoen.Core.Model {
 
 		public static IUnifiedExpression ToProperty(
 				this IEnumerable<IUnifiedExpression> collection, string delimiter) {
-			var first = collection.First();
-			if (collection.Count() == 1) {
-				return first;
+			var list = collection.ToList();
+			if (list.Count == 1) {
+				return list[0];
 			}
-			return collection.Skip(1).Aggregate(
-					first,
+			return list.Skip(1).Aggregate(
+					list[0],
 					(l, r) => UnifiedProperty.Create(l, r, delimiter));
 		}
 

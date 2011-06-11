@@ -26,13 +26,14 @@ namespace Unicoen.Core.Model {
 	public class UnifiedBlock
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>,
 			  IUnifiedExpression {
-		private UnifiedBlock() {}
-
-		private UnifiedBlock(IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
+protected UnifiedBlock() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public override UnifiedBlock CreateSelf() {
+			return new UnifiedBlock();
 		}
 
 		public override void Accept<TData>(
@@ -44,18 +45,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedBlock Create() {
-			return new UnifiedBlock();
-		}
-
-		public static UnifiedBlock Create(params IUnifiedExpression[] expressions) {
-			return new UnifiedBlock(expressions);
-		}
-
-		public static UnifiedBlock Create(IEnumerable<IUnifiedExpression> expressions) {
-			return new UnifiedBlock(expressions);
 		}
 			  }
 }

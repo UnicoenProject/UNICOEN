@@ -28,15 +28,16 @@ namespace Unicoen.Core.Model {
 	public class UnifiedTypeArgumentCollection
 			: UnifiedElementCollection
 			  		<UnifiedTypeArgument, UnifiedTypeArgumentCollection> {
-		private UnifiedTypeArgumentCollection() {}
-
-		private UnifiedTypeArgumentCollection(
-				IEnumerable<UnifiedTypeArgument> elements)
-				: base(elements) {}
+		protected UnifiedTypeArgumentCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
+
+		public override UnifiedTypeArgumentCollection CreateSelf() {
+			return new UnifiedTypeArgumentCollection();
+					}
+
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
@@ -49,18 +50,5 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedTypeArgumentCollection Create() {
-			return new UnifiedTypeArgumentCollection();
-		}
-
-		public static UnifiedTypeArgumentCollection Create(
-				params UnifiedTypeArgument[] elements) {
-			return new UnifiedTypeArgumentCollection(elements);
-		}
-
-		public static UnifiedTypeArgumentCollection Create(
-				IEnumerable<UnifiedTypeArgument> elements) {
-			return new UnifiedTypeArgumentCollection(elements);
-		}
 			  		}
 }

@@ -26,10 +26,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedMatcherCollection
 			: UnifiedElementCollection<UnifiedMatcher, UnifiedMatcherCollection> {
-		private UnifiedMatcherCollection() {}
+		public override UnifiedMatcherCollection CreateSelf() {
+			return new UnifiedMatcherCollection();
+		}
 
-		private UnifiedMatcherCollection(IEnumerable<UnifiedMatcher> elements)
-				: base(elements) {}
+		protected UnifiedMatcherCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -46,18 +47,5 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedMatcherCollection Create() {
-			return new UnifiedMatcherCollection();
-		}
-
-		public static UnifiedMatcherCollection Create(
-				params UnifiedMatcher[] elements) {
-			return new UnifiedMatcherCollection(elements);
-		}
-
-		public static UnifiedMatcherCollection Create(
-				IEnumerable<UnifiedMatcher> elements) {
-			return new UnifiedMatcherCollection(elements);
-		}
 			}
 }

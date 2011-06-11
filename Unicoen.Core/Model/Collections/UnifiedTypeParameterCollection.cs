@@ -28,15 +28,14 @@ namespace Unicoen.Core.Model {
 	public class UnifiedTypeParameterCollection
 			: UnifiedElementCollection
 			  		<UnifiedTypeParameter, UnifiedTypeParameterCollection> {
-		private UnifiedTypeParameterCollection() {}
-
-		private UnifiedTypeParameterCollection(
-				IEnumerable<UnifiedTypeParameter> elements)
-				: base(elements) {}
+		protected UnifiedTypeParameterCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
+
+		public override UnifiedTypeParameterCollection CreateSelf() {
+			return new UnifiedTypeParameterCollection();		}
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
@@ -47,20 +46,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedTypeParameterCollection Create() {
-			return new UnifiedTypeParameterCollection();
-		}
-
-		public static UnifiedTypeParameterCollection Create(
-				params UnifiedTypeParameter[] elements) {
-			return new UnifiedTypeParameterCollection(elements);
-		}
-
-		public static UnifiedTypeParameterCollection Create(
-				IEnumerable<UnifiedTypeParameter> elements) {
-			return new UnifiedTypeParameterCollection(elements);
 		}
 			  		}
 }

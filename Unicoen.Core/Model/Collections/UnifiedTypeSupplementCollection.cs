@@ -28,14 +28,13 @@ namespace Unicoen.Core.Model {
 	public class UnifiedTypeSupplementCollection
 			: UnifiedElementCollection
 			  		<UnifiedTypeSupplement, UnifiedTypeSupplementCollection> {
-		private UnifiedTypeSupplementCollection() {}
-
-		private UnifiedTypeSupplementCollection(
-				IEnumerable<UnifiedTypeSupplement> elements)
-				: base(elements) {}
-
+		protected UnifiedTypeSupplementCollection() {}
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public override UnifiedTypeSupplementCollection CreateSelf() {
+			return new UnifiedTypeSupplementCollection();
 		}
 
 		public override void Accept<TData>(
@@ -47,20 +46,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedTypeSupplementCollection Create() {
-			return new UnifiedTypeSupplementCollection();
-		}
-
-		public static UnifiedTypeSupplementCollection Create(
-				params UnifiedTypeSupplement[] elements) {
-			return new UnifiedTypeSupplementCollection(elements);
-		}
-
-		public static UnifiedTypeSupplementCollection Create(
-				IEnumerable<UnifiedTypeSupplement> elements) {
-			return new UnifiedTypeSupplementCollection(elements);
 		}
 
 		/// <summary>
