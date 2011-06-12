@@ -33,14 +33,15 @@ namespace Unicoen.Languages.Tests {
 	///   もしくは、コードから得られるモデル同士で比較しています。
 	/// </summary>
 	public abstract class RegenerateTest : LanguageTestBase {
-
 		/// <summary>
-		/// 閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
+		///   閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
 		/// </summary>
-		/// <param name="actual"></param>
-		/// <param name="expected"></param>
+		/// <param name = "actual"></param>
+		/// <param name = "expected"></param>
 		/// <returns></returns>
-		private bool FuzzyCompare(IEnumerable<Tuple<string, byte[]>> actual, IEnumerable<Tuple<string, byte[]>> expected) {
+		private bool FuzzyCompare(
+				IEnumerable<Tuple<string, byte[]>> actual,
+				IEnumerable<Tuple<string, byte[]>> expected) {
 			var actuals = actual.ToList();
 			var expecteds = expected.ToList();
 			if (actuals.Count != expecteds.Count)
@@ -55,10 +56,10 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		/// 閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
+		///   閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
 		/// </summary>
-		/// <param name="actual"></param>
-		/// <param name="expected"></param>
+		/// <param name = "actual"></param>
+		/// <param name = "expected"></param>
 		/// <returns></returns>
 		private bool FuzzyCompare(byte[] actual, byte[] expected) {
 			if (actual.Length != expected.Length)
@@ -163,9 +164,17 @@ namespace Unicoen.Languages.Tests {
 			var model2 = Fixture.ModelFactory.Generate(code2);
 			var code3 = Fixture.CodeFactory.Generate(model2);
 			var model3 = Fixture.ModelFactory.Generate(code3);
-			Assert.That(
-					model3,
-					Is.EqualTo(model2).Using(StructuralEqualityComparerForDebug.Instance));
+			try {
+				Assert.That(
+						model3,
+						Is.EqualTo(model2).Using(StructuralEqualityComparerForDebug.Instance));
+			} catch (Exception) {
+				var outPath = FixtureUtil.GetOutputPath();
+				File.WriteAllText(orgCode, Path.Combine(outPath, "orgignal.txt"));
+				File.WriteAllText(code2, Path.Combine(outPath, "generate.txt"));
+				File.WriteAllText(code3, Path.Combine(outPath, "regenerate.txt"));
+				throw;
+			}
 		}
 
 		/// <summary>
@@ -183,9 +192,17 @@ namespace Unicoen.Languages.Tests {
 				var model2 = Fixture.ModelFactory.Generate(code2);
 				var code3 = Fixture.CodeFactory.Generate(model2);
 				var model3 = Fixture.ModelFactory.Generate(code3);
-				Assert.That(
-						model3,
-						Is.EqualTo(model2).Using(StructuralEqualityComparerForDebug.Instance));
+				try {
+					Assert.That(
+							model3,
+							Is.EqualTo(model2).Using(StructuralEqualityComparerForDebug.Instance));
+				} catch (Exception) {
+					var outPath = FixtureUtil.GetOutputPath();
+					File.WriteAllText(orgCode, Path.Combine(outPath, "orgignal.txt"));
+					File.WriteAllText(code2, Path.Combine(outPath, "generate.txt"));
+					File.WriteAllText(code3, Path.Combine(outPath, "regenerate.txt"));
+					throw;
+				}
 			}
 		}
 
