@@ -124,6 +124,18 @@ namespace Unicoen.Languages.Java.Tests {
 						});
 			}
 		}
+		/// <summary>
+		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "dirPath"></param>
+		/// <param name = "fileName"></param>
+		public override void Compile(string dirPath, string fileName) {
+			var args = new[] {
+					"\"" + Path.Combine(dirPath, fileName) + "\""
+			};
+			var arguments = args.JoinString(" ");
+			CompileWithArguments(dirPath, CompileCommand, arguments);
+		}
 		private static TestCaseData SetUpJUnit() {
 			var path = FixtureUtil.GetDownloadPath("Java", "JUnit4.8.2");
 			var srcPath = Path.Combine(path, "src.zip");
@@ -144,19 +156,6 @@ namespace Unicoen.Languages.Java.Tests {
 			FixtureManager.Unzip(srcPath);
 			FixtureManager.Download("https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
 			return testCase;
-		}
-
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
-		/// </summary>
-		/// <param name = "dirPath"></param>
-		/// <param name = "fileName"></param>
-		public override void Compile(string dirPath, string fileName) {
-			var args = new[] {
-					"\"" + Path.Combine(dirPath, fileName) + "\""
-			};
-			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 	}
 }
