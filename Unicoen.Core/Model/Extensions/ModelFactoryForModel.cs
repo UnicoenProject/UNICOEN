@@ -42,11 +42,6 @@ namespace Unicoen.Core.Model {
 			return UnifiedIf.Create(condition);
 		}
 
-		public static UnifiedSpecialExpression ToReturn(this IUnifiedExpression value) {
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Return, value);
-		}
-
 		public static UnifiedCase ToCase(this IUnifiedExpression condtion) {
 			return UnifiedCase.Create(condtion, UnifiedBlock.Create());
 		}

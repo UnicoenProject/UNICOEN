@@ -16,30 +16,25 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   識別子を表します。
-	/// </summary>
-	public class UnifiedIdentifier
-			: UnifiedElement, IUnifiedExpression {
-		/// <summary>
-		/// </summary>
-		public string Value { get; set; }
+	public class UnifiedBreak : UnifiedElement, IUnifiedExpression {
+		private UnifiedIdentifier _value;
 
-		public UnifiedIdentifierKind Kind { get; set; }
+		public UnifiedIdentifier Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-		private UnifiedIdentifier() {}
+		protected UnifiedBreak() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData arg) {
+				IUnifiedModelVisitor<TData> visitor, TData arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -48,22 +43,11 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
-			yield return this;
-		}
-
-		public static UnifiedIdentifier CreateLabel(string name) {
-			return new UnifiedIdentifier {
-					Value = name,
+		public static UnifiedBreak Create(
+				UnifiedIdentifier value = null) {
+			return new UnifiedBreak {
+					Value = value,
 			};
 		}
-
-		public static UnifiedIdentifier Create(
-				UnifiedIdentifierKind kind, string name) {
-			return new UnifiedIdentifier {
-					Value = name,
-					Kind = kind
-			};
-		}
-			}
+	}
 }

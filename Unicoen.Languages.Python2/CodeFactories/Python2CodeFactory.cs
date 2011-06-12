@@ -42,6 +42,9 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		private static readonly Decoration Throws =
 				new Decoration { MostLeft = "throws ", Delimiter = ", " };
 
+		private static readonly Decoration CommaMostLeft =
+				new Decoration { MostLeft = "," };
+
 		private static readonly Decoration Empty = new Decoration();
 
 		private static readonly Decoration AndDelimiter =

@@ -466,8 +466,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 								? null
 								: retStmt.Expression.AcceptVisitor(this, data) as
 								  IUnifiedExpression;
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Return, uExpr);
+			return UnifiedReturn.Create( uExpr);
 		}
 
 		public IUnifiedElement VisitSwitchStatement(
