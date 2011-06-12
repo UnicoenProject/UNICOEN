@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspectAdaptorTest.cs" />
     <Compile Include="AspectElementTest\AdviceTest.cs" />
     <Compile Include="AspectElementTest\IntertypeTest.cs" />
     <Compile Include="AspectElementTest\PointcutTest.cs" />

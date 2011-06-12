@@ -13,7 +13,7 @@ namespace Unicoen.Apps.Aop
 		/// <summary>
 		/// ポイントカットをポイントカット名で参照できるようにします
 		/// </summary>
-		public static Dictionary<string, Pointcut> Pointcuts =
+		private static Dictionary<string, Pointcut> Pointcuts =
 				new Dictionary<string, Pointcut>();
 
 		public static void Weave(string language, UnifiedProgram model, AstVisitor visitor) {
@@ -63,6 +63,7 @@ namespace Unicoen.Apps.Aop
 				switch (advice.GetAdviceType()) {
 					case "before":
 						if(target.GetPointcutType().Equals("execution")) {
+							//TODO バグ：クラス名と関数名の両者でのマッチングを行う
 							foreach (var function in target.GetTargetName()) {
 								CodeProcessor.InsertAtBeforeExecutionByName(model, function, code);
 							}
