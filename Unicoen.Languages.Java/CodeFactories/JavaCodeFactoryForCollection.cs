@@ -52,40 +52,40 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			arg.Write(decoration.MostRight);
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedModifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(SpaceDelimiter));
 			return false;
 		}
 
 		// e.g. throws E1, E2 ...
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
 		// e.g. {...}catch(Exception1 e1){...}catch{Exception2 e2}{....}... ?
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(NewLineDelimiter));
 			return false;
 		}
 
 		// e.g. Foo<A, B> ?
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
 			UnifiedTypeConstrain last = null;
 			for (int i = 0; i < element.Count; i++) {
@@ -101,37 +101,37 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeSupplementCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Empty));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedExpressionCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
@@ -141,19 +141,19 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedMatcherCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedKeyValueCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAnnotation element, VisitorArgument arg) {
 			arg.Write("@");
 			element.Name.TryAccept(this, arg);
@@ -162,13 +162,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAnnotationCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			var klass = element.GrandParent() as UnifiedEnum;
 			if (klass != null) {
@@ -179,37 +179,37 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSimpleType element, VisitorArgument arg) {
 			element.NameExpression.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedList element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIterable element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArray element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSet element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTuple element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;

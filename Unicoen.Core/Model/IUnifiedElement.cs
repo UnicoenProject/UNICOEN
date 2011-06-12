@@ -31,25 +31,25 @@ namespace Unicoen.Core.Model {
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
 		/// <param name = "visitor"></param>
-		void Accept(IUnifiedModelVisitor visitor);
+		void Accept(IUnifiedVisitor visitor);
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
 		/// <param name = "visitor"></param>
 		/// <param name = "arg"></param>
-		void Accept<TData>(IUnifiedModelVisitor<TData> visitor, TData arg);
+		void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg);
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
-		/// <typeparam name = "TData"></typeparam>
+		/// <typeparam name = "TArg"></typeparam>
 		/// <typeparam name = "TResult"></typeparam>
 		/// <param name = "visitor"></param>
 		/// <param name = "arg"></param>
 		/// <returns></returns>
-		TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData arg);
+		TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg);
 
 		/// <summary>
 		///   子要素を列挙します。

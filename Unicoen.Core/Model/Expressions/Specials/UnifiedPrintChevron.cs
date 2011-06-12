@@ -19,17 +19,18 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public class UnifiedSet
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedSet>,
-			  IUnifiedExpression {
-		protected UnifiedSet() {}
+	public class UnifiedPrintChevron : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _value;
+
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
+
+		protected UnifiedPrintChevron() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
-		}
-
-		public override UnifiedSet CreateSelf() {
-			return new UnifiedSet();
 		}
 
 		public override void Accept<TArg>(
@@ -41,5 +42,12 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			  }
+
+		public static UnifiedPrintChevron Create(
+				IUnifiedExpression value = null) {
+			return new UnifiedPrintChevron {
+					Value = value,
+			};
+		}
+	}
 }

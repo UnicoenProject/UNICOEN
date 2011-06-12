@@ -19,13 +19,7 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   予約語によって表現される特殊な式（ステートメント含む）を表します。
-	///   e.g. Javaにおける<c>return value;</c>
-	/// </summary>
-	public class UnifiedSpecialExpression : UnifiedElement, IUnifiedExpression {
-		public UnifiedSpecialExpressionKind Kind { get; set; }
-
+	public class UnifiedPrint : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _value;
 
 		public IUnifiedExpression Value {
@@ -33,28 +27,25 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		private UnifiedSpecialExpression() {}
+		protected UnifiedPrint() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData arg) {
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedSpecialExpression Create(
-				UnifiedSpecialExpressionKind kind,
+		public static UnifiedPrint Create(
 				IUnifiedExpression value = null) {
-			return new UnifiedSpecialExpression {
-					Kind = kind,
+			return new UnifiedPrint {
 					Value = value,
 			};
 		}

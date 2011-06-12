@@ -339,13 +339,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *                       '>>' test [ (',' test)+ [','] ] )
 			 */
 			var second = node.NthElementOrDefault(1);
-			var kind = UnifiedSpecialExpressionKind.Print;
+			var tests = node.Elements("test")
+					.Select(CreateTest)
+					.ToSmartTupleLiteral();
 			if (second.SafeName() == ">>") {
-				kind = UnifiedSpecialExpressionKind.PrintChevron;
+				return UnifiedPrintChevron.Create(tests);
 			}
-			return UnifiedSpecialExpression.Create(
-					kind,
-					node.Elements("test").Select(CreateTest).ToSmartTupleLiteral());
+			return UnifiedPrint.Create(tests);
 		}
 
 		public static IUnifiedExpression CreateDel_stmt(XElement node) {
@@ -364,7 +364,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * pass_stmt: 'pass'
 			 */
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Pass);
+			return UnifiedPass.Create();
 		}
 
 		public static IUnifiedExpression CreateFlow_stmt(XElement node) {
@@ -396,7 +396,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * break_stmt: 'break'
 			 */
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Break);
+			return UnifiedBreak.Create();
 		}
 
 		public static IUnifiedExpression CreateContinue_stmt(XElement node) {
@@ -405,7 +405,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * continue_stmt: 'continue'
 			 */
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Continue);
+			return UnifiedContinue.Create();
 		}
 
 		public static IUnifiedExpression CreateReturn_stmt(XElement node) {
@@ -1384,7 +1384,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			if (node.Elements().Count() == 1)
 				return
-						UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.YieldReturn);
+						UnifiedYieldReturn.Create();
 			return
 					UnifiedYieldReturn.Create(
 							CreateTestlist(node.LastElement()).ToSmartTupleLiteral());

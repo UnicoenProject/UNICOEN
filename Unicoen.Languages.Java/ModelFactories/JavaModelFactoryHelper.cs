@@ -2448,7 +2448,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				return UnifiedBreak.Create(
 						UnifiedIdentifier.Create(
 								UnifiedIdentifierKind.Unknown, node.Element("IDENTIFIER").Value));
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Break);
+			return UnifiedBreak.Create();
 		}
 
 		private static IUnifiedExpression CreateContinue(XElement node) {
@@ -2462,7 +2462,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				return UnifiedContinue.Create(
 						UnifiedIdentifier.Create(
 								UnifiedIdentifierKind.Unknown, node.Element("IDENTIFIER").Value));
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Continue);
+			return UnifiedContinue.Create();
 		}
 
 		private static UnifiedSpecialBlock CreateSynchronized(XElement node) {

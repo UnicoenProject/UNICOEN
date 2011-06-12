@@ -26,15 +26,15 @@ namespace Unicoen.Core.Model {
 	public abstract class UnifiedTypedLiteral<T> : UnifiedLiteral {
 		public T Value { get; set; }
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData arg) {
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException("You should override this method.");
 		}
 
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException("You should override this method.");
 		}

@@ -39,37 +39,37 @@ namespace Unicoen.Languages.C.CodeFactories {
 			arg.Write(decoration.MostRight);
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedModifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(SpaceDelimiter));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedExpressionCollection element, VisitorArgument arg) {
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
@@ -80,202 +80,202 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameterCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeSupplementCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Empty));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedMatcher element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedMatcherCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedUsing element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedListComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedList element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedKeyValue element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedDictionaryComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedKeyValueCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedDictionary element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSlice element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedComment element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAnnotation element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAnnotationCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedVariableDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSupplementType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedGenericType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSimpleType element, VisitorArgument arg) {
 			element.NameExpression.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIterable element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArray element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSet element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTuple element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIterableComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSetComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedInterface element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedClass element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedStruct element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedEnum element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedModule element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedUnion element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAnnotationDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArrayType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}

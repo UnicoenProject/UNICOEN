@@ -31,7 +31,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return Tuple.Create("", "");
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
 			arg.Write(paren.Item1);
@@ -44,7 +44,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCall element, VisitorArgument arg) {
 			//JavaScriptではTypeArgumentsが存在しない(?)
 			var prop = element.Function as UnifiedProperty;
@@ -65,7 +65,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedNew element, VisitorArgument arg) {
 			//e.g. var a = [1, 2, 3];
 			if (element.InitialValue != null) {
@@ -79,7 +79,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCast element, VisitorArgument arg) {
 			arg.Write("(");
 			element.Type.TryAccept(this, arg);
@@ -88,7 +88,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTernaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
 			arg.Write(paren.Item1);
@@ -101,50 +101,50 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBreak element, VisitorArgument arg) {
 			arg.Write("break ");
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedContinue element, VisitorArgument arg) {
 			arg.Write("continue ");
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedReturn element, VisitorArgument arg) {
 			arg.Write("return ");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedGoto element, VisitorArgument arg) {
 			arg.Write("goto ");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedYieldReturn element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedDelete element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedThrow element, VisitorArgument arg) {
 			arg.Write("throw ");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAssert element, VisitorArgument arg) {
 			arg.Write("assert(");
 			element.Value.TryAccept(this, arg);
@@ -152,12 +152,12 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedExec element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedStringConversion element, VisitorArgument data) {
 			throw new NotImplementedException();
 		}

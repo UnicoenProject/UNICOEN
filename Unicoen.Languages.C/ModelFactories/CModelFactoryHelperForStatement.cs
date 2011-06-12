@@ -161,8 +161,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 				if (expression != null) {
 					return UnifiedReturn.Create( CreateExpression(expression));
 				}
-					return UnifiedSpecialExpression.Create(
-							UnifiedSpecialExpressionKind.Return);
+					return UnifiedReturn.Create();
 			default:
 				throw new InvalidOperationException();
 			}

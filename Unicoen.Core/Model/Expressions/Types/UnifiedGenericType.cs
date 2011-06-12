@@ -34,17 +34,17 @@ namespace Unicoen.Core.Model {
 
 		internal UnifiedGenericType() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TState>(
-				IUnifiedModelVisitor<TState> visitor, TState arg) {
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TState, TResult>(
-				IUnifiedModelVisitor<TState, TResult> visitor, TState arg) {
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

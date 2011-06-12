@@ -23,7 +23,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public partial class Python2CodeFactory
-			: CodeFactory, IUnifiedModelVisitor<VisitorArgument, bool> {
+			: CodeFactory, IUnifiedVisitor<bool, VisitorArgument> {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>
@@ -73,50 +73,9 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return Generate(model, writer, "\t");
 		}
 
-		private static string GetKeyword(UnifiedSpecialExpressionKind kind) {
-			switch (kind) {
-			case UnifiedSpecialExpressionKind.Break:
-				return "break";
-			case UnifiedSpecialExpressionKind.Continue:
-				return "continue";
-			case UnifiedSpecialExpressionKind.Goto:
-				return "# goto in C, C#";
-			case UnifiedSpecialExpressionKind.Return:
-				return "return";
-			case UnifiedSpecialExpressionKind.YieldReturn:
-				return "# yield return in C#";
-			case UnifiedSpecialExpressionKind.Throw:
-				return "raise";
-			case UnifiedSpecialExpressionKind.Retry:
-				return "# retry in Ruby";
-			case UnifiedSpecialExpressionKind.Redo:
-				return "# redo in Ruby";
-			case UnifiedSpecialExpressionKind.Yield:
-				return "# yield in Ruby";
-			case UnifiedSpecialExpressionKind.Assert:
-				return "assert";
-			case UnifiedSpecialExpressionKind.Delete:
-				return "delete";
-			case UnifiedSpecialExpressionKind.Exec:
-				return "exec";
-			case UnifiedSpecialExpressionKind.Global:
-				return "global";
-			case UnifiedSpecialExpressionKind.Pass:
-				return "pass";
-			case UnifiedSpecialExpressionKind.Print:
-				return "print";
-			case UnifiedSpecialExpressionKind.PrintChevron:
-				return "print >>";
-			case UnifiedSpecialExpressionKind.StringConversion:
-				return null;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-		}
-
 		#region program, namespace, class, method, filed ...
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedProgram element, VisitorArgument arg) {
 			element.Comments.TryAccept(this, arg);
 			arg.WriteLine();
@@ -127,7 +86,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedNamespace element, VisitorArgument arg) {
 			// パッケージはディレクトリ構造で表現
 			arg.Write("# ");
@@ -138,7 +97,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedClass element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
@@ -155,7 +114,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
@@ -168,7 +127,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedParameter element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
@@ -180,7 +139,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedModifier element, VisitorArgument arg) {
 			arg.Write(element.Name);
 			return false;
@@ -190,7 +149,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		#region statement
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBlock element, VisitorArgument arg) {
 			foreach (var stmt in element) {
 				arg.WriteIndent();
@@ -201,7 +160,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		// e.g. static{...}
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSpecialBlock element, VisitorArgument arg) {
 			switch (element.Kind) {
 			case UnifiedSpecialBlockKind.Synchronized:
@@ -228,7 +187,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIf ifStatement, VisitorArgument arg) {
 			arg.Write("if ");
 			ifStatement.Condition.TryAccept(this, arg);
@@ -243,7 +202,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		// e.g. catch(Exception e){...}
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCatch element, VisitorArgument arg) {
 			arg.Write("catch");
 			element.Matchers.TryAccept(this, arg.Set(Paren));
@@ -252,7 +211,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		// e.g. try{...}catch(E e){...}finally{...}
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTry element, VisitorArgument arg) {
 			// try block
 			arg.Write("try");
@@ -271,19 +230,19 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeConstrain element, VisitorArgument arg) {
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeSupplement element, VisitorArgument arg) {
 			switch (element.Kind) {
 			case UnifiedTypeSupplementKind.Array:
@@ -295,14 +254,14 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedLabel element, VisitorArgument arg) {
 			element.Name.TryAccept(this, arg);
 			arg.Write(":");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBooleanLiteral element, VisitorArgument arg) {
 			if (element.Value)
 				arg.Write("true");
@@ -311,7 +270,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			switch (element.Kind) {
@@ -327,7 +286,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIntegerLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			switch (element.Kind) {
@@ -344,19 +303,19 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedStringLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCharLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedNullLiteral element, VisitorArgument arg) {
 			arg.Write("null");
 			return false;
@@ -366,13 +325,13 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		#region expression
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBinaryOperator element, VisitorArgument arg) {
 			arg.Write(element.Sign);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArgument element, VisitorArgument arg) {
 			arg.Write("/*");
 			element.Modifiers.TryAccept(this, arg);
@@ -385,7 +344,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		#region value
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIdentifier identifier, VisitorArgument arg) {
 			arg.Write(identifier.Value);
 			return false;
@@ -393,7 +352,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		#endregion
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedUnaryOperator element, VisitorArgument arg) {
 			var kind = element.Kind;
 			switch (kind) {
@@ -427,7 +386,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		// classname(identifier of constructor)...??
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedConstructorDefinition element, VisitorArgument arg) {
 			switch (element.Kind) {
 			case UnifiedConstructorDefinitionKind.Constructor:
@@ -449,7 +408,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFor element, VisitorArgument arg) {
 			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write("while ");
@@ -462,7 +421,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedForeach element, VisitorArgument arg) {
 			arg.Write("for ");
 			element.Element.TryAccept(this, arg);
@@ -478,7 +437,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedWhile element, VisitorArgument arg) {
 			arg.Write("while ");
 			element.Condition.TryAccept(this, arg);
@@ -492,7 +451,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedDoWhile element, VisitorArgument arg) {
 			element.Body.TryAccept(this, arg);
 			arg.Write("while ");
@@ -503,14 +462,14 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIndexer element, VisitorArgument arg) {
 			element.Target.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(SquareBracket));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeArgument element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
 			element.Value.TryAccept(this, arg);
@@ -518,7 +477,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSwitch element, VisitorArgument arg) {
 			if (element.Cases.IsEmptyOrNull()) {
 				foreach (var c in element.Cases) {
@@ -533,13 +492,13 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCase element, VisitorArgument arg) {
 			throw new InvalidOperationException("このメソッドは呼び出せません。");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedMatcher element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
 			arg.Write(" ");
@@ -549,7 +508,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedUsing element, VisitorArgument arg) {
 			arg.Write("/* using ");
 			element.Matchers.TryAccept(this, arg);
@@ -560,37 +519,37 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedKeyValue element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedDictionaryComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedDictionary element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedListComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSlice element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedComment element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedVariableDefinition element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
@@ -607,7 +566,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSupplementType element, VisitorArgument arg) {
 			switch (element.Kind) {
 			case UnifiedSupplementTypeKind.Const:
@@ -638,7 +597,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedGenericType element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			//arg.Write("<");
@@ -647,12 +606,29 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArrayType element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			arg.Write("[");
 			element.Arguments.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write("]");
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(UnifiedPass element, VisitorArgument arg) {
+			arg.Write("pass");
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(UnifiedPrint element, VisitorArgument arg) {
+			arg.Write("print ");
+			element.Value.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(UnifiedPrintChevron element, VisitorArgument arg) {
+			arg.Write("print >> ");
+			element.Value.TryAccept(this, arg);
 			return false;
 		}
 			}

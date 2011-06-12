@@ -165,9 +165,7 @@ namespace Unicoen.Apps.Aop {
 				 * C# エラーメッセージ:コレクションが変更されました。
 				 * 列挙操作は実行されない可能性があります。
 				 */
-				var returns =
-						function.Descendants<UnifiedSpecialExpression>().Where(
-								e => e.Kind == UnifiedSpecialExpressionKind.Return).ToList();
+				var returns = function.Descendants<UnifiedReturn>().ToList();
 
 				if (returns.Count() == 0) {
 					//case function don't have return statement

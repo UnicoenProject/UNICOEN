@@ -27,26 +27,26 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		protected UnifiedExec() { }
+		protected UnifiedExec() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor, TData arg) {
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedExec Create(
 				IUnifiedExpression value = null) {
 			return new UnifiedExec {
-				Value = value,
+					Value = value,
 			};
 		}
 	}

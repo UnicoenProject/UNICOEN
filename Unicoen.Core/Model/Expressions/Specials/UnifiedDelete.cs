@@ -27,26 +27,26 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		protected UnifiedDelete() { }
+		protected UnifiedDelete() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor, TData arg) {
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedDelete Create(
 				IUnifiedExpression value = null) {
 			return new UnifiedDelete {
-				Value = value,
+					Value = value,
 			};
 		}
 	}

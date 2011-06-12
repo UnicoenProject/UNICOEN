@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 			: UnifiedElementCollection
 			  		<UnifiedVariableDefinition, UnifiedVariableDefinitionList>,
 			  IUnifiedExpression {
-		public override void Accept(IUnifiedModelVisitor visitor) {
+		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
@@ -31,14 +31,14 @@ namespace Unicoen.Core.Model {
 			return new UnifiedVariableDefinitionList();
 		}
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData arg) {
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

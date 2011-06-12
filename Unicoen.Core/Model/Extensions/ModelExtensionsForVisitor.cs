@@ -21,19 +21,17 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	public static class ModelExtensionsForVisitor {
 		public static void TryAccept<TElement>(
-				this TElement element,
-				IUnifiedModelVisitor visitor)
+				this TElement element, IUnifiedVisitor visitor)
 				where TElement : class, IUnifiedElement {
 			if (element != null)
 				element.Accept(visitor);
 		}
 
-		public static TResult TryAccept<TElement, TData, TResult>(
-				this TElement element, IUnifiedModelVisitor<TData, TResult> visitor,
-				TData data)
+		public static TResult TryAccept<TElement, TResult, TArg>(
+				this TElement element, IUnifiedVisitor<TResult, TArg> visitor, TArg arg)
 				where TElement : class, IUnifiedElement {
 			if (element != null)
-				return element.Accept(visitor, data);
+				return element.Accept(visitor, arg);
 			return default(TResult);
 		}
 	}

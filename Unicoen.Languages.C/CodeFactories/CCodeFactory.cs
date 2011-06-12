@@ -22,8 +22,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
-	public partial class CCodeFactory
-			: CodeFactory, IUnifiedModelVisitor<VisitorArgument, bool> {
+	public partial class CCodeFactory : CodeFactory, IUnifiedVisitor<bool, VisitorArgument> {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>
@@ -61,44 +60,19 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return Generate(model, writer, "\t");
 		}
 
-		private static string GetKeyword(UnifiedSpecialExpressionKind kind) {
-			switch (kind) {
-			case UnifiedSpecialExpressionKind.Break:
-				return "break";
-			case UnifiedSpecialExpressionKind.Continue:
-				return "continue";
-			case UnifiedSpecialExpressionKind.Goto:
-				return "goto";
-			case UnifiedSpecialExpressionKind.Return:
-				return "return";
-			case UnifiedSpecialExpressionKind.YieldReturn:
-				return "/* yield return in C# */";
-			case UnifiedSpecialExpressionKind.Throw:
-				return "throw";
-			case UnifiedSpecialExpressionKind.Retry:
-				return "/* retry in Ruby */";
-			case UnifiedSpecialExpressionKind.Redo:
-				return "/* redo in Ruby */";
-			case UnifiedSpecialExpressionKind.Yield:
-				return "/* yield in Ruby */";
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBinaryOperator element, VisitorArgument arg) {
 			arg.Write(element.Sign);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedUnaryOperator element, VisitorArgument arg) {
 			arg.Write(element.Sign);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArgument element, VisitorArgument arg) {
 			if (element.Modifiers.IsEmptyOrNull()) {
 				arg.Write("/*");
@@ -109,7 +83,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBlock element, VisitorArgument arg) {
 			arg.WriteLine();	
 			arg.WriteIndent();
@@ -127,7 +101,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCall element, VisitorArgument arg) {
 			var prop = element.Function as UnifiedProperty;
 			if (prop != null) {
@@ -146,7 +120,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			// C言語に存在しない要素は省略
 
@@ -163,7 +137,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return element.Body == null;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIf element, VisitorArgument arg) {
 			// if(){...}
 			arg.Write("if (");
@@ -179,7 +153,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
@@ -188,20 +162,20 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIdentifier element, VisitorArgument arg) {
 			arg.Write(element.Value);
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedModifier element, VisitorArgument arg) {
 			arg.Write(element.Name);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedImport element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントで出力する
 			arg.WriteLine("/* ElementNotInC */");
@@ -210,12 +184,12 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedConstructorDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedProgram element, VisitorArgument arg) {
 			foreach (var stmt in element) {
 				if (stmt.TryAccept(this, arg)) {
@@ -225,12 +199,12 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedNew element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFor element, VisitorArgument arg) {
 			arg.Write("for (");
 			element.Initializer.TryAccept(this, arg);
@@ -245,7 +219,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedForeach element, VisitorArgument arg) {
 			// C言語にない要素なので，その旨をコメントとして出力する
 			arg.WriteLine("/* ElementNotInC */");
@@ -253,7 +227,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedProperty element, VisitorArgument arg) {
 			element.Owner.TryAccept(this, arg);
 			arg.Write(element.Delimiter);
@@ -261,7 +235,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedWhile element, VisitorArgument arg) {
 			arg.Write("while (");
 			element.Condition.TryAccept(this, arg);
@@ -271,7 +245,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedDoWhile element, VisitorArgument arg) {
 			arg.Write("do");
 			element.Body.TryAccept(this, arg);
@@ -282,7 +256,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIndexer element, VisitorArgument arg) {
 			element.Target.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(SquareBracket));
@@ -290,12 +264,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedTypeArgument element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSwitch element, VisitorArgument arg) {
 			arg.Write("switch (");
 			element.Value.TryAccept(this, arg);
@@ -306,7 +275,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCase element, VisitorArgument arg) {
 			if (element.Condition == null) {
 				arg.Write("default: ");
@@ -320,7 +289,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSpecialBlock element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
 			arg.Write("/* ");
@@ -331,7 +300,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCatch element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
 			arg.Write("/* ");
@@ -342,7 +311,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTry element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
 			arg.Write("/* ");
@@ -353,7 +322,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeConstrain element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
 			arg.Write("/* ");
@@ -364,7 +333,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameter element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
 			arg.Write("/* ");
@@ -375,7 +344,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeSupplement element, VisitorArgument arg) {
 			var kind = element.Kind;
 
@@ -393,7 +362,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedLabel element, VisitorArgument arg) {
 			element.Name.TryAccept(this, arg);
 			arg.Write(": ");
@@ -401,7 +370,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBooleanLiteral element, VisitorArgument arg) {
 			if (element.Value) {
 				arg.Write("1"); // trueのとき
@@ -412,7 +381,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 
@@ -432,7 +401,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIntegerLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 
@@ -447,24 +416,19 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCharLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedNamespace element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedStringLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedNullLiteral element, VisitorArgument arg) {
 			arg.Write("NULL");
 			return false;

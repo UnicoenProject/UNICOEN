@@ -19,17 +19,11 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public class UnifiedSet
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedSet>,
-			  IUnifiedExpression {
-		protected UnifiedSet() {}
+	public class UnifiedPass : UnifiedElement, IUnifiedExpression {
+		protected UnifiedPass() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
-		}
-
-		public override UnifiedSet CreateSelf() {
-			return new UnifiedSet();
 		}
 
 		public override void Accept<TArg>(
@@ -41,5 +35,11 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			  }
+
+		public static UnifiedPass Create(
+				
+				) {
+			return new UnifiedPass { };
+		}
+	}
 }
