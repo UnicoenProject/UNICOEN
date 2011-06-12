@@ -101,5 +101,61 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 			return true;
 		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedBreak element, VisitorArgument arg) {
+			arg.Write("break");
+			return true;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedContinue element, VisitorArgument arg) {
+			arg.Write("continue");
+			return true;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedReturn element, VisitorArgument arg) {
+			arg.Write("return");
+			element.Value.TryAccept(this, arg);
+			return true;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedGoto element, VisitorArgument arg) {
+			arg.Write("goto");
+			element.Value.TryAccept(this, arg);
+			return true;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedYieldReturn element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedDelete element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedThrow element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAssert element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedExec element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedStringConversion element, VisitorArgument data) {
+			throw new NotImplementedException();
+		}
 	}
 }

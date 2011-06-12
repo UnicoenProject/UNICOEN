@@ -106,6 +106,16 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedUnion element);
 		void Visit(UnifiedAnnotationDefinition element);
 		void Visit(UnifiedNamespace element);
+		void Visit(UnifiedBreak element);
+		void Visit(UnifiedContinue element);
+		void Visit(UnifiedReturn element);
+		void Visit(UnifiedGoto element);
+		void Visit(UnifiedYieldReturn element);
+		void Visit(UnifiedDelete element);
+		void Visit(UnifiedThrow element);
+		void Visit(UnifiedAssert element);
+		void Visit(UnifiedExec element);
+		void Visit(UnifiedStringConversion element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -195,6 +205,16 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedUnion element, TState arg);
 		void Visit(UnifiedAnnotationDefinition element, TState arg);
 		void Visit(UnifiedNamespace element, TState arg);
+		void Visit(UnifiedBreak element, TState arg);
+		void Visit(UnifiedContinue element, TState arg);
+		void Visit(UnifiedReturn element, TState arg);
+		void Visit(UnifiedGoto element, TState arg);
+		void Visit(UnifiedYieldReturn element, TState arg);
+		void Visit(UnifiedDelete element, TState arg);
+		void Visit(UnifiedThrow element, TState arg);
+		void Visit(UnifiedAssert element, TState arg);
+		void Visit(UnifiedExec element, TState arg);
+		void Visit(UnifiedStringConversion element, TState arg);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -284,5 +304,15 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedUnion element, TState arg);
 		TResult Visit(UnifiedAnnotationDefinition element, TState arg);
 		TResult Visit(UnifiedNamespace element, TState arg);
+		TResult Visit(UnifiedBreak element, TState arg);
+		TResult Visit(UnifiedContinue element, TState arg);
+		TResult Visit(UnifiedReturn element, TState arg);
+		TResult Visit(UnifiedGoto element, TState arg);
+		TResult Visit(UnifiedYieldReturn element, TState arg);
+		TResult Visit(UnifiedDelete element, TState arg);
+		TResult Visit(UnifiedThrow element, TState arg);
+		TResult Visit(UnifiedAssert element, TState arg);
+		TResult Visit(UnifiedExec element, TState arg);
+		TResult Visit(UnifiedStringConversion element, TState data);
 	}
 }

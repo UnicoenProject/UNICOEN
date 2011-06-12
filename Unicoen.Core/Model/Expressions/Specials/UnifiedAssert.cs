@@ -16,30 +16,32 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   識別子を表します。
-	/// </summary>
-	public class UnifiedIdentifier
-			: UnifiedElement, IUnifiedExpression {
-		/// <summary>
-		/// </summary>
-		public string Value { get; set; }
+	public class UnifiedAssert : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _value;
 
-		public UnifiedIdentifierKind Kind { get; set; }
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-		private UnifiedIdentifier() {}
+		private IUnifiedExpression _message;
+
+		public IUnifiedExpression Message {
+			get { return _message; }
+			set { _message = SetChild(value, _message); }
+		}
+
+		protected UnifiedAssert() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData arg) {
+				IUnifiedModelVisitor<TData> visitor, TData arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -48,22 +50,14 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
-			yield return this;
-		}
-
-		public static UnifiedIdentifier CreateLabel(string name) {
-			return new UnifiedIdentifier {
-					Value = name,
+		public static UnifiedAssert Create(
+				IUnifiedExpression value = null,
+				IUnifiedExpression message = null
+			) {
+			return new UnifiedAssert {
+				Value = value,
+				Message = message,
 			};
 		}
-
-		public static UnifiedIdentifier Create(
-				UnifiedIdentifierKind kind, string name) {
-			return new UnifiedIdentifier {
-					Value = name,
-					Kind = kind
-			};
-		}
-			}
+	}
 }

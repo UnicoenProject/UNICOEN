@@ -79,6 +79,12 @@
     <Compile Include="Model\Expressions\Collections\UnifiedSet.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedSetComprehension.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedTuple.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedBreak.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedContinue.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedGoto.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedReturn.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedThrow.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedYieldReturn.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedCharLiteral.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedAnnotationDefinition.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedClass.cs" />
@@ -89,6 +95,10 @@
     <Compile Include="Model\Expressions\Packages\UnifiedPackageBase.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedStruct.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedUnion.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedAssert.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedDelete.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedExec.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedStringConversion.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedWrapType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedArrayType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />

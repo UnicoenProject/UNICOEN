@@ -16,30 +16,39 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   識別子を表します。
-	/// </summary>
-	public class UnifiedIdentifier
-			: UnifiedElement, IUnifiedExpression {
-		/// <summary>
-		/// </summary>
-		public string Value { get; set; }
+	public class UnifiedThrow : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _value;
 
-		public UnifiedIdentifierKind Kind { get; set; }
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-		private UnifiedIdentifier() {}
+		private IUnifiedExpression _data;
+
+		public IUnifiedExpression Data {
+			get { return _data; }
+			set { _data = SetChild(value, _data); }
+		}
+
+		private IUnifiedExpression _trace;
+
+		public IUnifiedExpression Trace {
+			get { return _trace; }
+			set { _trace = SetChild(value, _trace); }
+		}
+
+		protected UnifiedThrow() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData arg) {
+				IUnifiedModelVisitor<TData> visitor, TData arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -48,22 +57,16 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
-			yield return this;
-		}
-
-		public static UnifiedIdentifier CreateLabel(string name) {
-			return new UnifiedIdentifier {
-					Value = name,
+		public static UnifiedThrow Create(
+				IUnifiedExpression value = null,
+				IUnifiedExpression data = null,
+				IUnifiedExpression trace = null
+				) {
+			return new UnifiedThrow {
+					Value = value,
+					Data = data,
+					Trace = trace,
 			};
 		}
-
-		public static UnifiedIdentifier Create(
-				UnifiedIdentifierKind kind, string name) {
-			return new UnifiedIdentifier {
-					Value = name,
-					Kind = kind
-			};
-		}
-			}
+	}
 }

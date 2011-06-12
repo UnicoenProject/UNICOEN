@@ -551,7 +551,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedSpecialExpression CreateContinueStatement(XElement node) {
+		public static IUnifiedExpression CreateContinueStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "continueStatement");
 			/*
@@ -564,11 +564,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			                 				UnifiedIdentifierKind.Unknown,
 			                 				node.Element("Identifier").Value) : null;
 
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Continue, identifier);
+			return UnifiedContinue.Create( identifier);
 		}
 
-		public static UnifiedSpecialExpression CreateBreakStatement(XElement node) {
+		public static IUnifiedExpression CreateBreakStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "breakStatement");
 			/*
@@ -580,8 +579,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			                 				UnifiedIdentifierKind.Unknown,
 			                 				node.Element("Identifier").Value) : null;
 
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Break, identifier);
+			return UnifiedBreak.Create( identifier);
 		}
 
 		public static IUnifiedExpression CreateReturnStatement(XElement node) {
@@ -594,8 +592,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var expression = node.HasElement("expression")
 			                 		? CreateExpression(node.Element("expression")) : null;
 
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Return, expression);
+			return UnifiedReturn.Create( expression);
 		}
 
 		public static IUnifiedExpression CreateWithStatement(XElement node) {
@@ -686,7 +683,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedCase.Create(null, UnifiedBlock.Create(body));
 		}
 
-		public static UnifiedSpecialExpression CreateThrowStatement(XElement node) {
+		public static IUnifiedExpression CreateThrowStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "throwStatement");
 			/*
@@ -694,8 +691,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'throw' expression (LT | ';')
 			 */
 
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Throw,
+			return UnifiedThrow.Create(
 					CreateExpression(node.Element("expression")));
 		}
 

@@ -113,8 +113,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 						CreateExpression(elems.ElementAt(0)), CreateBlock(elems.ElementAt(1)),
 						CreateBlock(elems.ElementAt(2)));
 			case "return":
-				return UnifiedSpecialExpression.Create(
-						UnifiedSpecialExpressionKind.Return, CreateExpression(elems.First()));
+				return UnifiedReturn.Create( CreateExpression(elems.First()));
 			default:
 				throw new NotImplementedException();
 			}

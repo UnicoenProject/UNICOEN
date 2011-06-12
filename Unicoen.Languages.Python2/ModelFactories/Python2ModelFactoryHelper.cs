@@ -354,8 +354,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * del_stmt: 'del' exprlist
 			 */
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Delete,
+			return UnifiedDelete.Create(
 					CreateExprlist(node.NthElement(1)).ToSmartTupleLiteral());
 		}
 
@@ -418,8 +417,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var testlist = node.Elements("testlist")
 					.Select(CreateTestlist)
 					.FirstOrDefault();
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Return, testlist.ToSmartTupleLiteral());
+			return UnifiedReturn.Create(testlist.ToSmartTupleLiteral());
 		}
 
 		public static IUnifiedExpression CreateYield_stmt(XElement node) {
@@ -438,9 +436,14 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * raise_stmt: 'raise' [test [',' test [',' test]]]
 			 */
 			// TODO: change to dedicated class ?
-			var tests = node.Elements("test").Select(CreateTest).ToSmartTupleLiteral();
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Throw, tests);
+			var tests = node.Elements("test")
+					.Select(CreateTest)
+					.ToList();
+			if (tests.Count == 1)
+				return UnifiedAssert.Create(tests[0]);
+			if (tests.Count == 2)
+				return UnifiedAssert.Create(tests[1]);
+			return UnifiedAssert.Create(tests[2]);
 		}
 
 		public static IEnumerable<UnifiedImport> CreateImport_stmt(XElement node) {
@@ -573,8 +576,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			// TODO: change to dedicated class ?
 			var expr = node.Element("expr");
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Exec,
+			return UnifiedExec.Create(
 					Enumerable.Repeat(CreateExpr(expr), 1)
 							.Concat(node.Elements("test").Select(CreateTest))
 							.ToSmartTupleLiteral());
@@ -586,11 +588,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * assert_stmt: 'assert' test [',' test]
 			 */
-			// TODO: change to dedicated class ?
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Assert,
-					node.Elements("test").Select(CreateTest)
-							.ToSmartTupleLiteral());
+
+			var tests = node.Elements("test")
+					.Select(CreateTest)
+					.ToList();
+			return tests.Count == 1
+			       		? UnifiedAssert.Create(tests[0])
+			       		: UnifiedAssert.Create(tests[0], tests[1]);
 		}
 
 		public static IUnifiedExpression CreateCompound_stmt(XElement node) {
@@ -1359,8 +1363,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var exps = node.Elements("test")
 					.Select(CreateTest)
 					.ToList();
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.StringConversion,
+			return UnifiedStringConversion.Create(
 					exps.ToSmartTupleLiteral());
 		}
 
@@ -1383,8 +1386,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				return
 						UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.YieldReturn);
 			return
-					UnifiedSpecialExpression.Create(
-							UnifiedSpecialExpressionKind.YieldReturn,
+					UnifiedYieldReturn.Create(
 							CreateTestlist(node.LastElement()).ToSmartTupleLiteral());
 		}
 	}
