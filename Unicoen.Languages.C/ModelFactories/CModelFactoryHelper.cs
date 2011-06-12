@@ -444,9 +444,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 					throw new NotImplementedException(); //TODO: implement
 				}
 
-				CreateDirectDeclarator(node.Element("direct_declarator"),
-				                 out name, out parameters);
-
+				CreateDirectDeclarator(
+						node.Element("direct_declarator"),
+						out name, out parameters);
 			} else {
 				throw new NotImplementedException(); //TODO: implement
 			}
@@ -475,15 +475,17 @@ namespace Unicoen.Languages.C.ModelFactories {
 			if (node.Elements("declarator_suffix").Count() > 1) {
 				throw new NotImplementedException(); //TODO: implement
 			} else if (node.Elements("declarator_suffix").Count() == 1) {
-				CreateDeclaratorSuffix(node.Element("declarator_suffix"),
-				                       out parameters);
+				CreateDeclaratorSuffix(
+						node.Element("declarator_suffix"),
+						out parameters);
 			}
 
 			//throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static void CreateDeclaratorSuffix(XElement node,
-			out UnifiedParameterCollection parameters) {
+		public static void CreateDeclaratorSuffix(
+				XElement node,
+				out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator_suffix");
 			/* declarator_suffix
@@ -496,16 +498,16 @@ namespace Unicoen.Languages.C.ModelFactories {
 			*/
 
 			if (node.FirstElement().Value.Equals("(")
-				&& node.LastElement().Value.Equals(")")) {
-					if (node.Element("parameter_type_list") != null) {
-						parameters = CreateParameterTypeList(node.Element("parameter_type_list"));
-					} else if (node.Element("identifier_list") != null) {
-						throw new NotImplementedException(); //TODO: implement
-					} else {
-						parameters = UnifiedParameterCollection.Create();
-					}
+			    && node.LastElement().Value.Equals(")")) {
+				if (node.Element("parameter_type_list") != null) {
+					parameters = CreateParameterTypeList(node.Element("parameter_type_list"));
+				} else if (node.Element("identifier_list") != null) {
+					throw new NotImplementedException(); //TODO: implement
+				} else {
+					parameters = UnifiedParameterCollection.Create();
+				}
 			} else if (node.FirstElement().Value.Equals("[")
-				&& node.LastElement().Value.Equals("]")) {
+			           && node.LastElement().Value.Equals("]")) {
 				throw new NotImplementedException(); //TODO: implement
 			} else {
 				throw new InvalidOperationException();
@@ -524,7 +526,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static UnifiedParameterCollection CreateParameterTypeList(XElement node) {
+		public static UnifiedParameterCollection CreateParameterTypeList(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameter_type_list");
 			/*
@@ -552,7 +555,6 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var parameters = UnifiedParameterCollection.Create();
 			foreach (var parameterNode in node.Elements("parameter_declaration")) {
 				parameters.Add(CreateParameterDeclaration(parameterNode));
-				
 			}
 			return parameters;
 		}
@@ -573,7 +575,6 @@ namespace Unicoen.Languages.C.ModelFactories {
 			CreateDeclarationSpecifiers(
 					node.Element("declaration_specifiers"), out modifiers, out type);
 
-
 			if (node.Element("abstract_declarator") != null) {
 				throw new NotImplementedException(); //TODO: implement
 			} else if (node.Elements("declarator").Count() > 1) {
@@ -589,7 +590,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 									null, null, parameters, null, null));
 					modifiers = null;
 				}
-				return UnifiedParameter.Create( null, modifiers, type, name.ToCollection(), null);
+				return UnifiedParameter.Create(
+						null, modifiers, type, name.ToCollection(), null);
 			}
 
 			throw new NotImplementedException(); //TODO: implement

@@ -31,7 +31,6 @@ namespace Unicoen.Languages.C.Tests {
 			get { return _fixture; }
 		}
 
-
 		/// <summary>
 		///   再生成を行わずVerifyCompareThroughCompiledCodeが正常に動作するかテストします。
 		///   全く同じコードをコンパイルしたバイナリファイル同士で比較します。
@@ -41,7 +40,6 @@ namespace Unicoen.Languages.C.Tests {
 		public override void CompareCompiledCodeOfSameCode(string orgPath) {
 			base.CompareCompiledCodeOfSameCode(orgPath);
 		}
-
 
 		/// <summary>
 		///   再生成を行わずVerifyCompareThroughModelが正常に動作するかテストします。

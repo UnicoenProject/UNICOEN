@@ -199,6 +199,7 @@ namespace Unicoen.Languages.C.Tests {
 		public override void VerifyToStringUsingFile(string path) {
 			base.VerifyToStringUsingFile(path);
 		}
+
 		/// <summary>
 		///   全要素の文字列情報を取得できるかソースコードのパスを指定してテストします。
 		/// </summary>

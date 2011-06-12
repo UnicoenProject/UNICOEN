@@ -114,7 +114,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return true;
 		}
 
-		private bool Visit(UnifiedPackageBase element, VisitorArgument arg, string keyword) {
+		private bool Visit(
+				UnifiedPackageBase element, VisitorArgument arg, string keyword) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
 			arg.Write(keyword + " ");

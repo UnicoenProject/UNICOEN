@@ -222,6 +222,5 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public bool Visit(UnifiedSetComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
-
 	}
 }
