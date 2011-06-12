@@ -51,14 +51,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("UndocumentedExpression");
 		}
 
-		public IUnifiedElement VisitArrayCreateExpression(
-				ArrayCreateExpression array, object data) {
-			//var type = LookupType(array.Type);
-			//foreach (var spec in array.AdditionalArraySpecifiers) {
-			//    type.AddSupplement(UnifiedTypeSupplement.CreateRectangleArray(spec.Dimensions));
-			//}
-			//return UnifiedNew.Create()
+		public IUnifiedElement VisitArrayCreateExpression(ArrayCreateExpression array, object data) {
 
+			var type = LookupType(array.Type);
+			var uArgs = array.Arguments
+					.Select(nExpr => nExpr.AcceptVisitor(this, data))
+					.OfType<IUnifiedExpression>()
+					.Select(uExpr => UnifiedArgument.Create(value: uExpr))
+					.ToCollection();
+			return type.WrapRectangleArray(uArgs);
 			throw new NotImplementedException("ArrayCreateExpression");
 		}
 
@@ -462,9 +463,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 			var nExpr = retStmt.Expression;
 			var uExpr = nExpr == null
-			            		? null
-			            		: retStmt.Expression.AcceptVisitor(this, data) as
-			            		  IUnifiedExpression;
+								? null
+								: retStmt.Expression.AcceptVisitor(this, data) as
+								  IUnifiedExpression;
 			return UnifiedReturn.Create( uExpr);
 		}
 
@@ -523,9 +524,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 						var name = nVar.Name;
 						var nInitValue = nVar.Initializer;
 						var uInitValue = nInitValue == null
-						                 		? null
-						                 		: nInitValue.AcceptVisitor(this, data) as
-						                 		  IUnifiedExpression;
+												? null
+												: nInitValue.AcceptVisitor(this, data) as
+												  IUnifiedExpression;
 						return UnifiedVariableDefinition.Create(
 								type: uType.DeepCopy(),
 								modifiers: uMods.DeepCopy(),
@@ -616,9 +617,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 						var name = nVar.Name;
 						var nInitValue = nVar.Initializer;
 						var uInitValue = nInitValue == null
-						                 		? null
-						                 		: nInitValue.AcceptVisitor(this, data) as
-						                 		  IUnifiedExpression;
+												? null
+												: nInitValue.AcceptVisitor(this, data) as
+												  IUnifiedExpression;
 						return UnifiedVariableDefinition.Create(
 								type: uType.DeepCopy(),
 								modifiers: uMods.DeepCopy(),
@@ -736,5 +737,5 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				AstNode placeholder, Pattern pattern, object data) {
 			throw new NotImplementedException("AstNode");
 		}
-			}
+	}
 }
