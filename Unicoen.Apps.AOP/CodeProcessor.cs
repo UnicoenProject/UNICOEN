@@ -24,7 +24,10 @@ using System.Xml.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Core.Model;
+using Unicoen.Languages.CSharp;
+using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.JavaScript.ModelFactories;
 
 namespace Unicoen.Apps.Aop {
@@ -32,6 +35,25 @@ namespace Unicoen.Apps.Aop {
 	///   アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
 	/// </summary>
 	public class CodeProcessor {
+		/// <summary>
+		/// 与えられたソースコードを共通モデルに変換します
+		/// </summary>
+		/// <param name="ext">対象言語の拡張子</param>
+		/// <param name="code">対象ソースコードの中身</param>
+		/// <returns></returns>
+		public static UnifiedProgram CreateModel(string ext, string code) {
+			switch (ext.ToLower()) {
+			case ".cs":
+				return CSharpFactory.GenerateModel(code);
+			case ".java":
+				return JavaFactory.GenerateModel(code);
+			case ".js":
+				return JavaScriptFactory.GenerateModel(code);
+			}
+			//TODO implement 他の言語についても実装する
+			throw new NotImplementedException();
+		}
+
 		/// <summary>
 		///   与えられたコードを共通コードモデルとして生成します。
 		/// </summary>
@@ -109,17 +131,15 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "regex">対象関数を指定する正規表現</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtBeforeExecution(
-				IUnifiedElement root, Regex regex, string advice) {
+				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get function list
 			var functions = root.Descendants<UnifiedFunctionDefinition>();
-			//create advice as model
-			var actual = CreateAdvice("Java", advice);
 
 			foreach (var e in functions) {
 				//weave given advice, when function's name matches given Regex
 				var m = regex.Match(e.Name.Value);
 				if (m.Success)
-					e.Body.Insert(0, actual);
+					e.Body.Insert(0, advice);
 			}
 		}
 
@@ -130,11 +150,9 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "regex">対象関数を指定する正規表現</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtAfterExecution(
-				IUnifiedElement root, Regex regex, string advice) {
+				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get function list
 			var functions = root.Descendants<UnifiedFunctionDefinition>();
-			//create advice as model
-			var actual = CreateAdvice("Java", advice);
 
 			foreach (var function in functions) {
 				//when function's name doesn't match given Regex, ignore current functionDefinition
@@ -153,13 +171,13 @@ namespace Unicoen.Apps.Aop {
 
 				if (returns.Count() == 0) {
 					//case function don't have return statement
-					function.Body.Add(actual);
+					function.Body.Add(advice);
 				} else {
 					foreach (var returnStmt in returns) {
 						var block = returnStmt.Parent as UnifiedBlock;
 						if (block == null)
 							continue;
-						block.Insert(block.IndexOf(returnStmt, 0), actual);
+						block.Insert(block.IndexOf(returnStmt, 0), advice);
 					}
 				}
 			}
@@ -171,7 +189,7 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "root">コードを追加するモデルのルートノード</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtBeforeExecutionAll(
-				IUnifiedElement root, string advice) {
+				IUnifiedElement root, UnifiedBlock advice) {
 			InsertAtBeforeExecution(root, new Regex(".*"), advice);
 		}
 
@@ -181,7 +199,7 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "root">コードを追加するモデルのルートノード</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtAfterExecutionAll(
-				IUnifiedElement root, string advice) {
+				IUnifiedElement root, UnifiedBlock advice) {
 			InsertAtAfterExecution(root, new Regex(".*"), advice);
 		}
 
@@ -192,7 +210,7 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "name">対象関数の名前</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtBeforeExecutionByName(
-				IUnifiedElement root, string name, string advice) {
+				IUnifiedElement root, string name, UnifiedBlock advice) {
 			InsertAtBeforeExecution(root, new Regex("^" + name + "$"), advice);
 		}
 
@@ -203,7 +221,7 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "name">対象関数の名前</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtAfterExecutionByName(
-				IUnifiedElement root, string name, string advice) {
+				IUnifiedElement root, string name, UnifiedBlock advice) {
 			InsertAtAfterExecution(root, new Regex("^" + name + "$"), advice);
 		}
 
@@ -218,11 +236,9 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "regex">対象関数を指定する正規表現</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtBeforeCall(
-				IUnifiedElement root, Regex regex, string advice) {
+				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get cass list
 			var calls = root.Descendants<UnifiedCall>().ToList();
-			//create advice as model
-			var actual = CreateAdvice("Java", advice);
 
 			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
 			foreach (var call in calls) {
@@ -236,11 +252,12 @@ namespace Unicoen.Apps.Aop {
 				var m = regex.Match(functionName.Value);
 				if (!m.Success)
 					continue;
-
+				
+				//TODO JavaScriptの場合に親がブロックではない場合があるので、それに対応できるようにする
 				var block = call.Parent as UnifiedBlock;
 				if (block == null)
 					continue;
-				block.Insert(block.IndexOf(call, 0), actual);
+				block.Insert(block.IndexOf(call, 0), advice);
 			}
 		}
 
@@ -251,11 +268,9 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "regex">対象関数を指定する正規表現</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtAfterCall(
-				IUnifiedElement root, Regex regex, string advice) {
+				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get cass list
 			var calls = root.Descendants<UnifiedCall>().ToList();
-			//create advice as model
-			var actual = CreateAdvice("Java", advice);
 
 			//親要素がUnifiedBlockの場合に、その関数呼び出しは単項式であると判断する。
 			foreach (var call in calls) {
@@ -272,7 +287,7 @@ namespace Unicoen.Apps.Aop {
 				var block = call.Parent as UnifiedBlock;
 				if (block == null)
 					continue;
-				block.Insert(block.IndexOf(call, 0) + 1, actual);
+				block.Insert(block.IndexOf(call, 0) + 1, advice);
 			}
 		}
 
@@ -281,7 +296,7 @@ namespace Unicoen.Apps.Aop {
 		/// </summary>
 		/// <param name = "root">コードを追加するモデルのルートノード</param>
 		/// <param name = "advice">挿入するコード断片</param>
-		public static void InsertAtBeforeCallAll(IUnifiedElement root, string advice) {
+		public static void InsertAtBeforeCallAll(IUnifiedElement root, UnifiedBlock advice) {
 			InsertAtBeforeCall(root, new Regex(".*"), advice);
 		}
 
@@ -290,7 +305,7 @@ namespace Unicoen.Apps.Aop {
 		/// </summary>
 		/// <param name = "root">コードを追加するモデルのルードノード</param>
 		/// <param name = "advice">挿入するコード断片</param>
-		public static void InsertAtAfterCallAll(IUnifiedElement root, string advice) {
+		public static void InsertAtAfterCallAll(IUnifiedElement root, UnifiedBlock advice) {
 			InsertAtAfterCall(root, new Regex(".*"), advice);
 		}
 
@@ -301,7 +316,7 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "name">対象関数の名前</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtBeforeCallByName(
-				IUnifiedElement root, string name, string advice) {
+				IUnifiedElement root, string name, UnifiedBlock advice) {
 			InsertAtBeforeCall(root, new Regex("^" + name + "$"), advice);
 		}
 
@@ -312,7 +327,7 @@ namespace Unicoen.Apps.Aop {
 		/// <param name = "name">対象関数の名前</param>
 		/// <param name = "advice">挿入するコード断片</param>
 		public static void InsertAtAfterCallByName(
-				IUnifiedElement root, string name, string advice) {
+				IUnifiedElement root, string name, UnifiedBlock advice) {
 			InsertAtAfterCall(root, new Regex("^" + name + "$"), advice);
 		}
 
