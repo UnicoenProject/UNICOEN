@@ -151,23 +151,18 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var firstElement = node.FirstElement();
 			switch (firstElement.Value) {
 			case "goto":
-
+				return UnifiedGoto.Create(UnifiedIdentifier.CreateLabel(node.NthElement(1).Value));
 			case "continue":
-				return UnifiedSpecialExpression.Create(
-						UnifiedSpecialExpressionKind.Continue);
+				return UnifiedContinue.Create();
 			case "break":
-				return UnifiedSpecialExpression.Create(
-						UnifiedSpecialExpressionKind.Break);
-
+				return UnifiedBreak.Create();
 			case "return":
 				var expression = node.Element("expression");
 				if (expression != null) {
-					return UnifiedSpecialExpression.Create(
-							UnifiedSpecialExpressionKind.Return, CreateExpression(expression));
-				} else {
+					return UnifiedReturn.Create( CreateExpression(expression));
+				}
 					return UnifiedSpecialExpression.Create(
 							UnifiedSpecialExpressionKind.Return);
-				}
 			default:
 				throw new InvalidOperationException();
 			}

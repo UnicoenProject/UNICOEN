@@ -43,6 +43,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration Throws =
 				new Decoration { MostLeft = "throws ", Delimiter = ", " };
 
+		private static readonly Decoration ColonMostLeft =
+				new Decoration { MostLeft = ":" };
+
 		private static readonly Decoration Empty = new Decoration();
 
 		private static readonly Decoration AndDelimiter =

@@ -186,8 +186,7 @@ namespace Unicoen.Core.Tests {
 									UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, "n"),
 									UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
 									UnifiedIntegerLiteral.Create(1, UnifiedIntegerLiteralKind.Int32)),
-							UnifiedSpecialExpression.Create(
-									UnifiedSpecialExpressionKind.Return,
+							UnifiedReturn.Create(
 									UnifiedIntegerLiteral.Create(2, UnifiedIntegerLiteralKind.Int32)),
 					});
 			var o2 = UnifiedBlock.Create(
@@ -196,8 +195,7 @@ namespace Unicoen.Core.Tests {
 									UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, "n"),
 									UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
 									UnifiedIntegerLiteral.Create(1, UnifiedIntegerLiteralKind.Int32)),
-							UnifiedSpecialExpression.Create(
-									UnifiedSpecialExpressionKind.Return,
+							UnifiedReturn.Create(
 									UnifiedIntegerLiteral.Create(2, UnifiedIntegerLiteralKind.Int32)),
 					});
 			Assert.That(
@@ -213,8 +211,7 @@ namespace Unicoen.Core.Tests {
 									UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, "n"),
 									UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
 									UnifiedIntegerLiteral.Create(1, UnifiedIntegerLiteralKind.Int32)),
-							UnifiedSpecialExpression.Create(
-									UnifiedSpecialExpressionKind.Return,
+							UnifiedReturn.Create(
 									UnifiedIntegerLiteral.Create(2, UnifiedIntegerLiteralKind.Int32)),
 					});
 			var o2 = o1;
@@ -231,8 +228,7 @@ namespace Unicoen.Core.Tests {
 									UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, "n"),
 									UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
 									UnifiedIntegerLiteral.Create(1, UnifiedIntegerLiteralKind.Int32)),
-							UnifiedSpecialExpression.Create(
-									UnifiedSpecialExpressionKind.Return,
+							UnifiedReturn.Create(
 									UnifiedIntegerLiteral.Create(2, UnifiedIntegerLiteralKind.Int32)),
 					});
 			var o2 = UnifiedBlock.Create(
@@ -241,8 +237,7 @@ namespace Unicoen.Core.Tests {
 									UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, "n"),
 									UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
 									UnifiedIntegerLiteral.Create(2, UnifiedIntegerLiteralKind.Int32)),
-							UnifiedSpecialExpression.Create(
-									UnifiedSpecialExpressionKind.Return,
+							UnifiedReturn.Create(
 									UnifiedIntegerLiteral.Create(2, UnifiedIntegerLiteralKind.Int32)),
 					});
 			Assert.That(

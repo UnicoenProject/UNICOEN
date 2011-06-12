@@ -1297,11 +1297,13 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			switch (first.Value) {
 			case "assert":
-				// TODO assert
-				yield return UnifiedSpecialExpression.Create(
-						UnifiedSpecialExpressionKind.Assert,
-						// TODO tuple?
-						node.Elements("expression").Select(CreateExpression).ToTupleLiteral());
+				var list = node.Elements("expression")
+						.Select(CreateExpression)
+						.ToList();
+				if (list.Count == 0)
+					yield return UnifiedAssert.Create(list[0]);
+				else
+					yield return UnifiedAssert.Create(list[0], list[1]);
 				break;
 			case "if":
 				yield return CreateIf(node);
@@ -2421,7 +2423,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					);
 		}
 
-		private static UnifiedSpecialExpression CreateReturn(XElement node) {
+		private static IUnifiedExpression CreateReturn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("return"));
@@ -2432,11 +2434,10 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (node.Elements().Count() == 3) {
 				value = CreateExpression(node.Element("expression"));
 			}
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Return, value);
+			return UnifiedReturn.Create( value);
 		}
 
-		private static UnifiedSpecialExpression CreateBreak(XElement node) {
+		private static IUnifiedExpression CreateBreak(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("break"));
@@ -2444,14 +2445,13 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * 'break' (IDENTIFIER )? ';'
 			 */
 			if (node.Elements().Count() > 2)
-				return UnifiedSpecialExpression.Create(
-						UnifiedSpecialExpressionKind.Break,
+				return UnifiedBreak.Create(
 						UnifiedIdentifier.Create(
 								UnifiedIdentifierKind.Unknown, node.Element("IDENTIFIER").Value));
 			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Break);
 		}
 
-		private static UnifiedSpecialExpression CreateContinue(XElement node) {
+		private static IUnifiedExpression CreateContinue(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("continue"));
@@ -2459,8 +2459,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * 'continue' (IDENTIFIER)? ';' 
 			 */
 			if (node.Elements().Count() > 2)
-				return UnifiedSpecialExpression.Create(
-						UnifiedSpecialExpressionKind.Continue,
+				return UnifiedContinue.Create(
 						UnifiedIdentifier.Create(
 								UnifiedIdentifierKind.Unknown, node.Element("IDENTIFIER").Value));
 			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Continue);
@@ -2479,15 +2478,14 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					CreateBlock(node.Element("block")));
 		}
 
-		private static UnifiedSpecialExpression CreateThrow(XElement node) {
+		private static IUnifiedExpression CreateThrow(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("throw"));
 			/*
 			 * 'throw' expression ';' 
 			 */
-			return UnifiedSpecialExpression.Create(
-					UnifiedSpecialExpressionKind.Throw,
+			return UnifiedThrow.Create(
 					CreateExpression(node.Element("expression")));
 		}
 	}
