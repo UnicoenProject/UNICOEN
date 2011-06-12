@@ -66,7 +66,7 @@ namespace Unicoen.Apps.Aop {
 				var code = File.ReadAllText(file, XEncoding.SJIS);
 				var model = CodeProcessor.CreateModel(fileExtension, code);
 
-				AspectAdaptor.Weave(model, visitor);
+				AspectAdaptor.Weave(fileExtension, model, visitor);
 				//TODO 出力処理 or ファイル書き出し処理
 			}
 		}
