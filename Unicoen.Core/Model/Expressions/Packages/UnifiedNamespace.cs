@@ -20,19 +20,15 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   辞書リテラルを表します．
+	///   クラスの定義部分を表します。
+	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
-	public class UnifiedDictonary
-			: UnifiedElementCollection<UnifiedKeyValue, UnifiedDictonary>,
-			  IUnifiedExpression {
-		protected UnifiedDictonary() {}
+	public class UnifiedNamespace
+			: UnifiedPackageBase<UnifiedNamespace> {
+		protected UnifiedNamespace() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
-		}
-
-		public override UnifiedDictonary CreateSelf() {
-			return new UnifiedDictonary();
 		}
 
 		public override void Accept<TData>(
@@ -44,5 +40,9 @@ namespace Unicoen.Core.Model {
 				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
 			return visitor.Visit(this, arg);
 		}
-			  }
+
+		public override UnifiedNamespace CreateSelf() {
+			return new UnifiedNamespace();
+		}
+			}
 }

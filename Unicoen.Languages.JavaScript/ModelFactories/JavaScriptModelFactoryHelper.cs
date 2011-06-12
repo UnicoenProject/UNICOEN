@@ -107,7 +107,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			return UnifiedFunctionDefinition.Create(
 					UnifiedFunctionDefinitionKind.Function,
-					null, UnifiedModifierCollection.Create(), null, null, UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters, null, body);
+					null, UnifiedModifierCollection.Create(), null, null,
+					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters,
+					null, body);
 			//関数定義をnewするとオブジェクトが生成されるが、
 			//定義段階ではオブジェクトとして宣言されたのか関数として定義されたのか判別できないため、
 			//共通コードモデルではUnifiedFunctionDefinitionとして扱う
@@ -130,7 +132,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			return UnifiedFunctionDefinition.Create(
 					UnifiedFunctionDefinitionKind.Lambda,
-					null, null, null, null, UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters, null, body);
+					null, null, null, null,
+					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters,
+					null, body);
 		}
 
 		public static UnifiedParameterCollection CreateFormalParameterList(
@@ -146,7 +150,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					node.Elements("Identifier").Select(
 							e => UnifiedParameter.Create(
 									null,
-									null, null, UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, e.Value).ToCollection(),
+									null, null,
+									UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, e.Value).
+											ToCollection(),
 									null)).
 							ToCollection();
 			return parameters;
@@ -315,7 +321,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: Identifier LT!* initialiser?
 			 */
 
-			var name = UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
+			var name = UnifiedIdentifier.Create(
+					UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
 			var init = node.Element("initialiser") != null
 			           		? CreateInitialiser(node.Element("initialiser")) : null;
 
@@ -335,7 +342,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: Identifier LT!* initialiserNoIn?
 			 */
 
-			var name = UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
+			var name = UnifiedIdentifier.Create(
+					UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
 			var init = node.Element("initialiserNoIn") != null
 			           		? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
 
@@ -552,9 +560,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var identifier = node.HasElement("Identifier")
-			                 		? UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value) : null;
+			                 		? UnifiedIdentifier.Create(
+			                 				UnifiedIdentifierKind.Unknown,
+			                 				node.Element("Identifier").Value) : null;
 
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Continue, identifier);
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Continue, identifier);
 		}
 
 		public static UnifiedSpecialExpression CreateBreakStatement(XElement node) {
@@ -565,9 +576,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'break' Identifier? (LT | ';')
 			 */
 			var identifier = node.HasElement("Identifier")
-			                 		? UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value) : null;
+			                 		? UnifiedIdentifier.Create(
+			                 				UnifiedIdentifierKind.Unknown,
+			                 				node.Element("Identifier").Value) : null;
 
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Break, identifier);
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Break, identifier);
 		}
 
 		public static IUnifiedExpression CreateReturnStatement(XElement node) {
@@ -580,7 +594,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var expression = node.HasElement("expression")
 			                 		? CreateExpression(node.Element("expression")) : null;
 
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Return, expression);
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Return, expression);
 		}
 
 		public static IUnifiedExpression CreateWithStatement(XElement node) {
@@ -636,7 +651,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			foreach (
 					var e in
-							node.Elements().Where(e => XElementExtensions.Name(e).EndsWith("Clause"))
+							node.Elements().Where(e => e.Name().EndsWith("Clause"))
 					) {
 				cases.Add(
 						e.Name() == "caseClause" ? CreateCaseClause(e) : CreateDefaultClause(e));
@@ -711,7 +726,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var matchers =
-					UnifiedMatcher.Create(null, null, UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value), null)
+					UnifiedMatcher.Create(
+							null, null,
+							UnifiedIdentifier.Create(
+									UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value), null)
 							.ToCollection();
 			var body = CreateStatementBlock(node.Element("statementBlock"));
 			var catchClause = UnifiedCatch.Create(matchers, body);
@@ -850,8 +868,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				return CreateMemberExpression(node.NthElement(0));
 
 			return
-					UnifiedNew.Create(UnifiedType.Create(
-							CreateNewExpression(node.Element("newExpression"))));
+					UnifiedNew.Create(
+							UnifiedType.Create(
+									CreateNewExpression(node.Element("newExpression"))));
 		}
 
 		public static IUnifiedExpression CreateMemberExpression(XElement node) {
@@ -876,7 +895,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				exp = CreateFunctionExpression(first);
 				break;
 			case "TOKEN": //case 'new'
-				exp = UnifiedNew.Create(CreateMemberExpression(node.Element("memberExpression")), CreateArguments(node.Element("arguments")));
+				exp =
+						UnifiedNew.Create(
+								CreateMemberExpression(node.Element("memberExpression")),
+								CreateArguments(node.Element("arguments")));
 				break;
 			default:
 				throw new InvalidOperationException();
@@ -918,8 +940,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			//実際のUnifiedCallインスタンスの生成はCreateArguments内で行われる
 			IUnifiedExpression exp =
-					UnifiedCall.Create(CreateMemberExpression(node.Element("memberExpression")), CreateArguments(
-							node.Element("arguments")));
+					UnifiedCall.Create(
+							CreateMemberExpression(node.Element("memberExpression")),
+							CreateArguments(
+									node.Element("arguments")));
 			exp = node.Elements("callExpressionSuffix").Aggregate(
 					exp, CreateCallExpressionSuffix);
 			return exp;
@@ -957,7 +981,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var arguments = node.Elements("assignmentExpression").Select(
-					e => UnifiedArgument.Create(null, null, CreateAssignmentExpression(e))).ToCollection();
+					e => UnifiedArgument.Create(null, null, CreateAssignmentExpression(e))).
+					ToCollection();
 			return arguments.ToCollection();
 		}
 
@@ -972,7 +997,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			return UnifiedIndexer.Create(
 					prefix,
-					UnifiedArgument.Create(null, null, CreateExpression(node.Element("expression"))).
+					UnifiedArgument.Create(
+							null, null, CreateExpression(node.Element("expression"))).
 							ToCollection());
 		}
 
@@ -985,7 +1011,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '.' LT!* Identifier
 			 */
 			return UnifiedProperty.Create(
-					prefix, UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value),
+					prefix,
+					UnifiedIdentifier.Create(
+							UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value),
 					".");
 		}
 
@@ -1353,7 +1381,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					list);
 		}
 
-		public static UnifiedDictonary CreateObjectLiteral(XElement node) {
+		public static UnifiedDictionary CreateObjectLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "objectLiteral");
 			/*
@@ -1366,7 +1394,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			foreach (var e in node.Elements("propertyNameAndValue")) {
 				keyValues.Add(CreatePropertyNameAndValue(e));
 			}
-			return UnifiedDictonary.Create(keyValues);
+			return UnifiedDictionary.Create(keyValues);
 		}
 
 		public static UnifiedKeyValue CreatePropertyNameAndValue(XElement node) {
@@ -1394,7 +1422,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| StringLiteral
 			 *		| NumericLiteral
 			 */
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
+			return UnifiedIdentifier.Create(
+					UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {
@@ -1462,13 +1491,15 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 		}
 
 		public static UnifiedIntegerLiteral CreateIntegerLiteral(XElement node) {
-			return UnifiedIntegerLiteral.Create(BigInteger.Parse(node.Value), UnifiedIntegerLiteralKind.BigInteger);
+			return UnifiedIntegerLiteral.Create(
+					BigInteger.Parse(node.Value), UnifiedIntegerLiteralKind.BigInteger);
 		}
 
 		public static UnifiedFractionLiteral CreateDoubleLiteral(XElement node) {
 			double result;
 			Double.TryParse(node.Value, NumberStyles.Number, null, out result);
-			return UnifiedFractionLiteral.Create(result, UnifiedFractionLiteralKind.Double);
+			return UnifiedFractionLiteral.Create(
+					result, UnifiedFractionLiteralKind.Double);
 		}
 
 		public static UnifiedIntegerLiteral CreateHexLiteral(XElement node) {
@@ -1485,7 +1516,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			var result = BigInteger.Parse(
 					node.Value.Substring(2), NumberStyles.HexNumber);
-			return UnifiedIntegerLiteral.Create(result, UnifiedIntegerLiteralKind.BigInteger);
+			return UnifiedIntegerLiteral.Create(
+					result, UnifiedIntegerLiteralKind.BigInteger);
 		}
 
 		public static UnifiedLiteral CreateStringliteral(XElement node) {

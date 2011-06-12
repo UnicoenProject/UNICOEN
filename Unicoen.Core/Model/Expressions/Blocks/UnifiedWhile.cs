@@ -60,7 +60,6 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		
 		public static UnifiedWhile Create(
 				IUnifiedExpression condition = null,
 				UnifiedBlock body = null,
@@ -71,5 +70,5 @@ namespace Unicoen.Core.Model {
 					ElseBody = elseBody,
 			};
 		}
-	}
+			}
 }

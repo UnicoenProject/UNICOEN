@@ -45,7 +45,7 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _matcher;
 
 		/// <summary>
-		/// マッチングを行うパターンを表します．
+		///   マッチングを行うパターンを表します．
 		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>file(p1)</c>
 		/// </summary>
 		public IUnifiedExpression Matcher {
@@ -56,7 +56,7 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _as;
 
 		/// <summary>
-		/// マッチした値の代入先を表します．
+		///   マッチした値の代入先を表します．
 		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>f1</c>
 		/// </summary>
 		public IUnifiedExpression As {
@@ -82,7 +82,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedMatcher Create(
 				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null, 
+				UnifiedModifierCollection modifiers = null,
 				IUnifiedExpression matcher = null,
 				IUnifiedExpression asExp = null) {
 			return new UnifiedMatcher {

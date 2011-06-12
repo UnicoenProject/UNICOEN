@@ -61,5 +61,5 @@ namespace Unicoen.Core.Model {
 					Body = body,
 			};
 		}
-	}
+			}
 }

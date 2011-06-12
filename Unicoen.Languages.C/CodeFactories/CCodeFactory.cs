@@ -450,7 +450,8 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedNamespace element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedNamespace element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 

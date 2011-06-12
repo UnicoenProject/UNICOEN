@@ -107,8 +107,57 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedNamespace element, VisitorArgument arg) {
-			throw new NotImplementedException();
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedNamespace element, VisitorArgument arg) {
+			arg.Write("package ");
+			element.Name.TryAccept(this, arg);
+			return true;
+		}
+
+		private bool Visit(UnifiedPackageBase element, VisitorArgument arg, string keyword) {
+			element.Annotations.TryAccept(this, arg);
+			element.Modifiers.TryAccept(this, arg);
+			arg.Write(keyword + " ");
+			element.Name.TryAccept(this, arg);
+			element.TypeParameters.TryAccept(this, arg);
+			element.Constrains.TryAccept(this, arg);
+			element.Body.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedClass element, VisitorArgument arg) {
+			return Visit(element, arg, "class");
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedInterface element, VisitorArgument arg) {
+			return Visit(element, arg, "interface");
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedStruct element, VisitorArgument arg) {
+			return Visit(element, arg, "class");
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedEnum element, VisitorArgument arg) {
+			return Visit(element, arg, "enum");
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedModule element, VisitorArgument arg) {
+			return Visit(element, arg, "class");
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedUnion element, VisitorArgument arg) {
+			return Visit(element, arg, "class");
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAnnotationDefinition element, VisitorArgument arg) {
+			return Visit(element, arg, "@interface");
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -536,7 +585,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedDictonary element, VisitorArgument arg) {
+				UnifiedDictionary element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
@@ -552,7 +601,10 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedComment element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			arg.Write("/*");
+			arg.Write(element.Content);
+			arg.Write("*/");
+			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(

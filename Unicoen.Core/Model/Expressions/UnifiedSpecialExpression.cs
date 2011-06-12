@@ -51,7 +51,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedSpecialExpression Create(
-				UnifiedSpecialExpressionKind kind, 
+				UnifiedSpecialExpressionKind kind,
 				IUnifiedExpression value = null) {
 			return new UnifiedSpecialExpression {
 					Kind = kind,

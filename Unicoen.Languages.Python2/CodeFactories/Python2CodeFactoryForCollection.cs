@@ -170,8 +170,8 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			var klass = element.GrandParent() as UnifiedClassDefinition;
-			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
+			var klass = element.GrandParent() as UnifiedEnum;
+			if (klass != null) {
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {
 				VisitCollection(element, arg.Set(SemiColonDelimiter));
@@ -191,22 +191,26 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedIterable element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIterable element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedArray element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArray element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedSet element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSet element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedTuple element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTuple element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}

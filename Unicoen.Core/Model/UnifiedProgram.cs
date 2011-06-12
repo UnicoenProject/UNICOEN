@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -40,7 +39,7 @@ namespace Unicoen.Core.Model {
 			set { _comments = SetChild(value, _comments); }
 		}
 
-		protected  UnifiedProgram() {}
+		protected UnifiedProgram() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);

@@ -26,7 +26,7 @@ namespace Unicoen.Core.Model {
 		/// <summary>
 		///   コメントの文字列表現です．
 		/// </summary>
-		public string Comment { get; set; }
+		public string Content { get; set; }
 
 		private UnifiedComment() {}
 
@@ -46,7 +46,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedComment Create(string comment) {
-			return new UnifiedComment { Comment = comment };
+			return new UnifiedComment { Content = comment };
 		}
 	}
 }

@@ -24,8 +24,8 @@ namespace Unicoen.Core.Model {
 		Synchronized,
 		Fix,
 		/// <summary>
-		/// with in JavaScript
-		/// Javaのstatic importのような役割
+		///   with in JavaScript
+		///   Javaのstatic importのような役割
 		/// </summary>
 		With,
 	}

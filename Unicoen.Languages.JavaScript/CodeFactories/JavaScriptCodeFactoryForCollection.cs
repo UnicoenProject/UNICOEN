@@ -158,19 +158,23 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedIterable element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIterable element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedArray element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArray element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedSet element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSet element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedTuple element, VisitorArgument arg) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTuple element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
@@ -187,7 +191,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public bool Visit(UnifiedClass element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			return true;
 		}
 
 		public bool Visit(UnifiedStruct element, VisitorArgument arg) {

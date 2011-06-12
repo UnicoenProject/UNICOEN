@@ -29,6 +29,7 @@ namespace Unicoen.Core.Model {
 			: UnifiedElementCollection
 			  		<UnifiedTypeSupplement, UnifiedTypeSupplementCollection> {
 		protected UnifiedTypeSupplementCollection() {}
+
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}

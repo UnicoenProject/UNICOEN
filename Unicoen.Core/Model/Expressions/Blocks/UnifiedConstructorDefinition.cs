@@ -83,14 +83,14 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedConstructorDefinition Create(
-			UnifiedConstructorDefinitionKind kind,	
-			UnifiedBlock body = null,
-			UnifiedAnnotationCollection annotations = null,
-			UnifiedModifierCollection modifiers = null, 
-			UnifiedParameterCollection parameters = null,
-			UnifiedTypeParameterCollection typeParameters = null,
-			UnifiedTypeCollection throws = null) {
-				return new UnifiedConstructorDefinition {
+				UnifiedConstructorDefinitionKind kind,
+				UnifiedBlock body = null,
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedParameterCollection parameters = null,
+				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedTypeCollection throws = null) {
+			return new UnifiedConstructorDefinition {
 					Kind = kind,
 					Body = body,
 					Annotations = annotations,
@@ -98,7 +98,7 @@ namespace Unicoen.Core.Model {
 					Parameters = parameters,
 					TypeParameters = typeParameters,
 					Throws = throws,
-				};
+			};
 		}
-	}
+			}
 }

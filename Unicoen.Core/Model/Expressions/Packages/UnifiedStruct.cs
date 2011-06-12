@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedStruct
 			: UnifiedPackageBase<UnifiedStruct> {
-		protected UnifiedStruct() { }
+		protected UnifiedStruct() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -44,5 +44,5 @@ namespace Unicoen.Core.Model {
 		public override UnifiedStruct CreateSelf() {
 			return new UnifiedStruct();
 		}
-	}
+			}
 }

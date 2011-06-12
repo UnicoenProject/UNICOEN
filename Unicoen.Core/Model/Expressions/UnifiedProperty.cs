@@ -61,7 +61,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedProperty Create(
 				IUnifiedExpression owner = null,
-				IUnifiedExpression name = null, 
+				IUnifiedExpression name = null,
 				string delimiter = null) {
 			return new UnifiedProperty {
 					Owner = owner,

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -35,7 +34,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override UnifiedTypeConstrainCollection CreateSelf() {
-			return new UnifiedTypeConstrainCollection();		}
+			return new UnifiedTypeConstrainCollection();
+		}
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,

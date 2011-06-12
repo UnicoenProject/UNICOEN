@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedUnion
 			: UnifiedPackageBase<UnifiedUnion> {
-		protected UnifiedUnion() { }
+		protected UnifiedUnion() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -44,5 +44,5 @@ namespace Unicoen.Core.Model {
 		public override UnifiedUnion CreateSelf() {
 			return new UnifiedUnion();
 		}
-	}
+			}
 }

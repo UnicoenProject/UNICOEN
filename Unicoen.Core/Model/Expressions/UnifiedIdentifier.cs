@@ -52,11 +52,12 @@ namespace Unicoen.Core.Model {
 			yield return this;
 		}
 
-		public static UnifiedIdentifier Create(UnifiedIdentifierKind kind, string name) {
+		public static UnifiedIdentifier Create(
+				UnifiedIdentifierKind kind, string name) {
 			return new UnifiedIdentifier {
 					Value = name,
 					Kind = kind
 			};
 		}
-	}
+			}
 }

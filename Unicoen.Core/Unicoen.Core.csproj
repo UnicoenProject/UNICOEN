@@ -85,7 +85,7 @@
     <Compile Include="Model\Expressions\Packages\UnifiedEnum.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedInterface.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedModule.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedNamespace2.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedNamespace.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedPackageBase.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedStruct.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedUnion.cs" />
@@ -135,7 +135,7 @@
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedDictionaryComprehension.cs" />
-    <Compile Include="Model\Expressions\Collections\UnifiedDictonary.cs" />
+    <Compile Include="Model\Expressions\Collections\UnifiedDictionary.cs" />
     <Compile Include="Model\Expressions\UnifiedKeyValue.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedList.cs" />

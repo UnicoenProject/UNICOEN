@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {

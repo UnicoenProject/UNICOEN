@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -44,6 +43,5 @@ namespace Unicoen.Core.Model {
 		}
 
 		protected UnifiedVariableDefinitionList() {}
-
 			  }
 }

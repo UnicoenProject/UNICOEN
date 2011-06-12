@@ -240,7 +240,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var isStruct = node.FirstElement().Name() == "struct";
 			var identElem = node.Element("IDENTIFIER");
 			var uIdent = identElem == null
-			             		? null : UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, identElem.Value);
+			             		? null
+			             		: UnifiedIdentifier.Create(
+			             				UnifiedIdentifierKind.Type, identElem.Value);
 
 			if (node.Elements().Count() == 2) {
 				var baseType = UnifiedType.Create(uIdent);
@@ -251,14 +253,14 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
-			 var structOrUnion = isStruct
-										? (UnifiedPackageBase)UnifiedStruct.Create(
+			var structOrUnion = isStruct
+			                    		? (UnifiedPackageBase)UnifiedStruct.Create(
 			                    				name: uIdent,
 			                    				body: body)
-			                    		  		: UnifiedUnion.Create(
-			                    		  				name: uIdent,
-			                    		  				body: body);
-				
+			                    		: UnifiedUnion.Create(
+			                    				name: uIdent,
+			                    				body: body);
+
 			return UnifiedType.Create(structOrUnion);
 		}
 
@@ -335,7 +337,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 				prefix = " ";
 			}
 			type = s.Equals("")
-			       		? null : UnifiedType.Create(UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
+			       		? null
+			       		: UnifiedType.Create(
+			       				UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
 		}
 
 		public static UnifiedVariableDefinitionList

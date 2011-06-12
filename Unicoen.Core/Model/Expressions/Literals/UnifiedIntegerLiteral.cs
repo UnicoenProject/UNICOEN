@@ -45,7 +45,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedIntegerLiteral Create(
-				BigInteger value, 
+				BigInteger value,
 				UnifiedIntegerLiteralKind kind) {
 			return new UnifiedIntegerLiteral {
 					Value = value,

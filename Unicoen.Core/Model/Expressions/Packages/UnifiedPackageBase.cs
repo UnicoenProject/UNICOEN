@@ -17,9 +17,7 @@
 #endregion
 
 namespace Unicoen.Core.Model {
-	public abstract class UnifiedPackageBase<T>
-			: UnifiedExpressionWithBlock, IUnifiedCreatable<T>
-			where T : UnifiedPackageBase<T> {
+	public abstract class UnifiedPackageBase : UnifiedExpressionWithBlock {
 		protected UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
@@ -63,7 +61,11 @@ namespace Unicoen.Core.Model {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
 		}
+	}
 
+	public abstract class UnifiedPackageBase<T>
+			: UnifiedPackageBase, IUnifiedCreatable<T>
+			where T : UnifiedPackageBase<T> {
 		public static T Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,

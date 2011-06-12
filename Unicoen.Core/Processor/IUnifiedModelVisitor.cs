@@ -80,7 +80,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedKeyValue element);
 		void Visit(UnifiedDictionaryComprehension element);
 		void Visit(UnifiedKeyValueCollection element);
-		void Visit(UnifiedDictonary element);
+		void Visit(UnifiedDictionary element);
 		void Visit(UnifiedSlice element);
 		void Visit(UnifiedComment element);
 		void Visit(UnifiedAnnotation element);
@@ -169,7 +169,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedKeyValue element, TState arg);
 		void Visit(UnifiedDictionaryComprehension element, TState arg);
 		void Visit(UnifiedKeyValueCollection element, TState arg);
-		void Visit(UnifiedDictonary element, TState arg);
+		void Visit(UnifiedDictionary element, TState arg);
 		void Visit(UnifiedSlice element, TState arg);
 		void Visit(UnifiedComment element, TState arg);
 		void Visit(UnifiedAnnotation element, TState arg);
@@ -258,7 +258,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedKeyValue element, TState arg);
 		TResult Visit(UnifiedDictionaryComprehension element, TState arg);
 		TResult Visit(UnifiedKeyValueCollection element, TState arg);
-		TResult Visit(UnifiedDictonary element, TState arg);
+		TResult Visit(UnifiedDictionary element, TState arg);
 		TResult Visit(UnifiedSlice element, TState arg);
 		TResult Visit(UnifiedComment element, TState arg);
 		TResult Visit(UnifiedAnnotation element, TState arg);
