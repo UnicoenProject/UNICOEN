@@ -16,10 +16,6 @@
 
 #endregion
 
-using System;
-using System.Diagnostics;
-using Unicoen.Core.Processor;
-
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   ブロックを持つ式を表します。
@@ -32,36 +28,6 @@ namespace Unicoen.Core.Model {
 		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
-		}
-			}
-
-	/// <summary>
-	///   ブロックを持つ式を表します。
-	/// </summary>
-	/// <typeparam name = "TSelf"></typeparam>
-	public abstract class UnifiedExpressionWithBlock<TSelf>
-			: UnifiedExpressionWithBlock
-			where TSelf : UnifiedExpressionWithBlock<TSelf> {
-		protected UnifiedExpressionWithBlock() {
-			Debug.Assert(typeof(TSelf).Equals(GetType()));
-		}
-
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			// Deal with the bug of Mono 2.10.2
-			throw new InvalidOperationException("You should override this method.");
-		}
-
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			// Deal with the bug of Mono 2.10.2
-			throw new InvalidOperationException("You should override this method.");
-		}
-
-		public TSelf AddToBody(IUnifiedExpression expression) {
-			Body.Add(expression);
-			return (TSelf)this;
 		}
 			}
 }

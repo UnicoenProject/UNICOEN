@@ -75,8 +75,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			switch (kind) {
 			case UnifiedClassKind.Class:
 				return "class";
-			case UnifiedClassKind.Interface:
-				return "class";
 			case UnifiedClassKind.Namespace:
 				return null;
 			case UnifiedClassKind.Enum:
@@ -583,13 +581,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			arg.WriteLine("/* } */");
 			return false;
 		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedList element, VisitorArgument arg) {
-			element.Elements.TryAccept(this, arg);
-			return false;
-		}
-
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedKeyValue element, VisitorArgument arg) {
 			throw new NotImplementedException();

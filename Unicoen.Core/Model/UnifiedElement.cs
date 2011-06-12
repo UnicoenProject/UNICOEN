@@ -81,9 +81,9 @@ namespace Unicoen.Core.Model {
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
 		/// <param name = "visitor"></param>
-		/// <param name = "state"></param>
+		/// <param name = "arg"></param>
 		public abstract void Accept<TState>(
-				IUnifiedModelVisitor<TState> visitor, TState state);
+				IUnifiedModelVisitor<TState> visitor, TState arg);
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -91,10 +91,10 @@ namespace Unicoen.Core.Model {
 		/// <typeparam name = "TState"></typeparam>
 		/// <typeparam name = "TResult"></typeparam>
 		/// <param name = "visitor"></param>
-		/// <param name = "state"></param>
+		/// <param name = "arg"></param>
 		/// <returns></returns>
 		public abstract TResult Accept<TState, TResult>(
-				IUnifiedModelVisitor<TState, TResult> visitor, TState state);
+				IUnifiedModelVisitor<TState, TResult> visitor, TState arg);
 
 		/// <summary>
 		///   子要素を列挙します。

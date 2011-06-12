@@ -37,23 +37,14 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
-
-		//public override IUnifiedElement Normalize()
-		//{
-		//    NormalizeChildren();
-		//    if (Elements.Count == 1) {
-		//        return Elements[0];
-		//    }
-		//    return this;
-		//}
 
 		public static UnifiedExpressionCollection Create() {
 			return new UnifiedExpressionCollection();

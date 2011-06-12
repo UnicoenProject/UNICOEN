@@ -210,6 +210,58 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return true;
 		}
 
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedIterable element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedArray element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedSet element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedTuple element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedIterableComprehension element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSetComprehension element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedInterface element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedClass element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedStruct element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedEnum element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedModule element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedUnion element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedAnnotationDefinition element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedArrayType element, VisitorArgument arg) {
 			throw new NotImplementedException();

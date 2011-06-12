@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>
 	/// </summary>
 	public class UnifiedUsing
-			: UnifiedExpressionWithBlock<UnifiedUsing> {
+			: UnifiedExpressionWithBlock {
 		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>
@@ -46,13 +46,13 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedUsing Create2(

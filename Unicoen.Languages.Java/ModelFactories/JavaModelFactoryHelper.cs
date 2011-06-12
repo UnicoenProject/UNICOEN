@@ -75,7 +75,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return program;
 		}
 
-		public static UnifiedClassDefinition CreatePackageDeclaration(XElement node) {
+		public static UnifiedPackageBase CreatePackageDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "packageDeclaration");
 			/*
@@ -83,7 +83,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   'package' qualifiedName ';'
 			 */
 			var name = CreateQualifiedName(node.Element("qualifiedName"));
-			return UnifiedClassDefinition.Create(UnifiedClassKind.Namespace, null, null, name, null, null, UnifiedBlock.Create());
+			return UnifiedN.Create(UnifiedClassKind.Namespace, null, null, name, null, null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedImport CreateImportDeclaration(XElement node) {
@@ -122,7 +122,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 		}
 
-		public static UnifiedClassDefinition CreateClassOrInterfaceDeclaration(
+		public static UnifiedPackageBase CreateClassOrInterfaceDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classOrInterfaceDeclaration");
@@ -194,7 +194,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return Tuple.Create(annotations, modifiers);
 		}
 
-		public static UnifiedClassDefinition CreateClassDeclaration(XElement node) {
+		public static UnifiedPackageBase CreateClassDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classDeclaration");
 			/*
@@ -211,7 +211,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedClassDefinition CreateNormalClassDeclaration(
+		public static UnifiedPackageBase CreateNormalClassDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "normalClassDeclaration");
@@ -376,7 +376,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.SelectMany(CreateClassBodyDeclaration);
 		}
 
-		public static UnifiedClassDefinition CreateInterfaceDeclaration(XElement node) {
+		public static UnifiedPackageBase CreateInterfaceDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "interfaceDeclaration");
 			/*
@@ -393,7 +393,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedClassDefinition CreateNormalInterfaceDeclaration(
+		public static UnifiedInterface CreateNormalInterfaceDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "normalInterfaceDeclaration");
@@ -415,8 +415,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                 		: null;
 			var body = CreateInterfaceBody(node.Element("interfaceBody"));
 
-			return UnifiedClassDefinition.Create(
-					UnifiedClassKind.Interface,
+			return UnifiedInterface.Create(
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
 					name,
@@ -1048,7 +1047,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.ToArrayLiteral();
 		}
 
-		public static UnifiedClassDefinition CreateAnnotationTypeDeclaration(
+		public static UnifiedPackageBase CreateAnnotationTypeDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "annotationTypeDeclaration");
@@ -1057,8 +1056,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   modifiers '@' 'interface' IDENTIFIER annotationTypeBody 
 			 */
 			var annotationsAndModifiers = CreateModifiers(node.FirstElement());
-			return UnifiedClassDefinition.Create(
-					UnifiedClassKind.Annotation, annotationsAndModifiers.Item1, annotationsAndModifiers.Item2, UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, node.NthElement(3).Value), null, null, CreateAnnotationTypeBody(node.LastElement()));
+			return UnifiedAnnotationDefinition.Create(
+					annotationsAndModifiers.Item1, annotationsAndModifiers.Item2, UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, node.NthElement(3).Value), null, null, CreateAnnotationTypeBody(node.LastElement()));
 		}
 
 		public static UnifiedBlock CreateAnnotationTypeBody(XElement node) {
@@ -2000,7 +1999,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 		}
 
-		public static UnifiedList CreateArrayInitializer(XElement node) {
+		public static UnifiedArray CreateArrayInitializer(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arrayInitializer");
 			/*

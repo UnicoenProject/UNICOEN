@@ -22,32 +22,7 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   リスト内包表記式やジェネレータ式などを表します．
 	/// </summary>
-	public class UnifiedListComprehension : UnifiedElement, IUnifiedExpression {
-		/// <summary>
-		///   種類を表します．
-		/// </summary>
-		public UnifiedListKind Kind { get; set; }
-
-		private IUnifiedExpression _element;
-
-		/// <summary>
-		///   リスト内包表記によって生成される要素部分の式を表します．
-		/// </summary>
-		public IUnifiedExpression Element {
-			get { return _element; }
-			set { _element = SetChild(value, _element); }
-		}
-
-		private UnifiedExpressionCollection _generator;
-
-		/// <summary>
-		///   リスト内包表記の集合部分の式を表します．
-		/// </summary>
-		public UnifiedExpressionCollection Generator {
-			get { return _generator; }
-			set { _generator = SetChild(value, _generator); }
-		}
-
+	public class UnifiedListComprehension : UnifiedCollectionComprehensionBase {
 		private UnifiedListComprehension() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
@@ -56,21 +31,19 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedListComprehension Create(
-				UnifiedListKind kind,
 				IUnifiedExpression element,
 				UnifiedExpressionCollection generator) {
 			return new UnifiedListComprehension {
-					Kind = kind,
 					Element = element,
 					Generator = generator,
 			};

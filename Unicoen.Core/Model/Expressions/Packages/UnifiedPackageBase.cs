@@ -16,21 +16,9 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
-
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class A{....}</c>
-	/// </summary>
-	public class UnifiedClassDefinition
-			: UnifiedExpressionWithBlock<UnifiedClassDefinition> {
-		/// <summary>
-		///   種類を表します．
-		/// </summary>
-		public UnifiedClassKind Kind { get; set; }
-
-		private UnifiedAnnotationCollection _annotations;
+	public abstract class UnifiedPackageBase : UnifiedExpressionWithBlock {
+		protected UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -40,7 +28,7 @@ namespace Unicoen.Core.Model {
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
+		protected UnifiedModifierCollection _modifiers;
 
 		/// <summary>
 		///   クラスの修飾子の集合を表します
@@ -51,7 +39,7 @@ namespace Unicoen.Core.Model {
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
-		private IUnifiedExpression _name;
+		protected IUnifiedExpression _name;
 
 		public IUnifiedExpression Name {
 			get { return _name; }
@@ -59,7 +47,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		// generics とか
-		private UnifiedTypeParameterCollection _typeParameters;
+		protected UnifiedTypeParameterCollection _typeParameters;
 
 		public UnifiedTypeParameterCollection TypeParameters {
 			get { return _typeParameters; }
@@ -67,47 +55,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		// 継承とか
-		private UnifiedTypeConstrainCollection _constrains;
+		protected UnifiedTypeConstrainCollection _constrains;
 
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
-		}
-
-		private UnifiedClassDefinition() {}
-
-		public override void Accept(IUnifiedModelVisitor visitor) {
-			visitor.Visit(this);
-		}
-
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
-		}
-
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedClassDefinition Create(
-				UnifiedClassKind kind, 
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				IUnifiedExpression name = null, 
-				UnifiedTypeParameterCollection typeParameters = null,
-				UnifiedTypeConstrainCollection constrains = null,
-				UnifiedBlock body = null) {
-			return new UnifiedClassDefinition {
-					Annotations = annotations,
-					Modifiers = modifiers,
-					Kind = kind,
-					Name = name,
-					TypeParameters = typeParameters,
-					Constrains = constrains,
-					Body = body,
-			};
 		}
 	}
 }

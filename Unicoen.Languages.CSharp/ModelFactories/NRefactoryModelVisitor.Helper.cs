@@ -33,8 +33,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedClassKind.Class;
 			case ClassType.Struct:
 				return UnifiedClassKind.Struct;
-			case ClassType.Interface:
-				return UnifiedClassKind.Interface;
 			}
 			throw new InvalidOperationException(
 					"LookupClassKind : " + type + "には対応していません。");

@@ -71,30 +71,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return Generate(model, writer, "\t");
 		}
 
-		private static string GetKeyword(UnifiedClassKind kind) {
-			switch (kind) {
-			case UnifiedClassKind.Class:
-				return "class";
-			case UnifiedClassKind.Interface:
-				return "interface";
-			case UnifiedClassKind.Namespace:
-				return "package";
-			case UnifiedClassKind.Enum:
-				return "enum";
-			case UnifiedClassKind.Module:
-				return "module";
-			case UnifiedClassKind.Annotation:
-				return "@interface";
-			case UnifiedClassKind.Struct:
-				return "class /* struct */";
-			case UnifiedClassKind.Union:
-				return "class /* union */";
-			default:
-				throw new ArgumentOutOfRangeException("kind");
-			}
-			return null;
-		}
-
 		private static string GetKeyword(UnifiedSpecialExpressionKind kind) {
 			switch (kind) {
 			case UnifiedSpecialExpressionKind.Break:
@@ -131,24 +107,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedClassDefinition element, VisitorArgument arg) {
-			var keyword = GetKeyword(element.Kind);
-			if (element.Kind == UnifiedClassKind.Namespace) {
-				arg.Write(keyword);
-				arg.WriteSpace();
-				element.Name.TryAccept(this, arg);
-				return true;
-			} 
-			arg.WriteIndent();
-			element.Modifiers.TryAccept(this, arg);
-			arg.Write(keyword);
-			arg.WriteSpace();
-			element.Name.TryAccept(this, arg);
-			element.TypeParameters.TryAccept(this, arg);
-			element.Constrains.TryAccept(this, arg);
-			element.Body.TryAccept(this, arg);
-			return false;
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(UnifiedNamespace element, VisitorArgument arg) {
+			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -439,9 +399,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			case UnifiedConstructorDefinitionKind.Constructor:
 				element.Modifiers.TryAccept(this, arg);
 				element.TypeParameters.TryAccept(this, arg);
-				var p = element.Ancestors()
-						.First(e => e is UnifiedClassDefinition);
-				((UnifiedClassDefinition)p).Name.Accept(this, arg);
+				var p = element.Ancestors<UnifiedPackageBase>().First();
+				p.Name.Accept(this, arg);
 				element.Parameters.TryAccept(this, arg);
 				element.Body.TryAccept(this, arg);
 				break;
@@ -567,12 +526,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedList element, VisitorArgument arg) {
-			element.Elements.TryAccept(this, arg);
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedKeyValue element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
@@ -614,8 +567,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 			// アノテーションの場合は String value() default "test";
 			var setterSign = " = ";
-			var klass = element.GrandParent() as UnifiedClassDefinition;
-			if (klass != null && klass.Kind == UnifiedClassKind.Annotation) {
+			var klass = element.GrandParent() as UnifiedAnnotationDefinition;
+			if (klass != null) {
 				setterSign = " default ";
 			}
 

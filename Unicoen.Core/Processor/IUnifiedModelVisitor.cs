@@ -37,7 +37,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedImport element);
 		void Visit(UnifiedConstructorDefinition element);
 		void Visit(UnifiedProgram element);
-		void Visit(UnifiedClassDefinition element);
 		void Visit(UnifiedNew element);
 		void Visit(UnifiedFor element);
 		void Visit(UnifiedForeach element);
@@ -93,6 +92,20 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedGenericType element);
 		void Visit(UnifiedSimpleType element);
 		void Visit(UnifiedCharLiteral element);
+		void Visit(UnifiedIterable element);
+		void Visit(UnifiedArray element);
+		void Visit(UnifiedSet element);
+		void Visit(UnifiedTuple element);
+		void Visit(UnifiedIterableComprehension element);
+		void Visit(UnifiedSetComprehension element);
+		void Visit(UnifiedInterface element);
+		void Visit(UnifiedClass element);
+		void Visit(UnifiedStruct element);
+		void Visit(UnifiedEnum element);
+		void Visit(UnifiedModule element);
+		void Visit(UnifiedUnion element);
+		void Visit(UnifiedAnnotationDefinition element);
+		void Visit(UnifiedNamespace element);
 	}
 
 	public interface IUnifiedModelVisitor<in TState> {
@@ -113,7 +126,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedImport element, TState arg);
 		void Visit(UnifiedConstructorDefinition element, TState arg);
 		void Visit(UnifiedProgram element, TState arg);
-		void Visit(UnifiedClassDefinition element, TState arg);
 		void Visit(UnifiedNew element, TState arg);
 		void Visit(UnifiedFor element, TState arg);
 		void Visit(UnifiedForeach element, TState arg);
@@ -169,6 +181,20 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedGenericType element, TState arg);
 		void Visit(UnifiedSimpleType element, TState arg);
 		void Visit(UnifiedCharLiteral element, TState arg);
+		void Visit(UnifiedIterable element, TState arg);
+		void Visit(UnifiedArray element, TState arg);
+		void Visit(UnifiedSet element, TState arg);
+		void Visit(UnifiedTuple element, TState arg);
+		void Visit(UnifiedIterableComprehension element, TState arg);
+		void Visit(UnifiedSetComprehension element, TState arg);
+		void Visit(UnifiedInterface element, TState arg);
+		void Visit(UnifiedClass element, TState arg);
+		void Visit(UnifiedStruct element, TState arg);
+		void Visit(UnifiedEnum element, TState arg);
+		void Visit(UnifiedModule element, TState arg);
+		void Visit(UnifiedUnion element, TState arg);
+		void Visit(UnifiedAnnotationDefinition element, TState arg);
+		void Visit(UnifiedNamespace element, TState arg);
 	}
 
 	public interface IUnifiedModelVisitor<in TState, out TResult> {
@@ -189,7 +215,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedImport element, TState arg);
 		TResult Visit(UnifiedConstructorDefinition element, TState arg);
 		TResult Visit(UnifiedProgram element, TState arg);
-		TResult Visit(UnifiedClassDefinition element, TState arg);
 		TResult Visit(UnifiedNew element, TState arg);
 		TResult Visit(UnifiedFor element, TState arg);
 		TResult Visit(UnifiedForeach element, TState arg);
@@ -245,5 +270,19 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedGenericType element, TState arg);
 		TResult Visit(UnifiedSimpleType element, TState arg);
 		TResult Visit(UnifiedCharLiteral element, TState arg);
+		TResult Visit(UnifiedIterable element, TState arg);
+		TResult Visit(UnifiedArray element, TState arg);
+		TResult Visit(UnifiedSet element, TState arg);
+		TResult Visit(UnifiedTuple element, TState arg);
+		TResult Visit(UnifiedIterableComprehension element, TState arg);
+		TResult Visit(UnifiedSetComprehension element, TState arg);
+		TResult Visit(UnifiedInterface element, TState arg);
+		TResult Visit(UnifiedClass element, TState arg);
+		TResult Visit(UnifiedStruct element, TState arg);
+		TResult Visit(UnifiedEnum element, TState arg);
+		TResult Visit(UnifiedModule element, TState arg);
+		TResult Visit(UnifiedUnion element, TState arg);
+		TResult Visit(UnifiedAnnotationDefinition element, TState arg);
+		TResult Visit(UnifiedNamespace element, TState arg);
 	}
 }

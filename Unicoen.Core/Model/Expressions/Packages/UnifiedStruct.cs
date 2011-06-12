@@ -20,40 +20,40 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   辞書リテラルを表します．
+	///   クラスの定義部分を表します。
+	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
-	public class UnifiedDictonary : UnifiedElement, IUnifiedExpression {
-		private UnifiedKeyValueCollection _keyValues;
-
-		/// <summary>
-		///   辞書を構成する要素の集合を表します．
-		/// </summary>
-		public UnifiedKeyValueCollection KeyValues {
-			get { return _keyValues; }
-			set { _keyValues = SetChild(value, _keyValues); }
-		}
-
-		private UnifiedDictonary() {}
+	public class UnifiedStruct : UnifiedPackageBase {
+		private UnifiedStruct() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData> visitor, TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedDictonary Create(
-				UnifiedKeyValueCollection keyValues = null) {
-			return new UnifiedDictonary {
-					KeyValues = keyValues,
+		public static UnifiedStruct Create(
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				IUnifiedExpression name = null,
+				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedTypeConstrainCollection constrains = null,
+				UnifiedBlock body = null) {
+			return new UnifiedStruct {
+					Annotations = annotations,
+					Modifiers = modifiers,
+					Name = name,
+					TypeParameters = typeParameters,
+					Constrains = constrains,
+					Body = body,
 			};
 		}
 	}
