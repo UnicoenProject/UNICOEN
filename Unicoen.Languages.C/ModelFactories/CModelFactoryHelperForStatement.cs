@@ -86,8 +86,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 					block.Add(statement);
 				}
 			}
-
-			throw new NotImplementedException(); //TODO: implement
+			return block;
 		}
 
 		public static UnifiedExpressionCollection CreateStatementList(XElement node) {
@@ -155,16 +154,20 @@ namespace Unicoen.Languages.C.ModelFactories {
 			case "goto":
 
 			case "continue":
-				return UnifiedSpecialExpression.CreateContinue();
+				return UnifiedSpecialExpression.Create(
+						UnifiedSpecialExpressionKind.Continue);
 			case "break":
-				return UnifiedSpecialExpression.CreateBreak();
+				return UnifiedSpecialExpression.Create(
+						UnifiedSpecialExpressionKind.Break);
+
 			case "return":
 				var expression = node.Element("expression");
 				if (expression != null) {
-					return UnifiedSpecialExpression.CreateReturn(
-							CreateExpression(expression));
+					return UnifiedSpecialExpression.Create(
+							UnifiedSpecialExpressionKind.Return, CreateExpression(expression));
 				} else {
-					return UnifiedSpecialExpression.CreateReturn();
+					return UnifiedSpecialExpression.Create(
+							UnifiedSpecialExpressionKind.Return);
 				}
 			default:
 				throw new InvalidOperationException();

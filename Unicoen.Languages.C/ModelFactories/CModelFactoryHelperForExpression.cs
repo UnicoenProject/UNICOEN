@@ -135,7 +135,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static UnifiedExpressionList CreateExpression(XElement node) {
+		public static IUnifiedExpression CreateExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression");
 			/* expression
