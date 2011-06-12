@@ -59,12 +59,13 @@ namespace Unicoen.Apps.Translator
 
 			#endregion
 
-
+			/*
 			args = new[] {
 					@"C:\Users\T.Kamiya\Desktop\debian_shared/test.java",
 					"java",
-					"c",
+					"java",
 			};
+			 */
 
 
 			if (args.Length != 3)
