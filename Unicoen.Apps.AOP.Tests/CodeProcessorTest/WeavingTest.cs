@@ -39,7 +39,7 @@ namespace Unicoen.Apps.Aop.Tests {
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
 			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return Program.CreateModel(ext, code);
+			return CodeProcessor.CreateModel(ext, code);
 		}
 
 		[Test]
@@ -50,7 +50,7 @@ namespace Unicoen.Apps.Aop.Tests {
 							FixtureUtil.GetAopExpectationPath(
 									"Java", "Fibonacci_functionBefore.java"));
 
-			CodeProcessor.InsertAtBeforeExecutionAll(model, "Console.Write();");
+			CodeProcessor.InsertAtBeforeExecutionAll(model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -63,7 +63,7 @@ namespace Unicoen.Apps.Aop.Tests {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
-			CodeProcessor.InsertAtAfterExecutionAll(model, "Console.Write();");
+			CodeProcessor.InsertAtAfterExecutionAll(model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -79,7 +79,7 @@ namespace Unicoen.Apps.Aop.Tests {
 									"Java", "Fibonacci_functionBefore.java"));
 
 			CodeProcessor.InsertAtBeforeExecution(
-					model, new Regex(regex), "Console.Write();");
+					model, new Regex(regex), CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);	
@@ -94,7 +94,7 @@ namespace Unicoen.Apps.Aop.Tests {
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
 			CodeProcessor.InsertAtAfterExecution(
-					model, new Regex(regex), "Console.Write();");
+					model, new Regex(regex), CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -110,7 +110,7 @@ namespace Unicoen.Apps.Aop.Tests {
 									"Java", "Fibonacci_functionBefore.java"));
 
 			CodeProcessor.InsertAtBeforeExecutionByName(
-					model, name, "Console.Write();");
+					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -124,7 +124,7 @@ namespace Unicoen.Apps.Aop.Tests {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
-			CodeProcessor.InsertAtAfterExecutionByName(model, name, "Console.Write();");
+			CodeProcessor.InsertAtAfterExecutionByName(model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -137,7 +137,7 @@ namespace Unicoen.Apps.Aop.Tests {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
-			CodeProcessor.InsertAtBeforeCallAll(model, "Console.Write();");
+			CodeProcessor.InsertAtBeforeCallAll(model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -150,7 +150,7 @@ namespace Unicoen.Apps.Aop.Tests {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
-			CodeProcessor.InsertAtAfterCallAll(model, "Console.Write();");
+			CodeProcessor.InsertAtAfterCallAll(model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -165,7 +165,7 @@ namespace Unicoen.Apps.Aop.Tests {
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			CodeProcessor.InsertAtBeforeCall(
-					model, new Regex(regex), "Console.Write();");
+					model, new Regex(regex), CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -180,7 +180,7 @@ namespace Unicoen.Apps.Aop.Tests {
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			CodeProcessor.InsertAtAfterCall(
-					model, new Regex(regex), "Console.Write();");
+					model, new Regex(regex), CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -194,7 +194,7 @@ namespace Unicoen.Apps.Aop.Tests {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
-			CodeProcessor.InsertAtBeforeCallByName(model, name, "Console.Write();");
+			CodeProcessor.InsertAtBeforeCallByName(model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
@@ -208,7 +208,7 @@ namespace Unicoen.Apps.Aop.Tests {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
-			CodeProcessor.InsertAtAfterCallByName(model, name, "Console.Write();");
+			CodeProcessor.InsertAtAfterCallByName(model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
