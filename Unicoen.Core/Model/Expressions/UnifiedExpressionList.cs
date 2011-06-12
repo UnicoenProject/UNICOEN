@@ -16,35 +16,22 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Collections.Generic;
+using Unicoen.Core.Visitors;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   辞書内包表記を表します．
+	///   自分自身が式である式の集合を表します。
+	///   C 言語における return 1,2; の 1,2 など
 	/// </summary>
-	public class UnifiedDictionaryComprehension
-			: UnifiedElement, IUnifiedExpression {
-		private UnifiedKeyValue _element;
+	public class UnifiedExpressionList
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionList>,
+			  IUnifiedExpression {
+		protected UnifiedExpressionList() {}
 
-		/// <summary>
-		///   辞書内包表記によって生成される要素部分の式を表します．
-		/// </summary>
-		public UnifiedKeyValue Element {
-			get { return _element; }
-			set { _element = SetChild(value, _element); }
-		}
-
-		private UnifiedExpressionCollection _generator;
-
-		/// <summary>
-		///   辞書内包表記の集合を生成する式を表します．
-		/// </summary>
-		public UnifiedExpressionCollection Generator {
-			get { return _generator; }
-			set { _generator = SetChild(value, _generator); }
-		}
-
-		private UnifiedDictionaryComprehension() {}
+		protected UnifiedExpressionList(
+				IEnumerable<IUnifiedExpression> expressions)
+				: base(expressions) {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -61,13 +48,18 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedDictionaryComprehension Create(
-				UnifiedKeyValue element = null,
-				UnifiedExpressionCollection generator = null) {
-			return new UnifiedDictionaryComprehension {
-					Element = element,
-					Generator = generator,
-			};
+		public static UnifiedExpressionList Create() {
+			return new UnifiedExpressionList();
 		}
-			}
+
+		public static UnifiedExpressionList Create(
+				params IUnifiedExpression[] elements) {
+			return new UnifiedExpressionList(elements);
+		}
+
+		public static UnifiedExpressionList Create(
+				IEnumerable<IUnifiedExpression> elements) {
+			return new UnifiedExpressionList(elements);
+		}
+			  }
 }

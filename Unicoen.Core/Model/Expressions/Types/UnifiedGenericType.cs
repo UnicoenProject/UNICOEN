@@ -39,13 +39,13 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TState>(
-				IUnifiedModelVisitor<TState> visitor, TState state) {
-			visitor.Visit(this, state);
+				IUnifiedModelVisitor<TState> visitor, TState arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TState, TResult>(
-				IUnifiedModelVisitor<TState, TResult> visitor, TState state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TState, TResult> visitor, TState arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public override IEnumerable<IUnifiedElement> GetElements() {

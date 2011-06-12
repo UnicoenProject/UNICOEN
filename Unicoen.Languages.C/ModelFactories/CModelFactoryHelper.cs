@@ -88,7 +88,13 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			CreateDeclarator(
 					node.Element("declarator"),
-					out typeParameters, out name, out parameters);
+					out name, out parameters);
+
+			if (!node.Elements("declaration").IsEmpty()) {
+				throw new NotImplementedException(); //TODO: implement
+			}
+
+			body = CreateCompoundStatement(node.Element("compound_statement"));
 
 			return UnifiedFunctionDefinition.Create(
 					UnifiedFunctionDefinitionKind.Function,
@@ -237,22 +243,29 @@ namespace Unicoen.Languages.C.ModelFactories {
 			// 常に UnifiedTyep を返すが、
 			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
 
-			var kind = node.FirstElement().Name() == "struct"
-			           		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
+			var isStruct = node.FirstElement().Name() == "struct";
 			var identElem = node.Element("IDENTIFIER");
 			var uIdent = identElem == null
-			             		? null : UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, identElem.Value);
+			             		? null
+			             		: UnifiedIdentifier.Create(
+			             				UnifiedIdentifierKind.Type, identElem.Value);
 
 			if (node.Elements().Count() == 2) {
 				var baseType = UnifiedType.Create(uIdent);
-				return kind == UnifiedClassKind.Struct
+				return isStruct
 				       		? baseType.WrapStruct()
 				       		: baseType.WrapUnion();
 			}
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
-			var structOrUnion = UnifiedClassDefinition.Create(kind, null, null, uIdent, null, null, body);
+			var structOrUnion = isStruct
+			                    		? (UnifiedPackageBase)UnifiedStruct.Create(
+			                    				name: uIdent,
+			                    				body: body)
+			                    		: UnifiedUnion.Create(
+			                    				name: uIdent,
+			                    				body: body);
 
 			return UnifiedType.Create(structOrUnion);
 		}
@@ -330,7 +343,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 				prefix = " ";
 			}
 			type = s.Equals("")
-			       		? null : UnifiedType.Create(UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
+			       		? null
+			       		: UnifiedType.Create(
+			       				UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
 		}
 
 		public static UnifiedVariableDefinitionList
@@ -415,7 +430,6 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 		public static void CreateDeclarator(
 				XElement node,
-				out UnifiedTypeParameterCollection typeParameters,
 				out UnifiedIdentifier name,
 				out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
@@ -425,37 +439,79 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * | pointer
 			 */
 
-			throw new NotImplementedException(); //TODO: implement
+			if (node.Element("direct_declarator") != null) {
+				if (node.Element("pointer") != null) {
+					throw new NotImplementedException(); //TODO: implement
+				}
+
+				CreateDirectDeclarator(
+						node.Element("direct_declarator"),
+						out name, out parameters);
+			} else {
+				throw new NotImplementedException(); //TODO: implement
+			}
 		}
 
-		public static IUnifiedElement CreateDirectDeclarator(XElement node) {
+		public static void CreateDirectDeclarator(
+				XElement node,
+				out UnifiedIdentifier name,
+				out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "direct_declarator");
-			/*
-			direct_declarator
-			:   (	IDENTIFIER
-				|	'(' declarator ')'
-				)
-				declarator_suffix*
-			*/
+			/* direct_declarator
+			 * :   (	IDENTIFIER  | '(' declarator ')' ) declarator_suffix*
+			 */
+			var identifier = node.Element("IDENTIFIER");
+			if (identifier != null) {
+				name = UnifiedIdentifier.Create(
+						UnifiedIdentifierKind.Function, identifier.Value);
+			} else if (node.Element("declarator") != null) {
+				throw new NotImplementedException(); //TODO: implement
+			} else {
+				throw new InvalidOperationException();
+			}
 
-			throw new NotImplementedException(); //TODO: implement
+			parameters = null;
+			if (node.Elements("declarator_suffix").Count() > 1) {
+				throw new NotImplementedException(); //TODO: implement
+			} else if (node.Elements("declarator_suffix").Count() == 1) {
+				CreateDeclaratorSuffix(
+						node.Element("declarator_suffix"),
+						out parameters);
+			}
+
+			//throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDeclaratorSuffix(XElement node) {
+		public static void CreateDeclaratorSuffix(
+				XElement node,
+				out UnifiedParameterCollection parameters) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator_suffix");
-			/*
-			declarator_suffix
-			:   '[' constant_expression ']'
-			|   '[' ']'
-			|   '(' parameter_type_list ')'
-			|   '(' identifier_list ')'
-			|   '(' ')'
-			;
+			/* declarator_suffix
+			 * :   '[' constant_expression ']'
+			 * |   '[' ']'
+			 * |   '(' parameter_type_list ')'
+			 * |   '(' identifier_list ')'
+			 * |   '(' ')'
+			 * ;
 			*/
 
-			throw new NotImplementedException(); //TODO: implement
+			if (node.FirstElement().Value.Equals("(")
+			    && node.LastElement().Value.Equals(")")) {
+				if (node.Element("parameter_type_list") != null) {
+					parameters = CreateParameterTypeList(node.Element("parameter_type_list"));
+				} else if (node.Element("identifier_list") != null) {
+					throw new NotImplementedException(); //TODO: implement
+				} else {
+					parameters = UnifiedParameterCollection.Create();
+				}
+			} else if (node.FirstElement().Value.Equals("[")
+			           && node.LastElement().Value.Equals("]")) {
+				throw new NotImplementedException(); //TODO: implement
+			} else {
+				throw new InvalidOperationException();
+			}
 		}
 
 		public static IUnifiedElement CreatePointer(XElement node) {
@@ -470,18 +526,25 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateParameterTypeList(XElement node) {
+		public static UnifiedParameterCollection CreateParameterTypeList(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameter_type_list");
 			/*
 			parameter_type_list
 			: parameter_list (',' '...')?
 			*/
-
-			throw new NotImplementedException(); //TODO: implement
+			var parameters = CreateParameterList(node.Element("parameter_list"));
+			if (node.LastElement().Value == "...") {
+				parameters.Add(
+						UnifiedParameter.Create(
+								modifiers:
+										UnifiedModifierCollection.Create(UnifiedModifier.Create("..."))));
+			}
+			return parameters;
 		}
 
-		public static IUnifiedElement CreateParameterList(XElement node) {
+		public static UnifiedParameterCollection CreateParameterList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameter_list");
 			/*
@@ -489,16 +552,47 @@ namespace Unicoen.Languages.C.ModelFactories {
 			: parameter_declaration (',' parameter_declaration)*
 			*/
 
-			throw new NotImplementedException(); //TODO: implement
+			var parameters = UnifiedParameterCollection.Create();
+			foreach (var parameterNode in node.Elements("parameter_declaration")) {
+				parameters.Add(CreateParameterDeclaration(parameterNode));
+			}
+			return parameters;
 		}
 
-		public static IUnifiedElement CreateParameterDeclaration(XElement node) {
+		public static UnifiedParameter CreateParameterDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameter_declaration");
 			/*
 			parameter_declaration
 			: declaration_specifiers (declarator|abstract_declarator)*
 			 */
+
+			UnifiedModifierCollection modifiers;
+			UnifiedType type;
+			UnifiedIdentifier name;
+			UnifiedParameterCollection parameters;
+
+			CreateDeclarationSpecifiers(
+					node.Element("declaration_specifiers"), out modifiers, out type);
+
+			if (node.Element("abstract_declarator") != null) {
+				throw new NotImplementedException(); //TODO: implement
+			} else if (node.Elements("declarator").Count() > 1) {
+				throw new NotImplementedException(); //TODO: implement
+			} else if (node.Element("declarator") != null) {
+				CreateDeclarator(node.Element("declarator"), out name, out parameters);
+				if (parameters != null && parameters.Count > 0) {
+					// この場合はパラメータが関数ポインタ
+					var returnType = type;
+					type = UnifiedType.Create(
+							UnifiedFunctionDefinition.Create(
+									UnifiedFunctionDefinitionKind.Function, null, modifiers, returnType,
+									null, null, parameters, null, null));
+					modifiers = null;
+				}
+				return UnifiedParameter.Create(
+						null, modifiers, type, name.ToCollection(), null);
+			}
 
 			throw new NotImplementedException(); //TODO: implement
 		}
@@ -534,7 +628,13 @@ namespace Unicoen.Languages.C.ModelFactories {
 			| direct_abstract_declarator
 			 */
 
-			throw new NotImplementedException(); //TODO: implement
+			if (node.Element("pointer") != null) {
+				throw new NotImplementedException(); //TODO: implement
+			} else if (node.Element("direct_abstract_declarator") != null) {
+				throw new NotImplementedException(); //TODO: implement
+			} else {
+				throw new InvalidOperationException();
+			}
 		}
 
 		public static IUnifiedElement CreateDirectAbstractDeclarator(XElement node) {

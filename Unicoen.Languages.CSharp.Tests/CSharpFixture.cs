@@ -146,9 +146,9 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		/// <summary>
-		/// コンパイル済みのコードのバイト列を取得します．
+		///   コンパイル済みのコードのバイト列を取得します．
 		/// </summary>
-		/// <param name="path">コンパイル済みのコードのパス</param>
+		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
 		protected override byte[] GetCompiledByteCode(string path) {
 			var ildasmPath = IldasmPathes.First(File.Exists);

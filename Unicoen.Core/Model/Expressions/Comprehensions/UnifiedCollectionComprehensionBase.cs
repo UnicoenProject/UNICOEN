@@ -17,48 +17,26 @@
 #endregion
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   UnifiedClassDefinitionの種類を表します。
-	/// </summary>
-	public enum UnifiedClassKind {
-		Class,
+	public abstract class UnifiedCollectionComprehensionBase
+			: UnifiedElement, IUnifiedExpression {
+		protected IUnifiedExpression _element;
 
 		/// <summary>
-		///   interface in Java, C#
-		///   trait? in Scala
+		///   リスト内包表記によって生成される要素部分の式を表します．
 		/// </summary>
-		Interface,
+		public IUnifiedExpression Element {
+			get { return _element; }
+			set { _element = SetChild(value, _element); }
+		}
+
+		protected UnifiedExpressionCollection _generator;
 
 		/// <summary>
-		///   namespace in C#, C++
-		///   package in Java
+		///   リスト内包表記の集合部分の式を表します．
 		/// </summary>
-		Namespace,
-
-		/// <summary>
-		///   enum in Java, C#, C++
-		/// </summary>
-		Enum,
-
-		/// <summary>
-		///   annotation in Java
-		///   attribute in C#
-		/// </summary>
-		Annotation,
-
-		/// <summary>
-		///   struct in C, C++, C#
-		/// </summary>
-		Struct,
-
-		/// <summary>
-		///   union in C, C++
-		/// </summary>
-		Union,
-
-		/// <summary>
-		///   module in Ruby
-		/// </summary>
-		Module,
-	}
+		public UnifiedExpressionCollection Generator {
+			get { return _generator; }
+			set { _generator = SetChild(value, _generator); }
+		}
+			}
 }

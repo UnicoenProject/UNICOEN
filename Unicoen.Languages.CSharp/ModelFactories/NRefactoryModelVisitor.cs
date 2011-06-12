@@ -21,6 +21,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
+using ICSharpCode.NRefactory.TypeSystem;
 using Unicoen.Core.Model;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
@@ -130,7 +131,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			Contract.Requires<ArgumentNullException>(ident != null);
 			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedIdentifier);
 
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, ident.Identifier);
+			return UnifiedIdentifier.Create(
+					UnifiedIdentifierKind.Variable, ident.Identifier);
 		}
 
 		public IUnifiedElement VisitIndexerExpression(
@@ -317,9 +319,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitTypeDeclaration(TypeDeclaration dec, object data) {
 			Contract.Requires<ArgumentNullException>(dec != null);
 			Contract.Ensures(
-					Contract.Result<IUnifiedElement>() is UnifiedClassDefinition);
+					Contract.Result<IUnifiedElement>() is UnifiedPackageBase);
 
-			var kind = LookupClassKind(dec.ClassType);
 			var mods = LookupModifier(dec.Modifiers);
 			var name = UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, dec.Name);
 			var body = UnifiedBlock.Create();
@@ -328,7 +329,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				if (uExpr != null)
 					body.Add(uExpr);
 			}
-			return UnifiedClassDefinition.Create(kind, null, mods, name, null, null, body);
+			switch (dec.ClassType) {
+			case ClassType.Class:
+				return UnifiedClass.Create(null, mods, name, null, null, body);
+			case ClassType.Struct:
+				return UnifiedStruct.Create(null, mods, name, null, null, body);
+			default:
+				throw new IndexOutOfRangeException(
+						"LookupClassKind : " + dec.ClassType + "には対応していません。");
+			}
 		}
 
 		public IUnifiedElement VisitUsingAliasDeclaration(
@@ -457,7 +466,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 								? null
 								: retStmt.Expression.AcceptVisitor(this, data) as
 								  IUnifiedExpression;
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Return, uExpr);
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Return, uExpr);
 		}
 
 		public IUnifiedElement VisitSwitchStatement(
@@ -559,13 +569,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 						null,
 						null,
 						type,
-						UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, name).ToCollection(),
+						UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, name).
+								ToCollection(),
 						null);
 				uParms.Add(uParam);
 			}
 
 			return UnifiedConstructorDefinition.Create(
-					UnifiedConstructorDefinitionKind.Constructor, uBody, null, uMods, uParms, null, null);
+					UnifiedConstructorDefinitionKind.Constructor, uBody, null, uMods, uParms,
+					null, null);
 
 			throw new NotImplementedException("ConstructorDeclaration");
 		}
@@ -640,7 +652,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 			return UnifiedFunctionDefinition.Create(
 					UnifiedFunctionDefinitionKind.Function,
-					null, mods, type, null, UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), null, null, body);
+					null, mods, type, null,
+					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), null, null,
+					body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(

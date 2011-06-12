@@ -20,25 +20,10 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   リストやタプル，配列，集合などのリテラルを表します．
+	///   リスト内包表記式やジェネレータ式などを表します．
 	/// </summary>
-	public class UnifiedList : UnifiedElement, IUnifiedExpression {
-		/// <summary>
-		///   リストの種類を表します．
-		/// </summary>
-		public UnifiedListKind Kind { get; set; }
-
-		private UnifiedExpressionCollection _elements;
-
-		/// <summary>
-		///   リストを構成する要素の集合を表します．
-		/// </summary>
-		public UnifiedExpressionCollection Elements {
-			get { return _elements; }
-			set { _elements = SetChild(value, _elements); }
-		}
-
-		private UnifiedList() {}
+	public class UnifiedSetComprehension : UnifiedCollectionComprehensionBase {
+		private UnifiedSetComprehension() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -46,21 +31,21 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedList Create(
-				UnifiedListKind kind,
-				UnifiedExpressionCollection elements = null) {
-			return new UnifiedList {
-					Kind = kind,
-					Elements = elements,
+		public static UnifiedSetComprehension Create(
+				IUnifiedExpression element,
+				UnifiedExpressionCollection generator) {
+			return new UnifiedSetComprehension {
+					Element = element,
+					Generator = generator,
 			};
 		}
 	}

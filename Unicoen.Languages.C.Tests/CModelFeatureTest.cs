@@ -20,7 +20,7 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class CModelFeatureTest : ModelFeatureTest {
 		private readonly Fixture _fixture = new CFixture();
 

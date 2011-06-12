@@ -72,7 +72,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Expressions\Collections\UnifiedArray.cs" />
+    <Compile Include="Model\Expressions\Collections\UnifiedIterable.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedIterableComprehension.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedCollectionComprehensionBase.cs" />
+    <Compile Include="Model\Expressions\Collections\UnifiedSet.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedSetComprehension.cs" />
+    <Compile Include="Model\Expressions\Collections\UnifiedTuple.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedCharLiteral.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedAnnotationDefinition.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedClass.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedEnum.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedInterface.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedModule.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedNamespace.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedPackageBase.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedStruct.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedUnion.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedWrapType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedArrayType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />
@@ -98,7 +114,6 @@
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedClassKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
@@ -119,18 +134,17 @@
     <Compile Include="Model\Expressions\Operators\OldUnaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
-    <Compile Include="Model\Expressions\UnifiedDictionaryComprehension.cs" />
-    <Compile Include="Model\Expressions\UnifiedDictonary.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedDictionaryComprehension.cs" />
+    <Compile Include="Model\Expressions\Collections\UnifiedDictionary.cs" />
     <Compile Include="Model\Expressions\UnifiedKeyValue.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
-    <Compile Include="Model\Expressions\UnifiedList.cs" />
-    <Compile Include="Model\Expressions\UnifiedListComprehension.cs" />
+    <Compile Include="Model\Expressions\Collections\UnifiedList.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedListComprehension.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryExpression.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCall.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedClassDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedDoWhile.cs" />
     <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
@@ -145,7 +159,6 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
     <Compile Include="Model\Expressions\UnifiedIdentifierKind.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
-    <Compile Include="Model\Expressions\UnifiedListKind.cs" />
     <Compile Include="Model\Expressions\UnifiedSpecialExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedSpecialExpressionKind.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />

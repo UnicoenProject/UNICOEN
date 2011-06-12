@@ -55,7 +55,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedFractionLiteral ToLiteral(this double value) {
-			return UnifiedFractionLiteral.Create(value, UnifiedFractionLiteralKind.Double);
+			return UnifiedFractionLiteral.Create(
+					value, UnifiedFractionLiteralKind.Double);
 		}
 	}
 }

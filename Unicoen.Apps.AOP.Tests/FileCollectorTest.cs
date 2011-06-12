@@ -16,12 +16,21 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
-	public enum UnifiedListKind {
-		List,
-		LazyList,
-		Tuple,
-		Array,
-		Set,
+using System;
+using NUnit.Framework;
+
+namespace Unicoen.Apps.Aop.Tests {
+	/// <summary>
+	///   FileCollectorが正しく動作するかテストします
+	/// </summary>
+	[TestFixture]
+	internal class FileCollectorTest {
+		[Test]
+		public void フォルダを再帰的に探索しファイル一覧を取得する() {
+			foreach (
+					var file in FileCollector.Collect("../../fixture/AspectCompiler/input")) {
+				Console.WriteLine(file);
+			}
+		}
 	}
 }

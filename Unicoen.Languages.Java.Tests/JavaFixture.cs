@@ -16,10 +16,7 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -30,7 +27,7 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
 	/// <summary>
-	/// テストに必要なデータを提供します．
+	///   テストに必要なデータを提供します．
 	/// </summary>
 	public class JavaFixture : Fixture {
 		private const string CompileCommand = "javac";
@@ -116,14 +113,16 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => new TestCaseData(
-											FixtureUtil.GetInputPath("Java", o.DirName),
-											o.Command,
-											o.Arguments))
-						.Concat(new[] {
-							SetUpJUnit(),
-						});
+								     		FixtureUtil.GetInputPath("Java", o.DirName),
+								     		o.Command,
+								     		o.Arguments))
+						.Concat(
+								new[] {
+										SetUpJUnit(),
+								});
 			}
 		}
+
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
@@ -136,6 +135,7 @@ namespace Unicoen.Languages.Java.Tests {
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
+
 		private static TestCaseData SetUpJUnit() {
 			var path = FixtureUtil.GetDownloadPath("Java", "JUnit4.8.2");
 			var srcPath = Path.Combine(path, "src.zip");
@@ -152,9 +152,11 @@ namespace Unicoen.Languages.Java.Tests {
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);
-			FixtureManager.Download("https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
+			FixtureManager.Download(
+					"https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
 			FixtureManager.Unzip(srcPath);
-			FixtureManager.Download("https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
+			FixtureManager.Download(
+					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
 			return testCase;
 		}
 	}

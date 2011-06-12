@@ -24,7 +24,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>class C{ C(){...} }</c>の<c>C(){...}</c>
 	/// </summary>
 	public class UnifiedConstructorDefinition
-			: UnifiedExpressionWithBlock<UnifiedConstructorDefinition> {
+			: UnifiedExpressionWithBlock {
 		public UnifiedConstructorDefinitionKind Kind { get; set; }
 
 		private UnifiedAnnotationCollection _annotations;
@@ -73,24 +73,24 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedConstructorDefinition Create(
-			UnifiedConstructorDefinitionKind kind,	
-			UnifiedBlock body = null,
-			UnifiedAnnotationCollection annotations = null,
-			UnifiedModifierCollection modifiers = null, 
-			UnifiedParameterCollection parameters = null,
-			UnifiedTypeParameterCollection typeParameters = null,
-			UnifiedTypeCollection throws = null) {
-				return new UnifiedConstructorDefinition {
+				UnifiedConstructorDefinitionKind kind,
+				UnifiedBlock body = null,
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedParameterCollection parameters = null,
+				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedTypeCollection throws = null) {
+			return new UnifiedConstructorDefinition {
 					Kind = kind,
 					Body = body,
 					Annotations = annotations,
@@ -98,7 +98,7 @@ namespace Unicoen.Core.Model {
 					Parameters = parameters,
 					TypeParameters = typeParameters,
 					Throws = throws,
-				};
+			};
 		}
-	}
+			}
 }
