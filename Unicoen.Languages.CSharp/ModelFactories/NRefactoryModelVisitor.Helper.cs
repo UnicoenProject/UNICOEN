@@ -23,7 +23,9 @@ using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
+
 	internal partial class NRefactoryModelVisitor {
+
 		#region Lookups
 
 		private static UnifiedModifierCollection LookupModifier(Modifiers mods) {
@@ -70,7 +72,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var com = type as ComposedType;
 			if (com != null) {
 				var uType = LookupType(com.BaseType);
-				foreach (var aSpec in  com.ArraySpecifiers) {
+				foreach (var aSpec in com.ArraySpecifiers) {
 					uType = uType.WrapRectangleArray(aSpec.Dimensions);
 				}
 				return uType;
@@ -79,10 +81,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("LookupType");
 		}
 
-		private static UnifiedBinaryOperator LookupBinaryOperator(
-				BinaryOperatorType op) {
-			Contract.Ensures(Contract.Result<UnifiedBinaryOperator>() != null);
-
+		private static UnifiedBinaryOperator LookupBinaryOperator(BinaryOperatorType op) {
 			switch (op) {
 			case BinaryOperatorType.Add:
 				return UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorKind.Add);
@@ -94,24 +93,43 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedBinaryOperator.Create("/", UnifiedBinaryOperatorKind.Divide);
 
 			case BinaryOperatorType.GreaterThan:
-				return UnifiedBinaryOperator.Create(
-						">", UnifiedBinaryOperatorKind.GreaterThan);
+				return UnifiedBinaryOperator.Create(">", UnifiedBinaryOperatorKind.GreaterThan);
 			case BinaryOperatorType.GreaterThanOrEqual:
-				return UnifiedBinaryOperator.Create(
-						">=", UnifiedBinaryOperatorKind.GreaterThanOrEqual);
+				return UnifiedBinaryOperator.Create(">=", UnifiedBinaryOperatorKind.GreaterThanOrEqual);
 			case BinaryOperatorType.LessThanOrEqual:
-				return UnifiedBinaryOperator.Create(
-						"<=", UnifiedBinaryOperatorKind.LessThanOrEqual);
+				return UnifiedBinaryOperator.Create("<=", UnifiedBinaryOperatorKind.LessThanOrEqual);
 			case BinaryOperatorType.LessThan:
 				return UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorKind.LessThan);
 
 			case BinaryOperatorType.Equality:
 				return UnifiedBinaryOperator.Create("==", UnifiedBinaryOperatorKind.Equal);
 			case BinaryOperatorType.InEquality:
-				return UnifiedBinaryOperator.Create(
-						"!=", UnifiedBinaryOperatorKind.NotEqual);
+				return UnifiedBinaryOperator.Create("!=", UnifiedBinaryOperatorKind.NotEqual);
 			}
 			throw new NotImplementedException("LookupBinaryOperator");
+		}
+
+		private static UnifiedUnaryOperator LookupUnaryOperator(UnaryOperatorType op) {
+			switch (op) {
+			case UnaryOperatorType.Not:
+				return UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.Not);
+
+			case UnaryOperatorType.Plus:
+				return UnifiedUnaryOperator.Create("+", UnifiedUnaryOperatorKind.UnaryPlus);
+			case UnaryOperatorType.Minus:
+				return UnifiedUnaryOperator.Create("-", UnifiedUnaryOperatorKind.Negate);
+
+			case UnaryOperatorType.Increment:
+				return UnifiedUnaryOperator.Create("++", UnifiedUnaryOperatorKind.PreIncrementAssign);
+			case UnaryOperatorType.PostIncrement:
+				return UnifiedUnaryOperator.Create("++", UnifiedUnaryOperatorKind.PostIncrementAssign);
+			case UnaryOperatorType.Decrement:
+				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PreDecrementAssign);
+			case UnaryOperatorType.PostDecrement:
+				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PostDecrementAssign);
+			}
+
+			throw new NotImplementedException("LookupUnaryOperator");
 		}
 
 		#endregion
@@ -129,6 +147,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 						(int)value, UnifiedIntegerLiteralKind.Int32);
 
 			throw new NotImplementedException("ParseValue");
+		}
+
+	}
+
+	internal static class VisitorExtension {
+		internal static IUnifiedExpression AcceptForExpression(this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
 	}
 }
