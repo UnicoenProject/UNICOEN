@@ -25,11 +25,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedExpressionCollection
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection> {
-		protected UnifiedExpressionCollection() {}
+		public override UnifiedExpressionCollection CreateSelf() {
+			return new UnifiedExpressionCollection();
+		}
 
-		protected UnifiedExpressionCollection(
-				IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
+		protected UnifiedExpressionCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -44,20 +44,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
 			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedExpressionCollection Create() {
-			return new UnifiedExpressionCollection();
-		}
-
-		public static UnifiedExpressionCollection Create(
-				params IUnifiedExpression[] elements) {
-			return new UnifiedExpressionCollection(elements);
-		}
-
-		public static UnifiedExpressionCollection Create(
-				IEnumerable<IUnifiedExpression> elements) {
-			return new UnifiedExpressionCollection(elements);
 		}
 			}
 }

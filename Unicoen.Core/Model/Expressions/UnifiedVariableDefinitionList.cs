@@ -28,6 +28,10 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this);
 		}
 
+		public override UnifiedVariableDefinitionList CreateSelf() {
+			return new UnifiedVariableDefinitionList();
+		}
+
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
 				TData arg) {
@@ -39,24 +43,7 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		private UnifiedVariableDefinitionList() {}
+		protected UnifiedVariableDefinitionList() {}
 
-		private UnifiedVariableDefinitionList(
-				IEnumerable<UnifiedVariableDefinition> elements)
-				: base(elements) {}
-
-		public static UnifiedVariableDefinitionList Create() {
-			return new UnifiedVariableDefinitionList();
-		}
-
-		public static UnifiedVariableDefinitionList Create(
-				params UnifiedVariableDefinition[] elements) {
-			return new UnifiedVariableDefinitionList(elements);
-		}
-
-		public static UnifiedVariableDefinitionList Create(
-				IEnumerable<UnifiedVariableDefinition> elements) {
-			return new UnifiedVariableDefinitionList(elements);
-		}
 			  }
 }

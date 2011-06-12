@@ -27,6 +27,21 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Tests {
 	public abstract class Fixture {
+		private string _languageName;
+
+		/// <summary>
+		/// 対応する言語の名前をクラス名から解析して取得します．
+		/// </summary>
+		public string LanguageName {
+			get {
+				if (_languageName == null) {
+					var name = GetType().Name;
+					_languageName = name.Substring(0, name.Length - "Fixture".Length);
+				}
+				return _languageName;
+			}
+		}
+
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
 		/// </summary>
