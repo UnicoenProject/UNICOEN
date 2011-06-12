@@ -59,11 +59,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspectAdaptorTest.cs" />
     <Compile Include="AspectElementTest\AdviceTest.cs" />
     <Compile Include="AspectElementTest\IntertypeTest.cs" />
     <Compile Include="AspectElementTest\PointcutTest.cs" />
     <Compile Include="CodeProcessorTest\AdviceToModelTest.cs" />
     <Compile Include="CodeProcessorTest\WeavingTest.cs" />
+    <Compile Include="FileCollectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
