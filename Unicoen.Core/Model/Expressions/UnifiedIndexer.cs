@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -56,8 +56,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedIndexer Create(
-				IUnifiedExpression current,
-				UnifiedArgumentCollection create) {
+				IUnifiedExpression current = null,
+				UnifiedArgumentCollection create = null) {
 			return new UnifiedIndexer {
 					Target = current,
 					Arguments = create

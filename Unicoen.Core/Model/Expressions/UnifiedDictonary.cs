@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -51,7 +51,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedDictonary Create(
-				UnifiedKeyValueCollection keyValues) {
+				UnifiedKeyValueCollection keyValues = null) {
 			return new UnifiedDictonary {
 					KeyValues = keyValues,
 			};

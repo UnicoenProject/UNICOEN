@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -49,14 +49,6 @@ namespace Unicoen.Core.Model {
 					Value = value,
 					Kind = kind,
 			};
-		}
-
-		public static UnifiedFractionLiteral CreateSingle(double value) {
-			return Create(value, UnifiedFractionLiteralKind.Single);
-		}
-
-		public static UnifiedFractionLiteral CreateDouble(double value) {
-			return Create(value, UnifiedFractionLiteralKind.Double);
 		}
 	}
 }

@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -107,15 +107,10 @@ namespace Unicoen.Core.Model {
 			return ifs[0];
 		}
 
-		public static UnifiedIf Create(IUnifiedExpression condition) {
-			return new UnifiedIf {
-					Condition = condition,
-			};
-		}
-
 		public static UnifiedIf Create(
-				IUnifiedExpression condition, UnifiedBlock body,
-				UnifiedBlock falseBody) {
+				IUnifiedExpression condition = null,
+				UnifiedBlock body = null,
+				UnifiedBlock falseBody = null) {
 			return new UnifiedIf {
 					Body = body,
 					Condition = condition,

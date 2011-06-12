@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -68,15 +68,9 @@ namespace Unicoen.Core.Model {
 			return this;
 		}
 
-		public static UnifiedCase Create(UnifiedBlock body) {
-			return new UnifiedCase {
-					Body = body,
-			};
-		}
-
 		public static UnifiedCase Create(
-				IUnifiedExpression condtion,
-				UnifiedBlock body) {
+				IUnifiedExpression condtion = null,
+				UnifiedBlock body = null) {
 			return new UnifiedCase {
 					Body = body,
 					Condition = condtion,

@@ -17,7 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -26,10 +26,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedParameterCollection
 			: UnifiedElementCollection<UnifiedParameter, UnifiedParameterCollection> {
-		private UnifiedParameterCollection() {}
+		public override UnifiedParameterCollection CreateSelf() {
+			return new UnifiedParameterCollection();
+		}
 
-		private UnifiedParameterCollection(IEnumerable<UnifiedParameter> elements)
-				: base(elements) {}
+		protected UnifiedParameterCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -46,18 +47,5 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedParameterCollection Create() {
-			return new UnifiedParameterCollection();
-		}
-
-		public static UnifiedParameterCollection Create(
-				params UnifiedParameter[] elements) {
-			return new UnifiedParameterCollection(elements);
-		}
-
-		public static UnifiedParameterCollection Create(
-				IEnumerable<UnifiedParameter> elements) {
-			return new UnifiedParameterCollection(elements);
-		}
 			}
 }

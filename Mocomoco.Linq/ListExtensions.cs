@@ -29,9 +29,10 @@ namespace Mocomoco.Linq {
 		/// <param name = "list"></param>
 		/// <param name = "index"></param>
 		/// <returns></returns>
-		public static T AtOrDefault<T>(this IList<T> list, int index) {
-			return 0 <= index && index < list.Count()
-			       		? list[index] : default(T);
+		public static T ElementAtOrDefault<T>(this IList<T> list, int index) {
+			return 0 <= index && index < list.Count
+			       		? list[index]
+						: default(T);
 		}
 
 		/// <summary>
@@ -47,10 +48,10 @@ namespace Mocomoco.Linq {
 		}
 
 		/// <summary>
-		///   リストに指定した要素を追加して、有効要素数を拡張します．
+		///   リストにデフォルト値を追加して、有効要素数を拡張します．
 		/// </summary>
 		/// <param name = "count">拡張するリストのサイズ</param>
-		public static List<T> Extend<T>(this List<T> list, int count) {
+		public static IList<T> Extend<T>(this IList<T> list, int count) {
 			return Extend(list, count, default(T));
 		}
 
@@ -59,8 +60,8 @@ namespace Mocomoco.Linq {
 		/// </summary>
 		/// <param name = "count">拡張するリストのサイズ</param>
 		/// <param name = "defaultElement">拡張する際に追加する要素</param>
-		public static List<T> Extend<T>(
-				this List<T> list, int count, T defaultElement) {
+		public static IList<T> Extend<T>(
+				this IList<T> list, int count, T defaultElement) {
 			for (int i = list.Count; i < count; i++)
 				list.Add(defaultElement);
 			return list;

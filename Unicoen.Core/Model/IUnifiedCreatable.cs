@@ -17,8 +17,8 @@
 #endregion
 
 namespace Unicoen.Core.Model {
-	public enum UnifiedStringLiteralKind {
-		Char,
-		String,
-	}
+	public interface IUnifiedCreatable<out TSelf> : IUnifiedElement
+			where TSelf : IUnifiedCreatable<TSelf> {
+		TSelf CreateSelf();
+			}
 }

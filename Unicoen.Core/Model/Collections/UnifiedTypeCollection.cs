@@ -17,7 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -26,10 +26,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedTypeCollection
 			: UnifiedElementCollection<UnifiedType, UnifiedTypeCollection> {
-		private UnifiedTypeCollection() {}
+		public override UnifiedTypeCollection CreateSelf() {
+			return new UnifiedTypeCollection();
+		}
 
-		private UnifiedTypeCollection(IEnumerable<UnifiedType> elements)
-				: base(elements) {}
+		protected UnifiedTypeCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -44,18 +45,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedTypeCollection Create() {
-			return new UnifiedTypeCollection();
-		}
-
-		public static UnifiedTypeCollection Create(params UnifiedType[] elements) {
-			return new UnifiedTypeCollection(elements);
-		}
-
-		public static UnifiedTypeCollection Create(IEnumerable<UnifiedType> elements) {
-			return new UnifiedTypeCollection(elements);
 		}
 			}
 }

@@ -18,7 +18,7 @@
 
 using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.ModelFactories {
 	public class JavaModelFactory : ModelFactory {

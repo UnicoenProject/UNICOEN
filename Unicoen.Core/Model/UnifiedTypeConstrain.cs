@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -67,18 +67,6 @@ namespace Unicoen.Core.Model {
 					Type = type,
 					Kind = kind,
 			};
-		}
-
-		public static UnifiedTypeConstrain CreateExtends(UnifiedType type) {
-			return Create(type, UnifiedTypeConstrainKind.Extends);
-		}
-
-		public static UnifiedTypeConstrain CreateImplements(UnifiedType type) {
-			return Create(type, UnifiedTypeConstrainKind.Implements);
-		}
-
-		public static UnifiedTypeConstrain CreateExtendsOrImplements(UnifiedType type) {
-			return Create(type, UnifiedTypeConstrainKind.ExtendsOrImplements);
 		}
 	}
 }

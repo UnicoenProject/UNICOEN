@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -67,15 +67,9 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedSwitch Create(IUnifiedExpression value) {
-			return new UnifiedSwitch {
-					Value = value,
-			};
-		}
-
 		public static UnifiedSwitch Create(
-				IUnifiedExpression value,
-				UnifiedCaseCollection cases) {
+				IUnifiedExpression value = null,
+				UnifiedCaseCollection cases = null) {
 			return new UnifiedSwitch {
 					Value = value,
 					Cases = cases,

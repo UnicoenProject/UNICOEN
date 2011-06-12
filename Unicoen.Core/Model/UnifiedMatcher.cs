@@ -16,9 +16,14 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	///   パターンマッチで利用されるパターンと代入先の組を表します．
+	///   switch文，using文，パターンマッチ文などで利用されます．
+	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1</c>
+	/// </summary>
 	public class UnifiedMatcher : UnifiedElement {
 		private UnifiedAnnotationCollection _annotations;
 
@@ -39,6 +44,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _matcher;
 
+		/// <summary>
+		/// マッチングを行うパターンを表します．
+		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>file(p1)</c>
+		/// </summary>
 		public IUnifiedExpression Matcher {
 			get { return _matcher; }
 			set { _matcher = SetChild(value, _matcher); }
@@ -46,6 +55,10 @@ namespace Unicoen.Core.Model {
 
 		private IUnifiedExpression _as;
 
+		/// <summary>
+		/// マッチした値の代入先を表します．
+		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>f1</c>
+		/// </summary>
 		public IUnifiedExpression As {
 			get { return _as; }
 			set { _as = SetChild(value, _as); }
@@ -68,15 +81,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedMatcher Create(
-				IUnifiedExpression matcher, IUnifiedExpression asExp) {
-			return Create(null, null, matcher, asExp);
-		}
-
-		public static UnifiedMatcher Create(
-				UnifiedAnnotationCollection annotations,
-				UnifiedModifierCollection modifiers, IUnifiedExpression matcher,
-				IUnifiedExpression asExp) {
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null, 
+				IUnifiedExpression matcher = null,
+				IUnifiedExpression asExp = null) {
 			return new UnifiedMatcher {
+					Annotations = annotations,
 					Modifiers = modifiers,
 					Matcher = matcher,
 					As = asExp,

@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -53,13 +53,13 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedSpecialBlock Create(
 				UnifiedSpecialBlockKind kind,
-				IUnifiedExpression value,
-				UnifiedBlock body) {
+				IUnifiedExpression value = null,
+				UnifiedBlock body = null) {
 			return new UnifiedSpecialBlock {
 					Kind = kind,
 					Value = value,
 					Body = body,
 			};
 		}
-			}
+	}
 }

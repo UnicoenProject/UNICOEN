@@ -17,15 +17,16 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedKeyValueCollection
 			: UnifiedElementCollection<UnifiedKeyValue, UnifiedKeyValueCollection> {
-		private UnifiedKeyValueCollection() {}
+		public override UnifiedKeyValueCollection CreateSelf() {
+			return new UnifiedKeyValueCollection();
+		}
 
-		private UnifiedKeyValueCollection(IEnumerable<UnifiedKeyValue> elements)
-				: base(elements) {}
+		protected UnifiedKeyValueCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -40,20 +41,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedKeyValueCollection Create() {
-			return new UnifiedKeyValueCollection();
-		}
-
-		public static UnifiedKeyValueCollection Create(
-				params UnifiedKeyValue[] elements) {
-			return new UnifiedKeyValueCollection(elements);
-		}
-
-		public static UnifiedKeyValueCollection Create(
-				IEnumerable<UnifiedKeyValue> elements) {
-			return new UnifiedKeyValueCollection(elements);
 		}
 			}
 }

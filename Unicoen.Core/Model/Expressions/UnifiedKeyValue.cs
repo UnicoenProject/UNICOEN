@@ -17,7 +17,7 @@
 #endregion
 
 using System;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -64,18 +64,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedKeyValue Create(
-				IUnifiedExpression key, IUnifiedExpression value) {
+				IUnifiedExpression key = null,
+				IUnifiedExpression value = null) {
 			return new UnifiedKeyValue {
 					Key = key,
 					Value = value,
-			};
-		}
-
-		public static UnifiedKeyValue Create(
-				Tuple<IUnifiedExpression, IUnifiedExpression> keyValue) {
-			return new UnifiedKeyValue {
-					Key = keyValue.Item1,
-					Value = keyValue.Item2,
 			};
 		}
 	}

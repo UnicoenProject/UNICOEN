@@ -17,7 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedGenericType : UnifiedWrapType {

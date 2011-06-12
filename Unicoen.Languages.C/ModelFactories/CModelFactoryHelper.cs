@@ -96,8 +96,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			body = CreateCompoundStatement(node.Element("compound_statement"));
 
-			return UnifiedFunctionDefinition.CreateFunction(
-					modifiers, type, typeParameters, name, parameters, throws, body);
+			return UnifiedFunctionDefinition.Create(
+					UnifiedFunctionDefinitionKind.Function,
+					null, modifiers, type, typeParameters, name, parameters, throws, body);
 		}
 
 		public static UnifiedFunctionDefinition CreateDeclaration(XElement node) {
@@ -151,7 +152,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 				prefix = " ";
 			}
 			type =
-					UnifiedType.Create(UnifiedIdentifier.CreateType(s));
+					UnifiedType.Create(UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
 		}
 
 		public static IUnifiedElement CreateInitDeclaratorList(XElement node) {
@@ -215,7 +216,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			case "type_id":
 				return CreateTypeId(first);
 			default:
-				var ui = UnifiedIdentifier.CreateType(first.Name());
+				var ui = UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, first.Name());
 				return UnifiedType.Create(ui);
 			}
 		}
@@ -245,19 +246,19 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var kind = node.FirstElement().Name() == "struct"
 			           		? UnifiedClassKind.Struct : UnifiedClassKind.Union;
 			var identElem = node.Element("IDENTIFIER");
-			var uIdent = identElem == null ? null : UnifiedIdentifier.CreateType(identElem.Value);
+			var uIdent = identElem == null
+			             		? null : UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, identElem.Value);
 
 			if (node.Elements().Count() == 2) {
 				var baseType = UnifiedType.Create(uIdent);
 				return kind == UnifiedClassKind.Struct
-					? baseType.WrapStruct()
-					: baseType.WrapUnion();
+				       		? baseType.WrapStruct()
+				       		: baseType.WrapUnion();
 			}
 
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
-			var structOrUnion = UnifiedClassDefinition.Create(
-					kind, null, uIdent, null, null, body);
+			var structOrUnion = UnifiedClassDefinition.Create(kind, null, null, uIdent, null, null, body);
 
 			return UnifiedType.Create(structOrUnion);
 		}
@@ -284,7 +285,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 							node.Elements("struct_declaration").Select(CreateStructDeclaration));
 		}
 
-		public static UnifiedVariableDefinitionList CreateStructDeclaration(XElement node) {
+		public static UnifiedVariableDefinitionList CreateStructDeclaration(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declaration");
 			/*
@@ -334,11 +336,12 @@ namespace Unicoen.Languages.C.ModelFactories {
 				prefix = " ";
 			}
 			type = s.Equals("")
-			       		? null : UnifiedType.Create(UnifiedIdentifier.CreateType(s));
+			       		? null : UnifiedType.Create(UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
 		}
 
 		public static UnifiedVariableDefinitionList
-				CreateStructDeclaratorList(XElement node, 
+				CreateStructDeclaratorList(
+				XElement node,
 				UnifiedModifierCollection modifiers, UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");

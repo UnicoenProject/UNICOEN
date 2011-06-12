@@ -24,8 +24,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
@@ -44,6 +43,13 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// </summary>
 		public override string Extension {
 			get { return ".js"; }
+		}
+
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
+		public override string CompiledExtension {
+			get { return ".class"; }
 		}
 
 		/// <summary>
@@ -128,49 +134,6 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(dirPath, CompileCommand, arguments);
-		}
-
-		/// <summary>
-		///   コンパイル済みのコードを全て取得します．
-		/// </summary>
-		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
-		/// <returns></returns>
-		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
-			return Directory.EnumerateFiles(
-					dirPath, "*.class",
-					SearchOption.AllDirectories)
-					.Select(path => new object[] { path, File.ReadAllBytes(path) });
-		}
-
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
-		/// </summary>
-		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
-		/// <param name = "command">コンパイルのコマンド</param>
-		/// <param name = "arguments">コマンドの引数</param>
-		public override void CompileWithArguments(
-				string workPath, string command, string arguments) {
-			var info = new ProcessStartInfo {
-					FileName = command, //java
-					Arguments = arguments,
-					//-cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
-					CreateNoWindow = true,
-					UseShellExecute = false,
-					WorkingDirectory = workPath,
-					RedirectStandardError = true,
-			};
-			try {
-				using (var p = Process.Start(info)) {
-					var errorMessage = p.StandardError.ReadToEnd();
-					p.WaitForExit();
-					if (p.ExitCode != 0) {
-						throw new InvalidOperationException(
-								"Failed to compile the code.\n" + errorMessage);
-					}
-				}
-			} catch (Win32Exception e) {
-				throw new InvalidOperationException("Failed to launch compiler.", e);
-			}
 		}
 	}
 }

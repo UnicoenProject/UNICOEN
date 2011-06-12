@@ -17,15 +17,20 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	///   UnifiedMatchの集合を表します。
+	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+	/// </summary>
 	public class UnifiedMatcherCollection
 			: UnifiedElementCollection<UnifiedMatcher, UnifiedMatcherCollection> {
-		private UnifiedMatcherCollection() {}
+		public override UnifiedMatcherCollection CreateSelf() {
+			return new UnifiedMatcherCollection();
+		}
 
-		private UnifiedMatcherCollection(IEnumerable<UnifiedMatcher> elements)
-				: base(elements) {}
+		protected UnifiedMatcherCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -42,18 +47,5 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedMatcherCollection Create() {
-			return new UnifiedMatcherCollection();
-		}
-
-		public static UnifiedMatcherCollection Create(
-				params UnifiedMatcher[] elements) {
-			return new UnifiedMatcherCollection(elements);
-		}
-
-		public static UnifiedMatcherCollection Create(
-				IEnumerable<UnifiedMatcher> elements) {
-			return new UnifiedMatcherCollection(elements);
-		}
 			}
 }

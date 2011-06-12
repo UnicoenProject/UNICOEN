@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -64,17 +64,13 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedTypeParameter Create(
-				UnifiedType type,
+				UnifiedType type = null,
 				UnifiedTypeConstrainCollection
-						constrains) {
+						constrains = null) {
 			return new UnifiedTypeParameter {
 					Type = type,
 					Constrains = constrains,
 			};
-		}
-
-		public static UnifiedTypeParameter Create(UnifiedType type) {
-			return Create(type, null);
 		}
 	}
 }

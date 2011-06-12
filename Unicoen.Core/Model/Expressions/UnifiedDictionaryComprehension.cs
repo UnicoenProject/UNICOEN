@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -62,8 +62,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedDictionaryComprehension Create(
-				UnifiedKeyValue element,
-				UnifiedExpressionCollection generator) {
+				UnifiedKeyValue element = null,
+				UnifiedExpressionCollection generator = null) {
 			return new UnifiedDictionaryComprehension {
 					Element = element,
 					Generator = generator,

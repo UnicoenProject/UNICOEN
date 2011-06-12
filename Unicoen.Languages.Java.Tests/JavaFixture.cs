@@ -24,12 +24,14 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
+	/// <summary>
+	/// テストに必要なデータを提供します．
+	/// </summary>
 	public class JavaFixture : Fixture {
 		private const string CompileCommand = "javac";
 
@@ -38,6 +40,13 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		public override string Extension {
 			get { return ".java"; }
+		}
+
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
+		public override string CompiledExtension {
+			get { return ".class"; }
 		}
 
 		/// <summary>
@@ -107,10 +116,34 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => new TestCaseData(
-								     		FixtureUtil.GetInputPath("Java", o.DirName),
-								     		o.Command,
-								     		o.Arguments));
+											FixtureUtil.GetInputPath("Java", o.DirName),
+											o.Command,
+											o.Arguments))
+						.Concat(new[] {
+							SetUpJUnit(),
+						});
 			}
+		}
+		private static TestCaseData SetUpJUnit() {
+			var path = FixtureUtil.GetDownloadPath("Java", "JUnit4.8.2");
+			var srcPath = Path.Combine(path, "src.zip");
+			var depPath = Path.Combine(path, "dep.jar");
+			var args = new[] {
+					"-cp",
+					"\"" + path + "\";\"" + depPath + "\"",
+					"\"" + Path.Combine(path, @"org\junit\runner\*.java") + "\"",
+			};
+			var testCase = new TestCaseData(
+					path,
+					CompileCommand,
+					args.JoinString(" "));
+			if (Directory.Exists(path))
+				return testCase;
+			Directory.CreateDirectory(path);
+			FixtureManager.Download("https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
+			FixtureManager.Unzip(srcPath);
+			FixtureManager.Download("https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
+			return testCase;
 		}
 
 		/// <summary>
@@ -124,48 +157,6 @@ namespace Unicoen.Languages.Java.Tests {
 			};
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(dirPath, CompileCommand, arguments);
-		}
-
-		/// <summary>
-		///   コンパイル済みのコードを全て取得します．
-		/// </summary>
-		/// <param name = "dirPath"></param>
-		/// <returns></returns>
-		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
-			return Directory.EnumerateFiles(
-					dirPath, "*.class",
-					SearchOption.AllDirectories)
-					.Select(path => new object[] { path, File.ReadAllBytes(path) });
-		}
-
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
-		/// </summary>
-		/// <param name = "workPath"></param>
-		/// <param name = "command"></param>
-		/// <param name = "arguments"></param>
-		public override void CompileWithArguments(
-				string workPath, string command, string arguments) {
-			var info = new ProcessStartInfo {
-					FileName = command,
-					Arguments = arguments,
-					CreateNoWindow = true,
-					UseShellExecute = false,
-					WorkingDirectory = workPath,
-					RedirectStandardError = true,
-			};
-			try {
-				using (var p = Process.Start(info)) {
-					var errorMessage = p.StandardError.ReadToEnd();
-					p.WaitForExit();
-					if (p.ExitCode != 0) {
-						throw new InvalidOperationException(
-								"Failed to compile the code.\n" + errorMessage);
-					}
-				}
-			} catch (Win32Exception e) {
-				throw new InvalidOperationException("Failed to launch compiler.", e);
-			}
 		}
 	}
 }

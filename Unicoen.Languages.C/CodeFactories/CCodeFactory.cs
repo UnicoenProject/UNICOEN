@@ -18,14 +18,12 @@
 
 using System;
 using System.IO;
-using Unicoen.Core.CodeFactories;
 using Unicoen.Core.Model;
-using Unicoen.Core.Visitors;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
 	public partial class CCodeFactory
-			: CodeFactory, IUnifiedModelVisitor<VisitorState, bool> {
+			: CodeFactory, IUnifiedModelVisitor<VisitorArgument, bool> {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>
@@ -55,7 +53,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		public override string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			var buff = new StringWriter();
-			model.Accept(this, new VisitorState(writer, indentSign));
+			model.Accept(this, new VisitorArgument(writer, indentSign));
 			return buff.ToString();
 		}
 
@@ -105,309 +103,328 @@ namespace Unicoen.Languages.C.CodeFactories {
 			}
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedBinaryOperator element, VisitorState state) {
-			state.Writer.Write(element.Sign);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedBinaryOperator element, VisitorArgument arg) {
+			arg.Write(element.Sign);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedUnaryOperator element, VisitorState state) {
-			state.Writer.Write(element.Sign);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedUnaryOperator element, VisitorArgument arg) {
+			arg.Write(element.Sign);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedArgument element, VisitorState state) {
-			element.TryAccept(this, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArgument element, VisitorArgument arg) {
+			if (element.Modifiers.IsEmptyOrNull()) {
+				arg.Write("/*");
+				element.Modifiers.TryAccept(this, arg);
+				arg.Write("*/");
+			}
+			element.Value.TryAccept(this, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedBlock element, VisitorState state) {
-			state.WriteIndent();
-			state.Writer.WriteLine("{");
-			state = state.IncrementIndentDepth();
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedBlock element, VisitorArgument arg) {
+			arg.WriteIndent();
+			arg.WriteLine("{");
+			arg = arg.IncrementDepth();
 			foreach (var stmt in element) {
-				state.WriteIndent();
-				if (stmt.TryAccept(this, state)) {
-					state.Writer.Write(";");
+				arg.WriteIndent();
+				if (stmt.TryAccept(this, arg)) {
+					arg.Write(";");
 				}
 			}
 
-			state.WriteIndent();
-			state.Writer.WriteLine(";");
+			arg.WriteIndent();
+			arg.WriteLine(";");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCall element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCall element, VisitorArgument arg) {
 			var prop = element.Function as UnifiedProperty;
 			if (prop != null) {
-				prop.Owner.TryAccept(this, state);
-				state.Writer.Write(prop.Delimiter);
-				prop.Name.TryAccept(this, state);
+				prop.Owner.TryAccept(this, arg);
+				arg.Write(prop.Delimiter);
+				element.TypeArguments.TryAccept(this, arg);
+				prop.Name.TryAccept(this, arg);
 			} else {
-				throw new NotImplementedException();
+				// Javaでifが実行されるケースは存在しないが、言語変換のため
+				if (element.TypeArguments != null)
+					arg.Write("this.");
+				element.TypeArguments.TryAccept(this, arg);
+				element.Function.TryAccept(this, arg);
 			}
-
-			return false;
+			element.Arguments.TryAccept(this, arg.Set(Paren));
+			return true;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedFunctionDefinition element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			// C言語に存在しない要素は省略
 
-			state.WriteIndent();
-			element.Modifiers.TryAccept(this, state);
-			// element.TypeParameters.TryAccept(this, state);
-			element.Type.TryAccept(this, state);
-			state.WriteSpace();
-			element.Name.TryAccept(this, state);
-			element.Body.TryAccept(this, state);
+			arg.WriteIndent();
+			element.Modifiers.TryAccept(this, arg);
+			// element.TypeParameters.TryAccept(this, arg);
+			element.Type.TryAccept(this, arg);
+			arg.WriteSpace();
+			element.Name.TryAccept(this, arg);
+			element.Body.TryAccept(this, arg);
 
 			return element.Body == null;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIf element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIf element, VisitorArgument arg) {
 			// if(){...}
-			state.Writer.Write("if (");
-			element.Condition.TryAccept(this, state);
-			state.Writer.Write(")");
-			element.Body.TryAccept(this, state);
+			arg.Write("if (");
+			element.Condition.TryAccept(this, arg);
+			arg.Write(")");
+			element.Body.TryAccept(this, arg);
 			// else...
 			if (element.ElseBody != null) {
-				state.Writer.Write("else");
-				element.ElseBody.TryAccept(this, state);
+				arg.Write("else");
+				element.ElseBody.TryAccept(this, arg);
 			}
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedParameter element, VisitorState state) {
-			element.Type.TryAccept(this, state);
-			state.WriteSpace();
-			element.Names.TryAccept(this, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedParameter element, VisitorArgument arg) {
+			element.Type.TryAccept(this, arg);
+			arg.WriteSpace();
+			element.Names.TryAccept(this, arg);
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIdentifier element, VisitorState state) {
-			state.Writer.Write(element.Value);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIdentifier element, VisitorArgument arg) {
+			arg.Write(element.Value);
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedModifier element, VisitorState state) {
-			state.Writer.Write(element.Name);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedModifier element, VisitorArgument arg) {
+			arg.Write(element.Name);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedImport element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedImport element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントで出力する
-			state.Writer.WriteLine("/* ElementNotInC */");
-			state.Writer.WriteLine("/* " + element + " */");
+			arg.WriteLine("/* ElementNotInC */");
+			arg.WriteLine("/* " + element + " */");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedConstructorDefinition element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedConstructorDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedProgram element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedProgram element, VisitorArgument arg) {
 			foreach (var stmt in element) {
-				if (stmt.TryAccept(this, state)) {
-					state.Writer.Write(";");
+				if (stmt.TryAccept(this, arg)) {
+					arg.Write(";");
 				}
 			}
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedClassDefinition element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedClassDefinition element, VisitorArgument arg) {
 			switch (element.Kind) {
-			case (UnifiedClassKind.Enum):
-				state.Writer.Write("enum");
-				state.WriteSpace();
-				element.Name.TryAccept(this, state);
-				element.Body.TryAccept(this, state);
+			case UnifiedClassKind.Enum:
+				arg.Write("enum");
+				arg.WriteSpace();
+				element.Name.TryAccept(this, arg);
+				element.Body.TryAccept(this, arg);
+				break;
+			case UnifiedClassKind.Class:
+				arg.Write("/* class");
+				element.Name.TryAccept(this, arg);
+				arg.WriteLine(" { */");
+				element.Body.TryAccept(this, arg);
+				arg.WriteLine();
+				arg.Write("/* } */");
 				break;
 			default:
-				state.Writer.WriteLine("/* ElementNotInC */");
-				state.Writer.WriteLine("/* " + element + " */");
+				arg.WriteLine("/* ElementNotInC */");
+				arg.WriteLine("/* " + element + " */");
 				break;
 			}
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedNew element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedNew element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedFor element, VisitorState state) {
-			state.Writer.Write("for (");
-			element.Initializer.TryAccept(this, state);
-			state.Writer.Write("; ");
-			element.Condition.TryAccept(this, state);
-			state.Writer.Write("; ");
-			element.Step.TryAccept(this, state);
-			state.Writer.Write(")");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedFor element, VisitorArgument arg) {
+			arg.Write("for (");
+			element.Initializer.TryAccept(this, arg);
+			arg.Write("; ");
+			element.Condition.TryAccept(this, arg);
+			arg.Write("; ");
+			element.Step.TryAccept(this, arg);
+			arg.Write(")");
 
-			element.Body.TryAccept(this, state);
+			element.Body.TryAccept(this, arg);
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedForeach element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedForeach element, VisitorArgument arg) {
 			// C言語にない要素なので，その旨をコメントとして出力する
-			state.Writer.WriteLine("/* ElementNotInC */");
-			state.Writer.WriteLine("/* " + element + " */");
+			arg.WriteLine("/* ElementNotInC */");
+			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedProperty element, VisitorState state) {
-			element.Owner.TryAccept(this, state);
-			state.Writer.Write(element.Delimiter);
-			element.Name.Accept(this, state);
-			return false;
-		}
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedWhile element, VisitorState state) {
-			state.Writer.Write("while (");
-			element.Condition.TryAccept(this, state);
-			state.Writer.Write(")");
-			element.Body.TryAccept(this, state);
-
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedProperty element, VisitorArgument arg) {
+			element.Owner.TryAccept(this, arg);
+			arg.Write(element.Delimiter);
+			element.Name.Accept(this, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedDoWhile element, VisitorState state) {
-			state.Writer.Write("do");
-			element.Body.TryAccept(this, state);
-			state.Writer.Write("while(");
-			element.Condition.Accept(this, state);
-			state.Writer.Write(");");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedWhile element, VisitorArgument arg) {
+			arg.Write("while (");
+			element.Condition.TryAccept(this, arg);
+			arg.Write(")");
+			element.Body.TryAccept(this, arg);
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIndexer element, VisitorState state) {
-			element.Target.TryAccept(this, state);
-			element.Arguments.TryAccept(this, state.Set(SquareBracket));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedDoWhile element, VisitorArgument arg) {
+			arg.Write("do");
+			element.Body.TryAccept(this, arg);
+			arg.Write("while(");
+			element.Condition.Accept(this, arg);
+			arg.Write(");");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeArgument element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIndexer element, VisitorArgument arg) {
+			element.Target.TryAccept(this, arg);
+			element.Arguments.TryAccept(this, arg.Set(SquareBracket));
+
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeArgument element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedSwitch element, VisitorState state) {
-			state.Writer.Write("switch (");
-			element.Value.TryAccept(this, state);
-			state.Writer.Write(") {");
-			element.Cases.TryAccept(this, state);
-			state.Writer.Write("}");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSwitch element, VisitorArgument arg) {
+			arg.Write("switch (");
+			element.Value.TryAccept(this, arg);
+			arg.Write(") {");
+			element.Cases.TryAccept(this, arg);
+			arg.Write("}");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCase element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCase element, VisitorArgument arg) {
 			if (element.Condition == null) {
-				state.Writer.Write("default: ");
+				arg.Write("default: ");
 			} else {
-				state.Writer.Write("case ");
-				element.Condition.TryAccept(this, state);
-				state.Writer.Write(":");
+				arg.Write("case ");
+				element.Condition.TryAccept(this, arg);
+				arg.Write(":");
 			}
-			element.Body.Accept(this, state);
+			element.Body.Accept(this, arg);
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedSpecialBlock element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSpecialBlock element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			state.Writer.Write("/* ");
-			state.Writer.Write("ElementNotInC :");
-			state.Writer.Write(element.ToString());
-			state.Writer.Write(" */");
+			arg.Write("/* ");
+			arg.Write("ElementNotInC :");
+			arg.Write(element.ToString());
+			arg.Write(" */");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCatch element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCatch element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			state.Writer.Write("/* ");
-			state.Writer.Write("ElementNotInC :");
-			state.Writer.Write(element.ToString());
-			state.Writer.Write(" */");
+			arg.Write("/* ");
+			arg.Write("ElementNotInC :");
+			arg.Write(element.ToString());
+			arg.Write(" */");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTry element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTry element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			state.Writer.Write("/* ");
-			state.Writer.Write("ElementNotInC :");
-			state.Writer.Write(element.ToString());
-			state.Writer.Write(" */");
+			arg.Write("/* ");
+			arg.Write("ElementNotInC :");
+			arg.Write(element.ToString());
+			arg.Write(" */");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeConstrain element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeConstrain element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			state.Writer.Write("/* ");
-			state.Writer.Write("ElementNotInC: ");
-			state.Writer.Write(element.ToString());
-			state.Writer.Write(" */");
+			arg.Write("/* ");
+			arg.Write("ElementNotInC: ");
+			arg.Write(element.ToString());
+			arg.Write(" */");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeParameter element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeParameter element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			state.Writer.Write("/* ");
-			state.Writer.Write("ElementNotInC :");
-			state.Writer.Write(element.ToString());
-			state.Writer.Write(" */");
+			arg.Write("/* ");
+			arg.Write("ElementNotInC :");
+			arg.Write(element.ToString());
+			arg.Write(" */");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeSupplement element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeSupplement element, VisitorArgument arg) {
 			var kind = element.Kind;
 
 			switch (kind) {
 			case UnifiedTypeSupplementKind.Array:
-				element.Arguments.TryAccept(this, state.Set(SquareBracket));
+				element.Arguments.TryAccept(this, arg.Set(SquareBracket));
 				break;
 			case UnifiedTypeSupplementKind.Pointer:
-				state.Writer.Write("*");
+				arg.Write("*");
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
@@ -416,36 +433,36 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedLabel element, VisitorState state) {
-			element.Name.TryAccept(this, state);
-			state.Writer.Write(": ");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedLabel element, VisitorArgument arg) {
+			element.Name.TryAccept(this, arg);
+			arg.Write(": ");
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedBooleanLiteral element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedBooleanLiteral element, VisitorArgument arg) {
 			if (element.Value) {
-				state.Writer.Write("1"); // trueのとき
+				arg.Write("1"); // trueのとき
 			} else {
-				state.Writer.Write("0"); // falseのとき
+				arg.Write("0"); // falseのとき
 			}
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedFractionLiteral element, VisitorState state) {
-			state.Writer.Write(element.Value);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedFractionLiteral element, VisitorArgument arg) {
+			arg.Write(element.Value);
 
 			var kind = element.Kind;
 			switch (kind) {
 			case UnifiedFractionLiteralKind.Single:
-				state.Writer.Write("f");
+				arg.Write("f");
 				break;
 			case UnifiedFractionLiteralKind.Double:
-				state.Writer.Write("d"); // あってもなくてもいい
+				arg.Write("d"); // あってもなくてもいい
 				break;
 			default:
 				break;
@@ -455,9 +472,9 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIntegerLiteral element, VisitorState state) {
-			state.Writer.Write(element.Value);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIntegerLiteral element, VisitorArgument arg) {
+			arg.Write(element.Value);
 
 			var kind = element.Kind;
 			switch (kind) {
@@ -470,29 +487,21 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedStringLiteral element, VisitorState state) {
-			var kind = element.Kind;
-			var delimiter = "";
-
-			switch (kind) {
-			case UnifiedStringLiteralKind.Char:
-				delimiter = "'";
-				break;
-			case UnifiedStringLiteralKind.String:
-				delimiter = "\"";
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-
-			state.Writer.Write(delimiter + element.Value + delimiter);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCharLiteral element, VisitorArgument arg) {
+			arg.Write(element.Value);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedNullLiteral element, VisitorState state) {
-			state.Writer.Write("NULL");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedStringLiteral element, VisitorArgument arg) {
+			arg.Write(element.Value);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedNullLiteral element, VisitorArgument arg) {
+			arg.Write("NULL");
 			return false;
 		}
 			}

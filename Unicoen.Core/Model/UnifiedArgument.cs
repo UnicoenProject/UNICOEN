@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -73,23 +73,14 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedArgument Create(
-				UnifiedModifierCollection modifiers,
-				UnifiedIdentifier target,
-				IUnifiedExpression value) {
+				UnifiedModifierCollection modifiers = null,
+				UnifiedIdentifier target = null,
+				IUnifiedExpression value = null) {
 			return new UnifiedArgument {
 					Modifiers = modifiers,
 					Value = value,
 					Target = target,
 			};
-		}
-
-		public static UnifiedArgument Create(
-				UnifiedModifierCollection modifiers, IUnifiedExpression value) {
-			return Create(modifiers, null, value);
-		}
-
-		public static UnifiedArgument Create(IUnifiedExpression value) {
-			return Create(null, null, value);
 		}
 	}
 }

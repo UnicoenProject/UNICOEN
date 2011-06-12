@@ -25,13 +25,14 @@ namespace Unicoen.Core.Tests {
 		public const string AopExpectationName = "aspect_expectation";
 		public const string ExpectationName = "expectation";
 		public const string InputName = "input";
+		public const string DownloadName = "download";
 		public const string FailedInputName = "failed_input";
 		public const string OutputName = "output";
 		public const string XmlExpectationName = "xmlexpectation";
-		public const string Temp = "output";
+		public const string ScriptName = "script";
 
-		public static string CleanTemporalPath() {
-			var path = GetTemporalPath();
+		public static string CleanOutputAndGetOutputPath() {
+			var path = GetOutputPath();
 			if (Directory.Exists(path)) {
 				Directory.Delete(path, true);
 			}
@@ -45,8 +46,8 @@ namespace Unicoen.Core.Tests {
 			return Path.GetFullPath(subNames.Aggregate(path, Path.Combine));
 		}
 
-		public static string GetTemporalPath(params string[] names) {
-			var path = Path.Combine(FixturePath, Temp);
+		public static string GetOutputPath(params string[] names) {
+			var path = Path.Combine(FixturePath, OutputName);
 			Directory.CreateDirectory(path);
 			return path.GetFullPathAddingSubNames(names);
 		}
@@ -56,19 +57,13 @@ namespace Unicoen.Core.Tests {
 					.GetFullPathAddingSubNames(names);
 		}
 
-		public static string GetFailedInputPath(string lang, params string[] names) {
-			return Path.Combine(FixturePath, lang, FailedInputName)
+		public static string GetDownloadPath(string lang, params string[] names) {
+			return Path.Combine(FixturePath, lang, DownloadName)
 					.GetFullPathAddingSubNames(names);
 		}
 
-		public static string GetOutputDirPath(string lang) {
-			var path = Path.Combine(FixturePath, lang, OutputName);
-			Directory.CreateDirectory(path);
-			return path.GetFullPathAddingSubNames();
-		}
-
-		public static string GetOutputFilePath(string lang, params string[] names) {
-			return GetOutputDirPath(lang)
+		public static string GetFailedInputPath(string lang, params string[] names) {
+			return Path.Combine(FixturePath, lang, FailedInputName)
 					.GetFullPathAddingSubNames(names);
 		}
 
@@ -84,6 +79,11 @@ namespace Unicoen.Core.Tests {
 
 		public static string GetXmlExpectationPath(string lang, params string[] names) {
 			return Path.Combine(FixturePath, lang, XmlExpectationName)
+					.GetFullPathAddingSubNames(names);
+		}
+
+		public static string GetScriptPath(string lang, params string[] names) {
+			return Path.Combine(FixturePath, lang, ScriptName)
 					.GetFullPathAddingSubNames(names);
 		}
 	}

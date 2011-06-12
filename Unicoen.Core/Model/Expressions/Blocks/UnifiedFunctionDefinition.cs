@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -118,6 +118,7 @@ namespace Unicoen.Core.Model {
 				UnifiedTypeCollection throws = null,
 				UnifiedBlock body = null) {
 			return new UnifiedFunctionDefinition {
+					Kind = kind,
 					Name = name,
 					Annotations = annotations,
 					Type = type,
@@ -128,127 +129,5 @@ namespace Unicoen.Core.Model {
 					Body = body,
 			};
 		}
-
-		public static UnifiedFunctionDefinition CreateLambda(
-				UnifiedModifierCollection modifiers,
-				UnifiedType type,
-				UnifiedTypeParameterCollection typeParameters,
-				UnifiedIdentifier name,
-				UnifiedParameterCollection parameters,
-				UnifiedTypeCollection throws,
-				UnifiedBlock body) {
-			return new UnifiedFunctionDefinition {
-					Name = name,
-					Type = type,
-					TypeParameters = typeParameters,
-					Modifiers = modifiers,
-					Parameters = parameters,
-					Throws = throws,
-					Body = body,
-			};
-		}
-
-		public static UnifiedFunctionDefinition CreateLambda(
-				UnifiedParameterCollection parameters,
-				UnifiedBlock body) {
-			return CreateLambda(
-					null,
-					null,
-					null,
-					null,
-					parameters,
-					null,
-					body);
-		}
-
-		public static UnifiedFunctionDefinition CreateFunction(
-				UnifiedModifierCollection modifiers,
-				UnifiedType type,
-				UnifiedTypeParameterCollection typeParameters,
-				UnifiedIdentifier name,
-				UnifiedParameterCollection parameters,
-				UnifiedTypeCollection throws,
-				UnifiedBlock body) {
-			return new UnifiedFunctionDefinition {
-					Name = name,
-					Type = type,
-					TypeParameters = typeParameters,
-					Modifiers = modifiers,
-					Parameters = parameters,
-					Throws = throws,
-					Body = body,
-			};
-		}
-
-		public static UnifiedFunctionDefinition CreateFunction(
-				UnifiedModifierCollection modifiers,
-				UnifiedType type,
-				string name,
-				UnifiedParameterCollection parameters,
-				UnifiedTypeCollection throws,
-				UnifiedBlock body) {
-			return CreateFunction(
-					modifiers,
-					type,
-					null,
-					UnifiedIdentifier.CreateFunction(name),
-					parameters,
-					throws,
-					body);
-		}
-
-		public static UnifiedFunctionDefinition CreateFunction(string name) {
-			return CreateFunction(
-					UnifiedModifierCollection.Create(),
-					null,
-					name,
-					UnifiedParameterCollection.Create(),
-					null,
-					UnifiedBlock.Create());
-		}
-
-		public static UnifiedFunctionDefinition CreateFunction(
-				UnifiedModifierCollection modifiers, UnifiedType type, string name,
-				UnifiedParameterCollection parameters) {
-			return CreateFunction(
-					modifiers,
-					type,
-					name,
-					parameters,
-					null,
-					UnifiedBlock.Create());
-		}
-
-		public static UnifiedFunctionDefinition CreateFunction(
-				UnifiedModifierCollection modifiers, UnifiedType type, string name,
-				UnifiedParameterCollection parameters, UnifiedBlock body) {
-			return CreateFunction(
-					modifiers,
-					type,
-					name,
-					parameters,
-					null,
-					body);
-		}
-
-		public static UnifiedFunctionDefinition CreateFunction(
-				string name, UnifiedParameterCollection parameters, UnifiedBlock body) {
-			return CreateFunction(
-					UnifiedModifierCollection.Create(),
-					null,
-					name, parameters, null, body);
-		}
-
-		public static IUnifiedExpression CreateLambda(
-				string name, UnifiedParameterCollection parameters, UnifiedBlock body) {
-			return CreateLambda(
-					null,
-					null,
-					null,
-					UnifiedIdentifier.CreateFunction(name),
-					parameters,
-					null,
-					body);
-		}
-			}
+	}
 }

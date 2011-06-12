@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -82,10 +82,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedFor Create(
-				IUnifiedExpression initializer,
-				IUnifiedExpression condition,
-				IUnifiedExpression step,
-				UnifiedBlock body) {
+				IUnifiedExpression initializer = null,
+				IUnifiedExpression condition = null,
+				IUnifiedExpression step = null,
+				UnifiedBlock body = null) {
 			return new UnifiedFor {
 					Initializer = initializer,
 					Condition = condition,

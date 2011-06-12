@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -53,8 +53,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedCatch Create(
-				UnifiedMatcherCollection matchers,
-				UnifiedBlock body) {
+				UnifiedMatcherCollection matchers = null, 
+				UnifiedBlock body = null) {
 			return new UnifiedCatch {
 					Matchers = matchers,
 					Body = body,

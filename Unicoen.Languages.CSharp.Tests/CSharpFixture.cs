@@ -22,10 +22,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
 using Paraiba.Core;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
@@ -44,6 +44,13 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		public override string Extension {
 			get { return ".cs"; }
+		}
+
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
+		public override string CompiledExtension {
+			get { return ".dll"; }
 		}
 
 		/// <summary>
@@ -139,50 +146,13 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		/// <summary>
-		///   コンパイル済みのコードを全て取得します．
+		/// コンパイル済みのコードのバイト列を取得します．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
-		/// <returns></returns>
-		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
-			return Directory.EnumerateFiles(
-					dirPath, "*.dll",
-					SearchOption.AllDirectories)
-					.Select(path => new object[] { path, GetByteCode(dirPath, path) });
-		}
-
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
-		/// </summary>
-		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
-		/// <param name = "command">コンパイルのコマンド</param>
-		/// <param name = "arguments">コマンドの引数</param>
-		public override void CompileWithArguments(
-				string workPath, string command, string arguments) {
-			var info = new ProcessStartInfo {
-					FileName = command,
-					Arguments = arguments,
-					CreateNoWindow = true,
-					UseShellExecute = false,
-					WorkingDirectory = workPath,
-					RedirectStandardError = true,
-			};
-			try {
-				using (var p = Process.Start(info)) {
-					var errorMessage = p.StandardError.ReadToEnd();
-					p.WaitForExit();
-					if (p.ExitCode != 0) {
-						throw new InvalidOperationException(
-								"Failed to compile the code.\n" + errorMessage);
-					}
-				}
-			} catch (Win32Exception e) {
-				throw new InvalidOperationException("Failed to launch compiler.", e);
-			}
-		}
-
-		private static string GetByteCode(string workPath, string exeFilePath) {
+		/// <param name="path">コンパイル済みのコードのパス</param>
+		/// <returns>コンパイル済みのコードのバイト列</returns>
+		protected override byte[] GetCompiledByteCode(string path) {
 			var ildasmPath = IldasmPathes.First(File.Exists);
-			var args = new[] { "/text", exeFilePath };
+			var args = new[] { "/text", path };
 			var info = new ProcessStartInfo {
 					FileName = ildasmPath,
 					Arguments = args.JoinString(" "),
@@ -190,7 +160,6 @@ namespace Unicoen.Languages.CSharp.Tests {
 					RedirectStandardInput = true,
 					RedirectStandardOutput = true,
 					UseShellExecute = false,
-					WorkingDirectory = workPath,
 			};
 
 			try {
@@ -201,12 +170,13 @@ namespace Unicoen.Languages.CSharp.Tests {
 						throw new InvalidOperationException(
 								"Failed to disassemble the exe file.");
 					}
-					return str.Replace("\r\n", "\n").Split('\n')
+					str = str.Replace("\r\n", "\n").Split('\n')
 							.Select(l => l.Trim())
 							.Where(l => !l.StartsWith("//"))
 							.Where(l => !l.StartsWith(".assembly"))
 							.Where(l => !l.StartsWith(".module"))
 							.JoinString("\n");
+					return Encoding.Unicode.GetBytes(str);
 				}
 			} catch (Win32Exception e) {
 				throw new InvalidOperationException(

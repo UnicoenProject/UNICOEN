@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -55,51 +55,11 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		private static UnifiedList Create(
+		public static UnifiedList Create(
 				UnifiedListKind kind,
-				UnifiedExpressionCollection elements) {
+				UnifiedExpressionCollection elements = null) {
 			return new UnifiedList {
 					Kind = kind,
-					Elements = elements,
-			};
-		}
-
-		public static UnifiedList CreateList(
-				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.List,
-					Elements = elements,
-			};
-		}
-
-		public static UnifiedList CreateLazyList(
-				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.LazyList,
-					Elements = elements,
-			};
-		}
-
-		public static UnifiedList CreateTuple(
-				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Tuple,
-					Elements = elements,
-			};
-		}
-
-		public static UnifiedList CreateArray(
-				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Array,
-					Elements = elements,
-			};
-		}
-
-		public static UnifiedList CreateSet(
-				UnifiedExpressionCollection elements) {
-			return new UnifiedList {
-					Kind = UnifiedListKind.Set,
 					Elements = elements,
 			};
 		}

@@ -17,7 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -26,10 +26,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedAnnotationCollection
 			: UnifiedElementCollection<UnifiedAnnotation, UnifiedAnnotationCollection> {
-		private UnifiedAnnotationCollection() {}
+		public override UnifiedAnnotationCollection CreateSelf() {
+			return new UnifiedAnnotationCollection();
+		}
 
-		private UnifiedAnnotationCollection(IEnumerable<UnifiedAnnotation> elements)
-				: base(elements) {}
+		protected UnifiedAnnotationCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -44,20 +45,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedAnnotationCollection Create() {
-			return new UnifiedAnnotationCollection();
-		}
-
-		public static UnifiedAnnotationCollection Create(
-				params UnifiedAnnotation[] elements) {
-			return new UnifiedAnnotationCollection(elements);
-		}
-
-		public static UnifiedAnnotationCollection Create(
-				IEnumerable<UnifiedAnnotation> elements) {
-			return new UnifiedAnnotationCollection(elements);
 		}
 			}
 }

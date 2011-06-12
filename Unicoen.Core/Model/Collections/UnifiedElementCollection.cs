@@ -22,11 +22,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedElementCollection<TElement, TSelf>
-			: UnifiedElement, IUnifiedElementCollection<TElement>
+			: UnifiedElement, IUnifiedCreatable<TSelf>,
+			  IUnifiedElementCollection<TElement>
 			where TElement : class, IUnifiedElement
 			where TSelf : UnifiedElementCollection<TElement, TSelf> {
 		protected List<TElement> Elements;
@@ -36,13 +37,7 @@ namespace Unicoen.Core.Model {
 			Elements = new List<TElement>();
 		}
 
-		protected UnifiedElementCollection(IEnumerable<TElement> elements)
-				: this() {
-			if (elements == null) return;
-			foreach (var element in elements) {
-				Add(element);
-			}
-		}
+		public abstract TSelf CreateSelf();
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
@@ -224,6 +219,24 @@ namespace Unicoen.Core.Model {
 					return element;
 			}
 			return this;
+		}
+
+		public static TSelf Create() {
+			return UnifiedFactory<TSelf>.Create();
+		}
+
+		public static TSelf Create(params TElement[] elements) {
+			var ret = UnifiedFactory<TSelf>.Create();
+			if (elements != null)
+				ret.AddRange(elements);
+			return ret;
+		}
+
+		public static TSelf Create(IEnumerable<TElement> elements) {
+			var ret = UnifiedFactory<TSelf>.Create();
+			if (elements != null)
+				ret.AddRange(elements);
+			return ret;
 		}
 			}
 }

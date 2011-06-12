@@ -17,7 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -26,10 +26,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedCaseCollection
 			: UnifiedElementCollection<UnifiedCase, UnifiedCaseCollection> {
-		private UnifiedCaseCollection() {}
+		public override UnifiedCaseCollection CreateSelf() {
+			return new UnifiedCaseCollection();
+		}
 
-		private UnifiedCaseCollection(IEnumerable<UnifiedCase> elements)
-				: base(elements) {}
+		protected UnifiedCaseCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -44,18 +45,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
 			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedCaseCollection Create() {
-			return new UnifiedCaseCollection();
-		}
-
-		public static UnifiedCaseCollection Create(params UnifiedCase[] elements) {
-			return new UnifiedCaseCollection(elements);
-		}
-
-		public static UnifiedCaseCollection Create(IEnumerable<UnifiedCase> elements) {
-			return new UnifiedCaseCollection(elements);
 		}
 			}
 }

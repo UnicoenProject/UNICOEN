@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Languages.Java.CodeFactories {
+namespace Unicoen.Core.Processor {
 	/// <summary>
 	///   MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
 	/// </summary>

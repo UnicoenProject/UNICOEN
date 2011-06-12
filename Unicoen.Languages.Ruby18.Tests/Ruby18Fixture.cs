@@ -19,14 +19,17 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {
 	public class Ruby18Fixture : Fixture {
 		public override string Extension {
 			get { return ".rb"; }
+		}
+
+		public override string CompiledExtension {
+			get { throw new NotImplementedException(); }
 		}
 
 		public override ModelFactory ModelFactory {
@@ -50,10 +53,6 @@ namespace Unicoen.Languages.Ruby18.Tests {
 		}
 
 		public override void Compile(string dirPath, string fileName) {
-			throw new NotImplementedException();
-		}
-
-		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
 			throw new NotImplementedException();
 		}
 

@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -91,41 +91,14 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedClassDefinition CreateClass(string name) {
-			return Create(
-					UnifiedClassKind.Class, UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.CreateType(name), null, null, UnifiedBlock.Create());
-		}
-
-		public static UnifiedClassDefinition CreateClass(
-				string name,
-				UnifiedBlock body) {
-			return Create(
-					UnifiedClassKind.Class, UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.CreateType(name), null, null, body);
-		}
-
-		public static UnifiedClassDefinition CreateClass(
-				string name,
-				UnifiedTypeConstrainCollection contrains,
-				UnifiedBlock body) {
-			return Create(
-					UnifiedClassKind.Class, UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.CreateType(name), null, contrains, body);
-		}
-
 		public static UnifiedClassDefinition Create(
-				UnifiedClassKind kind, UnifiedModifierCollection modifiers,
-				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
-				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
-			return Create(kind, null, modifiers, name, typeParameters, constrains, body);
-		}
-
-		public static UnifiedClassDefinition Create(
-				UnifiedClassKind kind, UnifiedAnnotationCollection annotations,
-				UnifiedModifierCollection modifiers,
-				IUnifiedExpression name, UnifiedTypeParameterCollection typeParameters,
-				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
+				UnifiedClassKind kind, 
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				IUnifiedExpression name = null, 
+				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedTypeConstrainCollection constrains = null,
+				UnifiedBlock body = null) {
 			return new UnifiedClassDefinition {
 					Annotations = annotations,
 					Modifiers = modifiers,
@@ -136,40 +109,5 @@ namespace Unicoen.Core.Model {
 					Body = body,
 			};
 		}
-
-		public static UnifiedClassDefinition CreateNamespace(IUnifiedExpression name) {
-			return Create(
-					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
-		}
-
-		public static UnifiedClassDefinition CreateAnnotation(IUnifiedExpression name) {
-			return Create(
-					UnifiedClassKind.Namespace, null, name, null, null, UnifiedBlock.Create());
-		}
-
-		public static UnifiedClassDefinition CreateAnnotation(
-				UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers,
-				UnifiedIdentifier name, UnifiedBlock body) {
-			return Create(
-					UnifiedClassKind.Annotation, annotations, modifiers, name, null, null, body);
-		}
-
-		public static UnifiedClassDefinition CreateClass(
-				UnifiedModifierCollection modifiers, string name,
-				UnifiedTypeParameterCollection typeParameters,
-				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
-			return Create(
-					UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name),
-					typeParameters, constrains, body);
-		}
-
-		public static UnifiedClassDefinition CreateClass(
-				UnifiedAnnotationCollection annotations, UnifiedModifierCollection modifiers,
-				string name, UnifiedTypeParameterCollection typeParameters,
-				UnifiedTypeConstrainCollection constrains, UnifiedBlock body) {
-			return Create(
-					UnifiedClassKind.Class, modifiers, UnifiedIdentifier.CreateType(name),
-					typeParameters, constrains, body);
-		}
-			}
+	}
 }

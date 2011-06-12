@@ -17,19 +17,18 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
 	/// </summary>
 	public class UnifiedIdentifierCollection
-			: UnifiedElementCollection
-			  		<UnifiedIdentifier, UnifiedIdentifierCollection> {
-		private UnifiedIdentifierCollection() {}
+			: UnifiedElementCollection<UnifiedIdentifier, UnifiedIdentifierCollection> {
+		public override UnifiedIdentifierCollection CreateSelf() {
+			return new UnifiedIdentifierCollection();
+		}
 
-		private UnifiedIdentifierCollection(
-				IEnumerable<UnifiedIdentifier> elements)
-				: base(elements) {}
+		protected UnifiedIdentifierCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -49,19 +48,5 @@ namespace Unicoen.Core.Model {
 		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
 			return this;
 		}
-
-		public static UnifiedIdentifierCollection Create() {
-			return new UnifiedIdentifierCollection();
-		}
-
-		public static UnifiedIdentifierCollection Create(
-				params UnifiedIdentifier[] elements) {
-			return new UnifiedIdentifierCollection(elements);
-		}
-
-		public static UnifiedIdentifierCollection Create(
-				IEnumerable<UnifiedIdentifier> elements) {
-			return new UnifiedIdentifierCollection(elements);
-		}
-			  		}
+			}
 }

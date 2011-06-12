@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -109,34 +109,6 @@ namespace Unicoen.Core.Model {
 					Names = names,
 					DefaultValue = defaultValue,
 			};
-		}
-
-		public static UnifiedParameter Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedType type = null,
-				string name = null,
-				IUnifiedExpression defaultValue = null) {
-			return Create(
-					annotations,
-					modifiers,
-					type,
-					UnifiedIdentifier.CreateVariable(name).ToCollection(),
-					defaultValue);
-		}
-
-		public static UnifiedParameter Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedType type = null,
-				UnifiedIdentifier name = null,
-				IUnifiedExpression defaultValue = null) {
-			return Create(
-					annotations,
-					modifiers,
-					type,
-					name.ToCollection(),
-					defaultValue);
 		}
 	}
 }

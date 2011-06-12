@@ -18,7 +18,7 @@
 
 using Unicoen.Core.Model;
 
-namespace Unicoen.Core.ModelFactories {
+namespace Unicoen.Core.Processor {
 	public abstract class ModelFactory {
 		public abstract UnifiedProgram GenerateWithouNormalizing(string code);
 

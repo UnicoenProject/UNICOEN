@@ -107,10 +107,14 @@ namespace Unicoen.Core.Model {
 		/// <typeparam name = "T"></typeparam>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> Descendants<T>(
-				this IUnifiedElement element) {
+		public static IEnumerable<T> Descendants<T>(
+				this IUnifiedElement element) 
+			where T : class
+		{
 			Contract.Requires(element != null);
-			return element.Descendants().Where(e => e is T);
+			return element.Descendants()
+				.Select(e => e as T)
+				.Where(e => e != null);
 		}
 
 		/// <summary>
@@ -120,10 +124,12 @@ namespace Unicoen.Core.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> Descendants<T>(
-				this IUnifiedElement element, T dummyForInference) {
+		public static IEnumerable<T> Descendants<T>(
+				this IUnifiedElement element, T dummyForInference)
+			where T : class
+		{
 			Contract.Requires(element != null);
-			return element.Descendants().Where(e => e is T);
+			return element.Descendants<T>();
 		}
 
 		/// <summary>
@@ -178,7 +184,39 @@ namespace Unicoen.Core.Model {
 					.Concat(element.GetElements().Where(e => e != null));
 			return children.Aggregate(
 					children,
-					(current, elem) => current.Concat(elem.Descendants()));
+					(current, elem) => Enumerable.Concat(current, elem.Descendants()));
+		}
+
+		/// <summary>
+		///   指定した集合を表現する要素が空もしくはnullであるかどうか判定します．
+		/// </summary>
+		/// <typeparam name = "TElement">空もしくはnullであるかどうかの判定結果</typeparam>
+		/// <param name = "element"></param>
+		/// <returns></returns>
+		public static bool IsEmptyOrNull<TElement>(
+				this IUnifiedElementCollection<TElement> element)
+				where TElement : class, IUnifiedElement {
+			return element != null && element.Count >= 1;
+		}
+
+		/// <summary>
+		/// 親の親を取得します．
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public static IUnifiedElement GrandParent(this IUnifiedElement element) {
+			Contract.Requires(element != null);
+			return element.Parent.SafeParent();
+		}
+
+		/// <summary>
+		/// 親の親の親を取得します．
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public static IUnifiedElement GrandGrandParent(this IUnifiedElement element) {
+			Contract.Requires(element != null);
+			return element.Parent.SafeParent().SafeParent();
 		}
 	}
 }

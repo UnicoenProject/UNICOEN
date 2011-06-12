@@ -18,7 +18,7 @@
 
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Core.Model;
-using Unicoen.Core.ModelFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.ModelFactories {
 	public class JavaScriptModelFactory : ModelFactory {

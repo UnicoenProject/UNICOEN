@@ -19,7 +19,7 @@
 using System.IO;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Core.CodeFactories {
+namespace Unicoen.Core.Processor {
 	public abstract class CodeFactory {
 		public abstract string Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign);

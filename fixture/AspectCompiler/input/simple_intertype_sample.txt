@@ -1,0 +1,10 @@
+aspect Logger {
+    
+    Foo : @Java{
+        private int x = 10;
+        public int getX() {
+            return x;
+        }
+    }end
+
+}

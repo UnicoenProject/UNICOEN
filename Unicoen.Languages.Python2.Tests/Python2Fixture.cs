@@ -17,21 +17,36 @@
 #endregion
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.Core.CodeFactories;
-using Unicoen.Core.ModelFactories;
+using Paraiba.Core;
+using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public class Python2Fixture : Fixture {
+		private const string CompileCommand = "python";
+
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
 		/// </summary>
 		public override string Extension {
 			get { return ".py"; }
 		}
+
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
+		public override string CompiledExtension {
+			get { return ".pyc"; }
+		}
+
+		/// <summary>
+		/// バイトコード同士を比較する際に許容する不一致の要素数を取得します．
+		/// </summary>
+		public override int AllowedMismatchCount { get { return 0; } }
 
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
@@ -55,7 +70,8 @@ namespace Unicoen.Languages.Python2.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
-						"class A { }",
+						"a = 1",
+						"class A: pass",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
@@ -67,6 +83,9 @@ namespace Unicoen.Languages.Python2.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
+						"Block1",
+						"Block2",
+						"Block3",
 						"Fibonacci",
 				}
 						.Select(
@@ -97,24 +116,14 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// </summary>
 		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
 		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {}
-
-		/// <summary>
-		///   コンパイル済みのコードを全て取得します．
-		/// </summary>
-		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
-		/// <returns></returns>
-		public override IEnumerable<object[]> GetAllCompiledCode(string dirPath) {
-			return null;
+		public override void Compile(string dirPath, string fileName) {
+			var args = new[] {	
+					"-m",
+					"compileall",
+					"\"" + Path.Combine(dirPath, fileName) + "\""
+			};
+			var arguments = args.JoinString(" ");
+			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
-
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
-		/// </summary>
-		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
-		/// <param name = "command">コンパイルのコマンド</param>
-		/// <param name = "arguments">コマンドの引数</param>
-		public override void CompileWithArguments(
-				string workPath, string command, string arguments) {}
 	}
 }

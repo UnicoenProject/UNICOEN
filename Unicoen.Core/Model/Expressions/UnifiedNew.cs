@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -45,13 +45,13 @@ namespace Unicoen.Core.Model {
 			set { _typeArguments = SetChild(value, _typeArguments); }
 		}
 
-		private UnifiedExpressionList _initialValue;
+		private UnifiedList _initialValue;
 
 		/// <summary>
 		///   配列生成時の初期値を表します。
 		///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
 		/// </summary>
-		public UnifiedExpressionList InitialValue {
+		public UnifiedList InitialValue {
 			get { return _initialValue; }
 			set { _initialValue = SetChild(value, _initialValue); }
 		}
@@ -73,39 +73,12 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, state);
 		}
 
-		public static UnifiedNew Create(IUnifiedExpression target) {
-			return Create(target, null, null, null, null);
-		}
-
 		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection arguments) {
-			return Create(target, arguments, null, null, null);
-		}
-
-		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedBlock body) {
-			return new UnifiedNew {
-					Target = target,
-					Arguments = null,
-					Body = body
-			};
-		}
-
-		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection arguments,
-				UnifiedExpressionList initialValues) {
-			return Create(target, arguments, null, initialValues, null);
-		}
-
-		public static UnifiedNew Create(
-				IUnifiedExpression target,
-				UnifiedArgumentCollection arguments,
-				UnifiedTypeArgumentCollection typeArguments,
-				UnifiedExpressionList initialValues,
-				UnifiedBlock body) {
+				IUnifiedExpression target = null,
+				UnifiedArgumentCollection arguments = null,
+				UnifiedTypeArgumentCollection typeArguments = null,
+				UnifiedList initialValues = null,
+				UnifiedBlock body = null) {
 			return new UnifiedNew {
 					Target = target,
 					Arguments = arguments,
@@ -113,20 +86,6 @@ namespace Unicoen.Core.Model {
 					InitialValue = initialValues,
 					Body = body,
 			};
-		}
-
-		public static UnifiedNew CreateArray(string name, UnifiedArgument argument) {
-			return Create(
-					UnifiedType.Create());
-		}
-
-		public static UnifiedNew CreateArray(UnifiedExpressionList initialValues) {
-			return Create(
-					UnifiedType.Create(),
-					null,
-					null,
-					initialValues,
-					null);
 		}
 	}
 }

@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Visitors;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
@@ -76,8 +76,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedBinaryExpression Create(
 				IUnifiedExpression leftHandSide,
-				UnifiedBinaryOperator
-						binaryOperator,
+				UnifiedBinaryOperator binaryOperator,
 				IUnifiedExpression rightHandSide) {
 			return new UnifiedBinaryExpression {
 					LeftHandSide = leftHandSide,

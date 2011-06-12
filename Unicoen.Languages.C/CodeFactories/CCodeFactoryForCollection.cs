@@ -18,188 +18,200 @@
 
 using System;
 using Unicoen.Core.Model;
-using Unicoen.Core.Visitors;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
 	public partial class CCodeFactory {
 		public void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorState state)
+				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
 				where TSelf : UnifiedElementCollection<T, TSelf> {
-			var decoration = state.Decoration;
-			state.Writer.Write(decoration.MostLeft);
+			var decoration = arg.Decoration;
+			arg.Write(decoration.MostLeft);
 			var splitter = "";
 			foreach (var e in elements) {
-				state.Writer.Write(splitter);
-				state.Writer.Write(decoration.EachLeft);
-				e.TryAccept(this, state);
-				state.Writer.Write(decoration.EachRight);
+				arg.Write(splitter);
+				arg.Write(decoration.EachLeft);
+				e.TryAccept(this, arg);
+				arg.Write(decoration.EachRight);
 				splitter = decoration.Delimiter;
 			}
-			state.Writer.Write(decoration.MostRight);
+			arg.Write(decoration.MostRight);
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedArgumentCollection element, VisitorState state) {
-			VisitCollection(element, state);
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArgumentCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedParameterCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(Paren));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedParameterCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedModifierCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(SpaceDelimiter));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedModifierCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(SpaceDelimiter));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedExpressionCollection element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedExpressionCollection element, VisitorArgument arg) {
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeArgumentCollection element, VisitorState state) {
-			state.Writer.WriteLine("/* ElementNotInC */");
-			state.Writer.WriteLine("/* " + element + " */");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
+			arg.WriteLine("/* ElementNotInC */");
+			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCaseCollection element, VisitorState state) {
-			state = state.IncrementIndentDepth();
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCaseCollection element, VisitorArgument arg) {
+			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				state.WriteIndent();
-				caseElement.TryAccept(this, state);
+				arg.WriteIndent();
+				caseElement.TryAccept(this, arg);
 			}
 
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeCollection element, VisitorState state) {
-			state.Writer.WriteLine("/* ElementNotInC */");
-			state.Writer.WriteLine("/* " + element + " */");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeCollection element, VisitorArgument arg) {
+			arg.WriteLine("/* ElementNotInC */");
+			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedCatchCollection element, VisitorState state) {
-			state.Writer.WriteLine("/* ElementNotInC */");
-			state.Writer.WriteLine("/* " + element + " */");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedCatchCollection element, VisitorArgument arg) {
+			arg.WriteLine("/* ElementNotInC */");
+			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeParameterCollection element, VisitorState state) {
-			state.Writer.WriteLine("/* ElementNotInC */");
-			state.Writer.WriteLine("/* " + element + " */");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeParameterCollection element, VisitorArgument arg) {
+			arg.WriteLine("/* ElementNotInC */");
+			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeConstrainCollection element, VisitorState state) {
-			state.Writer.WriteLine("/* ElementNotInC */");
-			state.Writer.WriteLine("/* " + element + " */");
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
+			arg.WriteLine("/* ElementNotInC */");
+			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedTypeSupplementCollection element, VisitorState state) {
-			VisitCollection(element, state.Set(Empty));
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTypeSupplementCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(Empty));
 			return false;
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedIdentifierCollection element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedModelVisitor<VisitorState, bool>.Visit(
-				UnifiedExpressionList element, VisitorState state) {
-			VisitCollection(element, state);
-
-			return false;
-		}
-
-		public bool Visit(UnifiedMatcher element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedMatcher element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedMatcherCollection element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedMatcherCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedUsing element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedUsing element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedListComprehension element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedListComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedList element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedList element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedKeyValue element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedKeyValue element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedDictionaryComprehension element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedDictionaryComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedKeyValueCollection element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedKeyValueCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedDictonary element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedDictonary element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedSlice element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSlice element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedComment element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedComment element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedAnnotation element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAnnotation element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedAnnotationCollection element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedAnnotationCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedVariableDefinitionList element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedVariableDefinition element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedVariableDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedSupplementType element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSupplementType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedGenericType element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedGenericType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedSimpleType element, VisitorState state) {
-			throw new NotImplementedException();
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSimpleType element, VisitorArgument arg) {
+			element.NameExpression.TryAccept(this, arg);
+			return true;
 		}
 
-		public bool Visit(UnifiedArrayType element, VisitorState state) {
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArrayType element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 	}
