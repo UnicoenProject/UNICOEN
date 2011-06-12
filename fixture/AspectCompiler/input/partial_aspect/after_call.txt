@@ -1,0 +1,13 @@
+aspect Logger {
+    pointcut getter() :
+        call(* Sample.getX());
+
+    after : getter() {
+        @Java {
+            System.out.println("executed");
+        }end
+        @JavaScript {
+            alert("executed");
+        }end
+    }
+}

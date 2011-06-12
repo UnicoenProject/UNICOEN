@@ -27,6 +27,21 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Tests {
 	public abstract class Fixture {
+		private string _languageName;
+
+		/// <summary>
+		///   対応する言語の名前をクラス名から解析して取得します．
+		/// </summary>
+		public string LanguageName {
+			get {
+				if (_languageName == null) {
+					var name = GetType().Name;
+					_languageName = name.Substring(0, name.Length - "Fixture".Length);
+				}
+				return _languageName;
+			}
+		}
+
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
 		/// </summary>
@@ -38,9 +53,11 @@ namespace Unicoen.Languages.Tests {
 		public abstract string CompiledExtension { get; }
 
 		/// <summary>
-		/// バイトコード同士を比較する際に許容する不一致の要素数を取得します．
+		///   バイトコード同士を比較する際に許容する不一致の要素数を取得します．
 		/// </summary>
-		public virtual int AllowedMismatchCount { get { return 0; } }
+		public virtual int AllowedMismatchCount {
+			get { return 0; }
+		}
 
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
@@ -118,9 +135,9 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		/// コンパイル済みのコードのバイト列を取得します．
+		///   コンパイル済みのコードのバイト列を取得します．
 		/// </summary>
-		/// <param name="path">コンパイル済みのコードのパス</param>
+		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
 		protected virtual byte[] GetCompiledByteCode(string path) {
 			return File.ReadAllBytes(path);

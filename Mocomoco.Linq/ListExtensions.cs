@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Mocomoco.Linq {
 	public static class ListExtensions {
@@ -32,7 +31,7 @@ namespace Mocomoco.Linq {
 		public static T ElementAtOrDefault<T>(this IList<T> list, int index) {
 			return 0 <= index && index < list.Count
 			       		? list[index]
-						: default(T);
+			       		: default(T);
 		}
 
 		/// <summary>

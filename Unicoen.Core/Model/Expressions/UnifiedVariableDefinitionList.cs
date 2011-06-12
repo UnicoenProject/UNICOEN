@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -28,35 +27,21 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
-		}
-
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
-		}
-
-		private UnifiedVariableDefinitionList() {}
-
-		private UnifiedVariableDefinitionList(
-				IEnumerable<UnifiedVariableDefinition> elements)
-				: base(elements) {}
-
-		public static UnifiedVariableDefinitionList Create() {
+		public override UnifiedVariableDefinitionList CreateSelf() {
 			return new UnifiedVariableDefinitionList();
 		}
 
-		public static UnifiedVariableDefinitionList Create(
-				params UnifiedVariableDefinition[] elements) {
-			return new UnifiedVariableDefinitionList(elements);
+		public override void Accept<TData>(
+				IUnifiedModelVisitor<TData> visitor,
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
-		public static UnifiedVariableDefinitionList Create(
-				IEnumerable<UnifiedVariableDefinition> elements) {
-			return new UnifiedVariableDefinitionList(elements);
+		public override TResult Accept<TData, TResult>(
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
+
+		protected UnifiedVariableDefinitionList() {}
 			  }
 }

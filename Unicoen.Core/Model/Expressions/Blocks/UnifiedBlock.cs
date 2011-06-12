@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -26,36 +25,25 @@ namespace Unicoen.Core.Model {
 	public class UnifiedBlock
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>,
 			  IUnifiedExpression {
-		private UnifiedBlock() {}
-
-		private UnifiedBlock(IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
+		protected UnifiedBlock() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
-		}
-
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedBlock Create() {
+		public override UnifiedBlock CreateSelf() {
 			return new UnifiedBlock();
 		}
 
-		public static UnifiedBlock Create(params IUnifiedExpression[] expressions) {
-			return new UnifiedBlock(expressions);
+		public override void Accept<TData>(
+				IUnifiedModelVisitor<TData> visitor,
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
-		public static UnifiedBlock Create(IEnumerable<IUnifiedExpression> expressions) {
-			return new UnifiedBlock(expressions);
+		public override TResult Accept<TData, TResult>(
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 			  }
 }

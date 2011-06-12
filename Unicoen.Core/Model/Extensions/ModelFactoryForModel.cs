@@ -25,7 +25,9 @@ namespace Unicoen.Core.Model {
 		public static UnifiedFunctionDefinition ToFunctionDefinition(this string name) {
 			return UnifiedFunctionDefinition.Create(
 					UnifiedFunctionDefinitionKind.Function,
-					null, UnifiedModifierCollection.Create(), null, null, UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), UnifiedParameterCollection.Create(), null, UnifiedBlock.Create());
+					null, UnifiedModifierCollection.Create(), null, null,
+					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name),
+					UnifiedParameterCollection.Create(), null, UnifiedBlock.Create());
 		}
 
 		public static UnifiedWhile ToWhile(this IUnifiedExpression condition) {
@@ -41,7 +43,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedSpecialExpression ToReturn(this IUnifiedExpression value) {
-			return UnifiedSpecialExpression.Create(UnifiedSpecialExpressionKind.Return, value);
+			return UnifiedSpecialExpression.Create(
+					UnifiedSpecialExpressionKind.Return, value);
 		}
 
 		public static UnifiedCase ToCase(this IUnifiedExpression condtion) {

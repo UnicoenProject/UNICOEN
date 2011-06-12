@@ -61,23 +61,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return Generate(model, writer, "\t");
 		}
 
-		private static string GetKeyword(UnifiedClassKind kind) {
-			switch (kind) {
-			case UnifiedClassKind.Class:
-				return "class";
-			case UnifiedClassKind.Interface:
-				return "interface";
-			case UnifiedClassKind.Namespace:
-				return "package";
-			case UnifiedClassKind.Enum:
-				return "enum";
-			case UnifiedClassKind.Module:
-				return "module";
-			default:
-				throw new ArgumentOutOfRangeException("kind");
-			}
-		}
-
 		private static string GetKeyword(UnifiedSpecialExpressionKind kind) {
 			switch (kind) {
 			case UnifiedSpecialExpressionKind.Break:
@@ -239,30 +222,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 					arg.Write(";");
 				}
 			}
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedClassDefinition element, VisitorArgument arg) {
-			switch (element.Kind) {
-			case UnifiedClassKind.Enum:
-				arg.Write("enum");
-				arg.WriteSpace();
-				element.Name.TryAccept(this, arg);
-				element.Body.TryAccept(this, arg);
-				break;
-			case UnifiedClassKind.Class:
-				arg.Write("/* class");
-				arg.WriteSpace();
-				element.Name.TryAccept(this, arg);
-				arg.Write("*/");
-				
-				element.Body.TryAccept(this, arg);
-				break;
-			default:
-				break;
-			}
-
 			return false;
 		}
 
@@ -492,6 +451,11 @@ namespace Unicoen.Languages.C.CodeFactories {
 				UnifiedCharLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedNamespace element, VisitorArgument arg) {
+			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(

@@ -24,7 +24,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>synchronized(this) {...}</c>
 	/// </summary>
 	public class UnifiedSpecialBlock
-			: UnifiedExpressionWithBlock<UnifiedSpecialBlock> {
+			: UnifiedExpressionWithBlock {
 		public UnifiedSpecialBlockKind Kind { get; set; }
 
 		private IUnifiedExpression _value;
@@ -42,13 +42,13 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedSpecialBlock Create(
@@ -61,5 +61,5 @@ namespace Unicoen.Core.Model {
 					Body = body,
 			};
 		}
-	}
+			}
 }

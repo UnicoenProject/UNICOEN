@@ -24,7 +24,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>while(cond){...}</c>
 	/// </summary>
 	public class UnifiedWhile
-			: UnifiedExpressionWithBlock<UnifiedWhile> {
+			: UnifiedExpressionWithBlock {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
@@ -51,16 +51,15 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
-		
 		public static UnifiedWhile Create(
 				IUnifiedExpression condition = null,
 				UnifiedBlock body = null,
@@ -71,5 +70,5 @@ namespace Unicoen.Core.Model {
 					ElseBody = elseBody,
 			};
 		}
-	}
+			}
 }

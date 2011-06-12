@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Code2Xml.Core;
 using NUnit.Framework;
 using Paraiba.Core;
 using Unicoen.Core.Processor;
@@ -27,7 +28,8 @@ using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public class Python2Fixture : Fixture {
-		private const string CompileCommand = "python";
+		private static readonly string CompileCommand =
+				Settings.GetPythonInstallPath("2.") ?? "python";
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
@@ -44,9 +46,11 @@ namespace Unicoen.Languages.Python2.Tests {
 		}
 
 		/// <summary>
-		/// バイトコード同士を比較する際に許容する不一致の要素数を取得します．
+		///   バイトコード同士を比較する際に許容する不一致の要素数を取得します．
 		/// </summary>
-		public override int AllowedMismatchCount { get { return 0; } }
+		public override int AllowedMismatchCount {
+			get { return 0; }
+		}
 
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
@@ -117,7 +121,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
 		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
 		public override void Compile(string dirPath, string fileName) {
-			var args = new[] {	
+			var args = new[] {
 					"-m",
 					"compileall",
 					"\"" + Path.Combine(dirPath, fileName) + "\""

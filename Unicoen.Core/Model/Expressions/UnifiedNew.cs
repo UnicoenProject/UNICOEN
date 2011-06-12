@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   配列の生成を含むコンストラクタ呼び出しを表します。
 	///   e.g. Javaにおける<c>Object o = new Object();</c>の<c>new Object()</c>の部分
 	/// </summary>
-	public class UnifiedNew : UnifiedExpressionWithBlock<UnifiedNew> {
+	public class UnifiedNew : UnifiedExpressionWithBlock {
 		private IUnifiedExpression _target;
 
 		public IUnifiedExpression Target {
@@ -45,13 +45,13 @@ namespace Unicoen.Core.Model {
 			set { _typeArguments = SetChild(value, _typeArguments); }
 		}
 
-		private UnifiedList _initialValue;
+		private UnifiedArray _initialValue;
 
 		/// <summary>
 		///   配列生成時の初期値を表します。
 		///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
 		/// </summary>
-		public UnifiedList InitialValue {
+		public UnifiedArray InitialValue {
 			get { return _initialValue; }
 			set { _initialValue = SetChild(value, _initialValue); }
 		}
@@ -64,20 +64,20 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedNew Create(
 				IUnifiedExpression target = null,
 				UnifiedArgumentCollection arguments = null,
 				UnifiedTypeArgumentCollection typeArguments = null,
-				UnifiedList initialValues = null,
+				UnifiedArray initialValues = null,
 				UnifiedBlock body = null) {
 			return new UnifiedNew {
 					Target = target,

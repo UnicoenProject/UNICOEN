@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   foreach文あるいは拡張for文を表します。
 	///   e.g. Javaにおける<c>for(int n : array){...}</c>やC#における<c>foreach(var n in array){...}</c>
 	/// </summary>
-	public class UnifiedForeach : UnifiedExpressionWithBlock<UnifiedForeach> {
+	public class UnifiedForeach : UnifiedExpressionWithBlock {
 		private IUnifiedExpression _element;
 
 		/// <summary>
@@ -61,13 +61,13 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedForeach Create(

@@ -28,10 +28,10 @@ namespace Unicoen.Core.Model {
 		/// <typeparam name = "T"></typeparam>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> Ancestors<T>(
-				this IUnifiedElement element) {
+		public static IEnumerable<T> Ancestors<T>(
+				this IUnifiedElement element) where T : class {
 			Contract.Requires(element != null);
-			return element.Ancestors().Where(e => e is T);
+			return element.Ancestors().Select(e => e as T).Where(e => e != null);
 		}
 
 		/// <summary>
@@ -41,10 +41,10 @@ namespace Unicoen.Core.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> Ancestors<T>(
-				this IUnifiedElement element, T dummyForInference) {
+		public static IEnumerable<T> Ancestors<T>(
+				this IUnifiedElement element, T dummyForInference) where T : class {
 			Contract.Requires(element != null);
-			return element.Ancestors().Where(e => e is T);
+			return element.Ancestors<T>();
 		}
 
 		/// <summary>
@@ -108,13 +108,12 @@ namespace Unicoen.Core.Model {
 		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IEnumerable<T> Descendants<T>(
-				this IUnifiedElement element) 
-			where T : class
-		{
+				this IUnifiedElement element)
+				where T : class {
 			Contract.Requires(element != null);
 			return element.Descendants()
-				.Select(e => e as T)
-				.Where(e => e != null);
+					.Select(e => e as T)
+					.Where(e => e != null);
 		}
 
 		/// <summary>
@@ -126,8 +125,7 @@ namespace Unicoen.Core.Model {
 		/// <returns></returns>
 		public static IEnumerable<T> Descendants<T>(
 				this IUnifiedElement element, T dummyForInference)
-			where T : class
-		{
+				where T : class {
 			Contract.Requires(element != null);
 			return element.Descendants<T>();
 		}
@@ -184,7 +182,7 @@ namespace Unicoen.Core.Model {
 					.Concat(element.GetElements().Where(e => e != null));
 			return children.Aggregate(
 					children,
-					(current, elem) => Enumerable.Concat(current, elem.Descendants()));
+					(current, elem) => current.Concat(elem.Descendants()));
 		}
 
 		/// <summary>
@@ -200,9 +198,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 親の親を取得します．
+		///   親の親を取得します．
 		/// </summary>
-		/// <param name="element"></param>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IUnifiedElement GrandParent(this IUnifiedElement element) {
 			Contract.Requires(element != null);
@@ -210,9 +208,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// 親の親の親を取得します．
+		///   親の親の親を取得します．
 		/// </summary>
-		/// <param name="element"></param>
+		/// <param name = "element"></param>
 		/// <returns></returns>
 		public static IUnifiedElement GrandGrandParent(this IUnifiedElement element) {
 			Contract.Requires(element != null);
