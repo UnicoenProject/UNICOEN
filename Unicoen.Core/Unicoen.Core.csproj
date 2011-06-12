@@ -276,6 +276,7 @@
     <Content Include="ParserScripts\Python3\st2xml.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="README.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mocomoco.Linq\Mocomoco.Linq.csproj">
