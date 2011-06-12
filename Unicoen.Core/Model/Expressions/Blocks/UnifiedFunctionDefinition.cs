@@ -19,16 +19,19 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
+
 	/// <summary>
 	///   関数やメソッドなどのサブルーチンの定義部分を表します。
 	///   e.g. Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
-	public class UnifiedFunctionDefinition
-			: UnifiedExpressionWithBlock {
+	public class UnifiedFunctionDefinition : UnifiedExpressionWithBlock {
+		
 		/// <summary>
 		///   サブルーチン定義の種類を表します．
 		/// </summary>
 		public UnifiedFunctionDefinitionKind Kind { get; set; }
+
+		#region fields
 
 		private UnifiedAnnotationCollection _annotations;
 
@@ -90,7 +93,9 @@ namespace Unicoen.Core.Model {
 			set { _throws = SetChild(value, _throws); }
 		}
 
-		private UnifiedFunctionDefinition() {}
+		#endregion
+
+		private UnifiedFunctionDefinition() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -118,16 +123,16 @@ namespace Unicoen.Core.Model {
 				UnifiedTypeCollection throws = null,
 				UnifiedBlock body = null) {
 			return new UnifiedFunctionDefinition {
-					Kind = kind,
-					Name = name,
-					Annotations = annotations,
-					Type = type,
-					TypeParameters = typeParameters,
-					Modifiers = modifiers,
-					Parameters = parameters,
-					Throws = throws,
-					Body = body,
+				Kind = kind,
+				Name = name,
+				Annotations = annotations,
+				Type = type,
+				TypeParameters = typeParameters,
+				Modifiers = modifiers,
+				Parameters = parameters,
+				Throws = throws,
+				Body = body,
 			};
 		}
-			}
+	}
 }
