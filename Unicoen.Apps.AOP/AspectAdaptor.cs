@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Unicoen.Apps.Aop.AspectElement;
@@ -97,6 +98,11 @@ namespace Unicoen.Apps.Aop
 							"アドバイスの種類が正しくありません");
 				}
 			}
+		}
+
+		public static IEnumerable<string> Collect(string folderRootPath) {
+			return Directory.EnumerateFiles(
+					folderRootPath, "*", SearchOption.AllDirectories);
 		}
 	}
 }

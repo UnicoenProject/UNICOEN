@@ -21,12 +21,15 @@ using System.IO;
 using Antlr.Runtime.Tree;
 using Paraiba.Text;
 using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Languages.Java;
+using Unicoen.Languages.JavaScript;
 
 namespace Unicoen.Apps.Aop {
 	public class Program {
 
 		//TODO write usage
 		private const string Usage = "Usage:";
+		private static readonly string[] TargetLanguage = new[] { ".java", ".js" };
 
 		private static void Main(string[] args) {
 			/* params
@@ -34,14 +37,20 @@ namespace Unicoen.Apps.Aop {
 			 *  :  args[1] -> ウィーブ対象フォルダのパス
 			 *  :  args[2] -> アスペクトファイルのパス
 			 */
+			
+			/*
 			var symbol = args[0];
 			if(!symbol.Equals("aries")) {
 				Console.WriteLine(Usage);
 				return;
 			}
+			*/
 
-			var filePath = args[1];
-			var aspectPath = args[2];
+			//var filePath = args[1];
+			//var aspectPath = args[2];
+			var filePath = "../../fixture/AspectCompiler/mainInput";
+			var aspectPath =
+					"../../fixture/AspectCompiler/input/partial_aspect/before_execution.txt";
 
 			//アスペクト情報を持つオブジェクトを生成する
 			var aspect = new Antlr.Runtime.ANTLRFileStream(aspectPath);
@@ -57,18 +66,45 @@ namespace Unicoen.Apps.Aop {
 			var visitor = new AstVisitor();
 			visitor.Visit(ast, 0, null);
 
-			//指定されたパス以下にあるソースコードをすべて取得します
-			var targetFiles = FileCollector.Collect(filePath);
-			//TODO ファイルを中身で返すか、パスで返すか検討
+			//指定されたパス以下にあるソースコードのパスをすべて取得します
+			var targetFiles = AspectAdaptor.Collect(filePath);
+
 			foreach (var file in targetFiles) {
-				var fileExtension = Path.GetExtension(filePath);
-				//TODO ソースコード以外のファイルだった場合にはcontinue
+				var fileExtension = Path.GetExtension(file);
+				//対象言語のソースコードでない場合はコンティニュー
+				if(Array.IndexOf(TargetLanguage, fileExtension) < 0) //TODO これでフィルタリングが正しいか確認
+					continue;
+
 				var code = File.ReadAllText(file, XEncoding.SJIS);
 				var model = CodeProcessor.CreateModel(fileExtension, code);
 				
-				//TODO 第一引数はJavaなどの、拡張子名ではなくて言語名
-				AspectAdaptor.Weave(fileExtension, model, visitor);
-				//TODO 出力処理 or ファイル書き出し処理
+				//TODO もっとスマートな変換を考える(そもそも変換しない方法も検討する)
+				string langType;
+				switch(fileExtension) {
+					case ".java":
+						langType = "Java";
+						break;
+					case ".js":
+						langType = "JavaScript";
+						break;
+					default:
+						throw new NotImplementedException();
+				}
+
+				//アスペクトの合成を行う
+				AspectAdaptor.Weave(langType, model, visitor);
+
+				//とりえあず標準出力に表示);
+				switch(langType) {
+					case "Java":
+						Console.WriteLine(JavaFactory.GenerateCode(model));
+						break;
+					case "JavaScript":
+						Console.WriteLine(JavaScriptFactory.GenerateCode(model));
+						break;
+					default:
+						throw new NotImplementedException();
+				}
 			}
 		}
 	}
