@@ -16,6 +16,9 @@
 
 #endregion
 
+using System;
+using Unicoen.Core.Processor;
+
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedPackageBase : UnifiedExpressionWithBlock {
 		protected UnifiedAnnotationCollection _annotations;
@@ -84,5 +87,18 @@ namespace Unicoen.Core.Model {
 		}
 
 		public abstract T CreateSelf();
+
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException("You should override this method.");
+		}
+
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException("You should override this method.");
+		}
 			}
 }
