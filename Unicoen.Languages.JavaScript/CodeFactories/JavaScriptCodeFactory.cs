@@ -146,7 +146,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 						arg.Write(";");
 					arg.Write(decoration.Delimiter);
 				}
-				//TODO �����ŃC���f���g��P�߂�����
+				//TODO
 				arg.WriteIndent();
 				arg.Write(decoration.MostRight);
 				return false;
@@ -201,36 +201,26 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedModifier element, VisitorArgument arg) {
-			//JavaScript�ł͏C���q�͏o�����Ȃ�
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedImport element, VisitorArgument arg) {
-			//JavaScript�ł͊O���t�@�C���ǂݍ��ݕ��͏o�����Ȃ�
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedConstructorDefinition element, VisitorArgument arg) {
-			//JavaScript�ł̓R���X�g���N�^�錾�͏o�����Ȃ�
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedProgram element, VisitorArgument arg) {
 			foreach (var sourceElement in element) {
-				//TODO sourceElement�͊�{�I�ɉ��s���Ă悢�Ǝv���邪�ǂ���
+				//TODO sourceElement
 				if (sourceElement.TryAccept(this, arg))
 					arg.WriteLine(";");
 			}
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedClassDefinition element, VisitorArgument arg) {
-			//JavaScript�̏ꍇ�̓I�u�W�F�N�g�錾��\���܂�
-			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
 
@@ -300,7 +290,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			arg.Write("while(");
 			element.Condition.TryAccept(this, arg);
-			//TODO �Z�~�R�������t���Ȃ����Ƃ���e����邪�ǂ����邩
+			//TODO
 			arg.Write(");");
 			return false;
 		}
@@ -314,13 +304,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedTypeArgument element, VisitorArgument arg) {
-			//JavaScript�ł͌^�����͏o�����Ȃ�
+			//JavaScript
 			return false;
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
-			//JavaScript�ł͌^�����͏o�����Ȃ�
+			//JavaScript
 			return false;
 		}
 
@@ -353,8 +343,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.Write(GetKeyword(element.Kind));
 			if (element.Value != null) {
 				arg.WriteSpace();
-				//return a,b;�̂悤�ȍۂ�value��UnifiedBlock�ł��邪�A
-				//"{}"��t������ƃG���[�ɂȂ�̂ł��̂��߂̑΍�
 				element.Value.TryAccept(this, arg.Set(CommaDelimiter));
 			}
 			return true;
@@ -368,8 +356,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				arg.Write("with");
 				break;
 			default:
-				//JavaScript�ł�with���̂ݎg�p�\
-				//TODO ���̌��ꃂ�f���̕ϊ��̍ۂɁAsynchronized�Ȃǂ�������ǂ��Ώ�����̂�
+				//TODO
 				throw new ArgumentOutOfRangeException();
 			}
 			if (element.Value != null) {
@@ -378,7 +365,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				arg.Write(")");
 			}
 
-			//TODO �Ȃ�element.Body.TryAccept���Ȃ��̂�(Java����̗��p)
+			//TODO
 			arg.WriteLine("{");
 			arg = arg.IncrementDepth();
 			foreach (var stmt in element.Body) {
@@ -401,7 +388,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
-			//JavaScript�ł�catch�߂̗񋓂͏o�����Ȃ�
+			//JavaScript
 			throw new NotImplementedException();
 		}
 
@@ -426,25 +413,25 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedTypeConstrain element, VisitorArgument arg) {
-			//JavaScript�ł͌p����������ʎq�͏o�����Ȃ�(?)
+			//JavaScript
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
-			//JavaScript�ł͌p����������ʎq�͏o�����Ȃ�(?)
+			//JavaScript
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedTypeParameter element, VisitorArgument arg) {
-			//JavaScript�ł͌^�p�����[�^�͏o�����Ȃ�
+			//JavaScript
 			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedTypeSupplement element, VisitorArgument arg) {
-			//JavaScript�ł͌^�錾����'[]'�͏o�����Ȃ�
+			//JavaScript
 			throw new NotImplementedException();
 		}
 
@@ -486,6 +473,10 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedCharLiteral element, VisitorArgument arg) {
 			arg.Write(element.Value);
 			return false;
+		}
+
+		public bool Visit(UnifiedNamespace element, VisitorArgument arg) {
+			throw new NotImplementedException();
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
@@ -534,9 +525,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedDictonary element, VisitorArgument arg) {
+				UnifiedDictionary element, VisitorArgument arg) {
 			arg.Write("{");
-			element.KeyValues.TryAccept(this, arg.Set(CommaDelimiter));
+			VisitCollection(element, arg.Set(CommaDelimiter));
 			arg.WriteIndent();
 			arg.Write("}");
 			return false;

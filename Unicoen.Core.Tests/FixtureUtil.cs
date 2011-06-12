@@ -21,7 +21,8 @@ using System.Linq;
 
 namespace Unicoen.Core.Tests {
 	public static class FixtureUtil {
-		public static string FixturePath = Path.Combine("..", "..", "fixture");
+		public static string RootPaht = Path.Combine("..", "..");
+		public static string FixturePath = Path.Combine(RootPaht, "fixture");
 		public const string AopExpectationName = "aspect_expectation";
 		public const string ExpectationName = "expectation";
 		public const string InputName = "input";

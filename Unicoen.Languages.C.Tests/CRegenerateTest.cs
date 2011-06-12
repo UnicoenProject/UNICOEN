@@ -20,7 +20,7 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-	[Ignore, TestFixture]
+	[TestFixture]
 	public class CRegenerateTest : RegenerateTest {
 		private readonly Fixture _fixture = new CFixture();
 
@@ -69,7 +69,7 @@ namespace Unicoen.Languages.C.Tests {
 		///   モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
+		[Ignore, Test, TestCaseSource("TestCodes")]
 		public override void CompareModelUsingCode(string code) {
 			base.CompareModelUsingCode(code);
 		}
@@ -92,7 +92,7 @@ namespace Unicoen.Languages.C.Tests {
 		///   モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name = "orgPath">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
+		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public override void CompareModelUsingFile(string orgPath) {
 			base.CompareModelUsingFile(orgPath);
 		}

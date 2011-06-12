@@ -18,7 +18,6 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
@@ -69,30 +68,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		public override string Generate(IUnifiedElement model, TextWriter writer) {
 			return Generate(model, writer, "\t");
-		}
-
-		private static string GetKeyword(UnifiedClassKind kind) {
-			switch (kind) {
-			case UnifiedClassKind.Class:
-				return "class";
-			case UnifiedClassKind.Interface:
-				return "class";
-			case UnifiedClassKind.Namespace:
-				return null;
-			case UnifiedClassKind.Enum:
-				return "class";
-			case UnifiedClassKind.Module:
-				return "class";
-			case UnifiedClassKind.Annotation:
-				return "class";
-			case UnifiedClassKind.Struct:
-				return "class";
-			case UnifiedClassKind.Union:
-				return "class";
-			default:
-				throw new ArgumentOutOfRangeException("kind");
-			}
-			return null;
 		}
 
 		private static string GetKeyword(UnifiedSpecialExpressionKind kind) {
@@ -150,20 +125,21 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedClassDefinition element, VisitorArgument arg) {
-			var keyword = GetKeyword(element.Kind);
-			if (element.Kind == UnifiedClassKind.Namespace) {
-				// パッケージはディレクトリ構造で表現
-				arg.Write("# ");
-				element.Modifiers.TryAccept(this, arg);
-				arg.Write(keyword);
-				arg.WriteSpace();
-				element.Name.TryAccept(this, arg);
-				return false;
-			}
+				UnifiedNamespace element, VisitorArgument arg) {
+			// パッケージはディレクトリ構造で表現
+			arg.Write("# ");
+			element.Modifiers.TryAccept(this, arg);
+			arg.Write("package");
+			arg.WriteSpace();
+			element.Name.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedClass element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
-			arg.Write(keyword);
+			arg.Write("class");
 			arg.WriteSpace();
 			element.Name.TryAccept(this, arg);
 			arg.Write(":");
@@ -454,9 +430,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			case UnifiedConstructorDefinitionKind.Constructor:
 				element.Modifiers.TryAccept(this, arg);
 				element.TypeParameters.TryAccept(this, arg);
-				var p = element.Ancestors()
-						.First(e => e is UnifiedClassDefinition);
-				((UnifiedClassDefinition)p).Name.Accept(this, arg);
 				element.Parameters.TryAccept(this, arg);
 				element.Body.TryAccept(this, arg);
 				break;
@@ -585,12 +558,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedList element, VisitorArgument arg) {
-			element.Elements.TryAccept(this, arg);
-			return false;
-		}
-
-		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedKeyValue element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
@@ -601,7 +568,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
-				UnifiedDictonary element, VisitorArgument arg) {
+				UnifiedDictionary element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 

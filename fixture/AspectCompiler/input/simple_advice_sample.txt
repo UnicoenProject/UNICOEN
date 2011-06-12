@@ -1,0 +1,10 @@
+aspect Logger {
+    before : move() {
+        @Java{ System.out.println("move"); }end
+    }
+
+    after : allMethod() {
+        @Java { System.out.println("execution"); }end
+        @JavaScript { alert("execution"); }end
+    }
+}

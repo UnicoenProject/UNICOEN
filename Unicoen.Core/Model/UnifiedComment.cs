@@ -26,7 +26,7 @@ namespace Unicoen.Core.Model {
 		/// <summary>
 		///   コメントの文字列表現です．
 		/// </summary>
-		public string Comment { get; set; }
+		public string Content { get; set; }
 
 		private UnifiedComment() {}
 
@@ -36,17 +36,17 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedComment Create(string comment) {
-			return new UnifiedComment { Comment = comment };
+			return new UnifiedComment { Content = comment };
 		}
 	}
 }

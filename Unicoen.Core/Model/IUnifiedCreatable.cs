@@ -17,11 +17,8 @@
 #endregion
 
 namespace Unicoen.Core.Model {
-	public enum UnifiedListKind {
-		List,
-		LazyList,
-		Tuple,
-		Array,
-		Set,
-	}
+	public interface IUnifiedCreatable<out TSelf> : IUnifiedElement
+			where TSelf : IUnifiedCreatable<TSelf> {
+		TSelf CreateSelf();
+			}
 }

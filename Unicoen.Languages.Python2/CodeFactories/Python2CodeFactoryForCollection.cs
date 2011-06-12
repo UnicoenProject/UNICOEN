@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
@@ -169,8 +170,8 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			var klass = element.GrandParent() as UnifiedClassDefinition;
-			if (klass != null && klass.Kind == UnifiedClassKind.Enum) {
+			var klass = element.GrandParent() as UnifiedEnum;
+			if (klass != null) {
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {
 				VisitCollection(element, arg.Set(SemiColonDelimiter));
@@ -182,6 +183,72 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 				UnifiedSimpleType element, VisitorArgument arg) {
 			element.NameExpression.TryAccept(this, arg);
 			return true;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedList element, VisitorArgument arg) {
+			VisitCollection(element, arg);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedIterable element, VisitorArgument arg) {
+			VisitCollection(element, arg);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedArray element, VisitorArgument arg) {
+			VisitCollection(element, arg);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedSet element, VisitorArgument arg) {
+			VisitCollection(element, arg);
+			return false;
+		}
+
+		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
+				UnifiedTuple element, VisitorArgument arg) {
+			VisitCollection(element, arg);
+			return false;
+		}
+
+		public bool Visit(UnifiedIterableComprehension element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedSetComprehension element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedInterface element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedClass element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedStruct element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedEnum element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedModule element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedUnion element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public bool Visit(UnifiedAnnotationDefinition element, VisitorArgument arg) {
+			throw new NotImplementedException();
 		}
 	}
 }

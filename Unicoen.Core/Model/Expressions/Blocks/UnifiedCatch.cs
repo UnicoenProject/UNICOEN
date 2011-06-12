@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   catch節を表します。
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
-	public class UnifiedCatch : UnifiedExpressionWithBlock<UnifiedCatch> {
+	public class UnifiedCatch : UnifiedExpressionWithBlock {
 		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>
@@ -43,17 +43,17 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedCatch Create(
-				UnifiedMatcherCollection matchers = null, 
+				UnifiedMatcherCollection matchers = null,
 				UnifiedBlock body = null) {
 			return new UnifiedCatch {
 					Matchers = matchers,

@@ -20,25 +20,11 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
-using ICSharpCode.NRefactory.TypeSystem;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	internal partial class NRefactoryModelVisitor {
 		#region Lookups
-
-		private static UnifiedClassKind LookupClassKind(ClassType type) {
-			switch (type) {
-			case ClassType.Class:
-				return UnifiedClassKind.Class;
-			case ClassType.Struct:
-				return UnifiedClassKind.Struct;
-			case ClassType.Interface:
-				return UnifiedClassKind.Interface;
-			}
-			throw new InvalidOperationException(
-					"LookupClassKind : " + type + "には対応していません。");
-		}
 
 		private static UnifiedModifierCollection LookupModifier(Modifiers mods) {
 			Contract.Ensures(Contract.Result<UnifiedModifierCollection>() != null);
@@ -139,7 +125,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedStringLiteral.Create(
 						(string)value);
 			if (value is int)
-				return UnifiedIntegerLiteral.Create((int)value, UnifiedIntegerLiteralKind.Int32);
+				return UnifiedIntegerLiteral.Create(
+						(int)value, UnifiedIntegerLiteralKind.Int32);
 
 			throw new NotImplementedException("ParseValue");
 		}

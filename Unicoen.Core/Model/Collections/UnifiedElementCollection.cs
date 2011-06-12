@@ -26,7 +26,8 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedElementCollection<TElement, TSelf>
-			: UnifiedElement, IUnifiedElementCollection<TElement>
+			: UnifiedElement, IUnifiedCreatable<TSelf>,
+			  IUnifiedElementCollection<TElement>
 			where TElement : class, IUnifiedElement
 			where TSelf : UnifiedElementCollection<TElement, TSelf> {
 		protected List<TElement> Elements;
@@ -36,23 +37,17 @@ namespace Unicoen.Core.Model {
 			Elements = new List<TElement>();
 		}
 
-		protected UnifiedElementCollection(IEnumerable<TElement> elements)
-				: this() {
-			if (elements == null) return;
-			foreach (var element in elements) {
-				Add(element);
-			}
-		}
+		public abstract TSelf CreateSelf();
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
+				TData arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException("You should override this method.");
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException("You should override this method.");
 		}
@@ -224,6 +219,24 @@ namespace Unicoen.Core.Model {
 					return element;
 			}
 			return this;
+		}
+
+		public static TSelf Create() {
+			return UnifiedFactory<TSelf>.Create();
+		}
+
+		public static TSelf Create(params TElement[] elements) {
+			var ret = UnifiedFactory<TSelf>.Create();
+			if (elements != null)
+				ret.AddRange(elements);
+			return ret;
+		}
+
+		public static TSelf Create(IEnumerable<TElement> elements) {
+			var ret = UnifiedFactory<TSelf>.Create();
+			if (elements != null)
+				ret.AddRange(elements);
+			return ret;
 		}
 			}
 }

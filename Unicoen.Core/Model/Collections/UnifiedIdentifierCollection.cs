@@ -23,13 +23,12 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	/// </summary>
 	public class UnifiedIdentifierCollection
-			: UnifiedElementCollection
-			  		<UnifiedIdentifier, UnifiedIdentifierCollection> {
-		private UnifiedIdentifierCollection() {}
+			: UnifiedElementCollection<UnifiedIdentifier, UnifiedIdentifierCollection> {
+		public override UnifiedIdentifierCollection CreateSelf() {
+			return new UnifiedIdentifierCollection();
+		}
 
-		private UnifiedIdentifierCollection(
-				IEnumerable<UnifiedIdentifier> elements)
-				: base(elements) {}
+		protected UnifiedIdentifierCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -37,31 +36,17 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
 			return this;
 		}
-
-		public static UnifiedIdentifierCollection Create() {
-			return new UnifiedIdentifierCollection();
-		}
-
-		public static UnifiedIdentifierCollection Create(
-				params UnifiedIdentifier[] elements) {
-			return new UnifiedIdentifierCollection(elements);
-		}
-
-		public static UnifiedIdentifierCollection Create(
-				IEnumerable<UnifiedIdentifier> elements) {
-			return new UnifiedIdentifierCollection(elements);
-		}
-			  		}
+			}
 }

@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -26,10 +25,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedCatchCollection
 			: UnifiedElementCollection<UnifiedCatch, UnifiedCatchCollection> {
-		private UnifiedCatchCollection() {}
+		public override UnifiedCatchCollection CreateSelf() {
+			return new UnifiedCatchCollection();
+		}
 
-		private UnifiedCatchCollection(IEnumerable<UnifiedCatch> elements)
-				: base(elements) {}
+		protected UnifiedCatchCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -37,26 +37,13 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedCatchCollection Create() {
-			return new UnifiedCatchCollection();
-		}
-
-		public static UnifiedCatchCollection Create(params UnifiedCatch[] elements) {
-			return new UnifiedCatchCollection(elements);
-		}
-
-		public static UnifiedCatchCollection Create(
-				IEnumerable<UnifiedCatch> elements) {
-			return new UnifiedCatchCollection(elements);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 			}
 }

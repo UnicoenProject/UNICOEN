@@ -16,10 +16,7 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -32,11 +29,15 @@ namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
 		private const string CompileCommand = "java";
 
-		private readonly string[] _compileArguments = new[] {
-				"-cp",
-				"..\\..\\lib\\js.jar",
-				"org.mozilla.javascript.tools.jsc.Main"
-		};
+		private readonly string[] _compileArguments;
+
+		public JavaScriptFixture() {
+			_compileArguments = new[] {
+					"-cp",
+					SetUpRhino(),
+					"org.mozilla.javascript.tools.jsc.Main"
+			};
+		}
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
@@ -92,7 +93,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						.Select(
 								s =>
 								new TestCaseData(
-										FixtureUtil.GetInputPath("JavaScript", s + Extension)));
+										FixtureUtil.GetInputPath(LanguageName, s + Extension)));
 			}
 		}
 
@@ -116,7 +117,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				}
 						.Select(
 								o => new TestCaseData(
-								     		FixtureUtil.GetInputPath("JavaScript", o.DirName),
+								     		FixtureUtil.GetInputPath(LanguageName, o.DirName),
 								     		o.Command, o.Arguments));
 			}
 		}
@@ -134,6 +135,19 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(dirPath, CompileCommand, arguments);
+		}
+
+		private string SetUpRhino() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "Rhino");
+			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
+			if (Directory.Exists(path))
+				return jarPath;
+			var zipPath = Path.Combine(path, "rhino.zip");
+			Directory.CreateDirectory(path);
+			FixtureManager.Download(
+					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", zipPath);
+			FixtureManager.Unzip(zipPath);
+			return jarPath;
 		}
 	}
 }

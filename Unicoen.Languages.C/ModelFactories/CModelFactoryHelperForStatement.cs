@@ -25,23 +25,37 @@ using Unicoen.Core.Model;
 namespace Unicoen.Languages.C.ModelFactories {
 	// for Statement
 	public static partial class CModelFactoryHelper {
-		public static IUnifiedElement CreateStatement(XElement node) {
+		public static IUnifiedExpression CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
-			/*
-			statement
-			: labeled_statement
-			| compound_statement
-			| expression_statement
-			| selection_statement
-			| iteration_statement
-			| jump_statement
+			/* statement
+			 * : labeled_statement
+			 * | compound_statement
+			 * | expression_statement
+			 * | selection_statement
+			 * | iteration_statement
+			 * | jump_statement
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			var firstElement = node.FirstElement();
+			switch (firstElement.Name.LocalName) {
+			case "labeled_statement":
+				return CreateLabeledStatement(firstElement);
+			case "compound_statement":
+				return CreateCompoundStatement(firstElement);
+			case "expression_statement":
+				return CreateExpressionStatement(firstElement);
+			case "selection_statement":
+				return CreateSelectionStatement(firstElement);
+			case "iteration_statement":
+				return CreateIterationStatement(firstElement);
+			case "jump_statement":
+				return CreateJumpStatement(firstElement);
+			default:
+				throw new InvalidOperationException();
+			}
 		}
 
-		public static IUnifiedElement CreateLabeledStatement(XElement node) {
+		public static IUnifiedExpression CreateLabeledStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labeled_statement");
 			/*
@@ -54,29 +68,40 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateCompoundStatement(XElement node) {
+		public static UnifiedBlock CreateCompoundStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "compound_statement");
-			/*
-			compound_statement
-			: '{' declaration* statement_list? '}'
+			/* compound_statement
+			 * : '{' declaration* statement_list? '}'
 			 */
 
-			throw new NotImplementedException(); //TODO: implement
+			var block = UnifiedBlock.Create();
+			foreach (var declaration in node.Elements("declaration")) {
+				block.Add(CreateDeclaration(declaration));
+			}
+			var statementList = node.Element("statement_list");
+			if (statementList != null) {
+				foreach (var statement in CreateStatementList(statementList)) {
+					block.Add(statement);
+				}
+			}
+			return block;
 		}
 
-		public static IUnifiedElement CreateStatementList(XElement node) {
+		public static UnifiedExpressionCollection CreateStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
-			/*
-			statement_list
-			: statement+
+			/* statement_list
+			 * : statement+
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			var statementList = UnifiedExpressionCollection.Create();
+			foreach (var statement in node.Elements("statement_list")) {
+				statementList.Add(CreateStatement(statement));
+			}
+			return statementList;
 		}
 
-		public static IUnifiedElement CreateExpressionStatement(XElement node) {
+		public static IUnifiedExpression CreateExpressionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression_statement");
 			/*
@@ -88,7 +113,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateSelectionStatement(XElement node) {
+		public static IUnifiedExpression CreateSelectionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "selection_statement");
 			/*
@@ -100,7 +125,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateIterationStatement(XElement node) {
+		public static IUnifiedExpression CreateIterationStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iteration_statement");
 			/*
@@ -113,19 +138,39 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateJumpStatement(XElement node) {
+		public static IUnifiedExpression CreateJumpStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "jump_statement");
-			/*
-			jump_statement
-			: 'goto' IDENTIFIER ';'
-			| 'continue' ';'
-			| 'break' ';'
-			| 'return' ';'
-			| 'return' expression ';'
+			/* jump_statement
+			 * : 'goto' IDENTIFIER ';'
+			 * | 'continue' ';'
+			 * | 'break' ';'
+			 * | 'return' ';'
+			 * | 'return' expression ';'
 			 */
+			var firstElement = node.FirstElement();
+			switch (firstElement.Value) {
+			case "goto":
 
-			throw new NotImplementedException(); //TODO: implement
+			case "continue":
+				return UnifiedSpecialExpression.Create(
+						UnifiedSpecialExpressionKind.Continue);
+			case "break":
+				return UnifiedSpecialExpression.Create(
+						UnifiedSpecialExpressionKind.Break);
+
+			case "return":
+				var expression = node.Element("expression");
+				if (expression != null) {
+					return UnifiedSpecialExpression.Create(
+							UnifiedSpecialExpressionKind.Return, CreateExpression(expression));
+				} else {
+					return UnifiedSpecialExpression.Create(
+							UnifiedSpecialExpressionKind.Return);
+				}
+			default:
+				throw new InvalidOperationException();
+			}
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   do-while文を表します。
 	///   e.g. Javaにおける<c>do{...}while(cond)</c>
 	/// </summary>
-	public class UnifiedDoWhile : UnifiedExpressionWithBlock<UnifiedDoWhile> {
+	public class UnifiedDoWhile : UnifiedExpressionWithBlock {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
@@ -50,13 +50,13 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedDoWhile Create(

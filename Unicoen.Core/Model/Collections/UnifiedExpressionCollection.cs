@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -25,11 +24,11 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedExpressionCollection
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection> {
-		protected UnifiedExpressionCollection() {}
+		public override UnifiedExpressionCollection CreateSelf() {
+			return new UnifiedExpressionCollection();
+		}
 
-		protected UnifiedExpressionCollection(
-				IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
+		protected UnifiedExpressionCollection() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -37,36 +36,13 @@ namespace Unicoen.Core.Model {
 
 		public override void Accept<TData>(
 				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
+				TData arg) {
+			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
-		}
-
-		//public override IUnifiedElement Normalize()
-		//{
-		//    NormalizeChildren();
-		//    if (Elements.Count == 1) {
-		//        return Elements[0];
-		//    }
-		//    return this;
-		//}
-
-		public static UnifiedExpressionCollection Create() {
-			return new UnifiedExpressionCollection();
-		}
-
-		public static UnifiedExpressionCollection Create(
-				params IUnifiedExpression[] elements) {
-			return new UnifiedExpressionCollection(elements);
-		}
-
-		public static UnifiedExpressionCollection Create(
-				IEnumerable<IUnifiedExpression> elements) {
-			return new UnifiedExpressionCollection(elements);
+				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
+			return visitor.Visit(this, arg);
 		}
 			}
 }
