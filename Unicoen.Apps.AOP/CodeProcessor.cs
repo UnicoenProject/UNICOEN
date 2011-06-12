@@ -27,6 +27,7 @@ using Unicoen.Core.Model;
 using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.JavaScript.ModelFactories;
 
 namespace Unicoen.Apps.Aop {
@@ -46,6 +47,8 @@ namespace Unicoen.Apps.Aop {
 				return CSharpFactory.GenerateModel(code);
 			case ".java":
 				return JavaFactory.GenerateModel(code);
+			case ".js":
+				return JavaScriptFactory.GenerateModel(code);
 			}
 			//TODO implement 他の言語についても実装する
 			throw new NotImplementedException();
@@ -249,7 +252,8 @@ namespace Unicoen.Apps.Aop {
 				var m = regex.Match(functionName.Value);
 				if (!m.Success)
 					continue;
-
+				
+				//TODO JavaScriptの場合に親がブロックではない場合があるので、それに対応できるようにする
 				var block = call.Parent as UnifiedBlock;
 				if (block == null)
 					continue;

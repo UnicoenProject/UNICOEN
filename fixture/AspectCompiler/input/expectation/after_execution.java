@@ -4,15 +4,14 @@ public class Sample {
 
     public Sample(int x) {
         this.x = x;
-        {System.out.println("executed");}
     }
 
     public int getX() {
+        {System.out.println("executed");}
         return x;
     }
 
     public static void main(String[] args) {
-        Sample instance = new Sample(3);
         getX();
     }
 

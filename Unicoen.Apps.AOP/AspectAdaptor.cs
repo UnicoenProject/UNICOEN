@@ -16,7 +16,11 @@ namespace Unicoen.Apps.Aop
 		private static Dictionary<string, Pointcut> Pointcuts =
 				new Dictionary<string, Pointcut>();
 
+		//TODO 引数に言語の種類を指定せずに、ファイルパスを渡して中でモデルを作成することを検討する
 		public static void Weave(string language, UnifiedProgram model, AstVisitor visitor) {
+			//以前のアスペクトファイルの情報を消去するために辞書の内容を初期化する
+			Pointcuts.Clear();
+
 			//与えられたモデルに対してインタータイプを合成する
 			foreach(var intertype in visitor.Intertypes) {
 				//TODO implement インタータイプ合成メソッドの実装
@@ -60,31 +64,31 @@ namespace Unicoen.Apps.Aop
 
 				//ポイントカットの指定に応じて適切なアドバイスの合成処理を行う
 				//TODO ワイルドカードなどへの対応
+				//TODO 複数のターゲットを持つポイントカットへの対応(これはそもそもパーサを改良する必要あり)
 				switch (advice.GetAdviceType()) {
 					case "before":
 						if(target.GetPointcutType().Equals("execution")) {
-							//TODO バグ：クラス名と関数名の両者でのマッチングを行う
-							foreach (var function in target.GetTargetName()) {
-								CodeProcessor.InsertAtBeforeExecutionByName(model, function, code);
-							}
+							//とりあえずメソッド名だけを抜き出して合成
+							var methodName = target.GetTargetName().ElementAt(1);
+							CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, code);
 						}
 						else { //call
-							foreach (var call in target.GetTargetName()) {
-								CodeProcessor.InsertAtBeforeCallByName(model, call, code);
-							}
+							//とりあえずメソッド名だけを抜き出して合成
+							var methodName = target.GetTargetName().ElementAt(1);
+							CodeProcessor.InsertAtBeforeCallByName(model, methodName, code);
 						}
 						break;
 
 					case "after":
 						if(target.GetPointcutType().Equals("execution")) {
-							foreach (var function in target.GetTargetName()) {
-								CodeProcessor.InsertAtAfterExecutionByName(model, function, code);
-							}
+							//とりあえずメソッド名だけを抜き出して合成
+							var methodName = target.GetTargetName().ElementAt(1);
+							CodeProcessor.InsertAtAfterExecutionByName(model, methodName, code);
 						}
 						else { //call
-							foreach (var call in target.GetTargetName()) {
-								CodeProcessor.InsertAtAfterCallByName(model, call, code);
-							}
+							//とりあえずメソッド名だけを抜き出して合成
+							var methodName = target.GetTargetName().ElementAt(1);
+							CodeProcessor.InsertAtAfterCallByName(model, methodName, code);
 						}
 						break;
 

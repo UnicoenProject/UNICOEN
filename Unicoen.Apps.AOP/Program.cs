@@ -65,7 +65,8 @@ namespace Unicoen.Apps.Aop {
 				//TODO ソースコード以外のファイルだった場合にはcontinue
 				var code = File.ReadAllText(file, XEncoding.SJIS);
 				var model = CodeProcessor.CreateModel(fileExtension, code);
-
+				
+				//TODO 第一引数はJavaなどの、拡張子名ではなくて言語名
 				AspectAdaptor.Weave(fileExtension, model, visitor);
 				//TODO 出力処理 or ファイル書き出し処理
 			}
