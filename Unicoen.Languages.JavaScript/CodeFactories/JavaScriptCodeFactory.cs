@@ -527,7 +527,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedModelVisitor<VisitorArgument, bool>.Visit(
 				UnifiedDictionary element, VisitorArgument arg) {
 			arg.Write("{");
-			element.TryAccept(this, arg.Set(CommaDelimiter));
+			VisitCollection(element, arg.Set(CommaDelimiter));
 			arg.WriteIndent();
 			arg.Write("}");
 			return false;
