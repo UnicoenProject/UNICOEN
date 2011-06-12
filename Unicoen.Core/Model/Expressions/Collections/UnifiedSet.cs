@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -25,12 +24,12 @@ namespace Unicoen.Core.Model {
 			  IUnifiedExpression {
 		protected UnifiedSet() {}
 
-		protected UnifiedSet(
-				IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
-
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public override UnifiedSet CreateSelf() {
+			return new UnifiedSet();
 		}
 
 		public override void Accept<TData>(
@@ -41,18 +40,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
 			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedSet Create() {
-			return new UnifiedSet();
-		}
-
-		public static UnifiedSet Create(params IUnifiedExpression[] elements) {
-			return new UnifiedSet(elements);
-		}
-
-		public static UnifiedSet Create(IEnumerable<IUnifiedExpression> elements) {
-			return new UnifiedSet(elements);
 		}
 			  }
 }

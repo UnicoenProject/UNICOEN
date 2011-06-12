@@ -22,26 +22,21 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   辞書リテラルを表します．
 	/// </summary>
-	public class UnifiedDictonary : UnifiedElement, IUnifiedExpression {
-		private UnifiedKeyValueCollection _keyValues;
-
-		/// <summary>
-		///   辞書を構成する要素の集合を表します．
-		/// </summary>
-		public UnifiedKeyValueCollection KeyValues {
-			get { return _keyValues; }
-			set { _keyValues = SetChild(value, _keyValues); }
-		}
-
-		private UnifiedDictonary() {}
+	public class UnifiedDictonary
+			: UnifiedElementCollection<UnifiedKeyValue, UnifiedDictonary>,
+			  IUnifiedExpression {
+		protected UnifiedDictonary() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		public override UnifiedDictonary CreateSelf() {
+			return new UnifiedDictonary();
+		}
+
 		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData arg) {
+				IUnifiedModelVisitor<TData> visitor, TData arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -49,12 +44,5 @@ namespace Unicoen.Core.Model {
 				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
 			return visitor.Visit(this, arg);
 		}
-
-		public static UnifiedDictonary Create(
-				UnifiedKeyValueCollection keyValues = null) {
-			return new UnifiedDictonary {
-					KeyValues = keyValues,
-			};
-		}
-	}
+			  }
 }

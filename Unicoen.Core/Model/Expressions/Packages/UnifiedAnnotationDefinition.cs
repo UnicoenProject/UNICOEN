@@ -23,8 +23,9 @@ namespace Unicoen.Core.Model {
 	///   クラスの定義部分を表します。
 	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
-	public class UnifiedAnnotationDefinition : UnifiedPackageBase {
-		private UnifiedAnnotationDefinition() { }
+	public class UnifiedAnnotationDefinition
+			: UnifiedPackageBase<UnifiedAnnotationDefinition> {
+		protected UnifiedAnnotationDefinition() {}
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -40,21 +41,8 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedAnnotationDefinition Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				IUnifiedExpression name = null,
-				UnifiedTypeParameterCollection typeParameters = null,
-				UnifiedTypeConstrainCollection constrains = null,
-				UnifiedBlock body = null) {
-			return new UnifiedAnnotationDefinition {
-				Annotations = annotations,
-				Modifiers = modifiers,
-				Name = name,
-				TypeParameters = typeParameters,
-				Constrains = constrains,
-				Body = body,
-			};
+		public override UnifiedAnnotationDefinition CreateSelf() {
+			return new UnifiedAnnotationDefinition();
 		}
-	}
+			}
 }

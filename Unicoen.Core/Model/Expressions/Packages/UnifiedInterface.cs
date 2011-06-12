@@ -23,8 +23,9 @@ namespace Unicoen.Core.Model {
 	///   クラスの定義部分を表します。
 	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
-	public class UnifiedInterface : UnifiedPackageBase {
-		private UnifiedInterface() {}
+	public class UnifiedInterface
+			: UnifiedPackageBase<UnifiedInterface> {
+		protected UnifiedInterface() { }
 
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
@@ -40,21 +41,8 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedInterface Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				IUnifiedExpression name = null,
-				UnifiedTypeParameterCollection typeParameters = null,
-				UnifiedTypeConstrainCollection constrains = null,
-				UnifiedBlock body = null) {
-			return new UnifiedInterface {
-					Annotations = annotations,
-					Modifiers = modifiers,
-					Name = name,
-					TypeParameters = typeParameters,
-					Constrains = constrains,
-					Body = body,
-			};
+		public override UnifiedInterface CreateSelf() {
+			return new UnifiedInterface();
 		}
 	}
 }

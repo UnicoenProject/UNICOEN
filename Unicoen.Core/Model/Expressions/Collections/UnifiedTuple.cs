@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -25,12 +24,12 @@ namespace Unicoen.Core.Model {
 			  IUnifiedExpression {
 		protected UnifiedTuple() {}
 
-		protected UnifiedTuple(
-				IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
-
 		public override void Accept(IUnifiedModelVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public override UnifiedTuple CreateSelf() {
+			return new UnifiedTuple();
 		}
 
 		public override void Accept<TData>(
@@ -41,18 +40,6 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TData, TResult>(
 				IUnifiedModelVisitor<TData, TResult> visitor, TData arg) {
 			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedTuple Create() {
-			return new UnifiedTuple();
-		}
-
-		public static UnifiedTuple Create(params IUnifiedExpression[] elements) {
-			return new UnifiedTuple(elements);
-		}
-
-		public static UnifiedTuple Create(IEnumerable<IUnifiedExpression> elements) {
-			return new UnifiedTuple(elements);
 		}
 			  }
 }

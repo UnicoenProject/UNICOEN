@@ -85,7 +85,7 @@
     <Compile Include="Model\Expressions\Packages\UnifiedEnum.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedInterface.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedModule.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedNameSpace.cs" />
+    <Compile Include="Model\Expressions\Packages\UnifiedNamespace2.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedPackageBase.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedStruct.cs" />
     <Compile Include="Model\Expressions\Packages\UnifiedUnion.cs" />
