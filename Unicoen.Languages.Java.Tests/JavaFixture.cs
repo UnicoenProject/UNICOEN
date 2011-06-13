@@ -144,7 +144,7 @@ namespace Unicoen.Languages.Java.Tests {
 			var args = new[] {
 					"-cp",
 					"\"" + path + "\";\"" + depPath + "\"",
-					"\"" + Path.Combine(path, @"org\junit\runner\*.java") + "\"",
+					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
 			};
 			var testCase = new TestCaseData(
 					path,
