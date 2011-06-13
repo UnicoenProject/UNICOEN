@@ -16,13 +16,26 @@
 
 #endregion
 
+using Unicoen.Core.Processor;
+
 namespace Unicoen.Core.Model {
-	public enum UnifiedSupplementTypeKind {
-		Const,
-		Pointer,
-		Reference,
-		Volatile,
-		Struct,
-		Union,
+	/// <summary>
+	///   Cにおける<c>int** a;</c>の<c>*</c>一個分
+	/// </summary>
+	public class UnifiedPointerType : UnifiedWrapType {
+		protected internal UnifiedPointerType() {}
+
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
+
+		public override void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
+
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 	}
 }

@@ -277,10 +277,6 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSupplementType element) {
-			throw new NotImplementedException();
-		}
-
 		void IUnifiedVisitor.Visit(UnifiedGenericType element) {
 			throw new NotImplementedException();
 		}
@@ -410,6 +406,30 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor.Visit(UnifiedSynchronized element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedConstType element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedPointerType element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedUnionType element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedStructType element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedVolatileType element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedReferenceType element) {
 			throw new NotImplementedException();
 		}
 	}
@@ -681,10 +701,6 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSupplementType element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
 		void IUnifiedVisitor<TArg>.Visit(UnifiedGenericType element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -816,6 +832,30 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor<TArg>.Visit(UnifiedSynchronized element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedConstType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedPointerType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedUnionType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedStructType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedVolatileType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedReferenceType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}
@@ -1121,11 +1161,6 @@ namespace Unicoen.Core.Processor {
 		}
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedSupplementType element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedGenericType element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1267,6 +1302,30 @@ namespace Unicoen.Core.Processor {
 		}
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSynchronized element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedConstType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedPointerType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedUnionType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedVolatileType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedStructType element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedReferenceType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}

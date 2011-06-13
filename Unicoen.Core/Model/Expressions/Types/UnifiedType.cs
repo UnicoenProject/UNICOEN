@@ -81,45 +81,39 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public UnifiedSupplementType WrapPointer() {
-			return new UnifiedSupplementType {
+		public UnifiedPointerType WrapPointer() {
+			return new UnifiedPointerType {
 					Type = this,
-					Kind = UnifiedSupplementTypeKind.Pointer,
 			};
 		}
 
-		public UnifiedSupplementType WrapReference() {
-			return new UnifiedSupplementType {
+		public UnifiedReferenceType WrapReference() {
+			return new UnifiedReferenceType {
 					Type = this,
-					Kind = UnifiedSupplementTypeKind.Reference,
 			};
 		}
 
-		public UnifiedSupplementType WrapConst() {
-			return new UnifiedSupplementType {
+		public UnifiedConstType WrapConst() {
+			return new UnifiedConstType {
 					Type = this,
-					Kind = UnifiedSupplementTypeKind.Const,
 			};
 		}
 
-		public UnifiedSupplementType WrapVolatile() {
-			return new UnifiedSupplementType {
+		public UnifiedVolatileType WrapVolatile() {
+			return new UnifiedVolatileType {
 					Type = this,
-					Kind = UnifiedSupplementTypeKind.Volatile,
 			};
 		}
 
-		public UnifiedSupplementType WrapUnion() {
-			return new UnifiedSupplementType {
+		public UnifiedUnionType WrapUnion() {
+			return new UnifiedUnionType {
 					Type = this,
-					Kind = UnifiedSupplementTypeKind.Union,
 			};
 		}
 
-		public UnifiedSupplementType WrapStruct() {
-			return new UnifiedSupplementType {
+		public UnifiedStructType WrapStruct() {
+			return new UnifiedStructType {
 					Type = this,
-					Kind = UnifiedSupplementTypeKind.Struct,
 			};
 		}
 	}

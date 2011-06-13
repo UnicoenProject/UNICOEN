@@ -105,11 +105,15 @@
     <Compile Include="Model\Expressions\Specials\UnifiedExec.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedPass.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedStringConversion.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedStructType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedUnionType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedVolatileType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedReferenceType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedPointerType.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedConstType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedWrapType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedArrayType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />
-    <Compile Include="Model\Expressions\Types\UnifiedSupplementType.cs" />
-    <Compile Include="Model\Expressions\Types\UnifiedSupplementTypeKind.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedType.cs" />
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
     <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />

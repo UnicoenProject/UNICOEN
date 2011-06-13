@@ -16,42 +16,23 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   Cにおける<c>int** a;</c>の<c>**</c>部分、
-	/// </summary>
-	public class UnifiedSupplementType : UnifiedWrapType {
-		public UnifiedSupplementTypeKind Kind { get; set; }
-		internal UnifiedSupplementType() {}
+	public class UnifiedVolatileType : UnifiedWrapType {
+		protected internal UnifiedVolatileType() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+		public override void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TResult, TArg>(
 				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
-		}
-
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			yield return Type;
-		}
-
-		public override IEnumerable<ElementReference> GetElementReferences() {
-			yield return ElementReference.Create(() => Type, v => Type = (UnifiedType)v);
-		}
-
-		public override IEnumerable<ElementReference> GetElementReferencesOfFields() {
-			yield return
-					ElementReference.Create(() => _type, v => _type = (UnifiedType)v);
 		}
 	}
 }

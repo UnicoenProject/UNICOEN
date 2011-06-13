@@ -132,81 +132,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSupplementType element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedGenericType element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSimpleType element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedArrayType element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedIterable element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedArray element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSet element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTuple element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedIterableComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedSetComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedInterface element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
 		public bool Visit(UnifiedClass element, VisitorArgument arg) {
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return true;
-		}
-
-		public bool Visit(UnifiedStruct element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedEnum element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedModule element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedUnion element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public bool Visit(UnifiedAnnotationDefinition element, VisitorArgument arg) {
-			throw new NotImplementedException();
 		}
 	}
 }

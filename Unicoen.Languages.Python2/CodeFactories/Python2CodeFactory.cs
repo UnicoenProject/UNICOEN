@@ -527,42 +527,9 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSupplementType element, VisitorArgument arg) {
-			switch (element.Kind) {
-			case UnifiedSupplementTypeKind.Const:
-				arg.Write("final ");
-				element.Type.TryAccept(this, arg);
-				break;
-			case UnifiedSupplementTypeKind.Pointer:
-				element.Type.TryAccept(this, arg);
-				arg.Write("/* * */");
-				break;
-			case UnifiedSupplementTypeKind.Reference:
-				element.Type.TryAccept(this, arg);
-				arg.Write("/* & */");
-				break;
-			case UnifiedSupplementTypeKind.Volatile:
-				arg.Write("volatile ");
-				element.Type.TryAccept(this, arg);
-				break;
-			case UnifiedSupplementTypeKind.Struct:
-				element.Type.TryAccept(this, arg);
-				break;
-			case UnifiedSupplementTypeKind.Union:
-				element.Type.TryAccept(this, arg);
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedGenericType element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
-			//arg.Write("<");
 			element.Arguments.TryAccept(this, arg);
-			//arg.Write(">");
 			return false;
 		}
 

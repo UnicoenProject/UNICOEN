@@ -84,7 +84,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedVariableDefinitionList element);
 		void Visit(UnifiedVariableDefinition element);
 		void Visit(UnifiedArrayType element);
-		void Visit(UnifiedSupplementType element);
 		void Visit(UnifiedGenericType element);
 		void Visit(UnifiedSimpleType element);
 		void Visit(UnifiedCharLiteral element);
@@ -118,6 +117,12 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedWith element);
 		void Visit(UnifiedFix element);
 		void Visit(UnifiedSynchronized element);
+		void Visit(UnifiedConstType element);
+		void Visit(UnifiedPointerType element);
+		void Visit(UnifiedUnionType element);
+		void Visit(UnifiedStructType element);
+		void Visit(UnifiedVolatileType element);
+		void Visit(UnifiedReferenceType element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -185,7 +190,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedVariableDefinitionList element, TArg arg);
 		void Visit(UnifiedVariableDefinition element, TArg arg);
 		void Visit(UnifiedArrayType element, TArg arg);
-		void Visit(UnifiedSupplementType element, TArg arg);
 		void Visit(UnifiedGenericType element, TArg arg);
 		void Visit(UnifiedSimpleType element, TArg arg);
 		void Visit(UnifiedCharLiteral element, TArg arg);
@@ -219,6 +223,12 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedWith element, TArg arg);
 		void Visit(UnifiedFix element, TArg arg);
 		void Visit(UnifiedSynchronized element, TArg arg);
+		void Visit(UnifiedConstType element, TArg arg);
+		void Visit(UnifiedPointerType element, TArg arg);
+		void Visit(UnifiedUnionType element, TArg arg);
+		void Visit(UnifiedStructType element, TArg arg);
+		void Visit(UnifiedVolatileType element, TArg arg);
+		void Visit(UnifiedReferenceType element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -286,7 +296,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedVariableDefinitionList element, TArg arg);
 		TResult Visit(UnifiedVariableDefinition element, TArg arg);
 		TResult Visit(UnifiedArrayType element, TArg arg);
-		TResult Visit(UnifiedSupplementType element, TArg arg);
 		TResult Visit(UnifiedGenericType element, TArg arg);
 		TResult Visit(UnifiedSimpleType element, TArg arg);
 		TResult Visit(UnifiedCharLiteral element, TArg arg);
@@ -320,5 +329,11 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedWith element, TArg arg);
 		TResult Visit(UnifiedFix element, TArg arg);
 		TResult Visit(UnifiedSynchronized element, TArg arg);
+		TResult Visit(UnifiedConstType element, TArg arg);
+		TResult Visit(UnifiedPointerType element, TArg arg);
+		TResult Visit(UnifiedUnionType element, TArg arg);
+		TResult Visit(UnifiedVolatileType element, TArg arg);
+		TResult Visit(UnifiedStructType element, TArg arg);
+		TResult Visit(UnifiedReferenceType element, TArg arg);
 	}
 }

@@ -252,9 +252,11 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			if (node.Elements().Count() == 2) {
 				var baseType = UnifiedType.Create(uIdent);
-				return isStruct
-				       		? baseType.WrapStruct()
-				       		: baseType.WrapUnion();
+				if (isStruct) {
+					return baseType.WrapStruct();
+				} else {
+					return baseType.WrapUnion();
+				}
 			}
 
 			var body =
