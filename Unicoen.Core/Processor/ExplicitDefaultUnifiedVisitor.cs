@@ -49,7 +49,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedFunctionDefinition element) {
+		void IUnifiedVisitor.Visit(UnifiedFunction element) {
 			throw new NotImplementedException();
 		}
 
@@ -440,6 +440,10 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor.Visit(UnifiedInstanceInitializer element) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor.Visit(UnifiedLambda element) {
+			throw new NotImplementedException();
+		}
 	}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg>
@@ -472,7 +476,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedFunctionDefinition element, TArg arg) {
+		void IUnifiedVisitor<TArg>.Visit(UnifiedFunction element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -873,6 +877,10 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor<TArg>.Visit(UnifiedInstanceInitializer element, TArg arg) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedLambda element, TArg arg) {
+			throw new NotImplementedException();
+		}
 			}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TResult, TArg>
@@ -911,7 +919,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedFunctionDefinition element, TArg arg) {
+				UnifiedFunction element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1311,43 +1319,57 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSynchronized element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedSynchronized element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedConstType element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedConstType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedPointerType element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedPointerType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedUnionType element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedUnionType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedVolatileType element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedVolatileType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedStructType element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedStructType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedReferenceType element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedReferenceType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedConstructor element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedConstructor element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedStaticInitializer element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedStaticInitializer element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedInstanceInitializer element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedInstanceInitializer element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLambda element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}

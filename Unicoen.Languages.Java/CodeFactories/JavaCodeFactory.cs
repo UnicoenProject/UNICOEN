@@ -140,7 +140,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedFunctionDefinition element, VisitorArgument arg) {
+				UnifiedFunction element, VisitorArgument arg) {
 			arg.WriteIndent();
 			element.Modifiers.TryAccept(this, arg);
 			element.TypeParameters.TryAccept(this, arg);

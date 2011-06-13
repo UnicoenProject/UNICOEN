@@ -44,7 +44,7 @@ namespace Unicoen.Applications.Metrics.Utils {
 			var outers = model.GetElements()
 					.Where(
 							e => e is UnifiedPackageBase ||
-							     e is UnifiedFunctionDefinition);
+							     e is UnifiedFunction);
 			foreach (var e in outers) {
 				var outerStr = GetOutersString(e);
 				counter[outerStr] = 0;
@@ -65,7 +65,7 @@ namespace Unicoen.Applications.Metrics.Utils {
 			if (klass != null) {
 				return "[class] " + JavaFactory.GenerateCode(klass.Name);
 			}
-			var method = element as UnifiedFunctionDefinition;
+			var method = element as UnifiedFunction;
 			if (method != null) {
 				return "[method] " + JavaFactory.GenerateCode(method.Name);
 			}

@@ -588,8 +588,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 						typeParameters,
 						throws);
 			}
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Function,
+			return UnifiedFunction.Create(
+					
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
 					type,
@@ -679,7 +679,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunctionDefinition CreateInterfaceMethodDeclaration(
+		public static UnifiedFunction CreateInterfaceMethodDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "interfaceMethodDeclaration");
@@ -705,8 +705,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			             						.Select(e => UnifiedType.Create(e)))
 			             		: null;
 
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Function,
+			return UnifiedFunction.Create(
+					
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
 					type,
