@@ -492,8 +492,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				var modifier = node.HasContent("static")
 				               		? UnifiedModifier.Create("static")
 				               		: null;
-				yield return UnifiedConstructorDefinition.Create(
-						UnifiedConstructorDefinitionKind.StaticInitializer,
+				yield return UnifiedStaticInitializer.Create(
 						CreateBlock(node.Element("block")), null,
 						UnifiedModifierCollection.Create(modifier), null, null, null);
 			}
@@ -581,9 +580,13 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								)
 								.ToBlock();
 
-				return UnifiedConstructorDefinition.Create(
-						UnifiedConstructorDefinitionKind.Constructor, block, null,
-						annotationsAndModifiers.Item2, parameters, typeParameters, throws);
+				return UnifiedConstructor.Create(
+						block,
+						annotationsAndModifiers.Item1,
+						annotationsAndModifiers.Item2, 
+						parameters,
+						typeParameters,
+						throws);
 			}
 			return UnifiedFunctionDefinition.Create(
 					UnifiedFunctionDefinitionKind.Function,
@@ -2433,7 +2436,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (node.Elements().Count() == 3) {
 				value = CreateExpression(node.Element("expression"));
 			}
-			return UnifiedReturn.Create( value);
+			return UnifiedReturn.Create(value);
 		}
 
 		private static IUnifiedExpression CreateBreak(XElement node) {

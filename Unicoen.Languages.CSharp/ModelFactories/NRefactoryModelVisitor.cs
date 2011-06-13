@@ -584,8 +584,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				uParms.Add(UnifiedParameter.Create(type: type, names: names));
 			}
 
-			return UnifiedConstructorDefinition.Create(
-				UnifiedConstructorDefinitionKind.Constructor, body: uBody, modifiers: uMods, parameters: uParms);
+			return UnifiedConstructor.Create(body: uBody, modifiers: uMods, parameters: uParms);
 		}
 
 		public IUnifiedElement VisitConstructorInitializer(

@@ -387,28 +387,27 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		// classname(identifier of constructor)...??
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedConstructorDefinition element, VisitorArgument arg) {
-			switch (element.Kind) {
-			case UnifiedConstructorDefinitionKind.Constructor:
-				element.Modifiers.TryAccept(this, arg);
-				element.TypeParameters.TryAccept(this, arg);
-				var p = element.Ancestors<UnifiedPackageBase>().First();
-				p.Name.Accept(this, arg);
-				element.Parameters.TryAccept(this, arg);
-				element.Body.TryAccept(this, arg);
-				break;
-			case UnifiedConstructorDefinitionKind.StaticInitializer:
-				arg.Write("static ");
-				element.Body.TryAccept(this, arg);
-				break;
-			case UnifiedConstructorDefinitionKind.InstanceInitializer:
-				element.Body.TryAccept(this, arg);
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
+				UnifiedConstructor element, VisitorArgument arg) {
+			element.Modifiers.TryAccept(this, arg);
+			element.TypeParameters.TryAccept(this, arg);
+			var p = element.Ancestors<UnifiedPackageBase>().First();
+			p.Name.Accept(this, arg);
+			element.Parameters.TryAccept(this, arg);
+			element.Body.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedInstanceInitializer element, VisitorArgument arg) {
+			arg.Write("static ");
+			element.Body.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedStaticInitializer element, VisitorArgument arg) {
+			element.Body.TryAccept(this, arg);
 			return false;
 		}
 

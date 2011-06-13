@@ -185,11 +185,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedConstructorDefinition element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedProgram element, VisitorArgument arg) {
 			foreach (var stmt in element) {
 				if (stmt.TryAccept(this, arg)) {

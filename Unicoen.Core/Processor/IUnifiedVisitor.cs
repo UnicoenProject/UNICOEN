@@ -35,7 +35,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedModifier element);
 		void Visit(UnifiedModifierCollection element);
 		void Visit(UnifiedImport element);
-		void Visit(UnifiedConstructorDefinition element);
 		void Visit(UnifiedProgram element);
 		void Visit(UnifiedNew element);
 		void Visit(UnifiedFor element);
@@ -123,6 +122,9 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedStructType element);
 		void Visit(UnifiedVolatileType element);
 		void Visit(UnifiedReferenceType element);
+		void Visit(UnifiedConstructor element);
+		void Visit(UnifiedStaticInitializer element);
+		void Visit(UnifiedInstanceInitializer element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -141,7 +143,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedModifier element, TArg arg);
 		void Visit(UnifiedModifierCollection element, TArg arg);
 		void Visit(UnifiedImport element, TArg arg);
-		void Visit(UnifiedConstructorDefinition element, TArg arg);
 		void Visit(UnifiedProgram element, TArg arg);
 		void Visit(UnifiedNew element, TArg arg);
 		void Visit(UnifiedFor element, TArg arg);
@@ -229,6 +230,9 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedStructType element, TArg arg);
 		void Visit(UnifiedVolatileType element, TArg arg);
 		void Visit(UnifiedReferenceType element, TArg arg);
+		void Visit(UnifiedConstructor element, TArg arg);
+		void Visit(UnifiedStaticInitializer element, TArg arg);
+		void Visit(UnifiedInstanceInitializer element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -247,7 +251,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedModifier element, TArg arg);
 		TResult Visit(UnifiedModifierCollection element, TArg arg);
 		TResult Visit(UnifiedImport element, TArg arg);
-		TResult Visit(UnifiedConstructorDefinition element, TArg arg);
 		TResult Visit(UnifiedProgram element, TArg arg);
 		TResult Visit(UnifiedNew element, TArg arg);
 		TResult Visit(UnifiedFor element, TArg arg);
@@ -335,5 +338,8 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedVolatileType element, TArg arg);
 		TResult Visit(UnifiedStructType element, TArg arg);
 		TResult Visit(UnifiedReferenceType element, TArg arg);
+		TResult Visit(UnifiedConstructor element, TArg arg);
+		TResult Visit(UnifiedStaticInitializer element, TArg arg);
+		TResult Visit(UnifiedInstanceInitializer element, TArg arg);
 	}
 }

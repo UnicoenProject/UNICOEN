@@ -185,7 +185,17 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedConstructorDefinition element, VisitorArgument arg) {
+				UnifiedConstructor element, VisitorArgument arg) {
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedInstanceInitializer element, VisitorArgument arg) {
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedStaticInitializer element, VisitorArgument arg) {
 			return false;
 		}
 

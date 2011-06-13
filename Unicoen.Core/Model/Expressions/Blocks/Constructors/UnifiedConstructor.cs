@@ -16,10 +16,27 @@
 
 #endregion
 
+using Unicoen.Core.Processor;
+
 namespace Unicoen.Core.Model {
-	public enum UnifiedConstructorDefinitionKind {
-		Constructor,
-		StaticInitializer,
-		InstanceInitializer,
+	public class UnifiedConstructor : UnifiedConstructorBase<UnifiedConstructor> {
+		protected UnifiedConstructor() {}
+
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
+
+		public override void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
+
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+
+		public override UnifiedConstructor CreateSelf() {
+			return new UnifiedConstructor();
+		}
 	}
 }

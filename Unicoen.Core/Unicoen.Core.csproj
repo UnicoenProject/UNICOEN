@@ -72,6 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
+    <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
+    <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
+    <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructorBase.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFix.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedSynchronized.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedWith.cs" />
@@ -134,7 +138,6 @@
     <Compile Include="Model\Collections\UnifiedMatcherCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
@@ -163,7 +166,6 @@
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCall.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedDoWhile.cs" />
     <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCast.cs" />

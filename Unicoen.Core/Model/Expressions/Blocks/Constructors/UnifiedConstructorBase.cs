@@ -16,18 +16,15 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
-
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   コンストラクタの定義部分を表します。
 	///   e.g. Javaにおける<c>class C{ C(){...} }</c>の<c>C(){...}</c>
 	/// </summary>
-	public class UnifiedConstructorDefinition
-			: UnifiedExpressionWithBlock {
-		public UnifiedConstructorDefinitionKind Kind { get; set; }
-
-		private UnifiedAnnotationCollection _annotations;
+	public abstract class UnifiedConstructorBase<TSelf>
+			: UnifiedExpressionWithBlock, IUnifiedCreatable<TSelf>
+			where TSelf : UnifiedConstructorBase<TSelf> {
+		protected UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -37,68 +34,53 @@ namespace Unicoen.Core.Model {
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
+		protected UnifiedModifierCollection _modifiers;
 
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
-		private UnifiedParameterCollection _parameters;
+		protected UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		private UnifiedTypeParameterCollection _typeParameters;
+		protected UnifiedTypeParameterCollection _typeParameters;
 
 		public UnifiedTypeParameterCollection TypeParameters {
 			get { return _typeParameters; }
 			set { _typeParameters = SetChild(value, _typeParameters); }
 		}
 
-		private UnifiedTypeCollection _throws;
+		protected UnifiedTypeCollection _throws;
 
 		public UnifiedTypeCollection Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
 
-		private UnifiedConstructorDefinition() {}
+		protected internal UnifiedConstructorBase() {}
 
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
-
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
-
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedConstructorDefinition Create(
-				UnifiedConstructorDefinitionKind kind,
+		public static TSelf Create(
 				UnifiedBlock body = null,
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedTypeParameterCollection typeParameters = null,
 				UnifiedTypeCollection throws = null) {
-			return new UnifiedConstructorDefinition {
-					Kind = kind,
-					Body = body,
-					Annotations = annotations,
-					Modifiers = modifiers,
-					Parameters = parameters,
-					TypeParameters = typeParameters,
-					Throws = throws,
-			};
+			var ret = UnifiedFactory<TSelf>.Create();
+			ret.Body = body;
+			ret.Annotations = annotations;
+			ret.Modifiers = modifiers;
+			ret.Parameters = parameters;
+			ret.TypeParameters = typeParameters;
+			ret.Throws = throws;
+			return ret;
 		}
+
+		public abstract TSelf CreateSelf();
 			}
 }

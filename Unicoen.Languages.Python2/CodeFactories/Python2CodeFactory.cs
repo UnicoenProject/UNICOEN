@@ -345,29 +345,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		// classname(identifier of constructor)...??
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedConstructorDefinition element, VisitorArgument arg) {
-			switch (element.Kind) {
-			case UnifiedConstructorDefinitionKind.Constructor:
-				element.Modifiers.TryAccept(this, arg);
-				element.TypeParameters.TryAccept(this, arg);
-				element.Parameters.TryAccept(this, arg);
-				element.Body.TryAccept(this, arg);
-				break;
-			case UnifiedConstructorDefinitionKind.StaticInitializer:
-				arg.Write("static ");
-				element.Body.TryAccept(this, arg);
-				break;
-			case UnifiedConstructorDefinitionKind.InstanceInitializer:
-				element.Body.TryAccept(this, arg);
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-			return false;
-		}
-
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFor element, VisitorArgument arg) {
 			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
