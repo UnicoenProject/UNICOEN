@@ -70,6 +70,7 @@ namespace Unicoen.Languages.Java.Tests {
 				var statements = new[] {
 						"M1();",
 						"new A();",
+						"int[] a[][] = new int[1][1][1]; System.out.println(a);",
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
 
 				var codes = new[] {

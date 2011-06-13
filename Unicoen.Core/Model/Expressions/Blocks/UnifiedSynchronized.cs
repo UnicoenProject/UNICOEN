@@ -23,9 +23,8 @@ namespace Unicoen.Core.Model {
 	///   synchronizedなど特殊なブロックを表します。
 	///   e.g. Javaにおける<c>synchronized(this) {...}</c>
 	/// </summary>
-	public class UnifiedSpecialBlock
+	public class UnifiedSynchronized
 			: UnifiedExpressionWithBlock {
-		public UnifiedSpecialBlockKind Kind { get; set; }
 
 		private IUnifiedExpression _value;
 
@@ -34,15 +33,14 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		private UnifiedSpecialBlock() {}
+		private UnifiedSynchronized() { }
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -51,15 +49,13 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedSpecialBlock Create(
-				UnifiedSpecialBlockKind kind,
+		public static UnifiedSynchronized Create(
 				IUnifiedExpression value = null,
 				UnifiedBlock body = null) {
-			return new UnifiedSpecialBlock {
-					Kind = kind,
-					Value = value,
-					Body = body,
+			return new UnifiedSynchronized {
+				Value = value,
+				Body = body,
 			};
 		}
-			}
+	}
 }

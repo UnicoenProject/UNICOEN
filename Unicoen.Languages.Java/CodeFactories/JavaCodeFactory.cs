@@ -190,34 +190,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		// e.g. static{...}
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSpecialBlock element, VisitorArgument arg) {
+				UnifiedSynchronized element, VisitorArgument arg) {
 			arg.WriteIndent();
-			switch (element.Kind) {
-			case UnifiedSpecialBlockKind.Synchronized:
-				arg.Write("synchronized");
-				break;
-			case UnifiedSpecialBlockKind.Fix:
-				arg.Write("fix");
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-			if (element.Value != null) {
-				arg.Write("(");
-				element.Value.TryAccept(this, arg);
-				arg.Write(")");
-			}
-			arg.Write("{");
-			arg = arg.IncrementDepth();
-			foreach (var stmt in element.Body) {
-				arg.WriteIndent();
-				if (stmt.TryAccept(this, arg))
-					arg.Write(";");
-			}
-			arg.WriteIndent();
-			arg.Write("}");
+			arg.Write("synchronized (");
+			element.Value.TryAccept(this, arg);
+			arg.Write(")");
+			element.Body.TryAccept(this, arg);
 			return false;
 		}
 
@@ -273,18 +252,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				UnifiedTypeParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeSupplement element, VisitorArgument arg) {
-			switch (element.Kind) {
-			case UnifiedTypeSupplementKind.Array:
-				element.Arguments.TryAccept(this, arg.Set(SquareBracket));
-				break;
-			default:
-				break;
-			}
 			return false;
 		}
 

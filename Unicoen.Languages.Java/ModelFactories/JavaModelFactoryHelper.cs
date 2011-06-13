@@ -2031,7 +2031,6 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				return UnifiedNew.Create(type, null, null, initVal, null);
 			}
 
-			var supplements = UnifiedTypeSupplementCollection.Create();
 			foreach (var exp in node.Elements("expression")) {
 				type = type.WrapArray(CreateExpression(exp).ToArgument());
 			}
@@ -2465,15 +2464,14 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return UnifiedContinue.Create();
 		}
 
-		private static UnifiedSpecialBlock CreateSynchronized(XElement node) {
+		private static UnifiedSynchronized CreateSynchronized(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			Contract.Requires(node.HasElementByContent("synchronized"));
 			/* 
 			 * 'synchronized' parExpression block 
 			 */
-			return UnifiedSpecialBlock.Create(
-					UnifiedSpecialBlockKind.Synchronized,
+			return UnifiedSynchronized.Create(
 					CreateParExpression(node.Element("parExpression")),
 					CreateBlock(node.Element("block")));
 		}

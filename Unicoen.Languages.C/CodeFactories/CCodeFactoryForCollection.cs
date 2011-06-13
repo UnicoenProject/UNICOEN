@@ -109,12 +109,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeSupplementCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(Empty));
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			throw new InvalidOperationException();
 		}

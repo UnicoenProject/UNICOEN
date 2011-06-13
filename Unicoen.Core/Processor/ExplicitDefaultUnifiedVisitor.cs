@@ -145,10 +145,6 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSpecialBlock element) {
-			throw new NotImplementedException();
-		}
-
 		void IUnifiedVisitor.Visit(UnifiedCatch element) {
 			throw new NotImplementedException();
 		}
@@ -182,14 +178,6 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor.Visit(UnifiedTypeParameter element) {
-			throw new NotImplementedException();
-		}
-
-		void IUnifiedVisitor.Visit(UnifiedTypeSupplement element) {
-			throw new NotImplementedException();
-		}
-
-		void IUnifiedVisitor.Visit(UnifiedTypeSupplementCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -412,6 +400,18 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor.Visit(UnifiedPrintChevron element) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor.Visit(UnifiedWith element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedFix element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedSynchronized element) {
+			throw new NotImplementedException();
+		}
 	}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg>
@@ -543,10 +543,6 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSpecialBlock element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
 		void IUnifiedVisitor<TArg>.Visit(UnifiedCatch element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -582,15 +578,6 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor<TArg>.Visit(UnifiedTypeParameter element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTypeSupplement element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		void IUnifiedVisitor<TArg>.Visit(
-				UnifiedTypeSupplementCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -819,6 +806,18 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor<TArg>.Visit(UnifiedPrintChevron element, TArg arg) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedWith element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedFix element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedSynchronized element, TArg arg) {
+			throw new NotImplementedException();
+		}
 			}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TResult, TArg>
@@ -965,11 +964,6 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedSpecialBlock element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedCatch element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1009,16 +1003,6 @@ namespace Unicoen.Core.Processor {
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedTypeParameter element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeSupplement element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeSupplementCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1271,6 +1255,18 @@ namespace Unicoen.Core.Processor {
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedPrintChevron element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedWith element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedFix element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSynchronized element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}

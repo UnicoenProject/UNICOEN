@@ -290,17 +290,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSpecialBlock element, VisitorArgument arg) {
-			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			arg.Write("/* ");
-			arg.Write("ElementNotInC :");
-			arg.Write(element.ToString());
-			arg.Write(" */");
-
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCatch element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
 			arg.Write("/* ");
@@ -340,24 +329,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 			arg.Write("ElementNotInC :");
 			arg.Write(element.ToString());
 			arg.Write(" */");
-
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeSupplement element, VisitorArgument arg) {
-			var kind = element.Kind;
-
-			switch (kind) {
-			case UnifiedTypeSupplementKind.Array:
-				element.Arguments.TryAccept(this, arg.Set(SquareBracket));
-				break;
-			case UnifiedTypeSupplementKind.Pointer:
-				arg.Write("*");
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
 
 			return false;
 		}

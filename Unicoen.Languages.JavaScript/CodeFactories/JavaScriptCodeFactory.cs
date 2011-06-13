@@ -314,32 +314,12 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSpecialBlock element, VisitorArgument arg) {
+				UnifiedWith element, VisitorArgument arg) {
 			arg.WriteIndent();
-			switch (element.Kind) {
-			case UnifiedSpecialBlockKind.With:
-				arg.Write("with");
-				break;
-			default:
-				//TODO
-				throw new ArgumentOutOfRangeException();
-			}
-			if (element.Value != null) {
-				arg.Write("(");
-				element.Value.TryAccept(this, arg);
-				arg.Write(")");
-			}
-
-			//TODO
-			arg.WriteLine("{");
-			arg = arg.IncrementDepth();
-			foreach (var stmt in element.Body) {
-				arg.WriteIndent();
-				if (stmt.TryAccept(this, arg))
-					arg.WriteLine(";");
-			}
-			arg.WriteIndent();
-			arg.Write("}");
+			arg.Write("with (");
+			element.Value.TryAccept(this, arg);
+			arg.Write(")");
+			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
 
@@ -390,12 +370,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameter element, VisitorArgument arg) {
-			//JavaScript
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeSupplement element, VisitorArgument arg) {
 			//JavaScript
 			throw new NotImplementedException();
 		}

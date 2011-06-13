@@ -86,12 +86,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeSupplementCollection element, VisitorArgument arg) {
-			//JavaScriptでは型宣言時に'[]'は出現しない
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(CommaDelimiter));
 			return false;

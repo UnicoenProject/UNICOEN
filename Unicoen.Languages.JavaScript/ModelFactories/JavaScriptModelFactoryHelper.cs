@@ -605,7 +605,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var exp = CreateExpression(node.Element("expression"));
 			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 
-			return UnifiedSpecialBlock.Create(UnifiedSpecialBlockKind.With, exp, body);
+			return UnifiedWith.Create(exp, body);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateLabelledStatement(

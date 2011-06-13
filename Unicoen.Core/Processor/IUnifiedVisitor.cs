@@ -51,7 +51,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedSwitch element);
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
-		void Visit(UnifiedSpecialBlock element);
 		void Visit(UnifiedCatch element);
 		void Visit(UnifiedTypeCollection element);
 		void Visit(UnifiedCatchCollection element);
@@ -61,8 +60,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTypeConstrain element);
 		void Visit(UnifiedTypeConstrainCollection element);
 		void Visit(UnifiedTypeParameter element);
-		void Visit(UnifiedTypeSupplement element);
-		void Visit(UnifiedTypeSupplementCollection element);
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(UnifiedIdentifierCollection element);
 		void Visit(UnifiedLabel element);
@@ -118,6 +115,9 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedPass element);
 		void Visit(UnifiedPrint element);
 		void Visit(UnifiedPrintChevron element);
+		void Visit(UnifiedWith element);
+		void Visit(UnifiedFix element);
+		void Visit(UnifiedSynchronized element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -152,7 +152,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedSwitch element, TArg arg);
 		void Visit(UnifiedCaseCollection element, TArg arg);
 		void Visit(UnifiedCase element, TArg arg);
-		void Visit(UnifiedSpecialBlock element, TArg arg);
 		void Visit(UnifiedCatch element, TArg arg);
 		void Visit(UnifiedTypeCollection element, TArg arg);
 		void Visit(UnifiedCatchCollection element, TArg arg);
@@ -162,8 +161,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTypeConstrain element, TArg arg);
 		void Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		void Visit(UnifiedTypeParameter element, TArg arg);
-		void Visit(UnifiedTypeSupplement element, TArg arg);
-		void Visit(UnifiedTypeSupplementCollection element, TArg arg);
 		void Visit(UnifiedTernaryExpression element, TArg arg);
 		void Visit(UnifiedIdentifierCollection element, TArg arg);
 		void Visit(UnifiedLabel element, TArg arg);
@@ -219,6 +216,9 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedPass element, TArg arg);
 		void Visit(UnifiedPrint element, TArg arg);
 		void Visit(UnifiedPrintChevron element, TArg arg);
+		void Visit(UnifiedWith element, TArg arg);
+		void Visit(UnifiedFix element, TArg arg);
+		void Visit(UnifiedSynchronized element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -253,7 +253,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedSwitch element, TArg arg);
 		TResult Visit(UnifiedCaseCollection element, TArg arg);
 		TResult Visit(UnifiedCase element, TArg arg);
-		TResult Visit(UnifiedSpecialBlock element, TArg arg);
 		TResult Visit(UnifiedCatch element, TArg arg);
 		TResult Visit(UnifiedTypeCollection element, TArg arg);
 		TResult Visit(UnifiedCatchCollection element, TArg arg);
@@ -263,8 +262,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedTypeConstrain element, TArg arg);
 		TResult Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		TResult Visit(UnifiedTypeParameter element, TArg arg);
-		TResult Visit(UnifiedTypeSupplement element, TArg arg);
-		TResult Visit(UnifiedTypeSupplementCollection element, TArg arg);
 		TResult Visit(UnifiedTernaryExpression element, TArg arg);
 		TResult Visit(UnifiedIdentifierCollection element, TArg arg);
 		TResult Visit(UnifiedLabel element, TArg arg);
@@ -320,5 +317,8 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedPass element, TArg arg);
 		TResult Visit(UnifiedPrint element, TArg arg);
 		TResult Visit(UnifiedPrintChevron element, TArg arg);
+		TResult Visit(UnifiedWith element, TArg arg);
+		TResult Visit(UnifiedFix element, TArg arg);
+		TResult Visit(UnifiedSynchronized element, TArg arg);
 	}
 }

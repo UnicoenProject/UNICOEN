@@ -72,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedFix.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedSynchronized.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedWith.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedArray.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedIterable.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedIterableComprehension.cs" />
@@ -127,12 +130,9 @@
     <Compile Include="Model\Collections\UnifiedMatcherCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedTypeSupplementCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedConstructorDefinitionKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunctionDefinitionKind.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedSpecialBlockKind.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedUsing.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
@@ -164,7 +164,6 @@
     <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCast.cs" />
     <Compile Include="Model\Collections\UnifiedCatchCollection.cs" />
-    <Compile Include="Model\Expressions\UnifiedCastKind.cs" />
     <Compile Include="Model\Collections\UnifiedExpressionCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedExpressionWithBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFor.cs" />
@@ -207,8 +206,6 @@
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedTypeArgument.cs" />
     <Compile Include="Model\Collections\UnifiedTypeArgumentCollection.cs" />
-    <Compile Include="Model\UnifiedTypeSupplement.cs" />
-    <Compile Include="Model\UnifiedTypeSupplementKind.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
     <Compile Include="Processor\IUnifiedVisitor.cs" />
     <Compile Include="Processor\VisitorArgument.cs" />

@@ -192,16 +192,6 @@ namespace Unicoen.Core.Model {
 			return UnifiedTypeParameterCollection.Create(singleton);
 		}
 
-		public static UnifiedTypeSupplementCollection ToCollection(
-				this IEnumerable<UnifiedTypeSupplement> collection) {
-			return UnifiedTypeSupplementCollection.Create(collection);
-		}
-
-		public static UnifiedTypeSupplementCollection ToCollection(
-				this UnifiedTypeSupplement singleton) {
-			return UnifiedTypeSupplementCollection.Create(singleton);
-		}
-
 		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
 				this IEnumerable<UnifiedVariableDefinition> collection) {
 			return UnifiedVariableDefinitionList.Create(collection);
