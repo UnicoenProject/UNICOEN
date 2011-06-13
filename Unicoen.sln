@@ -1,59 +1,65 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.C", "Unicoen.Languages.C\Unicoen.Languages.C.csproj", "{161EB3E2-D62F-4D7D-91F6-A495275C08FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.C", "Unicoen.Languages\C\Unicoen.Languages.C.csproj", "{161EB3E2-D62F-4D7D-91F6-A495275C08FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.CSharp", "Unicoen.Languages.CSharp\Unicoen.Languages.CSharp.csproj", "{2B706EC6-51C7-463F-962B-375A5036E40B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.CSharp", "Unicoen.Languages\CSharp\Unicoen.Languages.CSharp.csproj", "{2B706EC6-51C7-463F-962B-375A5036E40B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Python2", "Unicoen.Languages.Python2\Unicoen.Languages.Python2.csproj", "{7341270B-D8CE-4894-A32C-6E51D7A57B2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Python2", "Unicoen.Languages\Python2\Unicoen.Languages.Python2.csproj", "{7341270B-D8CE-4894-A32C-6E51D7A57B2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Ruby19", "Unicoen.Languages.Ruby19\Unicoen.Languages.Ruby19.csproj", "{5B832F0F-7F75-4B15-AB26-DA6F6EFD7913}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Ruby19", "Unicoen.Languages\Ruby19\Unicoen.Languages.Ruby19.csproj", "{5B832F0F-7F75-4B15-AB26-DA6F6EFD7913}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Ruby18", "Unicoen.Languages.Ruby18\Unicoen.Languages.Ruby18.csproj", "{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Ruby18", "Unicoen.Languages\Ruby18\Unicoen.Languages.Ruby18.csproj", "{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Python3", "Unicoen.Languages.Python3\Unicoen.Languages.Python3.csproj", "{CF31A92F-646A-4155-A280-038AD9B84D0F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Python3", "Unicoen.Languages\Python3\Unicoen.Languages.Python3.csproj", "{CF31A92F-646A-4155-A280-038AD9B84D0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Lua", "Unicoen.Languages.Lua\Unicoen.Languages.Lua.csproj", "{21169995-DD96-476F-8084-0C8A7EDC1173}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Lua", "Unicoen.Languages\Lua\Unicoen.Languages.Lua.csproj", "{21169995-DD96-476F-8084-0C8A7EDC1173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.JavaScript", "Unicoen.Languages.JavaScript\Unicoen.Languages.JavaScript.csproj", "{F8E6563A-2EF3-4819-ACC3-024028815ED7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.JavaScript", "Unicoen.Languages\JavaScript\Unicoen.Languages.JavaScript.csproj", "{F8E6563A-2EF3-4819-ACC3-024028815ED7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Java", "Unicoen.Languages.Java\Unicoen.Languages.Java.csproj", "{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Java", "Unicoen.Languages\Java\Unicoen.Languages.Java.csproj", "{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Java.Tests", "Unicoen.Languages.Java.Tests\Unicoen.Languages.Java.Tests.csproj", "{DACB2574-1700-4ABB-993B-0DE489CDBB29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Java.Tests", "Unicoen.Languages\Java.Tests\Unicoen.Languages.Java.Tests.csproj", "{DACB2574-1700-4ABB-993B-0DE489CDBB29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.C.Tests", "Unicoen.Languages.C.Tests\Unicoen.Languages.C.Tests.csproj", "{9C35AFE1-0D1A-4CB9-BC3B-E0EA41FFCF73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.C.Tests", "Unicoen.Languages\C.Tests\Unicoen.Languages.C.Tests.csproj", "{9C35AFE1-0D1A-4CB9-BC3B-E0EA41FFCF73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.JavaScript.Tests", "Unicoen.Languages.JavaScript.Tests\Unicoen.Languages.JavaScript.Tests.csproj", "{B2B716A6-D675-4E4F-A415-60CEA3E3D491}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.JavaScript.Tests", "Unicoen.Languages\JavaScript.Tests\Unicoen.Languages.JavaScript.Tests.csproj", "{B2B716A6-D675-4E4F-A415-60CEA3E3D491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Python2.Tests", "Unicoen.Languages.Python2.Tests\Unicoen.Languages.Python2.Tests.csproj", "{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Python2.Tests", "Unicoen.Languages\Python2.Tests\Unicoen.Languages.Python2.Tests.csproj", "{FE38B6BA-B829-4F46-8D45-9BC76FAC8868}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Ruby18.Tests", "Unicoen.Languages.Ruby18.Tests\Unicoen.Languages.Ruby18.Tests.csproj", "{AB1123F1-190E-407D-B165-7AE919EE4812}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Ruby18.Tests", "Unicoen.Languages\Ruby18.Tests\Unicoen.Languages.Ruby18.Tests.csproj", "{AB1123F1-190E-407D-B165-7AE919EE4812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.CSharp.Tests", "Unicoen.Languages.CSharp.Tests\Unicoen.Languages.CSharp.Tests.csproj", "{CBE372FD-4C31-4BDB-B704-49A5C3349A35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.CSharp.Tests", "Unicoen.Languages\CSharp.Tests\Unicoen.Languages.CSharp.Tests.csproj", "{CBE372FD-4C31-4BDB-B704-49A5C3349A35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Core", "Unicoen.Core\Unicoen.Core.csproj", "{5FC5512D-0C61-4F25-8541-0F364E70DBC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Core.Tests", "Unicoen.Core.Tests\Unicoen.Core.Tests.csproj", "{78B5FF26-BD0A-4955-8273-6629B2A7B71A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Xml", "Mocomoco.Xml\Mocomoco.Xml.csproj", "{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Xml", "Mocomoco\Mocomoco.Xml\Mocomoco.Xml.csproj", "{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Xml.Tests", "Mocomoco.Xml.Tests\Mocomoco.Xml.Tests.csproj", "{C73358D8-9C51-49A4-B474-516689F5981F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Xml.Tests", "Mocomoco\Mocomoco.Xml.Tests\Mocomoco.Xml.Tests.csproj", "{C73358D8-9C51-49A4-B474-516689F5981F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Metrics", "Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj", "{0F43ECA9-FAA3-4565-A585-A33BA2B12883}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Metrics", "Unicoen.Apps\Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj", "{0F43ECA9-FAA3-4565-A585-A33BA2B12883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop", "Unicoen.Apps.AOP\Unicoen.Apps.Aop.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Aop", "Unicoen.Apps\Unicoen.Apps.AOP\Unicoen.Apps.Aop.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Tests", "Unicoen.Apps.AOP.Tests\Unicoen.Apps.Aop.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Aop.Tests", "Unicoen.Apps\Unicoen.Apps.AOP.Tests\Unicoen.Apps.Aop.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Linq", "Mocomoco.Linq\Mocomoco.Linq.csproj", "{973D0B49-BA07-4F3D-B640-74107F23D8DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Linq", "Mocomoco\Mocomoco.Linq\Mocomoco.Linq.csproj", "{973D0B49-BA07-4F3D-B640-74107F23D8DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator", "Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj", "{87A5C023-95DB-40D4-A638-28D578D06572}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Translator", "Unicoen.Apps\Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj", "{87A5C023-95DB-40D4-A638-28D578D06572}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator.Tests", "Unicoen.Apps.Translator.Tests\Unicoen.Apps.Translator.Tests.csproj", "{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Translator.Tests", "Unicoen.Apps\Unicoen.Apps.Translator.Tests\Unicoen.Apps.Translator.Tests.csproj", "{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Tests", "Unicoen.Languages.Tests\Unicoen.Languages.Tests.csproj", "{BC8744B2-0E75-4855-8C01-35E2198546EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Tests", "Unicoen.Languages\Tests\Unicoen.Languages.Tests.csproj", "{BC8744B2-0E75-4855-8C01-35E2198546EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Linq.Tests", "Mocomoco.Linq.Tests\Mocomoco.Linq.Tests.csproj", "{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Linq.Tests", "Mocomoco\Mocomoco.Linq.Tests\Mocomoco.Linq.Tests.csproj", "{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.Languages", "Unicoen.Languages", "{1D40B438-308E-42C0-8FAB-802FFCC9C755}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mocomoco", "Mocomoco", "{C3DA90AB-8D41-4E46-9D40-5A198143B3B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.Apps", "Unicoen.Apps", "{75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -397,5 +403,32 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B706EC6-51C7-463F-962B-375A5036E40B} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{7341270B-D8CE-4894-A32C-6E51D7A57B2B} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{5B832F0F-7F75-4B15-AB26-DA6F6EFD7913} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{94C425D1-CCEE-43A3-84F6-D5342EFA92B7} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{CF31A92F-646A-4155-A280-038AD9B84D0F} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{21169995-DD96-476F-8084-0C8A7EDC1173} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{F8E6563A-2EF3-4819-ACC3-024028815ED7} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{DACB2574-1700-4ABB-993B-0DE489CDBB29} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{9C35AFE1-0D1A-4CB9-BC3B-E0EA41FFCF73} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{B2B716A6-D675-4E4F-A415-60CEA3E3D491} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{FE38B6BA-B829-4F46-8D45-9BC76FAC8868} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{AB1123F1-190E-407D-B165-7AE919EE4812} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{CBE372FD-4C31-4BDB-B704-49A5C3349A35} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{BC8744B2-0E75-4855-8C01-35E2198546EE} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{161EB3E2-D62F-4D7D-91F6-A495275C08FC} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
+		{973D0B49-BA07-4F3D-B640-74107F23D8DA} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
+		{C73358D8-9C51-49A4-B474-516689F5981F} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
+		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
+		{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
+		{78406882-043E-451A-98B4-335AD8BB7DAD} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{0F43ECA9-FAA3-4565-A585-A33BA2B12883} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{87A5C023-95DB-40D4-A638-28D578D06572} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
 	EndGlobalSection
 EndGlobal
