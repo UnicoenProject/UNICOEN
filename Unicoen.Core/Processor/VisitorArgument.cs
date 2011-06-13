@@ -25,11 +25,17 @@ namespace Unicoen.Core.Processor {
 		public string IndentSign { get; private set; }
 		public int IndentDepth { get; private set; }
 		public Decoration Decoration { get; private set; }
+		public bool IsAbbrKeyword { get; set; }
 
 		public VisitorArgument(TextWriter writer, string indentSign) {
 			_writer = writer;
 			IndentSign = indentSign;
 			Decoration = new Decoration();
+		}
+
+		public VisitorArgument AbbeviateKeywordWithSideEffect() {
+			IsAbbrKeyword = true;
+			return this;
 		}
 
 		public VisitorArgument Set(Decoration decoration) {

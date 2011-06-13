@@ -22,19 +22,6 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.CodeFactories {
 	public partial class JavaCodeFactory {
-		private static string GetKeyword(UnifiedTypeConstrainKind kind) {
-			switch (kind) {
-			case UnifiedTypeConstrainKind.Extends:
-			case UnifiedTypeConstrainKind.ExtendsOrImplements:
-				return "extends";
-			case UnifiedTypeConstrainKind.Implements:
-				return "implements";
-			case UnifiedTypeConstrainKind.Super:
-				return "super";
-			}
-			return "";
-		}
-
 		public void VisitCollection<T, TSelf>(
 				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
@@ -86,16 +73,35 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedExtendConstrain element, VisitorArgument arg) {
+			arg.Write(arg.Decoration.Delimiter ?? " extend ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedImplementsConstrain element, VisitorArgument arg) {
+			arg.Write(arg.Decoration.Delimiter ?? " implement ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedSuperConstrain element, VisitorArgument arg) {
+			arg.Write(arg.Decoration.Delimiter ?? " super ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
 			UnifiedTypeConstrain last = null;
-			for (int i = 0; i < element.Count; i++) {
-				var current = element[i];
-				var keyword = GetKeyword(current.Kind);
-				if (last == null || last.Kind != current.Kind)
-					arg.Write(" " + keyword + " ");
-				else
-					arg.Write(arg.Decoration.Delimiter);
-				current.Type.TryAccept(this, arg);
+			foreach (var current in element) {
+				if (last == null || last.GetType() != current.GetType()) {
+					current.TryAccept(this, arg.Set(NullDelimiter));
+				} else {
+					current.TryAccept(this, arg);
+				}
 				last = current;
 			}
 			return false;

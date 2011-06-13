@@ -126,6 +126,13 @@
     <Compile Include="Model\Extensions\ModelGenerator.cs" />
     <Compile Include="Model\Extensions\SafeModelSweeper.cs" />
     <Compile Include="Model\IUnifiedCreatable.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedSuperConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedValueConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedReferenceConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedDefaultConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedImplementsConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedExtendConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Model\UnifiedFactory.cs" />
@@ -202,8 +209,6 @@
     <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\UnifiedImport.cs" />
     <Compile Include="Model\UnifiedMatcher.cs" />
-    <Compile Include="Model\UnifiedTypeConstrain.cs" />
-    <Compile Include="Model\UnifiedTypeConstrainKind.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\Collections\UnifiedModifierCollection.cs" />
     <Compile Include="Model\UnifiedParameter.cs" />

@@ -25,13 +25,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
 	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
 	/// </summary>
-	public class UnifiedTypeConstrain : UnifiedElement {
-		/// <summary>
-		///   制約の種類を表します
-		///   e.g. Javaにおける<c>class C extends P { ... }</c>の<c>extends</c>
-		/// </summary>
-		public UnifiedTypeConstrainKind Kind { get; set; }
-
+	public class UnifiedSuperConstrain : UnifiedTypeConstrain {
 		private UnifiedType _type;
 
 		/// <summary>
@@ -43,15 +37,14 @@ namespace Unicoen.Core.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedTypeConstrain() {}
+		protected UnifiedSuperConstrain() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -60,12 +53,10 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedTypeConstrain Create(
-				UnifiedType type,
-				UnifiedTypeConstrainKind kind) {
-			return new UnifiedTypeConstrain {
+		public static UnifiedSuperConstrain Create(
+				UnifiedType type) {
+			return new UnifiedSuperConstrain {
 					Type = type,
-					Kind = kind,
 			};
 		}
 	}

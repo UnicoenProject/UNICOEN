@@ -203,11 +203,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeConstrain element, VisitorArgument arg) {
-			throw new InvalidOperationException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));

@@ -807,8 +807,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var varargslistNode = node.Element("varargslist");
 			return UnifiedLambda.Create(
 					null, null, null, varargslistNode != null
-					            		? CreateVarargslist(varargslistNode)
-					            		: null,
+					                  		? CreateVarargslist(varargslistNode)
+					                  		: null,
 					CreateOld_test(node.LastElement()).ToBlock());
 		}
 
@@ -1056,8 +1056,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var varargslistNode = node.Element("varargslist");
 			return UnifiedLambda.Create(
 					null, null, null, varargslistNode != null
-					            		? CreateVarargslist(varargslistNode)
-					            		: null,
+					                  		? CreateVarargslist(varargslistNode)
+					                  		: null,
 					CreateTest(node.LastElement()).ToBlock());
 		}
 
@@ -1202,11 +1202,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var testlistNodes = node.Element("testlist");
 			var testlist = testlistNodes != null
 			               		? CreateTestlist(testlistNodes)
-			               		  		.Select(
-			               		  				e =>
-			               		  				UnifiedTypeConstrain.Create(
-			               		  						UnifiedType.Create(e),
-			               		  						UnifiedTypeConstrainKind.ExtendsOrImplements))
+			               		  		.Select(UnifiedType.Create)
+			               		  		.Select(UnifiedExtendConstrain.Create)
 			               		  		.ToCollection()
 			               		: null;
 			return UnifiedClass.Create(

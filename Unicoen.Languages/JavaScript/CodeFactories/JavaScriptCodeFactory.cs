@@ -378,12 +378,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeConstrain element, VisitorArgument arg) {
-			//JavaScript
-			throw new NotImplementedException();
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
 			//JavaScript
 			throw new NotImplementedException();

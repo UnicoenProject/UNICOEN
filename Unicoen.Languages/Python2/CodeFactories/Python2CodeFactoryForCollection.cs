@@ -22,19 +22,6 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public partial class Python2CodeFactory {
-		private static string GetKeyword(UnifiedTypeConstrainKind kind) {
-			switch (kind) {
-			case UnifiedTypeConstrainKind.Extends:
-			case UnifiedTypeConstrainKind.ExtendsOrImplements:
-				return "extends";
-			case UnifiedTypeConstrainKind.Implements:
-				return "implements";
-			case UnifiedTypeConstrainKind.Super:
-				return "super";
-			}
-			return "";
-		}
-
 		public void VisitCollection<T, TSelf>(
 				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
@@ -82,22 +69,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
-			UnifiedTypeConstrain last = null;
-			for (int i = 0; i < element.Count; i++) {
-				var current = element[i];
-				var keyword = GetKeyword(current.Kind);
-				if (last == null || last.Kind != current.Kind)
-					arg.Write(" " + keyword + " ");
-				else
-					arg.Write(arg.Decoration.Delimiter);
-				current.Type.TryAccept(this, arg);
-				last = current;
-			}
 			return false;
 		}
 

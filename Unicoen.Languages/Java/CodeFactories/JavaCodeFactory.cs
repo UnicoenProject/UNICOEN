@@ -48,6 +48,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		private static readonly Decoration Empty = new Decoration();
 
+		private static readonly Decoration NullDelimiter =
+				new Decoration { Delimiter = null };
+
 		private static readonly Decoration AndDelimiter =
 				new Decoration { Delimiter = " & " };
 
@@ -242,11 +245,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				finallyBlock.TryAccept(this, arg);
 			}
 			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeConstrain element, VisitorArgument arg) {
-			throw new InvalidOperationException();
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(

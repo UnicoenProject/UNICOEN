@@ -56,7 +56,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTry element);
 		void Visit(UnifiedCast element);
 		void Visit(UnifiedTypeParameterCollection element);
-		void Visit(UnifiedTypeConstrain element);
 		void Visit(UnifiedTypeConstrainCollection element);
 		void Visit(UnifiedTypeParameter element);
 		void Visit(UnifiedTernaryExpression element);
@@ -126,6 +125,12 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedStaticInitializer element);
 		void Visit(UnifiedInstanceInitializer element);
 		void Visit(UnifiedLambda element);
+		void Visit(UnifiedDefaultConstrain element);
+		void Visit(UnifiedExtendConstrain element);
+		void Visit(UnifiedImplementsConstrain element);
+		void Visit(UnifiedReferenceConstrain element);
+		void Visit(UnifiedSuperConstrain element);
+		void Visit(UnifiedValueConstrain element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -165,7 +170,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTry element, TArg arg);
 		void Visit(UnifiedCast element, TArg arg);
 		void Visit(UnifiedTypeParameterCollection element, TArg arg);
-		void Visit(UnifiedTypeConstrain element, TArg arg);
 		void Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		void Visit(UnifiedTypeParameter element, TArg arg);
 		void Visit(UnifiedTernaryExpression element, TArg arg);
@@ -235,6 +239,12 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedStaticInitializer element, TArg arg);
 		void Visit(UnifiedInstanceInitializer element, TArg arg);
 		void Visit(UnifiedLambda element, TArg arg);
+		void Visit(UnifiedDefaultConstrain element, TArg arg);
+		void Visit(UnifiedExtendConstrain element, TArg arg);
+		void Visit(UnifiedImplementsConstrain element, TArg arg);
+		void Visit(UnifiedReferenceConstrain element, TArg arg);
+		void Visit(UnifiedSuperConstrain element, TArg arg);
+		void Visit(UnifiedValueConstrain element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -274,7 +284,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedTry element, TArg arg);
 		TResult Visit(UnifiedCast element, TArg arg);
 		TResult Visit(UnifiedTypeParameterCollection element, TArg arg);
-		TResult Visit(UnifiedTypeConstrain element, TArg arg);
 		TResult Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		TResult Visit(UnifiedTypeParameter element, TArg arg);
 		TResult Visit(UnifiedTernaryExpression element, TArg arg);
@@ -344,5 +353,11 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedStaticInitializer element, TArg arg);
 		TResult Visit(UnifiedInstanceInitializer element, TArg arg);
 		TResult Visit(UnifiedLambda element, TArg arg);
+		TResult Visit(UnifiedDefaultConstrain element, TArg arg);
+		TResult Visit(UnifiedExtendConstrain element, TArg arg);
+		TResult Visit(UnifiedImplementsConstrain element, TArg arg);
+		TResult Visit(UnifiedReferenceConstrain element, TArg arg);
+		TResult Visit(UnifiedSuperConstrain element, TArg arg);
+		TResult Visit(UnifiedValueConstrain element, TArg arg);
 	}
 }

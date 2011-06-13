@@ -20,31 +20,24 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   辞書内包表記を表します．
+	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
+	///   なお、継承関係を表す場合、対象の型の個数は１つです。
+	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
+	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
 	/// </summary>
-	public class UnifiedDictionaryComprehension
-			: UnifiedElement, IUnifiedExpression {
-		private UnifiedKeyValue _element;
+	public class UnifiedExtendConstrain : UnifiedTypeConstrain {
+		private UnifiedType _type;
 
 		/// <summary>
-		///   辞書内包表記によって生成される要素部分の式を表します．
+		///   制約の対象を表します
+		///   e.g. Javaにおける<c>class C extends P { ... }</c>の<c>P</c>
 		/// </summary>
-		public UnifiedKeyValue Element {
-			get { return _element; }
-			set { _element = SetChild(value, _element); }
+		public UnifiedType Type {
+			get { return _type; }
+			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedExpressionCollection _generator;
-
-		/// <summary>
-		///   辞書内包表記の集合を生成する式を表します．
-		/// </summary>
-		public UnifiedExpressionCollection Generator {
-			get { return _generator; }
-			set { _generator = SetChild(value, _generator); }
-		}
-
-		private UnifiedDictionaryComprehension() {}
+		protected UnifiedExtendConstrain() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -60,13 +53,11 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedDictionaryComprehension Create(
-				UnifiedKeyValue element = null,
-				UnifiedExpressionCollection generator = null) {
-			return new UnifiedDictionaryComprehension {
-					Element = element,
-					Generator = generator,
+		public static UnifiedExtendConstrain Create(
+				UnifiedType type) {
+			return new UnifiedExtendConstrain {
+					Type = type,
 			};
 		}
-			}
+	}
 }

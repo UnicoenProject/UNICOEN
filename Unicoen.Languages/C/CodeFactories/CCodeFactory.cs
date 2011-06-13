@@ -307,17 +307,6 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeConstrain element, VisitorArgument arg) {
-			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			arg.Write("/* ");
-			arg.Write("ElementNotInC: ");
-			arg.Write(element.ToString());
-			arg.Write(" */");
-
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedTypeParameter element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
 			arg.Write("/* ");
