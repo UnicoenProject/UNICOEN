@@ -20,12 +20,11 @@ using System;
 using System.Collections.Generic;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Apps.Translator.Filter {
+namespace Unicoen.Apps.Translator{
+	// 関数に特化した検索器
 	public class FunctionFinder {
-		// Singleton!
-		public static FunctionFinder Instance = new FunctionFinder();
-
-		public List<UnifiedFunction> FindByName(
+		// 名前からの検索
+		public static List<UnifiedFunction> FindByName(
 				String name, List<UnifiedFunction> list) {
 			var filteredList = new List<UnifiedFunction>();
 
@@ -38,7 +37,8 @@ namespace Unicoen.Apps.Translator.Filter {
 			return filteredList;
 		}
 
-		public List<UnifiedFunction> FindByReturnType(
+		// 返却値型からの検索
+		public static List<UnifiedFunction> FindByReturnType(
 				UnifiedType type, List<UnifiedFunction> list) {
 			var filteredList = new List<UnifiedFunction>();
 

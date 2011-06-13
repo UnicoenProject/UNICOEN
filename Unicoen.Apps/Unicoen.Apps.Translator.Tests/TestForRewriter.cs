@@ -21,7 +21,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Unicoen.Apps.Translator.Filter;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Java;
@@ -42,13 +41,13 @@ namespace Unicoen.Apps.Translator.Tests {
 			Console.WriteLine(JavaFactory.GenerateCode(_program));
 
 			var functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
-			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
+					Finder.GetAllElements<UnifiedFunction>(_program);
+			var f = FunctionFinder.FindByName("getName", functions).ElementAt(0);
 			// getName()
-			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
+			Rewriter.RewriteIdentifierName("getName2", f);
 
 			functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
+					Finder.GetAllElements<UnifiedFunction>(_program);
 			f = functions.ElementAt(0);
 			Assert.That(f.Name.Value, Is.EqualTo("getName2"));
 
@@ -60,15 +59,15 @@ namespace Unicoen.Apps.Translator.Tests {
 			Console.WriteLine(JavaFactory.GenerateCode(_program));
 
 			var functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
-			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
+					Finder.GetAllElements<UnifiedFunction>(_program);
+			var f = FunctionFinder.FindByName("getName", functions).ElementAt(0);
 			// getName()
-			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
+			Rewriter.RewriteIdentifierName("getName2", f);
 
 			functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
+					Finder.GetAllElements<UnifiedFunction>(_program);
 			f = functions.ElementAt(0);
-			Rewriter.Rewriter.Instance.DeleteElement(f);
+			Rewriter.DeleteElement(f);
 
 			Console.WriteLine(JavaFactory.GenerateCode(_program));
 		}
@@ -78,12 +77,12 @@ namespace Unicoen.Apps.Translator.Tests {
 			var newType = UnifiedType.Create("Integer");
 
 			var functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
+					Finder.GetAllElements<UnifiedFunction>(_program);
 			var f = functions.ElementAt(0);
 			var type = f.Type;
 			Console.WriteLine(type.NameExpression);
 			Console.WriteLine(newType.NameExpression);
-			Rewriter.Rewriter.Instance.ExchageElement(type, newType);
+			Rewriter.ExchageElement(type, newType);
 
 			Console.WriteLine(JavaFactory.GenerateCode(_program));
 		}

@@ -16,11 +16,16 @@
 
 #endregion
 
-namespace Unicoen.Apps.Translator.Filter {
-	public class Filter {
-		// Singleton
-		public static Filter Instance = new Filter();
+using System.Collections.Generic;
+using Unicoen.Core.Model;
 
-		// 指定されたパラメータを持つ要素をすべて返却する？
+namespace Unicoen.Apps.Translator {
+	public class Filter {
+		// program 以下の null でないオブジェクトの集合を取得する
+		public static List<UnifiedElement> GetValidElements(UnifiedProgram program) {
+			// TODO : Implement
+
+			return null;
+		} 
 	}
 }

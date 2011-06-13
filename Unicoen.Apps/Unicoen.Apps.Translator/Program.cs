@@ -39,7 +39,7 @@ namespace Unicoen.Apps.Translator
 			var model = JavaFactory.GenerateModel(code);
 
 			var functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(model);
+					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(model);
 			foreach (var f in functions) {
 				Console.WriteLine(f.Name.Value);
 			}
@@ -50,7 +50,7 @@ namespace Unicoen.Apps.Translator
 			func.Name.Value = "RewittenFunctionName";
 
 			functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(model);
+					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(model);
 			foreach (var f in functions) {
 				Console.WriteLine(f.Name.Value);
 			}

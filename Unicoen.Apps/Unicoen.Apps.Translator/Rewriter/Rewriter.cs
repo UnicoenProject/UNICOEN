@@ -19,12 +19,11 @@
 using System.Linq;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Apps.Translator.Rewriter {
+namespace Unicoen.Apps.Translator{
+	// モデルの書き換えに関するクラス
 	public class Rewriter {
-		public static Rewriter Instance = new Rewriter();
-
 		// targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
-		public void RewiteIdentifierName(string newName, UnifiedElement target) {
+		public static void RewriteIdentifierName(string newName, UnifiedElement target) {
 			if (target is UnifiedFunction) {
 				((UnifiedFunction)target).Name.Value = newName;
 				return;
@@ -32,7 +31,7 @@ namespace Unicoen.Apps.Translator.Rewriter {
 		}
 
 		// ある要素を置き換える
-		public void ExchageElement(UnifiedType from, UnifiedType to) {
+		public static void ExchageElement(UnifiedType from, UnifiedType to) {
 			var parent = from.Parent;
 			var reference =
 					parent.GetElementReferences().Where(e => ReferenceEquals(e.Element, from)).
@@ -43,8 +42,15 @@ namespace Unicoen.Apps.Translator.Rewriter {
 		}
 
 		// ある要素を削除する
-		public void DeleteElement(UnifiedElement target) {
+		public static void DeleteElement(UnifiedElement target) {
 			target.Remove();
+		}
+
+		/// <summary>
+		/// ある要素の直下に特定の要素を追加する（木構造的に）
+		/// </summary>
+		public static void AddElement(UnifiedElement resource, UnifiedElement target) {
+			// TODO : implement
 		}
 	}
 }

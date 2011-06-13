@@ -112,7 +112,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					null, body);
 			//関数定義をnewするとオブジェクトが生成されるが、
 			//定義段階ではオブジェクトとして宣言されたのか関数として定義されたのか判別できないため、
-			//共通コードモデルではUnifiedFunctionDefinitionとして扱う
+			//共通コードモデルではUnifiedFunctionとして扱う
 		}
 
 		public static IUnifiedExpression CreateFunctionExpression(XElement node) {

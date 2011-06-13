@@ -20,11 +20,10 @@ using System;
 using System.Collections.Generic;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Apps.Translator.Finder {
+namespace Unicoen.Apps.Translator{
+	// モデルの検索に関するクラス
 	public class Finder {
-		// adapt Singleton pattern
-		public static Finder Instance = new Finder();
-
+		// 関数が与えられたパラメータを持っているか
 		public Boolean HasParameter(UnifiedFunction func, Parameter param) {
 			if (func.Name.Equals(param.Name)
 			    && func.Type.NameExpression.Equals(param.TypeName)) {
@@ -34,15 +33,15 @@ namespace Unicoen.Apps.Translator.Finder {
 		}
 
 		/// <summary>
-		///   programに含まれるT型の要素をすべて取得します．
+		///   programに含まれるT型の要素をすべて取得する
 		/// </summary>
 		/// <example>
-		///   <c>var functionList = GetAllElements&lt;UnifiedFunctionDefinition&gt;(program); </c>
+		///   <c>var functionList = GetAllElements&lt;UnifiedFunction&gt;(program); </c>
 		/// </example>
 		/// <typeparam name = "T"></typeparam>
 		/// <param name = "program"></param>
 		/// <returns></returns>
-		public List<T> GetAllElements<T>(UnifiedProgram program) {
+		public static List<T> GetAllElements<T>(UnifiedProgram program) {
 			var elements = program.GetElements();
 			var list = new List<T>();
 
