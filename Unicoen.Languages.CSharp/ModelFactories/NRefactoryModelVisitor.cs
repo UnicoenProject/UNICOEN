@@ -644,7 +644,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				MethodDeclaration dec, object data) {
 			Contract.Requires<ArgumentNullException>(dec != null);
 			Contract.Ensures(
-					Contract.Result<IUnifiedElement>() is UnifiedFunctionDefinition);
+					Contract.Result<IUnifiedElement>() is UnifiedFunction);
 
 			var mods = LookupModifier(dec.Modifiers);
 			var type = LookupType(dec.ReturnType);
@@ -656,8 +656,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					body.Add(uExpr);
 			}
 
-			var kind = UnifiedFunctionDefinitionKind.Function;
-			return UnifiedFunctionDefinition.Create(kind, modifiers: mods, type: type, name: name, body: body);
+			return UnifiedFunction.Create(modifiers: mods, type: type, name: name, body: body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(

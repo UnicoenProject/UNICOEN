@@ -91,7 +91,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunctionDefinition CreateFunctionDeclaration(
+		public static UnifiedFunction CreateFunctionDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionDeclaration");
@@ -105,8 +105,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					CreateFormalParameterList(node.Element("formalParameterList"));
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Function,
+			return UnifiedFunction.Create(
+					
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters,
 					null, body);
@@ -130,11 +130,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					CreateFormalParameterList(node.Element("formalParameterList"));
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Lambda,
-					null, null, null, null,
+			return UnifiedLambda.Create(
+					null, null,
 					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters,
-					null, body);
+					body);
 		}
 
 		public static UnifiedParameterCollection CreateFormalParameterList(

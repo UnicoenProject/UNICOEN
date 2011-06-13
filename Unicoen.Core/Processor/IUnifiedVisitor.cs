@@ -27,7 +27,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedBinaryExpression element);
 		void Visit(UnifiedBlock element);
 		void Visit(UnifiedCall element);
-		void Visit(UnifiedFunctionDefinition element);
+		void Visit(UnifiedFunction element);
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);
 		void Visit(UnifiedParameterCollection element);
@@ -125,6 +125,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedConstructor element);
 		void Visit(UnifiedStaticInitializer element);
 		void Visit(UnifiedInstanceInitializer element);
+		void Visit(UnifiedLambda element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -135,7 +136,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedBinaryExpression element, TArg arg);
 		void Visit(UnifiedBlock element, TArg arg);
 		void Visit(UnifiedCall element, TArg arg);
-		void Visit(UnifiedFunctionDefinition element, TArg arg);
+		void Visit(UnifiedFunction element, TArg arg);
 		void Visit(UnifiedIf element, TArg arg);
 		void Visit(UnifiedParameter element, TArg arg);
 		void Visit(UnifiedParameterCollection element, TArg arg);
@@ -233,6 +234,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedConstructor element, TArg arg);
 		void Visit(UnifiedStaticInitializer element, TArg arg);
 		void Visit(UnifiedInstanceInitializer element, TArg arg);
+		void Visit(UnifiedLambda element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -243,7 +245,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedBinaryExpression element, TArg arg);
 		TResult Visit(UnifiedBlock element, TArg arg);
 		TResult Visit(UnifiedCall element, TArg arg);
-		TResult Visit(UnifiedFunctionDefinition element, TArg arg);
+		TResult Visit(UnifiedFunction element, TArg arg);
 		TResult Visit(UnifiedIf element, TArg arg);
 		TResult Visit(UnifiedParameter element, TArg arg);
 		TResult Visit(UnifiedParameterCollection element, TArg arg);
@@ -341,5 +343,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedConstructor element, TArg arg);
 		TResult Visit(UnifiedStaticInitializer element, TArg arg);
 		TResult Visit(UnifiedInstanceInitializer element, TArg arg);
+		TResult Visit(UnifiedLambda element, TArg arg);
 	}
 }

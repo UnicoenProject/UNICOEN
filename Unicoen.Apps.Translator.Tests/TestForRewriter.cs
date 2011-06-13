@@ -42,13 +42,13 @@ namespace Unicoen.Apps.Translator.Tests {
 			Console.WriteLine(JavaFactory.GenerateCode(_program));
 
 			var functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
+					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
 			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
 			// getName()
 			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
 
 			functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
+					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
 			f = functions.ElementAt(0);
 			Assert.That(f.Name.Value, Is.EqualTo("getName2"));
 
@@ -60,13 +60,13 @@ namespace Unicoen.Apps.Translator.Tests {
 			Console.WriteLine(JavaFactory.GenerateCode(_program));
 
 			var functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
+					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
 			var f = FunctionFinder.Instance.FindByName("getName", functions).ElementAt(0);
 			// getName()
 			Rewriter.Rewriter.Instance.RewiteIdentifierName("getName2", f);
 
 			functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
+					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
 			f = functions.ElementAt(0);
 			Rewriter.Rewriter.Instance.DeleteElement(f);
 
@@ -78,7 +78,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			var newType = UnifiedType.Create("Integer");
 
 			var functions =
-					Finder.Finder.Instance.GetAllElements<UnifiedFunctionDefinition>(_program);
+					Finder.Finder.Instance.GetAllElements<UnifiedFunction>(_program);
 			var f = functions.ElementAt(0);
 			var type = f.Type;
 			Console.WriteLine(type.NameExpression);

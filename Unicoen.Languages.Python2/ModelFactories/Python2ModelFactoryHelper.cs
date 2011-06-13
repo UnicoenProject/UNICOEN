@@ -107,14 +107,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunctionDefinition CreateFuncdef(XElement node) {
+		public static UnifiedFunction CreateFuncdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "funcdef");
 			/*
 			 * funcdef: 'def' NAME parameters ':' suite
 			 */
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Function,
+			return UnifiedFunction.Create(
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedIdentifier.Create(
 							UnifiedIdentifierKind.Function, node.NthElement(1).Value),
@@ -806,11 +805,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * old_lambdef: 'lambda' [varargslist] ':' old_test
 			 */
 			var varargslistNode = node.Element("varargslist");
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Lambda,
-					null, null, null, null, null, varargslistNode != null
-					                              		? CreateVarargslist(varargslistNode)
-					                              		: null, null,
+			return UnifiedLambda.Create(
+					null, null, null, varargslistNode != null
+					            		? CreateVarargslist(varargslistNode)
+					            		: null,
 					CreateOld_test(node.LastElement()).ToBlock());
 		}
 
@@ -1056,11 +1054,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * lambdef: 'lambda' [varargslist] ':' test
 			 */
 			var varargslistNode = node.Element("varargslist");
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Lambda,
-					null, null, null, null, null, varargslistNode != null
-					                              		? CreateVarargslist(varargslistNode)
-					                              		: null, null,
+			return UnifiedLambda.Create(
+					null, null, null, varargslistNode != null
+					            		? CreateVarargslist(varargslistNode)
+					            		: null,
 					CreateTest(node.LastElement()).ToBlock());
 		}
 

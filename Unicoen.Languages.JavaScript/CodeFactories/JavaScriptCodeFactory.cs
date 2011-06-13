@@ -138,7 +138,18 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedFunctionDefinition element, VisitorArgument arg) {
+				UnifiedFunction element, VisitorArgument arg) {
+			arg.WriteIndent();
+			arg.Write("function");
+			arg.WriteSpace();
+			element.Name.TryAccept(this, arg);
+			element.Parameters.TryAccept(this, arg);
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			return element.Body == null;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedLambda element, VisitorArgument arg) {
 			arg.WriteIndent();
 			arg.Write("function");
 			arg.WriteSpace();

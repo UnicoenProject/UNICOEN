@@ -100,7 +100,7 @@ namespace Unicoen.Apps.Aop {
 					ast = JavaCodeToXml.Instance.Generate(code, p => p.classBody());
 					var classBody = JavaModelFactoryHelper.CreateClassBody(ast);
 					foreach (var e in classBody) {
-						var method = e as UnifiedFunctionDefinition;
+						var method = e as UnifiedFunction;
 						var field = e as UnifiedVariableDefinitionList;
 						if(field != null)
 							actual.Add(field);
@@ -133,7 +133,7 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtBeforeExecution(
 				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get function list
-			var functions = root.Descendants<UnifiedFunctionDefinition>();
+			var functions = root.Descendants<UnifiedFunction>();
 
 			foreach (var e in functions) {
 				//weave given advice, when function's name matches given Regex
@@ -152,7 +152,7 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtAfterExecution(
 				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get function list
-			var functions = root.Descendants<UnifiedFunctionDefinition>();
+			var functions = root.Descendants<UnifiedFunction>();
 
 			foreach (var function in functions) {
 				//when function's name doesn't match given Regex, ignore current functionDefinition

@@ -25,8 +25,8 @@ namespace Unicoen.Apps.Translator.Rewriter {
 
 		// targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
 		public void RewiteIdentifierName(string newName, UnifiedElement target) {
-			if (target is UnifiedFunctionDefinition) {
-				((UnifiedFunctionDefinition)target).Name.Value = newName;
+			if (target is UnifiedFunction) {
+				((UnifiedFunction)target).Name.Value = newName;
 				return;
 			}
 		}

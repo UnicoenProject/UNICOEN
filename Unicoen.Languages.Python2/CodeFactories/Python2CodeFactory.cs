@@ -115,7 +115,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedFunctionDefinition element, VisitorArgument arg) {
+				UnifiedFunction element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
 			arg.Write("def ");

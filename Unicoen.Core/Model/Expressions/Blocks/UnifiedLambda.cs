@@ -19,40 +19,11 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-
 	/// <summary>
-	///   関数やメソッドなどのサブルーチンの定義部分を表します。
-	///   e.g. Javaにおける<c>public void method(int a){...}</c>
+	///   ラムダ式の定義部分を表します。
 	/// </summary>
-	public class UnifiedFunctionDefinition : UnifiedExpressionWithBlock {
-		
-		/// <summary>
-		///   サブルーチン定義の種類を表します．
-		/// </summary>
-		public UnifiedFunctionDefinitionKind Kind { get; set; }
-
+	public class UnifiedLambda : UnifiedExpressionWithBlock {
 		#region fields
-
-		private UnifiedAnnotationCollection _annotations;
-
-		/// <summary>
-		///   付与されているアノテーションを取得もしくは設定します．
-		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
-			get { return _annotations; }
-			set { _annotations = SetChild(value, _annotations); }
-		}
-
-		private UnifiedModifierCollection _modifiers;
-
-		/// <summary>
-		///   メソッドにつく修飾子の集合を表します
-		///   e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
-		/// </summary>
-		public UnifiedModifierCollection Modifiers {
-			get { return _modifiers; }
-			set { _modifiers = SetChild(value, _modifiers); }
-		}
 
 		private UnifiedType _type;
 
@@ -86,16 +57,9 @@ namespace Unicoen.Core.Model {
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		private UnifiedTypeCollection _throws;
-
-		public UnifiedTypeCollection Throws {
-			get { return _throws; }
-			set { _throws = SetChild(value, _throws); }
-		}
-
 		#endregion
 
-		private UnifiedFunctionDefinition() { }
+		private UnifiedLambda() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -112,26 +76,18 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedFunctionDefinition Create(
-				UnifiedFunctionDefinitionKind kind,
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+		public static UnifiedLambda Create(
 				UnifiedType type = null,
 				UnifiedTypeParameterCollection typeParameters = null,
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
-				UnifiedTypeCollection throws = null,
 				UnifiedBlock body = null) {
-			return new UnifiedFunctionDefinition {
-				Kind = kind,
-				Name = name,
-				Annotations = annotations,
-				Type = type,
-				TypeParameters = typeParameters,
-				Modifiers = modifiers,
-				Parameters = parameters,
-				Throws = throws,
-				Body = body,
+			return new UnifiedLambda {
+					Type = type,
+					TypeParameters = typeParameters,
+					Name = name,
+					Parameters = parameters,
+					Body = body,
 			};
 		}
 	}

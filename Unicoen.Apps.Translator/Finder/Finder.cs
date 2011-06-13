@@ -25,7 +25,7 @@ namespace Unicoen.Apps.Translator.Finder {
 		// adapt Singleton pattern
 		public static Finder Instance = new Finder();
 
-		public Boolean HasParameter(UnifiedFunctionDefinition func, Parameter param) {
+		public Boolean HasParameter(UnifiedFunction func, Parameter param) {
 			if (func.Name.Equals(param.Name)
 			    && func.Type.NameExpression.Equals(param.TypeName)) {
 				return true;

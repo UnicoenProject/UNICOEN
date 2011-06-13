@@ -119,11 +119,11 @@ namespace Unicoen.Languages.Ruby18.Model {
 			}
 		}
 
-		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
+		public static UnifiedFunction CreateDefineFunction(XElement node) {
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Function,
+			return UnifiedFunction.Create(
+					
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedIdentifier.Create(
 							UnifiedIdentifierKind.Function, elems.First().Value),

@@ -22,14 +22,6 @@ namespace Unicoen.Core.Model {
 			return UnifiedArgument.Create(null, null, expression);
 		}
 
-		public static UnifiedFunctionDefinition ToFunctionDefinition(this string name) {
-			return UnifiedFunctionDefinition.Create(
-					UnifiedFunctionDefinitionKind.Function,
-					null, UnifiedModifierCollection.Create(), null, null,
-					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name),
-					UnifiedParameterCollection.Create(), null, UnifiedBlock.Create());
-		}
-
 		public static UnifiedWhile ToWhile(this IUnifiedExpression condition) {
 			return UnifiedWhile.Create(condition);
 		}

@@ -25,9 +25,9 @@ namespace Unicoen.Apps.Translator.Filter {
 		// Singleton!
 		public static FunctionFinder Instance = new FunctionFinder();
 
-		public List<UnifiedFunctionDefinition> FindByName(
-				String name, List<UnifiedFunctionDefinition> list) {
-			var filteredList = new List<UnifiedFunctionDefinition>();
+		public List<UnifiedFunction> FindByName(
+				String name, List<UnifiedFunction> list) {
+			var filteredList = new List<UnifiedFunction>();
 
 			foreach (var f in list) {
 				if (f.Name.Value.Equals(name)) {
@@ -38,9 +38,9 @@ namespace Unicoen.Apps.Translator.Filter {
 			return filteredList;
 		}
 
-		public List<UnifiedFunctionDefinition> FindByReturnType(
-				UnifiedType type, List<UnifiedFunctionDefinition> list) {
-			var filteredList = new List<UnifiedFunctionDefinition>();
+		public List<UnifiedFunction> FindByReturnType(
+				UnifiedType type, List<UnifiedFunction> list) {
+			var filteredList = new List<UnifiedFunction>();
 
 			throw new NotImplementedException();
 		}

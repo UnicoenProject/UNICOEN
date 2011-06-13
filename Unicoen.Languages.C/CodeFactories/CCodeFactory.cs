@@ -121,7 +121,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedFunctionDefinition element, VisitorArgument arg) {
+				UnifiedFunction element, VisitorArgument arg) {
 			// C言語に存在しない要素は省略
 
 			arg.WriteIndent();
