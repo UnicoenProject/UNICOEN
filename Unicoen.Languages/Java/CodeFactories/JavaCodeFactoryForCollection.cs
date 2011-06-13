@@ -74,14 +74,14 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedExtendConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " extend ");
+			arg.Write(arg.Decoration.Delimiter ?? " extends ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedImplementsConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " implement ");
+			arg.Write(arg.Decoration.Delimiter ?? " implements ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
