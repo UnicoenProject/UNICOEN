@@ -67,10 +67,6 @@
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Languages.CSharp\Unicoen.Languages.CSharp.csproj">
-      <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
-      <Name>Unicoen.Languages.CSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -53,21 +53,21 @@
     <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
-      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
-      <Name>Unicoen.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Languages.C\Unicoen.Languages.C.csproj">
+    <ProjectReference Include="..\Languages\C\Unicoen.Languages.C.csproj">
       <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
       <Name>Unicoen.Languages.C</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Languages.Java\Unicoen.Languages.Java.csproj">
+    <ProjectReference Include="..\Languages\Java\Unicoen.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Languages.Python2\Unicoen.Languages.Python2.csproj">
+    <ProjectReference Include="..\Languages\Python2\Unicoen.Languages.Python2.csproj">
       <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
       <Name>Unicoen.Languages.Python2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Unicoen.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

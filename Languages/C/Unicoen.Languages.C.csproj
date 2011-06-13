@@ -78,15 +78,14 @@
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\lib\Code2Xml.Core.dll</HintPath>
+    <Reference Include="Code2Xml.Core">
+      <HintPath>..\..\lib\Code2Xml.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.C, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\lib\Code2Xml.Languages.C.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.C">
+      <HintPath>..\..\lib\Code2Xml.Languages.C.dll</HintPath>
     </Reference>
     <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
@@ -119,11 +118,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Mocomoco.Xml\Mocomoco.Xml.csproj">
+    <ProjectReference Include="..\..\Mocomoco.Xml\Mocomoco.Xml.csproj">
       <Project>{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}</Project>
       <Name>Mocomoco.Xml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
+    <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
     </ProjectReference>
