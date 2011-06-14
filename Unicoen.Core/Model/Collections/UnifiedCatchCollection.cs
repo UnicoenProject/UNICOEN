@@ -20,11 +20,15 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   UnifiedCatchの集合を表します。
-	///   e.g. Javaにおける<c>try{...}catch(E1 e1){...}catch(E2 e2){...}</c>の<c>catch(E1 e1){...}catch(E2 e2){...}</c>
+	///   catch節の集合を表します。
+	///   e.g. Javaにおける<c>try { ... } catch(E1 e1) { ... } catch(E2 e2) { ... }</c>の<c>catch(E1 e1) { ... } catch(E2 e2) { ... }</c>
 	/// </summary>
 	public class UnifiedCatchCollection
 			: UnifiedElementCollection<UnifiedCatch, UnifiedCatchCollection> {
+		/// <summary>
+		/// レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedCatchCollection CreateSelf() {
 			return new UnifiedCatchCollection();
 		}
@@ -36,8 +40,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
