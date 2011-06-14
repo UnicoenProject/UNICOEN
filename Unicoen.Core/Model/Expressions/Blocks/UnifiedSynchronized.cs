@@ -25,7 +25,6 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedSynchronized
 			: UnifiedExpressionWithBlock {
-
 		private IUnifiedExpression _value;
 
 		public IUnifiedExpression Value {
@@ -33,7 +32,7 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		private UnifiedSynchronized() { }
+		private UnifiedSynchronized() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -53,9 +52,9 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression value = null,
 				UnifiedBlock body = null) {
 			return new UnifiedSynchronized {
-				Value = value,
-				Body = body,
+					Value = value,
+					Body = body,
 			};
 		}
-	}
+			}
 }

@@ -137,7 +137,7 @@ namespace Unicoen.Apps.Aop {
 
 			foreach (var e in functions) {
 				//weave given advice, when function's name matches given Regex
-				var m = regex.Match(e.Name.Value);
+				var m = regex.Match(e.Name.Name);
 				if (m.Success)
 					e.Body.Insert(0, advice);
 			}
@@ -156,7 +156,7 @@ namespace Unicoen.Apps.Aop {
 
 			foreach (var function in functions) {
 				//when function's name doesn't match given Regex, ignore current functionDefinition
-				var m = regex.Match(function.Name.Value);
+				var m = regex.Match(function.Name.Name);
 				if (!m.Success)
 					continue;
 
@@ -247,7 +247,7 @@ namespace Unicoen.Apps.Aop {
 					continue;
 
 				// 現状ではToString()とのマッチングを行う。
-				var m = regex.Match(functionName.Value);
+				var m = regex.Match(functionName.Name);
 				if (!m.Success)
 					continue;
 				
@@ -278,7 +278,7 @@ namespace Unicoen.Apps.Aop {
 				if(functionName == null)
 					continue;
 
-				var m = regex.Match(functionName.Value);
+				var m = regex.Match(functionName.Name);
 				if (!m.Success)
 					continue;
 

@@ -31,7 +31,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);
 		void Visit(UnifiedParameterCollection element);
-		void Visit(UnifiedIdentifier element);
 		void Visit(UnifiedModifier element);
 		void Visit(UnifiedModifierCollection element);
 		void Visit(UnifiedImport element);
@@ -131,6 +130,12 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedReferenceConstrain element);
 		void Visit(UnifiedSuperConstrain element);
 		void Visit(UnifiedValueConstrain element);
+		void Visit(UnifiedSuperIdentifier element);
+		void Visit(UnifiedThisIdentifier element);
+		void Visit(UnifiedLabelIdentifier element);
+		void Visit(UnifiedSizeof element);
+		void Visit(UnifiedTypeof element);
+		void Visit(UnifiedVariableIdentifier element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -145,7 +150,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedIf element, TArg arg);
 		void Visit(UnifiedParameter element, TArg arg);
 		void Visit(UnifiedParameterCollection element, TArg arg);
-		void Visit(UnifiedIdentifier element, TArg arg);
 		void Visit(UnifiedModifier element, TArg arg);
 		void Visit(UnifiedModifierCollection element, TArg arg);
 		void Visit(UnifiedImport element, TArg arg);
@@ -245,6 +249,12 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedReferenceConstrain element, TArg arg);
 		void Visit(UnifiedSuperConstrain element, TArg arg);
 		void Visit(UnifiedValueConstrain element, TArg arg);
+		void Visit(UnifiedSuperIdentifier element, TArg arg);
+		void Visit(UnifiedThisIdentifier element, TArg arg);
+		void Visit(UnifiedLabelIdentifier element, TArg arg);
+		void Visit(UnifiedSizeof element, TArg arg);
+		void Visit(UnifiedTypeof element, TArg arg);
+		void Visit(UnifiedVariableIdentifier element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -259,7 +269,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedIf element, TArg arg);
 		TResult Visit(UnifiedParameter element, TArg arg);
 		TResult Visit(UnifiedParameterCollection element, TArg arg);
-		TResult Visit(UnifiedIdentifier element, TArg arg);
 		TResult Visit(UnifiedModifier element, TArg arg);
 		TResult Visit(UnifiedModifierCollection element, TArg arg);
 		TResult Visit(UnifiedImport element, TArg arg);
@@ -359,5 +368,11 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedReferenceConstrain element, TArg arg);
 		TResult Visit(UnifiedSuperConstrain element, TArg arg);
 		TResult Visit(UnifiedValueConstrain element, TArg arg);
+		TResult Visit(UnifiedSuperIdentifier element, TArg arg);
+		TResult Visit(UnifiedThisIdentifier element, TArg arg);
+		TResult Visit(UnifiedLabelIdentifier element, TArg arg);
+		TResult Visit(UnifiedSizeof element, TArg arg);
+		TResult Visit(UnifiedTypeof element, TArg arg);
+		TResult Visit(UnifiedVariableIdentifier element, TArg arg);
 	}
 }

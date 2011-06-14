@@ -27,8 +27,7 @@ namespace Unicoen.Core.Model {
 			// new[] の場合，NameExpressionがnullなUnifiedSimpleTypeを生成する．
 			return new UnifiedSimpleType {
 					NameExpression = name != null
-					                 		? UnifiedIdentifier.Create(
-					                 				UnifiedIdentifierKind.Type, name)
+					                 		? UnifiedVariableIdentifier.Create(name)
 					                 		: null,
 			};
 		}

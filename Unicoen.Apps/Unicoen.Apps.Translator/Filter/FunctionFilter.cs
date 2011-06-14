@@ -29,7 +29,7 @@ namespace Unicoen.Apps.Translator{
 			var filteredList = new List<UnifiedFunction>();
 
 			foreach (var f in list) {
-				if (f.Name.Value.Equals(name)) {
+				if (f.Name.Name.Equals(name)) {
 					filteredList.Add(f);
 				}
 			}

@@ -180,8 +180,26 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedIdentifier identifier, VisitorArgument arg) {
-			arg.Write(identifier.Value);
+				UnifiedVariableIdentifier element, VisitorArgument arg) {
+			arg.Write(element.Name);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedLabelIdentifier element, VisitorArgument arg) {
+			arg.Write(element.Name);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedSuperIdentifier element, VisitorArgument arg) {
+			arg.Write("");
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedThisIdentifier element, VisitorArgument arg) {
+			arg.Write("this");
 			return false;
 		}
 

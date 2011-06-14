@@ -152,8 +152,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		public void AddRange(IEnumerable<TElement> elements) {
-			Elements.AddRange(elements);
 			foreach (var element in elements) {
+				Elements.Add(element);
 				if (element != null)
 					((UnifiedElement)(IUnifiedElement)element).Parent = this;
 			}

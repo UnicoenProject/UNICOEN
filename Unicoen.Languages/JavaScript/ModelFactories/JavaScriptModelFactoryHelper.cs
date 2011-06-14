@@ -108,7 +108,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			return UnifiedFunction.Create(
 					
 					null, UnifiedModifierCollection.Create(), null, null,
-					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters,
+					UnifiedVariableIdentifier.Create(name), parameters,
 					null, body);
 			//関数定義をnewするとオブジェクトが生成されるが、
 			//定義段階ではオブジェクトとして宣言されたのか関数として定義されたのか判別できないため、
@@ -132,7 +132,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			return UnifiedLambda.Create(
 					null, null,
-					UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name), parameters,
+					UnifiedVariableIdentifier.Create(name), parameters,
 					body);
 		}
 
@@ -150,7 +150,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 							e => UnifiedParameter.Create(
 									null,
 									null, null,
-									UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, e.Value).
+									UnifiedVariableIdentifier.Create(e.Value).
 											ToCollection(),
 									null)).
 							ToCollection();
@@ -320,8 +320,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: Identifier LT!* initialiser?
 			 */
 
-			var name = UnifiedIdentifier.Create(
-					UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
+			var name = UnifiedVariableIdentifier.Create(node.NthElement(0).Value);
 			var init = node.Element("initialiser") != null
 			           		? CreateInitialiser(node.Element("initialiser")) : null;
 
@@ -341,8 +340,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: Identifier LT!* initialiserNoIn?
 			 */
 
-			var name = UnifiedIdentifier.Create(
-					UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
+			var name = UnifiedVariableIdentifier.Create(node.NthElement(0).Value);
 			var init = node.Element("initialiserNoIn") != null
 			           		? CreateInitialiserNoIn(node.Element("initialiserNoIn")) : null;
 
@@ -559,9 +557,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			var identifier = node.HasElement("Identifier")
-			                 		? UnifiedIdentifier.Create(
-			                 				UnifiedIdentifierKind.Unknown,
-			                 				node.Element("Identifier").Value) : null;
+			                 		? UnifiedVariableIdentifier.Create(node.Element("Identifier").Value) : null;
 
 			return UnifiedContinue.Create( identifier);
 		}
@@ -574,9 +570,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'break' Identifier? (LT | ';')
 			 */
 			var identifier = node.HasElement("Identifier")
-			                 		? UnifiedIdentifier.Create(
-			                 				UnifiedIdentifierKind.Unknown,
-			                 				node.Element("Identifier").Value) : null;
+			                 		? UnifiedVariableIdentifier.Create(node.Element("Identifier").Value) : null;
 
 			return UnifiedBreak.Create( identifier);
 		}
@@ -723,8 +717,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var matchers =
 					UnifiedMatcher.Create(
 							null, null,
-							UnifiedIdentifier.Create(
-									UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value), null)
+							UnifiedVariableIdentifier.Create(node.Element("Identifier").Value), null)
 							.ToCollection();
 			var body = CreateStatementBlock(node.Element("statementBlock"));
 			var catchClause = UnifiedCatch.Create(matchers, body);
@@ -1005,11 +998,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * propertyReferenceSuffix
 			 *		: '.' LT!* Identifier
 			 */
-			return UnifiedProperty.Create(
-					prefix,
-					UnifiedIdentifier.Create(
-							UnifiedIdentifierKind.Unknown, node.Element("Identifier").Value),
-					".");
+			return UnifiedProperty.Create(".", prefix, UnifiedVariableIdentifier.Create(node.Element("Identifier").Value));
 		}
 
 		public static UnifiedBinaryOperator CreateAssignmentOperator(XElement node) {
@@ -1340,13 +1329,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			var first = node.NthElement(0);
 			if (first.Value == "this")
-				return UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, "this");
+				return UnifiedVariableIdentifier.Create("this");
 			if (first.Value == "(")
 				return CreateExpression(node.Element("expression"));
 
 			switch (first.Name()) {
 			case "Identifier":
-				return UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, first.Value);
+				return UnifiedVariableIdentifier.Create(first.Value);
 			case "literal":
 				return CreateLiteral(first);
 			case "arrayLiteral":
@@ -1417,8 +1406,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		| StringLiteral
 			 *		| NumericLiteral
 			 */
-			return UnifiedIdentifier.Create(
-					UnifiedIdentifierKind.Variable, node.NthElement(0).Value);
+			return UnifiedVariableIdentifier.Create(node.NthElement(0).Value);
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {

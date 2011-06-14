@@ -22,7 +22,8 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
-	public partial class CCodeFactory : CodeFactory, IUnifiedVisitor<bool, VisitorArgument> {
+	public partial class CCodeFactory
+			: CodeFactory, IUnifiedVisitor<bool, VisitorArgument> {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>
@@ -85,7 +86,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBlock element, VisitorArgument arg) {
-			arg.WriteLine();	
+			arg.WriteLine();
 			arg.WriteIndent();
 			arg.WriteLine("{");
 			arg = arg.IncrementDepth();
@@ -163,9 +164,26 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedIdentifier element, VisitorArgument arg) {
-			arg.Write(element.Value);
+				UnifiedVariableIdentifier element, VisitorArgument arg) {
+			arg.Write(element.Name);
+			return false;
+		}
 
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedLabelIdentifier element, VisitorArgument arg) {
+			arg.Write(element.Name);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedSuperIdentifier element, VisitorArgument arg) {
+			arg.Write("/*" + element.Name + "*/");
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedThisIdentifier element, VisitorArgument arg) {
+			arg.Write("/*" + element.Name + "*/");
 			return false;
 		}
 

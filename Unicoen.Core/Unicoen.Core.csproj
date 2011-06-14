@@ -86,6 +86,12 @@
     <Compile Include="Model\Expressions\Collections\UnifiedSet.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedSetComprehension.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedTuple.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedVariableIdentifier.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedLabelIdentifier.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedThisIdentifier.cs" />
+    <Compile Include="Model\Expressions\UnifiedSizeof.cs" />
+    <Compile Include="Model\Expressions\UnifiedTypeof.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedSuperIdentifier.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedBreak.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedContinue.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedGoto.cs" />
@@ -183,7 +189,6 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedForeach.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFunction.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
-    <Compile Include="Model\Expressions\UnifiedIdentifierKind.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
@@ -191,7 +196,7 @@
     <Compile Include="Model\Expressions\Types\UnifiedSimpleType.cs" />
     <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
-    <Compile Include="Model\Expressions\UnifiedIdentifier.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedWhile.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForCollection.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />

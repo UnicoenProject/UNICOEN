@@ -105,7 +105,7 @@ namespace Unicoen.Core.Model {
 			}
 			return list.Skip(1).Aggregate(
 					list[0],
-					(l, r) => UnifiedProperty.Create(l, r, delimiter));
+					(l, r) => UnifiedProperty.Create(delimiter, l, r));
 		}
 
 		public static IUnifiedExpression ToProperty(

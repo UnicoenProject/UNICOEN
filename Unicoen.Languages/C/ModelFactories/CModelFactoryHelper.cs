@@ -151,7 +151,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 				prefix = " ";
 			}
 			type =
-					UnifiedType.Create(UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
+					UnifiedType.Create(UnifiedVariableIdentifier.Create(s));
 		}
 
 		public static IUnifiedElement CreateInitDeclaratorList(XElement node) {
@@ -215,7 +215,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			case "type_id":
 				return CreateTypeId(first);
 			default:
-				var ui = UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, first.Name());
+				var ui = UnifiedVariableIdentifier.Create(first.Name());
 				return UnifiedType.Create(ui);
 			}
 		}
@@ -246,8 +246,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var identElem = node.Element("IDENTIFIER");
 			var uIdent = identElem == null
 			             		? null
-			             		: UnifiedIdentifier.Create(
-			             				UnifiedIdentifierKind.Type, identElem.Value);
+			             		: UnifiedVariableIdentifier.Create(identElem.Value);
 
 			if (node.Elements().Count() == 2) {
 				var baseType = UnifiedType.Create(uIdent);
@@ -346,7 +345,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			type = s.Equals("")
 			       		? null
 			       		: UnifiedType.Create(
-			       				UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, s));
+			       				UnifiedVariableIdentifier.Create(s));
 		}
 
 		public static UnifiedVariableDefinitionList
@@ -464,8 +463,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 */
 			var identifier = node.Element("IDENTIFIER");
 			if (identifier != null) {
-				name = UnifiedIdentifier.Create(
-						UnifiedIdentifierKind.Function, identifier.Value);
+				name = UnifiedVariableIdentifier.Create(identifier.Value);
 			} else if (node.Element("declarator") != null) {
 				throw new NotImplementedException(); //TODO: implement
 			} else {

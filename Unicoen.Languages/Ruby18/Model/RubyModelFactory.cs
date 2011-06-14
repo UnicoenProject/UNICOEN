@@ -90,7 +90,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 				}
 			}
 			return UnifiedCall.Create(
-					UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, funcName),
+					UnifiedVariableIdentifier.Create(funcName),
 					UnifiedArgumentCollection.Create(
 							(UnifiedArgument[])node.Elements().ElementAt(2).Elements()
 							                   		.Select(
@@ -105,7 +105,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			case "lit":
 				return CreateLiteral(node);
 			case "lvar":
-				return UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, node.Value);
+				return UnifiedVariableIdentifier.Create(node.Value);
 			case "call":
 				return CreateCall(node);
 			case "if":
@@ -125,16 +125,14 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedFunction.Create(
 					
 					null, UnifiedModifierCollection.Create(), null, null,
-					UnifiedIdentifier.Create(
-							UnifiedIdentifierKind.Function, elems.First().Value),
+					UnifiedVariableIdentifier.Create(elems.First().Value),
 					UnifiedParameterCollection.Create(
 							(UnifiedParameter[])elems.ElementAt(1).Elements()
 							                    		.Select(
 							                    				e => UnifiedParameter.Create(
 							                    						null,
 							                    						null, null,
-							                    						UnifiedIdentifier.Create(
-							                    								UnifiedIdentifierKind.Variable, e.Value).
+							                    						UnifiedVariableIdentifier.Create(e.Value).
 							                    								ToCollection(),
 							                    						null))), null,
 					CreateBlock(elems.ElementAt(2).Elements().First()));

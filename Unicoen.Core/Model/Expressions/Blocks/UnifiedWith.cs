@@ -19,10 +19,10 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-		/// <summary>
-		///   with in JavaScript
-		///   Javaのstatic importのような役割
-		/// </summary>
+	/// <summary>
+	///   with in JavaScript
+	///   Javaのstatic importのような役割
+	/// </summary>
 	public class UnifiedWith : UnifiedExpressionWithBlock {
 		private IUnifiedExpression _value;
 
@@ -31,7 +31,7 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		protected UnifiedWith() { }
+		protected UnifiedWith() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -51,8 +51,8 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression value = null,
 				UnifiedBlock body = null) {
 			return new UnifiedWith {
-				Value = value,
-				Body = body,
+					Value = value,
+					Body = body,
 			};
 		}
 	}

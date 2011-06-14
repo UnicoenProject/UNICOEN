@@ -24,9 +24,9 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>loop: while(cond){ ... }</c>の<c>loop</c>の部分
 	/// </summary>
 	public class UnifiedLabel : UnifiedElement, IUnifiedExpression {
-		private UnifiedIdentifier _name;
+		private UnifiedLabelIdentifier _name;
 
-		public UnifiedIdentifier Name {
+		public UnifiedLabelIdentifier Name {
 			get { return _name; }
 			set { _name = SetChild(value, _name); }
 		}
@@ -48,9 +48,9 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static IUnifiedExpression Create(string value) {
+		public static IUnifiedExpression Create(string name) {
 			return new UnifiedLabel {
-					Name = UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, value),
+					Name = UnifiedLabelIdentifier.Create(name),
 			};
 		}
 	}

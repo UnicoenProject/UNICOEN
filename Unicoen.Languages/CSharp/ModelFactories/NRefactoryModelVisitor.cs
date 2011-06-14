@@ -123,7 +123,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				IdentifierExpression ident, object data) {
 			Contract.Requires<ArgumentNullException>(ident != null);
 
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, ident.Identifier);
+			return UnifiedVariableIdentifier.Create(ident.Identifier);
 		}
 
 		public IUnifiedElement VisitIndexerExpression(IndexerExpression indexer, object data) {
@@ -165,9 +165,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			Contract.Requires<ArgumentNullException>(propExpr != null);
 
 			var target = propExpr.Target.AcceptForExpression(this);
-			var name = propExpr.MemberName.ToUnknownIdentifier();
+			var name = (UnifiedIdentifier)propExpr.MemberName.ToVariableIdentifier();
 
-			return UnifiedProperty.Create(target, name, ".");
+			return UnifiedProperty.Create(".", target, name);
 		}
 
 		public IUnifiedElement VisitNamedArgumentExpression(
@@ -329,7 +329,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			Contract.Requires<ArgumentNullException>(dec != null);
 
 			var mods = LookupModifier(dec.Modifiers);
-			var name = UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, dec.Name);
+			var name = UnifiedVariableIdentifier.Create(dec.Name);
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Members) {
 				var uExpr = node.AcceptForExpression(this);
@@ -580,7 +580,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var uParms = UnifiedParameterCollection.Create();
 			foreach (var param in ctorDec.Parameters) {
 				var type = LookupType(param.Type);
-				var names = UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, param.Name).ToCollection();
+				var names = UnifiedVariableIdentifier.Create(param.Name).ToCollection();
 				uParms.Add(UnifiedParameter.Create(type: type, names: names));
 			}
 
@@ -648,7 +648,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 			var mods = LookupModifier(dec.Modifiers);
 			var type = LookupType(dec.ReturnType);
-			var name = UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, dec.Name);
+			var name = UnifiedVariableIdentifier.Create(dec.Name);
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Body) {
 				var uExpr = node.AcceptForExpression(this);

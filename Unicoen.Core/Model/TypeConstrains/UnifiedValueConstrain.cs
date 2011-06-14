@@ -44,7 +44,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedValueConstrain Create(
 				UnifiedType type) {
-			return new UnifiedValueConstrain {};
+			return new UnifiedValueConstrain { };
 		}
 	}
 }

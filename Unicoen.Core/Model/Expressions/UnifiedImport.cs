@@ -78,7 +78,7 @@ namespace Unicoen.Core.Model {
 					From = from,
 					Name = name,
 					Alias = alias != null
-					        		? UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, alias)
+					        		? UnifiedVariableIdentifier.Create(alias)
 					        		: null,
 					Modifiers = modifiers,
 			};

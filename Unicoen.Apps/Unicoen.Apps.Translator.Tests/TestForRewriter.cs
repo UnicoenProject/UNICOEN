@@ -49,7 +49,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			functions =
 					Finder.GetAllElements<UnifiedFunction>(_program);
 			f = functions.ElementAt(0);
-			Assert.That(f.Name.Value, Is.EqualTo("getName2"));
+			Assert.That(f.Name.Name, Is.EqualTo("getName2"));
 
 			Console.WriteLine(JavaFactory.GenerateCode(_program));
 		}

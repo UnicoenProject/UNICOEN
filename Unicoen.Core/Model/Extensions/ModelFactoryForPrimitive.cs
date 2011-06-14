@@ -18,32 +18,8 @@
 
 namespace Unicoen.Core.Model {
 	public static class ModelFactoryForPrimitive {
-		public static UnifiedIdentifier ToThisIdentifier(this string name) {
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.This, name);
-		}
-
-		public static UnifiedIdentifier ToSuperIdentifier(this string name) {
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Super, name);
-		}
-
-		public static UnifiedIdentifier ToClassObjectIdentifier(this string name) {
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.ClassObject, name);
-		}
-
-		public static UnifiedIdentifier ToUnknownIdentifier(this string name) {
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, name);
-		}
-
 		public static UnifiedIdentifier ToVariableIdentifier(this string name) {
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, name);
-		}
-
-		public static UnifiedIdentifier ToTypeIdentifier(this string name) {
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Type, name);
-		}
-
-		public static UnifiedIdentifier ToFunctionIdentifier(this string name) {
-			return UnifiedIdentifier.Create(UnifiedIdentifierKind.Function, name);
+			return UnifiedVariableIdentifier.Create(name);
 		}
 
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {

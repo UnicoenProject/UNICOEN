@@ -27,7 +27,7 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		protected UnifiedContinue() { }
+		protected UnifiedContinue() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);

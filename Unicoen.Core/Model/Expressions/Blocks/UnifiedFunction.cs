@@ -19,13 +19,11 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-
 	/// <summary>
 	///   関数やメソッドなどのサブルーチンの定義部分を表します。
 	///   e.g. Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
 	public class UnifiedFunction : UnifiedExpressionWithBlock {
-		
 		#region fields
 
 		private UnifiedAnnotationCollection _annotations;
@@ -90,7 +88,7 @@ namespace Unicoen.Core.Model {
 
 		#endregion
 
-		private UnifiedFunction() { }
+		private UnifiedFunction() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -117,14 +115,14 @@ namespace Unicoen.Core.Model {
 				UnifiedTypeCollection throws = null,
 				UnifiedBlock body = null) {
 			return new UnifiedFunction {
-				Name = name,
-				Annotations = annotations,
-				Type = type,
-				TypeParameters = typeParameters,
-				Modifiers = modifiers,
-				Parameters = parameters,
-				Throws = throws,
-				Body = body,
+					Name = name,
+					Annotations = annotations,
+					Type = type,
+					TypeParameters = typeParameters,
+					Modifiers = modifiers,
+					Parameters = parameters,
+					Throws = throws,
+					Body = body,
 			};
 		}
 	}

@@ -333,9 +333,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedArgument element, VisitorArgument arg) {
-			arg.Write("/*");
-			element.Modifiers.TryAccept(this, arg);
-			arg.Write("*/");
+			// Javaはメソッド呼び出しにModifiersがない
+			//element.Modifiers.TryAccept(this, arg);
 			element.Value.TryAccept(this, arg);
 			return false;
 		}
@@ -345,8 +344,33 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		#region value
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedIdentifier identifier, VisitorArgument arg) {
-			arg.Write(identifier.Value);
+				UnifiedVariableIdentifier element, VisitorArgument arg) {
+			arg.Write(element.Name);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedLabelIdentifier element, VisitorArgument arg) {
+			arg.Write(element.Name);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedSuperIdentifier element, VisitorArgument arg) {
+			arg.Write("super");
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedThisIdentifier element, VisitorArgument arg) {
+			arg.Write("this");
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedTypeof element, VisitorArgument arg) {
+			element.Type.TryAccept(this, arg);
+			arg.Write(".class");
 			return false;
 		}
 

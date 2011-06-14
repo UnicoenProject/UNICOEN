@@ -243,6 +243,9 @@ namespace Unicoen.Core.Model {
 			Write(obj, obj + "", buffer, depth);
 		}
 
+		private static readonly string[] IgnorePropertyNames =
+				new[] { "Parent", "PropertyInfos", "FieldInfos" };
+
 		private static void WriteUnifiedElement(
 				UnifiedElement elem, StringBuilder buffer, int depth) {
 			WriteTypeWithoutContent(elem, buffer, depth);
@@ -253,9 +256,10 @@ namespace Unicoen.Core.Model {
 					ToStringRecursively(item, buffer, depth + 1);
 				}
 			}
+
 			// write properties without indexer
 			var values = elem.GetType().GetProperties()
-					.Where(prop => prop.Name != "Parent")
+					.Where(prop => !IgnorePropertyNames.Contains(prop.Name))
 					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Select(prop => prop.GetValue(elem, null));
 			foreach (var value in values) {

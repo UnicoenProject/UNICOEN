@@ -115,8 +115,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			return UnifiedFunction.Create(
 					null, UnifiedModifierCollection.Create(), null, null,
-					UnifiedIdentifier.Create(
-							UnifiedIdentifierKind.Function, node.NthElement(1).Value),
+					UnifiedVariableIdentifier.Create(node.NthElement(1).Value),
 					CreateParameters(node.NthElement(2)), null, CreateSuite(node.LastElement()));
 		}
 
@@ -151,14 +150,14 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 											null, null,
 											names.Select(
 													name =>
-													UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, name)).
+													UnifiedVariableIdentifier.Create(name)).
 													ToCollection(), null);
 								return UnifiedParameter.Create(
 										null,
 										null, null,
 										names.Select(
 												name1 =>
-												UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, name1)).
+												UnifiedVariableIdentifier.Create(name1)).
 												ToCollection(),
 										CreateTest(next.NextElement()));
 							});
@@ -169,7 +168,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 									null,
 									UnifiedModifier.Create(e.PreviousElement().Value).
 											ToCollection(), null,
-									UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, e.Value).
+									UnifiedVariableIdentifier.Create(e.Value).
 											ToCollection(),
 									null));
 			return ps.Concat(ps2).ToCollection();
@@ -486,7 +485,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.ToProperty(".");
 			if (node.LastElement().Value == "*")
 				yield return UnifiedImport.Create(
-						from, UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, "*"), null,
+						from, UnifiedVariableIdentifier.Create("*"), null,
 						null);
 			var results = CreateImport_as_names(node.Element("import_as_names"))
 					.Select(t => UnifiedImport.Create(from, t.Item1, t.Item2, null));
@@ -495,7 +494,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			}
 		}
 
-		public static Tuple<UnifiedIdentifier, string> CreateImport_as_name(
+		public static Tuple<UnifiedVariableIdentifier, string> CreateImport_as_name(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_as_name");
@@ -505,7 +504,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var first = node.FirstElement();
 			var asNode = first.NextElementOrDefault();
 			return Tuple.Create(
-					UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, first.Value),
+					UnifiedVariableIdentifier.Create(first.Value),
 					asNode != null ? asNode.NextElement().Value : null);
 		}
 
@@ -522,7 +521,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					name != null ? name.Value : null);
 		}
 
-		public static IEnumerable<Tuple<UnifiedIdentifier, string>>
+		public static IEnumerable<Tuple<UnifiedVariableIdentifier, string>>
 				CreateImport_as_names(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "import_as_names");
@@ -552,7 +551,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			return node.Elements().OddIndexElements()
 					.Select(
-							e => UnifiedIdentifier.Create(UnifiedIdentifierKind.Unknown, e.Value));
+							e => UnifiedVariableIdentifier.Create(e.Value));
 		}
 
 		public static IUnifiedExpression CreateGlobal_stmt(XElement node) {
@@ -1075,11 +1074,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			case "[":
 				return UnifiedIndexer.Create(prefix, CreateSubscriptlist(second));
 			case ".":
-				return UnifiedProperty.Create(
-						prefix,
-						UnifiedIdentifier.Create(
-								UnifiedIdentifierKind.Unknown, node.LastElement().Value),
-						".");
+				return UnifiedProperty.Create(".", prefix, UnifiedVariableIdentifier.Create(node.LastElement().Value));
 			default:
 				throw new IndexOutOfRangeException();
 			}
@@ -1104,7 +1099,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 * subscript: '.' '.' '.' | test | [test] ':' [test] [sliceop]
 			 */
 			if (node.HasElementByContent("."))
-				return UnifiedIdentifier.Create(UnifiedIdentifierKind.Variable, "...");
+				return UnifiedVariableIdentifier.Create("...");
 			var colon = node.ElementByContent(":");
 			if (colon == null)
 				return CreateTest(node.FirstElement());
@@ -1208,8 +1203,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			               		: null;
 			return UnifiedClass.Create(
 					null, UnifiedModifierCollection.Create(),
-					UnifiedIdentifier.Create(
-							UnifiedIdentifierKind.Type, node.NthElement(1).Value), null, testlist,
+					UnifiedVariableIdentifier.Create(node.NthElement(1).Value), null, testlist,
 					CreateSuite(node.LastElement()));
 		}
 

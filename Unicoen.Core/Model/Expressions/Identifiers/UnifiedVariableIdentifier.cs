@@ -16,18 +16,34 @@
 
 #endregion
 
+using Unicoen.Core.Processor;
+
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   UnifiedIdentifierの種類を表します。
+	///   識別子を表します。
 	/// </summary>
-	public enum UnifiedIdentifierKind {
-		Variable,
-		Type,
-		NameSpace,
-		Function,
-		ClassObject,
-		Super,
-		This,
-		Unknown,
+	public class UnifiedVariableIdentifier : UnifiedIdentifier {
+		protected internal UnifiedVariableIdentifier() {}
+
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
+
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
+
+		public override TResult Accept<TResult, TArg>(
+				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedVariableIdentifier Create(string name) {
+			return new UnifiedVariableIdentifier {
+					Name = name,
+			};
+		}
 	}
 }

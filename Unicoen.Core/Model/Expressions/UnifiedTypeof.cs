@@ -20,18 +20,22 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   Fixなど特殊なブロックを表します。
-	///   e.g. Javaにおける<c>Fix(this) {...}</c>
+	///   Typeof式を表します。
+	///   e.g. Javaにおける<c>(int)a</c>
 	/// </summary>
-	public class UnifiedFix : UnifiedExpressionWithBlock {
-		private IUnifiedExpression _value;
+	public class UnifiedTypeof : UnifiedElement, IUnifiedExpression {
+		private UnifiedType _type;
 
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
+		/// <summary>
+		///   キャスト対象の式を表します
+		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
+		/// </summary>
+		public UnifiedType Type {
+			get { return _type; }
+			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedFix() {}
+		protected UnifiedTypeof() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -47,12 +51,10 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedFix Create(
-				IUnifiedExpression value = null,
-				UnifiedBlock body = null) {
-			return new UnifiedFix {
-					Value = value,
-					Body = body,
+		public static UnifiedTypeof Create(
+				UnifiedType type) {
+			return new UnifiedTypeof {
+					Type = type
 			};
 		}
 	}

@@ -65,10 +65,6 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedIdentifier element) {
-			throw new NotImplementedException();
-		}
-
 		void IUnifiedVisitor.Visit(UnifiedModifier element) {
 			throw new NotImplementedException();
 		}
@@ -464,6 +460,30 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor.Visit(UnifiedValueConstrain element) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor.Visit(UnifiedSuperIdentifier element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedThisIdentifier element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedLabelIdentifier element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedSizeof element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedTypeof element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedVariableIdentifier element) {
+			throw new NotImplementedException();
+		}
 	}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg>
@@ -509,10 +529,6 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor<TArg>.Visit(UnifiedParameterCollection element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		void IUnifiedVisitor<TArg>.Visit(UnifiedIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -921,6 +937,30 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor<TArg>.Visit(UnifiedValueConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedSuperIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedThisIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedLabelIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedSizeof element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedTypeof element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedVariableIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
 			}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TResult, TArg>
@@ -974,11 +1014,6 @@ namespace Unicoen.Core.Processor {
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedParameterCollection element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1408,27 +1443,61 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedDefaultConstrain element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedDefaultConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedExtendConstrain element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedExtendConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedImplementsConstrain element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedImplementsConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedReferenceConstrain element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedReferenceConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSuperConstrain element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedSuperConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedValueConstrain element, TArg arg) {
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedValueConstrain element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedSuperIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedThisIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedLabelIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSizeof element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedTypeof element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedVariableIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}
