@@ -24,6 +24,7 @@ using Paraiba.Text;
 using Unicoen.Apps.Aop.Visitor;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
+using Unicoen.Core.Tests;
 
 namespace Unicoen.Apps.Aop.Tests {
 	/// <summary>
@@ -31,11 +32,11 @@ namespace Unicoen.Apps.Aop.Tests {
 	/// </summary>
 	[TestFixture]
 	public class AspectAdaptorTest {
-		private const string JavaCodePath =
-				"../../fixture/AspectCompiler/input/JavaSample.java";
+		private static readonly string JavaCodePath =
+			FixtureUtil.GetInputPath("AspectCompiler", "JavaSample.java");
 
-		private const string JavaScriptCodePath =
-				"../../fixture/AspectCompiler/input/JavaScriptSample.js";
+		private static readonly string JavaScriptCodePath = 
+			FixtureUtil.GetInputPath("AspectCompiler", "JavaScriptSample.js");
 
 		private UnifiedProgram _javaModel;
 		private UnifiedProgram _javaScriptModel;
@@ -74,16 +75,16 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test]
 		public void Java言語の関数実行前にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/before_execution.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "before_execution.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("Java", _javaModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/before_execution.java";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "before_execution.java");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
@@ -96,16 +97,16 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test]
 		public void Java言語の関数実行後にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/after_execution.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "after_execution.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("Java", _javaModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/after_execution.java";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "after_execution.java");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
@@ -117,16 +118,16 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test]
 		public void Java言語の関数呼び出し前にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/before_call.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "before_call.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("Java", _javaModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/before_call.java";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "before_call.java");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
@@ -138,16 +139,16 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test]
 		public void Java言語の関数呼び出し後にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/after_call.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "after_call.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("Java", _javaModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/after_call.java";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "after_call.java");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
@@ -159,16 +160,16 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test]
 		public void JavaScript言語の関数実行前にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/before_execution.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "before_execution.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/before_execution.js";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "before_execution.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
 
@@ -180,16 +181,16 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test]
 		public void JavaScript言語の関数実行後にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/after_execution.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "after_execution.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/after_execution.js";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "after_execution.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
 
@@ -202,21 +203,18 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test, Ignore]
 		public void JavaScript言語の関数呼び出し前にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/before_call.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "before_call.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/before_call.js";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "before_call.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
-
-			var a = _javaScriptModel.ToString();
-			var b = expectation.ToString();
 
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
@@ -227,16 +225,16 @@ namespace Unicoen.Apps.Aop.Tests {
 		[Test, Ignore]
 		public void JavaScript言語の関数呼び出し後にコードが正しく合成される() {
 			//アスペクトモデルの作成
-			const string aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/after_call.txt";
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "after_call.txt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
 
 			//期待されるモデルの作成
-			const string filePath =
-					"../../fixture/AspectCompiler/input/expectation/after_call.js";
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "after_call.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
 

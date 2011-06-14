@@ -69,13 +69,16 @@
     <Compile Include="AspectElement\LanguageDependBlock.cs" />
     <Compile Include="AspectElement\Pointcut.cs" />
     <Compile Include="CodeProcessor.cs" />
-    <Compile Include="FileCollector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitor\AstVisitor.cs" />
     <Compile Include="Visitor\DebugVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
+      <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
+      <Name>Unicoen.Core.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Languages\CSharp\Unicoen.Languages.CSharp.csproj">
       <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
       <Name>Unicoen.Languages.CSharp</Name>
