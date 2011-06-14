@@ -77,6 +77,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				}
 				return uType;
 			}
+			var mem = type as MemberType;
+			if (mem != null) {
+				var target = LookupType(mem.Target);
+				var name = mem.MemberName.ToVariableIdentifier();
+				return UnifiedType.Create(UnifiedProperty.Create(".", target, name));
+			}
+			if (type == AstType.Null) {
+				return UnifiedType.Create();
+			}
 
 			throw new NotImplementedException("LookupType");
 		}
