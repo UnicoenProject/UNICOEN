@@ -22,10 +22,10 @@ using Unicoen.Core.Model;
 namespace Unicoen.Core.Processor {
 	public abstract class CodeFactory
 			: ExplicitDefaultUnifiedVisitor<bool, VisitorArgument> {
-		public abstract string Generate(
+		public abstract void Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign);
 
-		public abstract string Generate(IUnifiedElement model, TextWriter writer);
+		public abstract void Generate(IUnifiedElement model, TextWriter writer);
 
 		public string Generate(IUnifiedElement model) {
 			var writer = new StringWriter();

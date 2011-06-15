@@ -24,6 +24,10 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedExpressionCollection
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection> {
+		/// <summary>
+		/// レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedExpressionCollection CreateSelf() {
 			return new UnifiedExpressionCollection();
 		}
@@ -35,8 +39,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 

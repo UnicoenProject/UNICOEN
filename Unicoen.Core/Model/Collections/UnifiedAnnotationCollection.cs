@@ -22,9 +22,14 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   アノテーションもしくは属性の集合を表します．
 	///   e.g. Javaにおける<c>@Override @Deprecated void method() { ... }</c>の<c>@Override @Deprecated</c>
+	///   e.g. C#における<c>[Pure, DebuggerStepThrough] void Method() { ... }</c>の<c>Pure, DebuggerStepThrough</c>
 	/// </summary>
 	public class UnifiedAnnotationCollection
 			: UnifiedElementCollection<UnifiedAnnotation, UnifiedAnnotationCollection> {
+		/// <summary>
+		/// レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedAnnotationCollection CreateSelf() {
 			return new UnifiedAnnotationCollection();
 		}
@@ -36,8 +41,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 

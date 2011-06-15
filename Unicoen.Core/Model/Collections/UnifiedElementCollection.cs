@@ -37,6 +37,10 @@ namespace Unicoen.Core.Model {
 			Elements = new List<TElement>();
 		}
 
+		/// <summary>
+		/// レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns>生成したオブジェクト</returns>
 		public abstract TSelf CreateSelf();
 
 		public override void Accept<TArg>(
@@ -152,6 +156,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public void AddRange(IEnumerable<TElement> elements) {
+			// 1回の走査で処理を終わらせるようにする
 			foreach (var element in elements) {
 				Elements.Add(element);
 				if (element != null)
@@ -208,8 +213,6 @@ namespace Unicoen.Core.Model {
 			((UnifiedElement)(IUnifiedElement)target).Parent = null;
 			return (TSelf)this;
 		}
-
-		// TODO: UnifiedElementCollectionを継承するクラスがプロパティを持たなければ、このクラスでGetElementsを実装しても良い
 
 		public override IUnifiedElement Normalize() {
 			NormalizeChildren();

@@ -94,7 +94,7 @@ namespace Unicoen.Languages.Python2.Tests {
 				}
 						.Select(
 								s =>
-								new TestCaseData(FixtureUtil.GetInputPath("Python2", s + Extension)));
+								new TestCaseData(FixtureUtil.GetInputPath(LanguageName, s + Extension)));
 			}
 		}
 
@@ -128,6 +128,30 @@ namespace Unicoen.Languages.Python2.Tests {
 			};
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(dirPath, CompileCommand, arguments);
+		}
+
+		private  TestCaseData SetUpPyPy() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "PyPy");
+			var srcPath = Path.Combine(path, "src.zip");
+			var depPath = Path.Combine(path, "dep.jar");
+			var args = new[] {
+					"-cp",
+					"\"" + path + "\";\"" + depPath + "\"",
+					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
+			};
+			var testCase = new TestCaseData(
+					path,
+					CompileCommand,
+					args.JoinString(" "));
+			if (Directory.Exists(path))
+				return testCase;
+			Directory.CreateDirectory(path);
+			FixtureManager.Download(
+					"https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
+			FixtureManager.Unzip(srcPath);
+			FixtureManager.Download(
+					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
+			return testCase;
 		}
 	}
 }

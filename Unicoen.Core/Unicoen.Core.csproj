@@ -89,8 +89,8 @@
     <Compile Include="Model\Expressions\Identifiers\UnifiedVariableIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedLabelIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedThisIdentifier.cs" />
-    <Compile Include="Model\Expressions\UnifiedSizeof.cs" />
-    <Compile Include="Model\Expressions\UnifiedTypeof.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedSizeof.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedTypeof.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedSuperIdentifier.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedBreak.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedContinue.cs" />
@@ -99,15 +99,15 @@
     <Compile Include="Model\Expressions\Jumps\UnifiedThrow.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedYieldReturn.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedCharLiteral.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedAnnotationDefinition.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedClass.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedEnum.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedInterface.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedModule.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedNamespace.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedPackageBase.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedStruct.cs" />
-    <Compile Include="Model\Expressions\Packages\UnifiedUnion.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedAnnotationDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedClass.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedEnum.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedInterface.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedModule.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedNamespace.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedPackageBase.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedStruct.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedUnion.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedPrintChevron.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedPrint.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedAssert.cs" />
@@ -126,8 +126,8 @@
     <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedType.cs" />
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
-    <Compile Include="Model\Expressions\UnifiedVariableDefinition.cs" />
-    <Compile Include="Model\Expressions\UnifiedVariableDefinitionList.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinitionList.cs" />
     <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Extensions\ModelGenerator.cs" />
     <Compile Include="Model\Extensions\SafeModelSweeper.cs" />
@@ -187,7 +187,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedExpressionWithBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedFor.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedForeach.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedFunction.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedFunction.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
@@ -299,6 +299,7 @@
       <Name>Mocomoco.Xml</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

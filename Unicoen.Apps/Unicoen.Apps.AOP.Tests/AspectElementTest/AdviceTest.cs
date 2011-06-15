@@ -21,6 +21,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Core.Tests;
 
 namespace Aries.Tests {
 	public class AdviceTest {
@@ -28,9 +29,10 @@ namespace Aries.Tests {
 
 		[SetUp]
 		public void SetUp() {
-			var input =
-					new ANTLRFileStream(
-							"../../fixture/AspectCompiler/input/simple_advice_sample.txt");
+			var input = new ANTLRFileStream(
+					FixtureUtil.GetInputPath(
+							"AspectCompiler",
+							"simple_advice_sample.txt"));
 
 			var lex = new AriesLexer(input);
 			var tokens = new CommonTokenStream(lex);

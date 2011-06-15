@@ -97,7 +97,7 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								s =>
-								new TestCaseData(FixtureUtil.GetInputPath("Java", s + Extension)));
+								new TestCaseData(FixtureUtil.GetInputPath(LanguageName, s + Extension)));
 			}
 		}
 
@@ -114,7 +114,7 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => new TestCaseData(
-								     		FixtureUtil.GetInputPath("Java", o.DirName),
+								     		FixtureUtil.GetInputPath(LanguageName, o.DirName),
 								     		o.Command,
 								     		o.Arguments))
 						.Concat(
@@ -137,8 +137,8 @@ namespace Unicoen.Languages.Java.Tests {
 			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
-		private static TestCaseData SetUpJUnit() {
-			var path = FixtureUtil.GetDownloadPath("Java", "JUnit4.8.2");
+		private TestCaseData SetUpJUnit() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "JUnit4.8.2");
 			var srcPath = Path.Combine(path, "src.zip");
 			var depPath = Path.Combine(path, "dep.jar");
 			var args = new[] {

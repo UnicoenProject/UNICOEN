@@ -20,11 +20,15 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   case式の集合を表します。
-	///   e.g. Javaにおける<c>switch(v){case c1: ... case c2: ...}</c>の<c>case c1: ... case c2: ...</c>
+	///   case文の集合を表します。
+	///   e.g. Javaにおける<c>switch(v) { case 1: ... case 2: ... }</c>の<c>case 1: ... case 2: ...</c>
 	/// </summary>
 	public class UnifiedCaseCollection
 			: UnifiedElementCollection<UnifiedCase, UnifiedCaseCollection> {
+		/// <summary>
+		/// レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedCaseCollection CreateSelf() {
 			return new UnifiedCaseCollection();
 		}
@@ -36,8 +40,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
