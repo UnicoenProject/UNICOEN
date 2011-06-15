@@ -29,7 +29,6 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 // ReSharper disable InvocationIsSkipped
-
 namespace Unicoen.Languages.Java.ModelFactories {
 	public static class JavaModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
@@ -2443,7 +2442,3 @@ namespace Unicoen.Languages.Java.ModelFactories {
 		}
 	}
 }
-
-// ReSharper restore InvocationIsSkipped
-
-// ReSharper restore InvocationIsSkipped

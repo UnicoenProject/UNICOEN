@@ -27,6 +27,7 @@ using Mocomoco.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
+// ReSharper disable InvocationIsSkipped
 namespace Unicoen.Languages.JavaScript.ModelFactories {
 	public static class JavaScriptModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;

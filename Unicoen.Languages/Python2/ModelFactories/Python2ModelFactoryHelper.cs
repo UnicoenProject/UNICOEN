@@ -27,6 +27,7 @@ using Paraiba.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
+// ReSharper disable InvocationIsSkipped
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public static class Python2ModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
