@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\CSharpCodeFactory.cs" />
+    <Compile Include="CodeFactories\CSharpCodeStyle.cs" />
+    <Compile Include="CodeFactories\CSharpCodeFactoryVisitor.cs" />
     <Compile Include="CSharpFactory.cs" />
     <Compile Include="ModelFactories\CSharpModelFactory.cs" />
     <Compile Include="ModelFactories\NRefactoryModelVisitor.cs" />

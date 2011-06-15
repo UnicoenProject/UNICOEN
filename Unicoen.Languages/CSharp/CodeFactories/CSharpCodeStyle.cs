@@ -7,18 +7,24 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 	public class CSharpCodeStyle {
 
-		public string Indent { get; set; }
+		public string Indent = "\t";
 
-		private readonly SpaceStyle _space = new SpaceStyle();
-		public SpaceStyle Space { get { return _space; } }
+		public readonly SpaceStyle Space = new SpaceStyle();
 
-		public CSharpCodeStyle() {
-			Indent = "\t";
-		}
+		public readonly LineBreakStyle LineBreak = new LineBreakStyle();
+
+		#region StyleGroup
 
 		public class SpaceStyle {
-			
+			public bool BeforeBinaryOperation = true;
+			public bool AfterBinaryOperation = true;
 		}
+
+		public class LineBreakStyle {
+			public bool AfterClass = false;
+		}
+
+		#endregion
 
 	}
 }

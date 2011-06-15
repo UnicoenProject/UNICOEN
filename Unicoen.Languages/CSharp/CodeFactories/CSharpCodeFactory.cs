@@ -29,12 +29,11 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public override void Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
-			return Generate(model, writer, new CSharpCodeStyle { Indent = indentSign });
-
+			Generate(model, writer, new CSharpCodeStyle { Indent = indentSign });
 		}
 
 		public string Generate(IUnifiedElement model, TextWriter writer, CSharpCodeStyle style) {
-			var visitor = new CSharpCodeFactoryVisitor(style);
+			var visitor = new CSharpCodeFactoryVisitor(writer, style);
 			model.Accept(visitor);
 			return writer.ToString();
 		}

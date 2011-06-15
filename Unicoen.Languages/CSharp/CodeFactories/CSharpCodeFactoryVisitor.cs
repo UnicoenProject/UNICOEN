@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Model;
@@ -13,17 +11,35 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		private readonly TextWriter _writer;
 		private readonly CSharpCodeStyle _style;
 
+		private int _indent = 0;
+
 		public CSharpCodeFactoryVisitor(TextWriter writer, CSharpCodeStyle style) {
 			_writer = writer;
 			_style = style;
 		}
 
+		private void WriteSpace() {
+			_writer.Write(" ");
+		}
+
+		private void WriteIndent() {
+			for (int i = 0; i < _indent; i++)
+				_writer.Write(_style.Indent);
+		}
+
+		private void VisitUnlessNull<T>(T element) where T : class, IUnifiedElement {
+			if (element != null)
+				element.Accept(this);
+		}
+
+		#region VisitorCode
+
 		public void Visit(UnifiedBinaryOperator element) {
-			throw new NotImplementedException();
+			_writer.Write(element.Sign);
 		}
 
 		public void Visit(UnifiedUnaryOperator element) {
-			throw new NotImplementedException();
+			_writer.Write(element.Sign);
 		}
 
 		public void Visit(UnifiedArgument element) {
@@ -39,6 +55,11 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public void Visit(UnifiedBlock element) {
+			bool hasBracket = element.Parent is UnifiedBlock;
+			if (hasBracket) {
+			}
+
+
 			throw new NotImplementedException();
 		}
 
@@ -67,7 +88,10 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public void Visit(UnifiedModifierCollection element) {
-			throw new NotImplementedException();
+			foreach(var mod in element) {
+				_writer.Write(mod.Name);
+				WriteSpace();
+			}
 		}
 
 		public void Visit(UnifiedImport element) {
@@ -75,7 +99,9 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public void Visit(UnifiedProgram element) {
-			throw new NotImplementedException();
+			foreach (var elem in element) {
+				elem.Accept(this);
+			}
 		}
 
 		public void Visit(UnifiedNew element) {
@@ -303,7 +329,28 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public void Visit(UnifiedClass element) {
-			throw new NotImplementedException();
+			WriteIndent();
+			VisitUnlessNull(element.Modifiers);
+			_writer.Write("class");
+			WriteSpace();
+			_writer.Write(element.Name);
+			WriteSpace();
+			VisitUnlessNull(element.TypeParameters);
+			VisitUnlessNull(element.Constrains);
+			if (_style.LineBreak.AfterClass) {
+				_writer.WriteLine();
+				WriteIndent();
+			}
+			else {
+				WriteSpace();
+			}
+			_writer.Write("{");
+			_indent++;
+			VisitUnlessNull(element.Body);
+			_indent--;
+			WriteIndent();
+			_writer.Write("}");
+			_writer.WriteLine();
 		}
 
 		public void Visit(UnifiedStruct element) {
@@ -481,5 +528,8 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		public void Visit(UnifiedVariableIdentifier element) {
 			throw new NotImplementedException();
 		}
+
+		#endregion
+
 	}
 }
