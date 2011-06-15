@@ -62,15 +62,13 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		private static readonly Decoration SemiColonDelimiter =
 				new Decoration { Delimiter = ";" };
 
-		public override string Generate(
+		public override void Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
-			var buff = new StringWriter();
 			model.Accept(this, new VisitorArgument(writer, indentSign));
-			return buff.ToString();
 		}
 
-		public override string Generate(IUnifiedElement model, TextWriter writer) {
-			return Generate(model, writer, "\t");
+		public override void Generate(IUnifiedElement model, TextWriter writer) {
+			Generate(model, writer, "\t");
 		}
 
 		#region program, namespace, class, method, filed ...

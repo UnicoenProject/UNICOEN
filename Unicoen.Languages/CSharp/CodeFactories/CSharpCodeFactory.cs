@@ -23,11 +23,11 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
 	public class CSharpCodeFactory : CodeFactory {
-		public override string Generate(IUnifiedElement model, TextWriter writer) {
-			return Generate(model, writer, "\t");
+		public override void Generate(IUnifiedElement model, TextWriter writer) {
+			Generate(model, writer, "\t");
 		}
 
-		public override string Generate(
+		public override void Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
 			throw new NotImplementedException();
 		}
