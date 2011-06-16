@@ -24,22 +24,21 @@ namespace Unicoen.Core.Model {
 	///   クラスやメソッドを宣言する際に型パラメータを宣言するために利用します。
 	///   e.g. Javaにおける<c>class A&lt;T1, T2&gt; {  }</c>の<c>&lt;T1, T2&gt;</c>
 	/// </summary>
-	public class UnifiedTypeParameterCollection
+	public class UnifiedGenericParameterCollection
 			: UnifiedElementCollection
-			  		<UnifiedTypeParameter, UnifiedTypeParameterCollection> {
-		protected UnifiedTypeParameterCollection() {}
+			  		<UnifiedTypeParameter, UnifiedGenericParameterCollection> {
+		protected UnifiedGenericParameterCollection() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override UnifiedTypeParameterCollection CreateSelf() {
-			return new UnifiedTypeParameterCollection();
+		public override UnifiedGenericParameterCollection CreateSelf() {
+			return new UnifiedGenericParameterCollection();
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 

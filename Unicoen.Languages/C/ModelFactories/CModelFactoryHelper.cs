@@ -76,7 +76,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			UnifiedModifierCollection modifiers = null;
 			UnifiedType type = null;
-			UnifiedTypeParameterCollection typeParameters = null;
+			UnifiedGenericParameterCollection genericParameters = null;
 			UnifiedIdentifier name = null;
 			UnifiedParameterCollection parameters = null;
 			UnifiedTypeCollection throws = null;
@@ -98,7 +98,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			body = CreateCompoundStatement(node.Element("compound_statement"));
 
 			return UnifiedFunction.Create(
-					null, modifiers, type, typeParameters, name, parameters, throws, body);
+					null, modifiers, type, genericParameters, name, parameters, throws, body);
 		}
 
 		public static UnifiedFunction CreateDeclaration(XElement node) {

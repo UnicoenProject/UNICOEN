@@ -144,7 +144,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeArgumentCollection element) {
+		public void Visit(UnifiedGenericArgumentCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -180,7 +180,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedTypeParameterCollection element) {
+		public void Visit(UnifiedGenericParameterCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -331,7 +331,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			WriteSpace();
 			_writer.Write(element.Name);
 			WriteSpace();
-			VisitUnlessNull(element.TypeParameters);
+			VisitUnlessNull(element.GenericParameters);
 			VisitUnlessNull(element.Constrains);
 			if (_style.LineBreak.AfterClass) {
 				_writer.WriteLine();

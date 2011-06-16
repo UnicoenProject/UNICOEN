@@ -244,7 +244,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					constrains, body);
 		}
 
-		public static UnifiedTypeParameterCollection CreateTypeParameters(
+		public static UnifiedGenericParameterCollection CreateTypeParameters(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeParameters");
@@ -807,7 +807,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return UnifiedType.Create(node.Value);
 		}
 
-		public static UnifiedTypeArgumentCollection CreateTypeArguments(XElement node) {
+		public static UnifiedGenericArgumentCollection CreateTypeArguments(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeArguments");
 			/* 
@@ -2094,7 +2094,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 							CreateArguments(node.Element("arguments")), body);
 		}
 
-		public static UnifiedTypeArgumentCollection CreateNonWildcardTypeArguments(
+		public static UnifiedGenericArgumentCollection CreateNonWildcardTypeArguments(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "nonWildcardTypeArguments");
@@ -2104,7 +2104,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 
 			var typeList = CreateTypeList(node.NthElement(1));
-			var typeArguments = UnifiedTypeArgumentCollection.Create();
+			var typeArguments = UnifiedGenericArgumentCollection.Create();
 
 			foreach (var type in typeList) {
 				var argument = UnifiedTypeArgument.Create(type);

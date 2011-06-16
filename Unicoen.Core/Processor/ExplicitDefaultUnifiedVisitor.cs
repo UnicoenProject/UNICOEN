@@ -121,7 +121,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTypeArgumentCollection element) {
+		void IUnifiedVisitor.Visit(UnifiedGenericArgumentCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -157,7 +157,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTypeParameterCollection element) {
+		void IUnifiedVisitor.Visit(UnifiedGenericParameterCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -586,7 +586,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor<TArg>.Visit(
-				UnifiedTypeArgumentCollection element, TArg arg) {
+				UnifiedGenericArgumentCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -623,7 +623,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor<TArg>.Visit(
-				UnifiedTypeParameterCollection element, TArg arg) {
+				UnifiedGenericParameterCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1072,7 +1072,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeArgumentCollection element, TArg arg) {
+				UnifiedGenericArgumentCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1112,7 +1112,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeParameterCollection element, TArg arg) {
+				UnifiedGenericParameterCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

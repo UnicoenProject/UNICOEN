@@ -51,14 +51,14 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			if (prop != null) {
 				prop.Owner.TryAccept(this, arg);
 				arg.Write(prop.Delimiter);
-				element.TypeArguments.TryAccept(this, arg);
+				element.GenericArguments.TryAccept(this, arg);
 				prop.Name.TryAccept(this, arg);
 			} else {
 				//TODO このif文が行っていることがわからない
 				// Javaでifが実行されるケースは存在しないが、言語変換のため
-				if (element.TypeArguments != null)
+				if (element.GenericArguments != null)
 					arg.Write("this.");
-				element.TypeArguments.TryAccept(this, arg);
+				element.GenericArguments.TryAccept(this, arg);
 				element.Function.TryAccept(this, arg);
 			}
 			element.Arguments.TryAccept(this, arg.Set(Paren));

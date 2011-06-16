@@ -106,13 +106,13 @@ namespace Unicoen.Languages.C.CodeFactories {
 			if (prop != null) {
 				prop.Owner.TryAccept(this, arg);
 				arg.Write(prop.Delimiter);
-				element.TypeArguments.TryAccept(this, arg);
+				element.GenericArguments.TryAccept(this, arg);
 				prop.Name.TryAccept(this, arg);
 			} else {
 				// Javaでifが実行されるケースは存在しないが、言語変換のため
-				if (element.TypeArguments != null)
+				if (element.GenericArguments != null)
 					arg.Write("this.");
-				element.TypeArguments.TryAccept(this, arg);
+				element.GenericArguments.TryAccept(this, arg);
 				element.Function.TryAccept(this, arg);
 			}
 			element.Arguments.TryAccept(this, arg.Set(Paren));
@@ -127,7 +127,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			arg.Write("/* ");
 			element.Modifiers.TryAccept(this, arg);
 			arg.Write(" */");
-			// element.TypeParameters.TryAccept(this, arg);
+			// element.GenericParameters.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
 			element.Name.TryAccept(this, arg);

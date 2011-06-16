@@ -50,11 +50,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		// generics とか
-		protected UnifiedTypeParameterCollection _typeParameters;
+		protected UnifiedGenericParameterCollection _genericParameters;
 
-		public UnifiedTypeParameterCollection TypeParameters {
-			get { return _typeParameters; }
-			set { _typeParameters = SetChild(value, _typeParameters); }
+		public UnifiedGenericParameterCollection GenericParameters {
+			get { return _genericParameters; }
+			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
 		// 継承とか
@@ -63,6 +63,14 @@ namespace Unicoen.Core.Model {
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
+		}
+
+		/// <summary>
+		/// ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 	}
 
@@ -73,14 +81,14 @@ namespace Unicoen.Core.Model {
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				IUnifiedExpression name = null,
-				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedTypeConstrainCollection constrains = null,
 				UnifiedBlock body = null) {
 			var ret = UnifiedFactory<T>.Create();
 			ret.Annotations = annotations;
 			ret.Modifiers = modifiers;
 			ret.Name = name;
-			ret.TypeParameters = typeParameters;
+			ret.GenericParameters = genericParameters;
 			ret.Constrains = constrains;
 			ret.Body = body;
 			return ret;
