@@ -29,7 +29,13 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public override void Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign) {
-			throw new NotImplementedException();
+			Generate(model, writer, new CSharpCodeStyle { Indent = indentSign });
+		}
+
+		public string Generate(IUnifiedElement model, TextWriter writer, CSharpCodeStyle style) {
+			var visitor = new CSharpCodeFactoryVisitor(writer, style);
+			model.Accept(visitor);
+			return writer.ToString();
 		}
 	}
 }
