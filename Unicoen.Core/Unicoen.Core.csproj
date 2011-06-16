@@ -128,9 +128,9 @@
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinitionList.cs" />
-    <Compile Include="Model\Extensions\ModelFactoryForModel.cs" />
-    <Compile Include="Model\Extensions\ModelGenerator.cs" />
-    <Compile Include="Model\Extensions\SafeModelSweeper.cs" />
+    <Compile Include="Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Extensions\ModelGenerator.cs" />
+    <Compile Include="Extensions\SafeModelSweeper.cs" />
     <Compile Include="Model\IUnifiedCreatable.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedSuperConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedValueConstrain.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
-    <Compile Include="Model\UnifiedFactory.cs" />
+    <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="Processor\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\Decoration.cs" />
@@ -198,11 +198,11 @@
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedWhile.cs" />
-    <Compile Include="Model\Extensions\ModelFactoryForCollection.cs" />
-    <Compile Include="Model\Extensions\ModelFactoryForPrimitive.cs" />
+    <Compile Include="Extensions\ModelFactoryForCollection.cs" />
+    <Compile Include="Extensions\ModelFactoryForPrimitive.cs" />
     <Compile Include="Processor\StructuralEqualityComparer.cs" />
-    <Compile Include="Model\Extensions\ModelSweeper.cs" />
-    <Compile Include="Model\Extensions\ModelExtensionsForVisitor.cs" />
+    <Compile Include="Extensions\ModelSweeper.cs" />
+    <Compile Include="Extensions\ModelExtensionsForVisitor.cs" />
     <Compile Include="Model\IUnifiedElement.cs" />
     <Compile Include="Model\Collections\IUnifiedElementCollection.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
