@@ -38,7 +38,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// レシーバーと同じ型のオブジェクトを生成します．
+		///   レシーバーと同じ型のオブジェクトを生成します．
 		/// </summary>
 		/// <returns>生成したオブジェクト</returns>
 		public abstract TSelf CreateSelf();

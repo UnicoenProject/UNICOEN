@@ -20,37 +20,25 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   do-while文を表します。
-	///   e.g. Javaにおける<c>do{...}while(cond)</c>
+	///   Fixなど特殊なブロックを表します。
+	///   e.g. Javaにおける<c>Fix(this) {...}</c>
 	/// </summary>
-	public class UnifiedDoWhile : UnifiedExpressionWithBlock {
-		private IUnifiedExpression _condition;
+	public class UnifiedFix : UnifiedExpressionBlock {
+		private IUnifiedExpression _value;
 
-		/// <summary>
-		///   条件式を表します
-		///   e.g. Javaにおける<c>do{...}while(cond)</c>の<c>cond</c>
-		/// </summary>
-		public IUnifiedExpression Condition {
-			get { return _condition; }
-			set { _condition = SetChild(value, _condition); }
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
 		}
 
-		private UnifiedBlock _falseBody;
-
-		public UnifiedBlock FalseBody {
-			get { return _falseBody; }
-			set { _falseBody = SetChild(value, _falseBody); }
-		}
-
-		private UnifiedDoWhile() {}
+		private UnifiedFix() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -59,14 +47,12 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedDoWhile Create(
-				UnifiedBlock body = null,
-				IUnifiedExpression condition = null,
-				UnifiedBlock falseBody = null) {
-			return new UnifiedDoWhile {
+		public static UnifiedFix Create(
+				IUnifiedExpression value = null,
+				UnifiedBlock body = null) {
+			return new UnifiedFix {
+					Value = value,
 					Body = body,
-					Condition = condition,
-					FalseBody = falseBody,
 			};
 		}
 	}

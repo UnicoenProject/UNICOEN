@@ -23,9 +23,9 @@ namespace Unicoen.Core.Model {
 			: IUnifiedElement, IList<TElement>
 			where TElement : class, IUnifiedElement {
 		/// <summary>
-		/// 要素列を追加します．
+		///   要素列を追加します．
 		/// </summary>
-		/// <param name="elements"></param>
+		/// <param name = "elements"></param>
 		void AddRange(IEnumerable<TElement> elements);
 			}
 }

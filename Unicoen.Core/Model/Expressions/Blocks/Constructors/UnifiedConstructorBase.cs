@@ -22,7 +22,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>class C{ C(){...} }</c>の<c>C(){...}</c>
 	/// </summary>
 	public abstract class UnifiedConstructorBase<TSelf>
-			: UnifiedExpressionWithBlock, IUnifiedCreatable<TSelf>
+			: UnifiedExpressionBlock, IUnifiedCreatable<TSelf>
 			where TSelf : UnifiedConstructorBase<TSelf> {
 		protected UnifiedAnnotationCollection _annotations;
 

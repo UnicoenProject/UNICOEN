@@ -20,25 +20,38 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   with in JavaScript
-	///   Javaのstatic importのような役割
+	///   while文を表します。
+	///   e.g. Javaにおける<c>while(cond){...}</c>
 	/// </summary>
-	public class UnifiedWith : UnifiedExpressionWithBlock {
-		private IUnifiedExpression _value;
+	public class UnifiedWhile
+			: UnifiedExpressionBlock {
+		private IUnifiedExpression _condition;
 
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
+		/// <summary>
+		///   条件式を表します
+		///   e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
+		/// </summary>
+		public IUnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
 		}
 
-		protected UnifiedWith() {}
+		private UnifiedBlock _elseBody;
+
+		public UnifiedBlock ElseBody {
+			get { return _elseBody; }
+			set { _elseBody = SetChild(value, _elseBody); }
+		}
+
+		private UnifiedWhile() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -47,13 +60,15 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedWith Create(
-				IUnifiedExpression value = null,
-				UnifiedBlock body = null) {
-			return new UnifiedWith {
-					Value = value,
+		public static UnifiedWhile Create(
+				IUnifiedExpression condition = null,
+				UnifiedBlock body = null,
+				UnifiedBlock elseBody = null) {
+			return new UnifiedWhile {
+					Condition = condition,
 					Body = body,
+					ElseBody = elseBody,
 			};
 		}
-	}
+			}
 }

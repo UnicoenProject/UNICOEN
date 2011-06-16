@@ -20,30 +20,51 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   while文を表します。
-	///   e.g. Javaにおける<c>while(cond){...}</c>
+	///   for文を表します。
+	///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>
 	/// </summary>
-	public class UnifiedWhile
-			: UnifiedExpressionWithBlock {
+	public class UnifiedFor : UnifiedExpressionBlock {
+		private IUnifiedExpression _initializer;
+
+		/// <summary>
+		///   初期条件を表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c><c>int i = 0</c>
+		/// </summary>
+		public IUnifiedExpression Initializer {
+			get { return _initializer; }
+			set { _initializer = SetChild(value, _initializer); }
+		}
+
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   条件式を表します
-		///   e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
+		///   実行条件を表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetChild(value, _condition); }
 		}
 
-		private UnifiedBlock _elseBody;
+		private IUnifiedExpression _step;
 
-		public UnifiedBlock ElseBody {
-			get { return _elseBody; }
-			set { _elseBody = SetChild(value, _elseBody); }
+		/// <summary>
+		///   ステップを表します
+		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i++</c>
+		/// </summary>
+		public IUnifiedExpression Step {
+			get { return _step; }
+			set { _step = SetChild(value, _step); }
 		}
 
-		private UnifiedWhile() {}
+		private UnifiedBlock _falseBody;
+
+		public UnifiedBlock FalseBody {
+			get { return _falseBody; }
+			set { _falseBody = SetChild(value, _falseBody); }
+		}
+
+		private UnifiedFor() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -60,15 +81,17 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedWhile Create(
+		public static UnifiedFor Create(
+				IUnifiedExpression initializer = null,
 				IUnifiedExpression condition = null,
-				UnifiedBlock body = null,
-				UnifiedBlock elseBody = null) {
-			return new UnifiedWhile {
+				IUnifiedExpression step = null,
+				UnifiedBlock body = null) {
+			return new UnifiedFor {
+					Initializer = initializer,
 					Condition = condition,
+					Step = step,
 					Body = body,
-					ElseBody = elseBody,
 			};
 		}
-			}
+	}
 }

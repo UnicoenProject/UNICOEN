@@ -20,20 +20,19 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   catch節の集合を表します。
-	///   e.g. Javaにおける<c>try { ... } catch(E1 e1) { ... } catch(E2 e2) { ... }</c>の<c>catch(E1 e1) { ... } catch(E2 e2) { ... }</c>
+	///   synchronizedなど特殊なブロックを表します。
+	///   e.g. Javaにおける<c>synchronized(this) {...}</c>
 	/// </summary>
-	public class UnifiedCatchCollection
-			: UnifiedElementCollection<UnifiedCatch, UnifiedCatchCollection> {
-		/// <summary>
-		///   レシーバーと同じ型のオブジェクトを生成します．
-		/// </summary>
-		/// <returns>生成したオブジェクト</returns>
-		public override UnifiedCatchCollection CreateSelf() {
-			return new UnifiedCatchCollection();
+	public class UnifiedSynchronized
+			: UnifiedExpressionBlock {
+		private IUnifiedExpression _value;
+
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
 		}
 
-		protected UnifiedCatchCollection() {}
+		private UnifiedSynchronized() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -47,6 +46,15 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TResult, TArg>(
 				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedSynchronized Create(
+				IUnifiedExpression value = null,
+				UnifiedBlock body = null) {
+			return new UnifiedSynchronized {
+					Value = value,
+					Body = body,
+			};
 		}
 			}
 }

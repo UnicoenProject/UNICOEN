@@ -20,7 +20,7 @@ namespace Unicoen.Core.Model {
 	public interface IUnifiedCreatable<out TSelf> : IUnifiedElement
 			where TSelf : IUnifiedCreatable<TSelf> {
 		/// <summary>
-		/// レシーバーと同じ型のオブジェクトを生成します．
+		///   レシーバーと同じ型のオブジェクトを生成します．
 		/// </summary>
 		/// <returns>生成したオブジェクト</returns>
 		TSelf CreateSelf();

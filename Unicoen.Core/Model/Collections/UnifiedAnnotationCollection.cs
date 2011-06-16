@@ -27,7 +27,7 @@ namespace Unicoen.Core.Model {
 	public class UnifiedAnnotationCollection
 			: UnifiedElementCollection<UnifiedAnnotation, UnifiedAnnotationCollection> {
 		/// <summary>
-		/// レシーバーと同じ型のオブジェクトを生成します．
+		///   レシーバーと同じ型のオブジェクトを生成します．
 		/// </summary>
 		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedAnnotationCollection CreateSelf() {

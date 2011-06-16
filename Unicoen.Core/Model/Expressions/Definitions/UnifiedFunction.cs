@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   関数やメソッドなどのサブルーチンの定義部分を表します。
 	///   e.g. Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
-	public class UnifiedFunction : UnifiedExpressionWithBlock {
+	public class UnifiedFunction : UnifiedExpressionBlock {
 		#region fields
 
 		private UnifiedAnnotationCollection _annotations;

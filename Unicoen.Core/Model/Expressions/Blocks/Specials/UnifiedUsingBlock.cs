@@ -20,25 +20,33 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   Fixなど特殊なブロックを表します。
-	///   e.g. Javaにおける<c>Fix(this) {...}</c>
+	///   C#におけるusing文，Pythonにおけるwith文を表します．
+	///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>
+	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>
 	/// </summary>
-	public class UnifiedFix : UnifiedExpressionWithBlock {
-		private IUnifiedExpression _value;
+	public class UnifiedUsing
+			: UnifiedExpressionBlock {
+		private UnifiedMatcherCollection _matchers;
 
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
+		/// <summary>
+		///   リソース解放の対象となる変数を表します．
+		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
+		///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+		/// </summary>
+		public UnifiedMatcherCollection Matchers {
+			get { return _matchers; }
+			set { _matchers = SetChild(value, _matchers); }
 		}
 
-		private UnifiedFix() {}
+		private UnifiedUsing() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -47,13 +55,13 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedFix Create(
-				IUnifiedExpression value = null,
+		public static UnifiedUsing Create2(
+				UnifiedMatcherCollection matchers = null,
 				UnifiedBlock body = null) {
-			return new UnifiedFix {
-					Value = value,
+			return new UnifiedUsing {
+					Matchers = matchers,
 					Body = body,
 			};
 		}
-	}
+			}
 }

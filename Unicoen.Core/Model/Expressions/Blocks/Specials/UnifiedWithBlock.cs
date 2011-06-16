@@ -20,11 +20,10 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   synchronizedなど特殊なブロックを表します。
-	///   e.g. Javaにおける<c>synchronized(this) {...}</c>
+	///   with in JavaScript
+	///   Javaのstatic importのような役割
 	/// </summary>
-	public class UnifiedSynchronized
-			: UnifiedExpressionWithBlock {
+	public class UnifiedWith : UnifiedExpressionBlock {
 		private IUnifiedExpression _value;
 
 		public IUnifiedExpression Value {
@@ -32,7 +31,7 @@ namespace Unicoen.Core.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		private UnifiedSynchronized() {}
+		protected UnifiedWith() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -48,13 +47,13 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedSynchronized Create(
+		public static UnifiedWith Create(
 				IUnifiedExpression value = null,
 				UnifiedBlock body = null) {
-			return new UnifiedSynchronized {
+			return new UnifiedWith {
 					Value = value,
 					Body = body,
 			};
 		}
-			}
+	}
 }
