@@ -148,7 +148,6 @@
     <Compile Include="Processor\ModelFactory.cs" />
     <Compile Include="Processor\ModelFactoryHelper.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedKeyValueCollection.cs" />
     <Compile Include="Model\Collections\UnifiedMatcherCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />

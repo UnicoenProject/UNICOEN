@@ -28,6 +28,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 // ReSharper disable InvocationIsSkipped
+
 namespace Unicoen.Languages.JavaScript.ModelFactories {
 	public static class JavaScriptModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
@@ -107,7 +108,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
 			return UnifiedFunction.Create(
-					
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedVariableIdentifier.Create(name), parameters,
 					null, body);
@@ -560,7 +560,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var identifier = node.HasElement("Identifier")
 			                 		? UnifiedVariableIdentifier.Create(node.Element("Identifier").Value) : null;
 
-			return UnifiedContinue.Create( identifier);
+			return UnifiedContinue.Create(identifier);
 		}
 
 		public static IUnifiedExpression CreateBreakStatement(XElement node) {
@@ -573,7 +573,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var identifier = node.HasElement("Identifier")
 			                 		? UnifiedVariableIdentifier.Create(node.Element("Identifier").Value) : null;
 
-			return UnifiedBreak.Create( identifier);
+			return UnifiedBreak.Create(identifier);
 		}
 
 		public static IUnifiedExpression CreateReturnStatement(XElement node) {
@@ -586,7 +586,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var expression = node.HasElement("expression")
 			                 		? CreateExpression(node.Element("expression")) : null;
 
-			return UnifiedReturn.Create( expression);
+			return UnifiedReturn.Create(expression);
 		}
 
 		public static IUnifiedExpression CreateWithStatement(XElement node) {
@@ -1373,12 +1373,10 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * objectLiteral
 			 *		: '{' LT!* propertyNameAndValue (LT!* ',' LT!* propertyNameAndValue)* LT!* '}'
 			 */
-			//例えばJSONなど
 
-			var keyValues = UnifiedKeyValueCollection.Create();
-			foreach (var e in node.Elements("propertyNameAndValue")) {
-				keyValues.Add(CreatePropertyNameAndValue(e));
-			}
+			//例えばJSONなど
+			var keyValues = node.Elements("propertyNameAndValue")
+					.Select(CreatePropertyNameAndValue);
 			return UnifiedDictionary.Create(keyValues);
 		}
 

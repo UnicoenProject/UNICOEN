@@ -20,6 +20,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
+	/// Pythonのwith文はUnifiedUsingBlockを参照してください．
 	///   with in JavaScript
 	///   Javaのstatic importのような役割
 	/// </summary>

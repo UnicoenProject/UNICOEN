@@ -252,10 +252,6 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public void Visit(UnifiedKeyValueCollection element) {
-			throw new NotImplementedException();
-		}
-
 		public void Visit(UnifiedDictionary element) {
 			throw new NotImplementedException();
 		}

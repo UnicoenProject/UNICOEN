@@ -98,12 +98,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedKeyValueCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAnnotation element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}

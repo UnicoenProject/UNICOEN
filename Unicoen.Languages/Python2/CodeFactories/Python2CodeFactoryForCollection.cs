@@ -113,12 +113,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedKeyValueCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedAnnotation element, VisitorArgument arg) {
 			arg.Write("@");
 			element.Name.TryAccept(this, arg);

@@ -229,10 +229,6 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedKeyValueCollection element) {
-			throw new NotImplementedException();
-		}
-
 		void IUnifiedVisitor.Visit(UnifiedDictionary element) {
 			throw new NotImplementedException();
 		}
@@ -699,10 +695,6 @@ namespace Unicoen.Core.Processor {
 
 		void IUnifiedVisitor<TArg>.Visit(
 				UnifiedDictionaryComprehension element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		void IUnifiedVisitor<TArg>.Visit(UnifiedKeyValueCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1202,11 +1194,6 @@ namespace Unicoen.Core.Processor {
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedDictionaryComprehension element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedKeyValueCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
