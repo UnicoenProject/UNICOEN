@@ -76,6 +76,7 @@ namespace Unicoen.Apps.Aop {
 					actual = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
 					break;
 				default:
+					//TODO implement 他の言語についても実装する
 					throw new NotImplementedException();
 			}
 			actual.Normalize();
@@ -116,7 +117,8 @@ namespace Unicoen.Apps.Aop {
 						actual.Add(e);
 					}
 					break;
-				default:
+				default:		
+					//TODO implement 他の言語についても実装する
 					throw new NotImplementedException();
 			}
 			return actual;
@@ -251,11 +253,14 @@ namespace Unicoen.Apps.Aop {
 				if (!m.Success)
 					continue;
 				
-				//TODO JavaScriptの場合に親がブロックではない場合があるので、それに対応できるようにする
+				//(Javaにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
 				var block = call.Parent as UnifiedBlock;
-				if (block == null)
-					continue;
-				block.Insert(block.IndexOf(call, 0), advice);
+				if (block != null)
+					block.Insert(block.IndexOf(call, 0), advice);
+				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
+				var program = call.Parent as UnifiedProgram;
+				if (program != null)
+					program.Insert(program.IndexOf(call, 0), advice);
 			}
 		}
 
@@ -282,10 +287,14 @@ namespace Unicoen.Apps.Aop {
 				if (!m.Success)
 					continue;
 
+				//(Javaにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
 				var block = call.Parent as UnifiedBlock;
-				if (block == null)
-					continue;
-				block.Insert(block.IndexOf(call, 0) + 1, advice);
+				if (block != null)
+					block.Insert(block.IndexOf(call, 0) + 1, advice);
+				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
+				var program = call.Parent as UnifiedProgram;
+				if (program != null)
+					program.Insert(program.IndexOf(call, 0) + 1, advice);
 			}
 		}
 

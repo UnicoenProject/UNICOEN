@@ -231,7 +231,7 @@ namespace Unicoen.Apps.Aop.Tests {
 		}
 
 		//TODO InsertAtBeforeCallの修正待ち
-		[Test, Ignore]
+		[Test]
 		public void JavaScript言語の関数呼び出し前にコードが正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
@@ -257,7 +257,7 @@ namespace Unicoen.Apps.Aop.Tests {
 		}
 
 		//TODO InsertAtBeforeCallの修正待ち
-		[Test, Ignore]
+		[Test]
 		public void JavaScript言語の関数呼び出し後にコードが正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
