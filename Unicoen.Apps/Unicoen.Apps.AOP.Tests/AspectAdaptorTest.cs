@@ -41,6 +41,10 @@ namespace Unicoen.Apps.Aop.Tests {
 		private UnifiedProgram _javaModel;
 		private UnifiedProgram _javaScriptModel;
 
+		//アスペクト合成前におけるモデル内のブロック数
+		private int _amountOfBlockInJava;
+		private int _amountOfBlockInJavaScript;
+
 		/// <summary>
 		///   基準となるソースコードをモデルに変換します
 		/// </summary>
@@ -49,10 +53,12 @@ namespace Unicoen.Apps.Aop.Tests {
 			//Java言語のモデルを作成
 			var javaCode = File.ReadAllText(JavaCodePath, XEncoding.SJIS);
 			_javaModel = CodeProcessor.CreateModel(".java", javaCode);
+			_amountOfBlockInJava = _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count;
 
 			//JavaScript言語のモデルを作成
 			var javaScriptCode = File.ReadAllText(JavaScriptCodePath, XEncoding.SJIS);
 			_javaScriptModel = CodeProcessor.CreateModel(".js", javaScriptCode);
+			_amountOfBlockInJavaScript = _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count;
 		}
 
 		public AstVisitor CreateAspectElement(string path) {
@@ -88,6 +94,10 @@ namespace Unicoen.Apps.Aop.Tests {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJava + 1) == _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
 					Is.True);
@@ -110,6 +120,10 @@ namespace Unicoen.Apps.Aop.Tests {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJava + 1) == _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
 					Is.True);
@@ -130,7 +144,11 @@ namespace Unicoen.Apps.Aop.Tests {
 				"expectation", "before_call.java");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
-
+			
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJava + 1) == _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
 					Is.True);
@@ -142,7 +160,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
 				"partial_aspect", "after_call.txt");
 			var visitor = CreateAspectElement(aspectPath);
-
+			
 			//アスペクトの合成処理
 			AspectAdaptor.Weave("Java", _javaModel, visitor);
 
@@ -152,6 +170,11 @@ namespace Unicoen.Apps.Aop.Tests {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJava + 1) == _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
+			//期待値と合成結果が等しいかどうか
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
 					Is.True);
@@ -173,6 +196,10 @@ namespace Unicoen.Apps.Aop.Tests {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
 
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJavaScript + 1) == _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
 					Is.True);
@@ -193,14 +220,18 @@ namespace Unicoen.Apps.Aop.Tests {
 				"expectation", "after_execution.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
-
+			
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJavaScript + 1) == _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
 					Is.True);
 		}
 
 		//TODO InsertAtBeforeCallの修正待ち
-		[Test, Ignore]
+		[Test]
 		public void JavaScript言語の関数呼び出し前にコードが正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
@@ -216,13 +247,17 @@ namespace Unicoen.Apps.Aop.Tests {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
 
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJavaScript + 1) == _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
 					Is.True);
 		}
 
 		//TODO InsertAtBeforeCallの修正待ち
-		[Test, Ignore]
+		[Test]
 		public void JavaScript言語の関数呼び出し後にコードが正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
@@ -237,7 +272,11 @@ namespace Unicoen.Apps.Aop.Tests {
 				"expectation", "after_call.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
-
+					
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					(_amountOfBlockInJavaScript + 1) == _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count, 
+					Is.True);
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
 					Is.True);

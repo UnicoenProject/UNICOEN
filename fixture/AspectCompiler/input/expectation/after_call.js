@@ -5,4 +5,4 @@ function getX() {
 }
 
 getX();
-alert("executed");
+{alert("executed");}
