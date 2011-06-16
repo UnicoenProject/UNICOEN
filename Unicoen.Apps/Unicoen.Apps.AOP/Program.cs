@@ -28,8 +28,7 @@ using Unicoen.Languages.JavaScript;
 namespace Unicoen.Apps.Aop {
 	public class Program {
 
-		//TODO write usage
-		private const string Usage = "Usage:";
+		private const string Usage = "Usage: aries <rootDirectoryPath> <aspectFilePath>\nyou should specify missing parameter(s).";
 		private static readonly Dictionary<string, string> TargetLanguage = new Dictionary<string, string>();
 
 		static Program() {
