@@ -21,14 +21,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Code2Xml.Languages.C.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Core.Model;
+using Unicoen.Languages.C;
+using Unicoen.Languages.C.ModelFactories;
 using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.ModelFactories;
 using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.JavaScript.ModelFactories;
+using Unicoen.Languages.Python2;
 
 namespace Unicoen.Apps.Aop {
 	/// <summary>
@@ -43,15 +47,20 @@ namespace Unicoen.Apps.Aop {
 		/// <returns></returns>
 		public static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
-			case ".cs":
-				return CSharpFactory.GenerateModel(code);
-			case ".java":
-				return JavaFactory.GenerateModel(code);
-			case ".js":
-				return JavaScriptFactory.GenerateModel(code);
+				case ".cs":
+					return CSharpFactory.GenerateModel(code);
+				case ".java":
+					return JavaFactory.GenerateModel(code);
+				case ".js":
+					return JavaScriptFactory.GenerateModel(code);
+				case ".c":
+				case ".h":
+					return CFactory.GenerateModel(code);
+				case ".py":
+					return Python2Factory.GenerateModel(code);
 			}
-			//TODO implement 他の言語についても実装する
-			throw new NotImplementedException();
+			//Ruby
+			throw new InvalidOperationException("対応していない言語ファイルが指定されました");
 		}
 
 		/// <summary>
@@ -75,9 +84,14 @@ namespace Unicoen.Apps.Aop {
 					ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.statementBlock());
 					actual = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
 					break;
+				case "C":
+					//TODO Cでのアスペクト合成はこれで大丈夫か確認
+					ast = CCodeToXml.Instance.Generate(code, p => p.compound_statement());
+					actual = CModelFactoryHelper.CreateCompoundStatement(ast);
+					break;					
 				default:
-					//TODO implement 他の言語についても実装する
-					throw new NotImplementedException();
+					//CSharp, Ruby, Python
+					throw new InvalidOperationException("対応していない言語が指定されました");
 			}
 			actual.Normalize();
 
@@ -123,6 +137,41 @@ namespace Unicoen.Apps.Aop {
 			}
 			return actual;
 		}
+
+		#region Intertype
+
+		/// <summary>
+		///   指定されたクラスまたはプログラムに指定されたフィールドやメソッドを追加します。
+		/// </summary>
+		/// <param name="root">メンバーを追加するモデルのルートノード</param>
+		/// <param name="name">対象となるクラスやプログラムを指定する名前</param>
+		/// <param name="members">挿入するメンバーのリスト</param>
+		public static void AddIntertypeDeclaration(IUnifiedElement root, string name, List<IUnifiedExpression> members) {
+			
+			//クラスのリストを取得(Java, C#向け)
+			var classes = root.Descendants<UnifiedClass>();
+			if(classes.Count() > 0) {
+				foreach (var c in classes) {
+					var className = c.Name as UnifiedIdentifier;
+					if(className != null && className.Name == name) {
+						foreach (var e in members) {
+							c.Body.Insert(0, e);
+						}
+					}
+				}
+				return;
+			}
+
+			//プログラムに対してメンバーを追加(JavaScript向け)
+			var program = root as UnifiedProgram;
+			if(program != null) {
+				foreach (var e in members) {
+					program.Insert(0, e);
+				}
+			}
+		}
+
+		#endregion
 
 		#region Execution
 

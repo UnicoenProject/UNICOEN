@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Antlr.Runtime.Tree;
 using Paraiba.Text;
@@ -29,7 +30,16 @@ namespace Unicoen.Apps.Aop {
 
 		//TODO write usage
 		private const string Usage = "Usage:";
-		private static readonly string[] TargetLanguage = new[] { ".java", ".js" };
+		private static readonly Dictionary<string, string> TargetLanguage = new Dictionary<string, string>();
+
+		static Program() {
+			TargetLanguage.Add(".java", "Java");
+			TargetLanguage.Add(".js", "JavaScript");
+			TargetLanguage.Add(".cs", "CSharp");
+			TargetLanguage.Add(".c", "C");
+			TargetLanguage.Add(".rb", "Ruby");
+			TargetLanguage.Add(".py", "Python");
+		}
 
 		private static void Main(string[] args) {
 			/* params
@@ -71,31 +81,21 @@ namespace Unicoen.Apps.Aop {
 			var targetFiles = AspectAdaptor.Collect(filePath);
 
 			foreach (var file in targetFiles) {
+				//対象ファイルの拡張子を取得
 				var fileExtension = Path.GetExtension(file);
-				//対象言語のソースコードでない場合はコンティニュー
-				if(Array.IndexOf(TargetLanguage, fileExtension) < 0) //TODO これでフィルタリングが正しいか確認
+				
+				//対象言語のソースコードでない場合は次の対象へ進む
+				string langType;
+				if(fileExtension == null || !TargetLanguage.TryGetValue(fileExtension, out langType))
 					continue;
 
 				var code = File.ReadAllText(file, XEncoding.SJIS);
 				var model = CodeProcessor.CreateModel(fileExtension, code);
 				
-				//TODO もっとスマートな変換を考える(そもそも変換しない方法も検討する)
-				string langType;
-				switch(fileExtension) {
-					case ".java":
-						langType = "Java";
-						break;
-					case ".js":
-						langType = "JavaScript";
-						break;
-					default:
-						throw new NotImplementedException();
-				}
-
 				//アスペクトの合成を行う
 				AspectAdaptor.Weave(langType, model, visitor);
 
-				//とりえあず標準出力に表示);
+				//とりえあず標準出力に表示;
 				switch(langType) {
 					case "Java":
 						Console.WriteLine(JavaFactory.GenerateCode(model));

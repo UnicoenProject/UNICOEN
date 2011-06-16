@@ -17,14 +17,17 @@ namespace Unicoen.Apps.Aop
 		private static Dictionary<string, Pointcut> Pointcuts =
 				new Dictionary<string, Pointcut>();
 
-		//TODO 引数に言語の種類を指定せずに、ファイルパスを渡して中でモデルを作成することを検討する
 		public static void Weave(string language, UnifiedProgram model, AstVisitor visitor) {
 			//以前のアスペクトファイルの情報を消去するために辞書の内容を初期化する
 			Pointcuts.Clear();
 
 			//与えられたモデルに対してインタータイプを合成する
 			foreach(var intertype in visitor.Intertypes) {
-				//TODO implement インタータイプ合成メソッドの実装
+				if(intertype.GetLanguageType() != language)
+					continue;
+				var members = CodeProcessor.CreateIntertype(
+						intertype.GetLanguageType(), intertype.GetContents());
+				CodeProcessor.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
 			}
 			
 			//ポイントカットを登録する

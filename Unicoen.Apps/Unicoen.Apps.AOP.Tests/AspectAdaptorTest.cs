@@ -230,7 +230,6 @@ namespace Unicoen.Apps.Aop.Tests {
 					Is.True);
 		}
 
-		//TODO InsertAtBeforeCallの修正待ち
 		[Test]
 		public void JavaScript言語の関数呼び出し前にコードが正しく合成される() {
 			//アスペクトモデルの作成
@@ -256,7 +255,6 @@ namespace Unicoen.Apps.Aop.Tests {
 					Is.True);
 		}
 
-		//TODO InsertAtBeforeCallの修正待ち
 		[Test]
 		public void JavaScript言語の関数呼び出し後にコードが正しく合成される() {
 			//アスペクトモデルの作成
@@ -282,6 +280,57 @@ namespace Unicoen.Apps.Aop.Tests {
 					Is.True);
 		}
 
-		//TODO インタータイプ宣言に関するテストの追加
+		[Test]
+		public void Java言語にインタータイプ宣言が正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "intertype.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("Java", _javaModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "intertype.java");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".java", code);
+
+			var amountOfMethodInExpectation = expectation.Descendants<UnifiedFunction>().ToListLiteral().Count;
+			var amountOfMethodInJava = _javaModel.Descendants<UnifiedFunction>().ToListLiteral().Count;
+
+			//モデル内のメソッド数が１増えているかどうか
+			Assert.That(
+					amountOfMethodInExpectation == amountOfMethodInJava, 
+					Is.True);
+			//インタータイプ宣言の合成結果はアスペクトの記述順と逆になるので、構造の一致はテストできない
+
+		}
+
+		[Test]
+		public void JavaScript言語にインタータイプ宣言が正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"partial_aspect", "intertype.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath("AspectCompiler", 
+				"expectation", "intertype.js");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".js", code);
+
+			var amountOfMethodInExpectation = expectation.Descendants<UnifiedFunction>().ToListLiteral().Count;
+			var amountOfMethodInJavaScript = _javaScriptModel.Descendants<UnifiedFunction>().ToListLiteral().Count;
+
+			//モデル内のメソッド数が１増えているかどうか
+			Assert.That(
+					amountOfMethodInExpectation == amountOfMethodInJavaScript, 
+					Is.True);
+			//インタータイプ宣言の合成結果はアスペクトの記述順と逆になるので、構造の一致はテストできない
+		}
 	}
 }
