@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -116,9 +117,10 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						},
 				}
 						.Select(
-								o => new TestCaseData(
-								     		FixtureUtil.GetInputPath(LanguageName, o.DirName),
-								     		o.Command, o.Arguments));
+								o => {
+									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
+									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+								});
 			}
 		}
 

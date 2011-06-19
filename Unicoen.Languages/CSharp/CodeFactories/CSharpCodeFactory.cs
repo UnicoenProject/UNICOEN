@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.IO;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;

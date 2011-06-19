@@ -321,7 +321,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-
 		#endregion
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(

@@ -158,10 +158,8 @@ namespace Unicoen.Core.Model {
 		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
-			foreach (var reference in ret.GetElementReferencesOfFields()) {
-				if (reference.Element != null) {
-					reference.Element = reference.Element.DeepCopy();
-				}
+			foreach (var reference in ret.GetElementReferences()) {
+				reference.Element = reference.Element.DeepCopy();
 			}
 			return ret;
 		}
