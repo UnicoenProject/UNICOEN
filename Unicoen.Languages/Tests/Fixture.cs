@@ -82,9 +82,14 @@ namespace Unicoen.Languages.Tests {
 		public abstract IEnumerable<TestCaseData> TestFilePathes { get; }
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public abstract IEnumerable<TestCaseData> TestProjectInfos { get; }
+
+		/// <summary>
+		///   テスト時に入力する時間のかかるプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
+		/// </summary>
+		public abstract IEnumerable<TestCaseData> TestHeavyProjectInfos { get; }
 
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．

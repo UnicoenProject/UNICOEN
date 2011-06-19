@@ -38,6 +38,14 @@ namespace Unicoen.Core.Model {
 			set { _matchers = SetChild(value, _matchers); }
 		}
 
+		/// <summary>
+		/// ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
+
 		private UnifiedUsing() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {

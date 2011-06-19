@@ -38,11 +38,11 @@ namespace Unicoen.Core.Model {
 			set { _arguments = SetChild(value, _arguments); }
 		}
 
-		private UnifiedTypeArgumentCollection _typeArguments;
+		private UnifiedGenericArgumentCollection _genericArguments;
 
-		public UnifiedTypeArgumentCollection TypeArguments {
-			get { return _typeArguments; }
-			set { _typeArguments = SetChild(value, _typeArguments); }
+		public UnifiedGenericArgumentCollection GenericArguments {
+			get { return _genericArguments; }
+			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
 
 		private UnifiedArray _initialValue;
@@ -54,6 +54,14 @@ namespace Unicoen.Core.Model {
 		public UnifiedArray InitialValue {
 			get { return _initialValue; }
 			set { _initialValue = SetChild(value, _initialValue); }
+		}
+
+		/// <summary>
+		/// ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedNew() {}
@@ -76,13 +84,13 @@ namespace Unicoen.Core.Model {
 		public static UnifiedNew Create(
 				IUnifiedExpression target = null,
 				UnifiedArgumentCollection arguments = null,
-				UnifiedTypeArgumentCollection typeArguments = null,
+				UnifiedGenericArgumentCollection genericArguments = null,
 				UnifiedArray initialValues = null,
 				UnifiedBlock body = null) {
 			return new UnifiedNew {
 					Target = target,
 					Arguments = arguments,
-					TypeArguments = typeArguments,
+					GenericArguments = genericArguments,
 					InitialValue = initialValues,
 					Body = body,
 			};

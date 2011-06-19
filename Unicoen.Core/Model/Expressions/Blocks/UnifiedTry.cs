@@ -57,6 +57,14 @@ namespace Unicoen.Core.Model {
 			set { _finallyBody = SetChild(value, _finallyBody); }
 		}
 
+		/// <summary>
+		/// ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
+
 		private UnifiedTry() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {

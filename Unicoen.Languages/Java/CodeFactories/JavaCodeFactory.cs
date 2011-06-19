@@ -99,7 +99,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			element.Modifiers.TryAccept(this, arg);
 			arg.Write(keyword + " ");
 			element.Name.TryAccept(this, arg);
-			element.TypeParameters.TryAccept(this, arg);
+			element.GenericParameters.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg);
 			return false;
@@ -144,7 +144,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				UnifiedFunction element, VisitorArgument arg) {
 			arg.WriteIndent();
 			element.Modifiers.TryAccept(this, arg);
-			element.TypeParameters.TryAccept(this, arg);
+			element.GenericParameters.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
 			element.Name.TryAccept(this, arg);
@@ -410,7 +410,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedConstructor element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
-			element.TypeParameters.TryAccept(this, arg);
+			element.GenericParameters.TryAccept(this, arg);
 			var p = element.Ancestors<UnifiedPackageBase>().First();
 			p.Name.Accept(this, arg);
 			element.Parameters.TryAccept(this, arg);

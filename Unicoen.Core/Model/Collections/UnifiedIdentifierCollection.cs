@@ -22,7 +22,7 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   識別子の集合を表します．
-	///   Pythonにおける<c>def f((a,b) = [1, 2], c = 1):</c>の<c>(a, b)</c>
+	///   e.g. Pythonにおける<c>def f((a,b) = [1, 2], c = 1):</c>の<c>(a, b)</c>
 	/// </summary>
 	public class UnifiedIdentifierCollection
 			: UnifiedElementCollection<UnifiedIdentifier, UnifiedIdentifierCollection> {
@@ -37,8 +37,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 

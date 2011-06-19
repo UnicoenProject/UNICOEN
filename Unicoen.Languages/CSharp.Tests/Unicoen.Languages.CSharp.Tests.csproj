@@ -55,7 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSharpFixture.cs" />
-    <Compile Include="CSharpCodeObjectFeatureTest.cs" />
+    <Compile Include="CSharpHeavyLanguageTest.cs" />
+    <Compile Include="CSharpLanguageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

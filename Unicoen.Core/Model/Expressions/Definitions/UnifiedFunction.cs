@@ -58,11 +58,11 @@ namespace Unicoen.Core.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedTypeParameterCollection _typeParameters;
+		private UnifiedGenericParameterCollection _genericParameters;
 
-		public UnifiedTypeParameterCollection TypeParameters {
-			get { return _typeParameters; }
-			set { _typeParameters = SetChild(value, _typeParameters); }
+		public UnifiedGenericParameterCollection GenericParameters {
+			get { return _genericParameters; }
+			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
 		private UnifiedIdentifier _name;
@@ -84,6 +84,14 @@ namespace Unicoen.Core.Model {
 		public UnifiedTypeCollection Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
+		}
+
+		/// <summary>
+		/// ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 
 		#endregion
@@ -109,7 +117,7 @@ namespace Unicoen.Core.Model {
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null,
-				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedTypeCollection throws = null,
@@ -118,7 +126,7 @@ namespace Unicoen.Core.Model {
 					Name = name,
 					Annotations = annotations,
 					Type = type,
-					TypeParameters = typeParameters,
+					GenericParameters = genericParameters,
 					Modifiers = modifiers,
 					Parameters = parameters,
 					Throws = throws,

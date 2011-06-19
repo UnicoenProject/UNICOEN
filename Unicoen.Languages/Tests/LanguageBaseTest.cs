@@ -28,6 +28,9 @@ namespace Unicoen.Languages.Tests {
 
 		private LanguageTest _test;
 
+		/// <summary>
+		///   テスト実行用のオブジェクトを取得します．
+		/// </summary>
 		protected LanguageTest Test {
 			get { return _test ?? (_test = new LanguageTest(Fixture)); }
 		}
@@ -51,6 +54,13 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		public IEnumerable<TestCaseData> TestProjectInfos {
 			get { return Fixture.TestProjectInfos; }
+		}
+
+		/// <summary>
+		///   テスト対象のプロジェクトのパスとコンパイルのコマンドと引数の集合を取得します．
+		/// </summary>
+		public IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { return Fixture.TestHeavyProjectInfos; }
 		}
 	}
 }

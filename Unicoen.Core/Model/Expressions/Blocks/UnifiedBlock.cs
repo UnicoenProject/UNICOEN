@@ -20,24 +20,28 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   e.g <c>{}</c>で囲まれた式の列を表します。
+	///   ブロックを表します．
+	///   e.g. Java,C,C#における<c>{ int i = 0; }</c>
 	/// </summary>
 	public class UnifiedBlock
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>,
 			  IUnifiedExpression {
+		/// <summary>
+		///   レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns>生成したオブジェクト</returns>
+		public override UnifiedBlock CreateSelf() {
+			return new UnifiedBlock();
+		}
+
 		protected UnifiedBlock() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override UnifiedBlock CreateSelf() {
-			return new UnifiedBlock();
-		}
-
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 

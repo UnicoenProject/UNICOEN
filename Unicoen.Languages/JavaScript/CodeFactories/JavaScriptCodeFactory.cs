@@ -321,7 +321,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
+				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
 			//JavaScript
 			return false;
 		}
