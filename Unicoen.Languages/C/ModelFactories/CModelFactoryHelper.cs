@@ -145,10 +145,15 @@ namespace Unicoen.Languages.C.ModelFactories {
 			}
 			modifiers = ms.IsEmpty() ? null : ms;
 
+			if (types.Count == 1) {
+				type = types[0];
+				return;
+			}
+
 			String s = "";
 			String prefix = "";
 			foreach (UnifiedType t in types) {
-				s += prefix + t.NameExpression;
+				s += prefix + ((UnifiedVariableIdentifier)t.NameExpression).Name;
 				prefix = " ";
 			}
 			type =
@@ -216,7 +221,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			case "type_id":
 				return CreateTypeId(first);
 			default:
-				var ui = UnifiedVariableIdentifier.Create(first.Name());
+				var ui = UnifiedVariableIdentifier.Create(first.Value);
 				return UnifiedType.Create(ui);
 			}
 		}
