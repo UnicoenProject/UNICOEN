@@ -390,10 +390,14 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			Contract.Requires(node.Name() == "expressionStatement");
 			/*
 			 * expressionStatement
-			 *		: expression (LT | ';')
-			 */
+			 * : expression (LT | ';')
+			 * | '(' expressionStatement ')'
+			 * */
 
-			return CreateExpression(node.NthElement(0));
+			var first = node.FirstElement();
+			if (first.Name() == "expression")
+				return CreateExpression(node.NthElement(0));
+			return CreateExpressionStatement(node.NthElement(1));
 		}
 
 		public static UnifiedIf CreateIfStatement(XElement node) {
@@ -1435,6 +1439,17 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			default:
 				throw new InvalidOperationException();
 			}
+		}
+
+		public static UnifiedLiteral CreateRegularExpressionLiteral(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "RegularExpressionLiteral");
+			/*
+			 * RegularExpressionLiteral
+				: '/' RegularExpressionFirstChar RegularExpressionChar* '/' IdentifierPart*
+			 */
+
+			throw new NotImplementedException();
 		}
 
 		public static UnifiedLiteral CreateNumericliteral(XElement node) {

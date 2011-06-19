@@ -10,7 +10,7 @@ options
 	output=AST;
 	backtrack=true;
 	memoize=true;
-	language=CSharp2;
+	language=CSharp3;
 }
 
 program
@@ -40,7 +40,7 @@ formalParameterList
 	;
 
 functionBody
-	: '{' LT!* sourceElements LT!* '}'
+	: '{' LT!* sourceElements? LT!* '}'
 	;
 
 // statements
@@ -70,7 +70,7 @@ statementList
 	;
 	
 variableStatement
-	: 'var' LT!* variableDeclarationList (LT | ';')
+	: 'var' LT!* variableDeclarationList (LT | ';' | EOF!)
 	;
 	
 variableDeclarationList
@@ -102,7 +102,7 @@ emptyStatement
 	;
 	
 expressionStatement
-	: expression (LT | ';')
+	: expression (LT | ';' | EOF!)
 	;
 	
 ifStatement
@@ -117,7 +117,7 @@ iterationStatement
 	;
 	
 doWhileStatement
-	: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';')
+	: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';' | EOF!)
 	;
 	
 whileStatement
@@ -143,15 +143,15 @@ forInStatementInitialiserPart
 	;
 
 continueStatement
-	: 'continue' Identifier? (LT | ';')
+	: 'continue' Identifier? (LT | ';' | EOF!)
 	;
 
 breakStatement
-	: 'break' Identifier? (LT | ';')
+	: 'break' Identifier? (LT | ';' | EOF!)
 	;
 
 returnStatement
-	: 'return' expression? (LT | ';')
+	: 'return' expression? (LT | ';' | EOF!)
 	;
 	
 withStatement
@@ -179,7 +179,7 @@ defaultClause
 	;
 	
 throwStatement
-	: 'throw' expression (LT | ';')
+	: 'throw' expression (LT | ';' | EOF!)
 	;
 
 tryStatement
@@ -379,6 +379,7 @@ literal
 	| 'false'
 	| stringliteral
 	| numericliteral
+	| RegularExpressionLiteral
 	;
 
 numericliteral
@@ -438,6 +439,24 @@ fragment HexEscapeSequence
 	
 fragment UnicodeEscapeSequence
 	: 'u' HexDigit HexDigit HexDigit HexDigit
+	;
+
+fragment BackslashSequence
+	: '\\' ~( LT )
+	;
+
+fragment RegularExpressionFirstChar
+	: ~ ( LT | '*' | '\\' | '/' )
+	| BackslashSequence
+	;
+	
+fragment RegularExpressionChar
+	: ~ ( LT | '\\' | '/' )
+	| BackslashSequence
+	;
+
+RegularExpressionLiteral
+	: '/' RegularExpressionFirstChar RegularExpressionChar* '/' IdentifierPart*
 	;
 	
 NumericLiteral

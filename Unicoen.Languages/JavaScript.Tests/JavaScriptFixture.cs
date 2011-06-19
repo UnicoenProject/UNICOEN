@@ -165,7 +165,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return testCase;
 			Directory.CreateDirectory(path);
 			FixtureManager.Download(
-					"http://code.jquery.com/jquery-1.6.1.min.js", srcPath);
+					"http://code.jquery.com/jquery-1.6.1.js", srcPath);
 			return testCase;
 		}
 	}
