@@ -155,21 +155,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		#endregion
-
-		private static UnifiedLiteral ParseValue(object value) {
-			Contract.Ensures(Contract.Result<UnifiedLiteral>() != null);
-
-			if (value == null)
-				return UnifiedNullLiteral.Create();
-			if (value is string)
-				return UnifiedStringLiteral.Create(
-						(string)value);
-			if (value is int)
-				return UnifiedIntegerLiteral.Create(
-						(int)value, UnifiedIntegerLiteralKind.Int32);
-
-			throw new NotImplementedException("ParseValue");
-		}
 	}
 
 	internal static class VisitorExtension {

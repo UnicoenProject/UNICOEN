@@ -60,7 +60,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.OfType<IUnifiedExpression>()
 					.Select(uExpr => UnifiedArgument.Create(value: uExpr))
 					.ToCollection();
-			return type.WrapRectangleArray(uArgs);
+			return UnifiedNew.Create(type.WrapRectangleArray(uArgs));
 		}
 
 		public IUnifiedElement VisitArrayInitializerExpression(ArrayInitializerExpression arrayInit, object data) {
@@ -137,7 +137,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					let uExpr = arg.AcceptForExpression(this)
 					where uExpr != null
 					select UnifiedArgument.Create(value: uExpr);
-			return args.ToCollection();
+			return UnifiedIndexer.Create(target, args.ToCollection());
 		}
 
 		public IUnifiedElement VisitInvocationExpression(
@@ -215,7 +215,17 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitPrimitiveExpression(PrimitiveExpression prim, object data) {
 			Contract.Requires<ArgumentNullException>(prim != null);
 
-			return ParseValue(prim.Value);
+			if (prim.Value == null) {
+				return UnifiedNullLiteral.Create();
+			}
+			if (prim.Value is string) {
+				return UnifiedStringLiteral.Create(prim.LiteralValue);
+			}
+			if (prim.Value is int) {
+				return UnifiedIntegerLiteral.Create(
+						(int)prim.Value, UnifiedIntegerLiteralKind.Int32);
+			}
+			throw new NotImplementedException("PrimitiveExpression");
 		}
 
 		public IUnifiedElement VisitSizeOfExpression(
@@ -258,7 +268,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitEmptyExpression(
 				EmptyExpression emptyExpression, object data) {
-			throw new NotImplementedException("EmptyExpression");
+			return null;
 		}
 
 		public IUnifiedElement VisitQueryExpression(
@@ -433,11 +443,11 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 			var initStmt = forStmt.Initializers
 					.Select(s => s.AcceptForExpression(this))
-					.ToBlock();
+					.FirstOrDefault();
 			var condExpr = forStmt.Condition.AcceptForExpression(this);
 			var stepStmt = forStmt.Iterators
 					.Select(s => s.AcceptForExpression(this))
-					.ToBlock();
+					.FirstOrDefault();
 			var body = forStmt.EmbeddedStatement.AcceptVisitor(this, data) as UnifiedBlock;
 
 			return UnifiedFor.Create(initStmt, condExpr, stepStmt, body);
@@ -691,7 +701,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					body.Add(uExpr);
 			}
 			// C# don't have "throws."
-			return UnifiedFunction.Create(attrs, mods, type, generics, name,parameters, body: body);
+			return UnifiedFunction.Create(attrs, mods, type, generics, name, parameters, body: body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(

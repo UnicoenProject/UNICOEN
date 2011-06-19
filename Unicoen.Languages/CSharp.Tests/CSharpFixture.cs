@@ -100,7 +100,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
 						"Fibonacci",
-						//"Student",
+						"Student",
 						//"Block1",
 						//"Block2",
 						//"Block3",
