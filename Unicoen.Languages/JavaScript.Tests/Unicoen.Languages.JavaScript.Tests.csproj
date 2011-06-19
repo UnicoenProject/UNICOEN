@@ -62,7 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScriptCodeObjectFeatureTest.cs" />
+    <Compile Include="JavaScriptHeavyLanguageTest.cs" />
+    <Compile Include="JavaScriptLanguageTest.cs" />
     <Compile Include="JavaScriptFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -20,44 +20,37 @@ using System;
 using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
-namespace Unicoen.Languages.Java.Tests {
+namespace Unicoen.Languages.CSharp.Tests {
 	[TestFixture]
-	public class JavaCodeObjectFeatureTest : LanguageTestBase {
+	public class CSharpHeavyLanguageTest : LanguageTestBase {
 		private Fixture _fixture;
 
 		protected override Fixture Fixture {
-			get { return _fixture ?? (_fixture = new JavaFixture()); }
-		}
-
-		/// <summary>
-		///   指定したソースコードから統一コードオブジェクトを生成して，
-		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
-		/// </summary>
-		/// <param name = "code">検査対象のソースコード</param>
-		[Test, TestCaseSource("TestCodes")]
-		public void VerifyCodeObjectFeatureUsingCode(string code) {
-			Test.VerifyCodeObjectFeatureUsingCode(code);
+			get { return _fixture ?? (_fixture = new CSharpFixture()); }
 		}
 
 		/// <summary>
 		///   指定したパスのソースコードの統一コードオブジェクトを生成して，
 		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
-		/// <param name = "path">検査対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
-		public void VerifyCodeObjectFeatureUsingFile(string path) {
-			Test.VerifyCodeObjectFeatureUsingFile(path);
+		/// <param name = "dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "compileAction">使用しません</param>
+		[Test, TestCaseSource("TestHeavyProjectInfos")]
+		public void VerifyCodeObjectFeatureUsingProject(
+				string dirPath, Action<string> compileAction) {
+			Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);
 		}
 
 		/// <summary>
 		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して，
-		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		///   ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name = "dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "compileAction">使用しません</param>
-		[Test, TestCaseSource("TestProjectInfos")]
-		public void VerifyCodeObjectFeatureUsingProject(string dirPath, Action<string> compileAction) {
-			Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);
+		/// <param name = "compileAction">コンパイル処理</param>
+		[Test, TestCaseSource("TestHeavyProjectInfos")]
+		public void VerifyRegenerateCodeUsingProject(
+				string dirPath, Action<string> compileAction) {
+			Test.VerifyRegenerateCodeUsingProject(dirPath, compileAction);
 		}
 	}
 }

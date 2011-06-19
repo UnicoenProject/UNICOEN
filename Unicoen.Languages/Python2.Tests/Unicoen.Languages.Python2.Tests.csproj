@@ -68,7 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Python2CodeObjectFeatureTest.cs" />
+    <Compile Include="Python2HeavyLanguageTest.cs" />
+    <Compile Include="Python2LanguageTest.cs" />
     <Compile Include="Python2Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

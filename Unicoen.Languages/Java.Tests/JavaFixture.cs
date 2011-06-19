@@ -102,7 +102,7 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
@@ -123,9 +123,12 @@ namespace Unicoen.Languages.Java.Tests {
 						.Concat(
 								new[] {
 										SetUpJUnit(),
-								})
-						.Concat(SetUpJdk());
+								});
 			}
+		}
+
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { return SetUpJdk(); }
 		}
 
 		/// <summary>
