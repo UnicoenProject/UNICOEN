@@ -114,8 +114,11 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => {
-									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
-									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+									Action<string> action =
+											s => CompileWithArguments(s, o.Command, o.Arguments);
+									return
+											new TestCaseData(
+													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
 						.Concat(
 								new[] {
@@ -138,25 +141,6 @@ namespace Unicoen.Languages.Java.Tests {
 			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
-		/// <summary>
-		///   CompileWithArgumentsメソッドで，
-		///   コンパイル用のコマンドがnullを渡された際の，
-		///   デフォルトのコンパイル処理を行います．
-		/// </summary>
-		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
-		protected override void CompileWhenNullCommand(string workPath) {
-			var srcPaths = GetAllSourceFilePaths(workPath);
-			foreach (var srcPath in srcPaths) {
-				var args = new[] {
-						"-cp",
-						"\"" + workPath + "\"",
-						"\"" + srcPath + "\"",
-				};
-				var arguments = args.JoinString(" ");
-				CompileWithArguments(workPath, CompileCommand, arguments);
-			}
-		}
-
 		private TestCaseData SetUpJUnit() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "JUnit4.8.2");
 			var srcPath = Path.Combine(path, "src.zip");
@@ -166,7 +150,8 @@ namespace Unicoen.Languages.Java.Tests {
 					"\"" + path + "\";\"" + depPath + "\"",
 					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
 			};
-			Action<string> action = s => CompileWithArguments(s, CompileCommand, args.JoinString(" "));
+			Action<string> action =
+					s => CompileWithArguments(s, CompileCommand, args.JoinString(" "));
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
 				return testCase;
@@ -181,10 +166,8 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private IEnumerable<TestCaseData> SetUpJdk() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "jdk");
-			var testCase = new TestCaseData(
-					path,
-					null,
-					null);
+			Action<string> action = s => { };
+			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path)) {
 				yield return testCase;
 				yield break;
@@ -197,7 +180,6 @@ namespace Unicoen.Languages.Java.Tests {
 			var srcPath = Path.Combine(jdkPath, "src.zip");
 			Directory.CreateDirectory(path);
 			FixtureManager.Unzip(srcPath, path);
-			Directory.Delete(Path.Combine(jdkPath, @"com\sun\cobra"), true);
 			yield return testCase;
 		}
 	}

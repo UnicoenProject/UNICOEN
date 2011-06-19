@@ -28,6 +28,9 @@ namespace Unicoen.Languages.Tests {
 
 		private LanguageTest _test;
 
+		/// <summary>
+		/// テスト実行用のオブジェクトを取得します．
+		/// </summary>
 		protected LanguageTest Test {
 			get { return _test ?? (_test = new LanguageTest(Fixture)); }
 		}
