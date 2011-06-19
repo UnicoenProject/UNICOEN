@@ -34,7 +34,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public string Generate(IUnifiedElement model, TextWriter writer, CSharpCodeStyle style) {
 			var visitor = new CSharpCodeFactoryVisitor(writer, style);
-			model.Accept(visitor);
+			model.Accept(visitor, 0);
 			return writer.ToString();
 		}
 	}
