@@ -102,7 +102,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 					null, modifiers, type, typeParameters, name, parameters, throws, body);
 		}
 
-		public static UnifiedFunction CreateDeclaration(XElement node) {
+		public static IUnifiedExpression CreateDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration");
 			/*
@@ -113,6 +113,32 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 */
 			// declaration_specifiers init_declarator_list? ';' において init_declarator がない時だけ
 			// struct, と union を UnifiedClassDefenition とする。その他は UnifiedType でラップする
+			var firstNode = node.FirstElement();
+			switch (firstNode.Name()) {
+			case "Node":
+				throw new NotImplementedException(); //TODO: implement
+				break;
+			case "init_declarator_list":
+				throw new NotImplementedException(); //TODO: implement
+				break;
+			case "declaration_specifiers":
+				UnifiedModifierCollection modifiers = null;
+				UnifiedType type = null;
+				CreateDeclarationSpecifiers(firstNode, out modifiers, out type);
+				var initDeclaratorListNode = node.Element("init_declarator_list");
+				if (node.Elements("init_declarator_list").Count() > 0) {
+					UnifiedVariableDefinition definitio;
+					var initDeclarationList = CreateInitDeclaratorList(node.Element("init_declarator_list"));
+					throw new NotImplementedException(); //TODO: implement
+				} else {
+					throw new NotImplementedException(); //TODO: implement
+				}
+				throw new NotImplementedException(); //TODO: implement
+				break;
+			default:
+				throw new InvalidOperationException();
+
+			}
 			throw new NotImplementedException(); //TODO: implement
 		}
 
@@ -168,17 +194,22 @@ namespace Unicoen.Languages.C.ModelFactories {
 			init_declarator_list
 			: init_declarator (',' init_declarator)*
 			*/
-
+			List<IUnifiedExpression> ExpressionList = new List<IUnifiedExpression>();
+			foreach (var initDeclaratorNode in node.Elements("init_declarator")) {
+				ExpressionList.Add(CreateInitDeclarator(initDeclaratorNode));
+				
+			}
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateInitDeclarator(XElement node) {
+		public static IUnifiedExpression CreateInitDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "init_declarator");
 			/*
 			init_declarator
 			: declarator ('=' initializer)?
 			*/
+			var a = CreateDeclarator(node.Element("declarator"));
 
 			throw new NotImplementedException(); //TODO: implement
 		}
