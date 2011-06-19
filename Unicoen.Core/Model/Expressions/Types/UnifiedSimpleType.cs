@@ -30,8 +30,9 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _nameExpression;
 
 		/// <summary>
-		///   型の名前を表します．
+		///   型の基礎部分の名前を表します．
 		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
+		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
 		/// </summary>
 		public override IUnifiedExpression NameExpression {
 			get { return _nameExpression; }
