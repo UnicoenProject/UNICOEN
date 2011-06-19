@@ -22,7 +22,7 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   ラムダ式の定義部分を表します。
 	/// </summary>
-	public class UnifiedLambda : UnifiedExpressionWithBlock {
+	public class UnifiedLambda : UnifiedExpressionBlock {
 		#region fields
 
 		private UnifiedType _type;

@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   catch節を表します。
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
-	public class UnifiedCatch : UnifiedExpressionWithBlock {
+	public class UnifiedCatch : UnifiedExpressionBlock {
 		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>

@@ -20,25 +20,29 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   C#におけるusing文，Pythonにおけるwith文を表します．
-	///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>
-	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>
+	///   do-while文を表します。
+	///   e.g. Javaにおける<c>do{...}while(cond)</c>
 	/// </summary>
-	public class UnifiedUsing
-			: UnifiedExpressionWithBlock {
-		private UnifiedMatcherCollection _matchers;
+	public class UnifiedDoWhile : UnifiedExpressionBlock {
+		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   リソース解放の対象となる変数を表します．
-		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
-		///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+		///   条件式を表します
+		///   e.g. Javaにおける<c>do{...}while(cond)</c>の<c>cond</c>
 		/// </summary>
-		public UnifiedMatcherCollection Matchers {
-			get { return _matchers; }
-			set { _matchers = SetChild(value, _matchers); }
+		public IUnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
 		}
 
-		private UnifiedUsing() {}
+		private UnifiedBlock _falseBody;
+
+		public UnifiedBlock FalseBody {
+			get { return _falseBody; }
+			set { _falseBody = SetChild(value, _falseBody); }
+		}
+
+		private UnifiedDoWhile() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -55,13 +59,15 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedUsing Create2(
-				UnifiedMatcherCollection matchers = null,
-				UnifiedBlock body = null) {
-			return new UnifiedUsing {
-					Matchers = matchers,
+		public static UnifiedDoWhile Create(
+				UnifiedBlock body = null,
+				IUnifiedExpression condition = null,
+				UnifiedBlock falseBody = null) {
+			return new UnifiedDoWhile {
 					Body = body,
+					Condition = condition,
+					FalseBody = falseBody,
 			};
 		}
-			}
+	}
 }

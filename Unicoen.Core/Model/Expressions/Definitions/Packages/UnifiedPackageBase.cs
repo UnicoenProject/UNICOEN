@@ -20,7 +20,7 @@ using System;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public abstract class UnifiedPackageBase : UnifiedExpressionWithBlock {
+	public abstract class UnifiedPackageBase : UnifiedExpressionBlock {
 		protected UnifiedAnnotationCollection _annotations;
 
 		/// <summary>

@@ -21,11 +21,13 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   式の集合を表します。
+	///   今のところPythonにおける内包表記の式の集合を表します．
+	///   e.g. Pythonにおける<c>[x + y for x in [1, 2] for y in [3, 4]]</c>の<c>x in [1, 2] for y in [3, 4]</c>
 	/// </summary>
 	public class UnifiedExpressionCollection
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection> {
 		/// <summary>
-		/// レシーバーと同じ型のオブジェクトを生成します．
+		///   レシーバーと同じ型のオブジェクトを生成します．
 		/// </summary>
 		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedExpressionCollection CreateSelf() {

@@ -21,7 +21,7 @@ namespace Unicoen.Core.Model {
 	///   ブロックを持つ式を表します。
 	/// </summary>
 	/// <typeparam name = "TSelf"></typeparam>
-	public abstract class UnifiedExpressionWithBlock
+	public abstract class UnifiedExpressionBlock
 			: UnifiedElement, IUnifiedExpression {
 		protected UnifiedBlock _body;
 

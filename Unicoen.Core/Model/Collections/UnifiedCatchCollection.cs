@@ -26,7 +26,7 @@ namespace Unicoen.Core.Model {
 	public class UnifiedCatchCollection
 			: UnifiedElementCollection<UnifiedCatch, UnifiedCatchCollection> {
 		/// <summary>
-		/// レシーバーと同じ型のオブジェクトを生成します．
+		///   レシーバーと同じ型のオブジェクトを生成します．
 		/// </summary>
 		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedCatchCollection CreateSelf() {

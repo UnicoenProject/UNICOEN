@@ -21,6 +21,8 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
+	///   識別子の集合を表します．
+	///   Pythonにおける<c>def f((a,b) = [1, 2], c = 1):</c>の<c>(a, b)</c>
 	/// </summary>
 	public class UnifiedIdentifierCollection
 			: UnifiedElementCollection<UnifiedIdentifier, UnifiedIdentifierCollection> {

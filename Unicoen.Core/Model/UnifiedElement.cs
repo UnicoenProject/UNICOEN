@@ -101,8 +101,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		/// <returns>子要素</returns>
 		public virtual IEnumerable<IUnifiedElement> GetElements() {
-			return
-					PropertyInfos.Select(prop => (IUnifiedElement)prop.GetValue(this, null));
+			return FieldInfos.Select(f => (IUnifiedElement)f.GetValue(this));
 		}
 
 		/// <summary>
@@ -111,9 +110,9 @@ namespace Unicoen.Core.Model {
 		/// <returns>子要素</returns>
 		public virtual IEnumerable<ElementReference> GetElementReferences() {
 			return PropertyInfos.Select(
-					prop => ElementReference.Create(
-							() => (IUnifiedElement)prop.GetValue(this, null),
-							e => prop.SetValue(this, e, null)));
+					p => ElementReference.Create(
+							() => (IUnifiedElement)p.GetValue(this, null),
+							e => p.SetValue(this, e, null)));
 		}
 
 		/// <summary>
@@ -123,9 +122,9 @@ namespace Unicoen.Core.Model {
 		public virtual IEnumerable<ElementReference>
 				GetElementReferencesOfFields() {
 			return FieldInfos.Select(
-					field => ElementReference.Create(
-							() => (IUnifiedElement)field.GetValue(this),
-							e => field.SetValue(this, e)));
+					f => ElementReference.Create(
+							() => (IUnifiedElement)f.GetValue(this),
+							e => f.SetValue(this, e)));
 		}
 
 		/// <summary>

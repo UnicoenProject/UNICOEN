@@ -26,7 +26,7 @@ namespace Unicoen.Core.Model {
 	///   if文を表します。
 	///   e.g. Javaにおける<c>if(cond){...}else{...}</c>
 	/// </summary>
-	public class UnifiedIf : UnifiedExpressionWithBlock {
+	public class UnifiedIf : UnifiedExpressionBlock {
 		private IUnifiedExpression _condition;
 
 		/// <summary>

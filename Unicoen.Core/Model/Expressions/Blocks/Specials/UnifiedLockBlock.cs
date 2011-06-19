@@ -19,27 +19,42 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public class UnifiedKeyValueCollection
-			: UnifiedElementCollection<UnifiedKeyValue, UnifiedKeyValueCollection> {
-		public override UnifiedKeyValueCollection CreateSelf() {
-			return new UnifiedKeyValueCollection();
+	/// <summary>
+	///   synchronizedなど特殊なブロックを表します。
+	///   e.g. Javaにおける<c>synchronized(this) {...}</c>
+	/// </summary>
+	public class UnifiedSynchronized
+			: UnifiedExpressionBlock {
+		private IUnifiedExpression _value;
+
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
 		}
 
-		protected UnifiedKeyValueCollection() {}
+		private UnifiedSynchronized() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		public override TResult Accept<TResult, TArg>(
 				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedSynchronized Create(
+				IUnifiedExpression value = null,
+				UnifiedBlock body = null) {
+			return new UnifiedSynchronized {
+					Value = value,
+					Body = body,
+			};
 		}
 			}
 }

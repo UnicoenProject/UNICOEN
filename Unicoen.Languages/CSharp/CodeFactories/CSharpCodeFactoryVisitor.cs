@@ -273,9 +273,9 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedKeyValueCollection element, int arg) {
-			throw new NotImplementedException();
-		}
+		//public bool Visit(UnifiedKeyValueCollection element, int arg) {
+		//    throw new NotImplementedException();
+		//}
 
 		public bool Visit(UnifiedDictionary element, int arg) {
 			throw new NotImplementedException();

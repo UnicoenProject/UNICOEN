@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   配列の生成を含むコンストラクタ呼び出しを表します。
 	///   e.g. Javaにおける<c>Object o = new Object();</c>の<c>new Object()</c>の部分
 	/// </summary>
-	public class UnifiedNew : UnifiedExpressionWithBlock {
+	public class UnifiedNew : UnifiedExpressionBlock {
 		private IUnifiedExpression _target;
 
 		public IUnifiedExpression Target {

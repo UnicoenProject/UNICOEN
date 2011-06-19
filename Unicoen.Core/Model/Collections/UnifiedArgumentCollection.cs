@@ -21,12 +21,12 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   実引数の集合を表します。
-	///   e.g. Javaにおける<c>method(1, 2);</c>の<c>1 2</c>
+	///   e.g. Javaにおける<c>method(1, 2);</c>の<c>(1, 2)</c>
 	/// </summary>
 	public class UnifiedArgumentCollection
 			: UnifiedElementCollection<UnifiedArgument, UnifiedArgumentCollection> {
 		/// <summary>
-		/// レシーバーと同じ型のオブジェクトを生成します．
+		///   レシーバーと同じ型のオブジェクトを生成します．
 		/// </summary>
 		/// <returns>生成したオブジェクト</returns>
 		public override UnifiedArgumentCollection CreateSelf() {
