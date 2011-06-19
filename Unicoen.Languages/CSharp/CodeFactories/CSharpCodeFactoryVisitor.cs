@@ -93,7 +93,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public bool Visit(UnifiedCall element, int arg) {
 			element.Function.TryAccept(this, arg + 1);
-			element.TypeArguments.TryAccept(this, arg + 1);
+			element.GenericArguments.TryAccept(this, arg + 1);
 			element.Arguments.TryAccept(this, arg + 1);
 			return true;
 		}
@@ -102,7 +102,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			element.Modifiers.TryAccept(this, arg + 1);
 			element.Type.TryAccept(this, arg + 1);
 			element.Name.TryAccept(this, arg + 1);
-			element.TypeParameters.TryAccept(this, arg + 1);
+			element.GenericParameters.TryAccept(this, arg + 1);
 			element.Parameters.TryAccept(this, arg + 1);
 			element.Body.TryAccept(this, arg + 1);
 			return false;
@@ -191,7 +191,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedTypeArgumentCollection element, int arg) {
+		public bool Visit(UnifiedGenericArgumentCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
@@ -227,7 +227,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedTypeParameterCollection element, int arg) {
+		public bool Visit(UnifiedGenericParameterCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
@@ -382,7 +382,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			WriteSpace();
 			_writer.Write(element.Name);
 			WriteSpace();
-			element.TypeParameters.TryAccept(this, arg + 1);
+			element.GenericParameters.TryAccept(this, arg + 1);
 			element.Constrains.TryAccept(this, arg + 1);
 			if (_style.LineBreak.AfterClass) {
 				_writer.WriteLine();
@@ -518,7 +518,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			}
 			element.Modifiers.TryAccept(this, arg + 1);
 			classDef.Name.TryAccept(this, arg + 1);
-			element.TypeParameters.TryAccept(this, arg + 1);
+			element.GenericParameters.TryAccept(this, arg + 1);
 			element.Parameters.TryAccept(this, arg + 1);
 			element.Body.TryAccept(this, arg + 1);
 			return false;
