@@ -669,12 +669,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitMethodDeclaration(
 				MethodDeclaration dec, object data) {
 			Contract.Requires<ArgumentNullException>(dec != null);
-			Contract.Ensures(
-					Contract.Result<IUnifiedElement>() is UnifiedFunction);
 
 			var mods = LookupModifier(dec.Modifiers);
 			var type = LookupType(dec.ReturnType);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
+			var parameters = dec.Parameters
+					.Select(p => p.AcceptVisitor(this, data))
+					.OfType<UnifiedParameter>()
+					.ToCollection();
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Body) {
 				var uExpr = node.AcceptForExpression(this);
@@ -682,7 +684,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					body.Add(uExpr);
 			}
 
-			return UnifiedFunction.Create(modifiers: mods, type: type, name: name, body: body);
+			return UnifiedFunction.Create(modifiers: mods, type: type, name: name, parameters:parameters, body: body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(

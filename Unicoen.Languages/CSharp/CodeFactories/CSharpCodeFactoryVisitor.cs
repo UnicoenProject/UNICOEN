@@ -77,12 +77,17 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public bool Visit(UnifiedFunction element, int arg) {
 			element.Modifiers.TryAccept(this, arg + 1);
-			element.Type.TryAccept(this, arg + 1);
-			element.Name.TryAccept(this, arg + 1);
+			element.Type.Accept(this, arg + 1);
+			_writer.Write(" ");
+			element.Name.Accept(this, arg + 1);
 			element.GenericParameters.TryAccept(this, arg + 1);
-			element.Parameters.TryAccept(this, arg + 1);
-			element.Body.TryAccept(this, arg + 1);
-			return false;
+			element.Parameters.Accept(this, arg + 1);
+			if (element.Body == null) {
+				return true;
+			}
+			else {
+				return element.Body.Accept(this, arg + 1);
+			}
 		}
 
 		public bool Visit(UnifiedIf element, int arg) {
@@ -353,7 +358,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			element.Modifiers.TryAccept(this, arg);
 			_writer.Write("class");
 			WriteSpace();
-			_writer.Write(element.Name);
+			element.Name.TryAccept(this, arg);
 			WriteSpace();
 			element.GenericParameters.TryAccept(this, arg + 1);
 			element.Constrains.TryAccept(this, arg + 1);
