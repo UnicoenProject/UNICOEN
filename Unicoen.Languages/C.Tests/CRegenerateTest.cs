@@ -69,7 +69,7 @@ namespace Unicoen.Languages.C.Tests {
 		///   モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name = "code">テスト対象のソースコード</param>
-		[Ignore, Test, TestCaseSource("TestCodes")]
+		[Test, TestCaseSource("TestCodes")]
 		public override void CompareModelUsingCode(string code) {
 			base.CompareModelUsingCode(code);
 		}
@@ -81,7 +81,7 @@ namespace Unicoen.Languages.C.Tests {
 		///   元コード1とコード2を比較します。
 		/// </summary>
 		/// <param name = "orgPath">テスト対象のソースコードのパス</param>
-		[Test, TestCaseSource("TestFilePathes")]
+		[TestCaseSource("TestFilePathes")]
 		public override void CompareCompiledCodeUsingFile(string orgPath) {
 			base.CompareCompiledCodeUsingFile(orgPath);
 		}
