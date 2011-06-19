@@ -1,30 +1,10 @@
-﻿#region License
-
-// Copyright (C) 2011 The Unicoen Project
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-#endregion
-
-using System;
+﻿using System;
 using System.IO;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
-
 	internal class CSharpCodeFactoryVisitor : IUnifiedVisitor<bool, int> {
-
 		private readonly TextWriter _writer;
 		private readonly CSharpCodeStyle _style;
 
@@ -38,11 +18,8 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		private void WriteIndent(int indent) {
-			for (int i = 0; i < indent; i++)
-				_writer.Write(_style.Indent);
+			for (int i = 0; i < indent; i++) _writer.Write(_style.Indent);
 		}
-
-		#region VisitorCode
 
 		public bool Visit(UnifiedBinaryOperator element, int arg) {
 			_writer.Write(element.Sign);
@@ -195,263 +172,183 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedSwitch element, int arg) {
+		public bool Visit(UnifiedSwitch element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedCaseCollection element, int arg) {
+		public bool Visit(UnifiedCaseCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedCase element, int arg) {
+		public bool Visit(UnifiedCase element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedCatch element, int arg) {
+		public bool Visit(UnifiedCatch element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedTypeCollection element, int arg) {
+		public bool Visit(UnifiedTypeCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedCatchCollection element, int arg) {
+		public bool Visit(UnifiedCatchCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedTry element, int arg) {
+		public bool Visit(UnifiedTry element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedCast element, int arg) {
+		public bool Visit(UnifiedCast element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-		bool Visit
-		(UnifiedGenericParameterCollection element, int arg) {
+		public bool Visit(UnifiedGenericParameterCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedTypeConstrainCollection element, int arg) {
+		public bool Visit(UnifiedTypeConstrainCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedTypeParameter element, int arg) {
+		public bool Visit(UnifiedTypeParameter element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedTernaryExpression element, int arg) {
+		public bool Visit(UnifiedTernaryExpression element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedIdentifierCollection element, int arg) {
+		public bool Visit(UnifiedIdentifierCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedLabel element, int arg) {
+		public bool Visit(UnifiedLabel element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedBooleanLiteral element, int arg) {
+		public bool Visit(UnifiedBooleanLiteral element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedFractionLiteral element, int arg) {
+		public bool Visit(UnifiedFractionLiteral element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedIntegerLiteral element, int arg) {
+		public bool Visit(UnifiedIntegerLiteral element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedStringLiteral element, int arg) {
+		public bool Visit(UnifiedStringLiteral element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedNullLiteral element, int arg) {
+		public bool Visit(UnifiedNullLiteral element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedMatcher element, int arg) {
+		public bool Visit(UnifiedMatcher element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedMatcherCollection element, int arg) {
+		public bool Visit(UnifiedMatcherCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedUsing element, int arg) {
+		public bool Visit(UnifiedUsing element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedListComprehension element, int arg) {
+		public bool Visit(UnifiedListComprehension element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedList element, int arg) {
+		public bool Visit(UnifiedList element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedKeyValue element, int arg) {
+		public bool Visit(UnifiedKeyValue element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedDictionaryComprehension element, int arg) {
+		public bool Visit(UnifiedDictionaryComprehension element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		//public bool Visit(UnifiedKeyValueCollection element, int arg) {
-		//    throw new NotImplementedException();
-		//}
-
-		public
-			bool Visit
-			(UnifiedDictionary element, int arg) {
+		public bool Visit(UnifiedDictionary element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSlice element, int arg) {
+		public bool Visit(UnifiedSlice element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedComment element, int arg) {
+		public bool Visit(UnifiedComment element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedAnnotation element, int arg) {
+		public bool Visit(UnifiedAnnotation element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedAnnotationCollection element, int arg) {
+		public bool Visit(UnifiedAnnotationCollection element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedVariableDefinitionList element, int arg) {
+		public bool Visit(UnifiedVariableDefinitionList element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedVariableDefinition element, int arg) {
+		public bool Visit(UnifiedVariableDefinition element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedArrayType element, int arg) {
+		public bool Visit(UnifiedArrayType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedGenericType element, int arg) {
+		public bool Visit(UnifiedGenericType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSimpleType element, int arg) {
+		public bool Visit(UnifiedSimpleType element, int arg) {
 			return element.NameExpression.TryAccept(this, arg + 1);
 		}
 
-		public
-			bool Visit
-			(UnifiedCharLiteral element, int arg) {
+		public bool Visit(UnifiedCharLiteral element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedIterable element, int arg) {
+		public bool Visit(UnifiedIterable element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedArray element, int arg) {
+		public bool Visit(UnifiedArray element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSet element, int arg) {
+		public bool Visit(UnifiedSet element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedTuple element, int arg) {
+		public bool Visit(UnifiedTuple element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedIterableComprehension element, int arg) {
+		public bool Visit(UnifiedIterableComprehension element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSetComprehension element, int arg) {
+		public bool Visit(UnifiedSetComprehension element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedInterface element, int arg) {
+		public bool Visit(UnifiedInterface element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedClass element, int arg) {
+		public bool Visit(UnifiedClass element, int arg) {
 			WriteIndent(arg);
 			element.Modifiers.TryAccept(this, arg);
 			_writer.Write("class");
@@ -463,191 +360,131 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			if (_style.LineBreak.AfterClass) {
 				_writer.WriteLine();
 				WriteIndent(arg);
-			}
-			else {
+			} else {
 				WriteSpace();
 			}
 			element.Body.TryAccept(this, arg + 1);
 			return false;
 		}
 
-		public
-			bool Visit
-			(UnifiedStruct element, int arg) {
+		public bool Visit(UnifiedStruct element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedEnum element, int arg) {
+		public bool Visit(UnifiedEnum element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedModule element, int arg) {
+		public bool Visit(UnifiedModule element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedUnion element, int arg) {
+		public bool Visit(UnifiedUnion element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedAnnotationDefinition element, int arg) {
+		public bool Visit(UnifiedAnnotationDefinition element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedNamespace element, int arg) {
+		public bool Visit(UnifiedNamespace element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedBreak element, int arg) {
+		public bool Visit(UnifiedBreak element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedContinue element, int arg) {
+		public bool Visit(UnifiedContinue element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedReturn element, int arg) {
+		public bool Visit(UnifiedReturn element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedGoto element, int arg) {
+		public bool Visit(UnifiedGoto element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedYieldReturn element, int arg) {
+		public bool Visit(UnifiedYieldReturn element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedDelete element, int arg) {
+		public bool Visit(UnifiedDelete element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedThrow element, int arg) {
+		public bool Visit(UnifiedThrow element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedAssert element, int arg) {
+		public bool Visit(UnifiedAssert element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedExec element, int arg) {
+		public bool Visit(UnifiedExec element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedStringConversion element, int arg) {
+		public bool Visit(UnifiedStringConversion element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedPass element, int arg) {
+		public bool Visit(UnifiedPass element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedPrint element, int arg) {
+		public bool Visit(UnifiedPrint element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedPrintChevron element, int arg) {
+		public bool Visit(UnifiedPrintChevron element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedWith element, int arg) {
+		public bool Visit(UnifiedWith element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedFix element, int arg) {
+		public bool Visit(UnifiedFix element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSynchronized element, int arg) {
+		public bool Visit(UnifiedSynchronized element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedConstType element, int arg) {
+		public bool Visit(UnifiedConstType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedPointerType element, int arg) {
+		public bool Visit(UnifiedPointerType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedUnionType element, int arg) {
+		public bool Visit(UnifiedUnionType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedVolatileType element, int arg) {
+		public bool Visit(UnifiedVolatileType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedStructType element, int arg) {
+		public bool Visit(UnifiedStructType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedReferenceType element, int arg) {
+		public bool Visit(UnifiedReferenceType element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedConstructor element, int arg) {
+		public bool Visit(UnifiedConstructor element, int arg) {
 			var classDef = null as UnifiedClass;
 			var elem = element as IUnifiedElement;
 			while (classDef == null) {
 				elem = elem.Parent;
-				if (elem == null)
-					throw new InvalidOperationException("Constructor must be declared in a class declaration scope.");
+				if (elem == null) throw new InvalidOperationException("Constructor must be declared in a class declaration scope.");
 				classDef = elem as UnifiedClass;
 			}
 			element.Modifiers.TryAccept(this, arg + 1);
@@ -658,89 +495,65 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			return false;
 		}
 
-		public
-			bool Visit
-			(UnifiedStaticInitializer element, int arg) {
+		public bool Visit(UnifiedStaticInitializer element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedInstanceInitializer element, int arg) {
+		public bool Visit(UnifiedInstanceInitializer element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedLambda element, int arg) {
+		public bool Visit(UnifiedLambda element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedDefaultConstrain element, int arg) {
+		public bool Visit(UnifiedDefaultConstrain element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedExtendConstrain element, int arg) {
+		public bool Visit(UnifiedExtendConstrain element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedImplementsConstrain element, int arg) {
+		public bool Visit(UnifiedImplementsConstrain element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit (UnifiedReferenceConstrain element, int arg) {
+		public bool Visit(UnifiedReferenceConstrain element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSuperConstrain element, int arg) {
+		public bool Visit(UnifiedSuperConstrain element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedValueConstrain element, int arg) {
+		public bool Visit(UnifiedValueConstrain element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSuperIdentifier element, int arg) {
+		public bool Visit(UnifiedSuperIdentifier element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedThisIdentifier element, int arg) {
+		public bool Visit(UnifiedThisIdentifier element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedLabelIdentifier element, int arg) {
+		public bool Visit(UnifiedLabelIdentifier element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedSizeof element, int arg) {
+		public bool Visit(UnifiedSizeof element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedTypeof element, int arg) {
+		public bool Visit(UnifiedTypeof element, int arg) {
 			throw new NotImplementedException();
 		}
 
-		public
-			bool Visit
-			(UnifiedVariableIdentifier element, int arg) {
+		public bool Visit(UnifiedVariableIdentifier element, int arg) {
 			_writer.Write(element.Name);
 			return true;
 		}
-
-		#endregion
 	}
 }
