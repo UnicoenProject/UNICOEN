@@ -130,7 +130,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
-		private  TestCaseData SetUpPyPy() {
+		private TestCaseData SetUpPyPy() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "PyPy");
 			var srcPath = Path.Combine(path, "src.zip");
 			var depPath = Path.Combine(path, "dep.jar");

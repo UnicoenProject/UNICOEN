@@ -30,6 +30,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 // ReSharper disable InvocationIsSkipped
+
 namespace Unicoen.Languages.Java.ModelFactories {
 	public static class JavaModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;

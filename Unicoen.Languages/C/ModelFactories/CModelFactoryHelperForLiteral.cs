@@ -23,6 +23,7 @@ using Mocomoco.Xml.Linq;
 using Unicoen.Core.Model;
 
 // ReSharper disable InvocationIsSkipped
+
 namespace Unicoen.Languages.C.ModelFactories {
 	public static partial class CModelFactoryHelper {
 		// literals

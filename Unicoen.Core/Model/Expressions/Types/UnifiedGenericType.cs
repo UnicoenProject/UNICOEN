@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 
 		/// <summary>
 		///   ジェネリックタイプにおける実引数の集合を表します
-		///   e.g. Javaにおける<c>HashMap&ltInteger, String&gt</c>の<c>Integer, String</c>
+		///   e.g. Javaにおける<c>HashMap&lt;Integer, String&gt;</c>の<c>Integer, String</c>
 		/// </summary>
 		public UnifiedGenericArgumentCollection Arguments {
 			get { return _arguments; }

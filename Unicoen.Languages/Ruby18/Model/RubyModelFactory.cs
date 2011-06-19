@@ -113,7 +113,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 						CreateExpression(elems.ElementAt(0)), CreateBlock(elems.ElementAt(1)),
 						CreateBlock(elems.ElementAt(2)));
 			case "return":
-				return UnifiedReturn.Create( CreateExpression(elems.First()));
+				return UnifiedReturn.Create(CreateExpression(elems.First()));
 			default:
 				throw new NotImplementedException();
 			}
@@ -123,7 +123,6 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
 			return UnifiedFunction.Create(
-					
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedVariableIdentifier.Create(elems.First().Value),
 					UnifiedParameterCollection.Create(

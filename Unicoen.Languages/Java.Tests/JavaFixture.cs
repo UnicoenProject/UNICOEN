@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -112,10 +113,10 @@ namespace Unicoen.Languages.Java.Tests {
 						new { DirName = "NewTestFiles", Command = cmd, Arguments = args },
 				}
 						.Select(
-								o => new TestCaseData(
-								     		FixtureUtil.GetInputPath(LanguageName, o.DirName),
-								     		o.Command,
-								     		o.Arguments))
+								o => {
+									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
+									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+								})
 						.Concat(
 								new[] {
 										SetUpJUnit(),
@@ -165,10 +166,8 @@ namespace Unicoen.Languages.Java.Tests {
 					"\"" + path + "\";\"" + depPath + "\"",
 					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
 			};
-			var testCase = new TestCaseData(
-					path,
-					CompileCommand,
-					args.JoinString(" "));
+			Action<string> action = s => CompileWithArguments(s, CompileCommand, args.JoinString(" "));
+			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);

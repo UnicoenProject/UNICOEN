@@ -23,6 +23,7 @@ using Mocomoco.Xml.Linq;
 using Unicoen.Core.Model;
 
 // ReSharper disable InvocationIsSkipped
+
 namespace Unicoen.Languages.C.ModelFactories {
 	// for Statement
 	public static partial class CModelFactoryHelper {
@@ -160,9 +161,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 			case "return":
 				var expression = node.Element("expression");
 				if (expression != null) {
-					return UnifiedReturn.Create( CreateExpression(expression));
+					return UnifiedReturn.Create(CreateExpression(expression));
 				}
-					return UnifiedReturn.Create();
+				return UnifiedReturn.Create();
 			default:
 				throw new InvalidOperationException();
 			}
