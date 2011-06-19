@@ -23,9 +23,7 @@ using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
-
 	internal partial class NRefactoryModelVisitor {
-
 		#region Lookups
 
 		private static UnifiedModifierCollection LookupModifier(Modifiers mods) {
@@ -157,11 +155,11 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 			throw new NotImplementedException("ParseValue");
 		}
-
 	}
 
 	internal static class VisitorExtension {
-		internal static IUnifiedExpression AcceptForExpression(this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+		internal static IUnifiedExpression AcceptForExpression(
+				this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
 			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
 	}

@@ -26,6 +26,12 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		protected abstract Fixture Fixture { get; }
 
+		private LanguageTest _test;
+
+		protected LanguageTest Test {
+			get { return _test ?? (_test = new LanguageTest(Fixture)); }
+		}
+
 		/// <summary>
 		///   テスト対象のソースコードの集合を取得します．
 		/// </summary>

@@ -26,6 +26,7 @@ using Paraiba.Linq;
 using Unicoen.Core.Model;
 
 // ReSharper disable InvocationIsSkipped
+
 namespace Unicoen.Languages.C.ModelFactories {
 	public static partial class CModelFactoryHelper {
 		public static UnifiedProgram CreateTranslationUnit(XElement node) {
