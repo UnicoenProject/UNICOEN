@@ -33,7 +33,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   指定したソースコードから統一コードオブジェクトを生成して，
 		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
-		/// <param name = "code">検査対象のソースコード</param>
+		/// <param name="code">検査対象のソースコード</param>
 		[Ignore, Test, TestCaseSource("TestCodes")]
 		public void VerifyCodeObjectFeatureUsingCode(string code) {
 			Test.VerifyCodeObjectFeatureUsingCode(code);
@@ -43,7 +43,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   指定したパスのソースコードの統一コードオブジェクトを生成して，
 		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
-		/// <param name = "path">検査対象のソースコードのパス</param>
+		/// <param name="path">検査対象のソースコードのパス</param>
 		[Ignore, Test, TestCaseSource("TestFilePathes")]
 		public void VerifyCodeObjectFeatureUsingFile(string path) {
 			Test.VerifyCodeObjectFeatureUsingFile(path);
@@ -53,8 +53,8 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して，
 		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
-		/// <param name = "dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "compileAction">使用しません</param>
+		/// <param name="dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name="compileAction">使用しません</param>
 		[Ignore, Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyCodeObjectFeatureUsingProject(string dirPath, Action<string> compileAction) {
 			Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);

@@ -117,7 +117,15 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedParameterCollection element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("(");
+			var separator = "";
+			foreach (var elem in element) {
+				_writer.Write(separator);
+				separator = ", ";
+				elem.TryAccept(this, arg + 1);
+			}
+			_writer.Write(")");
+			return true;
 		}
 
 		public bool Visit(UnifiedModifier element, int arg) {
@@ -500,7 +508,20 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedConstructor element, int arg) {
-			throw new NotImplementedException();
+			var classDef = null as UnifiedClass;
+			var elem = element as IUnifiedElement;
+			while(classDef ==null) {
+				elem = elem.Parent;
+				if (elem == null)
+					throw new InvalidOperationException("Constructor must be declared in a class declaration scope.");
+				classDef = elem as UnifiedClass;
+			}
+			element.Modifiers.TryAccept(this, arg + 1);
+			classDef.Name.TryAccept(this, arg + 1);
+			element.TypeParameters.TryAccept(this, arg + 1);
+			element.Parameters.TryAccept(this, arg + 1);
+			element.Body.TryAccept(this, arg + 1);
+			return false;
 		}
 
 		public bool Visit(UnifiedStaticInitializer element, int arg) {
