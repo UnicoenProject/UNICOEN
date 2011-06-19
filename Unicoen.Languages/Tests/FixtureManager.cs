@@ -30,9 +30,13 @@ namespace Unicoen.Languages.Tests {
 
 		public static void Unzip(string path) {
 			var dirPath = Path.GetDirectoryName(path);
-			using (var zip = ZipFile.Read(path)) {
+			Unzip(path, dirPath);
+		}
+
+		public static void Unzip(string inPath, string outDirPath) {
+			using (var zip = ZipFile.Read(inPath)) {
 				foreach (var e in zip) {
-					e.Extract(dirPath, ExtractExistingFileAction.OverwriteSilently);
+					e.Extract(outDirPath, ExtractExistingFileAction.OverwriteSilently);
 				}
 			}
 		}

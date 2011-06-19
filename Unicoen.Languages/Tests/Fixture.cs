@@ -94,6 +94,14 @@ namespace Unicoen.Languages.Tests {
 		public abstract void Compile(string dirPath, string fileName);
 
 		/// <summary>
+		///   CompileWithArgumentsメソッドで，
+		///   コンパイル用のコマンドがnullを渡された際に，
+		///   デフォルトのコンパイル処理を行います．
+		/// </summary>
+		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
+		protected virtual void CompileWhenNullCommand(string workPath) {}
+
+		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
 		/// </summary>
 		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
@@ -101,6 +109,11 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "arguments">コマンドの引数</param>
 		public virtual void CompileWithArguments(
 				string workPath, string command, string arguments) {
+			if (command == null) {
+				CompileWhenNullCommand(workPath);
+				return;
+			}
+
 			var info = new ProcessStartInfo {
 					FileName = command,
 					Arguments = arguments,
