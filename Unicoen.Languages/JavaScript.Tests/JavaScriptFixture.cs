@@ -120,7 +120,10 @@ namespace Unicoen.Languages.JavaScript.Tests {
 								o => {
 									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
 									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
-								});
+								})
+								.Concat(new [] {
+										SetUpjQuery(),
+			});
 			}
 		}
 
@@ -150,6 +153,20 @@ namespace Unicoen.Languages.JavaScript.Tests {
 					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", zipPath);
 			FixtureManager.Unzip(zipPath);
 			return jarPath;
+		}
+
+		private TestCaseData SetUpjQuery() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "jQuery1.6.1");
+			const string fileName = "jquery-1.6.1.js";
+			var srcPath = Path.Combine(path, fileName);
+			Action<string> action = s => Compile(s, fileName);
+			var testCase = new TestCaseData(path, action);
+			if (Directory.Exists(path))
+				return testCase;
+			Directory.CreateDirectory(path);
+			FixtureManager.Download(
+					"http://code.jquery.com/jquery-1.6.1.min.js", srcPath);
+			return testCase;
 		}
 	}
 }
