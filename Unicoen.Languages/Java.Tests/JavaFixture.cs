@@ -96,14 +96,13 @@ namespace Unicoen.Languages.Java.Tests {
 				return new[] {
 						"Fibonacci",
 				}
-						.Select(
-								s =>
-								new TestCaseData(FixtureUtil.GetInputPath(LanguageName, s + Extension)));
+						.Select(s => FixtureUtil.GetInputPath(LanguageName, s + Extension))
+						.Select(s => new TestCaseData(s));
 			}
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
@@ -115,14 +114,21 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => {
-									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
-									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+									Action<string> action =
+											s => CompileWithArguments(s, o.Command, o.Arguments);
+									return
+											new TestCaseData(
+													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
 						.Concat(
 								new[] {
 										SetUpJUnit(),
 								});
 			}
+		}
+
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { return SetUpJdk(); }
 		}
 
 		/// <summary>
@@ -147,7 +153,8 @@ namespace Unicoen.Languages.Java.Tests {
 					"\"" + path + "\";\"" + depPath + "\"",
 					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
 			};
-			Action<string> action = s => CompileWithArguments(s, CompileCommand, args.JoinString(" "));
+			Action<string> action =
+					s => CompileWithArguments(s, CompileCommand, args.JoinString(" "));
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
 				return testCase;
@@ -158,6 +165,25 @@ namespace Unicoen.Languages.Java.Tests {
 			FixtureManager.Download(
 					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
 			return testCase;
+		}
+
+		private IEnumerable<TestCaseData> SetUpJdk() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "jdk");
+			Action<string> action = s => { };
+			var testCase = new TestCaseData(path, action);
+			if (Directory.Exists(path)) {
+				yield return testCase;
+				yield break;
+			}
+			var jdkPath = Directory.GetDirectories(@"C:\Program Files\Java\")
+					.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk"));
+			if (jdkPath == null) {
+				yield break;
+			}
+			var srcPath = Path.Combine(jdkPath, "src.zip");
+			Directory.CreateDirectory(path);
+			FixtureManager.Unzip(srcPath, path);
+			yield return testCase;
 		}
 	}
 }
