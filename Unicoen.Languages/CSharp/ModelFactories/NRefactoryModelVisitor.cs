@@ -468,7 +468,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var nElseStmt = stmt.FalseStatement;
 			if (nElseStmt == null) {
 				return UnifiedIf.Create(cond, trueBlock);
-			} else {
+			}
+			else {
 				var falseBlock = stmt.FalseStatement.AcceptVisitor(this, data) as UnifiedBlock;
 				return UnifiedIf.Create(cond, trueBlock, falseBlock);
 			}
@@ -568,8 +569,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
 					let uInitValue = nInitValue == null
-					                 		? null
-					                 		: nInitValue.AcceptForExpression(this)
+											? null
+											: nInitValue.AcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
 							type: uType.DeepCopy(),
 							modifiers: uMods.DeepCopy(),
@@ -650,8 +651,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
 					let uInitValue = nInitValue == null
-					                 		? null
-					                 		: nInitValue.AcceptForExpression(this)
+											? null
+											: nInitValue.AcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
 							type: uType.DeepCopy(),
 							modifiers: uMods.DeepCopy(),
@@ -670,9 +671,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				MethodDeclaration dec, object data) {
 			Contract.Requires<ArgumentNullException>(dec != null);
 
+			var attrs = dec.Attributes
+					.Select(attr => attr.AcceptVisitor(this, data) as UnifiedAnnotation)
+					.ToCollection();
 			var mods = LookupModifier(dec.Modifiers);
 			var type = LookupType(dec.ReturnType);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
+			var generics = dec.TypeParameters
+					.Select(t => t.AcceptVisitor(this, data) as UnifiedTypeParameter)
+					.ToCollection();
 			var parameters = dec.Parameters
 					.Select(p => p.AcceptVisitor(this, data))
 					.OfType<UnifiedParameter>()
@@ -683,8 +690,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				if (uExpr != null)
 					body.Add(uExpr);
 			}
-
-			return UnifiedFunction.Create(modifiers: mods, type: type, name: name, parameters:parameters, body: body);
+			// C# don't have "throws."
+			return UnifiedFunction.Create(attrs, mods, type, generics, name,parameters, body: body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(
@@ -692,9 +699,20 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("OperatorDeclaration");
 		}
 
-		public IUnifiedElement VisitParameterDeclaration(
-				ParameterDeclaration parameterDeclaration, object data) {
-			throw new NotImplementedException("ParameterDeclaration");
+		public IUnifiedElement VisitParameterDeclaration(ParameterDeclaration dec, object data) {
+			var attrs = dec.Attributes
+					.Select(attr => attr.AcceptVisitor(this, data))
+					.OfType<UnifiedAnnotation>()
+					.ToCollection();
+			var mod = LookupModifier(dec.ParameterModifier);
+			var mods = mod == null
+				? UnifiedModifierCollection.Create()
+				: UnifiedModifierCollection.Create(mod);
+			var type = LookupType(dec.Type);
+			var names = dec.Name.ToVariableIdentifier().ToCollection();
+			var defaultValue = dec.DefaultExpression.AcceptForExpression(this);
+
+			return UnifiedParameter.Create(attrs, mods, type, names, defaultValue);
 		}
 
 		public IUnifiedElement VisitPropertyDeclaration(

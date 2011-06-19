@@ -4,6 +4,28 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
+
+	#region exntension method
+
+	internal static class ElementExtension {
+
+		internal static bool? TryAccept(this IUnifiedElement element, CSharpCodeFactoryVisitor visitor, int arg)  {
+			if (element == null)
+				return null;
+			return element.Accept(visitor, arg);
+		}
+
+		internal static bool TryAccept(this IUnifiedElement element, CSharpCodeFactoryVisitor visitor, int arg, Action action) {
+			if (element == null)
+				return false;
+			var result = element.Accept(visitor, arg);
+			action();
+			return result;
+		}
+	}
+
+	#endregion
+
 	internal class CSharpCodeFactoryVisitor : IUnifiedVisitor<bool, int> {
 		private readonly TextWriter _writer;
 		private readonly CSharpCodeStyle _style;
@@ -13,13 +35,21 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			_style = style;
 		}
 
+		#region Util
+
 		private void WriteSpace() {
 			_writer.Write(" ");
+		}
+
+		private void WriteCollon() {
+			_writer.Write(": ");
 		}
 
 		private void WriteIndent(int indent) {
 			for (int i = 0; i < indent; i++) _writer.Write(_style.Indent);
 		}
+
+		#endregion
 
 		public bool Visit(UnifiedBinaryOperator element, int arg) {
 			_writer.Write(element.Sign);
@@ -32,7 +62,10 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedArgument element, int arg) {
-			throw new NotImplementedException();
+			element.Modifiers.TryAccept(this, arg, WriteSpace);
+			element.Target.TryAccept(this, arg, WriteCollon);
+			element.Value.Accept(this, arg);
+			return false;
 		}
 
 		public bool Visit(UnifiedArgumentCollection element, int arg) {
@@ -48,7 +81,12 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedBinaryExpression element, int arg) {
-			throw new NotImplementedException();
+			element.LeftHandSide.Accept(this, arg);
+			WriteSpace();
+			element.Operator.Accept(this, arg);
+			WriteSpace();
+			element.RightHandSide.Accept(this, arg);
+			return true;
 		}
 
 		public bool Visit(UnifiedBlock element, int arg) {
@@ -56,7 +94,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			_writer.WriteLine();
 			foreach (var elem in element) {
 				WriteIndent(arg + 1);
-				var hasSemmi = elem.TryAccept(this, arg + 1);
+				var hasSemmi = elem.TryAccept(this, arg + 1) ?? false;
 				if (hasSemmi) {
 					_writer.Write(";");
 				}
@@ -91,11 +129,28 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedIf element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("if");
+			WriteSpace();
+			_writer.Write("(");
+			element.Condition.Accept(this, arg);
+			_writer.Write(")");
+			element.Body.Accept(this, arg);
+			if (element.ElseBody != null) {
+				_writer.WriteLine();
+				WriteIndent(arg);
+				_writer.Write("else");
+				element.ElseBody.Accept(this, arg);
+			}
+			return false;
 		}
 
 		public bool Visit(UnifiedParameter element, int arg) {
-			throw new NotImplementedException();
+			element.Annotations.TryAccept(this, arg, WriteSpace);
+			element.Modifiers.TryAccept(this, arg, WriteSpace);
+			element.Type.Accept(this, arg + 1);
+			WriteSpace();
+			element.Names.Accept(this, arg + 1);
+			return false;
 		}
 
 		public bool Visit(UnifiedParameterCollection element, int arg) {
@@ -111,13 +166,13 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedModifier element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write(element.Name);
+			return false;
 		}
 
 		public bool Visit(UnifiedModifierCollection element, int arg) {
 			foreach (var mod in element) {
-				_writer.Write(mod.Name);
-				WriteSpace();
+				mod.TryAccept(this, arg + 1, WriteSpace);
 			}
 			return false;
 		}
@@ -134,7 +189,12 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedNew element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("new ");
+			element.Target.TryAccept(this, arg + 1);
+			element.Arguments.TryAccept(this, arg + 1);
+			element.Body.TryAccept(this, arg + 1);
+			element.InitialValue.TryAccept(this, arg + 1);
+			return true;
 		}
 
 		public bool Visit(UnifiedFor element, int arg) {
@@ -210,7 +270,17 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedGenericParameterCollection element, int arg) {
-			throw new NotImplementedException();
+			if (element.Count == 0)
+				return false;
+			_writer.Write("<");
+			var sep = "";
+			foreach (var gen in element) {
+				_writer.Write(sep);
+				sep = ", ";
+				gen.Accept(this, arg + 1);
+			}
+			_writer.Write(">");
+			return false;
 		}
 
 		public bool Visit(UnifiedTypeConstrainCollection element, int arg) {
@@ -226,7 +296,10 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedIdentifierCollection element, int arg) {
-			throw new NotImplementedException();
+			foreach(var id in element) {
+				id.TryAccept(this, arg + 1, WriteSpace);
+			}
+			return false;
 		}
 
 		public bool Visit(UnifiedLabel element, int arg) {
@@ -242,7 +315,8 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedIntegerLiteral element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write(element.Value);
+			return true;
 		}
 
 		public bool Visit(UnifiedStringLiteral element, int arg) {
@@ -298,7 +372,17 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedAnnotationCollection element, int arg) {
-			throw new NotImplementedException();
+			if (element.Count == 0)
+				return false;
+			_writer.Write("[");
+			var sep = "";
+			foreach(var attr in element) {
+				_writer.Write(sep);
+				sep = ", ";
+				attr.Accept(this, arg + 1);
+			}
+			_writer.Write("]");
+			return false;
 		}
 
 		public bool Visit(UnifiedVariableDefinitionList element, int arg) {
@@ -318,7 +402,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedSimpleType element, int arg) {
-			return element.NameExpression.TryAccept(this, arg + 1);
+			return element.NameExpression.Accept(this, arg + 1);
 		}
 
 		public bool Visit(UnifiedCharLiteral element, int arg) {
@@ -365,7 +449,8 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			if (_style.LineBreak.AfterClass) {
 				_writer.WriteLine();
 				WriteIndent(arg);
-			} else {
+			}
+			else {
 				WriteSpace();
 			}
 			element.Body.TryAccept(this, arg + 1);
@@ -405,7 +490,12 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedReturn element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("return");
+			if (element.Value != null) {
+				WriteSpace();
+				element.Value.Accept(this, arg);
+			}
+			return true;
 		}
 
 		public bool Visit(UnifiedGoto element, int arg) {
