@@ -6,7 +6,7 @@ using System.Web;
 namespace Unicoen.WebApps.Demo.ViewModels.Metrics {
 	public class MeasureResult {
 		public string Name { get; set; }
-		public Dictionary<string, string> Values { get; set; }
+		public Dictionary<string, int> Values { get; set; }
 	}
 
 	public class MeasureViewModel {

@@ -7,9 +7,7 @@
 
 <h2>MetricsPage@(1+1)</h2>
 
-@using (Html.BeginForm(MVC.Metrics.Measure(new MeasureViewModel {
-    Values2 = "aaaa"
-}))) { 
+@using (Html.BeginForm(MVC.Metrics.Measure(new MeasureViewModel()))) { 
     @Html.ValidationSummary(true)
     <fieldset>
         <div class="editor-label">

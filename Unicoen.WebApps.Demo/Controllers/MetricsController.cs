@@ -20,11 +20,23 @@ namespace Unicoen.WebApps.Demo.Controllers
 		public virtual ActionResult Measure(MeasureViewModel model) {
 			// 測定して
 			model.Results = new List<MeasureResult>();
-			var java = new MeasureResult {
-					Name = "Java",
-					Values = 
-			}
-			model.Results.Add();
+			model.Results.Add(new MeasureResult {
+				Name = "Java",
+				Values = new Dictionary<string, int>()
+			});
+			model.Results[0].Values["abc"] = 10;
+			model.Results[0].Values["abc\\def"] = 20;
+			model.Results.Add(new MeasureResult {
+				Name = "JavaScript",
+				Values = new Dictionary<string, int>()
+			});
+			model.Results[1].Values["abc\\def"] = 9;
+			model.Results.Add(new MeasureResult {
+				Name = "Python",
+				Values = new Dictionary<string, int>()
+			});
+			model.Results[2].Values["abc"] = 8;
+			model.Results[2].Values["abc\\def"] = 7;
 
             return View(model);
         }
