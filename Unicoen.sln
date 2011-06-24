@@ -35,31 +35,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Core", "Unicoen.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Core.Tests", "Unicoen.Core.Tests\Unicoen.Core.Tests.csproj", "{78B5FF26-BD0A-4955-8273-6629B2A7B71A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Xml", "Mocomoco\Mocomoco.Xml\Mocomoco.Xml.csproj", "{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Xml", "Mocomoco\Mocomoco.Xml\Mocomoco.Xml.csproj", "{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Xml.Tests", "Mocomoco\Mocomoco.Xml.Tests\Mocomoco.Xml.Tests.csproj", "{C73358D8-9C51-49A4-B474-516689F5981F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Xml.Tests", "Mocomoco\Mocomoco.Xml.Tests\Mocomoco.Xml.Tests.csproj", "{C73358D8-9C51-49A4-B474-516689F5981F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Metrics", "Unicoen.Apps\Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj", "{0F43ECA9-FAA3-4565-A585-A33BA2B12883}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Metrics", "Unicoen.Apps\Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj", "{0F43ECA9-FAA3-4565-A585-A33BA2B12883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Aop", "Unicoen.Apps\Unicoen.Apps.AOP\Unicoen.Apps.Aop.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop", "Unicoen.Apps\Unicoen.Apps.AOP\Unicoen.Apps.Aop.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Aop.Tests", "Unicoen.Apps\Unicoen.Apps.AOP.Tests\Unicoen.Apps.Aop.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Tests", "Unicoen.Apps\Unicoen.Apps.AOP.Tests\Unicoen.Apps.Aop.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Linq", "Mocomoco\Mocomoco.Linq\Mocomoco.Linq.csproj", "{973D0B49-BA07-4F3D-B640-74107F23D8DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Linq", "Mocomoco\Mocomoco.Linq\Mocomoco.Linq.csproj", "{973D0B49-BA07-4F3D-B640-74107F23D8DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Translator", "Unicoen.Apps\Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj", "{87A5C023-95DB-40D4-A638-28D578D06572}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator", "Unicoen.Apps\Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj", "{87A5C023-95DB-40D4-A638-28D578D06572}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps\Unicoen.Apps.Translator.Tests", "Unicoen.Apps\Unicoen.Apps.Translator.Tests\Unicoen.Apps.Translator.Tests.csproj", "{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Translator.Tests", "Unicoen.Apps\Unicoen.Apps.Translator.Tests\Unicoen.Apps.Translator.Tests.csproj", "{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Tests", "Unicoen.Languages\Tests\Unicoen.Languages.Tests.csproj", "{BC8744B2-0E75-4855-8C01-35E2198546EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco\Mocomoco.Linq.Tests", "Mocomoco\Mocomoco.Linq.Tests\Mocomoco.Linq.Tests.csproj", "{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Linq.Tests", "Mocomoco\Mocomoco.Linq.Tests\Mocomoco.Linq.Tests.csproj", "{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.Languages", "Unicoen.Languages", "{1D40B438-308E-42C0-8FAB-802FFCC9C755}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mocomoco", "Mocomoco", "{C3DA90AB-8D41-4E46-9D40-5A198143B3B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.Apps", "Unicoen.Apps", "{75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AopGUI", "AopGUI\AopGUI.csproj", "{46435299-F41E-461F-BED7-993CBB4F4781}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -400,6 +402,18 @@ Global
 		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|Win32.ActiveCfg = Release|Any CPU
 		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737}.Release|x86.ActiveCfg = Release|Any CPU
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Debug|Win32.ActiveCfg = Debug|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Debug|x86.ActiveCfg = Debug|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Debug|x86.Build.0 = Debug|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Release|Any CPU.ActiveCfg = Release|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Release|Mixed Platforms.Build.0 = Release|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Release|Win32.ActiveCfg = Release|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Release|x86.ActiveCfg = Release|x86
+		{46435299-F41E-461F-BED7-993CBB4F4781}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -421,14 +435,15 @@ Global
 		{CBE372FD-4C31-4BDB-B704-49A5C3349A35} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
 		{BC8744B2-0E75-4855-8C01-35E2198546EE} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
 		{161EB3E2-D62F-4D7D-91F6-A495275C08FC} = {1D40B438-308E-42C0-8FAB-802FFCC9C755}
-		{973D0B49-BA07-4F3D-B640-74107F23D8DA} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
 		{C73358D8-9C51-49A4-B474-516689F5981F} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
+		{973D0B49-BA07-4F3D-B640-74107F23D8DA} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
 		{4A91C2AB-F82F-4F60-99B5-3D514E2F8737} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
 		{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26} = {C3DA90AB-8D41-4E46-9D40-5A198143B3B5}
 		{78406882-043E-451A-98B4-335AD8BB7DAD} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
-		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
 		{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
-		{0F43ECA9-FAA3-4565-A585-A33BA2B12883} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
 		{87A5C023-95DB-40D4-A638-28D578D06572} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{A0BB3487-FCEF-4CB0-9CFE-A59D8AA6C284} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{0F43ECA9-FAA3-4565-A585-A33BA2B12883} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{46435299-F41E-461F-BED7-993CBB4F4781} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
 	EndGlobalSection
 EndGlobal
