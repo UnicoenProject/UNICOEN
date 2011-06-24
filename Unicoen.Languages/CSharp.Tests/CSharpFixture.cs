@@ -101,9 +101,9 @@ namespace Unicoen.Languages.CSharp.Tests {
 				return new[] {
 						"Fibonacci",
 						"Student",
-						//"Block1",
-						//"Block2",
-						//"Block3",
+						"Block1",
+						"Block2",
+						"Block3",
 				}
 						.Select(
 								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
