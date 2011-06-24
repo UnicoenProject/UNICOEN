@@ -23,12 +23,14 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
+using Mocomoco.Linq;
 using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 // ReSharper disable InvocationIsSkipped
+
 namespace Unicoen.Languages.Java.ModelFactories {
 	public static class JavaModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
@@ -244,7 +246,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					constrains, body);
 		}
 
-		public static UnifiedTypeParameterCollection CreateTypeParameters(
+		public static UnifiedGenericParameterCollection CreateTypeParameters(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeParameters");
@@ -807,7 +809,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return UnifiedType.Create(node.Value);
 		}
 
-		public static UnifiedTypeArgumentCollection CreateTypeArguments(XElement node) {
+		public static UnifiedGenericArgumentCollection CreateTypeArguments(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeArguments");
 			/* 
@@ -1276,7 +1278,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				var list = node.Elements("expression")
 						.Select(CreateExpression)
 						.ToList();
-				if (list.Count == 0)
+				if (list.Count == 1)
 					yield return UnifiedAssert.Create(list[0]);
 				else
 					yield return UnifiedAssert.Create(list[0], list[1]);
@@ -2094,7 +2096,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 							CreateArguments(node.Element("arguments")), body);
 		}
 
-		public static UnifiedTypeArgumentCollection CreateNonWildcardTypeArguments(
+		public static UnifiedGenericArgumentCollection CreateNonWildcardTypeArguments(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "nonWildcardTypeArguments");
@@ -2104,7 +2106,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 
 			var typeList = CreateTypeList(node.NthElement(1));
-			var typeArguments = UnifiedTypeArgumentCollection.Create();
+			var typeArguments = UnifiedGenericArgumentCollection.Create();
 
 			foreach (var type in typeList) {
 				var argument = UnifiedTypeArgument.Create(type);
@@ -2179,7 +2181,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   IntegerNumber 
 			 */
 			return UnifiedIntegerLiteral.Create(
-					ParseInteger(node.Value), UnifiedIntegerLiteralKind.Int32);
+					ParseInteger(node.Value).ToForceInt32(),
+					UnifiedIntegerLiteralKind.Int32);
 		}
 
 		public static UnifiedLiteral CreateLongLiteral(XElement node) {
@@ -2196,7 +2199,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var str = node.Value;
 			return
 					UnifiedIntegerLiteral.Create(
-							ParseInteger(str.Substring(0, str.Length - 1)),
+							ParseInteger(str.Substring(0, str.Length - 1)).ToForceInt64(),
 							UnifiedIntegerLiteralKind.Int64);
 		}
 
@@ -2216,9 +2219,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			BigInteger result = 0;
 			if (value != "0") {
 				if (value[0] != '0') {
-					result = Int32.Parse(value);
+					result = long.Parse(value);
 				} else if (value[1] == 'x' || value[1] == 'X') {
-					result = Int32.Parse(value.Substring(2), NumberStyles.HexNumber);
+					result = long.Parse(value.Substring(2), NumberStyles.HexNumber);
 				} else {
 					result = ParseOcatleNumber(value.Substring(1));
 				}

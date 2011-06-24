@@ -21,6 +21,8 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   式の集合を表します。
+	///   Pythonにおける内包表記の式の集合を表現するために存在します．
+	///   e.g. Pythonにおける<c>[x + y for x in [1, 2] for y in [3, 4]]</c>の<c>x in [1, 2] for y in [3, 4]</c>
 	/// </summary>
 	public class UnifiedExpressionCollection
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection> {

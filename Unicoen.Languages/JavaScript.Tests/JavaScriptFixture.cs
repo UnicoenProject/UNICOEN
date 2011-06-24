@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -98,7 +99,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
@@ -116,10 +117,15 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						},
 				}
 						.Select(
-								o => new TestCaseData(
-								     		FixtureUtil.GetInputPath(LanguageName, o.DirName),
-								     		o.Command, o.Arguments));
+								o => {
+									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
+									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+								});
 			}
+		}
+
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { yield break; }
 		}
 
 		/// <summary>

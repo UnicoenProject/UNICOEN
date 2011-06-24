@@ -20,6 +20,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
+	/// Pythonのwith文はUnifiedUsingBlockを参照してください．
 	///   with in JavaScript
 	///   Javaのstatic importのような役割
 	/// </summary>
@@ -29,6 +30,14 @@ namespace Unicoen.Core.Model {
 		public IUnifiedExpression Value {
 			get { return _value; }
 			set { _value = SetChild(value, _value); }
+		}
+
+		/// <summary>
+		/// ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 
 		protected UnifiedWith() {}

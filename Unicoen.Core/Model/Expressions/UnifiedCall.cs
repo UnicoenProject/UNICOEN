@@ -31,11 +31,11 @@ namespace Unicoen.Core.Model {
 			set { _function = SetChild(value, _function); }
 		}
 
-		private UnifiedTypeArgumentCollection _typeArguments;
+		private UnifiedGenericArgumentCollection _genericArguments;
 
-		public UnifiedTypeArgumentCollection TypeArguments {
-			get { return _typeArguments; }
-			set { _typeArguments = SetChild(value, _typeArguments); }
+		public UnifiedGenericArgumentCollection GenericArguments {
+			get { return _genericArguments; }
+			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
 
 		private UnifiedArgumentCollection _arguments;
@@ -69,11 +69,11 @@ namespace Unicoen.Core.Model {
 		public static UnifiedCall Create(
 				IUnifiedExpression target = null,
 				UnifiedArgumentCollection args = null,
-				UnifiedTypeArgumentCollection typeArguments = null) {
+				UnifiedGenericArgumentCollection genericArguments = null) {
 			return new UnifiedCall {
 					Function = target,
 					Arguments = args,
-					TypeArguments = typeArguments
+					GenericArguments = genericArguments
 			};
 		}
 	}

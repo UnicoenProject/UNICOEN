@@ -23,9 +23,7 @@ using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
-
 	internal partial class NRefactoryModelVisitor {
-
 		#region Lookups
 
 		private static UnifiedModifierCollection LookupModifier(Modifiers mods) {
@@ -55,6 +53,21 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					where (mods & pair.Mod) != 0
 					select UnifiedModifier.Create(pair.Name);
 			return UnifiedModifierCollection.Create(uMods);
+		}
+
+		private static UnifiedModifier LookupModifier(ParameterModifier mod) {
+			switch(mod) {
+			case ParameterModifier.Out:
+				return UnifiedModifier.Create("out");
+			case ParameterModifier.Params:
+				return UnifiedModifier.Create("params");
+			case ParameterModifier.Ref:
+				return UnifiedModifier.Create("ref");
+			case ParameterModifier.This:
+				return UnifiedModifier.Create("this");
+			default:
+				return null;
+			}
 		}
 
 		private static UnifiedType LookupType(AstType type) {
@@ -142,26 +155,11 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		#endregion
-
-		private static UnifiedLiteral ParseValue(object value) {
-			Contract.Ensures(Contract.Result<UnifiedLiteral>() != null);
-
-			if (value == null)
-				return UnifiedNullLiteral.Create();
-			if (value is string)
-				return UnifiedStringLiteral.Create(
-						(string)value);
-			if (value is int)
-				return UnifiedIntegerLiteral.Create(
-						(int)value, UnifiedIntegerLiteralKind.Int32);
-
-			throw new NotImplementedException("ParseValue");
-		}
-
 	}
 
 	internal static class VisitorExtension {
-		internal static IUnifiedExpression AcceptForExpression(this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+		internal static IUnifiedExpression AcceptForExpression(
+				this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
 			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
 	}

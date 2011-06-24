@@ -67,7 +67,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		// e.g. Foo<A, B> ?
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeParameterCollection element, VisitorArgument arg) {
+				UnifiedGenericParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
@@ -126,7 +126,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
+				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
@@ -143,12 +143,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedMatcherCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedKeyValueCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}

@@ -99,20 +99,14 @@ namespace Unicoen.Languages.Python2.Tests {
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get {
-				yield break;
-				//				return new[] {
-				//						new { DirName = "default", Command = "javac", Arguments = "*.java" },
-				//						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
-				//				}
-				//						.Select(
-				//								o => new TestCaseData(
-				//								     		Fixture.GetInputPath("Java", o.DirName),
-				//								     		o.Command, o.Arguments));
-			}
+			get { yield break; }
+		}
+
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { yield break; }
 		}
 
 		/// <summary>
@@ -130,7 +124,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			CompileWithArguments(dirPath, CompileCommand, arguments);
 		}
 
-		private  TestCaseData SetUpPyPy() {
+		private TestCaseData SetUpPyPy() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "PyPy");
 			var srcPath = Path.Combine(path, "src.zip");
 			var depPath = Path.Combine(path, "dep.jar");

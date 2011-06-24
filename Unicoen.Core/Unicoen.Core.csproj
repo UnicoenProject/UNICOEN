@@ -148,10 +148,9 @@
     <Compile Include="Processor\ModelFactory.cs" />
     <Compile Include="Processor\ModelFactoryHelper.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedKeyValueCollection.cs" />
     <Compile Include="Model\Collections\UnifiedMatcherCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedTypeParameterCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedGenericParameterCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedTry.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedUsingBlock.cs" />
@@ -220,7 +219,7 @@
     <Compile Include="Model\Collections\UnifiedParameterCollection.cs" />
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedTypeArgument.cs" />
-    <Compile Include="Model\Collections\UnifiedTypeArgumentCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedGenericArgumentCollection.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
     <Compile Include="Processor\IUnifiedVisitor.cs" />
     <Compile Include="Processor\VisitorArgument.cs" />

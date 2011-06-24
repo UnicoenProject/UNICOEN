@@ -24,22 +24,21 @@ namespace Unicoen.Core.Model {
 	///   型パラメータに具体的な型を指定する際に利用します。
 	///   e.g. Javaにおける<c>HashMap&lt;Integer, String&gt; a;</c>の<c>&lt;Integer, String&gt;</c>
 	/// </summary>
-	public class UnifiedTypeArgumentCollection
+	public class UnifiedGenericArgumentCollection
 			: UnifiedElementCollection
-			  		<UnifiedTypeArgument, UnifiedTypeArgumentCollection> {
-		protected UnifiedTypeArgumentCollection() {}
+			  		<UnifiedTypeArgument, UnifiedGenericArgumentCollection> {
+		protected UnifiedGenericArgumentCollection() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override UnifiedTypeArgumentCollection CreateSelf() {
-			return new UnifiedTypeArgumentCollection();
+		public override UnifiedGenericArgumentCollection CreateSelf() {
+			return new UnifiedGenericArgumentCollection();
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 

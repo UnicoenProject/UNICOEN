@@ -73,7 +73,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public UnifiedGenericType WrapGeneric(
-				UnifiedTypeArgumentCollection arguments = null) {
+				UnifiedGenericArgumentCollection arguments = null) {
 			return new UnifiedGenericType {
 					Type = this,
 					Arguments = arguments,

@@ -104,7 +104,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			element.Name.TryAccept(this, arg);
 			arg.Write(":");
 			arg.Write(" # ");
-			element.TypeParameters.TryAccept(this, arg);
+			element.GenericParameters.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg);
 			arg.WriteLine();
 
@@ -320,7 +320,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			arg.Write("");
 			return false;
 		}
-
 
 		#endregion
 

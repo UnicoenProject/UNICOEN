@@ -21,13 +21,13 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedGenericType : UnifiedWrapType {
-		private UnifiedTypeArgumentCollection _arguments;
+		private UnifiedGenericArgumentCollection _arguments;
 
 		/// <summary>
 		///   ジェネリックタイプにおける実引数の集合を表します
-		///   e.g. Javaにおける<c>HashMap&ltInteger, String&gt</c>の<c>Integer, String</c>
+		///   e.g. Javaにおける<c>HashMap&lt;Integer, String&gt;</c>の<c>Integer, String</c>
 		/// </summary>
-		public UnifiedTypeArgumentCollection Arguments {
+		public UnifiedGenericArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
@@ -56,14 +56,14 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<ElementReference> GetElementReferences() {
 			yield return
 					ElementReference.Create(
-							() => Arguments, v => Arguments = (UnifiedTypeArgumentCollection)v);
+							() => Arguments, v => Arguments = (UnifiedGenericArgumentCollection)v);
 			yield return ElementReference.Create(() => Type, v => Type = (UnifiedType)v);
 		}
 
 		public override IEnumerable<ElementReference> GetElementReferencesOfFields() {
 			yield return
 					ElementReference.Create(
-							() => _arguments, v => _arguments = (UnifiedTypeArgumentCollection)v);
+							() => _arguments, v => _arguments = (UnifiedGenericArgumentCollection)v);
 			yield return
 					ElementReference.Create(() => _type, v => _type = (UnifiedType)v);
 		}

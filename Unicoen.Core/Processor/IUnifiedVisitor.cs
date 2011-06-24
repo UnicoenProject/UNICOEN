@@ -45,7 +45,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedDoWhile element);
 		void Visit(UnifiedIndexer element);
 		void Visit(UnifiedTypeArgument element);
-		void Visit(UnifiedTypeArgumentCollection element);
+		void Visit(UnifiedGenericArgumentCollection element);
 		void Visit(UnifiedSwitch element);
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
@@ -54,7 +54,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCatchCollection element);
 		void Visit(UnifiedTry element);
 		void Visit(UnifiedCast element);
-		void Visit(UnifiedTypeParameterCollection element);
+		void Visit(UnifiedGenericParameterCollection element);
 		void Visit(UnifiedTypeConstrainCollection element);
 		void Visit(UnifiedTypeParameter element);
 		void Visit(UnifiedTernaryExpression element);
@@ -72,7 +72,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedList element);
 		void Visit(UnifiedKeyValue element);
 		void Visit(UnifiedDictionaryComprehension element);
-		void Visit(UnifiedKeyValueCollection element);
 		void Visit(UnifiedDictionary element);
 		void Visit(UnifiedSlice element);
 		void Visit(UnifiedComment element);
@@ -164,7 +163,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedDoWhile element, TArg arg);
 		void Visit(UnifiedIndexer element, TArg arg);
 		void Visit(UnifiedTypeArgument element, TArg arg);
-		void Visit(UnifiedTypeArgumentCollection element, TArg arg);
+		void Visit(UnifiedGenericArgumentCollection element, TArg arg);
 		void Visit(UnifiedSwitch element, TArg arg);
 		void Visit(UnifiedCaseCollection element, TArg arg);
 		void Visit(UnifiedCase element, TArg arg);
@@ -173,7 +172,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCatchCollection element, TArg arg);
 		void Visit(UnifiedTry element, TArg arg);
 		void Visit(UnifiedCast element, TArg arg);
-		void Visit(UnifiedTypeParameterCollection element, TArg arg);
+		void Visit(UnifiedGenericParameterCollection element, TArg arg);
 		void Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		void Visit(UnifiedTypeParameter element, TArg arg);
 		void Visit(UnifiedTernaryExpression element, TArg arg);
@@ -191,7 +190,6 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedList element, TArg arg);
 		void Visit(UnifiedKeyValue element, TArg arg);
 		void Visit(UnifiedDictionaryComprehension element, TArg arg);
-		void Visit(UnifiedKeyValueCollection element, TArg arg);
 		void Visit(UnifiedDictionary element, TArg arg);
 		void Visit(UnifiedSlice element, TArg arg);
 		void Visit(UnifiedComment element, TArg arg);
@@ -283,7 +281,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedDoWhile element, TArg arg);
 		TResult Visit(UnifiedIndexer element, TArg arg);
 		TResult Visit(UnifiedTypeArgument element, TArg arg);
-		TResult Visit(UnifiedTypeArgumentCollection element, TArg arg);
+		TResult Visit(UnifiedGenericArgumentCollection element, TArg arg);
 		TResult Visit(UnifiedSwitch element, TArg arg);
 		TResult Visit(UnifiedCaseCollection element, TArg arg);
 		TResult Visit(UnifiedCase element, TArg arg);
@@ -292,7 +290,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedCatchCollection element, TArg arg);
 		TResult Visit(UnifiedTry element, TArg arg);
 		TResult Visit(UnifiedCast element, TArg arg);
-		TResult Visit(UnifiedTypeParameterCollection element, TArg arg);
+		TResult Visit(UnifiedGenericParameterCollection element, TArg arg);
 		TResult Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		TResult Visit(UnifiedTypeParameter element, TArg arg);
 		TResult Visit(UnifiedTernaryExpression element, TArg arg);
@@ -310,7 +308,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedList element, TArg arg);
 		TResult Visit(UnifiedKeyValue element, TArg arg);
 		TResult Visit(UnifiedDictionaryComprehension element, TArg arg);
-		TResult Visit(UnifiedKeyValueCollection element, TArg arg);
 		TResult Visit(UnifiedDictionary element, TArg arg);
 		TResult Visit(UnifiedSlice element, TArg arg);
 		TResult Visit(UnifiedComment element, TArg arg);

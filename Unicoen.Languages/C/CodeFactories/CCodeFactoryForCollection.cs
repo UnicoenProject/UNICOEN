@@ -63,7 +63,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeArgumentCollection element, VisitorArgument arg) {
+				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
@@ -95,7 +95,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeParameterCollection element, VisitorArgument arg) {
+				UnifiedGenericParameterCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;

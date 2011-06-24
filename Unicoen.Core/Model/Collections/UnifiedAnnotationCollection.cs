@@ -20,9 +20,9 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   アノテーションもしくは属性の集合を表します．
+	///   アノテーション（属性）の集合を表します．
 	///   e.g. Javaにおける<c>@Override @Deprecated void method() { ... }</c>の<c>@Override @Deprecated</c>
-	///   e.g. C#における<c>[Pure, DebuggerStepThrough] void Method() { ... }</c>の<c>Pure, DebuggerStepThrough</c>
+	///   e.g. C#における<c>[Pure, DebuggerStepThrough] void Method() { ... }</c>の<c>[Pure, DebuggerStepThrough]</c>
 	/// </summary>
 	public class UnifiedAnnotationCollection
 			: UnifiedElementCollection<UnifiedAnnotation, UnifiedAnnotationCollection> {
