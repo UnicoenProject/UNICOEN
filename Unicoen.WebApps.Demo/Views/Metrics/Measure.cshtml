@@ -1,0 +1,76 @@
+﻿@using Unicoen.WebApps.Demo.ViewModels.Metrics
+@model MeasureViewModel
+
+@{
+	ViewBag.Title = "Index2";
+}
+
+<h2>Measuring Result</h2>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>
+	  Measuring Result on Your Project
+	</title>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		google.load('visualization', '1', { packages: ['corechart'] });
+	</script>
+	<script type="text/javascript">
+		function drawVisualization() {
+
+			// Create and populate the data table.
+			var data = new google.visualization.DataTable();
+
+		    data.addColumn('string', 'Directory');
+		    
+		    @foreach(var result in Model.Results) {
+				var str = @"data.addColumn('number', '" + result.Name + @"');";
+                @Html.Raw(str)
+			}
+	    
+			data.addRows(@Model.Results[0].Values.Count);
+
+			data.setValue(0, 0, '#1');
+			data.setValue(0, 1, 20);
+			data.setValue(0, 2, 10);
+			data.setValue(0, 3, 6);
+			data.setValue(1, 0, '#2');
+			data.setValue(1, 1, 10);
+			data.setValue(1, 2, 3);
+			data.setValue(1, 3, 8);
+			data.setValue(2, 0, '#3');
+			data.setValue(2, 1, 15);
+			data.setValue(2, 2, 30);
+			data.setValue(2, 3, 12);
+			data.setValue(3, 0, '#4');
+			data.setValue(3, 1, 30);
+			data.setValue(3, 2, 7);
+			data.setValue(3, 3, 5);
+			data.setValue(4, 0, '#5');
+			data.setValue(4, 1, 7);
+			data.setValue(4, 2, 15);
+			data.setValue(4, 3, 20);
+
+			// Create and draw the visualization.
+			new google.visualization.ColumnChart(document.getElementById('visualization')).
+			draw(data,
+				 { title: "Cyclomatic Complexity in your project",
+					 width: 600, height: 400, isStacked: true,
+					 hAxis: { title: "Directory"}
+				 }
+			);
+		}
+
+		//ロード時にグラフを表示
+		google.setOnLoadCallback(drawVisualization);
+	</script>
+  </head>
+  <body style="font-family: Arial;border: 0 none;">
+	<center>
+	<div id="visualization" style="width: 600px; height: 400px;"></div>
+	</center>
+  </body>
+</html>
