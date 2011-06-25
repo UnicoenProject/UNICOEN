@@ -41,9 +41,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Xml.Tests", "Mocom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Metrics", "Unicoen.Apps\Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj", "{0F43ECA9-FAA3-4565-A585-A33BA2B12883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop", "Unicoen.Apps\Unicoen.Apps.AOP\Unicoen.Apps.Aop.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Cui", "Unicoen.Apps\Unicoen.Apps.Aop.Cui\Unicoen.Apps.Aop.Cui.csproj", "{78406882-043E-451A-98B4-335AD8BB7DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Tests", "Unicoen.Apps\Unicoen.Apps.AOP.Tests\Unicoen.Apps.Aop.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Cui.Tests", "Unicoen.Apps\Unicoen.Apps.Aop.Cui.Tests\Unicoen.Apps.Aop.Cui.Tests.csproj", "{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocomoco.Linq", "Mocomoco\Mocomoco.Linq\Mocomoco.Linq.csproj", "{973D0B49-BA07-4F3D-B640-74107F23D8DA}"
 EndProject
@@ -61,11 +61,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mocomoco", "Mocomoco", "{C3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.Apps", "Unicoen.Apps", "{75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AopGUI", "AopGUI\AopGUI.csproj", "{46435299-F41E-461F-BED7-993CBB4F4781}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Gui", "Unicoen.Apps\Unicoen.Apps.Aop.Gui\Unicoen.Apps.Aop.Gui.csproj", "{46435299-F41E-461F-BED7-993CBB4F4781}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.WebApps", "Unicoen.WebApps", "{D4D0311D-6DAF-4F29-9B26-7F32AFBC6629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.WebApps.Demo", "Unicoen.WebApps.Demo\Unicoen.WebApps.Demo.csproj", "{D5B1FB01-3840-406E-8534-E162A275C90E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.WebApps.Metrics", "Unicoen.WebApps\Unicoen.WebApps.Metrics\Unicoen.WebApps.Metrics.csproj", "{D5B1FB01-3840-406E-8534-E162A275C90E}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

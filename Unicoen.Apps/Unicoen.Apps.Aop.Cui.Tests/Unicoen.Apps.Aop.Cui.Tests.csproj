@@ -8,8 +8,8 @@
     <ProjectGuid>{B1E94E7B-D6D2-4530-B0B8-2ADFEC0AD6D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Apps.Aop.Tests</RootNamespace>
-    <AssemblyName>Unicoen.Apps.Aop.Tests</AssemblyName>
+    <RootNamespace>Unicoen.Apps.Aop.Cui.Tests</RootNamespace>
+    <AssemblyName>Unicoen.Apps.Aop.Cui.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -71,9 +71,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unicoen.Apps.AOP\Unicoen.Apps.Aop.csproj">
+    <ProjectReference Include="..\Unicoen.Apps.Aop.Cui\Unicoen.Apps.Aop.Cui.csproj">
       <Project>{78406882-043E-451A-98B4-335AD8BB7DAD}</Project>
-      <Name>Unicoen.Apps.Aop</Name>
+      <Name>Unicoen.Apps.Aop.Cui</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
       <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
