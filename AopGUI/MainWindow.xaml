@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="800" Width="1200">
     <Grid Background="#1EDEC291">
-        <TextBox Height="249" HorizontalAlignment="Left" Margin="108,185,0,0" Name="OriginalSourceArea" VerticalAlignment="Top" Width="400" Foreground="#FF0000D3" Background="#14000000" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" />
-        <TextBox Height="200" HorizontalAlignment="Left" Margin="108,486,0,0" Name="AspectSourceArea" VerticalAlignment="Top" Width="400" Background="#14000000" AcceptsReturn="True" Foreground="#FF0000B4" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
-        <TextBox Background="#14000000" Foreground="#FF0000D3" Height="500" HorizontalAlignment="Left" Margin="658,185,0,0" Name="WeavedSourceArea" VerticalAlignment="Top" Width="400" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" />
+        <TextBox Height="249" HorizontalAlignment="Left" Margin="108,185,0,0" Name="OriginalSourceArea" VerticalAlignment="Top" Width="400" Foreground="Black" Background="#14000000" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" FontSize="16" />
+        <TextBox Height="200" HorizontalAlignment="Left" Margin="108,486,0,0" Name="AspectSourceArea" VerticalAlignment="Top" Width="400" Background="#14000000" AcceptsReturn="True" Foreground="Black" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" FontSize="16" />
+        <TextBox Background="#14000000" Foreground="Black" Height="500" Margin="658,185,49,0" Name="WeavedSourceArea" VerticalAlignment="Top" TextWrapping="WrapWithOverflow" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" FontSize="16" HorizontalScrollBarVisibility="Visible" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="108,45,0,0" Name="TargetPath" VerticalAlignment="Top" Width="400" />
         <TextBox Height="24" HorizontalAlignment="Left" Margin="109,82,0,0" Name="AspectPath" VerticalAlignment="Top" Width="399" />
 
