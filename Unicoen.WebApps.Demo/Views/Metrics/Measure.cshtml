@@ -1,0 +1,79 @@
+﻿@using Unicoen.WebApps.Demo.ViewModels.Metrics
+@model MeasureViewModel
+
+@{
+	ViewBag.Title = "Index2";
+}
+
+<h2>Measuring Result</h2>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title>
+	  Measuring Result on Your Project
+	</title>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		google.load('visualization', '1', { packages: ['corechart'] });
+	</script>
+	<script type="text/javascript">
+		function drawVisualization() {
+
+			// Create and populate the data table.
+			var data = new google.visualization.DataTable();
+
+		    data.addColumn('string', 'Directory');
+		    
+		    @{
+				var keys = Model.Results
+						.SelectMany(r => r.Values.Keys);
+				var keySet = new HashSet<string>(keys);
+			}
+		    
+		    @foreach(var result in Model.Results) {
+				var str = "data.addColumn('number', '" + result.Name + "');";
+                @Html.Raw(str)
+			}
+			data.addRows(@keySet.Count);
+		    
+		    @{
+				var iKey = 0;
+                foreach (var key in keySet) {
+					{
+    			   	    var str = "data.setValue(" + iKey + ", 0, '" + key + "');";
+    			   	    @Html.Raw(str)
+					}
+					var iResult = 1;
+		            foreach(var result in Model.Results) {
+						var value = 0;
+						result.Values.TryGetValue(key, out value);
+    			   	    var str = "data.setValue(" + iKey + ", " + iResult + ", " + value + ");";
+                        @Html.Raw(str)
+						iResult++;
+					}
+					iKey++;
+				}
+            }
+
+			// Create and draw the visualization.
+			new google.visualization.ColumnChart(document.getElementById('visualization')).
+			draw(data,
+				 { title: "Cyclomatic Complexity in your project",
+					 width: 1000, height: 800, isStacked: true,
+					 vAxis: { title: "Directory"}
+				 }
+			);
+		}
+
+		//ロード時にグラフを表示
+		google.setOnLoadCallback(drawVisualization);
+	</script>
+  </head>
+  <body style="font-family: Arial;border: 0 none;">
+	<center>
+	<div id="visualization" style="width: 1000px; height: 800px;"></div>
+	</center>
+  </body>
+</html>
