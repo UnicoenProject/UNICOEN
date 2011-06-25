@@ -82,46 +82,43 @@ namespace AopGUI
 			var visitor = new AstVisitor();
 			visitor.Visit(ast, 0, null);
 
-			//指定されたパス以下にあるソースコードのパスをすべて取得します
-			var targetFiles = AspectAdaptor.Collect(filePath);
+			//TODO デモ向けに１つのファイルを対象とするように一時的に変更
 
-			foreach (var file in targetFiles) {
-				var fileExtension = Path.GetExtension(file);
-				//対象言語のソースコードでない場合はコンティニュー
-				if (Array.IndexOf(TargetLanguage, fileExtension) < 0) //TODO これでフィルタリングが正しいか確認
-					continue;
+			var fileExtension = Path.GetExtension(filePath);
+			//対象言語のソースコードでない場合は何もしない
+			if (Array.IndexOf(TargetLanguage, fileExtension) < 0) //TODO これでフィルタリングが正しいか確認
+				return;
 
-				var code = File.ReadAllText(file, XEncoding.SJIS);
-				var model = CodeProcessor.CreateModel(fileExtension, code);
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var model = CodeProcessor.CreateModel(fileExtension, code);
 
-				//TODO もっとスマートな変換を考える(そもそも変換しない方法も検討する)
-				string langType;
-				switch (fileExtension) {
-				case ".java":
-					langType = "Java";
-					break;
-				case ".js":
-					langType = "JavaScript";
-					break;
-				default:
-					throw new NotImplementedException();
-				}
+			//TODO もっとスマートな変換を考える(そもそも変換しない方法も検討する)
+			string langType;
+			switch (fileExtension) {
+			case ".java":
+				langType = "Java";
+				break;
+			case ".js":
+				langType = "JavaScript";
+				break;
+			default:
+				throw new NotImplementedException();
+			}
 
-				//アスペクトの合成を行う
-				AspectAdaptor.Weave(langType, model, visitor);
+			//アスペクトの合成を行う
+			AspectAdaptor.Weave(langType, model, visitor);
 
-				//とりえあず標準出力に表示);
-				switch (langType) {
-				case "Java":
-					WeavedSourceArea.Text += JavaFactory.GenerateCode(model);
-					WeavedSourceArea.Text += "\n";
-					break;
-				case "JavaScript":
-					WeavedSourceArea.Text += JavaScriptFactory.GenerateCode(model);
-					break;
-				default:
-					throw new NotImplementedException();
-				}
+			//とりえあず標準出力に表示);
+			switch (langType) {
+			case "Java":
+				WeavedSourceArea.Text += JavaFactory.GenerateCode(model);
+				WeavedSourceArea.Text += "\n";
+				break;
+			case "JavaScript":
+				WeavedSourceArea.Text += JavaScriptFactory.GenerateCode(model);
+				break;
+			default:
+				throw new NotImplementedException();
 			}
 		}
 	}
