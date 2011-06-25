@@ -28,15 +28,12 @@ namespace Unicoen.Languages.Tests {
 			}
 		}
 
-		public static void DownloadStream(string url, string outputPath) {
-			var outFile = Path.Combine(outputPath, "source.zip");
-
+		public static void DownloadStream(string url, string outPath) {
 			using (var client = new WebClient())
 			using (var stream = client.OpenRead(url))
-			//using (var file = new FileStream(outFile, FileMode.Create)) {
-			using (var file = new FileStream(@"C:\output\hoge.zip", FileMode.Create)) {
+			using (var file = new FileStream(outPath, FileMode.Create)) {
 				var buff = new byte[1024];
-				int len = 0;
+				int len;
 				while((len = stream.Read(buff, 0, buff.Length)) > 0) {
 					file.Write(buff, 0, len);
 				}
