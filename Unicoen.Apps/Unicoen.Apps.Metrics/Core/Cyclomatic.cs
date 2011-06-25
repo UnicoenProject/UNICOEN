@@ -29,9 +29,10 @@ namespace Unicoen.Applications.Metrics.Cores {
 				// do a given path indicate directory?
 				if (Directory.Exists(arg)) {
 					// find .rb files from a given directory path
-					//foreach (var path in Directory.GetFiles(arg, "*.rb", SearchOption.AllDirectories)) {
-					//    PrintCyclomatic(path);
-					//}
+					foreach (var path in Directory.GetFiles(arg, "*.*", SearchOption.AllDirectories)) {
+						MetricsPrinter.PrintMetrics(
+								"Cyclomatic complexity", path, GetTargetElements);
+					}
 				}
 						// or do a given path indicate file?
 				else if (File.Exists(arg)) {
@@ -43,7 +44,7 @@ namespace Unicoen.Applications.Metrics.Cores {
 			return true;
 		}
 
-		private static IEnumerable<IUnifiedElement> GetTargetElements(
+		public static IEnumerable<IUnifiedElement> GetTargetElements(
 				IUnifiedElement model) {
 			return model.Descendants().Where(e => e is UnifiedIf)
 					.Concat(model.Descendants().Where(e => e is UnifiedFor))

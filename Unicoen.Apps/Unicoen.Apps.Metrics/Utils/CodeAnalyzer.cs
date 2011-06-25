@@ -23,17 +23,22 @@ using System.Linq;
 using Paraiba.Collections.Generic;
 using Paraiba.Text;
 using Unicoen.Core.Model;
-using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java;
+using Unicoen.Languages.JavaScript;
+using Unicoen.Languages.Python2;
 
 namespace Unicoen.Applications.Metrics.Utils {
 	public static class CodeAnalyzer {
 		private static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
-			case ".cs":
-				return CSharpFactory.GenerateModel(code);
+				/*case ".cs":
+				return CSharpFactory.GenerateModel(code);*/
 			case ".java":
 				return JavaFactory.GenerateModel(code);
+			case ".js":
+				return JavaScriptFactory.GenerateModel(code);
+			case ".py":
+				return Python2Factory.GenerateModel(code);
 			}
 			return null;
 		}
@@ -89,13 +94,20 @@ namespace Unicoen.Applications.Metrics.Utils {
 		public static Dictionary<string, int> Measure(
 				string filePath,
 				Func<IUnifiedElement, IEnumerable<IUnifiedElement>> getTargetElementsFunc) {
-			var counts = new Dictionary<string, int>();
-			var ext = Path.GetExtension(filePath);
-			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var model = CreateModel(ext, code);
-			InitializeCounter(model, counts);
-			CountElements(getTargetElementsFunc(model), counts);
-			return counts;
+			try {
+				var counts = new Dictionary<string, int>();
+				var ext = Path.GetExtension(filePath);
+				var code = File.ReadAllText(filePath, XEncoding.SJIS);
+				var model = CreateModel(ext, code);
+				if (model == null) {
+					return new Dictionary<string, int>();
+				}
+				InitializeCounter(model, counts);
+				CountElements(getTargetElementsFunc(model), counts);
+				return counts;
+			} catch {
+				return new Dictionary<string, int>();
+			}
 		}
 	}
 }

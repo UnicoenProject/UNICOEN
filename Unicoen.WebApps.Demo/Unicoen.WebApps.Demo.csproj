@@ -163,6 +163,20 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unicoen.Apps\Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj">
+      <Project>{0F43ECA9-FAA3-4565-A585-A33BA2B12883}</Project>
+      <Name>Unicoen.Apps.Metrics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Unicoen.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unicoen.Languages\Tests\Unicoen.Languages.Tests.csproj">
+      <Project>{BC8744B2-0E75-4855-8C01-35E2198546EE}</Project>
+      <Name>Unicoen.Languages.Tests</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
