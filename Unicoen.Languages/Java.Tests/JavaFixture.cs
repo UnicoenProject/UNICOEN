@@ -124,6 +124,7 @@ namespace Unicoen.Languages.Java.Tests {
 						.Concat(
 								new[] {
 										SetUpJUnit(),
+										SetUpJenkins(),
 								});
 			}
 		}
@@ -135,14 +136,14 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath"></param>
-		/// <param name = "fileName"></param>
-		public override void Compile(string dirPath, string fileName) {
+		/// <param name = "workPath"></param>
+		/// <param name = "srcPath"></param>
+		public override void Compile(string workPath, string srcPath) {
 			var args = new[] {
-					"\"" + Path.Combine(dirPath, fileName) + "\""
+					"\"" + srcPath + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, CompileCommand, arguments);
+			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
 		private TestCaseData SetUpJUnit() {
@@ -170,7 +171,12 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private IEnumerable<TestCaseData> SetUpJdk() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "jdk");
-			Action<string> action = s => { };
+			Action<string> action = workPath => {
+				var filePaths = GetAllSourceFilePaths(workPath);
+				foreach (var filePath in filePaths) {
+					Compile(workPath, filePath);
+				}
+			};
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path)) {
 				yield return testCase;
@@ -185,6 +191,26 @@ namespace Unicoen.Languages.Java.Tests {
 			Directory.CreateDirectory(path);
 			Extractor.Unzip(srcPath, path);
 			yield return testCase;
+		}
+
+		private TestCaseData SetUpJenkins() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "jenkins-1.417");
+			var srcPath = Path.Combine(path, "src.zip");
+			Action<string> action = workPath => {
+				var filePaths = GetAllSourceFilePaths(workPath);
+				foreach (var filePath in filePaths) {
+					Compile(workPath, filePath);
+				}
+			};
+			var testCase = new TestCaseData(path, action);
+			if (Directory.Exists(path)) {
+				return testCase;
+			}
+			Directory.CreateDirectory(path);
+			Downloader.Download(
+					"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.417", srcPath);
+			Extractor.Unzip(srcPath);
+			return testCase;
 		}
 	}
 }
