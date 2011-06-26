@@ -25,6 +25,7 @@ using Paraiba.Core;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public class Python2Fixture : Fixture {
@@ -140,10 +141,10 @@ namespace Unicoen.Languages.Python2.Tests {
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);
-			FixtureManager.Download(
+			Downloader.Download(
 					"https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
-			FixtureManager.Unzip(srcPath);
-			FixtureManager.Download(
+			Extractor.Unzip(srcPath);
+			Downloader.Download(
 					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
 			return testCase;
 		}

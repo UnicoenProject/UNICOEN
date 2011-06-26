@@ -177,6 +177,10 @@
       <Project>{BC8744B2-0E75-4855-8C01-35E2198546EE}</Project>
       <Name>Unicoen.Languages.Tests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Utils\Unicoen.Utils.csproj">
+      <Project>{C5722D52-DD9D-4FD8-9316-B6F5442080A3}</Project>
+      <Name>Unicoen.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

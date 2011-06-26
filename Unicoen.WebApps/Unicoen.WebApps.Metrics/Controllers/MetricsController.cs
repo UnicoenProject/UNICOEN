@@ -22,6 +22,7 @@ using System.Web.Mvc;
 using Unicoen.Applications.Metrics.Cores;
 using Unicoen.Applications.Metrics.Utils;
 using Unicoen.Languages.Tests;
+using Unicoen.Utils;
 using Unicoen.WebApps.Demo.ViewModels.Metrics;
 
 namespace Unicoen.WebApps.Demo.Controllers {
@@ -49,8 +50,8 @@ namespace Unicoen.WebApps.Demo.Controllers {
 			if (Directory.Exists(outDirPath))
 				Directory.Delete(outDirPath, true);
 			Directory.CreateDirectory(outDirPath);
-			FixtureManager.DownloadStream(url, outPath);
-			FixtureManager.Unzip(outPath);
+			Downloader.Download(url, outPath);
+			Extractor.Unzip(outPath);
 
 			var targetPaths = Directory.EnumerateFiles(
 					outPath, "*", SearchOption.AllDirectories);

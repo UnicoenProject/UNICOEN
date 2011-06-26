@@ -25,6 +25,7 @@ using Paraiba.Core;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
@@ -150,9 +151,9 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return jarPath;
 			var zipPath = Path.Combine(path, "rhino.zip");
 			Directory.CreateDirectory(path);
-			FixtureManager.Download(
+			Downloader.Download(
 					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", zipPath);
-			FixtureManager.Unzip(zipPath);
+			Extractor.Unzip(zipPath);
 			return jarPath;
 		}
 	}
