@@ -16,6 +16,8 @@
 
 #endregion
 
+using System;
+using System.Diagnostics.Contracts;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -76,6 +78,7 @@ namespace Unicoen.Core.Model {
 		public static UnifiedProperty Create(
 				string delimiter, IUnifiedExpression owner = null,
 				IUnifiedExpression name = null) {
+			Contract.Requires<ArgumentNullException>(delimiter != null);
 			return new UnifiedProperty {
 					Owner = owner,
 					Name = name,

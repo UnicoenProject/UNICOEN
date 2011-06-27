@@ -16,7 +16,9 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Unicoen.Core.Model {
@@ -99,7 +101,13 @@ namespace Unicoen.Core.Model {
 
 		public static IUnifiedExpression ToProperty(
 				this IEnumerable<IUnifiedExpression> collection, string delimiter) {
-			var list = collection.ToList();
+			return collection.ToList().ToProperty(delimiter);
+		}
+
+		public static IUnifiedExpression ToProperty(
+				this IList<IUnifiedExpression> list, string delimiter) {
+			Contract.Requires<ArgumentNullException>(list != null);
+			Contract.Requires<ArgumentException>(list.Count >= 1);
 			if (list.Count == 1) {
 				return list[0];
 			}

@@ -105,9 +105,9 @@ namespace Unicoen.Languages.C.Tests {
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {}
+		/// <param name = "workPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string workPath, string srcPath) {}
 
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
