@@ -432,7 +432,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var type = LookupType(stmt.VariableType);
 			var name = stmt.VariableName.ToVariableIdentifier();
 			var set = stmt.InExpression.AcceptForExpression(this);
-			var body = stmt.EmbeddedStatement.AcceptVisitor(this, data) as UnifiedBlock;
+			var body = stmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
 
 			var varDec = UnifiedVariableDefinition.Create(type: type, name: name);
 			return UnifiedForeach.Create(varDec, set, body);
@@ -448,7 +448,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var stepStmt = forStmt.Iterators
 					.Select(s => s.AcceptForExpression(this))
 					.FirstOrDefault();
-			var body = forStmt.EmbeddedStatement.AcceptVisitor(this, data) as UnifiedBlock;
+			var body = forStmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
 
 			return UnifiedFor.Create(initStmt, condExpr, stepStmt, body);
 		}

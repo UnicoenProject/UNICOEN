@@ -208,7 +208,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public bool Visit(UnifiedUnaryExpression element, int arg) {
 			bool suffix = false;
-			switch(element.Operator.Kind) {
+			switch (element.Operator.Kind) {
 			case UnifiedUnaryOperatorKind.PostIncrementAssign:
 			case UnifiedUnaryOperatorKind.PostDecrementAssign:
 				suffix = true;
@@ -273,15 +273,47 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedSwitch element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("switch");
+			_writer.Write("(");
+			element.Value.Accept(this, arg);
+			_writer.Write(")");
+			_writer.WriteLine("{");
+			element.Cases.Accept(this, arg);
+			_writer.WriteLine();
+			_writer.Write("}");
+			return false;
 		}
 
 		public bool Visit(UnifiedCaseCollection element, int arg) {
-			throw new NotImplementedException();
+			foreach (var uCase in element) {
+				uCase.Accept(this, arg + 1);
+			}
+			return false;
 		}
 
 		public bool Visit(UnifiedCase element, int arg) {
-			throw new NotImplementedException();
+			WriteIndent(arg);
+			if (element.Condition != null) {
+				_writer.Write("case ");
+				element.Condition.Accept(this, arg);
+			}
+			else {
+				_writer.Write("default");
+			}
+			_writer.WriteLine(":");
+
+			if (element.Body != null) {
+				foreach (var stmt in element.Body) {
+					WriteIndent(arg);
+					var semmi = stmt.Accept(this, arg + 1);
+					if (semmi) {
+						_writer.Write(";");
+					}
+					_writer.WriteLine();
+				}
+			}
+
+			return false;
 		}
 
 		public bool Visit(UnifiedCatch element, int arg) {
@@ -467,7 +499,8 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedSimpleType element, int arg) {
-			return element.NameExpression.Accept(this, arg + 1);
+			element.NameExpression.TryAccept(this, arg);
+			return false;
 		}
 
 		public bool Visit(UnifiedCharLiteral element, int arg) {
@@ -552,7 +585,8 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedBreak element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("break");
+			return true;
 		}
 
 		public bool Visit(UnifiedContinue element, int arg) {
