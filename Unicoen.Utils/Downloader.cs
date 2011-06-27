@@ -18,5 +18,9 @@ namespace Unicoen.Utils {
 				}
 			}
 		}
+
+		public static Stream GetStream(string url) {
+			return new WebClient().OpenRead(url);
+		}
 	}
 }

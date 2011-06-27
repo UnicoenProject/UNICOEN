@@ -134,10 +134,10 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		///   指定したファイルのソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "workPath"></param>
-		/// <param name = "srcPath"></param>
+		/// <param name = "workPath">コンパイル時の作業ディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのパス</param>
 		public override void Compile(string workPath, string srcPath) {
 			var args = new[] {
 					"\"" + srcPath + "\""
@@ -148,35 +148,35 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private TestCaseData SetUpJUnit() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "JUnit4.8.2");
-			var srcPath = Path.Combine(path, "src.zip");
-			var depPath = Path.Combine(path, "dep.jar");
-			var args = new[] {
-					"-cp",
-					"\"" + path + "\";\"" + depPath + "\"",
-					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
+			var srcDirPath = Path.Combine(path, "src");
+			var depPath = Path.Combine(path, "junit4.8.2", "temp.hamcrest.source");
+			Action<string> action = workPath => {
+				foreach (var srcPath in GetAllSourceFilePaths(workPath)) {
+					var args = new[] {
+							"-cp",
+							".;\"" + depPath + "\"",
+							"\"" + srcPath + "\"",
+					};
+					CompileWithArguments(workPath, CompileCommand, args.JoinString(" "));
+				}
 			};
-			Action<string> action =
-					s => CompileWithArguments(s, CompileCommand, args.JoinString(" "));
-			var testCase = new TestCaseData(path, action);
+			var testCase = new TestCaseData(srcDirPath, action);
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);
-			Downloader.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
-			Extractor.Unzip(srcPath);
-			Downloader.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
+			const string url =
+					"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.417";
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Unzip(stream, path);
+			}
+			var arcPath = Path.Combine(path, "junit4.8.2", "junit-4.8.2-src.jar");
+			Extractor.Unzip(arcPath, srcDirPath);
 			return testCase;
 		}
 
 		private IEnumerable<TestCaseData> SetUpJdk() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "jdk");
-			Action<string> action = workPath => {
-				var filePaths = GetAllSourceFilePaths(workPath);
-				foreach (var filePath in filePaths) {
-					Compile(workPath, filePath);
-				}
-			};
+			Action<string> action = CompileAll;
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path)) {
 				yield return testCase;
@@ -187,29 +187,25 @@ namespace Unicoen.Languages.Java.Tests {
 			if (jdkPath == null) {
 				yield break;
 			}
-			var srcPath = Path.Combine(jdkPath, "src.zip");
+			var arcPath = Path.Combine(jdkPath, "src.zip");
 			Directory.CreateDirectory(path);
-			Extractor.Unzip(srcPath, path);
+			Extractor.Unzip(arcPath, path);
 			yield return testCase;
 		}
 
 		private TestCaseData SetUpJenkins() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "jenkins-1.417");
-			var srcPath = Path.Combine(path, "src.zip");
-			Action<string> action = workPath => {
-				var filePaths = GetAllSourceFilePaths(workPath);
-				foreach (var filePath in filePaths) {
-					Compile(workPath, filePath);
-				}
-			};
+			Action<string> action = CompileAll;
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path)) {
 				return testCase;
 			}
 			Directory.CreateDirectory(path);
-			Downloader.Download(
-					"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.417", srcPath);
-			Extractor.Unzip(srcPath);
+			const string url =
+					"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.417";
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Unzip(stream, path);
+			}
 			return testCase;
 		}
 	}

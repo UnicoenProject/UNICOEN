@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -103,7 +104,11 @@ namespace Unicoen.Languages.Python2.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { yield break; }
+			get {
+				return new[] {
+						SetUpPyPy(),
+				};
+			}
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
@@ -119,7 +124,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			var args = new[] {
 					"-m",
 					"compileall",
-					"\"" + Path.Combine(workPath, srcPath) + "\""
+					"\"" + srcPath + "\""
 			};
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(workPath, CompileCommand, arguments);
@@ -127,25 +132,17 @@ namespace Unicoen.Languages.Python2.Tests {
 
 		private TestCaseData SetUpPyPy() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "PyPy");
-			var srcPath = Path.Combine(path, "src.zip");
-			var depPath = Path.Combine(path, "dep.jar");
-			var args = new[] {
-					"-cp",
-					"\"" + path + "\";\"" + depPath + "\"",
-					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
-			};
-			var testCase = new TestCaseData(
-					path,
-					CompileCommand,
-					args.JoinString(" "));
+			var arcPath = Path.Combine(path, "src.tar.bz2");
+			Action<string> action = CompileAll;
+			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);
-			Downloader.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
-			Extractor.Unzip(srcPath);
-			Downloader.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
+			const string url =
+					"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2";
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Untbz(stream, Path.GetDirectoryName(arcPath));
+			}
 			return testCase;
 		}
 	}

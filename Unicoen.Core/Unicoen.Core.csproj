@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
@@ -156,7 +157,6 @@
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinitionList.cs" />
-    <Compile Include="Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Extensions\ModelGenerator.cs" />
     <Compile Include="Extensions\SafeModelSweeper.cs" />
     <Compile Include="Model\IUnifiedCreatable.cs" />

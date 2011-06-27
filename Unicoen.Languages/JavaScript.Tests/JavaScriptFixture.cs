@@ -149,11 +149,11 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
 			if (Directory.Exists(path))
 				return jarPath;
-			var zipPath = Path.Combine(path, "rhino.zip");
 			Directory.CreateDirectory(path);
-			Downloader.Download(
-					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", zipPath);
-			Extractor.Unzip(zipPath);
+			const string url = "ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip";
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Unzip(stream, path);
+			}
 			return jarPath;
 		}
 	}
