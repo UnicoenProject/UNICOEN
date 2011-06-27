@@ -119,7 +119,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 						arg.Write(";");
 					arg.Write(decoration.Delimiter);
 				}
-				//TODO
+				arg = arg.DecrementDepth();
 				arg.WriteIndent();
 				arg.Write(decoration.MostRight);
 				return false;
@@ -229,9 +229,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedProgram element, VisitorArgument arg) {
 			foreach (var sourceElement in element) {
-				//TODO sourceElement
 				if (sourceElement.TryAccept(this, arg))
-					arg.WriteLine(";");
+					arg.Write(";");
+				arg.Write("\n");
 			}
 			return false;
 		}

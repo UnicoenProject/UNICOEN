@@ -157,8 +157,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public bool Visit(UnifiedImport element, int arg) {
 			_writer.Write("import ");
-			Action write = () => _writer.Write(" = ");
-			element.Alias.TryAccept(this, arg, write);
+			element.Alias.TryAccept(this, arg, () => _writer.Write(" = "));
 			element.Name.Accept(this, arg);
 			return true;
 		}
@@ -547,6 +546,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			element.Annotations.TryAccept(this, arg);
 			_writer.Write("namespace ");
 			element.Name.Accept(this, arg);
+			_writer.Write(" ");
 			element.Body.Accept(this, arg);
 			return false;
 		}

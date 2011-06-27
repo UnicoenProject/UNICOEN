@@ -470,7 +470,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitIfElseStatement(IfElseStatement stmt, object data) {
 			Contract.Requires<ArgumentNullException>(stmt != null);
-			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedIf);
 
 			var cond = stmt.Condition.AcceptForExpression(this);
 			var trueBlock = stmt.TrueStatement.AcceptForExpression(this).ToBlock();

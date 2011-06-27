@@ -8,8 +8,8 @@
     <ProjectGuid>{78406882-043E-451A-98B4-335AD8BB7DAD}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Apps.Aop</RootNamespace>
-    <AssemblyName>Unicoen.Apps.Aop</AssemblyName>
+    <RootNamespace>Unicoen.Apps.Aop.Cui</RootNamespace>
+    <AssemblyName>Unicoen.Apps.Aop.Cui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

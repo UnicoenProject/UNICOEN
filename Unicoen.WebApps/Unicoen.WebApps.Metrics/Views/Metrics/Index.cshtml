@@ -1,0 +1,24 @@
+﻿@using Unicoen.WebApps.Demo.ViewModels.Metrics
+@model MeasureViewModel
+
+@{
+    ViewBag.Title = "MetricsPage";
+}
+
+<h2>MetricsPage@(1+1)</h2>
+
+@using (Html.BeginForm(MVC.Metrics.Measure(new MeasureViewModel()))) { 
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Url)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(m => m.Url)
+            @Html.ValidationMessageFor(m => m.Url)
+        </div>
+        <p>
+            <input type="submit" value="Measure" />
+        </p>
+    </fieldset>
+}

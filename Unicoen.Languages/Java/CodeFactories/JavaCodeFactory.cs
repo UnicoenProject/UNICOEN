@@ -142,7 +142,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedFunction element, VisitorArgument arg) {
-			arg.WriteIndent();
 			element.Modifiers.TryAccept(this, arg);
 			element.GenericParameters.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
@@ -179,16 +178,17 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBlock element, VisitorArgument arg) {
-			arg.WriteIndent();
 			arg.WriteLine("{");
 			arg = arg.IncrementDepth();
 			foreach (var stmt in element) {
 				arg.WriteIndent();
 				if (stmt.TryAccept(this, arg))
 					arg.Write(";");
+				arg.WriteLine();
 			}
+			arg = arg.DecrementDepth();
 			arg.WriteIndent();
-			arg.WriteLine("}");
+			arg.Write("}");
 			return false;
 		}
 
