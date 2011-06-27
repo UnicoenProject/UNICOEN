@@ -208,7 +208,8 @@ namespace Unicoen.Languages.Tests {
 			var pairs = copiedModel.Descendants().Zip(codeObject.Descendants());
 			foreach (var pair in pairs) {
 				Assert.That(pair.Item1.Parent, Is.Not.Null, message);
-				Assert.That(pair.Item1.Parent, Is.Not.EqualTo(pair.Item2.Parent), message);
+				Assert.That(ReferenceEquals(pair.Item1.Parent, pair.Item2.Parent), Is.False, message);
+				//Assert.That(pair.Item1.Parent, Is.Not.EqualTo(pair.Item2.Parent), message);
 			}
 		}
 

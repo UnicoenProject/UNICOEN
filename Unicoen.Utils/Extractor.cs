@@ -53,6 +53,7 @@ namespace Unicoen.Utils {
 		public static void Untgz(Stream stream, string outDirPath) {
 			using (var inputStream = new GZipInputStream(stream)) {
 				var archive = TarArchive.CreateInputTarArchive(inputStream);
+				archive.AsciiTranslate = false;
 				archive.ExtractContents(outDirPath);
 			}
 		}
@@ -60,6 +61,7 @@ namespace Unicoen.Utils {
 		public static void Untbz(Stream stream, string outDirPath) {
 			using (var inputStream = new BZip2InputStream(stream)) {
 				var archive = TarArchive.CreateInputTarArchive(inputStream);
+				archive.AsciiTranslate = false;
 				archive.ExtractContents(outDirPath);
 			}
 		}

@@ -143,6 +143,8 @@ namespace Unicoen.Languages.Python2.Tests {
 			using (var stream = Downloader.GetStream(url)) {
 				Extractor.Untbz(stream, Path.GetDirectoryName(arcPath));
 			}
+			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\ctypes\test\test_unicode.py"));
+			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\lib-tk\test\test_ttk\test_functions.py"));
 			return testCase;
 		}
 	}

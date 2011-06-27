@@ -27,15 +27,15 @@ namespace Unicoen.Core.Model {
 	///   e.g. Pythonにおける<c>from lib.package import func as f</c>
 	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _from;
+		private IUnifiedExpression _member;
 
 		/// <summary>
 		///   Pythonにおいてパッケージ名を省略して使用できるようにする変数もしくは関数名
 		///   e.g. Pythonにおける<c>from lib.package import func as f</c>の<c>func</c>
 		/// </summary>
-		public IUnifiedExpression From {
-			get { return _from; }
-			set { _from = SetChild(value, _from); }
+		public IUnifiedExpression Member {
+			get { return _member; }
+			set { _member = SetChild(value, _member); }
 		}
 
 		private IUnifiedExpression _name;
@@ -89,12 +89,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedImport Create(
-				IUnifiedExpression from = null,
-				IUnifiedExpression name = null,
-				string alias = null,
-				UnifiedModifierCollection modifiers = null) {
+				IUnifiedExpression name = null, string alias = null,
+				IUnifiedExpression member = null, UnifiedModifierCollection modifiers = null) {
 			return new UnifiedImport {
-					From = from,
+					Member = member,
 					Name = name,
 					Alias = alias != null
 					        		? UnifiedVariableIdentifier.Create(alias)
