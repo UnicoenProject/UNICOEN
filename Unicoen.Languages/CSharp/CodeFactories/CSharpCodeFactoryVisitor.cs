@@ -156,7 +156,10 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedImport element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("import ");
+			element.Alias.TryAccept(this, arg, () => _writer.Write(" = "));
+			element.Name.Accept(this, arg);
+			return true;
 		}
 
 		public bool Visit(UnifiedProgram element, int arg) {
@@ -233,11 +236,23 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedWhile element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("while");
+			_writer.Write("(");
+			element.Condition.Accept(this, arg);
+			_writer.Write(")");
+			element.Body.Accept(this, arg);
+			return false;
 		}
 
 		public bool Visit(UnifiedDoWhile element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("do ");
+			element.Body.Accept(this, arg);
+			WriteSpace();
+			_writer.Write("whilte");
+			_writer.Write("(");
+			element.Condition.Accept(this, arg);
+			_writer.Write(")");
+			return true;
 		}
 
 		public bool Visit(UnifiedIndexer element, int arg) {
@@ -527,7 +542,11 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedNamespace element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("namespace ");
+			element.Name.Accept(this, arg);
+			_writer.Write(" ");
+			element.Body.Accept(this, arg);
+			return false;
 		}
 
 		public bool Visit(UnifiedBreak element, int arg) {

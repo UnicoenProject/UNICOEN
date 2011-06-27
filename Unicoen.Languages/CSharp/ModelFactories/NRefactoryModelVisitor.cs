@@ -374,7 +374,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitUsingDeclaration(UsingDeclaration dec, object data) {
 			var target = LookupType(dec.Import);
-			return UnifiedImport.Create(target);
+			return UnifiedImport.Create(name: target);
 		}
 
 		public IUnifiedElement VisitExternAliasDeclaration(
@@ -470,18 +470,17 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitIfElseStatement(IfElseStatement stmt, object data) {
 			Contract.Requires<ArgumentNullException>(stmt != null);
-			Contract.Ensures(Contract.Result<IUnifiedElement>() is UnifiedIf);
 
 			var cond = stmt.Condition.AcceptForExpression(this);
-			var trueBlock = stmt.TrueStatement.AcceptVisitor(this, data) as UnifiedBlock;
+			var trueBlock = stmt.TrueStatement.AcceptVisitor(this, data) as IUnifiedExpression;
 
 			var nElseStmt = stmt.FalseStatement;
 			if (nElseStmt == null) {
-				return UnifiedIf.Create(cond, trueBlock);
+				return UnifiedIf.Create(cond, trueBlock.ToBlock());
 			}
 			else {
-				var falseBlock = stmt.FalseStatement.AcceptVisitor(this, data) as UnifiedBlock;
-				return UnifiedIf.Create(cond, trueBlock, falseBlock);
+				var falseBlock = stmt.FalseStatement.AcceptVisitor(this, data) as IUnifiedExpression;
+				return UnifiedIf.Create(cond, trueBlock.ToBlock(), falseBlock.ToBlock());
 			}
 		}
 
