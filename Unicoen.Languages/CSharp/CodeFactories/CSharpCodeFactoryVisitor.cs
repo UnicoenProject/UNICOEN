@@ -703,7 +703,12 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedLambda element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("(");
+			element.Parameters.TryAccept(this, arg);
+			_writer.Write(")");
+			_writer.Write(" => ");
+			element.Body.Accept(this, arg);
+			return true;
 		}
 
 		public bool Visit(UnifiedDefaultConstrain element, int arg) {
