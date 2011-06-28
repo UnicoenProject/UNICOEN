@@ -13,6 +13,33 @@ options
 	language=CSharp3;
 }
 
+tokens
+{
+// Reserved words
+	NULL		= 'null' ;
+	TRUE		= 'true' ;
+	FALSE		= 'false' ;
+// Keywords
+	THIS 		= 'this' ;
+// Punctuators
+	RBRACK		= ']' ;
+	RPAREN		= ')' ;
+}
+
+statementEnd
+@init
+{
+	// Mark current position so we can unconsume a '}'.
+	int marker = input.Mark();
+}
+	: EOF!
+	| '}'! { input.Rewind(marker); } // shoud change code to rewind always(ignoring backtracking)
+	| ';'
+	| LT
+	| Comment
+	| LineComment
+	;
+
 program
 	: LT!* sourceElements LT!* EOF!
 	;
@@ -36,7 +63,7 @@ functionExpression
 	;
 	
 formalParameterList
-	: '(' (LT!* Identifier (LT!* ',' LT!* Identifier)*)? LT!* ')'
+	: '(' (LT!* Identifier (LT!* ',' LT!* Identifier)*)? LT!* RPAREN
 	;
 
 functionBody
@@ -70,7 +97,7 @@ statementList
 	;
 	
 variableStatement
-	: 'var' LT!* variableDeclarationList (LT | ';' | EOF!)
+	: 'var' LT!* variableDeclarationList statementEnd
 	;
 	
 variableDeclarationList
@@ -102,11 +129,11 @@ emptyStatement
 	;
 	
 expressionStatement
-	: expression (LT | ';' | EOF!)
+	: expression statementEnd
 	;
 	
 ifStatement
-	: 'if' LT!* '(' LT!* expression LT!* ')' LT!* statement (LT!* 'else' LT!* statement)?
+	: 'if' LT!* '(' LT!* expression LT!* RPAREN LT!* statement (LT!* 'else' LT!* statement)?
 	;
 	
 iterationStatement
@@ -117,15 +144,15 @@ iterationStatement
 	;
 	
 doWhileStatement
-	: 'do' LT!* statement LT!* 'while' LT!* '(' expression ')' (LT | ';' | EOF!)
+	: 'do' LT!* statement LT!* 'while' LT!* '(' expression RPAREN statementEnd
 	;
 	
 whileStatement
-	: 'while' LT!* '(' LT!* expression LT!* ')' LT!* statement
+	: 'while' LT!* '(' LT!* expression LT!* RPAREN LT!* statement
 	;
 	
 forStatement
-	: 'for' LT!* '(' (LT!* forStatementInitialiserPart)? LT!* ';' (LT!* expression)? LT!* ';' (LT!* expression)? LT!* ')' LT!* statement
+	: 'for' LT!* '(' (LT!* forStatementInitialiserPart)? LT!* ';' (LT!* expression)? LT!* ';' (LT!* expression)? LT!* RPAREN LT!* statement
 	;
 	
 forStatementInitialiserPart
@@ -134,7 +161,7 @@ forStatementInitialiserPart
 	;
 	
 forInStatement
-	: 'for' LT!* '(' LT!* forInStatementInitialiserPart LT!* 'in' LT!* expression LT!* ')' LT!* statement
+	: 'for' LT!* '(' LT!* forInStatementInitialiserPart LT!* 'in' LT!* expression LT!* RPAREN LT!* statement
 	;
 	
 forInStatementInitialiserPart
@@ -143,19 +170,19 @@ forInStatementInitialiserPart
 	;
 
 continueStatement
-	: 'continue' Identifier? (LT | ';' | EOF!)
+	: 'continue' Identifier? statementEnd
 	;
 
 breakStatement
-	: 'break' Identifier? (LT | ';' | EOF!)
+	: 'break' Identifier? statementEnd
 	;
 
 returnStatement
-	: 'return' expression? (LT | ';' | EOF!)
+	: 'return' expression? statementEnd
 	;
 	
 withStatement
-	: 'with' LT!* '(' LT!* expression LT!* ')' LT!* statement
+	: 'with' LT!* '(' LT!* expression LT!* RPAREN LT!* statement
 	;
 
 labelledStatement
@@ -163,7 +190,7 @@ labelledStatement
 	;
 	
 switchStatement
-	: 'switch' LT!* '(' LT!* expression LT!* ')' LT!* caseBlock
+	: 'switch' LT!* '(' LT!* expression LT!* RPAREN LT!* caseBlock
 	;
 	
 caseBlock
@@ -179,7 +206,7 @@ defaultClause
 	;
 	
 throwStatement
-	: 'throw' expression (LT | ';' | EOF!)
+	: 'throw' expression statementEnd
 	;
 
 tryStatement
@@ -187,7 +214,7 @@ tryStatement
 	;
        
 catchClause
-	: 'catch' LT!* '(' LT!* Identifier LT!* ')' LT!* statementBlock
+	: 'catch' LT!* '(' LT!* Identifier LT!* RPAREN LT!* statementBlock
 	;
 	
 finallyClause
@@ -243,11 +270,11 @@ callExpressionSuffix
 	;
 
 arguments
-	: '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* ')'
+	: '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* RPAREN
 	;
 	
 indexSuffix
-	: '[' LT!* expression LT!* ']'
+	: '[' LT!* expression LT!* RBRACK
 	;	
 	
 propertyReferenceSuffix
@@ -344,22 +371,22 @@ postfixExpression
 	;
 
 primaryExpression
-	: 'this'
+	: THIS
 	| Identifier
 	| literal
 	| arrayLiteral
 	| objectLiteral
-	| '(' LT!* expression LT!* ')'
+	| '(' LT!* expression LT!* RPAREN
 	;
 	
 // arrayLiteral definition.
 arrayLiteral
-	: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* ']'
+	: '[' LT!* assignmentExpression? (LT!* ',' (LT!* assignmentExpression)?)* LT!* RBRACK
 	;
        
 // objectLiteral definition.
 objectLiteral
-	: '{' LT!* propertyNameAndValue (LT!* ',' LT!* propertyNameAndValue)* LT!* '}'
+	: '{' LT!* propertyNameAndValue? (LT!* ',' (LT!* propertyNameAndValue)?)* LT!* '}'
 	;
 	
 propertyNameAndValue
@@ -374,12 +401,12 @@ propertyName
 
 // primitive literal definition.
 literal
-	: 'null'
-	| 'true'
-	| 'false'
+	: NULL
+	| TRUE
+	| FALSE
 	| stringliteral
 	| numericliteral
-	| RegularExpressionLiteral
+	| regularExpressionLiteral
 	;
 
 numericliteral
@@ -388,6 +415,10 @@ numericliteral
 	
 stringliteral
 	: StringLiteral
+	;
+
+regularExpressionLiteral
+	: RegularExpressionLiteral
 	;
 	
 // lexer rules.
@@ -440,30 +471,12 @@ fragment HexEscapeSequence
 fragment UnicodeEscapeSequence
 	: 'u' HexDigit HexDigit HexDigit HexDigit
 	;
-
-fragment BackslashSequence
-	: '\\' ~( LT )
-	;
-
-fragment RegularExpressionFirstChar
-	: ~ ( LT | '*' | '\\' | '/' )
-	| BackslashSequence
-	;
-	
-fragment RegularExpressionChar
-	: ~ ( LT | '\\' | '/' )
-	| BackslashSequence
-	;
-
-RegularExpressionLiteral
-	: '/' RegularExpressionFirstChar RegularExpressionChar* '/' IdentifierPart*
-	;
 	
 NumericLiteral
 	: DecimalLiteral
 	| HexIntegerLiteral
 	;
-	
+
 fragment HexIntegerLiteral
 	: '0' ('x' | 'X') HexDigit+
 	;
@@ -919,4 +932,22 @@ LT
 
 WhiteSpace // Tab, vertical tab, form feed, space, non-breaking space and any other unicode "space separator".
 	: ('\t' | '\v' | '\f' | ' ' | '\u00A0')	{$channel=HIDDEN;}
+	;
+
+// $>
+
+// $<	Regular expression literals (7.8.5)
+
+fragment RegularExpressionFirstChar
+	: ~ ( LT | '*' | '\\' | '/' )
+	| '\\' ~LT
+	;
+
+fragment RegularExpressionChar
+	: ~ ( LT | '\\' | '/' )
+	| '\\' ~LT
+	;
+
+RegularExpressionLiteral
+	: { AreRegularExpressionsEnabled }?=> '/' RegularExpressionFirstChar RegularExpressionChar* '/' IdentifierPart*
 	;

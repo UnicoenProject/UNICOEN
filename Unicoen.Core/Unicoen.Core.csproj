@@ -118,6 +118,7 @@
     <Compile Include="Model\Expressions\Identifiers\UnifiedVariableIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedLabelIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedThisIdentifier.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedRegularExpressionLiteral.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedSizeof.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedTypeof.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedSuperIdentifier.cs" />

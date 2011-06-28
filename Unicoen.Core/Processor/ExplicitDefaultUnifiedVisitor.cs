@@ -480,6 +480,10 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor.Visit(UnifiedVariableIdentifier element) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor.Visit(UnifiedRegularExpressionLiteral element) {
+			throw new NotImplementedException();
+		}
 	}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg>
@@ -951,6 +955,11 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor<TArg>.Visit(UnifiedVariableIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(
+				UnifiedRegularExpressionLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}
@@ -1485,6 +1494,11 @@ namespace Unicoen.Core.Processor {
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedVariableIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedRegularExpressionLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}

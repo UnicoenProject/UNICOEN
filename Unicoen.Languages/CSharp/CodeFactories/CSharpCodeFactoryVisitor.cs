@@ -754,6 +754,10 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			_writer.Write(element.Name);
 			return true;
 		}
+
+		public bool Visit(UnifiedRegularExpressionLiteral element, int arg) {
+			throw new NotImplementedException();
+		}
 	}
 
 	#region exntension method

@@ -25,7 +25,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 		public static JavaScriptModelFactory Instance = new JavaScriptModelFactory();
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
-			var ast = JavaScriptCodeToXml.ThrowableInstance.Generate(code);
+			var ast = JavaScriptCodeToXml.Instance.Generate(code, true);
 			return JavaScriptModelFactoryHelper.CreateProgram(ast);
 		}
 	}

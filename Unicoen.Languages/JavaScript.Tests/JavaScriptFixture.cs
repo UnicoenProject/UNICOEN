@@ -164,12 +164,12 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "jQuery1.6.1");
 			const string fileName = "jquery-1.6.1.js";
 			var srcPath = Path.Combine(path, fileName);
-			Action<string> action = s => Compile(s, fileName);
+			Action<string> action = workPath => Compile(workPath, fileName);
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);
-			FixtureManager.Download(
+			Downloader.Download(
 					"http://code.jquery.com/jquery-1.6.1.js", srcPath);
 			return testCase;
 		}

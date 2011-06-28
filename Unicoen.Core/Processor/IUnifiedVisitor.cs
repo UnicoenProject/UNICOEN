@@ -135,6 +135,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedSizeof element);
 		void Visit(UnifiedTypeof element);
 		void Visit(UnifiedVariableIdentifier element);
+		void Visit(UnifiedRegularExpressionLiteral element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -253,6 +254,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedSizeof element, TArg arg);
 		void Visit(UnifiedTypeof element, TArg arg);
 		void Visit(UnifiedVariableIdentifier element, TArg arg);
+		void Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -371,5 +373,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedSizeof element, TArg arg);
 		TResult Visit(UnifiedTypeof element, TArg arg);
 		TResult Visit(UnifiedVariableIdentifier element, TArg arg);
+		TResult Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 	}
 }
