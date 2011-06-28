@@ -25,6 +25,7 @@ using Paraiba.Core;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
@@ -134,16 +135,16 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {
+		/// <param name = "workPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string workPath, string srcPath) {
 			var args = _compileArguments.Concat(
 					new[] {
-							"\"" + Path.Combine(dirPath, fileName) + "\""
+							"\"" + Path.Combine(workPath, srcPath) + "\""
 					});
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, CompileCommand, arguments);
+			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
 		private string SetUpRhino() {
@@ -151,11 +152,11 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
 			if (Directory.Exists(path))
 				return jarPath;
-			var zipPath = Path.Combine(path, "rhino.zip");
 			Directory.CreateDirectory(path);
-			FixtureManager.Download(
-					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", zipPath);
-			FixtureManager.Unzip(zipPath);
+			const string url = "ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip";
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Unzip(stream, path);
+			}
 			return jarPath;
 		}
 

@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+// ReSharper disable InvocationIsSkipped
+
 namespace Unicoen.Core.Model {
 	public static class ModelSweeper {
 		/// <summary>
@@ -31,7 +33,7 @@ namespace Unicoen.Core.Model {
 		public static IEnumerable<T> Ancestors<T>(
 				this IUnifiedElement element) where T : class {
 			Contract.Requires(element != null);
-			return element.Ancestors().Select(e => e as T).Where(e => e != null);
+			return element.Ancestors().Where<T>();
 		}
 
 		/// <summary>
@@ -67,10 +69,10 @@ namespace Unicoen.Core.Model {
 		/// <typeparam name = "T"></typeparam>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> AncestorsAndSelf<T>(
-				this IUnifiedElement element) {
+		public static IEnumerable<T> AncestorsAndSelf<T>(
+				this IUnifiedElement element) where T : class {
 			Contract.Requires(element != null);
-			return element.AncestorsAndSelf().Where(e => e is T);
+			return element.AncestorsAndSelf().Where<T>();
 		}
 
 		/// <summary>
@@ -80,10 +82,10 @@ namespace Unicoen.Core.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> AncestorsAndSelf<T>(
-				this IUnifiedElement element, T dummyForInference) {
+		public static IEnumerable<T> AncestorsAndSelf<T>(
+				this IUnifiedElement element, T dummyForInference) where T : class {
 			Contract.Requires(element != null);
-			return element.AncestorsAndSelf().Where(e => e is T);
+			return element.AncestorsAndSelf<T>();
 		}
 
 		/// <summary>
@@ -111,9 +113,7 @@ namespace Unicoen.Core.Model {
 				this IUnifiedElement element)
 				where T : class {
 			Contract.Requires(element != null);
-			return element.Descendants()
-					.Select(e => e as T)
-					.Where(e => e != null);
+			return element.Descendants().Where<T>();
 		}
 
 		/// <summary>
@@ -151,10 +151,10 @@ namespace Unicoen.Core.Model {
 		/// <typeparam name = "T"></typeparam>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> DescendantsAndSelf<T>(
-				this IUnifiedElement element) {
+		public static IEnumerable<T> DescendantsAndSelf<T>(
+				this IUnifiedElement element) where T : class {
 			Contract.Requires(element != null);
-			return element.DescendantsAndSelf().Where(e => e is T);
+			return element.DescendantsAndSelf().Where<T>();
 		}
 
 		/// <summary>
@@ -164,10 +164,10 @@ namespace Unicoen.Core.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static IEnumerable<IUnifiedElement> DescendantsAndSelf<T>(
-				this IUnifiedElement element, T dummyForInference) {
+		public static IEnumerable<T> DescendantsAndSelf<T>(
+				this IUnifiedElement element, T dummyForInference) where T : class {
 			Contract.Requires(element != null);
-			return element.DescendantsAndSelf().Where(e => e is T);
+			return element.DescendantsAndSelf<T>();
 		}
 
 		/// <summary>
@@ -215,6 +215,19 @@ namespace Unicoen.Core.Model {
 		public static IUnifiedElement GrandGrandParent(this IUnifiedElement element) {
 			Contract.Requires(element != null);
 			return element.Parent.SafeParent().SafeParent();
+		}
+
+		/// <summary>
+		///   指定した型の要素のみを抽出します．
+		/// </summary>
+		/// <typeparam name = "T"></typeparam>
+		/// <param name = "elements"></param>
+		/// <returns></returns>
+		public static IEnumerable<T> Where<T>(
+				this IEnumerable<IUnifiedElement> elements) where T : class {
+			Contract.Requires(elements != null);
+			return elements.Select(e => e as T)
+					.Where(e => e != null);
 		}
 	}
 }

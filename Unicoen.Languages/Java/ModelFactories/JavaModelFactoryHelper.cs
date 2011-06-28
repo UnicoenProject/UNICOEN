@@ -110,7 +110,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                		  		ToCollection()
 			                		: null;
 
-			return UnifiedImport.Create(null, name, null, modifiers);
+			return UnifiedImport.Create(name, null, null, modifiers);
 		}
 
 		public static IEnumerable<UnifiedPackageBase> CreateTypeDeclaration(

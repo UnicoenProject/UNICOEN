@@ -92,14 +92,25 @@ namespace Unicoen.Languages.Tests {
 		public abstract IEnumerable<TestCaseData> TestHeavyProjectInfos { get; }
 
 		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		///   指定したファイルのソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public abstract void Compile(string dirPath, string fileName);
+		/// <param name = "workPath">コンパイル時の作業ディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのパス</param>
+		public abstract void Compile(string workPath, string srcPath);
 
 		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		///   指定したディレクトリ内の全てのソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name="workPath">ソースコードが格納されている作業ディレクトリのパス</param>
+		public virtual void CompileAll(string workPath) {
+			var filePaths = GetAllSourceFilePaths(workPath);
+			foreach (var filePath in filePaths) {
+				Compile(workPath, filePath);
+			}
+		}
+
+		/// <summary>
+		///   ソースコードを指定したコマンドと引数でコンパイルします．
 		/// </summary>
 		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
 		/// <param name = "command">コンパイルのコマンド</param>

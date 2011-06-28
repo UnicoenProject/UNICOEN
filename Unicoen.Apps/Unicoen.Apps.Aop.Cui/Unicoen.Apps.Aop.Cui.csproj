@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0F43ECA9-FAA3-4565-A585-A33BA2B12883}</ProjectGuid>
+    <ProjectGuid>{78406882-043E-451A-98B4-335AD8BB7DAD}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Apps.Metrics</RootNamespace>
-    <AssemblyName>Metrics</AssemblyName>
+    <RootNamespace>Unicoen.Apps.Aop.Cui</RootNamespace>
+    <AssemblyName>Unicoen.Apps.Aop.Cui</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -34,6 +34,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\bin\Debug\Code2Xml.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.C, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Code2Xml.Languages.Java, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\lib\Code2Xml.Languages.Java.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.JavaScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
+    </Reference>
     <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
     </Reference>
@@ -46,18 +60,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utils\CodeAnalyzer.cs" />
-    <Compile Include="Core\Cyclomatic.cs" />
-    <Compile Include="Core\Loc.cs" />
-    <Compile Include="Utils\MetricsPrinter.cs" />
+    <Compile Include="AspectAdaptor.cs" />
+    <Compile Include="AspectCompiler\AriesLexer.cs" />
+    <Compile Include="AspectCompiler\AriesParser.cs" />
+    <Compile Include="AspectElement\Advice.cs" />
+    <Compile Include="AspectElement\IAspectElement.cs" />
+    <Compile Include="AspectElement\Intertype.cs" />
+    <Compile Include="AspectElement\LanguageDependBlock.cs" />
+    <Compile Include="AspectElement\Pointcut.cs" />
+    <Compile Include="CodeProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\TagProcessor.cs" />
+    <Compile Include="Visitor\AstVisitor.cs" />
+    <Compile Include="Visitor\DebugVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
+      <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
+      <Name>Unicoen.Core.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Languages\CSharp\Unicoen.Languages.CSharp.csproj">
       <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
       <Name>Unicoen.Languages.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\C\Unicoen.Languages.C.csproj">
+      <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
+      <Name>Unicoen.Languages.C</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Languages\JavaScript\Unicoen.Languages.JavaScript.csproj">
       <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
@@ -71,10 +99,10 @@
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Unicoen.Languages\Python2\Unicoen.Languages.Python2.csproj">
-      <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
-      <Name>Unicoen.Languages.Python2</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AspectCompiler\Aries.g" />
+    <None Include="AspectCompiler\Aries.tokens" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -101,9 +101,9 @@ namespace Unicoen.Languages.CSharp.Tests {
 				return new[] {
 						"Fibonacci",
 						"Student",
-						//"Block1",
-						//"Block2",
-						//"Block3",
+						"Block1",
+						"Block2",
+						"Block3",
 				}
 						.Select(
 								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
@@ -126,20 +126,20 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {
+		/// <param name = "workPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string workPath, string srcPath) {
 			var exeFilePath = Path.Combine(
-					dirPath,
-					Path.ChangeExtension(fileName, "dll"));
+					workPath,
+					Path.ChangeExtension(srcPath, "dll"));
 			var args = new[] {
 					"/optimize+",
 					"/t:library",
 					"\"/out:" + exeFilePath + "\"",
-					"\"" + Path.Combine(dirPath, fileName) + "\""
+					"\"" + Path.Combine(workPath, srcPath) + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, CscPath, arguments);
+			CompileWithArguments(workPath, CscPath, arguments);
 		}
 
 		/// <summary>

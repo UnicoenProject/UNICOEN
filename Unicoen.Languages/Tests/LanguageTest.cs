@@ -63,7 +63,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "code">検査対象のソースコード</param>
 		public void VerifyCodeObjectFeatureUsingCode(string code) {
 			var codeObject = Fixture.ModelFactory.Generate(code);
-			AssertModelFeature(codeObject);
+			AssertModelFeature(codeObject, "no file");
 		}
 
 		/// <summary>
@@ -74,7 +74,7 @@ namespace Unicoen.Languages.Tests {
 		public void VerifyCodeObjectFeatureUsingFile(string path) {
 			var code = File.ReadAllText(path, XEncoding.SJIS);
 			var codeObject = Fixture.ModelFactory.Generate(code);
-			AssertModelFeature(codeObject);
+			AssertModelFeature(codeObject, path);
 		}
 
 		/// <summary>
@@ -89,7 +89,7 @@ namespace Unicoen.Languages.Tests {
 			foreach (var path in paths) {
 				var code = File.ReadAllText(path, XEncoding.SJIS);
 				var codeObject = Fixture.ModelFactory.Generate(code);
-				AssertModelFeature(codeObject);
+				AssertModelFeature(codeObject, path);
 			}
 		}
 
@@ -117,9 +117,9 @@ namespace Unicoen.Languages.Tests {
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = FixtureUtil.GetOutputPath(fileName);
 			File.Copy(orgPath, srcPath);
-			Fixture.Compile(workPath, fileName);
+			Fixture.Compile(workPath, srcPath);
 			var expected = Fixture.GetAllCompiledCode(workPath);
-			Fixture.Compile(workPath, fileName);
+			Fixture.Compile(workPath, srcPath);
 			var actual = Fixture.GetAllCompiledCode(workPath);
 			Assert.That(FuzzyCompare(actual, expected), Is.True);
 		}
@@ -184,20 +184,22 @@ namespace Unicoen.Languages.Tests {
 		///   指定した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name = "codeObject">検査対象の統一コードオブジェクト</param>
-		private static void AssertModelFeature(UnifiedProgram codeObject) {
-			AssertDeepCopy(codeObject);
-			AssertGetElements(codeObject);
-			AssertGetElementReferences(codeObject);
-			AssertGetElementReferenecesOfFields(codeObject);
-			AssertParentProperty(codeObject);
-			AssertToString(codeObject);
+		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertModelFeature(UnifiedProgram codeObject, string message) {
+			AssertDeepCopy(codeObject, message);
+			AssertGetElements(codeObject, message);
+			AssertGetElementReferences(codeObject, message);
+			AssertGetElementReferenecesOfFields(codeObject, message);
+			AssertParentProperty(codeObject, message);
+			AssertToString(codeObject, message);
 		}
 
 		/// <summary>
 		///   深いコピーが正常に動作するか検査します．
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private static void AssertDeepCopy(UnifiedProgram codeObject) {
+		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertDeepCopy(UnifiedProgram codeObject, string message) {
 			var copiedModel = codeObject.DeepCopy();
 			Assert.That(
 					copiedModel,
@@ -205,8 +207,9 @@ namespace Unicoen.Languages.Tests {
 
 			var pairs = copiedModel.Descendants().Zip(codeObject.Descendants());
 			foreach (var pair in pairs) {
-				Assert.That(pair.Item1.Parent, Is.Not.Null);
-				Assert.That(pair.Item1.Parent, Is.Not.EqualTo(pair.Item2.Parent));
+				Assert.That(pair.Item1.Parent, Is.Not.Null, message);
+				Assert.That(ReferenceEquals(pair.Item1.Parent, pair.Item2.Parent), Is.False, message);
+				//Assert.That(pair.Item1.Parent, Is.Not.EqualTo(pair.Item2.Parent), message);
 			}
 		}
 
@@ -214,7 +217,8 @@ namespace Unicoen.Languages.Tests {
 		///   子要素の列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private static void AssertGetElements(UnifiedProgram codeObject) {
+		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElements(UnifiedProgram codeObject, string message) {
 			foreach (var element in codeObject.Descendants()) {
 				var elements = element.GetElements();
 				var references = element.GetElementReferences();
@@ -224,9 +228,9 @@ namespace Unicoen.Languages.Tests {
 				var refElements = references.Select(t => t.Element).ToList();
 				var privateRefElements =
 						referenecesOfPrivateFields.Select(t => t.Element).ToList();
-				Assert.That(elements, Is.EqualTo(propValues));
-				Assert.That(refElements, Is.EqualTo(propValues));
-				Assert.That(privateRefElements, Is.EqualTo(propValues));
+				Assert.That(elements, Is.EqualTo(propValues), message);
+				Assert.That(refElements, Is.EqualTo(propValues), message);
+				Assert.That(privateRefElements, Is.EqualTo(propValues), message);
 			}
 		}
 
@@ -254,7 +258,8 @@ namespace Unicoen.Languages.Tests {
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private static void AssertGetElementReferences(UnifiedProgram codeObject) {
+		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElementReferences(UnifiedProgram codeObject, string message) {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
@@ -265,7 +270,7 @@ namespace Unicoen.Languages.Tests {
 			}
 			foreach (var element in elements) {
 				foreach (var child in element.GetElements()) {
-					Assert.That(child, Is.Null);
+					Assert.That(child, Is.Null, message);
 				}
 			}
 		}
@@ -274,8 +279,8 @@ namespace Unicoen.Languages.Tests {
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private static void AssertGetElementReferenecesOfFields(
-				UnifiedProgram codeObject) {
+		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElementReferenecesOfFields(UnifiedProgram codeObject, string message) {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
@@ -286,7 +291,7 @@ namespace Unicoen.Languages.Tests {
 			}
 			foreach (var element in elements) {
 				foreach (var child in element.GetElements()) {
-					Assert.That(child, Is.Null);
+					Assert.That(child, Is.Null, message);
 				}
 			}
 		}
@@ -295,11 +300,12 @@ namespace Unicoen.Languages.Tests {
 		///   親要素に不適切な要素がないかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private static void AssertParentProperty(IUnifiedElement codeObject) {
+		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertParentProperty(IUnifiedElement codeObject, string message) {
 			foreach (var element in codeObject.GetElements()) {
 				if (element != null) {
-					Assert.That(element.Parent, Is.SameAs(codeObject));
-					AssertParentProperty(element);
+					Assert.That(element.Parent, Is.SameAs(codeObject), message);
+					AssertParentProperty(element, message);
 				}
 			}
 		}
@@ -308,9 +314,10 @@ namespace Unicoen.Languages.Tests {
 		///   全要素の文字列情報を取得できるかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private static void AssertToString(UnifiedProgram codeObject) {
+		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertToString(UnifiedProgram codeObject, string message) {
 			foreach (var element in codeObject.DescendantsAndSelf()) {
-				Assert.That(element.ToString(), Is.Not.Null);
+				Assert.That(element.ToString(), Is.Not.Null, message);
 			}
 		}
 
@@ -356,14 +363,14 @@ namespace Unicoen.Languages.Tests {
 			var srcPath = FixtureUtil.GetOutputPath(fileName);
 			File.WriteAllText(srcPath, orgCode, XEncoding.SJIS);
 			// 作業ディレクトリ内でコンパイル
-			Fixture.Compile(workPath, fileName);
+			Fixture.Compile(workPath, srcPath);
 			// コンパイル結果の取得
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
 			// 再生成したソースコードを配置
 			var code2 = Fixture.CodeFactory.Generate(codeObject);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			// 再生成したソースコードのコンパイル結果の取得
-			Fixture.Compile(workPath, fileName);
+			Fixture.Compile(workPath, srcPath);
 			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
 			Assert.That(FuzzyCompare(orgByteCode1, byteCode2), Is.True);
 		}

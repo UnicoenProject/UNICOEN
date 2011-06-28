@@ -22,17 +22,31 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   使用する名前空間の指定や外部ファイルの読み込みを表します。
 	///   e.g. Javaにおける<c>import package;</c>
+	///   e.g. C#における<c>using Gen = System.Collections.Generic</c>
+	///   e.g. Pythonにおける<c>import sys</c>
+	///   e.g. Pythonにおける<c>from lib.package import func as f</c>
 	/// </summary>
 	public class UnifiedImport : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _from;
+		private IUnifiedExpression _member;
 
-		public IUnifiedExpression From {
-			get { return _from; }
-			set { _from = SetChild(value, _from); }
+		/// <summary>
+		///   Pythonにおいてパッケージ名を省略して使用できるようにする変数もしくは関数名
+		///   e.g. Pythonにおける<c>from lib.package import func as f</c>の<c>func</c>
+		/// </summary>
+		public IUnifiedExpression Member {
+			get { return _member; }
+			set { _member = SetChild(value, _member); }
 		}
 
 		private IUnifiedExpression _name;
 
+		/// <summary>
+		///   使用する名前空間や関数名を表します．
+		///   e.g. Javaにおける<c>import package;</c>の<c>package</c>
+		///   e.g. C#における<c>using Gen = System.Collections.Generic</c>の<c>System.Collections.Generic</c>
+		///   e.g. Pythonにおける<c>import sys</c>の<c>sys</c>
+		///   e.g. Pythonにおける<c>from lib.package import funcas f</c>の<c>lib.package</c>
+		/// </summary>
 		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetChild(value, _name); }
@@ -40,6 +54,11 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedIdentifier _alias;
 
+		/// <summary>
+		///   使用する名前空間や関数名のエイリアスを表します．
+		///   e.g. C#における<c>using Gen = System.Collections.Generic</c>の<c>Gen</c>
+		///   e.g. Pythonにおける<c>from lib.package import funcas f</c>の<c>f</c>
+		/// </summary>
 		public UnifiedIdentifier Alias {
 			get { return _alias; }
 			set { _alias = SetChild(value, _alias); }
@@ -70,12 +89,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedImport Create(
-				IUnifiedExpression from = null,
-				IUnifiedExpression name = null,
-				string alias = null,
-				UnifiedModifierCollection modifiers = null) {
+				IUnifiedExpression name = null, string alias = null,
+				IUnifiedExpression member = null, UnifiedModifierCollection modifiers = null) {
 			return new UnifiedImport {
-					From = from,
+					Member = member,
 					Name = name,
 					Alias = alias != null
 					        		? UnifiedVariableIdentifier.Create(alias)

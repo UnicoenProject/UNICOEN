@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ using Paraiba.Core;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public class Python2Fixture : Fixture {
@@ -102,7 +104,11 @@ namespace Unicoen.Languages.Python2.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { yield break; }
+			get {
+				return new[] {
+						SetUpPyPy(),
+				};
+			}
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
@@ -112,39 +118,33 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {
+		/// <param name = "workPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string workPath, string srcPath) {
 			var args = new[] {
 					"-m",
 					"compileall",
-					"\"" + Path.Combine(dirPath, fileName) + "\""
+					"\"" + srcPath + "\""
 			};
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, CompileCommand, arguments);
+			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
 		private TestCaseData SetUpPyPy() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "PyPy");
-			var srcPath = Path.Combine(path, "src.zip");
-			var depPath = Path.Combine(path, "dep.jar");
-			var args = new[] {
-					"-cp",
-					"\"" + path + "\";\"" + depPath + "\"",
-					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
-			};
-			var testCase = new TestCaseData(
-					path,
-					CompileCommand,
-					args.JoinString(" "));
+			var arcPath = Path.Combine(path, "src.tar.bz2");
+			Action<string> action = CompileAll;
+			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);
-			FixtureManager.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
-			FixtureManager.Unzip(srcPath);
-			FixtureManager.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
+			const string url =
+					"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2";
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Untbz(stream, Path.GetDirectoryName(arcPath));
+			}
+			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\ctypes\test\test_unicode.py"));
+			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\lib-tk\test\test_ttk\test_functions.py"));
 			return testCase;
 		}
 	}
