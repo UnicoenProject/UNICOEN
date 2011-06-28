@@ -36,11 +36,11 @@ namespace Unicoen.Core.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedTypeParameterCollection _typeParameters;
+		private UnifiedGenericParameterCollection _genericParameters;
 
-		public UnifiedTypeParameterCollection TypeParameters {
-			get { return _typeParameters; }
-			set { _typeParameters = SetChild(value, _typeParameters); }
+		public UnifiedGenericParameterCollection GenericParameters {
+			get { return _genericParameters; }
+			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
 		private UnifiedIdentifier _name;
@@ -55,6 +55,14 @@ namespace Unicoen.Core.Model {
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
+		}
+
+		/// <summary>
+		/// ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 
 		#endregion
@@ -78,13 +86,13 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedLambda Create(
 				UnifiedType type = null,
-				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedBlock body = null) {
 			return new UnifiedLambda {
 					Type = type,
-					TypeParameters = typeParameters,
+					GenericParameters = genericParameters,
 					Name = name,
 					Parameters = parameters,
 					Body = body,

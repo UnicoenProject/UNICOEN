@@ -57,8 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaHeavyLanguageTest.cs" />
     <Compile Include="JavaFixture.cs" />
-    <Compile Include="JavaCodeObjectFeatureTest.cs" />
+    <Compile Include="JavaLanguageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

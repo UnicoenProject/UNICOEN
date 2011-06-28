@@ -99,9 +99,11 @@ namespace Unicoen.Apps.Aop {
 				switch(langType) {
 					case "Java":
 						Console.WriteLine(JavaFactory.GenerateCode(model));
+						Console.WriteLine();
 						break;
 					case "JavaScript":
 						Console.WriteLine(JavaScriptFactory.GenerateCode(model));
+						Console.WriteLine();						
 						break;
 					default:
 						throw new NotImplementedException();

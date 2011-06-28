@@ -28,11 +28,30 @@ namespace Unicoen.Languages.Tests {
 			}
 		}
 
+		public static void DownloadStream(string url, string outputPath) {
+			var outFile = Path.Combine(outputPath, "source.zip");
+
+			using (var client = new WebClient())
+			using (var stream = client.OpenRead(url))
+			//using (var file = new FileStream(outFile, FileMode.Create)) {
+			using (var file = new FileStream(@"C:\output\hoge.zip", FileMode.Create)) {
+				var buff = new byte[1024];
+				int len = 0;
+				while((len = stream.Read(buff, 0, buff.Length)) > 0) {
+					file.Write(buff, 0, len);
+				}
+			}
+		}
+
 		public static void Unzip(string path) {
 			var dirPath = Path.GetDirectoryName(path);
-			using (var zip = ZipFile.Read(path)) {
+			Unzip(path, dirPath);
+		}
+
+		public static void Unzip(string inPath, string outDirPath) {
+			using (var zip = ZipFile.Read(inPath)) {
 				foreach (var e in zip) {
-					e.Extract(dirPath, ExtractExistingFileAction.OverwriteSilently);
+					e.Extract(outDirPath, ExtractExistingFileAction.OverwriteSilently);
 				}
 			}
 		}

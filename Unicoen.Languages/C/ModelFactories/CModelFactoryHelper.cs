@@ -77,7 +77,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			UnifiedModifierCollection modifiers = null;
 			UnifiedType type = null;
-			UnifiedTypeParameterCollection typeParameters = null;
+			UnifiedGenericParameterCollection genericParameters = null;
 			UnifiedIdentifier name = null;
 			UnifiedParameterCollection parameters = null;
 			UnifiedTypeCollection throws = null;
@@ -99,7 +99,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			body = CreateCompoundStatement(node.Element("compound_statement"));
 
 			return UnifiedFunction.Create(
-					null, modifiers, type, typeParameters, name, parameters, throws, body);
+					null, modifiers, type, genericParameters, name, parameters, throws, body);
 		}
 
 		public static UnifiedFunction CreateDeclaration(XElement node) {
@@ -146,10 +146,15 @@ namespace Unicoen.Languages.C.ModelFactories {
 			}
 			modifiers = ms.IsEmpty() ? null : ms;
 
+			if (types.Count == 1) {
+				type = types[0];
+				return;
+			}
+
 			String s = "";
 			String prefix = "";
 			foreach (UnifiedType t in types) {
-				s += prefix + t.NameExpression;
+				s += prefix + ((UnifiedVariableIdentifier)t.NameExpression).Name;
 				prefix = " ";
 			}
 			type =
@@ -217,7 +222,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			case "type_id":
 				return CreateTypeId(first);
 			default:
-				var ui = UnifiedVariableIdentifier.Create(first.Name());
+				var ui = UnifiedVariableIdentifier.Create(first.Value);
 				return UnifiedType.Create(ui);
 			}
 		}

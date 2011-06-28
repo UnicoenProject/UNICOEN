@@ -55,6 +55,21 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedModifierCollection.Create(uMods);
 		}
 
+		private static UnifiedModifier LookupModifier(ParameterModifier mod) {
+			switch(mod) {
+			case ParameterModifier.Out:
+				return UnifiedModifier.Create("out");
+			case ParameterModifier.Params:
+				return UnifiedModifier.Create("params");
+			case ParameterModifier.Ref:
+				return UnifiedModifier.Create("ref");
+			case ParameterModifier.This:
+				return UnifiedModifier.Create("this");
+			default:
+				return null;
+			}
+		}
+
 		private static UnifiedType LookupType(AstType type) {
 			Contract.Requires<ArgumentNullException>(type != null);
 			Contract.Ensures(Contract.Result<UnifiedType>() != null);
@@ -140,21 +155,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		#endregion
-
-		private static UnifiedLiteral ParseValue(object value) {
-			Contract.Ensures(Contract.Result<UnifiedLiteral>() != null);
-
-			if (value == null)
-				return UnifiedNullLiteral.Create();
-			if (value is string)
-				return UnifiedStringLiteral.Create(
-						(string)value);
-			if (value is int)
-				return UnifiedIntegerLiteral.Create(
-						(int)value, UnifiedIntegerLiteralKind.Int32);
-
-			throw new NotImplementedException("ParseValue");
-		}
 	}
 
 	internal static class VisitorExtension {

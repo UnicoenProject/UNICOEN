@@ -1,17 +1,12 @@
 public class Sample {
-
-    private int x;
-
+    private static int x;
     public Sample(int x) {
         this.x = x;
     }
-
-    public int getX() {
+    public static int getX() {
         return x;
     }
-
     public static void main(String[] args) {
         getX();
     }
-
 }

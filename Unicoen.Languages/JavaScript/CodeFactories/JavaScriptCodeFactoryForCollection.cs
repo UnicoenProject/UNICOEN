@@ -80,7 +80,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeParameterCollection element, VisitorArgument arg) {
+				UnifiedGenericParameterCollection element, VisitorArgument arg) {
 			//JavaScriptでは型パラメータは出現しない
 			throw new NotImplementedException();
 		}

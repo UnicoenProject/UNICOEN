@@ -143,14 +143,14 @@ namespace Unicoen.Core.Model {
 			return UnifiedParameterCollection.Create(singleton);
 		}
 
-		public static UnifiedTypeArgumentCollection ToCollection(
+		public static UnifiedGenericArgumentCollection ToCollection(
 				this IEnumerable<UnifiedTypeArgument> collection) {
-			return UnifiedTypeArgumentCollection.Create(collection);
+			return UnifiedGenericArgumentCollection.Create(collection);
 		}
 
-		public static UnifiedTypeArgumentCollection ToCollection(
+		public static UnifiedGenericArgumentCollection ToCollection(
 				this UnifiedTypeArgument singleton) {
-			return UnifiedTypeArgumentCollection.Create(singleton);
+			return UnifiedGenericArgumentCollection.Create(singleton);
 		}
 
 		public static UnifiedTypeCollection ToCollection(
@@ -172,14 +172,14 @@ namespace Unicoen.Core.Model {
 			return UnifiedTypeConstrainCollection.Create(singleton);
 		}
 
-		public static UnifiedTypeParameterCollection ToCollection(
+		public static UnifiedGenericParameterCollection ToCollection(
 				this IEnumerable<UnifiedTypeParameter> collection) {
-			return UnifiedTypeParameterCollection.Create(collection);
+			return UnifiedGenericParameterCollection.Create(collection);
 		}
 
-		public static UnifiedTypeParameterCollection ToCollection(
+		public static UnifiedGenericParameterCollection ToCollection(
 				this UnifiedTypeParameter singleton) {
-			return UnifiedTypeParameterCollection.Create(singleton);
+			return UnifiedGenericParameterCollection.Create(singleton);
 		}
 
 		public static UnifiedVariableDefinitionList ToVariableDefinitionList(

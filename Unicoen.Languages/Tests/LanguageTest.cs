@@ -62,7 +62,8 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "code">検査対象のソースコード</param>
 		public void VerifyCodeObjectFeatureUsingCode(string code) {
-			VerifyCodeObjectFeature(code, "A" + Fixture.Extension);
+			var codeObject = Fixture.ModelFactory.Generate(code);
+			AssertModelFeature(codeObject);
 		}
 
 		/// <summary>
@@ -71,29 +72,89 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "path">検査対象のソースコードのパス</param>
 		public void VerifyCodeObjectFeatureUsingFile(string path) {
-			VerifyCodeObjectFeature(File.ReadAllText(path, XEncoding.SJIS), Path.GetFileName(path));
-		}
-
-		/// <summary>
-		///   指定したソースコードから統一コードオブジェクトを生成して，
-		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
-		/// </summary>
-		/// <param name = "code">検査対象のソースコード</param>
-		/// <param name = "fileName"></param>
-		private void VerifyCodeObjectFeature(string code, string fileName) {
+			var code = File.ReadAllText(path, XEncoding.SJIS);
 			var codeObject = Fixture.ModelFactory.Generate(code);
 			AssertModelFeature(codeObject);
-			AssertCompareModel(code, codeObject);
-			AssertCompareCompiledCode(code, fileName, codeObject);
 		}
 
 		/// <summary>
-		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して，
+		///   指定したパスのソースコードの統一コードオブジェクトを生成して，
 		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name = "dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
 		/// <param name = "compileAction">使用しません</param>
-		public void VerifyCodeObjectFeatureUsingProject(string dirPath, Action<string> compileAction) {
+		public void VerifyCodeObjectFeatureUsingProject(
+				string dirPath, Action<string> compileAction) {
+			var paths = Fixture.GetAllSourceFilePaths(dirPath);
+			foreach (var path in paths) {
+				var code = File.ReadAllText(path, XEncoding.SJIS);
+				var codeObject = Fixture.ModelFactory.Generate(code);
+				AssertModelFeature(codeObject);
+			}
+		}
+
+		/// <summary>
+		///   再生成を行わずAssertCompareModelが正常に動作するかテストします。
+		///   全く同じコードから生成したモデル同士で比較します。
+		/// </summary>
+		/// <param name = "orgPath">再生成するソースコードのパス</param>
+		public void VerifyAssertCompareModel(string orgPath) {
+			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
+			var expected = Fixture.ModelFactory.Generate(orgCode);
+			var actual = Fixture.ModelFactory.Generate(orgCode);
+			Assert.That(
+					actual,
+					Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
+		}
+
+		/// <summary>
+		///   再生成を行わずAssertCompareCompiledCodeが正常に動作するかテストします。
+		///   全く同じコードをコンパイルしたバイナリファイル同士で比較します。
+		/// </summary>
+		/// <param name = "orgPath">再生成するソースコードのパス</param>
+		public void VerifyAssertCompareCompiledCode(string orgPath) {
+			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
+			var fileName = Path.GetFileName(orgPath);
+			var srcPath = FixtureUtil.GetOutputPath(fileName);
+			File.Copy(orgPath, srcPath);
+			Fixture.Compile(workPath, fileName);
+			var expected = Fixture.GetAllCompiledCode(workPath);
+			Fixture.Compile(workPath, fileName);
+			var actual = Fixture.GetAllCompiledCode(workPath);
+			Assert.That(FuzzyCompare(actual, expected), Is.True);
+		}
+
+		/// <summary>
+		///   指定したソースコードから統一コードオブジェクトを生成して，
+		///   ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// </summary>
+		/// <param name = "code">検査対象のソースコード</param>
+		public void VerifyRegenerateCodeUsingCode(string code) {
+			var codeObject = Fixture.ModelFactory.Generate(code);
+			AssertCompareModel(code, codeObject);
+			AssertCompareCompiledCode(code, "A" + Fixture.Extension, codeObject);
+		}
+
+		/// <summary>
+		///   指定したパスのソースコードの統一コードオブジェクトを生成して，
+		///   ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// </summary>
+		/// <param name = "path">検査対象のソースコードのパス</param>
+		public void VerifyRegenerateCodeUsingFile(string path) {
+			var code = File.ReadAllText(path, XEncoding.SJIS);
+			var codeObject = Fixture.ModelFactory.Generate(code);
+			AssertCompareModel(code, codeObject);
+			AssertCompareCompiledCode(code, Path.GetFileName(path), codeObject);
+		}
+
+		/// <summary>
+		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して，
+		///   ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// </summary>
+		/// <param name = "dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "compileAction">コンパイル処理</param>
+		public void VerifyRegenerateCodeUsingProject(
+				string dirPath, Action<string> compileAction) {
 			// コンパイル用の作業ディレクトリの取得
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			// 作業ディレクトリ内にソースコードを配置
@@ -108,7 +169,6 @@ namespace Unicoen.Languages.Tests {
 
 				// モデルを生成して，合わせて各種検査を実施する
 				var codeObject = Fixture.ModelFactory.Generate(orgCode1);
-				AssertModelFeature(codeObject);
 				AssertCompareModel(orgCode1, codeObject);
 
 				var code2 = Fixture.CodeFactory.Generate(codeObject);
@@ -170,7 +230,8 @@ namespace Unicoen.Languages.Tests {
 			}
 		}
 
-		private static IEnumerable<IUnifiedElement> GetProperties(IUnifiedElement element) {
+		private static IEnumerable<IUnifiedElement> GetProperties(
+				IUnifiedElement element) {
 			var elements = element as IEnumerable<IUnifiedElement>;
 			if (elements != null) {
 				foreach (var e in elements) {
@@ -213,7 +274,8 @@ namespace Unicoen.Languages.Tests {
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private static void AssertGetElementReferenecesOfFields(UnifiedProgram codeObject) {
+		private static void AssertGetElementReferenecesOfFields(
+				UnifiedProgram codeObject) {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
@@ -286,7 +348,8 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "orgCode">検査対象のソースコード</param>
 		/// <param name = "fileName">再生成するソースコードのファイル名</param>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private void AssertCompareCompiledCode(string orgCode, string fileName, UnifiedProgram codeObject) {
+		private void AssertCompareCompiledCode(
+				string orgCode, string fileName, UnifiedProgram codeObject) {
 			// コンパイル用の作業ディレクトリの取得
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			// 作業ディレクトリ内にソースコードを配置

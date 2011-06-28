@@ -88,6 +88,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Mocomoco\Mocomoco.Linq\Mocomoco.Linq.csproj">
+      <Project>{973D0B49-BA07-4F3D-B640-74107F23D8DA}</Project>
+      <Name>Mocomoco.Linq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Mocomoco\Mocomoco.Xml\Mocomoco.Xml.csproj">
       <Project>{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}</Project>
       <Name>Mocomoco.Xml</Name>

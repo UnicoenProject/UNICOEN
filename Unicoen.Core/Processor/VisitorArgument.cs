@@ -52,6 +52,13 @@ namespace Unicoen.Core.Processor {
 			};
 		}
 
+		public VisitorArgument DecrementDepth() {
+			return new VisitorArgument(_writer, IndentSign) {
+					Decoration = Decoration,
+					IndentDepth = IndentDepth - 1,
+			};
+		}
+
 		public void WriteIndent() {
 			for (int i = 0; i < IndentDepth; i++)
 				_writer.Write(IndentSign);

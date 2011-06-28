@@ -100,7 +100,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
 						"Fibonacci",
-						//"Student",
+						"Student",
 						//"Block1",
 						//"Block2",
 						//"Block3",
@@ -113,20 +113,14 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get {
-				yield break;
-				//				return new[] {
-				//						new { DirName = "default", Command = "javac", Arguments = "*.java" },
-				//						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
-				//				}
-				//						.Select(
-				//								o => new TestCaseData(
-				//								     		Fixture.GetInputPath("Java", o.DirName),
-				//								     		o.Command, o.Arguments));
-			}
+			get { yield break; }
+		}
+
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { yield break; }
 		}
 
 		/// <summary>
