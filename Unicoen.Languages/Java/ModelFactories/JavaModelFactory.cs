@@ -23,7 +23,7 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Languages.Java.ModelFactories {
 	public class JavaModelFactory : ModelFactory {
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
-			var ast = JavaCodeToXml.Instance.Generate(code);
+			var ast = JavaCodeToXml.Instance.Generate(code, true);
 			return JavaModelFactoryHelper.CreateCompilationUnit(ast);
 		}
 	}
