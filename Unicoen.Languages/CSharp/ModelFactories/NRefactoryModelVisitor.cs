@@ -60,11 +60,17 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.OfType<IUnifiedExpression>()
 					.Select(uExpr => UnifiedArgument.Create(value: uExpr))
 					.ToCollection();
-			return UnifiedNew.Create(type.WrapRectangleArray(uArgs));
+			var initValues = null as UnifiedArray;
+			if (array.Initializer != null) {
+				initValues = array.Initializer.AcceptVisitor(this, data) as UnifiedArray;
+			}
+			return UnifiedNew.Create(type.WrapRectangleArray(uArgs), initialValues: initValues);
 		}
 
 		public IUnifiedElement VisitArrayInitializerExpression(ArrayInitializerExpression arrayInit, object data) {
-			throw new NotImplementedException("ArrayInitializerExpression");
+			return arrayInit.Elements
+					.Select(e => e.AcceptForExpression(this))
+					.ToArrayLiteral();
 		}
 
 		public IUnifiedElement VisitAsExpression(AsExpression asExpr, object data) {

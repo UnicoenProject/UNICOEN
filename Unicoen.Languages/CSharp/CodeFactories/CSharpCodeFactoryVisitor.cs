@@ -78,7 +78,6 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			}
 			WriteIndent(arg);
 			_writer.Write("}");
-			_writer.WriteLine();
 			return false;
 		}
 
@@ -156,7 +155,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedImport element, int arg) {
-			_writer.Write("import ");
+			_writer.Write("using ");
 			element.Alias.TryAccept(this, arg, () => _writer.Write(" = "));
 			element.Name.Accept(this, arg);
 			return true;
@@ -164,7 +163,10 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public bool Visit(UnifiedProgram element, int arg) {
 			foreach (var elem in element) {
-				elem.Accept(this, arg);
+				var semmi = elem.Accept(this, arg);
+				if (semmi)
+					_writer.Write(";");
+				_writer.WriteLine();
 			}
 			return false;
 		}
@@ -512,7 +514,15 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedArray element, int arg) {
-			throw new NotImplementedException();
+			_writer.Write("{ ");
+			var sep = "";
+			foreach(var elem in element) {
+				_writer.Write(sep);
+				sep = ", ";
+				elem.Accept(this, arg);
+			}
+			_writer.Write(" }");
+			return true;
 		}
 
 		public bool Visit(UnifiedSet element, int arg) {
@@ -536,7 +546,6 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedClass element, int arg) {
-			WriteIndent(arg);
 			element.Modifiers.TryAccept(this, arg);
 			_writer.Write("class");
 			WriteSpace();
@@ -551,7 +560,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			else {
 				WriteSpace();
 			}
-			element.Body.TryAccept(this, arg + 1);
+			element.Body.TryAccept(this, arg);
 			return false;
 		}
 
@@ -703,7 +712,10 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public bool Visit(UnifiedLambda element, int arg) {
-			throw new NotImplementedException();
+			element.Parameters.TryAccept(this, arg);
+			_writer.Write(" => ");
+			element.Body.Accept(this, arg);
+			return true;
 		}
 
 		public bool Visit(UnifiedDefaultConstrain element, int arg) {
