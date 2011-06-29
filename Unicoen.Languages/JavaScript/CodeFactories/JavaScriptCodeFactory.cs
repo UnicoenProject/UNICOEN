@@ -512,5 +512,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedComment element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedRegularExpressionLiteral element, VisitorArgument arg) {
+			arg.Write(element.Options);
+			arg.Write(element.Value);
+			arg.Write(element.Options);
+			return false;
+		}
 			}
 }
