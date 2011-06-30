@@ -85,9 +85,109 @@ namespace Unicoen.Core.Model {
 			ToStringRecursively(this, buffer, 0);
 			return buffer.ToString();
 		}
-#endregion
+		#endregion
+
+
+
 
 		#region Utility methods for ToXML()
-		#endregion
+		
+		private static void PrintTabs(int depth, StringBuilder buffer) {
+			for(int i = 0; i < depth; i++) {
+				buffer.Append("\t");
+			}
+		}
+		
+		private static void XmlWrite(
+				object obj, string content, StringBuilder buffer, int depth) {
+			if (obj != null) {
+//				PrintTabs(depth, buffer);	
+				// buffer.AppendLine("<" + obj.GetType().Name + ">");
+				if (!content.Equals("")) {
+					PrintTabs(1, buffer);
+					buffer.AppendLine(content);
+				}
+			} else {
+//				buffer.Append("null: ");
+//				buffer.AppendLine(content);
+			}
+		}
+
+		private static void XmlWriteTypeWithoutContent(
+				object obj, StringBuilder buffer, int depth) {
+			XmlWrite(obj, "", buffer, depth);
+		}
+
+		private static void XmlWriteTypeAndContent(
+				object obj, StringBuilder buffer, int depth) {
+			XmlWrite(obj, obj + "", buffer, depth);
+		}
+
+
+		private static void XmlWriteUnifiedElement(
+				UnifiedElement elem, StringBuilder buffer, int depth) {
+			// write items of enumerable
+			var seq = elem as IEnumerable;
+			if (seq != null) {
+				foreach (var item in seq) {
+					ToXmlRecursively(item, buffer, depth + 1);
+				}
+			}
+
+			// write properties without indexer
+			var values = elem.GetType().GetProperties()
+					.Where(prop => !IgnorePropertyNames.Contains(prop.Name))
+					.Where(prop => prop.GetIndexParameters().Length == 0)
+					.Select(prop => prop.GetValue(elem, null));
+			foreach (var value in values) {
+				ToXmlRecursively(value, buffer, depth + 1);
+			}
+		}
+
+		private static void XmlWriteNonUnifiedElement(
+				object obj, StringBuilder buffer, int depth) {
+			
+			
+			PrintTabs(depth, buffer);
+
+			var seq = obj as IEnumerable;
+			if (!(seq is string) && seq != null) {
+				XmlWriteTypeWithoutContent(obj, buffer, depth);
+				foreach (var item in seq) {
+					ToXmlRecursively(item, buffer, depth);
+				}
+			} else {
+				XmlWriteTypeAndContent(obj, buffer, depth);
+			}
+		}
+
+		private static void ToXmlRecursively(
+				object obj, StringBuilder buffer, int depth) {
+			if(obj == null) {
+				return;
+			}
+
+			var nodeName = obj.GetType().Name;
+			PrintTabs(depth, buffer);
+			buffer.AppendLine("<" + nodeName + ">");
+
+			var elem = obj as UnifiedElement;
+			if (elem != null) {
+				XmlWriteUnifiedElement(elem, buffer, depth);
+			} else {
+				XmlWriteNonUnifiedElement(obj, buffer, depth);
+			}
+
+			PrintTabs(depth, buffer);
+			buffer.AppendLine("</" + nodeName + ">");
+}
+
+		public string ToXml() {
+			var buffer = new StringBuilder();
+			ToXmlRecursively(this, buffer, 0);
+			return buffer.ToString();
+		}
 	}
+
+		#endregion
 }

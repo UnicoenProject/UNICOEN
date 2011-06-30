@@ -170,6 +170,7 @@
     <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
+    <Compile Include="Model\UnifiedElementHelper.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="Processor\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
