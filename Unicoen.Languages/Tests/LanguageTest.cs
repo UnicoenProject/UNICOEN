@@ -56,6 +56,16 @@ namespace Unicoen.Languages.Tests {
 			Fixture = fixture;
 		}
 
+		private Tuple<string, UnifiedProgram> GenerateCodeObject(string path) {
+			var code = File.ReadAllText(path, XEncoding.SJIS);
+			try {
+				var obj = Fixture.ModelFactory.Generate(code);
+				return Tuple.Create(code, obj);
+			} catch (Exception e) {
+				throw new InvalidOperationException("Failed to parse: " + path, e);
+			}
+		}
+
 		/// <summary>
 		///   指定したソースコードから統一コードオブジェクトを生成して，
 		///   生成した統一コードオブジェクトが適切な性質を備えているか検査します．
@@ -72,9 +82,8 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "path">検査対象のソースコードのパス</param>
 		public void VerifyCodeObjectFeatureUsingFile(string path) {
-			var code = File.ReadAllText(path, XEncoding.SJIS);
-			var codeObject = Fixture.ModelFactory.Generate(code);
-			AssertModelFeature(codeObject, path);
+			var codeAndObject = GenerateCodeObject(path);
+			AssertModelFeature(codeAndObject.Item2, path);
 		}
 
 		/// <summary>
@@ -87,9 +96,8 @@ namespace Unicoen.Languages.Tests {
 				string dirPath, Action<string> compileAction) {
 			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
-				var code = File.ReadAllText(path, XEncoding.SJIS);
-				var codeObject = Fixture.ModelFactory.Generate(code);
-				AssertModelFeature(codeObject, path);
+				var codeAndObject = GenerateCodeObject(path);
+				AssertModelFeature(codeAndObject.Item2, path);
 			}
 		}
 
@@ -99,12 +107,11 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "orgPath">再生成するソースコードのパス</param>
 		public void VerifyAssertCompareModel(string orgPath) {
-			var orgCode = File.ReadAllText(orgPath, XEncoding.SJIS);
-			var expected = Fixture.ModelFactory.Generate(orgCode);
-			var actual = Fixture.ModelFactory.Generate(orgCode);
+			var expected = GenerateCodeObject(orgPath);
+			var actual = GenerateCodeObject(orgPath);
 			Assert.That(
-					actual,
-					Is.EqualTo(expected).Using(StructuralEqualityComparerForDebug.Instance));
+					actual.Item2,
+					Is.EqualTo(expected.Item2).Using(StructuralEqualityComparerForDebug.Instance));
 		}
 
 		/// <summary>
@@ -141,8 +148,9 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "path">検査対象のソースコードのパス</param>
 		public void VerifyRegenerateCodeUsingFile(string path) {
-			var code = File.ReadAllText(path, XEncoding.SJIS);
-			var codeObject = Fixture.ModelFactory.Generate(code);
+			var codeAndObject = GenerateCodeObject(path);
+			var code = codeAndObject.Item1;
+			var codeObject = codeAndObject.Item2;
 			AssertCompareModel(code, codeObject);
 			AssertCompareCompiledCode(code, Path.GetFileName(path), codeObject);
 		}
@@ -168,10 +176,10 @@ namespace Unicoen.Languages.Tests {
 				var orgCode1 = File.ReadAllText(codePath, XEncoding.SJIS);
 
 				// モデルを生成して，合わせて各種検査を実施する
-				var codeObject = Fixture.ModelFactory.Generate(orgCode1);
-				AssertCompareModel(orgCode1, codeObject);
+				var codeAndObject = GenerateCodeObject(codePath);
+				AssertCompareModel(orgCode1, codeAndObject.Item2);
 
-				var code2 = Fixture.CodeFactory.Generate(codeObject);
+				var code2 = Fixture.CodeFactory.Generate(codeAndObject.Item2);
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
 			// 再生成したソースコードのコンパイル結果の取得

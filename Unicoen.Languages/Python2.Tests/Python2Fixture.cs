@@ -132,7 +132,6 @@ namespace Unicoen.Languages.Python2.Tests {
 
 		private TestCaseData SetUpPyPy() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "PyPy");
-			var arcPath = Path.Combine(path, "src.tar.bz2");
 			Action<string> action = CompileAll;
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
@@ -141,7 +140,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			const string url =
 					"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2";
 			using (var stream = Downloader.GetStream(url)) {
-				Extractor.Untbz(stream, Path.GetDirectoryName(arcPath));
+				Extractor.Untbz(stream, path);
 			}
 			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\ctypes\test\test_unicode.py"));
 			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\lib-tk\test\test_ttk\test_functions.py"));

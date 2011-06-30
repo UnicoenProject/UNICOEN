@@ -119,12 +119,17 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				}
 						.Select(
 								o => {
-									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
-									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+									Action<string> action =
+											s => CompileWithArguments(s, o.Command, o.Arguments);
+									return
+											new TestCaseData(
+													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
-								.Concat(new [] {
+						.Concat(
+								new[] {
 										SetUpjQuery(),
-			});
+										SetUpjQueryMin(),
+								});
 			}
 		}
 
@@ -154,23 +159,35 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return jarPath;
 			Directory.CreateDirectory(path);
 			const string url = "ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip";
-			using (var stream = Downloader.GetStream(url)) {
-				Extractor.Unzip(stream, path);
-			}
+			var arcPath = Path.Combine(path, "temp.zip");
+			Downloader.Download(url, arcPath);
+			Extractor.Unzip(arcPath, path);
 			return jarPath;
 		}
 
 		private TestCaseData SetUpjQuery() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "jQuery1.6.1");
-			const string fileName = "jquery-1.6.1.js";
-			var srcPath = Path.Combine(path, fileName);
-			Action<string> action = workPath => Compile(workPath, fileName);
+			Action<string> action = CompileAll;
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path))
 				return testCase;
 			Directory.CreateDirectory(path);
 			Downloader.Download(
-					"http://code.jquery.com/jquery-1.6.1.js", srcPath);
+					"http://code.jquery.com/jquery-1.6.1.js",
+					Path.Combine(path, "jquery-1.6.1.js"));
+			return testCase;
+		}
+
+		private TestCaseData SetUpjQueryMin() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "jQuery1.6.1.min");
+			Action<string> action = _ => { };
+			var testCase = new TestCaseData(path, action);
+			if (Directory.Exists(path))
+				return testCase;
+			Directory.CreateDirectory(path);
+			Downloader.Download(
+					"http://code.jquery.com/jquery-1.6.1.min.js",
+					Path.Combine(path, "jquery-1.6.1.min.js"));
 			return testCase;
 		}
 	}
