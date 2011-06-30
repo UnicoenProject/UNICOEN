@@ -157,6 +157,11 @@ namespace Unicoen.Core.Model {
 					ToXmlRecursively(item, buffer, depth);
 				}
 			} else {
+				if(obj is IUnifiedElementCollection<UnifiedElement>) {
+					buffer.AppendLine("123123123123");
+					return;
+				}
+				// buffer.AppendLine("##");
 				XmlWriteTypeAndContent(obj, buffer, depth);
 			}
 		}
@@ -184,6 +189,8 @@ namespace Unicoen.Core.Model {
 
 		public string ToXml() {
 			var buffer = new StringBuilder();
+			const string header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+			buffer.AppendLine(header);
 			ToXmlRecursively(this, buffer, 0);
 			return buffer.ToString();
 		}

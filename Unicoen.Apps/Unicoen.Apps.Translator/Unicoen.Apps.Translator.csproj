@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Finder\Finder.cs" />
     <Compile Include="Rewriter\Rewriter.cs" />
-    <Compile Include="Sandbox\Travers.cs" />
+    <Compile Include="Sandbox\XMLArrange.cs" />
     <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
