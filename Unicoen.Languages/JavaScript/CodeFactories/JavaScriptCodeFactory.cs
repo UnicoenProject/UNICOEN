@@ -148,12 +148,15 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedLambda element, VisitorArgument arg) {
+			//λ式の場合、即時発火があり得るので全体を()で囲っておく
 			arg.WriteIndent();
+			arg.Write("(");
 			arg.Write("function");
 			arg.WriteSpace();
 			element.Name.TryAccept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
+			arg.Write(")");
 			return element.Body == null;
 		}
 
@@ -370,8 +373,15 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
-			//JavaScript
-			throw new NotImplementedException();
+			arg.Write(arg.Decoration.MostLeft);
+			var delimiter = "";
+			foreach (var e in element) {
+				arg.Write(delimiter);
+				e.TryAccept(this, arg);
+				delimiter = arg.Decoration.Delimiter;
+			}
+			arg.Write(arg.Decoration.MostRight);
+			return false;
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
@@ -381,7 +391,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 
 			// catch blocks
-			element.Catches.TryAccept(this, arg);
+			element.Catches.TryAccept(this, arg.Set(SemiColonDelimiter));
 
 			// finally block
 			var finallyBlock = element.FinallyBody;
@@ -511,6 +521,30 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedComment element, VisitorArgument arg) {
 			throw new NotImplementedException();
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedRegularExpressionLiteral element, VisitorArgument arg) {
+			arg.Write("/");
+			arg.Write(element.Value);
+			arg.Write("/");
+			arg.Write(element.Options);
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedArray element, VisitorArgument arg) {
+			//TODO 上からBracketが渡されるので、対策を考える
+			//とりあえず直接"[]"を代入で対処
+			arg.Write("[");
+			var comma = "";
+			foreach (var e in element) {
+				arg.Write(comma);
+				e.TryAccept(this, arg);
+				comma = ",";
+			}
+			arg.Write("]");
+			return false;
 		}
 			}
 }

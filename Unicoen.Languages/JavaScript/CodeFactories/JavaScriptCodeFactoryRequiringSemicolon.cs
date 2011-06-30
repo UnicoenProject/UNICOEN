@@ -26,7 +26,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			var parent = element.Parent;
 			if (parent is UnifiedUnaryExpression ||
 			    parent is UnifiedBinaryExpression ||
-			    parent is UnifiedTernaryExpression)
+			    parent is UnifiedTernaryExpression ||
+				parent is UnifiedProperty)
 				return Tuple.Create("(", ")");
 			return Tuple.Create("", "");
 		}
