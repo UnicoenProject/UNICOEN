@@ -109,13 +109,21 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(SemiColonDelimiter));
+			if(element.Parent.GetType() == typeof(UnifiedFor)) {
+				arg.Write("var ");
+				VisitCollection(element, arg.Set(CommaDelimiter));
+			} 
+			else {
+				VisitCollection(element, arg.Set(SemiColonDelimiter));
+			}
 			return true;
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedVariableDefinition element, VisitorArgument arg) {
-			arg.Write("var ");
+			//for文の場合、varは１つしか記述できないため、collection側でvarを出力済み
+			if(arg.Decoration.Delimiter != ", ")
+				arg.Write("var ");
 			element.Name.TryAccept(this, arg);
 			if (element.InitialValue != null) {
 				arg.Write(" = ");

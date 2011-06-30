@@ -490,7 +490,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var second = semicolons.ElementAt(1).NextElement();
 
 			var cond = first.Name() == "expression" ? CreateExpression(first) : null;
-			var step = second.Name() == "expression" ? CreateExpression(first) : null;
+			var step = second.Name() == "expression" ? CreateExpression(second) : null;
 			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 
 			return UnifiedFor.Create(init, cond, step, body);
@@ -1456,6 +1456,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 * RegularExpressionLiteral
 			 *	: '/' RegularExpressionFirstChar RegularExpressionChar* '/' IdentifierPart*
 			 */
+			// e.g. /abc/g -> value:abc, options:g
 			var value = node.Value;
 			var lastIndex = value.LastIndexOf('/');
 			return
