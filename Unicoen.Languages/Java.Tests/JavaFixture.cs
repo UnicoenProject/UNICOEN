@@ -180,7 +180,8 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private IEnumerable<TestCaseData> SetUpJdk() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "jdk");
-			Action<string> action = CompileAll;
+			// コンパイルできないのでなにもしない
+			Action<string> action = _ => { };
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path)) {
 				yield return testCase;
@@ -198,7 +199,7 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		private TestCaseData SetUpJenkins() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "jenkins-1.417");
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "jenkins-1.418");
 			Action<string> action = CompileAll;
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path)) {
