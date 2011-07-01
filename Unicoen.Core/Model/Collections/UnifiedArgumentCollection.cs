@@ -20,7 +20,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   実引数の集合を表します。
+	///   関数やメソッド呼び出しの実引数の集合を表します。
 	///   e.g. Javaにおける<c>method(1, 2);</c>の<c>(1, 2)</c>
 	/// </summary>
 	public class UnifiedArgumentCollection

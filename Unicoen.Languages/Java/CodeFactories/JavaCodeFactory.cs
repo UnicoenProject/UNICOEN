@@ -487,7 +487,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeArgument element, VisitorArgument arg) {
+				UnifiedGenericArgument element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
 			element.Value.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));

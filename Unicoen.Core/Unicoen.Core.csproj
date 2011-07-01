@@ -247,7 +247,7 @@
     <Compile Include="Model\UnifiedParameter.cs" />
     <Compile Include="Model\Collections\UnifiedParameterCollection.cs" />
     <Compile Include="Model\UnifiedProgram.cs" />
-    <Compile Include="Model\UnifiedTypeArgument.cs" />
+    <Compile Include="Model\UnifiedGenericArgument.cs" />
     <Compile Include="Model\Collections\UnifiedGenericArgumentCollection.cs" />
     <Compile Include="Model\UnifiedTypeParameter.cs" />
     <Compile Include="Processor\IUnifiedVisitor.cs" />

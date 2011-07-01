@@ -109,11 +109,11 @@
   <ItemGroup>
     <Compile Include="CFactory.cs" />
     <Compile Include="ModelFactories\CModelFactory.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForExpression.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Expression.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForLiteral.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForOperator.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForStatement.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Literal.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Operator.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Statement.cs" />
     <Compile Include="CodeFactories\CCodeFactory.cs" />
     <Compile Include="CodeFactories\CCodeFactoryForCollection.cs" />
     <Compile Include="CodeFactories\CCodeFactoryRequiringSemicolon.cs" />

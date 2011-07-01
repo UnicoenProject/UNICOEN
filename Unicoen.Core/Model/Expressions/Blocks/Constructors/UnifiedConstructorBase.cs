@@ -18,8 +18,7 @@
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   コンストラクタの定義部分を表します。
-	///   e.g. Javaにおける<c>class C{ C(){...} }</c>の<c>C(){...}</c>
+	///   コンストラクタの定義やに必要な機能を提供します．
 	/// </summary>
 	public abstract class UnifiedConstructorBase<TSelf>
 			: UnifiedExpressionBlock, IUnifiedCreatable<TSelf>

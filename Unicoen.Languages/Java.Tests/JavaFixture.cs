@@ -198,7 +198,7 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		private TestCaseData SetUpJenkins() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "jenkins-1.418");
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "jenkins-1.417");
 			Action<string> action = CompileAll;
 			var testCase = new TestCaseData(path, action);
 			if (Directory.Exists(path)) {

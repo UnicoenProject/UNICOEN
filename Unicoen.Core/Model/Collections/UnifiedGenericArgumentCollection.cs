@@ -20,13 +20,13 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   ジェネリックタイプにおける実引数の集合を表します。
+	///   ジェネリックタイプなどにおける型の実引数の集合を表します。
 	///   型パラメータに具体的な型を指定する際に利用します。
 	///   e.g. Javaにおける<c>HashMap&lt;Integer, String&gt; a;</c>の<c>&lt;Integer, String&gt;</c>
 	/// </summary>
 	public class UnifiedGenericArgumentCollection
 			: UnifiedElementCollection
-			  		<UnifiedTypeArgument, UnifiedGenericArgumentCollection> {
+			  		<UnifiedGenericArgument, UnifiedGenericArgumentCollection> {
 		protected UnifiedGenericArgumentCollection() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {

@@ -28,7 +28,7 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   条件式を表します
+		///   ループの継続の条件式を表します
 		///   e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
 		/// </summary>
 		public IUnifiedExpression Condition {

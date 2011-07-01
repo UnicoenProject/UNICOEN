@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
 		public abstract IUnifiedExpression NameExpression { get; set; }
 
-		public static UnifiedSimpleType Create(string name) {
+		public static UnifiedType Create(string name) {
 			// new[] の場合，NameExpressionがnullなUnifiedSimpleTypeを生成する．
 			return new UnifiedSimpleType {
 					NameExpression = name != null
@@ -32,7 +32,7 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public static UnifiedSimpleType Create(
+		public static UnifiedType Create(
 				IUnifiedExpression nameExpression = null) {
 			return new UnifiedSimpleType {
 					NameExpression = nameExpression,
@@ -48,14 +48,14 @@ namespace Unicoen.Core.Model {
 			return type;
 		}
 
-		public UnifiedArrayType WrapArray(UnifiedArgument argument = null) {
+		public UnifiedType WrapArray(UnifiedArgument argument = null) {
 			return new UnifiedArrayType {
 					Type = this,
 					Arguments = argument.ToCollection(),
 			};
 		}
 
-		public UnifiedArrayType WrapRectangleArray(int dimension) {
+		public UnifiedType WrapRectangleArray(int dimension) {
 			Contract.Requires(dimension >= 1);
 			return new UnifiedArrayType {
 					Type = this,
@@ -64,7 +64,7 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public UnifiedArrayType WrapRectangleArray(
+		public UnifiedType WrapRectangleArray(
 				UnifiedArgumentCollection arguments = null) {
 			return new UnifiedArrayType {
 					Type = this,
@@ -72,7 +72,7 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public UnifiedGenericType WrapGeneric(
+		public UnifiedType WrapGeneric(
 				UnifiedGenericArgumentCollection arguments = null) {
 			return new UnifiedGenericType {
 					Type = this,
@@ -80,37 +80,37 @@ namespace Unicoen.Core.Model {
 			};
 		}
 
-		public UnifiedPointerType WrapPointer() {
+		public UnifiedType WrapPointer() {
 			return new UnifiedPointerType {
 					Type = this,
 			};
 		}
 
-		public UnifiedReferenceType WrapReference() {
+		public UnifiedType WrapReference() {
 			return new UnifiedReferenceType {
 					Type = this,
 			};
 		}
 
-		public UnifiedConstType WrapConst() {
+		public UnifiedType WrapConst() {
 			return new UnifiedConstType {
 					Type = this,
 			};
 		}
 
-		public UnifiedVolatileType WrapVolatile() {
+		public UnifiedType WrapVolatile() {
 			return new UnifiedVolatileType {
 					Type = this,
 			};
 		}
 
-		public UnifiedUnionType WrapUnion() {
+		public UnifiedType WrapUnion() {
 			return new UnifiedUnionType {
 					Type = this,
 			};
 		}
 
-		public UnifiedStructType WrapStruct() {
+		public UnifiedType WrapStruct() {
 			return new UnifiedStructType {
 					Type = this,
 			};

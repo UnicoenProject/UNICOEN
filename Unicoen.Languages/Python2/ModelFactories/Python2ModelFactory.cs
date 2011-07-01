@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Linq;
 using Code2Xml.Languages.Python2.CodeToXmls;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;

@@ -20,7 +20,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   仮引数の集合を表します。
+	///   関数やメソッド呼び出しの仮引数の集合を表します。
 	///   e.g. Javaにおける<c>int method(int a, double b){....}</c>の<c>(int a, double b)</c>
 	/// </summary>
 	public class UnifiedParameterCollection

@@ -446,7 +446,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitForStatement(ForStatement forStmt, object data) {
 			Contract.Requires<ArgumentNullException>(forStmt != null);
-
+			// TODO: FirstOrDefaultで良いのか？ステートメントが複数ある場合は？
 			var initStmt = forStmt.Initializers
 					.Select(s => s.AcceptForExpression(this))
 					.FirstOrDefault();

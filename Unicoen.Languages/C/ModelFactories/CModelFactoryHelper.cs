@@ -35,13 +35,13 @@ namespace Unicoen.Languages.C.ModelFactories {
 			/*
 			 * translation_unit: external_declaration+ ;
 			 */
-			UnifiedProgram program = UnifiedProgram.Create();
-			IUnifiedElementCollection<IUnifiedExpression> expressions = program;
-			foreach (XElement e in node.Elements("external_declaration")) {
+			var programBody = UnifiedProgram.Create();
+			var expressions = programBody;
+			foreach (var e in node.Elements("external_declaration")) {
 				expressions.Add(CreateExternalDeclaration(e));
 			}
 
-			return program;
+			return programBody;
 		}
 
 		public static IUnifiedExpression CreateExternalDeclaration(XElement node) {
@@ -54,7 +54,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * | declaration
 			 * ;
 			 */
-			XElement first = node.FirstElement();
+			var first = node.FirstElement();
 			if (first.Name() == "function_definition") {
 				return CreateFunctionDefinition(first);
 			}

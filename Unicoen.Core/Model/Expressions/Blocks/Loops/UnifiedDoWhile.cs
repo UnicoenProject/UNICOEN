@@ -21,13 +21,13 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   do-while文を表します。
-	///   e.g. Javaにおける<c>do{...}while(cond)</c>
+	///   e.g. Javaにおける<c>do { ... } while(cond);</c>
 	/// </summary>
 	public class UnifiedDoWhile : UnifiedExpressionBlock {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   条件式を表します
+		///   ループの継続を判定する条件式を取得もしくは設定します．
 		///   e.g. Javaにおける<c>do{...}while(cond)</c>の<c>cond</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
@@ -37,13 +37,17 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedBlock _falseBody;
 
+		/// <summary>
+		/// 条件式が満たされない際に一度だけ実行されるブロックを取得もしくは設定します．
+		/// 今のところ該当する言語が存在しません．
+		/// </summary>
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
 			set { _falseBody = SetChild(value, _falseBody); }
 		}
 
 		/// <summary>
-		/// ブロックを取得します．
+		/// ループで実行されるブロックを取得します．
 		/// </summary>
 		public override UnifiedBlock Body {
 			get { return _body; }

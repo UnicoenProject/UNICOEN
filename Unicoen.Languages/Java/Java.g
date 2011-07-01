@@ -1148,9 +1148,8 @@ identifierSuffix
 
 
 selector  
-    :   '.' IDENTIFIER
-        (arguments
-        )?
+    :   '.' IDENTIFIER arguments?
+    |   '.' nonWildcardTypeArguments IDENTIFIER arguments // fix to support "obj.method().<Object>method2()"
     |   '.' 'this'
     |   '.' 'super'
         superSuffix
@@ -1426,6 +1425,7 @@ EscapeSequence
                  ('0'..'7') ('0'..'7') 
              |       
                  ('0'..'7')
+             |   'u' HexDigit HexDigit HexDigit HexDigit
              )          
 ;     
 

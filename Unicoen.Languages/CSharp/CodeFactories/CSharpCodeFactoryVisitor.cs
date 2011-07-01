@@ -266,7 +266,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			return true;
 		}
 
-		public bool Visit(UnifiedTypeArgument element, int arg) {
+		public bool Visit(UnifiedGenericArgument element, int arg) {
 			throw new NotImplementedException();
 		}
 

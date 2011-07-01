@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   ジェネリクスパラメータなど型に対する実引数を表します。
 	///   e.g. Javaにおける<c>HashMap&lt;String, Integer&gt; map;</c>の<c>&lt;String, Integer&gt;</c>
 	/// </summary>
-	public class UnifiedTypeArgument : UnifiedElement {
+	public class UnifiedGenericArgument : UnifiedElement {
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace Unicoen.Core.Model {
 			set { _constrains = SetChild(value, _constrains); }
 		}
 
-		private UnifiedTypeArgument() {}
+		private UnifiedGenericArgument() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -65,12 +65,12 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedTypeArgument Create(
+		public static UnifiedGenericArgument Create(
 				IUnifiedExpression type = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedTypeConstrainCollection
 						constrains = null) {
-			return new UnifiedTypeArgument {
+			return new UnifiedGenericArgument {
 					Value = type,
 					Modifiers = modifiers,
 					Constrains = constrains

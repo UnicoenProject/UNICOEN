@@ -38,7 +38,7 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   実行条件を表します
+		///   ループの継続の条件式を表します
 		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
 		/// </summary>
 		public IUnifiedExpression Condition {

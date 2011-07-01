@@ -117,7 +117,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTypeArgument element) {
+		void IUnifiedVisitor.Visit(UnifiedGenericArgument element) {
 			throw new NotImplementedException();
 		}
 
@@ -585,7 +585,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTypeArgument element, TArg arg) {
+		void IUnifiedVisitor<TArg>.Visit(UnifiedGenericArgument element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1076,7 +1076,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeArgument element, TArg arg) {
+				UnifiedGenericArgument element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

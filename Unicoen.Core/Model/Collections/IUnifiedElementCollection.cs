@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   集合としての操作を備えている共通表現の要素を表します．
+	///   集合としての操作を備えている共通表現オブジェクトを表します．
 	/// </summary>
 	/// <typeparam name = "TElement"></typeparam>
 	public interface IUnifiedElementCollection<TElement>

@@ -152,12 +152,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedGenericArgumentCollection ToCollection(
-				this IEnumerable<UnifiedTypeArgument> collection) {
+				this IEnumerable<UnifiedGenericArgument> collection) {
 			return UnifiedGenericArgumentCollection.Create(collection);
 		}
 
 		public static UnifiedGenericArgumentCollection ToCollection(
-				this UnifiedTypeArgument singleton) {
+				this UnifiedGenericArgument singleton) {
 			return UnifiedGenericArgumentCollection.Create(singleton);
 		}
 

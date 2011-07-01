@@ -44,7 +44,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
 		void Visit(UnifiedIndexer element);
-		void Visit(UnifiedTypeArgument element);
+		void Visit(UnifiedGenericArgument element);
 		void Visit(UnifiedGenericArgumentCollection element);
 		void Visit(UnifiedSwitch element);
 		void Visit(UnifiedCaseCollection element);
@@ -163,7 +163,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedWhile element, TArg arg);
 		void Visit(UnifiedDoWhile element, TArg arg);
 		void Visit(UnifiedIndexer element, TArg arg);
-		void Visit(UnifiedTypeArgument element, TArg arg);
+		void Visit(UnifiedGenericArgument element, TArg arg);
 		void Visit(UnifiedGenericArgumentCollection element, TArg arg);
 		void Visit(UnifiedSwitch element, TArg arg);
 		void Visit(UnifiedCaseCollection element, TArg arg);
@@ -282,7 +282,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedWhile element, TArg arg);
 		TResult Visit(UnifiedDoWhile element, TArg arg);
 		TResult Visit(UnifiedIndexer element, TArg arg);
-		TResult Visit(UnifiedTypeArgument element, TArg arg);
+		TResult Visit(UnifiedGenericArgument element, TArg arg);
 		TResult Visit(UnifiedGenericArgumentCollection element, TArg arg);
 		TResult Visit(UnifiedSwitch element, TArg arg);
 		TResult Visit(UnifiedCaseCollection element, TArg arg);
