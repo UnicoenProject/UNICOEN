@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Unicoen.WebApps.Demo")]
+[assembly: AssemblyTitle("Unicoen.WebApps.Metrics")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Unicoen.WebApps.Demo")]
+[assembly: AssemblyProduct("Unicoen.WebApps.Metrics")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b5fea799-d8d5-4ee6-9e2d-1312634b3877")]
+[assembly: Guid("cb47d9c0-a643-4b32-aa1f-f4e4a26a7d6f")]
 
 // Version information for an assembly consists of the following four values:
 //

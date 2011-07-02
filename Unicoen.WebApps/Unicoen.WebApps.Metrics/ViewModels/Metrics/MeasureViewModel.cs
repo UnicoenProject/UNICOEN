@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Unicoen.WebApps.Demo.ViewModels.Metrics {
+namespace Unicoen.WebApps.Metrics.ViewModels.Metrics {
 	public class MeasureResult {
 		public string Name { get; set; }
 		public Dictionary<string, int> Values { get; set; }

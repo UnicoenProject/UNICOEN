@@ -121,11 +121,8 @@ namespace Unicoen.Languages.Java.Tests {
 											new TestCaseData(
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
-						.Concat(
-								new[] {
-										SetUpJUnit(),
-										SetUpJenkins(),
-								});
+						.Concat(SetUpJUnit())
+						.Concat(SetUpJenkins());
 			}
 		}
 
@@ -146,72 +143,51 @@ namespace Unicoen.Languages.Java.Tests {
 			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
-		private TestCaseData SetUpJUnit() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "JUnit4.8.2");
-			var srcDirPath = Path.Combine(path, "src");
-			var depPath = Path.Combine(path, "junit4.8.2", "temp.hamcrest.source");
-			Action<string> action = workPath => {
-				foreach (var srcPath in GetAllSourceFilePaths(workPath)) {
-					var args = new[] {
-							"-cp",
-							".;\"" + depPath + "\"",
-							"\"" + srcPath + "\"",
-					};
-					CompileWithArguments(workPath, CompileCommand, args.JoinString(" "));
-				}
-			};
-			var testCase = new TestCaseData(srcDirPath, action);
-			if (Directory.Exists(path))
-				return testCase;
-			Directory.CreateDirectory(path);
-			const string url =
-					"https://github.com/downloads/KentBeck/junit/junit4.8.2.zip";
-			{
-				var arcPath = Path.Combine(path, "temp.zip");
-				Downloader.Download(url, arcPath);
-				Extractor.Unzip(arcPath, path);
-			}
-			{
-				var arcPath = Path.Combine(path, "junit4.8.2", "junit-4.8.2-src.jar");
-				Extractor.Unzip(arcPath, srcDirPath);
-			}
-			return testCase;
+		private IEnumerable<TestCaseData> SetUpJUnit() {
+			const string srcDirName = "src";
+			var depPath = "";
+			return SetUpTestCaseData(
+					"jdk",
+					path => {
+						depPath = Path.Combine(path, "junit4.8.2", "temp.hamcrest.source");
+						DownloadAndUnzip(
+								"https://github.com/downloads/KentBeck/junit/junit4.8.2.zip", path);
+						var srcDirPath = Path.Combine(path, srcDirName);
+						var arcPath = Path.Combine(path, "junit4.8.2", "junit-4.8.2-src.jar");
+						Extractor.Unzip(arcPath, srcDirPath);
+					},
+					workPath => {
+						workPath = Path.Combine(workPath, srcDirName);
+						foreach (var srcPath in GetAllSourceFilePaths(workPath)) {
+							var args = new[] {
+									"-cp",
+									".;\"" + depPath + "\"",
+									"\"" + srcPath + "\"",
+							};
+							CompileWithArguments(workPath, CompileCommand, args.JoinString(" "));
+						}
+					});
 		}
 
 		private IEnumerable<TestCaseData> SetUpJdk() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "jdk");
-			// コンパイルできないのでなにもしない
-			Action<string> action = _ => { };
-			var testCase = new TestCaseData(path, action);
-			if (Directory.Exists(path)) {
-				yield return testCase;
-				yield break;
-			}
-			var jdkPath = Directory.GetDirectories(@"C:\Program Files\Java\")
-					.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk"));
-			if (jdkPath == null) {
-				yield break;
-			}
-			var arcPath = Path.Combine(jdkPath, "src.zip");
-			Directory.CreateDirectory(path);
-			Extractor.Unzip(arcPath, path);
-			yield return testCase;
+			return SetUpTestCaseData("jdk", path => {
+				var jdkPath = Directory.GetDirectories(@"C:\Program Files\Java\")
+						.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk"));
+				if (jdkPath == null)
+					return false;
+				var arcPath = Path.Combine(jdkPath, "src.zip");
+				Extractor.Unzip(arcPath, path);
+				return true;
+			}, null);
 		}
 
-		private TestCaseData SetUpJenkins() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "jenkins-1.418");
-			Action<string> action = CompileAll;
-			var testCase = new TestCaseData(path, action);
-			if (Directory.Exists(path)) {
-				return testCase;
-			}
-			Directory.CreateDirectory(path);
-			const string url =
-					"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.418";
-			var arcPath = Path.Combine(path, "temp.zip");
-			Downloader.Download(url, arcPath);
-			Extractor.Unzip(arcPath, path);
-			return testCase;
+		private IEnumerable<TestCaseData> SetUpJenkins() {
+			return SetUpTestCaseData(
+					"jenkins-1.418",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.418", path),
+					CompileAll);
 		}
 	}
 }

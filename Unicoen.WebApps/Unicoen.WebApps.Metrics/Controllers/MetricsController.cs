@@ -21,11 +21,11 @@ using System.IO;
 using System.Web.Mvc;
 using Unicoen.Applications.Metrics.Cores;
 using Unicoen.Applications.Metrics.Utils;
-using Unicoen.Languages.Tests;
+using Unicoen.Core.Model;
 using Unicoen.Utils;
-using Unicoen.WebApps.Demo.ViewModels.Metrics;
+using Unicoen.WebApps.Metrics.ViewModels.Metrics;
 
-namespace Unicoen.WebApps.Demo.Controllers {
+namespace Unicoen.WebApps.Metrics.Controllers {
 	public partial class MetricsController : Controller {
 		//
 		// GET: /Metrics/
@@ -54,7 +54,7 @@ namespace Unicoen.WebApps.Demo.Controllers {
 			Extractor.Unzip(outPath);
 
 			var targetPaths = Directory.EnumerateFiles(
-					outPath, "*", SearchOption.AllDirectories);
+					outDirPath, "*", SearchOption.AllDirectories);
 			model.Results = CreateMeasureResult(targetPaths);
 			return View(model);
 		}

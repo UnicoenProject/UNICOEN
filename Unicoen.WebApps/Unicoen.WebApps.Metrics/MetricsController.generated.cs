@@ -20,7 +20,7 @@ using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using T4MVC;
-namespace Unicoen.WebApps.Demo.Controllers {
+namespace Unicoen.WebApps.Metrics.Controllers {
 	public partial class MetricsController {
 		[GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 		public MetricsController() { }
@@ -68,7 +68,7 @@ namespace Unicoen.WebApps.Demo.Controllers {
 	}
 
 	[GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-	public class T4MVC_MetricsController: Unicoen.WebApps.Demo.Controllers.MetricsController {
+	public class T4MVC_MetricsController: Unicoen.WebApps.Metrics.Controllers.MetricsController {
 		public T4MVC_MetricsController() : base(Dummy.Instance) { }
 
 		public override System.Web.Mvc.ActionResult Index() {
@@ -76,7 +76,7 @@ namespace Unicoen.WebApps.Demo.Controllers {
 			return callInfo;
 		}
 
-		public override System.Web.Mvc.ActionResult Measure(Unicoen.WebApps.Demo.ViewModels.Metrics.MeasureViewModel model) {
+		public override System.Web.Mvc.ActionResult Measure(Unicoen.WebApps.Metrics.ViewModels.Metrics.MeasureViewModel model) {
 			var callInfo = new T4MVC_ActionResult(Area, Name, ActionNames.Measure);
 			callInfo.RouteValueDictionary.AddOrAddValues("model", model);
 			return callInfo;

@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Unicoen.WebApps.Demo.MvcApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Unicoen.WebApps.Metrics.MvcApplication" Language="C#" %>

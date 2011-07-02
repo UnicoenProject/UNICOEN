@@ -24,6 +24,8 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.Processor;
+using Unicoen.Core.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.Tests {
 	public abstract class Fixture {
@@ -101,7 +103,7 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   指定したディレクトリ内の全てのソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name="workPath">ソースコードが格納されている作業ディレクトリのパス</param>
+		/// <param name = "workPath">ソースコードが格納されている作業ディレクトリのパス</param>
 		public virtual void CompileAll(string workPath) {
 			var filePaths = GetAllSourceFilePaths(workPath);
 			foreach (var filePath in filePaths) {
@@ -169,6 +171,45 @@ namespace Unicoen.Languages.Tests {
 					dirPath, "*" + CompiledExtension,
 					SearchOption.AllDirectories)
 					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)));
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Func<string, bool> deploySource) {
+			return SetUpTestCaseData(dirName, deploySource, null);
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Action<string> deploySource) {
+			return SetUpTestCaseData(dirName, deploySource, null);
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Action<string> deploySource, Action<string> compileAction) {
+			return SetUpTestCaseData(
+					dirName, path => {
+						deploySource(path);
+						return true;
+					}, compileAction);
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Func<string, bool> deploySource,
+				Action<string> compileAction) {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
+			var testCase = new TestCaseData(path, compileAction ?? (_ => { }));
+			if (Directory.Exists(path)) {
+				yield return testCase;
+				yield break;
+			}
+			Directory.CreateDirectory(path);
+			if (deploySource(path))
+				yield return testCase;
+		}
+
+		protected void DownloadAndUnzip(string url, string path) {
+			var arcPath = Path.Combine(path, "temp.zip");
+			Downloader.Download(url, arcPath);
+			Extractor.Unzip(arcPath, path);
 		}
 	}
 }

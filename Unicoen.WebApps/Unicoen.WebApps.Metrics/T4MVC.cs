@@ -23,7 +23,7 @@ using T4MVC;
 
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
 public static class MVC {
-	public static Unicoen.WebApps.Demo.Controllers.MetricsController Metrics = new Unicoen.WebApps.Demo.Controllers.T4MVC_MetricsController();
+	public static Unicoen.WebApps.Metrics.Controllers.MetricsController Metrics = new Unicoen.WebApps.Metrics.Controllers.T4MVC_MetricsController();
 	public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
 

@@ -125,11 +125,15 @@ namespace Unicoen.Languages.JavaScript.Tests {
 											new TestCaseData(
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
-						.Concat(
-								new[] {
-										SetUpjQuery(),
-										SetUpjQueryMin(),
-								});
+						.Concat(SetUpjQuery())
+						.Concat(SetUpjQueryMin())
+						.Concat(SetUpProcessing_js())
+						.Concat(SetUpProcessing_jsApi())
+						.Concat(SetUpProcessing_jsApiMin())
+						.Concat(SetUpProcessing_jsMin())
+						.Concat(SetUpDojo())
+						.Concat(SetUpDojoMin())
+						;
 			}
 		}
 
@@ -158,37 +162,80 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			if (Directory.Exists(path))
 				return jarPath;
 			Directory.CreateDirectory(path);
-			const string url = "ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip";
-			var arcPath = Path.Combine(path, "temp.zip");
-			Downloader.Download(url, arcPath);
-			Extractor.Unzip(arcPath, path);
+			DownloadAndUnzip(
+					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", path);
 			return jarPath;
 		}
 
-		private TestCaseData SetUpjQuery() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "jQuery1.6.1");
-			Action<string> action = CompileAll;
-			var testCase = new TestCaseData(path, action);
-			if (Directory.Exists(path))
-				return testCase;
-			Directory.CreateDirectory(path);
-			Downloader.Download(
-					"http://code.jquery.com/jquery-1.6.1.js",
-					Path.Combine(path, "jquery-1.6.1.js"));
-			return testCase;
+		private IEnumerable<TestCaseData> SetUpjQuery() {
+			return SetUpTestCaseData(
+					"jQuery1.6.1",
+					path => Downloader.Download(
+							"http://code.jquery.com/jquery-1.6.1.js",
+							Path.Combine(path, "src.js")), CompileAll);
 		}
 
-		private TestCaseData SetUpjQueryMin() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "jQuery1.6.1.min");
-			Action<string> action = _ => { };
-			var testCase = new TestCaseData(path, action);
-			if (Directory.Exists(path))
-				return testCase;
-			Directory.CreateDirectory(path);
-			Downloader.Download(
-					"http://code.jquery.com/jquery-1.6.1.min.js",
-					Path.Combine(path, "jquery-1.6.1.min.js"));
-			return testCase;
+		private IEnumerable<TestCaseData> SetUpjQueryMin() {
+			return SetUpTestCaseData(
+					"jQuery1.6.1.min",
+					path => Downloader.Download(
+							"http://code.jquery.com/jquery-1.6.1.min.js",
+							Path.Combine(path, "src.js"))
+					);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_js() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_jsMin() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1-min",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1.min.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_jsApi() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1-api",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1-api.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_jsApiMin() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1-api.min",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1-api.min.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpDojo() {
+			return SetUpTestCaseData(
+					"dojo",
+					path => Downloader.Download(
+							"http://download.dojotoolkit.org/release-1.6.1/dojo.js.uncompressed.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpDojoMin() {
+			return SetUpTestCaseData(
+					"dojo.min",
+					path => Downloader.Download(
+							"http://download.dojotoolkit.org/release-1.6.1/dojo.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
 		}
 	}
 }
