@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Unicoen.Core.Model;
 
@@ -91,25 +92,23 @@ namespace Unicoen.Core.Model {
 
 
 		#region Utility methods for ToXML()
-		
+
+		private static readonly string[] XmlIgnorePropertyNames =
+				new[] { "Parent", "PropertyInfos", "FieldInfos", "Count", "IsReadOnly" };
+
 		private static void PrintTabs(int depth, StringBuilder buffer) {
-			for(int i = 0; i < depth; i++) {
+			for (int i = 0; i < depth; i++) {
 				buffer.Append("\t");
 			}
 		}
-		
+
 		private static void XmlWrite(
 				object obj, string content, StringBuilder buffer, int depth) {
 			if (obj != null) {
-//				PrintTabs(depth, buffer);	
-				// buffer.AppendLine("<" + obj.GetType().Name + ">");
 				if (!content.Equals("")) {
 					PrintTabs(1, buffer);
 					buffer.AppendLine(content);
 				}
-			} else {
-//				buffer.Append("null: ");
-//				buffer.AppendLine(content);
 			}
 		}
 
@@ -136,7 +135,7 @@ namespace Unicoen.Core.Model {
 
 			// write properties without indexer
 			var values = elem.GetType().GetProperties()
-					.Where(prop => !IgnorePropertyNames.Contains(prop.Name))
+					.Where(prop => !XmlIgnorePropertyNames.Contains(prop.Name))
 					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Select(prop => prop.GetValue(elem, null));
 			foreach (var value in values) {
@@ -146,8 +145,6 @@ namespace Unicoen.Core.Model {
 
 		private static void XmlWriteNonUnifiedElement(
 				object obj, StringBuilder buffer, int depth) {
-			
-			
 			PrintTabs(depth, buffer);
 
 			var seq = obj as IEnumerable;
@@ -157,35 +154,28 @@ namespace Unicoen.Core.Model {
 					ToXmlRecursively(item, buffer, depth);
 				}
 			} else {
-				if(obj is IUnifiedElementCollection<UnifiedElement>) {
-					buffer.AppendLine("123123123123");
-					return;
-				}
-				// buffer.AppendLine("##");
 				XmlWriteTypeAndContent(obj, buffer, depth);
 			}
 		}
 
 		private static void ToXmlRecursively(
 				object obj, StringBuilder buffer, int depth) {
-			if(obj == null) {
-				return;
+			if (obj != null) {
+				var nodeName = obj.GetType().Name;
+				PrintTabs(depth, buffer);
+				buffer.AppendLine("<" + nodeName + ">");
+
+				var elem = obj as UnifiedElement;
+				if (elem != null) {
+					XmlWriteUnifiedElement(elem, buffer, depth);
+				} else {
+					XmlWriteNonUnifiedElement(obj, buffer, depth);
+				}
+
+				PrintTabs(depth, buffer);
+				buffer.AppendLine("</" + nodeName + ">");
 			}
-
-			var nodeName = obj.GetType().Name;
-			PrintTabs(depth, buffer);
-			buffer.AppendLine("<" + nodeName + ">");
-
-			var elem = obj as UnifiedElement;
-			if (elem != null) {
-				XmlWriteUnifiedElement(elem, buffer, depth);
-			} else {
-				XmlWriteNonUnifiedElement(obj, buffer, depth);
-			}
-
-			PrintTabs(depth, buffer);
-			buffer.AppendLine("</" + nodeName + ">");
-}
+		}
 
 		public string ToXml() {
 			var buffer = new StringBuilder();

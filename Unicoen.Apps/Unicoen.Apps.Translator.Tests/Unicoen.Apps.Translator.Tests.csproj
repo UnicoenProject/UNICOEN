@@ -58,6 +58,7 @@
     <Compile Include="TestForFinder.cs" />
     <Compile Include="TestForRewriter.cs" />
     <Compile Include="TestForXmlGenerating.cs" />
+    <Compile Include="TestForXMLGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicoen.Apps.Translator\Unicoen.Apps.Translator.csproj">
