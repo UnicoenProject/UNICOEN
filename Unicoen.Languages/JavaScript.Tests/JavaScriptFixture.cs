@@ -119,8 +119,8 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				}
 						.Select(
 								o => {
-									Action<string> action =
-											s => CompileWithArguments(s, o.Command, o.Arguments);
+									Action<string, string> action =
+											(s1, s2) => CompileWithArguments(s1, o.Command, o.Arguments);
 									return
 											new TestCaseData(
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
@@ -132,8 +132,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						.Concat(SetUpProcessing_jsApiMin())
 						.Concat(SetUpProcessing_jsMin())
 						.Concat(SetUpDojo())
-						.Concat(SetUpDojoMin())
-						;
+						.Concat(SetUpDojoMin());
 			}
 		}
 

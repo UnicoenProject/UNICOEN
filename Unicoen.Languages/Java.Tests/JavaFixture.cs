@@ -32,7 +32,13 @@ namespace Unicoen.Languages.Java.Tests {
 	///   テストに必要なデータを提供します．
 	/// </summary>
 	public class JavaFixture : Fixture {
+		private readonly string _mavenCommand;
+		private const string MavenArg = "package";
 		private const string CompileCommand = "javac";
+
+		public JavaFixture() {
+			_mavenCommand = SetUpMaven3();
+		}
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
@@ -115,14 +121,18 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => {
-									Action<string> action =
-											s => CompileWithArguments(s, o.Command, o.Arguments);
+									Action<string, string> action =
+											(s1, s2) => CompileWithArguments(s1, o.Command, o.Arguments);
 									return
 											new TestCaseData(
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
-						.Concat(SetUpJUnit())
-						.Concat(SetUpJenkins());
+						//.Concat(SetUpJUnit())
+						//.Concat(SetUpJenkins())
+						.Concat(SetUpHudson())
+						//.Concat(SetUpCraftBukkit())
+						//.Concat(SetUpBukkit())
+						;
 			}
 		}
 
@@ -143,21 +153,32 @@ namespace Unicoen.Languages.Java.Tests {
 			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
+		private string SetUpMaven3() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "Maven3");
+			var exePath = Path.Combine(path, "apache-maven-3.0.3", "bin", "mvn.bat");
+			if (Directory.Exists(path))
+				return exePath;
+			Directory.CreateDirectory(path);
+			DownloadAndUntgz(
+					"http://www.meisei-u.ac.jp/mirror/apache/dist//maven/binaries/apache-maven-3.0.3-bin.tar.gz", path);
+			return exePath;
+		}
+
+
 		private IEnumerable<TestCaseData> SetUpJUnit() {
 			const string srcDirName = "src";
-			var depPath = "";
 			return SetUpTestCaseData(
-					"jdk",
+					"junit4.8.2",
 					path => {
-						depPath = Path.Combine(path, "junit4.8.2", "temp.hamcrest.source");
 						DownloadAndUnzip(
 								"https://github.com/downloads/KentBeck/junit/junit4.8.2.zip", path);
 						var srcDirPath = Path.Combine(path, srcDirName);
 						var arcPath = Path.Combine(path, "junit4.8.2", "junit-4.8.2-src.jar");
 						Extractor.Unzip(arcPath, srcDirPath);
 					},
-					workPath => {
+					(workPath, inPath) => {
 						workPath = Path.Combine(workPath, srcDirName);
+						var depPath = Path.Combine(inPath, "junit4.8.2", "temp.hamcrest.source");
 						foreach (var srcPath in GetAllSourceFilePaths(workPath)) {
 							var args = new[] {
 									"-cp",
@@ -169,16 +190,50 @@ namespace Unicoen.Languages.Java.Tests {
 					});
 		}
 
+		private void CompileMaven(string workPath) {
+			var pomPath = Directory.EnumerateFiles(workPath, "pom.xml", SearchOption.AllDirectories).First();
+			workPath = Path.GetDirectoryName(pomPath);
+			CompileWithArguments(workPath, _mavenCommand, MavenArg);
+		}
+
 		private IEnumerable<TestCaseData> SetUpJdk() {
-			return SetUpTestCaseData("jdk", path => {
-				var jdkPath = Directory.GetDirectories(@"C:\Program Files\Java\")
-						.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk"));
-				if (jdkPath == null)
-					return false;
-				var arcPath = Path.Combine(jdkPath, "src.zip");
-				Extractor.Unzip(arcPath, path);
-				return true;
-			}, null);
+			return SetUpTestCaseData(
+					"jdk", path => {
+						var jdkPath = Directory.GetDirectories(@"C:\Program Files\Java\")
+								.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk"));
+						if (jdkPath == null)
+							return false;
+						var arcPath = Path.Combine(jdkPath, "src.zip");
+						Extractor.Unzip(arcPath, path);
+						return true;
+					});
+		}
+
+		private IEnumerable<TestCaseData> SetUpHudson() {
+			return SetUpTestCaseData(
+					"hudson-1.386",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/kohsuke/hudson/zipball/1.386", path),
+					CompileMaven);
+		}
+
+		private IEnumerable<TestCaseData> SetUpCraftBukkit() {
+			return SetUpTestCaseData(
+					"CraftBukkit",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/Bukkit/CraftBukkit/zipball/master", path),
+					CompileMaven);
+		}
+
+		private IEnumerable<TestCaseData> SetUpBukkit() {
+			return SetUpTestCaseData(
+					"Bukkit",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/Bukkit/Bukkit/zipball/master", path),
+					CompileMaven);
 		}
 
 		private IEnumerable<TestCaseData> SetUpJenkins() {
@@ -186,8 +241,7 @@ namespace Unicoen.Languages.Java.Tests {
 					"jenkins-1.418",
 					path =>
 					DownloadAndUnzip(
-							"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.418", path),
-					CompileAll);
+							"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.418", path));
 		}
 	}
 }

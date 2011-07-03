@@ -57,7 +57,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// <param name = "compileAction">使用しません</param>
 		[Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyCodeObjectFeatureUsingProject(
-				string dirPath, Action<string> compileAction) {
+				string dirPath, Action<string, string> compileAction) {
 			Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);
 		}
 
@@ -109,7 +109,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// <param name = "compileAction">コンパイル処理</param>
 		[Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyRegenerateCodeUsingProject(
-				string dirPath, Action<string> compileAction) {
+				string dirPath, Action<string, string> compileAction) {
 			Test.VerifyRegenerateCodeUsingProject(dirPath, compileAction);
 		}
 	}

@@ -175,16 +175,27 @@ namespace Unicoen.Languages.Tests {
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName, Func<string, bool> deploySource) {
-			return SetUpTestCaseData(dirName, deploySource, null);
+			return SetUpTestCaseData(dirName, deploySource, (s1, s2) => { });
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName, Action<string> deploySource) {
-			return SetUpTestCaseData(dirName, deploySource, null);
+			return SetUpTestCaseData(dirName, deploySource, (s1, s2) => { });
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
-				string dirName, Action<string> deploySource, Action<string> compileAction) {
+				string dirName, Action<string> deploySource,
+				Action<string> compileAction) {
+			return SetUpTestCaseData(
+					dirName, path => {
+						deploySource(path);
+						return true;
+					}, (workPath, inPath) => compileAction(workPath));
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Action<string> deploySource,
+				Action<string, string> compileAction) {
 			return SetUpTestCaseData(
 					dirName, path => {
 						deploySource(path);
@@ -195,8 +206,16 @@ namespace Unicoen.Languages.Tests {
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName, Func<string, bool> deploySource,
 				Action<string> compileAction) {
+			return SetUpTestCaseData(
+					dirName, deploySource,
+					(workPath, inPath) => compileAction(workPath));
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Func<string, bool> deploySource,
+				Action<string, string> compileAction) {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
-			var testCase = new TestCaseData(path, compileAction ?? (_ => { }));
+			var testCase = new TestCaseData(path, compileAction);
 			if (Directory.Exists(path)) {
 				yield return testCase;
 				yield break;
@@ -210,6 +229,12 @@ namespace Unicoen.Languages.Tests {
 			var arcPath = Path.Combine(path, "temp.zip");
 			Downloader.Download(url, arcPath);
 			Extractor.Unzip(arcPath, path);
+		}
+
+		protected void DownloadAndUntgz(string url, string path) {
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Untgz(stream, path);
+			}
 		}
 	}
 }
