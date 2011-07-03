@@ -546,5 +546,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.Write("]");
 			return false;
 		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedSimpleType element, VisitorArgument arg) {
+			//e.g. new new r().f
+			//TODO ただし、言語変換を考えると型を出力してほしくないので、対応を考える
+			element.NameExpression.TryAccept(this, arg);
+			return false;
+		}
 			}
 }

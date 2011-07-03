@@ -91,7 +91,6 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return new[] {
 						"fibonacci",
 						"student",
-						"processing",
 				}
 						.Select(
 								s =>

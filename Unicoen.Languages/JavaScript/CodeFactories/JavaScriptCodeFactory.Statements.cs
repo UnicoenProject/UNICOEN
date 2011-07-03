@@ -25,10 +25,17 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedUnaryExpression ||
-			    parent is UnifiedBinaryExpression ||
 			    parent is UnifiedTernaryExpression ||
 				parent is UnifiedProperty)
 				return Tuple.Create("(", ")");
+
+			var b1 = element as UnifiedBinaryExpression;
+			var b2 = parent as UnifiedBinaryExpression;
+			if(b1 != null && b2 !=  null) {
+				return b1.Operator.Sign == b2.Operator.Sign 
+					? Tuple.Create("", "") : Tuple.Create("(", ")");
+			}
+
 			return Tuple.Create("", "");
 		}
 
