@@ -33,8 +33,8 @@ namespace Unicoen.Core.Model {
 	public abstract class UnifiedElementCollection<TElement, TSelf>
 			: UnifiedElement, IUnifiedCreatable<TSelf>,
 			  IUnifiedElementCollection<TElement>
-			where TElement : class, IUnifiedElement
-			where TSelf : UnifiedElementCollection<TElement, TSelf> {
+		where TElement : class, IUnifiedElement
+		where TSelf : UnifiedElementCollection<TElement, TSelf> {
 		protected List<TElement> Elements;
 
 		protected UnifiedElementCollection() {
@@ -395,5 +395,6 @@ namespace Unicoen.Core.Model {
 		}
 
 		#endregion
-			}
+
+	}
 }
