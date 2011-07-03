@@ -127,11 +127,10 @@ namespace Unicoen.Languages.Java.Tests {
 											new TestCaseData(
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
-						//.Concat(SetUpJUnit())
-						//.Concat(SetUpJenkins())
-						.Concat(SetUpHudson())
-						//.Concat(SetUpCraftBukkit())
-						//.Concat(SetUpBukkit())
+						.Concat(SetUpJUnit())
+						.Concat(SetUpJenkins())
+						.Concat(SetUpCraftBukkit())
+						.Concat(SetUpBukkit())
 						;
 			}
 		}
@@ -160,10 +159,10 @@ namespace Unicoen.Languages.Java.Tests {
 				return exePath;
 			Directory.CreateDirectory(path);
 			DownloadAndUntgz(
-					"http://www.meisei-u.ac.jp/mirror/apache/dist//maven/binaries/apache-maven-3.0.3-bin.tar.gz", path);
+					"http://www.meisei-u.ac.jp/mirror/apache/dist//maven/binaries/apache-maven-3.0.3-bin.tar.gz",
+					path);
 			return exePath;
 		}
-
 
 		private IEnumerable<TestCaseData> SetUpJUnit() {
 			const string srcDirName = "src";
@@ -191,7 +190,9 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		private void CompileMaven(string workPath) {
-			var pomPath = Directory.EnumerateFiles(workPath, "pom.xml", SearchOption.AllDirectories).First();
+			var pomPath =
+					Directory.EnumerateFiles(workPath, "pom.xml", SearchOption.AllDirectories).
+							First();
 			workPath = Path.GetDirectoryName(pomPath);
 			CompileWithArguments(workPath, _mavenCommand, MavenArg);
 		}
@@ -207,15 +208,6 @@ namespace Unicoen.Languages.Java.Tests {
 						Extractor.Unzip(arcPath, path);
 						return true;
 					});
-		}
-
-		private IEnumerable<TestCaseData> SetUpHudson() {
-			return SetUpTestCaseData(
-					"hudson-1.386",
-					path =>
-					DownloadAndUnzip(
-							"https://github.com/kohsuke/hudson/zipball/1.386", path),
-					CompileMaven);
 		}
 
 		private IEnumerable<TestCaseData> SetUpCraftBukkit() {
