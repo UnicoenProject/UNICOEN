@@ -10,12 +10,8 @@ namespace Unicoen.Apps.Translator.Tests {
 	public class TestForXMLGenerator {
 		[Test]
 		public void XMLを正しく出力できる() {
-<<<<<<< HEAD
 			var fileName = "Hello.java";
 			var input = FixtureUtil.GetInputPath("Java", "default", fileName);
-=======
-			var input = FixtureUtil.GetInputPath("JavaScript",  "hello.js");
->>>>>>> develop
 			Console.WriteLine(input);
 			var output = @"c:\";
 
