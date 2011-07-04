@@ -1516,13 +1516,13 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				kind = UnifiedUnaryOperatorKind.Not;
 				break;
 			case "delete":
-				kind = UnifiedUnaryOperatorKind.Unknown;
+				kind = UnifiedUnaryOperatorKind.Delete;
 				break;
 			case "void":
-				kind = UnifiedUnaryOperatorKind.Unknown;
+				kind = UnifiedUnaryOperatorKind.Void;
 				break;
 			case "typeof":
-				kind = UnifiedUnaryOperatorKind.Unknown;
+				kind = UnifiedUnaryOperatorKind.Typeof;
 				break;
 			default:
 				throw new InvalidOperationException();

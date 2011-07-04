@@ -10,8 +10,12 @@ namespace Unicoen.Apps.Translator.Tests {
 	public class TestForXMLGenerator {
 		[Test]
 		public void XMLを正しく出力できる() {
+<<<<<<< HEAD
 			var fileName = "Hello.java";
 			var input = FixtureUtil.GetInputPath("Java", "default", fileName);
+=======
+			var input = FixtureUtil.GetInputPath("JavaScript",  "hello.js");
+>>>>>>> develop
 			Console.WriteLine(input);
 			var output = @"c:\";
 
@@ -24,5 +28,21 @@ namespace Unicoen.Apps.Translator.Tests {
 				Assert.False(true);
 			}
 		}
+
+		[Test]
+		public void ファイルが無かったときに例外を吐ける() {
+			var input = FixtureUtil.GetInputPath("Java", "default", "HHello.java");
+
+			try {
+				XMLGenerator.GenerateXML(input);
+			} catch (FileNotFoundException e) {
+				Assert.True(true);
+				return;
+			}
+
+			Assert.False(true);
+
+		}
 	}
+
 }
