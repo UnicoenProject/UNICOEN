@@ -18,7 +18,6 @@ namespace Unicoen.Apps.Translator {
 			}
 
 			var ext = Path.GetExtension(inputFilePath);
-			Console.WriteLine(ext);
 			Func<string, UnifiedProgram> modelGenerator;
 			switch (ext) {
 				case ".java":
