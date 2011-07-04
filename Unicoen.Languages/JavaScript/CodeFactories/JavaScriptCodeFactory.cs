@@ -82,13 +82,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				arg.Write("~");
 				break;
 			case (UnifiedUnaryOperatorKind.Delete):
-				arg.Write("delete");
+				arg.Write("delete ");
 				break;
 			case (UnifiedUnaryOperatorKind.Void):
-				arg.Write("void");
+				arg.Write("void ");
 				break;
 			case (UnifiedUnaryOperatorKind.Typeof):
-				arg.Write("typeof");
+				arg.Write("typeof ");
 				break;
 			case (UnifiedUnaryOperatorKind.Unknown):
 				arg.Write(element.Sign);
@@ -126,12 +126,14 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			}
 
 			//for expressionList
+			arg.Write("(");
 			var comma = "";
 			foreach (var e in element) {
 				arg.Write(comma);
 				e.TryAccept(this, arg);
 				comma = decoration.Delimiter;
 			}
+			arg.Write(")");
 			return false;
 		}
 
@@ -260,7 +262,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.WriteSpace();
 			arg.Write("in");
 			arg.WriteSpace();
-			element.Set.TryAccept(this, arg);
+			element.Set.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(")");
 
 			element.Body.TryAccept(this, arg.Set(ForBlock));
@@ -332,7 +334,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSwitch element, VisitorArgument arg) {
 			arg.Write("switch(");
-			element.Value.TryAccept(this, arg);
+			element.Value.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.WriteLine(") {");
 
 			element.Cases.TryAccept(this, arg);

@@ -347,9 +347,9 @@ namespace Unicoen.Languages.Tests {
 						Is.EqualTo(obj2).Using(StructuralEqualityComparerForDebug.Instance));
 			} catch (Exception) {
 				var outPath = FixtureUtil.GetOutputPath();
-				File.WriteAllText(orgCode, Path.Combine(outPath, "orgignal.txt"));
-				File.WriteAllText(code2, Path.Combine(outPath, "generate.txt"));
-				File.WriteAllText(code3, Path.Combine(outPath, "regenerate.txt"));
+				File.WriteAllText(Path.Combine(outPath, "orgignal.txt"), orgCode);
+				File.WriteAllText(Path.Combine(outPath, "generate.txt"), code2);
+				File.WriteAllText(Path.Combine(outPath, "regenerate.txt"), code3);
 				throw;
 			}
 		}
