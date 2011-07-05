@@ -125,6 +125,10 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				return false;
 			}
 
+			//empty block
+			if(element.Count == 0)
+				return false;
+
 			//for expressionList
 			arg.Write("(");
 			var comma = "";
@@ -246,7 +250,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.Write("for(");
 			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write("; ");
-			element.Condition.TryAccept(this, arg);
+			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(";");
 			element.Step.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(")");
@@ -294,7 +298,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedWhile element, VisitorArgument arg) {
 			arg.Write("while(");
-			element.Condition.TryAccept(this, arg);
+			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(")");
 
 			element.Body.TryAccept(this, arg.Set(ForBlock));
@@ -306,8 +310,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.Write("do");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			arg.Write("while(");
-			element.Condition.TryAccept(this, arg);
-			//TODO
+			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(");");
 			return false;
 		}

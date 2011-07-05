@@ -125,8 +125,8 @@ namespace Unicoen.Languages.JavaScript.Tests {
 											new TestCaseData(
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
-						//.Concat(SetUpjQuery())
-						//.Concat(SetUpjQueryMin())
+						.Concat(SetUpjQuery())
+						.Concat(SetUpjQueryMin())
 						.Concat(SetUpProcessing_js())
 						.Concat(SetUpProcessing_jsApi())
 						.Concat(SetUpProcessing_jsApiMin())
