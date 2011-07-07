@@ -10,18 +10,21 @@ namespace Unicoen.Apps.Translator.Tests {
 	public class TestForXMLGenerator {
 		[Test]
 		public void XMLを正しく出力できる() {
-			var fileName = "Hello.java";
-			var input = FixtureUtil.GetInputPath("Java", "default", fileName);
-			Console.WriteLine(input);
+			var filePathes = new string[] {
+					FixtureUtil.GetInputPath("Java", "default", "Foo.java"), 
+					FixtureUtil.GetInputPath("JavaScript", "foo.js"),
+			};
+
 			var output = @"c:\";
+			foreach (var input in filePathes) {
+				Console.WriteLine(input);
+				XMLGenerator.GenerateXML(input, output);
 
-			XMLGenerator.GenerateXML(input, output);
-
-			if(File.Exists(output + fileName + ".xml")) {
-				Assert.True(true);
-			}
-			else {
-				Assert.False(true);
+				if (File.Exists(output + Path.GetFileName(input)+ ".xml")) {
+					Assert.True(true);
+				} else {
+					Assert.False(true);
+				}
 			}
 		}
 

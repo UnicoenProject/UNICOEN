@@ -9,9 +9,6 @@ using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 
 namespace Unicoen.Apps.Translator {
-	/// <summary>
-	/// inputFilePath の構造XMLを outputDirPath に出力するユーティリティ
-	/// </summary>
 	public class XMLGenerator {
 		/// <summary>
 		/// inputFilePath に対応する ModelGenerator を取得する
@@ -38,7 +35,13 @@ namespace Unicoen.Apps.Translator {
 
 		}
 
+		/// <summary>
+		/// inputFilePath にあるソースコードの構造 XML を outputDirPath に出力する
+		/// </summary>
+		/// <param name="inputFilePath"></param>
+		/// <param name="outputDirPath"></param>
 		public static void GenerateXML(string inputFilePath, string outputDirPath) {
+			// ファイルがなかったなら一応警告
 			if (!File.Exists(inputFilePath)) {
 				throw new FileNotFoundException();
 			}
@@ -56,7 +59,13 @@ namespace Unicoen.Apps.Translator {
 			}
 		}
 
+		/// <summary>
+		/// XML を生成しないで，XMLDocument にして返却する
+		/// </summary>
+		/// <param name="inputFilePath"></param>
+		/// <returns></returns>
 		public static XmlDocument GenerateXML(string inputFilePath) {
+			// ファイルがなかったなら一応警告
 			if (!File.Exists(inputFilePath)) {
 				throw new FileNotFoundException();
 			}
