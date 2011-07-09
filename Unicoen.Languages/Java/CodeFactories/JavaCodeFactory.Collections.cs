@@ -81,7 +81,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedImplementsConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " implements ");
+			if(arg.Decoration.Delimiter == null) {
+				arg.Write(" implements ");
+			}
+			else {
+				//commaを出力する場合
+				arg.Write(arg.Decoration.Delimiter);
+			}
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
@@ -100,7 +106,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				if (last == null || last.GetType() != current.GetType()) {
 					current.TryAccept(this, arg.Set(NullDelimiter));
 				} else {
-					current.TryAccept(this, arg);
+					current.TryAccept(this, arg.Set(CommaDelimiter));
 				}
 				last = current;
 			}

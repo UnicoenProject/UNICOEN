@@ -90,7 +90,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				UnifiedNamespace element, VisitorArgument arg) {
 			arg.Write("package ");
 			element.Name.TryAccept(this, arg);
-			return true;
+			arg.Write(";");
+			element.Body.TryAccept(this, arg);
+			return false;
 		}
 
 		private bool Visit(
@@ -178,17 +180,21 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedBlock element, VisitorArgument arg) {
-			arg.WriteLine("{");
-			arg = arg.IncrementDepth();
+			if(element.Parent == null || !element.Parent.GetType().Equals(typeof(UnifiedNamespace))) {
+				arg.WriteLine("{");
+				arg = arg.IncrementDepth();
+			}
 			foreach (var stmt in element) {
 				arg.WriteIndent();
 				if (stmt.TryAccept(this, arg))
 					arg.Write(";");
 				arg.WriteLine();
 			}
-			arg = arg.DecrementDepth();
-			arg.WriteIndent();
-			arg.Write("}");
+			if(element.Parent == null || !element.Parent.GetType().Equals(typeof(UnifiedNamespace))) {
+				arg = arg.DecrementDepth();
+				arg.WriteIndent();
+				arg.Write("}");
+			}
 			return false;
 		}
 
