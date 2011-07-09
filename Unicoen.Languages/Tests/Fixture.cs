@@ -146,8 +146,8 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "dirPath">ソースコードが格納されているディレクトリのパス</param>
 		/// <returns></returns>
-		public IList<string> GetAllSourceFilePaths(string dirPath) {
-			return Directory.GetFiles(
+		public IEnumerable<string> GetAllSourceFilePaths(string dirPath) {
+			return Directory.EnumerateFiles(
 					dirPath, "*" + Extension,
 					SearchOption.AllDirectories);
 		}
@@ -166,26 +166,11 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
 		/// <returns></returns>
-		public IList<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
+		public IEnumerable<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
 					dirPath, "*" + CompiledExtension,
 					SearchOption.AllDirectories)
-					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)))
-					.ToList();
-		}
-
-		/// <summary>
-		///   コンパイル済みのコードを全て削除します．
-		/// </summary>
-		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
-		/// <returns></returns>
-		public void CleanCompiledCode(string dirPath) {
-			var paths = Directory.EnumerateFiles(
-					dirPath, "*" + CompiledExtension,
-					SearchOption.AllDirectories);
-			foreach (var path in paths) {
-				File.Delete(path);
-			}
+					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)));
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
