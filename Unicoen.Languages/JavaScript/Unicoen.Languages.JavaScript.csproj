@@ -105,8 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\JavaScriptCodeFactory.cs" />
-    <Compile Include="CodeFactories\JavaScriptCodeFactory.Collections.cs" />
-    <Compile Include="CodeFactories\JavaScriptCodeFactory.Statements.cs" />
+    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Statements.cs" />
     <Compile Include="JavaScriptFactory.cs" />
     <Compile Include="ModelFactories\JavaScriptModelFactory.cs" />
     <Compile Include="ModelFactories\JavaScriptModelFactoryHelper.cs" />

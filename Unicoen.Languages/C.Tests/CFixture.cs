@@ -49,7 +49,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override ICodeFactory CodeFactory {
+		public override CodeFactory CodeFactory {
 			get { return CFactory.CodeFactory; }
 		}
 

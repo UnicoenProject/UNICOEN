@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestForFinder.cs" />
     <Compile Include="TestForRewriter.cs" />
-    <Compile Include="TestForXmlGenerating.cs" />
+    <Compile Include="XmlGenerateTest.cs" />
     <Compile Include="XmlGeneratorTest.cs" />
   </ItemGroup>
   <ItemGroup>

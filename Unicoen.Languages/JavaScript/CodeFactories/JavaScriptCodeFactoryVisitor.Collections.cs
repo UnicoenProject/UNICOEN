@@ -21,7 +21,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
-	public partial class JavaScriptCodeFactory {
+	public partial class JavaScriptCodeFactoryVisitor {
 		public void VisitCollection<T, TSelf>(
 				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
@@ -39,32 +39,31 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.Write(decoration.MostRight);
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedModifierCollection element, VisitorArgument arg) {
 			//JavaScriptでは修飾子は出現しない
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedExpressionCollection element, VisitorArgument arg) {
 			//現在は使用していない
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedCaseCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
 				arg.WriteIndent();
@@ -73,56 +72,53 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
 			//JavaScriptでは型の列挙は出現しない
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedGenericParameterCollection element, VisitorArgument arg) {
 			//JavaScriptでは型パラメータは出現しない
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(CommaDelimiter));
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedMatcherCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedAnnotation element, VisitorArgument arg) {
+		public override bool Visit(UnifiedAnnotation element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedAnnotationCollection element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			if(element.Parent.GetType() == typeof(UnifiedFor)) {
+			if (element.Parent.GetType() == typeof(UnifiedFor)) {
 				arg.Write("var ");
 				VisitCollection(element, arg.Set(CommaDelimiter));
-			} 
-			else {
+			} else {
 				VisitCollection(element, arg.Set(SemiColonDelimiter));
 			}
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedVariableDefinition element, VisitorArgument arg) {
 			//for文の場合、varは１つしか記述できないため、collection側でvarを出力済み
-			if(arg.Decoration.Delimiter != ", ")
+			if (arg.Decoration.Delimiter != ", ")
 				arg.Write("var ");
 			element.Name.TryAccept(this, arg);
 			if (element.InitialValue != null) {
@@ -134,7 +130,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		public bool Visit(UnifiedClass element, VisitorArgument arg) {
+		public override bool Visit(UnifiedClass element, VisitorArgument arg) {
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return true;
 		}

@@ -284,7 +284,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedLinq element, TArg arg);
 	}
 
-	public interface IUnifiedVisitor<out TResult, in TArg> {
+	public interface IUnifiedVisitor<in TArg, out TResult> {
 		TResult Visit(UnifiedBinaryOperator element, TArg arg);
 		TResult Visit(UnifiedUnaryOperator element, TArg arg);
 		TResult Visit(UnifiedArgument element, TArg arg);

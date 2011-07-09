@@ -16,9 +16,7 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Code2Xml.Core;
 using NUnit.Framework;
@@ -26,7 +24,6 @@ using Paraiba.Core;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
-using Unicoen.Utils;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public class Python2Fixture : Fixture {
@@ -64,7 +61,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override ICodeFactory CodeFactory {
+		public override CodeFactory CodeFactory {
 			get { return Python2Factory.CodeFactory; }
 		}
 
@@ -104,11 +101,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get {
-				return new[] {
-						SetUpPyPy(),
-				};
-			}
+			get { return SetUpPyPy(); }
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
@@ -130,21 +123,12 @@ namespace Unicoen.Languages.Python2.Tests {
 			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
-		private TestCaseData SetUpPyPy() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "PyPy");
-			Action<string> action = CompileAll;
-			var testCase = new TestCaseData(path, action);
-			if (Directory.Exists(path))
-				return testCase;
-			Directory.CreateDirectory(path);
-			const string url =
-					"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2";
-			using (var stream = Downloader.GetStream(url)) {
-				Extractor.Untbz(stream, path);
-			}
-			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\ctypes\test\test_unicode.py"));
-			File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\lib-tk\test\test_ttk\test_functions.py"));
-			return testCase;
+		private IEnumerable<TestCaseData> SetUpPyPy() {
+			return SetUpTestCaseData(
+					"PyPy",
+					path => DownloadAndUntbz(
+							"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2", path),
+					CompileAll);
 		}
 	}
 }

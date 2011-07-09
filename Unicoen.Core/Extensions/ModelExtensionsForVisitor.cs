@@ -27,8 +27,8 @@ namespace Unicoen.Core.Model {
 				element.Accept(visitor);
 		}
 
-		public static TResult TryAccept<TElement, TResult, TArg>(
-				this TElement element, IUnifiedVisitor<TResult, TArg> visitor, TArg arg)
+		public static TResult TryAccept<TElement, TArg, TResult>(
+				this TElement element, IUnifiedVisitor<TArg, TResult> visitor, TArg arg)
 				where TElement : class, IUnifiedElement {
 			if (element != null)
 				return element.Accept(visitor, arg);

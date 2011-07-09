@@ -1,37 +1,49 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml;
 using NUnit.Framework;
 using Unicoen.Core.Tests;
-using Unicoen.Languages.C;
-using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 
 namespace Unicoen.Apps.Translator.Tests {
-	class TestForXmlGenerating {
+	public class XmlGenerateTest {
 		[Test]
-		public void XMLを生成できる() {
-			var filePath = FixtureUtil.GetInputPath("JavaScript", "hello.js");
+		public void Xmlを生成できる() {
+			var inPath = FixtureUtil.GetInputPath("JavaScript", "hello.js");
+			var outPath = FixtureUtil.GetOutputPath("hello_js.xml");
 
-			var code = File.ReadAllText(filePath, Encoding.Default);
+			var code = File.ReadAllText(inPath, Encoding.Default);
 			var model = JavaScriptFactory.GenerateModel(code);
 
 			var xml = model.ToXml();
 			var str = model.ToString();
 
-			var path = @"c:\hello_js.xml";
-			using (var fs = new FileStream(path, FileMode.Create)) {
+			using (var fs = new FileStream(outPath, FileMode.Create)) {
 				using (var writer = new StreamWriter(fs)) {
 					writer.WriteLine(xml);
 					Console.WriteLine(xml);
 				}
 			}
 		}
-		
 
 		[Test]
 		public void SandBox() {
@@ -39,7 +51,7 @@ namespace Unicoen.Apps.Translator.Tests {
 			if (!File.Exists(@"c:\hello_java.xml")) {
 				return;
 			}
-		
+
 			root.Load(@"c:\hello_java.xml");
 			var modifier = root.GetElementsByTagName("UnifiedModifier").Item(0);
 
@@ -76,9 +88,6 @@ namespace Unicoen.Apps.Translator.Tests {
 				Console.WriteLine("aaaaasdfasdfadsfasda");
 				Console.WriteLine(node.Value);
 			}
-
-
-
 		}
 	}
 }

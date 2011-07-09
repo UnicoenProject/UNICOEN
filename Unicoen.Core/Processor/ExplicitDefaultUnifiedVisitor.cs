@@ -22,1641 +22,1570 @@ using Unicoen.Core.Model.Expressions;
 
 namespace Unicoen.Core.Processor {
 	public abstract class ExplicitDefaultUnifiedVisitor : IUnifiedVisitor {
-		void IUnifiedVisitor.Visit(UnifiedBinaryOperator element) {
+		public virtual void Visit(UnifiedBinaryOperator element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedUnaryOperator element) {
+		public virtual void Visit(UnifiedUnaryOperator element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedArgument element) {
+		public virtual void Visit(UnifiedArgument element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedArgumentCollection element) {
+		public virtual void Visit(UnifiedArgumentCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedBinaryExpression element) {
+		public virtual void Visit(UnifiedBinaryExpression element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedBlock element) {
+		public virtual void Visit(UnifiedBlock element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedCall element) {
+		public virtual void Visit(UnifiedCall element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedFunctionDefinition element) {
+		public virtual void Visit(UnifiedFunctionDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedIf element) {
+		public virtual void Visit(UnifiedIf element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedParameter element) {
+		public virtual void Visit(UnifiedParameter element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedParameterCollection element) {
+		public virtual void Visit(UnifiedParameterCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedModifier element) {
+		public virtual void Visit(UnifiedModifier element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedModifierCollection element) {
+		public virtual void Visit(UnifiedModifierCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedImport element) {
+		public virtual void Visit(UnifiedImport element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedProgram element) {
+		public virtual void Visit(UnifiedProgram element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedNew element) {
+		public virtual void Visit(UnifiedNew element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedFor element) {
+		public virtual void Visit(UnifiedFor element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedForeach element) {
+		public virtual void Visit(UnifiedForeach element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedUnaryExpression element) {
+		public virtual void Visit(UnifiedUnaryExpression element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedProperty element) {
+		public virtual void Visit(UnifiedProperty element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedExpressionCollection element) {
+		public virtual void Visit(UnifiedExpressionCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedWhile element) {
+		public virtual void Visit(UnifiedWhile element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedDoWhile element) {
+		public virtual void Visit(UnifiedDoWhile element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedIndexer element) {
+		public virtual void Visit(UnifiedIndexer element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedGenericArgument element) {
+		public virtual void Visit(UnifiedGenericArgument element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedGenericArgumentCollection element) {
+		public virtual void Visit(UnifiedGenericArgumentCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSwitch element) {
+		public virtual void Visit(UnifiedSwitch element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedCaseCollection element) {
+		public virtual void Visit(UnifiedCaseCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedCase element) {
+		public virtual void Visit(UnifiedCase element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedCatch element) {
+		public virtual void Visit(UnifiedCatch element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTypeCollection element) {
+		public virtual void Visit(UnifiedTypeCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedCatchCollection element) {
+		public virtual void Visit(UnifiedCatchCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTry element) {
+		public virtual void Visit(UnifiedTry element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedCast element) {
+		public virtual void Visit(UnifiedCast element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedGenericParameterCollection element) {
+		public virtual void Visit(UnifiedGenericParameterCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTypeConstrainCollection element) {
+		public virtual void Visit(UnifiedTypeConstrainCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTypeParameter element) {
+		public virtual void Visit(UnifiedTypeParameter element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTernaryExpression element) {
+		public virtual void Visit(UnifiedTernaryExpression element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedIdentifierCollection element) {
+		public virtual void Visit(UnifiedIdentifierCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedLabel element) {
+		public virtual void Visit(UnifiedLabel element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedBooleanLiteral element) {
+		public virtual void Visit(UnifiedBooleanLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedFractionLiteral element) {
+		public virtual void Visit(UnifiedFractionLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedIntegerLiteral element) {
+		public virtual void Visit(UnifiedIntegerLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedStringLiteral element) {
+		public virtual void Visit(UnifiedStringLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedNullLiteral element) {
+		public virtual void Visit(UnifiedNullLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedMatcher element) {
+		public virtual void Visit(UnifiedMatcher element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedMatcherCollection element) {
+		public virtual void Visit(UnifiedMatcherCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedUsing element) {
+		public virtual void Visit(UnifiedUsing element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedListComprehension element) {
+		public virtual void Visit(UnifiedListComprehension element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedList element) {
+		public virtual void Visit(UnifiedList element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedKeyValue element) {
+		public virtual void Visit(UnifiedKeyValue element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedDictionaryComprehension element) {
+		public virtual void Visit(UnifiedDictionaryComprehension element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedDictionary element) {
+		public virtual void Visit(UnifiedDictionary element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSlice element) {
+		public virtual void Visit(UnifiedSlice element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedComment element) {
+		public virtual void Visit(UnifiedComment element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedAnnotation element) {
+		public virtual void Visit(UnifiedAnnotation element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedAnnotationCollection element) {
+		public virtual void Visit(UnifiedAnnotationCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedVariableDefinitionList element) {
+		public virtual void Visit(UnifiedVariableDefinitionList element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedVariableDefinition element) {
+		public virtual void Visit(UnifiedVariableDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedArrayType element) {
+		public virtual void Visit(UnifiedArrayType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedGenericType element) {
+		public virtual void Visit(UnifiedGenericType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSimpleType element) {
+		public virtual void Visit(UnifiedSimpleType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedCharLiteral element) {
+		public virtual void Visit(UnifiedCharLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedIterable element) {
+		public virtual void Visit(UnifiedIterable element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedArray element) {
+		public virtual void Visit(UnifiedArray element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSet element) {
+		public virtual void Visit(UnifiedSet element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTuple element) {
+		public virtual void Visit(UnifiedTuple element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedIterableComprehension element) {
+		public virtual void Visit(UnifiedIterableComprehension element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSetComprehension element) {
+		public virtual void Visit(UnifiedSetComprehension element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedInterface element) {
+		public virtual void Visit(UnifiedInterface element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedClass element) {
+		public virtual void Visit(UnifiedClass element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedStruct element) {
+		public virtual void Visit(UnifiedStruct element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedEnum element) {
+		public virtual void Visit(UnifiedEnum element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedModule element) {
+		public virtual void Visit(UnifiedModule element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedUnion element) {
+		public virtual void Visit(UnifiedUnion element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedAnnotationDefinition element) {
+		public virtual void Visit(UnifiedAnnotationDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedNamespace element) {
+		public virtual void Visit(UnifiedNamespace element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedBreak element) {
+		public virtual void Visit(UnifiedBreak element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedContinue element) {
+		public virtual void Visit(UnifiedContinue element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedReturn element) {
+		public virtual void Visit(UnifiedReturn element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedGoto element) {
+		public virtual void Visit(UnifiedGoto element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedYieldReturn element) {
+		public virtual void Visit(UnifiedYieldReturn element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedDelete element) {
+		public virtual void Visit(UnifiedDelete element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedThrow element) {
+		public virtual void Visit(UnifiedThrow element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedAssert element) {
+		public virtual void Visit(UnifiedAssert element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedExec element) {
+		public virtual void Visit(UnifiedExec element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedStringConversion element) {
+		public virtual void Visit(UnifiedStringConversion element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedPass element) {
+		public virtual void Visit(UnifiedPass element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedPrint element) {
+		public virtual void Visit(UnifiedPrint element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedPrintChevron element) {
+		public virtual void Visit(UnifiedPrintChevron element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedWith element) {
+		public virtual void Visit(UnifiedWith element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedFix element) {
+		public virtual void Visit(UnifiedFix element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSynchronized element) {
+		public virtual void Visit(UnifiedSynchronized element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedConstType element) {
+		public virtual void Visit(UnifiedConstType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedPointerType element) {
+		public virtual void Visit(UnifiedPointerType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedUnionType element) {
+		public virtual void Visit(UnifiedUnionType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedStructType element) {
+		public virtual void Visit(UnifiedStructType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedVolatileType element) {
+		public virtual void Visit(UnifiedVolatileType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedReferenceType element) {
+		public virtual void Visit(UnifiedReferenceType element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedConstructor element) {
+		public virtual void Visit(UnifiedConstructor element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedStaticInitializer element) {
+		public virtual void Visit(UnifiedStaticInitializer element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedInstanceInitializer element) {
+		public virtual void Visit(UnifiedInstanceInitializer element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedLambda element) {
+		public virtual void Visit(UnifiedLambda element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedDefaultConstrain element) {
+		public virtual void Visit(UnifiedDefaultConstrain element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedExtendConstrain element) {
+		public virtual void Visit(UnifiedExtendConstrain element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedImplementsConstrain element) {
+		public virtual void Visit(UnifiedImplementsConstrain element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedReferenceConstrain element) {
+		public virtual void Visit(UnifiedReferenceConstrain element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSuperConstrain element) {
+		public virtual void Visit(UnifiedSuperConstrain element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedValueConstrain element) {
+		public virtual void Visit(UnifiedValueConstrain element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSuperIdentifier element) {
+		public virtual void Visit(UnifiedSuperIdentifier element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedThisIdentifier element) {
+		public virtual void Visit(UnifiedThisIdentifier element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedLabelIdentifier element) {
+		public virtual void Visit(UnifiedLabelIdentifier element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSizeof element) {
+		public virtual void Visit(UnifiedSizeof element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedTypeof element) {
+		public virtual void Visit(UnifiedTypeof element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedVariableIdentifier element) {
+		public virtual void Visit(UnifiedVariableIdentifier element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedRegularExpressionLiteral element) {
+		public virtual void Visit(UnifiedRegularExpressionLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedPropertyDefinition element) {
+		public virtual void Visit(UnifiedPropertyDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedPropertyBody element) {
+		public virtual void Visit(UnifiedPropertyBody element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedSelect element) {
+		public virtual void Visit(UnifiedSelect element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedWhere element) {
+		public virtual void Visit(UnifiedWhere element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedInto element) {
+		public virtual void Visit(UnifiedInto element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedLet element) {
+		public virtual void Visit(UnifiedLet element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedOrderBy element) {
+		public virtual void Visit(UnifiedOrderBy element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedJoin element) {
+		public virtual void Visit(UnifiedJoin element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedGroupBy element) {
+		public virtual void Visit(UnifiedGroupBy element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedOrderByKeyCollection element) {
+		public virtual void Visit(UnifiedOrderByKeyCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedOrderByKey element) {
+		public virtual void Visit(UnifiedOrderByKey element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedLinqElementCollection element) {
+		public virtual void Visit(UnifiedLinqElementCollection element) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedLinq element) {
+		public virtual void Visit(UnifiedLinq element) {
 			throw new NotImplementedException();
 		}
 	}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg>
 			: IUnifiedVisitor<TArg> {
-		void IUnifiedVisitor<TArg>.Visit(UnifiedBinaryOperator element, TArg arg) {
+		public virtual void Visit(UnifiedBinaryOperator element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedUnaryOperator element, TArg arg) {
+		public virtual void Visit(UnifiedUnaryOperator element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedArgument element, TArg arg) {
+		public virtual void Visit(UnifiedArgument element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedArgumentCollection element, TArg arg) {
+		public virtual void Visit(UnifiedArgumentCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedBinaryExpression element, TArg arg) {
+		public virtual void Visit(UnifiedBinaryExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedBlock element, TArg arg) {
+		public virtual void Visit(UnifiedBlock element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedCall element, TArg arg) {
+		public virtual void Visit(UnifiedCall element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedFunctionDefinition element, TArg arg) {
+		public virtual void Visit(UnifiedFunctionDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedIf element, TArg arg) {
+		public virtual void Visit(UnifiedIf element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedParameter element, TArg arg) {
+		public virtual void Visit(UnifiedParameter element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedParameterCollection element, TArg arg) {
+		public virtual void Visit(UnifiedParameterCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedModifier element, TArg arg) {
+		public virtual void Visit(UnifiedModifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedModifierCollection element, TArg arg) {
+		public virtual void Visit(UnifiedModifierCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedImport element, TArg arg) {
+		public virtual void Visit(UnifiedImport element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedProgram element, TArg arg) {
+		public virtual void Visit(UnifiedProgram element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedNew element, TArg arg) {
+		public virtual void Visit(UnifiedNew element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedFor element, TArg arg) {
+		public virtual void Visit(UnifiedFor element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedForeach element, TArg arg) {
+		public virtual void Visit(UnifiedForeach element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedUnaryExpression element, TArg arg) {
+		public virtual void Visit(UnifiedUnaryExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedProperty element, TArg arg) {
+		public virtual void Visit(UnifiedProperty element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedExpressionCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedWhile element, TArg arg) {
+		public virtual void Visit(UnifiedWhile element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedDoWhile element, TArg arg) {
+		public virtual void Visit(UnifiedDoWhile element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedIndexer element, TArg arg) {
+		public virtual void Visit(UnifiedIndexer element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedGenericArgument element, TArg arg) {
+		public virtual void Visit(UnifiedGenericArgument element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedGenericArgumentCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSwitch element, TArg arg) {
+		public virtual void Visit(UnifiedSwitch element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedCaseCollection element, TArg arg) {
+		public virtual void Visit(UnifiedCaseCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedCase element, TArg arg) {
+		public virtual void Visit(UnifiedCase element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedCatch element, TArg arg) {
+		public virtual void Visit(UnifiedCatch element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTypeCollection element, TArg arg) {
+		public virtual void Visit(UnifiedTypeCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedCatchCollection element, TArg arg) {
+		public virtual void Visit(UnifiedCatchCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTry element, TArg arg) {
+		public virtual void Visit(UnifiedTry element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedCast element, TArg arg) {
+		public virtual void Visit(UnifiedCast element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedGenericParameterCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedTypeConstrainCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTypeParameter element, TArg arg) {
+		public virtual void Visit(UnifiedTypeParameter element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTernaryExpression element, TArg arg) {
+		public virtual void Visit(UnifiedTernaryExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedIdentifierCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedLabel element, TArg arg) {
+		public virtual void Visit(UnifiedLabel element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedBooleanLiteral element, TArg arg) {
+		public virtual void Visit(UnifiedBooleanLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedFractionLiteral element, TArg arg) {
+		public virtual void Visit(UnifiedFractionLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedIntegerLiteral element, TArg arg) {
+		public virtual void Visit(UnifiedIntegerLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedStringLiteral element, TArg arg) {
+		public virtual void Visit(UnifiedStringLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedNullLiteral element, TArg arg) {
+		public virtual void Visit(UnifiedNullLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedMatcher element, TArg arg) {
+		public virtual void Visit(UnifiedMatcher element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedMatcherCollection element, TArg arg) {
+		public virtual void Visit(UnifiedMatcherCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedUsing element, TArg arg) {
+		public virtual void Visit(UnifiedUsing element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedListComprehension element, TArg arg) {
+		public virtual void Visit(UnifiedListComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedList element, TArg arg) {
+		public virtual void Visit(UnifiedList element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedKeyValue element, TArg arg) {
+		public virtual void Visit(UnifiedKeyValue element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedDictionaryComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedDictionary element, TArg arg) {
+		public virtual void Visit(UnifiedDictionary element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSlice element, TArg arg) {
+		public virtual void Visit(UnifiedSlice element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedComment element, TArg arg) {
+		public virtual void Visit(UnifiedComment element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedAnnotation element, TArg arg) {
+		public virtual void Visit(UnifiedAnnotation element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedAnnotationCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedVariableDefinitionList element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedVariableDefinition element, TArg arg) {
+		public virtual void Visit(UnifiedVariableDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedArrayType element, TArg arg) {
+		public virtual void Visit(UnifiedArrayType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedGenericType element, TArg arg) {
+		public virtual void Visit(UnifiedGenericType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSimpleType element, TArg arg) {
+		public virtual void Visit(UnifiedSimpleType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedCharLiteral element, TArg arg) {
+		public virtual void Visit(UnifiedCharLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedIterable element, TArg arg) {
+		public virtual void Visit(UnifiedIterable element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedArray element, TArg arg) {
+		public virtual void Visit(UnifiedArray element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSet element, TArg arg) {
+		public virtual void Visit(UnifiedSet element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTuple element, TArg arg) {
+		public virtual void Visit(UnifiedTuple element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedIterableComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSetComprehension element, TArg arg) {
+		public virtual void Visit(UnifiedSetComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedInterface element, TArg arg) {
+		public virtual void Visit(UnifiedInterface element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedClass element, TArg arg) {
+		public virtual void Visit(UnifiedClass element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedStruct element, TArg arg) {
+		public virtual void Visit(UnifiedStruct element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedEnum element, TArg arg) {
+		public virtual void Visit(UnifiedEnum element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedModule element, TArg arg) {
+		public virtual void Visit(UnifiedModule element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedUnion element, TArg arg) {
+		public virtual void Visit(UnifiedUnion element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedAnnotationDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedNamespace element, TArg arg) {
+		public virtual void Visit(UnifiedNamespace element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedBreak element, TArg arg) {
+		public virtual void Visit(UnifiedBreak element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedContinue element, TArg arg) {
+		public virtual void Visit(UnifiedContinue element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedReturn element, TArg arg) {
+		public virtual void Visit(UnifiedReturn element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedGoto element, TArg arg) {
+		public virtual void Visit(UnifiedGoto element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedYieldReturn element, TArg arg) {
+		public virtual void Visit(UnifiedYieldReturn element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedDelete element, TArg arg) {
+		public virtual void Visit(UnifiedDelete element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedThrow element, TArg arg) {
+		public virtual void Visit(UnifiedThrow element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedAssert element, TArg arg) {
+		public virtual void Visit(UnifiedAssert element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedExec element, TArg arg) {
+		public virtual void Visit(UnifiedExec element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedStringConversion element, TArg arg) {
+		public virtual void Visit(UnifiedStringConversion element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedPass element, TArg arg) {
+		public virtual void Visit(UnifiedPass element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedPrint element, TArg arg) {
+		public virtual void Visit(UnifiedPrint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedPrintChevron element, TArg arg) {
+		public virtual void Visit(UnifiedPrintChevron element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedWith element, TArg arg) {
+		public virtual void Visit(UnifiedWith element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedFix element, TArg arg) {
+		public virtual void Visit(UnifiedFix element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSynchronized element, TArg arg) {
+		public virtual void Visit(UnifiedSynchronized element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedConstType element, TArg arg) {
+		public virtual void Visit(UnifiedConstType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedPointerType element, TArg arg) {
+		public virtual void Visit(UnifiedPointerType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedUnionType element, TArg arg) {
+		public virtual void Visit(UnifiedUnionType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedStructType element, TArg arg) {
+		public virtual void Visit(UnifiedStructType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedVolatileType element, TArg arg) {
+		public virtual void Visit(UnifiedVolatileType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedReferenceType element, TArg arg) {
+		public virtual void Visit(UnifiedReferenceType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedConstructor element, TArg arg) {
+		public virtual void Visit(UnifiedConstructor element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedStaticInitializer element, TArg arg) {
+		public virtual void Visit(UnifiedStaticInitializer element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedInstanceInitializer element, TArg arg) {
+		public virtual void Visit(UnifiedInstanceInitializer element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedLambda element, TArg arg) {
+		public virtual void Visit(UnifiedLambda element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedDefaultConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedDefaultConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedExtendConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedExtendConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedImplementsConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedImplementsConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedReferenceConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedReferenceConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSuperConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedSuperConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedValueConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedValueConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSuperIdentifier element, TArg arg) {
+		public virtual void Visit(UnifiedSuperIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedThisIdentifier element, TArg arg) {
+		public virtual void Visit(UnifiedThisIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedLabelIdentifier element, TArg arg) {
+		public virtual void Visit(UnifiedLabelIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSizeof element, TArg arg) {
+		public virtual void Visit(UnifiedSizeof element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedTypeof element, TArg arg) {
+		public virtual void Visit(UnifiedTypeof element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedVariableIdentifier element, TArg arg) {
+		public virtual void Visit(UnifiedVariableIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(
+		public virtual void Visit(
 				UnifiedRegularExpressionLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedPropertyDefinition element, TArg arg) {
+		public virtual void Visit(UnifiedPropertyDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedPropertyBody element, TArg arg) {
+		public virtual void Visit(UnifiedPropertyBody element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedSelect element, TArg arg) {
+		public virtual void Visit(UnifiedSelect element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedWhere element, TArg arg) {
+		public virtual void Visit(UnifiedWhere element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedInto element, TArg arg) {
+		public virtual void Visit(UnifiedInto element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedLet element, TArg arg) {
+		public virtual void Visit(UnifiedLet element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedOrderBy element, TArg arg) {
+		public virtual void Visit(UnifiedOrderBy element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedJoin element, TArg arg) {
+		public virtual void Visit(UnifiedJoin element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedGroupBy element, TArg arg) {
+		public virtual void Visit(UnifiedGroupBy element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedOrderByKeyCollection element, TArg arg) {
+		public virtual void Visit(UnifiedOrderByKeyCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedOrderByKey element, TArg arg) {
+		public virtual void Visit(UnifiedOrderByKey element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedLinqElementCollection element, TArg arg) {
+		public virtual void Visit(UnifiedLinqElementCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedLinq element, TArg arg) {
+		public virtual void Visit(UnifiedLinq element, TArg arg) {
 			throw new NotImplementedException();
 		}
 			}
 
-	public abstract class ExplicitDefaultUnifiedVisitor<TResult, TArg>
-			: IUnifiedVisitor<TResult, TArg> {
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedBinaryOperator element, TArg arg) {
+	public abstract class ExplicitDefaultUnifiedVisitor<TArg, TResult>
+			: IUnifiedVisitor<TArg, TResult> {
+		public virtual TResult Visit(UnifiedBinaryOperator element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedPropertyDefinition element, TArg arg) {
+		public virtual TResult Visit(UnifiedPropertyDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedPropertyBody element, TArg arg) {
+		public virtual TResult Visit(UnifiedPropertyBody element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSelect element, TArg arg) {
+		public virtual TResult Visit(UnifiedSelect element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedWhere element, TArg arg) {
+		public virtual TResult Visit(UnifiedWhere element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedInto element, TArg arg) {
+		public virtual TResult Visit(UnifiedInto element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLet element, TArg arg) {
+		public virtual TResult Visit(UnifiedLet element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedOrderBy element, TArg arg) {
+		public virtual TResult Visit(UnifiedOrderBy element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedJoin element, TArg arg) {
+		public virtual TResult Visit(UnifiedJoin element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedGroupBy element, TArg arg) {
+		public virtual TResult Visit(UnifiedGroupBy element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedOrderByKeyCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedOrderByKeyCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedOrderByKey element, TArg arg) {
+		public virtual TResult Visit(UnifiedOrderByKey element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLinqElementCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedLinqElementCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLinq element, TArg arg) {
+		public virtual TResult Visit(UnifiedLinq element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedUnaryOperator element, TArg arg) {
+		public virtual TResult Visit(UnifiedUnaryOperator element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedArgument element, TArg arg) {
+		public virtual TResult Visit(UnifiedArgument element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedArgumentCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedArgumentCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedBinaryExpression element, TArg arg) {
+		public virtual TResult Visit(UnifiedBinaryExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedBlock element, TArg arg) {
+		public virtual TResult Visit(UnifiedBlock element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedCall element, TArg arg) {
+		public virtual TResult Visit(UnifiedCall element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedFunctionDefinition element, TArg arg) {
+		public virtual TResult Visit(UnifiedFunctionDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedIf element, TArg arg) {
+		public virtual TResult Visit(UnifiedIf element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedParameter element, TArg arg) {
+		public virtual TResult Visit(UnifiedParameter element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedParameterCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedParameterCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedModifier element, TArg arg) {
+		public virtual TResult Visit(UnifiedModifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedModifierCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedModifierCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedImport element, TArg arg) {
+		public virtual TResult Visit(UnifiedImport element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedProgram element, TArg arg) {
+		public virtual TResult Visit(UnifiedProgram element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedNew element, TArg arg) {
+		public virtual TResult Visit(UnifiedNew element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedFor element, TArg arg) {
+		public virtual TResult Visit(UnifiedFor element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedForeach element, TArg arg) {
+		public virtual TResult Visit(UnifiedForeach element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedUnaryExpression element, TArg arg) {
+		public virtual TResult Visit(UnifiedUnaryExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedProperty element, TArg arg) {
+		public virtual TResult Visit(UnifiedProperty element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedExpressionCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedExpressionCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedWhile element, TArg arg) {
+		public virtual TResult Visit(UnifiedWhile element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedDoWhile element, TArg arg) {
+		public virtual TResult Visit(UnifiedDoWhile element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedIndexer element, TArg arg) {
+		public virtual TResult Visit(UnifiedIndexer element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedGenericArgument element, TArg arg) {
+		public virtual TResult Visit(UnifiedGenericArgument element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+		public virtual TResult Visit(
 				UnifiedGenericArgumentCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSwitch element, TArg arg) {
+		public virtual TResult Visit(UnifiedSwitch element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedCaseCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedCaseCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedCase element, TArg arg) {
+		public virtual TResult Visit(UnifiedCase element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedCatch element, TArg arg) {
+		public virtual TResult Visit(UnifiedCatch element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedCatchCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedCatchCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedTry element, TArg arg) {
+		public virtual TResult Visit(UnifiedTry element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedCast element, TArg arg) {
+		public virtual TResult Visit(UnifiedCast element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+		public virtual TResult Visit(
 				UnifiedGenericParameterCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeConstrainCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeConstrainCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTypeParameter element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeParameter element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedTernaryExpression element, TArg arg) {
+		public virtual TResult Visit(UnifiedTernaryExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedIdentifierCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedIdentifierCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLabel element, TArg arg) {
+		public virtual TResult Visit(UnifiedLabel element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedBooleanLiteral element, TArg arg) {
+		public virtual TResult Visit(UnifiedBooleanLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedFractionLiteral element, TArg arg) {
+		public virtual TResult Visit(UnifiedFractionLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedIntegerLiteral element, TArg arg) {
+		public virtual TResult Visit(UnifiedIntegerLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedStringLiteral element, TArg arg) {
+		public virtual TResult Visit(UnifiedStringLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedNullLiteral element, TArg arg) {
+		public virtual TResult Visit(UnifiedNullLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedMatcher element, TArg arg) {
+		public virtual TResult Visit(UnifiedMatcher element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedMatcherCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedMatcherCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedUsing element, TArg arg) {
+		public virtual TResult Visit(UnifiedUsing element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedListComprehension element, TArg arg) {
+		public virtual TResult Visit(UnifiedListComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedList element, TArg arg) {
+		public virtual TResult Visit(UnifiedList element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedKeyValue element, TArg arg) {
+		public virtual TResult Visit(UnifiedKeyValue element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedDictionaryComprehension element, TArg arg) {
+		public virtual TResult Visit(UnifiedDictionaryComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedDictionary element, TArg arg) {
+		public virtual TResult Visit(UnifiedDictionary element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSlice element, TArg arg) {
+		public virtual TResult Visit(UnifiedSlice element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedComment element, TArg arg) {
+		public virtual TResult Visit(UnifiedComment element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedAnnotation element, TArg arg) {
+		public virtual TResult Visit(UnifiedAnnotation element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedAnnotationCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedAnnotationCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedVariableDefinitionList element, TArg arg) {
+		public virtual TResult Visit(UnifiedVariableDefinitionList element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedVariableDefinition element, TArg arg) {
+		public virtual TResult Visit(UnifiedVariableDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedArrayType element, TArg arg) {
+		public virtual TResult Visit(UnifiedArrayType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedGenericType element, TArg arg) {
+		public virtual TResult Visit(UnifiedGenericType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedSimpleType element, TArg arg) {
+		public virtual TResult Visit(UnifiedSimpleType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedCharLiteral element, TArg arg) {
+		public virtual TResult Visit(UnifiedCharLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedIterable element, TArg arg) {
+		public virtual TResult Visit(UnifiedIterable element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedArray element, TArg arg) {
+		public virtual TResult Visit(UnifiedArray element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSet element, TArg arg) {
+		public virtual TResult Visit(UnifiedSet element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedTuple element, TArg arg) {
+		public virtual TResult Visit(UnifiedTuple element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedIterableComprehension element, TArg arg) {
+		public virtual TResult Visit(UnifiedIterableComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedSetComprehension element, TArg arg) {
+		public virtual TResult Visit(UnifiedSetComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedInterface element, TArg arg) {
+		public virtual TResult Visit(UnifiedInterface element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedClass element, TArg arg) {
+		public virtual TResult Visit(UnifiedClass element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedStruct element, TArg arg) {
+		public virtual TResult Visit(UnifiedStruct element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedEnum element, TArg arg) {
+		public virtual TResult Visit(UnifiedEnum element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedModule element, TArg arg) {
+		public virtual TResult Visit(UnifiedModule element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedUnion element, TArg arg) {
+		public virtual TResult Visit(UnifiedUnion element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedAnnotationDefinition element, TArg arg) {
+		public virtual TResult Visit(UnifiedAnnotationDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedNamespace element, TArg arg) {
+		public virtual TResult Visit(UnifiedNamespace element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedBreak element, TArg arg) {
+		public virtual TResult Visit(UnifiedBreak element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedContinue element, TArg arg) {
+		public virtual TResult Visit(UnifiedContinue element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedReturn element, TArg arg) {
+		public virtual TResult Visit(UnifiedReturn element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedGoto element, TArg arg) {
+		public virtual TResult Visit(UnifiedGoto element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedYieldReturn element, TArg arg) {
+		public virtual TResult Visit(UnifiedYieldReturn element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedDelete element, TArg arg) {
+		public virtual TResult Visit(UnifiedDelete element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedThrow element, TArg arg) {
+		public virtual TResult Visit(UnifiedThrow element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedAssert element, TArg arg) {
+		public virtual TResult Visit(UnifiedAssert element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedExec element, TArg arg) {
+		public virtual TResult Visit(UnifiedExec element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedStringConversion element, TArg arg) {
+		public virtual TResult Visit(UnifiedStringConversion element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedPass element, TArg arg) {
+		public virtual TResult Visit(UnifiedPass element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedPrint element, TArg arg) {
+		public virtual TResult Visit(UnifiedPrint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedPrintChevron element, TArg arg) {
+		public virtual TResult Visit(UnifiedPrintChevron element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedWith element, TArg arg) {
+		public virtual TResult Visit(UnifiedWith element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedFix element, TArg arg) {
+		public virtual TResult Visit(UnifiedFix element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedSynchronized element, TArg arg) {
+		public virtual TResult Visit(UnifiedSynchronized element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedConstType element, TArg arg) {
+		public virtual TResult Visit(UnifiedConstType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedPointerType element, TArg arg) {
+		public virtual TResult Visit(UnifiedPointerType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedUnionType element, TArg arg) {
+		public virtual TResult Visit(UnifiedUnionType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedVolatileType element, TArg arg) {
+		public virtual TResult Visit(UnifiedVolatileType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedStructType element, TArg arg) {
+		public virtual TResult Visit(UnifiedStructType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedReferenceType element, TArg arg) {
+		public virtual TResult Visit(UnifiedReferenceType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedConstructor element, TArg arg) {
+		public virtual TResult Visit(UnifiedConstructor element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedStaticInitializer element, TArg arg) {
+		public virtual TResult Visit(UnifiedStaticInitializer element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedInstanceInitializer element, TArg arg) {
+		public virtual TResult Visit(UnifiedInstanceInitializer element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLambda element, TArg arg) {
+		public virtual TResult Visit(UnifiedLambda element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedDefaultConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedDefaultConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedExtendConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedExtendConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedImplementsConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedImplementsConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedReferenceConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedReferenceConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedSuperConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedSuperConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedValueConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedValueConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedSuperIdentifier element, TArg arg) {
+		public virtual TResult Visit(UnifiedSuperIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedThisIdentifier element, TArg arg) {
+		public virtual TResult Visit(UnifiedThisIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedLabelIdentifier element, TArg arg) {
+		public virtual TResult Visit(UnifiedLabelIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSizeof element, TArg arg) {
+		public virtual TResult Visit(UnifiedSizeof element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedTypeof element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeof element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedVariableIdentifier element, TArg arg) {
+		public virtual TResult Visit(UnifiedVariableIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+		public virtual TResult Visit(
 				UnifiedRegularExpressionLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}

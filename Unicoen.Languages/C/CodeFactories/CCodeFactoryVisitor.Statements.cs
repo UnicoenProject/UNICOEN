@@ -21,7 +21,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
-	public partial class CCodeFactory {
+	public partial class CCodeFactoryVisitor {
 		public static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
 			if (parent is UnifiedBinaryExpression || parent is UnifiedUnaryExpression
@@ -31,7 +31,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return Tuple.Create("", "");
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
 			arg.Write(paren.Item1);
@@ -45,7 +45,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedUnaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
 			arg.Write(paren.Item1);
@@ -67,8 +67,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		// (int)a, (int)(a + b)
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedCast element, VisitorArgument arg) {
+		public override bool Visit(UnifiedCast element, VisitorArgument arg) {
 			arg.Write("(");
 			element.Type.TryAccept(this, arg);
 			arg.Write(")");
@@ -78,7 +77,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		// a ? b : c;
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedTernaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
 
@@ -92,58 +91,49 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedBreak element, VisitorArgument arg) {
+		public override bool Visit(UnifiedBreak element, VisitorArgument arg) {
 			arg.Write("break");
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedContinue element, VisitorArgument arg) {
+		public override bool Visit(UnifiedContinue element, VisitorArgument arg) {
 			arg.Write("continue");
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedReturn element, VisitorArgument arg) {
+		public override bool Visit(UnifiedReturn element, VisitorArgument arg) {
 			arg.Write("return");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedGoto element, VisitorArgument arg) {
+		public override bool Visit(UnifiedGoto element, VisitorArgument arg) {
 			arg.Write("goto");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedYieldReturn element, VisitorArgument arg) {
+		public override bool Visit(UnifiedYieldReturn element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedDelete element, VisitorArgument arg) {
+		public override bool Visit(UnifiedDelete element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedThrow element, VisitorArgument arg) {
+		public override bool Visit(UnifiedThrow element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedAssert element, VisitorArgument arg) {
+		public override bool Visit(UnifiedAssert element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedExec element, VisitorArgument arg) {
+		public override bool Visit(UnifiedExec element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedStringConversion element, VisitorArgument data) {
 			throw new NotImplementedException();
 		}

@@ -21,7 +21,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
-	public partial class CCodeFactory {
+	public partial class CCodeFactoryVisitor {
 		public void VisitCollection<T, TSelf>(
 				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
@@ -39,38 +39,37 @@ namespace Unicoen.Languages.C.CodeFactories {
 			arg.Write(decoration.MostRight);
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedModifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(SpaceDelimiter));
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedExpressionCollection element, VisitorArgument arg) {
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedCaseCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
 				arg.WriteIndent();
@@ -80,42 +79,40 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedGenericParameterCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
 			arg.WriteLine("/* ElementNotInC */");
 			arg.WriteLine("/* " + element + " */");
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			// 親要素が処理するので辿りついてはいけない
 			throw new InvalidOperationException();
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSimpleType element, VisitorArgument arg) {
+		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
 			element.NameExpression.TryAccept(this, arg);
 			return true;
 		}

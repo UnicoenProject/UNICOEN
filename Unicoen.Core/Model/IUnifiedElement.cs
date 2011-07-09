@@ -48,8 +48,8 @@ namespace Unicoen.Core.Model {
 		/// <param name = "visitor"></param>
 		/// <param name = "arg"></param>
 		/// <returns></returns>
-		TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg);
+		TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg);
 
 		/// <summary>
 		///   子要素を列挙します。

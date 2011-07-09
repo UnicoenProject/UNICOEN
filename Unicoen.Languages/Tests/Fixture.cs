@@ -69,7 +69,7 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public abstract ICodeFactory CodeFactory { get; }
+		public abstract CodeFactory CodeFactory { get; }
 
 		/// <summary>
 		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
@@ -216,7 +216,8 @@ namespace Unicoen.Languages.Tests {
 				Action<string, string> compileAction) {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
 			var testCase = new TestCaseData(path, compileAction);
-			if (Directory.Exists(path)) {
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any()) {
 				yield return testCase;
 				yield break;
 			}
@@ -234,6 +235,12 @@ namespace Unicoen.Languages.Tests {
 		protected void DownloadAndUntgz(string url, string path) {
 			using (var stream = Downloader.GetStream(url)) {
 				Extractor.Untgz(stream, path);
+			}
+		}
+
+		protected void DownloadAndUntbz(string url, string path) {
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Untbz(stream, path);
 			}
 		}
 	}

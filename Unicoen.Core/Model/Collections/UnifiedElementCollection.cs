@@ -55,8 +55,8 @@ namespace Unicoen.Core.Model {
 			throw new InvalidOperationException("You should override this method.");
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException("You should override this method.");
 		}

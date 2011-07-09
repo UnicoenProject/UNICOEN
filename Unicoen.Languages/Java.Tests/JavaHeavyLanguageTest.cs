@@ -21,7 +21,7 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.Java.Tests {
-	[TestFixture]
+	[TestFixture, Ignore]
 	public class JavaHeavyLanguageTest : LanguageTestBase {
 		private Fixture _fixture;
 

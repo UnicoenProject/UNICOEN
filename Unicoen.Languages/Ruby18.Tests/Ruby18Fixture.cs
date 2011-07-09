@@ -36,7 +36,7 @@ namespace Unicoen.Languages.Ruby18.Tests {
 			get { throw new NotImplementedException(); }
 		}
 
-		public override ICodeFactory CodeFactory {
+		public override CodeFactory CodeFactory {
 			get { throw new NotImplementedException(); }
 		}
 

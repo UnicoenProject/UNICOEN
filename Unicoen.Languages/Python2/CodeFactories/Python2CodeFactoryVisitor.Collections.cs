@@ -20,8 +20,8 @@ using System;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
-namespace Unicoen.Languages.Java.CodeFactories {
-	public partial class JavaCodeFactory {
+namespace Unicoen.Languages.Python2.CodeFactories {
+	public partial class Python2CodeFactoryVisitor {
 		public void VisitCollection<T, TSelf>(
 				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
@@ -39,106 +39,63 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			arg.Write(decoration.MostRight);
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedModifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(SpaceDelimiter));
 			return false;
 		}
 
 		// e.g. throws E1, E2 ...
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
 		// e.g. {...}catch(Exception1 e1){...}catch{Exception2 e2}{....}... ?
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(NewLineDelimiter));
 			return false;
 		}
 
 		// e.g. Foo<A, B> ?
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedGenericParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedExtendConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " extends ");
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedImplementsConstrain element, VisitorArgument arg) {
-			if(arg.Decoration.Delimiter == null) {
-				arg.Write(" implements ");
-			}
-			else {
-				//commaを出力する場合
-				arg.Write(arg.Decoration.Delimiter);
-			}
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSuperConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " super ");
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
-			UnifiedTypeConstrain last = null;
-			foreach (var current in element) {
-				if (last == null || last.GetType() != current.GetType()) {
-					current.TryAccept(this, arg.Set(NullDelimiter));
-				} else {
-					current.TryAccept(this, arg.Set(CommaDelimiter));
-				}
-				last = current;
-			}
-			return false;
-		}
-
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedExpressionCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedCaseCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
 				arg.WriteIndent();
@@ -147,14 +104,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedMatcherCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedAnnotation element, VisitorArgument arg) {
+		public override bool Visit(UnifiedAnnotation element, VisitorArgument arg) {
 			arg.Write("@");
 			element.Name.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
@@ -162,13 +118,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedAnnotationCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			var klass = element.GrandParent() as UnifiedEnum;
 			if (klass != null) {
@@ -179,47 +135,69 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSimpleType element, VisitorArgument arg) {
+		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
 			element.NameExpression.TryAccept(this, arg);
 			return true;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedList element, VisitorArgument arg) {
+		public override bool Visit(UnifiedList element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedIterable element, VisitorArgument arg) {
+		public override bool Visit(UnifiedIterable element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedArray element, VisitorArgument arg) {
+		public override bool Visit(UnifiedArray element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedSet element, VisitorArgument arg) {
+		public override bool Visit(UnifiedSet element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedTuple element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTuple element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public bool Visit(UnifiedIterableComprehension element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedIterableComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public bool Visit(UnifiedSetComprehension element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedSetComprehension element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public override bool Visit(
+				UnifiedInterface element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public override bool Visit(UnifiedStruct element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public override bool Visit(UnifiedEnum element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public override bool Visit(UnifiedModule element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public override bool Visit(UnifiedUnion element, VisitorArgument arg) {
+			throw new NotImplementedException();
+		}
+
+		public override bool Visit(
+				UnifiedAnnotationDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 	}

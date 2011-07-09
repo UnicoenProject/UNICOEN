@@ -64,7 +64,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override ICodeFactory CodeFactory {
+		public override CodeFactory CodeFactory {
 			get { return JavaFactory.CodeFactory; }
 		}
 
@@ -155,7 +155,8 @@ namespace Unicoen.Languages.Java.Tests {
 		private string SetUpMaven3() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "Maven3");
 			var exePath = Path.Combine(path, "apache-maven-3.0.3", "bin", "mvn.bat");
-			if (Directory.Exists(path))
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any())
 				return exePath;
 			Directory.CreateDirectory(path);
 			DownloadAndUntgz(

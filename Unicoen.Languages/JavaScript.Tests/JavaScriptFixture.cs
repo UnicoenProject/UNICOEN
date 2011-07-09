@@ -65,7 +65,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override ICodeFactory CodeFactory {
+		public override CodeFactory CodeFactory {
 			get { return JavaScriptFactory.CodeFactory; }
 		}
 
@@ -158,7 +158,8 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		private string SetUpRhino() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "Rhino");
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
-			if (Directory.Exists(path))
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any())
 				return jarPath;
 			Directory.CreateDirectory(path);
 			DownloadAndUnzip(
