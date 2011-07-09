@@ -93,7 +93,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunction CreateFunctionDeclaration(
+		public static UnifiedFunctionDefinition CreateFunctionDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionDeclaration");
@@ -107,7 +107,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					CreateFormalParameterList(node.Element("formalParameterList"));
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedVariableIdentifier.Create(name), parameters,
 					null, body);

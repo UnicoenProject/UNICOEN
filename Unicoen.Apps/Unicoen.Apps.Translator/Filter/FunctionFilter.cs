@@ -24,9 +24,9 @@ namespace Unicoen.Apps.Translator{
 	// 関数に特化した検索器
 	public class FunctionFinder {
 		// 名前からの検索
-		public static List<UnifiedFunction> FindByName(
-				String name, List<UnifiedFunction> list) {
-			var filteredList = new List<UnifiedFunction>();
+		public static List<UnifiedFunctionDefinition> FindByName(
+				String name, List<UnifiedFunctionDefinition> list) {
+			var filteredList = new List<UnifiedFunctionDefinition>();
 
 			foreach (var f in list) {
 				if (f.Name.Name.Equals(name)) {
@@ -38,9 +38,9 @@ namespace Unicoen.Apps.Translator{
 		}
 
 		// 返却値型からの検索
-		public static List<UnifiedFunction> FindByReturnType(
-				UnifiedType type, List<UnifiedFunction> list) {
-			var filteredList = new List<UnifiedFunction>();
+		public static List<UnifiedFunctionDefinition> FindByReturnType(
+				UnifiedType type, List<UnifiedFunctionDefinition> list) {
+			var filteredList = new List<UnifiedFunctionDefinition>();
 
 			throw new NotImplementedException();
 		}

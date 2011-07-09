@@ -44,7 +44,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			var elements = CodeProcessor.CreateIntertype("Java", code);
 			Assert.That(
 					elements.ElementAt(0).GetType(),
-					Is.EqualTo(typeof(UnifiedFunction)));
+					Is.EqualTo(typeof(UnifiedFunctionDefinition)));
 		}
 
 		[Test]
@@ -62,7 +62,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			var elements = CodeProcessor.CreateIntertype("JavaScript", code);
 			Assert.That(
 					elements.ElementAt(0).GetType(),
-					Is.EqualTo(typeof(UnifiedFunction)));
+					Is.EqualTo(typeof(UnifiedFunctionDefinition)));
 		}
 
 		[Test]

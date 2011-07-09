@@ -24,7 +24,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.CodeFactories {
 	public partial class JavaCodeFactory
-			: CodeFactory, IUnifiedVisitor<bool, VisitorArgument> {
+			: CodeFactoryWithVisitor, IUnifiedVisitor<bool, VisitorArgument> {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>
@@ -141,7 +141,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedFunction element, VisitorArgument arg) {
+				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
 			element.GenericParameters.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);

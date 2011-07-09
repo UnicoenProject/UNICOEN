@@ -24,7 +24,7 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   if文を表します。
-		///   e.g. C, Java, C#における<c>if (i == 1) { ... } else { ... }</c>
+	///   e.g. C, Java, C#における<c>if (i == 1) { ... } else { ... }</c>
 	/// </summary>
 	public class UnifiedIf : UnifiedExpressionBlock {
 		private IUnifiedExpression _condition;
@@ -41,7 +41,6 @@ namespace Unicoen.Core.Model {
 		private UnifiedBlock _elseBody;
 
 		/// <summary>
-		/// 
 		/// </summary>
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }

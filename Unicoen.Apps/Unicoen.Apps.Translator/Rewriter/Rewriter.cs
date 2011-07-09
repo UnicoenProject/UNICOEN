@@ -24,8 +24,8 @@ namespace Unicoen.Apps.Translator{
 	public class Rewriter {
 		// targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
 		public static void RewriteIdentifierName(string newName, UnifiedElement target) {
-			if (target is UnifiedFunction) {
-				((UnifiedFunction)target).Name.Name = newName;
+			if (target is UnifiedFunctionDefinition) {
+				((UnifiedFunctionDefinition)target).Name.Name = newName;
 				return;
 			}
 		}
@@ -43,7 +43,7 @@ namespace Unicoen.Apps.Translator{
 
 		// ある要素を削除する
 		public static void DeleteElement(UnifiedElement target) {
-			target.Remove();
+			target.RemoveSelf();
 		}
 
 		/// <summary>

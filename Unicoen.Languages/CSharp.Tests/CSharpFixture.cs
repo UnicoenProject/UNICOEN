@@ -63,7 +63,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override CodeFactory CodeFactory {
+		public override ICodeFactory CodeFactory {
 			get { return CSharpFactory.CodeFactory; }
 		}
 

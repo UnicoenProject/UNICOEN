@@ -65,7 +65,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override CodeFactory CodeFactory {
+		public override ICodeFactory CodeFactory {
 			get { return JavaScriptFactory.CodeFactory; }
 		}
 

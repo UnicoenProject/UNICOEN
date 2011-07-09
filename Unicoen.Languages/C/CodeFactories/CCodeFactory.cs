@@ -23,7 +23,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
 	public partial class CCodeFactory
-			: CodeFactory, IUnifiedVisitor<bool, VisitorArgument> {
+			: CodeFactoryWithVisitor, IUnifiedVisitor<bool, VisitorArgument> {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>
@@ -120,7 +120,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedFunction element, VisitorArgument arg) {
+				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			// C言語に存在しない要素は省略
 
 			arg.WriteIndent();

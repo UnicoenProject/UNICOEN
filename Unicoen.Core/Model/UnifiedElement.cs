@@ -192,7 +192,7 @@ namespace Unicoen.Core.Model {
 		///   親要素から自分自身を削除します。
 		/// </summary>
 		/// <returns>親要素</returns>
-		public IUnifiedElement Remove() {
+		public IUnifiedElement RemoveSelf() {
 			return Parent.RemoveChild(this);
 		}
 
@@ -211,7 +211,7 @@ namespace Unicoen.Core.Model {
 				}
 				((UnifiedElement)(IUnifiedElement)child).Parent = this;
 			} else if (oldChild != null && Parent != null) {
-				oldChild.Remove();
+				oldChild.RemoveSelf();
 			}
 			return child;
 		}

@@ -38,8 +38,8 @@ namespace Unicoen.Core.Model {
 		private UnifiedBlock _falseBody;
 
 		/// <summary>
-		/// 条件式が満たされない際に一度だけ実行されるブロックを取得もしくは設定します．
-		/// 今のところ該当する言語が存在しません．
+		///   条件式が満たされない際に一度だけ実行されるブロックを取得もしくは設定します．
+		///   今のところ該当する言語が存在しません．
 		/// </summary>
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
@@ -47,7 +47,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// ループで実行されるブロックを取得します．
+		///   ループで実行されるブロックを取得します．
 		/// </summary>
 		public override UnifiedBlock Body {
 			get { return _body; }

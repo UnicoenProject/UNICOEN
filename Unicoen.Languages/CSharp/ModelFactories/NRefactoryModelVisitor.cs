@@ -706,7 +706,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					body.Add(uExpr);
 			}
 			// C# don't have "throws."
-			return UnifiedFunction.Create(attrs, mods, type, generics, name, parameters, body: body);
+			return UnifiedFunctionDefinition.Create(attrs, mods, type, generics, name, parameters, body: body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(

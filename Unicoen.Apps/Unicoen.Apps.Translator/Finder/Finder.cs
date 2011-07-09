@@ -24,7 +24,7 @@ namespace Unicoen.Apps.Translator{
 	// モデルの検索に関するクラス
 	public class Finder {
 		// 関数が与えられたパラメータを持っているか
-		public Boolean HasParameter(UnifiedFunction func, Parameter param) {
+		public Boolean HasParameter(UnifiedFunctionDefinition func, Parameter param) {
 			if (func.Name.Equals(param.Name)
 			    && func.Type.NameExpression.Equals(param.TypeName)) {
 				return true;

@@ -115,8 +115,8 @@
     <Compile Include="ModelFactories\CModelFactoryHelper.Operator.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Statement.cs" />
     <Compile Include="CodeFactories\CCodeFactory.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryForCollection.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryRequiringSemicolon.cs" />
+    <Compile Include="CodeFactories\CCodeFactory.Collections.cs" />
+    <Compile Include="CodeFactories\CCodeFactory.Statements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

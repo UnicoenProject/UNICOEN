@@ -108,6 +108,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedWithBlock.cs" />
+    <Compile Include="Model\UnifiedPropertyBody.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedArray.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedIterable.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedIterableComprehension.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Model\Expressions\Collections\UnifiedSet.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedSetComprehension.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedTuple.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedPropertyDefinition.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedVariableIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedLabelIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedThisIdentifier.cs" />
@@ -215,7 +217,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedExpressionBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedFor.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedForeach.cs" />
-    <Compile Include="Model\Expressions\Definitions\UnifiedFunction.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />

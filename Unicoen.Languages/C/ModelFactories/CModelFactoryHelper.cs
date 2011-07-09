@@ -64,7 +64,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedFunction CreateFunctionDefinition(
+		public static UnifiedFunctionDefinition CreateFunctionDefinition(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "function_definition");
@@ -98,11 +98,11 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			body = CreateCompoundStatement(node.Element("compound_statement"));
 
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					null, modifiers, type, genericParameters, name, parameters, throws, body);
 		}
 
-		public static UnifiedFunction CreateDeclaration(XElement node) {
+		public static UnifiedFunctionDefinition CreateDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration");
 			/*
@@ -591,7 +591,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 					// この場合はパラメータが関数ポインタ
 					var returnType = type;
 					type = UnifiedType.Create(
-							UnifiedFunction.Create(
+							UnifiedFunctionDefinition.Create(
 									null, modifiers, returnType,
 									null, null, parameters, null, null));
 					modifiers = null;

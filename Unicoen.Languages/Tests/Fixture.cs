@@ -69,7 +69,7 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public abstract CodeFactory CodeFactory { get; }
+		public abstract ICodeFactory CodeFactory { get; }
 
 		/// <summary>
 		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
