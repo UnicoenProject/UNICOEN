@@ -9,10 +9,10 @@ using Unicoen.Languages.JavaScript;
 
 namespace Unicoen.Apps.Translator {
 	/// <summary>
-	/// inputFilePath の構造XMLを outputDirPath に出力するユーティリティ
+	/// ソースファイルの共通表現オブジェクトをXMLにシリアライズして出力する機能を提供します．
 	/// </summary>
-	public class XMLGenerator {
-		public static void GenerateXML(string inputFilePath, string outputDirPath) {
+	public static class XmlGenerator {
+		public static void GenerateXml(string inputFilePath, string outputDirPath) {
 			if (!File.Exists(inputFilePath)) {
 				throw new FileNotFoundException();
 			}
