@@ -94,6 +94,6 @@ namespace Unicoen.Core.Model {
 		///   親要素から自分自身を削除して、親要素を取得します。
 		/// </summary>
 		/// <returns>親要素</returns>
-		IUnifiedElement Remove();
+		IUnifiedElement RemoveSelf();
 	}
 }

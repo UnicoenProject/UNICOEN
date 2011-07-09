@@ -20,8 +20,8 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	/// コンストラクタの定義を表します．
-	/// e.g. Javaにおける<c>public T1() { ... }</c>
+	///   コンストラクタの定義を表します．
+	///   e.g. Javaにおける<c>public T1() { ... }</c>
 	/// </summary>
 	public class UnifiedConstructor : UnifiedConstructorBase<UnifiedConstructor> {
 		protected UnifiedConstructor() {}

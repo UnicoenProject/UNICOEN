@@ -116,13 +116,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunction CreateFuncdef(XElement node) {
+		public static UnifiedFunctionDefinition CreateFuncdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "funcdef");
 			/*
 			 * funcdef: 'def' NAME parameters ':' suite
 			 */
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedVariableIdentifier.Create(node.NthElement(1).Value),
 					CreateParameters(node.NthElement(2)), null, CreateSuite(node.LastElement()));

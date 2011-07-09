@@ -36,7 +36,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// ブロックを取得します．
+		///   ブロックを取得します．
 		/// </summary>
 		public override UnifiedBlock Body {
 			get { return _body; }

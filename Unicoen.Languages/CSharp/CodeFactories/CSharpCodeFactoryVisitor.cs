@@ -4,7 +4,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
-	internal class CSharpCodeFactoryVisitor : IUnifiedVisitor<bool, int> {
+	internal class CSharpCodeFactoryVisitor : ExplicitDefaultUnifiedVisitor<bool, int> {
 		private readonly TextWriter _writer;
 		private readonly CSharpCodeStyle _style;
 
@@ -90,7 +90,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			return true;
 		}
 
-		public bool Visit(UnifiedFunction element, int arg) {
+		public bool Visit(UnifiedFunctionDefinition element, int arg) {
 			element.Modifiers.TryAccept(this, arg + 1);
 			element.Type.Accept(this, arg + 1);
 			_writer.Write(" ");

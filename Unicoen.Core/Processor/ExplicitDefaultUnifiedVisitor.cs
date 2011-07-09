@@ -49,7 +49,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor.Visit(UnifiedFunction element) {
+		void IUnifiedVisitor.Visit(UnifiedFunctionDefinition element) {
 			throw new NotImplementedException();
 		}
 
@@ -484,6 +484,14 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor.Visit(UnifiedRegularExpressionLiteral element) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor.Visit(UnifiedPropertyDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedPropertyBody element) {
+			throw new NotImplementedException();
+		}
 	}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg>
@@ -516,7 +524,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		void IUnifiedVisitor<TArg>.Visit(UnifiedFunction element, TArg arg) {
+		void IUnifiedVisitor<TArg>.Visit(UnifiedFunctionDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -962,12 +970,30 @@ namespace Unicoen.Core.Processor {
 				UnifiedRegularExpressionLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedPropertyDefinition element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedPropertyBody element, TArg arg) {
+			throw new NotImplementedException();
+		}
 			}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TResult, TArg>
 			: IUnifiedVisitor<TResult, TArg> {
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedBinaryOperator element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedPropertyDefinition element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(
+				UnifiedPropertyBody element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1000,7 +1026,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
-				UnifiedFunction element, TArg arg) {
+				UnifiedFunctionDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

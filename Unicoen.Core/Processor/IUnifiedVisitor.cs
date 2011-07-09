@@ -27,7 +27,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedBinaryExpression element);
 		void Visit(UnifiedBlock element);
 		void Visit(UnifiedCall element);
-		void Visit(UnifiedFunction element);
+		void Visit(UnifiedFunctionDefinition element);
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);
 		void Visit(UnifiedParameterCollection element);
@@ -136,6 +136,8 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTypeof element);
 		void Visit(UnifiedVariableIdentifier element);
 		void Visit(UnifiedRegularExpressionLiteral element);
+		void Visit(UnifiedPropertyDefinition element);
+		void Visit(UnifiedPropertyBody element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -146,7 +148,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedBinaryExpression element, TArg arg);
 		void Visit(UnifiedBlock element, TArg arg);
 		void Visit(UnifiedCall element, TArg arg);
-		void Visit(UnifiedFunction element, TArg arg);
+		void Visit(UnifiedFunctionDefinition element, TArg arg);
 		void Visit(UnifiedIf element, TArg arg);
 		void Visit(UnifiedParameter element, TArg arg);
 		void Visit(UnifiedParameterCollection element, TArg arg);
@@ -255,6 +257,8 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTypeof element, TArg arg);
 		void Visit(UnifiedVariableIdentifier element, TArg arg);
 		void Visit(UnifiedRegularExpressionLiteral element, TArg arg);
+		void Visit(UnifiedPropertyDefinition element, TArg arg);
+		void Visit(UnifiedPropertyBody element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -265,7 +269,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedBinaryExpression element, TArg arg);
 		TResult Visit(UnifiedBlock element, TArg arg);
 		TResult Visit(UnifiedCall element, TArg arg);
-		TResult Visit(UnifiedFunction element, TArg arg);
+		TResult Visit(UnifiedFunctionDefinition element, TArg arg);
 		TResult Visit(UnifiedIf element, TArg arg);
 		TResult Visit(UnifiedParameter element, TArg arg);
 		TResult Visit(UnifiedParameterCollection element, TArg arg);
@@ -374,5 +378,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedTypeof element, TArg arg);
 		TResult Visit(UnifiedVariableIdentifier element, TArg arg);
 		TResult Visit(UnifiedRegularExpressionLiteral element, TArg arg);
+		TResult Visit(UnifiedPropertyDefinition element, TArg arg);
+		TResult Visit(UnifiedPropertyBody element, TArg arg);
 	}
 }

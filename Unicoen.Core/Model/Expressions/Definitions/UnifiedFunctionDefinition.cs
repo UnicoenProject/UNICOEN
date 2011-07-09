@@ -23,8 +23,8 @@ namespace Unicoen.Core.Model {
 	///   関数やメソッドなどのサブルーチンの定義部分を表します。
 	///   e.g. Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
-	public class UnifiedFunction : UnifiedExpressionBlock {
-		#region fields
+	public class UnifiedFunctionDefinition : UnifiedExpressionBlock {
+		#region fields & properties
 
 		private UnifiedAnnotationCollection _annotations;
 
@@ -39,7 +39,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		///   メソッドにつく修飾子の集合を表します
+		///   付与されている修飾子の集合を取得もしくは設定します．
 		///   e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
@@ -50,7 +50,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		///   メソッドの名前を表します
+		///   名前を取得もしくは設定します．
 		///   e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
 		/// </summary>
 		public UnifiedType Type {
@@ -87,7 +87,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// ブロックを取得します．
+		///   ブロックを取得もしくは設定します．
 		/// </summary>
 		public override UnifiedBlock Body {
 			get { return _body; }
@@ -96,7 +96,7 @@ namespace Unicoen.Core.Model {
 
 		#endregion
 
-		private UnifiedFunction() {}
+		private UnifiedFunctionDefinition() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
@@ -113,7 +113,7 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedFunction Create(
+		public static UnifiedFunctionDefinition Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null,
@@ -122,7 +122,7 @@ namespace Unicoen.Core.Model {
 				UnifiedParameterCollection parameters = null,
 				UnifiedTypeCollection throws = null,
 				UnifiedBlock body = null) {
-			return new UnifiedFunction {
+			return new UnifiedFunctionDefinition {
 					Name = name,
 					Annotations = annotations,
 					Type = type,

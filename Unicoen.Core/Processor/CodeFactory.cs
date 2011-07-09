@@ -20,25 +20,60 @@ using System.IO;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Core.Processor {
-	public abstract class CodeFactory
-			: ExplicitDefaultUnifiedVisitor<bool, VisitorArgument> {
+	internal class CodeFactoryHelper {
+		internal static string Generate(ICodeFactory factory, IUnifiedElement model) {
+			var writer = new StringWriter();
+			factory.Generate(model, writer);
+			return writer.ToString();
+		}
+
+		internal static string GenerateOrEmpty(
+				ICodeFactory factory, IUnifiedElement model) {
+			if (model == null)
+				return string.Empty;
+			var writer = new StringWriter();
+			factory.Generate(model, writer);
+			return writer.ToString();
+		}
+	}
+
+	public interface ICodeFactory {
+		void Generate(
+				IUnifiedElement model, TextWriter writer, string indentSign);
+
+		void Generate(IUnifiedElement model, TextWriter writer);
+		string Generate(IUnifiedElement model);
+		string GenerateOrEmpty(IUnifiedElement model);
+	}
+
+	public abstract class CodeFactory : ICodeFactory {
 		public abstract void Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign);
 
 		public abstract void Generate(IUnifiedElement model, TextWriter writer);
 
 		public string Generate(IUnifiedElement model) {
-			var writer = new StringWriter();
-			Generate(model, writer);
-			return writer.ToString();
+			return CodeFactoryHelper.Generate(this, model);
 		}
 
 		public string GenerateOrEmpty(IUnifiedElement model) {
-			if (model == null)
-				return string.Empty;
-			var writer = new StringWriter();
-			Generate(model, writer);
-			return writer.ToString();
+			return CodeFactoryHelper.GenerateOrEmpty(this, model);
+		}
+	}
+
+	public abstract class CodeFactoryWithVisitor
+			: ExplicitDefaultUnifiedVisitor<bool, VisitorArgument>, ICodeFactory {
+		public abstract void Generate(
+				IUnifiedElement model, TextWriter writer, string indentSign);
+
+		public abstract void Generate(IUnifiedElement model, TextWriter writer);
+
+		public string Generate(IUnifiedElement model) {
+			return CodeFactoryHelper.Generate(this, model);
+		}
+
+		public string GenerateOrEmpty(IUnifiedElement model) {
+			return CodeFactoryHelper.GenerateOrEmpty(this, model);
 		}
 			}
 }

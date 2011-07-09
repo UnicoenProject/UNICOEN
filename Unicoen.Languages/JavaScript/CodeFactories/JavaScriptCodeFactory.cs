@@ -23,7 +23,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactory
-			: CodeFactory, IUnifiedVisitor<bool, VisitorArgument> {
+			: CodeFactoryWithVisitor, IUnifiedVisitor<bool, VisitorArgument> {
 		private static readonly Decoration Paren =
 				new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
 
@@ -142,7 +142,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
-				UnifiedFunction element, VisitorArgument arg) {
+				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			arg.WriteIndent();
 			arg.Write("function");
 			arg.WriteSpace();

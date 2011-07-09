@@ -296,8 +296,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
-			var amountOfMethodInExpectation = expectation.Descendants<UnifiedFunction>().ToListLiteral().Count;
-			var amountOfMethodInJava = _javaModel.Descendants<UnifiedFunction>().ToListLiteral().Count;
+			var amountOfMethodInExpectation = expectation.Descendants<UnifiedFunctionDefinition>().ToListLiteral().Count;
+			var amountOfMethodInJava = _javaModel.Descendants<UnifiedFunctionDefinition>().ToListLiteral().Count;
 
 			//モデル内のメソッド数が１増えているかどうか
 			Assert.That(
@@ -323,8 +323,8 @@ namespace Unicoen.Apps.Aop.Tests {
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
 			var expectation = CodeProcessor.CreateModel(".js", code);
 
-			var amountOfMethodInExpectation = expectation.Descendants<UnifiedFunction>().ToListLiteral().Count;
-			var amountOfMethodInJavaScript = _javaScriptModel.Descendants<UnifiedFunction>().ToListLiteral().Count;
+			var amountOfMethodInExpectation = expectation.Descendants<UnifiedFunctionDefinition>().ToListLiteral().Count;
+			var amountOfMethodInJavaScript = _javaScriptModel.Descendants<UnifiedFunctionDefinition>().ToListLiteral().Count;
 
 			//モデル内のメソッド数が１増えているかどうか
 			Assert.That(

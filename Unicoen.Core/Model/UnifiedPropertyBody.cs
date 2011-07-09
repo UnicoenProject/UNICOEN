@@ -19,47 +19,48 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   while文を表します。
-	///   e.g. Javaにおける<c>while(cond){...}</c>
-	/// </summary>
-	public class UnifiedWhile
-			: UnifiedExpressionBlock {
-		private IUnifiedExpression _condition;
+	public class UnifiedPropertyBody : UnifiedElement {
+		#region fields & properties
+
+		private UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
-		///   ループの継続の条件式を表します
-		///   e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
+		///   付与されているアノテーションを取得もしくは設定します．
+		///   e.g. C#における<c>public int Value { [Pure] get; set; }</c>の<c>[Pure]</c>
 		/// </summary>
-		public IUnifiedExpression Condition {
-			get { return _condition; }
-			set { _condition = SetChild(value, _condition); }
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedBlock _elseBody;
-
-		public UnifiedBlock ElseBody {
-			get { return _elseBody; }
-			set { _elseBody = SetChild(value, _elseBody); }
-		}
+		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
-		///   ブロックを取得します．
+		///   付与されている修飾子の集合を取得もしくは設定します．
+		///   e.g. C#における<c>public int Value { private get; set; }</c>の<c>private</c>
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetChild(value, _modifiers); }
+		}
+
+		private UnifiedBlock _body;
+
+		/// <summary>
+		///   ボディとなるブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}
 
-		private UnifiedWhile() {}
+		#endregion
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+		public override void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -67,16 +68,5 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-
-		public static UnifiedWhile Create(
-				IUnifiedExpression condition = null,
-				UnifiedBlock body = null,
-				UnifiedBlock elseBody = null) {
-			return new UnifiedWhile {
-					Condition = condition,
-					Body = body,
-					ElseBody = elseBody,
-			};
-		}
-			}
+	}
 }

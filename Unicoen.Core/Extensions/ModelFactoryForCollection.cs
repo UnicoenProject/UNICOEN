@@ -275,7 +275,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedList.Create(collection);
@@ -298,7 +298,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedArray.Create(collection);
@@ -321,7 +321,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedSet.Create(collection);
@@ -344,7 +344,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedIterable.Create(collection);
@@ -367,7 +367,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedTuple.Create(collection);
