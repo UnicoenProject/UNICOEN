@@ -33,7 +33,7 @@ namespace Unicoen.Languages.Java.Tests {
 	/// </summary>
 	public class JavaFixture : Fixture {
 		private readonly string _mavenCommand;
-		private const string MavenArg = "package";
+		private const string MavenArg = "clean package";
 		private const string CompileCommand = "javac";
 
 		public JavaFixture() {
