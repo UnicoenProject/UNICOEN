@@ -82,13 +82,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				arg.Write("~");
 				break;
 			case (UnifiedUnaryOperatorKind.Delete):
-				arg.Write("delete");
+				arg.Write("delete ");
 				break;
 			case (UnifiedUnaryOperatorKind.Void):
-				arg.Write("void");
+				arg.Write("void ");
 				break;
 			case (UnifiedUnaryOperatorKind.Typeof):
-				arg.Write("typeof");
+				arg.Write("typeof ");
 				break;
 			case (UnifiedUnaryOperatorKind.Unknown):
 				arg.Write(element.Sign);
@@ -125,13 +125,19 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				return false;
 			}
 
+			//empty block
+			if(element.Count == 0)
+				return false;
+
 			//for expressionList
+			arg.Write("(");
 			var comma = "";
 			foreach (var e in element) {
 				arg.Write(comma);
 				e.TryAccept(this, arg);
 				comma = decoration.Delimiter;
 			}
+			arg.Write(")");
 			return false;
 		}
 
@@ -244,7 +250,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.Write("for(");
 			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write("; ");
-			element.Condition.TryAccept(this, arg);
+			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(";");
 			element.Step.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(")");
@@ -260,7 +266,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.WriteSpace();
 			arg.Write("in");
 			arg.WriteSpace();
-			element.Set.TryAccept(this, arg);
+			element.Set.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(")");
 
 			element.Body.TryAccept(this, arg.Set(ForBlock));
@@ -292,7 +298,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedWhile element, VisitorArgument arg) {
 			arg.Write("while(");
-			element.Condition.TryAccept(this, arg);
+			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(")");
 
 			element.Body.TryAccept(this, arg.Set(ForBlock));
@@ -304,8 +310,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			arg.Write("do");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			arg.Write("while(");
-			element.Condition.TryAccept(this, arg);
-			//TODO
+			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write(");");
 			return false;
 		}
@@ -332,7 +337,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedSwitch element, VisitorArgument arg) {
 			arg.Write("switch(");
-			element.Value.TryAccept(this, arg);
+			element.Value.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.WriteLine(") {");
 
 			element.Cases.TryAccept(this, arg);
@@ -544,6 +549,14 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				comma = ",";
 			}
 			arg.Write("]");
+			return false;
+		}
+
+		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
+				UnifiedSimpleType element, VisitorArgument arg) {
+			//e.g. new new r().f
+			//TODO ただし、言語変換を考えると型を出力してほしくないので、対応を考える
+			element.NameExpression.TryAccept(this, arg);
 			return false;
 		}
 			}

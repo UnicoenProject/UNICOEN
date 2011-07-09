@@ -24,11 +24,21 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactory {
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
+
+			//親も自分も２項式で、演算子が同じ場合は括弧をつけない
+			var b1 = element as UnifiedBinaryExpression;
+			var b2 = parent as UnifiedBinaryExpression;
+			if(b1 != null && b2 !=  null) {
+				return b1.Operator.Sign == b2.Operator.Sign 
+					? Tuple.Create("", "") : Tuple.Create("(", ")");
+			}
+
 			if (parent is UnifiedUnaryExpression ||
-			    parent is UnifiedBinaryExpression ||
 			    parent is UnifiedTernaryExpression ||
+				parent is UnifiedBinaryExpression ||
 				parent is UnifiedProperty)
 				return Tuple.Create("(", ")");
+
 			return Tuple.Create("", "");
 		}
 
@@ -117,7 +127,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedReturn element, VisitorArgument arg) {
 			arg.Write("return ");
-			element.Value.TryAccept(this, arg);
+			element.Value.TryAccept(this, arg.Set(CommaDelimiter));
 			return true;
 		}
 
@@ -141,7 +151,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		bool IUnifiedVisitor<bool, VisitorArgument>.Visit(
 				UnifiedThrow element, VisitorArgument arg) {
 			arg.Write("throw ");
-			element.Value.TryAccept(this, arg);
+			element.Value.TryAccept(this, arg.Set(CommaDelimiter));
 			return true;
 		}
 

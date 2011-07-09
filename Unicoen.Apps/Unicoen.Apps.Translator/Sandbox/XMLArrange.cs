@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 namespace Unicoen.Apps.Translator.Sandbox {
-	class Travers {
+	class XMLArrange 
+	{
+
 	}
 }
