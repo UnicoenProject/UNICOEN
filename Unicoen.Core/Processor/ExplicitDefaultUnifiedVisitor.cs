@@ -18,6 +18,7 @@
 
 using System;
 using Unicoen.Core.Model;
+using Unicoen.Core.Model.Expressions;
 
 namespace Unicoen.Core.Processor {
 	public abstract class ExplicitDefaultUnifiedVisitor : IUnifiedVisitor {
@@ -490,6 +491,50 @@ namespace Unicoen.Core.Processor {
 		}
 
 		void IUnifiedVisitor.Visit(UnifiedPropertyBody element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedSelect element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedWhere element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedInto element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedLet element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedOrderBy element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedJoin element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedGroupBy element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedOrderByKeyCollection element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedOrderByKey element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedLinqElementCollection element) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor.Visit(UnifiedLinq element) {
 			throw new NotImplementedException();
 		}
 	}
@@ -978,6 +1023,50 @@ namespace Unicoen.Core.Processor {
 		void IUnifiedVisitor<TArg>.Visit(UnifiedPropertyBody element, TArg arg) {
 			throw new NotImplementedException();
 		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedSelect element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedWhere element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedInto element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedLet element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedOrderBy element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedJoin element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedGroupBy element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedOrderByKeyCollection element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedOrderByKey element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedLinqElementCollection element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		void IUnifiedVisitor<TArg>.Visit(UnifiedLinq element, TArg arg) {
+			throw new NotImplementedException();
+		}
 			}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TResult, TArg>
@@ -994,6 +1083,50 @@ namespace Unicoen.Core.Processor {
 
 		TResult IUnifiedVisitor<TResult, TArg>.Visit(
 				UnifiedPropertyBody element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedSelect element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedWhere element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedInto element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLet element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedOrderBy element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedJoin element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedGroupBy element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedOrderByKeyCollection element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedOrderByKey element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLinqElementCollection element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		TResult IUnifiedVisitor<TResult, TArg>.Visit(UnifiedLinq element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
