@@ -17,7 +17,6 @@ using Antlr.Runtime.Tree;
 using RewriteRuleITokenStream = Antlr.Runtime.Tree.RewriteRuleTokenStream;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "3.3 Nov 30, 2010 12:50:56")]
-[System.CLSCompliant(false)]
 public partial class AriesParser : Antlr.Runtime.Parser
 {
 	internal static readonly string[] tokenNames = new string[] {

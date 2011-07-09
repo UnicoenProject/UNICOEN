@@ -17,6 +17,7 @@
 #endregion
 
 using Unicoen.Core.Model;
+using Unicoen.Core.Model.Expressions;
 
 namespace Unicoen.Core.Processor {
 	public interface IUnifiedVisitor {
@@ -138,6 +139,17 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedRegularExpressionLiteral element);
 		void Visit(UnifiedPropertyDefinition element);
 		void Visit(UnifiedPropertyBody element);
+		void Visit(UnifiedSelect element);
+		void Visit(UnifiedWhere element);
+		void Visit(UnifiedInto element);
+		void Visit(UnifiedLet element);
+		void Visit(UnifiedOrderBy element);
+		void Visit(UnifiedJoin element);
+		void Visit(UnifiedGroupBy element);
+		void Visit(UnifiedOrderByKeyCollection element);
+		void Visit(UnifiedOrderByKey element);
+		void Visit(UnifiedLinqElementCollection element);
+		void Visit(UnifiedLinq element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -259,6 +271,17 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		void Visit(UnifiedPropertyDefinition element, TArg arg);
 		void Visit(UnifiedPropertyBody element, TArg arg);
+		void Visit(UnifiedSelect element, TArg arg);
+		void Visit(UnifiedWhere element, TArg arg);
+		void Visit(UnifiedInto element, TArg arg);
+		void Visit(UnifiedLet element, TArg arg);
+		void Visit(UnifiedOrderBy element, TArg arg);
+		void Visit(UnifiedJoin element, TArg arg);
+		void Visit(UnifiedGroupBy element, TArg arg);
+		void Visit(UnifiedOrderByKeyCollection element, TArg arg);
+		void Visit(UnifiedOrderByKey element, TArg arg);
+		void Visit(UnifiedLinqElementCollection element, TArg arg);
+		void Visit(UnifiedLinq element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<out TResult, in TArg> {
@@ -380,5 +403,16 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		TResult Visit(UnifiedPropertyDefinition element, TArg arg);
 		TResult Visit(UnifiedPropertyBody element, TArg arg);
+		TResult Visit(UnifiedSelect element, TArg arg);
+		TResult Visit(UnifiedWhere element, TArg arg);
+		TResult Visit(UnifiedInto element, TArg arg);
+		TResult Visit(UnifiedLet element, TArg arg);
+		TResult Visit(UnifiedOrderBy element, TArg arg);
+		TResult Visit(UnifiedJoin element, TArg arg);
+		TResult Visit(UnifiedGroupBy element, TArg arg);
+		TResult Visit(UnifiedOrderByKeyCollection element, TArg arg);
+		TResult Visit(UnifiedOrderByKey element, TArg arg);
+		TResult Visit(UnifiedLinqElementCollection element, TArg arg);
+		TResult Visit(UnifiedLinq element, TArg arg);
 	}
 }

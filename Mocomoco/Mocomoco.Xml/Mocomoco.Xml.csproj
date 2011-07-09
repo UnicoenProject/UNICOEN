@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,7 +12,7 @@
     <AssemblyName>Mocomoco.Xml</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
     <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
     <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
@@ -35,7 +35,7 @@
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
@@ -45,6 +45,9 @@
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -53,6 +56,31 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>ReleaseRequires</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

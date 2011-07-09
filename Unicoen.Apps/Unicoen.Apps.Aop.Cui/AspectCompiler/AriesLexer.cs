@@ -13,7 +13,6 @@ using List = System.Collections.IList;
 using ArrayList = System.Collections.Generic.List<object>;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "3.3 Nov 30, 2010 12:50:56")]
-[System.CLSCompliant(false)]
 public partial class AriesLexer : Antlr.Runtime.Lexer
 {
 	public const int EOF=-1;

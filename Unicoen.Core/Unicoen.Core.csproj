@@ -99,7 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Model\Collections\UnifiedLinqElementCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
@@ -108,6 +110,16 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedWithBlock.cs" />
+    <Compile Include="Model\Linqs\UnifiedLet.cs" />
+    <Compile Include="Model\Linqs\UnifiedJoin.cs" />
+    <Compile Include="Model\Linqs\UnifiedOrderBy.cs" />
+    <Compile Include="Model\Linqs\UnifiedGroupBy.cs" />
+    <Compile Include="Model\Linqs\UnifiedInto.cs" />
+    <Compile Include="Model\Linqs\UnifiedOrderByKey.cs" />
+    <Compile Include="Model\Linqs\UnifiedWhere.cs" />
+    <Compile Include="Model\Linqs\UnifiedLinqElement.cs" />
+    <Compile Include="Model\Linqs\UnifiedSelect.cs" />
+    <Compile Include="Model\Expressions\UnifiedLinq.cs" />
     <Compile Include="Model\UnifiedPropertyBody.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedArray.cs" />
     <Compile Include="Model\Expressions\Collections\UnifiedIterable.cs" />
