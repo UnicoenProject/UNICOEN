@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using Paraiba.Text;
 using Unicoen.Apps.Aop;
 using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Core.Tests;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 
@@ -18,11 +19,18 @@ namespace AopGUI
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private static readonly string[] TargetLanguage = new[] { ".java", ".js" };
+		private static readonly Dictionary<string, string> TargetLanguage = new Dictionary<string, string>();
 
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			TargetLanguage.Add(".java", "Java");
+			TargetLanguage.Add(".js", "JavaScript");
+			//TargetLanguage.Add(".cs", "CSharp");
+			//TargetLanguage.Add(".c", "C");
+			//TargetLanguage.Add(".rb", "Ruby");
+			//TargetLanguage.Add(".py", "Python");
 		}
 
 		private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -30,8 +38,7 @@ namespace AopGUI
 			//Nothing do
 		}
 
-		private void GetTargetContent(object sender, RoutedEventArgs e)
-		{
+		private void GetTargetContent(object sender, RoutedEventArgs e) {
 			var dialog = new OpenFileDialog();
 			dialog.FileName = "";
 			dialog.DefaultExt = "*.*";
@@ -65,7 +72,7 @@ namespace AopGUI
 		private void Weave(object sender, RoutedEventArgs e)
 		{
 			//選択されたパスからファイルを取得
-			var filePath = TargetPath.Text;
+			var targetPath = TargetPath.Text;
 			var aspectPath = AspectPath.Text;
 
 			//アスペクト情報を持つオブジェクトを生成する
@@ -82,43 +89,62 @@ namespace AopGUI
 			var visitor = new AstVisitor();
 			visitor.Visit(ast, 0, null);
 
-			//TODO デモ向けに１つのファイルを対象とするように一時的に変更
 
-			var fileExtension = Path.GetExtension(filePath);
-			//対象言語のソースコードでない場合は何もしない
-			if (Array.IndexOf(TargetLanguage, fileExtension) < 0) //TODO これでフィルタリングが正しいか確認
-				return;
-
-			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var model = CodeProcessor.CreateModel(fileExtension, code);
-
-			//TODO もっとスマートな変換を考える(そもそも変換しない方法も検討する)
-			string langType;
-			switch (fileExtension) {
-			case ".java":
-				langType = "Java";
-				break;
-			case ".js":
-				langType = "JavaScript";
-				break;
-			default:
-				throw new NotImplementedException();
+			//指定されたパス以下にあるディレクトリをすべてoutput以下にコピーします
+			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
+			var directories = Directory.EnumerateDirectories(targetPath, "*", SearchOption.AllDirectories);
+			foreach(var dir in directories) {
+				var newDir = dir.Replace(targetPath, workPath);
+				WeavedSourceArea.Text += newDir;
+				Directory.CreateDirectory(newDir);
 			}
+			//指定されたパス以下にあるソースコードのパスをすべて取得します
+			var targetFiles = AspectAdaptor.Collect(targetPath);
 
-			//アスペクトの合成を行う
-			AspectAdaptor.Weave(langType, model, visitor);
+			foreach (var file in targetFiles) {
+				//対象ファイルの拡張子を取得
+				var fileExtension = Path.GetExtension(file);
+				var newPath = file.Replace(targetPath, workPath);
 
-			//とりえあず標準出力に表示);
-			switch (langType) {
-			case "Java":
-				WeavedSourceArea.Text += JavaFactory.GenerateCode(model);
-				WeavedSourceArea.Text += "\n";
-				break;
-			case "JavaScript":
-				WeavedSourceArea.Text += JavaScriptFactory.GenerateCode(model);
-				break;
-			default:
-				throw new NotImplementedException();
+				//対象言語のソースコードでない場合は次の対象へ進む
+				string langType;
+				if(fileExtension == null || !TargetLanguage.TryGetValue(fileExtension, out langType)) {
+					//対象プログラミング言語ソースファイル以外はそのままコピーする
+					File.Copy(file, newPath);
+					continue;
+				}
+
+				var code = File.ReadAllText(file, XEncoding.SJIS);
+				var model = CodeProcessor.CreateModel(fileExtension, code);
+
+				//アスペクトの合成を行う
+				AspectAdaptor.Weave(langType, model, visitor);
+
+				//ファイル出力
+				switch(langType) {
+					case "Java":
+						File.WriteAllText(newPath, JavaFactory.GenerateCode(model));
+						break;
+					case "JavaScript":
+						File.WriteAllText(newPath, JavaScriptFactory.GenerateCode(model));
+						break;
+					default:
+						throw new NotImplementedException();
+				}
+
+				//とりえあず標準出力に表示;
+				switch(langType) {
+					case "Java":
+						WeavedSourceArea.Text += JavaFactory.GenerateCode(model);
+						WeavedSourceArea.Text += "\n";
+						break;
+					case "JavaScript":
+						WeavedSourceArea.Text += JavaScriptFactory.GenerateCode(model);
+						WeavedSourceArea.Text += "\n";
+						break;
+					default:
+						throw new NotImplementedException();
+				}
 			}
 		}
 	}

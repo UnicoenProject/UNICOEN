@@ -189,8 +189,12 @@ namespace Unicoen.Apps.Aop {
 			foreach (var e in functions) {
 				//weave given advice, when function's name matches given Regex
 				var m = regex.Match(e.Name.Name);
-				if (m.Success)
+				if (m.Success) {
+					if(e.Body == null)
+						e.Body = UnifiedBlock.Create();
+
 					e.Body.Insert(0, advice);
+				}
 			}
 		}
 

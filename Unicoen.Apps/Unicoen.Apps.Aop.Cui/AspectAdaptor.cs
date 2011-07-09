@@ -104,6 +104,15 @@ namespace Unicoen.Apps.Aop
 		}
 
 		public static IEnumerable<string> Collect(string folderRootPath) {
+			//指定された文字列がフォルダじゃなかった場合
+			if(!Directory.Exists(folderRootPath)) {
+				var list = new List<string>();
+				list.Add(folderRootPath);
+				return list;
+
+			}
+
+			//指定された文字列に該当するフォルダがある場合
 			return Directory.EnumerateFiles(
 					folderRootPath, "*", SearchOption.AllDirectories);
 		}
