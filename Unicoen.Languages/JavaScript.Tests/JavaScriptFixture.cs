@@ -78,6 +78,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				return new[] {
 						"var a = 1;",
+						"for ( i = 0, length = args.length; i < length; i++ ) { }",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
