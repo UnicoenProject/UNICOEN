@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DACB2574-1700-4ABB-993B-0DE489CDBB29}</ProjectGuid>
+    <ProjectGuid>{E265A1E4-08CC-477B-A514-32CB2C11E717}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Languages.Java.Tests</RootNamespace>
-    <AssemblyName>Unicoen.Languages.Java.Tests</AssemblyName>
+    <RootNamespace>Unicoen.Languages.Java.Heavy.Tests</RootNamespace>
+    <AssemblyName>Unicoen.Languages.Java.Heavy.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -57,8 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaFixture.cs" />
-    <Compile Include="JavaLanguageTest.cs" />
+    <Compile Include="JavaHeavyLanguageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +72,10 @@
     <ProjectReference Include="..\..\Unicoen.Utils\Unicoen.Utils.csproj">
       <Project>{C5722D52-DD9D-4FD8-9316-B6F5442080A3}</Project>
       <Name>Unicoen.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Java.Tests\Unicoen.Languages.Java.Tests.csproj">
+      <Project>{DACB2574-1700-4ABB-993B-0DE489CDBB29}</Project>
+      <Name>Unicoen.Languages.Java.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\Java\Unicoen.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DACB2574-1700-4ABB-993B-0DE489CDBB29}</ProjectGuid>
+    <ProjectGuid>{544CC9C4-C9FD-44A5-9EE1-2A24922C6593}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Languages.Java.Tests</RootNamespace>
-    <AssemblyName>Unicoen.Languages.Java.Tests</AssemblyName>
+    <RootNamespace>UniUni.Tests</RootNamespace>
+    <AssemblyName>UniUni.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,25 +31,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Code2Xml.Core">
-      <HintPath>..\lib\Code2Xml.Core.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.mocks, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Paraiba.dll</HintPath>
-    </Reference>
-    <Reference Include="pnunit.framework, Version=1.0.4109.34242, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="pnunit.framework">
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,35 +51,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaFixture.cs" />
-    <Compile Include="JavaLanguageTest.cs" />
+    <Compile Include="ChainingAssertion.NUnit.cs" />
+    <Compile Include="Linq\EnumerableExtensionsTest.cs" />
+    <Compile Include="Text\Guess.cs" />
+    <Compile Include="Xml\Linq\XElementExtensionsTest.cs" />
+    <Compile Include="Xml\Linq\XElementSafeExtensionsTest.cs" />
+    <Compile Include="Collections\Generic\ListExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
-      <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
-      <Name>Unicoen.Core.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
-      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
-      <Name>Unicoen.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Unicoen.Utils\Unicoen.Utils.csproj">
-      <Project>{C5722D52-DD9D-4FD8-9316-B6F5442080A3}</Project>
-      <Name>Unicoen.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Java\Unicoen.Languages.Java.csproj">
-      <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
-      <Name>Unicoen.Languages.Java</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tests\Unicoen.Languages.Tests.csproj">
-      <Project>{BC8744B2-0E75-4855-8C01-35E2198546EE}</Project>
-      <Name>Unicoen.Languages.Tests</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UniUni\UniUni.csproj">
+      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
+      <Name>UniUni %28UniUni\UniUni%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
