@@ -84,7 +84,8 @@ namespace Unicoen.Languages.Java.Tests {
 				var codes = new[] {
 						"class A { void execute(String ... str) { } }",
 						"class A { public @interface M1 { String value(); } }",
-						"class A { void m() { for (final int a = 0, b = 1; ; ) System.out.println(a + b); } }",
+						"class A { void m() { for (final int a = 0, b = 1; ; ) System.out.println(a + b); } }"
+						,
 						"import java.util.List;"
 						,
 				}.Select(s => new TestCaseData(s));
@@ -131,7 +132,6 @@ namespace Unicoen.Languages.Java.Tests {
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
 						.Concat(SetUpJUnit())
-						.Concat(SetUpJenkins())
 						.Concat(SetUpCraftBukkit())
 						.Concat(SetUpBukkit())
 						;
@@ -139,7 +139,11 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-			get { return SetUpJdk(); }
+			get {
+				return SetUpJdk()
+						.Concat(SetUpJenkins())
+						;
+			}
 		}
 
 		/// <summary>
