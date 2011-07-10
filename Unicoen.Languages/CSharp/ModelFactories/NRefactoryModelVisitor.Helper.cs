@@ -56,7 +56,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		private static UnifiedModifier LookupModifier(ParameterModifier mod) {
-			switch (mod) {
+			switch(mod) {
 			case ParameterModifier.Out:
 				return UnifiedModifier.Create("out");
 			case ParameterModifier.Params:
@@ -103,8 +103,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("LookupType");
 		}
 
-		private static UnifiedBinaryOperator LookupBinaryOperator(
-				BinaryOperatorType op) {
+		private static UnifiedBinaryOperator LookupBinaryOperator(BinaryOperatorType op) {
 			switch (op) {
 			case BinaryOperatorType.Add:
 				return UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorKind.Add);
@@ -114,24 +113,39 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedBinaryOperator.Create("*", UnifiedBinaryOperatorKind.Multiply);
 			case BinaryOperatorType.Divide:
 				return UnifiedBinaryOperator.Create("/", UnifiedBinaryOperatorKind.Divide);
+			case BinaryOperatorType.Modulus:
+				return UnifiedBinaryOperator.Create("%", UnifiedBinaryOperatorKind.Modulo);
+
+			case BinaryOperatorType.ShiftLeft:
+				return UnifiedBinaryOperator.Create("<<", UnifiedBinaryOperatorKind.ArithmeticLeftShift);
+			case BinaryOperatorType.ShiftRight:
+				return UnifiedBinaryOperator.Create("<<", UnifiedBinaryOperatorKind.ArithmeticRightShift);
+
+			case BinaryOperatorType.BitwiseAnd:
+				return UnifiedBinaryOperator.Create("&", UnifiedBinaryOperatorKind.And);
+			case BinaryOperatorType.BitwiseOr:
+				return UnifiedBinaryOperator.Create("|", UnifiedBinaryOperatorKind.Or);
+			case BinaryOperatorType.ExclusiveOr:
+				return UnifiedBinaryOperator.Create("|", UnifiedBinaryOperatorKind.ExclusiveOr);
 
 			case BinaryOperatorType.GreaterThan:
-				return UnifiedBinaryOperator.Create(
-						">", UnifiedBinaryOperatorKind.GreaterThan);
+				return UnifiedBinaryOperator.Create(">", UnifiedBinaryOperatorKind.GreaterThan);
 			case BinaryOperatorType.GreaterThanOrEqual:
-				return UnifiedBinaryOperator.Create(
-						">=", UnifiedBinaryOperatorKind.GreaterThanOrEqual);
+				return UnifiedBinaryOperator.Create(">=", UnifiedBinaryOperatorKind.GreaterThanOrEqual);
 			case BinaryOperatorType.LessThanOrEqual:
-				return UnifiedBinaryOperator.Create(
-						"<=", UnifiedBinaryOperatorKind.LessThanOrEqual);
+				return UnifiedBinaryOperator.Create("<=", UnifiedBinaryOperatorKind.LessThanOrEqual);
 			case BinaryOperatorType.LessThan:
 				return UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorKind.LessThan);
 
 			case BinaryOperatorType.Equality:
 				return UnifiedBinaryOperator.Create("==", UnifiedBinaryOperatorKind.Equal);
 			case BinaryOperatorType.InEquality:
-				return UnifiedBinaryOperator.Create(
-						"!=", UnifiedBinaryOperatorKind.NotEqual);
+				return UnifiedBinaryOperator.Create("!=", UnifiedBinaryOperatorKind.NotEqual);
+
+			case BinaryOperatorType.ConditionalAnd:
+				return UnifiedBinaryOperator.Create("&&", UnifiedBinaryOperatorKind.AndAlso);
+			case BinaryOperatorType.ConditionalOr:
+				return UnifiedBinaryOperator.Create("||", UnifiedBinaryOperatorKind.OrElse);
 			}
 			throw new NotImplementedException("LookupBinaryOperator");
 		}
@@ -140,6 +154,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			switch (op) {
 			case UnaryOperatorType.Not:
 				return UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.Not);
+			case UnaryOperatorType.BitNot:
+				return UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.OnesComplement);
 
 			case UnaryOperatorType.Plus:
 				return UnifiedUnaryOperator.Create("+", UnifiedUnaryOperatorKind.UnaryPlus);
@@ -147,19 +163,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedUnaryOperator.Create("-", UnifiedUnaryOperatorKind.Negate);
 
 			case UnaryOperatorType.Increment:
-				return UnifiedUnaryOperator.Create(
-						"++", UnifiedUnaryOperatorKind.PreIncrementAssign);
+				return UnifiedUnaryOperator.Create("++", UnifiedUnaryOperatorKind.PreIncrementAssign);
 			case UnaryOperatorType.PostIncrement:
-				return UnifiedUnaryOperator.Create(
-						"++", UnifiedUnaryOperatorKind.PostIncrementAssign);
+				return UnifiedUnaryOperator.Create("++", UnifiedUnaryOperatorKind.PostIncrementAssign);
 			case UnaryOperatorType.Decrement:
-				return UnifiedUnaryOperator.Create(
-						"--", UnifiedUnaryOperatorKind.PreDecrementAssign);
+				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PreDecrementAssign);
 			case UnaryOperatorType.PostDecrement:
-				return UnifiedUnaryOperator.Create(
-						"--", UnifiedUnaryOperatorKind.PostDecrementAssign);
+				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PostDecrementAssign);
 			}
-
 			throw new NotImplementedException("LookupUnaryOperator");
 		}
 

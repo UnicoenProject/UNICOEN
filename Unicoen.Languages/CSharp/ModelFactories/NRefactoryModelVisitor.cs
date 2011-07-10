@@ -119,9 +119,12 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("CheckedExpression");
 		}
 
-		public IUnifiedElement VisitConditionalExpression(
-				ConditionalExpression conditionalExpression, object data) {
-			throw new NotImplementedException("ConditionalExpression");
+		public IUnifiedElement VisitConditionalExpression(ConditionalExpression expr, object data) {
+
+			var cond = expr.Condition.AcceptForExpression(this);
+			var former = expr.TrueExpression.AcceptForExpression(this);
+			var latter = expr.FalseExpression.AcceptForExpression(this);
+			return UnifiedTernaryExpression.Create(cond, former, latter);
 		}
 
 		public IUnifiedElement VisitDefaultValueExpression(
@@ -219,9 +222,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("AnonymousTypeCreateExpression");
 		}
 
-		public IUnifiedElement VisitParenthesizedExpression(
-				ParenthesizedExpression parenthesizedExpression, object data) {
-			throw new NotImplementedException("ParenthesizedExpression");
+		public IUnifiedElement VisitParenthesizedExpression(ParenthesizedExpression expr, object data) {
+			return expr.Expression.AcceptVisitor(this, data);
 		}
 
 		public IUnifiedElement VisitPointerReferenceExpression(
