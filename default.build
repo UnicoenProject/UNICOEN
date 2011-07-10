@@ -5,8 +5,8 @@
   <!-- 定義値 -->
   <!-- ========================================================== -->
   <property name="nant.settings.currentframework" value="net-4.0" />
-  <property name="bin.dir" value="bin/nant"/>
-  <property name="report.dir" value="report"/>
+  <property name="bin.dir" value="C:/nant/bin"/>
+  <property name="report.dir" value="C:/nant/report"/>
   
   <!-- ========================================================== -->
   <!-- NAntタスク実行順序 -->
@@ -38,9 +38,9 @@
   <!-- コンパイル -->
   <!-- ========================================================== -->
   <target name="compile">
-    <msbuild verbosity="Minimal">
+    <msbuild project="Unicoen.sln" verbosity="Minimal">
       <property name="Configuration" value="Release" />
-      <property name="OutputPath" value="..\${bin.dir}"/>
+      <property name="OutputPath" value="${bin.dir}"/>
     </msbuild>
   </target>
   
@@ -52,7 +52,10 @@
        <formatter usefile="true" type="Xml" extension=".xml" outputdir="${report.dir}"/>
        <test>
          <assemblies basedir="${bin.dir}">
-           <include name="*Tests.dll"/>
+           <include name="UniUni.Tests.dll"/>
+           <include name="Unicoen.Core.Tests.dll"/>
+           <include name="Unicoen.Languages.Java.Tests.dll"/>
+           <include name="Unicoen.Languages.CSharp.Tests.dll"/>
          </assemblies>
        </test>
      </nunit2>

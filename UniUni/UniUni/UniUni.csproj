@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Text\Guess.cs" />
+    <Compile Include="Text\EncodingUtil.cs" />
     <Compile Include="Linq\EnumerableExtensions.cs" />
     <Compile Include="Collections\Generic\ListExtensions.cs" />
     <Compile Include="Numerics\BigIntegerExtensions.cs" />
