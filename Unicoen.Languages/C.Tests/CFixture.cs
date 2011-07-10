@@ -73,7 +73,7 @@ namespace Unicoen.Languages.C.Tests {
 		}
 
 		private static string DecorateToCompile(string statement) {
-			return "int main() {" + statement + "} }";
+			return "int main() {" + statement + "}";
 		}
 
 		/// <summary>
@@ -95,28 +95,22 @@ namespace Unicoen.Languages.C.Tests {
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get {
-				yield break;
-				//				return new[] {
-				//						new { DirName = "default", Command = "javac", Arguments = "*.java" },
-				//						new { DirName = "NewTestFiles", Command = "javac", Arguments = "*.java" },
-				//				}
-				//						.Select(
-				//								o => new TestCaseData(
-				//								     		Fixture.GetInputPath("Java", o.DirName),
-				//								     		o.Command, o.Arguments));
-			}
+			get { yield break; }
+		}
+
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { yield break; }
 		}
 
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {}
+		/// <param name = "workPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string workPath, string srcPath) {}
 
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．

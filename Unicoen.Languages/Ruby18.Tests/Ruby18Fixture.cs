@@ -52,7 +52,11 @@ namespace Unicoen.Languages.Ruby18.Tests {
 			get { throw new NotImplementedException(); }
 		}
 
-		public override void Compile(string dirPath, string fileName) {
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { throw new NotImplementedException(); }
+		}
+
+		public override void Compile(string workPath, string srcPath) {
 			throw new NotImplementedException();
 		}
 

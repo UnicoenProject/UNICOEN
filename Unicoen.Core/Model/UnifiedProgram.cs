@@ -22,21 +22,26 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   ブログラム全体を表します。
 	/// </summary>
-	public class UnifiedProgram
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedProgram> {
-		public override UnifiedProgram CreateSelf() {
-			return new UnifiedProgram();
-		}
-
+	public class UnifiedProgram : UnifiedElement {
 		private UnifiedComment _comments;
 
 		/// <summary>
-		///   ソースコードの先頭に表記されたマジックコメントを表します．
+		///   ソースコードの先頭に表記されたマジックコメントを取得もしくは設定します．
 		///   e.g. Pythonにおける<c># -*- coding: utf-8 -*-</c>
 		/// </summary>
 		public UnifiedComment Comments {
 			get { return _comments; }
 			set { _comments = SetChild(value, _comments); }
+		}
+
+		private UnifiedBlock _body;
+
+		/// <summary>
+		///   プログラム全体を構成するブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 
 		protected UnifiedProgram() {}
@@ -46,14 +51,21 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			}
+
+		public static UnifiedProgram Create(
+				UnifiedBlock body, UnifiedComment comments = null) {
+			return new UnifiedProgram {
+					Body = body,
+					Comments = comments,
+			};
+		}
+	}
 }

@@ -24,12 +24,9 @@ using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.Python2;
 
-namespace Unicoen.Apps.Translator
-{
-	internal class Program
-	{
-		public static void Main(string[] args)
-		{
+namespace Unicoen.Apps.Translator {
+	internal class Program {
+		public static void Main(string[] args) {
 			#region garbage
 
 			/*
@@ -67,9 +64,7 @@ namespace Unicoen.Apps.Translator
 			};
 			 */
 
-
-			if (args.Length != 3)
-			{
+			if (args.Length != 3) {
 				Console.WriteLine("error!");
 				return;
 			}
@@ -78,48 +73,46 @@ namespace Unicoen.Apps.Translator
 			var srcLang = args[1];
 
 			Func<string, UnifiedProgram> modelGenerator;
-			switch (srcLang)
-			{
-				case "java":
-				case "Java":
-					modelGenerator = JavaFactory.GenerateModel;
-					break;
-				case "c":
-				case "C":
-					modelGenerator = CFactory.GenerateModel;
-					break;
-				case "python":
-				case "Python":
-				case "py":
-					modelGenerator = Python2Factory.GenerateModel;
-					break;
-				default:
-					modelGenerator = CFactory.GenerateModel;
-					break;
+			switch (srcLang) {
+			case "java":
+			case "Java":
+				modelGenerator = JavaFactory.GenerateModel;
+				break;
+			case "c":
+			case "C":
+				modelGenerator = CFactory.GenerateModel;
+				break;
+			case "python":
+			case "Python":
+			case "py":
+				modelGenerator = Python2Factory.GenerateModel;
+				break;
+			default:
+				modelGenerator = CFactory.GenerateModel;
+				break;
 			}
 
 			// return;
 
 			var destLang = args[2];
 			Func<IUnifiedElement, string> codeGenerator;
-			switch (destLang)
-			{
-				case "java":
-				case "Java":
-					codeGenerator = JavaFactory.GenerateCode;
-					break;
-				case "c":
-				case "C":
-					codeGenerator = CFactory.GenerateCode;
-					break;
-				case "python":
-				case "Python":
-				case "py":
-					codeGenerator = Python2Factory.GenerateCode;
-					break;
-				default:
-					codeGenerator = CFactory.GenerateCode;
-					break;
+			switch (destLang) {
+			case "java":
+			case "Java":
+				codeGenerator = JavaFactory.GenerateCode;
+				break;
+			case "c":
+			case "C":
+				codeGenerator = CFactory.GenerateCode;
+				break;
+			case "python":
+			case "Python":
+			case "py":
+				codeGenerator = Python2Factory.GenerateCode;
+				break;
+			default:
+				codeGenerator = CFactory.GenerateCode;
+				break;
 			}
 
 			var code = File.ReadAllText(filePath, Encoding.Default);
@@ -128,6 +121,5 @@ namespace Unicoen.Apps.Translator
 
 			Console.WriteLine(output);
 		}
-
 	}
 }

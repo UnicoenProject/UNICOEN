@@ -25,7 +25,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 		public static CModelFactory Instance = new CModelFactory();
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
-			var ast = CCodeToXml.Instance.Generate(code);
+			var ast = CCodeToXml.Instance.Generate(code, true);
 			return CModelFactoryHelper.CreateTranslationUnit(ast);
 		}
 	}

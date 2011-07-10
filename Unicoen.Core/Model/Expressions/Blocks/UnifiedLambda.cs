@@ -36,11 +36,11 @@ namespace Unicoen.Core.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedTypeParameterCollection _typeParameters;
+		private UnifiedGenericParameterCollection _genericParameters;
 
-		public UnifiedTypeParameterCollection TypeParameters {
-			get { return _typeParameters; }
-			set { _typeParameters = SetChild(value, _typeParameters); }
+		public UnifiedGenericParameterCollection GenericParameters {
+			get { return _genericParameters; }
+			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
 		private UnifiedIdentifier _name;
@@ -57,6 +57,14 @@ namespace Unicoen.Core.Model {
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
+
 		#endregion
 
 		private UnifiedLambda() {}
@@ -71,20 +79,20 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedLambda Create(
 				UnifiedType type = null,
-				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedBlock body = null) {
 			return new UnifiedLambda {
 					Type = type,
-					TypeParameters = typeParameters,
+					GenericParameters = genericParameters,
 					Name = name,
 					Parameters = parameters,
 					Body = body,

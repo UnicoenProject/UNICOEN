@@ -1,0 +1,16 @@
+aspect Logger {
+    
+    Sample : @Java{
+        private int y = 10;
+        public int getY() {
+            return y;
+        }
+    }end
+
+    Sample : @JavaScript{
+        var y = 10;
+        function getY() {
+            return y;
+        }
+    }end
+}

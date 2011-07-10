@@ -26,6 +26,6 @@ namespace Unicoen.Apps.Translator {
 			// TODO : Implement
 
 			return null;
-		} 
+		}
 	}
 }

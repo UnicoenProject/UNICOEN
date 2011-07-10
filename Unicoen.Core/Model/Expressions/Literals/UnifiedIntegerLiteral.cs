@@ -39,8 +39,8 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

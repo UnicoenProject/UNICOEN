@@ -17,6 +17,7 @@
 #endregion
 
 using Unicoen.Core.Model;
+using Unicoen.Core.Model.Expressions;
 
 namespace Unicoen.Core.Processor {
 	public interface IUnifiedVisitor {
@@ -27,7 +28,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedBinaryExpression element);
 		void Visit(UnifiedBlock element);
 		void Visit(UnifiedCall element);
-		void Visit(UnifiedFunction element);
+		void Visit(UnifiedFunctionDefinition element);
 		void Visit(UnifiedIf element);
 		void Visit(UnifiedParameter element);
 		void Visit(UnifiedParameterCollection element);
@@ -44,8 +45,8 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedWhile element);
 		void Visit(UnifiedDoWhile element);
 		void Visit(UnifiedIndexer element);
-		void Visit(UnifiedTypeArgument element);
-		void Visit(UnifiedTypeArgumentCollection element);
+		void Visit(UnifiedGenericArgument element);
+		void Visit(UnifiedGenericArgumentCollection element);
 		void Visit(UnifiedSwitch element);
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
@@ -54,7 +55,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCatchCollection element);
 		void Visit(UnifiedTry element);
 		void Visit(UnifiedCast element);
-		void Visit(UnifiedTypeParameterCollection element);
+		void Visit(UnifiedGenericParameterCollection element);
 		void Visit(UnifiedTypeConstrainCollection element);
 		void Visit(UnifiedTypeParameter element);
 		void Visit(UnifiedTernaryExpression element);
@@ -135,6 +136,20 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedSizeof element);
 		void Visit(UnifiedTypeof element);
 		void Visit(UnifiedVariableIdentifier element);
+		void Visit(UnifiedRegularExpressionLiteral element);
+		void Visit(UnifiedPropertyDefinition element);
+		void Visit(UnifiedPropertyBody element);
+		void Visit(UnifiedSelect element);
+		void Visit(UnifiedWhere element);
+		void Visit(UnifiedInto element);
+		void Visit(UnifiedLet element);
+		void Visit(UnifiedOrderBy element);
+		void Visit(UnifiedJoin element);
+		void Visit(UnifiedGroupBy element);
+		void Visit(UnifiedOrderByKeyCollection element);
+		void Visit(UnifiedOrderByKey element);
+		void Visit(UnifiedLinqElementCollection element);
+		void Visit(UnifiedLinq element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -145,7 +160,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedBinaryExpression element, TArg arg);
 		void Visit(UnifiedBlock element, TArg arg);
 		void Visit(UnifiedCall element, TArg arg);
-		void Visit(UnifiedFunction element, TArg arg);
+		void Visit(UnifiedFunctionDefinition element, TArg arg);
 		void Visit(UnifiedIf element, TArg arg);
 		void Visit(UnifiedParameter element, TArg arg);
 		void Visit(UnifiedParameterCollection element, TArg arg);
@@ -162,8 +177,8 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedWhile element, TArg arg);
 		void Visit(UnifiedDoWhile element, TArg arg);
 		void Visit(UnifiedIndexer element, TArg arg);
-		void Visit(UnifiedTypeArgument element, TArg arg);
-		void Visit(UnifiedTypeArgumentCollection element, TArg arg);
+		void Visit(UnifiedGenericArgument element, TArg arg);
+		void Visit(UnifiedGenericArgumentCollection element, TArg arg);
 		void Visit(UnifiedSwitch element, TArg arg);
 		void Visit(UnifiedCaseCollection element, TArg arg);
 		void Visit(UnifiedCase element, TArg arg);
@@ -172,7 +187,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCatchCollection element, TArg arg);
 		void Visit(UnifiedTry element, TArg arg);
 		void Visit(UnifiedCast element, TArg arg);
-		void Visit(UnifiedTypeParameterCollection element, TArg arg);
+		void Visit(UnifiedGenericParameterCollection element, TArg arg);
 		void Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		void Visit(UnifiedTypeParameter element, TArg arg);
 		void Visit(UnifiedTernaryExpression element, TArg arg);
@@ -253,9 +268,23 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedSizeof element, TArg arg);
 		void Visit(UnifiedTypeof element, TArg arg);
 		void Visit(UnifiedVariableIdentifier element, TArg arg);
+		void Visit(UnifiedRegularExpressionLiteral element, TArg arg);
+		void Visit(UnifiedPropertyDefinition element, TArg arg);
+		void Visit(UnifiedPropertyBody element, TArg arg);
+		void Visit(UnifiedSelect element, TArg arg);
+		void Visit(UnifiedWhere element, TArg arg);
+		void Visit(UnifiedInto element, TArg arg);
+		void Visit(UnifiedLet element, TArg arg);
+		void Visit(UnifiedOrderBy element, TArg arg);
+		void Visit(UnifiedJoin element, TArg arg);
+		void Visit(UnifiedGroupBy element, TArg arg);
+		void Visit(UnifiedOrderByKeyCollection element, TArg arg);
+		void Visit(UnifiedOrderByKey element, TArg arg);
+		void Visit(UnifiedLinqElementCollection element, TArg arg);
+		void Visit(UnifiedLinq element, TArg arg);
 	}
 
-	public interface IUnifiedVisitor<out TResult, in TArg> {
+	public interface IUnifiedVisitor<in TArg, out TResult> {
 		TResult Visit(UnifiedBinaryOperator element, TArg arg);
 		TResult Visit(UnifiedUnaryOperator element, TArg arg);
 		TResult Visit(UnifiedArgument element, TArg arg);
@@ -263,7 +292,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedBinaryExpression element, TArg arg);
 		TResult Visit(UnifiedBlock element, TArg arg);
 		TResult Visit(UnifiedCall element, TArg arg);
-		TResult Visit(UnifiedFunction element, TArg arg);
+		TResult Visit(UnifiedFunctionDefinition element, TArg arg);
 		TResult Visit(UnifiedIf element, TArg arg);
 		TResult Visit(UnifiedParameter element, TArg arg);
 		TResult Visit(UnifiedParameterCollection element, TArg arg);
@@ -280,8 +309,8 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedWhile element, TArg arg);
 		TResult Visit(UnifiedDoWhile element, TArg arg);
 		TResult Visit(UnifiedIndexer element, TArg arg);
-		TResult Visit(UnifiedTypeArgument element, TArg arg);
-		TResult Visit(UnifiedTypeArgumentCollection element, TArg arg);
+		TResult Visit(UnifiedGenericArgument element, TArg arg);
+		TResult Visit(UnifiedGenericArgumentCollection element, TArg arg);
 		TResult Visit(UnifiedSwitch element, TArg arg);
 		TResult Visit(UnifiedCaseCollection element, TArg arg);
 		TResult Visit(UnifiedCase element, TArg arg);
@@ -290,7 +319,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedCatchCollection element, TArg arg);
 		TResult Visit(UnifiedTry element, TArg arg);
 		TResult Visit(UnifiedCast element, TArg arg);
-		TResult Visit(UnifiedTypeParameterCollection element, TArg arg);
+		TResult Visit(UnifiedGenericParameterCollection element, TArg arg);
 		TResult Visit(UnifiedTypeConstrainCollection element, TArg arg);
 		TResult Visit(UnifiedTypeParameter element, TArg arg);
 		TResult Visit(UnifiedTernaryExpression element, TArg arg);
@@ -371,5 +400,19 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedSizeof element, TArg arg);
 		TResult Visit(UnifiedTypeof element, TArg arg);
 		TResult Visit(UnifiedVariableIdentifier element, TArg arg);
+		TResult Visit(UnifiedRegularExpressionLiteral element, TArg arg);
+		TResult Visit(UnifiedPropertyDefinition element, TArg arg);
+		TResult Visit(UnifiedPropertyBody element, TArg arg);
+		TResult Visit(UnifiedSelect element, TArg arg);
+		TResult Visit(UnifiedWhere element, TArg arg);
+		TResult Visit(UnifiedInto element, TArg arg);
+		TResult Visit(UnifiedLet element, TArg arg);
+		TResult Visit(UnifiedOrderBy element, TArg arg);
+		TResult Visit(UnifiedJoin element, TArg arg);
+		TResult Visit(UnifiedGroupBy element, TArg arg);
+		TResult Visit(UnifiedOrderByKeyCollection element, TArg arg);
+		TResult Visit(UnifiedOrderByKey element, TArg arg);
+		TResult Visit(UnifiedLinqElementCollection element, TArg arg);
+		TResult Visit(UnifiedLinq element, TArg arg);
 	}
 }

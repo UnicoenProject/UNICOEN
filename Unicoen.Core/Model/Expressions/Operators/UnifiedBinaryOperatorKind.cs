@@ -119,6 +119,18 @@ namespace Unicoen.Core.Model {
 		NotEqual,
 
 		/// <summary>
+		///   e.g. JavaScriptにおける<c>a === b</c>
+		///   暗黙の型変換を行わない等価演算子
+		/// </summary>
+		StrictEqual,
+
+		/// <summary>
+		///   e.g. JavaScriptにおける<c>a !== b</c>
+		///   暗黙の型変換を行わない等価演算子
+		/// </summary>
+		StrictNotEqual,
+
+		/// <summary>
 		///   a is b in Python
 		/// </summary>
 		ReferenceEqual,
@@ -239,9 +251,9 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		ExclusiveOrAssign,
 
-		/// <sum mary>
+		/// <summary>
 		///   a instanceof b
-		///   </summary>
+		/// </summary>
 		InstanceOf,
 	}
 }

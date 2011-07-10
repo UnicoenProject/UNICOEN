@@ -21,34 +21,5 @@ namespace Unicoen.Core.Model {
 		public static UnifiedArgument ToArgument(this IUnifiedExpression expression) {
 			return UnifiedArgument.Create(null, null, expression);
 		}
-
-		public static UnifiedWhile ToWhile(this IUnifiedExpression condition) {
-			return UnifiedWhile.Create(condition);
-		}
-
-		public static UnifiedDoWhile ToDoWhile(this IUnifiedExpression condition) {
-			return UnifiedDoWhile.Create(null, condition);
-		}
-
-		public static UnifiedIf ToIf(this IUnifiedExpression condition) {
-			return UnifiedIf.Create(condition);
-		}
-
-		public static UnifiedCase ToCase(this IUnifiedExpression condtion) {
-			return UnifiedCase.Create(condtion, UnifiedBlock.Create());
-		}
-
-		public static UnifiedSwitch ToSwitch(this IUnifiedExpression value) {
-			return UnifiedSwitch.Create(value);
-		}
-
-		public static UnifiedTypeArgument ToTypeParameter(
-				this IUnifiedExpression value) {
-			return UnifiedTypeArgument.Create(value);
-		}
-
-		public static UnifiedNew ToNew(this UnifiedType type) {
-			return UnifiedNew.Create(type);
-		}
 	}
 }

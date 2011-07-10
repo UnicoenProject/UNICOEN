@@ -25,9 +25,6 @@ namespace Unicoen.Core.Model {
 			: UnifiedElement, IUnifiedExpression {
 		protected UnifiedBlock _body;
 
-		public UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
-		}
+		public abstract UnifiedBlock Body { get; set; }
 			}
 }

@@ -24,6 +24,8 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.Processor;
+using Unicoen.Core.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.Tests {
 	public abstract class Fixture {
@@ -82,19 +84,35 @@ namespace Unicoen.Languages.Tests {
 		public abstract IEnumerable<TestCaseData> TestFilePathes { get; }
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public abstract IEnumerable<TestCaseData> TestProjectInfos { get; }
 
 		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+		///   テスト時に入力する時間のかかるプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public abstract void Compile(string dirPath, string fileName);
+		public abstract IEnumerable<TestCaseData> TestHeavyProjectInfos { get; }
 
 		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+		///   指定したファイルのソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コンパイル時の作業ディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのパス</param>
+		public abstract void Compile(string workPath, string srcPath);
+
+		/// <summary>
+		///   指定したディレクトリ内の全てのソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">ソースコードが格納されている作業ディレクトリのパス</param>
+		public virtual void CompileAll(string workPath) {
+			var filePaths = GetAllSourceFilePaths(workPath);
+			foreach (var filePath in filePaths) {
+				Compile(workPath, filePath);
+			}
+		}
+
+		/// <summary>
+		///   ソースコードを指定したコマンドと引数でコンパイルします．
 		/// </summary>
 		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
 		/// <param name = "command">コンパイルのコマンド</param>
@@ -153,6 +171,77 @@ namespace Unicoen.Languages.Tests {
 					dirPath, "*" + CompiledExtension,
 					SearchOption.AllDirectories)
 					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)));
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Func<string, bool> deploySource) {
+			return SetUpTestCaseData(dirName, deploySource, (s1, s2) => { });
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Action<string> deploySource) {
+			return SetUpTestCaseData(dirName, deploySource, (s1, s2) => { });
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Action<string> deploySource,
+				Action<string> compileAction) {
+			return SetUpTestCaseData(
+					dirName, path => {
+						deploySource(path);
+						return true;
+					}, (workPath, inPath) => compileAction(workPath));
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Action<string> deploySource,
+				Action<string, string> compileAction) {
+			return SetUpTestCaseData(
+					dirName, path => {
+						deploySource(path);
+						return true;
+					}, compileAction);
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Func<string, bool> deploySource,
+				Action<string> compileAction) {
+			return SetUpTestCaseData(
+					dirName, deploySource,
+					(workPath, inPath) => compileAction(workPath));
+		}
+
+		protected IEnumerable<TestCaseData> SetUpTestCaseData(
+				string dirName, Func<string, bool> deploySource,
+				Action<string, string> compileAction) {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
+			var testCase = new TestCaseData(path, compileAction);
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any()) {
+				yield return testCase;
+				yield break;
+			}
+			Directory.CreateDirectory(path);
+			if (deploySource(path))
+				yield return testCase;
+		}
+
+		protected void DownloadAndUnzip(string url, string path) {
+			var arcPath = Path.Combine(path, "temp.zip");
+			Downloader.Download(url, arcPath);
+			Extractor.Unzip(arcPath, path);
+		}
+
+		protected void DownloadAndUntgz(string url, string path) {
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Untgz(stream, path);
+			}
+		}
+
+		protected void DownloadAndUntbz(string url, string path) {
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Untbz(stream, path);
+			}
 		}
 	}
 }

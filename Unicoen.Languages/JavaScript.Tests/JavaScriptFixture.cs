@@ -25,6 +25,7 @@ using Paraiba.Core;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
@@ -99,7 +100,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
@@ -118,38 +119,123 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				}
 						.Select(
 								o => {
-									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
-									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
-								});
+									Action<string, string> action =
+											(s1, s2) => CompileWithArguments(s1, o.Command, o.Arguments);
+									return
+											new TestCaseData(
+													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+								})
+						.Concat(SetUpjQuery())
+						.Concat(SetUpjQueryMin())
+						.Concat(SetUpProcessing_js())
+						.Concat(SetUpProcessing_jsApi())
+						.Concat(SetUpProcessing_jsApiMin())
+						.Concat(SetUpProcessing_jsMin())
+						.Concat(SetUpDojo())
+						.Concat(SetUpDojoMin());
 			}
+		}
+
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { yield break; }
 		}
 
 		/// <summary>
 		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
 		/// </summary>
-		/// <param name = "dirPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "fileName">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string dirPath, string fileName) {
+		/// <param name = "workPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのファイル名</param>
+		public override void Compile(string workPath, string srcPath) {
 			var args = _compileArguments.Concat(
 					new[] {
-							"\"" + Path.Combine(dirPath, fileName) + "\""
+							"\"" + Path.Combine(workPath, srcPath) + "\""
 					});
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, CompileCommand, arguments);
+			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
 		private string SetUpRhino() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "Rhino");
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
-			if (Directory.Exists(path))
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any())
 				return jarPath;
-			var zipPath = Path.Combine(path, "rhino.zip");
 			Directory.CreateDirectory(path);
-			FixtureManager.Download(
-					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", zipPath);
-			FixtureManager.Unzip(zipPath);
+			DownloadAndUnzip(
+					"ftp://ftp.mozilla.org/pub/mozilla.org/js/rhino1_7R3.zip", path);
 			return jarPath;
+		}
+
+		private IEnumerable<TestCaseData> SetUpjQuery() {
+			return SetUpTestCaseData(
+					"jQuery1.6.1",
+					path => Downloader.Download(
+							"http://code.jquery.com/jquery-1.6.1.js",
+							Path.Combine(path, "src.js")), CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpjQueryMin() {
+			return SetUpTestCaseData(
+					"jQuery1.6.1.min",
+					path => Downloader.Download(
+							"http://code.jquery.com/jquery-1.6.1.min.js",
+							Path.Combine(path, "src.js"))
+					);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_js() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_jsMin() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1-min",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1.min.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_jsApi() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1-api",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1-api.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpProcessing_jsApiMin() {
+			return SetUpTestCaseData(
+					"Processing.js-1.2.1-api.min",
+					path => Downloader.Download(
+							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1-api.min.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpDojo() {
+			return SetUpTestCaseData(
+					"dojo",
+					path => Downloader.Download(
+							"http://download.dojotoolkit.org/release-1.6.1/dojo.js.uncompressed.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpDojoMin() {
+			return SetUpTestCaseData(
+					"dojo.min",
+					path => Downloader.Download(
+							"http://download.dojotoolkit.org/release-1.6.1/dojo.js",
+							Path.Combine(path, "src.js")),
+					CompileAll);
 		}
 	}
 }

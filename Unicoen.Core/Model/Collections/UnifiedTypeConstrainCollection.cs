@@ -20,7 +20,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   型が持つ性質の集合を表します。
+	///   型が持つ性質（継承関係など）の集合を表します。
 	///   e.g. Javaにおける<c>public class A extends B</c>の<c>extends B</c>
 	///   e.g. Javaにおける<c>ArrayList&lt;? extends Object&gt;</c>の<c>extends Object</c>
 	/// </summary>
@@ -38,13 +38,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 			  		}

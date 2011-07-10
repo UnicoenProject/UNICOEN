@@ -38,7 +38,7 @@ namespace Unicoen.Core.Model {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   実行条件を表します
+		///   ループの継続の条件式を表します
 		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
@@ -64,6 +64,14 @@ namespace Unicoen.Core.Model {
 			set { _falseBody = SetChild(value, _falseBody); }
 		}
 
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
+
 		private UnifiedFor() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -76,8 +84,8 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

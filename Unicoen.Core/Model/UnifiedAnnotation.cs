@@ -19,9 +19,18 @@
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
+	/// <summary>
+	///   アノテーション（属性）を表します．
+	///   e.g. Javaにおける<c>@Override @Deprecated void method() { ... }</c>の<c>@Override</c>
+	///   e.g. C#における<c>[Pure, DebuggerStepThrough] void Method() { ... }</c>の<c>Pure</c>
+	/// </summary>
 	public class UnifiedAnnotation : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _name;
 
+		/// <summary>
+		///   アノテーションの名前を表します．
+		///   e.g. Javaにおける<c>@org.junit.Test</c>
+		/// </summary>
 		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetChild(value, _name); }
@@ -45,13 +54,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

@@ -18,8 +18,7 @@
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   コンストラクタの定義部分を表します。
-	///   e.g. Javaにおける<c>class C{ C(){...} }</c>の<c>C(){...}</c>
+	///   コンストラクタの定義やに必要な機能を提供します．
 	/// </summary>
 	public abstract class UnifiedConstructorBase<TSelf>
 			: UnifiedExpressionBlock, IUnifiedCreatable<TSelf>
@@ -48,11 +47,11 @@ namespace Unicoen.Core.Model {
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		protected UnifiedTypeParameterCollection _typeParameters;
+		protected UnifiedGenericParameterCollection _genericParameters;
 
-		public UnifiedTypeParameterCollection TypeParameters {
-			get { return _typeParameters; }
-			set { _typeParameters = SetChild(value, _typeParameters); }
+		public UnifiedGenericParameterCollection GenericParameters {
+			get { return _genericParameters; }
+			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
 		protected UnifiedTypeCollection _throws;
@@ -62,6 +61,14 @@ namespace Unicoen.Core.Model {
 			set { _throws = SetChild(value, _throws); }
 		}
 
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
+
 		protected internal UnifiedConstructorBase() {}
 
 		public static TSelf Create(
@@ -69,14 +76,14 @@ namespace Unicoen.Core.Model {
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedParameterCollection parameters = null,
-				UnifiedTypeParameterCollection typeParameters = null,
+				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedTypeCollection throws = null) {
 			var ret = UnifiedFactory<TSelf>.Create();
 			ret.Body = body;
 			ret.Annotations = annotations;
 			ret.Modifiers = modifiers;
 			ret.Parameters = parameters;
-			ret.TypeParameters = typeParameters;
+			ret.GenericParameters = genericParameters;
 			ret.Throws = throws;
 			return ret;
 		}

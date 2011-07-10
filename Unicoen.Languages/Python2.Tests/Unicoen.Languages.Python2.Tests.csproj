@@ -68,7 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Python2CodeObjectFeatureTest.cs" />
+    <Compile Include="Python2HeavyLanguageTest.cs" />
+    <Compile Include="Python2LanguageTest.cs" />
     <Compile Include="Python2Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +81,10 @@
     <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Utils\Unicoen.Utils.csproj">
+      <Project>{C5722D52-DD9D-4FD8-9316-B6F5442080A3}</Project>
+      <Name>Unicoen.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Python2\Unicoen.Languages.Python2.csproj">
       <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>

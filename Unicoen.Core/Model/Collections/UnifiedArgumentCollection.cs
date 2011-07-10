@@ -20,7 +20,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   実引数の集合を表します。
+	///   関数やメソッド呼び出しの実引数の集合を表します。
 	///   e.g. Javaにおける<c>method(1, 2);</c>の<c>(1, 2)</c>
 	/// </summary>
 	public class UnifiedArgumentCollection
@@ -44,8 +44,8 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 			}

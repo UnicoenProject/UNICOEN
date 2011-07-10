@@ -19,7 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Xml.Linq;
 using Mocomoco.Linq;
 using Mocomoco.Xml.Linq;
@@ -28,6 +30,7 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 // ReSharper disable InvocationIsSkipped
+// ReSharper disable InconsistentNaming
 
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public static class Python2ModelFactoryHelper {
@@ -56,10 +59,14 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 
 		public static UnifiedProgram CreateFile_input(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "file_input");
+			Contract.Requires(
+					node.Name() == "file_input" || node.Name() == "encoding_decl");
 			/*
 			 * file_input: (NEWLINE | stmt)* ENDMARKER
 			 */
+			// TODO: エンコーディングの取得
+			if (node.Name() == "encoding_decl")
+				node = node.Element("file_input");
 			return node.Elements("stmt")
 					.SelectMany(CreateStmt)
 					.ToProgram();
@@ -109,13 +116,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunction CreateFuncdef(XElement node) {
+		public static UnifiedFunctionDefinition CreateFuncdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "funcdef");
 			/*
 			 * funcdef: 'def' NAME parameters ':' suite
 			 */
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedVariableIdentifier.Create(node.NthElement(1).Value),
 					CreateParameters(node.NthElement(2)), null, CreateSuite(node.LastElement()));
@@ -414,10 +421,11 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * return_stmt: 'return' [testlist]
 			 */
-			var testlist = node.Elements("testlist")
-					.Select(CreateTestlist)
-					.FirstOrDefault();
-			return UnifiedReturn.Create(testlist.ToSmartTupleLiteral());
+			var testlistNode = node.Element("testlist");
+			return testlistNode != null
+			       		? UnifiedReturn.Create(
+			       				CreateTestlist(testlistNode).ToSmartTupleLiteral())
+			       		: UnifiedReturn.Create();
 		}
 
 		public static IUnifiedExpression CreateYield_stmt(XElement node) {
@@ -439,11 +447,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var tests = node.Elements("test")
 					.Select(CreateTest)
 					.ToList();
+			if (tests.Count == 0)
+				return UnifiedThrow.Create();
 			if (tests.Count == 1)
-				return UnifiedAssert.Create(tests[0]);
+				return UnifiedThrow.Create(tests[0]);
 			if (tests.Count == 2)
-				return UnifiedAssert.Create(tests[1]);
-			return UnifiedAssert.Create(tests[2]);
+				return UnifiedThrow.Create(tests[0], tests[1]);
+			return UnifiedThrow.Create(tests[0], tests[1], tests[2]);
 		}
 
 		public static IEnumerable<UnifiedImport> CreateImport_stmt(XElement node) {
@@ -466,7 +476,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			return CreateDotted_as_names(node.NthElement(1))
 					.Select(
-							t => UnifiedImport.Create(null, t.Item1.ToProperty("."), t.Item2, null));
+							t => UnifiedImport.Create(t.Item1.ToProperty("."), t.Item2, null, null));
 		}
 
 		public static IEnumerable<UnifiedImport> CreateImport_from(XElement node) {
@@ -482,15 +492,16 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			                  		? CreateDotted_name(dotted_nameNode)
 			                  		: Enumerable.Empty<UnifiedIdentifier>();
 			var dotCount = node.ElementsByContent(".").Count();
-			var from = Enumerable.Repeat((UnifiedIdentifier)null, dotCount)
+			var name = Enumerable.Repeat((UnifiedIdentifier)null, dotCount)
 					.Concat(dotted_name)
 					.ToProperty(".");
-			if (node.LastElement().Value == "*")
-				yield return UnifiedImport.Create(
-						from, UnifiedVariableIdentifier.Create("*"), null,
-						null);
+			if (node.LastElement().Value == "*") {
+				yield return
+						UnifiedImport.Create(UnifiedVariableIdentifier.Create("*"), null, name);
+				yield break;
+			}
 			var results = CreateImport_as_names(node.Element("import_as_names"))
-					.Select(t => UnifiedImport.Create(from, t.Item1, t.Item2, null));
+					.Select(t => UnifiedImport.Create(name.DeepCopy(), t.Item2, t.Item1));
 			foreach (var result in results) {
 				yield return result;
 			}
@@ -671,8 +682,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			                		? CreateSuite(node.LastElement())
 			                		: null;
 			return UnifiedForeach.Create(
-					exprlist.Select(
-							e => UnifiedVariableDefinition.Create(name: (UnifiedIdentifier)e))
+					exprlist.SelectMany(e => e.DescendantsAndSelf<UnifiedIdentifier>())
+							.Select(e => UnifiedVariableDefinition.Create(name: e.DeepCopy()))
 							.ToVariableDefinitionList(),
 					testlist.ToSmartTupleLiteral(),
 					suite,
@@ -965,6 +976,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					CreateFactor(lastNode));
 		}
 
+		private static BigInteger ParseOcatleNumber(IEnumerable<char> str) {
+			return str.Aggregate<char, BigInteger>(
+					0,
+					(current, ch) => current * 8 + (ch - '0'));
+		}
+
 		public static IUnifiedExpression CreateAtom(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "atom");
@@ -976,11 +993,27 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *		NAME | NUMBER | STRING+)
 			 */
 			var first = node.FirstElement();
+			var value = first.Value;
 			switch (first.Name()) {
 			case "NAME":
-				return first.Value.ToVariableIdentifier();
+				return value.ToVariableIdentifier();
 			case "NUMBER":
-				return Int32.Parse(first.Value).ToLiteral();
+				var isLong = value.EndsWith("L");
+				if (isLong)
+					value = value.Substring(0, value.Length - 1);
+				if (value.StartsWith("0x") || value.Contains("0X"))
+					return UnifiedIntegerLiteral.Create(
+							BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber),
+							UnifiedIntegerLiteralKind.BigInteger);
+				if (value.StartsWith("0o") || value.Contains("0O"))
+					return UnifiedIntegerLiteral.Create(
+							ParseOcatleNumber(value.Substring(2)),
+							UnifiedIntegerLiteralKind.BigInteger);
+				if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
+					return double.Parse(value).ToLiteral();
+				return UnifiedIntegerLiteral.Create(
+						BigInteger.Parse(value),
+						UnifiedIntegerLiteralKind.BigInteger);
 			case "STRING":
 				return UnifiedStringLiteral.Create(first.Value);
 			}
@@ -1027,7 +1060,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			// create list comprehension
 			return UnifiedListComprehension.Create(
 					CreateTest(node.FirstElement()),
-					CreateComp_for(list_forNode).ToCollection());
+					CreateList_for(list_forNode).ToCollection());
 		}
 
 		public static IUnifiedExpression CreateTestlist_comp(XElement node) {
@@ -1069,14 +1102,18 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			/*
 			 * trailer: '(' [arglist] ')' | '[' subscriptlist ']' | '.' NAME
 			 */
-			var second = node.NthElement(1);
 			switch (node.FirstElement().Value) {
 			case "(":
-				return UnifiedCall.Create(prefix, CreateArglist(second));
+				var arglistNode = node.Element("arglist");
+				return arglistNode != null
+				       		? UnifiedCall.Create(prefix, CreateArglist(arglistNode))
+				       		: UnifiedCall.Create(prefix, UnifiedArgumentCollection.Create());
 			case "[":
+				var second = node.NthElement(1);
 				return UnifiedIndexer.Create(prefix, CreateSubscriptlist(second));
 			case ".":
-				return UnifiedProperty.Create(".", prefix, UnifiedVariableIdentifier.Create(node.LastElement().Value));
+				return UnifiedProperty.Create(
+						".", prefix, UnifiedVariableIdentifier.Create(node.LastElement().Value));
 			default:
 				throw new IndexOutOfRangeException();
 			}

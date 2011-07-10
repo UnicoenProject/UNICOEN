@@ -8,7 +8,7 @@
     <ProjectGuid>{0F43ECA9-FAA3-4565-A585-A33BA2B12883}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Applications.Metrics</RootNamespace>
+    <RootNamespace>Unicoen.Apps.Metrics</RootNamespace>
     <AssemblyName>Metrics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -59,6 +59,10 @@
       <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
       <Name>Unicoen.Languages.CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\JavaScript\Unicoen.Languages.JavaScript.csproj">
+      <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
+      <Name>Unicoen.Languages.JavaScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Languages\Java\Unicoen.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
@@ -66,6 +70,10 @@
     <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\Python2\Unicoen.Languages.Python2.csproj">
+      <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
+      <Name>Unicoen.Languages.Python2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

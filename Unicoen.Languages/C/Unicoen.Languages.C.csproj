@@ -35,7 +35,7 @@
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
@@ -44,7 +44,10 @@
     <CodeContractsBaseLineFile />
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,7 +69,7 @@
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>False</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
@@ -75,7 +78,10 @@
     <CodeContractsBaseLineFile />
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>ReleaseRequires</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -102,15 +108,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFactory.cs" />
-    <Compile Include="ModelFactories\CModelFactory.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForExpression.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelper.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForLiteral.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForOperator.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelperForStatement.cs" />
     <Compile Include="CodeFactories\CCodeFactory.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryForCollection.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryRequiringSemicolon.cs" />
+    <Compile Include="ModelFactories\CModelFactory.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Expression.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Literal.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Operator.cs" />
+    <Compile Include="ModelFactories\CModelFactoryHelper.Statement.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryVisitor.Statements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

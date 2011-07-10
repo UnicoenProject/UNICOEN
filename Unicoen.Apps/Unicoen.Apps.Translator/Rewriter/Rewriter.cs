@@ -19,13 +19,14 @@
 using System.Linq;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Apps.Translator{
+namespace Unicoen.Apps.Translator {
 	// モデルの書き換えに関するクラス
 	public class Rewriter {
 		// targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
-		public static void RewriteIdentifierName(string newName, UnifiedElement target) {
-			if (target is UnifiedFunction) {
-				((UnifiedFunction)target).Name.Name = newName;
+		public static void RewriteIdentifierName(
+				string newName, UnifiedElement target) {
+			if (target is UnifiedFunctionDefinition) {
+				((UnifiedFunctionDefinition)target).Name.Name = newName;
 				return;
 			}
 		}
@@ -43,11 +44,11 @@ namespace Unicoen.Apps.Translator{
 
 		// ある要素を削除する
 		public static void DeleteElement(UnifiedElement target) {
-			target.Remove();
+			target.RemoveSelf();
 		}
 
 		/// <summary>
-		/// ある要素の直下に特定の要素を追加する（木構造的に）
+		///   ある要素の直下に特定の要素を追加する（木構造的に）
 		/// </summary>
 		public static void AddElement(UnifiedElement resource, UnifiedElement target) {
 			// TODO : implement

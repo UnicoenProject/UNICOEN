@@ -24,14 +24,14 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   if文を表します。
-	///   e.g. Javaにおける<c>if(cond){...}else{...}</c>
+	///   e.g. C, Java, C#における<c>if (i == 1) { ... } else { ... }</c>
 	/// </summary>
 	public class UnifiedIf : UnifiedExpressionBlock {
 		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   条件式を表します
-		///   <c>if(cond){...}else{...}</c>の<c>con</c>
+		///   条件式を取得します．
+		///   e.g. C, Java, C#における<c>if (i == 1) { ... }の<c>i == 1</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
@@ -40,9 +40,16 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedBlock _elseBody;
 
+		/// <summary>
+		/// </summary>
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
 			set { _elseBody = SetChild(value, _elseBody); }
+		}
+
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedIf() {}
@@ -67,8 +74,8 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

@@ -20,8 +20,7 @@ using System.IO;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Core.Processor {
-	public abstract class CodeFactory
-			: ExplicitDefaultUnifiedVisitor<bool, VisitorArgument> {
+	public abstract class CodeFactory {
 		public abstract void Generate(
 				IUnifiedElement model, TextWriter writer, string indentSign);
 
@@ -40,5 +39,5 @@ namespace Unicoen.Core.Processor {
 			Generate(model, writer);
 			return writer.ToString();
 		}
-			}
+	}
 }

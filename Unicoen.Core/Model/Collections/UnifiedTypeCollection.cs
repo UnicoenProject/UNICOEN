@@ -20,7 +20,8 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   UnifiedTypeの集合を表します。
+	///   型の集合を表します。
+	///   Javaのthrowsの右辺を表現するために存在しています．
 	///   e.g. Javaにおける<c>throws e1, e2...</c>の<c>e1, e2...</c>
 	/// </summary>
 	public class UnifiedTypeCollection
@@ -36,13 +37,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 			}

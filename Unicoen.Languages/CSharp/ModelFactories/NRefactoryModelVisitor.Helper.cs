@@ -55,6 +55,21 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedModifierCollection.Create(uMods);
 		}
 
+		private static UnifiedModifier LookupModifier(ParameterModifier mod) {
+			switch (mod) {
+			case ParameterModifier.Out:
+				return UnifiedModifier.Create("out");
+			case ParameterModifier.Params:
+				return UnifiedModifier.Create("params");
+			case ParameterModifier.Ref:
+				return UnifiedModifier.Create("ref");
+			case ParameterModifier.This:
+				return UnifiedModifier.Create("this");
+			default:
+				return null;
+			}
+		}
+
 		private static UnifiedType LookupType(AstType type) {
 			Contract.Requires<ArgumentNullException>(type != null);
 			Contract.Ensures(Contract.Result<UnifiedType>() != null);
@@ -88,7 +103,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("LookupType");
 		}
 
-		private static UnifiedBinaryOperator LookupBinaryOperator(BinaryOperatorType op) {
+		private static UnifiedBinaryOperator LookupBinaryOperator(
+				BinaryOperatorType op) {
 			switch (op) {
 			case BinaryOperatorType.Add:
 				return UnifiedBinaryOperator.Create("+", UnifiedBinaryOperatorKind.Add);
@@ -100,18 +116,22 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedBinaryOperator.Create("/", UnifiedBinaryOperatorKind.Divide);
 
 			case BinaryOperatorType.GreaterThan:
-				return UnifiedBinaryOperator.Create(">", UnifiedBinaryOperatorKind.GreaterThan);
+				return UnifiedBinaryOperator.Create(
+						">", UnifiedBinaryOperatorKind.GreaterThan);
 			case BinaryOperatorType.GreaterThanOrEqual:
-				return UnifiedBinaryOperator.Create(">=", UnifiedBinaryOperatorKind.GreaterThanOrEqual);
+				return UnifiedBinaryOperator.Create(
+						">=", UnifiedBinaryOperatorKind.GreaterThanOrEqual);
 			case BinaryOperatorType.LessThanOrEqual:
-				return UnifiedBinaryOperator.Create("<=", UnifiedBinaryOperatorKind.LessThanOrEqual);
+				return UnifiedBinaryOperator.Create(
+						"<=", UnifiedBinaryOperatorKind.LessThanOrEqual);
 			case BinaryOperatorType.LessThan:
 				return UnifiedBinaryOperator.Create("<", UnifiedBinaryOperatorKind.LessThan);
 
 			case BinaryOperatorType.Equality:
 				return UnifiedBinaryOperator.Create("==", UnifiedBinaryOperatorKind.Equal);
 			case BinaryOperatorType.InEquality:
-				return UnifiedBinaryOperator.Create("!=", UnifiedBinaryOperatorKind.NotEqual);
+				return UnifiedBinaryOperator.Create(
+						"!=", UnifiedBinaryOperatorKind.NotEqual);
 			}
 			throw new NotImplementedException("LookupBinaryOperator");
 		}
@@ -127,34 +147,23 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedUnaryOperator.Create("-", UnifiedUnaryOperatorKind.Negate);
 
 			case UnaryOperatorType.Increment:
-				return UnifiedUnaryOperator.Create("++", UnifiedUnaryOperatorKind.PreIncrementAssign);
+				return UnifiedUnaryOperator.Create(
+						"++", UnifiedUnaryOperatorKind.PreIncrementAssign);
 			case UnaryOperatorType.PostIncrement:
-				return UnifiedUnaryOperator.Create("++", UnifiedUnaryOperatorKind.PostIncrementAssign);
+				return UnifiedUnaryOperator.Create(
+						"++", UnifiedUnaryOperatorKind.PostIncrementAssign);
 			case UnaryOperatorType.Decrement:
-				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PreDecrementAssign);
+				return UnifiedUnaryOperator.Create(
+						"--", UnifiedUnaryOperatorKind.PreDecrementAssign);
 			case UnaryOperatorType.PostDecrement:
-				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PostDecrementAssign);
+				return UnifiedUnaryOperator.Create(
+						"--", UnifiedUnaryOperatorKind.PostDecrementAssign);
 			}
 
 			throw new NotImplementedException("LookupUnaryOperator");
 		}
 
 		#endregion
-
-		private static UnifiedLiteral ParseValue(object value) {
-			Contract.Ensures(Contract.Result<UnifiedLiteral>() != null);
-
-			if (value == null)
-				return UnifiedNullLiteral.Create();
-			if (value is string)
-				return UnifiedStringLiteral.Create(
-						(string)value);
-			if (value is int)
-				return UnifiedIntegerLiteral.Create(
-						(int)value, UnifiedIntegerLiteralKind.Int32);
-
-			throw new NotImplementedException("ParseValue");
-		}
 	}
 
 	internal static class VisitorExtension {

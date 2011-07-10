@@ -26,7 +26,11 @@ namespace Unicoen.Core.Model {
 			return UnifiedBooleanLiteral.Create(literal);
 		}
 
-		public static UnifiedIntegerLiteral ToLiteral(this int value) {
+		public static UnifiedIntegerLiteral ToInt32Literal(this long value) {
+			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int32);
+		}
+
+		public static UnifiedIntegerLiteral ToInt32Literal(this int value) {
 			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int32);
 		}
 

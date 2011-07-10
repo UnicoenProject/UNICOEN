@@ -16,7 +16,9 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Unicoen.Core.Model {
@@ -32,11 +34,11 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedProgram ToProgram(
 				this IEnumerable<IUnifiedExpression> collection) {
-			return UnifiedProgram.Create(collection);
+			return UnifiedProgram.Create(collection.ToBlock());
 		}
 
 		public static UnifiedProgram ToProgram(this IUnifiedExpression singleton) {
-			return UnifiedProgram.Create(singleton);
+			return UnifiedProgram.Create(singleton.ToBlock());
 		}
 
 		public static UnifiedAnnotationCollection ToCollection(
@@ -99,7 +101,13 @@ namespace Unicoen.Core.Model {
 
 		public static IUnifiedExpression ToProperty(
 				this IEnumerable<IUnifiedExpression> collection, string delimiter) {
-			var list = collection.ToList();
+			return collection.ToList().ToProperty(delimiter);
+		}
+
+		public static IUnifiedExpression ToProperty(
+				this IList<IUnifiedExpression> list, string delimiter) {
+			Contract.Requires<ArgumentNullException>(list != null);
+			Contract.Requires<ArgumentException>(list.Count >= 1);
 			if (list.Count == 1) {
 				return list[0];
 			}
@@ -143,14 +151,14 @@ namespace Unicoen.Core.Model {
 			return UnifiedParameterCollection.Create(singleton);
 		}
 
-		public static UnifiedTypeArgumentCollection ToCollection(
-				this IEnumerable<UnifiedTypeArgument> collection) {
-			return UnifiedTypeArgumentCollection.Create(collection);
+		public static UnifiedGenericArgumentCollection ToCollection(
+				this IEnumerable<UnifiedGenericArgument> collection) {
+			return UnifiedGenericArgumentCollection.Create(collection);
 		}
 
-		public static UnifiedTypeArgumentCollection ToCollection(
-				this UnifiedTypeArgument singleton) {
-			return UnifiedTypeArgumentCollection.Create(singleton);
+		public static UnifiedGenericArgumentCollection ToCollection(
+				this UnifiedGenericArgument singleton) {
+			return UnifiedGenericArgumentCollection.Create(singleton);
 		}
 
 		public static UnifiedTypeCollection ToCollection(
@@ -172,14 +180,14 @@ namespace Unicoen.Core.Model {
 			return UnifiedTypeConstrainCollection.Create(singleton);
 		}
 
-		public static UnifiedTypeParameterCollection ToCollection(
+		public static UnifiedGenericParameterCollection ToCollection(
 				this IEnumerable<UnifiedTypeParameter> collection) {
-			return UnifiedTypeParameterCollection.Create(collection);
+			return UnifiedGenericParameterCollection.Create(collection);
 		}
 
-		public static UnifiedTypeParameterCollection ToCollection(
+		public static UnifiedGenericParameterCollection ToCollection(
 				this UnifiedTypeParameter singleton) {
-			return UnifiedTypeParameterCollection.Create(singleton);
+			return UnifiedGenericParameterCollection.Create(singleton);
 		}
 
 		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
@@ -267,7 +275,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedList.Create(collection);
@@ -290,7 +298,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedArray.Create(collection);
@@ -313,7 +321,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedSet.Create(collection);
@@ -336,7 +344,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedIterable.Create(collection);
@@ -359,7 +367,7 @@ namespace Unicoen.Core.Model {
 				this UnifiedExpressionCollection collection) {
 			if (collection.Count == 1) {
 				var expression = collection[0];
-				expression.Remove();
+				expression.RemoveSelf();
 				return expression;
 			}
 			return UnifiedTuple.Create(collection);

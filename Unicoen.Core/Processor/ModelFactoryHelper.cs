@@ -160,6 +160,9 @@ namespace Unicoen.Core.Processor {
 					UnifiedBinaryOperator.Create("==", UnifiedBinaryOperatorKind.Equal),
 					UnifiedBinaryOperator.Create("!=", UnifiedBinaryOperatorKind.NotEqual),
 					UnifiedBinaryOperator.Create("<>", UnifiedBinaryOperatorKind.NotEqual),
+					UnifiedBinaryOperator.Create("===", UnifiedBinaryOperatorKind.StrictEqual),
+					UnifiedBinaryOperator.Create(
+							"!==", UnifiedBinaryOperatorKind.StrictNotEqual),
 					UnifiedBinaryOperator.Create(
 							"is", UnifiedBinaryOperatorKind.ReferenceEqual),
 					UnifiedBinaryOperator.Create("in", UnifiedBinaryOperatorKind.In),

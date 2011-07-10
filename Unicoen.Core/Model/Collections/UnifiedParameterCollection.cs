@@ -20,7 +20,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   仮引数の集合を表します。
+	///   関数やメソッド呼び出しの仮引数の集合を表します。
 	///   e.g. Javaにおける<c>int method(int a, double b){....}</c>の<c>(int a, double b)</c>
 	/// </summary>
 	public class UnifiedParameterCollection
@@ -36,13 +36,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 			}

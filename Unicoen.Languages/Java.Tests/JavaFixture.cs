@@ -25,13 +25,20 @@ using Paraiba.Core;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;
+using Unicoen.Utils;
 
 namespace Unicoen.Languages.Java.Tests {
 	/// <summary>
 	///   テストに必要なデータを提供します．
 	/// </summary>
 	public class JavaFixture : Fixture {
+		private readonly string _mavenCommand;
+		private const string MavenArg = "package";
 		private const string CompileCommand = "javac";
+
+		public JavaFixture() {
+			_mavenCommand = SetUpMaven3();
+		}
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
@@ -75,8 +82,10 @@ namespace Unicoen.Languages.Java.Tests {
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
 
 				var codes = new[] {
-						"class A { }",
-						"public class A { }",
+						"class A { void execute(String ... str) { } }",
+						"class A { public @interface M1 { String value(); } }",
+						"class A { void m() { for (final int a = 0, b = 1; ; ) System.out.println(a + b); } }"
+						,
 				}.Select(s => new TestCaseData(s));
 
 				return statements.Concat(codes);
@@ -96,14 +105,13 @@ namespace Unicoen.Languages.Java.Tests {
 				return new[] {
 						"Fibonacci",
 				}
-						.Select(
-								s =>
-								new TestCaseData(FixtureUtil.GetInputPath(LanguageName, s + Extension)));
+						.Select(s => FixtureUtil.GetInputPath(LanguageName, s + Extension))
+						.Select(s => new TestCaseData(s));
 			}
 		}
 
 		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイルのコマンドの組み合わせの集合です．
+		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
@@ -115,49 +123,120 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => {
-									Action<string> action = s => CompileWithArguments(s, o.Command, o.Arguments);
-									return new TestCaseData(FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
+									Action<string, string> action =
+											(s1, s2) => CompileWithArguments(s1, o.Command, o.Arguments);
+									return
+											new TestCaseData(
+													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
-						.Concat(
-								new[] {
-										SetUpJUnit(),
-								});
+						.Concat(SetUpJUnit())
+						.Concat(SetUpJenkins())
+						.Concat(SetUpCraftBukkit())
+						.Concat(SetUpBukkit())
+						;
 			}
 		}
 
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
-		/// </summary>
-		/// <param name = "dirPath"></param>
-		/// <param name = "fileName"></param>
-		public override void Compile(string dirPath, string fileName) {
-			var args = new[] {
-					"\"" + Path.Combine(dirPath, fileName) + "\""
-			};
-			var arguments = args.JoinString(" ");
-			CompileWithArguments(dirPath, CompileCommand, arguments);
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { return SetUpJdk(); }
 		}
 
-		private TestCaseData SetUpJUnit() {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, "JUnit4.8.2");
-			var srcPath = Path.Combine(path, "src.zip");
-			var depPath = Path.Combine(path, "dep.jar");
+		/// <summary>
+		///   指定したファイルのソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">コンパイル時の作業ディレクトリのパス</param>
+		/// <param name = "srcPath">コンパイル対象のソースコードのパス</param>
+		public override void Compile(string workPath, string srcPath) {
 			var args = new[] {
-					"-cp",
-					"\"" + path + "\";\"" + depPath + "\"",
-					"\"" + Path.Combine(path, @"org\junit\runner\JUnitCore.java") + "\"",
+					"\"" + srcPath + "\""
 			};
-			Action<string> action = s => CompileWithArguments(s, CompileCommand, args.JoinString(" "));
-			var testCase = new TestCaseData(path, action);
-			if (Directory.Exists(path))
-				return testCase;
+			var arguments = args.JoinString(" ");
+			CompileWithArguments(workPath, CompileCommand, arguments);
+		}
+
+		private string SetUpMaven3() {
+			var path = FixtureUtil.GetDownloadPath(LanguageName, "Maven3");
+			var exePath = Path.Combine(path, "apache-maven-3.0.3", "bin", "mvn.bat");
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any())
+				return exePath;
 			Directory.CreateDirectory(path);
-			FixtureManager.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-4.8.2-src.jar", srcPath);
-			FixtureManager.Unzip(srcPath);
-			FixtureManager.Download(
-					"https://github.com/downloads/KentBeck/junit/junit-dep-4.8.2.jar", depPath);
-			return testCase;
+			DownloadAndUntgz(
+					"http://www.meisei-u.ac.jp/mirror/apache/dist//maven/binaries/apache-maven-3.0.3-bin.tar.gz",
+					path);
+			return exePath;
+		}
+
+		private IEnumerable<TestCaseData> SetUpJUnit() {
+			const string srcDirName = "src";
+			return SetUpTestCaseData(
+					"junit4.8.2",
+					path => {
+						DownloadAndUnzip(
+								"https://github.com/downloads/KentBeck/junit/junit4.8.2.zip", path);
+						var srcDirPath = Path.Combine(path, srcDirName);
+						var arcPath = Path.Combine(path, "junit4.8.2", "junit-4.8.2-src.jar");
+						Extractor.Unzip(arcPath, srcDirPath);
+					},
+					(workPath, inPath) => {
+						workPath = Path.Combine(workPath, srcDirName);
+						var depPath = Path.Combine(inPath, "junit4.8.2", "temp.hamcrest.source");
+						foreach (var srcPath in GetAllSourceFilePaths(workPath)) {
+							var args = new[] {
+									"-cp",
+									".;\"" + depPath + "\"",
+									"\"" + srcPath + "\"",
+							};
+							CompileWithArguments(workPath, CompileCommand, args.JoinString(" "));
+						}
+					});
+		}
+
+		private void CompileMaven(string workPath) {
+			var pomPath =
+					Directory.EnumerateFiles(workPath, "pom.xml", SearchOption.AllDirectories).
+							First();
+			workPath = Path.GetDirectoryName(pomPath);
+			CompileWithArguments(workPath, _mavenCommand, MavenArg);
+		}
+
+		private IEnumerable<TestCaseData> SetUpJdk() {
+			return SetUpTestCaseData(
+					"jdk", path => {
+						var jdkPath = Directory.GetDirectories(@"C:\Program Files\Java\")
+								.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk"));
+						if (jdkPath == null)
+							return false;
+						var arcPath = Path.Combine(jdkPath, "src.zip");
+						Extractor.Unzip(arcPath, path);
+						return true;
+					});
+		}
+
+		private IEnumerable<TestCaseData> SetUpCraftBukkit() {
+			return SetUpTestCaseData(
+					"CraftBukkit",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/Bukkit/CraftBukkit/zipball/master", path),
+					CompileMaven);
+		}
+
+		private IEnumerable<TestCaseData> SetUpBukkit() {
+			return SetUpTestCaseData(
+					"Bukkit",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/Bukkit/Bukkit/zipball/master", path),
+					CompileMaven);
+		}
+
+		private IEnumerable<TestCaseData> SetUpJenkins() {
+			return SetUpTestCaseData(
+					"jenkins-1.418",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.418", path));
 		}
 	}
 }

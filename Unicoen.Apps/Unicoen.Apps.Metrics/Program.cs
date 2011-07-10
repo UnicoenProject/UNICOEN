@@ -42,6 +42,11 @@ namespace Unicoen.Applications.Metrics {
 		}
 
 		private static bool Run(string[] args) {
+			args = new[] {
+					"cyclomatic",
+					@"C:\Users\exKAZUu\Documents\Projects\Unicoen\bin\Debug\jenkinsci-jenkins-jenkins-1.417-151-g52aa28e\core\src\main\java\hudson"
+			};
+
 			if (args.Length < 1)
 				return Print(Usage);
 

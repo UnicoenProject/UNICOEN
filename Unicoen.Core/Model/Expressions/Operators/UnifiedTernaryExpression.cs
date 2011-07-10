@@ -69,19 +69,19 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedTernaryExpression Create(
-				IUnifiedExpression firstExpression,
-				IUnifiedExpression secondExpression,
-				IUnifiedExpression lastExpression) {
+				IUnifiedExpression condition,
+				IUnifiedExpression trueExpression,
+				IUnifiedExpression falseExpression) {
 			return new UnifiedTernaryExpression {
-					Condition = firstExpression,
-					TrueExpression = secondExpression,
-					FalseExpression = lastExpression,
+					Condition = condition,
+					TrueExpression = trueExpression,
+					FalseExpression = falseExpression,
 			};
 		}
 	}

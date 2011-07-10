@@ -27,7 +27,7 @@ namespace Unicoen.Core.Model {
 		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>
-		///   catch節内の仮引数の集合を表します
+		///   catch節内のパターンマッチ（例外を受け取る部分）の集合を取得します．
 		///   e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
 		/// </summary>
 		public UnifiedMatcherCollection Matchers {
@@ -35,20 +35,27 @@ namespace Unicoen.Core.Model {
 			set { _matchers = SetChild(value, _matchers); }
 		}
 
-		private UnifiedCatch() {}
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public override UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
+
+		protected UnifiedCatch() {}
 
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

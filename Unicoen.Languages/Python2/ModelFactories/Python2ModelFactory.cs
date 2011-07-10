@@ -25,7 +25,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 		public static Python2ModelFactory Instance = new Python2ModelFactory();
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
-			var ast = Python2CodeToXml.Instance.Generate(code);
+			var ast = Python2CodeToXml.Instance.Generate(code, true);
 			return Python2ModelFactoryHelper.CreateFile_input(ast);
 		}
 	}

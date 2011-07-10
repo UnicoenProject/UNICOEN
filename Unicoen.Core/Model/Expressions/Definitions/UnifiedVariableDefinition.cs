@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   変数宣言における１変数部分を表します。
 	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>の<c>int[] a[][]</c>
 	/// </summary>
-	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
+	public class UnifiedVariableDefinition : UnifiedElement {
 		private UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
@@ -133,8 +133,8 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

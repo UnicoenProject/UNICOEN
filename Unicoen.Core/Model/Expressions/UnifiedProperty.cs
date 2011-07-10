@@ -16,6 +16,8 @@
 
 #endregion
 
+using System;
+using System.Diagnostics.Contracts;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -68,14 +70,15 @@ namespace Unicoen.Core.Model {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedProperty Create(
 				string delimiter, IUnifiedExpression owner = null,
 				IUnifiedExpression name = null) {
+			Contract.Requires<ArgumentNullException>(delimiter != null);
 			return new UnifiedProperty {
 					Owner = owner,
 					Name = name,
