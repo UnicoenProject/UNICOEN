@@ -104,6 +104,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 						"Block1",
 						"Block2",
 						"Block3",
+						"Binary",
 				}
 						.Select(
 								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));

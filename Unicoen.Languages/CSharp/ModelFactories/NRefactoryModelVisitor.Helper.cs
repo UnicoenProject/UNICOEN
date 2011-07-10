@@ -154,6 +154,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			switch (op) {
 			case UnaryOperatorType.Not:
 				return UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.Not);
+			case UnaryOperatorType.BitNot:
+				return UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.OnesComplement);
 
 			case UnaryOperatorType.Plus:
 				return UnifiedUnaryOperator.Create("+", UnifiedUnaryOperatorKind.UnaryPlus);
