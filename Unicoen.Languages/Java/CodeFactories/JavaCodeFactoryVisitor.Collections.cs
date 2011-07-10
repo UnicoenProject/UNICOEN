@@ -47,7 +47,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedModifierCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(SpaceDelimiter));
+			VisitCollection(element, arg.Set(SpaceEachRight));
 			return false;
 		}
 
@@ -154,14 +154,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedAnnotationCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(SpaceDelimiter));
+			VisitCollection(element, arg.Set(SpaceEachRight));
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			var klass = element.GrandParent() as UnifiedEnum;
-			if (klass != null) {
+			if (element.GrandParent() is UnifiedEnum) {
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {
 				VisitCollection(element, arg.Set(SemiColonDelimiter));

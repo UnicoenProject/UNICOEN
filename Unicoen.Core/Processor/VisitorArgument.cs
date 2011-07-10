@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Diagnostics;
 using System.IO;
 
 namespace Unicoen.Core.Processor {
@@ -38,6 +39,7 @@ namespace Unicoen.Core.Processor {
 			return this;
 		}
 
+		[DebuggerStepThrough]
 		public VisitorArgument Set(Decoration decoration) {
 			return new VisitorArgument(_writer, IndentSign) {
 					Decoration = decoration,

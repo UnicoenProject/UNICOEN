@@ -23,7 +23,7 @@ namespace Unicoen.Core.Model {
 	///   変数宣言における１変数部分を表します。
 	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>の<c>int[] a[][]</c>
 	/// </summary>
-	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
+	public class UnifiedVariableDefinition : UnifiedElement {
 		private UnifiedAnnotationCollection _annotations;
 
 		/// <summary>

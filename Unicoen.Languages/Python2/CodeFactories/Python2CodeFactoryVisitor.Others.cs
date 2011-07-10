@@ -344,7 +344,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			arg.WriteLine(":");
 
 			element.Body.TryAccept(this, arg.IncrementDepth());
-			if (element.ElseBody.IsEmptyOrNull()) {
+			if (element.ElseBody.IsNotEmpty()) {
 				arg.WriteLine("else:");
 				element.ElseBody.TryAccept(this, arg.IncrementDepth());
 			}
@@ -357,7 +357,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			arg.WriteLine(":");
 
 			element.Body.TryAccept(this, arg.IncrementDepth());
-			if (element.ElseBody.IsEmptyOrNull()) {
+			if (element.ElseBody.IsNotEmpty()) {
 				arg.WriteLine("else:");
 				element.ElseBody.TryAccept(this, arg.IncrementDepth());
 			}
@@ -389,7 +389,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedSwitch element, VisitorArgument arg) {
-			if (element.Cases.IsEmptyOrNull()) {
+			if (element.Cases.IsNotEmpty()) {
 				foreach (var c in element.Cases) {
 					arg.Write("if ");
 					element.Value.TryAccept(this, arg);

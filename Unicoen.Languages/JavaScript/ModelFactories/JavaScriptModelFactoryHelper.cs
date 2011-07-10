@@ -548,7 +548,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			if (node.HasElement("variableDeclarationNoIn"))
 				return CreateVariableDeclarationNoIn(
-						node.Element("variableDeclarationNoIn"));
+						node.Element("variableDeclarationNoIn"))
+						.ToVariableDefinitionList();
 			throw new InvalidOperationException();
 		}
 

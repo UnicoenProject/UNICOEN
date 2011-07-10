@@ -33,9 +33,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration Bracket =
 				new Decoration { MostLeft = "{", Delimiter = ", ", MostRight = "}" };
 
-		private static readonly Decoration ForBlock =
-				new Decoration { MostLeft = "{", Delimiter = ";", MostRight = "}" };
-
 		private static readonly Decoration SquareBracket =
 				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
 
@@ -57,7 +54,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration CommaDelimiter =
 				new Decoration { Delimiter = ", " };
 
-		private static readonly Decoration SpaceDelimiter =
+		private static readonly Decoration SpaceEachRight =
 				new Decoration { EachRight = " " };
 
 		private static readonly Decoration NewLineDelimiter =
@@ -66,10 +63,16 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		private static readonly Decoration SemiColonDelimiter =
 				new Decoration { Delimiter = ";" };
 
+		private static readonly Decoration ForBlock =
+				new Decoration { MostLeft = "{", EachRight = ";", MostRight = "}" };
+
+		private static readonly Decoration ForTopBlock =
+				new Decoration { EachRight = ";" };
+
 		#region program, namespace, class, method, filed ...
 
 		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
-			element.Body.TryAccept(this, arg.Set(SemiColonDelimiter));
+			element.Body.TryAccept(this, arg.Set(ForTopBlock));
 			return false;
 		}
 
@@ -124,6 +127,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
+			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
 			element.GenericParameters.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
@@ -168,7 +172,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			foreach (var stmt in element) {
 				arg.WriteIndent();
 				if (stmt.TryAccept(this, arg))
-					arg.Write(arg.Decoration.Delimiter);
+					arg.Write(arg.Decoration.EachRight);
 				arg.WriteLine();
 			}
 			if (!string.IsNullOrEmpty(arg.Decoration.MostRight)) {
@@ -402,8 +406,15 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedFor element, VisitorArgument arg) {
+			var defList = element.Initializer as UnifiedVariableDefinitionList;
+			var endBracket = "";
+			if (defList.IsNotEmpty()) {
+				arg.WriteLine("{");
+				element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
+				arg.WriteLine(";");
+				endBracket = "}";
+			}
 			arg.Write("for(");
-			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write("; ");
 			element.Condition.TryAccept(this, arg);
 			arg.Write(";");
@@ -411,6 +422,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			arg.Write(")");
 
 			element.Body.TryAccept(this, arg.Set(ForBlock));
+			arg.Write(endBracket);
 			return false;
 		}
 
@@ -533,7 +545,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				UnifiedVariableDefinition element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
-			arg.Write(" ");
 			element.Type.TryAccept(this, arg);
 			arg.Write(" ");
 			element.Name.TryAccept(this, arg);

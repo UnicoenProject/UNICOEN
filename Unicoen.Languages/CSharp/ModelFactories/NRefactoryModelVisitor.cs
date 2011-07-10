@@ -441,7 +441,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var body = stmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
 
 			var varDec = UnifiedVariableDefinition.Create(type: type, name: name);
-			return UnifiedForeach.Create(varDec, set, body);
+			return UnifiedForeach.Create(varDec.ToVariableDefinitionList(), set, body);
 		}
 
 		public IUnifiedElement VisitForStatement(ForStatement forStmt, object data) {

@@ -1135,7 +1135,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					initialValue: elementValueNode != null
 					              		? CreateElementValue(elementValueNode)
 					              		: null
-					);
+					).ToVariableDefinitionList();
 		}
 
 		public static UnifiedBlock CreateBlock(XElement node) {
@@ -1421,26 +1421,25 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								annotationsAndModifiers.Item1, annotationsAndModifiers.Item2,
 								CreateType(node.Element("type")),
 								UnifiedVariableIdentifier.Create(node.Element("IDENTIFIER").Value)
-								),
+								).ToVariableDefinitionList(),
 						CreateExpression(node.Element("expression")),
 						CreateStatement(node.Element("statement")).ToBlock()
 						);
-			} else {
-				var forInit = node.HasElement("forInit")
-				              		? CreateForInit(node.Element("forInit"))
-				              		: null;
-				var condition = node.HasElement("expression")
-				                		? CreateExpression(node.Element("expression"))
-				                		: null;
-				var step = node.HasElement("expressionList")
-				           // TODO tuple?
-				           		? CreateExpressionList(node.Element("expressionList"))
-									.ToTupleLiteral()
-				           		: null;
-				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
-
-				return UnifiedFor.Create(forInit, condition, step, body);
 			}
+			var forInit = node.HasElement("forInit")
+			              		? CreateForInit(node.Element("forInit"))
+			              		: null;
+			var condition = node.HasElement("expression")
+			                		? CreateExpression(node.Element("expression"))
+			                		: null;
+			var step = node.HasElement("expressionList")
+			           // TODO tuple?
+			           		? CreateExpressionList(node.Element("expressionList"))
+			           		  		.ToTupleLiteral()
+			           		: null;
+			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+
+			return UnifiedFor.Create(forInit, condition, step, body);
 		}
 
 		public static IUnifiedExpression CreateForInit(XElement node) {

@@ -60,7 +60,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedArgument element, VisitorArgument arg) {
-			if (element.Modifiers.IsEmptyOrNull()) {
+			if (element.Modifiers.IsNotEmpty()) {
 				arg.Write("/*");
 				element.Modifiers.TryAccept(this, arg);
 				arg.Write("*/");
