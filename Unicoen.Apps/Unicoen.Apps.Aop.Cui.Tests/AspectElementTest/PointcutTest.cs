@@ -35,7 +35,7 @@ namespace Aries.Tests {
 							FixtureUtil.GetInputPath(
 									"AspectCompiler",
 									"simple_pointcut_sample.txt"));
-							
+
 			var lex = new AriesLexer(input);
 			var tokens = new CommonTokenStream(lex);
 			var parser = new AriesParser(tokens);

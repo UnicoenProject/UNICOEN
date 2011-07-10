@@ -31,7 +31,8 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			Generate(model, writer, new CSharpCodeStyle { Indent = indentSign });
 		}
 
-		public string Generate(IUnifiedElement model, TextWriter writer, CSharpCodeStyle style) {
+		public string Generate(
+				IUnifiedElement model, TextWriter writer, CSharpCodeStyle style) {
 			var visitor = new CSharpCodeFactoryVisitor(writer, style);
 			model.Accept(visitor, 0);
 			return writer.ToString();

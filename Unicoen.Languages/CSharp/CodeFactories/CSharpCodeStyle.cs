@@ -18,7 +18,6 @@
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
 	public class CSharpCodeStyle {
-		
 		public string Indent = "\t";
 
 		public readonly SpaceStyle Space = new SpaceStyle();

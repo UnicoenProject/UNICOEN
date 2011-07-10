@@ -1,8 +1,27 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
+using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using Microsoft.Win32;
 using Paraiba.Text;
@@ -12,17 +31,15 @@ using Unicoen.Core.Tests;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 
-namespace AopGUI
-{
+namespace AopGUI {
 	/// <summary>
-	/// MainWindow.xaml の相互作用ロジック
+	///   MainWindow.xaml の相互作用ロジック
 	/// </summary>
-	public partial class MainWindow : Window
-	{
-		private static readonly Dictionary<string, string> TargetLanguage = new Dictionary<string, string>();
+	public partial class MainWindow : Window {
+		private static readonly Dictionary<string, string> TargetLanguage =
+				new Dictionary<string, string>();
 
-		public MainWindow()
-		{
+		public MainWindow() {
 			InitializeComponent();
 
 			TargetLanguage.Add(".java", "Java");
@@ -33,8 +50,7 @@ namespace AopGUI
 			//TargetLanguage.Add(".py", "Python");
 		}
 
-		private void WindowLoaded(object sender, RoutedEventArgs e)
-		{
+		private void WindowLoaded(object sender, RoutedEventArgs e) {
 			//Nothing do
 		}
 
@@ -42,58 +58,54 @@ namespace AopGUI
 			var dialog = new OpenFileDialog();
 			dialog.FileName = "";
 			dialog.DefaultExt = "*.*";
-			if(dialog.ShowDialog() == true)
-			{
+			if (dialog.ShowDialog() == true) {
 				TargetPath.Text = dialog.FileName;
 			}
-			if(dialog.FileName.Length > 0)
-			{
-				var code = File.ReadAllText(dialog.FileName, Encoding.GetEncoding("Shift_JIS"));
+			if (dialog.FileName.Length > 0) {
+				var code = File.ReadAllText(
+						dialog.FileName, Encoding.GetEncoding("Shift_JIS"));
 				OriginalSourceArea.Text = code;
 			}
 		}
 
-		private void GetAspectContent(object sender, RoutedEventArgs e)
-		{
+		private void GetAspectContent(object sender, RoutedEventArgs e) {
 			var dialog = new OpenFileDialog();
 			dialog.FileName = "";
 			dialog.DefaultExt = "*.*";
-			if(dialog.ShowDialog() == true)
-			{
+			if (dialog.ShowDialog() == true) {
 				AspectPath.Text = dialog.FileName;
 			}
-			if (dialog.FileName.Length > 0)
-			{
-				var code = File.ReadAllText(dialog.FileName, Encoding.GetEncoding("Shift_JIS"));
+			if (dialog.FileName.Length > 0) {
+				var code = File.ReadAllText(
+						dialog.FileName, Encoding.GetEncoding("Shift_JIS"));
 				AspectSourceArea.Text = code;
 			}
 		}
 
-		private void Weave(object sender, RoutedEventArgs e)
-		{
+		private void Weave(object sender, RoutedEventArgs e) {
 			//選択されたパスからファイルを取得
 			var targetPath = TargetPath.Text;
 			var aspectPath = AspectPath.Text;
 
 			//アスペクト情報を持つオブジェクトを生成する
-			var aspect = new Antlr.Runtime.ANTLRFileStream(aspectPath);
+			var aspect = new ANTLRFileStream(aspectPath);
 			var lexer = new AriesLexer(aspect);
-			var tokens = new Antlr.Runtime.CommonTokenStream(lexer);
+			var tokens = new CommonTokenStream(lexer);
 			var parser = new AriesParser(tokens);
 
 			//アスペクトファイルを解析してASTを生成する
 			var result = parser.aspect();
-			var ast = (CommonTree) result.Tree;
+			var ast = (CommonTree)result.Tree;
 
 			//ASTを走査してパース結果をアスペクトオブジェクトとしてvisitor内に格納する
 			var visitor = new AstVisitor();
 			visitor.Visit(ast, 0, null);
 
-
 			//指定されたパス以下にあるディレクトリをすべてoutput以下にコピーします
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
-			var directories = Directory.EnumerateDirectories(targetPath, "*", SearchOption.AllDirectories);
-			foreach(var dir in directories) {
+			var directories = Directory.EnumerateDirectories(
+					targetPath, "*", SearchOption.AllDirectories);
+			foreach (var dir in directories) {
 				var newDir = dir.Replace(targetPath, workPath);
 				WeavedSourceArea.Text += newDir;
 				Directory.CreateDirectory(newDir);
@@ -108,7 +120,8 @@ namespace AopGUI
 
 				//対象言語のソースコードでない場合は次の対象へ進む
 				string langType;
-				if(fileExtension == null || !TargetLanguage.TryGetValue(fileExtension, out langType)) {
+				if (fileExtension == null
+				    || !TargetLanguage.TryGetValue(fileExtension, out langType)) {
 					//対象プログラミング言語ソースファイル以外はそのままコピーする
 					File.Copy(file, newPath);
 					continue;
@@ -121,29 +134,29 @@ namespace AopGUI
 				AspectAdaptor.Weave(langType, model, visitor);
 
 				//ファイル出力
-				switch(langType) {
-					case "Java":
-						File.WriteAllText(newPath, JavaFactory.GenerateCode(model));
-						break;
-					case "JavaScript":
-						File.WriteAllText(newPath, JavaScriptFactory.GenerateCode(model));
-						break;
-					default:
-						throw new NotImplementedException();
+				switch (langType) {
+				case "Java":
+					File.WriteAllText(newPath, JavaFactory.GenerateCode(model));
+					break;
+				case "JavaScript":
+					File.WriteAllText(newPath, JavaScriptFactory.GenerateCode(model));
+					break;
+				default:
+					throw new NotImplementedException();
 				}
 
 				//とりえあず標準出力に表示;
-				switch(langType) {
-					case "Java":
-						WeavedSourceArea.Text += JavaFactory.GenerateCode(model);
-						WeavedSourceArea.Text += "\n";
-						break;
-					case "JavaScript":
-						WeavedSourceArea.Text += JavaScriptFactory.GenerateCode(model);
-						WeavedSourceArea.Text += "\n";
-						break;
-					default:
-						throw new NotImplementedException();
+				switch (langType) {
+				case "Java":
+					WeavedSourceArea.Text += JavaFactory.GenerateCode(model);
+					WeavedSourceArea.Text += "\n";
+					break;
+				case "JavaScript":
+					WeavedSourceArea.Text += JavaScriptFactory.GenerateCode(model);
+					WeavedSourceArea.Text += "\n";
+					break;
+				default:
+					throw new NotImplementedException();
 				}
 			}
 		}

@@ -29,7 +29,8 @@ namespace Unicoen.Applications.Metrics.Cores {
 				// do a given path indicate directory?
 				if (Directory.Exists(arg)) {
 					// find .rb files from a given directory path
-					foreach (var path in Directory.GetFiles(arg, "*.*", SearchOption.AllDirectories)) {
+					foreach (
+							var path in Directory.GetFiles(arg, "*.*", SearchOption.AllDirectories)) {
 						MetricsPrinter.PrintMetrics(
 								"Cyclomatic complexity", path, GetTargetElements);
 					}

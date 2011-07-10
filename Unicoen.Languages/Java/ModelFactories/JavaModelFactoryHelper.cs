@@ -830,7 +830,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				} else {
 					constrain = UnifiedSuperConstrain.Create(CreateType(typeNode));
 				}
-				return UnifiedGenericArgument.Create(anyType, null, constrain.ToCollection());
+				return UnifiedGenericArgument.Create(
+						anyType, null, constrain.ToCollection());
 			}
 			return UnifiedGenericArgument.Create(anyType);
 		}

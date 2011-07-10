@@ -17,7 +17,6 @@
 #endregion
 
 using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
 using Unicoen.Languages.JavaScript.CodeFactories;
 using Unicoen.Languages.JavaScript.ModelFactories;
 

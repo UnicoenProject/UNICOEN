@@ -111,7 +111,8 @@ namespace Unicoen.Languages.Tests {
 			var actual = GenerateCodeObject(orgPath);
 			Assert.That(
 					actual.Item2,
-					Is.EqualTo(expected.Item2).Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(expected.Item2).Using(
+							StructuralEqualityComparerForDebug.Instance));
 		}
 
 		/// <summary>
@@ -192,8 +193,9 @@ namespace Unicoen.Languages.Tests {
 		///   指定した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name = "codeObject">検査対象の統一コードオブジェクト</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertModelFeature(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertModelFeature(
+				UnifiedProgram codeObject, string message) {
 			AssertDeepCopy(codeObject, message);
 			AssertGetElements(codeObject, message);
 			AssertGetElementReferences(codeObject, message);
@@ -206,7 +208,7 @@ namespace Unicoen.Languages.Tests {
 		///   深いコピーが正常に動作するか検査します．
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
 		private static void AssertDeepCopy(UnifiedProgram codeObject, string message) {
 			var copiedModel = codeObject.DeepCopy();
 			Assert.That(
@@ -216,7 +218,8 @@ namespace Unicoen.Languages.Tests {
 			var pairs = copiedModel.Descendants().Zip(codeObject.Descendants());
 			foreach (var pair in pairs) {
 				Assert.That(pair.Item1.Parent, Is.Not.Null, message);
-				Assert.That(ReferenceEquals(pair.Item1.Parent, pair.Item2.Parent), Is.False, message);
+				Assert.That(
+						ReferenceEquals(pair.Item1.Parent, pair.Item2.Parent), Is.False, message);
 				//Assert.That(pair.Item1.Parent, Is.Not.EqualTo(pair.Item2.Parent), message);
 			}
 		}
@@ -225,8 +228,9 @@ namespace Unicoen.Languages.Tests {
 		///   子要素の列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertGetElements(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElements(
+				UnifiedProgram codeObject, string message) {
 			foreach (var element in codeObject.Descendants()) {
 				var elements = element.GetElements();
 				var references = element.GetElementReferences();
@@ -266,8 +270,9 @@ namespace Unicoen.Languages.Tests {
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertGetElementReferences(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElementReferences(
+				UnifiedProgram codeObject, string message) {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
@@ -287,8 +292,9 @@ namespace Unicoen.Languages.Tests {
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertGetElementReferenecesOfFields(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElementReferenecesOfFields(
+				UnifiedProgram codeObject, string message) {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
@@ -308,8 +314,9 @@ namespace Unicoen.Languages.Tests {
 		///   親要素に不適切な要素がないかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertParentProperty(IUnifiedElement codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertParentProperty(
+				IUnifiedElement codeObject, string message) {
 			foreach (var element in codeObject.GetElements()) {
 				if (element != null) {
 					Assert.That(element.Parent, Is.SameAs(codeObject), message);
@@ -322,7 +329,7 @@ namespace Unicoen.Languages.Tests {
 		///   全要素の文字列情報を取得できるかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
 		private static void AssertToString(UnifiedProgram codeObject, string message) {
 			foreach (var element in codeObject.DescendantsAndSelf()) {
 				Assert.That(element.ToString(), Is.Not.Null, message);

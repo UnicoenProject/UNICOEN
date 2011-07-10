@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using Paraiba.Text;
 using Unicoen.Apps.Aop.Visitor;
@@ -27,9 +28,11 @@ using Unicoen.Languages.JavaScript;
 
 namespace Unicoen.Apps.Aop {
 	public class Program {
+		private const string Usage =
+				"Usage: aries <rootDirectoryPath> <aspectFilePath>\nyou should specify missing parameter(s).";
 
-		private const string Usage = "Usage: aries <rootDirectoryPath> <aspectFilePath>\nyou should specify missing parameter(s).";
-		private static readonly Dictionary<string, string> TargetLanguage = new Dictionary<string, string>();
+		private static readonly Dictionary<string, string> TargetLanguage =
+				new Dictionary<string, string>();
 
 		static Program() {
 			TargetLanguage.Add(".java", "Java");
@@ -46,7 +49,7 @@ namespace Unicoen.Apps.Aop {
 			 *  :  args[1] -> ウィーブ対象フォルダのパス
 			 *  :  args[2] -> アスペクトファイルのパス
 			 */
-			
+
 			/*
 			var symbol = args[0];
 			if(!symbol.Equals("aries")) {
@@ -63,14 +66,14 @@ namespace Unicoen.Apps.Aop {
 					"../../fixture/AspectCompiler/input/partial_aspect/before_execution.txt";
 
 			//アスペクト情報を持つオブジェクトを生成する
-			var aspect = new Antlr.Runtime.ANTLRFileStream(aspectPath);
+			var aspect = new ANTLRFileStream(aspectPath);
 			var lexer = new AriesLexer(aspect);
-			var tokens = new Antlr.Runtime.CommonTokenStream(lexer);
+			var tokens = new CommonTokenStream(lexer);
 			var parser = new AriesParser(tokens);
 
 			//アスペクトファイルを解析してASTを生成する
 			var result = parser.aspect();
-			var ast = (CommonTree) result.Tree;
+			var ast = (CommonTree)result.Tree;
 
 			//ASTを走査してパース結果をアスペクトオブジェクトとしてvisitor内に格納する
 			var visitor = new AstVisitor();
@@ -82,30 +85,31 @@ namespace Unicoen.Apps.Aop {
 			foreach (var file in targetFiles) {
 				//対象ファイルの拡張子を取得
 				var fileExtension = Path.GetExtension(file);
-				
+
 				//対象言語のソースコードでない場合は次の対象へ進む
 				string langType;
-				if(fileExtension == null || !TargetLanguage.TryGetValue(fileExtension, out langType))
+				if (fileExtension == null
+				    || !TargetLanguage.TryGetValue(fileExtension, out langType))
 					continue;
 
 				var code = File.ReadAllText(file, XEncoding.SJIS);
 				var model = CodeProcessor.CreateModel(fileExtension, code);
-				
+
 				//アスペクトの合成を行う
 				AspectAdaptor.Weave(langType, model, visitor);
 
 				//とりえあず標準出力に表示;
-				switch(langType) {
-					case "Java":
-						Console.WriteLine(JavaFactory.GenerateCode(model));
-						Console.WriteLine();
-						break;
-					case "JavaScript":
-						Console.WriteLine(JavaScriptFactory.GenerateCode(model));
-						Console.WriteLine();						
-						break;
-					default:
-						throw new NotImplementedException();
+				switch (langType) {
+				case "Java":
+					Console.WriteLine(JavaFactory.GenerateCode(model));
+					Console.WriteLine();
+					break;
+				case "JavaScript":
+					Console.WriteLine(JavaScriptFactory.GenerateCode(model));
+					Console.WriteLine();
+					break;
+				default:
+					throw new NotImplementedException();
 				}
 			}
 		}

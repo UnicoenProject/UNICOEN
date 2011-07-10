@@ -186,7 +186,7 @@ namespace Unicoen.Apps.Aop {
 
 			foreach (var e in functions) {
 				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
-				if(e.Body == null)
+				if (e.Body == null)
 					continue;
 
 				//weave given advice, when function's name matches given Regex
@@ -213,7 +213,7 @@ namespace Unicoen.Apps.Aop {
 
 			foreach (var function in functions) {
 				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
-				if(function.Body== null)
+				if (function.Body == null)
 					continue;
 
 				//when function's name doesn't match given Regex, ignore current functionDefinition

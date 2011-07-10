@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Apps.Translator{
+namespace Unicoen.Apps.Translator {
 	// モデルの検索に関するクラス
 	public class Finder {
 		// 関数が与えられたパラメータを持っているか

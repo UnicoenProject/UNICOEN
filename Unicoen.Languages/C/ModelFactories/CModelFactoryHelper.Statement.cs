@@ -153,7 +153,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var firstElement = node.FirstElement();
 			switch (firstElement.Value) {
 			case "goto":
-				return UnifiedGoto.Create(UnifiedLabelIdentifier.Create(node.NthElement(1).Value));
+				return
+						UnifiedGoto.Create(
+								UnifiedLabelIdentifier.Create(node.NthElement(1).Value));
 			case "continue":
 				return UnifiedContinue.Create();
 			case "break":

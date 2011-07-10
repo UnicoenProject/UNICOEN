@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using Unicoen.Core.Model;
 
-namespace Unicoen.Apps.Translator{
+namespace Unicoen.Apps.Translator {
 	// 関数に特化した検索器
 	public class FunctionFinder {
 		// 名前からの検索

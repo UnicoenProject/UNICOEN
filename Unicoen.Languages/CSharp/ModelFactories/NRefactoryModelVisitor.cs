@@ -26,7 +26,8 @@ using Unicoen.Core.Model;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
-	internal partial class NRefactoryModelVisitor : IAstVisitor<object, IUnifiedElement> {
+	internal partial class NRefactoryModelVisitor
+			: IAstVisitor<object, IUnifiedElement> {
 		public IUnifiedElement VisitCompilationUnit(CompilationUnit unit, object data) {
 			Contract.Requires<ArgumentNullException>(unit != null);
 
@@ -39,7 +40,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return prog;
 		}
 
-		public IUnifiedElement VisitAnonymousMethodExpression(AnonymousMethodExpression expr, object data) {
+		public IUnifiedElement VisitAnonymousMethodExpression(
+				AnonymousMethodExpression expr, object data) {
 			var parameters = expr.Parameters
 					.Select(p => p.AcceptVisitor(this, data) as UnifiedParameter)
 					.ToCollection();
@@ -47,11 +49,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedLambda.Create(parameters: parameters, body: body);
 		}
 
-		public IUnifiedElement VisitUndocumentedExpression(UndocumentedExpression expr, object data) {
+		public IUnifiedElement VisitUndocumentedExpression(
+				UndocumentedExpression expr, object data) {
 			throw new NotImplementedException("UndocumentedExpression");
 		}
 
-		public IUnifiedElement VisitArrayCreateExpression(ArrayCreateExpression array, object data) {
+		public IUnifiedElement VisitArrayCreateExpression(
+				ArrayCreateExpression array, object data) {
 			Contract.Requires<ArgumentNullException>(array != null);
 
 			var type = LookupType(array.Type);
@@ -64,10 +68,12 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			if (array.Initializer != null) {
 				initValues = array.Initializer.AcceptVisitor(this, data) as UnifiedArray;
 			}
-			return UnifiedNew.Create(type.WrapRectangleArray(uArgs), initialValues: initValues);
+			return UnifiedNew.Create(
+					type.WrapRectangleArray(uArgs), initialValues: initValues);
 		}
 
-		public IUnifiedElement VisitArrayInitializerExpression(ArrayInitializerExpression arrayInit, object data) {
+		public IUnifiedElement VisitArrayInitializerExpression(
+				ArrayInitializerExpression arrayInit, object data) {
 			return arrayInit.Elements
 					.Select(e => e.AcceptForExpression(this))
 					.ToArrayLiteral();
@@ -77,7 +83,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("AsExpression");
 		}
 
-		public IUnifiedElement VisitAssignmentExpression(AssignmentExpression assign, object data) {
+		public IUnifiedElement VisitAssignmentExpression(
+				AssignmentExpression assign, object data) {
 			Contract.Requires<ArgumentNullException>(assign != null);
 
 			var op = UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign);
@@ -134,7 +141,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedVariableIdentifier.Create(ident.Identifier);
 		}
 
-		public IUnifiedElement VisitIndexerExpression(IndexerExpression indexer, object data) {
+		public IUnifiedElement VisitIndexerExpression(
+				IndexerExpression indexer, object data) {
 			Contract.Requires<ArgumentNullException>(indexer != null);
 
 			var target = indexer.Target.AcceptForExpression(this);
@@ -164,7 +172,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("IsExpression");
 		}
 
-		public IUnifiedElement VisitLambdaExpression(LambdaExpression lambda, object data) {
+		public IUnifiedElement VisitLambdaExpression(
+				LambdaExpression lambda, object data) {
 			var parameters = lambda.Parameters
 					.Select(p => p.AcceptVisitor(this, data) as UnifiedParameter)
 					.ToCollection();
@@ -172,7 +181,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedLambda.Create(parameters: parameters, body: body);
 		}
 
-		public IUnifiedElement VisitMemberReferenceExpression(MemberReferenceExpression propExpr, object data) {
+		public IUnifiedElement VisitMemberReferenceExpression(
+				MemberReferenceExpression propExpr, object data) {
 			Contract.Requires<ArgumentNullException>(propExpr != null);
 
 			var target = propExpr.Target.AcceptForExpression(this);
@@ -191,7 +201,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("NullReferenceExpression");
 		}
 
-		public IUnifiedElement VisitObjectCreateExpression(ObjectCreateExpression create, object data) {
+		public IUnifiedElement VisitObjectCreateExpression(
+				ObjectCreateExpression create, object data) {
 			Contract.Requires<ArgumentNullException>(create != null);
 
 			var uType = LookupType(create.Type);
@@ -218,7 +229,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("PointerReferenceExpression");
 		}
 
-		public IUnifiedElement VisitPrimitiveExpression(PrimitiveExpression prim, object data) {
+		public IUnifiedElement VisitPrimitiveExpression(
+				PrimitiveExpression prim, object data) {
 			Contract.Requires<ArgumentNullException>(prim != null);
 
 			if (prim.Value == null) {
@@ -259,7 +271,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("TypeReferenceExpression");
 		}
 
-		public IUnifiedElement VisitUnaryOperatorExpression(UnaryOperatorExpression unary, object data) {
+		public IUnifiedElement VisitUnaryOperatorExpression(
+				UnaryOperatorExpression unary, object data) {
 			Contract.Requires<ArgumentNullException>(unary != null);
 
 			var op = LookupUnaryOperator(unary.Operator);
@@ -341,7 +354,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("DelegateDeclaration");
 		}
 
-		public IUnifiedElement VisitNamespaceDeclaration(NamespaceDeclaration dec, object data) {
+		public IUnifiedElement VisitNamespaceDeclaration(
+				NamespaceDeclaration dec, object data) {
 			var ns = dec.Identifiers
 					.Select(ident => ident.Name.ToVariableIdentifier() as IUnifiedExpression)
 					.Aggregate((left, right) => UnifiedProperty.Create(".", left, right));
@@ -378,7 +392,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("UsingAliasDeclaration");
 		}
 
-		public IUnifiedElement VisitUsingDeclaration(UsingDeclaration dec, object data) {
+		public IUnifiedElement VisitUsingDeclaration(
+				UsingDeclaration dec, object data) {
 			var target = LookupType(dec.Import);
 			return UnifiedImport.Create(name: target);
 		}
@@ -411,7 +426,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("ContinueStatement");
 		}
 
-		public IUnifiedElement VisitDoWhileStatement(DoWhileStatement stmt, object data) {
+		public IUnifiedElement VisitDoWhileStatement(
+				DoWhileStatement stmt, object data) {
 			var body = stmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
 			var cond = stmt.Condition.AcceptForExpression(this);
 			return UnifiedDoWhile.Create(body, cond);
@@ -421,7 +437,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedBlock.Create();
 		}
 
-		public IUnifiedElement VisitExpressionStatement(ExpressionStatement exprStmt, object data) {
+		public IUnifiedElement VisitExpressionStatement(
+				ExpressionStatement exprStmt, object data) {
 			Contract.Requires<ArgumentNullException>(exprStmt != null);
 
 			return exprStmt.Expression.AcceptForExpression(this);
@@ -432,7 +449,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("FixedStatement");
 		}
 
-		public IUnifiedElement VisitForeachStatement(ForeachStatement stmt, object data) {
+		public IUnifiedElement VisitForeachStatement(
+				ForeachStatement stmt, object data) {
 			Contract.Requires<ArgumentNullException>(stmt != null);
 
 			var type = LookupType(stmt.VariableType);
@@ -483,8 +501,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var nElseStmt = stmt.FalseStatement;
 			if (nElseStmt == null) {
 				return UnifiedIf.Create(cond, trueBlock);
-			}
-			else {
+			} else {
 				var falseBlock = stmt.FalseStatement.AcceptForExpression(this).ToBlock();
 				return UnifiedIf.Create(cond, trueBlock, falseBlock);
 			}
@@ -500,7 +517,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("LockStatement");
 		}
 
-		public IUnifiedElement VisitReturnStatement(ReturnStatement retStmt, object data) {
+		public IUnifiedElement VisitReturnStatement(
+				ReturnStatement retStmt, object data) {
 			Contract.Requires<ArgumentNullException>(retStmt != null);
 			var nExpr = retStmt.Expression;
 
@@ -573,7 +591,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("UsingStatement");
 		}
 
-		public IUnifiedElement VisitVariableDeclarationStatement(VariableDeclarationStatement dec, object data) {
+		public IUnifiedElement VisitVariableDeclarationStatement(
+				VariableDeclarationStatement dec, object data) {
 			Contract.Requires<ArgumentNullException>(dec != null);
 
 			var uType = LookupType(dec.Type);
@@ -584,8 +603,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
 					let uInitValue = nInitValue == null
-											? null
-											: nInitValue.AcceptForExpression(this)
+					                 		? null
+					                 		: nInitValue.AcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
 							type: uType.DeepCopy(),
 							modifiers: uMods.DeepCopy(),
@@ -615,7 +634,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("Accessor");
 		}
 
-		public IUnifiedElement VisitConstructorDeclaration(ConstructorDeclaration ctorDec, object data) {
+		public IUnifiedElement VisitConstructorDeclaration(
+				ConstructorDeclaration ctorDec, object data) {
 			var uMods = LookupModifier(ctorDec.Modifiers);
 			var uBody = ctorDec.Body.AcceptVisitor(this, data) as UnifiedBlock;
 
@@ -626,7 +646,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				uParms.Add(UnifiedParameter.Create(type: type, names: names));
 			}
 
-			return UnifiedConstructor.Create(body: uBody, modifiers: uMods, parameters: uParms);
+			return UnifiedConstructor.Create(
+					body: uBody, modifiers: uMods, parameters: uParms);
 		}
 
 		public IUnifiedElement VisitConstructorInitializer(
@@ -666,8 +687,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
 					let uInitValue = nInitValue == null
-											? null
-											: nInitValue.AcceptForExpression(this)
+					                 		? null
+					                 		: nInitValue.AcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
 							type: uType.DeepCopy(),
 							modifiers: uMods.DeepCopy(),
@@ -706,7 +727,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					body.Add(uExpr);
 			}
 			// C# don't have "throws."
-			return UnifiedFunctionDefinition.Create(attrs, mods, type, generics, name, parameters, body: body);
+			return UnifiedFunctionDefinition.Create(
+					attrs, mods, type, generics, name, parameters, body: body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(
@@ -714,15 +736,16 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("OperatorDeclaration");
 		}
 
-		public IUnifiedElement VisitParameterDeclaration(ParameterDeclaration dec, object data) {
+		public IUnifiedElement VisitParameterDeclaration(
+				ParameterDeclaration dec, object data) {
 			var attrs = dec.Attributes
 					.Select(attr => attr.AcceptVisitor(this, data))
 					.OfType<UnifiedAnnotation>()
 					.ToCollection();
 			var mod = LookupModifier(dec.ParameterModifier);
 			var mods = mod == null
-				? UnifiedModifierCollection.Create()
-				: UnifiedModifierCollection.Create(mod);
+			           		? UnifiedModifierCollection.Create()
+			           		: UnifiedModifierCollection.Create(mod);
 			var type = LookupType(dec.Type);
 			var names = dec.Name.ToVariableIdentifier().ToCollection();
 			var defaultValue = dec.DefaultExpression.AcceptForExpression(this);
@@ -801,5 +824,5 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				AstNode placeholder, Pattern pattern, object data) {
 			throw new NotImplementedException("AstNode");
 		}
-	}
+			}
 }
