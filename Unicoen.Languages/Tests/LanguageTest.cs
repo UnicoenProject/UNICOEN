@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
 using Paraiba.IO;
 using Paraiba.Linq;
@@ -59,12 +60,8 @@ namespace Unicoen.Languages.Tests {
 
 		private Tuple<string, UnifiedProgram> GenerateCodeObject(string path) {
 			var code = GuessEncoding.ReadAllText(path);
-			//try {
-				var obj = Fixture.ModelFactory.Generate(code);
-				return Tuple.Create(code, obj);
-			//} catch (Exception e) {
-			//	throw new InvalidOperationException("Failed to parse: " + path, e);
-			//}
+			var obj = Fixture.ModelFactory.Generate(code);
+			return Tuple.Create(code, obj);
 		}
 
 		/// <summary>

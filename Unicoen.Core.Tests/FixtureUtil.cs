@@ -35,7 +35,16 @@ namespace Unicoen.Core.Tests {
 		public static string CleanOutputAndGetOutputPath() {
 			var path = GetOutputPath();
 			if (Directory.Exists(path)) {
-				Directory.Delete(path, true);
+				var dirPaths = Directory.EnumerateDirectories(
+						path, "*", SearchOption.TopDirectoryOnly);
+				foreach (var dirPath in dirPaths) {
+					Directory.Delete(dirPath, true);
+				}
+				var filePaths = Directory.EnumerateFiles(
+						path, "*", SearchOption.TopDirectoryOnly);
+				foreach (var filePath in filePaths) {
+					File.Delete(filePath);
+				}
 			}
 			Directory.CreateDirectory(path);
 			return path.GetFullPathAddingSubNames();

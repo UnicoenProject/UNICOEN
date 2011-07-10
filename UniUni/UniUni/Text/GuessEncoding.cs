@@ -54,7 +54,10 @@ namespace UniUni.Text {
 
 		public static string ReadAllText(string path) {
 			var bytes = File.ReadAllBytes(path);
-			return GetEncoding(bytes).GetString(bytes);
+			var encoding = GetEncoding(bytes);
+			var str = encoding.GetString(bytes);
+			// BOMがあれば取り除く
+			return str[0] != 65279 ? str : str.Substring(1);
 		}
 	}
 }

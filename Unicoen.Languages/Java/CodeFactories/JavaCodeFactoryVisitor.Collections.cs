@@ -97,6 +97,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			UnifiedTypeConstrain last = null;
 			foreach (var current in element) {
 				if (last == null || last.GetType() != current.GetType()) {
+					// implements
 					current.TryAccept(this, arg.Set(NullDelimiter));
 				} else {
 					current.TryAccept(this, arg.Set(CommaDelimiter));
