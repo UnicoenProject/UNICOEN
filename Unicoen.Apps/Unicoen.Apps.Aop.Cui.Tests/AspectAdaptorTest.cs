@@ -100,12 +100,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJava + 1)
-					== _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
+				_amountOfBlockInJava + 1, 
+				Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
-					Is.True);
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		//TODO このケースだとbeforeとafterのコード挿入位置が変わらないので、もっといいテストケースを用意する
@@ -129,12 +129,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJava + 1)
-					== _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
+				_amountOfBlockInJava + 1,
+				Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
-					Is.True);
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -157,12 +157,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJava + 1)
-					== _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
+					_amountOfBlockInJava + 1,
+					Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
-					Is.True);
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -185,13 +185,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJava + 1)
-					== _javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
-			//期待値と合成結果が等しいかどうか
+					_amountOfBlockInJava + 1,
+					Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaModel, expectation),
-					Is.True);
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -214,12 +213,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJavaScript + 1)
-					== _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
-					Is.True);
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -242,12 +241,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJavaScript + 1)
-					== _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
-					Is.True);
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -270,12 +269,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJavaScript + 1)
-					== _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
-					Is.True);
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -298,12 +297,12 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
-					(_amountOfBlockInJavaScript + 1)
-					== _javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count,
-					Is.True);
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(_javaScriptModel, expectation),
-					Is.True);
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -331,8 +330,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のメソッド数が１増えているかどうか
 			Assert.That(
-					amountOfMethodInExpectation == amountOfMethodInJava,
-					Is.True);
+					amountOfMethodInExpectation, 
+					Is.EqualTo(amountOfMethodInJava));
 			//インタータイプ宣言の合成結果はアスペクトの記述順と逆になるので、構造の一致はテストできない
 		}
 
@@ -362,8 +361,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 			//モデル内のメソッド数が１増えているかどうか
 			Assert.That(
-					amountOfMethodInExpectation == amountOfMethodInJavaScript,
-					Is.True);
+					amountOfMethodInExpectation, 
+					Is.EqualTo(amountOfMethodInJavaScript));
 			//インタータイプ宣言の合成結果はアスペクトの記述順と逆になるので、構造の一致はテストできない
 		}
 	}

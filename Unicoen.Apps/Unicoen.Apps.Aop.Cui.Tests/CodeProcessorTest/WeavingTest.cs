@@ -36,6 +36,7 @@ namespace Unicoen.Apps.Aop.Tests {
 		private readonly string _studentPath =
 				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
 
+		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
 			var code = File.ReadAllText(path, XEncoding.SJIS);
@@ -44,17 +45,22 @@ namespace Unicoen.Apps.Aop.Tests {
 
 		[Test]
 		public void WeavingAtBeforeExecutionAll() {
+			//アスペクト合成処理対象のプログラムをモデル化する
 			var model = CreateModel(_fibonacciPath);
+			//あらかじめ用意されたアスペクト合成後の期待値であるプログラムをモデル化する
 			var actual =
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath(
 									"Java", "Fibonacci_functionBefore.java"));
 
+			//アスペクト合成処理の実行
 			CodeProcessor.InsertAtBeforeExecutionAll(
 					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
+			
+			//合成後のモデルと期待値のモデルを比較
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model, 
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -68,7 +74,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model, 
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -85,7 +92,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -101,7 +109,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -117,7 +126,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -132,7 +142,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));		
 		}
 
 		[Test]
@@ -146,7 +157,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -160,7 +172,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -176,7 +189,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -192,7 +206,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -207,7 +222,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -222,7 +238,8 @@ namespace Unicoen.Apps.Aop.Tests {
 					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
+					model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		//TODO 多項式中や、プロパティとしての関数呼び出し、関数の引数として現れるUnifiedCallに対しては、処理が行われないことを確認するテストを書く
