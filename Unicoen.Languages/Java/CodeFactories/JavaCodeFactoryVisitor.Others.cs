@@ -140,6 +140,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public override bool Visit(UnifiedParameter element, VisitorArgument arg) {
 			var isVariableLength = element.Modifiers != null
 			                       && element.Modifiers.Remove(m => m.Name == "...");
+			element.Modifiers.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
 			if (isVariableLength) {
@@ -384,6 +385,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			var p = element.Ancestors<UnifiedPackageBase>().First();
 			p.Name.Accept(this, arg);
 			element.Parameters.TryAccept(this, arg);
+			element.Throws.TryAccept(this, arg.Set(Throws));
 			element.Body.TryAccept(this, arg);
 			return false;
 		}
