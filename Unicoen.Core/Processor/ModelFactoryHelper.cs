@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Mocomoco.Linq;
-using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
+using UniUni.Linq;
+using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 
 namespace Unicoen.Core.Processor {
@@ -109,7 +109,7 @@ namespace Unicoen.Core.Processor {
 					firstCreateExpression,
 					(e, n) => UnifiedBinaryExpression.Create(
 							e,
-							op2Kind[n.PreviousElement().Value].DeepCopy(),
+							op2Kind[XElementExtensions.PreviousElement(n).Value].DeepCopy(),
 							otherCreateExpression(n)));
 		}
 

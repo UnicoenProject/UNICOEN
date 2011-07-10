@@ -35,9 +35,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		private static readonly Decoration ForBlock =
 				new Decoration { MostLeft = "{", Delimiter = "\n", MostRight = "}" };
 
-		private static readonly Decoration ForProgram =
-				new Decoration { Delimiter = "\n" };
-
 		private static readonly Decoration CommaDelimiter =
 				new Decoration { Delimiter = ", " };
 
@@ -97,29 +94,36 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(UnifiedBlock element, VisitorArgument arg) {
 			var decoration = arg.Decoration;
-			// for Block
-			if (decoration == Paren) {
-				// for expressionList (not empty block)
-				if (element.Count != 0)
-					VisitCollection(element, arg);
-				return false;
-			}
-
-			if (decoration.MostLeft != null) {
+			//for Block
+			if (decoration.MostLeft == "{") {
 				arg.WriteLine(decoration.MostLeft);
 				arg = arg.IncrementDepth();
-			}
-			foreach (var stmt in element) {
-				arg.WriteIndent();
-				if (stmt.TryAccept(this, arg))
-					arg.Write(";");
-				arg.Write(decoration.Delimiter);
-			}
-			if (decoration.MostRight != null) {
+
+				foreach (var stmt in element) {
+					arg.WriteIndent();
+					if (stmt.TryAccept(this, arg))
+						arg.Write(";");
+					arg.Write(decoration.Delimiter);
+				}
 				arg = arg.DecrementDepth();
 				arg.WriteIndent();
 				arg.Write(decoration.MostRight);
+				return false;
 			}
+
+			//empty block
+			if (element.Count == 0)
+				return false;
+
+			//for expressionList
+			arg.Write("(");
+			var comma = "";
+			foreach (var e in element) {
+				arg.Write(comma);
+				e.TryAccept(this, arg);
+				comma = decoration.Delimiter;
+			}
+			arg.Write(")");
 			return false;
 		}
 
@@ -211,7 +215,11 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
-			element.Body.TryAccept(this, arg.Set(ForProgram));
+			foreach (var sourceElement in element.Body) {
+				if (sourceElement.TryAccept(this, arg))
+					arg.Write(";");
+				arg.Write("\n");
+			}
 			return false;
 		}
 
@@ -502,26 +510,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			//TODO ただし、言語変換を考えると型を出力してほしくないので、対応を考える
 			element.NameExpression.TryAccept(this, arg);
 			return false;
-		}
-
-		public override bool Visit(
-				UnifiedVariableDefinition element, VisitorArgument arg) {
-			//for文の場合、varは１つしか記述できないため、collection側でvarを出力済み
-			if (arg.Decoration.Delimiter != ", ")
-				arg.Write("var ");
-			element.Name.TryAccept(this, arg);
-			if (element.InitialValue != null) {
-				arg.Write(" = ");
-				element.InitialValue.TryAccept(this, arg.Set(Bracket));
-			}
-			element.Arguments.TryAccept(this, arg.Set(Paren));
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return false;
-		}
-
-		public override bool Visit(UnifiedClass element, VisitorArgument arg) {
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return true;
 		}
 			}
 }
