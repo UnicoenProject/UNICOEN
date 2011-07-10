@@ -27,64 +27,67 @@ using Unicoen.Core.Model;
 namespace Unicoen.Languages.C.ModelFactories {
 	public static partial class CModelFactoryHelper {
 		// literals
-		public static IUnifiedElement CreateHexLiteral(XElement node) {
+		public static UnifiedLiteral CreateHexLiteral(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "hex_literal");
+			Contract.Requires(node.Name() == "HEX_LITERAL");
 			/*
-			 * hex_literal
-			 * : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;
+			 * HEX_LITERAL : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;
 			 */
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateOctalLiteral(XElement node) {
+		public static UnifiedLiteral CreateOctalLiteral(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "octal_literal");
+			Contract.Requires(node.Name() == "OCTAL_LITERAL");
 			/*
-			 * octal_literal: '0' ('0'..'7')+ IntegerTypeSuffix?
+			 * OCTAL_LITERAL : '0' ('0'..'7')+ IntegerTypeSuffix? ;
 			 */
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateDecimalLiteral(XElement node) {
+		public static UnifiedLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "decimal_literal");
+			Contract.Requires(node.Name() == "DECIMAL_LITERAL");
 			/*
-			 * decimal_literal
-			 * : ('0' | '1'..'9' '0'..'9'*) IntegerTypeSuffix?
+			 * DECIMAL_LITERAL : ('0' | '1'..'9' '0'..'9'*) IntegerTypeSuffix? ;
+			 */
+			if (node.Element("IntegerTypeSuffix") != null) {
+				throw new NotImplementedException(); //TODO: implement
+			}
+			return UnifiedIntegerLiteral.Create(int.Parse(node.Value),
+				UnifiedIntegerLiteralKind.Int32);
+		}
+
+		public static UnifiedLiteral CreateCharacterLiteral(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "CHARACTER_LITERAL");
+			/*
+			 * CHARACTER_LITERAL
+			 * :   '\'' ( EscapeSequence | ~('\''|'\\') ) '\'' ;
 			 */
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateCharacterLiteral(XElement node) {
+		public static UnifiedLiteral CreateStringLiteral(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "character_literal");
+			Contract.Requires(node.Name() == "STRING_LITERAL");
 			/*
-			 * character_literal
-			 * : '\'' ( EscapeSequence | ~('\''|'\\') ) '\''
+			 * STRING_LITERAL
+			 * :  '"' ( EscapeSequence | ~('\\'|'"') )* '"'	;
 			 */
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateStringLiteral(XElement node) {
+		public static IUnifiedExpression CreateFloatingPointLiteral(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "string_literal");
+			Contract.Requires(node.Name() == "FLOATING_POINT_LITERAL");
 			/*
-			 * string_literal
-			 * : '"' ( EscapeSequence | ~('\\'|'"') )* '"'
-			 */
-			throw new NotImplementedException(); //TODO: implement
-		}
-
-		public static IUnifiedElement CreateFloatingPointLiteral(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "floating_point_literal");
-			/*
-			 * floating_point_literal
+			 * FLOATING_POINT_LITERAL
 			 * :   ('0'..'9')+ '.' ('0'..'9')* Exponent? FloatTypeSuffix?
 			 * |   '.' ('0'..'9')+ Exponent? FloatTypeSuffix?
 			 * |   ('0'..'9')+ Exponent FloatTypeSuffix?
 			 * |   ('0'..'9')+ Exponent? FloatTypeSuffix
+			 * ;
 			 */
 
 			throw new NotImplementedException(); //TODO: implement

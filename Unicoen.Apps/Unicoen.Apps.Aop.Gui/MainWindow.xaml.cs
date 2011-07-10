@@ -21,15 +21,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Forms;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
-using Microsoft.Win32;
 using Paraiba.Text;
 using Unicoen.Apps.Aop;
 using Unicoen.Apps.Aop.Visitor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AopGUI {
 	/// <summary>
@@ -55,16 +56,12 @@ namespace AopGUI {
 		}
 
 		private void GetTargetContent(object sender, RoutedEventArgs e) {
-			var dialog = new OpenFileDialog();
-			dialog.FileName = "";
-			dialog.DefaultExt = "*.*";
-			if (dialog.ShowDialog() == true) {
-				TargetPath.Text = dialog.FileName;
-			}
-			if (dialog.FileName.Length > 0) {
-				var code = File.ReadAllText(
-						dialog.FileName, Encoding.GetEncoding("Shift_JIS"));
-				OriginalSourceArea.Text = code;
+			//フォルダ選択用のダイアログを作成
+			var dialog = new FolderBrowserDialog {
+					Description = @"Select Target Project"
+			};
+			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+				TargetPath.Text = dialog.SelectedPath;
 			}
 		}
 

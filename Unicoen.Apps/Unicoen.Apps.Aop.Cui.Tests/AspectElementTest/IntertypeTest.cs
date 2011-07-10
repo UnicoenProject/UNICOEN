@@ -20,7 +20,9 @@ using System.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
+using Unicoen.Apps.Aop;
 using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 
 namespace Aries.Tests {
@@ -30,12 +32,14 @@ namespace Aries.Tests {
 
 		[SetUp]
 		public void SetUp() {
+			//アスペクトファイルのパスを取得
 			var input =
 					new ANTLRFileStream(
 							FixtureUtil.GetInputPath(
 									"AspectCompiler",
 									"simple_intertype_sample.txt"));
-
+			
+			//アスペクトファイルをパースして抽象構文木を生成する
 			var lex = new AriesLexer(input);
 			var tokens = new CommonTokenStream(lex);
 			var parser = new AriesParser(tokens);
@@ -43,6 +47,7 @@ namespace Aries.Tests {
 			var result = parser.aspect();
 			var ast = (CommonTree)result.Tree;
 
+			//抽象構文木を走査して、ポイントカット・アドバイス情報を格納する
 			_visitor = new AstVisitor();
 			_visitor.Visit(ast, 0, null);
 		}
@@ -68,11 +73,16 @@ namespace Aries.Tests {
 			foreach (var e in contents) {
 				code += e;
 			}
-			var actual =
-					"private int x = 10 ; public int getX ( ) { return x ; } ";
-
-			//TODO 最終的にはコード同士をモデル変換した結果を比較したい
+			const string actual = "private int x = 10 ; public int getX ( ) { return x ; } ";
+			
+			//文字列による比較
 			Assert.That(code, Is.EqualTo(actual));
+			
+			//文字列をモデル変換した結果を比較
+			Assert.That(
+					CodeProcessor.CreateIntertype("Java", code),
+					Is.EqualTo(CodeProcessor.CreateIntertype("Java", actual)).Using(StructuralEqualityComparer.Instance));
+
 		}
 	}
 }

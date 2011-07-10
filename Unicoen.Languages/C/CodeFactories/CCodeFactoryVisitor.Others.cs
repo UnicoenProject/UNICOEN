@@ -107,7 +107,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		public override bool Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			// C言語に存在しない要素は省略
-
+			arg.WriteLine("/* function definition */");
 			arg.WriteIndent();
 			arg.Write("/* ");
 			element.Modifiers.TryAccept(this, arg);
@@ -116,6 +116,9 @@ namespace Unicoen.Languages.C.CodeFactories {
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
 			element.Name.TryAccept(this, arg);
+			//arg.Write(" (");
+			//element.Parameters.TryAccept(this, arg);
+			//arg.Write(") ");
 			element.Body.TryAccept(this, arg);
 
 			return element.Body == null;
@@ -269,6 +272,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 			return false;
 		}
+
 
 		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する

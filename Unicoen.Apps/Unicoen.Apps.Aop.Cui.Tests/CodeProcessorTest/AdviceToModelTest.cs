@@ -23,11 +23,11 @@ using Unicoen.Core.Model;
 namespace Unicoen.Apps.Aop.Tests {
 	[TestFixture]
 	public class AdviceToModelTest {
+
 		[Test]
 		public void Java言語向けコード片を正しくモデル化できる() {
 			const string code = "System.out.println(\"This is a test!\");";
 			var advice = CodeProcessor.CreateAdvice("Java", code);
-
 			Assert.That(advice.GetType(), Is.EqualTo(typeof(UnifiedBlock)));
 		}
 

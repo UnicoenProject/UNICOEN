@@ -59,12 +59,12 @@ namespace Unicoen.Languages.Tests {
 
 		private Tuple<string, UnifiedProgram> GenerateCodeObject(string path) {
 			var code = GuessEncoding.ReadAllText(path);
-			try {
+			//try {
 				var obj = Fixture.ModelFactory.Generate(code);
 				return Tuple.Create(code, obj);
-			} catch (Exception e) {
-				throw new InvalidOperationException("Failed to parse: " + path, e);
-			}
+			//} catch (Exception e) {
+			//	throw new InvalidOperationException("Failed to parse: " + path, e);
+			//}
 		}
 
 		/// <summary>

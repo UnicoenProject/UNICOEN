@@ -57,6 +57,25 @@ namespace Unicoen.Languages.C.CodeFactories {
 			return false;
 		}
 
+		public override bool Visit(UnifiedVariableDefinitionList element, VisitorArgument arg) {
+
+			foreach (var variableDefinition in element) {
+				arg.Write(variableDefinition.Modifiers.TryAccept(this, arg));
+				arg.Write(" ");
+				arg.Write(variableDefinition.Type.TryAccept(this, arg));
+				arg.Write(" ");
+				arg.Write(variableDefinition.Name.TryAccept(this, arg));
+
+				if (variableDefinition.InitialValue != null) {
+					arg.Write( " = ");
+					arg.Write(variableDefinition.InitialValue);
+				}
+				arg.WriteLine(";");
+			}
+
+			return true;
+		}
+
 		public override bool Visit(
 				UnifiedExpressionCollection element, VisitorArgument arg) {
 			throw new InvalidOperationException();
@@ -116,5 +135,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 			element.BasicType.TryAccept(this, arg);
 			return true;
 		}
+
+
 	}
 }

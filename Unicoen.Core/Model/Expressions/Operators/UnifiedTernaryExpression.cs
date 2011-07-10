@@ -75,13 +75,13 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedTernaryExpression Create(
-				IUnifiedExpression firstExpression,
-				IUnifiedExpression secondExpression,
-				IUnifiedExpression lastExpression) {
+				IUnifiedExpression condition,
+				IUnifiedExpression trueExpression,
+				IUnifiedExpression falseExpression) {
 			return new UnifiedTernaryExpression {
-					Condition = firstExpression,
-					TrueExpression = secondExpression,
-					FalseExpression = lastExpression,
+					Condition = condition,
+					TrueExpression = trueExpression,
+					FalseExpression = falseExpression,
 			};
 		}
 	}
