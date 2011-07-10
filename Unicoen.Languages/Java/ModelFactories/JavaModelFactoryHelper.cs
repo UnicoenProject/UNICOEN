@@ -23,9 +23,9 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Mocomoco.Linq;
-using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
+using UniUni.Numerics;
+using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
