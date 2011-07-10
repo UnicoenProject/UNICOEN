@@ -30,11 +30,11 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitCompilationUnit(CompilationUnit unit, object data) {
 			Contract.Requires<ArgumentNullException>(unit != null);
 
-			var prog = UnifiedProgram.Create();
+			var prog = UnifiedProgram.Create(UnifiedBlock.Create());
 			foreach (var child in unit.Children) {
 				var elem = child.AcceptForExpression(this);
 				if (elem != null)
-					prog.Add(elem);
+					prog.Body.Add(elem);
 			}
 			return prog;
 		}

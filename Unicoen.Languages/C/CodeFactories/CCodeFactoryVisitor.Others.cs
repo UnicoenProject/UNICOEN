@@ -181,7 +181,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
-			foreach (var stmt in element) {
+			foreach (var stmt in element.Body) {
 				if (stmt.TryAccept(this, arg)) {
 					arg.Write(";");
 				}

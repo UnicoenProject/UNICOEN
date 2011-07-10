@@ -97,7 +97,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			element.Target.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
 			element.InitialValue.TryAccept(this, arg.Set(Bracket));
-			element.Body.TryAccept(this, arg);
+			element.Body.TryAccept(this, arg.Set(Bracket));
 			return true;
 		}
 

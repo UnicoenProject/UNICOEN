@@ -82,8 +82,8 @@ namespace Unicoen.Languages.Java.Tests {
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
 
 				var codes = new[] {
-						"class A { }",
-						"public class A { }",
+						"class A { void execute(String ... str) { } }",
+						"class A { public @interface M1 { String value(); } }",
 				}.Select(s => new TestCaseData(s));
 
 				return statements.Concat(codes);

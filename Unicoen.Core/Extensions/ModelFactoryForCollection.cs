@@ -34,11 +34,11 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedProgram ToProgram(
 				this IEnumerable<IUnifiedExpression> collection) {
-			return UnifiedProgram.Create(collection);
+			return UnifiedProgram.Create(collection.ToBlock());
 		}
 
 		public static UnifiedProgram ToProgram(this IUnifiedExpression singleton) {
-			return UnifiedProgram.Create(singleton);
+			return UnifiedProgram.Create(singleton.ToBlock());
 		}
 
 		public static UnifiedAnnotationCollection ToCollection(

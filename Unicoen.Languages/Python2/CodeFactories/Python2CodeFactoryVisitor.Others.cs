@@ -67,10 +67,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
 			element.Comments.TryAccept(this, arg);
 			arg.WriteLine();
-			foreach (var stmt in element) {
-				stmt.TryAccept(this, arg);
-				arg.WriteLine();
-			}
+			element.Body.TryAccept(this, arg);
 			return false;
 		}
 

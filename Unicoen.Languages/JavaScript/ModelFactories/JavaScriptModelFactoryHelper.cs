@@ -52,7 +52,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			return UnifiedProgram.Create(
-					CreateSourceElements(node.Element("sourceElements")));
+					CreateSourceElements(node.Element("sourceElements")).ToBlock());
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateSourceElements(

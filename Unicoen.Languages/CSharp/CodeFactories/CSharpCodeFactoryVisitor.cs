@@ -180,7 +180,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedProgram element, int arg) {
-			foreach (var elem in element) {
+			foreach (var elem in element.Body) {
 				var semmi = elem.Accept(this, arg);
 				if (semmi)
 					_writer.Write(";");

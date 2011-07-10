@@ -80,12 +80,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedImplementsConstrain element, VisitorArgument arg) {
-			if (arg.Decoration.Delimiter == null) {
-				arg.Write(" implements ");
-			} else {
-				//commaを出力する場合
-				arg.Write(arg.Decoration.Delimiter);
-			}
+			arg.Write(arg.Decoration.Delimiter ?? " implements ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
@@ -159,7 +154,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedAnnotationCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
+			VisitCollection(element, arg.Set(SpaceDelimiter));
 			return false;
 		}
 

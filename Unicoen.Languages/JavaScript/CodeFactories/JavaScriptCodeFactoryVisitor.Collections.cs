@@ -106,32 +106,12 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			if (element.Parent.GetType() == typeof(UnifiedFor)) {
+			if (element.Parent is UnifiedFor) {
 				arg.Write("var ");
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {
 				VisitCollection(element, arg.Set(SemiColonDelimiter));
 			}
-			return true;
-		}
-
-		public override bool Visit(
-				UnifiedVariableDefinition element, VisitorArgument arg) {
-			//for文の場合、varは１つしか記述できないため、collection側でvarを出力済み
-			if (arg.Decoration.Delimiter != ", ")
-				arg.Write("var ");
-			element.Name.TryAccept(this, arg);
-			if (element.InitialValue != null) {
-				arg.Write(" = ");
-				element.InitialValue.TryAccept(this, arg.Set(Bracket));
-			}
-			element.Arguments.TryAccept(this, arg.Set(Paren));
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return false;
-		}
-
-		public override bool Visit(UnifiedClass element, VisitorArgument arg) {
-			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return true;
 		}
 	}

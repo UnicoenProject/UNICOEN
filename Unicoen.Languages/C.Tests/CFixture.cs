@@ -73,7 +73,7 @@ namespace Unicoen.Languages.C.Tests {
 		}
 
 		private static string DecorateToCompile(string statement) {
-			return "int main() {" + statement + "} }";
+			return "int main() {" + statement + "}";
 		}
 
 		/// <summary>

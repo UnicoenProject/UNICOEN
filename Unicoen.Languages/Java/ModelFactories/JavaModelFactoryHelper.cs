@@ -52,8 +52,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * compilationUnit 
 			 * :   ( (annotations)? packageDeclaration )? (importDeclaration)* (typeDeclaration)*
 			 */
-			var program = UnifiedProgram.Create();
-			IUnifiedElementCollection<IUnifiedExpression> expressions = program;
+			var program = UnifiedProgram.Create(UnifiedBlock.Create());
+			var expressions = program.Body;
 
 			var first = node.FirstElementOrDefault();
 			if (first.SafeName() == "annotations") {
