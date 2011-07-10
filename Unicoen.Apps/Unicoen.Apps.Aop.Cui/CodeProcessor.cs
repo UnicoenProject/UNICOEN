@@ -185,6 +185,10 @@ namespace Unicoen.Apps.Aop {
 			var functions = root.Descendants<UnifiedFunctionDefinition>();
 
 			foreach (var e in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if(e.Body == null)
+					continue;
+
 				//weave given advice, when function's name matches given Regex
 				var m = regex.Match(e.Name.Name);
 				if (m.Success) {
@@ -208,6 +212,10 @@ namespace Unicoen.Apps.Aop {
 			var functions = root.Descendants<UnifiedFunctionDefinition>();
 
 			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if(function.Body== null)
+					continue;
+
 				//when function's name doesn't match given Regex, ignore current functionDefinition
 				var m = regex.Match(function.Name.Name);
 				if (!m.Success)

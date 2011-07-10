@@ -146,6 +146,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				isVariableLength = newModifiers.Remove(m => m.Name == "...");
 				newModifiers.TryAccept(this, arg);
 			}
+			element.Modifiers.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
 			if (isVariableLength) {
@@ -388,6 +389,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			var p = element.Ancestors<UnifiedPackageBase>().First();
 			p.Name.Accept(this, arg);
 			element.Parameters.TryAccept(this, arg);
+			element.Throws.TryAccept(this, arg.Set(Throws));
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
