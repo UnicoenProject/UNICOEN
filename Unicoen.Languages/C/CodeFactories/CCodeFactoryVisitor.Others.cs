@@ -21,68 +21,41 @@ using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
-	public partial class CCodeFactoryVisitor
-			: ExplicitDefaultUnifiedVisitor<VisitorArgument, bool> {
-		/// <summary>
-		///   Expressionが括弧を付けるためのDecorationです
-		/// </summary>
-		private static readonly Decoration Paren =
-				new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
-
-		private static readonly Decoration Bracket =
-				new Decoration { MostLeft = "{", Delimiter = ", ", MostRight = "}" };
-
-		private static readonly Decoration SquareBracket =
-				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
-
-		private static readonly Decoration Empty = new Decoration();
-
-		private static readonly Decoration AndDelimiter =
-				new Decoration { Delimiter = " & " };
-
-		private static readonly Decoration CommaDelimiter =
-				new Decoration { Delimiter = ", " };
-
-		private static readonly Decoration SpaceDelimiter =
-				new Decoration { EachRight = " " };
-
-		private static readonly Decoration NewLineDelimiter =
-				new Decoration { Delimiter = "\n" };
-
+	public partial class CCodeFactoryVisitor {
 		public override bool Visit(UnifiedBinaryOperator element, VisitorArgument arg) {
-			arg.Write(element.Sign);
+			Writer.Write(element.Sign);
 			return false;
 		}
 
 		public override bool Visit(UnifiedUnaryOperator element, VisitorArgument arg) {
-			arg.Write(element.Sign);
+			Writer.Write(element.Sign);
 			return false;
 		}
 
 		public override bool Visit(UnifiedArgument element, VisitorArgument arg) {
-			if (element.Modifiers.IsNotEmpty()) {
-				arg.Write("/*");
+			if (!element.Modifiers.IsEmptyOrNull()) {
+				Writer.Write("/*");
 				element.Modifiers.TryAccept(this, arg);
-				arg.Write("*/");
+				Writer.Write("*/");
 			}
 			element.Value.TryAccept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(UnifiedBlock element, VisitorArgument arg) {
-			arg.WriteLine();
-			arg.WriteIndent();
-			arg.WriteLine("{");
+			Writer.WriteLine();
+			WriteIndent(arg);
+			Writer.WriteLine("{");
 			arg = arg.IncrementDepth();
 			foreach (var stmt in element) {
-				arg.WriteIndent();
+				WriteIndent(arg);
 				if (stmt.TryAccept(this, arg)) {
-					arg.Write(";");
+					Writer.Write(";");
 				}
 			}
 
-			arg.WriteIndent();
-			arg.WriteLine("}");
+			WriteIndent(arg);
+			Writer.WriteLine("}");
 			return false;
 		}
 
@@ -90,13 +63,13 @@ namespace Unicoen.Languages.C.CodeFactories {
 			var prop = element.Function as UnifiedProperty;
 			if (prop != null) {
 				prop.Owner.TryAccept(this, arg);
-				arg.Write(prop.Delimiter);
+				Writer.Write(prop.Delimiter);
 				element.GenericArguments.TryAccept(this, arg);
 				prop.Name.TryAccept(this, arg);
 			} else {
 				// Javaでifが実行されるケースは存在しないが、言語変換のため
 				if (element.GenericArguments != null)
-					arg.Write("this.");
+					Writer.Write("this.");
 				element.GenericArguments.TryAccept(this, arg);
 				element.Function.TryAccept(this, arg);
 			}
@@ -107,18 +80,18 @@ namespace Unicoen.Languages.C.CodeFactories {
 		public override bool Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			// C言語に存在しない要素は省略
-			arg.WriteLine("/* function definition */");
-			arg.WriteIndent();
-			arg.Write("/* ");
+			Writer.WriteLine("/* function definition */");
+			WriteIndent(arg);
+			Writer.Write("/* ");
 			element.Modifiers.TryAccept(this, arg);
-			arg.Write(" */");
+			Writer.Write(" */");
 			// element.GenericParameters.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
-			arg.WriteSpace();
+			Writer.Write(" ");
 			element.Name.TryAccept(this, arg);
-			//arg.Write(" (");
+			//_writer.Write(" (");
 			//element.Parameters.TryAccept(this, arg);
-			//arg.Write(") ");
+			//_writer.Write(") ");
 			element.Body.TryAccept(this, arg);
 
 			return element.Body == null;
@@ -126,13 +99,13 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		public override bool Visit(UnifiedIf element, VisitorArgument arg) {
 			// if(){...}
-			arg.Write("if (");
+			Writer.Write("if (");
 			element.Condition.TryAccept(this, arg);
-			arg.Write(")");
+			Writer.Write(")");
 			element.Body.TryAccept(this, arg);
 			// else...
 			if (element.ElseBody != null) {
-				arg.Write("else");
+				Writer.Write("else");
 				element.ElseBody.TryAccept(this, arg);
 			}
 
@@ -141,7 +114,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		public override bool Visit(UnifiedParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
-			arg.WriteSpace();
+			Writer.Write(" ");
 			element.Names.TryAccept(this, arg);
 
 			return false;
@@ -149,36 +122,36 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableIdentifier element, VisitorArgument arg) {
-			arg.Write(element.Name);
+			Writer.Write(element.Name);
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedLabelIdentifier element, VisitorArgument arg) {
-			arg.Write(element.Name);
+			Writer.Write(element.Name);
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedSuperIdentifier element, VisitorArgument arg) {
-			arg.Write("/*" + element.Name + "*/");
+			Writer.Write("/*" + element.Name + "*/");
 			return false;
 		}
 
 		public override bool Visit(UnifiedThisIdentifier element, VisitorArgument arg) {
-			arg.Write("/*" + element.Name + "*/");
+			Writer.Write("/*" + element.Name + "*/");
 			return false;
 		}
 
 		public override bool Visit(UnifiedModifier element, VisitorArgument arg) {
-			arg.Write(element.Name);
+			Writer.Write(element.Name);
 			return false;
 		}
 
 		public override bool Visit(UnifiedImport element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントで出力する
-			arg.WriteLine("/* ElementNotInC */");
-			arg.WriteLine("/* " + element + " */");
+			Writer.WriteLine("/* ElementNotInC */");
+			Writer.WriteLine("/* " + element + " */");
 
 			return false;
 		}
@@ -186,7 +159,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
 			foreach (var stmt in element.Body) {
 				if (stmt.TryAccept(this, arg)) {
-					arg.Write(";");
+					Writer.Write(";");
 				}
 			}
 			return false;
@@ -197,13 +170,13 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedFor element, VisitorArgument arg) {
-			arg.Write("for (");
+			Writer.Write("for (");
 			element.Initializer.TryAccept(this, arg);
-			arg.Write("; ");
+			Writer.Write("; ");
 			element.Condition.TryAccept(this, arg);
-			arg.Write("; ");
+			Writer.Write("; ");
 			element.Step.TryAccept(this, arg);
-			arg.Write(")");
+			Writer.Write(")");
 
 			element.Body.TryAccept(this, arg);
 
@@ -212,33 +185,33 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		public override bool Visit(UnifiedForeach element, VisitorArgument arg) {
 			// C言語にない要素なので，その旨をコメントとして出力する
-			arg.WriteLine("/* ElementNotInC */");
-			arg.WriteLine("/* " + element + " */");
+			Writer.WriteLine("/* ElementNotInC */");
+			Writer.WriteLine("/* " + element + " */");
 			return false;
 		}
 
 		public override bool Visit(UnifiedProperty element, VisitorArgument arg) {
 			element.Owner.TryAccept(this, arg);
-			arg.Write(element.Delimiter);
+			Writer.Write(element.Delimiter);
 			element.Name.Accept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(UnifiedWhile element, VisitorArgument arg) {
-			arg.Write("while (");
+			Writer.Write("while (");
 			element.Condition.TryAccept(this, arg);
-			arg.Write(")");
+			Writer.Write(")");
 			element.Body.TryAccept(this, arg);
 
 			return false;
 		}
 
 		public override bool Visit(UnifiedDoWhile element, VisitorArgument arg) {
-			arg.Write("do");
+			Writer.Write("do");
 			element.Body.TryAccept(this, arg);
-			arg.Write("while(");
+			Writer.Write("while(");
 			element.Condition.Accept(this, arg);
-			arg.Write(");");
+			Writer.Write(");");
 
 			return false;
 		}
@@ -251,71 +224,70 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedSwitch element, VisitorArgument arg) {
-			arg.Write("switch (");
+			Writer.Write("switch (");
 			element.Value.TryAccept(this, arg);
-			arg.Write(") {");
+			Writer.Write(") {");
 			element.Cases.TryAccept(this, arg);
-			arg.Write("}");
+			Writer.Write("}");
 
 			return false;
 		}
 
 		public override bool Visit(UnifiedCase element, VisitorArgument arg) {
 			if (element.Condition == null) {
-				arg.Write("default: ");
+				Writer.Write("default: ");
 			} else {
-				arg.Write("case ");
+				Writer.Write("case ");
 				element.Condition.TryAccept(this, arg);
-				arg.Write(":");
+				Writer.Write(":");
 			}
 			element.Body.Accept(this, arg);
 
 			return false;
 		}
 
-
 		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			arg.Write("/* ");
-			arg.Write("ElementNotInC :");
-			arg.Write(element.ToString());
-			arg.Write(" */");
+			Writer.Write("/* ");
+			Writer.Write("ElementNotInC :");
+			Writer.Write(element.ToString());
+			Writer.Write(" */");
 
 			return false;
 		}
 
 		public override bool Visit(UnifiedTry element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			arg.Write("/* ");
-			arg.Write("ElementNotInC :");
-			arg.Write(element.ToString());
-			arg.Write(" */");
+			Writer.Write("/* ");
+			Writer.Write("ElementNotInC :");
+			Writer.Write(element.ToString());
+			Writer.Write(" */");
 
 			return false;
 		}
 
 		public override bool Visit(UnifiedTypeParameter element, VisitorArgument arg) {
 			// C言語に存在しない要素なので，その旨をコメントとして出力する
-			arg.Write("/* ");
-			arg.Write("ElementNotInC :");
-			arg.Write(element.ToString());
-			arg.Write(" */");
+			Writer.Write("/* ");
+			Writer.Write("ElementNotInC :");
+			Writer.Write(element.ToString());
+			Writer.Write(" */");
 
 			return false;
 		}
 
 		public override bool Visit(UnifiedLabel element, VisitorArgument arg) {
 			element.Name.TryAccept(this, arg);
-			arg.Write(": ");
+			Writer.Write(": ");
 
 			return false;
 		}
 
 		public override bool Visit(UnifiedBooleanLiteral element, VisitorArgument arg) {
 			if (element.Value) {
-				arg.Write("1"); // trueのとき
+				Writer.Write("1"); // trueのとき
 			} else {
-				arg.Write("0"); // falseのとき
+				Writer.Write("0"); // falseのとき
 			}
 
 			return false;
@@ -323,15 +295,15 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		public override bool Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 
 			var kind = element.Kind;
 			switch (kind) {
 			case UnifiedFractionLiteralKind.Single:
-				arg.Write("f");
+				Writer.Write("f");
 				break;
 			case UnifiedFractionLiteralKind.Double:
-				arg.Write("d"); // あってもなくてもいい
+				Writer.Write("d"); // あってもなくてもいい
 				break;
 			default:
 				break;
@@ -342,7 +314,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedIntegerLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 
 			var kind = element.Kind;
 			switch (kind) {
@@ -356,18 +328,18 @@ namespace Unicoen.Languages.C.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedCharLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 			return false;
 		}
 
 		public override bool Visit(UnifiedStringLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 			return false;
 		}
 
 		public override bool Visit(UnifiedNullLiteral element, VisitorArgument arg) {
-			arg.Write("NULL");
+			Writer.Write("NULL");
 			return false;
 		}
-			}
+	}
 }

@@ -18,18 +18,12 @@
 
 using System.IO;
 using Unicoen.CodeFactories;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
-	public class JavaScriptCodeFactory : CodeFactory {
-		public override void Generate(
-				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			codeObject.Accept(new JavaScriptCodeFactoryVisitor(writer), new VisitorArgument(indentSign));
+	public partial class JavaScriptCodeFactoryVisitor
+			: JavaLikeCodeFactoryVisitor {
+		public JavaScriptCodeFactoryVisitor(TextWriter writer) : base(writer) {
+			ForeachDelimiter = " in ";
 		}
-
-		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
-			Generate(codeObject, writer, "\t");
-		}
-	}
+			}
 }

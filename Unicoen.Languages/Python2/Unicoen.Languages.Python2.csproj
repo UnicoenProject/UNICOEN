@@ -104,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFactories\Python2CodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\Python2CodeFactory.cs" />
     <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Collections.cs" />

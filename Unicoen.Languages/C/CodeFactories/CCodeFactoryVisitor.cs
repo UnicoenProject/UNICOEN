@@ -17,27 +17,10 @@
 #endregion
 
 using System.IO;
-using Unicoen.Core.Model;
+using Unicoen.CodeFactories;
 
-namespace Unicoen.Core.Processor {
-	public abstract class CodeFactory {
-		public abstract void Generate(
-				IUnifiedElement model, TextWriter writer, string indentSign);
-
-		public abstract void Generate(IUnifiedElement model, TextWriter writer);
-
-		public string Generate(IUnifiedElement model) {
-			var writer = new StringWriter();
-			Generate(model, writer);
-			return writer.ToString();
-		}
-
-		public string GenerateOrEmpty(IUnifiedElement model) {
-			if (model == null)
-				return string.Empty;
-			var writer = new StringWriter();
-			Generate(model, writer);
-			return writer.ToString();
-		}
+namespace Unicoen.Languages.C.CodeFactories {
+	public partial class CCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
+		public CCodeFactoryVisitor(TextWriter writer) : base(writer) {}
 	}
 }

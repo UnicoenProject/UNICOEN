@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="CFactory.cs" />
     <Compile Include="CodeFactories\CCodeFactory.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryVisitor.cs" />
     <Compile Include="ModelFactories\CModelFactory.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Expression.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.cs" />

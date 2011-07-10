@@ -16,10 +16,12 @@
 
 #endregion
 
+using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public static class ModelExtensionsForVisitor {
+		[DebuggerStepThrough]
 		public static void TryAccept<TElement>(
 				this TElement element, IUnifiedVisitor visitor)
 				where TElement : class, IUnifiedElement {
@@ -27,12 +29,13 @@ namespace Unicoen.Core.Model {
 				element.Accept(visitor);
 		}
 
+		[DebuggerStepThrough]
 		public static TResult TryAccept<TElement, TArg, TResult>(
 				this TElement element, IUnifiedVisitor<TArg, TResult> visitor, TArg arg)
 				where TElement : class, IUnifiedElement {
-			if (element != null)
-				return element.Accept(visitor, arg);
-			return default(TResult);
+			if (element == null)
+				return default(TResult);
+			return element.Accept(visitor, arg);
 		}
 	}
 }

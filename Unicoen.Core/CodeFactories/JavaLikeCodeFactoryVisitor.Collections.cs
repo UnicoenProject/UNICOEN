@@ -17,27 +17,26 @@
 #endregion
 
 using System;
-using System.IO;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
-namespace Unicoen.Languages.Java.CodeFactories {
-	public partial class JavaCodeFactoryVisitor {
-		public void VisitCollection<T, TSelf>(
+namespace Unicoen.CodeFactories {
+	public partial class JavaLikeCodeFactoryVisitor {
+		protected void VisitCollection<T, TSelf>(
 				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
 				where T : class, IUnifiedElement
 				where TSelf : UnifiedElementCollection<T, TSelf> {
 			var decoration = arg.Decoration;
-			arg.Write(decoration.MostLeft);
+			Writer.Write(decoration.MostLeft);
 			var splitter = "";
 			foreach (var e in elements) {
-				arg.Write(splitter);
-				arg.Write(decoration.EachLeft);
+				Writer.Write(splitter);
+				Writer.Write(decoration.EachLeft);
 				e.TryAccept(this, arg);
-				arg.Write(decoration.EachRight);
+				Writer.Write(decoration.EachRight);
 				splitter = decoration.Delimiter;
 			}
-			arg.Write(decoration.MostRight);
+			Writer.Write(decoration.MostRight);
 		}
 
 		public override bool Visit(
@@ -53,8 +52,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		// e.g. throws E1, E2 ...
-		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
+		public override bool Visit(
+				UnifiedThrowsTypeCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(Throws));
 			return false;
 		}
 
@@ -74,20 +74,20 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedExtendConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " extends ");
+			Writer.Write(arg.Decoration.Delimiter ?? " extends ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedImplementsConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " implements ");
+			Writer.Write(arg.Decoration.Delimiter ?? " implements ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(UnifiedSuperConstrain element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.Delimiter ?? " super ");
+			Writer.Write(arg.Decoration.Delimiter ?? " super ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
@@ -134,7 +134,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				arg.WriteIndent();
+				WriteIndent(arg);
 				caseElement.TryAccept(this, arg);
 			}
 			return false;
@@ -147,10 +147,10 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedAnnotation element, VisitorArgument arg) {
-			arg.Write("@");
+			Writer.Write("@");
 			element.Name.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
-			arg.WriteLine();
+			Writer.WriteLine();
 			return false;
 		}
 
@@ -165,15 +165,15 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			if (element.GrandParent() is UnifiedEnum) {
 				var comma = "";
 				foreach (var varDef in element) {
-					arg.Write(comma);
+					Writer.Write(comma);
 					varDef.Annotations.TryAccept(this, arg);
 					varDef.Modifiers.TryAccept(this, arg);
 					varDef.Type.TryAccept(this, arg);
-					arg.Write(" ");
+					Writer.Write(" ");
 					varDef.Name.TryAccept(this, arg);
 					varDef.Arguments.TryAccept(this, arg.Set(Paren));
 					if (varDef.InitialValue != null) {
-						arg.Write(" = ");
+						Writer.Write(" = ");
 						varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
 					}
 					varDef.Body.TryAccept(this, arg.Set(ForBlock));
@@ -195,23 +195,19 @@ namespace Unicoen.Languages.Java.CodeFactories {
 				if (isFirst) {
 					varDef.Annotations.TryAccept(this, arg);
 					varDef.Modifiers.TryAccept(this, arg);
-					var writer = new StringWriter();
-					varDef.Type.TryAccept(this, arg.ChangeWriter(writer));
-					commonTypeStr = writer.ToString();
-					arg.Write(commonTypeStr + " ");
+					commonTypeStr = GetString(varDef.Type, arg);
+					Writer.Write(commonTypeStr + " ");
 					varDef.Name.TryAccept(this, arg);
 					isFirst = false;
 				} else {
-					arg.Write(", ");
+					Writer.Write(", ");
 					varDef.Name.TryAccept(this, arg);
-					var writer = new StringWriter();
-					varDef.Type.TryAccept(this, arg.ChangeWriter(writer));
-					arg.Write(writer.ToString().Substring(commonTypeStr.Length));
+					Writer.Write(GetString(varDef.Type, arg).Substring(commonTypeStr.Length));
 				}
 				varDef.Arguments.TryAccept(this, arg.Set(Paren));
 
 				if (varDef.InitialValue != null) {
-					arg.Write(setterSign);
+					Writer.Write(setterSign);
 					varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
 				}
 				varDef.Body.TryAccept(this, arg.Set(ForBlock));

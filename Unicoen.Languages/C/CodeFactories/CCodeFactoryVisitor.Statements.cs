@@ -34,13 +34,13 @@ namespace Unicoen.Languages.C.CodeFactories {
 		public override bool Visit(
 				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			arg.Write(paren.Item1);
+			Writer.Write(paren.Item1);
 			element.LeftHandSide.TryAccept(this, arg);
-			arg.WriteSpace();
+			Writer.Write(" ");
 			element.Operator.TryAccept(this, arg);
-			arg.WriteSpace();
+			Writer.Write(" ");
 			element.RightHandSide.TryAccept(this, arg);
-			arg.Write(paren.Item2);
+			Writer.Write(paren.Item2);
 
 			return true;
 		}
@@ -48,7 +48,7 @@ namespace Unicoen.Languages.C.CodeFactories {
 		public override bool Visit(
 				UnifiedUnaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			arg.Write(paren.Item1);
+			Writer.Write(paren.Item1);
 
 			var ope = element.Operator;
 			switch (ope.Kind) {
@@ -68,9 +68,9 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		// (int)a, (int)(a + b)
 		public override bool Visit(UnifiedCast element, VisitorArgument arg) {
-			arg.Write("(");
+			Writer.Write("(");
 			element.Type.TryAccept(this, arg);
-			arg.Write(")");
+			Writer.Write(")");
 			element.Expression.TryAccept(this, arg.Set(Paren));
 
 			return true;
@@ -81,34 +81,34 @@ namespace Unicoen.Languages.C.CodeFactories {
 				UnifiedTernaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
 
-			arg.Write(paren.Item1);
+			Writer.Write(paren.Item1);
 			element.Condition.TryAccept(this, arg.Set(Paren));
-			arg.Write(" ? ");
+			Writer.Write(" ? ");
 			element.TrueExpression.TryAccept(this, arg.Set(Paren));
-			arg.Write(" : ");
+			Writer.Write(" : ");
 			element.FalseExpression.TryAccept(this, arg.Set(Paren));
 
 			return true;
 		}
 
 		public override bool Visit(UnifiedBreak element, VisitorArgument arg) {
-			arg.Write("break");
+			Writer.Write("break");
 			return true;
 		}
 
 		public override bool Visit(UnifiedContinue element, VisitorArgument arg) {
-			arg.Write("continue");
+			Writer.Write("continue");
 			return true;
 		}
 
 		public override bool Visit(UnifiedReturn element, VisitorArgument arg) {
-			arg.Write("return");
+			Writer.Write("return");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
 		public override bool Visit(UnifiedGoto element, VisitorArgument arg) {
-			arg.Write("goto");
+			Writer.Write("goto");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}

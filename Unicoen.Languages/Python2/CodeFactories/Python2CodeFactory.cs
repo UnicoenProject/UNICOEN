@@ -17,21 +17,19 @@
 #endregion
 
 using System.IO;
+using Unicoen.CodeFactories;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public class Python2CodeFactory : CodeFactory {
-		private readonly Python2CodeFactoryVisitor _visitor =
-				new Python2CodeFactoryVisitor();
-
 		public override void Generate(
-				IUnifiedElement model, TextWriter writer, string indentSign) {
-			model.Accept(_visitor, new VisitorArgument(writer, indentSign));
+				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+			codeObject.Accept(new Python2CodeFactoryVisitor(writer), new VisitorArgument(indentSign));
 		}
 
-		public override void Generate(IUnifiedElement model, TextWriter writer) {
-			Generate(model, writer, "\t");
+		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
+			Generate(codeObject, writer, "\t");
 		}
 	}
 }

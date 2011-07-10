@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.CodeFactories;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Utils;

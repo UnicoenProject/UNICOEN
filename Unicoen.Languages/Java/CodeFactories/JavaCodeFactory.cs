@@ -17,21 +17,19 @@
 #endregion
 
 using System.IO;
+using Unicoen.CodeFactories;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.CodeFactories {
 	public class JavaCodeFactory : CodeFactory {
-		private readonly JavaCodeFactoryVisitor _visitor =
-				new JavaCodeFactoryVisitor();
-
 		public override void Generate(
-				IUnifiedElement model, TextWriter writer, string indentSign) {
-			model.Accept(_visitor, new VisitorArgument(writer, indentSign));
+				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+			codeObject.Accept(new JavaCodeFactoryVisitor(writer), new VisitorArgument(indentSign));
 		}
 
-		public override void Generate(IUnifiedElement model, TextWriter writer) {
-			Generate(model, writer, "\t");
+		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
+			Generate(codeObject, writer, "\t");
 		}
 	}
 }

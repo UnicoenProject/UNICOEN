@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -79,9 +80,9 @@ namespace Unicoen.Core.Model {
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		private UnifiedTypeCollection _throws;
+		private UnifiedThrowsTypeCollection _throws;
 
-		public UnifiedTypeCollection Throws {
+		public UnifiedThrowsTypeCollection Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
@@ -98,16 +99,19 @@ namespace Unicoen.Core.Model {
 
 		private UnifiedFunctionDefinition() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
+		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
@@ -120,7 +124,7 @@ namespace Unicoen.Core.Model {
 				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
-				UnifiedTypeCollection throws = null,
+				UnifiedThrowsTypeCollection throws = null,
 				UnifiedBlock body = null) {
 			return new UnifiedFunctionDefinition {
 					Name = name,

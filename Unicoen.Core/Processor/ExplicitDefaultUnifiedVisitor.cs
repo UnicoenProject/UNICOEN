@@ -18,7 +18,6 @@
 
 using System;
 using Unicoen.Core.Model;
-using Unicoen.Core.Model.Expressions;
 
 namespace Unicoen.Core.Processor {
 	public abstract class ExplicitDefaultUnifiedVisitor : IUnifiedVisitor {
@@ -142,7 +141,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedTypeCollection element) {
+		public virtual void Visit(UnifiedThrowsTypeCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -663,7 +662,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedTypeCollection element, TArg arg) {
+		public virtual void Visit(UnifiedThrowsTypeCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1244,7 +1243,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedTypeCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedThrowsTypeCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

@@ -109,7 +109,7 @@ namespace Unicoen.Core.Processor {
 					firstCreateExpression,
 					(e, n) => UnifiedBinaryExpression.Create(
 							e,
-							op2Kind[XElementExtensions.PreviousElement(n).Value].DeepCopy(),
+							op2Kind[n.PreviousElement().Value].DeepCopy(),
 							otherCreateExpression(n)));
 		}
 

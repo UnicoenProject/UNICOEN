@@ -22,55 +22,20 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.C.CodeFactories {
 	public partial class CCodeFactoryVisitor {
-		public void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
-				where T : class, IUnifiedElement
-				where TSelf : UnifiedElementCollection<T, TSelf> {
-			var decoration = arg.Decoration;
-			arg.Write(decoration.MostLeft);
-			var splitter = "";
-			foreach (var e in elements) {
-				arg.Write(splitter);
-				arg.Write(decoration.EachLeft);
-				e.TryAccept(this, arg);
-				arg.Write(decoration.EachRight);
-				splitter = decoration.Delimiter;
-			}
-			arg.Write(decoration.MostRight);
-		}
-
-		public override bool Visit(
-				UnifiedArgumentCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
-			return false;
-		}
-
-		public override bool Visit(
-				UnifiedParameterCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(Paren));
-			return false;
-		}
-
-		public override bool Visit(
-				UnifiedModifierCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(SpaceDelimiter));
-			return false;
-		}
-
 		public override bool Visit(UnifiedVariableDefinitionList element, VisitorArgument arg) {
 
 			foreach (var variableDefinition in element) {
-				arg.Write(variableDefinition.Modifiers.TryAccept(this, arg));
-				arg.Write(" ");
-				arg.Write(variableDefinition.Type.TryAccept(this, arg));
-				arg.Write(" ");
-				arg.Write(variableDefinition.Name.TryAccept(this, arg));
+				Writer.Write(variableDefinition.Modifiers.TryAccept(this, arg));
+				Writer.Write(" ");
+				Writer.Write(variableDefinition.Type.TryAccept(this, arg));
+				Writer.Write(" ");
+				Writer.Write(variableDefinition.Name.TryAccept(this, arg));
 
 				if (variableDefinition.InitialValue != null) {
-					arg.Write( " = ");
-					arg.Write(variableDefinition.InitialValue);
+					Writer.Write( " = ");
+					Writer.Write(variableDefinition.InitialValue);
 				}
-				arg.WriteLine(";");
+				Writer.WriteLine(";");
 			}
 
 			return true;
@@ -83,45 +48,45 @@ namespace Unicoen.Languages.C.CodeFactories {
 
 		public override bool Visit(
 				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
-			arg.WriteLine("/* ElementNotInC */");
-			arg.WriteLine("/* " + element + " */");
+			Writer.WriteLine("/* ElementNotInC */");
+			Writer.WriteLine("/* " + element + " */");
 			return false;
 		}
 
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				arg.WriteIndent();
+				WriteIndent(arg);
 				caseElement.TryAccept(this, arg);
 			}
 
 			return false;
 		}
 
-		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
-			arg.WriteLine("/* ElementNotInC */");
-			arg.WriteLine("/* " + element + " */");
+		public override bool Visit(UnifiedThrowsTypeCollection element, VisitorArgument arg) {
+			Writer.WriteLine("/* ElementNotInC */");
+			Writer.WriteLine("/* " + element + " */");
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
-			arg.WriteLine("/* ElementNotInC */");
-			arg.WriteLine("/* " + element + " */");
+			Writer.WriteLine("/* ElementNotInC */");
+			Writer.WriteLine("/* " + element + " */");
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedGenericParameterCollection element, VisitorArgument arg) {
-			arg.WriteLine("/* ElementNotInC */");
-			arg.WriteLine("/* " + element + " */");
+			Writer.WriteLine("/* ElementNotInC */");
+			Writer.WriteLine("/* " + element + " */");
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
-			arg.WriteLine("/* ElementNotInC */");
-			arg.WriteLine("/* " + element + " */");
+			Writer.WriteLine("/* ElementNotInC */");
+			Writer.WriteLine("/* " + element + " */");
 			return false;
 		}
 

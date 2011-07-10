@@ -17,19 +17,27 @@
 #endregion
 
 using System.IO;
-using Unicoen.CodeFactories;
 using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
 
-namespace Unicoen.Languages.JavaScript.CodeFactories {
-	public class JavaScriptCodeFactory : CodeFactory {
-		public override void Generate(
-				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			codeObject.Accept(new JavaScriptCodeFactoryVisitor(writer), new VisitorArgument(indentSign));
+namespace Unicoen.CodeFactories {
+	public abstract class CodeFactory {
+		public abstract void Generate(
+				IUnifiedElement codeObject, TextWriter writer, string indentSign);
+
+		public abstract void Generate(IUnifiedElement codeObject, TextWriter writer);
+
+		public string Generate(IUnifiedElement codeObject) {
+			var writer = new StringWriter();
+			Generate(codeObject, writer);
+			return writer.ToString();
 		}
 
-		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
-			Generate(codeObject, writer, "\t");
+		public string GenerateOrEmpty(IUnifiedElement model) {
+			if (model == null)
+				return string.Empty;
+			var writer = new StringWriter();
+			Generate(model, writer);
+			return writer.ToString();
 		}
 	}
 }

@@ -22,23 +22,6 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public partial class Python2CodeFactoryVisitor {
-		public void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
-				where T : class, IUnifiedElement
-				where TSelf : UnifiedElementCollection<T, TSelf> {
-			var decoration = arg.Decoration;
-			arg.Write(decoration.MostLeft);
-			var splitter = "";
-			foreach (var e in elements) {
-				arg.Write(splitter);
-				arg.Write(decoration.EachLeft);
-				e.TryAccept(this, arg);
-				arg.Write(decoration.EachRight);
-				splitter = decoration.Delimiter;
-			}
-			arg.Write(decoration.MostRight);
-		}
-
 		public override bool Visit(
 				UnifiedParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
@@ -52,7 +35,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		// e.g. throws E1, E2 ...
-		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedThrowsTypeCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
@@ -98,7 +81,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				arg.WriteIndent();
+				WriteIndent(arg);
 				caseElement.TryAccept(this, arg);
 			}
 			return false;
@@ -111,10 +94,10 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedAnnotation element, VisitorArgument arg) {
-			arg.Write("@");
+			Writer.Write("@");
 			element.Name.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
-			arg.WriteLine();
+			Writer.WriteLine();
 			return false;
 		}
 

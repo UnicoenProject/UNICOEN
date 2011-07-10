@@ -683,7 +683,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 
 			var throws = node.HasElement("qualifiedNameList")
-			             		? UnifiedTypeCollection.Create(
+			             		? UnifiedThrowsTypeCollection.Create(
 			             				CreateQualifiedNameList(node.Element("qualifiedNameList"))
 			             						.Select(UnifiedType.Create))
 			             		: null;

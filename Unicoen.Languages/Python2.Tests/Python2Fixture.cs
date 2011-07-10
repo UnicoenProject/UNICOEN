@@ -21,6 +21,7 @@ using System.Linq;
 using Code2Xml.Core;
 using NUnit.Framework;
 using Paraiba.Core;
+using Unicoen.CodeFactories;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;

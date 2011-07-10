@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -96,6 +97,7 @@ namespace Unicoen.Core.Model {
 
 		public abstract T CreateSelf();
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
@@ -103,6 +105,7 @@ namespace Unicoen.Core.Model {
 			throw new InvalidOperationException("You should override this method.");
 		}
 
+		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			// Deal with the bug of Mono 2.10.2

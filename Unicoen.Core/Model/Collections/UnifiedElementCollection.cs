@@ -48,6 +48,7 @@ namespace Unicoen.Core.Model {
 		/// <returns>生成したオブジェクト</returns>
 		public abstract TSelf CreateSelf();
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
@@ -55,6 +56,7 @@ namespace Unicoen.Core.Model {
 			throw new InvalidOperationException("You should override this method.");
 		}
 
+		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			// Deal with the bug of Mono 2.10.2

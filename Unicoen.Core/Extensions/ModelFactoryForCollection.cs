@@ -161,13 +161,14 @@ namespace Unicoen.Core.Model {
 			return UnifiedGenericArgumentCollection.Create(singleton);
 		}
 
-		public static UnifiedTypeCollection ToCollection(
+		public static UnifiedThrowsTypeCollection ToCollection(
 				this IEnumerable<UnifiedType> collection) {
-			return UnifiedTypeCollection.Create(collection);
+			return UnifiedThrowsTypeCollection.Create(collection);
 		}
 
-		public static UnifiedTypeCollection ToCollection(this UnifiedType singleton) {
-			return UnifiedTypeCollection.Create(singleton);
+		public static UnifiedThrowsTypeCollection ToCollection(
+				this UnifiedType singleton) {
+			return UnifiedThrowsTypeCollection.Create(singleton);
 		}
 
 		public static UnifiedTypeConstrainCollection ToCollection(

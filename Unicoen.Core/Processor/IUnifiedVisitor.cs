@@ -17,7 +17,6 @@
 #endregion
 
 using Unicoen.Core.Model;
-using Unicoen.Core.Model.Expressions;
 
 namespace Unicoen.Core.Processor {
 	public interface IUnifiedVisitor {
@@ -51,7 +50,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
 		void Visit(UnifiedCatch element);
-		void Visit(UnifiedTypeCollection element);
+		void Visit(UnifiedThrowsTypeCollection element);
 		void Visit(UnifiedCatchCollection element);
 		void Visit(UnifiedTry element);
 		void Visit(UnifiedCast element);
@@ -183,7 +182,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCaseCollection element, TArg arg);
 		void Visit(UnifiedCase element, TArg arg);
 		void Visit(UnifiedCatch element, TArg arg);
-		void Visit(UnifiedTypeCollection element, TArg arg);
+		void Visit(UnifiedThrowsTypeCollection element, TArg arg);
 		void Visit(UnifiedCatchCollection element, TArg arg);
 		void Visit(UnifiedTry element, TArg arg);
 		void Visit(UnifiedCast element, TArg arg);
@@ -315,7 +314,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedCaseCollection element, TArg arg);
 		TResult Visit(UnifiedCase element, TArg arg);
 		TResult Visit(UnifiedCatch element, TArg arg);
-		TResult Visit(UnifiedTypeCollection element, TArg arg);
+		TResult Visit(UnifiedThrowsTypeCollection element, TArg arg);
 		TResult Visit(UnifiedCatchCollection element, TArg arg);
 		TResult Visit(UnifiedTry element, TArg arg);
 		TResult Visit(UnifiedCast element, TArg arg);

@@ -22,23 +22,6 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactoryVisitor {
-		public void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
-				where T : class, IUnifiedElement
-				where TSelf : UnifiedElementCollection<T, TSelf> {
-			var decoration = arg.Decoration;
-			arg.Write(decoration.MostLeft);
-			var splitter = "";
-			foreach (var e in elements) {
-				arg.Write(splitter);
-				arg.Write(decoration.EachLeft);
-				e.TryAccept(this, arg);
-				arg.Write(decoration.EachRight);
-				splitter = decoration.Delimiter;
-			}
-			arg.Write(decoration.MostRight);
-		}
-
 		public override bool Visit(
 				UnifiedArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
@@ -66,13 +49,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				arg.WriteIndent();
+				WriteIndent(arg);
 				caseElement.TryAccept(this, arg);
 			}
 			return false;
 		}
 
-		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedThrowsTypeCollection element, VisitorArgument arg) {
 			//JavaScriptでは型の列挙は出現しない
 			throw new NotImplementedException();
 		}
@@ -107,7 +90,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			if (element.Parent.GetType() == typeof(UnifiedFor)) {
-				arg.Write("var ");
+				Writer.Write("var ");
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {
 				VisitCollection(element, arg.Set(SemiColonDelimiter));
@@ -119,10 +102,10 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				UnifiedVariableDefinition element, VisitorArgument arg) {
 			//for文の場合、varは１つしか記述できないため、collection側でvarを出力済み
 			if (arg.Decoration.Delimiter != ", ")
-				arg.Write("var ");
+				Writer.Write("var ");
 			element.Name.TryAccept(this, arg);
 			if (element.InitialValue != null) {
-				arg.Write(" = ");
+				Writer.Write(" = ");
 				element.InitialValue.TryAccept(this, arg.Set(Bracket));
 			}
 			element.Arguments.TryAccept(this, arg.Set(Paren));

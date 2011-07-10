@@ -17,32 +17,14 @@
 #endregion
 
 using System;
+using System.IO;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
-	public partial class JavaScriptCodeFactoryVisitor
-			: ExplicitDefaultUnifiedVisitor<VisitorArgument, bool> {
-		private static readonly Decoration Paren =
-				new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
-
-		private static readonly Decoration Bracket =
-				new Decoration { MostLeft = "{", Delimiter = ", ", MostRight = "}" };
-
-		private static readonly Decoration SquareBracket =
-				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
-
-		private static readonly Decoration ForBlock =
-				new Decoration { MostLeft = "{", Delimiter = "\n", MostRight = "}" };
-
-		private static readonly Decoration CommaDelimiter =
-				new Decoration { Delimiter = ", " };
-
-		private static readonly Decoration SemiColonDelimiter =
-				new Decoration { Delimiter = "; " };
-
+	public partial class JavaScriptCodeFactoryVisitor {
 		public override bool Visit(UnifiedBinaryOperator element, VisitorArgument arg) {
-			arg.Write(element.Sign);
+			Writer.Write(element.Sign);
 			return false;
 		}
 
@@ -50,36 +32,36 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			var kind = element.Kind;
 			switch (kind) {
 			case (UnifiedUnaryOperatorKind.Negate):
-				arg.Write("-");
+				Writer.Write("-");
 				break;
 			case (UnifiedUnaryOperatorKind.Not):
-				arg.Write("!");
+				Writer.Write("!");
 				break;
 			case (UnifiedUnaryOperatorKind.PostDecrementAssign):
 			case (UnifiedUnaryOperatorKind.PreDecrementAssign):
-				arg.Write("--");
+				Writer.Write("--");
 				break;
 			case (UnifiedUnaryOperatorKind.PostIncrementAssign):
 			case (UnifiedUnaryOperatorKind.PreIncrementAssign):
-				arg.Write("++");
+				Writer.Write("++");
 				break;
 			case (UnifiedUnaryOperatorKind.UnaryPlus):
-				arg.Write("+");
+				Writer.Write("+");
 				break;
 			case (UnifiedUnaryOperatorKind.OnesComplement):
-				arg.Write("~");
+				Writer.Write("~");
 				break;
 			case (UnifiedUnaryOperatorKind.Delete):
-				arg.Write("delete ");
+				Writer.Write("delete ");
 				break;
 			case (UnifiedUnaryOperatorKind.Void):
-				arg.Write("void ");
+				Writer.Write("void ");
 				break;
 			case (UnifiedUnaryOperatorKind.Typeof):
-				arg.Write("typeof ");
+				Writer.Write("typeof ");
 				break;
 			case (UnifiedUnaryOperatorKind.Unknown):
-				arg.Write(element.Sign);
+				Writer.Write(element.Sign);
 				break;
 			default:
 				throw new InvalidOperationException();
@@ -96,18 +78,18 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			var decoration = arg.Decoration;
 			//for Block
 			if (decoration.MostLeft == "{") {
-				arg.WriteLine(decoration.MostLeft);
+				Writer.WriteLine(decoration.MostLeft);
 				arg = arg.IncrementDepth();
 
 				foreach (var stmt in element) {
-					arg.WriteIndent();
+					WriteIndent(arg);
 					if (stmt.TryAccept(this, arg))
-						arg.Write(";");
-					arg.Write(decoration.Delimiter);
+						Writer.Write(";");
+					Writer.Write(decoration.Delimiter);
 				}
 				arg = arg.DecrementDepth();
-				arg.WriteIndent();
-				arg.Write(decoration.MostRight);
+				WriteIndent(arg);
+				Writer.Write(decoration.MostRight);
 				return false;
 			}
 
@@ -116,22 +98,22 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				return false;
 
 			//for expressionList
-			arg.Write("(");
+			Writer.Write("(");
 			var comma = "";
 			foreach (var e in element) {
-				arg.Write(comma);
+				Writer.Write(comma);
 				e.TryAccept(this, arg);
 				comma = decoration.Delimiter;
 			}
-			arg.Write(")");
+			Writer.Write(")");
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
-			arg.WriteIndent();
-			arg.Write("function");
-			arg.WriteSpace();
+			WriteIndent(arg);
+			Writer.Write("function");
+			Writer.Write(" ");
 			element.Name.TryAccept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
@@ -140,25 +122,25 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(UnifiedLambda element, VisitorArgument arg) {
 			//λ式の場合、即時発火があり得るので全体を()で囲っておく
-			arg.WriteIndent();
-			arg.Write("(");
-			arg.Write("function");
-			arg.WriteSpace();
+			WriteIndent(arg);
+			Writer.Write("(");
+			Writer.Write("function");
+			Writer.Write(" ");
 			element.Name.TryAccept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
-			arg.Write(")");
+			Writer.Write(")");
 			return element.Body == null;
 		}
 
 		public override bool Visit(UnifiedIf ifStatement, VisitorArgument arg) {
-			arg.Write("if (");
+			Writer.Write("if (");
 			ifStatement.Condition.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.Write(")");
+			Writer.Write(")");
 			ifStatement.Body.TryAccept(this, arg.Set(ForBlock));
 			if (ifStatement.ElseBody != null) {
-				arg.WriteIndent();
-				arg.WriteLine("else");
+				WriteIndent(arg);
+				Writer.WriteLine("else");
 				ifStatement.ElseBody.TryAccept(this, arg.Set(ForBlock));
 			}
 			return false;
@@ -171,24 +153,24 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableIdentifier element, VisitorArgument arg) {
-			arg.Write(element.Name);
+			Writer.Write(element.Name);
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedLabelIdentifier element, VisitorArgument arg) {
-			arg.Write(element.Name);
+			Writer.Write(element.Name);
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedSuperIdentifier element, VisitorArgument arg) {
-			arg.Write("");
+			Writer.Write("");
 			return false;
 		}
 
 		public override bool Visit(UnifiedThisIdentifier element, VisitorArgument arg) {
-			arg.Write("this");
+			Writer.Write("this");
 			return false;
 		}
 
@@ -217,74 +199,27 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
 			foreach (var sourceElement in element.Body) {
 				if (sourceElement.TryAccept(this, arg))
-					arg.Write(";");
-				arg.Write("\n");
+					Writer.Write(";");
+				Writer.Write("\n");
 			}
 			return false;
-		}
-
-		public override bool Visit(UnifiedFor element, VisitorArgument arg) {
-			arg.Write("for(");
-			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.Write("; ");
-			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.Write(";");
-			element.Step.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.Write(")");
-
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return false;
-		}
-
-		public override bool Visit(UnifiedForeach element, VisitorArgument arg) {
-			arg.Write("for(");
-			element.Element.TryAccept(this, arg);
-			arg.WriteSpace();
-			arg.Write("in");
-			arg.WriteSpace();
-			element.Set.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.Write(")");
-
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return false;
-		}
-
-		public override bool Visit(
-				UnifiedUnaryExpression element, VisitorArgument arg) {
-			//e.g. a++ || a--
-			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
-			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
-				element.Operand.TryAccept(this, arg.Set(Paren));
-				element.Operator.TryAccept(this, arg);
-			} else {
-				element.Operator.TryAccept(this, arg);
-				element.Operand.TryAccept(this, arg.Set(Paren));
-			}
-			return true;
-		}
-
-		public override bool Visit(UnifiedProperty element, VisitorArgument arg) {
-			element.Owner.TryAccept(this, arg);
-			arg.Write(element.Delimiter);
-			element.Name.TryAccept(this, arg);
-			return true;
 		}
 
 		public override bool Visit(UnifiedWhile element, VisitorArgument arg) {
-			arg.Write("while(");
+			Writer.Write("while(");
 			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.Write(")");
+			Writer.Write(")");
 
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
 
 		public override bool Visit(UnifiedDoWhile element, VisitorArgument arg) {
-			arg.Write("do");
+			Writer.Write("do");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
-			arg.Write("while(");
+			Writer.Write("while(");
 			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.Write(");");
+			Writer.Write(");");
 			return false;
 		}
 
@@ -307,38 +242,38 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedSwitch element, VisitorArgument arg) {
-			arg.Write("switch(");
+			Writer.Write("switch(");
 			element.Value.TryAccept(this, arg.Set(CommaDelimiter));
-			arg.WriteLine(") {");
+			Writer.WriteLine(") {");
 
 			element.Cases.TryAccept(this, arg);
-			arg.Write("}");
+			Writer.Write("}");
 			return false;
 		}
 
 		public override bool Visit(UnifiedCase element, VisitorArgument arg) {
 			if (element.Condition == null) {
-				arg.Write("default:\n");
+				Writer.Write("default:\n");
 			} else {
-				arg.Write("case ");
+				Writer.Write("case ");
 				element.Condition.TryAccept(this, arg);
-				arg.Write(":\n");
+				Writer.Write(":\n");
 			}
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
 
 		public override bool Visit(UnifiedWith element, VisitorArgument arg) {
-			arg.WriteIndent();
-			arg.Write("with (");
+			WriteIndent(arg);
+			Writer.Write("with (");
 			element.Value.TryAccept(this, arg);
-			arg.Write(")");
+			Writer.Write(")");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
 
 		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
-			arg.Write("catch");
+			Writer.Write("catch");
 			element.Matchers.TryAccept(this, arg.Set(Paren));
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
@@ -346,20 +281,20 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedCatchCollection element, VisitorArgument arg) {
-			arg.Write(arg.Decoration.MostLeft);
+			Writer.Write(arg.Decoration.MostLeft);
 			var delimiter = "";
 			foreach (var e in element) {
-				arg.Write(delimiter);
+				Writer.Write(delimiter);
 				e.TryAccept(this, arg);
 				delimiter = arg.Decoration.Delimiter;
 			}
-			arg.Write(arg.Decoration.MostRight);
+			Writer.Write(arg.Decoration.MostRight);
 			return false;
 		}
 
 		public override bool Visit(UnifiedTry element, VisitorArgument arg) {
 			// try block
-			arg.Write("try");
+			Writer.Write("try");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 
 			// catch blocks
@@ -369,7 +304,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			var finallyBlock = element.FinallyBody;
 			// how judge whether finalluBlock exists or not???
 			if (finallyBlock != null) {
-				arg.Write("finally");
+				Writer.Write("finally");
 				finallyBlock.TryAccept(this, arg.Set(ForBlock));
 			}
 			return false;
@@ -388,36 +323,36 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(UnifiedLabel element, VisitorArgument arg) {
 			element.Name.TryAccept(this, arg);
-			arg.Write(":");
+			Writer.Write(":");
 			return false;
 		}
 
 		public override bool Visit(UnifiedBooleanLiteral element, VisitorArgument arg) {
 			if (element.Value)
-				arg.Write("true");
+				Writer.Write("true");
 			else
-				arg.Write("false");
+				Writer.Write("false");
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 			return false;
 		}
 
 		public override bool Visit(UnifiedIntegerLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 			return false;
 		}
 
 		public override bool Visit(UnifiedStringLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 			return false;
 		}
 
 		public override bool Visit(UnifiedCharLiteral element, VisitorArgument arg) {
-			arg.Write(element.Value);
+			Writer.Write(element.Value);
 			return false;
 		}
 
@@ -427,15 +362,15 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedNullLiteral element, VisitorArgument arg) {
-			arg.Write("null");
+			Writer.Write("null");
 			return false;
 		}
 
 		public override bool Visit(UnifiedMatcher element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
-			arg.Write(" ");
+			Writer.Write(" ");
 			element.Matcher.TryAccept(this, arg);
-			arg.Write(" ");
+			Writer.Write(" ");
 			element.As.TryAccept(this, arg);
 			return false;
 		}
@@ -454,9 +389,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedKeyValue element, VisitorArgument arg) {
-			arg.WriteIndent();
+			WriteIndent(arg);
 			element.Key.TryAccept(this, arg);
-			arg.Write(":");
+			Writer.Write(":");
 			element.Value.TryAccept(this, arg);
 			return false;
 		}
@@ -467,10 +402,10 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedDictionary element, VisitorArgument arg) {
-			arg.Write("{");
+			Writer.Write("{");
 			VisitCollection(element, arg.Set(CommaDelimiter));
-			arg.WriteIndent();
-			arg.Write("}");
+			WriteIndent(arg);
+			Writer.Write("}");
 			return false;
 		}
 
@@ -484,24 +419,24 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedRegularExpressionLiteral element, VisitorArgument arg) {
-			arg.Write("/");
-			arg.Write(element.Value);
-			arg.Write("/");
-			arg.Write(element.Options);
+			Writer.Write("/");
+			Writer.Write(element.Value);
+			Writer.Write("/");
+			Writer.Write(element.Options);
 			return false;
 		}
 
 		public override bool Visit(UnifiedArray element, VisitorArgument arg) {
 			//TODO 上からBracketが渡されるので、対策を考える
 			//とりあえず直接"[]"を代入で対処
-			arg.Write("[");
+			Writer.Write("[");
 			var comma = "";
 			foreach (var e in element) {
-				arg.Write(comma);
+				Writer.Write(comma);
 				e.TryAccept(this, arg);
 				comma = ",";
 			}
-			arg.Write("]");
+			Writer.Write("]");
 			return false;
 		}
 

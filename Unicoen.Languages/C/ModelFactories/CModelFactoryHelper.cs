@@ -80,7 +80,6 @@ namespace Unicoen.Languages.C.ModelFactories {
 			UnifiedGenericParameterCollection genericParameters = null;
 			UnifiedIdentifier name = null;
 			UnifiedParameterCollection parameters = null;
-			UnifiedTypeCollection throws = null;
 			UnifiedBlock body = null;
 
 			XElement first = node.FirstElement();
@@ -99,7 +98,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			body = CreateCompoundStatement(node.Element("compound_statement"));
 
 			return UnifiedFunctionDefinition.Create(
-					null, modifiers, type, genericParameters, name, parameters, throws, body);
+					null, modifiers, type, genericParameters, name, parameters, null, body);
 		}
 
 		public static IUnifiedExpression CreateDeclaration(XElement node) {
@@ -375,7 +374,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * : ( type_qualifier | type_specifier )+
 			 */
 			modifiers = UnifiedModifierCollection.Create();
-			var types = UnifiedTypeCollection.Create();
+			var types = new List<UnifiedType>();
 			foreach (var e in node.Elements()) {
 				switch (e.Name()) {
 				case "type_qualifier":
@@ -391,7 +390,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			String s = "";
 			String prefix = "";
-			foreach (UnifiedType t in types) {
+			foreach (var t in types) {
 				s += prefix + t.BasicType;
 				prefix = " ";
 			}

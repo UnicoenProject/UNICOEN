@@ -104,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\JavaScriptCodeFactory.cs" />
     <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Collections.cs" />

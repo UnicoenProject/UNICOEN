@@ -191,10 +191,10 @@ namespace Unicoen.Core.Model {
 		/// <typeparam name = "TElement">空もしくはnullであるかどうかの判定結果</typeparam>
 		/// <param name = "element"></param>
 		/// <returns></returns>
-		public static bool IsNotEmpty<TElement>(
+		public static bool IsEmptyOrNull<TElement>(
 				this IUnifiedElementCollection<TElement> element)
 				where TElement : class, IUnifiedElement {
-			return element != null && element.Count >= 1;
+			return element == null || element.Count == 0;
 		}
 
 		/// <summary>

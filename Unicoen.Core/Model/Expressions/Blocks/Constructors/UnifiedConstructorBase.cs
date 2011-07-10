@@ -54,9 +54,9 @@ namespace Unicoen.Core.Model {
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
-		protected UnifiedTypeCollection _throws;
+		protected UnifiedThrowsTypeCollection _throws;
 
-		public UnifiedTypeCollection Throws {
+		public UnifiedThrowsTypeCollection Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
@@ -77,7 +77,7 @@ namespace Unicoen.Core.Model {
 				UnifiedModifierCollection modifiers = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedGenericParameterCollection genericParameters = null,
-				UnifiedTypeCollection throws = null) {
+				UnifiedThrowsTypeCollection throws = null) {
 			var ret = UnifiedFactory<TSelf>.Create();
 			ret.Body = body;
 			ret.Annotations = annotations;

@@ -16,25 +16,20 @@
 
 #endregion
 
-namespace Unicoen.Languages.CSharp.CodeFactories {
-	public class CSharpCodeStyle {
-		public string Indent = "\t";
+using System.IO;
+using Unicoen.CodeFactories;
+using Unicoen.Core.Processor;
 
-		public readonly SpaceStyle Space = new SpaceStyle();
+namespace Unicoen.Languages.Python2.CodeFactories {
+	public partial class Python2CodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
+		private static readonly Decoration CommaMostLeft =
+				new Decoration { MostLeft = "," };
 
-		public readonly LineBreakStyle LineBreak = new LineBreakStyle();
+		private static readonly Decoration Empty = new Decoration();
 
-		#region StyleGroup
+		private static readonly Decoration SpaceDelimiter =
+				new Decoration { EachRight = " " };
 
-		public class SpaceStyle {
-			public bool BeforeBinaryOperation = true;
-			public bool AfterBinaryOperation = true;
-		}
-
-		public class LineBreakStyle {
-			public bool AfterClass;
-		}
-
-		#endregion
+		public Python2CodeFactoryVisitor(TextWriter writer) : base(writer) {}
 	}
 }

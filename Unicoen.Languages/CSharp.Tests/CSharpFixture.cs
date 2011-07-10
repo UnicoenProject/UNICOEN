@@ -25,6 +25,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Paraiba.Core;
+using Unicoen.CodeFactories;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
 using Unicoen.Languages.Tests;

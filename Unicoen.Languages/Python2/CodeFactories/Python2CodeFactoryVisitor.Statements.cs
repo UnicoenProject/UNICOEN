@@ -33,9 +33,9 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		// e.g. (Int)a  or (int)(a + b)
 		public override bool Visit(UnifiedCast element, VisitorArgument arg) {
-			arg.Write("(");
+			Writer.Write("(");
 			element.Type.TryAccept(this, arg);
-			arg.Write(")");
+			Writer.Write(")");
 			element.Expression.TryAccept(this, arg.Set(Paren));
 			return false;
 		}
@@ -43,18 +43,18 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		public override bool Visit(
 				UnifiedTernaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			arg.Write(paren.Item1);
+			Writer.Write(paren.Item1);
 			element.Condition.TryAccept(this, arg.Set(Paren));
-			arg.Write(" ? ");
+			Writer.Write(" ? ");
 			element.TrueExpression.TryAccept(this, arg.Set(Paren));
-			arg.Write(" : ");
+			Writer.Write(" : ");
 			element.FalseExpression.TryAccept(this, arg.Set(Paren));
-			arg.Write(paren.Item2);
+			Writer.Write(paren.Item2);
 			return false;
 		}
 
 		public override bool Visit(UnifiedImport element, VisitorArgument arg) {
-			arg.Write("import ");
+			Writer.Write("import ");
 			element.Modifiers.TryAccept(this, arg);
 			element.Name.TryAccept(this, arg);
 			return false;
@@ -63,13 +63,13 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		public override bool Visit(
 				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);
-			arg.Write(paren.Item1);
+			Writer.Write(paren.Item1);
 			element.LeftHandSide.TryAccept(this, arg.Set(Paren));
-			arg.WriteSpace();
+			Writer.Write(" ");
 			element.Operator.TryAccept(this, arg);
-			arg.WriteSpace();
+			Writer.Write(" ");
 			element.RightHandSide.TryAccept(this, arg.Set(Paren));
-			arg.Write(paren.Item2);
+			Writer.Write(paren.Item2);
 			return false;
 		}
 
@@ -77,13 +77,13 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			var prop = element.Function as UnifiedProperty;
 			if (prop != null) {
 				prop.Owner.TryAccept(this, arg);
-				arg.Write(prop.Delimiter);
+				Writer.Write(prop.Delimiter);
 				element.GenericArguments.TryAccept(this, arg);
 				prop.Name.TryAccept(this, arg);
 			} else {
 				// Javaでifが実行されるケースは存在しないが、言語変換のため
 				if (element.GenericArguments != null)
-					arg.Write("this.");
+					Writer.Write("this.");
 				element.GenericArguments.TryAccept(this, arg);
 				element.Function.TryAccept(this, arg);
 			}
@@ -92,7 +92,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedNew element, VisitorArgument arg) {
-			arg.Write("new ");
+			Writer.Write("new ");
 			element.GenericArguments.TryAccept(this, arg);
 			element.Target.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
@@ -116,29 +116,29 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		public override bool Visit(UnifiedProperty element, VisitorArgument arg) {
 			element.Owner.TryAccept(this, arg);
-			arg.Write(element.Delimiter);
+			Writer.Write(element.Delimiter);
 			element.Name.TryAccept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(UnifiedBreak element, VisitorArgument arg) {
-			arg.Write("break ");
+			Writer.Write("break ");
 			return true;
 		}
 
 		public override bool Visit(UnifiedContinue element, VisitorArgument arg) {
-			arg.Write("continue ");
+			Writer.Write("continue ");
 			return true;
 		}
 
 		public override bool Visit(UnifiedReturn element, VisitorArgument arg) {
-			arg.Write("return ");
+			Writer.Write("return ");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
 		public override bool Visit(UnifiedGoto element, VisitorArgument arg) {
-			arg.Write("goto ");
+			Writer.Write("goto ");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
@@ -152,13 +152,13 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedThrow element, VisitorArgument arg) {
-			arg.Write("raise ");
+			Writer.Write("raise ");
 			element.Value.TryAccept(this, arg);
 			return true;
 		}
 
 		public override bool Visit(UnifiedAssert element, VisitorArgument arg) {
-			arg.Write("assert ");
+			Writer.Write("assert ");
 			element.Value.TryAccept(this, arg);
 			element.Message.TryAccept(this, arg.Set(CommaMostLeft));
 			return true;

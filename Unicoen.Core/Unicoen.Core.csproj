@@ -8,7 +8,7 @@
     <ProjectGuid>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Core</RootNamespace>
+    <RootNamespace>Unicoen</RootNamespace>
     <AssemblyName>Unicoen.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -185,8 +185,12 @@
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Model\UnifiedElementHelper.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
-    <Compile Include="Processor\CodeFactory.cs" />
+    <Compile Include="CodeFactories\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\Decoration.cs" />
     <Compile Include="Processor\ModelFactory.cs" />
@@ -237,7 +241,7 @@
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedSimpleType.cs" />
-    <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedThrowsTypeCollection.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedWhile.cs" />
@@ -338,6 +342,7 @@
       <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

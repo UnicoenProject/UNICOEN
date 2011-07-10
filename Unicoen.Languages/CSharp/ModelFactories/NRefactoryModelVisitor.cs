@@ -718,6 +718,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var generics = dec.TypeParameters
 					.Select(t => t.AcceptVisitor(this, data) as UnifiedTypeParameter)
 					.ToCollection();
+			if (generics.IsEmptyOrNull()) {
+				generics = null;
+			}
 			var parameters = dec.Parameters
 					.Select(p => p.AcceptVisitor(this, data))
 					.OfType<UnifiedParameter>()

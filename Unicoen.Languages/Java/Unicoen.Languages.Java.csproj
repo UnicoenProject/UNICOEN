@@ -108,9 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\JavaCodeFactory.cs" />
-    <Compile Include="CodeFactories\JavaCodeFactoryVisitor.Others.cs" />
-    <Compile Include="CodeFactories\JavaCodeFactoryVisitor.Collections.cs" />
-    <Compile Include="CodeFactories\JavaCodeFactoryVisitor.Statements.cs" />
+    <Compile Include="CodeFactories\JavaCodeFactoryVisitor.cs" />
     <Compile Include="JavaFactory.cs" />
     <Compile Include="ModelFactories\JavaModelFactory.cs" />
     <Compile Include="ModelFactories\JavaModelFactoryHelper.cs" />
