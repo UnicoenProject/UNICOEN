@@ -1,6 +1,6 @@
 aspect Logger {
     pointcut getter() :
-        execution(* *.*());
+        execution(* Sample.getX());
 
     before : getter() {
         @Java {
