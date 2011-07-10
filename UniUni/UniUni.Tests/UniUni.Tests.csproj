@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="ChainingAssertion.NUnit.cs" />
     <Compile Include="Linq\EnumerableExtensionsTest.cs" />
+    <Compile Include="Text\Guess.cs" />
     <Compile Include="Xml\Linq\XElementExtensionsTest.cs" />
     <Compile Include="Xml\Linq\XElementSafeExtensionsTest.cs" />
     <Compile Include="Collections\Generic\ListExtensionsTest.cs" />
@@ -67,6 +68,7 @@
       <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
