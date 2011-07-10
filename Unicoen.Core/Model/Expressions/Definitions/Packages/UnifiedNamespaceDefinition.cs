@@ -24,9 +24,9 @@ namespace Unicoen.Core.Model {
 	///   クラスの定義部分を表します。
 	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
-	public class UnifiedInterface
-			: UnifiedPackageBase<UnifiedInterface> {
-		protected UnifiedInterface() {}
+	public class UnifiedNamespaceDefinition
+			: UnifiedDefinitionWithBlock<UnifiedNamespaceDefinition> {
+		protected UnifiedNamespaceDefinition() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -45,8 +45,8 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public override UnifiedInterface CreateSelf() {
-			return new UnifiedInterface();
+		public override UnifiedNamespaceDefinition CreateSelf() {
+			return new UnifiedNamespaceDefinition();
 		}
 			}
 }

@@ -26,12 +26,12 @@ namespace Unicoen.Core.Model {
 		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
 		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
 		/// </summary>
-		public abstract IUnifiedExpression BasicType { get; set; }
+		public abstract IUnifiedExpression BasicTypeName { get; set; }
 
 		public static UnifiedType Create(string name) {
 			// new[] の場合，NameExpressionがnullなUnifiedSimpleTypeを生成する．
-			return new UnifiedSimpleType {
-					BasicType = name != null
+			return new UnifiedBasicType {
+					BasicTypeName = name != null
 					            		? UnifiedVariableIdentifier.Create(name)
 					            		: null,
 			};
@@ -39,8 +39,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedType Create(
 				IUnifiedExpression basicExpression = null) {
-			return new UnifiedSimpleType {
-					BasicType = basicExpression,
+			return new UnifiedBasicType {
+					BasicTypeName = basicExpression,
 			};
 		}
 

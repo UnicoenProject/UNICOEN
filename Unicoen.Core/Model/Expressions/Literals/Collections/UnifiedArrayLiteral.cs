@@ -20,18 +20,18 @@ using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public class UnifiedArray
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedArray>,
+	public class UnifiedArrayLiteral
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedArrayLiteral>,
 			  IUnifiedExpression {
-		protected UnifiedArray() {}
+		protected UnifiedArrayLiteral() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override UnifiedArray CreateSelf() {
-			return new UnifiedArray();
+		public override UnifiedArrayLiteral CreateSelf() {
+			return new UnifiedArrayLiteral();
 		}
 
 		[DebuggerStepThrough]

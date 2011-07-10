@@ -257,7 +257,7 @@ namespace Unicoen.Languages.Tests {
 					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType));
 			if (element is UnifiedWrapType) {
-				props = props.Where(prop => prop.Name != "BasicType");
+				props = props.Where(prop => prop.Name != "BasicTypeName");
 			}
 			foreach (var prop in props) {
 				yield return (IUnifiedElement)prop.GetValue(element, null);

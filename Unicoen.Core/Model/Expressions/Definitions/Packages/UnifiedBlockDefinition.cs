@@ -21,7 +21,7 @@ using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public abstract class UnifiedPackageBase : UnifiedExpressionBlock {
+	public abstract class UnifiedBlockDefinition : UnifiedExpressionBlock {
 		protected UnifiedAnnotationCollection _annotations;
 
 		/// <summary>
@@ -75,9 +75,9 @@ namespace Unicoen.Core.Model {
 		}
 	}
 
-	public abstract class UnifiedPackageBase<T>
-			: UnifiedPackageBase, IUnifiedCreatable<T>
-			where T : UnifiedPackageBase<T> {
+	public abstract class UnifiedDefinitionWithBlock<T>
+			: UnifiedBlockDefinition, IUnifiedCreatable<T>
+			where T : UnifiedDefinitionWithBlock<T> {
 		public static T Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,

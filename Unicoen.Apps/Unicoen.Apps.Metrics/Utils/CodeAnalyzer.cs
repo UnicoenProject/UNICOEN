@@ -48,7 +48,7 @@ namespace Unicoen.Applications.Metrics.Utils {
 				IDictionary<string, int> counter) {
 			var outers = model.GetElements()
 					.Where(
-							e => e is UnifiedPackageBase ||
+							e => e is UnifiedBlockDefinition ||
 							     e is UnifiedFunctionDefinition);
 			foreach (var e in outers) {
 				var outerStr = GetOutersString(e);
@@ -66,7 +66,7 @@ namespace Unicoen.Applications.Metrics.Utils {
 		}
 
 		private static string GetOutersName(IUnifiedElement element) {
-			var klass = element as UnifiedPackageBase;
+			var klass = element as UnifiedBlockDefinition;
 			if (klass != null) {
 				return "[class] " + JavaFactory.GenerateCode(klass.Name);
 			}

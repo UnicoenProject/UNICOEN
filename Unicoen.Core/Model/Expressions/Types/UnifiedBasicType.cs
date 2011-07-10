@@ -21,12 +21,26 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class A{....}</c>
+	///   型を表します。
+	///   Javaにおける<c>int, double, char</c>
 	/// </summary>
-	public class UnifiedEnum
-			: UnifiedPackageBase<UnifiedEnum> {
-		protected UnifiedEnum() {}
+	public class UnifiedBasicType : UnifiedType {
+		// パッケージ名が付いているときに
+		// UnifiedProperty が name に入る時があるので
+		// isntace.Class
+		private IUnifiedExpression _basicTypeName;
+
+		/// <summary>
+		///   型の基礎部分の名前を表します．
+		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
+		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
+		/// </summary>
+		public override IUnifiedExpression BasicTypeName {
+			get { return _basicTypeName; }
+			set { _basicTypeName = SetChild(value, _basicTypeName); }
+		}
+
+		internal UnifiedBasicType() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -35,7 +49,8 @@ namespace Unicoen.Core.Model {
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -44,9 +59,5 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-
-		public override UnifiedEnum CreateSelf() {
-			return new UnifiedEnum();
-		}
-			}
+	}
 }

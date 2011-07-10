@@ -96,8 +96,8 @@ namespace Unicoen.Languages.C.CodeFactories {
 			throw new InvalidOperationException();
 		}
 
-		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
-			element.BasicType.TryAccept(this, arg);
+		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
+			element.BasicTypeName.TryAccept(this, arg);
 			return true;
 		}
 

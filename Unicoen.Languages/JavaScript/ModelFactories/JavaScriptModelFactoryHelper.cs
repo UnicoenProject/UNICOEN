@@ -1374,7 +1374,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					list);
 		}
 
-		public static UnifiedDictionary CreateObjectLiteral(XElement node) {
+		public static UnifiedMapLiteral CreateObjectLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "objectLiteral");
 			/*
@@ -1385,7 +1385,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			//例えばJSONなど
 			var keyValues = node.Elements("propertyNameAndValue")
 					.Select(CreatePropertyNameAndValue);
-			return UnifiedDictionary.Create(keyValues);
+			return UnifiedMapLiteral.Create(keyValues);
 		}
 
 		public static UnifiedKeyValue CreatePropertyNameAndValue(XElement node) {

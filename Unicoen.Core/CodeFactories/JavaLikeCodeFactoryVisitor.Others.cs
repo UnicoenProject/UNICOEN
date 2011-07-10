@@ -30,7 +30,7 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedNamespace element, VisitorArgument arg) {
+		public override bool Visit(UnifiedNamespaceDefinition element, VisitorArgument arg) {
 			Writer.Write("package ");
 			element.Name.TryAccept(this, arg);
 			Writer.Write(";");
@@ -39,7 +39,7 @@ namespace Unicoen.CodeFactories {
 		}
 
 		private bool Visit(
-				UnifiedPackageBase element, VisitorArgument arg, string keyword) {
+				UnifiedBlockDefinition element, VisitorArgument arg, string keyword) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
 			Writer.Write(keyword + " ");
@@ -50,27 +50,27 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedClass element, VisitorArgument arg) {
+		public override bool Visit(UnifiedClassDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
-		public override bool Visit(UnifiedInterface element, VisitorArgument arg) {
+		public override bool Visit(UnifiedInterfaceDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "interface");
 		}
 
-		public override bool Visit(UnifiedStruct element, VisitorArgument arg) {
+		public override bool Visit(UnifiedStructDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
-		public override bool Visit(UnifiedEnum element, VisitorArgument arg) {
+		public override bool Visit(UnifiedEnumDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "enum");
 		}
 
-		public override bool Visit(UnifiedModule element, VisitorArgument arg) {
+		public override bool Visit(UnifiedModuleDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
-		public override bool Visit(UnifiedUnion element, VisitorArgument arg) {
+		public override bool Visit(UnifiedUnionDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
@@ -340,7 +340,7 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedConstructor element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
 			element.GenericParameters.TryAccept(this, arg);
-			var p = element.Ancestors<UnifiedPackageBase>().First();
+			var p = element.Ancestors<UnifiedBlockDefinition>().First();
 			p.Name.Accept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Throws.TryAccept(this, arg);
@@ -468,7 +468,7 @@ namespace Unicoen.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedDictionary element, VisitorArgument arg) {
+		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 

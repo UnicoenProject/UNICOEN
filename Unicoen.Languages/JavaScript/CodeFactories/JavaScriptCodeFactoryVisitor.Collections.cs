@@ -113,7 +113,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedClass element, VisitorArgument arg) {
+		public override bool Visit(UnifiedClassDefinition element, VisitorArgument arg) {
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return true;
 		}

@@ -64,9 +64,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.OfType<IUnifiedExpression>()
 					.Select(uExpr => UnifiedArgument.Create(value: uExpr))
 					.ToCollection();
-			var initValues = null as UnifiedArray;
+			var initValues = null as UnifiedArrayLiteral;
 			if (array.Initializer != null) {
-				initValues = array.Initializer.AcceptVisitor(this, data) as UnifiedArray;
+				initValues = array.Initializer.AcceptVisitor(this, data) as UnifiedArrayLiteral;
 			}
 			return UnifiedNew.Create(
 					type.WrapRectangleArray(uArgs), initialValues: initValues);
@@ -364,7 +364,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var body = dec.Members
 					.Select(mem => mem.AcceptForExpression(this))
 					.ToBlock();
-			return UnifiedNamespace.Create(name: ns, body: body);
+			return UnifiedNamespaceDefinition.Create(name: ns, body: body);
 		}
 
 		public IUnifiedElement VisitTypeDeclaration(TypeDeclaration dec, object data) {
@@ -380,9 +380,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			}
 			switch (dec.ClassType) {
 			case ClassType.Class:
-				return UnifiedClass.Create(modifiers: mods, name: name, body: body);
+				return UnifiedClassDefinition.Create(modifiers: mods, name: name, body: body);
 			case ClassType.Struct:
-				return UnifiedStruct.Create(modifiers: mods, name: name, body: body);
+				return UnifiedStructDefinition.Create(modifiers: mods, name: name, body: body);
 			default:
 				var msg = "LookupClassKind : " + dec.ClassType + "には対応していません。";
 				throw new IndexOutOfRangeException(msg);

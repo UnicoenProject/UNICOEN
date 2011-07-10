@@ -26,7 +26,7 @@ namespace Unicoen.Apps.Translator {
 		// 関数が与えられたパラメータを持っているか
 		public Boolean HasParameter(UnifiedFunctionDefinition func, Parameter param) {
 			if (func.Name.Equals(param.Name)
-			    && func.Type.BasicType.Equals(param.TypeName)) {
+			    && func.Type.BasicTypeName.Equals(param.TypeName)) {
 				return true;
 			}
 			return false;

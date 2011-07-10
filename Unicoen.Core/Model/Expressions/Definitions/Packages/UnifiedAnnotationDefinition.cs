@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
 	public class UnifiedAnnotationDefinition
-			: UnifiedPackageBase<UnifiedAnnotationDefinition> {
+			: UnifiedDefinitionWithBlock<UnifiedAnnotationDefinition> {
 		protected UnifiedAnnotationDefinition() {}
 
 		[DebuggerStepThrough]

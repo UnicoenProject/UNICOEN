@@ -217,7 +217,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedList element) {
+		public virtual void Visit(UnifiedListLiteral element) {
 			throw new NotImplementedException();
 		}
 
@@ -229,7 +229,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDictionary element) {
+		public virtual void Visit(UnifiedMapLiteral element) {
 			throw new NotImplementedException();
 		}
 
@@ -265,7 +265,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSimpleType element) {
+		public virtual void Visit(UnifiedBasicType element) {
 			throw new NotImplementedException();
 		}
 
@@ -273,19 +273,19 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedIterable element) {
+		public virtual void Visit(UnifiedIterableLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedArray element) {
+		public virtual void Visit(UnifiedArrayLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSet element) {
+		public virtual void Visit(UnifiedSetLiteral element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedTuple element) {
+		public virtual void Visit(UnifiedTupleLiteral element) {
 			throw new NotImplementedException();
 		}
 
@@ -297,27 +297,27 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedInterface element) {
+		public virtual void Visit(UnifiedInterfaceDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedClass element) {
+		public virtual void Visit(UnifiedClassDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedStruct element) {
+		public virtual void Visit(UnifiedStructDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedEnum element) {
+		public virtual void Visit(UnifiedEnumDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedModule element) {
+		public virtual void Visit(UnifiedModuleDefinition element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedUnion element) {
+		public virtual void Visit(UnifiedUnionDefinition element) {
 			throw new NotImplementedException();
 		}
 
@@ -325,7 +325,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedNamespace element) {
+		public virtual void Visit(UnifiedNamespaceDefinition element) {
 			throw new NotImplementedException();
 		}
 
@@ -741,7 +741,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedList element, TArg arg) {
+		public virtual void Visit(UnifiedListLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -754,7 +754,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDictionary element, TArg arg) {
+		public virtual void Visit(UnifiedMapLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -792,7 +792,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSimpleType element, TArg arg) {
+		public virtual void Visit(UnifiedBasicType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -800,19 +800,19 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedIterable element, TArg arg) {
+		public virtual void Visit(UnifiedIterableLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedArray element, TArg arg) {
+		public virtual void Visit(UnifiedArrayLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSet element, TArg arg) {
+		public virtual void Visit(UnifiedSetLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedTuple element, TArg arg) {
+		public virtual void Visit(UnifiedTupleLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -825,27 +825,27 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedInterface element, TArg arg) {
+		public virtual void Visit(UnifiedInterfaceDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedClass element, TArg arg) {
+		public virtual void Visit(UnifiedClassDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedStruct element, TArg arg) {
+		public virtual void Visit(UnifiedStructDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedEnum element, TArg arg) {
+		public virtual void Visit(UnifiedEnumDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedModule element, TArg arg) {
+		public virtual void Visit(UnifiedModuleDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedUnion element, TArg arg) {
+		public virtual void Visit(UnifiedUnionDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -854,7 +854,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedNamespace element, TArg arg) {
+		public virtual void Visit(UnifiedNamespaceDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1320,7 +1320,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedList element, TArg arg) {
+		public virtual TResult Visit(UnifiedListLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1332,7 +1332,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedDictionary element, TArg arg) {
+		public virtual TResult Visit(UnifiedMapLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1368,7 +1368,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedSimpleType element, TArg arg) {
+		public virtual TResult Visit(UnifiedBasicType element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1376,19 +1376,19 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedIterable element, TArg arg) {
+		public virtual TResult Visit(UnifiedIterableLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedArray element, TArg arg) {
+		public virtual TResult Visit(UnifiedArrayLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedSet element, TArg arg) {
+		public virtual TResult Visit(UnifiedSetLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedTuple element, TArg arg) {
+		public virtual TResult Visit(UnifiedTupleLiteral element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1400,27 +1400,27 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedInterface element, TArg arg) {
+		public virtual TResult Visit(UnifiedInterfaceDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedClass element, TArg arg) {
+		public virtual TResult Visit(UnifiedClassDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedStruct element, TArg arg) {
+		public virtual TResult Visit(UnifiedStructDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedEnum element, TArg arg) {
+		public virtual TResult Visit(UnifiedEnumDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedModule element, TArg arg) {
+		public virtual TResult Visit(UnifiedModuleDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedUnion element, TArg arg) {
+		public virtual TResult Visit(UnifiedUnionDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1428,7 +1428,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedNamespace element, TArg arg) {
+		public virtual TResult Visit(UnifiedNamespaceDefinition element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

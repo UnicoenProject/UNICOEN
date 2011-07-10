@@ -21,16 +21,20 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	/// <summary>
-	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class A{....}</c>
+	///   辞書リテラルを表します．
 	/// </summary>
-	public class UnifiedUnion
-			: UnifiedPackageBase<UnifiedUnion> {
-		protected UnifiedUnion() {}
+	public class UnifiedMapLiteral
+			: UnifiedElementCollection<UnifiedKeyValue, UnifiedMapLiteral>,
+			  IUnifiedExpression {
+		protected UnifiedMapLiteral() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public override UnifiedMapLiteral CreateSelf() {
+			return new UnifiedMapLiteral();
 		}
 
 		[DebuggerStepThrough]
@@ -44,9 +48,5 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-
-		public override UnifiedUnion CreateSelf() {
-			return new UnifiedUnion();
-		}
-			}
+			  }
 }

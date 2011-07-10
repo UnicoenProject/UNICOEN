@@ -20,18 +20,18 @@ using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public class UnifiedIterable
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedIterable>,
+	public class UnifiedTupleLiteral
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedTupleLiteral>,
 			  IUnifiedExpression {
-		protected UnifiedIterable() {}
+		protected UnifiedTupleLiteral() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
-		public override UnifiedIterable CreateSelf() {
-			return new UnifiedIterable();
+		public override UnifiedTupleLiteral CreateSelf() {
+			return new UnifiedTupleLiteral();
 		}
 
 		[DebuggerStepThrough]

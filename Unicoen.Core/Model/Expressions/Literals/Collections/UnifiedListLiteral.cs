@@ -20,17 +20,18 @@ using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class A{....}</c>
-	/// </summary>
-	public class UnifiedClass
-			: UnifiedPackageBase<UnifiedClass> {
-		protected UnifiedClass() {}
+	public class UnifiedListLiteral
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedListLiteral>,
+			  IUnifiedExpression {
+		protected UnifiedListLiteral() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
+		}
+
+		public override UnifiedListLiteral CreateSelf() {
+			return new UnifiedListLiteral();
 		}
 
 		[DebuggerStepThrough]
@@ -44,9 +45,5 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-
-		public override UnifiedClass CreateSelf() {
-			return new UnifiedClass();
-		}
-			}
+			  }
 }

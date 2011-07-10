@@ -1037,7 +1037,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				if (second.Name() == "dictorsetmaker") {
 					return CreateDictorsetmaker(second);
 				}
-				return UnifiedDictionary.Create();
+				return UnifiedMapLiteral.Create();
 			case "`":
 				return CreateTestlist1(second);
 			default:
@@ -1201,7 +1201,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var comp_forNode = node.Element("comp_for");
 			if (node.NthElement(1).Value == ":") {
 				if (comp_forNode == null) {
-					return UnifiedDictionary.Create(
+					return UnifiedMapLiteral.Create(
 							node.Elements("test")
 									.Select(CreateTest)
 									.Split2()
@@ -1227,7 +1227,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					CreateComp_for(comp_forNode).ToCollection());
 		}
 
-		public static UnifiedClass CreateClassdef(XElement node) {
+		public static UnifiedClassDefinition CreateClassdef(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classdef");
 			/*
@@ -1240,7 +1240,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			               		  		.Select(UnifiedExtendConstrain.Create)
 			               		  		.ToCollection()
 			               		: null;
-			return UnifiedClass.Create(
+			return UnifiedClassDefinition.Create(
 					null, UnifiedModifierCollection.Create(),
 					UnifiedVariableIdentifier.Create(node.NthElement(1).Value), null, testlist,
 					CreateSuite(node.LastElement()));

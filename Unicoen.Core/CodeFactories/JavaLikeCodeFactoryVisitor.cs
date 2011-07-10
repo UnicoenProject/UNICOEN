@@ -77,6 +77,23 @@ namespace Unicoen.CodeFactories {
 			Writer = writer;
 		}
 
+		protected void VisitCollection<T, TSelf>(
+				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
+				where T : class, IUnifiedElement
+				where TSelf : UnifiedElementCollection<T, TSelf> {
+			var decoration = arg.Decoration;
+			Writer.Write(decoration.MostLeft);
+			var splitter = "";
+			foreach (var e in elements) {
+				Writer.Write(splitter);
+				Writer.Write(decoration.EachLeft);
+				e.TryAccept(this, arg);
+				Writer.Write(decoration.EachRight);
+				splitter = decoration.Delimiter;
+			}
+			Writer.Write(decoration.MostRight);
+		}
+
 		protected void WriteIndent(VisitorArgument arg) {
 			for (int i = 0; i < arg.IndentDepth; i++)
 				Writer.Write(arg.IndentSign);

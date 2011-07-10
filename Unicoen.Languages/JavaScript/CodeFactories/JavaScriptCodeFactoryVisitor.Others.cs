@@ -357,7 +357,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(
-				UnifiedNamespace element, VisitorArgument arg) {
+				UnifiedNamespaceDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
@@ -384,7 +384,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedList element, VisitorArgument arg) {
+		public override bool Visit(UnifiedListLiteral element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
@@ -401,7 +401,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedDictionary element, VisitorArgument arg) {
+		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
 			Writer.Write("{");
 			VisitCollection(element, arg.Set(CommaDelimiter));
 			WriteIndent(arg);
@@ -426,7 +426,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedArray element, VisitorArgument arg) {
+		public override bool Visit(UnifiedArrayLiteral element, VisitorArgument arg) {
 			//TODO 上からBracketが渡されるので、対策を考える
 			//とりあえず直接"[]"を代入で対処
 			Writer.Write("[");
@@ -440,10 +440,10 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
+		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
 			//e.g. new new r().f
 			//TODO ただし、言語変換を考えると型を出力してほしくないので、対応を考える
-			element.BasicType.TryAccept(this, arg);
+			element.BasicTypeName.TryAccept(this, arg);
 			return false;
 		}
 			}

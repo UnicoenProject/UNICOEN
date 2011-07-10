@@ -46,13 +46,13 @@ namespace Unicoen.Core.Model {
 			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
 
-		private UnifiedArray _initialValue;
+		private UnifiedArrayLiteral _initialValue;
 
 		/// <summary>
 		///   配列生成時の初期値を表します。
 		///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
 		/// </summary>
-		public UnifiedArray InitialValue {
+		public UnifiedArrayLiteral InitialValue {
 			get { return _initialValue; }
 			set { _initialValue = SetChild(value, _initialValue); }
 		}
@@ -89,7 +89,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression target = null,
 				UnifiedArgumentCollection arguments = null,
 				UnifiedGenericArgumentCollection genericArguments = null,
-				UnifiedArray initialValues = null,
+				UnifiedArrayLiteral initialValues = null,
 				UnifiedBlock body = null) {
 			return new UnifiedNew {
 					Target = target,

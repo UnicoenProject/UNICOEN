@@ -31,7 +31,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedNamespace element, VisitorArgument arg) {
+		public override bool Visit(UnifiedNamespaceDefinition element, VisitorArgument arg) {
 			// パッケージはディレクトリ構造で表現
 			Writer.Write("# ");
 			element.Modifiers.TryAccept(this, arg);
@@ -41,7 +41,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedClass element, VisitorArgument arg) {
+		public override bool Visit(UnifiedClassDefinition element, VisitorArgument arg) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
 			Writer.Write("class");
@@ -395,7 +395,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedDictionary element, VisitorArgument arg) {
+		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 

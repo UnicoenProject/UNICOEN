@@ -20,37 +20,23 @@ using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	/// <summary>
-	///   型を表します。
-	///   Javaにおける<c>int, double, char</c>
-	/// </summary>
-	public class UnifiedSimpleType : UnifiedType {
-		// パッケージ名が付いているときに
-		// UnifiedProperty が name に入る時があるので
-		// isntace.Class
-		private IUnifiedExpression _basicType;
-
-		/// <summary>
-		///   型の基礎部分の名前を表します．
-		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
-		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
-		/// </summary>
-		public override IUnifiedExpression BasicType {
-			get { return _basicType; }
-			set { _basicType = SetChild(value, _basicType); }
-		}
-
-		internal UnifiedSimpleType() {}
+	public class UnifiedIterableLiteral
+			: UnifiedElementCollection<IUnifiedExpression, UnifiedIterableLiteral>,
+			  IUnifiedExpression {
+		protected UnifiedIterableLiteral() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		public override UnifiedIterableLiteral CreateSelf() {
+			return new UnifiedIterableLiteral();
+		}
+
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -59,5 +45,5 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-	}
+			  }
 }

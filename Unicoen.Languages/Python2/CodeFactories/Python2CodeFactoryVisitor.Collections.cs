@@ -109,7 +109,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			var klass = element.GrandParent() as UnifiedEnum;
+			var klass = element.GrandParent() as UnifiedEnumDefinition;
 			if (klass != null) {
 				VisitCollection(element, arg.Set(CommaDelimiter));
 			} else {
@@ -118,32 +118,32 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return true;
 		}
 
-		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
-			element.BasicType.TryAccept(this, arg);
+		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
+			element.BasicTypeName.TryAccept(this, arg);
 			return true;
 		}
 
-		public override bool Visit(UnifiedList element, VisitorArgument arg) {
+		public override bool Visit(UnifiedListLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedIterable element, VisitorArgument arg) {
+		public override bool Visit(UnifiedIterableLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedArray element, VisitorArgument arg) {
+		public override bool Visit(UnifiedArrayLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedSet element, VisitorArgument arg) {
+		public override bool Visit(UnifiedSetLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedTuple element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTupleLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
@@ -159,23 +159,23 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(
-				UnifiedInterface element, VisitorArgument arg) {
+				UnifiedInterfaceDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedStruct element, VisitorArgument arg) {
+		public override bool Visit(UnifiedStructDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedEnum element, VisitorArgument arg) {
+		public override bool Visit(UnifiedEnumDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedModule element, VisitorArgument arg) {
+		public override bool Visit(UnifiedModuleDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedUnion element, VisitorArgument arg) {
+		public override bool Visit(UnifiedUnionDefinition element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 

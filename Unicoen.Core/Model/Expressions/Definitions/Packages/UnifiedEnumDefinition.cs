@@ -24,9 +24,9 @@ namespace Unicoen.Core.Model {
 	///   クラスの定義部分を表します。
 	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
-	public class UnifiedModule
-			: UnifiedPackageBase<UnifiedModule> {
-		protected UnifiedModule() {}
+	public class UnifiedEnumDefinition
+			: UnifiedDefinitionWithBlock<UnifiedEnumDefinition> {
+		protected UnifiedEnumDefinition() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -45,8 +45,8 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public override UnifiedModule CreateSelf() {
-			return new UnifiedModule();
+		public override UnifiedEnumDefinition CreateSelf() {
+			return new UnifiedEnumDefinition();
 		}
 			}
 }

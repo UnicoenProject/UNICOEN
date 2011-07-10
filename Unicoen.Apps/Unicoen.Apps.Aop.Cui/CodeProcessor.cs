@@ -148,7 +148,7 @@ namespace Unicoen.Apps.Aop {
 		public static void AddIntertypeDeclaration(
 				UnifiedProgram program, string name, List<IUnifiedExpression> members) {
 			//クラスのリストを取得(Java, C#向け)
-			var classes = program.Descendants<UnifiedClass>();
+			var classes = program.Descendants<UnifiedClassDefinition>();
 			if (classes.Count() > 0) {
 				foreach (var c in classes) {
 					var className = c.Name as UnifiedIdentifier;

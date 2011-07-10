@@ -20,18 +20,17 @@ using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
-	public class UnifiedSet
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedSet>,
-			  IUnifiedExpression {
-		protected UnifiedSet() {}
+	/// <summary>
+	///   クラスの定義部分を表します。
+	///   e.g. Javaにおける<c>public class A{....}</c>
+	/// </summary>
+	public class UnifiedStructDefinition
+			: UnifiedDefinitionWithBlock<UnifiedStructDefinition> {
+		protected UnifiedStructDefinition() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
-		}
-
-		public override UnifiedSet CreateSelf() {
-			return new UnifiedSet();
 		}
 
 		[DebuggerStepThrough]
@@ -45,5 +44,9 @@ namespace Unicoen.Core.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			  }
+
+		public override UnifiedStructDefinition CreateSelf() {
+			return new UnifiedStructDefinition();
+		}
+			}
 }

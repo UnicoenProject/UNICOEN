@@ -22,23 +22,6 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.CodeFactories {
 	public partial class JavaLikeCodeFactoryVisitor {
-		protected void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
-				where T : class, IUnifiedElement
-				where TSelf : UnifiedElementCollection<T, TSelf> {
-			var decoration = arg.Decoration;
-			Writer.Write(decoration.MostLeft);
-			var splitter = "";
-			foreach (var e in elements) {
-				Writer.Write(splitter);
-				Writer.Write(decoration.EachLeft);
-				e.TryAccept(this, arg);
-				Writer.Write(decoration.EachRight);
-				splitter = decoration.Delimiter;
-			}
-			Writer.Write(decoration.MostRight);
-		}
-
 		public override bool Visit(
 				UnifiedParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
@@ -162,7 +145,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
-			if (element.GrandParent() is UnifiedEnum) {
+			if (element.GrandParent() is UnifiedEnumDefinition) {
 				var comma = "";
 				foreach (var varDef in element) {
 					Writer.Write(comma);
@@ -215,44 +198,34 @@ namespace Unicoen.CodeFactories {
 			return true;
 		}
 
-		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
-			element.BasicType.TryAccept(this, arg);
+		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
+			element.BasicTypeName.TryAccept(this, arg);
 			return true;
 		}
 
-		public override bool Visit(UnifiedList element, VisitorArgument arg) {
+		public override bool Visit(UnifiedListLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedIterable element, VisitorArgument arg) {
+		public override bool Visit(UnifiedIterableLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedArray element, VisitorArgument arg) {
+		public override bool Visit(UnifiedArrayLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Bracket));
 			return false;
 		}
 
-		public override bool Visit(UnifiedSet element, VisitorArgument arg) {
+		public override bool Visit(UnifiedSetLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedTuple element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTupleLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
-		}
-
-		public override bool Visit(
-				UnifiedIterableComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public override bool Visit(
-				UnifiedSetComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
 		}
 	}
 }

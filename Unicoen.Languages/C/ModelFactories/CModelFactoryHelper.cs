@@ -185,7 +185,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			String s = "";
 			String prefix = "";
 			foreach (UnifiedType t in types) {
-				s += prefix + ((UnifiedVariableIdentifier)t.BasicType).Name;
+				s += prefix + ((UnifiedVariableIdentifier)t.BasicTypeName).Name;
 				prefix = " ";
 			}
 			type =
@@ -312,10 +312,10 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
 			var structOrUnion = isStruct
-			                    		? (UnifiedPackageBase)UnifiedStruct.Create(
+			                    		? (UnifiedBlockDefinition)UnifiedStructDefinition.Create(
 			                    				name: uIdent,
 			                    				body: body)
-			                    		: UnifiedUnion.Create(
+			                    		: UnifiedUnionDefinition.Create(
 			                    				name: uIdent,
 			                    				body: body);
 
@@ -391,7 +391,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			String s = "";
 			String prefix = "";
 			foreach (var t in types) {
-				s += prefix + t.BasicType;
+				s += prefix + t.BasicTypeName;
 				prefix = " ";
 			}
 			type = s.Equals("")
@@ -431,7 +431,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * | ':' constant_expression
 			 * */
 
-			//UnifiedVariableDefinitionBody.Create();
+			//UnifiedVariableDefinition.Create();
 
 			throw new NotImplementedException(); //TODO: implement
 		}
