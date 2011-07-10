@@ -79,15 +79,17 @@ namespace Unicoen.Languages.Java.Tests {
 						"M1();",
 						"new A();",
 						"int[] a[][] = new int[1][1][1]; System.out.println(a);",
+						"int[] a[] = new int[10][10], b[][] = new int[10][10][10];",
+						"int i; for (i = 0; i < 0; i++) System.out.println(1);",
+						"Integer i; if ((i = 0).toString() != null) { }",
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
 
 				var codes = new[] {
 						"class A { void execute(String ... str) { } }",
 						"class A { public @interface M1 { String value(); } }",
-						"class A { void m() { for (final int a = 0, b = 1; ; ) System.out.println(a + b); } }"
-						,
-						"import java.util.List;"
-						,
+						"class A { void m() { for (final int a = 0, b = 1; ; ) System.out.println(a + b); } }",
+						"import java.util.List;",
+						"class A { int a = 0; }",
 				}.Select(s => new TestCaseData(s));
 
 				return statements.Concat(codes);
@@ -132,7 +134,7 @@ namespace Unicoen.Languages.Java.Tests {
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
 						.Concat(SetUpJUnit())
-						.Concat(SetUpCraftBukkit())
+						//.Concat(SetUpCraftBukkit())
 						.Concat(SetUpBukkit())
 						;
 			}

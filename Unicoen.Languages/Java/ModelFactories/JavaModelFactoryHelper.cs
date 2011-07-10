@@ -241,7 +241,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			var body = CreateClassBody(node.Element("classBody"));
 			return UnifiedClass.Create(
-					null, annotationsAndModifiers.Item2,
+					annotationsAndModifiers.Item1,
+					annotationsAndModifiers.Item2,
 					UnifiedVariableIdentifier.Create(name), typeParameters,
 					constrains, body);
 		}

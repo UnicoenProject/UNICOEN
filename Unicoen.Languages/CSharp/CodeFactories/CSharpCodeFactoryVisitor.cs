@@ -518,7 +518,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedSimpleType element, int arg) {
-			element.NameExpression.TryAccept(this, arg);
+			element.BasicType.TryAccept(this, arg);
 			return false;
 		}
 

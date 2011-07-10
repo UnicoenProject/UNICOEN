@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.IO;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
@@ -161,15 +162,64 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			if (element.GrandParent() is UnifiedEnum) {
-				VisitCollection(element, arg.Set(CommaDelimiter));
-			} else {
-				VisitCollection(element, arg.Set(SemiColonDelimiter));
+				var comma = "";
+				foreach (var varDef in element) {
+					arg.Write(comma);
+					varDef.Annotations.TryAccept(this, arg);
+					varDef.Modifiers.TryAccept(this, arg);
+					varDef.Type.TryAccept(this, arg);
+					arg.Write(" ");
+					varDef.Name.TryAccept(this, arg);
+					varDef.Arguments.TryAccept(this, arg.Set(Paren));
+					if (varDef.InitialValue != null) {
+						arg.Write(" = ");
+						varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
+					}
+					varDef.Body.TryAccept(this, arg.Set(ForBlock));
+					comma = ", ";
+				}
+				return true;
+			}
+
+			// アノテーションの場合は String value() default "test";
+			var setterSign = element.GrandParent() is UnifiedAnnotationDefinition
+			                 		? " default " : " = ";
+
+			// 変数宣言を一つにまとめて出力
+			// int a, b[];
+			// ArrayList<Integer> a, b[];
+			var commonTypeStr = "";
+			var isFirst = true;
+			foreach (var varDef in element) {
+				if (isFirst) {
+					varDef.Annotations.TryAccept(this, arg);
+					varDef.Modifiers.TryAccept(this, arg);
+					var writer = new StringWriter();
+					varDef.Type.TryAccept(this, arg.ChangeWriter(writer));
+					commonTypeStr = writer.ToString();
+					arg.Write(commonTypeStr + " ");
+					varDef.Name.TryAccept(this, arg);
+					isFirst = false;
+				} else {
+					arg.Write(", ");
+					varDef.Name.TryAccept(this, arg);
+					var writer = new StringWriter();
+					varDef.Type.TryAccept(this, arg.ChangeWriter(writer));
+					arg.Write(writer.ToString().Substring(commonTypeStr.Length));
+				}
+				varDef.Arguments.TryAccept(this, arg.Set(Paren));
+
+				if (varDef.InitialValue != null) {
+					arg.Write(setterSign);
+					varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
+				}
+				varDef.Body.TryAccept(this, arg.Set(ForBlock));
 			}
 			return true;
 		}
 
 		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
-			element.NameExpression.TryAccept(this, arg);
+			element.BasicType.TryAccept(this, arg);
 			return true;
 		}
 
@@ -184,7 +234,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedArray element, VisitorArgument arg) {
-			VisitCollection(element, arg);
+			VisitCollection(element, arg.Set(Bracket));
 			return false;
 		}
 

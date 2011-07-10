@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="ChainingAssertion.NUnit.cs" />
     <Compile Include="Linq\EnumerableExtensionsTest.cs" />
-    <Compile Include="Text\Guess.cs" />
+    <Compile Include="Text\GuessEncodingTest.cs" />
     <Compile Include="Xml\Linq\XElementExtensionsTest.cs" />
     <Compile Include="Xml\Linq\XElementSafeExtensionsTest.cs" />
     <Compile Include="Collections\Generic\ListExtensionsTest.cs" />

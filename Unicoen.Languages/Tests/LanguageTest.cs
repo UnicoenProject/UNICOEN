@@ -24,6 +24,7 @@ using NUnit.Framework;
 using Paraiba.IO;
 using Paraiba.Linq;
 using Paraiba.Text;
+using UniUni.Text;
 using Unicoen.Core.Model;
 using Unicoen.Core.Tests;
 
@@ -57,7 +58,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		private Tuple<string, UnifiedProgram> GenerateCodeObject(string path) {
-			var code = File.ReadAllText(path, XEncoding.SJIS);
+			var code = GuessEncoding.ReadAllText(path);
 			try {
 				var obj = Fixture.ModelFactory.Generate(code);
 				return Tuple.Create(code, obj);
@@ -174,7 +175,7 @@ namespace Unicoen.Languages.Tests {
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
 			var codePaths = Fixture.GetAllSourceFilePaths(workPath);
 			foreach (var codePath in codePaths) {
-				var orgCode1 = File.ReadAllText(codePath, XEncoding.SJIS);
+				var orgCode1 = GuessEncoding.ReadAllText(codePath);
 
 				// モデルを生成して，合わせて各種検査を実施する
 				var codeAndObject = GenerateCodeObject(codePath);
@@ -259,7 +260,7 @@ namespace Unicoen.Languages.Tests {
 					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType));
 			if (element is UnifiedWrapType) {
-				props = props.Where(prop => prop.Name != "NameExpression");
+				props = props.Where(prop => prop.Name != "BasicType");
 			}
 			foreach (var prop in props) {
 				yield return (IUnifiedElement)prop.GetValue(element, null);

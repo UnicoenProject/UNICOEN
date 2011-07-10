@@ -136,7 +136,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
-			element.NameExpression.TryAccept(this, arg);
+			element.BasicType.TryAccept(this, arg);
 			return true;
 		}
 

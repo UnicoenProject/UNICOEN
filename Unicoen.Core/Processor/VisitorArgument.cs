@@ -34,6 +34,13 @@ namespace Unicoen.Core.Processor {
 			Decoration = new Decoration();
 		}
 
+		public VisitorArgument ChangeWriter(TextWriter newWriter) {
+			return new VisitorArgument(newWriter, IndentSign) {
+					Decoration = Decoration,
+					IndentDepth = IndentDepth,
+			};
+		}
+
 		public VisitorArgument AbbeviateKeywordWithSideEffect() {
 			IsAbbrKeyword = true;
 			return this;

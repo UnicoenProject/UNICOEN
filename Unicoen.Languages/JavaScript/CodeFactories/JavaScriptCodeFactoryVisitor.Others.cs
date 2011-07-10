@@ -508,7 +508,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override bool Visit(UnifiedSimpleType element, VisitorArgument arg) {
 			//e.g. new new r().f
 			//TODO ただし、言語変換を考えると型を出力してほしくないので、対応を考える
-			element.NameExpression.TryAccept(this, arg);
+			element.BasicType.TryAccept(this, arg);
 			return false;
 		}
 			}

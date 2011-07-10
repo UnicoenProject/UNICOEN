@@ -7,8 +7,8 @@ using UniUni.Text;
 
 namespace UniUni.Tests.Text {
 	[TestFixture]
-	public class EncodingUtilTest {
-		private IEnumerable<TestCaseData> testCases {
+	public class GuessEncodingTest {
+		private IEnumerable<TestCaseData> TestCases {
 			get {
 				return new[] {
 						new TestCaseData(
@@ -17,14 +17,20 @@ namespace UniUni.Tests.Text {
 						new TestCaseData(
 								"#!/usr/bin/env python\n# -*- coding: euc-jp -*-",
 								Encoding.GetEncoding("euc-jp")),
+						new TestCaseData(
+								"\n# -*- coding: latin-1 -*-",
+								Encoding.GetEncoding(1252)),
+						new TestCaseData(
+								"#あいうえお日本語\n# -*- coding: latin-1 -*-",
+								Encoding.GetEncoding(1252)),
 				};
 			}
 		}
 
 		[Test]
-		[TestCaseSource("testCases")]
+		[TestCaseSource("TestCases")]
 		public void GuessFromMagicComment(string text, Encoding encoding) {
-			Assert.That(EncodingUtil.Guess(text), Is.EqualTo(encoding));
+			Assert.That(GuessEncoding.GetEncodingFromMagicComment(text), Is.EqualTo(encoding));
 		}
 	}
 }

@@ -24,7 +24,9 @@ namespace Unicoen.Languages.Java.CodeFactories {
 	public partial class JavaCodeFactoryVisitor {
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;
-			if (parent is UnifiedUnaryExpression ||
+			if (parent is UnifiedProperty ||
+				parent is UnifiedCast ||
+				parent is UnifiedUnaryExpression ||
 			    parent is UnifiedBinaryExpression ||
 			    parent is UnifiedTernaryExpression)
 				return Tuple.Create("(", ")");
@@ -33,10 +35,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		// e.g. (Int)a  or (int)(a + b)
 		public override bool Visit(UnifiedCast element, VisitorArgument arg) {
+			// ((TestCase)(test)).setName(name); などに対応するため括弧を出力
+			arg.Write("(");
 			arg.Write("(");
 			element.Type.TryAccept(this, arg);
 			arg.Write(")");
 			element.Expression.TryAccept(this, arg.Set(Paren));
+			arg.Write(")");
 			return true;
 		}
 
@@ -96,8 +101,8 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			element.GenericArguments.TryAccept(this, arg);
 			element.Target.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
-			element.InitialValue.TryAccept(this, arg.Set(Bracket));
-			element.Body.TryAccept(this, arg.Set(Bracket));
+			element.InitialValue.TryAccept(this, arg);
+			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return true;
 		}
 

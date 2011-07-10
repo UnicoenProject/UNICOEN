@@ -27,16 +27,16 @@ namespace Unicoen.Core.Model {
 		// パッケージ名が付いているときに
 		// UnifiedProperty が name に入る時があるので
 		// isntace.Class
-		private IUnifiedExpression _nameExpression;
+		private IUnifiedExpression _basicType;
 
 		/// <summary>
 		///   型の基礎部分の名前を表します．
 		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
 		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
 		/// </summary>
-		public override IUnifiedExpression NameExpression {
-			get { return _nameExpression; }
-			set { _nameExpression = SetChild(value, _nameExpression); }
+		public override IUnifiedExpression BasicType {
+			get { return _basicType; }
+			set { _basicType = SetChild(value, _basicType); }
 		}
 
 		internal UnifiedSimpleType() {}

@@ -21,21 +21,26 @@ using System.Linq;
 
 namespace Unicoen.Core.Model {
 	public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
-		public abstract IUnifiedExpression NameExpression { get; set; }
+		/// <summary>
+		///   型の基礎部分の名前を表します．
+		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
+		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
+		/// </summary>
+		public abstract IUnifiedExpression BasicType { get; set; }
 
 		public static UnifiedType Create(string name) {
 			// new[] の場合，NameExpressionがnullなUnifiedSimpleTypeを生成する．
 			return new UnifiedSimpleType {
-					NameExpression = name != null
-					                 		? UnifiedVariableIdentifier.Create(name)
-					                 		: null,
+					BasicType = name != null
+					            		? UnifiedVariableIdentifier.Create(name)
+					            		: null,
 			};
 		}
 
 		public static UnifiedType Create(
-				IUnifiedExpression nameExpression = null) {
+				IUnifiedExpression basicExpression = null) {
 			return new UnifiedSimpleType {
-					NameExpression = nameExpression,
+					BasicType = basicExpression,
 			};
 		}
 

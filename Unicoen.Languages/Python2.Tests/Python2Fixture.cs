@@ -127,8 +127,7 @@ namespace Unicoen.Languages.Python2.Tests {
 			return SetUpTestCaseData(
 					"PyPy",
 					path => DownloadAndUntbz(
-							"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2", path),
-					CompileAll);
+							"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2", path));
 		}
 	}
 }

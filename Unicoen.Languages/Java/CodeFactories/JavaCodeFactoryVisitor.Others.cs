@@ -396,27 +396,20 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedInstanceInitializer element, VisitorArgument arg) {
-			arg.Write("static ");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
 
 		public override bool Visit(
 				UnifiedStaticInitializer element, VisitorArgument arg) {
+			arg.Write("static ");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
 
 		public override bool Visit(UnifiedFor element, VisitorArgument arg) {
-			var defList = element.Initializer as UnifiedVariableDefinitionList;
-			var endBracket = "";
-			if (defList.IsNotEmpty()) {
-				arg.WriteLine("{");
-				element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
-				arg.WriteLine(";");
-				endBracket = "}";
-			}
 			arg.Write("for(");
+			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
 			arg.Write("; ");
 			element.Condition.TryAccept(this, arg);
 			arg.Write(";");
@@ -424,7 +417,6 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			arg.Write(")");
 
 			element.Body.TryAccept(this, arg.Set(ForBlock));
-			arg.Write(endBracket);
 			return false;
 		}
 
@@ -545,26 +537,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableDefinition element, VisitorArgument arg) {
-			element.Annotations.TryAccept(this, arg);
-			element.Modifiers.TryAccept(this, arg);
-			element.Type.TryAccept(this, arg);
-			arg.Write(" ");
-			element.Name.TryAccept(this, arg);
-			element.Arguments.TryAccept(this, arg.Set(Paren));
-
-			// アノテーションの場合は String value() default "test";
-			var setterSign = " = ";
-			var klass = element.GrandParent() as UnifiedAnnotationDefinition;
-			if (klass != null) {
-				setterSign = " default ";
-			}
-
-			if (element.InitialValue != null) {
-				arg.Write(setterSign);
-				element.InitialValue.TryAccept(this, arg.Set(Bracket));
-			}
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return false;
+			throw new InvalidOperationException();
 		}
 
 		public override bool Visit(UnifiedConstType element, VisitorArgument arg) {

@@ -34,12 +34,12 @@ namespace Unicoen.Core.Tests {
 			var x2 = x as IUnifiedElement;
 			if (x2 != null) {
 				File.WriteAllText(
-						FixtureUtil.GetOutputPath("model1.txt"), x2.ToString(), XEncoding.SJIS);
+						FixtureUtil.GetOutputPath("model1.txt"), x2.ToString());
 			}
 			var y2 = y as IUnifiedElement;
 			if (y2 != null) {
 				File.WriteAllText(
-						FixtureUtil.GetOutputPath("model2.txt"), y2.ToString(), XEncoding.SJIS);
+						FixtureUtil.GetOutputPath("model2.txt"), y2.ToString());
 			}
 			return false;
 		}
