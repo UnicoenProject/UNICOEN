@@ -80,7 +80,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 			arg.Write("package ");
 			element.Name.TryAccept(this, arg);
 			arg.Write(";");
-			element.Body.TryAccept(this, arg.Set(SemiColonDelimiter));
+			element.Body.TryAccept(this, arg);
 			return false;
 		}
 
@@ -140,13 +140,13 @@ namespace Unicoen.Languages.Java.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedParameter element, VisitorArgument arg) {
+			element.Annotations.TryAccept(this, arg);
 			var isVariableLength = false;
 			if (element.Modifiers != null) {
 				var newModifiers = element.Modifiers.DeepCopy();
 				isVariableLength = newModifiers.Remove(m => m.Name == "...");
 				newModifiers.TryAccept(this, arg);
 			}
-			element.Modifiers.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			arg.WriteSpace();
 			if (isVariableLength) {
