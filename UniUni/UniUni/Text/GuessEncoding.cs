@@ -57,7 +57,7 @@ namespace UniUni.Text {
 			var encoding = GetEncoding(bytes);
 			var str = encoding.GetString(bytes);
 			// BOMがあれば取り除く
-			return str[0] != 65279 ? str : str.Substring(1);
+			return str.Length == 0 || str[0] != 65279 ? str : str.Substring(1);
 		}
 	}
 }
