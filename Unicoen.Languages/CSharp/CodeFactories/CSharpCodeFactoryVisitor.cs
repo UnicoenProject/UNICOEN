@@ -49,5 +49,15 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			element.Body.Accept(this, arg);
 			return true;
 		}
+
+		public override bool Visit(
+				UnifiedNamespaceDefinition element, VisitorArgument arg) {
+			element.Annotations.TryAccept(this, arg);
+			Writer.Write("namespace ");
+			element.Name.Accept(this, arg);
+			Writer.Write(" ");
+			element.Body.Accept(this, arg.Set(ForBlock));
+			return false;
+		}
 	}
 }
