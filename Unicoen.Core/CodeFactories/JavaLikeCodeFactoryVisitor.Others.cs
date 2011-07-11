@@ -464,7 +464,7 @@ namespace Unicoen.CodeFactories {
 		}
 
 		public override bool Visit(
-				UnifiedDictionaryComprehension element, VisitorArgument arg) {
+				UnifiedMapComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 

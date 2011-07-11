@@ -184,7 +184,7 @@
     <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
-    <Compile Include="Model\UnifiedElementHelper.cs" />
+    <Compile Include="Model\UnifiedElement.Serialize.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Collections.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
@@ -215,7 +215,7 @@
     <Compile Include="Model\Expressions\Operators\OldUnaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
-    <Compile Include="Model\Expressions\Comprehensions\UnifiedDictionaryComprehension.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedMapComprehension.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedMapLiteral.cs" />
     <Compile Include="Model\Expressions\UnifiedKeyValue.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />

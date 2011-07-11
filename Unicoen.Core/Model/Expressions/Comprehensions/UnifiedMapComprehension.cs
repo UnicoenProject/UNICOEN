@@ -23,8 +23,7 @@ namespace Unicoen.Core.Model {
 	/// <summary>
 	///   辞書内包表記を表します．
 	/// </summary>
-	public class UnifiedDictionaryComprehension
-			: UnifiedElement, IUnifiedExpression {
+	public class UnifiedMapComprehension : UnifiedElement, IUnifiedExpression {
 		private UnifiedKeyValue _element;
 
 		/// <summary>
@@ -45,7 +44,7 @@ namespace Unicoen.Core.Model {
 			set { _generator = SetChild(value, _generator); }
 		}
 
-		private UnifiedDictionaryComprehension() {}
+		private UnifiedMapComprehension() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -64,13 +63,13 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedDictionaryComprehension Create(
+		public static UnifiedMapComprehension Create(
 				UnifiedKeyValue element = null,
 				UnifiedExpressionCollection generator = null) {
-			return new UnifiedDictionaryComprehension {
+			return new UnifiedMapComprehension {
 					Element = element,
 					Generator = generator,
 			};
 		}
-			}
+	}
 }

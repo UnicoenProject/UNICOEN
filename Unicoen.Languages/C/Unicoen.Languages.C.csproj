@@ -116,9 +116,6 @@
     <Compile Include="ModelFactories\CModelFactoryHelper.Literal.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Operator.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Statement.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryVisitor.Others.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryVisitor.Collections.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryVisitor.Statements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

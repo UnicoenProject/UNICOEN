@@ -18,6 +18,7 @@
 
 using System.Diagnostics;
 using System.Numerics;
+using UniUni.Numerics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -26,9 +27,28 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分
 	/// </summary>
 	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
-		private UnifiedIntegerLiteral() {}
+		private BigInteger _value;
+
+		public override BigInteger Value {
+			get { return _value; }
+			set {
+				switch (Kind) {
+				case UnifiedIntegerLiteralKind.Int32:
+					_value = value.ToForceInt32();
+					break;
+				case UnifiedIntegerLiteralKind.Int64:
+					_value = value.ToForceInt64();
+					break;
+				case UnifiedIntegerLiteralKind.BigInteger:
+					_value = value;
+					break;
+				}
+			}
+		}
 
 		public UnifiedIntegerLiteralKind Kind { get; set; }
+
+		private UnifiedIntegerLiteral() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {

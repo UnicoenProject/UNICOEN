@@ -1909,7 +1909,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			if (secondElement.Name() == "nonWildcardTypeArguments") {
 				prefix = UnifiedProperty.Create(
-						".", prefix, UnifiedVariableIdentifier.Create(secondElement.Value));
+						".", prefix, UnifiedVariableIdentifier.Create(node.NthElement(2).Value));
 				return UnifiedCall.Create(
 						prefix,
 						CreateArguments(node.NthElement(3)),
@@ -2176,7 +2176,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   IntegerNumber 
 			 */
 			return UnifiedIntegerLiteral.Create(
-					ParseInteger(node.Value).ToForceInt32(),
+					ParseInteger(node.Value),
 					UnifiedIntegerLiteralKind.Int32);
 		}
 
@@ -2194,7 +2194,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var str = node.Value;
 			return
 					UnifiedIntegerLiteral.Create(
-							ParseInteger(str.Substring(0, str.Length - 1)).ToForceInt64(),
+							ParseInteger(str.Substring(0, str.Length - 1)),
 							UnifiedIntegerLiteralKind.Int64);
 		}
 

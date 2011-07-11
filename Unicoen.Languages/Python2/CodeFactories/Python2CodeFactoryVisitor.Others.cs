@@ -391,7 +391,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(
-				UnifiedDictionaryComprehension element, VisitorArgument arg) {
+				UnifiedMapComprehension element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 

@@ -21,6 +21,8 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedRegularExpressionLiteral : UnifiedTypedLiteral<string> {
+		public override string Value { get; set; }
+
 		public string Options { get; set; }
 
 		private UnifiedRegularExpressionLiteral() {}

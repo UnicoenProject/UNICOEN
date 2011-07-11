@@ -1210,7 +1210,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 							);
 				}
 				// create dctionary
-				return UnifiedDictionaryComprehension.Create(
+				return UnifiedMapComprehension.Create(
 						UnifiedKeyValue.Create(
 								CreateTest(node.NthElement(0)),
 								CreateTest(node.NthElement(2))),

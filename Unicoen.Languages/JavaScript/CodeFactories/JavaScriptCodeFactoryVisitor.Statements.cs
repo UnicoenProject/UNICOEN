@@ -22,26 +22,6 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactoryVisitor {
-		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
-			var parent = element.Parent;
-
-			//親も自分も２項式で、演算子が同じ場合は括弧をつけない
-			var b1 = element as UnifiedBinaryExpression;
-			var b2 = parent as UnifiedBinaryExpression;
-			if (b1 != null && b2 != null) {
-				return b1.Operator.Sign == b2.Operator.Sign
-				       		? Tuple.Create("", "") : Tuple.Create("(", ")");
-			}
-
-			if (parent is UnifiedUnaryExpression ||
-			    parent is UnifiedTernaryExpression ||
-			    parent is UnifiedBinaryExpression ||
-			    parent is UnifiedProperty)
-				return Tuple.Create("(", ")");
-
-			return Tuple.Create("", "");
-		}
-
 		public override bool Visit(
 				UnifiedBinaryExpression element, VisitorArgument arg) {
 			var paren = GetRequiredParen(element);

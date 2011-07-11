@@ -25,9 +25,11 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>double d = 1.0;</c>の<c>1.0</c>の部分
 	/// </summary>
 	public class UnifiedFractionLiteral : UnifiedTypedLiteral<double> {
-		private UnifiedFractionLiteral() {}
+		public override double Value { get; set; }
 
 		public UnifiedFractionLiteralKind Kind { get; set; }
+
+		private UnifiedFractionLiteral() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {

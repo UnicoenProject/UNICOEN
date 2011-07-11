@@ -225,7 +225,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDictionaryComprehension element) {
+		public virtual void Visit(UnifiedMapComprehension element) {
 			throw new NotImplementedException();
 		}
 
@@ -750,7 +750,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		public virtual void Visit(
-				UnifiedDictionaryComprehension element, TArg arg) {
+				UnifiedMapComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1328,7 +1328,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedDictionaryComprehension element, TArg arg) {
+		public virtual TResult Visit(UnifiedMapComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

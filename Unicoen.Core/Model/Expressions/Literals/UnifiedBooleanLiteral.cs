@@ -25,6 +25,8 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>Boolean flag = true;</c>の<c>true</c>の部分
 	/// </summary>
 	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<bool> {
+		public override bool Value { get; set; }
+
 		private UnifiedBooleanLiteral() {}
 
 		public static UnifiedBooleanLiteral Create(bool value) {

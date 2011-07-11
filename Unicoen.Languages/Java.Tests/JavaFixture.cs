@@ -83,14 +83,15 @@ namespace Unicoen.Languages.Java.Tests {
 						"int[] a[] = new int[10][10], b[][] = new int[10][10][10];",
 						"int i; for (i = 0; i < 0; i++) System.out.println(1);",
 						"Integer i; if ((i = 0).toString() != null) { }",
+						"int mask = 0x80000000;",
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
 
-				var codes = new[] {
-						"class A { void execute(String ... str) { } }",
-						"class A { public @interface M1 { String value(); } }",
-						"class A { void m() { for (final int a = 0, b = 1; ; ) System.out.println(a + b); } }",
-						"import java.util.List;",
-						"class A { int a = 0; }",
+				var codes = new string[] {
+				        "class A { void execute(String ... str) { } }",
+				        "class A { public @interface M1 { String value(); } }",
+				        "class A { void m() { for (final int a = 0, b = 1; ; ) System.out.println(a + b); } }",
+				        "import java.util.List;",
+				        "class A { int a = 0; }",
 				}.Select(s => new TestCaseData(s));
 
 				return statements.Concat(codes);

@@ -26,6 +26,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		public CSharpCodeFactoryVisitor(TextWriter writer) : base(writer) {
 			ForeachKeyword = "foreach";
 			ForeachDelimiter = " in ";
+			ImportKeyword = "using ";
 		}
 
 		public override bool Visit(
@@ -40,6 +41,13 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			element.Throws.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return element.Body == null;
+		}
+
+		public override bool Visit(UnifiedLambda element, VisitorArgument arg) {
+			element.Parameters.TryAccept(this, arg);
+			Writer.Write(" => ");
+			element.Body.Accept(this, arg);
+			return true;
 		}
 	}
 }

@@ -72,6 +72,7 @@ namespace Unicoen.CodeFactories {
 		protected TextWriter Writer;
 		protected string ForeachKeyword = "for";
 		protected string ForeachDelimiter = " : ";
+		protected string ImportKeyword = "import ";
 
 		protected JavaLikeCodeFactoryVisitor(TextWriter writer) {
 			Writer = writer;

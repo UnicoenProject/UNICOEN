@@ -25,6 +25,8 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>String str = "abc"</c>の<c>"abc"</c>の部分
 	/// </summary>
 	public class UnifiedStringLiteral : UnifiedTypedLiteral<string> {
+		public override string Value { get; set; }
+
 		private UnifiedStringLiteral() {}
 
 		[DebuggerStepThrough]
