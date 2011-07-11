@@ -71,6 +71,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Unicoen.Languages\Java\Unicoen.Languages.Java.csproj">
+      <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
+      <Name>Unicoen.Languages.Java</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicoen.Apps.Aop.Cui\Unicoen.Apps.Aop.Cui.csproj">
       <Project>{78406882-043E-451A-98B4-335AD8BB7DAD}</Project>
       <Name>Unicoen.Apps.Aop.Cui</Name>

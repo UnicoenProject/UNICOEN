@@ -184,19 +184,15 @@ namespace Unicoen.Apps.Aop {
 			//get function list
 			var functions = root.Descendants<UnifiedFunctionDefinition>();
 
-			foreach (var e in functions) {
+			foreach (var function in functions) {
 				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
-				if (e.Body == null)
+				if (function.Body == null)
 					continue;
 
 				//weave given advice, when function's name matches given Regex
-				var m = regex.Match(e.Name.Name);
-				if (m.Success) {
-					if (e.Body == null)
-						e.Body = UnifiedBlock.Create();
-
-					e.Body.Insert(0, advice);
-				}
+				var m = regex.Match(function.Name.Name);
+				if (m.Success)
+					function.Body.Insert(0, advice);
 			}
 		}
 
@@ -214,6 +210,85 @@ namespace Unicoen.Apps.Aop {
 			foreach (var function in functions) {
 				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
 				if (function.Body == null)
+					continue;
+
+				//when function's name doesn't match given Regex, ignore current functionDefinition
+				var m = regex.Match(function.Name.Name);
+				if (!m.Success)
+					continue;
+
+				/*ToList()を呼び出しておかないと例外を吐く
+				 * 【例外】
+				 * C# エラーメッセージ:コレクションが変更されました。
+				 * 列挙操作は実行されない可能性があります。
+				 */
+				var returns = function.Descendants<UnifiedReturn>().ToList();
+
+				if (returns.Count() == 0) {
+					//case function don't have return statement
+					function.Body.Add(advice);
+				} else {
+					foreach (var returnStmt in returns) {
+						var block = returnStmt.Parent as UnifiedBlock;
+						if (block == null)
+							continue;
+						block.Insert(block.IndexOf(returnStmt, 0), advice);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "regex">対象関数を指定する正規表現</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecution(
+				IUnifiedElement root, Regex regex, int statementNum, UnifiedBlock advice) {
+			//関数の一覧を取得
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
+
+			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
+				//関数内部のStatementの一覧を取得し、閾値より多いかどうかを判定
+				var innerStatements =
+						ModelSweeper.Descendants(function.Body).Where(e => e.Parent.GetType().Equals(typeof(UnifiedBlock)));
+				if(innerStatements.Count() < statementNum)
+					continue;
+
+				//関数名が与えられた正規表現にマッチする場合はアドバイスを合成する
+				var m = regex.Match(function.Name.Name);
+				if (m.Success)
+					function.Body.Insert(0, advice);
+			}
+		}
+
+		/// <summary>
+		///   指定された関数ブロックの後に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "regex">対象関数を指定する正規表現</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtAfterExecution(
+				IUnifiedElement root, Regex regex, int statementNum, UnifiedBlock advice) {
+			//get function list
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
+
+			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
+				//関数内部のStatementの一覧を取得し、閾値より多いかどうかを判定
+				var innerStatements =
+						ModelSweeper.Descendants(function.Body).Where(e => e.Parent.GetType().Equals(typeof(UnifiedBlock)));
+				if(innerStatements.Count() < statementNum)
 					continue;
 
 				//when function's name doesn't match given Regex, ignore current functionDefinition
@@ -282,6 +357,30 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtAfterExecutionByName(
 				IUnifiedElement root, string name, UnifiedBlock advice) {
 			InsertAtAfterExecution(root, new Regex("^" + name + "$"), advice);
+		}
+
+		/// <summary>
+		///   名前で指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "name">対象関数の名前</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecutionByName(
+				IUnifiedElement root, string name, int statementNum, UnifiedBlock advice) {
+			InsertAtBeforeExecution(root, new Regex("^" + name + "$"), statementNum, advice);
+		}
+
+		/// <summary>
+		///   名前で指定された関数の後に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "name">対象関数の名前</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtAfterExecutionByName(
+				IUnifiedElement root, string name, int statementNum, UnifiedBlock advice) {
+			InsertAtAfterExecution(root, new Regex("^" + name + "$"), statementNum, advice);
 		}
 
 		#endregion
