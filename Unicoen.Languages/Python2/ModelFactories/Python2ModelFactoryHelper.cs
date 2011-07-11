@@ -82,10 +82,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var arglist = arglistNode != null
 			              		? CreateArglist(arglistNode)
 			              		: null;
-			return UnifiedAnnotation.Create(
-					name: CreateDotted_name(node.NthElement(1)).ToProperty("."),
-					arguments: arglist
-					);
+			return
+					UnifiedAnnotation.Create(
+							CreateDotted_name(node.NthElement(1)).ToProperty("."), arglist
+							);
 		}
 
 		public static UnifiedAnnotationCollection CreateDecorators(XElement node) {
@@ -109,11 +109,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				var classDef = CreateClassdef(second);
 				classDef.Annotations = decorators;
 				return classDef;
-			} else {
-				var funcDef = CreateFuncdef(second);
-				funcDef.Annotations = decorators;
-				return funcDef;
 			}
+			var funcDef = CreateFuncdef(second);
+			funcDef.Annotations = decorators;
+			return funcDef;
 		}
 
 		public static UnifiedFunctionDefinition CreateFuncdef(XElement node) {
@@ -158,15 +157,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 											null,
 											null, null,
 											names.Select(
-													name =>
-													UnifiedVariableIdentifier.Create(name)).
-													ToCollection(), null);
+													UnifiedVariableIdentifier.Create).
+													ToCollection());
 								return UnifiedParameter.Create(
 										null,
 										null, null,
 										names.Select(
-												name1 =>
-												UnifiedVariableIdentifier.Create(name1)).
+												UnifiedVariableIdentifier.Create).
 												ToCollection(),
 										CreateTest(next.NextElement()));
 							});
@@ -178,8 +175,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 									UnifiedModifier.Create(e.PreviousElement().Value).
 											ToCollection(), null,
 									UnifiedVariableIdentifier.Create(e.Value).
-											ToCollection(),
-									null));
+											ToCollection()));
 			return ps.Concat(ps2).ToCollection();
 		}
 
@@ -476,7 +472,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			return CreateDotted_as_names(node.NthElement(1))
 					.Select(
-							t => UnifiedImport.Create(t.Item1.ToProperty("."), t.Item2, null, null));
+							t => UnifiedImport.Create(t.Item1.ToProperty("."), t.Item2));
 		}
 
 		public static IEnumerable<UnifiedImport> CreateImport_from(XElement node) {
@@ -701,7 +697,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *		'finally' ':' suite))
 			 */
 			var trySuite = CreateSuite(node.Element("suite"));
-			var exceptClauseNodes = node.Elements("except_clause");
+			var exceptClauseNodes = node.Elements("except_clause").ToList();
 			var exceptClauseSuites = exceptClauseNodes
 					.Select(e => CreateSuite(((e)).NextElement(1)));
 			var catches = exceptClauseNodes
@@ -993,23 +989,23 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *		NAME | NUMBER | STRING+)
 			 */
 			var first = node.FirstElement();
-			var value = first.Value;
+			var value = first.Value.ToLower();
 			switch (first.Name()) {
 			case "NAME":
 				return value.ToVariableIdentifier();
 			case "NUMBER":
-				var isLong = value.EndsWith("L");
+				var isLong = value.EndsWith("l");
 				if (isLong)
 					value = value.Substring(0, value.Length - 1);
-				if (value.StartsWith("0x") || value.Contains("0X"))
+				if (value.StartsWith("0x"))
 					return UnifiedIntegerLiteral.Create(
 							BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber),
 							UnifiedIntegerLiteralKind.BigInteger);
-				if (value.StartsWith("0o") || value.Contains("0O"))
+				if (value.StartsWith("0o"))
 					return UnifiedIntegerLiteral.Create(
 							ParseOcatleNumber(value.Substring(2)),
 							UnifiedIntegerLiteralKind.BigInteger);
-				if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
+				if (value.Contains(".") || value.Contains("e"))
 					return double.Parse(value).ToLiteral();
 				return UnifiedIntegerLiteral.Create(
 						BigInteger.Parse(value),

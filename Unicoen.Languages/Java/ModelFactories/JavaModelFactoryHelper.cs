@@ -24,7 +24,6 @@ using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Linq;
-using UniUni.Numerics;
 using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;

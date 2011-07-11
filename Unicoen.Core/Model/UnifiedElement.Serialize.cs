@@ -17,6 +17,7 @@
 #endregion
 
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -61,6 +62,11 @@ namespace Unicoen.Core.Model {
 				foreach (var item in seq) {
 					ToStringRecursively(item, buffer, depth + 1);
 				}
+				Debug.Assert(elem.GetType().GetProperties()
+					.Where(prop => !IgnorePropertyNames.Contains(prop.Name))
+					.Where(prop => prop.GetIndexParameters().Length == 0)
+					.Select(prop => prop.GetValue(elem, null)).Count() == 0);
+				return;
 			}
 
 			// write properties without indexer

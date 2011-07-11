@@ -17,6 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Code2Xml.Core;
 using NUnit.Framework;
@@ -127,8 +128,11 @@ namespace Unicoen.Languages.Python2.Tests {
 		private IEnumerable<TestCaseData> SetUpPyPy() {
 			return SetUpTestCaseData(
 					"PyPy",
-					path => DownloadAndUntbz(
-							"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2", path));
+					path => {
+						DownloadAndUntbz(
+								"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2", path);
+						File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\lib2to3\tests\data\py3_test_grammar.py"));
+					});
 		}
 	}
 }
