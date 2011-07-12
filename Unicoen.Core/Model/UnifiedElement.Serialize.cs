@@ -63,6 +63,7 @@ namespace Unicoen.Core.Model {
 					ToStringRecursively(item, buffer, depth + 1);
 				}
 				Debug.Assert(elem.GetType().GetProperties()
+					.Where(prop => prop.Name.StartsWith("Unified") || prop.Name.StartsWith("IUnified"))
 					.Where(prop => !IgnorePropertyNames.Contains(prop.Name))
 					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Select(prop => prop.GetValue(elem, null)).Count() == 0);

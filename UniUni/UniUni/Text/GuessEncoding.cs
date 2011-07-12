@@ -30,6 +30,7 @@ namespace UniUni.Text {
 
 		static GuessEncoding() {
 			Encodings["utf8"] = "utf-8";
+			Encodings["uft8"] = "utf-8";
 
 			Encodings["latin1"] = "iso-8859-1";
 			Encodings["isolatin1"] = "iso-8859-1";

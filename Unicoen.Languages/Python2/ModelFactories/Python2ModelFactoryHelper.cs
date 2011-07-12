@@ -1005,6 +1005,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					return UnifiedIntegerLiteral.Create(
 							ParseOcatleNumber(value.Substring(2)),
 							UnifiedIntegerLiteralKind.BigInteger);
+				if (value.EndsWith("j"))
+					return UnifiedFractionLiteral.Create(
+							double.Parse(value.Substring(0, value.Length - 1)),
+							UnifiedFractionLiteralKind.Imaginary);
 				if (value.Contains(".") || value.Contains("e"))
 					return double.Parse(value).ToLiteral();
 				return UnifiedIntegerLiteral.Create(
