@@ -33,7 +33,7 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedNamespaceDefinition element, VisitorArgument arg) {
 			Writer.Write("package ");
 			element.Name.TryAccept(this, arg);
-			Writer.Write(";");
+			Writer.WriteLine(";");
 			element.Body.TryAccept(this, arg);
 			return false;
 		}
@@ -45,7 +45,7 @@ namespace Unicoen.CodeFactories {
 			Writer.Write(keyword + " ");
 			element.Name.TryAccept(this, arg);
 			element.GenericParameters.TryAccept(this, arg);
-			element.Constrains.TryAccept(this, arg);
+			element.Constrains.TryAccept(this, arg.Set(CommaDelimiter));
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
@@ -187,7 +187,7 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedTypeParameter element, VisitorArgument arg) {
+		public override bool Visit(UnifiedGenericParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));
 			return false;

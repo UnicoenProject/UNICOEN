@@ -27,7 +27,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public class UnifiedGenericParameterCollection
 			: UnifiedElementCollection
-			  		<UnifiedTypeParameter, UnifiedGenericParameterCollection> {
+			  		<UnifiedGenericParameter, UnifiedGenericParameterCollection> {
 		protected UnifiedGenericParameterCollection() {}
 
 		[DebuggerStepThrough]

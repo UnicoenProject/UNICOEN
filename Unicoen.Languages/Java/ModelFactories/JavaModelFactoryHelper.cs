@@ -260,7 +260,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedTypeParameter CreateTypeParameter(XElement node) {
+		public static UnifiedGenericParameter CreateTypeParameter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeParameter");
 			/*
@@ -269,9 +269,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			if (node.Elements().Count() == 1) {
 				return
-						UnifiedTypeParameter.Create(UnifiedType.Create(node.FirstElement().Value));
+						UnifiedGenericParameter.Create(UnifiedType.Create(node.FirstElement().Value));
 			}
-			return UnifiedTypeParameter.Create(
+			return UnifiedGenericParameter.Create(
 					UnifiedType.Create(node.FirstElement().Value),
 					UnifiedTypeConstrainCollection.Create(
 							CreateTypeBound(node.LastElement())

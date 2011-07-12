@@ -83,7 +83,7 @@ namespace Unicoen.CodeFactories {
 					// implements
 					current.TryAccept(this, arg.Set(NullDelimiter));
 				} else {
-					current.TryAccept(this, arg.Set(CommaDelimiter));
+					current.TryAccept(this, arg);
 				}
 				last = current;
 			}

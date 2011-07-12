@@ -56,7 +56,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCast element);
 		void Visit(UnifiedGenericParameterCollection element);
 		void Visit(UnifiedTypeConstrainCollection element);
-		void Visit(UnifiedTypeParameter element);
+		void Visit(UnifiedGenericParameter element);
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(UnifiedIdentifierCollection element);
 		void Visit(UnifiedLabel element);
@@ -188,7 +188,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCast element, TArg arg);
 		void Visit(UnifiedGenericParameterCollection element, TArg arg);
 		void Visit(UnifiedTypeConstrainCollection element, TArg arg);
-		void Visit(UnifiedTypeParameter element, TArg arg);
+		void Visit(UnifiedGenericParameter element, TArg arg);
 		void Visit(UnifiedTernaryExpression element, TArg arg);
 		void Visit(UnifiedIdentifierCollection element, TArg arg);
 		void Visit(UnifiedLabel element, TArg arg);
@@ -320,7 +320,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedCast element, TArg arg);
 		TResult Visit(UnifiedGenericParameterCollection element, TArg arg);
 		TResult Visit(UnifiedTypeConstrainCollection element, TArg arg);
-		TResult Visit(UnifiedTypeParameter element, TArg arg);
+		TResult Visit(UnifiedGenericParameter element, TArg arg);
 		TResult Visit(UnifiedTernaryExpression element, TArg arg);
 		TResult Visit(UnifiedIdentifierCollection element, TArg arg);
 		TResult Visit(UnifiedLabel element, TArg arg);

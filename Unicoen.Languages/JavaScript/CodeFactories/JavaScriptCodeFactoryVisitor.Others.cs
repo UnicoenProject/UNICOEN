@@ -336,7 +336,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedTypeParameter element, VisitorArgument arg) {
+		public override bool Visit(UnifiedGenericParameter element, VisitorArgument arg) {
 			//JavaScript
 			throw new NotImplementedException();
 		}

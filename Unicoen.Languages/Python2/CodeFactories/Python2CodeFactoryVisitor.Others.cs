@@ -139,7 +139,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedTypeParameter element, VisitorArgument arg) {
+		public override bool Visit(UnifiedGenericParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));
 			return false;

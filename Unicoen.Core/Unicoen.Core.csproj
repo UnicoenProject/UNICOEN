@@ -269,7 +269,7 @@
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedGenericArgument.cs" />
     <Compile Include="Model\Collections\UnifiedGenericArgumentCollection.cs" />
-    <Compile Include="Model\UnifiedTypeParameter.cs" />
+    <Compile Include="Model\UnifiedGenericParameter.cs" />
     <Compile Include="Processor\IUnifiedVisitor.cs" />
     <Compile Include="Processor\VisitorArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

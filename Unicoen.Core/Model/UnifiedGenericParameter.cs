@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<code>public &lt;T&gt; void method(){...}</code>
 	///   e.g. C#における<code>public void method&lt;T&gt;(){...}</code>
 	/// </summary>
-	public class UnifiedTypeParameter : UnifiedElement {
+	public class UnifiedGenericParameter : UnifiedElement {
 		private UnifiedType _type;
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Unicoen.Core.Model {
 			set { _constrains = SetChild(value, _constrains); }
 		}
 
-		private UnifiedTypeParameter() {}
+		private UnifiedGenericParameter() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -67,11 +67,11 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedTypeParameter Create(
+		public static UnifiedGenericParameter Create(
 				UnifiedType type = null,
 				UnifiedTypeConstrainCollection
 						constrains = null) {
-			return new UnifiedTypeParameter {
+			return new UnifiedGenericParameter {
 					Type = type,
 					Constrains = constrains,
 			};
