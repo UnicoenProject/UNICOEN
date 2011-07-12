@@ -168,7 +168,10 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedAssert element, VisitorArgument arg) {
 			Writer.Write("assert ");
 			element.Value.TryAccept(this, arg);
-			element.Message.TryAccept(this, arg.Set(ColonMostLeft));
+			if (element.Message != null) {
+				Writer.Write(" : ");
+				element.Message.TryAccept(this, arg);
+			}
 			return true;
 		}
 	}

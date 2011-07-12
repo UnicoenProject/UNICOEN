@@ -21,13 +21,13 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
-using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Linq;
 using UniUni.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming
@@ -972,12 +972,6 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					CreateFactor(lastNode));
 		}
 
-		private static BigInteger ParseOcatleNumber(IEnumerable<char> str) {
-			return str.Aggregate<char, BigInteger>(
-					0,
-					(current, ch) => current * 8 + (ch - '0'));
-		}
-
 		public static IUnifiedExpression CreateAtom(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "atom");
@@ -999,11 +993,11 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					value = value.Substring(0, value.Length - 1);
 				if (value.StartsWith("0x"))
 					return UnifiedIntegerLiteral.Create(
-							BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber),
+							LiteralParser.ParseHexicalNumber(value.Substring(2)),
 							UnifiedIntegerLiteralKind.BigInteger);
 				if (value.StartsWith("0o"))
 					return UnifiedIntegerLiteral.Create(
-							ParseOcatleNumber(value.Substring(2)),
+							LiteralParser.ParseOcatleNumber(value.Substring(2)),
 							UnifiedIntegerLiteralKind.BigInteger);
 				if (value.EndsWith("j"))
 					return UnifiedFractionLiteral.Create(
@@ -1012,7 +1006,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				if (value.Contains(".") || value.Contains("e"))
 					return double.Parse(value).ToLiteral();
 				return UnifiedIntegerLiteral.Create(
-						BigInteger.Parse(value),
+						LiteralParser.ParseNumber(value.Substring(2)),
 						UnifiedIntegerLiteralKind.BigInteger);
 			case "STRING":
 				return UnifiedStringLiteral.Create(first.Value);

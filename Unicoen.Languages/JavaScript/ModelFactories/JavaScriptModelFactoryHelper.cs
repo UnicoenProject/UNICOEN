@@ -26,6 +26,7 @@ using System.Xml.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -1476,12 +1477,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var value = node.Value;
 			if (value.StartsWith("0x") || value.Contains("0X"))
 				return UnifiedIntegerLiteral.Create(
-						BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber),
+						LiteralParser.ParseHexicalNumber(value.Substring(2)),
 						UnifiedIntegerLiteralKind.BigInteger);
 			if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
 				return double.Parse(value).ToLiteral();
 			return UnifiedIntegerLiteral.Create(
-					BigInteger.Parse(value),
+					LiteralParser.ParseNumber(value),
 					UnifiedIntegerLiteralKind.BigInteger);
 		}
 

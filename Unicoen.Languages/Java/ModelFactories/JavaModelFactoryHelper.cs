@@ -27,6 +27,7 @@ using Paraiba.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -2213,20 +2214,14 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			BigInteger result = 0;
 			if (value != "0") {
 				if (value[0] != '0') {
-					result = long.Parse(value);
+					result = LiteralParser.ParseNumber(value);
 				} else if (value[1] == 'x' || value[1] == 'X') {
-					result = long.Parse(value.Substring(2), NumberStyles.HexNumber);
+					result = LiteralParser.ParseHexicalNumber(value.Substring(2));
 				} else {
-					result = ParseOcatleNumber(value.Substring(1));
+					result = LiteralParser.ParseOcatleNumber(value.Substring(1));
 				}
 			}
 			return result;
-		}
-
-		private static BigInteger ParseOcatleNumber(IEnumerable<char> str) {
-			return str.Aggregate<char, BigInteger>(
-					0,
-					(current, ch) => current * 8 + (ch - '0'));
 		}
 
 		public static UnifiedLiteral CreateFloatLiteral(XElement node) {
