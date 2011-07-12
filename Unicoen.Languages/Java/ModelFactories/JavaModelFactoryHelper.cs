@@ -2214,11 +2214,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			BigInteger result = 0;
 			if (value != "0") {
 				if (value[0] != '0') {
-					result = LiteralParser.ParseNumber(value);
+					result = LiteralFuzzyParser.ParseBigInteger(value);
 				} else if (value[1] == 'x' || value[1] == 'X') {
-					result = LiteralParser.ParseHexicalNumber(value.Substring(2));
+					result = LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2));
 				} else {
-					result = LiteralParser.ParseOcatleNumber(value.Substring(1));
+					result = LiteralFuzzyParser.ParseOcatleBigInteger(value.Substring(1));
 				}
 			}
 			return result;
@@ -2288,26 +2288,12 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			value = value.ToLower();
 			var numAndExp = value.Split('p');
 			var number = numAndExp[0].Split('.');
-			var n = number[0].Aggregate(
-					0.0,
-					(current, ch) => current * 16.0 +
-					                 ch > '9' ? ch - 'a' : ch - '0');
-			var f = number[1].Reverse().Aggregate(
-					0.0,
-					(current, ch) => current / 16.0 +
-					                 ch > '9' ? ch - 'a' : ch - '0');
+			var n = LiteralFuzzyParser.ParseDouble(number[0].Substring(2));
+			var f = LiteralFuzzyParser.ParseDouble(number[1], 1.0 / 16) / 16;
 			var result = n + f;
 			if (numAndExp[1].Length != 0) {
-				var expStr = numAndExp[1];
-				var power = 10;
-				if (expStr[0] == '-') {
-					expStr = expStr.Substring(1);
-					power = -10;
-				} else if (expStr[0] == '+') {
-					expStr = expStr.Substring(1);
-				}
-				var exp = int.Parse(expStr);
-				result *= Math.Pow(power, exp);
+				var exp = int.Parse(numAndExp[1]);
+				result *= Math.Pow(2, exp);
 			}
 			return result;
 		}

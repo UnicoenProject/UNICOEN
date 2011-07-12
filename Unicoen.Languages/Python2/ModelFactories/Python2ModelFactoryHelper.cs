@@ -993,11 +993,11 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					value = value.Substring(0, value.Length - 1);
 				if (value.StartsWith("0x"))
 					return UnifiedIntegerLiteral.Create(
-							LiteralParser.ParseHexicalNumber(value.Substring(2)),
+							LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2)),
 							UnifiedIntegerLiteralKind.BigInteger);
 				if (value.StartsWith("0o"))
 					return UnifiedIntegerLiteral.Create(
-							LiteralParser.ParseOcatleNumber(value.Substring(2)),
+							LiteralFuzzyParser.ParseOcatleBigInteger(value.Substring(2)),
 							UnifiedIntegerLiteralKind.BigInteger);
 				if (value.EndsWith("j"))
 					return UnifiedFractionLiteral.Create(
@@ -1006,7 +1006,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				if (value.Contains(".") || value.Contains("e"))
 					return double.Parse(value).ToLiteral();
 				return UnifiedIntegerLiteral.Create(
-						LiteralParser.ParseNumber(value.Substring(2)),
+						LiteralFuzzyParser.ParseBigInteger(value.Substring(2)),
 						UnifiedIntegerLiteralKind.BigInteger);
 			case "STRING":
 				return UnifiedStringLiteral.Create(first.Value);

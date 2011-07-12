@@ -357,7 +357,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
-			Writer.Write(element.Value);
+			// TODO: そのまま出力しても良いのか？
+			Writer.Write(element.Value.ToString("r"));
 			return false;
 		}
 

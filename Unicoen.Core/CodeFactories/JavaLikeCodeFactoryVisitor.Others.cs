@@ -209,7 +209,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
-			Writer.Write(element.Value);
+			Writer.Write(element.Value.ToString("r"));
 			switch (element.Kind) {
 			case UnifiedFractionLiteralKind.Single:
 				Writer.Write("f");

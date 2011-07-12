@@ -52,8 +52,8 @@ namespace Unicoen.Core.Model {
 		public static UnifiedFractionLiteral Create(
 				double value, UnifiedFractionLiteralKind kind) {
 			return new UnifiedFractionLiteral {
-					Value = value,
 					Kind = kind,
+					Value = value,
 			};
 		}
 	}
