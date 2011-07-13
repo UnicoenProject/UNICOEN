@@ -26,7 +26,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 	internal partial class NRefactoryModelVisitor {
 		#region Lookups
 
-		private static UnifiedModifierCollection LookupModifier(Modifiers mods) {
+		private static UnifiedModifierCollection LookupModifiers(Modifiers mods) {
 			Contract.Ensures(Contract.Result<UnifiedModifierCollection>() != null);
 
 			var pairs = new[] {
