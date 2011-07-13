@@ -200,10 +200,7 @@ namespace Unicoen.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedBooleanLiteral element, VisitorArgument arg) {
-			if (element.Value)
-				Writer.Write("true");
-			else
-				Writer.Write("false");
+			Writer.Write(element.Value ? "true" : "false");
 			return false;
 		}
 
@@ -266,6 +263,10 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedArgument element, VisitorArgument arg) {
 			// Javaはメソッド呼び出しにModifiersがない
 			//element.Modifiers.TryAccept(this, arg);
+			if (element.Target != null) {
+				element.Target.TryAccept(this, arg);
+				Writer.Write(" = ");
+			}
 			element.Value.TryAccept(this, arg);
 			return false;
 		}

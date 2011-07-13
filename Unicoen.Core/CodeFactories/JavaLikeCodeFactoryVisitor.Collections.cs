@@ -16,7 +16,7 @@
 
 #endregion
 
-using System;
+using System.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
@@ -190,7 +190,12 @@ namespace Unicoen.CodeFactories {
 				varDef.Arguments.TryAccept(this, arg.Set(Paren));
 
 				if (varDef.InitialValue != null) {
-					Writer.Write(setterSign);
+					if (varDef.Modifiers != null
+					    && varDef.Modifiers.Any(m => m.Name == "static")) {
+						Writer.Write(" = ");
+					} else {
+						Writer.Write(setterSign);
+					}
 					varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
 				}
 				varDef.Body.TryAccept(this, arg.Set(ForBlock));
@@ -208,7 +213,8 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedIterableLiteral element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedIterableLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
