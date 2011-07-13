@@ -54,8 +54,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			if (node.Element("IntegerTypeSuffix") != null) {
 				throw new NotImplementedException(); //TODO: implement
 			}
-			return UnifiedIntegerLiteral.Create(int.Parse(node.Value),
-				UnifiedIntegerLiteralKind.Int32);
+			return UnifiedIntegerLiteral.CreateInt32(int.Parse(node.Value));
 		}
 
 		public static UnifiedLiteral CreateCharacterLiteral(XElement node) {

@@ -1483,14 +1483,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			var value = node.Value;
 			if (value.StartsWith("0x") || value.Contains("0X"))
-				return UnifiedIntegerLiteral.Create(
-						LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2)),
-						UnifiedIntegerLiteralKind.BigInteger);
+				return UnifiedIntegerLiteral.CreateBigInteger(
+						LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2)));
 			if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
 				return double.Parse(value).ToLiteral();
-			return UnifiedIntegerLiteral.Create(
-					LiteralFuzzyParser.ParseBigInteger(value),
-					UnifiedIntegerLiteralKind.BigInteger);
+			return UnifiedIntegerLiteral.CreateBigInteger(
+					LiteralFuzzyParser.ParseBigInteger(value));
 		}
 
 		public static UnifiedLiteral CreateStringliteral(XElement node) {

@@ -77,5 +77,13 @@ namespace Unicoen.Core.Model {
 					Value = value,
 			};
 		}
+
+		public static UnifiedIntegerLiteral CreateInt32(int value) {
+			return Create(value, UnifiedIntegerLiteralKind.Int32);
+		}
+
+		public static UnifiedIntegerLiteral CreateBigInteger(BigInteger value) {
+			return Create(value, UnifiedIntegerLiteralKind.BigInteger);
+		}
 	}
 }
