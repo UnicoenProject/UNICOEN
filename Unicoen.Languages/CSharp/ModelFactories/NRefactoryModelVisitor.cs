@@ -94,8 +94,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
-		public IUnifiedElement VisitCastExpression(CastExpression castExpression, object data) {
-			throw new NotImplementedException("CastExpression");
+		public IUnifiedElement VisitCastExpression(CastExpression expr, object data) {
+			var type = LookupType(expr.Type);
+			var elem = expr.Expression.AcceptForExpression(this);
+			return UnifiedCast.Create(type, elem);
 		}
 
 		public IUnifiedElement VisitCheckedExpression(
@@ -168,9 +170,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("NamedArgumentExpression");
 		}
 
-		public IUnifiedElement VisitNullReferenceExpression(
-				NullReferenceExpression nullReferenceExpression, object data) {
-			throw new NotImplementedException("NullReferenceExpression");
+		public IUnifiedElement VisitNullReferenceExpression(NullReferenceExpression expr, object data) {
+			return UnifiedNullLiteral.Create();
 		}
 
 		public IUnifiedElement VisitObjectCreateExpression(ObjectCreateExpression create, object data) {
@@ -200,12 +201,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			if (prim.Value == null) {
 				return UnifiedNullLiteral.Create();
 			}
-			if (prim.Value is string) {
-				return UnifiedStringLiteral.Create(prim.LiteralValue);
+			if (prim.Value is bool) {
+				return UnifiedBooleanLiteral.Create((bool)prim.Value);
 			}
 			if (prim.Value is int) {
-				return UnifiedIntegerLiteral.Create(
-						(int)prim.Value, UnifiedIntegerLiteralKind.Int32);
+				return UnifiedIntegerLiteral.CreateInt32((int)prim.Value);
+			}
+			if (prim.Value is string) {
+				return UnifiedStringLiteral.Create(prim.LiteralValue);
 			}
 			throw new NotImplementedException("PrimitiveExpression");
 		}
@@ -220,19 +223,17 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("StackAllocExpression");
 		}
 
-		public IUnifiedElement VisitThisReferenceExpression(
-				ThisReferenceExpression thisReferenceExpression, object data) {
-			throw new NotImplementedException("ThisReferenceExpression");
+		public IUnifiedElement VisitThisReferenceExpression(ThisReferenceExpression expr, object data) {
+			return UnifiedThisIdentifier.Create("this");
 		}
 
-		public IUnifiedElement VisitTypeOfExpression(
-				TypeOfExpression typeOfExpression, object data) {
-			throw new NotImplementedException("TypeOfExpression");
+		public IUnifiedElement VisitTypeOfExpression(TypeOfExpression expr, object data) {
+			var type = LookupType(expr.Type);
+			return UnifiedTypeof.Create(type);
 		}
 
-		public IUnifiedElement VisitTypeReferenceExpression(
-				TypeReferenceExpression typeReferenceExpression, object data) {
-			throw new NotImplementedException("TypeReferenceExpression");
+		public IUnifiedElement VisitTypeReferenceExpression(TypeReferenceExpression expr, object data) {
+			return LookupType(expr.Type);
 		}
 
 		public IUnifiedElement VisitUnaryOperatorExpression(UnaryOperatorExpression unary, object data) {
@@ -447,7 +448,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedIf.Create(cond, trueBlock);
 			}
 			else {
-				var falseBlock = stmt.FalseStatement.AcceptForExpression(this).ToBlock();
+				var uElseStmt = nElseStmt.AcceptForExpression(this);
+				var falseBlock = uElseStmt == null
+				                 		? UnifiedBlock.Create()
+				                 		: UnifiedBlock.Create(uElseStmt);
 				return UnifiedIf.Create(cond, trueBlock, falseBlock);
 			}
 		}
@@ -508,7 +512,20 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitTryCatchStatement(
 				TryCatchStatement tryCatchStatement, object data) {
-			throw new NotImplementedException("TryCatchStatement");
+
+			var uTry = tryCatchStatement.TryBlock.AcceptForExpression(this).ToBlock();
+			var uCatchs = tryCatchStatement
+					.CatchClauses
+					.Select(c => c.AcceptVisitor(this, data))
+					.Cast<UnifiedCatch>()
+					.ToCollection();
+			var uFinally = null as UnifiedBlock;
+			if (tryCatchStatement.FinallyBlock != null) {
+				var expr = tryCatchStatement.FinallyBlock.AcceptForExpression(this);
+				if (expr != null)
+					uFinally = expr.ToBlock();
+			}
+			return UnifiedTry.Create(uTry, uCatchs, /* else */null, uFinally);
 		}
 
 		public IUnifiedElement VisitCatchClause(CatchClause catchClause, object data) {
@@ -724,9 +741,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("Comment");
 		}
 
-		public IUnifiedElement VisitTypeParameterDeclaration(
-				TypeParameterDeclaration typeParameterDeclaration, object data) {
-			throw new NotImplementedException("TypeParameterDeclaration");
+		public IUnifiedElement VisitTypeParameterDeclaration(TypeParameterDeclaration dec, object data) {
+			return UnifiedType.Create(dec.Name);
 		}
 
 		public IUnifiedElement VisitConstraint(Constraint constraint, object data) {

@@ -22,14 +22,14 @@ using Unicoen.Core.Processor;
 namespace Unicoen.Core.Model {
 	/// <summary>
 	///   Typeof式を表します。
-	///   e.g. Javaにおける<c>(int)a</c>
+	///   e.g. Javaにおける<c>typeof(int)</c>
 	/// </summary>
 	public class UnifiedTypeof : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _value;
 
 		/// <summary>
 		///   キャスト対象の式を表します
-		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
+		///   e.g. Javaにおける<c>typeof(int)</c>の<c>int</c>
 		/// </summary>
 		public IUnifiedExpression Value {
 			get { return _value; }
