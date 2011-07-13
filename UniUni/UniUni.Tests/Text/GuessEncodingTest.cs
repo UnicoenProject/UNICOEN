@@ -19,10 +19,10 @@ namespace UniUni.Tests.Text {
 								Encoding.GetEncoding("euc-jp")),
 						new TestCaseData(
 								"\n# -*- coding: latin-1 -*-",
-								Encoding.GetEncoding(1252)),
+								Encoding.GetEncoding(28591)),
 						new TestCaseData(
 								"#あいうえお日本語\n# -*- coding: latin-1 -*-",
-								Encoding.GetEncoding(1252)),
+								Encoding.GetEncoding(28591)),
 				};
 			}
 		}

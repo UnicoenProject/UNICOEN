@@ -189,7 +189,7 @@
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
-    <Compile Include="Processor\LiteralParser.cs" />
+    <Compile Include="Processor\LiteralFuzzyParser.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeFactories\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
@@ -269,7 +269,7 @@
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedGenericArgument.cs" />
     <Compile Include="Model\Collections\UnifiedGenericArgumentCollection.cs" />
-    <Compile Include="Model\UnifiedTypeParameter.cs" />
+    <Compile Include="Model\UnifiedGenericParameter.cs" />
     <Compile Include="Processor\IUnifiedVisitor.cs" />
     <Compile Include="Processor\VisitorArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

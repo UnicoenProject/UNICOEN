@@ -182,12 +182,12 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedGenericParameterCollection ToCollection(
-				this IEnumerable<UnifiedTypeParameter> collection) {
+				this IEnumerable<UnifiedGenericParameter> collection) {
 			return UnifiedGenericParameterCollection.Create(collection);
 		}
 
 		public static UnifiedGenericParameterCollection ToCollection(
-				this UnifiedTypeParameter singleton) {
+				this UnifiedGenericParameter singleton) {
 			return UnifiedGenericParameterCollection.Create(singleton);
 		}
 

@@ -77,6 +77,9 @@ namespace Unicoen.Languages.Java.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				var statements = new[] {
+						"double MAX_VALUE = 0x1.fffffffffffffP+1023; // 1.7976931348623157e+308",
+						"double MIN_NORMAL = 0x1.0p-1022; // 2.2250738585072014E-308",
+						"double MIN_VALUE = 0x0.0000000000001P-1022; // 4.9e-324",
 						"M1();",
 						"new A();",
 						"int[] a[][] = new int[1][1][1]; System.out.println(a);",
@@ -99,7 +102,7 @@ namespace Unicoen.Languages.Java.Tests {
 		}
 
 		private static string DecorateToCompile(string statement) {
-			return "class A { public void M1() {" + statement + "} }";
+			return "class A { public void M1() {\n" + statement + "\n} }";
 		}
 
 		/// <summary>

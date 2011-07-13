@@ -716,7 +716,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var type = LookupType(dec.ReturnType);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
 			var generics = dec.TypeParameters
-					.Select(t => t.AcceptVisitor(this, data) as UnifiedTypeParameter)
+					.Select(t => t.AcceptVisitor(this, data) as UnifiedGenericParameter)
 					.ToCollection();
 			if (generics.IsEmptyOrNull()) {
 				generics = null;

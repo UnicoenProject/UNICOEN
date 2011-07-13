@@ -1477,12 +1477,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var value = node.Value;
 			if (value.StartsWith("0x") || value.Contains("0X"))
 				return UnifiedIntegerLiteral.Create(
-						LiteralParser.ParseHexicalNumber(value.Substring(2)),
+						LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2)),
 						UnifiedIntegerLiteralKind.BigInteger);
 			if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
 				return double.Parse(value).ToLiteral();
 			return UnifiedIntegerLiteral.Create(
-					LiteralParser.ParseNumber(value),
+					LiteralFuzzyParser.ParseBigInteger(value),
 					UnifiedIntegerLiteralKind.BigInteger);
 		}
 

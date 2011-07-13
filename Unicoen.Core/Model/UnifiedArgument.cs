@@ -53,7 +53,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		public UnifiedIdentifier Target {
 			get { return _target; }
-			set { _target = SetChild(Target, _target); }
+			set { _target = SetChild(value, _target); }
 		}
 
 		private UnifiedArgument() {}
