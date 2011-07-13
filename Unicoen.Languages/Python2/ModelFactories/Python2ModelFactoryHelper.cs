@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Linq;
@@ -972,6 +971,14 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					CreateFactor(lastNode));
 		}
 
+		private static bool CheckDoulbeParse(string str, double d) {
+			try {
+				return double.Parse(str) == d;
+			} catch {
+				return true;
+			}
+		}
+
 		public static IUnifiedExpression CreateAtom(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "atom");
@@ -1003,10 +1010,23 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					return UnifiedFractionLiteral.Create(
 							double.Parse(value.Substring(0, value.Length - 1)),
 							UnifiedFractionLiteralKind.Imaginary);
-				if (value.Contains(".") || value.Contains("e"))
-					return double.Parse(value).ToLiteral();
+				if (value.Contains(".") || value.Contains("e")) {
+					//TODO: より正確なパース
+					double d;
+					try {
+						d = double.Parse(value);
+					} catch (OverflowException) {
+						var str = value.Split('e');
+						d = !str[1].StartsWith("-")
+						    		? !str[0].StartsWith("-")
+						    		  		? double.PositiveInfinity
+						    		  		: double.NegativeInfinity
+						    		: 0.0;
+					}
+					return d.ToLiteral();
+				}
 				return UnifiedIntegerLiteral.Create(
-						LiteralFuzzyParser.ParseBigInteger(value.Substring(2)),
+						LiteralFuzzyParser.ParseBigInteger(value),
 						UnifiedIntegerLiteralKind.BigInteger);
 			case "STRING":
 				return UnifiedStringLiteral.Create(first.Value);

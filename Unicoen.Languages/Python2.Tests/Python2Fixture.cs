@@ -133,6 +133,7 @@ namespace Unicoen.Languages.Python2.Tests {
 								"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2", path);
 						File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\lib2to3\tests\data\py3_test_grammar.py"));
 						File.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\modified-2.7\lib2to3\tests\data\py3_test_grammar.py"));
+						File.Delete(Path.Combine(path, @"pypy-1.5-src\lib_pypy\distributed\socklayer.py"));
 						Directory.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\test"), true);
 					});
 		}
