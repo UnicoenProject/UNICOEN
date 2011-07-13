@@ -1041,12 +1041,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				if (second.Name() == "testlist_comp") {
 					return CreateTestlist_comp(second);
 				}
-				return UnifiedExpressionCollection.Create().ToTupleLiteral();
+				return UnifiedTupleLiteral.Create();
 			case "[":
 				if (second.Name() == "listmaker") {
 					return CreateListmaker(second);
 				}
-				return UnifiedExpressionCollection.Create().ToListLiteral();
+				return UnifiedListLiteral.Create();
 			case "{":
 				if (second.Name() == "dictorsetmaker") {
 					return CreateDictorsetmaker(second);

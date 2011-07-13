@@ -29,7 +29,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedBlock ToBlock(this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedBlock.Create();
 			return UnifiedBlock.Create(singleton);
 		}
 
@@ -39,7 +39,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedProgram ToProgram(this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedProgram.Create(UnifiedBlock.Create());
 			return UnifiedProgram.Create(singleton.ToBlock());
 		}
 
@@ -50,7 +50,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedAnnotationCollection ToCollection(
 				this UnifiedAnnotation singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedAnnotationCollection.Create();
 			return UnifiedAnnotationCollection.Create(singleton);
 		}
 
@@ -61,7 +61,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedArgumentCollection ToCollection(
 				this UnifiedArgument singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedArgumentCollection.Create();
 			return UnifiedArgumentCollection.Create(singleton);
 		}
 
@@ -71,7 +71,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedCaseCollection ToCollection(this UnifiedCase singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedCaseCollection.Create();
 			return UnifiedCaseCollection.Create(singleton);
 		}
 
@@ -81,7 +81,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedCatchCollection ToCollection(this UnifiedCatch singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedCatchCollection.Create();
 			return UnifiedCatchCollection.Create(singleton);
 		}
 
@@ -92,7 +92,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedExpressionCollection ToCollection(
 				this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedExpressionCollection.Create();
 			return UnifiedExpressionCollection.Create(singleton);
 		}
 
@@ -103,7 +103,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedIdentifierCollection ToCollection(
 				this UnifiedIdentifier singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedIdentifierCollection.Create();
 			return UnifiedIdentifierCollection.Create(singleton);
 		}
 
@@ -124,12 +124,6 @@ namespace Unicoen.Core.Model {
 					(l, r) => UnifiedProperty.Create(delimiter, l, r));
 		}
 
-		public static IUnifiedExpression ToProperty(
-				this UnifiedIdentifier singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
-			return singleton;
-		}
-
 		public static UnifiedMatcherCollection ToCollection(
 				this IEnumerable<UnifiedMatcher> collection) {
 			return UnifiedMatcherCollection.Create(collection);
@@ -137,7 +131,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedMatcherCollection ToCollection(
 				this UnifiedMatcher singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedMatcherCollection.Create();
 			return UnifiedMatcherCollection.Create(singleton);
 		}
 
@@ -148,7 +142,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedModifierCollection ToCollection(
 				this UnifiedModifier singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedModifierCollection.Create();
 			return UnifiedModifierCollection.Create(singleton);
 		}
 
@@ -159,7 +153,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedParameterCollection ToCollection(
 				this UnifiedParameter singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedParameterCollection.Create();
 			return UnifiedParameterCollection.Create(singleton);
 		}
 
@@ -170,7 +164,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedGenericArgumentCollection ToCollection(
 				this UnifiedGenericArgument singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedGenericArgumentCollection.Create();
 			return UnifiedGenericArgumentCollection.Create(singleton);
 		}
 
@@ -181,7 +175,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedThrowsTypeCollection ToCollection(
 				this UnifiedType singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedThrowsTypeCollection.Create();
 			return UnifiedThrowsTypeCollection.Create(singleton);
 		}
 
@@ -192,7 +186,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedTypeConstrainCollection ToCollection(
 				this UnifiedTypeConstrain singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedTypeConstrainCollection.Create();
 			return UnifiedTypeConstrainCollection.Create(singleton);
 		}
 
@@ -203,7 +197,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedGenericParameterCollection ToCollection(
 				this UnifiedGenericParameter singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedGenericParameterCollection.Create();
 			return UnifiedGenericParameterCollection.Create(singleton);
 		}
 
@@ -214,13 +208,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
 				this UnifiedVariableDefinition singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedVariableDefinitionList.Create();
 			return UnifiedVariableDefinitionList.Create(singleton);
-		}
-
-		public static UnifiedListLiteral ToListLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedListLiteral.Create(collection);
 		}
 
 		public static UnifiedListLiteral ToListLiteral(
@@ -230,13 +219,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedListLiteral ToListLiteral(
 				this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedListLiteral.Create();
 			return UnifiedListLiteral.Create(singleton);
-		}
-
-		public static UnifiedArrayLiteral ToArrayLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedArrayLiteral.Create(collection);
 		}
 
 		public static UnifiedArrayLiteral ToArrayLiteral(
@@ -246,13 +230,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedArrayLiteral ToArrayLiteral(
 				this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedArrayLiteral.Create();
 			return UnifiedArrayLiteral.Create(singleton);
-		}
-
-		public static UnifiedSetLiteral ToSetLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedSetLiteral.Create(collection);
 		}
 
 		public static UnifiedSetLiteral ToSetLiteral(
@@ -262,13 +241,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedSetLiteral ToSetLiteral(
 				this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedSetLiteral.Create();
 			return UnifiedSetLiteral.Create(singleton);
-		}
-
-		public static UnifiedIterableLiteral ToLazyListLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedIterableLiteral.Create(collection);
 		}
 
 		public static UnifiedIterableLiteral ToLazyListLiteral(
@@ -278,13 +252,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedIterableLiteral ToLazyListLiteral(
 				this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedIterableLiteral.Create();
 			return UnifiedIterableLiteral.Create(singleton);
-		}
-
-		public static UnifiedTupleLiteral ToTupleLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedTupleLiteral.Create(collection);
 		}
 
 		public static UnifiedTupleLiteral ToTupleLiteral(
@@ -294,18 +263,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedTupleLiteral ToTupleLiteral(
 				this IUnifiedExpression singleton) {
-			Contract.Requires<ArgumentNullException>(singleton != null);
+			if (singleton == null) return UnifiedTupleLiteral.Create();
 			return UnifiedTupleLiteral.Create(singleton);
-		}
-
-		public static IUnifiedExpression ToSmartListLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.RemoveSelf();
-				return expression;
-			}
-			return UnifiedListLiteral.Create(collection);
 		}
 
 		public static IUnifiedExpression ToSmartListLiteral(
@@ -322,16 +281,6 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static IUnifiedExpression ToSmartArrayLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.RemoveSelf();
-				return expression;
-			}
-			return UnifiedArrayLiteral.Create(collection);
-		}
-
-		public static IUnifiedExpression ToSmartArrayLiteral(
 				this IEnumerable<IUnifiedExpression> expressions) {
 			var list = expressions.ToList();
 			if (list.Count == 1)
@@ -342,16 +291,6 @@ namespace Unicoen.Core.Model {
 		public static IUnifiedExpression ToSmartArrayLiteral(
 				this IUnifiedExpression singleton) {
 			return singleton;
-		}
-
-		public static IUnifiedExpression ToSmartSetLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.RemoveSelf();
-				return expression;
-			}
-			return UnifiedSetLiteral.Create(collection);
 		}
 
 		public static IUnifiedExpression ToSmartSetLiteral(
@@ -368,16 +307,6 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static IUnifiedExpression ToSmartLazyListLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.RemoveSelf();
-				return expression;
-			}
-			return UnifiedIterableLiteral.Create(collection);
-		}
-
-		public static IUnifiedExpression ToSmartLazyListLiteral(
 				this IEnumerable<IUnifiedExpression> expressions) {
 			var list = expressions.ToList();
 			if (list.Count == 1)
@@ -388,16 +317,6 @@ namespace Unicoen.Core.Model {
 		public static IUnifiedExpression ToSmartLazyListLiteral(
 				this IUnifiedExpression singleton) {
 			return singleton;
-		}
-
-		public static IUnifiedExpression ToSmartTupleLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.RemoveSelf();
-				return expression;
-			}
-			return UnifiedTupleLiteral.Create(collection);
 		}
 
 		public static IUnifiedExpression ToSmartTupleLiteral(

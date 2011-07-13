@@ -56,7 +56,8 @@ namespace Unicoen.Core.Model {
 		public UnifiedType WrapArray(UnifiedArgument argument = null) {
 			return new UnifiedArrayType {
 					Type = this,
-					Arguments = argument.ToCollection(),
+					// argumentがnullの場合でもコレクションの要素にしたいため
+					Arguments = Enumerable.Repeat(argument, 1).ToCollection(),
 			};
 		}
 
