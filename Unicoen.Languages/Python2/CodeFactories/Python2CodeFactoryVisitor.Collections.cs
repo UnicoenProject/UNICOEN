@@ -81,7 +81,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				caseElement.TryAccept(this, arg);
 			}
 			return false;

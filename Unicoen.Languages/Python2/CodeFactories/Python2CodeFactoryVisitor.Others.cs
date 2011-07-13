@@ -92,7 +92,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		public override bool Visit(UnifiedBlock element, VisitorArgument arg) {
 			foreach (var stmt in element) {
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				stmt.TryAccept(this, arg);
 				Writer.WriteLine();
 			}
@@ -105,7 +105,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			Writer.WriteLine(":");
 			ifStatement.Body.TryAccept(this, arg.IncrementDepth());
 			if (ifStatement.ElseBody != null) {
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				Writer.WriteLine("else:");
 				ifStatement.ElseBody.TryAccept(this, arg.IncrementDepth());
 			}
@@ -291,7 +291,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			Writer.WriteLine(":");
 			arg = arg.IncrementDepth();
 			element.Body.TryAccept(this, arg);
-			WriteIndent(arg);
+			WriteIndent(arg.IndentDepth);
 			element.Step.TryAccept(this, arg.Set(SemiColonDelimiter));
 			return false;
 		}
@@ -336,7 +336,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 
 		public override bool Visit(UnifiedIndexer element, VisitorArgument arg) {
 			element.Target.TryAccept(this, arg);
-			element.Arguments.TryAccept(this, arg.Set(SquareBracket));
+			element.Arguments.TryAccept(this, arg.Set(Bracket));
 			return false;
 		}
 
@@ -422,7 +422,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			element.Name.TryAccept(this, arg);
 			if (element.InitialValue != null) {
 				Writer.Write(" = ");
-				element.InitialValue.TryAccept(this, arg.Set(Bracket));
+				element.InitialValue.TryAccept(this, arg.Set(Brace));
 			}
 			element.Arguments.TryAccept(this, arg.Set(Paren));
 			element.Body.TryAccept(this, arg);

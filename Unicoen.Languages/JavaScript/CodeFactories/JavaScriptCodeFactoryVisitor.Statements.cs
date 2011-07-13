@@ -58,7 +58,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override bool Visit(UnifiedNew element, VisitorArgument arg) {
 			//e.g. var a = [1, 2, 3];
 			if (element.InitialValue != null) {
-				element.InitialValue.TryAccept(this, arg.Set(Bracket));
+				element.InitialValue.TryAccept(this, arg.Set(Brace));
 				return true;
 			}
 			//e.g. var a = new X();
@@ -111,12 +111,25 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		public override bool Visit(UnifiedYieldReturn element, VisitorArgument arg) {
-			throw new NotImplementedException();
+		public override bool Visit(UnifiedDelete element, VisitorArgument arg) {
+			Writer.Write("delete (");
+			element.Value.TryAccept(this, arg);
+			Writer.Write(")");
+			return true;
 		}
 
-		public override bool Visit(UnifiedDelete element, VisitorArgument arg) {
-			throw new NotImplementedException();
+		public override bool Visit(UnifiedTypeof element, VisitorArgument arg) {
+			Writer.Write("typeof (");
+			element.Value.TryAccept(this, arg);
+			Writer.Write(")");
+			return true;
+		}
+
+		public override bool Visit(UnifiedPass element, VisitorArgument arg) {
+			Writer.Write("void (");
+			element.Value.TryAccept(this, arg);
+			Writer.Write(")");
+			return true;
 		}
 
 		public override bool Visit(UnifiedThrow element, VisitorArgument arg) {
@@ -130,15 +143,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Value.TryAccept(this, arg);
 			Writer.Write(")");
 			return true;
-		}
-
-		public override bool Visit(UnifiedExec element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public override bool Visit(
-				UnifiedStringConversion element, VisitorArgument data) {
-			throw new NotImplementedException();
 		}
 	}
 }

@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Collections\UnifiedLinqElementCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />

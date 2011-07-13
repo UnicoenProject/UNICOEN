@@ -22,7 +22,8 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.CodeFactories {
 	public partial class JavaLikeCodeFactoryVisitor {
-		protected static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
+		protected static Tuple<string, string> GetRequiredParen(
+				IUnifiedElement element) {
 			var parent = element.Parent;
 
 			// 親も自分も2項式で、演算子が同じ場合は括弧をつけない

@@ -30,7 +30,8 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedNamespaceDefinition element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedNamespaceDefinition element, VisitorArgument arg) {
 			Writer.Write("package ");
 			element.Name.TryAccept(this, arg);
 			Writer.WriteLine(";");
@@ -50,15 +51,18 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedClassDefinition element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedClassDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
-		public override bool Visit(UnifiedInterfaceDefinition element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedInterfaceDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "interface");
 		}
 
-		public override bool Visit(UnifiedStructDefinition element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedStructDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
@@ -66,11 +70,13 @@ namespace Unicoen.CodeFactories {
 			return Visit(element, arg, "enum");
 		}
 
-		public override bool Visit(UnifiedModuleDefinition element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedModuleDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
-		public override bool Visit(UnifiedUnionDefinition element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedUnionDefinition element, VisitorArgument arg) {
 			return Visit(element, arg, "class");
 		}
 
@@ -152,11 +158,8 @@ namespace Unicoen.CodeFactories {
 			ifStatement.Condition.TryAccept(this, arg);
 			Writer.Write(")");
 			ifStatement.Body.TryAccept(this, arg.Set(ForBlock));
-			if (ifStatement.ElseBody != null) {
-				WriteIndent(arg);
-				Writer.WriteLine("else");
-				ifStatement.ElseBody.TryAccept(this, arg.Set(ForBlock));
-			}
+			ifStatement.ElseBody.TryAccept(
+					this, arg.Set(ForBlock), GetIndent(arg) + "else");
 			return false;
 		}
 
@@ -170,24 +173,15 @@ namespace Unicoen.CodeFactories {
 
 		// e.g. try{...}catch(E e){...}finally{...}
 		public override bool Visit(UnifiedTry element, VisitorArgument arg) {
-			// try block
 			Writer.Write("try");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
-
-			// catch blocks
 			element.Catches.TryAccept(this, arg);
-
-			// finally block
-			var finallyBlock = element.FinallyBody;
-			// how judge whether finalluBlock exists or not???
-			if (finallyBlock != null) {
-				Writer.Write("finally");
-				finallyBlock.TryAccept(this, arg);
-			}
+			element.FinallyBody.TryAccept(this, arg, "finally");
 			return false;
 		}
 
-		public override bool Visit(UnifiedGenericParameter element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedGenericParameter element, VisitorArgument arg) {
 			element.Type.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));
 			return false;
@@ -261,12 +255,9 @@ namespace Unicoen.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedArgument element, VisitorArgument arg) {
-			// Javaはメソッド呼び出しにModifiersがない
-			//element.Modifiers.TryAccept(this, arg);
-			if (element.Target != null) {
-				element.Target.TryAccept(this, arg);
-				Writer.Write(" = ");
-			}
+			// Javaはメソッド呼び出しにModifiersがないが
+			element.Modifiers.TryAccept(this, arg);
+			element.Target.TryAccept(this, arg, "", " = ");
 			element.Value.TryAccept(this, arg);
 			return false;
 		}
@@ -299,7 +290,7 @@ namespace Unicoen.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedTypeof element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
+			element.Value.TryAccept(this, arg);
 			Writer.Write(".class");
 			return false;
 		}
@@ -399,6 +390,7 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedDoWhile element, VisitorArgument arg) {
 			Writer.Write("do");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
+			WriteIndent(arg);
 			Writer.Write("while(");
 			element.Condition.TryAccept(this, arg);
 			Writer.Write(");");
@@ -407,7 +399,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(UnifiedIndexer element, VisitorArgument arg) {
 			element.Target.TryAccept(this, arg);
-			element.Arguments.TryAccept(this, arg.Set(SquareBracket));
+			element.Arguments.TryAccept(this, arg.Set(Bracket));
 			return false;
 		}
 
@@ -425,6 +417,7 @@ namespace Unicoen.CodeFactories {
 			Writer.Write(") {");
 
 			element.Cases.TryAccept(this, arg);
+			WriteIndent(arg);
 			Writer.Write("}");
 			return false;
 		}
@@ -455,31 +448,8 @@ namespace Unicoen.CodeFactories {
 			element.Matchers.TryAccept(this, arg);
 			Writer.WriteLine(" { */");
 			element.Matchers.TryAccept(this, arg);
-			Writer.WriteLine("//extracted from above");
 			Writer.WriteLine("/* } */");
 			return false;
-		}
-
-		public override bool Visit(UnifiedKeyValue element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public override bool Visit(
-				UnifiedMapComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public override bool Visit(
-				UnifiedListComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
-		public override bool Visit(UnifiedSlice element, VisitorArgument arg) {
-			throw new NotImplementedException();
 		}
 
 		public override bool Visit(UnifiedComment element, VisitorArgument arg) {
@@ -491,57 +461,8 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableDefinition element, VisitorArgument arg) {
+			// UnifiedVariableDefinitionListで処理するので呼ばれてはいけない
 			throw new InvalidOperationException();
-		}
-
-		public override bool Visit(UnifiedConstType element, VisitorArgument arg) {
-			Writer.Write("final ");
-			element.Type.TryAccept(this, arg);
-			return true;
-		}
-
-		public override bool Visit(UnifiedPointerType element, VisitorArgument arg) {
-			Writer.Write("/* * */");
-			element.Type.TryAccept(this, arg);
-			return true;
-		}
-
-		public override bool Visit(UnifiedReferenceType element, VisitorArgument arg) {
-			Writer.Write("/* & */");
-			element.Type.TryAccept(this, arg);
-			return true;
-		}
-
-		public override bool Visit(UnifiedVolatileType element, VisitorArgument arg) {
-			Writer.Write("volatile ");
-			element.Type.TryAccept(this, arg);
-			return true;
-		}
-
-		public override bool Visit(UnifiedStructType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			return true;
-		}
-
-		public override bool Visit(UnifiedUnionType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			return true;
-		}
-
-		public override bool Visit(UnifiedGenericType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			//_writer.Write("<");
-			element.Arguments.TryAccept(this, arg);
-			//_writer.Write(">");
-			return true;
-		}
-
-		public override bool Visit(UnifiedArrayType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			Writer.Write("[");
-			element.Arguments.TryAccept(this, arg.Set(CommaDelimiter));
-			Writer.Write("]");
-			return true;
 		}
 	}
 }

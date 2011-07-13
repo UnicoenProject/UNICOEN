@@ -23,7 +23,7 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
 	public class CSharpCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
-		public CSharpCodeFactoryVisitor(TextWriter writer) : base(writer) {
+		public CSharpCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {
 			ForeachKeyword = "foreach";
 			ForeachDelimiter = " in ";
 			ImportKeyword = "using ";

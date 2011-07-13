@@ -25,7 +25,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 	public class Python2CodeFactory : CodeFactory {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			codeObject.Accept(new Python2CodeFactoryVisitor(writer), new VisitorArgument(indentSign));
+			codeObject.Accept(new Python2CodeFactoryVisitor(writer, indentSign), new VisitorArgument());
 		}
 
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {

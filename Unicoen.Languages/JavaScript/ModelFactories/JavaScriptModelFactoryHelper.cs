@@ -1298,9 +1298,16 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var first = node.NthElement(0);
 			if (first.Name() == "postfixExpression")
 				return CreatePostfixExpression(first);
+			var expression = CreateUnaryExpression(node.LastElement());
+			if (first.Value == "delete")
+				return UnifiedDelete.Create(expression);
+			if (first.Value == "void")
+				return UnifiedPass.Create(expression);
+			if (first.Value == "typeof")
+				return UnifiedTypeof.Create(expression);
 			return
 					UnifiedUnaryExpression.Create(
-							CreateUnaryExpression(node.NthElement(1)),
+							expression,
 							CreatePrefixUnaryOperator(first.Value));
 		}
 
@@ -1516,15 +1523,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				break;
 			case "!":
 				kind = UnifiedUnaryOperatorKind.Not;
-				break;
-			case "delete":
-				kind = UnifiedUnaryOperatorKind.Delete;
-				break;
-			case "void":
-				kind = UnifiedUnaryOperatorKind.Void;
-				break;
-			case "typeof":
-				kind = UnifiedUnaryOperatorKind.Typeof;
 				break;
 			default:
 				throw new InvalidOperationException();

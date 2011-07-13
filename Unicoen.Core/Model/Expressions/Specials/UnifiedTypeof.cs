@@ -25,15 +25,15 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>(int)a</c>
 	/// </summary>
 	public class UnifiedTypeof : UnifiedElement, IUnifiedExpression {
-		private UnifiedType _type;
+		private IUnifiedExpression _value;
 
 		/// <summary>
 		///   キャスト対象の式を表します
 		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
 		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
 		}
 
 		protected UnifiedTypeof() {}
@@ -55,10 +55,9 @@ namespace Unicoen.Core.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedTypeof Create(
-				UnifiedType type) {
+		public static UnifiedTypeof Create(IUnifiedExpression type) {
 			return new UnifiedTypeof {
-					Type = type
+					Value = type
 			};
 		}
 	}

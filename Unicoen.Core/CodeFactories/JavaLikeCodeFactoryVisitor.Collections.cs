@@ -117,7 +117,7 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				caseElement.TryAccept(this, arg);
 			}
 			return false;
@@ -157,7 +157,7 @@ namespace Unicoen.CodeFactories {
 					varDef.Arguments.TryAccept(this, arg.Set(Paren));
 					if (varDef.InitialValue != null) {
 						Writer.Write(" = ");
-						varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
+						varDef.InitialValue.TryAccept(this, arg.Set(Brace));
 					}
 					varDef.Body.TryAccept(this, arg.Set(ForBlock));
 					comma = ", ";
@@ -196,15 +196,10 @@ namespace Unicoen.CodeFactories {
 					} else {
 						Writer.Write(setterSign);
 					}
-					varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
+					varDef.InitialValue.TryAccept(this, arg.Set(Brace));
 				}
 				varDef.Body.TryAccept(this, arg.Set(ForBlock));
 			}
-			return true;
-		}
-
-		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
-			element.BasicTypeName.TryAccept(this, arg);
 			return true;
 		}
 
@@ -220,7 +215,7 @@ namespace Unicoen.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedArrayLiteral element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(Bracket));
+			VisitCollection(element, arg.Set(Brace));
 			return false;
 		}
 

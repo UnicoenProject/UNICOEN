@@ -25,7 +25,7 @@ namespace Unicoen.Languages.Java.CodeFactories {
 	public class JavaCodeFactory : CodeFactory {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			codeObject.Accept(new JavaCodeFactoryVisitor(writer), new VisitorArgument(indentSign));
+			codeObject.Accept(new JavaCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
 		}
 
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {

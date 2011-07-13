@@ -96,7 +96,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			element.GenericArguments.TryAccept(this, arg);
 			element.Target.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Paren));
-			element.InitialValue.TryAccept(this, arg.Set(Bracket));
+			element.InitialValue.TryAccept(this, arg.Set(Brace));
 			element.Body.TryAccept(this, arg);
 			return false;
 		}
