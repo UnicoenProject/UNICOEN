@@ -211,10 +211,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		/// <returns>生成した要素集合</returns>
 		public static TSelf Create(params TElement[] elements) {
-			Contract.Requires<ArgumentNullException>(elements != null);
-			var ret = UnifiedFactory<TSelf>.Create();
-			ret.AddRange(elements);
-			return ret;
+			return Create((IEnumerable<TElement>)elements);
 		}
 
 		/// <summary>
@@ -222,9 +219,9 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		/// <returns>生成した要素集合</returns>
 		public static TSelf Create(IEnumerable<TElement> elements) {
-			Contract.Requires<ArgumentNullException>(elements != null);
 			var ret = UnifiedFactory<TSelf>.Create();
-			ret.AddRange(elements);
+			if (elements != null)
+				ret.AddRange(elements);
 			return ret;
 		}
 
