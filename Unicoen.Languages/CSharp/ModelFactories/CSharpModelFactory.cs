@@ -25,7 +25,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 	public class CSharpModelFactory : ModelFactory {
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var parser = new CSharpParser();
-			var unit = parser.Parse(new StringReader(code));
+			var reader = new StringReader(code);
+			var unit = parser.Parse(reader);
 			var visitor = new NRefactoryModelVisitor();
 			var uElem = unit.AcceptVisitor(visitor, null);
 			return uElem as UnifiedProgram;

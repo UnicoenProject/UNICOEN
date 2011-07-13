@@ -108,9 +108,15 @@ namespace Unicoen.Languages.CSharp.Tests {
 						"Binary",
 				}
 						.Select(
-								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
-				//return Directory.EnumerateFiles(GetInputPath("CSharp"))
-				//        .Select(path => new TestCaseData(path));
+								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)))
+						//.Concat(
+						//        Directory.EnumerateDirectories(FixtureUtil.RootPath)
+						//                .Where(path => !path.EndsWith("fixture") && !path.EndsWith(".git"))
+						//                .SelectMany(
+						//                        path =>
+						//                        Directory.EnumerateFiles(path, "*.cs", SearchOption.AllDirectories))
+						//                .Select(path => new TestCaseData(path)))
+										;
 			}
 		}
 
