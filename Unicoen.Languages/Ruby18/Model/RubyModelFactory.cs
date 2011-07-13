@@ -58,8 +58,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			if (node.Name.LocalName == "lit") {
 				switch (node.Elements().First().Name.LocalName) {
 				case "Fixnum":
-					return UnifiedIntegerLiteral.Create(
-							BigInteger.Parse(node.Value), UnifiedIntegerLiteralKind.BigInteger);
+					return UnifiedIntegerLiteral.CreateBigInteger(BigInteger.Parse(node.Value));
 				}
 			}
 			throw new NotImplementedException();
