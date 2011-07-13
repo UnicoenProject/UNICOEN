@@ -16,10 +16,32 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
+
 namespace Unicoen.Core.Model {
 	public static class ModelFactoryForModel {
 		public static UnifiedArgument ToArgument(this IUnifiedExpression expression) {
 			return UnifiedArgument.Create(null, null, expression);
+		}
+
+		public static IUnifiedExpression ToProperty(
+				this IEnumerable<IUnifiedExpression> expressions, string delimiter) {
+			return expressions.ToList().ToProperty(delimiter);
+		}
+
+		public static IUnifiedExpression ToProperty(
+				this IList<IUnifiedExpression> expressions, string delimiter) {
+			Contract.Requires<ArgumentNullException>(expressions != null);
+			Contract.Requires<ArgumentException>(expressions.Count >= 1);
+			if (expressions.Count == 1) {
+				return expressions[0];
+			}
+			return expressions.Skip(1).Aggregate(
+					expressions[0],
+					(l, r) => UnifiedProperty.Create(delimiter, l, r));
 		}
 	}
 }

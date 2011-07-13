@@ -149,6 +149,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedOrderByKey element);
 		void Visit(UnifiedLinqElementCollection element);
 		void Visit(UnifiedLinq element);
+		void Visit(UnifiedDefault element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -281,6 +282,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedOrderByKey element, TArg arg);
 		void Visit(UnifiedLinqElementCollection element, TArg arg);
 		void Visit(UnifiedLinq element, TArg arg);
+		void Visit(UnifiedDefault element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -413,5 +415,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedOrderByKey element, TArg arg);
 		TResult Visit(UnifiedLinqElementCollection element, TArg arg);
 		TResult Visit(UnifiedLinq element, TArg arg);
+		TResult Visit(UnifiedDefault element, TArg arg);
 	}
 }

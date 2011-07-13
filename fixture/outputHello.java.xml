@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UnifiedProgram>
 	<UnifiedBlock>
-		<UnifiedClass>
+		<UnifiedClassDefinition>
+			<UnifiedAnnotationCollection>
+			</UnifiedAnnotationCollection>
 			<UnifiedModifierCollection>
 			</UnifiedModifierCollection>
 			<UnifiedVariableIdentifier>
@@ -27,13 +29,13 @@
 							</String>
 						</UnifiedModifier>
 					</UnifiedModifierCollection>
-					<UnifiedSimpleType>
+					<UnifiedBasicType>
 						<UnifiedVariableIdentifier>
 							<String>
 								void
 							</String>
 						</UnifiedVariableIdentifier>
-					</UnifiedSimpleType>
+					</UnifiedBasicType>
 					<UnifiedVariableIdentifier>
 						<String>
 							hello
@@ -81,7 +83,7 @@
 					</UnifiedBlock>
 				</UnifiedFunctionDefinition>
 			</UnifiedBlock>
-		</UnifiedClass>
+		</UnifiedClassDefinition>
 	</UnifiedBlock>
 </UnifiedProgram>
 

@@ -111,6 +111,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedWithBlock.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
     <Compile Include="Model\Linqs\UnifiedLet.cs" />
     <Compile Include="Model\Linqs\UnifiedJoin.cs" />
     <Compile Include="Model\Linqs\UnifiedOrderBy.cs" />
