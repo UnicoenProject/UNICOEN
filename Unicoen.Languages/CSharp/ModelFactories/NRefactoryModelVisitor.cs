@@ -25,12 +25,11 @@ using Unicoen.Core.Model;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
-	internal partial class NRefactoryModelVisitor
-			: IAstVisitor<object, IUnifiedElement> {
+	internal partial class NRefactoryModelVisitor : IAstVisitor<object, IUnifiedElement> {
 		public IUnifiedElement VisitCompilationUnit(CompilationUnit unit, object data) {
 			var prog = UnifiedProgram.Create(UnifiedBlock.Create());
 			foreach (var child in unit.Children) {
-				var elem = child.AcceptForExpression(this);
+				var elem = child.TryAcceptForExpression(this);
 				if (elem != null)
 					prog.Body.Add(elem);
 			}
@@ -41,7 +40,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var parameters = expr.Parameters
 					.Select(p => p.AcceptVisitor(this, data) as UnifiedParameter)
 					.ToCollection();
-			var body = expr.Body.AcceptForExpression(this).ToBlock();
+			var body = expr.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedLambda.Create(parameters: parameters, body: body);
 		}
 
@@ -52,21 +51,19 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitArrayCreateExpression(ArrayCreateExpression array, object data) {
 			var type = LookupType(array.Type);
 			var uArgs = array.Arguments
-					.Select(nExpr => nExpr.AcceptVisitor(this, data))
-					.OfType<IUnifiedExpression>()
+					.Select(nExpr => nExpr.TryAcceptForExpression(this))
 					.Select(uExpr => UnifiedArgument.Create(value: uExpr))
 					.ToCollection();
 			var initValues = null as UnifiedArrayLiteral;
 			if (array.Initializer != null) {
 				initValues = array.Initializer.AcceptVisitor(this, data) as UnifiedArrayLiteral;
 			}
-			return UnifiedNew.Create(
-					type.WrapRectangleArray(uArgs), initialValues: initValues);
+			return UnifiedNew.Create(type.WrapRectangleArray(uArgs), initialValues: initValues);
 		}
 
 		public IUnifiedElement VisitArrayInitializerExpression(ArrayInitializerExpression arrayInit, object data) {
 			return arrayInit.Elements
-					.Select(e => e.AcceptForExpression(this))
+					.Select(e => e.TryAcceptForExpression(this))
 					.ToArrayLiteral();
 		}
 
@@ -76,9 +73,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitAssignmentExpression(AssignmentExpression assign, object data) {
 			var op = UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign);
-			var left = assign.Left.AcceptVisitor(this, data) as IUnifiedExpression;
-			var right = assign.Right.AcceptVisitor(this, data) as IUnifiedExpression;
-
+			var left = assign.Left.TryAcceptForExpression(this);
+			var right = assign.Right.TryAcceptForExpression(this);
 			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
@@ -89,14 +85,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitBinaryOperatorExpression(BinaryOperatorExpression expr, object data) {
 			var op = LookupBinaryOperator(expr.Operator);
-			var left = expr.Left.AcceptForExpression(this);
-			var right = expr.Right.AcceptForExpression(this);
+			var left = expr.Left.TryAcceptForExpression(this);
+			var right = expr.Right.TryAcceptForExpression(this);
 			return UnifiedBinaryExpression.Create(left, op, right);
 		}
 
 		public IUnifiedElement VisitCastExpression(CastExpression expr, object data) {
 			var type = LookupType(expr.Type);
-			var elem = expr.Expression.AcceptForExpression(this);
+			var elem = expr.Expression.TryAcceptForExpression(this);
 			return UnifiedCast.Create(type, elem);
 		}
 
@@ -106,9 +102,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitConditionalExpression(ConditionalExpression expr, object data) {
-			var cond = expr.Condition.AcceptForExpression(this);
-			var former = expr.TrueExpression.AcceptForExpression(this);
-			var latter = expr.FalseExpression.AcceptForExpression(this);
+			var cond = expr.Condition.TryAcceptForExpression(this);
+			var former = expr.TrueExpression.TryAcceptForExpression(this);
+			var latter = expr.FalseExpression.TryAcceptForExpression(this);
 			return UnifiedTernaryExpression.Create(cond, former, latter);
 		}
 
@@ -127,20 +123,20 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitIndexerExpression(IndexerExpression indexer, object data) {
-			var target = indexer.Target.AcceptForExpression(this);
+			var target = indexer.Target.TryAcceptForExpression(this);
 			var args =
 					from arg in indexer.Arguments
-					let uExpr = arg.AcceptForExpression(this)
+					let uExpr = arg.TryAcceptForExpression(this)
 					where uExpr != null
 					select UnifiedArgument.Create(value: uExpr);
 			return UnifiedIndexer.Create(target, args.ToCollection());
 		}
 
 		public IUnifiedElement VisitInvocationExpression(InvocationExpression invoc, object data) {
-			var target = invoc.Target.AcceptForExpression(this);
+			var target = invoc.Target.TryAcceptForExpression(this);
 			var uArgs = UnifiedArgumentCollection.Create();
 			foreach (var arg in invoc.Arguments) {
-				var value = arg.AcceptForExpression(this);
+				var value = arg.TryAcceptForExpression(this);
 				uArgs.Add(UnifiedArgument.Create(value: value));
 			}
 			return UnifiedCall.Create(target, uArgs);
@@ -155,12 +151,12 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var parameters = lambda.Parameters
 					.Select(p => p.AcceptVisitor(this, data) as UnifiedParameter)
 					.ToCollection();
-			var body = lambda.Body.AcceptForExpression(this).ToBlock();
+			var body = lambda.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedLambda.Create(parameters: parameters, body: body);
 		}
 
 		public IUnifiedElement VisitMemberReferenceExpression(MemberReferenceExpression propExpr, object data) {
-			var target = propExpr.Target.AcceptForExpression(this);
+			var target = propExpr.Target.TryAcceptForExpression(this);
 			var name = propExpr.MemberName.ToVariableIdentifier();
 			return UnifiedProperty.Create(".", target, name);
 		}
@@ -178,7 +174,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var uType = LookupType(create.Type);
 			var args =
 					from arg in create.Arguments
-					let value = arg.AcceptForExpression(this)
+					let value = arg.TryAcceptForExpression(this)
 					select UnifiedArgument.Create(value: value);
 			return UnifiedNew.Create(uType, args.ToCollection());
 		}
@@ -238,7 +234,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitUnaryOperatorExpression(UnaryOperatorExpression unary, object data) {
 			var op = LookupUnaryOperator(unary.Operator);
-			var operand = unary.Expression.AcceptForExpression(this);
+			var operand = unary.Expression.TryAcceptForExpression(this);
 			return UnifiedUnaryExpression.Create(operand, op);
 		}
 
@@ -247,8 +243,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("UncheckedExpression");
 		}
 
-		public IUnifiedElement VisitEmptyExpression(
-				EmptyExpression emptyExpression, object data) {
+		public IUnifiedElement VisitEmptyExpression(EmptyExpression empty, object data) {
 			return null;
 		}
 
@@ -321,7 +316,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.Select(ident => ident.Name.ToVariableIdentifier() as IUnifiedExpression)
 					.Aggregate((left, right) => UnifiedProperty.Create(".", left, right));
 			var body = dec.Members
-					.Select(mem => mem.AcceptForExpression(this))
+					.Select(mem => mem.TryAcceptForExpression(this))
 					.ToBlock();
 			return UnifiedNamespaceDefinition.Create(name: ns, body: body);
 		}
@@ -331,7 +326,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Members) {
-				var uExpr = node.AcceptForExpression(this);
+				var uExpr = node.TryAcceptForExpression(this);
 				if (uExpr != null)
 					body.Add(uExpr);
 			}
@@ -342,7 +337,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedStructDefinition.Create(modifiers: mods, name: name, body: body);
 			}
 			var msg = "LookupClassKind : " + dec.ClassType + "には対応していません。";
-			throw new IndexOutOfRangeException(msg);
+			throw new InvalidOperationException(msg);
 		}
 
 		public IUnifiedElement VisitUsingAliasDeclaration(
@@ -352,7 +347,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitUsingDeclaration(UsingDeclaration dec, object data) {
 			var target = LookupType(dec.Import);
-			return UnifiedImport.Create(name: target);
+			return UnifiedImport.Create(target);
 		}
 
 		public IUnifiedElement VisitExternAliasDeclaration(
@@ -362,7 +357,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitBlockStatement(BlockStatement block, object data) {
 			return block.Statements
-					.Select(stmt => stmt.AcceptForExpression(this))
+					.Select(stmt => stmt.TryAcceptForExpression(this))
 					.Where(stmt => stmt != null)
 					.ToBlock();
 		}
@@ -382,8 +377,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitDoWhileStatement(DoWhileStatement stmt, object data) {
-			var body = stmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
-			var cond = stmt.Condition.AcceptForExpression(this);
+			var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
+			var cond = stmt.Condition.TryAcceptForExpression(this);
 			return UnifiedDoWhile.Create(body, cond);
 		}
 
@@ -392,7 +387,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitExpressionStatement(ExpressionStatement exprStmt, object data) {
-			return exprStmt.Expression.AcceptForExpression(this);
+			return exprStmt.Expression.TryAcceptForExpression(this);
 		}
 
 		public IUnifiedElement VisitFixedStatement(
@@ -403,8 +398,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitForeachStatement(ForeachStatement stmt, object data) {
 			var type = LookupType(stmt.VariableType);
 			var name = stmt.VariableName.ToVariableIdentifier();
-			var set = stmt.InExpression.AcceptForExpression(this);
-			var body = stmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
+			var set = stmt.InExpression.TryAcceptForExpression(this);
+			var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
 
 			var varDec = UnifiedVariableDefinition.Create(type: type, name: name);
 			return UnifiedForeach.Create(varDec.ToVariableDefinitionList(), set, body);
@@ -414,13 +409,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			// C#はstatementは一つのStatementあるいはBlockなためFirstOrDefaultで問題ない。
 			// 複数あるのはVBを表す場合のため。
 			var initStmt = forStmt.Initializers
-					.Select(s => s.AcceptForExpression(this))
+					.Select(s => s.TryAcceptForExpression(this))
 					.FirstOrDefault();
-			var condExpr = forStmt.Condition.AcceptForExpression(this);
+			var condExpr = forStmt.Condition.TryAcceptForExpression(this);
 			var stepStmt = forStmt.Iterators
-					.Select(s => s.AcceptForExpression(this))
+					.Select(s => s.TryAcceptForExpression(this))
 					.FirstOrDefault();
-			var body = forStmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
+			var body = forStmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
 			return UnifiedFor.Create(initStmt, condExpr, stepStmt, body);
 		}
 
@@ -440,18 +435,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitIfElseStatement(IfElseStatement stmt, object data) {
-			var cond = stmt.Condition.AcceptForExpression(this);
-			var trueBlock = stmt.TrueStatement.AcceptForExpression(this).ToBlock();
+			var cond = stmt.Condition.TryAcceptForExpression(this);
+			var trueBlock = stmt.TrueStatement.TryAcceptForExpression(this).ToBlock();
 
 			var nElseStmt = stmt.FalseStatement;
 			if (nElseStmt == null) {
 				return UnifiedIf.Create(cond, trueBlock);
 			}
 			else {
-				var uElseStmt = nElseStmt.AcceptForExpression(this);
-				var falseBlock = uElseStmt == null
-				                 		? UnifiedBlock.Create()
-				                 		: UnifiedBlock.Create(uElseStmt);
+				var falseBlock = nElseStmt.TryAcceptForExpression(this).ToBlock();
 				return UnifiedIf.Create(cond, trueBlock, falseBlock);
 			}
 		}
@@ -470,16 +462,16 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var nExpr = retStmt.Expression;
 			if (nExpr == null)
 				return UnifiedReturn.Create();
-			var uExpr = nExpr.AcceptForExpression(this);
+			var uExpr = nExpr.TryAcceptForExpression(this);
 			return UnifiedReturn.Create(uExpr);
 		}
 
 		public IUnifiedElement VisitSwitchStatement(SwitchStatement stmt, object data) {
-			var uExpr = stmt.Expression.AcceptForExpression(this);
+			var uExpr = stmt.Expression.TryAcceptForExpression(this);
 			var caseCollection = UnifiedCaseCollection.Create();
 			foreach (var sec in stmt.SwitchSections) {
 				var body = sec.Statements
-						.Select(s => s.AcceptForExpression(this))
+						.Select(s => s.TryAcceptForExpression(this))
 						.ToBlock();
 				var lastIx = sec.CaseLabels.Count - 1;
 				Func<IUnifiedExpression, int, UnifiedCase> func = (expr, ix) => {
@@ -488,7 +480,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 						: UnifiedCase.Create(expr);
 				};
 				var cases = sec.CaseLabels
-						.Select(lbl => lbl.Expression.AcceptForExpression(this))
+						.Select(lbl => lbl.Expression.TryAcceptForExpression(this))
 						.Select(func);
 				foreach (var c in cases)
 					caseCollection.Add(c);
@@ -513,18 +505,16 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitTryCatchStatement(
 				TryCatchStatement tryCatchStatement, object data) {
 
-			var uTry = tryCatchStatement.TryBlock.AcceptForExpression(this).ToBlock();
+			var uTry = tryCatchStatement.TryBlock.TryAcceptForExpression(this).ToBlock();
 			var uCatchs = tryCatchStatement
 					.CatchClauses
 					.Select(c => c.AcceptVisitor(this, data))
 					.Cast<UnifiedCatch>()
 					.ToCollection();
-			var uFinally = null as UnifiedBlock;
-			if (tryCatchStatement.FinallyBlock != null) {
-				var expr = tryCatchStatement.FinallyBlock.AcceptForExpression(this);
-				if (expr != null)
-					uFinally = expr.ToBlock();
-			}
+			var nFinally = tryCatchStatement.FinallyBlock;
+			var uFinally = nFinally == null
+								? null
+								: nFinally.TryAcceptForExpression(this).ToBlock();
 			return UnifiedTry.Create(uTry, uCatchs, /* else */null, uFinally);
 		}
 
@@ -554,9 +544,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					from nVar in dec.Variables
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
-					let uInitValue = nInitValue == null
-											? null
-											: nInitValue.AcceptForExpression(this)
+					let uInitValue = nInitValue.TryAcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
 							type: uType.DeepCopy(),
 							modifiers: uMods.DeepCopy(),
@@ -566,8 +554,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitWhileStatement(WhileStatement stmt, object data) {
-			var cond = stmt.Condition.AcceptForExpression(this);
-			var body = stmt.EmbeddedStatement.AcceptForExpression(this).ToBlock();
+			var cond = stmt.Condition.TryAcceptForExpression(this);
+			var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
 			return UnifiedWhile.Create(cond, body);
 		}
 
@@ -630,9 +618,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					from nVar in dec.Variables
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
-					let uInitValue = nInitValue == null
-											? null
-											: nInitValue.AcceptForExpression(this)
+					let uInitValue = nInitValue.TryAcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
 							type: uType.DeepCopy(),
 							modifiers: uMods.DeepCopy(),
@@ -665,7 +651,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.ToCollection();
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Body) {
-				var uExpr = node.AcceptForExpression(this);
+				var uExpr = node.TryAcceptForExpression(this);
 				if (uExpr != null)
 					body.Add(uExpr);
 			}
@@ -683,13 +669,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.Select(attr => attr.AcceptVisitor(this, data))
 					.OfType<UnifiedAnnotation>()
 					.ToCollection();
-			var mod = LookupModifier(dec.ParameterModifier);
-			var mods = mod == null
-							? UnifiedModifierCollection.Create()
-							: UnifiedModifierCollection.Create(mod);
+			var mods = LookupModifier(dec.ParameterModifier).ToCollection();
 			var type = LookupType(dec.Type);
 			var names = dec.Name.ToVariableIdentifier().ToCollection();
-			var defaultValue = dec.DefaultExpression.AcceptForExpression(this);
+			var defaultValue = dec.DefaultExpression.TryAcceptForExpression(this);
 
 			return UnifiedParameter.Create(attrs, mods, type, names, defaultValue);
 		}

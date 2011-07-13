@@ -56,7 +56,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		private static UnifiedModifier LookupModifier(ParameterModifier mod) {
-			switch(mod) {
+			switch (mod) {
 			case ParameterModifier.Out:
 				return UnifiedModifier.Create("out");
 			case ParameterModifier.Params:
@@ -147,7 +147,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			case BinaryOperatorType.ConditionalOr:
 				return UnifiedBinaryOperator.Create("||", UnifiedBinaryOperatorKind.OrElse);
 			}
-			throw new NotImplementedException("LookupBinaryOperator");
+			throw new ArgumentException("Unknown operator: " + op);
 		}
 
 		private static UnifiedUnaryOperator LookupUnaryOperator(UnaryOperatorType op) {
@@ -171,15 +171,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			case UnaryOperatorType.PostDecrement:
 				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PostDecrementAssign);
 			}
-			throw new NotImplementedException("LookupUnaryOperator");
+			throw new ArgumentException("Unknown operator: " + op);
 		}
 
 		#endregion
 	}
 
 	internal static class VisitorExtension {
-		internal static IUnifiedExpression AcceptForExpression(
-				this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+		internal static IUnifiedExpression TryAcceptForExpression(this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+			if (node == null) return null;
 			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
 	}
