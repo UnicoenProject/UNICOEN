@@ -191,9 +191,27 @@ namespace Unicoen.Apps.Aop {
 
 				//weave given advice, when function's name matches given Regex
 				var m = regex.Match(function.Name.Name);
-				if (m.Success)
-					function.Body.Insert(0, advice);
+				if (m.Success) {
+					//アドバイス内の特定の変数を、現在の対象関数名で置き換える
+					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
+					//アドバイスを対象関数に合成する
+					function.Body.Insert(0, copy);
+				}
 			}
+		}
+		
+		/// <summary>
+		/// 指定されたアドバイスに含まれる特殊文字を指定された関数名に置き換えます
+		/// </summary>
+		public static UnifiedBlock ReplaceSpecialToken(UnifiedBlock old, string functionName) {
+			//指定されたアドバイスに含まれる変数をリストアップする
+			var variables = old.Descendants<UnifiedVariableIdentifier>();
+			//特殊文字に指定されている変数を指定された関数名で置き換える
+			foreach (var e in variables) {
+				if(e.Name.Equals("JOINPOINT_NAME"))
+					e.Name = "\"" + functionName + "\"";
+			}
+			return old;
 		}
 
 		/// <summary>
