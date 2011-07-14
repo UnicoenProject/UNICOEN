@@ -27,10 +27,10 @@ namespace Unicoen.CodeFactories {
 			var parent = element.Parent;
 
 			// 親も自分も2項式で、演算子が同じ場合は括弧をつけない
-			var b1 = element as UnifiedBinaryExpression;
-			var b2 = parent as UnifiedBinaryExpression;
-			if (b1 != null && b2 != null) {
-				return b1.Operator.Sign == b2.Operator.Sign
+			var exp1 = element as UnifiedBinaryExpression;
+			var exp2 = parent as UnifiedBinaryExpression;
+			if (exp1 != null && exp2 != null) {
+				return exp1.Operator.Sign == exp2.Operator.Sign
 				       		? Tuple.Create("", "") : Tuple.Create("(", ")");
 			}
 

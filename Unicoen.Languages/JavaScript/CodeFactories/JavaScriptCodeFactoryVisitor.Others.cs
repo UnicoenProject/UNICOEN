@@ -22,11 +22,14 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactoryVisitor {
+
+		//2項演算子
 		public override bool Visit(UnifiedBinaryOperator element, VisitorArgument arg) {
 			Writer.Write(element.Sign);
 			return false;
 		}
 
+		//単項演算子
 		public override bool Visit(UnifiedUnaryOperator element, VisitorArgument arg) {
 			var kind = element.Kind;
 			switch (kind) {
@@ -59,35 +62,43 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//実引数
 		public override bool Visit(UnifiedArgument element, VisitorArgument arg) {
 			element.Value.TryAccept(this, arg);
 			return false;
 		}
 
+		//ブロック
 		public override bool Visit(UnifiedBlock element, VisitorArgument arg) {
+			//「いわゆるブロック」と「式のリストの入れ物としてのブロック」があるため、decorationでどちらかを判断する
 			var decoration = arg.Decoration;
-			//for Block
+
+			//いわゆるブロックの場合 : e.g. while(true){ }の{ }の部分
 			if (decoration.MostLeft == "{") {
 				Writer.WriteLine(decoration.MostLeft);
-				arg = arg.IncrementDepth();
+				arg = arg.IncrementDepth(); //ブロック内部ではインデントを1つ下げる
 
+				//ブロック内部の式を出力
 				foreach (var stmt in element) {
 					WriteIndent(arg.IndentDepth);
 					if (stmt.TryAccept(this, arg))
 						Writer.Write(";");
 					Writer.Write(decoration.EachRight);
 				}
-				arg = arg.DecrementDepth();
+
+				arg = arg.DecrementDepth(); //インデントを元に戻す
 				WriteIndent(arg.IndentDepth);
 				Writer.Write(decoration.MostRight);
 				return false;
 			}
 
-			//empty block
+			//式のリストの入れ物としてのブロックの場合 : e.g. return 1,2,3;の1,2,3の部分
+			//式の数が0個の場合は何も出力せずに終了
 			if (element.Count == 0)
 				return false;
 
-			//for expressionList
+			//式が1つ以上ある場合
+			//TODO なぜ括弧を出力するのか確認
 			Writer.Write("(");
 			var comma = "";
 			foreach (var e in element) {
@@ -99,23 +110,24 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//関数定義 : e.g. function hoge() { }
 		public override bool Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
 			WriteIndent(arg.IndentDepth);
-			Writer.Write("function");
-			Writer.Write(" ");
+			Writer.Write("function ");
 			element.Name.TryAccept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return element.Body == null;
 		}
 
+		//ラムダ式(無名関数)
 		public override bool Visit(UnifiedLambda element, VisitorArgument arg) {
 			//λ式の場合、即時発火があり得るので全体を()で囲っておく
 			WriteIndent(arg.IndentDepth);
 			Writer.Write("(");
-			Writer.Write("function");
-			Writer.Write(" ");
+			Writer.Write("function ");
+			//TODO ラムダ式は名前があるのかどうか確認
 			element.Name.TryAccept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
@@ -123,6 +135,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return element.Body == null;
 		}
 
+		//if文
 		public override bool Visit(UnifiedIf ifStatement, VisitorArgument arg) {
 			Writer.Write("if (");
 			ifStatement.Condition.TryAccept(this, arg.Set(CommaDelimiter));
@@ -136,56 +149,67 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//仮引数
 		public override bool Visit(UnifiedParameter element, VisitorArgument arg) {
 			element.Names.TryAccept(this, arg);
 			return false;
 		}
 
+		//変数
 		public override bool Visit(
 				UnifiedVariableIdentifier element, VisitorArgument arg) {
 			Writer.Write(element.Name);
 			return false;
 		}
 
+		//ラベル
 		public override bool Visit(
 				UnifiedLabelIdentifier element, VisitorArgument arg) {
 			Writer.Write(element.Name);
 			return false;
 		}
 
+		//TODO JavaScriptでは出現しないか確認。言語変換向け？
 		public override bool Visit(
 				UnifiedSuperIdentifier element, VisitorArgument arg) {
 			Writer.Write("");
 			return false;
 		}
 
+		//this識別子
 		public override bool Visit(UnifiedThisIdentifier element, VisitorArgument arg) {
 			Writer.Write("this");
 			return false;
 		}
 
+		//修飾子 : JavaScriptでは出現しない
 		public override bool Visit(UnifiedModifier element, VisitorArgument arg) {
 			return false;
 		}
 
+		//Import文 : JavaScriptでは出現しない
 		public override bool Visit(UnifiedImport element, VisitorArgument arg) {
 			return false;
 		}
 
+		//コンストラクタ : JavaScriptでは出現しない
 		public override bool Visit(UnifiedConstructor element, VisitorArgument arg) {
 			return false;
 		}
 
+		//インスタンスイニシャライザ : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedInstanceInitializer element, VisitorArgument arg) {
 			return false;
 		}
 
+		//staticイニシャライザ : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedStaticInitializer element, VisitorArgument arg) {
 			return false;
 		}
 
+		//プログラム全体
 		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
 			foreach (var sourceElement in element.Body) {
 				if (sourceElement.TryAccept(this, arg))
@@ -195,20 +219,24 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//単項式
 		public override bool Visit(
 				UnifiedUnaryExpression element, VisitorArgument arg) {
-			//e.g. a++ || a--
+			//後置演算子が付く場合 : a++ || a--
 			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
 			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
 				element.Operand.TryAccept(this, arg.Set(Paren));
 				element.Operator.TryAccept(this, arg);
-			} else {
+			} 
+			//それ以外の場合は前置演算子(または演算子なし)
+			else {
 				element.Operator.TryAccept(this, arg);
 				element.Operand.TryAccept(this, arg.Set(Paren));
 			}
 			return true;
 		}
-
+		
+		//プロパティ : e.g. A.B
 		public override bool Visit(UnifiedProperty element, VisitorArgument arg) {
 			element.Owner.TryAccept(this, arg);
 			Writer.Write(element.Delimiter);
@@ -216,6 +244,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
+		//while文
 		public override bool Visit(UnifiedWhile element, VisitorArgument arg) {
 			Writer.Write("while(");
 			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
@@ -225,33 +254,30 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//do-while文
 		public override bool Visit(UnifiedDoWhile element, VisitorArgument arg) {
 			Writer.Write("do");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			Writer.Write("while(");
 			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
-			Writer.Write(");");
+			Writer.Write(");"); //TODO なぜここでセミコロンを打つのか確認
 			return false;
 		}
 
+		//配列のインデクサ : e.g. a[10]
 		public override bool Visit(UnifiedIndexer element, VisitorArgument arg) {
 			element.Target.TryAccept(this, arg);
 			element.Arguments.TryAccept(this, arg.Set(Bracket));
 			return false;
 		}
-
+		
+		//ジェネリックタイプ : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedGenericArgument element, VisitorArgument arg) {
-			//JavaScript
 			return false;
 		}
 
-		public override bool Visit(
-				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
-			//JavaScript
-			return false;
-		}
-
+		//switch文
 		public override bool Visit(UnifiedSwitch element, VisitorArgument arg) {
 			Writer.Write("switch(");
 			element.Value.TryAccept(this, arg.Set(CommaDelimiter));
@@ -262,7 +288,9 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//case文
 		public override bool Visit(UnifiedCase element, VisitorArgument arg) {
+			//case条件がない場合はデフォルト文
 			if (element.Condition == null) {
 				Writer.Write("default:\n");
 			} else {
@@ -274,8 +302,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//with文
 		public override bool Visit(UnifiedWith element, VisitorArgument arg) {
-			WriteIndent(arg.IndentDepth);
 			Writer.Write("with (");
 			element.Value.TryAccept(this, arg);
 			Writer.Write(")");
@@ -283,6 +311,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//catch節
 		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
 			Writer.Write("catch");
 			element.Matchers.TryAccept(this, arg.Set(Paren));
@@ -290,30 +319,18 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(
-				UnifiedCatchCollection element, VisitorArgument arg) {
-			Writer.Write(arg.Decoration.MostLeft);
-			var delimiter = "";
-			foreach (var e in element) {
-				Writer.Write(delimiter);
-				e.TryAccept(this, arg);
-				delimiter = arg.Decoration.Delimiter;
-			}
-			Writer.Write(arg.Decoration.MostRight);
-			return false;
-		}
-
+		//try文
 		public override bool Visit(UnifiedTry element, VisitorArgument arg) {
-			// try block
+			//tryブロック
 			Writer.Write("try");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 
-			// catch blocks
+			//catchブロック
 			element.Catches.TryAccept(this, arg.Set(SemiColonDelimiter));
 
-			// finally block
+			//finallyブロック
 			var finallyBlock = element.FinallyBody;
-			// how judge whether finalluBlock exists or not???
+			//finallyブロックがある場合はその内容を出力
 			if (finallyBlock != null) {
 				Writer.Write("finally");
 				finallyBlock.TryAccept(this, arg.Set(ForBlock));
@@ -321,32 +338,32 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//継承 : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
-			//JavaScript
-			throw new NotImplementedException();
+			return false;
 		}
 
+		//ジェネリックパラメータ : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedGenericParameter element, VisitorArgument arg) {
-			//JavaScript
-			throw new NotImplementedException();
+			return false;
 		}
-
+		
+		//ラベル
 		public override bool Visit(UnifiedLabel element, VisitorArgument arg) {
 			element.Name.TryAccept(this, arg);
 			Writer.Write(":");
 			return false;
 		}
 
+		//論理型リテラル
 		public override bool Visit(UnifiedBooleanLiteral element, VisitorArgument arg) {
-			if (element.Value)
-				Writer.Write("true");
-			else
-				Writer.Write("false");
+			Writer.Write(element.Value ? "true" : "false");
 			return false;
 		}
-
+		
+		//小数リテラル
 		public override bool Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
 			// TODO: そのまま出力しても良いのか？
@@ -354,31 +371,37 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//整数リテラル
 		public override bool Visit(UnifiedIntegerLiteral element, VisitorArgument arg) {
 			Writer.Write(element.Value);
 			return false;
 		}
 
+		//文字列リテラル
 		public override bool Visit(UnifiedStringLiteral element, VisitorArgument arg) {
 			Writer.Write(element.Value);
 			return false;
 		}
 
+		//charリテラル
 		public override bool Visit(UnifiedCharLiteral element, VisitorArgument arg) {
 			Writer.Write(element.Value);
 			return false;
 		}
 
+		//名前空間宣言 : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedNamespaceDefinition element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			return false;
 		}
 
+		//nullリテラル
 		public override bool Visit(UnifiedNullLiteral element, VisitorArgument arg) {
 			Writer.Write("null");
 			return false;
 		}
 
+		//TODO パターンマッチ文 : JavaScriptでは出現しない?
 		public override bool Visit(UnifiedMatcher element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
 			Writer.Write(" ");
@@ -387,20 +410,24 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.As.TryAccept(this, arg);
 			return false;
 		}
-
+		
+		//using文 : JavaScriptでは出現しない
 		public override bool Visit(UnifiedUsing element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			return false;
 		}
 
+		//リスト内包表記式やジェネレータ式 : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedListComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			return false;
 		}
-
+		
+		//リストリテラル? : JavaScriptでは出現しない
 		public override bool Visit(UnifiedListLiteral element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			return false;
 		}
-
+		
+		//KeyValue式(オブジェクト) : e.g. {a : 1, b : 2, c : 3}
 		public override bool Visit(UnifiedKeyValue element, VisitorArgument arg) {
 			WriteIndent(arg.IndentDepth);
 			element.Key.TryAccept(this, arg);
@@ -409,6 +436,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//TODO 辞書リテラル : JavaScriptでは出現しない?
 		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
 			Writer.Write("{");
 			VisitCollection(element, arg.Set(CommaDelimiter));
@@ -417,14 +445,17 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//スライス表記 : JavaScriptでは出現しない
 		public override bool Visit(UnifiedSlice element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			return false;
 		}
 
+		//コメント
 		public override bool Visit(UnifiedComment element, VisitorArgument arg) {
 			throw new NotImplementedException();
 		}
 
+		//正規表現リテラル : e.g. /abc/gim
 		public override bool Visit(
 				UnifiedRegularExpressionLiteral element, VisitorArgument arg) {
 			Writer.Write("/");
@@ -434,9 +465,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//配列リテラル
 		public override bool Visit(UnifiedArrayLiteral element, VisitorArgument arg) {
-			//TODO 上からBracketが渡されるので、対策を考える
-			//とりあえず直接"[]"を代入で対処
 			Writer.Write("[");
 			var comma = "";
 			foreach (var e in element) {
@@ -448,9 +478,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//型
 		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
-			//e.g. new new r().f
-			//TODO ただし、言語変換を考えると型を出力してほしくないので、対応を考える
 			element.BasicTypeName.TryAccept(this, arg);
 			return false;
 		}
