@@ -23,9 +23,10 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
 	public class CSharpCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
-		public CSharpCodeFactoryVisitor(TextWriter writer) : base(writer) {
+		public CSharpCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {
 			ForeachKeyword = "foreach";
 			ForeachDelimiter = " in ";
+			ImportKeyword = "using ";
 		}
 
 		public override bool Visit(
@@ -40,6 +41,23 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			element.Throws.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return element.Body == null;
+		}
+
+		public override bool Visit(UnifiedLambda element, VisitorArgument arg) {
+			element.Parameters.TryAccept(this, arg);
+			Writer.Write(" => ");
+			element.Body.Accept(this, arg);
+			return true;
+		}
+
+		public override bool Visit(
+				UnifiedNamespaceDefinition element, VisitorArgument arg) {
+			element.Annotations.TryAccept(this, arg);
+			Writer.Write("namespace ");
+			element.Name.Accept(this, arg);
+			Writer.Write(" ");
+			element.Body.Accept(this, arg.Set(ForBlock));
+			return false;
 		}
 	}
 }

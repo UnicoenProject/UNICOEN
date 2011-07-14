@@ -29,10 +29,10 @@ namespace Unicoen.CodeFactories {
 		protected static readonly Decoration Paren =
 				new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
 
-		protected static readonly Decoration Bracket =
+		protected static readonly Decoration Brace =
 				new Decoration { MostLeft = "{", Delimiter = ", ", MostRight = "}" };
 
-		protected static readonly Decoration SquareBracket =
+		protected static readonly Decoration Bracket =
 				new Decoration { MostLeft = "[", Delimiter = ", ", MostRight = "]" };
 
 		protected static readonly Decoration InequalitySignParen =
@@ -69,12 +69,17 @@ namespace Unicoen.CodeFactories {
 				new Decoration { EachRight = "\n" };
 
 		// 一時的に変化させることあり
-		protected TextWriter Writer;
+		public TextWriter Writer { get; protected set; }
 		protected string ForeachKeyword = "for";
 		protected string ForeachDelimiter = " : ";
+		protected string ImportKeyword = "import ";
+		protected string IndentSign;
 
-		protected JavaLikeCodeFactoryVisitor(TextWriter writer) {
+		protected JavaLikeCodeFactoryVisitor(TextWriter writer) : this(writer, "\t") {}
+
+		protected JavaLikeCodeFactoryVisitor(TextWriter writer, string indentSign) {
 			Writer = writer;
+			IndentSign = indentSign;
 		}
 
 		protected void VisitCollection<T, TSelf>(
@@ -95,8 +100,23 @@ namespace Unicoen.CodeFactories {
 		}
 
 		protected void WriteIndent(VisitorArgument arg) {
-			for (int i = 0; i < arg.IndentDepth; i++)
-				Writer.Write(arg.IndentSign);
+			WriteIndent(arg.IndentDepth);
+		}
+
+		protected string GetIndent(VisitorArgument arg) {
+			return GetIndent(arg.IndentDepth);
+		}
+
+		protected void WriteIndent(int indentDepth) {
+			for (int i = 0; i < indentDepth; i++)
+				Writer.Write(IndentSign);
+		}
+
+		protected string GetIndent(int indentDepth) {
+			var ret = "";
+			for (int i = 0; i < indentDepth; i++)
+				ret += IndentSign;
+			return ret;
 		}
 
 		protected string GetString(IUnifiedElement element, VisitorArgument arg) {

@@ -22,8 +22,18 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.CodeFactories {
 	public partial class JavaLikeCodeFactoryVisitor {
-		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
+		protected static Tuple<string, string> GetRequiredParen(
+				IUnifiedElement element) {
 			var parent = element.Parent;
+
+			// 親も自分も2項式で、演算子が同じ場合は括弧をつけない
+			var b1 = element as UnifiedBinaryExpression;
+			var b2 = parent as UnifiedBinaryExpression;
+			if (b1 != null && b2 != null) {
+				return b1.Operator.Sign == b2.Operator.Sign
+				       		? Tuple.Create("", "") : Tuple.Create("(", ")");
+			}
+
 			if (parent is UnifiedProperty ||
 			    parent is UnifiedCast ||
 			    parent is UnifiedUnaryExpression ||
@@ -59,7 +69,7 @@ namespace Unicoen.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedImport element, VisitorArgument arg) {
-			Writer.Write("import ");
+			Writer.Write(ImportKeyword);
 			element.Modifiers.TryAccept(this, arg);
 			element.Name.TryAccept(this, arg);
 			return true;
@@ -159,7 +169,10 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedAssert element, VisitorArgument arg) {
 			Writer.Write("assert ");
 			element.Value.TryAccept(this, arg);
-			element.Message.TryAccept(this, arg.Set(ColonMostLeft));
+			if (element.Message != null) {
+				Writer.Write(" : ");
+				element.Message.TryAccept(this, arg);
+			}
 			return true;
 		}
 	}

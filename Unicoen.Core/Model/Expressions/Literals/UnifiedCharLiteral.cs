@@ -25,6 +25,8 @@ namespace Unicoen.Core.Model {
 	///   e.g. Java‚É‚¨‚¯‚é<c>char str = 'c'</c>‚Ì<c>'c'</c>‚Ì•”•ª
 	/// </summary>
 	public class UnifiedCharLiteral : UnifiedTypedLiteral<string> {
+		public override string Value { get; set; }
+
 		private UnifiedCharLiteral() {}
 
 		[DebuggerStepThrough]

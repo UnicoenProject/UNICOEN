@@ -165,7 +165,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedTypeParameter element) {
+		public virtual void Visit(UnifiedGenericParameter element) {
 			throw new NotImplementedException();
 		}
 
@@ -225,7 +225,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDictionaryComprehension element) {
+		public virtual void Visit(UnifiedMapComprehension element) {
 			throw new NotImplementedException();
 		}
 
@@ -536,6 +536,10 @@ namespace Unicoen.Core.Processor {
 		public virtual void Visit(UnifiedLinq element) {
 			throw new NotImplementedException();
 		}
+
+		public virtual void Visit(UnifiedDefault element) {
+			throw new NotImplementedException();
+		}
 	}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg>
@@ -688,7 +692,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedTypeParameter element, TArg arg) {
+		public virtual void Visit(UnifiedGenericParameter element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -750,7 +754,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 		public virtual void Visit(
-				UnifiedDictionaryComprehension element, TArg arg) {
+				UnifiedMapComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1066,6 +1070,10 @@ namespace Unicoen.Core.Processor {
 		public virtual void Visit(UnifiedLinq element, TArg arg) {
 			throw new NotImplementedException();
 		}
+
+		public virtual void Visit(UnifiedDefault element, TArg arg) {
+			throw new NotImplementedException();
+		}
 			}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg, TResult>
@@ -1123,6 +1131,10 @@ namespace Unicoen.Core.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedLinq element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedDefault element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1268,7 +1280,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedTypeParameter element, TArg arg) {
+		public virtual TResult Visit(UnifiedGenericParameter element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1328,7 +1340,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedDictionaryComprehension element, TArg arg) {
+		public virtual TResult Visit(UnifiedMapComprehension element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

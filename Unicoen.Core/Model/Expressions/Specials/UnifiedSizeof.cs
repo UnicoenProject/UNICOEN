@@ -25,15 +25,15 @@ namespace Unicoen.Core.Model {
 	///   e.g. Javaにおける<c>(int)a</c>
 	/// </summary>
 	public class UnifiedSizeof : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _expression;
+		private IUnifiedExpression _value;
 
 		/// <summary>
 		///   キャスト対象の式を表します
 		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
 		/// </summary>
-		public IUnifiedExpression Expression {
-			get { return _expression; }
-			set { _expression = SetChild(value, _expression); }
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
 		}
 
 		protected UnifiedSizeof() {}
@@ -57,7 +57,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedSizeof Create(IUnifiedExpression expression) {
 			return new UnifiedSizeof {
-					Expression = expression
+					Value = expression
 			};
 		}
 	}

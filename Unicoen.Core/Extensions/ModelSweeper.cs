@@ -139,10 +139,16 @@ namespace Unicoen.Core.Model {
 				this IUnifiedElement element) {
 			Contract.Requires(element != null);
 			var children = element.GetElements()
-					.Where(e => e != null);
-			return children.Aggregate(
-					children,
-					(current, elem) => current.Concat(elem.Descendants()));
+			        .Where(e => e != null)
+			        .ToList();
+			foreach (var child in children) {
+			    yield return child;
+			}
+			foreach (var child in children) {
+			    foreach (var grandchild in child.Descendants()) {
+			        yield return grandchild;
+			    }
+			}
 		}
 
 		/// <summary>
@@ -178,11 +184,10 @@ namespace Unicoen.Core.Model {
 		public static IEnumerable<IUnifiedElement> DescendantsAndSelf(
 				this IUnifiedElement element) {
 			Contract.Requires(element != null);
-			var children = Enumerable.Repeat(element, 1)
-					.Concat(element.GetElements().Where(e => e != null));
-			return children.Aggregate(
-					children,
-					(current, elem) => current.Concat(elem.Descendants()));
+			yield return element;
+			foreach (var e in element.Descendants()) {
+				yield return e;
+			}
 		}
 
 		/// <summary>

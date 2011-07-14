@@ -22,6 +22,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	public enum UnifiedFractionLiteralKind {
 		Single,
-		Double
+		Double,
+		Imaginary,
 	}
 }

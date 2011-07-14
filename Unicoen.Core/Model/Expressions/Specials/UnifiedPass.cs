@@ -21,6 +21,13 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedPass : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _value;
+
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
+
 		protected UnifiedPass() {}
 
 		[DebuggerStepThrough]
@@ -41,9 +48,11 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedPass Create(
-				
+			IUnifiedExpression value = null
 				) {
-			return new UnifiedPass { };
+			return new UnifiedPass {
+					Value = value,
+			};
 		}
 	}
 }

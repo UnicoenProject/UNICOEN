@@ -41,23 +41,23 @@ namespace UniUni.Numerics {
 		}
 
 		public static int ToForceInt32(this BigInteger value) {
-			int result = 0;
+			uint result = 0;
 			for (int i = 0; i < 32; i++) {
-				var bit = 1 << i;
+				var bit = (uint)1 << i;
 				if ((value & bit) != 0)
 					result |= bit;
 			}
-			return result;
+			return (int)result;
 		}
 
-		public static int ToForceInt64(this BigInteger value) {
-			int result = 0;
+		public static long ToForceInt64(this BigInteger value) {
+			ulong result = 0;
 			for (int i = 0; i < 64; i++) {
-				var bit = 1 << i;
+				var bit = (ulong)1 << i;
 				if ((value & bit) != 0)
 					result |= bit;
 			}
-			return result;
+			return (long)result;
 		}
 	}
 }

@@ -26,6 +26,7 @@ using System.Xml.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -1297,9 +1298,16 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var first = node.NthElement(0);
 			if (first.Name() == "postfixExpression")
 				return CreatePostfixExpression(first);
+			var expression = CreateUnaryExpression(node.LastElement());
+			if (first.Value == "delete")
+				return UnifiedDelete.Create(expression);
+			if (first.Value == "void")
+				return UnifiedPass.Create(expression);
+			if (first.Value == "typeof")
+				return UnifiedTypeof.Create(expression);
 			return
 					UnifiedUnaryExpression.Create(
-							CreateUnaryExpression(node.NthElement(1)),
+							expression,
 							CreatePrefixUnaryOperator(first.Value));
 		}
 
@@ -1475,14 +1483,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			var value = node.Value;
 			if (value.StartsWith("0x") || value.Contains("0X"))
-				return UnifiedIntegerLiteral.Create(
-						BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber),
-						UnifiedIntegerLiteralKind.BigInteger);
+				return UnifiedIntegerLiteral.CreateBigInteger(
+						LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2)));
 			if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
 				return double.Parse(value).ToLiteral();
-			return UnifiedIntegerLiteral.Create(
-					BigInteger.Parse(value),
-					UnifiedIntegerLiteralKind.BigInteger);
+			return UnifiedIntegerLiteral.CreateBigInteger(
+					LiteralFuzzyParser.ParseBigInteger(value));
 		}
 
 		public static UnifiedLiteral CreateStringliteral(XElement node) {
@@ -1515,15 +1521,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				break;
 			case "!":
 				kind = UnifiedUnaryOperatorKind.Not;
-				break;
-			case "delete":
-				kind = UnifiedUnaryOperatorKind.Delete;
-				break;
-			case "void":
-				kind = UnifiedUnaryOperatorKind.Void;
-				break;
-			case "typeof":
-				kind = UnifiedUnaryOperatorKind.Typeof;
 				break;
 			default:
 				throw new InvalidOperationException();

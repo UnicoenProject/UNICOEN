@@ -30,6 +30,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		private static readonly Decoration SpaceDelimiter =
 				new Decoration { EachRight = " " };
 
-		public Python2CodeFactoryVisitor(TextWriter writer) : base(writer) {}
+		public Python2CodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {}
 	}
 }

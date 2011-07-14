@@ -24,10 +24,10 @@ using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Linq;
-using UniUni.Numerics;
 using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -260,7 +260,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedTypeParameter CreateTypeParameter(XElement node) {
+		public static UnifiedGenericParameter CreateTypeParameter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeParameter");
 			/*
@@ -269,9 +269,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			if (node.Elements().Count() == 1) {
 				return
-						UnifiedTypeParameter.Create(UnifiedType.Create(node.FirstElement().Value));
+						UnifiedGenericParameter.Create(UnifiedType.Create(node.FirstElement().Value));
 			}
-			return UnifiedTypeParameter.Create(
+			return UnifiedGenericParameter.Create(
 					UnifiedType.Create(node.FirstElement().Value),
 					UnifiedTypeConstrainCollection.Create(
 							CreateTypeBound(node.LastElement())
@@ -1909,7 +1909,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			if (secondElement.Name() == "nonWildcardTypeArguments") {
 				prefix = UnifiedProperty.Create(
-						".", prefix, UnifiedVariableIdentifier.Create(secondElement.Value));
+						".", prefix, UnifiedVariableIdentifier.Create(node.NthElement(2).Value));
 				return UnifiedCall.Create(
 						prefix,
 						CreateArguments(node.NthElement(3)),
@@ -2176,7 +2176,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   IntegerNumber 
 			 */
 			return UnifiedIntegerLiteral.Create(
-					ParseInteger(node.Value).ToForceInt32(),
+					ParseInteger(node.Value),
 					UnifiedIntegerLiteralKind.Int32);
 		}
 
@@ -2194,7 +2194,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var str = node.Value;
 			return
 					UnifiedIntegerLiteral.Create(
-							ParseInteger(str.Substring(0, str.Length - 1)).ToForceInt64(),
+							ParseInteger(str.Substring(0, str.Length - 1)),
 							UnifiedIntegerLiteralKind.Int64);
 		}
 
@@ -2214,20 +2214,14 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			BigInteger result = 0;
 			if (value != "0") {
 				if (value[0] != '0') {
-					result = long.Parse(value);
+					result = LiteralFuzzyParser.ParseBigInteger(value);
 				} else if (value[1] == 'x' || value[1] == 'X') {
-					result = long.Parse(value.Substring(2), NumberStyles.HexNumber);
+					result = LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2));
 				} else {
-					result = ParseOcatleNumber(value.Substring(1));
+					result = LiteralFuzzyParser.ParseOcatleBigInteger(value.Substring(1));
 				}
 			}
 			return result;
-		}
-
-		private static BigInteger ParseOcatleNumber(IEnumerable<char> str) {
-			return str.Aggregate<char, BigInteger>(
-					0,
-					(current, ch) => current * 8 + (ch - '0'));
 		}
 
 		public static UnifiedLiteral CreateFloatLiteral(XElement node) {
@@ -2294,26 +2288,12 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			value = value.ToLower();
 			var numAndExp = value.Split('p');
 			var number = numAndExp[0].Split('.');
-			var n = number[0].Aggregate(
-					0.0,
-					(current, ch) => current * 16.0 +
-					                 ch > '9' ? ch - 'a' : ch - '0');
-			var f = number[1].Reverse().Aggregate(
-					0.0,
-					(current, ch) => current / 16.0 +
-					                 ch > '9' ? ch - 'a' : ch - '0');
+			var n = LiteralFuzzyParser.ParseDouble(number[0].Substring(2));
+			var f = LiteralFuzzyParser.ParseDouble(number[1], 1.0 / 16) / 16;
 			var result = n + f;
 			if (numAndExp[1].Length != 0) {
-				var expStr = numAndExp[1];
-				var power = 10;
-				if (expStr[0] == '-') {
-					expStr = expStr.Substring(1);
-					power = -10;
-				} else if (expStr[0] == '+') {
-					expStr = expStr.Substring(1);
-				}
-				var exp = int.Parse(expStr);
-				result *= Math.Pow(power, exp);
+				var exp = int.Parse(numAndExp[1]);
+				result *= Math.Pow(2, exp);
 			}
 			return result;
 		}

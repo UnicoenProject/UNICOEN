@@ -16,7 +16,7 @@
 
 #endregion
 
-using System;
+using System.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
@@ -83,7 +83,7 @@ namespace Unicoen.CodeFactories {
 					// implements
 					current.TryAccept(this, arg.Set(NullDelimiter));
 				} else {
-					current.TryAccept(this, arg.Set(CommaDelimiter));
+					current.TryAccept(this, arg);
 				}
 				last = current;
 			}
@@ -117,7 +117,7 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				caseElement.TryAccept(this, arg);
 			}
 			return false;
@@ -157,7 +157,7 @@ namespace Unicoen.CodeFactories {
 					varDef.Arguments.TryAccept(this, arg.Set(Paren));
 					if (varDef.InitialValue != null) {
 						Writer.Write(" = ");
-						varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
+						varDef.InitialValue.TryAccept(this, arg.Set(Brace));
 					}
 					varDef.Body.TryAccept(this, arg.Set(ForBlock));
 					comma = ", ";
@@ -190,16 +190,16 @@ namespace Unicoen.CodeFactories {
 				varDef.Arguments.TryAccept(this, arg.Set(Paren));
 
 				if (varDef.InitialValue != null) {
-					Writer.Write(setterSign);
-					varDef.InitialValue.TryAccept(this, arg.Set(Bracket));
+					if (varDef.Modifiers != null
+					    && varDef.Modifiers.Any(m => m.Name == "static")) {
+						Writer.Write(" = ");
+					} else {
+						Writer.Write(setterSign);
+					}
+					varDef.InitialValue.TryAccept(this, arg.Set(Brace));
 				}
 				varDef.Body.TryAccept(this, arg.Set(ForBlock));
 			}
-			return true;
-		}
-
-		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
-			element.BasicTypeName.TryAccept(this, arg);
 			return true;
 		}
 
@@ -208,13 +208,14 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedIterableLiteral element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedIterableLiteral element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
 		public override bool Visit(UnifiedArrayLiteral element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(Bracket));
+			VisitCollection(element, arg.Set(Brace));
 			return false;
 		}
 

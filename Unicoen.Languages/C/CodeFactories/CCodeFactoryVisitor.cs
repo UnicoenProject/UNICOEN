@@ -21,6 +21,6 @@ using Unicoen.CodeFactories;
 
 namespace Unicoen.Languages.C.CodeFactories {
 	public partial class CCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
-		public CCodeFactoryVisitor(TextWriter writer) : base(writer) {}
+		public CCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {}
 	}
 }

@@ -25,7 +25,7 @@ namespace Unicoen.Core.Model {
 	/// </summary>
 	/// <typeparam name = "T"></typeparam>
 	public abstract class UnifiedTypedLiteral<T> : UnifiedLiteral {
-		public T Value { get; set; }
+		public abstract T Value { get; set; }
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(

@@ -26,7 +26,7 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(
-					new CSharpCodeFactoryVisitor(writer), new VisitorArgument(indentSign));
+					new CSharpCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
 		}
 
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {

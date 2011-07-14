@@ -49,7 +49,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				caseElement.TryAccept(this, arg);
 			}
 			return false;
@@ -106,7 +106,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.Name.TryAccept(this, arg);
 			if (element.InitialValue != null) {
 				Writer.Write(" = ");
-				element.InitialValue.TryAccept(this, arg.Set(Bracket));
+				element.InitialValue.TryAccept(this, arg.Set(Brace));
 			}
 			element.Arguments.TryAccept(this, arg.Set(Paren));
 			element.Body.TryAccept(this, arg.Set(ForBlock));

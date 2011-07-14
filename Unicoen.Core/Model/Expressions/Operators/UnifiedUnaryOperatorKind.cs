@@ -76,25 +76,5 @@ namespace Unicoen.Core.Model {
 		///   e.g. *a
 		/// </summary>
 		Indirect,
-
-		/// <summary>
-		///   e.g. sizeof(a)
-		/// </summary>
-		Sizeof,
-
-		/// <summary>
-		///   e.g. delete a
-		/// </summary>
-		Delete,
-
-		/// <summary>
-		///   e.g. void expression
-		/// </summary>
-		Void,
-
-		/// <summary>
-		///   e.g. typeof a
-		/// </summary>
-		Typeof,
 	}
 }

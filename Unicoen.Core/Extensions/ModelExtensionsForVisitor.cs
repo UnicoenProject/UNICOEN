@@ -17,6 +17,7 @@
 #endregion
 
 using System.Diagnostics;
+using Unicoen.CodeFactories;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
@@ -36,6 +37,29 @@ namespace Unicoen.Core.Model {
 			if (element == null)
 				return default(TResult);
 			return element.Accept(visitor, arg);
+		}
+
+		[DebuggerStepThrough]
+		public static bool TryAccept<TElement>(
+				this TElement element, JavaLikeCodeFactoryVisitor visitor, VisitorArgument arg, string mostLeft)
+				where TElement : class, IUnifiedElement {
+			if (element == null)
+				return default(bool);
+			visitor.Writer.Write(mostLeft);
+			var ret = element.Accept(visitor, arg);
+			return ret;
+		}
+
+		[DebuggerStepThrough]
+		public static bool TryAccept<TElement>(
+				this TElement element, JavaLikeCodeFactoryVisitor visitor, VisitorArgument arg, string mostLeft, string mostRight)
+				where TElement : class, IUnifiedElement {
+			if (element == null)
+				return default(bool);
+			visitor.Writer.Write(mostLeft);
+			var ret = element.Accept(visitor, arg);
+			visitor.Writer.Write(mostRight);
+			return ret;
 		}
 	}
 }

@@ -19,15 +19,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.Linq;
-using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Linq;
 using UniUni.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming
@@ -82,10 +81,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var arglist = arglistNode != null
 			              		? CreateArglist(arglistNode)
 			              		: null;
-			return UnifiedAnnotation.Create(
-					name: CreateDotted_name(node.NthElement(1)).ToProperty("."),
-					arguments: arglist
-					);
+			return
+					UnifiedAnnotation.Create(
+							CreateDotted_name(node.NthElement(1)).ToProperty("."), arglist
+							);
 		}
 
 		public static UnifiedAnnotationCollection CreateDecorators(XElement node) {
@@ -109,11 +108,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				var classDef = CreateClassdef(second);
 				classDef.Annotations = decorators;
 				return classDef;
-			} else {
-				var funcDef = CreateFuncdef(second);
-				funcDef.Annotations = decorators;
-				return funcDef;
 			}
+			var funcDef = CreateFuncdef(second);
+			funcDef.Annotations = decorators;
+			return funcDef;
 		}
 
 		public static UnifiedFunctionDefinition CreateFuncdef(XElement node) {
@@ -158,15 +156,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 											null,
 											null, null,
 											names.Select(
-													name =>
-													UnifiedVariableIdentifier.Create(name)).
-													ToCollection(), null);
+													UnifiedVariableIdentifier.Create).
+													ToCollection());
 								return UnifiedParameter.Create(
 										null,
 										null, null,
 										names.Select(
-												name1 =>
-												UnifiedVariableIdentifier.Create(name1)).
+												UnifiedVariableIdentifier.Create).
 												ToCollection(),
 										CreateTest(next.NextElement()));
 							});
@@ -178,8 +174,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 									UnifiedModifier.Create(e.PreviousElement().Value).
 											ToCollection(), null,
 									UnifiedVariableIdentifier.Create(e.Value).
-											ToCollection(),
-									null));
+											ToCollection()));
 			return ps.Concat(ps2).ToCollection();
 		}
 
@@ -476,7 +471,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			return CreateDotted_as_names(node.NthElement(1))
 					.Select(
-							t => UnifiedImport.Create(t.Item1.ToProperty("."), t.Item2, null, null));
+							t => UnifiedImport.Create(t.Item1.ToProperty("."), t.Item2));
 		}
 
 		public static IEnumerable<UnifiedImport> CreateImport_from(XElement node) {
@@ -701,7 +696,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *		'finally' ':' suite))
 			 */
 			var trySuite = CreateSuite(node.Element("suite"));
-			var exceptClauseNodes = node.Elements("except_clause");
+			var exceptClauseNodes = node.Elements("except_clause").ToList();
 			var exceptClauseSuites = exceptClauseNodes
 					.Select(e => CreateSuite(((e)).NextElement(1)));
 			var catches = exceptClauseNodes
@@ -976,10 +971,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					CreateFactor(lastNode));
 		}
 
-		private static BigInteger ParseOcatleNumber(IEnumerable<char> str) {
-			return str.Aggregate<char, BigInteger>(
-					0,
-					(current, ch) => current * 8 + (ch - '0'));
+		private static bool CheckDoulbeParse(string str, double d) {
+			try {
+				return double.Parse(str) == d;
+			} catch {
+				return true;
+			}
 		}
 
 		public static IUnifiedExpression CreateAtom(XElement node) {
@@ -993,27 +990,41 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *		NAME | NUMBER | STRING+)
 			 */
 			var first = node.FirstElement();
-			var value = first.Value;
+			var value = first.Value.ToLower();
 			switch (first.Name()) {
 			case "NAME":
 				return value.ToVariableIdentifier();
 			case "NUMBER":
-				var isLong = value.EndsWith("L");
+				var isLong = value.EndsWith("l");
 				if (isLong)
 					value = value.Substring(0, value.Length - 1);
-				if (value.StartsWith("0x") || value.Contains("0X"))
-					return UnifiedIntegerLiteral.Create(
-							BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber),
-							UnifiedIntegerLiteralKind.BigInteger);
-				if (value.StartsWith("0o") || value.Contains("0O"))
-					return UnifiedIntegerLiteral.Create(
-							ParseOcatleNumber(value.Substring(2)),
-							UnifiedIntegerLiteralKind.BigInteger);
-				if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
-					return double.Parse(value).ToLiteral();
-				return UnifiedIntegerLiteral.Create(
-						BigInteger.Parse(value),
-						UnifiedIntegerLiteralKind.BigInteger);
+				if (value.StartsWith("0x"))
+					return UnifiedIntegerLiteral.CreateBigInteger(
+							LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2)));
+				if (value.StartsWith("0o"))
+					return UnifiedIntegerLiteral.CreateBigInteger(
+							LiteralFuzzyParser.ParseOcatleBigInteger(value.Substring(2)));
+				if (value.EndsWith("j"))
+					return UnifiedFractionLiteral.Create(
+							double.Parse(value.Substring(0, value.Length - 1)),
+							UnifiedFractionLiteralKind.Imaginary);
+				if (value.Contains(".") || value.Contains("e")) {
+					//TODO: より正確なパース
+					double d;
+					try {
+						d = double.Parse(value);
+					} catch (OverflowException) {
+						var str = value.Split('e');
+						d = !str[1].StartsWith("-")
+						    		? !str[0].StartsWith("-")
+						    		  		? double.PositiveInfinity
+						    		  		: double.NegativeInfinity
+						    		: 0.0;
+					}
+					return d.ToLiteral();
+				}
+				return UnifiedIntegerLiteral.CreateBigInteger(
+						LiteralFuzzyParser.ParseBigInteger(value));
 			case "STRING":
 				return UnifiedStringLiteral.Create(first.Value);
 			}
@@ -1027,12 +1038,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				if (second.Name() == "testlist_comp") {
 					return CreateTestlist_comp(second);
 				}
-				return UnifiedExpressionCollection.Create().ToTupleLiteral();
+				return UnifiedTupleLiteral.Create();
 			case "[":
 				if (second.Name() == "listmaker") {
 					return CreateListmaker(second);
 				}
-				return UnifiedExpressionCollection.Create().ToListLiteral();
+				return UnifiedListLiteral.Create();
 			case "{":
 				if (second.Name() == "dictorsetmaker") {
 					return CreateDictorsetmaker(second);
@@ -1210,7 +1221,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 							);
 				}
 				// create dctionary
-				return UnifiedDictionaryComprehension.Create(
+				return UnifiedMapComprehension.Create(
 						UnifiedKeyValue.Create(
 								CreateTest(node.NthElement(0)),
 								CreateTest(node.NthElement(2))),

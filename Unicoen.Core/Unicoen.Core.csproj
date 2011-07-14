@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Collections\UnifiedLinqElementCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedWithBlock.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
     <Compile Include="Model\Linqs\UnifiedLet.cs" />
     <Compile Include="Model\Linqs\UnifiedJoin.cs" />
     <Compile Include="Model\Linqs\UnifiedOrderBy.cs" />
@@ -184,11 +186,12 @@
     <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
-    <Compile Include="Model\UnifiedElementHelper.cs" />
+    <Compile Include="Model\UnifiedElement.Serialize.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Collections.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
+    <Compile Include="Processor\LiteralFuzzyParser.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeFactories\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
@@ -215,7 +218,7 @@
     <Compile Include="Model\Expressions\Operators\OldUnaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
-    <Compile Include="Model\Expressions\Comprehensions\UnifiedDictionaryComprehension.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedMapComprehension.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedMapLiteral.cs" />
     <Compile Include="Model\Expressions\UnifiedKeyValue.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
@@ -268,7 +271,7 @@
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedGenericArgument.cs" />
     <Compile Include="Model\Collections\UnifiedGenericArgumentCollection.cs" />
-    <Compile Include="Model\UnifiedTypeParameter.cs" />
+    <Compile Include="Model\UnifiedGenericParameter.cs" />
     <Compile Include="Processor\IUnifiedVisitor.cs" />
     <Compile Include="Processor\VisitorArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

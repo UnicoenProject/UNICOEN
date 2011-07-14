@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
 using UniUni.Xml.Linq;
@@ -90,17 +91,15 @@ namespace Unicoen.Languages.C.ModelFactories {
 			return block;
 		}
 
-		public static UnifiedExpressionCollection CreateStatementList(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
 			/* statement_list
 			 * : statement+
 			 */
-			var statementList = UnifiedExpressionCollection.Create();
 			foreach (var statement in node.Elements("statement_list")) {
-				statementList.Add(CreateStatement(statement));
+				yield return CreateStatement(statement);
 			}
-			return statementList;
 		}
 
 		public static IUnifiedExpression CreateExpressionStatement(XElement node) {

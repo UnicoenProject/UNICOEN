@@ -20,19 +20,17 @@ using System.Diagnostics;
 
 namespace Unicoen.Core.Processor {
 	public class VisitorArgument {
-		public string IndentSign { get; private set; }
 		public int IndentDepth { get; private set; }
 		public Decoration Decoration { get; private set; }
 
 		[DebuggerStepThrough]
-		public VisitorArgument(string indentSign) {
-			IndentSign = indentSign;
+		public VisitorArgument() {
 			Decoration = new Decoration();
 		}
 
 		[DebuggerStepThrough]
 		public VisitorArgument Set(Decoration decoration) {
-			return new VisitorArgument(IndentSign) {
+			return new VisitorArgument {
 					Decoration = decoration,
 					IndentDepth = IndentDepth,
 			};
@@ -40,7 +38,7 @@ namespace Unicoen.Core.Processor {
 
 		[DebuggerStepThrough]
 		public VisitorArgument IncrementDepth() {
-			return new VisitorArgument(IndentSign) {
+			return new VisitorArgument {
 					Decoration = Decoration,
 					IndentDepth = IndentDepth + 1,
 			};
@@ -48,7 +46,7 @@ namespace Unicoen.Core.Processor {
 
 		[DebuggerStepThrough]
 		public VisitorArgument DecrementDepth() {
-			return new VisitorArgument(IndentSign) {
+			return new VisitorArgument {
 					Decoration = Decoration,
 					IndentDepth = IndentDepth - 1,
 			};

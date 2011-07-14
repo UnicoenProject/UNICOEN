@@ -56,7 +56,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCast element);
 		void Visit(UnifiedGenericParameterCollection element);
 		void Visit(UnifiedTypeConstrainCollection element);
-		void Visit(UnifiedTypeParameter element);
+		void Visit(UnifiedGenericParameter element);
 		void Visit(UnifiedTernaryExpression element);
 		void Visit(UnifiedIdentifierCollection element);
 		void Visit(UnifiedLabel element);
@@ -71,7 +71,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedListComprehension element);
 		void Visit(UnifiedListLiteral element);
 		void Visit(UnifiedKeyValue element);
-		void Visit(UnifiedDictionaryComprehension element);
+		void Visit(UnifiedMapComprehension element);
 		void Visit(UnifiedMapLiteral element);
 		void Visit(UnifiedSlice element);
 		void Visit(UnifiedComment element);
@@ -149,6 +149,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedOrderByKey element);
 		void Visit(UnifiedLinqElementCollection element);
 		void Visit(UnifiedLinq element);
+		void Visit(UnifiedDefault element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -188,7 +189,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedCast element, TArg arg);
 		void Visit(UnifiedGenericParameterCollection element, TArg arg);
 		void Visit(UnifiedTypeConstrainCollection element, TArg arg);
-		void Visit(UnifiedTypeParameter element, TArg arg);
+		void Visit(UnifiedGenericParameter element, TArg arg);
 		void Visit(UnifiedTernaryExpression element, TArg arg);
 		void Visit(UnifiedIdentifierCollection element, TArg arg);
 		void Visit(UnifiedLabel element, TArg arg);
@@ -203,7 +204,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedListComprehension element, TArg arg);
 		void Visit(UnifiedListLiteral element, TArg arg);
 		void Visit(UnifiedKeyValue element, TArg arg);
-		void Visit(UnifiedDictionaryComprehension element, TArg arg);
+		void Visit(UnifiedMapComprehension element, TArg arg);
 		void Visit(UnifiedMapLiteral element, TArg arg);
 		void Visit(UnifiedSlice element, TArg arg);
 		void Visit(UnifiedComment element, TArg arg);
@@ -281,6 +282,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedOrderByKey element, TArg arg);
 		void Visit(UnifiedLinqElementCollection element, TArg arg);
 		void Visit(UnifiedLinq element, TArg arg);
+		void Visit(UnifiedDefault element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -320,7 +322,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedCast element, TArg arg);
 		TResult Visit(UnifiedGenericParameterCollection element, TArg arg);
 		TResult Visit(UnifiedTypeConstrainCollection element, TArg arg);
-		TResult Visit(UnifiedTypeParameter element, TArg arg);
+		TResult Visit(UnifiedGenericParameter element, TArg arg);
 		TResult Visit(UnifiedTernaryExpression element, TArg arg);
 		TResult Visit(UnifiedIdentifierCollection element, TArg arg);
 		TResult Visit(UnifiedLabel element, TArg arg);
@@ -335,7 +337,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedListComprehension element, TArg arg);
 		TResult Visit(UnifiedListLiteral element, TArg arg);
 		TResult Visit(UnifiedKeyValue element, TArg arg);
-		TResult Visit(UnifiedDictionaryComprehension element, TArg arg);
+		TResult Visit(UnifiedMapComprehension element, TArg arg);
 		TResult Visit(UnifiedMapLiteral element, TArg arg);
 		TResult Visit(UnifiedSlice element, TArg arg);
 		TResult Visit(UnifiedComment element, TArg arg);
@@ -413,5 +415,6 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedOrderByKey element, TArg arg);
 		TResult Visit(UnifiedLinqElementCollection element, TArg arg);
 		TResult Visit(UnifiedLinq element, TArg arg);
+		TResult Visit(UnifiedDefault element, TArg arg);
 	}
 }

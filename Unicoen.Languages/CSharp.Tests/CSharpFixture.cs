@@ -109,8 +109,6 @@ namespace Unicoen.Languages.CSharp.Tests {
 				}
 						.Select(
 								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
-				//return Directory.EnumerateFiles(GetInputPath("CSharp"))
-				//        .Select(path => new TestCaseData(path));
 			}
 		}
 
@@ -118,7 +116,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { yield break; }
+			get { return SetUpUnicoen(); }
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
@@ -182,5 +180,16 @@ namespace Unicoen.Languages.CSharp.Tests {
 						"Failed to launch 'ildasmPath': " + ildasmPath, e);
 			}
 		}
+
+		public IEnumerable<TestCaseData> SetUpUnicoen() {
+			Action<string, string> compileAction = (s1, s2) => { };
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Core"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Core.Tests"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Languages"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Utils"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.WebApps"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "UniUni"), compileAction);
+		} 
 	}
 }

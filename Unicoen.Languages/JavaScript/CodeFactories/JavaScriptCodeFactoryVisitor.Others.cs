@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.IO;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 
@@ -51,15 +50,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			case (UnifiedUnaryOperatorKind.OnesComplement):
 				Writer.Write("~");
 				break;
-			case (UnifiedUnaryOperatorKind.Delete):
-				Writer.Write("delete ");
-				break;
-			case (UnifiedUnaryOperatorKind.Void):
-				Writer.Write("void ");
-				break;
-			case (UnifiedUnaryOperatorKind.Typeof):
-				Writer.Write("typeof ");
-				break;
 			case (UnifiedUnaryOperatorKind.Unknown):
 				Writer.Write(element.Sign);
 				break;
@@ -82,13 +72,13 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 				arg = arg.IncrementDepth();
 
 				foreach (var stmt in element) {
-					WriteIndent(arg);
+					WriteIndent(arg.IndentDepth);
 					if (stmt.TryAccept(this, arg))
 						Writer.Write(";");
-					Writer.Write(decoration.Delimiter);
+					Writer.Write(decoration.EachRight);
 				}
 				arg = arg.DecrementDepth();
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				Writer.Write(decoration.MostRight);
 				return false;
 			}
@@ -111,7 +101,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedFunctionDefinition element, VisitorArgument arg) {
-			WriteIndent(arg);
+			WriteIndent(arg.IndentDepth);
 			Writer.Write("function");
 			Writer.Write(" ");
 			element.Name.TryAccept(this, arg);
@@ -122,7 +112,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(UnifiedLambda element, VisitorArgument arg) {
 			//λ式の場合、即時発火があり得るので全体を()で囲っておく
-			WriteIndent(arg);
+			WriteIndent(arg.IndentDepth);
 			Writer.Write("(");
 			Writer.Write("function");
 			Writer.Write(" ");
@@ -139,7 +129,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			Writer.Write(")");
 			ifStatement.Body.TryAccept(this, arg.Set(ForBlock));
 			if (ifStatement.ElseBody != null) {
-				WriteIndent(arg);
+				WriteIndent(arg.IndentDepth);
 				Writer.WriteLine("else");
 				ifStatement.ElseBody.TryAccept(this, arg.Set(ForBlock));
 			}
@@ -205,6 +195,27 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		public override bool Visit(
+				UnifiedUnaryExpression element, VisitorArgument arg) {
+			//e.g. a++ || a--
+			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
+			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
+				element.Operand.TryAccept(this, arg.Set(Paren));
+				element.Operator.TryAccept(this, arg);
+			} else {
+				element.Operator.TryAccept(this, arg);
+				element.Operand.TryAccept(this, arg.Set(Paren));
+			}
+			return true;
+		}
+
+		public override bool Visit(UnifiedProperty element, VisitorArgument arg) {
+			element.Owner.TryAccept(this, arg);
+			Writer.Write(element.Delimiter);
+			element.Name.TryAccept(this, arg);
+			return true;
+		}
+
 		public override bool Visit(UnifiedWhile element, VisitorArgument arg) {
 			Writer.Write("while(");
 			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
@@ -225,7 +236,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(UnifiedIndexer element, VisitorArgument arg) {
 			element.Target.TryAccept(this, arg);
-			element.Arguments.TryAccept(this, arg.Set(SquareBracket));
+			element.Arguments.TryAccept(this, arg.Set(Bracket));
 			return false;
 		}
 
@@ -264,7 +275,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedWith element, VisitorArgument arg) {
-			WriteIndent(arg);
+			WriteIndent(arg.IndentDepth);
 			Writer.Write("with (");
 			element.Value.TryAccept(this, arg);
 			Writer.Write(")");
@@ -316,7 +327,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			throw new NotImplementedException();
 		}
 
-		public override bool Visit(UnifiedTypeParameter element, VisitorArgument arg) {
+		public override bool Visit(
+				UnifiedGenericParameter element, VisitorArgument arg) {
 			//JavaScript
 			throw new NotImplementedException();
 		}
@@ -337,7 +349,8 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedFractionLiteral element, VisitorArgument arg) {
-			Writer.Write(element.Value);
+			// TODO: そのまま出力しても良いのか？
+			Writer.Write(element.Value.ToString("r"));
 			return false;
 		}
 
@@ -389,22 +402,17 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedKeyValue element, VisitorArgument arg) {
-			WriteIndent(arg);
+			WriteIndent(arg.IndentDepth);
 			element.Key.TryAccept(this, arg);
 			Writer.Write(":");
 			element.Value.TryAccept(this, arg);
 			return false;
 		}
 
-		public override bool Visit(
-				UnifiedDictionaryComprehension element, VisitorArgument arg) {
-			throw new NotImplementedException();
-		}
-
 		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
 			Writer.Write("{");
 			VisitCollection(element, arg.Set(CommaDelimiter));
-			WriteIndent(arg);
+			WriteIndent(arg.IndentDepth);
 			Writer.Write("}");
 			return false;
 		}
@@ -446,5 +454,5 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			element.BasicTypeName.TryAccept(this, arg);
 			return false;
 		}
-			}
+	}
 }

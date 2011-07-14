@@ -70,7 +70,8 @@ namespace Unicoen.Core.Model {
 		public override IEnumerable<IUnifiedElement> GetElements() {
 			// base.GetElements(): このクラスが持つ共通表現の要素のプロパティから得られる要素列
 			// Elements: 共通表現の要素集合として持つ子要素列
-			return base.GetElements().Concat(Elements);
+			Debug.Assert(base.GetElements().Count() == 0);
+			return Elements;
 		}
 
 		/// <summary>
@@ -210,10 +211,7 @@ namespace Unicoen.Core.Model {
 		/// </summary>
 		/// <returns>生成した要素集合</returns>
 		public static TSelf Create(params TElement[] elements) {
-			var ret = UnifiedFactory<TSelf>.Create();
-			if (elements != null)
-				ret.AddRange(elements);
-			return ret;
+			return Create((IEnumerable<TElement>)elements);
 		}
 
 		/// <summary>

@@ -8,6 +8,6 @@ using Unicoen.Core.Processor;
 
 namespace Unicoen.Languages.Java.CodeFactories {
 	public class JavaCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
-		public JavaCodeFactoryVisitor(TextWriter writer) : base(writer) {}
+		public JavaCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {}
 	}
 }
