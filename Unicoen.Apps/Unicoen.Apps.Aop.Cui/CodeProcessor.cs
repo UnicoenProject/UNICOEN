@@ -318,6 +318,39 @@ namespace Unicoen.Apps.Aop {
 		}
 
 		/// <summary>
+		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "regex">対象関数を指定する正規表現</param>
+		/// <param name="element"></param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecution(
+				IUnifiedElement root, Regex regex, Type element, UnifiedBlock advice) {
+			//関数の一覧を取得
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
+
+			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
+				//関数内部に指定された要素があるかどうかを判定
+				var specifiedElements =
+						ModelSweeper.Descendants(function.Body).Where(e => e.GetType().Equals(element));
+				if(specifiedElements.Count() == 0)
+					continue;
+
+				//関数名が与えられた正規表現にマッチする場合はアドバイスを合成する
+				var m = regex.Match(function.Name.Name);
+				if (m.Success)
+					function.Body.Insert(0, advice);
+			}
+		}
+
+		//TODO afterも実装する
+		//TODO 共通部分が多いので、うまくまとめて実装する方法を考える
+
+		/// <summary>
 		///   すべての関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
 		/// <param name = "root">コードを追加するモデルのルートノード</param>
@@ -381,6 +414,18 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtAfterExecutionByName(
 				IUnifiedElement root, string name, int statementNum, UnifiedBlock advice) {
 			InsertAtAfterExecution(root, new Regex("^" + name + "$"), statementNum, advice);
+		}
+
+		/// <summary>
+		///   名前で指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "name">対象関数の名前</param>
+		/// <param name="element"></param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecutionByName(
+				IUnifiedElement root, string name, Type element, UnifiedBlock advice) {
+			InsertAtBeforeExecution(root, new Regex("^" + name + "$"), element, advice);
 		}
 
 		#endregion

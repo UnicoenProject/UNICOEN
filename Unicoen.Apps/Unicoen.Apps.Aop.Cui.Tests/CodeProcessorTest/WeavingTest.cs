@@ -205,6 +205,44 @@ namespace Unicoen.Apps.Aop.Tests {
 		}
 
 		[Test]
+		public void For文を含む関数にアスペクトを合成する() {
+			//for文を含むメソッドを定義
+			const string code = @"class A{ public void M() { for(int i = 0; i < 10; i++) { } } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeExecutionByName(model, "M", typeof(UnifiedFor), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//For文が含まれているので処理が合成される
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void For文を含まない関数にアスペクトを合成する() {
+			//for文を含まないメソッドを定義
+			const string code = @"class A{ public void M() { int i = 0; while(i < 10) { i++; } } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeExecutionByName(model, "M", typeof(UnifiedFor), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//For文が含まれていないので合成の前後でコードが変わらない
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock));
+		}
+
+		[Test]
 		public void WeavingAtBeforeCallAll() {
 			var model = CreateModel(_studentPath);
 			var actual =
