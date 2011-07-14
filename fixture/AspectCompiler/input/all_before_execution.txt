@@ -1,0 +1,13 @@
+aspect Logger {
+    pointcut logger() :
+        execution(* *.*());
+
+    before : logger() {
+        @Java {
+            System.out.println(JOINPOINT_NAME);
+        }end
+        @JavaScript {
+            alert(JOINPOINT_NAME);
+        }end
+    }
+}

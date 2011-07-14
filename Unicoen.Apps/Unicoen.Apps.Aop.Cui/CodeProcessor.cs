@@ -281,8 +281,11 @@ namespace Unicoen.Apps.Aop {
 
 				//関数名が与えられた正規表現にマッチする場合はアドバイスを合成する
 				var m = regex.Match(function.Name.Name);
-				if (m.Success)
-					function.Body.Insert(0, advice);
+				if (m.Success) {
+					//アドバイス内の特定の変数を、現在の対象関数名で置き換える
+					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
+					function.Body.Insert(0, copy);
+				}
 			}
 		}
 
@@ -360,8 +363,11 @@ namespace Unicoen.Apps.Aop {
 
 				//関数名が与えられた正規表現にマッチする場合はアドバイスを合成する
 				var m = regex.Match(function.Name.Name);
-				if (m.Success)
-					function.Body.Insert(0, advice);
+				if (m.Success) {
+					//アドバイス内の特定の変数を、現在の対象関数名で置き換える
+					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
+					function.Body.Insert(0, copy);
+				}
 			}
 		}
 
