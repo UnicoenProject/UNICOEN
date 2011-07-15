@@ -214,19 +214,60 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedIntegerLiteral element, VisitorArgument arg) {
+		public override bool Visit(UnifiedBigIntLiteral element, VisitorArgument arg) {
 			Writer.Write(element.Value);
-			switch (element.Kind) {
-			case UnifiedIntegerLiteralKind.Int32:
-				break;
-			case UnifiedIntegerLiteralKind.Int64:
-				Writer.Write("l");
-				break;
-			case UnifiedIntegerLiteralKind.BigInteger:
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
+			Writer.Write("l");
+			return false;
+		}
+
+		public override bool Visit(UnifiedInt8Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedInt16Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedInt31Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedInt32Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("l");
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt8Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt16Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt31Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt32Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
 			return false;
 		}
 

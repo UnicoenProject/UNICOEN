@@ -189,7 +189,47 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedIntegerLiteral element) {
+		public virtual void Visit(UnifiedBigIntLiteral element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt8Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt16Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt31Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt32Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt64Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt8Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt16Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt31Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt32Literal element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt64Literal element) {
 			throw new NotImplementedException();
 		}
 
@@ -737,7 +777,47 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedIntegerLiteral element, TArg arg) {
+		public virtual void Visit(UnifiedBigIntLiteral element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt8Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt16Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt31Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt32Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedInt64Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt8Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt16Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt31Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt32Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUInt64Literal element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1360,7 +1440,47 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedIntegerLiteral element, TArg arg) {
+		public virtual TResult Visit(UnifiedBigIntLiteral element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedInt8Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedInt16Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedInt31Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedInt32Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedInt64Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUInt8Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUInt16Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUInt31Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUInt32Literal element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUInt64Literal element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

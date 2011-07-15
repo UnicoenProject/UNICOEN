@@ -139,7 +139,7 @@ namespace Unicoen.Languages.Java.Tests {
 													FixtureUtil.GetInputPath(LanguageName, o.DirName), action);
 								})
 						.Concat(SetUpJUnit())
-						.Concat(SetUpCraftBukkit())
+						//.Concat(SetUpCraftBukkit())
 						.Concat(SetUpBukkit())
 						;
 			}

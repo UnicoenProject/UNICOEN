@@ -116,6 +116,17 @@
     <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinition.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedVaueIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedTypeIdentifier.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt31Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt31Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedBigIntLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt64Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt64Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt8Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt8Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt16Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt16Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt32Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt32Literal.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
     <Compile Include="Model\Linqs\UnifiedLet.cs" />
     <Compile Include="Model\Linqs\UnifiedJoin.cs" />
@@ -214,8 +225,7 @@
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteralKind.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteral.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteralKind.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedIntegerLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedNullLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />

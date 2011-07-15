@@ -26,29 +26,13 @@ namespace Unicoen.Model {
 	///   整数のリテラルを表します。
 	///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分
 	/// </summary>
-	public class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
-		private BigInteger _value;
-
+	public class UnifiedUInt8Literal : UnifiedIntegerLiteral {
 		public override BigInteger Value {
-		    get { return _value; }
-		    set {
-		        switch (Kind) {
-		        case UnifiedIntegerLiteralKind.Int32:
-		            _value = value.ToForceInt32();
-		            break;
-		        case UnifiedIntegerLiteralKind.Int64:
-		            _value = value.ToForceInt64();
-		            break;
-		        case UnifiedIntegerLiteralKind.BigInteger:
-		            _value = value;
-		            break;
-		        }
-		    }
+			get { return _value; }
+			set { _value = value.ToForceUInt8(); }
 		}
 
-		public UnifiedIntegerLiteralKind Kind { get; set; }
-
-		private UnifiedIntegerLiteral() {}
+		private UnifiedUInt8Literal() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -68,22 +52,10 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedIntegerLiteral Create(
-				BigInteger value,
-				UnifiedIntegerLiteralKind kind) {
-			return new UnifiedIntegerLiteral {
-					// 先にKindを設定しないとプロパティの初期がで失敗する
-					Kind = kind,
+		public static UnifiedUInt8Literal Create(BigInteger value) {
+			return new UnifiedUInt8Literal {
 					Value = value,
 			};
-		}
-
-		public static UnifiedIntegerLiteral CreateInt32(int value) {
-			return Create(value, UnifiedIntegerLiteralKind.Int32);
-		}
-
-		public static UnifiedIntegerLiteral CreateBigInteger(BigInteger value) {
-			return Create(value, UnifiedIntegerLiteralKind.BigInteger);
 		}
 	}
 }

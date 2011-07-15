@@ -26,14 +26,6 @@ namespace Unicoen.Model {
 			return UnifiedBooleanLiteral.Create(literal);
 		}
 
-		public static UnifiedIntegerLiteral ToInt64Literal(this long value) {
-			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int64);
-		}
-
-		public static UnifiedIntegerLiteral ToInt32Literal(this int value) {
-			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int32);
-		}
-
 		public static UnifiedFractionLiteral ToLiteral(this double value) {
 			return UnifiedFractionLiteral.Create(
 					value, UnifiedFractionLiteralKind.Double);
