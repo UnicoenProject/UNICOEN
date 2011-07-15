@@ -20,6 +20,7 @@ namespace Unicoen.Core.Model {
 	public enum UnifiedIntegerLiteralKind {
 		Int32,
 		Int64,
+		UInt64,
 		BigInteger,
 	}
 }

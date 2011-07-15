@@ -163,6 +163,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedBinaryOperator.Create("&&", UnifiedBinaryOperatorKind.AndAlso);
 			case BinaryOperatorType.ConditionalOr:
 				return UnifiedBinaryOperator.Create("||", UnifiedBinaryOperatorKind.OrElse);
+
+			case BinaryOperatorType.NullCoalescing:
+				return UnifiedBinaryOperator.Create("??", UnifiedBinaryOperatorKind.Coalesce);
 			}
 			throw new ArgumentException("Unknown operator: " + op);
 		}

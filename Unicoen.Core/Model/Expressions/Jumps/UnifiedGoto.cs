@@ -18,6 +18,7 @@
 
 using System.Diagnostics;
 using Unicoen.Core.Processor;
+using System;
 
 namespace Unicoen.Core.Model {
 	public class UnifiedGoto : UnifiedElement, IUnifiedExpression {
@@ -45,6 +46,13 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedGoto Create(string label) {
+			if (label == null) throw new ArgumentNullException("label is null");
+			return new UnifiedGoto {
+					Value = UnifiedLabelIdentifier.Create(label),
+			};
 		}
 
 		public static UnifiedGoto Create(
