@@ -170,7 +170,7 @@ variableInitializer
 	;
 
 IDENTIFIER
-	: ('a'..'z'|'A'..'Z')+ | '*'
+	: ('a'..'z'|'A'..'Z'|'_')+ | '*' 
 	;
 
 STRING

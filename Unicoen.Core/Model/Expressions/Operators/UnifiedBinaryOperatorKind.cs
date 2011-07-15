@@ -252,8 +252,15 @@ namespace Unicoen.Core.Model {
 		ExclusiveOrAssign,
 
 		/// <summary>
-		///   a instanceof b
+		/// <c>obj instanceof Object</c> in Java,
+		/// <c>obj is object</c> in C#
 		/// </summary>
 		InstanceOf,
+
+		/// <summary>
+		/// <c>obj as String</c> in C#
+		/// </summary>
+		As,
+
 	}
 }

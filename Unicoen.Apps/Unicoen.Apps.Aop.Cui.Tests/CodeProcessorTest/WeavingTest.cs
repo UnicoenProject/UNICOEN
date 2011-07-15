@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
@@ -23,6 +24,7 @@ using Paraiba.Text;
 using Unicoen.Core.Model;
 using Unicoen.Core.Processor;
 using Unicoen.Core.Tests;
+using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Tests {
 	/// <summary>
@@ -147,6 +149,100 @@ namespace Unicoen.Apps.Aop.Tests {
 		}
 
 		[Test]
+		public void Statement数の閾値を5としてStatementを5つ持つ関数にアスペクトを合成する() {
+			//statementを5つ含むメソッドを定義
+			const string code = @"class A{ public void M() { int a = 0; a = 1; a = 2; a = 3; a = 4; }}";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void Statement数の閾値を5としてStatementを4つ持つ関数にアスペクトを合成する() {
+			//statementを4つ含むメソッドを定義
+			const string code = @"class A{ public void M() { int a = 0; a = 1; a = 2; a = 3; }}";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//合成の前後でブロックの数が変わらない
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock));
+		}
+		
+		[Test]
+		public void Statement数の閾値を5としてif文を含む関数にアスペクトを合成する() {
+			//statementを4つ含むメソッドを定義
+			const string code = @"class A{ public void M() { if(true) { int a = 0; a = 1; a = 2; a = 3; }}}";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//if文で1statement, trueブロック内で4statementsなので処理が合成される
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void For文を含む関数にアスペクトを合成する() {
+			//for文を含むメソッドを定義
+			const string code = @"class A{ public void M() { for(int i = 0; i < 10; i++) { } } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeExecutionByName(model, "M", typeof(UnifiedFor), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//For文が含まれているので処理が合成される
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void For文を含まない関数にアスペクトを合成する() {
+			//for文を含まないメソッドを定義
+			const string code = @"class A{ public void M() { int i = 0; while(i < 10) { i++; } } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeExecutionByName(model, "M", typeof(UnifiedFor), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//For文が含まれていないので合成の前後でコードが変わらない
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock));
+		}
+
+		[Test]
 		public void WeavingAtBeforeCallAll() {
 			var model = CreateModel(_studentPath);
 			var actual =
@@ -160,7 +256,7 @@ namespace Unicoen.Apps.Aop.Tests {
 					model,
 					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
-
+		
 		[Test]
 		public void WeavingAtAfterCallAll() {
 			var model = CreateModel(_studentPath);

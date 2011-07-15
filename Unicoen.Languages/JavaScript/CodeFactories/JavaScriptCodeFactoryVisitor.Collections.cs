@@ -34,15 +34,36 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//JavaScriptでは修飾子は出現しない
 		public override bool Visit(
 				UnifiedModifierCollection element, VisitorArgument arg) {
-			//JavaScriptでは修飾子は出現しない
+			return false;
+		}
+		
+		//JavaScriptではジェネリックタイプは出現しない
+		public override bool Visit(
+				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
 			return false;
 		}
 
 		public override bool Visit(
+				UnifiedCatchCollection element, VisitorArgument arg) {
+			//TODO VisitCollection()に置き換えられるか確認
+
+			Writer.Write(arg.Decoration.MostLeft);
+			var delimiter = "";
+			foreach (var e in element) {
+				Writer.Write(delimiter);
+				e.TryAccept(this, arg);
+				delimiter = arg.Decoration.Delimiter;
+			}
+			Writer.Write(arg.Decoration.MostRight);
+			return false;
+		}
+
+		//現在は使用されていない
+		public override bool Visit(
 				UnifiedExpressionCollection element, VisitorArgument arg) {
-			//現在は使用していない
 			throw new InvalidOperationException();
 		}
 
@@ -55,15 +76,15 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//JavaScriptでは例外型の列挙は出現しない
 		public override bool Visit(UnifiedThrowsTypeCollection element, VisitorArgument arg) {
-			//JavaScriptでは型の列挙は出現しない
-			throw new NotImplementedException();
+			return false;
 		}
 
+		//JavaScriptでは型パラメータは出現しない
 		public override bool Visit(
 				UnifiedGenericParameterCollection element, VisitorArgument arg) {
-			//JavaScriptでは型パラメータは出現しない
-			throw new NotImplementedException();
+			return false;
 		}
 
 		public override bool Visit(
@@ -78,17 +99,21 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		//JavaScriptではアノテーションは出現しない
 		public override bool Visit(UnifiedAnnotation element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			return false;
 		}
 
 		public override bool Visit(
 				UnifiedAnnotationCollection element, VisitorArgument arg) {
-			throw new NotImplementedException();
+			return false;
 		}
-
+		
+		//変数宣言リスト : e.g. var a = 1, b = 2;
 		public override bool Visit(
 				UnifiedVariableDefinitionList element, VisitorArgument arg) {
+			//for文の初期条件内では変数宣言を分解して出力できないため、
+			//あらかじめ'var'を出力しておいて各UnifiedVariableDefinitionでは'var'を出力しない
 			if (element.Parent.GetType() == typeof(UnifiedFor)) {
 				Writer.Write("var ");
 				VisitCollection(element, arg.Set(CommaDelimiter));
@@ -100,7 +125,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 
 		public override bool Visit(
 				UnifiedVariableDefinition element, VisitorArgument arg) {
-			//for文の場合、varは１つしか記述できないため、collection側でvarを出力済み
+			//for文の場合'var'は１つしか記述できないため、UnifiedVariableDefinitionListで'var'を出力済み
 			if (arg.Decoration.Delimiter != ", ")
 				Writer.Write("var ");
 			element.Name.TryAccept(this, arg);

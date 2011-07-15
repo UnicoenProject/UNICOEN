@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-06-10 23:28:58
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-07-14 18:08:43
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -17,6 +17,7 @@ using Antlr.Runtime.Tree;
 using RewriteRuleITokenStream = Antlr.Runtime.Tree.RewriteRuleTokenStream;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "3.3 Nov 30, 2010 12:50:56")]
+[System.CLSCompliant(false)]
 public partial class AriesParser : Antlr.Runtime.Parser
 {
 	internal static readonly string[] tokenNames = new string[] {
@@ -796,7 +797,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: languageDeclaration, contents
+			// elements: contents, languageDeclaration
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1343,7 +1344,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: pointcutDeclarator, parameters, pointcutName
+			// elements: parameters, pointcutName, pointcutDeclarator
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1714,7 +1715,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: parameterType, IDENTIFIER
+			// elements: IDENTIFIER, parameterType
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1956,7 +1957,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: identifierWithClassName, arguments, type, pointcutType
+			// elements: type, arguments, identifierWithClassName, pointcutType
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2539,7 +2540,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: adviceType, parameters, adviceBody, adviceTarget
+			// elements: adviceTarget, parameters, adviceType, adviceBody
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 

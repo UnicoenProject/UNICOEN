@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-06-10 23:28:58
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-07-14 18:08:44
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -13,6 +13,7 @@ using List = System.Collections.IList;
 using ArrayList = System.Collections.Generic.List<object>;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "3.3 Nov 30, 2010 12:50:56")]
+[System.CLSCompliant(false)]
 public partial class AriesLexer : Antlr.Runtime.Lexer
 {
 	public const int EOF=-1;
@@ -887,12 +888,12 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		{
 			int _type = IDENTIFIER;
 			int _channel = DefaultTokenChannel;
-			// Aries.g:173:2: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ | '*' )
+			// Aries.g:173:2: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' )+ | '*' )
 			int alt4=2;
 			try { DebugEnterDecision(4, decisionCanBacktrack[4]);
 			int LA4_0 = input.LA(1);
 
-			if (((LA4_0>='A' && LA4_0<='Z')||(LA4_0>='a' && LA4_0<='z')))
+			if (((LA4_0>='A' && LA4_0<='Z')||LA4_0=='_'||(LA4_0>='a' && LA4_0<='z')))
 			{
 				alt4=1;
 			}
@@ -912,10 +913,10 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// Aries.g:173:4: ( 'a' .. 'z' | 'A' .. 'Z' )+
+				// Aries.g:173:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )+
 				{
 				DebugLocation(173, 4);
-				// Aries.g:173:4: ( 'a' .. 'z' | 'A' .. 'Z' )+
+				// Aries.g:173:4: ( 'a' .. 'z' | 'A' .. 'Z' | '_' )+
 				int cnt3=0;
 				try { DebugEnterSubRule(3);
 				while (true)
@@ -924,7 +925,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 					try { DebugEnterDecision(3, decisionCanBacktrack[3]);
 					int LA3_0 = input.LA(1);
 
-					if (((LA3_0>='A' && LA3_0<='Z')||(LA3_0>='a' && LA3_0<='z')))
+					if (((LA3_0>='A' && LA3_0<='Z')||LA3_0=='_'||(LA3_0>='a' && LA3_0<='z')))
 					{
 						alt3=1;
 					}
@@ -938,7 +939,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 						// Aries.g:
 						{
 						DebugLocation(173, 4);
-						if ((input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z'))
+						if ((input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z'))
 						{
 							input.Consume();
 
@@ -974,9 +975,9 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// Aries.g:173:27: '*'
+				// Aries.g:173:31: '*'
 				{
-				DebugLocation(173, 27);
+				DebugLocation(173, 31);
 				Match('*'); 
 
 				}
@@ -1600,14 +1601,14 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 				"\x2\x16\x2\xFFFF\x1\x16\x12\xFFFF\x1\x16\x1\xFFFF\x1\x14\x5\xFFFF\x1"+
 				"\xC\x1\xD\x1\x13\x3\xFFFF\x1\xE\x2\xFFFF\x9\x15\x1\x9\x1\xB\x1\xFFFF"+
 				"\x1\xF\x2\xFFFF\x1\x4\x2\x13\x1\x6\x6\x13\x1\x5\x5\x13\x1\x8\x1\x13"+
-				"\x1\x7\x8\x13\x6\xFFFF\x1\x1\x1\x12\x1\x11\x1\x13\x1\x10\xA\x13\x1\xA"+
-				"\xA\x13\x1\x2\x1\xFFFF\x1\x3",
+				"\x1\x7\x8\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1\x1\x1\x12\x1\x11\x1\x13\x1"+
+				"\x10\xA\x13\x1\xA\xA\x13\x1\x2\x1\xFFFF\x1\x3",
 				"\x1\x18\xC\xFFFF\x1\x17",
 				"",
 				"\x1\x19",
 				"",
 				"\x1\x1B",
-				"\x12\x13\x1\x1C\x7\x13\x6\xFFFF\x1A\x13",
+				"\x12\x13\x1\x1C\x7\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"\x1\x1E",
 				"\x1\x1F",
 				"",
@@ -1649,16 +1650,16 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 				"\x1\x37",
 				"\x1\x38",
 				"\x1\x39",
-				"\x12\x13\x1\x3A\x7\x13\x6\xFFFF\x1A\x13",
+				"\x12\x13\x1\x3A\x7\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"\x1\x3C",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"\x1\x3E",
 				"\x1\x3F",
 				"\x1\x40",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"\x1\x42",
 				"\x1\x43",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"\x1\x45",
 				"",
 				"\x1\x46",
@@ -1668,14 +1669,14 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 				"\x1\x49",
 				"",
 				"\x1\x4A",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"",
 				"\x1\x4C",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"\x1\x4F",
 				"\x1\x50",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"",
 				"\x1\x51",
 				"",
@@ -1683,12 +1684,12 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 				"\x1\x52",
 				"\x1\x53",
 				"\x1\x54",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				"\x1\x56",
 				"\x1\x57",
 				"",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
-				"\x1A\x13\x6\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
+				"\x1A\x13\x4\xFFFF\x1\x13\x1\xFFFF\x1A\x13",
 				""
 			};
 

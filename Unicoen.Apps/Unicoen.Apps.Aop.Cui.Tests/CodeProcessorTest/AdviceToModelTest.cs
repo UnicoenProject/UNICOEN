@@ -16,9 +16,12 @@
 
 #endregion
 
+using System;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.Core.Model;
+using Unicoen.Core.Processor;
+using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Tests {
 	[TestFixture]
@@ -26,7 +29,7 @@ namespace Unicoen.Apps.Aop.Tests {
 
 		[Test]
 		public void Java言語向けコード片を正しくモデル化できる() {
-			const string code = "System.out.println(\"This is a test!\");";
+			const string code = "System.out.println(JOINPOINT_NAME + \"This is a test!\");";
 			var advice = CodeProcessor.CreateAdvice("Java", code);
 			Assert.That(advice.GetType(), Is.EqualTo(typeof(UnifiedBlock)));
 		}
@@ -72,6 +75,23 @@ namespace Unicoen.Apps.Aop.Tests {
 			Assert.That(
 					elements.ElementAt(0).GetType(),
 					Is.EqualTo(typeof(UnifiedVariableDefinitionList)));
+		}
+
+		[Test]
+		public void 特殊文字を含むアドバイス内の変数を指定された文字列に置き換えられる() {
+			var code = "System.out.println(JOINPOINT_NAME + \" is executed!\");";
+			var advice = CodeProcessor.CreateAdvice("Java", code);
+
+			//アドバイス内の特殊文字を置き換える
+			CodeProcessor.ReplaceSpecialToken(advice, "test");
+
+			code = "System.out.println(\"test\" + \" is executed!\");";
+			var actual = CodeProcessor.CreateAdvice("Java", code);
+
+			var gen = new JavaCodeFactory();
+			Console.WriteLine(gen.Generate(advice));
+
+			Assert.That(gen.Generate(advice), Is.EqualTo(gen.Generate(actual)));
 		}
 	}
 }
