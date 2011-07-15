@@ -21,6 +21,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Core.Model;
+using System.Collections.Generic;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	internal partial class NRefactoryModelVisitor {
@@ -65,9 +66,25 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedModifier.Create("ref");
 			case ParameterModifier.This:
 				return UnifiedModifier.Create("this");
-			default:
-				return null;
 			}
+			return null;
+		}
+
+		private static UnifiedModifier LookupModifier(FieldDirection dir) {
+			switch(dir) {
+			case FieldDirection.Out:
+				return UnifiedModifier.Create("out");
+			case FieldDirection.Ref:
+				return UnifiedModifier.Create("ref");
+			}
+			return null;
+		}
+
+		private static UnifiedGenericArgumentCollection ToArgumentCollection(IEnumerable<AstType> types) {
+			return types
+					.Select(LookupType)
+					.Select(t => UnifiedGenericArgument.Create(t))
+					.ToCollection();
 		}
 
 		private static UnifiedType LookupType(AstType type) {

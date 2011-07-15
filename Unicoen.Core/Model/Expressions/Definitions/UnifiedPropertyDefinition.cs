@@ -25,6 +25,7 @@ namespace Unicoen.Core.Model {
 	///   e.g. C#における<c>public int Value { get; set; }</c>
 	/// </summary>
 	public class UnifiedPropertyDefinition : UnifiedElement, IUnifiedExpression {
+
 		#region fields & properties
 
 		private UnifiedAnnotationCollection _annotations;

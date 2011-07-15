@@ -20,6 +20,7 @@ using System.Diagnostics;
 using Unicoen.Core.Processor;
 
 namespace Unicoen.Core.Model {
+
 	/// <summary>
 	///   識別子を表します。
 	/// </summary>
