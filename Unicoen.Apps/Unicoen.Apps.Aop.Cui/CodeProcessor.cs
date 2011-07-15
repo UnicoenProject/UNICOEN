@@ -562,5 +562,57 @@ namespace Unicoen.Apps.Aop {
 		}
 
 		#endregion
+
+		#region GetSet
+
+		// a = b; a = 10; b;
+		// a -> set joinpoint
+		// b -> get joinpoint
+
+		//getはBinaryExpressionの左辺以外の変数(UnifiedVariableIdentifier)？
+		//かつ、親ノードがブロックの場合とまずは少ない範囲からいきましょう
+		public static void InsertAtBeforeGet(IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+			//a = b;
+			//TODO とりえあずAssignのみ +=,-=などについてはおいおい
+			var assignmentExpressions =
+					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign);
+			
+
+			//TODO int a = b;のような初期化子付きの変数宣言を対象にできていない！
+			foreach (var exp in assignmentExpressions) {
+
+				var parent = exp.Parent as UnifiedBlock;
+				var rhs = exp.RightHandSide as UnifiedVariableIdentifier;
+
+				//親がブロック　かつ　右辺がUnifiedVariableIdentifier　でない場合は次の要素へ
+				if(parent == null || rhs == null)
+					continue;
+
+				//変数名が与えられた正規表現にマッチするか確認する
+				var m = regex.Match(rhs.Name);
+				if (!m.Success)
+					continue;
+
+				//アドバイスの合成
+				parent.Insert(parent.IndexOf(exp, 0), advice);
+			}
+		}
+
+		public static void InsertAtAfterGet(IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+			throw new NotImplementedException();
+		}
+
+
+		//setはBinaryExpressionの左辺の場合？
+		// a = b = cの扱いはどうする？
+		public static void InsertAtBeforeSet(IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+			throw new NotImplementedException();
+		}
+
+		public static void InsertAtAfterSet(IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+			throw new NotImplementedException();
+		}
+
+		#endregion
 	}
 }

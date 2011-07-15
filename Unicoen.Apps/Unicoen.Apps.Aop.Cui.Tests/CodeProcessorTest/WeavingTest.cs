@@ -338,6 +338,24 @@ namespace Unicoen.Apps.Aop.Tests {
 					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
+		[Test]
+		public void Getポイントカットを用いてアスペクトを合成できる() {
+			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeGet(model, new Regex("a"), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//For文が含まれていないので合成の前後でコードが変わらない
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
 		//TODO 多項式中や、プロパティとしての関数呼び出し、関数の引数として現れるUnifiedCallに対しては、処理が行われないことを確認するテストを書く
 	}
 }
