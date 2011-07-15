@@ -218,7 +218,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedIntegerLiteral.CreateInt32((int)prim.Value);
 			}
 			if (prim.Value is UInt64) {
-				return UnifiedIntegerLiteral.Create((UInt64)prim.Value, UnifiedIntegerLiteralKind.UInt64);
+				return UnifiedIntegerLiteral.CreateUInt64((UInt64)prim.Value);
 			}
 			if (prim.Value is char) {
 				return UnifiedCharLiteral.Create(((char)prim.Value).ToString());

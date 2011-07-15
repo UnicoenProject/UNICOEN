@@ -175,22 +175,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedIntegerLiteral element, VisitorArgument arg) {
-			Writer.Write(element.Value);
-			switch (element.Kind) {
-			case UnifiedIntegerLiteralKind.Int32:
-				break;
-			case UnifiedIntegerLiteralKind.Int64:
-				Writer.Write("l");
-				break;
-			case UnifiedIntegerLiteralKind.BigInteger:
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-			return false;
-		}
-
 		public override bool Visit(UnifiedStringLiteral element, VisitorArgument arg) {
 			Writer.Write(element.Value);
 			return false;

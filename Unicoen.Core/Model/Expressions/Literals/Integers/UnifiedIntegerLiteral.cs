@@ -34,6 +34,10 @@ namespace Unicoen.Model {
 			return UnifiedInt16Literal.Create(value);
 		}
 
+		public static UnifiedIntegerLiteral CreateInt31(BigInteger value) {
+			return UnifiedInt31Literal.Create(value);
+		}
+
 		public static UnifiedIntegerLiteral CreateInt32(BigInteger value) {
 			return UnifiedInt32Literal.Create(value);
 		}
@@ -48,6 +52,10 @@ namespace Unicoen.Model {
 
 		public static UnifiedIntegerLiteral CreateUInt16(BigInteger value) {
 			return UnifiedUInt16Literal.Create(value);
+		}
+
+		public static UnifiedIntegerLiteral CreateUInt31(BigInteger value) {
+			return UnifiedUInt31Literal.Create(value);
 		}
 
 		public static UnifiedIntegerLiteral CreateUInt32(BigInteger value) {

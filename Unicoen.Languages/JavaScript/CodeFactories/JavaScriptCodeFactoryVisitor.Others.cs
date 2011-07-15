@@ -371,12 +371,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		//整数リテラル
-		public override bool Visit(UnifiedIntegerLiteral element, VisitorArgument arg) {
-			Writer.Write(element.Value);
-			return false;
-		}
-
 		//文字列リテラル
 		public override bool Visit(UnifiedStringLiteral element, VisitorArgument arg) {
 			Writer.Write(element.Value);

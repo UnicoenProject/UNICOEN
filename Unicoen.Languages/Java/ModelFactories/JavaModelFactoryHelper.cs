@@ -2175,9 +2175,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * INTLITERAL
 			 * :   IntegerNumber 
 			 */
-			return UnifiedIntegerLiteral.Create(
-					ParseInteger(node.Value),
-					UnifiedIntegerLiteralKind.Int32);
+			return UnifiedIntegerLiteral.CreateInt32(
+					ParseInteger(node.Value));
 		}
 
 		public static UnifiedLiteral CreateLongLiteral(XElement node) {
@@ -2193,9 +2192,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			var str = node.Value;
 			return
-					UnifiedIntegerLiteral.Create(
-							ParseInteger(str.Substring(0, str.Length - 1)),
-							UnifiedIntegerLiteralKind.Int64);
+					UnifiedIntegerLiteral.CreateInt64(
+							ParseInteger(str.Substring(0, str.Length - 1)));
 		}
 
 		private static BigInteger ParseInteger(string value) {
