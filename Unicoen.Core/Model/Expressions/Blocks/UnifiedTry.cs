@@ -17,29 +17,38 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   try文を表します。
-	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>
+	///   e.g. Javaにおける<c>try { ... } catch(Exception e) { ... }</c>
 	/// </summary>
-	public class UnifiedTry : UnifiedExpressionBlock {
+	public class UnifiedTry : UnifiedElement, IUnifiedExpression {
 		private UnifiedCatchCollection _catches;
+		private UnifiedBlock _elseBody;
+		private UnifiedBlock _finallyBody;
+		private UnifiedBlock _body;
 
 		/// <summary>
-		///   catch節の集合を表します
-		///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>
+		///   catch節の集合を取得もしくは設定します．
+		///   e.g. Javaにおける<c>try { ... } catch(Exception e) { ... }</c>の<c>catch(Exception e) { ... }</c>
 		/// </summary>
 		public UnifiedCatchCollection Catches {
 			get { return _catches; }
 			set { _catches = SetChild(value, _catches); }
 		}
 
-		private UnifiedBlock _elseBody;
+		/// <summary>
+		///   ブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
 		/// <summary>
-		///   else節を表します
+		///   else節のブロックを取得もしくは設定します．
 		///   e.g. Pythonにおける<c>try: ...  else: ... finally: ...</c>の<c>else: ...</c>
 		/// </summary>
 		public UnifiedBlock ElseBody {
@@ -47,23 +56,13 @@ namespace Unicoen.Core.Model {
 			set { _elseBody = SetChild(value, _elseBody); }
 		}
 
-		private UnifiedBlock _finallyBody;
-
 		/// <summary>
-		///   finally節を表します
+		///   finally節のブロックを取得もしくは設定します．
 		///   e.g. Javaにおける<c>try{...}catch(Exception e){...}finally{...}</c>の<c>finally{...}</c>
 		/// </summary>
 		public UnifiedBlock FinallyBody {
 			get { return _finallyBody; }
 			set { _finallyBody = SetChild(value, _finallyBody); }
-		}
-
-		/// <summary>
-		///   ブロックを取得します．
-		/// </summary>
-		public override UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedTry() {}

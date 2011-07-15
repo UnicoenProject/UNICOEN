@@ -17,15 +17,18 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   foreach文あるいは拡張for文を表します。
 	///   e.g. Javaにおける<c>for(int n : array){...}</c>やC#における<c>foreach(var n in array){...}</c>
 	/// </summary>
-	public class UnifiedForeach : UnifiedExpressionBlock {
+	public class UnifiedForeach : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _element;
+		private IUnifiedExpression _set;
+		private UnifiedBlock _body;
+		private UnifiedBlock _elseBody;
 
 		/// <summary>
 		///   集合から取り出した要素を表します
@@ -36,8 +39,6 @@ namespace Unicoen.Core.Model {
 			set { _element = SetChild(value, _element); }
 		}
 
-		private IUnifiedExpression _set;
-
 		/// <summary>
 		///   対象の集合を表します
 		///   e.g. Javaにおける<c>for(int n : array){...}</c>の<c>array</c>
@@ -47,19 +48,17 @@ namespace Unicoen.Core.Model {
 			set { _set = SetChild(value, _set); }
 		}
 
-		private UnifiedBlock _elseBody;
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
 			set { _elseBody = SetChild(value, _elseBody); }
-		}
-
-		/// <summary>
-		///   ブロックを取得します．
-		/// </summary>
-		public override UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedForeach() {}

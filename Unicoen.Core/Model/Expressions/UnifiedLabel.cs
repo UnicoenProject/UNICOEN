@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   ラベル式を表します。
 	///   e.g. Javaにおける<c>loop: while(cond){ ... }</c>の<c>loop</c>の部分

@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   スライス表記を表します．
 	///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>

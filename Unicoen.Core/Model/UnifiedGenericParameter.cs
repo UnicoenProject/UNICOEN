@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   ジェネリクスパラメータなど型に対する仮引数を表します。
 	///   e.g. Javaにおける<code>public &lt;T&gt; void method(){...}</code>

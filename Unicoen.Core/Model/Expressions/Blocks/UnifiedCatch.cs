@@ -17,14 +17,14 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   catch節を表します。
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
-	public class UnifiedCatch : UnifiedExpressionBlock {
+	public class UnifiedCatch : UnifiedElement, IUnifiedExpression {
 		private UnifiedMatcherCollection _matchers;
 
 		/// <summary>
@@ -36,10 +36,12 @@ namespace Unicoen.Core.Model {
 			set { _matchers = SetChild(value, _matchers); }
 		}
 
+		private UnifiedBlock _body;
+
 		/// <summary>
 		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}

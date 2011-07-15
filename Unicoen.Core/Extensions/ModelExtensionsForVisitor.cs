@@ -18,9 +18,9 @@
 
 using System.Diagnostics;
 using Unicoen.CodeFactories;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelExtensionsForVisitor {
 		[DebuggerStepThrough]
 		public static void TryAccept<TElement>(

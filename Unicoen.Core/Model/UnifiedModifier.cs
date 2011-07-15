@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   修飾子を表します。
 	///   e.g. Javaにおける<c>public int method(){...}</c>の<c>public</c>

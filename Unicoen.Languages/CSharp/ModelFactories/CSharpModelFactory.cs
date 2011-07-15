@@ -18,8 +18,8 @@
 
 using System.IO;
 using ICSharpCode.NRefactory.CSharp;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	public class CSharpModelFactory : ModelFactory {

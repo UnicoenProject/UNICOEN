@@ -19,9 +19,9 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   フィールド、メンバー、プロパティなどへのアクセス式を表します。
 	///   e.g. Javaにおける<c>int a = b.c;</c>の<c>b.c</c>

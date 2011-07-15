@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   修飾子の集合を表します。
 	///   e.g. Javaにおける<code>public static void method(){...}</code>の<code>public static</code>

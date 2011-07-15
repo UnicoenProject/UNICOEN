@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using System.Collections.Generic;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {

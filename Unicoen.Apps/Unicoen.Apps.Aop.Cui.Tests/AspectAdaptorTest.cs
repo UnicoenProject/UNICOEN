@@ -22,9 +22,9 @@ using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Paraiba.Text;
 using Unicoen.Apps.Aop.Visitor;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.Model;
+using Unicoen.Processor;
+using Unicoen.Tests;
 
 namespace Unicoen.Apps.Aop.Tests {
 	/// <summary>

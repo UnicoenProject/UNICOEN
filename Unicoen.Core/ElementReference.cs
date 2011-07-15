@@ -17,9 +17,9 @@
 #endregion
 
 using System;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
-namespace Unicoen.Core {
+namespace Unicoen {
 	public class ElementReference : ElementReference<IUnifiedElement> {
 		public ElementReference(
 				Func<IUnifiedElement> getter, Action<IUnifiedElement> setter)

@@ -18,9 +18,9 @@
 
 using System;
 using System.Collections.Generic;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public interface IUnifiedElement : ICloneable {
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。

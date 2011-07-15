@@ -17,8 +17,8 @@
 #endregion
 
 using System.IO;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.CodeFactories {
 	public abstract partial class JavaLikeCodeFactoryVisitor

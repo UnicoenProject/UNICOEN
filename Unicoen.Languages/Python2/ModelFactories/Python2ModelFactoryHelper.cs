@@ -24,8 +24,8 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using UniUni.Linq;
 using UniUni.Xml.Linq;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
@@ -731,10 +731,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.Select(CreateWith_item)
 					.ToCollection();
 			var suite = CreateSuite(node.Element("suite"));
-			return UnifiedUsing.Create2(matchers, suite);
+			return UnifiedUsing.Create(matchers, suite);
 		}
 
-		public static UnifiedMatcher CreateWith_item(XElement node) {
+		public static UnifiedUsingPart CreateWith_item(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "with_item");
 			/*
@@ -748,7 +748,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var expr = exprNode != null
 			           		? CreateExpr(exprNode)
 			           		: null;
-			return UnifiedMatcher.Create(null, null, test, expr);
+			return UnifiedUsingPart.Create(expr, test);
 		}
 
 		public static UnifiedMatcher CreateExcept_clause(XElement node) {
@@ -813,7 +813,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			var varargslistNode = node.Element("varargslist");
 			return UnifiedLambda.Create(
-					null, null, null, varargslistNode != null
+					null, varargslistNode != null
 					                  		? CreateVarargslist(varargslistNode)
 					                  		: null,
 					CreateOld_test(node.LastElement()).ToBlock());
@@ -1100,7 +1100,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 */
 			var varargslistNode = node.Element("varargslist");
 			return UnifiedLambda.Create(
-					null, null, null, varargslistNode != null
+					null, varargslistNode != null
 					                  		? CreateVarargslist(varargslistNode)
 					                  		: null,
 					CreateTest(node.LastElement()).ToBlock());

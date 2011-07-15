@@ -19,9 +19,9 @@
 using System.Diagnostics;
 using System.Numerics;
 using UniUni.Numerics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   整数のリテラルを表します。
 	///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分

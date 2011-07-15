@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   文字列であるリテラルを表します。
 	///   e.g. Javaにおける<c>String str = "abc"</c>の<c>"abc"</c>の部分

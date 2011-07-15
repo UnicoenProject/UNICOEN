@@ -17,16 +17,17 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   synchronizedなど特殊なブロックを表します。
 	///   e.g. Javaにおける<c>synchronized(this) {...}</c>
 	/// </summary>
 	public class UnifiedSynchronized
-			: UnifiedExpressionBlock {
+			: UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _value;
+		private UnifiedBlock _body;
 
 		public IUnifiedExpression Value {
 			get { return _value; }
@@ -36,7 +37,7 @@ namespace Unicoen.Core.Model {
 		/// <summary>
 		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}

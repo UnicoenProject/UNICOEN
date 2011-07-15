@@ -21,8 +21,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Unicoen.Core.Model;
-using Unicoen.Core.Tests;
+using Unicoen.Model;
+using Unicoen.Tests;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator.Tests {

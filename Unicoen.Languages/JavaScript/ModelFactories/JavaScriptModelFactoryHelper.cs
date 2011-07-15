@@ -24,8 +24,8 @@ using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
 using UniUni.Xml.Linq;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
@@ -133,7 +133,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
 			return UnifiedLambda.Create(
-					null, null,
 					UnifiedVariableIdentifier.Create(name), parameters,
 					body);
 		}

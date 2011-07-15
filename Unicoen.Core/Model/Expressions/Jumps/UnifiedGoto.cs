@@ -17,10 +17,10 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 using System;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public class UnifiedGoto : UnifiedElement, IUnifiedExpression {
 		private UnifiedIdentifier _value;
 

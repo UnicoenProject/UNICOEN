@@ -22,7 +22,7 @@ using System.IO;
 using System.Linq;
 using Paraiba.Collections.Generic;
 using Paraiba.Text;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.Python2;

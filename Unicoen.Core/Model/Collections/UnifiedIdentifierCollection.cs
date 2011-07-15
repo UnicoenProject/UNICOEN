@@ -18,9 +18,9 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   識別子の集合を表します．
 	///   e.g. Pythonにおける<c>def f((a,b) = [1, 2], c = 1):</c>の<c>(a, b)</c>

@@ -19,7 +19,7 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
 		/// <summary>
 		///   型の基礎部分の名前を表します．

@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   識別子を表します。
 	/// </summary>

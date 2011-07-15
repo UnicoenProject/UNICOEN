@@ -23,9 +23,9 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using UniUni.Linq;
 using UniUni.Xml.Linq;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public static class ModelFactoryHelper {
 		/// <summary>
 		///   指定したXMLノードから演算子が項の前に付くUnaryExpressionを作成します．

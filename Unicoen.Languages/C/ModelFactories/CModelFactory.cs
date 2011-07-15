@@ -17,8 +17,8 @@
 #endregion
 
 using Code2Xml.Languages.C.CodeToXmls;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.C.ModelFactories {
 	public class CModelFactory : ModelFactory {

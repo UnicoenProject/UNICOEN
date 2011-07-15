@@ -19,7 +19,7 @@
 using System;
 using System.IO;
 using System.Text;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.Python2;

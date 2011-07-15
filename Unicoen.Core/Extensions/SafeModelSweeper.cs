@@ -18,7 +18,7 @@
 
 using System.Diagnostics.Contracts;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class SafeModelSweeper {
 		/// <summary>
 		///   レシーバーがnullでも動作するParentプロパティです．

@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public abstract class UnifiedComprehension
 			: UnifiedElement, IUnifiedExpression {
 		protected IUnifiedExpression _element;

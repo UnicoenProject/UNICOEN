@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   関数やメソッド呼び出しの実引数の集合を表します。
 	///   e.g. Javaにおける<c>method(1, 2);</c>の<c>(1, 2)</c>

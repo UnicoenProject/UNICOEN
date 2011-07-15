@@ -18,7 +18,7 @@
 
 using System.Diagnostics;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	/// <summary>
 	///   MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
 	/// </summary>

@@ -18,8 +18,8 @@
 
 using System.IO;
 using Unicoen.CodeFactories;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public class Python2CodeFactory : CodeFactory {

@@ -16,6 +16,6 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public abstract class UnifiedLinqElement : UnifiedElement {}
 }

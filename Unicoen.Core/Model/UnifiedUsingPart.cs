@@ -21,34 +21,35 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   リソース管理に用いられるローンパターンを提供する構文を表します。
+	///   リソース管理に用いられるローンパターンを提供する構文の構成要素を表します。
 	///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
 	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1</c>
 	/// </summary>
-	public class UnifiedUsing
-			: UnifiedElement, IUnifiedExpression {
-		private UnifiedUsingPartCollection _parts;
-		private UnifiedBlock _body;
+	public class UnifiedUsingPart : UnifiedElement {
+		private IUnifiedExpression _assign;
+		private IUnifiedExpression _target;
 
 		/// <summary>
-		///   リソース管理の対象となる式の集合を取得もしくは設定します．
-		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
-		///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+		///   管理対象のリソースの値を受け取る左辺式や変数宣言を取得もしくは設定します．
+		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r</c>
+		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>f1</c>
 		/// </summary>
-		public UnifiedUsingPartCollection Parts {
-			get { return _parts; }
-			set { _parts = SetChild(value, _parts); }
+		public IUnifiedExpression Assign {
+			get { return _assign; }
+			set { _assign = SetChild(value, _assign); }
 		}
 
 		/// <summary>
-		///   ブロックを取得もしくは設定します．
+		///   管理対象のリソースが得られる式を取得もしくは設定します．
+		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>new StreamReader(path)</c>
+		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>file(p1)</c>
 		/// </summary>
-		public UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
+		public IUnifiedExpression Target {
+			get { return _target; }
+			set { _target = SetChild(value, _target); }
 		}
 
-		private UnifiedUsing() {}
+		private UnifiedUsingPart() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -57,8 +58,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -68,13 +68,13 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedUsing Create(
-				UnifiedUsingPartCollection parts = null,
-				UnifiedBlock body = null) {
-			return new UnifiedUsing {
-					Parts = parts,
-					Body = body,
+		public static UnifiedUsingPart Create(
+				IUnifiedExpression assign = null,
+				IUnifiedExpression target = null) {
+			return new UnifiedUsingPart {
+					Assign = assign,
+					Target = target,
 			};
 		}
-			}
+	}
 }

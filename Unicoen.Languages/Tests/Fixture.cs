@@ -24,8 +24,8 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.CodeFactories;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.Processor;
+using Unicoen.Tests;
 using Unicoen.Utils;
 
 namespace Unicoen.Languages.Tests {

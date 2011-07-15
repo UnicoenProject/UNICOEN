@@ -20,7 +20,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Core.Tests;
+using Unicoen.Tests;
 using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;

@@ -18,9 +18,9 @@
 
 using System;
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	/// </summary>
 	/// <typeparam name = "T"></typeparam>

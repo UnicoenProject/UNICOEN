@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   boolean型であるリテラルを表します。
 	///   e.g. Javaにおける<c>Boolean flag = true;</c>の<c>true</c>の部分

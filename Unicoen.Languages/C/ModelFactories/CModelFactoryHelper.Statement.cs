@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
 using UniUni.Xml.Linq;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 

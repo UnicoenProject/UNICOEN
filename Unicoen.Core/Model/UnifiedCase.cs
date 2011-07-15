@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   switch文におけるcase式を表します。
 	///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>case 1: BLOCK1</c>

@@ -18,8 +18,8 @@
 
 using System;
 using System.Linq;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.CodeFactories {
 	public partial class JavaLikeCodeFactoryVisitor {
@@ -439,15 +439,15 @@ namespace Unicoen.CodeFactories {
 			Writer.Write(" ");
 			element.Matcher.TryAccept(this, arg);
 			Writer.Write(" ");
-			element.As.TryAccept(this, arg);
+			element.Assign.TryAccept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(UnifiedUsing element, VisitorArgument arg) {
 			Writer.Write("/* using ");
-			element.Matchers.TryAccept(this, arg);
+			element.Parts.TryAccept(this, arg);
 			Writer.WriteLine(" { */");
-			element.Matchers.TryAccept(this, arg);
+			element.Parts.TryAccept(this, arg);
 			Writer.WriteLine("/* } */");
 			return false;
 		}

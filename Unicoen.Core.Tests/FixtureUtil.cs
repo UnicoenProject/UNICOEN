@@ -19,7 +19,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Unicoen.Core.Tests {
+namespace Unicoen.Tests {
 	public static class FixtureUtil {
 		public static string RootPath = Path.Combine("..", "..");
 		public static string FixturePath = Path.Combine(RootPath, "fixture");

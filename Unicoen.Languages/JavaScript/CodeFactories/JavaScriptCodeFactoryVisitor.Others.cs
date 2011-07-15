@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactoryVisitor {
@@ -407,7 +407,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			Writer.Write(" ");
 			element.Matcher.TryAccept(this, arg);
 			Writer.Write(" ");
-			element.As.TryAccept(this, arg);
+			element.Assign.TryAccept(this, arg);
 			return false;
 		}
 		

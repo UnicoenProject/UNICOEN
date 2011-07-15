@@ -18,9 +18,9 @@
 
 using System.Collections.Generic;
 using NUnit.Framework;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Tests {
+namespace Unicoen.Tests {
 	[TestFixture]
 	public class StructuralEqualityComparerTestForPrimitive {
 		[Test]

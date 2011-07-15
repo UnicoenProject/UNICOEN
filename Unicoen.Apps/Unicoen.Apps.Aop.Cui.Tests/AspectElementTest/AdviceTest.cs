@@ -21,7 +21,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Unicoen.Apps.Aop.Visitor;
-using Unicoen.Core.Tests;
+using Unicoen.Tests;
 
 namespace Aries.Tests {
 	public class AdviceTest {

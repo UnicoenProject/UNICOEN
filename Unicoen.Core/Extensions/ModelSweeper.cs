@@ -22,7 +22,7 @@ using System.Linq;
 
 // ReSharper disable InvocationIsSkipped
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelSweeper {
 		/// <summary>
 		///   指定した型に限定して，指定した要素の祖先を列挙します．

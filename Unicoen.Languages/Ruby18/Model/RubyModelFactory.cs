@@ -22,7 +22,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Scripting.Math;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Languages.Ruby18.Model {
 	public class RubyModelFactory {

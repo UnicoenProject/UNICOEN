@@ -18,11 +18,17 @@
 
 using System;
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
-	public abstract class UnifiedBlockDefinition : UnifiedExpressionBlock {
+namespace Unicoen.Model {
+	public abstract class UnifiedBlockDefinition
+			: UnifiedElement, IUnifiedExpression {
 		protected UnifiedAnnotationCollection _annotations;
+		protected UnifiedModifierCollection _modifiers;
+		protected IUnifiedExpression _name;
+		protected UnifiedGenericParameterCollection _genericParameters;
+		protected UnifiedTypeConstrainCollection _constrains;
+		protected UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -32,35 +38,37 @@ namespace Unicoen.Core.Model {
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		protected UnifiedModifierCollection _modifiers;
-
 		/// <summary>
-		///   クラスの修飾子の集合を表します
-		///   <c>public class A{....}</c>の<c>public</c>
+		///   修飾子の集合を取得もしくは設定します。
+		///   e.g. Java, C#における<c>public class A { ... }</c>の<c>public</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
-		protected IUnifiedExpression _name;
-
+		/// <summary>
+		///   名前を取得もしくは設定します。
+		///   e.g. Java, C#における<c>public class A { ... }</c>の<c>A</c>
+		/// </summary>
 		public IUnifiedExpression Name {
 			get { return _name; }
 			set { _name = SetChild(value, _name); }
 		}
 
-		// generics とか
-		protected UnifiedGenericParameterCollection _genericParameters;
-
+		/// <summary>
+		///   総称型（ジェネリクスタイプ）のパラメータやテンプレートのパラメータを取得もしくは設定します。
+		///   e.g. Java, C#における<c>class A&lt;T&gt;</c>の<c>&lt;T&gt;</c>
+		/// </summary>
 		public UnifiedGenericParameterCollection GenericParameters {
 			get { return _genericParameters; }
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
-		// 継承とか
-		protected UnifiedTypeConstrainCollection _constrains;
-
+		/// <summary>
+		///   継承関係を取得もしくは設定します。
+		///   e.g. Javaにおける<c>class A extends B { }</c>の<c>extends B</c>
+		/// </summary>
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
@@ -69,15 +77,15 @@ namespace Unicoen.Core.Model {
 		/// <summary>
 		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}
-	}
+			}
 
-	public abstract class UnifiedDefinitionWithBlock<T>
+	public abstract class UnifiedBlockDefinition<T>
 			: UnifiedBlockDefinition, IUnifiedCreatable<T>
-			where T : UnifiedDefinitionWithBlock<T> {
+			where T : UnifiedBlockDefinition<T> {
 		public static T Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,

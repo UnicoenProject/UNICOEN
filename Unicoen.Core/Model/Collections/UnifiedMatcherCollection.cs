@@ -17,12 +17,13 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   パターンマッチ（条件や型，式，変数）の集合を表します．
 	///   e.g. JavaやC#における<c>catch(Exception e){...}</c>の<c>Exception e</c>
+	///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
 	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
 	/// </summary>
 	public class UnifiedMatcherCollection

@@ -17,16 +17,18 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   while文を表します。
 	///   e.g. Javaにおける<c>while(cond){...}</c>
 	/// </summary>
 	public class UnifiedWhile
-			: UnifiedExpressionBlock {
+			: UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _condition;
+		private UnifiedBlock _body;
+		private UnifiedBlock _elseBody;
 
 		/// <summary>
 		///   ループの継続の条件式を表します
@@ -37,19 +39,17 @@ namespace Unicoen.Core.Model {
 			set { _condition = SetChild(value, _condition); }
 		}
 
-		private UnifiedBlock _elseBody;
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
 			set { _elseBody = SetChild(value, _elseBody); }
-		}
-
-		/// <summary>
-		///   ブロックを取得します．
-		/// </summary>
-		public override UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedWhile() {}

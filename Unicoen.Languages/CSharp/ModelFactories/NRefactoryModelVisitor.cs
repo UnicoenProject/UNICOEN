@@ -21,7 +21,7 @@ using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
 using ICSharpCode.NRefactory.TypeSystem;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
@@ -547,7 +547,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitCatchClause(CatchClause catchClause, object data) {
 			var type = LookupType(catchClause.Type);
 			var name = UnifiedVariableIdentifier.Create(catchClause.VariableName);
-			var uMatcher = UnifiedMatcher.Create(matcher: type, asExp: name);
+			var uMatcher = UnifiedMatcher.Create(matcher: type, assign: name);
 			var body = catchClause.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedCatch.Create(uMatcher.ToCollection(), body);
 		}

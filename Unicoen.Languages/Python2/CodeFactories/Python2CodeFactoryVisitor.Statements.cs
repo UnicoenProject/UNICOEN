@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public partial class Python2CodeFactoryVisitor {

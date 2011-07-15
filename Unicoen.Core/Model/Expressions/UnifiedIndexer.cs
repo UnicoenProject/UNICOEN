@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   配列の添え字を表します。
 	///   e.g. Javaにおける<c>int x = a[10]</c>の<c>[10]</c>

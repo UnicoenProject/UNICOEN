@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   ジェネリクスパラメータなど型に対する実引数を表します。
 	///   e.g. Javaにおける<c>HashMap&lt;String, Integer&gt; map;</c>の<c>&lt;String, Integer&gt;</c>

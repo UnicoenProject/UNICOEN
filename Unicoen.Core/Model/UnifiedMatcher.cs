@@ -17,16 +17,19 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   パターンマッチで利用されるパターンと代入先の組を表します．
-	///   switch文，using文，パターンマッチ文などで利用されます．
-	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1</c>
+	///   catch文, switch文，using文，パターンマッチ文などで利用されます．
+	///   e.g. Javaにおける<c>catch(Exception e) { ... }</c>の<c>Exception e</c>
 	/// </summary>
 	public class UnifiedMatcher : UnifiedElement {
 		private UnifiedAnnotationCollection _annotations;
+		private UnifiedModifierCollection _modifiers;
+		private IUnifiedExpression _matcher;
+		private IUnifiedExpression _assign;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -36,33 +39,30 @@ namespace Unicoen.Core.Model {
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
-
+		/// <summary>
+		/// 修飾子を取得もしくは設定します．
+		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
-		private IUnifiedExpression _matcher;
-
 		/// <summary>
-		///   マッチングを行うパターンを表します．
-		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>file(p1)</c>
+		///   マッチングを行うパターン（型や式）を取得もしくは設定します．
+		///   e.g. Javaにおける<c>catch(Exception e) { ... }</c>の<c>Exception</c>
 		/// </summary>
 		public IUnifiedExpression Matcher {
 			get { return _matcher; }
 			set { _matcher = SetChild(value, _matcher); }
 		}
 
-		private IUnifiedExpression _as;
-
 		/// <summary>
-		///   マッチした値の代入先を表します．
-		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>f1</c>
+		///   マッチした値を設定する左辺式や変数宣言を取得もしくは設定します．
+		///   e.g. Javaにおける<c>catch(Exception e) { ... }</c>の<c>e</c>
 		/// </summary>
-		public IUnifiedExpression As {
-			get { return _as; }
-			set { _as = SetChild(value, _as); }
+		public IUnifiedExpression Assign {
+			get { return _assign; }
+			set { _assign = SetChild(value, _assign); }
 		}
 
 		private UnifiedMatcher() {}
@@ -88,12 +88,12 @@ namespace Unicoen.Core.Model {
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				IUnifiedExpression matcher = null,
-				IUnifiedExpression asExp = null) {
+				IUnifiedExpression assign = null) {
 			return new UnifiedMatcher {
 					Annotations = annotations,
 					Modifiers = modifiers,
 					Matcher = matcher,
-					As = asExp,
+					Assign = assign,
 			};
 		}
 	}

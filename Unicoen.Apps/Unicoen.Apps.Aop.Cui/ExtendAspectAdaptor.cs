@@ -22,7 +22,7 @@ using System.IO;
 using System.Linq;
 using Unicoen.Apps.Aop.AspectElement;
 using Unicoen.Apps.Aop.Visitor;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Apps.Aop {
 	public static class ExtendAspectAdaptor {

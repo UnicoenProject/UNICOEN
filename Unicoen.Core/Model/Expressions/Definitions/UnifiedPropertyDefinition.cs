@@ -17,18 +17,23 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   プロパティの宣言を表す共通表現です。
 	///   e.g. C#における<c>public int Value { get; set; }</c>
 	/// </summary>
 	public class UnifiedPropertyDefinition : UnifiedElement, IUnifiedExpression {
-
 		#region fields & properties
 
 		private UnifiedAnnotationCollection _annotations;
+		private UnifiedModifierCollection _modifiers;
+		private UnifiedType _type;
+		private UnifiedIdentifier _name;
+		private UnifiedParameterCollection _parameters;
+		private UnifiedPropertyPart _getter;
+		private UnifiedPropertyPart _setter;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -39,8 +44,6 @@ namespace Unicoen.Core.Model {
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
-
 		/// <summary>
 		///   付与されている修飾子の集合を取得もしくは設定します．
 		///   e.g. C#における<c>public int Value { get; set; }</c>の<c>public</c>
@@ -49,8 +52,6 @@ namespace Unicoen.Core.Model {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
-
-		private UnifiedType _type;
 
 		/// <summary>
 		///   プロパティが表す値の型を取得もしくは設定します．
@@ -61,8 +62,6 @@ namespace Unicoen.Core.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedIdentifier _name;
-
 		/// <summary>
 		///   名前を取得もしくは設定します．
 		///   e.g. C#における<c>public int Value { get; set; }</c>の<c>Value</c>
@@ -72,43 +71,36 @@ namespace Unicoen.Core.Model {
 			set { _name = SetChild(value, _name); }
 		}
 
-		private UnifiedPropertyBody _get;
+		/// <summary>
+		///   パラメータ（仮引数）の集合を取得もしくは設定します．
+		///   e.g. C#における<c>public int Table[int x, int y] { get; set; }</c>の<c>int x, int y</c>
+		/// </summary>
+		public UnifiedParameterCollection Parameters {
+			get { return _parameters; }
+			set { _parameters = SetChild(value, _parameters); }
+		}
 
 		/// <summary>
-		///   ゲッターメソッドを取得もしくは設定します．
+		///   ゲッターの定義を取得もしくは設定します．
 		///   e.g. C#における<c>public int Value { get; set; }</c>の<c>get;</c>
 		/// </summary>
-		public UnifiedPropertyBody Get {
-			get { return _get; }
-			set { _get = SetChild(value, _get); }
+		public UnifiedPropertyPart Getter {
+			get { return _getter; }
+			set { _getter = SetChild(value, _getter); }
 		}
 
 		/// <summary>
-		///   ゲッターメソッドを取得もしくは設定します．
+		///   セッターの定義を取得もしくは設定します．
 		///   e.g. C#における<c>public int Value { get; set; }</c>の<c>set;</c>
 		/// </summary>
-		private UnifiedPropertyBody _set;
-
-		public UnifiedPropertyBody Set {
-			get { return _set; }
-			set { _set = SetChild(value, _set); }
-		}
-
-		private UnifiedPropertyBody _add;
-
-		public UnifiedPropertyBody Add {
-			get { return _add; }
-			set { _add = SetChild(value, _add); }
-		}
-
-		private UnifiedPropertyBody _remove;
-
-		public UnifiedPropertyBody Remove {
-			get { return _remove; }
-			set { _remove = SetChild(value, _remove); }
+		public UnifiedPropertyPart Setter {
+			get { return _setter; }
+			set { _setter = SetChild(value, _setter); }
 		}
 
 		#endregion
+
+		protected UnifiedPropertyDefinition() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -124,6 +116,24 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedPropertyDefinition Create(
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedType type = null, UnifiedIdentifier name = null,
+				UnifiedParameterCollection parameters = null,
+				UnifiedPropertyPart getter = null,
+				UnifiedPropertyPart setter = null) {
+			return new UnifiedPropertyDefinition {
+					Annotations = annotations,
+					Modifiers = modifiers,
+					Type = type,
+					Name = name,
+					Parameters = parameters,
+					Getter = getter,
+					Setter = setter,
+			};
 		}
 	}
 }

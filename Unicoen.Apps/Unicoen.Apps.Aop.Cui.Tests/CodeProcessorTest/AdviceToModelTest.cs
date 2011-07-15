@@ -19,8 +19,8 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Tests {

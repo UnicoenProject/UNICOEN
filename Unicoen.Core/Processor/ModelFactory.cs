@@ -18,9 +18,9 @@
 
 using System.IO;
 using System.Text;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public abstract class ModelFactory {
 		public abstract UnifiedProgram GenerateWithouNormalizing(string code);
 

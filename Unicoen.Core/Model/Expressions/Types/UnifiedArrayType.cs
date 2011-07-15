@@ -18,9 +18,9 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   Javaにおける<c>int[10] a;</c>の<c>[10]</c>部分、
 	///   <c>int[] a;</c>の<c>[]</c>部分などが該当します。

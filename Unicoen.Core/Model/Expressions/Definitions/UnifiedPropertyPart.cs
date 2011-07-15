@@ -17,13 +17,15 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
-	public class UnifiedPropertyBody : UnifiedElement {
+namespace Unicoen.Model {
+	public class UnifiedPropertyPart : UnifiedElement {
 		#region fields & properties
 
 		private UnifiedAnnotationCollection _annotations;
+		private UnifiedModifierCollection _modifiers;
+		private UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -34,8 +36,6 @@ namespace Unicoen.Core.Model {
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
-
 		/// <summary>
 		///   付与されている修飾子の集合を取得もしくは設定します．
 		///   e.g. C#における<c>public int Value { private get; set; }</c>の<c>private</c>
@@ -44,8 +44,6 @@ namespace Unicoen.Core.Model {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
-
-		private UnifiedBlock _body;
 
 		/// <summary>
 		///   ボディとなるブロックを取得もしくは設定します．
@@ -56,6 +54,8 @@ namespace Unicoen.Core.Model {
 		}
 
 		#endregion
+
+		protected UnifiedPropertyPart() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -71,6 +71,17 @@ namespace Unicoen.Core.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedPropertyPart Create(
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedBlock body = null) {
+			return new UnifiedPropertyPart {
+					Annotations = annotations,
+					Modifiers = modifiers,
+					Body = body,
+			};
 		}
 	}
 }

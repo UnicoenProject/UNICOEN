@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   ジェネリックタイプなどにおける型の仮引数の集合を表します。
 	///   クラスやメソッドを宣言する際に型パラメータを宣言するために利用します。

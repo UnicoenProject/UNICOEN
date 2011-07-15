@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public enum UnifiedIntegerLiteralKind {
 		Int32,
 		Int64,

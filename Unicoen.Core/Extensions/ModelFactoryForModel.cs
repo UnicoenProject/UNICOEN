@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelFactoryForModel {
 		public static UnifiedArgument ToArgument(this IUnifiedExpression expression) {
 			return UnifiedArgument.Create(null, null, expression);

@@ -27,7 +27,7 @@ using Antlr.Runtime.Tree;
 using Paraiba.Text;
 using Unicoen.Apps.Aop;
 using Unicoen.Apps.Aop.Visitor;
-using Unicoen.Core.Tests;
+using Unicoen.Tests;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;

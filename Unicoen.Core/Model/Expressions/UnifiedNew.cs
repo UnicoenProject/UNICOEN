@@ -17,36 +17,34 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   配列の生成を含むコンストラクタ呼び出しを表します。
 	///   e.g. Javaにおける<c>Object o = new Object();</c>の<c>new Object()</c>の部分
 	/// </summary>
-	public class UnifiedNew : UnifiedExpressionBlock {
+	public class UnifiedNew : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _target;
+		private UnifiedArgumentCollection _arguments;
+		private UnifiedGenericArgumentCollection _genericArguments;
+		private UnifiedArrayLiteral _initialValue;
+		private UnifiedBlock _body;
 
 		public IUnifiedExpression Target {
 			get { return _target; }
 			set { _target = SetChild(value, _target); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
-
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
 
-		private UnifiedGenericArgumentCollection _genericArguments;
-
 		public UnifiedGenericArgumentCollection GenericArguments {
 			get { return _genericArguments; }
 			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
-
-		private UnifiedArrayLiteral _initialValue;
 
 		/// <summary>
 		///   配列生成時の初期値を表します。
@@ -60,7 +58,7 @@ namespace Unicoen.Core.Model {
 		/// <summary>
 		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}

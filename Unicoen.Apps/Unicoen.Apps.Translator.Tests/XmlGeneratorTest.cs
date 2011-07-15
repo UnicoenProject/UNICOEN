@@ -18,7 +18,7 @@
 
 using System;
 using NUnit.Framework;
-using Unicoen.Core.Tests;
+using Unicoen.Tests;
 
 namespace Unicoen.Apps.Translator.Tests {
 	public class XmlGeneratorTest {

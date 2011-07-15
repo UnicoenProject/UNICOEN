@@ -17,15 +17,19 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   for文を表します。
 	///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>
 	/// </summary>
-	public class UnifiedFor : UnifiedExpressionBlock {
+	public class UnifiedFor : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _initializer;
+		private IUnifiedExpression _condition;
+		private IUnifiedExpression _step;
+		private UnifiedBlock _body;
+		private UnifiedBlock _falseBody;
 
 		/// <summary>
 		///   初期条件を表します
@@ -36,8 +40,6 @@ namespace Unicoen.Core.Model {
 			set { _initializer = SetChild(value, _initializer); }
 		}
 
-		private IUnifiedExpression _condition;
-
 		/// <summary>
 		///   ループの継続の条件式を表します
 		///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
@@ -46,8 +48,6 @@ namespace Unicoen.Core.Model {
 			get { return _condition; }
 			set { _condition = SetChild(value, _condition); }
 		}
-
-		private IUnifiedExpression _step;
 
 		/// <summary>
 		///   ステップを表します
@@ -58,8 +58,6 @@ namespace Unicoen.Core.Model {
 			set { _step = SetChild(value, _step); }
 		}
 
-		private UnifiedBlock _falseBody;
-
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
 			set { _falseBody = SetChild(value, _falseBody); }
@@ -68,7 +66,7 @@ namespace Unicoen.Core.Model {
 		/// <summary>
 		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}

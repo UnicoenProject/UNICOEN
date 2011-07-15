@@ -17,7 +17,7 @@
 #endregion
 
 using System.Linq;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Apps.Translator {
 	// モデルの書き換えに関するクラス

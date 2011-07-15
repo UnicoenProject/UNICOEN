@@ -21,12 +21,20 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class A{....}</c>
+	///   リソース管理に用いられるローンパターンを提供する構文の構文要素の集合を表します。
+	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
 	/// </summary>
-	public class UnifiedModuleDefinition
-			: UnifiedBlockDefinition<UnifiedModuleDefinition> {
-		protected UnifiedModuleDefinition() {}
+	public class UnifiedUsingPartCollection
+			: UnifiedElementCollection<UnifiedUsingPart, UnifiedUsingPartCollection> {
+		/// <summary>
+		///   レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns>生成したオブジェクト</returns>
+		public override UnifiedUsingPartCollection CreateSelf() {
+			return new UnifiedUsingPartCollection();
+		}
+
+		protected UnifiedUsingPartCollection() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -43,10 +51,6 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
-		}
-
-		public override UnifiedModuleDefinition CreateSelf() {
-			return new UnifiedModuleDefinition();
 		}
 			}
 }

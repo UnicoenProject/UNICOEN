@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public partial class Python2CodeFactoryVisitor {
@@ -372,15 +372,15 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			Writer.Write(" ");
 			element.Matcher.TryAccept(this, arg);
 			Writer.Write(" ");
-			element.As.TryAccept(this, arg);
+			element.Assign.TryAccept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(UnifiedUsing element, VisitorArgument arg) {
 			Writer.Write("/* using ");
-			element.Matchers.TryAccept(this, arg);
+			element.Parts.TryAccept(this, arg);
 			Writer.WriteLine(" { */");
-			element.Matchers.TryAccept(this, arg);
+			element.Parts.TryAccept(this, arg);
 			Writer.WriteLine("//extracted from above");
 			Writer.WriteLine("/* } */");
 			return false;

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public abstract class UnifiedWrapType : UnifiedType {
 		protected UnifiedType _type;
 

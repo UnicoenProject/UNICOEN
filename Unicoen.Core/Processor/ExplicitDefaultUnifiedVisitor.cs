@@ -17,9 +17,9 @@
 #endregion
 
 using System;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public abstract class ExplicitDefaultUnifiedVisitor : IUnifiedVisitor {
 		public virtual void Visit(UnifiedBinaryOperator element) {
 			throw new NotImplementedException();
@@ -489,7 +489,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedPropertyBody element) {
+		public virtual void Visit(UnifiedPropertyPart element) {
 			throw new NotImplementedException();
 		}
 
@@ -541,8 +541,23 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedVaueIdentifier element) {
+			throw new NotImplementedException();
+		}
 
-		public void Visit(UnifiedTypeIdentifier element) {
+		public virtual void Visit(UnifiedEventDefinition element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUsingPart element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUsingPartCollection element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedTypeIdentifier element) {
 			throw new NotImplementedException();
 		}
 	}
@@ -1028,7 +1043,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedPropertyBody element, TArg arg) {
+		public virtual void Visit(UnifiedPropertyPart element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1080,8 +1095,23 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedVaueIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
 
-		public void Visit(UnifiedTypeIdentifier element, TArg arg) {
+		public virtual void Visit(UnifiedEventDefinition element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUsingPart element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedUsingPartCollection element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 	}
@@ -1096,7 +1126,7 @@ namespace Unicoen.Core.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedPropertyBody element, TArg arg) {
+		public virtual TResult Visit(UnifiedPropertyPart element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1145,6 +1175,22 @@ namespace Unicoen.Core.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedDefault element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedVaueIdentifier element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedEventDefinition element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUsingPart element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUsingPartCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1612,7 +1658,7 @@ namespace Unicoen.Core.Processor {
 		}
 
 
-		public TResult Visit(UnifiedTypeIdentifier element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
 	}

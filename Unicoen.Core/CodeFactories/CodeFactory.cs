@@ -17,7 +17,7 @@
 #endregion
 
 using System.IO;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.CodeFactories {
 	public abstract class CodeFactory {

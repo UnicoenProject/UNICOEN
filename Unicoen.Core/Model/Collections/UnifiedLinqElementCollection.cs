@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   LINQのクエリ式の構成要素の集合を表します．
 	///   e.g. C#における<c>from e in c orderby e.X, e.Y select e</c>の<c>orderby e.X, e.Y select e</c>

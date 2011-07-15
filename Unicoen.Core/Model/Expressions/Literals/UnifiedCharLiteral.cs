@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   •¶š—ñ‚Å‚ ‚éƒŠƒeƒ‰ƒ‹‚ğ•\‚µ‚Ü‚·B
 	///   e.g. Java‚É‚¨‚¯‚é<c>char str = 'c'</c>‚Ì<c>'c'</c>‚Ì•”•ª

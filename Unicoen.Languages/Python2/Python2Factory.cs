@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.Python2.CodeFactories;
 using Unicoen.Languages.Python2.ModelFactories;
 

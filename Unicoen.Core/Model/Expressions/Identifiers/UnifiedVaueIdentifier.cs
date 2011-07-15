@@ -21,12 +21,11 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class A{....}</c>
+	///   プロパティのセッターの値を表します。
+	/// e.g. C#の<c>string Text { get { return _text; } set { _text = value; } }</c>の<c>value</c>
 	/// </summary>
-	public class UnifiedModuleDefinition
-			: UnifiedBlockDefinition<UnifiedModuleDefinition> {
-		protected UnifiedModuleDefinition() {}
+	public class UnifiedVaueIdentifier : UnifiedIdentifier {
+		protected UnifiedVaueIdentifier() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -35,7 +34,8 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -45,8 +45,10 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public override UnifiedModuleDefinition CreateSelf() {
-			return new UnifiedModuleDefinition();
+		public static UnifiedVaueIdentifier Create(string name) {
+			return new UnifiedVaueIdentifier {
+					Name = name,
+			};
 		}
-			}
+	}
 }

@@ -17,41 +17,23 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   ラムダ式の定義部分を表します。
 	/// </summary>
-	public class UnifiedLambda : UnifiedExpressionBlock {
+	public class UnifiedLambda : UnifiedElement, IUnifiedExpression {
 		#region fields
 
-		private UnifiedType _type;
-
-		/// <summary>
-		///   メソッドの名前を表します
-		///   e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
-		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
-		}
-
-		private UnifiedGenericParameterCollection _genericParameters;
-
-		public UnifiedGenericParameterCollection GenericParameters {
-			get { return _genericParameters; }
-			set { _genericParameters = SetChild(value, _genericParameters); }
-		}
-
 		private UnifiedIdentifier _name;
+		private UnifiedParameterCollection _parameters;
+		private UnifiedBlock _body;
 
 		public UnifiedIdentifier Name {
 			get { return _name; }
 			set { _name = SetChild(value, _name); }
 		}
-
-		private UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
@@ -59,9 +41,9 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		///   ブロックを取得します．
+		///   ブロックを取得もしくは設定します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}
@@ -89,14 +71,10 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedLambda Create(
-				UnifiedType type = null,
-				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedBlock body = null) {
 			return new UnifiedLambda {
-					Type = type,
-					GenericParameters = genericParameters,
 					Name = name,
 					Parameters = parameters,
 					Body = body,

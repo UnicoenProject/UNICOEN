@@ -17,10 +17,10 @@
 #endregion
 
 using NUnit.Framework;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Tests {
+namespace Unicoen.Tests {
 	[TestFixture]
 	public class StructuralEqualityComparerTestForUnified {
 		[Test]

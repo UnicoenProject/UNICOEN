@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unicoen.Applications.Metrics.Utils;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Applications.Metrics.Cores {
 	public class Cyclomatic {

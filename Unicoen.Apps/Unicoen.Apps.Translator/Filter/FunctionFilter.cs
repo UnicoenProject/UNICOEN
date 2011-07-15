@@ -18,7 +18,7 @@
 
 using System;
 using System.Collections.Generic;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Apps.Translator {
 	// 関数に特化した検索器

@@ -22,8 +22,8 @@ using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Unicoen.Apps.Aop;
 using Unicoen.Apps.Aop.Visitor;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.Processor;
+using Unicoen.Tests;
 
 namespace Aries.Tests {
 	[TestFixture]

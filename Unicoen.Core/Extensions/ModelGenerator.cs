@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelGenerator {
 		/// <summary>
 		///   深いコピーを取得します．

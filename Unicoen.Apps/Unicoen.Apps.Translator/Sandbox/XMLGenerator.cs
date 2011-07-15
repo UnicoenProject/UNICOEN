@@ -18,7 +18,7 @@
 
 using System;
 using System.IO;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 

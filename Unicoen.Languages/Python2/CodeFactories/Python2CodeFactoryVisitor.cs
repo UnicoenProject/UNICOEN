@@ -18,7 +18,7 @@
 
 using System.IO;
 using Unicoen.CodeFactories;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeFactories {
 	public partial class Python2CodeFactoryVisitor : JavaLikeCodeFactoryVisitor {

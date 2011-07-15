@@ -17,12 +17,12 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   ブロックを表します．
-	///   e.g. Java,C,C#における<c>{ int i = 0; }</c>
+	///   e.g. Java, C, C#における<c>{ int i = 0; }</c>
 	/// </summary>
 	public class UnifiedBlock
 			: UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>,

@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   集合としての操作を備えている共通表現オブジェクトを表します．
 	/// </summary>

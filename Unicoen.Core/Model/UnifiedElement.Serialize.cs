@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public abstract partial class UnifiedElement {
 		#region Methods for ToString()
 

@@ -24,7 +24,7 @@ using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.C;
 using Unicoen.Languages.C.ModelFactories;
 using Unicoen.Languages.CSharp;

@@ -26,8 +26,8 @@ using Paraiba.IO;
 using Paraiba.Linq;
 using Paraiba.Text;
 using UniUni.Text;
-using Unicoen.Core.Model;
-using Unicoen.Core.Tests;
+using Unicoen.Model;
+using Unicoen.Tests;
 
 namespace Unicoen.Languages.Tests {
 	public class LanguageTest {

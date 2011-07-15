@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   二項演算子の種類を表します。
 	///   http://msdn.microsoft.com/ja-jp/library/bb361179.aspx

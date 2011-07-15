@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelFactoryForExpressions {
 		public static UnifiedBlock ToBlock(
 				this IEnumerable<IUnifiedExpression> expressions) {

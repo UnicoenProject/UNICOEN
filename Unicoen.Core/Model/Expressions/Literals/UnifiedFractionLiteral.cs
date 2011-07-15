@@ -17,9 +17,9 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   小数のリテラルを表します。
 	///   e.g. Javaにおける<c>double d = 1.0;</c>の<c>1.0</c>の部分

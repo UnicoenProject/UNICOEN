@@ -16,9 +16,10 @@
 
 #endregion
 
-using Unicoen.Core.Model;
+using Unicoen.Model;
+using Unicoen.Model;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public interface IUnifiedVisitor {
 		void Visit(UnifiedBinaryOperator element);
 		void Visit(UnifiedUnaryOperator element);
@@ -138,7 +139,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTypeIdentifier element);
 		void Visit(UnifiedRegularExpressionLiteral element);
 		void Visit(UnifiedPropertyDefinition element);
-		void Visit(UnifiedPropertyBody element);
+		void Visit(UnifiedPropertyPart element);
 		void Visit(UnifiedSelect element);
 		void Visit(UnifiedWhere element);
 		void Visit(UnifiedInto element);
@@ -151,6 +152,10 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedLinqElementCollection element);
 		void Visit(UnifiedLinq element);
 		void Visit(UnifiedDefault element);
+		void Visit(UnifiedVaueIdentifier element);
+		void Visit(UnifiedEventDefinition element);
+		void Visit(UnifiedUsingPart element);
+		void Visit(UnifiedUsingPartCollection element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -272,7 +277,7 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedTypeIdentifier element, TArg arg);
 		void Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		void Visit(UnifiedPropertyDefinition element, TArg arg);
-		void Visit(UnifiedPropertyBody element, TArg arg);
+		void Visit(UnifiedPropertyPart element, TArg arg);
 		void Visit(UnifiedSelect element, TArg arg);
 		void Visit(UnifiedWhere element, TArg arg);
 		void Visit(UnifiedInto element, TArg arg);
@@ -285,6 +290,10 @@ namespace Unicoen.Core.Processor {
 		void Visit(UnifiedLinqElementCollection element, TArg arg);
 		void Visit(UnifiedLinq element, TArg arg);
 		void Visit(UnifiedDefault element, TArg arg);
+		void Visit(UnifiedVaueIdentifier element, TArg arg);
+		void Visit(UnifiedEventDefinition element, TArg arg);
+		void Visit(UnifiedUsingPart element, TArg arg);
+		void Visit(UnifiedUsingPartCollection element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -406,7 +415,7 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedTypeIdentifier element, TArg arg);
 		TResult Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		TResult Visit(UnifiedPropertyDefinition element, TArg arg);
-		TResult Visit(UnifiedPropertyBody element, TArg arg);
+		TResult Visit(UnifiedPropertyPart element, TArg arg);
 		TResult Visit(UnifiedSelect element, TArg arg);
 		TResult Visit(UnifiedWhere element, TArg arg);
 		TResult Visit(UnifiedInto element, TArg arg);
@@ -419,5 +428,9 @@ namespace Unicoen.Core.Processor {
 		TResult Visit(UnifiedLinqElementCollection element, TArg arg);
 		TResult Visit(UnifiedLinq element, TArg arg);
 		TResult Visit(UnifiedDefault element, TArg arg);
+		TResult Visit(UnifiedVaueIdentifier element, TArg arg);
+		TResult Visit(UnifiedEventDefinition element, TArg arg);
+		TResult Visit(UnifiedUsingPart element, TArg arg);
+		TResult Visit(UnifiedUsingPartCollection element, TArg arg);
 	}
 }

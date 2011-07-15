@@ -18,7 +18,7 @@
 
 using System.Diagnostics;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public class VisitorArgument {
 		public int IndentDepth { get; private set; }
 		public Decoration Decoration { get; private set; }

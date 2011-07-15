@@ -25,8 +25,8 @@ using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Linq;
 using UniUni.Xml.Linq;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped

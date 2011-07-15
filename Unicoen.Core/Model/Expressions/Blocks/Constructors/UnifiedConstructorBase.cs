@@ -16,12 +16,12 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   コンストラクタの定義やに必要な機能を提供します．
 	/// </summary>
 	public abstract class UnifiedConstructorBase<TSelf>
-			: UnifiedExpressionBlock, IUnifiedCreatable<TSelf>
+			: UnifiedElement, IUnifiedExpression, IUnifiedCreatable<TSelf>
 			where TSelf : UnifiedConstructorBase<TSelf> {
 		protected UnifiedAnnotationCollection _annotations;
 
@@ -61,10 +61,12 @@ namespace Unicoen.Core.Model {
 			set { _throws = SetChild(value, _throws); }
 		}
 
+		protected UnifiedBlock _body;
+
 		/// <summary>
 		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}

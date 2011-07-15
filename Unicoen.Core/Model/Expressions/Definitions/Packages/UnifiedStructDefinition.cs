@@ -17,15 +17,15 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   クラスの定義部分を表します。
 	///   e.g. Javaにおける<c>public class A{....}</c>
 	/// </summary>
 	public class UnifiedStructDefinition
-			: UnifiedDefinitionWithBlock<UnifiedStructDefinition> {
+			: UnifiedBlockDefinition<UnifiedStructDefinition> {
 		protected UnifiedStructDefinition() {}
 
 		[DebuggerStepThrough]

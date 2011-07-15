@@ -101,6 +101,7 @@
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
     <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Model\Collections\UnifiedUsingPartCollection.cs" />
     <Compile Include="Model\Collections\UnifiedLinqElementCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
@@ -112,6 +113,8 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedWithBlock.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinition.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedVaueIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedTypeIdentifier.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
     <Compile Include="Model\Linqs\UnifiedLet.cs" />
@@ -124,7 +127,7 @@
     <Compile Include="Model\Linqs\UnifiedLinqElement.cs" />
     <Compile Include="Model\Linqs\UnifiedSelect.cs" />
     <Compile Include="Model\Expressions\UnifiedLinq.cs" />
-    <Compile Include="Model\Expressions\Definitions\UnifiedPropertyBody.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedPropertyPart.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedArrayLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedIterableLiteral.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedIterableComprehension.cs" />
@@ -193,6 +196,7 @@
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
+    <Compile Include="Model\UnifiedUsingPart.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeFactories\CodeFactory.cs" />
@@ -216,8 +220,6 @@
     <Compile Include="Model\Expressions\Literals\UnifiedNullLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
-    <Compile Include="Model\Expressions\Operators\OldBinaryOperatorType.cs" />
-    <Compile Include="Model\Expressions\Operators\OldUnaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedMapComprehension.cs" />
@@ -236,7 +238,6 @@
     <Compile Include="Model\Expressions\UnifiedCast.cs" />
     <Compile Include="Model\Collections\UnifiedCatchCollection.cs" />
     <Compile Include="Model\Collections\UnifiedExpressionCollection.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedExpressionBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedFor.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedForeach.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedFunctionDefinition.cs" />

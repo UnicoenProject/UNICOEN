@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
 	///   なお、継承関係を表す場合、対象の型の個数は１つです。

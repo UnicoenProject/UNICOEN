@@ -19,10 +19,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Paraiba.Text;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Tests {
+namespace Unicoen.Tests {
 	public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
 		public static StructuralEqualityComparerForDebug Instance =
 				new StructuralEqualityComparerForDebug();
