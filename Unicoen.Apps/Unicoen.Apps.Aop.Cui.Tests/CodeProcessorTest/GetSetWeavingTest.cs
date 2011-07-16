@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
 using Unicoen.Core.Model;
-using Unicoen.Core.Tests;
 using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
@@ -16,12 +12,6 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 	/// </summary>
 	[TestFixture]
 	public class GetSetWeavingTest {
-		private readonly string _fibonacciPath =
-				FixtureUtil.GetInputPath("Java", "Default", "Fibonacci.java");
-
-		private readonly string _studentPath =
-				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
-
 		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
@@ -30,7 +20,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 		}
 		
 		[Test]
-		public void Getポイントカットを用いて代入文にアスペクトを合成できる() {
+		public void Getポイントカットを用いて代入文の直前にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
 			//モデル化
 			var model = CodeProcessor.CreateModel(".java", code);
@@ -43,12 +33,12 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var gen = new JavaCodeFactory();
 			Console.Write(gen.Generate(model));
 
-			//For文が含まれていないので合成の前後でコードが変わらない
+			//アスペクトが合成されるためブロックの数が1つ増える
 			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
 		}
 
 		[Test]
-		public void Getポイントカットを用いて初期化子つき変数宣言にアスペクトを合成できる() {
+		public void Getポイントカットを用いて初期化子つき変数宣言の直前にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
 			//モデル化
 			var model = CodeProcessor.CreateModel(".java", code);
@@ -61,7 +51,115 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var gen = new JavaCodeFactory();
 			Console.Write(gen.Generate(model));
 
-			//For文が含まれていないので合成の前後でコードが変わらない
+			//アスペクトが合成されるためブロックの数が1つ増える
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void Getポイントカットを用いて代入文の直後にアスペクトを合成できる() {
+			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtAfterGet(model, new Regex("a"), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//アスペクトが合成されるためブロックの数が1つ増える
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void Getポイントカットを用いて初期化子つき変数宣言の直後にアスペクトを合成できる() {
+			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtAfterGet(model, new Regex("a"), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//アスペクトが合成されるためブロックの数が1つ増える
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void Setポイントカットを用いて代入文の直前にアスペクトを合成できる() {
+			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeSet(model, new Regex("b"), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//アスペクトが合成されるためブロックの数が1つ増える
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void Setポイントカットを用いて初期化子つき変数宣言の直前にアスペクトを合成できる() {
+			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtBeforeSet(model, new Regex("b"), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//アスペクトが合成されるためブロックの数が1つ増える
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void Setポイントカットを用いて代入文の直後にアスペクトを合成できる() {
+			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtAfterSet(model, new Regex("b"), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//アスペクトが合成されるためブロックの数が1つ増える
+			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
+		}
+
+		[Test]
+		public void Setポイントカットを用いて初期化子つき変数宣言の直後にアスペクトを合成できる() {
+			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
+			//モデル化
+			var model = CodeProcessor.CreateModel(".java", code);
+			var beforeNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+			//アスペクトの合成
+			CodeProcessor.InsertAtAfterSet(model, new Regex("b"), CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			var afterNumBlock = model.Descendants().Where<UnifiedBlock>().ToCollection().Count;
+
+			//for debug
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(model));
+
+			//アスペクトが合成されるためブロックの数が1つ増える
 			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
 		}
 	}
