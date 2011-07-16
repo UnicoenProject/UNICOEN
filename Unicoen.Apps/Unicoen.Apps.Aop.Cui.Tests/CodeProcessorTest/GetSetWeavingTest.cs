@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {

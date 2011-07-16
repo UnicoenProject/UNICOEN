@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.Model;
+using Unicoen.Processor;
+using Unicoen.Tests;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Apps.Aop
 {
