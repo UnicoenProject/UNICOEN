@@ -22,7 +22,7 @@ using System.IO;
 using System.Linq;
 using Paraiba.Collections.Generic;
 using Paraiba.Text;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.Python2;
@@ -48,8 +48,8 @@ namespace Unicoen.Applications.Metrics.Utils {
 				IDictionary<string, int> counter) {
 			var outers = model.GetElements()
 					.Where(
-							e => e is UnifiedPackageBase ||
-							     e is UnifiedFunction);
+							e => e is UnifiedBlockDefinition ||
+							     e is UnifiedFunctionDefinition);
 			foreach (var e in outers) {
 				var outerStr = GetOutersString(e);
 				counter[outerStr] = 0;
@@ -66,11 +66,11 @@ namespace Unicoen.Applications.Metrics.Utils {
 		}
 
 		private static string GetOutersName(IUnifiedElement element) {
-			var klass = element as UnifiedPackageBase;
+			var klass = element as UnifiedBlockDefinition;
 			if (klass != null) {
 				return "[class] " + JavaFactory.GenerateCode(klass.Name);
 			}
-			var method = element as UnifiedFunction;
+			var method = element as UnifiedFunctionDefinition;
 			if (method != null) {
 				return "[method] " + JavaFactory.GenerateCode(method.Name);
 			}

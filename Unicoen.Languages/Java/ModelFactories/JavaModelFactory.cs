@@ -17,8 +17,8 @@
 #endregion
 
 using Code2Xml.Languages.Java.CodeToXmls;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.Java.ModelFactories {
 	public class JavaModelFactory : ModelFactory {

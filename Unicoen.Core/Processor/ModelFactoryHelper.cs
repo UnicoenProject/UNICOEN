@@ -20,12 +20,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Mocomoco.Linq;
-using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
-using Unicoen.Core.Model;
+using UniUni.Linq;
+using UniUni.Xml.Linq;
+using Unicoen.Model;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public static class ModelFactoryHelper {
 		/// <summary>
 		///   指定したXMLノードから演算子が項の前に付くUnaryExpressionを作成します．
@@ -161,7 +161,8 @@ namespace Unicoen.Core.Processor {
 					UnifiedBinaryOperator.Create("!=", UnifiedBinaryOperatorKind.NotEqual),
 					UnifiedBinaryOperator.Create("<>", UnifiedBinaryOperatorKind.NotEqual),
 					UnifiedBinaryOperator.Create("===", UnifiedBinaryOperatorKind.StrictEqual),
-					UnifiedBinaryOperator.Create("!==", UnifiedBinaryOperatorKind.StrictNotEqual),
+					UnifiedBinaryOperator.Create(
+							"!==", UnifiedBinaryOperatorKind.StrictNotEqual),
 					UnifiedBinaryOperator.Create(
 							"is", UnifiedBinaryOperatorKind.ReferenceEqual),
 					UnifiedBinaryOperator.Create("in", UnifiedBinaryOperatorKind.In),

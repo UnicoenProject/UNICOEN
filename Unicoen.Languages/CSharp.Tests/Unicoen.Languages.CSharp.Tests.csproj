@@ -55,6 +55,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\fixture\CSharp\input\Binary.cs">
+      <Link>fixture\Binary.cs</Link>
+    </None>
+    <None Include="..\..\fixture\CSharp\input\Block1.cs">
+      <Link>fixture\Block1.cs</Link>
+    </None>
+    <None Include="..\..\fixture\CSharp\input\Block2.cs">
+      <Link>fixture\Block2.cs</Link>
+    </None>
+    <None Include="..\..\fixture\CSharp\input\Block3.cs">
+      <Link>fixture\Block3.cs</Link>
+    </None>
+    <None Include="..\..\fixture\CSharp\input\Fibonacci.cs">
+      <Link>fixture\Fibonacci.cs</Link>
+    </None>
+    <None Include="..\..\fixture\CSharp\input\Student.cs">
+      <Link>fixture\Student.cs</Link>
+    </None>
     <Compile Include="CSharpFixture.cs" />
     <Compile Include="CSharpHeavyLanguageTest.cs" />
     <Compile Include="CSharpLanguageTest.cs" />

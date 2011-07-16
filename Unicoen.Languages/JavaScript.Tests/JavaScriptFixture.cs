@@ -22,8 +22,9 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Paraiba.Core;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.CodeFactories;
+using Unicoen.Processor;
+using Unicoen.Tests;
 using Unicoen.Languages.Tests;
 using Unicoen.Utils;
 
@@ -78,6 +79,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				return new[] {
 						"var a = 1;",
+						"for ( i = 0, length = args.length; i < length; i++ ) { }",
 				}.Select(s => new TestCaseData(s));
 			}
 		}
@@ -158,7 +160,8 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		private string SetUpRhino() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "Rhino");
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
-			if (Directory.Exists(path))
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any())
 				return jarPath;
 			Directory.CreateDirectory(path);
 			DownloadAndUnzip(

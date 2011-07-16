@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
 

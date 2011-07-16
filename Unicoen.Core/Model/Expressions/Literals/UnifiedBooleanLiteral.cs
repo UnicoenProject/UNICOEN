@@ -16,32 +16,38 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   boolean型であるリテラルを表します。
 	///   e.g. Javaにおける<c>Boolean flag = true;</c>の<c>true</c>の部分
 	/// </summary>
 	public class UnifiedBooleanLiteral : UnifiedTypedLiteral<bool> {
+		public override bool Value { get; set; }
+
 		private UnifiedBooleanLiteral() {}
 
 		public static UnifiedBooleanLiteral Create(bool value) {
 			return new UnifiedBooleanLiteral { Value = value };
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 	}

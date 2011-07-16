@@ -18,39 +18,45 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   if文を表します。
-		///   e.g. C, Java, C#における<c>if (i == 1) { ... } else { ... }</c>
+	///   e.g. C, Java, C#における<c>if (i == 1) { ... } else { ... }</c>
 	/// </summary>
-	public class UnifiedIf : UnifiedExpressionBlock {
+	public class UnifiedIf : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _condition;
+		private UnifiedBlock _body;
+		private UnifiedBlock _elseBody;
 
 		/// <summary>
-		///   条件式を取得します．
-		///   e.g. C, Java, C#における<c>if (i == 1) { ... }の<c>i == 1</c>
+		///   条件式を取得もしくは設定します．
+		///   e.g. C, Java, C#における<c>if (i == 1) a = 1; else a = 2;</c>の<c>i == 1</c>
 		/// </summary>
 		public IUnifiedExpression Condition {
 			get { return _condition; }
 			set { _condition = SetChild(value, _condition); }
 		}
 
-		private UnifiedBlock _elseBody;
+		/// <summary>
+		///   条件式が真であったときに実行されるブロックを取得もしくは設定します．
+		///   e.g. C, Java, C#における<c>if (i == 1) a = 1; else a = 2;</c>の<c>a = 1;</c>
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
 		/// <summary>
-		/// 
+		///   条件式が偽であったときに実行されるブロックを取得もしくは設定します．
+		///   e.g. C, Java, C#における<c>if (i == 1) a = 1; else a = 2;</c>の<c>a = 2;</c>
 		/// </summary>
 		public UnifiedBlock ElseBody {
 			get { return _elseBody; }
 			set { _elseBody = SetChild(value, _elseBody); }
-		}
-
-		public override UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedIf() {}
@@ -65,18 +71,21 @@ namespace Unicoen.Core.Model {
 			return this;
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

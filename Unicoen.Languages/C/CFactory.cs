@@ -16,7 +16,7 @@
 
 #endregion
 
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.C.CodeFactories;
 using Unicoen.Languages.C.ModelFactories;
 

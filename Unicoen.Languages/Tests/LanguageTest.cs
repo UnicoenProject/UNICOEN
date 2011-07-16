@@ -20,12 +20,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
 using Paraiba.IO;
 using Paraiba.Linq;
 using Paraiba.Text;
-using Unicoen.Core.Model;
-using Unicoen.Core.Tests;
+using UniUni.Text;
+using Unicoen.Model;
+using Unicoen.Tests;
 
 namespace Unicoen.Languages.Tests {
 	public class LanguageTest {
@@ -57,13 +59,9 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		private Tuple<string, UnifiedProgram> GenerateCodeObject(string path) {
-			var code = File.ReadAllText(path, XEncoding.SJIS);
-			try {
-				var obj = Fixture.ModelFactory.Generate(code);
-				return Tuple.Create(code, obj);
-			} catch (Exception e) {
-				throw new InvalidOperationException("Failed to parse: " + path, e);
-			}
+			var code = GuessEncoding.ReadAllText(path);
+			var obj = Fixture.ModelFactory.Generate(code);
+			return Tuple.Create(code, obj);
 		}
 
 		/// <summary>
@@ -111,7 +109,8 @@ namespace Unicoen.Languages.Tests {
 			var actual = GenerateCodeObject(orgPath);
 			Assert.That(
 					actual.Item2,
-					Is.EqualTo(expected.Item2).Using(StructuralEqualityComparerForDebug.Instance));
+					Is.EqualTo(expected.Item2).Using(
+							StructuralEqualityComparerForDebug.Instance));
 		}
 
 		/// <summary>
@@ -173,7 +172,7 @@ namespace Unicoen.Languages.Tests {
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
 			var codePaths = Fixture.GetAllSourceFilePaths(workPath);
 			foreach (var codePath in codePaths) {
-				var orgCode1 = File.ReadAllText(codePath, XEncoding.SJIS);
+				var orgCode1 = GuessEncoding.ReadAllText(codePath);
 
 				// モデルを生成して，合わせて各種検査を実施する
 				var codeAndObject = GenerateCodeObject(codePath);
@@ -192,8 +191,9 @@ namespace Unicoen.Languages.Tests {
 		///   指定した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name = "codeObject">検査対象の統一コードオブジェクト</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertModelFeature(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertModelFeature(
+				UnifiedProgram codeObject, string message) {
 			AssertDeepCopy(codeObject, message);
 			AssertGetElements(codeObject, message);
 			AssertGetElementReferences(codeObject, message);
@@ -206,7 +206,7 @@ namespace Unicoen.Languages.Tests {
 		///   深いコピーが正常に動作するか検査します．
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
 		private static void AssertDeepCopy(UnifiedProgram codeObject, string message) {
 			var copiedModel = codeObject.DeepCopy();
 			Assert.That(
@@ -216,7 +216,8 @@ namespace Unicoen.Languages.Tests {
 			var pairs = copiedModel.Descendants().Zip(codeObject.Descendants());
 			foreach (var pair in pairs) {
 				Assert.That(pair.Item1.Parent, Is.Not.Null, message);
-				Assert.That(ReferenceEquals(pair.Item1.Parent, pair.Item2.Parent), Is.False, message);
+				Assert.That(
+						ReferenceEquals(pair.Item1.Parent, pair.Item2.Parent), Is.False, message);
 				//Assert.That(pair.Item1.Parent, Is.Not.EqualTo(pair.Item2.Parent), message);
 			}
 		}
@@ -225,8 +226,9 @@ namespace Unicoen.Languages.Tests {
 		///   子要素の列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertGetElements(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElements(
+				UnifiedProgram codeObject, string message) {
 			foreach (var element in codeObject.Descendants()) {
 				var elements = element.GetElements();
 				var references = element.GetElementReferences();
@@ -255,7 +257,7 @@ namespace Unicoen.Languages.Tests {
 					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Where(prop => typeof(IUnifiedElement).IsAssignableFrom(prop.PropertyType));
 			if (element is UnifiedWrapType) {
-				props = props.Where(prop => prop.Name != "NameExpression");
+				props = props.Where(prop => prop.Name != "BasicTypeName");
 			}
 			foreach (var prop in props) {
 				yield return (IUnifiedElement)prop.GetValue(element, null);
@@ -266,8 +268,9 @@ namespace Unicoen.Languages.Tests {
 		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertGetElementReferences(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElementReferences(
+				UnifiedProgram codeObject, string message) {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
@@ -287,8 +290,9 @@ namespace Unicoen.Languages.Tests {
 		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertGetElementReferenecesOfFields(UnifiedProgram codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertGetElementReferenecesOfFields(
+				UnifiedProgram codeObject, string message) {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
@@ -308,8 +312,9 @@ namespace Unicoen.Languages.Tests {
 		///   親要素に不適切な要素がないかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
-		private static void AssertParentProperty(IUnifiedElement codeObject, string message) {
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
+		private static void AssertParentProperty(
+				IUnifiedElement codeObject, string message) {
 			foreach (var element in codeObject.GetElements()) {
 				if (element != null) {
 					Assert.That(element.Parent, Is.SameAs(codeObject), message);
@@ -322,7 +327,7 @@ namespace Unicoen.Languages.Tests {
 		///   全要素の文字列情報を取得できるかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		/// <param name="message">アサーションに違反した際のエラーメッセージ</param>
+		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
 		private static void AssertToString(UnifiedProgram codeObject, string message) {
 			foreach (var element in codeObject.DescendantsAndSelf()) {
 				Assert.That(element.ToString(), Is.Not.Null, message);
@@ -347,9 +352,9 @@ namespace Unicoen.Languages.Tests {
 						Is.EqualTo(obj2).Using(StructuralEqualityComparerForDebug.Instance));
 			} catch (Exception) {
 				var outPath = FixtureUtil.GetOutputPath();
-				File.WriteAllText(orgCode, Path.Combine(outPath, "orgignal.txt"));
-				File.WriteAllText(code2, Path.Combine(outPath, "generate.txt"));
-				File.WriteAllText(code3, Path.Combine(outPath, "regenerate.txt"));
+				File.WriteAllText(Path.Combine(outPath, "orgignal.txt"), orgCode);
+				File.WriteAllText(Path.Combine(outPath, "generate.txt"), code2);
+				File.WriteAllText(Path.Combine(outPath, "regenerate.txt"), code3);
 				throw;
 			}
 		}

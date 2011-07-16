@@ -18,9 +18,9 @@
 
 using System;
 using System.Collections.Generic;
-using Unicoen.Core.Processor;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public interface IUnifiedElement : ICloneable {
 		/// <summary>
 		///   親のコードモデルの要素を取得もしくは設定します。
@@ -48,8 +48,8 @@ namespace Unicoen.Core.Model {
 		/// <param name = "visitor"></param>
 		/// <param name = "arg"></param>
 		/// <returns></returns>
-		TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg);
+		TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg);
 
 		/// <summary>
 		///   子要素を列挙します。
@@ -94,6 +94,6 @@ namespace Unicoen.Core.Model {
 		///   親要素から自分自身を削除して、親要素を取得します。
 		/// </summary>
 		/// <returns>親要素</returns>
-		IUnifiedElement Remove();
+		IUnifiedElement RemoveSelf();
 	}
 }

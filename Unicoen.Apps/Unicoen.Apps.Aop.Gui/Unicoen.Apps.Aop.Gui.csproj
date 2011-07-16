@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -99,6 +100,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
+      <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
+      <Name>Unicoen.Core.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicoen.Apps.Aop.Cui\Unicoen.Apps.Aop.Cui.csproj">
       <Project>{78406882-043E-451A-98B4-335AD8BB7DAD}</Project>
       <Name>Unicoen.Apps.Aop.Cui</Name>

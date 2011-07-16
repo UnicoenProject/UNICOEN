@@ -23,8 +23,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.CodeFactories;
+using Unicoen.Processor;
+using Unicoen.Tests;
 using Unicoen.Utils;
 
 namespace Unicoen.Languages.Tests {
@@ -216,7 +217,8 @@ namespace Unicoen.Languages.Tests {
 				Action<string, string> compileAction) {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
 			var testCase = new TestCaseData(path, compileAction);
-			if (Directory.Exists(path)) {
+			if (Directory.Exists(path)
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any()) {
 				yield return testCase;
 				yield break;
 			}
@@ -234,6 +236,12 @@ namespace Unicoen.Languages.Tests {
 		protected void DownloadAndUntgz(string url, string path) {
 			using (var stream = Downloader.GetStream(url)) {
 				Extractor.Untgz(stream, path);
+			}
+		}
+
+		protected void DownloadAndUntbz(string url, string path) {
+			using (var stream = Downloader.GetStream(url)) {
+				Extractor.Untbz(stream, path);
 			}
 		}
 	}

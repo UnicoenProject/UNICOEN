@@ -21,7 +21,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Unicoen.Apps.Aop.Visitor;
-using Unicoen.Core.Tests;
+using Unicoen.Tests;
 
 namespace Aries.Tests {
 	public class AdviceTest {
@@ -29,11 +29,13 @@ namespace Aries.Tests {
 
 		[SetUp]
 		public void SetUp() {
+			//アスペクトファイルのパスを取得
 			var input = new ANTLRFileStream(
 					FixtureUtil.GetInputPath(
 							"AspectCompiler",
 							"simple_advice_sample.txt"));
 
+			//アスペクトファイルをパースして抽象構文木を生成する
 			var lex = new AriesLexer(input);
 			var tokens = new CommonTokenStream(lex);
 			var parser = new AriesParser(tokens);
@@ -41,6 +43,7 @@ namespace Aries.Tests {
 			var result = parser.aspect();
 			var ast = (CommonTree)result.Tree;
 
+			//抽象構文木を走査して、ポイントカット・アドバイス情報を格納する
 			_visitor = new AstVisitor();
 			_visitor.Visit(ast, 0, null);
 		}
@@ -59,7 +62,7 @@ namespace Aries.Tests {
 
 		[Test, Ignore]
 		public void アドバイスのパラメータを取得できる() {
-			//TODO implement
+			//TODO アドバイスにパラメータを指定できるようにジョインポイントモデルを拡張する
 		}
 
 		[Test]

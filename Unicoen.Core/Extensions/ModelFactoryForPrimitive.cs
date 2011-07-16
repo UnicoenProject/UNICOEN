@@ -16,22 +16,14 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelFactoryForPrimitive {
-		public static UnifiedIdentifier ToVariableIdentifier(this string name) {
+		public static UnifiedVariableIdentifier ToVariableIdentifier(this string name) {
 			return UnifiedVariableIdentifier.Create(name);
 		}
 
 		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
 			return UnifiedBooleanLiteral.Create(literal);
-		}
-
-		public static UnifiedIntegerLiteral ToInt32Literal(this long value) {
-			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int32);
-		}
-
-		public static UnifiedIntegerLiteral ToInt32Literal(this int value) {
-			return UnifiedIntegerLiteral.Create(value, UnifiedIntegerLiteralKind.Int32);
 		}
 
 		public static UnifiedFractionLiteral ToLiteral(this double value) {

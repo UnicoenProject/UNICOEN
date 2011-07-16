@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   二項演算子の種類を表します。
 	///   http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
@@ -252,8 +252,15 @@ namespace Unicoen.Core.Model {
 		ExclusiveOrAssign,
 
 		/// <summary>
-		///   a instanceof b
+		/// <c>obj instanceof Object</c> in Java,
+		/// <c>obj is object</c> in C#
 		/// </summary>
 		InstanceOf,
+
+		/// <summary>
+		/// <c>obj as String</c> in C#
+		/// </summary>
+		As,
+
 	}
 }

@@ -19,9 +19,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public class StructuralEqualityComparer : IEqualityComparer<object> {
 		public static StructuralEqualityComparer Instance =
 				new StructuralEqualityComparer();

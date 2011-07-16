@@ -16,45 +16,48 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   Typeof式を表します。
-	///   e.g. Javaにおける<c>(int)a</c>
+	///   e.g. Javaにおける<c>typeof(int)</c>
 	/// </summary>
 	public class UnifiedTypeof : UnifiedElement, IUnifiedExpression {
-		private UnifiedType _type;
+		private IUnifiedExpression _value;
 
 		/// <summary>
 		///   キャスト対象の式を表します
-		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
+		///   e.g. Javaにおける<c>typeof(int)</c>の<c>int</c>
 		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
 		}
 
 		protected UnifiedTypeof() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedTypeof Create(
-				UnifiedType type) {
+		public static UnifiedTypeof Create(IUnifiedExpression type) {
 			return new UnifiedTypeof {
-					Type = type
+					Value = type
 			};
 		}
 	}

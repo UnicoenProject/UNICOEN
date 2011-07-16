@@ -22,7 +22,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Scripting.Math;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Languages.Ruby18.Model {
 	public class RubyModelFactory {
@@ -58,8 +58,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			if (node.Name.LocalName == "lit") {
 				switch (node.Elements().First().Name.LocalName) {
 				case "Fixnum":
-					return UnifiedIntegerLiteral.Create(
-							BigInteger.Parse(node.Value), UnifiedIntegerLiteralKind.BigInteger);
+					return UnifiedIntegerLiteral.CreateBigInteger(BigInteger.Parse(node.Value));
 				}
 			}
 			throw new NotImplementedException();
@@ -119,10 +118,10 @@ namespace Unicoen.Languages.Ruby18.Model {
 			}
 		}
 
-		public static UnifiedFunction CreateDefineFunction(XElement node) {
+		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
 			Contract.Requires(node.Name.LocalName == "defn");
 			var elems = node.Elements();
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedVariableIdentifier.Create(elems.First().Value),
 					UnifiedParameterCollection.Create(

@@ -108,15 +108,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFactory.cs" />
+    <Compile Include="CodeFactories\CCodeFactory.cs" />
+    <Compile Include="CodeFactories\CCodeFactoryVisitor.cs" />
     <Compile Include="ModelFactories\CModelFactory.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Expression.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Literal.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Operator.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Statement.cs" />
-    <Compile Include="CodeFactories\CCodeFactory.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryForCollection.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryRequiringSemicolon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -124,13 +123,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\Mocomoco\Mocomoco.Xml\Mocomoco.Xml.csproj">
-      <Project>{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}</Project>
-      <Name>Mocomoco.Xml</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UniUni\UniUni\UniUni.csproj">
+      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
+      <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

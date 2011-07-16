@@ -16,68 +16,70 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   配列の生成を含むコンストラクタ呼び出しを表します。
 	///   e.g. Javaにおける<c>Object o = new Object();</c>の<c>new Object()</c>の部分
 	/// </summary>
-	public class UnifiedNew : UnifiedExpressionBlock {
+	public class UnifiedNew : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _target;
+		private UnifiedArgumentCollection _arguments;
+		private UnifiedGenericArgumentCollection _genericArguments;
+		private UnifiedArrayLiteral _initialValue;
+		private UnifiedBlock _body;
 
 		public IUnifiedExpression Target {
 			get { return _target; }
 			set { _target = SetChild(value, _target); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
-
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
-
-		private UnifiedGenericArgumentCollection _genericArguments;
 
 		public UnifiedGenericArgumentCollection GenericArguments {
 			get { return _genericArguments; }
 			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
 
-		private UnifiedArray _initialValue;
-
 		/// <summary>
 		///   配列生成時の初期値を表します。
 		///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
 		/// </summary>
-		public UnifiedArray InitialValue {
+		public UnifiedArrayLiteral InitialValue {
 			get { return _initialValue; }
 			set { _initialValue = SetChild(value, _initialValue); }
 		}
 
 		/// <summary>
-		/// ブロックを取得します．
+		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedNew() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
@@ -85,7 +87,7 @@ namespace Unicoen.Core.Model {
 				IUnifiedExpression target = null,
 				UnifiedArgumentCollection arguments = null,
 				UnifiedGenericArgumentCollection genericArguments = null,
-				UnifiedArray initialValues = null,
+				UnifiedArrayLiteral initialValues = null,
 				UnifiedBlock body = null) {
 			return new UnifiedNew {
 					Target = target,

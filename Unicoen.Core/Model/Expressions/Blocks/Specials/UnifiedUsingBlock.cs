@@ -16,58 +16,63 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
-	///   C#におけるusing文，Pythonにおけるwith文を表します．
-	///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>
-	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>
+	///   リソース管理に用いられるローンパターンを提供する構文を表します。
+	///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
+	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1</c>
 	/// </summary>
 	public class UnifiedUsing
-			: UnifiedExpressionBlock {
-		private UnifiedMatcherCollection _matchers;
+			: UnifiedElement, IUnifiedExpression {
+		private UnifiedUsingPartCollection _parts;
+		private UnifiedBlock _body;
 
 		/// <summary>
-		///   リソース解放の対象となる変数を表します．
+		///   リソース管理の対象となる式の集合を取得もしくは設定します．
 		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
 		///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
 		/// </summary>
-		public UnifiedMatcherCollection Matchers {
-			get { return _matchers; }
-			set { _matchers = SetChild(value, _matchers); }
+		public UnifiedUsingPartCollection Parts {
+			get { return _parts; }
+			set { _parts = SetChild(value, _parts); }
 		}
 
 		/// <summary>
-		/// ブロックを取得します．
+		///   ブロックを取得もしくは設定します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}
 
 		private UnifiedUsing() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedUsing Create2(
-				UnifiedMatcherCollection matchers = null,
+		public static UnifiedUsing Create(
+				UnifiedUsingPartCollection parts = null,
 				UnifiedBlock body = null) {
 			return new UnifiedUsing {
-					Matchers = matchers,
+					Parts = parts,
 					Body = body,
 			};
 		}

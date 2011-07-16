@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public interface IUnifiedCreatable<out TSelf> : IUnifiedElement
 			where TSelf : IUnifiedCreatable<TSelf> {
 		/// <summary>

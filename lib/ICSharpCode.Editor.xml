@@ -364,7 +364,7 @@
         </member>
         <member name="M:ICSharpCode.Editor.ReadOnlyDocument.#ctor(ICSharpCode.Editor.ITextSource)">
             <summary>
-            Creates a new ReadOnlyDocument from the given text buffer.
+            Creates a new ReadOnlyDocument from the given text source.
             </summary>
         </member>
         <member name="M:ICSharpCode.Editor.ReadOnlyDocument.#ctor(System.String)">
@@ -715,21 +715,23 @@
             Is raised whenever the location of the caret has changed.
             </summary>
         </member>
+        <member name="T:ICSharpCode.Editor.ISegmentExtensions">
+            <summary>
+            Extension methods for <see cref="T:ICSharpCode.Editor.ISegment"/>.
+            </summary>
+        </member>
         <member name="M:ICSharpCode.Editor.ISegmentExtensions.Contains(ICSharpCode.Editor.ISegment,System.Int32)">
             <summary>
-            True, if the segment contains the specified offset, false otherwise.
+            Gets whether the segment contains the offset.
             </summary>
-            <param name='offset'>
-            The offset.
-            </param>
+            <returns>
+            True, if offset is between segment.Start and segment.End (inclusive); otherwise, false.
+            </returns>
         </member>
         <member name="M:ICSharpCode.Editor.ISegmentExtensions.Contains(ICSharpCode.Editor.ISegment,ICSharpCode.Editor.ISegment)">
             <summary>
             True, if the segment contains the specified segment, false otherwise.
             </summary>
-            <param name='segment'>
-            The segment.
-            </param>
         </member>
     </members>
 </doc>

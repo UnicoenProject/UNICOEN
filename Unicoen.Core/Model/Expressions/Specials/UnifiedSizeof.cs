@@ -16,44 +16,48 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   Sizeof式を表します。
 	///   e.g. Javaにおける<c>(int)a</c>
 	/// </summary>
 	public class UnifiedSizeof : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _expression;
+		private IUnifiedExpression _value;
 
 		/// <summary>
 		///   キャスト対象の式を表します
 		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
 		/// </summary>
-		public IUnifiedExpression Expression {
-			get { return _expression; }
-			set { _expression = SetChild(value, _expression); }
+		public IUnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
 		}
 
 		protected UnifiedSizeof() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedSizeof Create(IUnifiedExpression expression) {
 			return new UnifiedSizeof {
-					Expression = expression
+					Value = expression
 			};
 		}
 	}

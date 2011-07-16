@@ -16,9 +16,10 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   型が持つ性質（継承関係など）の集合を表します。
 	///   e.g. Javaにおける<c>public class A extends B</c>の<c>extends B</c>
@@ -29,6 +30,7 @@ namespace Unicoen.Core.Model {
 			  		<UnifiedTypeConstrain, UnifiedTypeConstrainCollection> {
 		protected UnifiedTypeConstrainCollection() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
@@ -37,13 +39,15 @@ namespace Unicoen.Core.Model {
 			return new UnifiedTypeConstrainCollection();
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 			  		}

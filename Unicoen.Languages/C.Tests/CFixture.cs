@@ -19,8 +19,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.CodeFactories;
+using Unicoen.Processor;
+using Unicoen.Tests;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
@@ -73,7 +74,7 @@ namespace Unicoen.Languages.C.Tests {
 		}
 
 		private static string DecorateToCompile(string statement) {
-			return "int main() {" + statement + "} }";
+			return "int main() {" + statement + "}";
 		}
 
 		/// <summary>
@@ -84,6 +85,9 @@ namespace Unicoen.Languages.C.Tests {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
 						"Fibonacci",
+						"empty",
+						"assignment",
+						"Block1"
 				}
 						.Select(
 								s =>

@@ -8,7 +8,7 @@
     <ProjectGuid>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Core</RootNamespace>
+    <RootNamespace>Unicoen</RootNamespace>
     <AssemblyName>Unicoen.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -98,8 +98,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
+    <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Model\Collections\UnifiedUsingPartCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedLinqElementCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
@@ -108,13 +113,40 @@
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedWithBlock.cs" />
-    <Compile Include="Model\Expressions\Collections\UnifiedArray.cs" />
-    <Compile Include="Model\Expressions\Collections\UnifiedIterable.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinition.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedVaueIdentifier.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedTypeIdentifier.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt31Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt31Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedBigIntLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt64Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt64Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt8Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt8Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt16Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt16Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt32Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt32Literal.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
+    <Compile Include="Model\Linqs\UnifiedLet.cs" />
+    <Compile Include="Model\Linqs\UnifiedJoin.cs" />
+    <Compile Include="Model\Linqs\UnifiedOrderBy.cs" />
+    <Compile Include="Model\Linqs\UnifiedGroupBy.cs" />
+    <Compile Include="Model\Linqs\UnifiedInto.cs" />
+    <Compile Include="Model\Linqs\UnifiedOrderByKey.cs" />
+    <Compile Include="Model\Linqs\UnifiedWhere.cs" />
+    <Compile Include="Model\Linqs\UnifiedLinqElement.cs" />
+    <Compile Include="Model\Linqs\UnifiedSelect.cs" />
+    <Compile Include="Model\Expressions\UnifiedLinq.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedPropertyPart.cs" />
+    <Compile Include="Model\Expressions\Literals\Collections\UnifiedArrayLiteral.cs" />
+    <Compile Include="Model\Expressions\Literals\Collections\UnifiedIterableLiteral.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedIterableComprehension.cs" />
-    <Compile Include="Model\Expressions\Comprehensions\UnifiedCollectionComprehensionBase.cs" />
-    <Compile Include="Model\Expressions\Collections\UnifiedSet.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedComprehension.cs" />
+    <Compile Include="Model\Expressions\Literals\Collections\UnifiedSetLiteral.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedSetComprehension.cs" />
-    <Compile Include="Model\Expressions\Collections\UnifiedTuple.cs" />
+    <Compile Include="Model\Expressions\Literals\Collections\UnifiedTupleLiteral.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedPropertyDefinition.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedVariableIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedLabelIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedThisIdentifier.cs" />
@@ -130,14 +162,14 @@
     <Compile Include="Model\Expressions\Jumps\UnifiedYieldReturn.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedCharLiteral.cs" />
     <Compile Include="Model\Expressions\Definitions\Packages\UnifiedAnnotationDefinition.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedClass.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedEnum.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedInterface.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedModule.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedNamespace.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedPackageBase.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedStruct.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedUnion.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedClassDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedEnumDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedInterfaceDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedModuleDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedNamespaceDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedBlockDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedStructDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedUnionDefinition.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedPrintChevron.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedPrint.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedAssert.cs" />
@@ -170,8 +202,15 @@
     <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
+    <Compile Include="Model\UnifiedElement.Serialize.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
+    <Compile Include="Model\UnifiedUsingPart.cs" />
+    <Compile Include="Processor\LiteralFuzzyParser.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
-    <Compile Include="Processor\CodeFactory.cs" />
+    <Compile Include="CodeFactories\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\Decoration.cs" />
     <Compile Include="Processor\ModelFactory.cs" />
@@ -186,21 +225,18 @@
     <Compile Include="Model\Expressions\Literals\UnifiedBooleanLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedFractionLiteralKind.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteral.cs" />
-    <Compile Include="Model\Expressions\Literals\UnifiedIntegerLiteralKind.cs" />
+    <Compile Include="Model\Expressions\Literals\Integers\UnifiedIntegerLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedNullLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedStringLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedTypedLiteral.cs" />
-    <Compile Include="Model\Expressions\Operators\OldBinaryOperatorType.cs" />
-    <Compile Include="Model\Expressions\Operators\OldUnaryOperatorType.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperator.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryOperatorKind.cs" />
-    <Compile Include="Model\Expressions\Comprehensions\UnifiedDictionaryComprehension.cs" />
-    <Compile Include="Model\Expressions\Collections\UnifiedDictionary.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedMapComprehension.cs" />
+    <Compile Include="Model\Expressions\Literals\Collections\UnifiedMapLiteral.cs" />
     <Compile Include="Model\Expressions\UnifiedKeyValue.cs" />
     <Compile Include="Model\Expressions\UnifiedLabel.cs" />
-    <Compile Include="Model\Expressions\Collections\UnifiedList.cs" />
+    <Compile Include="Model\Expressions\Literals\Collections\UnifiedListLiteral.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedListComprehension.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedTernaryExpression.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryOperator.cs" />
@@ -212,17 +248,16 @@
     <Compile Include="Model\Expressions\UnifiedCast.cs" />
     <Compile Include="Model\Collections\UnifiedCatchCollection.cs" />
     <Compile Include="Model\Collections\UnifiedExpressionCollection.cs" />
-    <Compile Include="Model\Expressions\Blocks\UnifiedExpressionBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedFor.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedForeach.cs" />
-    <Compile Include="Model\Expressions\Definitions\UnifiedFunction.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedIf.cs" />
     <Compile Include="Model\Expressions\UnifiedIndexer.cs" />
     <Compile Include="Model\Expressions\UnifiedNew.cs" />
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
-    <Compile Include="Model\Expressions\Types\UnifiedSimpleType.cs" />
-    <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
+    <Compile Include="Model\Expressions\Types\UnifiedBasicType.cs" />
+    <Compile Include="Model\Collections\UnifiedThrowsTypeCollection.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedWhile.cs" />
@@ -249,7 +284,7 @@
     <Compile Include="Model\UnifiedProgram.cs" />
     <Compile Include="Model\UnifiedGenericArgument.cs" />
     <Compile Include="Model\Collections\UnifiedGenericArgumentCollection.cs" />
-    <Compile Include="Model\UnifiedTypeParameter.cs" />
+    <Compile Include="Model\UnifiedGenericParameter.cs" />
     <Compile Include="Processor\IUnifiedVisitor.cs" />
     <Compile Include="Processor\VisitorArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -318,13 +353,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mocomoco\Mocomoco.Linq\Mocomoco.Linq.csproj">
-      <Project>{973D0B49-BA07-4F3D-B640-74107F23D8DA}</Project>
-      <Name>Mocomoco.Linq</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mocomoco\Mocomoco.Xml\Mocomoco.Xml.csproj">
-      <Project>{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}</Project>
-      <Name>Mocomoco.Xml</Name>
+    <ProjectReference Include="..\UniUni\UniUni\UniUni.csproj">
+      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
+      <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

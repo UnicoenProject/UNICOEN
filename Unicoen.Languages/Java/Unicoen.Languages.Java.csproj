@@ -108,25 +108,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\JavaCodeFactory.cs" />
-    <Compile Include="CodeFactories\JavaCodeFactory.Collections.cs" />
-    <Compile Include="CodeFactories\JavaCodeFactory.Statements.cs" />
+    <Compile Include="CodeFactories\JavaCodeFactoryVisitor.cs" />
     <Compile Include="JavaFactory.cs" />
     <Compile Include="ModelFactories\JavaModelFactory.cs" />
     <Compile Include="ModelFactories\JavaModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Mocomoco\Mocomoco.Linq\Mocomoco.Linq.csproj">
-      <Project>{973D0B49-BA07-4F3D-B640-74107F23D8DA}</Project>
-      <Name>Mocomoco.Linq</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Mocomoco\Mocomoco.Xml\Mocomoco.Xml.csproj">
-      <Project>{048FFF4C-40F7-4DC3-8E31-FD0F4251EE26}</Project>
-      <Name>Mocomoco.Xml</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UniUni\UniUni\UniUni.csproj">
+      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
+      <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

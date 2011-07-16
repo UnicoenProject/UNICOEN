@@ -17,10 +17,11 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
-using Mocomoco.Xml.Linq;
-using Unicoen.Core.Model;
+using UniUni.Xml.Linq;
+using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -90,17 +91,15 @@ namespace Unicoen.Languages.C.ModelFactories {
 			return block;
 		}
 
-		public static UnifiedExpressionCollection CreateStatementList(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
 			/* statement_list
 			 * : statement+
 			 */
-			var statementList = UnifiedExpressionCollection.Create();
 			foreach (var statement in node.Elements("statement_list")) {
-				statementList.Add(CreateStatement(statement));
+				yield return CreateStatement(statement);
 			}
-			return statementList;
 		}
 
 		public static IUnifiedExpression CreateExpressionStatement(XElement node) {
@@ -153,7 +152,9 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var firstElement = node.FirstElement();
 			switch (firstElement.Value) {
 			case "goto":
-				return UnifiedGoto.Create(UnifiedLabelIdentifier.Create(node.NthElement(1).Value));
+				return
+						UnifiedGoto.Create(
+								UnifiedLabelIdentifier.Create(node.NthElement(1).Value));
 			case "continue":
 				return UnifiedContinue.Create();
 			case "break":

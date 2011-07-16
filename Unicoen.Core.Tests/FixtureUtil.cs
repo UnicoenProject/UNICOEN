@@ -19,10 +19,10 @@
 using System.IO;
 using System.Linq;
 
-namespace Unicoen.Core.Tests {
+namespace Unicoen.Tests {
 	public static class FixtureUtil {
-		public static string RootPaht = Path.Combine("..", "..");
-		public static string FixturePath = Path.Combine(RootPaht, "fixture");
+		public static string RootPath = Path.Combine("..", "..");
+		public static string FixturePath = Path.Combine(RootPath, "fixture");
 		public const string AopExpectationName = "aspect_expectation";
 		public const string ExpectationName = "expectation";
 		public const string InputName = "input";
@@ -35,7 +35,16 @@ namespace Unicoen.Core.Tests {
 		public static string CleanOutputAndGetOutputPath() {
 			var path = GetOutputPath();
 			if (Directory.Exists(path)) {
-				Directory.Delete(path, true);
+				var dirPaths = Directory.EnumerateDirectories(
+						path, "*", SearchOption.TopDirectoryOnly);
+				foreach (var dirPath in dirPaths) {
+					Directory.Delete(dirPath, true);
+				}
+				var filePaths = Directory.EnumerateFiles(
+						path, "*", SearchOption.TopDirectoryOnly);
+				foreach (var filePath in filePaths) {
+					File.Delete(filePath);
+				}
 			}
 			Directory.CreateDirectory(path);
 			return path.GetFullPathAddingSubNames();

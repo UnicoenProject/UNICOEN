@@ -17,24 +17,20 @@
 #endregion
 
 using System.IO;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.CodeFactories;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeFactories {
 	public class CSharpCodeFactory : CodeFactory {
-		public override void Generate(IUnifiedElement model, TextWriter writer) {
-			Generate(model, writer, "\t");
-		}
-
 		public override void Generate(
-				IUnifiedElement model, TextWriter writer, string indentSign) {
-			Generate(model, writer, new CSharpCodeStyle { Indent = indentSign });
+				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+			codeObject.Accept(
+					new CSharpCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
 		}
 
-		public string Generate(IUnifiedElement model, TextWriter writer, CSharpCodeStyle style) {
-			var visitor = new CSharpCodeFactoryVisitor(writer, style);
-			model.Accept(visitor, 0);
-			return writer.ToString();
+		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
+			Generate(codeObject, writer, "\t");
 		}
 	}
 }

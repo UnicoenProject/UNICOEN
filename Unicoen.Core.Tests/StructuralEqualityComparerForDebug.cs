@@ -19,10 +19,10 @@
 using System.Collections.Generic;
 using System.IO;
 using Paraiba.Text;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Tests {
+namespace Unicoen.Tests {
 	public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
 		public static StructuralEqualityComparerForDebug Instance =
 				new StructuralEqualityComparerForDebug();
@@ -34,12 +34,12 @@ namespace Unicoen.Core.Tests {
 			var x2 = x as IUnifiedElement;
 			if (x2 != null) {
 				File.WriteAllText(
-						FixtureUtil.GetOutputPath("model1.txt"), x2.ToString(), XEncoding.SJIS);
+						FixtureUtil.GetOutputPath("model1.txt"), x2.ToString());
 			}
 			var y2 = y as IUnifiedElement;
 			if (y2 != null) {
 				File.WriteAllText(
-						FixtureUtil.GetOutputPath("model2.txt"), y2.ToString(), XEncoding.SJIS);
+						FixtureUtil.GetOutputPath("model2.txt"), y2.ToString());
 			}
 			return false;
 		}

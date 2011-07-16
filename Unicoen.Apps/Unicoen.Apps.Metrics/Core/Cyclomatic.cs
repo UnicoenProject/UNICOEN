@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unicoen.Applications.Metrics.Utils;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Applications.Metrics.Cores {
 	public class Cyclomatic {
@@ -29,7 +29,8 @@ namespace Unicoen.Applications.Metrics.Cores {
 				// do a given path indicate directory?
 				if (Directory.Exists(arg)) {
 					// find .rb files from a given directory path
-					foreach (var path in Directory.GetFiles(arg, "*.*", SearchOption.AllDirectories)) {
+					foreach (
+							var path in Directory.GetFiles(arg, "*.*", SearchOption.AllDirectories)) {
 						MetricsPrinter.PrintMetrics(
 								"Cyclomatic complexity", path, GetTargetElements);
 					}

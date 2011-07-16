@@ -16,15 +16,17 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   catch節を表します。
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
-	public class UnifiedCatch : UnifiedExpressionBlock {
+	public class UnifiedCatch : UnifiedElement, IUnifiedExpression {
 		private UnifiedMatcherCollection _matchers;
+		private UnifiedBlock _body;
 
 		/// <summary>
 		///   catch節内のパターンマッチ（例外を受け取る部分）の集合を取得します．
@@ -36,26 +38,29 @@ namespace Unicoen.Core.Model {
 		}
 
 		/// <summary>
-		/// ブロックを取得します．
+		///   ブロックを取得します．
 		/// </summary>
-		public override UnifiedBlock Body {
+		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
 		}
 
 		protected UnifiedCatch() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

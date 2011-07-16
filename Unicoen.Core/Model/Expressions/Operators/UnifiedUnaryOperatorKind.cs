@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   単項演算子の種類を表します。
 	///   http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
@@ -76,25 +76,5 @@ namespace Unicoen.Core.Model {
 		///   e.g. *a
 		/// </summary>
 		Indirect,
-
-		/// <summary>
-		///   e.g. sizeof(a)
-		/// </summary>
-		Sizeof,
-
-		/// <summary>
-		///   e.g. delete a
-		/// </summary>
-		Delete,
-
-		/// <summary>
-		///   e.g. void expression
-		/// </summary>
-		Void,
-
-		/// <summary>
-		///   e.g. typeof a
-		/// </summary>
-		Typeof,
 	}
 }

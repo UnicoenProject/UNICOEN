@@ -19,8 +19,8 @@
 using System.IO;
 using System.Text;
 using NUnit.Framework;
-using Unicoen.Core.Model;
-using Unicoen.Core.Tests;
+using Unicoen.Model;
+using Unicoen.Tests;
 using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator.Tests {
@@ -37,7 +37,7 @@ namespace Unicoen.Apps.Translator.Tests {
 		[Test]
 		public void 関数をすべて取得できる() {
 			var functions =
-					Finder.GetAllElements<UnifiedFunction>(_program);
+					Finder.GetAllElements<UnifiedFunctionDefinition>(_program);
 			Assert.That(functions.Count, Is.EqualTo(3));
 		}
 	}

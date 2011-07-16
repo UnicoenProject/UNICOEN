@@ -17,12 +17,11 @@
 #endregion
 
 using System.IO;
-using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
-using Unicoen.Core.Tests;
+using Unicoen.Model;
+using Unicoen.Processor;
+using Unicoen.Tests;
 
 namespace Unicoen.Apps.Aop.Tests {
 	/// <summary>
@@ -36,194 +35,14 @@ namespace Unicoen.Apps.Aop.Tests {
 		private readonly string _studentPath =
 				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
 
+		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
 			var code = File.ReadAllText(path, XEncoding.SJIS);
 			return CodeProcessor.CreateModel(ext, code);
 		}
 
-		[Test]
-		public void WeavingAtBeforeExecutionAll() {
-			var model = CreateModel(_fibonacciPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath(
-									"Java", "Fibonacci_functionBefore.java"));
-
-			CodeProcessor.InsertAtBeforeExecutionAll(
-					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		public void WeavingAtAfterExecutionAll() {
-			var model = CreateModel(_fibonacciPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
-
-			CodeProcessor.InsertAtAfterExecutionAll(
-					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("^fib")]
-		public void WeavingAtBeforeExecutionByRegex(string regex) {
-			var model = CreateModel(_fibonacciPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath(
-									"Java", "Fibonacci_functionBefore.java"));
-
-			CodeProcessor.InsertAtBeforeExecution(
-					model, new Regex(regex),
-					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("^fib")]
-		public void WeavingAtAfterExecutionByRegex(string regex) {
-			var model = CreateModel(_fibonacciPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
-
-			CodeProcessor.InsertAtAfterExecution(
-					model, new Regex(regex),
-					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("fibonacci")]
-		public void WeavingAtBeforeExecutionByName(string name) {
-			var model = CreateModel(_fibonacciPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath(
-									"Java", "Fibonacci_functionBefore.java"));
-
-			CodeProcessor.InsertAtBeforeExecutionByName(
-					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("fibonacci")]
-		public void WeavingAtAfterExecutionByName(string name) {
-			var model = CreateModel(_fibonacciPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
-
-			CodeProcessor.InsertAtAfterExecutionByName(
-					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		public void WeavingAtBeforeCallAll() {
-			var model = CreateModel(_studentPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
-
-			CodeProcessor.InsertAtBeforeCallAll(
-					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		public void WeavingAtAfterCallAll() {
-			var model = CreateModel(_studentPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
-
-			CodeProcessor.InsertAtAfterCallAll(
-					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("^w")]
-		public void WeavingAtBeforeCallByRegex(string regex) {
-			var model = CreateModel(_studentPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
-
-			CodeProcessor.InsertAtBeforeCall(
-					model, new Regex(regex),
-					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("^w")]
-		public void WeavingAtAfterCallByRegex(string regex) {
-			var model = CreateModel(_studentPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
-
-			CodeProcessor.InsertAtAfterCall(
-					model, new Regex(regex),
-					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("write")]
-		public void WeavingAtBeforeCallByName(string name) {
-			var model = CreateModel(_studentPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
-
-			CodeProcessor.InsertAtBeforeCallByName(
-					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
-
-		[Test]
-		[TestCase("write")]
-		public void WeavingAtAfterCallByName(string name) {
-			var model = CreateModel(_studentPath);
-			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
-
-			CodeProcessor.InsertAtAfterCallByName(
-					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					StructuralEqualityComparer.StructuralEquals(model, actual), Is.True);
-		}
+		//TODO インタータイプ宣言の合成に関するテストを追加する
 
 		//TODO 多項式中や、プロパティとしての関数呼び出し、関数の引数として現れるUnifiedCallに対しては、処理が行われないことを確認するテストを書く
 	}

@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Applications.Metrics.Utils {
 	public class MetricsPrinter {

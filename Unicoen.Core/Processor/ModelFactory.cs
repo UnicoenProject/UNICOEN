@@ -16,11 +16,18 @@
 
 #endregion
 
-using Unicoen.Core.Model;
+using System.IO;
+using System.Text;
+using Unicoen.Model;
 
-namespace Unicoen.Core.Processor {
+namespace Unicoen.Processor {
 	public abstract class ModelFactory {
 		public abstract UnifiedProgram GenerateWithouNormalizing(string code);
+
+		public virtual UnifiedProgram GenerateFromFile(string filePath) {
+			var code = File.ReadAllText(filePath, Encoding.Default);
+			return Generate(code);
+		}
 
 		public UnifiedProgram Generate(string code) {
 			var model = GenerateWithouNormalizing(code);

@@ -103,6 +103,7 @@ parameterType
 		-> ^(PARAMETER_TYPE IDENTIFIER)
 	;
 
+//TODO consider 'modifier' in the future.
 pointcutDeclarator
 	: pointcutType '(' type identifierWithClassName arguments ')'
 		-> ^(POINTCUT_DECLARATOR pointcutType type identifierWithClassName arguments)
@@ -114,7 +115,7 @@ pointcutType
 	;
 
 POINTCUT_TYPE_ELEMENT
-	: 'execution' | 'call'
+	: 'execution' | 'call' | 'set' | 'get'
 	;
 
 type
@@ -170,7 +171,7 @@ variableInitializer
 	;
 
 IDENTIFIER
-	: ('a'..'z'|'A'..'Z')+ | '*'
+	: ('a'..'z'|'A'..'Z'|'_')+ | '*' 
 	;
 
 STRING

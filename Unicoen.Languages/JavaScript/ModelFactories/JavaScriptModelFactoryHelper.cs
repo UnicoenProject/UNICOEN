@@ -23,9 +23,10 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Mocomoco.Xml.Linq;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using UniUni.Xml.Linq;
+using Unicoen.Model;
+using Unicoen.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -52,7 +53,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			return UnifiedProgram.Create(
-					CreateSourceElements(node.Element("sourceElements")));
+					CreateSourceElements(node.Element("sourceElements")).ToBlock());
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateSourceElements(
@@ -93,7 +94,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunction CreateFunctionDeclaration(
+		public static UnifiedFunctionDefinition CreateFunctionDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "functionDeclaration");
@@ -107,7 +108,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					CreateFormalParameterList(node.Element("formalParameterList"));
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					null, UnifiedModifierCollection.Create(), null, null,
 					UnifiedVariableIdentifier.Create(name), parameters,
 					null, body);
@@ -132,7 +133,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
 			return UnifiedLambda.Create(
-					null, null,
 					UnifiedVariableIdentifier.Create(name), parameters,
 					body);
 		}
@@ -548,7 +548,8 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			if (node.HasElement("variableDeclarationNoIn"))
 				return CreateVariableDeclarationNoIn(
-						node.Element("variableDeclarationNoIn"));
+						node.Element("variableDeclarationNoIn"))
+						.ToVariableDefinitionList();
 			throw new InvalidOperationException();
 		}
 
@@ -1296,9 +1297,16 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var first = node.NthElement(0);
 			if (first.Name() == "postfixExpression")
 				return CreatePostfixExpression(first);
+			var expression = CreateUnaryExpression(node.LastElement());
+			if (first.Value == "delete")
+				return UnifiedDelete.Create(expression);
+			if (first.Value == "void")
+				return UnifiedPass.Create(expression);
+			if (first.Value == "typeof")
+				return UnifiedTypeof.Create(expression);
 			return
 					UnifiedUnaryExpression.Create(
-							CreateUnaryExpression(node.NthElement(1)),
+							expression,
 							CreatePrefixUnaryOperator(first.Value));
 		}
 
@@ -1373,7 +1381,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 					list);
 		}
 
-		public static UnifiedDictionary CreateObjectLiteral(XElement node) {
+		public static UnifiedMapLiteral CreateObjectLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "objectLiteral");
 			/*
@@ -1384,7 +1392,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			//例えばJSONなど
 			var keyValues = node.Elements("propertyNameAndValue")
 					.Select(CreatePropertyNameAndValue);
-			return UnifiedDictionary.Create(keyValues);
+			return UnifiedMapLiteral.Create(keyValues);
 		}
 
 		public static UnifiedKeyValue CreatePropertyNameAndValue(XElement node) {
@@ -1474,14 +1482,12 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 			var value = node.Value;
 			if (value.StartsWith("0x") || value.Contains("0X"))
-				return UnifiedIntegerLiteral.Create(
-						BigInteger.Parse(value.Substring(2), NumberStyles.HexNumber),
-						UnifiedIntegerLiteralKind.BigInteger);
+				return UnifiedIntegerLiteral.CreateBigInteger(
+						LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2)));
 			if (value.Contains(".") || value.Contains("e") || value.Contains("E"))
 				return double.Parse(value).ToLiteral();
-			return UnifiedIntegerLiteral.Create(
-					BigInteger.Parse(value),
-					UnifiedIntegerLiteralKind.BigInteger);
+			return UnifiedIntegerLiteral.CreateBigInteger(
+					LiteralFuzzyParser.ParseBigInteger(value));
 		}
 
 		public static UnifiedLiteral CreateStringliteral(XElement node) {
@@ -1514,15 +1520,6 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 				break;
 			case "!":
 				kind = UnifiedUnaryOperatorKind.Not;
-				break;
-			case "delete":
-				kind = UnifiedUnaryOperatorKind.Unknown;
-				break;
-			case "void":
-				kind = UnifiedUnaryOperatorKind.Unknown;
-				break;
-			case "typeof":
-				kind = UnifiedUnaryOperatorKind.Unknown;
 				break;
 			default:
 				throw new InvalidOperationException();

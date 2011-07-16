@@ -19,8 +19,8 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
-using Mocomoco.Xml.Linq;
-using Unicoen.Core.Model;
+using UniUni.Xml.Linq;
+using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 

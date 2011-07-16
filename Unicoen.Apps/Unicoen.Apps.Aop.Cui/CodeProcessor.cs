@@ -24,7 +24,7 @@ using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 using Unicoen.Languages.C;
 using Unicoen.Languages.C.ModelFactories;
 using Unicoen.Languages.CSharp;
@@ -40,24 +40,24 @@ namespace Unicoen.Apps.Aop {
 	/// </summary>
 	public class CodeProcessor {
 		/// <summary>
-		/// 与えられたソースコードを共通モデルに変換します
+		///   与えられたソースコードを共通モデルに変換します
 		/// </summary>
-		/// <param name="ext">対象言語の拡張子</param>
-		/// <param name="code">対象ソースコードの中身</param>
+		/// <param name = "ext">対象言語の拡張子</param>
+		/// <param name = "code">対象ソースコードの中身</param>
 		/// <returns></returns>
 		public static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
-				case ".cs":
-					return CSharpFactory.GenerateModel(code);
-				case ".java":
-					return JavaFactory.GenerateModel(code);
-				case ".js":
-					return JavaScriptFactory.GenerateModel(code);
-				case ".c":
-				case ".h":
-					return CFactory.GenerateModel(code);
-				case ".py":
-					return Python2Factory.GenerateModel(code);
+			case ".cs":
+				return CSharpFactory.GenerateModel(code);
+			case ".java":
+				return JavaFactory.GenerateModel(code);
+			case ".js":
+				return JavaScriptFactory.GenerateModel(code);
+			case ".c":
+			case ".h":
+				return CFactory.GenerateModel(code);
+			case ".py":
+				return Python2Factory.GenerateModel(code);
 			}
 			//Ruby
 			throw new InvalidOperationException("対応していない言語ファイルが指定されました");
@@ -66,7 +66,7 @@ namespace Unicoen.Apps.Aop {
 		/// <summary>
 		///   与えられたコードを共通コードモデルとして生成します。
 		/// </summary>
-		/// <param name="language">対象言語</param>
+		/// <param name = "language">対象言語</param>
 		/// <param name = "code">コード断片</param>
 		/// <returns></returns>
 		public static UnifiedBlock CreateAdvice(string language, string code) {
@@ -76,22 +76,22 @@ namespace Unicoen.Apps.Aop {
 			code = "{ " + code + " }";
 
 			switch (language) {
-				case "Java":
-					ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
-					actual = JavaModelFactoryHelper.CreateBlock(ast);
-					break;
-				case "JavaScript":
-					ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.statementBlock());
-					actual = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
-					break;
-				case "C":
-					//TODO Cでのアスペクト合成はこれで大丈夫か確認
-					ast = CCodeToXml.Instance.Generate(code, p => p.compound_statement());
-					actual = CModelFactoryHelper.CreateCompoundStatement(ast);
-					break;					
-				default:
-					//CSharp, Ruby, Python
-					throw new InvalidOperationException("対応していない言語が指定されました");
+			case "Java":
+				ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
+				actual = JavaModelFactoryHelper.CreateBlock(ast);
+				break;
+			case "JavaScript":
+				ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.statementBlock());
+				actual = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
+				break;
+			case "C":
+				//TODO Cでのアスペクト合成はこれで大丈夫か確認
+				ast = CCodeToXml.Instance.Generate(code, p => p.compound_statement());
+				actual = CModelFactoryHelper.CreateCompoundStatement(ast);
+				break;
+			default:
+				//CSharp, Ruby, Python
+				throw new InvalidOperationException("対応していない言語が指定されました");
 			}
 			actual.Normalize();
 
@@ -101,39 +101,38 @@ namespace Unicoen.Apps.Aop {
 		/// <summary>
 		///   与えられたコードをインタータイプ宣言のために共通コードモデルとして生成します
 		/// </summary>
-		/// <param name="language">対象言語</param>
-		/// <param name="code">コード断片</param>
+		/// <param name = "language">対象言語</param>
+		/// <param name = "code">コード断片</param>
 		/// <returns></returns>
-		public static List<IUnifiedExpression> CreateIntertype(string language, string code) {
+		public static List<IUnifiedExpression> CreateIntertype(
+				string language, string code) {
 			XElement ast = null;
 			var actual = new List<IUnifiedExpression>();
 
 			switch (language) {
-				case "Java":
-					//classBodyとしてパースするために中括弧を補う
-					code = "{ " + code + " }";
-					ast = JavaCodeToXml.Instance.Generate(code, p => p.classBody());
-					var classBody = JavaModelFactoryHelper.CreateClassBody(ast);
-					foreach (var e in classBody) {
-						var method = e as UnifiedFunction;
-						var field = e as UnifiedVariableDefinitionList;
-						if(field != null)
-							actual.Add(field);
-						if(method != null)
-							actual.Add(method);
-					}
-					break;
+			case "Java":
+				//classBodyとしてパースするために中括弧を補う
+				code = "{ " + code + " }";
+				ast = JavaCodeToXml.Instance.Generate(code, p => p.classBody());
+				var classBody = JavaModelFactoryHelper.CreateClassBody(ast);
+				foreach (var e in classBody) {
+					var method = e as UnifiedFunctionDefinition;
+					var field = e as UnifiedVariableDefinitionList;
+					if (field != null)
+						actual.Add(field);
+					if (method != null)
+						actual.Add(method);
+				}
+				break;
 
-				case "JavaScript":
-					ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.program());
-					var program = JavaScriptModelFactoryHelper.CreateProgram(ast);
-					foreach(var e in program) {
-						actual.Add(e);
-					}
-					break;
-				default:		
-					//TODO implement 他の言語についても実装する
-					throw new NotImplementedException();
+			case "JavaScript":
+				ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.program());
+				var program = JavaScriptModelFactoryHelper.CreateProgram(ast);
+				actual.AddRange(program.Body);
+				break;
+			default:
+				//TODO implement 他の言語についても実装する
+				throw new NotImplementedException();
 			}
 			return actual;
 		}
@@ -143,17 +142,17 @@ namespace Unicoen.Apps.Aop {
 		/// <summary>
 		///   指定されたクラスまたはプログラムに指定されたフィールドやメソッドを追加します。
 		/// </summary>
-		/// <param name="root">メンバーを追加するモデルのルートノード</param>
-		/// <param name="name">対象となるクラスやプログラムを指定する名前</param>
-		/// <param name="members">挿入するメンバーのリスト</param>
-		public static void AddIntertypeDeclaration(IUnifiedElement root, string name, List<IUnifiedExpression> members) {
-			
+		/// <param name = "program">メンバーを追加するモデルのルートノード</param>
+		/// <param name = "name">対象となるクラスやプログラムを指定する名前</param>
+		/// <param name = "members">挿入するメンバーのリスト</param>
+		public static void AddIntertypeDeclaration(
+				UnifiedProgram program, string name, List<IUnifiedExpression> members) {
 			//クラスのリストを取得(Java, C#向け)
-			var classes = root.Descendants<UnifiedClass>();
-			if(classes.Count() > 0) {
+			var classes = program.Descendants<UnifiedClassDefinition>();
+			if (classes.Count() > 0) {
 				foreach (var c in classes) {
 					var className = c.Name as UnifiedIdentifier;
-					if(className != null && className.Name == name) {
+					if (className != null && className.Name == name) {
 						foreach (var e in members) {
 							c.Body.Insert(0, e);
 						}
@@ -163,10 +162,9 @@ namespace Unicoen.Apps.Aop {
 			}
 
 			//プログラムに対してメンバーを追加(JavaScript向け)
-			var program = root as UnifiedProgram;
-			if(program != null) {
+			if (program != null) {
 				foreach (var e in members) {
-					program.Insert(0, e);
+					program.Body.Insert(0, e);
 				}
 			}
 		}
@@ -184,14 +182,36 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtBeforeExecution(
 				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get function list
-			var functions = root.Descendants<UnifiedFunction>();
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
 
-			foreach (var e in functions) {
+			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
 				//weave given advice, when function's name matches given Regex
-				var m = regex.Match(e.Name.Name);
-				if (m.Success)
-					e.Body.Insert(0, advice);
+				var m = regex.Match(function.Name.Name);
+				if (m.Success) {
+					//アドバイス内の特定の変数を、現在の対象関数名で置き換える
+					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
+					//アドバイスを対象関数に合成する
+					function.Body.Insert(0, copy);
+				}
 			}
+		}
+		
+		/// <summary>
+		/// 指定されたアドバイスに含まれる特殊文字を指定された関数名に置き換えます
+		/// </summary>
+		public static UnifiedBlock ReplaceSpecialToken(UnifiedBlock old, string functionName) {
+			//指定されたアドバイスに含まれる変数をリストアップする
+			var variables = old.Descendants<UnifiedVariableIdentifier>();
+			//特殊文字に指定されている変数を指定された関数名で置き換える
+			foreach (var e in variables) {
+				if(e.Name.Equals("JOINPOINT_NAME"))
+					e.Name = "\"" + functionName + "\"";
+			}
+			return old;
 		}
 
 		/// <summary>
@@ -203,9 +223,13 @@ namespace Unicoen.Apps.Aop {
 		public static void InsertAtAfterExecution(
 				IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//get function list
-			var functions = root.Descendants<UnifiedFunction>();
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
 
 			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
 				//when function's name doesn't match given Regex, ignore current functionDefinition
 				var m = regex.Match(function.Name.Name);
 				if (!m.Success)
@@ -231,6 +255,124 @@ namespace Unicoen.Apps.Aop {
 				}
 			}
 		}
+
+		/// <summary>
+		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "regex">対象関数を指定する正規表現</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecution(
+				IUnifiedElement root, Regex regex, int statementNum, UnifiedBlock advice) {
+			//関数の一覧を取得
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
+
+			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
+				//関数内部のStatementの一覧を取得し、閾値より多いかどうかを判定
+				var innerStatements =
+						ModelSweeper.Descendants(function.Body).Where(e => e.Parent.GetType().Equals(typeof(UnifiedBlock)));
+				if(innerStatements.Count() < statementNum)
+					continue;
+
+				//関数名が与えられた正規表現にマッチする場合はアドバイスを合成する
+				var m = regex.Match(function.Name.Name);
+				if (m.Success) {
+					//アドバイス内の特定の変数を、現在の対象関数名で置き換える
+					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
+					function.Body.Insert(0, copy);
+				}
+			}
+		}
+
+		/// <summary>
+		///   指定された関数ブロックの後に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "regex">対象関数を指定する正規表現</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtAfterExecution(
+				IUnifiedElement root, Regex regex, int statementNum, UnifiedBlock advice) {
+			//get function list
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
+
+			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
+				//関数内部のStatementの一覧を取得し、閾値より多いかどうかを判定
+				var innerStatements =
+						ModelSweeper.Descendants(function.Body).Where(e => e.Parent.GetType().Equals(typeof(UnifiedBlock)));
+				if(innerStatements.Count() < statementNum)
+					continue;
+
+				//when function's name doesn't match given Regex, ignore current functionDefinition
+				var m = regex.Match(function.Name.Name);
+				if (!m.Success)
+					continue;
+
+				/*ToList()を呼び出しておかないと例外を吐く
+				 * 【例外】
+				 * C# エラーメッセージ:コレクションが変更されました。
+				 * 列挙操作は実行されない可能性があります。
+				 */
+				var returns = function.Descendants<UnifiedReturn>().ToList();
+
+				if (returns.Count() == 0) {
+					//case function don't have return statement
+					function.Body.Add(advice);
+				} else {
+					foreach (var returnStmt in returns) {
+						var block = returnStmt.Parent as UnifiedBlock;
+						if (block == null)
+							continue;
+						block.Insert(block.IndexOf(returnStmt, 0), advice);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "regex">対象関数を指定する正規表現</param>
+		/// <param name="element"></param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecution(
+				IUnifiedElement root, Regex regex, Type element, UnifiedBlock advice) {
+			//関数の一覧を取得
+			var functions = root.Descendants<UnifiedFunctionDefinition>();
+
+			foreach (var function in functions) {
+				//関数の定義元がインターフェースまたは抽象クラスの場合はアドバイスを合成しない
+				if (function.Body == null)
+					continue;
+
+				//関数内部に指定された要素があるかどうかを判定
+				var specifiedElements =
+						ModelSweeper.Descendants(function.Body).Where(e => e.GetType().Equals(element));
+				if(specifiedElements.Count() == 0)
+					continue;
+
+				//関数名が与えられた正規表現にマッチする場合はアドバイスを合成する
+				var m = regex.Match(function.Name.Name);
+				if (m.Success) {
+					//アドバイス内の特定の変数を、現在の対象関数名で置き換える
+					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
+					function.Body.Insert(0, copy);
+				}
+			}
+		}
+
+		//TODO afterも実装する
+		//TODO 共通部分が多いので、うまくまとめて実装する方法を考える
 
 		/// <summary>
 		///   すべての関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
@@ -274,6 +416,42 @@ namespace Unicoen.Apps.Aop {
 			InsertAtAfterExecution(root, new Regex("^" + name + "$"), advice);
 		}
 
+		/// <summary>
+		///   名前で指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "name">対象関数の名前</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecutionByName(
+				IUnifiedElement root, string name, int statementNum, UnifiedBlock advice) {
+			InsertAtBeforeExecution(root, new Regex("^" + name + "$"), statementNum, advice);
+		}
+
+		/// <summary>
+		///   名前で指定された関数の後に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "name">対象関数の名前</param>
+		/// <param name="statementNum">対象関数に含まれるstatement数の下限を指定する閾値</param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtAfterExecutionByName(
+				IUnifiedElement root, string name, int statementNum, UnifiedBlock advice) {
+			InsertAtAfterExecution(root, new Regex("^" + name + "$"), statementNum, advice);
+		}
+
+		/// <summary>
+		///   名前で指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
+		/// </summary>
+		/// <param name = "root">コードを追加するモデルのルートノード</param>
+		/// <param name = "name">対象関数の名前</param>
+		/// <param name="element"></param>
+		/// <param name = "advice">挿入するコード断片</param>
+		public static void InsertAtBeforeExecutionByName(
+				IUnifiedElement root, string name, Type element, UnifiedBlock advice) {
+			InsertAtBeforeExecution(root, new Regex("^" + name + "$"), element, advice);
+		}
+
 		#endregion
 
 		#region Call
@@ -294,22 +472,19 @@ namespace Unicoen.Apps.Aop {
 				//プロパティでない関数呼び出しのみを扱う
 				//e.g. write()はOK. Math.max()はNG.
 				var functionName = call.Function as UnifiedIdentifier;
-				if(functionName == null)
+				if (functionName == null)
 					continue;
 
 				// 現状ではToString()とのマッチングを行う。
 				var m = regex.Match(functionName.Name);
 				if (!m.Success)
 					continue;
-				
+
 				//(Javaにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
+				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
 				var block = call.Parent as UnifiedBlock;
 				if (block != null)
 					block.Insert(block.IndexOf(call, 0), advice);
-				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
-				var program = call.Parent as UnifiedProgram;
-				if (program != null)
-					program.Insert(program.IndexOf(call, 0), advice);
 			}
 		}
 
@@ -329,7 +504,7 @@ namespace Unicoen.Apps.Aop {
 				//プロパティでない関数呼び出しのみを扱う
 				//e.g. write()はOK. Math.max()はNG.
 				var functionName = call.Function as UnifiedIdentifier;
-				if(functionName == null)
+				if (functionName == null)
 					continue;
 
 				var m = regex.Match(functionName.Name);
@@ -337,13 +512,10 @@ namespace Unicoen.Apps.Aop {
 					continue;
 
 				//(Javaにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
+				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
 				var block = call.Parent as UnifiedBlock;
 				if (block != null)
 					block.Insert(block.IndexOf(call, 0) + 1, advice);
-				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
-				var program = call.Parent as UnifiedProgram;
-				if (program != null)
-					program.Insert(program.IndexOf(call, 0) + 1, advice);
 			}
 		}
 
@@ -352,7 +524,8 @@ namespace Unicoen.Apps.Aop {
 		/// </summary>
 		/// <param name = "root">コードを追加するモデルのルートノード</param>
 		/// <param name = "advice">挿入するコード断片</param>
-		public static void InsertAtBeforeCallAll(IUnifiedElement root, UnifiedBlock advice) {
+		public static void InsertAtBeforeCallAll(
+				IUnifiedElement root, UnifiedBlock advice) {
 			InsertAtBeforeCall(root, new Regex(".*"), advice);
 		}
 
@@ -361,7 +534,8 @@ namespace Unicoen.Apps.Aop {
 		/// </summary>
 		/// <param name = "root">コードを追加するモデルのルードノード</param>
 		/// <param name = "advice">挿入するコード断片</param>
-		public static void InsertAtAfterCallAll(IUnifiedElement root, UnifiedBlock advice) {
+		public static void InsertAtAfterCallAll(
+				IUnifiedElement root, UnifiedBlock advice) {
 			InsertAtAfterCall(root, new Regex(".*"), advice);
 		}
 

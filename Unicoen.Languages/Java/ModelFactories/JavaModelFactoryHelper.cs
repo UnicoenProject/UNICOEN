@@ -23,11 +23,11 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
-using Mocomoco.Linq;
-using Mocomoco.Xml.Linq;
 using Paraiba.Linq;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using UniUni.Xml.Linq;
+using Unicoen.Model;
+using Unicoen.Processor;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -52,8 +52,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * compilationUnit 
 			 * :   ( (annotations)? packageDeclaration )? (importDeclaration)* (typeDeclaration)*
 			 */
-			var program = UnifiedProgram.Create();
-			IUnifiedElementCollection<IUnifiedExpression> expressions = program;
+			var program = UnifiedProgram.Create(UnifiedBlock.Create());
+			var expressions = program.Body;
 
 			var first = node.FirstElementOrDefault();
 			if (first.SafeName() == "annotations") {
@@ -78,7 +78,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return program;
 		}
 
-		public static UnifiedPackageBase CreatePackageDeclaration(XElement node) {
+		public static UnifiedBlockDefinition CreatePackageDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "packageDeclaration");
 			/*
@@ -86,7 +86,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   'package' qualifiedName ';'
 			 */
 			var name = CreateQualifiedName(node.Element("qualifiedName"));
-			return UnifiedNamespace.Create(
+			return UnifiedNamespaceDefinition.Create(
 					null, null, name, null, null, UnifiedBlock.Create());
 		}
 
@@ -113,7 +113,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return UnifiedImport.Create(name, null, null, modifiers);
 		}
 
-		public static IEnumerable<UnifiedPackageBase> CreateTypeDeclaration(
+		public static IEnumerable<UnifiedBlockDefinition> CreateTypeDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeDeclaration");
@@ -127,7 +127,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 		}
 
-		public static UnifiedPackageBase CreateClassOrInterfaceDeclaration(
+		public static UnifiedBlockDefinition CreateClassOrInterfaceDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classOrInterfaceDeclaration");
@@ -199,7 +199,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return Tuple.Create(annotations, modifiers);
 		}
 
-		public static UnifiedPackageBase CreateClassDeclaration(XElement node) {
+		public static UnifiedBlockDefinition CreateClassDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classDeclaration");
 			/*
@@ -216,7 +216,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedPackageBase CreateNormalClassDeclaration(
+		public static UnifiedBlockDefinition CreateNormalClassDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "normalClassDeclaration");
@@ -240,8 +240,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				}
 			}
 			var body = CreateClassBody(node.Element("classBody"));
-			return UnifiedClass.Create(
-					null, annotationsAndModifiers.Item2,
+			return UnifiedClassDefinition.Create(
+					annotationsAndModifiers.Item1,
+					annotationsAndModifiers.Item2,
 					UnifiedVariableIdentifier.Create(name), typeParameters,
 					constrains, body);
 		}
@@ -259,7 +260,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.ToCollection();
 		}
 
-		public static UnifiedTypeParameter CreateTypeParameter(XElement node) {
+		public static UnifiedGenericParameter CreateTypeParameter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeParameter");
 			/*
@@ -268,9 +269,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			if (node.Elements().Count() == 1) {
 				return
-						UnifiedTypeParameter.Create(UnifiedType.Create(node.FirstElement().Value));
+						UnifiedGenericParameter.Create(UnifiedType.Create(node.FirstElement().Value));
 			}
-			return UnifiedTypeParameter.Create(
+			return UnifiedGenericParameter.Create(
 					UnifiedType.Create(node.FirstElement().Value),
 					UnifiedTypeConstrainCollection.Create(
 							CreateTypeBound(node.LastElement())
@@ -288,7 +289,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return node.Elements("type").Select(CreateType);
 		}
 
-		public static UnifiedPackageBase CreateEnumDeclaration(XElement node) {
+		public static UnifiedBlockDefinition CreateEnumDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumDeclaration");
 			/*
@@ -304,7 +305,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                 		  		.ToCollection()
 			                 		: null;
 			var enumBody = CreateEnumBody(node.Element("enumBody"));
-			return UnifiedEnum.Create(
+			return UnifiedEnumDefinition.Create(
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
 					UnifiedVariableIdentifier.Create(name),
@@ -384,7 +385,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.SelectMany(CreateClassBodyDeclaration);
 		}
 
-		public static UnifiedPackageBase CreateInterfaceDeclaration(XElement node) {
+		public static UnifiedBlockDefinition CreateInterfaceDeclaration(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "interfaceDeclaration");
 			/*
@@ -401,7 +402,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			throw new InvalidOperationException();
 		}
 
-		public static UnifiedInterface CreateNormalInterfaceDeclaration(
+		public static UnifiedInterfaceDefinition CreateNormalInterfaceDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "normalInterfaceDeclaration");
@@ -423,7 +424,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			                 		: null;
 			var body = CreateInterfaceBody(node.Element("interfaceBody"));
 
-			return UnifiedInterface.Create(
+			return UnifiedInterfaceDefinition.Create(
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
 					name,
@@ -577,7 +578,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 						typeParameters,
 						throws);
 			}
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
 					type,
@@ -662,7 +663,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 		}
 
-		public static UnifiedFunction CreateInterfaceMethodDeclaration(
+		public static UnifiedFunctionDefinition CreateInterfaceMethodDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "interfaceMethodDeclaration");
@@ -682,12 +683,12 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 
 			var throws = node.HasElement("qualifiedNameList")
-			             		? UnifiedTypeCollection.Create(
+			             		? UnifiedThrowsTypeCollection.Create(
 			             				CreateQualifiedNameList(node.Element("qualifiedNameList"))
 			             						.Select(UnifiedType.Create))
 			             		: null;
 
-			return UnifiedFunction.Create(
+			return UnifiedFunctionDefinition.Create(
 					annotationsAndModifiers.Item1,
 					annotationsAndModifiers.Item2,
 					type,
@@ -830,7 +831,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				} else {
 					constrain = UnifiedSuperConstrain.Create(CreateType(typeNode));
 				}
-				return UnifiedGenericArgument.Create(anyType, null, constrain.ToCollection());
+				return UnifiedGenericArgument.Create(
+						anyType, null, constrain.ToCollection());
 			}
 			return UnifiedGenericArgument.Create(anyType);
 		}
@@ -1049,7 +1051,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.ToArrayLiteral();
 		}
 
-		public static UnifiedPackageBase CreateAnnotationTypeDeclaration(
+		public static UnifiedBlockDefinition CreateAnnotationTypeDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "annotationTypeDeclaration");
@@ -1135,7 +1137,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					initialValue: elementValueNode != null
 					              		? CreateElementValue(elementValueNode)
 					              		: null
-					);
+					).ToVariableDefinitionList();
 		}
 
 		public static UnifiedBlock CreateBlock(XElement node) {
@@ -1421,26 +1423,25 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								annotationsAndModifiers.Item1, annotationsAndModifiers.Item2,
 								CreateType(node.Element("type")),
 								UnifiedVariableIdentifier.Create(node.Element("IDENTIFIER").Value)
-								),
+								).ToVariableDefinitionList(),
 						CreateExpression(node.Element("expression")),
 						CreateStatement(node.Element("statement")).ToBlock()
 						);
-			} else {
-				var forInit = node.HasElement("forInit")
-				              		? CreateForInit(node.Element("forInit"))
-				              		: null;
-				var condition = node.HasElement("expression")
-				                		? CreateExpression(node.Element("expression"))
-				                		: null;
-				var step = node.HasElement("expressionList")
-				           // TODO tuple?
-				           		? CreateExpressionList(node.Element("expressionList"))
-									.ToTupleLiteral()
-				           		: null;
-				var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
-
-				return UnifiedFor.Create(forInit, condition, step, body);
 			}
+			var forInit = node.HasElement("forInit")
+			              		? CreateForInit(node.Element("forInit"))
+			              		: null;
+			var condition = node.HasElement("expression")
+			                		? CreateExpression(node.Element("expression"))
+			                		: null;
+			var step = node.HasElement("expressionList")
+			           // TODO tuple?
+			           		? CreateExpressionList(node.Element("expressionList"))
+			           		  		.ToTupleLiteral()
+			           		: null;
+			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
+
+			return UnifiedFor.Create(forInit, condition, step, body);
 		}
 
 		public static IUnifiedExpression CreateForInit(XElement node) {
@@ -1908,7 +1909,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 			if (secondElement.Name() == "nonWildcardTypeArguments") {
 				prefix = UnifiedProperty.Create(
-						".", prefix, UnifiedVariableIdentifier.Create(secondElement.Value));
+						".", prefix, UnifiedVariableIdentifier.Create(node.NthElement(2).Value));
 				return UnifiedCall.Create(
 						prefix,
 						CreateArguments(node.NthElement(3)),
@@ -2014,7 +2015,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			}
 		}
 
-		public static UnifiedArray CreateArrayInitializer(XElement node) {
+		public static UnifiedArrayLiteral CreateArrayInitializer(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arrayInitializer");
 			/*
@@ -2174,9 +2175,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * INTLITERAL
 			 * :   IntegerNumber 
 			 */
-			return UnifiedIntegerLiteral.Create(
-					ParseInteger(node.Value).ToForceInt32(),
-					UnifiedIntegerLiteralKind.Int32);
+			return UnifiedIntegerLiteral.CreateInt32(
+					ParseInteger(node.Value));
 		}
 
 		public static UnifiedLiteral CreateLongLiteral(XElement node) {
@@ -2192,9 +2192,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			var str = node.Value;
 			return
-					UnifiedIntegerLiteral.Create(
-							ParseInteger(str.Substring(0, str.Length - 1)).ToForceInt64(),
-							UnifiedIntegerLiteralKind.Int64);
+					UnifiedIntegerLiteral.CreateInt64(
+							ParseInteger(str.Substring(0, str.Length - 1)));
 		}
 
 		private static BigInteger ParseInteger(string value) {
@@ -2213,20 +2212,14 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			BigInteger result = 0;
 			if (value != "0") {
 				if (value[0] != '0') {
-					result = long.Parse(value);
+					result = LiteralFuzzyParser.ParseBigInteger(value);
 				} else if (value[1] == 'x' || value[1] == 'X') {
-					result = long.Parse(value.Substring(2), NumberStyles.HexNumber);
+					result = LiteralFuzzyParser.ParseHexicalBigInteger(value.Substring(2));
 				} else {
-					result = ParseOcatleNumber(value.Substring(1));
+					result = LiteralFuzzyParser.ParseOcatleBigInteger(value.Substring(1));
 				}
 			}
 			return result;
-		}
-
-		private static BigInteger ParseOcatleNumber(IEnumerable<char> str) {
-			return str.Aggregate<char, BigInteger>(
-					0,
-					(current, ch) => current * 8 + (ch - '0'));
 		}
 
 		public static UnifiedLiteral CreateFloatLiteral(XElement node) {
@@ -2293,26 +2286,12 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			value = value.ToLower();
 			var numAndExp = value.Split('p');
 			var number = numAndExp[0].Split('.');
-			var n = number[0].Aggregate(
-					0.0,
-					(current, ch) => current * 16.0 +
-					                 ch > '9' ? ch - 'a' : ch - '0');
-			var f = number[1].Reverse().Aggregate(
-					0.0,
-					(current, ch) => current / 16.0 +
-					                 ch > '9' ? ch - 'a' : ch - '0');
+			var n = LiteralFuzzyParser.ParseDouble(number[0].Substring(2));
+			var f = LiteralFuzzyParser.ParseDouble(number[1], 1.0 / 16) / 16;
 			var result = n + f;
 			if (numAndExp[1].Length != 0) {
-				var expStr = numAndExp[1];
-				var power = 10;
-				if (expStr[0] == '-') {
-					expStr = expStr.Substring(1);
-					power = -10;
-				} else if (expStr[0] == '+') {
-					expStr = expStr.Substring(1);
-				}
-				var exp = int.Parse(expStr);
-				result *= Math.Pow(power, exp);
+				var exp = int.Parse(numAndExp[1]);
+				result *= Math.Pow(2, exp);
 			}
 			return result;
 		}

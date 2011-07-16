@@ -20,13 +20,14 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
-using Unicoen.Core.Model;
+using Unicoen.Model;
+using System.Collections.Generic;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	internal partial class NRefactoryModelVisitor {
 		#region Lookups
 
-		private static UnifiedModifierCollection LookupModifier(Modifiers mods) {
+		private static UnifiedModifierCollection LookupModifiers(Modifiers mods) {
 			Contract.Ensures(Contract.Result<UnifiedModifierCollection>() != null);
 
 			var pairs = new[] {
@@ -56,7 +57,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		private static UnifiedModifier LookupModifier(ParameterModifier mod) {
-			switch(mod) {
+			switch (mod) {
 			case ParameterModifier.Out:
 				return UnifiedModifier.Create("out");
 			case ParameterModifier.Params:
@@ -65,9 +66,25 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedModifier.Create("ref");
 			case ParameterModifier.This:
 				return UnifiedModifier.Create("this");
-			default:
-				return null;
 			}
+			return null;
+		}
+
+		private static UnifiedModifier LookupModifier(FieldDirection dir) {
+			switch(dir) {
+			case FieldDirection.Out:
+				return UnifiedModifier.Create("out");
+			case FieldDirection.Ref:
+				return UnifiedModifier.Create("ref");
+			}
+			return null;
+		}
+
+		private static UnifiedGenericArgumentCollection ToArgumentCollection(IEnumerable<AstType> types) {
+			return types
+					.Select(LookupType)
+					.Select(t => UnifiedGenericArgument.Create(t))
+					.ToCollection();
 		}
 
 		private static UnifiedType LookupType(AstType type) {
@@ -113,6 +130,20 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedBinaryOperator.Create("*", UnifiedBinaryOperatorKind.Multiply);
 			case BinaryOperatorType.Divide:
 				return UnifiedBinaryOperator.Create("/", UnifiedBinaryOperatorKind.Divide);
+			case BinaryOperatorType.Modulus:
+				return UnifiedBinaryOperator.Create("%", UnifiedBinaryOperatorKind.Modulo);
+
+			case BinaryOperatorType.ShiftLeft:
+				return UnifiedBinaryOperator.Create("<<", UnifiedBinaryOperatorKind.ArithmeticLeftShift);
+			case BinaryOperatorType.ShiftRight:
+				return UnifiedBinaryOperator.Create("<<", UnifiedBinaryOperatorKind.ArithmeticRightShift);
+
+			case BinaryOperatorType.BitwiseAnd:
+				return UnifiedBinaryOperator.Create("&", UnifiedBinaryOperatorKind.And);
+			case BinaryOperatorType.BitwiseOr:
+				return UnifiedBinaryOperator.Create("|", UnifiedBinaryOperatorKind.Or);
+			case BinaryOperatorType.ExclusiveOr:
+				return UnifiedBinaryOperator.Create("|", UnifiedBinaryOperatorKind.ExclusiveOr);
 
 			case BinaryOperatorType.GreaterThan:
 				return UnifiedBinaryOperator.Create(">", UnifiedBinaryOperatorKind.GreaterThan);
@@ -127,14 +158,24 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				return UnifiedBinaryOperator.Create("==", UnifiedBinaryOperatorKind.Equal);
 			case BinaryOperatorType.InEquality:
 				return UnifiedBinaryOperator.Create("!=", UnifiedBinaryOperatorKind.NotEqual);
+
+			case BinaryOperatorType.ConditionalAnd:
+				return UnifiedBinaryOperator.Create("&&", UnifiedBinaryOperatorKind.AndAlso);
+			case BinaryOperatorType.ConditionalOr:
+				return UnifiedBinaryOperator.Create("||", UnifiedBinaryOperatorKind.OrElse);
+
+			case BinaryOperatorType.NullCoalescing:
+				return UnifiedBinaryOperator.Create("??", UnifiedBinaryOperatorKind.Coalesce);
 			}
-			throw new NotImplementedException("LookupBinaryOperator");
+			throw new ArgumentException("Unknown operator: " + op);
 		}
 
 		private static UnifiedUnaryOperator LookupUnaryOperator(UnaryOperatorType op) {
 			switch (op) {
 			case UnaryOperatorType.Not:
 				return UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.Not);
+			case UnaryOperatorType.BitNot:
+				return UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.OnesComplement);
 
 			case UnaryOperatorType.Plus:
 				return UnifiedUnaryOperator.Create("+", UnifiedUnaryOperatorKind.UnaryPlus);
@@ -150,16 +191,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			case UnaryOperatorType.PostDecrement:
 				return UnifiedUnaryOperator.Create("--", UnifiedUnaryOperatorKind.PostDecrementAssign);
 			}
-
-			throw new NotImplementedException("LookupUnaryOperator");
+			throw new ArgumentException("Unknown operator: " + op);
 		}
 
 		#endregion
 	}
 
 	internal static class VisitorExtension {
-		internal static IUnifiedExpression AcceptForExpression(
-				this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+		internal static IUnifiedExpression TryAcceptForExpression(this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+			if (node == null) return null;
 			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
 	}

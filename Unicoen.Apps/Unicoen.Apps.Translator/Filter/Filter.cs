@@ -17,7 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
 namespace Unicoen.Apps.Translator {
 	public class Filter {
@@ -26,6 +26,6 @@ namespace Unicoen.Apps.Translator {
 			// TODO : Implement
 
 			return null;
-		} 
+		}
 	}
 }

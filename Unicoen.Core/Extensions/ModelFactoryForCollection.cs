@@ -16,31 +16,11 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelFactoryForCollection {
-		public static UnifiedBlock ToBlock(
-				this IEnumerable<IUnifiedExpression> collection) {
-			return UnifiedBlock.Create(collection);
-		}
-
-		public static UnifiedBlock ToBlock(this IUnifiedExpression singleton) {
-			return UnifiedBlock.Create(singleton);
-		}
-
-		public static UnifiedProgram ToProgram(
-				this IEnumerable<IUnifiedExpression> collection) {
-			return UnifiedProgram.Create(collection);
-		}
-
-		public static UnifiedProgram ToProgram(this IUnifiedExpression singleton) {
-			return UnifiedProgram.Create(singleton);
-		}
-
 		public static UnifiedAnnotationCollection ToCollection(
 				this IEnumerable<UnifiedAnnotation> collection) {
 			return UnifiedAnnotationCollection.Create(collection);
@@ -48,6 +28,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedAnnotationCollection ToCollection(
 				this UnifiedAnnotation singleton) {
+			if (singleton == null) return UnifiedAnnotationCollection.Create();
 			return UnifiedAnnotationCollection.Create(singleton);
 		}
 
@@ -58,6 +39,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedArgumentCollection ToCollection(
 				this UnifiedArgument singleton) {
+			if (singleton == null) return UnifiedArgumentCollection.Create();
 			return UnifiedArgumentCollection.Create(singleton);
 		}
 
@@ -67,6 +49,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedCaseCollection ToCollection(this UnifiedCase singleton) {
+			if (singleton == null) return UnifiedCaseCollection.Create();
 			return UnifiedCaseCollection.Create(singleton);
 		}
 
@@ -76,6 +59,7 @@ namespace Unicoen.Core.Model {
 		}
 
 		public static UnifiedCatchCollection ToCollection(this UnifiedCatch singleton) {
+			if (singleton == null) return UnifiedCatchCollection.Create();
 			return UnifiedCatchCollection.Create(singleton);
 		}
 
@@ -86,6 +70,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedExpressionCollection ToCollection(
 				this IUnifiedExpression singleton) {
+			if (singleton == null) return UnifiedExpressionCollection.Create();
 			return UnifiedExpressionCollection.Create(singleton);
 		}
 
@@ -96,29 +81,8 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedIdentifierCollection ToCollection(
 				this UnifiedIdentifier singleton) {
+			if (singleton == null) return UnifiedIdentifierCollection.Create();
 			return UnifiedIdentifierCollection.Create(singleton);
-		}
-
-		public static IUnifiedExpression ToProperty(
-				this IEnumerable<IUnifiedExpression> collection, string delimiter) {
-			return collection.ToList().ToProperty(delimiter);
-		}
-
-		public static IUnifiedExpression ToProperty(
-				this IList<IUnifiedExpression> list, string delimiter) {
-			Contract.Requires<ArgumentNullException>(list != null);
-			Contract.Requires<ArgumentException>(list.Count >= 1);
-			if (list.Count == 1) {
-				return list[0];
-			}
-			return list.Skip(1).Aggregate(
-					list[0],
-					(l, r) => UnifiedProperty.Create(delimiter, l, r));
-		}
-
-		public static IUnifiedExpression ToProperty(
-				this UnifiedIdentifier singleton) {
-			return singleton;
 		}
 
 		public static UnifiedMatcherCollection ToCollection(
@@ -128,6 +92,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedMatcherCollection ToCollection(
 				this UnifiedMatcher singleton) {
+			if (singleton == null) return UnifiedMatcherCollection.Create();
 			return UnifiedMatcherCollection.Create(singleton);
 		}
 
@@ -138,6 +103,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedModifierCollection ToCollection(
 				this UnifiedModifier singleton) {
+			if (singleton == null) return UnifiedModifierCollection.Create();
 			return UnifiedModifierCollection.Create(singleton);
 		}
 
@@ -148,6 +114,7 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedParameterCollection ToCollection(
 				this UnifiedParameter singleton) {
+			if (singleton == null) return UnifiedParameterCollection.Create();
 			return UnifiedParameterCollection.Create(singleton);
 		}
 
@@ -158,16 +125,19 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedGenericArgumentCollection ToCollection(
 				this UnifiedGenericArgument singleton) {
+			if (singleton == null) return UnifiedGenericArgumentCollection.Create();
 			return UnifiedGenericArgumentCollection.Create(singleton);
 		}
 
-		public static UnifiedTypeCollection ToCollection(
+		public static UnifiedThrowsTypeCollection ToCollection(
 				this IEnumerable<UnifiedType> collection) {
-			return UnifiedTypeCollection.Create(collection);
+			return UnifiedThrowsTypeCollection.Create(collection);
 		}
 
-		public static UnifiedTypeCollection ToCollection(this UnifiedType singleton) {
-			return UnifiedTypeCollection.Create(singleton);
+		public static UnifiedThrowsTypeCollection ToCollection(
+				this UnifiedType singleton) {
+			if (singleton == null) return UnifiedThrowsTypeCollection.Create();
+			return UnifiedThrowsTypeCollection.Create(singleton);
 		}
 
 		public static UnifiedTypeConstrainCollection ToCollection(
@@ -177,213 +147,30 @@ namespace Unicoen.Core.Model {
 
 		public static UnifiedTypeConstrainCollection ToCollection(
 				this UnifiedTypeConstrain singleton) {
+			if (singleton == null) return UnifiedTypeConstrainCollection.Create();
 			return UnifiedTypeConstrainCollection.Create(singleton);
 		}
 
 		public static UnifiedGenericParameterCollection ToCollection(
-				this IEnumerable<UnifiedTypeParameter> collection) {
+				this IEnumerable<UnifiedGenericParameter> collection) {
 			return UnifiedGenericParameterCollection.Create(collection);
 		}
 
 		public static UnifiedGenericParameterCollection ToCollection(
-				this UnifiedTypeParameter singleton) {
+				this UnifiedGenericParameter singleton) {
+			if (singleton == null) return UnifiedGenericParameterCollection.Create();
 			return UnifiedGenericParameterCollection.Create(singleton);
 		}
 
-		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
-				this IEnumerable<UnifiedVariableDefinition> collection) {
-			return UnifiedVariableDefinitionList.Create(collection);
+		public static UnifiedUsingPartCollection ToCollection(
+				this IEnumerable<UnifiedUsingPart> collection) {
+			return UnifiedUsingPartCollection.Create(collection);
 		}
 
-		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
-				this UnifiedVariableDefinition singleton) {
-			return UnifiedVariableDefinitionList.Create(singleton);
-		}
-
-		public static UnifiedList ToListLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedList.Create(collection);
-		}
-
-		public static UnifiedList ToListLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			return UnifiedList.Create(expressions);
-		}
-
-		public static UnifiedList ToListLiteral(this IUnifiedExpression singleton) {
-			return UnifiedList.Create(singleton);
-		}
-
-		public static UnifiedArray ToArrayLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedArray.Create(collection);
-		}
-
-		public static UnifiedArray ToArrayLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			return UnifiedArray.Create(expressions);
-		}
-
-		public static UnifiedArray ToArrayLiteral(this IUnifiedExpression singleton) {
-			return UnifiedArray.Create(singleton);
-		}
-
-		public static UnifiedSet ToSetLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedSet.Create(collection);
-		}
-
-		public static UnifiedSet ToSetLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			return UnifiedSet.Create(expressions);
-		}
-
-		public static UnifiedSet ToSetLiteral(this IUnifiedExpression singleton) {
-			return UnifiedSet.Create(singleton);
-		}
-
-		public static UnifiedIterable ToLazyListLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedIterable.Create(collection);
-		}
-
-		public static UnifiedIterable ToLazyListLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			return UnifiedIterable.Create(expressions);
-		}
-
-		public static UnifiedIterable ToLazyListLiteral(
-				this IUnifiedExpression singleton) {
-			return UnifiedIterable.Create(singleton);
-		}
-
-		public static UnifiedTuple ToTupleLiteral(
-				this UnifiedExpressionCollection collection) {
-			return UnifiedTuple.Create(collection);
-		}
-
-		public static UnifiedTuple ToTupleLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			return UnifiedTuple.Create(expressions);
-		}
-
-		public static UnifiedTuple ToTupleLiteral(this IUnifiedExpression singleton) {
-			return UnifiedTuple.Create(singleton);
-		}
-
-		public static IUnifiedExpression ToSmartListLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.Remove();
-				return expression;
-			}
-			return UnifiedList.Create(collection);
-		}
-
-		public static IUnifiedExpression ToSmartListLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1)
-				return list[0];
-			return UnifiedList.Create(list);
-		}
-
-		public static IUnifiedExpression ToSmartListLiteral(
-				this IUnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static IUnifiedExpression ToSmartArrayLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.Remove();
-				return expression;
-			}
-			return UnifiedArray.Create(collection);
-		}
-
-		public static IUnifiedExpression ToSmartArrayLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1)
-				return list[0];
-			return UnifiedArray.Create(list);
-		}
-
-		public static IUnifiedExpression ToSmartArrayLiteral(
-				this IUnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static IUnifiedExpression ToSmartSetLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.Remove();
-				return expression;
-			}
-			return UnifiedSet.Create(collection);
-		}
-
-		public static IUnifiedExpression ToSmartSetLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1)
-				return list[0];
-			return UnifiedSet.Create(list);
-		}
-
-		public static IUnifiedExpression ToSmartSetLiteral(
-				this IUnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static IUnifiedExpression ToSmartLazyListLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.Remove();
-				return expression;
-			}
-			return UnifiedIterable.Create(collection);
-		}
-
-		public static IUnifiedExpression ToSmartLazyListLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1)
-				return list[0];
-			return UnifiedIterable.Create(list);
-		}
-
-		public static IUnifiedExpression ToSmartLazyListLiteral(
-				this IUnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static IUnifiedExpression ToSmartTupleLiteral(
-				this UnifiedExpressionCollection collection) {
-			if (collection.Count == 1) {
-				var expression = collection[0];
-				expression.Remove();
-				return expression;
-			}
-			return UnifiedTuple.Create(collection);
-		}
-
-		public static IUnifiedExpression ToSmartTupleLiteral(
-				this IEnumerable<IUnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1)
-				return list[0];
-			return UnifiedTuple.Create(list);
-		}
-
-		public static IUnifiedExpression ToSmartTupleLiteral(
-				this IUnifiedExpression singleton) {
-			return singleton;
+		public static UnifiedUsingPartCollection ToCollection(
+				this UnifiedUsingPart singleton) {
+			if (singleton == null) return UnifiedUsingPartCollection.Create();
+			return UnifiedUsingPartCollection.Create(singleton);
 		}
 	}
 }

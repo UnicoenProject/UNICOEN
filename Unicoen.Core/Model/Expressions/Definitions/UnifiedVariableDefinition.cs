@@ -16,15 +16,23 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   変数宣言における１変数部分を表します。
 	///   e.g. Javaにおける<c>int[] a[][], b[], c;</c>の<c>int[] a[][]</c>
 	/// </summary>
-	public class UnifiedVariableDefinition : UnifiedElement, IUnifiedExpression {
+	public class UnifiedVariableDefinition : UnifiedElement {
 		private UnifiedAnnotationCollection _annotations;
+		private UnifiedModifierCollection _modifiers;
+		private UnifiedType _type;
+		private UnifiedIdentifier _name;
+		private UnifiedIntegerLiteral _bitField;
+		private IUnifiedExpression _initialValue;
+		private UnifiedArgumentCollection _arguments;
+		private UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得または設定します．
@@ -33,8 +41,6 @@ namespace Unicoen.Core.Model {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
-
-		private UnifiedModifierCollection _modifiers;
 
 		/// <summary>
 		///   変数に付随する修飾子の集合を取得または設定します．
@@ -45,8 +51,6 @@ namespace Unicoen.Core.Model {
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
-		private UnifiedType _type;
-
 		/// <summary>
 		///   変数の型を取得または設定します．
 		///   e.g. Javaにおける<c>public static int a[];</c>の<c>int</c>
@@ -55,8 +59,6 @@ namespace Unicoen.Core.Model {
 			get { return _type; }
 			set { _type = SetChild(value, _type); }
 		}
-
-		private UnifiedIdentifier _name;
 
 		/// <summary>
 		///   変数名を取得または設定します．
@@ -67,8 +69,6 @@ namespace Unicoen.Core.Model {
 			set { _name = SetChild(value, _name); }
 		}
 
-		private UnifiedIntegerLiteral _bitField;
-
 		/// <summary>
 		///   ビットフィールドを取得または設定します．
 		///   e.g. Cにおける<c>struct s { signed b1 : 1; signed b2 : 2; }</c>の<c>1</c>や<c>2</c>の部分
@@ -77,8 +77,6 @@ namespace Unicoen.Core.Model {
 			get { return _bitField; }
 			set { _bitField = SetChild(value, _bitField); }
 		}
-
-		private IUnifiedExpression _initialValue;
 
 		/// <summary>
 		///   変数の初期化部分を表します。
@@ -91,8 +89,6 @@ namespace Unicoen.Core.Model {
 			set { _initialValue = SetChild(value, _initialValue); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
-
 		/// <summary>
 		///   変数の初期化のコンストラクタ呼び出しを表します。
 		///   e.g. C++における<c>Class c(1);</c>
@@ -101,8 +97,6 @@ namespace Unicoen.Core.Model {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
-
-		private UnifiedBlock _body;
 
 		///<summary>
 		///  変数に付随するブロックを表します。
@@ -121,20 +115,23 @@ namespace Unicoen.Core.Model {
 			set { _body = SetChild(value, _body); }
 		}
 
-		private UnifiedVariableDefinition() {}
+		protected UnifiedVariableDefinition() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

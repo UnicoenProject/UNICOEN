@@ -16,10 +16,9 @@
 
 #endregion
 
-using System.Linq;
 using Code2Xml.Languages.Python2.CodeToXmls;
-using Unicoen.Core.Model;
-using Unicoen.Core.Processor;
+using Unicoen.Model;
+using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public class Python2ModelFactory : ModelFactory {

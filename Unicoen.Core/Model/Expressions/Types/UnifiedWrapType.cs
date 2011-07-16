@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public abstract class UnifiedWrapType : UnifiedType {
 		protected UnifiedType _type;
 
@@ -37,14 +37,14 @@ namespace Unicoen.Core.Model {
 		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
 		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
 		/// </summary>
-		public override IUnifiedExpression NameExpression {
-			get { return Type.NameExpression; }
-			set { Type.NameExpression = value; }
+		public override IUnifiedExpression BasicTypeName {
+			get { return Type.BasicTypeName; }
+			set { Type.BasicTypeName = value; }
 		}
 
 		protected override List<PropertyInfo> GetPropertyInfos() {
 			return GetType().GetProperties()
-					.Where(p => p.Name != "Parent" && p.Name != "NameExpression")
+					.Where(p => p.Name != "Parent" && p.Name != "BasicTypeName")
 					.Where(p => p.GetIndexParameters().Length == 0)
 					.Where(p => typeof(IUnifiedElement).IsAssignableFrom(p.PropertyType))
 					.ToList();

@@ -16,15 +16,18 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   do-while文を表します。
 	///   e.g. Javaにおける<c>do { ... } while(cond);</c>
 	/// </summary>
-	public class UnifiedDoWhile : UnifiedExpressionBlock {
+	public class UnifiedDoWhile : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _condition;
+		private UnifiedBlock _body;
+		private UnifiedBlock _falseBody;
 
 		/// <summary>
 		///   ループの継続を判定する条件式を取得もしくは設定します．
@@ -35,39 +38,40 @@ namespace Unicoen.Core.Model {
 			set { _condition = SetChild(value, _condition); }
 		}
 
-		private UnifiedBlock _falseBody;
+		/// <summary>
+		///   ループ中に実行するブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
 		/// <summary>
-		/// 条件式が満たされない際に一度だけ実行されるブロックを取得もしくは設定します．
-		/// 今のところ該当する言語が存在しません．
+		///   条件式が満たされない際に一度だけ実行されるブロックを取得もしくは設定します．
+		///   今のところ該当する言語が存在しません．
 		/// </summary>
 		public UnifiedBlock FalseBody {
 			get { return _falseBody; }
 			set { _falseBody = SetChild(value, _falseBody); }
 		}
 
-		/// <summary>
-		/// ループで実行されるブロックを取得します．
-		/// </summary>
-		public override UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
-		}
-
 		private UnifiedDoWhile() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 

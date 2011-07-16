@@ -16,7 +16,9 @@
 
 #endregion
 
-namespace Unicoen.Core.Processor {
+using System.Diagnostics;
+
+namespace Unicoen.Processor {
 	/// <summary>
 	///   MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
 	/// </summary>
@@ -46,6 +48,7 @@ namespace Unicoen.Core.Processor {
 		/// </summary>
 		public string Delimiter;
 
+		[DebuggerStepThrough]
 		public Decoration() {
 			MostLeft = "";
 			MostRight = "";

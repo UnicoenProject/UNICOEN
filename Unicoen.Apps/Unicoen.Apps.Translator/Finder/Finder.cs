@@ -18,15 +18,15 @@
 
 using System;
 using System.Collections.Generic;
-using Unicoen.Core.Model;
+using Unicoen.Model;
 
-namespace Unicoen.Apps.Translator{
+namespace Unicoen.Apps.Translator {
 	// モデルの検索に関するクラス
 	public class Finder {
 		// 関数が与えられたパラメータを持っているか
-		public Boolean HasParameter(UnifiedFunction func, Parameter param) {
+		public Boolean HasParameter(UnifiedFunctionDefinition func, Parameter param) {
 			if (func.Name.Equals(param.Name)
-			    && func.Type.NameExpression.Equals(param.TypeName)) {
+			    && func.Type.BasicTypeName.Equals(param.TypeName)) {
 				return true;
 			}
 			return false;

@@ -16,22 +16,18 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	///   ブログラム全体を表します。
 	/// </summary>
-	public class UnifiedProgram
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedProgram> {
-		public override UnifiedProgram CreateSelf() {
-			return new UnifiedProgram();
-		}
-
+	public class UnifiedProgram : UnifiedElement {
 		private UnifiedComment _comments;
 
 		/// <summary>
-		///   ソースコードの先頭に表記されたマジックコメントを表します．
+		///   ソースコードの先頭に表記されたマジックコメントを取得もしくは設定します．
 		///   e.g. Pythonにおける<c># -*- coding: utf-8 -*-</c>
 		/// </summary>
 		public UnifiedComment Comments {
@@ -39,21 +35,41 @@ namespace Unicoen.Core.Model {
 			set { _comments = SetChild(value, _comments); }
 		}
 
+		private UnifiedBlock _body;
+
+		/// <summary>
+		///   プログラム全体を構成するブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
+
 		protected UnifiedProgram() {}
 
+		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			}
+
+		public static UnifiedProgram Create(
+				UnifiedBlock body, UnifiedComment comments = null) {
+			return new UnifiedProgram {
+					Body = body,
+					Comments = comments,
+			};
+		}
+	}
 }

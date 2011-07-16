@@ -16,10 +16,13 @@
 
 #endregion
 
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.CodeFactories;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	public static class ModelExtensionsForVisitor {
+		[DebuggerStepThrough]
 		public static void TryAccept<TElement>(
 				this TElement element, IUnifiedVisitor visitor)
 				where TElement : class, IUnifiedElement {
@@ -27,12 +30,36 @@ namespace Unicoen.Core.Model {
 				element.Accept(visitor);
 		}
 
-		public static TResult TryAccept<TElement, TResult, TArg>(
-				this TElement element, IUnifiedVisitor<TResult, TArg> visitor, TArg arg)
+		[DebuggerStepThrough]
+		public static TResult TryAccept<TElement, TArg, TResult>(
+				this TElement element, IUnifiedVisitor<TArg, TResult> visitor, TArg arg)
 				where TElement : class, IUnifiedElement {
-			if (element != null)
-				return element.Accept(visitor, arg);
-			return default(TResult);
+			if (element == null)
+				return default(TResult);
+			return element.Accept(visitor, arg);
+		}
+
+		[DebuggerStepThrough]
+		public static bool TryAccept<TElement>(
+				this TElement element, JavaLikeCodeFactoryVisitor visitor, VisitorArgument arg, string mostLeft)
+				where TElement : class, IUnifiedElement {
+			if (element == null)
+				return default(bool);
+			visitor.Writer.Write(mostLeft);
+			var ret = element.Accept(visitor, arg);
+			return ret;
+		}
+
+		[DebuggerStepThrough]
+		public static bool TryAccept<TElement>(
+				this TElement element, JavaLikeCodeFactoryVisitor visitor, VisitorArgument arg, string mostLeft, string mostRight)
+				where TElement : class, IUnifiedElement {
+			if (element == null)
+				return default(bool);
+			visitor.Writer.Write(mostLeft);
+			var ret = element.Accept(visitor, arg);
+			visitor.Writer.Write(mostRight);
+			return ret;
 		}
 	}
 }

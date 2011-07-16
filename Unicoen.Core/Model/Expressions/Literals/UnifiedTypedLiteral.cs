@@ -17,15 +17,17 @@
 #endregion
 
 using System;
-using Unicoen.Core.Processor;
+using System.Diagnostics;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
+namespace Unicoen.Model {
 	/// <summary>
 	/// </summary>
 	/// <typeparam name = "T"></typeparam>
 	public abstract class UnifiedTypedLiteral<T> : UnifiedLiteral {
-		public T Value { get; set; }
+		public abstract T Value { get; set; }
 
+		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
 				TArg arg) {
@@ -33,8 +35,9 @@ namespace Unicoen.Core.Model {
 			throw new InvalidOperationException("You should override this method.");
 		}
 
-		public override TResult Accept<TResult, TArg>(
-				IUnifiedVisitor<TResult, TArg> visitor, TArg arg) {
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException("You should override this method.");
 		}
