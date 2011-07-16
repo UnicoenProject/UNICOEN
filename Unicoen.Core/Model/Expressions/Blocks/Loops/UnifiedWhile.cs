@@ -40,7 +40,7 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		///   ブロックを取得します．
+		///   ループ中に実行するブロックを取得もしくは設定します．
 		/// </summary>
 		public UnifiedBlock Body {
 			get { return _body; }

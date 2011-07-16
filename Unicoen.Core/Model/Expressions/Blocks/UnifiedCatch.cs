@@ -26,6 +26,7 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedCatch : UnifiedElement, IUnifiedExpression {
 		private UnifiedMatcherCollection _matchers;
+		private UnifiedBlock _body;
 
 		/// <summary>
 		///   catch節内のパターンマッチ（例外を受け取る部分）の集合を取得します．
@@ -35,8 +36,6 @@ namespace Unicoen.Model {
 			get { return _matchers; }
 			set { _matchers = SetChild(value, _matchers); }
 		}
-
-		private UnifiedBlock _body;
 
 		/// <summary>
 		///   ブロックを取得します．

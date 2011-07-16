@@ -26,9 +26,9 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedTry : UnifiedElement, IUnifiedExpression {
 		private UnifiedCatchCollection _catches;
+		private UnifiedBlock _body;
 		private UnifiedBlock _elseBody;
 		private UnifiedBlock _finallyBody;
-		private UnifiedBlock _body;
 
 		/// <summary>
 		///   catch節の集合を取得もしくは設定します．

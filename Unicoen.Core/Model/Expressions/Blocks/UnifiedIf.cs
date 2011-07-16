@@ -29,8 +29,8 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedIf : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _condition;
-		private UnifiedBlock _elseBody;
 		private UnifiedBlock _body;
+		private UnifiedBlock _elseBody;
 
 		/// <summary>
 		///   条件式を取得もしくは設定します．

@@ -58,17 +58,17 @@ namespace Unicoen.Model {
 			set { _step = SetChild(value, _step); }
 		}
 
-		public UnifiedBlock FalseBody {
-			get { return _falseBody; }
-			set { _falseBody = SetChild(value, _falseBody); }
-		}
-
 		/// <summary>
-		///   ブロックを取得します．
+		///   ループ中に実行するブロックを取得もしくは設定します．
 		/// </summary>
 		public UnifiedBlock Body {
 			get { return _body; }
 			set { _body = SetChild(value, _body); }
+		}
+
+		public UnifiedBlock FalseBody {
+			get { return _falseBody; }
+			set { _falseBody = SetChild(value, _falseBody); }
 		}
 
 		private UnifiedFor() {}
