@@ -101,9 +101,9 @@ namespace Unicoen.Apps.Aop.Tests {
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
 			//for debug
-			//var gen = new JavaCodeFactory();
-			//Console.Write(gen.Generate(_javaModel));
-			//TODO コード生成で落ちる：UnifiedBlockDefinitionが何者か調査する
+			var gen = new JavaCodeFactory();
+			Console.Write(gen.Generate(_javaModel));
+			//TODO コード生成で落ちる
 
 
 			//モデル内のブロック数が１増えているかどうか
