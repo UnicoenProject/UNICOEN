@@ -85,31 +85,40 @@ namespace Unicoen.Apps.Aop {
 				//ポイントカットの指定に応じて適切なアドバイスの合成処理を行う
 				//TODO ワイルドカードなどへの対応
 				//TODO 複数のターゲットを持つポイントカットへの対応(これはそもそもパーサを改良する必要あり)
+
+				var methodName = target.GetTargetName().ElementAt(1);
+				//アドバイスタイプによる分岐
 				switch (advice.GetAdviceType()) {
-				case "before":
-					if (target.GetPointcutType().Equals("execution")) {
-						//とりあえずメソッド名だけを抜き出して合成
-						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, code);
-					} else {
-						//call
-						//とりあえずメソッド名だけを抜き出して合成
-						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtBeforeCallByName(model, methodName, code);
-					}
+
+					case "before":
+						//ポイントカットタイプによる分岐
+						switch (target.GetPointcutType()) {
+							case "execution":
+								CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, code); break;							
+							case "call":
+								CodeProcessor.InsertAtBeforeCallByName(model, methodName, code); break;
+							case "get":
+								CodeProcessor.InsertAtBeforeGetByName(model, methodName, code); break;
+							case "set":
+								CodeProcessor.InsertAtBeforeSetByName(model, methodName, code); break;
+							default:
+								throw new InvalidOperationException("ポイントカットの種類が正しくありません");
+						}
 					break;
 
-				case "after":
-					if (target.GetPointcutType().Equals("execution")) {
-						//とりあえずメソッド名だけを抜き出して合成
-						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtAfterExecutionByName(model, methodName, code);
-					} else {
-						//call
-						//とりあえずメソッド名だけを抜き出して合成
-						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtAfterCallByName(model, methodName, code);
-					}
+					case "after":
+						switch (target.GetPointcutType()) {
+							case "execution":
+								CodeProcessor.InsertAtAfterExecutionByName(model, methodName, code); break;						
+							case "call":
+								CodeProcessor.InsertAtAfterCallByName(model, methodName, code); break;
+							case "get":
+								CodeProcessor.InsertAtAfterGetByName(model, methodName, code); break;
+							case "set":
+								CodeProcessor.InsertAtAfterSetByName(model, methodName, code); break;
+							default:
+								throw new InvalidOperationException("ポイントカットの種類が正しくありません");
+						}
 					break;
 
 				default:

@@ -1,10 +1,10 @@
 var x;
 
 function getX() {
-    {alert("executed");}
     return x;
 }
 
 var a = 10;
+{alert("executed");}
 var b = a;
 getX();

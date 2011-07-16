@@ -68,7 +68,11 @@
     <Compile Include="AspectElement\Intertype.cs" />
     <Compile Include="AspectElement\LanguageDependBlock.cs" />
     <Compile Include="AspectElement\Pointcut.cs" />
-    <Compile Include="CodeProcessor.cs" />
+    <Compile Include="CodeProcessor\CodeProcessor.cs" />
+    <Compile Include="CodeProcessor\CodeProcessorForCall.cs" />
+    <Compile Include="CodeProcessor\CodeProcessorForExecution.cs" />
+    <Compile Include="CodeProcessor\CodeProcessorForGetSet.cs" />
+    <Compile Include="CodeProcessor\CodeProcessorForIntertype.cs" />
     <Compile Include="ExtendAspectAdaptor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
