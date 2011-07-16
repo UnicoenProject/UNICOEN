@@ -15,6 +15,8 @@ namespace Unicoen.Apps.Aop
 		//TODO アスペクトファイルではどう記述するのだろうか？
 		//普通に考えると、set : int a;のように型も指定できるのがベストなはずなので、ちょっと検討しよう
 
+		//TODO AspectJではフィールドに限定された話のようなので、提案処理系ではどう扱うか考える
+
 		/// <summary>
 		/// 指定された変数参照の直前に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
@@ -222,6 +224,22 @@ namespace Unicoen.Apps.Aop
 				var parent = definition.Parent as UnifiedVariableDefinitionList;
 				block.Insert(block.IndexOf(parent, 0) + 1, advice);
 			}
+		}
+
+		public static void InsertAtBeforeGetByName(IUnifiedElement root, string name, UnifiedBlock advice) {
+			InsertAtBeforeGet(root, new Regex(name), advice);
+		}
+
+		public static void InsertAtAfterGetByName(IUnifiedElement root, string name, UnifiedBlock advice) {
+			InsertAtAfterGet(root, new Regex(name), advice);
+		}
+
+		public static void InsertAtBeforeSetByName(IUnifiedElement root, string name, UnifiedBlock advice) {
+			InsertAtBeforeSet(root, new Regex(name), advice);
+		}
+
+		public static void InsertAtAfterSetByName(IUnifiedElement root, string name, UnifiedBlock advice) {
+			InsertAtAfterSet(root, new Regex(name), advice);
 		}
 	}
 }

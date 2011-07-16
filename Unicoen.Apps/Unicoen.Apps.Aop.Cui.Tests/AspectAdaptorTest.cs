@@ -306,6 +306,236 @@ namespace Unicoen.Apps.Aop.Tests {
 		}
 
 		[Test]
+		public void Java言語の変数代入前にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "before_set.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("Java", _javaModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "before_set.java");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".java", code);
+
+			//for debug
+			//var gen = new JavaCodeFactory();
+			//Console.Write(gen.Generate(_javaModel));
+			//TODO コード生成で落ちる：UnifiedBlockDefinitionが何者か調査する
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJava + 1,
+					Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void Java言語の変数代入後にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "after_set.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("Java", _javaModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "after_set.java");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".java", code);
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJava + 1,
+					Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void Java言語の変数参照前にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "before_get.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("Java", _javaModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "before_get.java");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".java", code);
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJava + 1,
+					Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+
+		}
+
+		[Test]
+		public void Java言語の変数参照後にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "after_get.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("Java", _javaModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "after_get.java");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".java", code);
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJava + 1,
+					Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void JavaScript言語の変数代入前にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "before_set.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "before_set.js");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".js", code);
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void JavaScript言語の変数代入後にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "after_set.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "after_set.js");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".js", code);
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void JavaScript言語の変数参照前にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "before_get.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "before_get.js");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".js", code);
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		public void JavaScript言語の変数参照後にコードが正しく合成される() {
+			//アスペクトモデルの作成
+			var aspectPath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"partial_aspect", "after_get.txt");
+			var visitor = CreateAspectElement(aspectPath);
+
+			//アスペクトの合成処理
+			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+
+			//期待されるモデルの作成
+			var filePath = FixtureUtil.GetInputPath(
+					"AspectCompiler",
+					"expectation", "after_get.js");
+			var code = File.ReadAllText(filePath, XEncoding.SJIS);
+			var expectation = CodeProcessor.CreateModel(".js", code);
+
+			//モデル内のブロック数が１増えているかどうか
+			Assert.That(
+					_amountOfBlockInJavaScript + 1,
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+			//構造が一致しているかどうか
+			Assert.That(
+					_javaScriptModel,
+					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
 		public void Java言語にインタータイプ宣言が正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetInputPath(
