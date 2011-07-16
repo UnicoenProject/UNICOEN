@@ -373,7 +373,7 @@ namespace Unicoen.CodeFactories {
 		public override bool Visit(UnifiedConstructor element, VisitorArgument arg) {
 			element.Modifiers.TryAccept(this, arg);
 			element.GenericParameters.TryAccept(this, arg);
-			var p = element.Ancestors<UnifiedBlockDefinition>().First();
+			var p = element.Ancestors<UnifiedClassDefinition>().First();
 			p.Name.Accept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Throws.TryAccept(this, arg);

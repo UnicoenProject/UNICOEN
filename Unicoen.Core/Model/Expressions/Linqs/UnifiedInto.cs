@@ -20,33 +20,12 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedJoin : UnifiedLinqElement {
+	public class UnifiedInto : UnifiedLinqPart {
 		private IUnifiedExpression _expression;
 
 		public IUnifiedExpression Expression {
 			get { return _expression; }
 			set { _expression = SetChild(value, _expression); }
-		}
-
-		private IUnifiedExpression _inExpression;
-
-		public IUnifiedExpression InExpression {
-			get { return _inExpression; }
-			set { _inExpression = SetChild(value, _inExpression); }
-		}
-
-		private IUnifiedExpression _onExpression;
-
-		public IUnifiedExpression OnExpression {
-			get { return _onExpression; }
-			set { _onExpression = SetChild(value, _onExpression); }
-		}
-
-		private IUnifiedExpression _equalsExpression;
-
-		public IUnifiedExpression EqualsExpression {
-			get { return _equalsExpression; }
-			set { _equalsExpression = SetChild(value, _equalsExpression); }
 		}
 
 		[DebuggerStepThrough]

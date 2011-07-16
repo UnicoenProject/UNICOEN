@@ -26,7 +26,7 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedLinqElementCollection
 			: UnifiedElementCollection
-			  		<UnifiedLinqElement, UnifiedLinqElementCollection> {
+			  		<UnifiedLinqPart, UnifiedLinqElementCollection> {
 		/// <summary>
 		///   レシーバーと同じ型のオブジェクトを生成します．
 		/// </summary>

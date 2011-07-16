@@ -20,12 +20,21 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedOrderBy : UnifiedLinqElement {
-		private UnifiedOrderByKeyCollection _keys;
+	public class UnifiedLet : UnifiedLinqPart {
+		private UnifiedIdentifier _variable;
+		private IUnifiedExpression _expression;
 
-		public UnifiedOrderByKeyCollection Keys {
-			get { return _keys; }
-			set { _keys = SetChild(value, _keys); }
+		/// <summary>
+		/// 変数の
+		/// </summary>
+		public UnifiedIdentifier Variable {
+			get { return _variable; }
+			set { _variable = SetChild(value, _variable); }
+		}
+
+		public IUnifiedExpression Expression {
+			get { return _expression; }
+			set { _expression = SetChild(value, _expression); }
 		}
 
 		[DebuggerStepThrough]

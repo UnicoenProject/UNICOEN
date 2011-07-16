@@ -20,14 +20,7 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedLet : UnifiedLinqElement {
-		private UnifiedIdentifier _variable;
-
-		public UnifiedIdentifier Variable {
-			get { return _variable; }
-			set { _variable = SetChild(value, _variable); }
-		}
-
+	public class UnifiedSelect : UnifiedLinqPart {
 		private IUnifiedExpression _expression;
 
 		public IUnifiedExpression Expression {

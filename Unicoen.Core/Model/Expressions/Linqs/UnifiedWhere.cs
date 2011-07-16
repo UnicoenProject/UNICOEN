@@ -20,7 +20,7 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedInto : UnifiedLinqElement {
+	public class UnifiedWhere : UnifiedLinqPart {
 		private IUnifiedExpression _expression;
 
 		public IUnifiedExpression Expression {

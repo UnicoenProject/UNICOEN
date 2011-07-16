@@ -24,6 +24,11 @@ namespace Unicoen.Model {
 			: UnifiedElement, IUnifiedExpression, IUnifiedCreatable<TSelf>
 			where TSelf : UnifiedConstructorBase<TSelf> {
 		protected UnifiedAnnotationCollection _annotations;
+		protected UnifiedModifierCollection _modifiers;
+		protected UnifiedParameterCollection _parameters;
+		protected UnifiedGenericParameterCollection _genericParameters;
+		protected UnifiedThrowsTypeCollection _throws;
+		protected UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -33,35 +38,25 @@ namespace Unicoen.Model {
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		protected UnifiedModifierCollection _modifiers;
-
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
-
-		protected UnifiedParameterCollection _parameters;
 
 		public UnifiedParameterCollection Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		protected UnifiedGenericParameterCollection _genericParameters;
-
 		public UnifiedGenericParameterCollection GenericParameters {
 			get { return _genericParameters; }
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
-		protected UnifiedThrowsTypeCollection _throws;
-
 		public UnifiedThrowsTypeCollection Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
-
-		protected UnifiedBlock _body;
 
 		/// <summary>
 		///   ブロックを取得します．
@@ -71,7 +66,7 @@ namespace Unicoen.Model {
 			set { _body = SetChild(value, _body); }
 		}
 
-		protected internal UnifiedConstructorBase() {}
+		protected UnifiedConstructorBase() {}
 
 		public static TSelf Create(
 				UnifiedBlock body = null,
