@@ -132,7 +132,6 @@
     <Compile Include="Model\Expressions\Linqs\UnifiedJoin.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedOrderBy.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedGroupBy.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedInto.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedOrderByKey.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedWhere.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedLinqPart.cs" />

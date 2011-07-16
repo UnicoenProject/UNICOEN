@@ -20,15 +20,29 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	///   LINQのクエリ式を構成するorderby句で指定するキーを表します。
+	///   e.g. C#における<c>orderby p.X descending</c>の<c>p.X descending</c>
+	/// </summary>
 	public class UnifiedOrderByKey : UnifiedElement {
 		private IUnifiedExpression _expression;
 
+		/// <summary>
+		///   ソートを行うキーを取得もしくは設定します．
+		///   e.g. C#における<c>orderby p.X descending</c>の<c>p.X</c>
+		/// </summary>
 		public IUnifiedExpression Expression {
 			get { return _expression; }
 			set { _expression = SetChild(value, _expression); }
 		}
 
+		/// <summary>
+		///   昇順でソートするかどうかを取得もしくは設定します．
+		///   e.g. C#における<c>orderby p.X descending</c>の<c>descending</c>
+		/// </summary>
 		public bool Ascending { get; set; }
+
+		protected UnifiedOrderByKey() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -44,6 +58,14 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedOrderByKey Create(
+				IUnifiedExpression expression, bool ascending) {
+			return new UnifiedOrderByKey {
+					Expression = expression,
+					Ascending = ascending,
+			};
 		}
 	}
 }

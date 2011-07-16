@@ -20,13 +20,23 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	///   LINQのクエリ式を構成するwhere 句を表します。
+	///   e.g. C#における<c>where p.X > 2</c>
+	/// </summary>
 	public class UnifiedWhere : UnifiedLinqPart {
-		private IUnifiedExpression _expression;
+		private IUnifiedExpression _condition;
 
-		public IUnifiedExpression Expression {
-			get { return _expression; }
-			set { _expression = SetChild(value, _expression); }
+		/// <summary>
+		///   抽出の条件式を取得もしくは設定します．
+		///   e.g. C#における<c>where p.X > 2</c>
+		/// </summary>
+		public IUnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
 		}
+
+		protected UnifiedWhere() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -42,6 +52,12 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedWhere Create(IUnifiedExpression condition) {
+			return new UnifiedWhere {
+					Condition = condition,
+			};
 		}
 	}
 }

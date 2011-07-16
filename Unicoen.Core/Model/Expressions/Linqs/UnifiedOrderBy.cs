@@ -20,13 +20,23 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	///   LINQのクエリ式を構成するorderby句を表します。
+	///   e.g. C#における<c>orderby p.X, p.Y descending, p.Z ascending</c>
+	/// </summary>
 	public class UnifiedOrderBy : UnifiedLinqPart {
 		private UnifiedOrderByKeyCollection _keys;
 
+		/// <summary>
+		///   ソートを行うキーの集合を取得もしくは設定します．
+		///   e.g. C#における<c>orderby p.X, p.Y descending, p.Z ascending</c>の<c>p.X, p.Y descending, p.Z ascending</c>
+		/// </summary>
 		public UnifiedOrderByKeyCollection Keys {
 			get { return _keys; }
 			set { _keys = SetChild(value, _keys); }
 		}
+
+		protected UnifiedOrderBy() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -42,6 +52,12 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedOrderBy Create(UnifiedOrderByKeyCollection keys) {
+			return new UnifiedOrderBy {
+					Keys = keys,
+			};
 		}
 	}
 }

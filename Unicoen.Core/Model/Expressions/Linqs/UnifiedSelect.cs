@@ -20,13 +20,33 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	///   LINQのクエリ式を構成するselect句を表します。
+	///   e.g. C#における<c>select new { p.X, p.Y } into x</c>
+	/// </summary>
 	public class UnifiedSelect : UnifiedLinqPart {
 		private IUnifiedExpression _expression;
+		private UnifiedVariableIdentifier _receiver;
 
+		/// <summary>
+		///   射影する際のクエリ式の各要素の変換式を取得もしくは設定します．
+		///   e.g. C#における<c>select new { p.X, p.Y } into x</c>の<c>new { p.X, p.Y }</c>
+		/// </summary>
 		public IUnifiedExpression Expression {
 			get { return _expression; }
 			set { _expression = SetChild(value, _expression); }
 		}
+
+		/// <summary>
+		///   クエリを継続するために要素を受け取る変数を取得もしくは設定します．
+		///   e.g. C#における<c>select new { p.X, p.Y } into x</c>の<c>x</c>
+		/// </summary>
+		public UnifiedVariableIdentifier Receiver {
+			get { return _receiver; }
+			set { _receiver = SetChild(value, _receiver); }
+		}
+
+		protected UnifiedSelect() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -42,6 +62,14 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedSelect Create(
+				IUnifiedExpression expression, UnifiedVariableIdentifier receiver) {
+			return new UnifiedSelect {
+					Expression = expression,
+					Receiver = receiver,
+			};
 		}
 	}
 }

@@ -65,7 +65,7 @@ namespace Unicoen.Model {
 			set { _linqParts = SetChild(value, _linqParts); }
 		}
 
-		private UnifiedLinq() {}
+		protected UnifiedLinq() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {

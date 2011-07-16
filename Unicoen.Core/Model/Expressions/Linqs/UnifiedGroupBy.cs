@@ -56,7 +56,7 @@ namespace Unicoen.Model {
 			set { _receiver = SetChild(value, _receiver); }
 		}
 
-		private UnifiedGroupBy() {}
+		protected UnifiedGroupBy() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {

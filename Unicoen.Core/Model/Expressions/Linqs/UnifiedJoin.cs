@@ -25,16 +25,16 @@ namespace Unicoen.Model {
 	///   e.g. C#における<c>join q in array2 on p.X equals q.X</c>
 	/// </summary>
 	public class UnifiedJoin : UnifiedLinqPart {
-		private IUnifiedExpression _receiver;
+		private UnifiedVariableIdentifier _receiver;
 		private IUnifiedExpression _joinSource;
 		private IUnifiedExpression _firstEqualsKey;
 		private IUnifiedExpression _secondEqualsKey;
 
 		/// <summary>
-		///   クエリを継続するために要素を受け取る変数を取得もしくは設定します．
+		///   クエリ式を継続するために要素を受け取る変数を取得もしくは設定します．
 		///   e.g. C#における<c>group p.W in p.X into g</c>の<c>g</c>
 		/// </summary>
-		public IUnifiedExpression Receiver {
+		public UnifiedVariableIdentifier Receiver {
 			get { return _receiver; }
 			set { _receiver = SetChild(value, _receiver); }
 		}
@@ -66,7 +66,7 @@ namespace Unicoen.Model {
 			set { _secondEqualsKey = SetChild(value, _secondEqualsKey); }
 		}
 
-		private UnifiedJoin() {}
+		protected UnifiedJoin() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -85,7 +85,7 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedJoin Create(
-				IUnifiedExpression receiver, IUnifiedExpression joinSource,
+				UnifiedVariableIdentifier receiver, IUnifiedExpression joinSource,
 				IUnifiedExpression firstEqualsKey, IUnifiedExpression secondEqualsKey) {
 			return new UnifiedJoin {
 					Receiver = receiver,

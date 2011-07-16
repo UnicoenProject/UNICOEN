@@ -20,22 +20,33 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	///   LINQのクエリ式を構成するlet句を表します。
+	///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>
+	/// </summary>
 	public class UnifiedLet : UnifiedLinqPart {
-		private UnifiedIdentifier _variable;
+		private UnifiedVariableIdentifier _variable;
 		private IUnifiedExpression _expression;
 
 		/// <summary>
-		/// 変数の
+		///   クエリ式中で計算した値を代入する変数を取得もしくは設定します．
+		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>sumZ</c>
 		/// </summary>
-		public UnifiedIdentifier Variable {
+		public UnifiedVariableIdentifier Variable {
 			get { return _variable; }
 			set { _variable = SetChild(value, _variable); }
 		}
 
+		/// <summary>
+		///   変数に代入する式を取得もしくは設定します．
+		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>p.Z.Sum()</c>
+		/// </summary>
 		public IUnifiedExpression Expression {
 			get { return _expression; }
 			set { _expression = SetChild(value, _expression); }
 		}
+
+		protected UnifiedLet() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -51,6 +62,14 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedLet Create(
+				UnifiedVariableIdentifier variable, IUnifiedExpression expression) {
+			return new UnifiedLet {
+					Variable = variable,
+					Expression = expression
+			};
 		}
 	}
 }
