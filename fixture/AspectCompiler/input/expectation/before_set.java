@@ -11,9 +11,9 @@ public class Sample {
     }
 
     public static void main(String[] args) {
+    	{System.out.println("executed");}
     	int a = 10;
     	int b = a;
-        {System.out.println("executed");}
         getX();
     }
 
