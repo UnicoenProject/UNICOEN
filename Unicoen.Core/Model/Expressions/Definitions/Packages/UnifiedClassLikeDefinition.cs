@@ -21,7 +21,7 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public abstract class UnifiedBlockDefinition
+	public abstract class UnifiedClassLikeDefinition
 			: UnifiedElement, IUnifiedExpression {
 		protected UnifiedAnnotationCollection _annotations;
 		protected UnifiedModifierCollection _modifiers;
@@ -84,7 +84,7 @@ namespace Unicoen.Model {
 			}
 
 	public abstract class UnifiedBlockDefinition<T>
-			: UnifiedBlockDefinition, IUnifiedCreatable<T>
+			: UnifiedClassLikeDefinition, IUnifiedCreatable<T>
 			where T : UnifiedBlockDefinition<T> {
 		public static T Create(
 				UnifiedAnnotationCollection annotations = null,

@@ -149,7 +149,7 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedTypeIdentifier element);
 		void Visit(UnifiedRegularExpressionLiteral element);
 		void Visit(UnifiedPropertyDefinition element);
-		void Visit(UnifiedPropertyPart element);
+		void Visit(UnifiedPropertyDefinitionPart element);
 		void Visit(UnifiedSelect element);
 		void Visit(UnifiedWhere element);
 		void Visit(UnifiedLet element);
@@ -296,7 +296,7 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedTypeIdentifier element, TArg arg);
 		void Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		void Visit(UnifiedPropertyDefinition element, TArg arg);
-		void Visit(UnifiedPropertyPart element, TArg arg);
+		void Visit(UnifiedPropertyDefinitionPart element, TArg arg);
 		void Visit(UnifiedSelect element, TArg arg);
 		void Visit(UnifiedWhere element, TArg arg);
 		void Visit(UnifiedLet element, TArg arg);
@@ -443,7 +443,7 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedTypeIdentifier element, TArg arg);
 		TResult Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		TResult Visit(UnifiedPropertyDefinition element, TArg arg);
-		TResult Visit(UnifiedPropertyPart element, TArg arg);
+		TResult Visit(UnifiedPropertyDefinitionPart element, TArg arg);
 		TResult Visit(UnifiedSelect element, TArg arg);
 		TResult Visit(UnifiedWhere element, TArg arg);
 		TResult Visit(UnifiedLet element, TArg arg);

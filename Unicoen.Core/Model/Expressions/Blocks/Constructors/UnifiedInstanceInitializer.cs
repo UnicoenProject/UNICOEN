@@ -21,7 +21,7 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	public class UnifiedInstanceInitializer
-			: UnifiedConstructorBase<UnifiedInstanceInitializer> {
+			: UnifiedConstructorLike<UnifiedInstanceInitializer> {
 		protected UnifiedInstanceInitializer() {}
 
 		[DebuggerStepThrough]

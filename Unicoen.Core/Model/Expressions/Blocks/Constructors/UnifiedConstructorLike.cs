@@ -18,11 +18,11 @@
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   コンストラクタの定義やに必要な機能を提供します．
+	///   コンストラクタの定義やイニシャライザの定義に必要な機能を提供します．
 	/// </summary>
-	public abstract class UnifiedConstructorBase<TSelf>
+	public abstract class UnifiedConstructorLike<TSelf>
 			: UnifiedElement, IUnifiedExpression, IUnifiedCreatable<TSelf>
-			where TSelf : UnifiedConstructorBase<TSelf> {
+			where TSelf : UnifiedConstructorLike<TSelf> {
 		protected UnifiedAnnotationCollection _annotations;
 		protected UnifiedModifierCollection _modifiers;
 		protected UnifiedParameterCollection _parameters;
@@ -66,7 +66,7 @@ namespace Unicoen.Model {
 			set { _body = SetChild(value, _body); }
 		}
 
-		protected UnifiedConstructorBase() {}
+		protected UnifiedConstructorLike() {}
 
 		public static TSelf Create(
 				UnifiedBlock body = null,

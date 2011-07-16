@@ -312,7 +312,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
 			var structOrUnion = isStruct
-			                    		? (UnifiedBlockDefinition)UnifiedStructDefinition.Create(
+			                    		? (UnifiedClassLikeDefinition)UnifiedStructDefinition.Create(
 			                    				name: uIdent,
 			                    				body: body)
 			                    		: UnifiedUnionDefinition.Create(

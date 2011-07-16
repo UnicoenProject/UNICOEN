@@ -24,7 +24,7 @@ namespace Unicoen.Model {
 	///   コンストラクタの定義を表します．
 	///   e.g. Javaにおける<c>public T1() { ... }</c>
 	/// </summary>
-	public class UnifiedConstructor : UnifiedConstructorBase<UnifiedConstructor> {
+	public class UnifiedConstructor : UnifiedConstructorLike<UnifiedConstructor> {
 		protected UnifiedConstructor() {}
 
 		[DebuggerStepThrough]

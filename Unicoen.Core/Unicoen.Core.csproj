@@ -108,7 +108,7 @@
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
-    <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructorBase.cs" />
+    <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructorLike.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedFixBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
@@ -137,11 +137,11 @@
     <Compile Include="Model\Expressions\Linqs\UnifiedLinqPart.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedSelect.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedLinq.cs" />
-    <Compile Include="Model\Expressions\Definitions\UnifiedPropertyPart.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedPropertyDefinitionPart.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedArrayLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedIterableLiteral.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedIterableComprehension.cs" />
-    <Compile Include="Model\Expressions\Comprehensions\UnifiedComprehension.cs" />
+    <Compile Include="Model\Expressions\Comprehensions\UnifiedComprehensionBase.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedSetLiteral.cs" />
     <Compile Include="Model\Expressions\Comprehensions\UnifiedSetComprehension.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedTupleLiteral.cs" />
@@ -166,7 +166,7 @@
     <Compile Include="Model\Expressions\Definitions\Packages\UnifiedInterfaceDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\Packages\UnifiedModuleDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\Packages\UnifiedNamespaceDefinition.cs" />
-    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedBlockDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\Packages\UnifiedClassLikeDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\Packages\UnifiedStructDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\Packages\UnifiedUnionDefinition.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedPrintChevron.cs" />

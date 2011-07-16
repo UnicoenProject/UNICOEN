@@ -975,10 +975,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: '(' (LT!* assignmentExpression (LT!* ',' LT!* assignmentExpression)*)? LT!* ')'
 			 */
 
-			var arguments = node.Elements("assignmentExpression").Select(
+			return node.Elements("assignmentExpression").Select(
 					e => UnifiedArgument.Create(null, null, CreateAssignmentExpression(e))).
 					ToCollection();
-			return arguments.ToCollection();
 		}
 
 		public static UnifiedIndexer CreateIndexSuffix(

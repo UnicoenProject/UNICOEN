@@ -20,7 +20,7 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedPropertyPart : UnifiedElement {
+	public class UnifiedPropertyDefinitionPart : UnifiedElement {
 		#region fields & properties
 
 		private UnifiedAnnotationCollection _annotations;
@@ -55,7 +55,7 @@ namespace Unicoen.Model {
 
 		#endregion
 
-		protected UnifiedPropertyPart() {}
+		protected UnifiedPropertyDefinitionPart() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -73,11 +73,11 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedPropertyPart Create(
+		public static UnifiedPropertyDefinitionPart Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedBlock body = null) {
-			return new UnifiedPropertyPart {
+			return new UnifiedPropertyDefinitionPart {
 					Annotations = annotations,
 					Modifiers = modifiers,
 					Body = body,

@@ -32,8 +32,8 @@ namespace Unicoen.Model {
 		private UnifiedType _type;
 		private UnifiedIdentifier _name;
 		private UnifiedParameterCollection _parameters;
-		private UnifiedPropertyPart _getter;
-		private UnifiedPropertyPart _setter;
+		private UnifiedPropertyDefinitionPart _getter;
+		private UnifiedPropertyDefinitionPart _setter;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -84,7 +84,7 @@ namespace Unicoen.Model {
 		///   ゲッターの定義を取得もしくは設定します．
 		///   e.g. C#における<c>public int Value { get; set; }</c>の<c>get;</c>
 		/// </summary>
-		public UnifiedPropertyPart Getter {
+		public UnifiedPropertyDefinitionPart Getter {
 			get { return _getter; }
 			set { _getter = SetChild(value, _getter); }
 		}
@@ -93,7 +93,7 @@ namespace Unicoen.Model {
 		///   セッターの定義を取得もしくは設定します．
 		///   e.g. C#における<c>public int Value { get; set; }</c>の<c>set;</c>
 		/// </summary>
-		public UnifiedPropertyPart Setter {
+		public UnifiedPropertyDefinitionPart Setter {
 			get { return _setter; }
 			set { _setter = SetChild(value, _setter); }
 		}
@@ -123,8 +123,8 @@ namespace Unicoen.Model {
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null, UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
-				UnifiedPropertyPart getter = null,
-				UnifiedPropertyPart setter = null) {
+				UnifiedPropertyDefinitionPart getter = null,
+				UnifiedPropertyDefinitionPart setter = null) {
 			return new UnifiedPropertyDefinition {
 					Annotations = annotations,
 					Modifiers = modifiers,

@@ -23,7 +23,7 @@ namespace Unicoen.Model {
 	/// <summary>
 	///   リスト内包表記式やジェネレータ式などを表します．
 	/// </summary>
-	public class UnifiedSetComprehension : UnifiedComprehension {
+	public class UnifiedSetComprehension : UnifiedComprehensionBase {
 		private UnifiedSetComprehension() {}
 
 		[DebuggerStepThrough]

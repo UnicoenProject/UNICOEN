@@ -32,8 +32,8 @@ namespace Unicoen.Model {
 		private UnifiedType _type;
 		private UnifiedIdentifier _name;
 		private UnifiedParameterCollection _parameters;
-		private UnifiedPropertyPart _adder;
-		private UnifiedPropertyPart _remover;
+		private UnifiedPropertyDefinitionPart _adder;
+		private UnifiedPropertyDefinitionPart _remover;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -84,7 +84,7 @@ namespace Unicoen.Model {
 		///   イベントの追加処理の定義を取得もしくは設定します．
 		///   e.g. C#における<c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c>の<c>add { _events.Add(value); }</c>
 		/// </summary>
-		public UnifiedPropertyPart Adder {
+		public UnifiedPropertyDefinitionPart Adder {
 			get { return _adder; }
 			set { _adder = SetChild(value, _adder); }
 		}
@@ -93,7 +93,7 @@ namespace Unicoen.Model {
 		///   イベントの削除処理の定義を取得もしくは設定します．
 		///   e.g. C#における<c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c>の<c>remove { _events.Remove(value); }</c>
 		/// </summary>
-		public UnifiedPropertyPart Remover {
+		public UnifiedPropertyDefinitionPart Remover {
 			get { return _remover; }
 			set { _remover = SetChild(value, _remover); }
 		}
@@ -123,8 +123,8 @@ namespace Unicoen.Model {
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null, UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
-				UnifiedPropertyPart adder = null,
-				UnifiedPropertyPart remover = null) {
+				UnifiedPropertyDefinitionPart adder = null,
+				UnifiedPropertyDefinitionPart remover = null) {
 			return new UnifiedEventDefinition {
 					Annotations = annotations,
 					Modifiers = modifiers,
