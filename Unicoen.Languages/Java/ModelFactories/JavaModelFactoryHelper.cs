@@ -2335,9 +2335,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * 'do' statement 'while' parExpression ';' 
 			 */
 			return
-					UnifiedDoWhile.Create(
-							UnifiedBlock.Create(CreateStatement(node.Element("statement"))),
-							CreateParExpression(node.Element("parExpression")));
+					UnifiedDoWhile.Create(CreateParExpression(node.Element("parExpression")), UnifiedBlock.Create(CreateStatement(node.Element("statement"))));
 		}
 
 		private static UnifiedSwitch CreateSwitch(XElement node) {
