@@ -60,10 +60,10 @@ namespace Unicoen.Apps.Aop {
 
 			//var filePath = args[1];
 			//var aspectPath = args[2];
-			//TODO 一時実験用のファイルパス -> 最終的には引数で取るようにする
-			var filePath = "../../fixture/AspectCompiler/mainInput";
-			var aspectPath =
-					"../../fixture/AspectCompiler/input/partial_aspect/before_execution.txt";
+
+			//TODO 動かす際にはfilePathにディレクトリを指定する
+			const string filePath = "";
+			const string aspectPath = "../../fixture/Aspect/input/partial_aspect/before_execution.txt";
 
 			//アスペクト情報を持つオブジェクトを生成する
 			var aspect = new ANTLRFileStream(aspectPath);
