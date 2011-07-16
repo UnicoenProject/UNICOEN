@@ -202,5 +202,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			if (node == null) return null;
 			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
+
+		internal static UnifiedAnnotationCollection AcceptVisitor<T, TResult>(this IEnumerable<AttributeSection> attrs, IAstVisitor<T, TResult> visitor, T data) {
+			// TODO: AttributeTarget
+			return attrs
+					.Select(a => a.AcceptVisitor(visitor, data))
+					.OfType<UnifiedAnnotationCollection>()
+					.SelectMany(_ => _)
+					.ToCollection();
+		}
 	}
 }
