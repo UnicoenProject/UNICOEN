@@ -121,6 +121,7 @@ namespace Unicoen.Model {
 			for (int i = 0; i < count; i++) {
 				var element = Elements[i];
 				if (predicator(element)) {
+					((UnifiedElement)(IUnifiedElement)element).Parent = null;
 					Elements.RemoveAt(i);
 					return true;
 				}
@@ -136,9 +137,10 @@ namespace Unicoen.Model {
 		public bool RemoveAll(Func<TElement, bool> predicator) {
 			var count = Elements.Count;
 			var result = false;
-			for (int i = 0; i < count; i++) {
+			for (int i = count - 1; i >= 0; i--) {
 				var element = Elements[i];
 				if (predicator(element)) {
+					((UnifiedElement)(IUnifiedElement)element).Parent = null;
 					Elements.RemoveAt(i);
 					result = true;
 				}
@@ -278,8 +280,9 @@ namespace Unicoen.Model {
 			get { return Elements[index]; }
 			set {
 				if (value != null) {
-					if (value.Parent != null)
-						value = value.DeepCopy();
+					if (value.Parent != null) {
+						throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
+					}
 					((UnifiedElement)(IUnifiedElement)value).Parent = this;
 				}
 				Elements[index] = value;
@@ -313,8 +316,12 @@ namespace Unicoen.Model {
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
 		public void Add(TElement element) {
 			Elements.Add(element);
-			if (element != null)
+			if (element != null) {
+				if (element.Parent != null) {
+					throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
+				}
 				((UnifiedElement)(IUnifiedElement)element).Parent = this;
+			}
 		}
 
 		/// <summary>
@@ -364,8 +371,12 @@ namespace Unicoen.Model {
 			// 1回の走査で処理を終わらせるようにする
 			foreach (var element in elements) {
 				Elements.Add(element);
-				if (element != null)
+				if (element != null) {
+					if (element.Parent != null) {
+						throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
+					}
 					((UnifiedElement)(IUnifiedElement)element).Parent = this;
+				}
 			}
 		}
 
@@ -389,6 +400,10 @@ namespace Unicoen.Model {
 		///    cref = "T:System.Collections.Generic.IList`1" />.</exception>
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.IList`1" /> is read-only.</exception>
 		public void Insert(int index, TElement element) {
+			if (element.Parent != null) {
+				throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
+			}
+			((UnifiedElement)(IUnifiedElement)element).Parent = this;
 			Elements.Insert(index, element);
 		}
 
@@ -403,7 +418,11 @@ namespace Unicoen.Model {
 		/// <param name = "item">The object to remove from the <see cref = "T:System.Collections.Generic.ICollection`1" />.</param>
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
 		public bool Remove(TElement item) {
-			return Elements.Remove(item);
+			var ret = Elements.Remove(item);
+			if (ret) {
+				((UnifiedElement)(IUnifiedElement)item).Parent = null;
+			}
+			return ret;
 		}
 
 		/// <summary>
