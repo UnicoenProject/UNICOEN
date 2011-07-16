@@ -18,6 +18,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
@@ -56,13 +57,13 @@ namespace Unicoen.Apps.Aop.Tests {
 			var javaCode = File.ReadAllText(JavaCodePath, XEncoding.SJIS);
 			_javaModel = CodeProcessor.CreateModel(".java", javaCode);
 			_amountOfBlockInJava =
-					_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count;
+					_javaModel.Descendants<UnifiedBlock>().Count();
 
 			//JavaScript言語のモデルを作成
 			var javaScriptCode = File.ReadAllText(JavaScriptCodePath, XEncoding.SJIS);
 			_javaScriptModel = CodeProcessor.CreateModel(".js", javaScriptCode);
 			_amountOfBlockInJavaScript =
-					_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count;
+					_javaScriptModel.Descendants<UnifiedBlock>().Count();
 		}
 
 		public AstVisitor CreateAspectElement(string path) {
@@ -103,13 +104,11 @@ namespace Unicoen.Apps.Aop.Tests {
 			//for debug
 			var gen = new JavaCodeFactory();
 			Console.Write(gen.Generate(_javaModel));
-			//TODO コード生成で落ちる
-
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
 				_amountOfBlockInJava + 1, 
-				Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+				Is.EqualTo(_javaModel.Descendants<UnifiedBlock>().Count()));
 			//構造が一致しているかどうか
 			Assert.That(
 					_javaModel,
@@ -137,7 +136,7 @@ namespace Unicoen.Apps.Aop.Tests {
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
 					_amountOfBlockInJavaScript + 1,
-					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().ToListLiteral().Count));
+					Is.EqualTo(_javaScriptModel.Descendants<UnifiedBlock>().Count()));
 			//構造が一致しているかどうか
 			Assert.That(
 					_javaScriptModel,
@@ -240,9 +239,9 @@ namespace Unicoen.Apps.Aop.Tests {
 			var expectation = CodeProcessor.CreateModel(".java", code);
 
 			var amountOfMethodInExpectation =
-					expectation.Descendants<UnifiedFunctionDefinition>().ToListLiteral().Count;
+					expectation.Descendants<UnifiedFunctionDefinition>().Count();
 			var amountOfMethodInJava =
-					_javaModel.Descendants<UnifiedFunctionDefinition>().ToListLiteral().Count;
+					_javaModel.Descendants<UnifiedFunctionDefinition>().Count();
 
 			//モデル内のメソッド数が１増えているかどうか
 			Assert.That(
@@ -266,10 +265,9 @@ namespace Unicoen.Apps.Aop.Tests {
 			var expectation = CodeProcessor.CreateModel(".js", code);
 
 			var amountOfMethodInExpectation =
-					expectation.Descendants<UnifiedFunctionDefinition>().ToListLiteral().Count;
+					expectation.Descendants<UnifiedFunctionDefinition>().Count();
 			var amountOfMethodInJavaScript =
-					_javaScriptModel.Descendants<UnifiedFunctionDefinition>().ToListLiteral().
-							Count;
+					_javaScriptModel.Descendants<UnifiedFunctionDefinition>().Count();
 
 			//モデル内のメソッド数が１増えているかどうか
 			Assert.That(
