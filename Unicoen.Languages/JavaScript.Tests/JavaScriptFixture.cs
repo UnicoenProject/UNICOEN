@@ -188,36 +188,36 @@ namespace Unicoen.Languages.JavaScript.Tests {
 
 		private IEnumerable<TestCaseData> SetUpProcessing_js() {
 			return SetUpTestCaseData(
-					"Processing.js-1.2.1",
+					"Processing.js-1.2.3",
 					path => Downloader.Download(
-							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1.js",
+							"http://processingjs.org/content/download/processing-js-1.2.3/processing-1.2.3.js",
 							Path.Combine(path, "src.js")),
 					CompileAll);
 		}
 
 		private IEnumerable<TestCaseData> SetUpProcessing_jsMin() {
 			return SetUpTestCaseData(
-					"Processing.js-1.2.1-min",
+					"Processing.js-1.2.3-min",
 					path => Downloader.Download(
-							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1.min.js",
+							"http://processingjs.org/content/download/processing-js-1.2.3/processing-1.2.3.min.js",
 							Path.Combine(path, "src.js")),
 					CompileAll);
 		}
 
 		private IEnumerable<TestCaseData> SetUpProcessing_jsApi() {
 			return SetUpTestCaseData(
-					"Processing.js-1.2.1-api",
+					"Processing.js-1.2.3-api",
 					path => Downloader.Download(
-							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1-api.js",
+							"http://processingjs.org/content/download/processing-js-1.2.3/processing-1.2.3-api.js",
 							Path.Combine(path, "src.js")),
 					CompileAll);
 		}
 
 		private IEnumerable<TestCaseData> SetUpProcessing_jsApiMin() {
 			return SetUpTestCaseData(
-					"Processing.js-1.2.1-api.min",
+					"Processing.js-1.2.3-api.min",
 					path => Downloader.Download(
-							"http://processingjs.org/content/download/processing-js-1.2.1/processing-1.2.1-api.min.js",
+							"http://processingjs.org/content/download/processing-js-1.2.3/processing-1.2.3-api.min.js",
 							Path.Combine(path, "src.js")),
 					CompileAll);
 		}
