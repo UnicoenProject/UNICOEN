@@ -362,6 +362,20 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			Writer.Write(element.Value ? "true" : "false");
 			return false;
 		}
+
+		//数値リテラルはサフィックスをつけずに出力
+		public override bool Visit(UnifiedBigIntLiteral element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+		public override bool Visit(UnifiedUInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+		public override bool Visit(UnifiedInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
 		
 		//小数リテラル
 		public override bool Visit(

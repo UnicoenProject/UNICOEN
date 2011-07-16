@@ -59,5 +59,40 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			element.Body.Accept(this, arg.Set(ForBlock));
 			return false;
 		}
+
+		public override bool Visit(UnifiedBigIntLiteral element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt8Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("u");
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt16Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("u");
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt32Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("u");
+			return false;
+		}
+
+		public override bool Visit(UnifiedUInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("ul");
+			return false;
+		}
+
+		public override bool Visit(UnifiedInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("l");
+			return false;
+		}
 	}
 }
