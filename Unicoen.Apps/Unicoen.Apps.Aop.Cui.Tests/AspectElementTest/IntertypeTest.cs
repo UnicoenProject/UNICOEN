@@ -36,7 +36,7 @@ namespace Aries.Tests {
 			var input =
 					new ANTLRFileStream(
 							FixtureUtil.GetInputPath(
-									"AspectCompiler",
+									"Aspect",
 									"simple_intertype_sample.txt"));
 			
 			//アスペクトファイルをパースして抽象構文木を生成する

@@ -67,6 +67,16 @@ namespace Unicoen.Tests {
 					.GetFullPathAddingSubNames(names);
 		}
 
+		//AspectAdaptorTest向けのアスペクトファイルへのパスを返す
+		public static string GetAspectPath(string name) {
+			return GetInputPath("Aspect", "partial_aspect", name);
+		}
+
+		//AspectAdaptorTest向けのアスペクト合成後の期待値へのパスを返す
+		public static string GetAspectExpectationPath(string name) {
+			return GetInputPath("Aspect", "expectation", name);
+		}
+
 		public static string GetDownloadPath(string lang, params string[] names) {
 			return Path.Combine(FixturePath, lang, DownloadName)
 					.GetFullPathAddingSubNames(names);
