@@ -16,12 +16,14 @@
 
 #endregion
 
+using System;
 using System.IO;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Paraiba.Text;
 using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.Tests;
