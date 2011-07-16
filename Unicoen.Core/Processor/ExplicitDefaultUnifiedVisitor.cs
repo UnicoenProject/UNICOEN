@@ -541,10 +541,6 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedInto element) {
-			throw new NotImplementedException();
-		}
-
 		public virtual void Visit(UnifiedLet element) {
 			throw new NotImplementedException();
 		}
@@ -1135,10 +1131,6 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedInto element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
 		public virtual void Visit(UnifiedLet element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1194,7 +1186,7 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
-	}
+			}
 
 	public abstract class ExplicitDefaultUnifiedVisitor<TArg, TResult>
 			: IUnifiedVisitor<TArg, TResult> {
@@ -1215,10 +1207,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedWhere element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual TResult Visit(UnifiedInto element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1777,9 +1765,8 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-
 		public virtual TResult Visit(UnifiedTypeIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
-	}
+			}
 }

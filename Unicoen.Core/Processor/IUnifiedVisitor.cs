@@ -152,7 +152,6 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedPropertyPart element);
 		void Visit(UnifiedSelect element);
 		void Visit(UnifiedWhere element);
-		void Visit(UnifiedInto element);
 		void Visit(UnifiedLet element);
 		void Visit(UnifiedOrderBy element);
 		void Visit(UnifiedJoin element);
@@ -300,7 +299,6 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedPropertyPart element, TArg arg);
 		void Visit(UnifiedSelect element, TArg arg);
 		void Visit(UnifiedWhere element, TArg arg);
-		void Visit(UnifiedInto element, TArg arg);
 		void Visit(UnifiedLet element, TArg arg);
 		void Visit(UnifiedOrderBy element, TArg arg);
 		void Visit(UnifiedJoin element, TArg arg);
@@ -448,7 +446,6 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedPropertyPart element, TArg arg);
 		TResult Visit(UnifiedSelect element, TArg arg);
 		TResult Visit(UnifiedWhere element, TArg arg);
-		TResult Visit(UnifiedInto element, TArg arg);
 		TResult Visit(UnifiedLet element, TArg arg);
 		TResult Visit(UnifiedOrderBy element, TArg arg);
 		TResult Visit(UnifiedJoin element, TArg arg);
