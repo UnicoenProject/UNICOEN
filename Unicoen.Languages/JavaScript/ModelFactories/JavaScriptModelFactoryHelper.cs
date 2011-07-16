@@ -455,7 +455,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			var body = UnifiedBlock.Create(CreateStatement(node.Element("statement")));
 			var cond = CreateExpression(node.Element("expression"));
 
-			return UnifiedDoWhile.Create(body, cond);
+			return UnifiedDoWhile.Create(cond, body);
 		}
 
 		public static UnifiedWhile CreateWhileStatement(XElement node) {

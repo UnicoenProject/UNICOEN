@@ -406,7 +406,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitDoWhileStatement(DoWhileStatement stmt, object data) {
 			var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
 			var cond = stmt.Condition.TryAcceptForExpression(this);
-			return UnifiedDoWhile.Create(body, cond);
+			return UnifiedDoWhile.Create(cond, body);
 		}
 
 		public IUnifiedElement VisitEmptyStatement(EmptyStatement stmt, object data) {

@@ -191,6 +191,7 @@ namespace Unicoen.Model {
 		///   ・-1や+1などの単項式を定数に変換
 		/// </summary>
 		public override IUnifiedElement Normalize() {
+			// TODO: パフォーマンス向上のためUnifiedBlockに移したほうが良い？
 			NormalizeChildren();
 			if (Elements.Count == 1) {
 				var element = Elements[0];

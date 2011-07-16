@@ -75,10 +75,7 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedDoWhile Create(
-				UnifiedBlock body = null,
-				IUnifiedExpression condition = null,
-				UnifiedBlock falseBody = null) {
+		public static UnifiedDoWhile Create(IUnifiedExpression condition = null, UnifiedBlock body = null, UnifiedBlock falseBody = null) {
 			return new UnifiedDoWhile {
 					Body = body,
 					Condition = condition,
