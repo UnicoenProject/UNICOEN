@@ -144,89 +144,89 @@ namespace Unicoen.Apps.Aop.Tests {
 
 		[Test]
 		public void Java言語の関数実行前にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("before_execution.txt", "before_execution.java");
+			AssertCorrectWeavingForJava("before_execution.apt", "before_execution.java");
 		}
 
 		//TODO このケースだとbeforeとafterのコード挿入位置が変わらないので、もっといいテストケースを用意する
 		[Test]
 		public void Java言語の関数実行後にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("after_execution.txt", "after_execution.java");
+			AssertCorrectWeavingForJava("after_execution.apt", "after_execution.java");
 		}
 
 		[Test]
 		public void Java言語の関数呼び出し前にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("before_call.txt", "before_call.java");
+			AssertCorrectWeavingForJava("before_call.apt", "before_call.java");
 		}
 
 		[Test]
 		public void Java言語の関数呼び出し後にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("after_call.txt", "after_call.java");
+			AssertCorrectWeavingForJava("after_call.apt", "after_call.java");
 		}
 
 		[Test]
 		public void JavaScript言語の関数実行前にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("before_execution.txt", "before_execution.js");
+			AssertCorrectWeavingForJavaScript("before_execution.apt", "before_execution.js");
 		}
 
 		[Test]
 		public void JavaScript言語の関数実行後にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("after_execution.txt", "after_execution.js");
+			AssertCorrectWeavingForJavaScript("after_execution.apt", "after_execution.js");
 		}
 
 		[Test]
 		public void JavaScript言語の関数呼び出し前にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("before_call.txt", "before_call.js");
+			AssertCorrectWeavingForJavaScript("before_call.apt", "before_call.js");
 		}
 
 		[Test]
 		public void JavaScript言語の関数呼び出し後にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("after_call.txt", "after_call.js");
+			AssertCorrectWeavingForJavaScript("after_call.apt", "after_call.js");
 		}
 
 		[Test]
 		public void Java言語の変数代入前にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("before_set.txt", "before_set.java");
+			AssertCorrectWeavingForJava("before_set.apt", "before_set.java");
 		}
 
 		[Test]
 		public void Java言語の変数代入後にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("after_set.txt", "after_set.java");
+			AssertCorrectWeavingForJava("after_set.apt", "after_set.java");
 		}
 
 		[Test]
 		public void Java言語の変数参照前にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("before_get.txt", "before_get.java");
+			AssertCorrectWeavingForJava("before_get.apt", "before_get.java");
 		}
 
 		[Test]
 		public void Java言語の変数参照後にコードが正しく合成される() {
-			AssertCorrectWeavingForJava("after_get.txt", "after_get.java");
+			AssertCorrectWeavingForJava("after_get.apt", "after_get.java");
 		}
 
 		[Test]
 		public void JavaScript言語の変数代入前にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("before_set.txt", "before_set.js");
+			AssertCorrectWeavingForJavaScript("before_set.apt", "before_set.js");
 		}
 
 		[Test]
 		public void JavaScript言語の変数代入後にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("after_set.txt", "after_set.js");
+			AssertCorrectWeavingForJavaScript("after_set.apt", "after_set.js");
 		}
 
 		[Test]
 		public void JavaScript言語の変数参照前にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("before_get.txt", "before_get.js");
+			AssertCorrectWeavingForJavaScript("before_get.apt", "before_get.js");
 		}
 
 		[Test]
 		public void JavaScript言語の変数参照後にコードが正しく合成される() {
-			AssertCorrectWeavingForJavaScript("after_get.txt", "after_get.js");
+			AssertCorrectWeavingForJavaScript("after_get.apt", "after_get.js");
 		}
 
 		[Test]
 		public void Java言語にインタータイプ宣言が正しく合成される() {
 			//アスペクトモデルの作成
-			var aspectPath = FixtureUtil.GetAspectPath("intertype.txt");
+			var aspectPath = FixtureUtil.GetAspectPath("intertype.apt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理
@@ -251,9 +251,8 @@ namespace Unicoen.Apps.Aop.Tests {
 
 		[Test]
 		public void JavaScript言語にインタータイプ宣言が正しく合成される() {
-			AssertCorrectWeavingForJavaScript("before_call.txt", "before_call.js");
 			//アスペクトモデルの作成
-			var aspectPath = FixtureUtil.GetAspectPath("intertype.txt");
+			var aspectPath = FixtureUtil.GetAspectPath("intertype.apt");
 			var visitor = CreateAspectElement(aspectPath);
 
 			//アスペクトの合成処理

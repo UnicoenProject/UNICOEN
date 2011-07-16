@@ -30,10 +30,7 @@ namespace Aries.Tests {
 		[SetUp]
 		public void SetUp() {
 			//アスペクトファイルのパスを取得
-			var input = new ANTLRFileStream(
-					FixtureUtil.GetInputPath(
-							"Aspect",
-							"simple_advice_sample.txt"));
+			var input = new ANTLRFileStream(FixtureUtil.GetAspectPath("simple_advice_sample.apt"));
 
 			//アスペクトファイルをパースして抽象構文木を生成する
 			var lex = new AriesLexer(input);
