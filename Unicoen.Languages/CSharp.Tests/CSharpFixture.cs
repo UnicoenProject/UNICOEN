@@ -183,7 +183,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 
 		public IEnumerable<TestCaseData> SetUpUnicoen() {
 			Action<string, string> compileAction = (s1, s2) => { };
-			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileAction);
+			//yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Core"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Tests"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Languages"), compileAction);
