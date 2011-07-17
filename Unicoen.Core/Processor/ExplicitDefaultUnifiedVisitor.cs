@@ -389,6 +389,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedYieldBreak element) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedDelete element) {
 			throw new NotImplementedException();
 		}
@@ -473,27 +477,27 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDefaultConstrain element) {
+		public virtual void Visit(UnifiedDefaultConstraint element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedExtendConstrain element) {
+		public virtual void Visit(UnifiedExtendConstraint element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedImplementsConstrain element) {
+		public virtual void Visit(UnifiedImplementsConstraint element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedReferenceConstrain element) {
+		public virtual void Visit(UnifiedReferenceConstraint element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSuperConstrain element) {
+		public virtual void Visit(UnifiedSuperConstraint element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedValueConstrain element) {
+		public virtual void Visit(UnifiedValueConstraint element) {
 			throw new NotImplementedException();
 		}
 
@@ -978,6 +982,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedYieldBreak element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedDelete element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1062,27 +1070,27 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDefaultConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedDefaultConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedExtendConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedExtendConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedImplementsConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedImplementsConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedReferenceConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedReferenceConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSuperConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedSuperConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedValueConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedValueConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1628,6 +1636,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual TResult Visit(UnifiedYieldBreak element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
 		public virtual TResult Visit(UnifiedDelete element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1712,27 +1724,27 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedDefaultConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedDefaultConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedExtendConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedExtendConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedImplementsConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedImplementsConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedReferenceConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedReferenceConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedSuperConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedSuperConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedValueConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedValueConstraint element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

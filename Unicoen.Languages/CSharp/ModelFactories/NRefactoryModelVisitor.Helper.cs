@@ -188,6 +188,32 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new ArgumentException("Unknown operator: " + op);
 		}
 
+		private UnifiedAnnotationTarget LookupAttributeTarget(string target) {
+			if (target == null)
+				return UnifiedAnnotationTarget.None;
+			switch(target) {
+			case "assembly":
+				return UnifiedAnnotationTarget.Assembly;
+			case "module":
+				return UnifiedAnnotationTarget.Module;
+			case "type":
+				return UnifiedAnnotationTarget.Type;
+			case "field":
+				return UnifiedAnnotationTarget.Field;
+			case "method":
+				return UnifiedAnnotationTarget.Method;
+			case "event":
+				return UnifiedAnnotationTarget.Event;
+			case "property":
+				return UnifiedAnnotationTarget.Property;
+			case "param":
+				return UnifiedAnnotationTarget.Param;
+			case "return":
+				return UnifiedAnnotationTarget.Return;
+			}
+			throw new ArgumentException("未対応の対象です: " + target);
+		}
+
 		#endregion
 
 	}
@@ -223,6 +249,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return types
 					.Select(p => p.AcceptVisitor(visitor, data))
 					.OfType<UnifiedGenericParameter>()
+					.ToCollection();
+		}
+
+		internal static UnifiedTypeConstrainCollection AcceptVisitorAsTypeParams<T, TResult>(
+				this IEnumerable<Constraint> constraints, IAstVisitor<T, TResult> visitor, T data) {
+			return constraints
+					.Select(p => p.AcceptVisitor(visitor, data))
+					.OfType<UnifiedTypeConstraint>()
 					.ToCollection();
 		}
 

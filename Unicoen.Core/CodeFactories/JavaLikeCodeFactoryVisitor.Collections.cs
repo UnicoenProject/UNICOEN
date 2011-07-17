@@ -56,20 +56,20 @@ namespace Unicoen.CodeFactories {
 		}
 
 		public override bool Visit(
-				UnifiedExtendConstrain element, VisitorArgument arg) {
+				UnifiedExtendConstraint element, VisitorArgument arg) {
 			Writer.Write(arg.Decoration.Delimiter ?? " extends ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
 
 		public override bool Visit(
-				UnifiedImplementsConstrain element, VisitorArgument arg) {
+				UnifiedImplementsConstraint element, VisitorArgument arg) {
 			Writer.Write(arg.Decoration.Delimiter ?? " implements ");
 			element.Type.TryAccept(this, arg);
 			return false;
 		}
 
-		public override bool Visit(UnifiedSuperConstrain element, VisitorArgument arg) {
+		public override bool Visit(UnifiedSuperConstraint element, VisitorArgument arg) {
 			Writer.Write(arg.Decoration.Delimiter ?? " super ");
 			element.Type.TryAccept(this, arg);
 			return false;
@@ -77,7 +77,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
-			UnifiedTypeConstrain last = null;
+			UnifiedTypeConstraint last = null;
 			foreach (var current in element) {
 				if (last == null || last.GetType() != current.GetType()) {
 					// implements

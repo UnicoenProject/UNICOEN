@@ -20,15 +20,25 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedYieldReturn : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _value;
+	/// <summary>
+	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
+	///   なお、継承関係を表す場合、対象の型の個数は１つです。
+	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
+	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
+	/// </summary>
+	public class UnifiedSuperConstraint : UnifiedTypeConstraint {
+		private UnifiedType _type;
 
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
+		/// <summary>
+		///   制約の対象を表します
+		///   e.g. Javaにおける<c>class C extends P { ... }</c>の<c>P</c>
+		/// </summary>
+		public UnifiedType Type {
+			get { return _type; }
+			set { _type = SetChild(value, _type); }
 		}
 
-		protected UnifiedYieldReturn() {}
+		protected UnifiedSuperConstraint() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -47,9 +57,10 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedYieldReturn Create(IUnifiedExpression value) {
-			return new UnifiedYieldReturn {
-					Value = value,
+		public static UnifiedSuperConstraint Create(
+				UnifiedType type) {
+			return new UnifiedSuperConstraint {
+					Type = type,
 			};
 		}
 	}

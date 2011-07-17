@@ -20,14 +20,8 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
-	///   なお、継承関係を表す場合、対象の型の個数は１つです。
-	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
-	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
-	/// </summary>
-	public class UnifiedValueConstrain : UnifiedTypeConstrain {
-		protected UnifiedValueConstrain() {}
+	public class UnifiedYieldBreak : UnifiedElement, IUnifiedExpression {
+		protected UnifiedYieldBreak() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -46,9 +40,8 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedValueConstrain Create(
-				UnifiedType type) {
-			return new UnifiedValueConstrain { };
+		public static UnifiedYieldBreak Create(IUnifiedExpression value = null) {
+			return new UnifiedYieldBreak();
 		}
 	}
 }

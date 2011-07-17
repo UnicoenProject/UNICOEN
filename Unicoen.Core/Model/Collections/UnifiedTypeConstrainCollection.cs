@@ -27,7 +27,7 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedTypeConstrainCollection
 			: UnifiedElementCollection
-			  		<UnifiedTypeConstrain, UnifiedTypeConstrainCollection> {
+			  		<UnifiedTypeConstraint, UnifiedTypeConstrainCollection> {
 		protected UnifiedTypeConstrainCollection() {}
 
 		[DebuggerStepThrough]

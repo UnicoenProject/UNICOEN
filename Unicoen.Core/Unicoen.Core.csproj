@@ -115,6 +115,7 @@
     <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinition.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedVaueIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedTypeIdentifier.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedYieldBreak.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedFromQuery.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt31Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt31Literal.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Model\TypeConstrains\UnifiedExtendConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
+    <Compile Include="Model\UnifiedAnnotationTarget.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Model\UnifiedElement.Serialize.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Collections.cs" />

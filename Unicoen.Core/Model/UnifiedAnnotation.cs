@@ -48,6 +48,11 @@ namespace Unicoen.Model {
 			set { _arguments = SetChild(value, _arguments); }
 		}
 
+		/// <summary>
+		///   e.g. C#における<c>[assembly: AssemblyTitle("Title")]</c>の<c>assembly</c>の部分
+		/// </summary>
+		public UnifiedAnnotationTarget Target { get; set;}
+
 		private UnifiedAnnotation() {}
 
 		[DebuggerStepThrough]

@@ -327,10 +327,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitAttributeSection(AttributeSection attrSec, object data) {
-			// TODO: AttributeTarget
+			var target = LookupAttributeTarget(attrSec.AttributeTarget);
+			Func<UnifiedAnnotation, UnifiedAnnotation> setAttr = a => {
+				a.Target = target;
+				return a;
+			};
 			return attrSec.Attributes
 					.Select(a => a.AcceptVisitor(this, data))
 					.OfType<UnifiedAnnotation>()
+					.Select(setAttr)
 					.ToCollection();
 		}
 
@@ -357,22 +362,27 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(dec.Modifiers);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
+			var typeParams = dec.TypeParameters == null
+					? null
+					: dec.TypeParameters.AcceptVisitorAsTypeParams(this, data);
+			var cons = dec.Constraints == null
+				? null
+				: dec.Constraints.AcceptVisitorAsTypeParams(this, data);
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Members) {
 				var uExpr = node.TryAcceptForExpression(this);
 				if (uExpr != null)
 					body.Add(uExpr);
 			}
-			// TODO: Attribute and Generics
 			switch (dec.ClassType) {
 			case ClassType.Class:
-				return UnifiedClassDefinition.Create(attrs, mods, name, body: body);
+				return UnifiedClassDefinition.Create(attrs, mods, name, typeParams, cons, body);
 			case ClassType.Struct:
-				return UnifiedStructDefinition.Create(attrs, mods, name, body: body);
+				return UnifiedStructDefinition.Create(attrs, mods, name, typeParams, cons, body);
 			case ClassType.Interface:
-				return UnifiedInterfaceDefinition.Create(attrs, mods, name, body: body);
+				return UnifiedInterfaceDefinition.Create(attrs, mods, name, typeParams, cons, body);
 			case ClassType.Enum:
-				return UnifiedEnumDefinition.Create(attrs, mods, name, body: body);
+				return UnifiedEnumDefinition.Create(attrs, mods, name, typeParams, cons, body);
 			}
 			var msg = "LookupClassKind : " + dec.ClassType + "には対応していません。";
 			throw new InvalidOperationException(msg);
@@ -617,8 +627,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitYieldBreakStatement(YieldBreakStatement stmt, object data) {
-			// TODO: YieldBreakにする
-			return UnifiedYieldReturn.Create();
+			return UnifiedYieldBreak.Create();
 		}
 
 		public IUnifiedElement VisitYieldStatement(YieldStatement stmt, object data) {
