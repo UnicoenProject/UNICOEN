@@ -25,7 +25,9 @@ using Unicoen.Model;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
+
 	internal partial class NRefactoryModelVisitor : IAstVisitor<object, IUnifiedElement> {
+
 		public IUnifiedElement VisitCompilationUnit(CompilationUnit unit, object data) {
 			var prog = UnifiedProgram.Create(UnifiedBlock.Create());
 			foreach (var child in unit.Children) {
@@ -318,14 +320,32 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitAttribute(Attribute attribute, object data) {
-			throw new NotImplementedException("Attribute");
+			var type = LookupType(attribute.Type);
+			if (attribute.HasArgumentList == false)
+				return UnifiedAnnotation.Create(type);
+
+			var uArgs = UnifiedArgumentCollection.Create();
+			foreach(var nArg in attribute.Arguments) {
+				var uElem = nArg.AcceptVisitor(this, data);
+				var uArg = uElem as UnifiedArgument;
+				if (uArg != null) {
+					uArgs.Add(uArg);
+					continue;
+				}
+				var uExpr = uElem as IUnifiedExpression;
+				if (uExpr != null) {
+					uArgs.Add(UnifiedArgument.Create(value: uExpr));
+				}
+			}
+			return UnifiedAnnotation.Create(type, uArgs);
 		}
 
-		public IUnifiedElement VisitAttributeSection(
-				AttributeSection attributeSection, object data) {
-			// TODO: 調べる
-			//return null;
-			throw new NotImplementedException("AttributeSection");
+		public IUnifiedElement VisitAttributeSection(AttributeSection attrSec, object data) {
+			// TODO: AttributeTarget
+			return attrSec.Attributes
+					.Select(a => a.AcceptVisitor(this, data))
+					.OfType<UnifiedAnnotation>()
+					.ToCollection();
 		}
 
 		public IUnifiedElement VisitDelegateDeclaration(
@@ -344,6 +364,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitTypeDeclaration(TypeDeclaration dec, object data) {
+			var attrs = dec.Attributes.AcceptVisitor(this, data);
 			var mods = LookupModifiers(dec.Modifiers);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
 			var body = UnifiedBlock.Create();
@@ -355,13 +376,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			// TODO: Attribute and Generics
 			switch (dec.ClassType) {
 			case ClassType.Class:
-				return UnifiedClassDefinition.Create(modifiers: mods, name: name, body: body);
+				return UnifiedClassDefinition.Create(attrs, mods, name, body: body);
 			case ClassType.Struct:
-				return UnifiedStructDefinition.Create(modifiers: mods, name: name, body: body);
+				return UnifiedStructDefinition.Create(attrs, mods, name, body: body);
 			case ClassType.Interface:
-				return UnifiedInterfaceDefinition.Create(modifiers: mods, name: name, body: body);
+				return UnifiedInterfaceDefinition.Create(attrs, mods, name, body: body);
 			case ClassType.Enum:
-				return UnifiedEnumDefinition.Create(modifiers: mods, name: name, body: body);
+				return UnifiedEnumDefinition.Create(attrs, mods, name, body: body);
 			}
 			var msg = "LookupClassKind : " + dec.ClassType + "には対応していません。";
 			throw new InvalidOperationException(msg);
@@ -605,7 +626,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitAccessor(Accessor accessor, object data) {
-			throw new NotImplementedException("Accessor");
+			var block = accessor.Body.TryAcceptForExpression(this).ToBlock();
+			var mods = LookupModifiers(accessor.Modifiers);
+
+			var body = new UnifiedPropertyBody();
+			body.Body = block;
+			body.Modifiers = mods;
+			return body;
 		}
 
 		public IUnifiedElement VisitConstructorDeclaration(ConstructorDeclaration ctorDec, object data) {
@@ -715,13 +742,15 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitPropertyDeclaration(PropertyDeclaration dec, object data) {
-			// TODO: 実装する。
-			//return null;
-			//if (dec.Getter != null) {
-			//    var uGet = dec.Getter.AcceptVisitor(this, data) as UnifiedPropertyDefinition;
-			//}
-
-			throw new NotImplementedException("PropertyDeclaration");
+			var dfn = new UnifiedPropertyDefinition();
+			dfn.Modifiers = LookupModifiers(dec.Modifiers);
+			if (dec.Getter != null) {
+				dfn.Get = dec.Getter.AcceptVisitor(this, data) as UnifiedPropertyBody;
+			}
+			if (dec.Setter != null) {
+				dfn.Set = dec.Setter.AcceptVisitor(this, data) as UnifiedPropertyBody;
+			}
+			return dfn;
 		}
 
 		public IUnifiedElement VisitVariableInitializer(
