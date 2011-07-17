@@ -29,10 +29,6 @@ namespace Unicoen.Model {
 			visitor.Visit(this);
 		}
 
-		public override UnifiedVariableDefinitionList CreateSelf() {
-			return new UnifiedVariableDefinitionList();
-		}
-
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
 				IUnifiedVisitor<TArg> visitor,
@@ -44,6 +40,10 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+		
+		public override UnifiedVariableDefinitionList CreateSelf() {
+			return new UnifiedVariableDefinitionList();
 		}
 
 		protected UnifiedVariableDefinitionList() {}
