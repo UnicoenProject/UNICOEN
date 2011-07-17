@@ -976,7 +976,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			return node.Elements("assignmentExpression").Select(
-					e => UnifiedArgument.Create(null, null, CreateAssignmentExpression(e))).
+					e => UnifiedArgument.Create(CreateAssignmentExpression(e), null, null)).
 					ToCollection();
 		}
 
@@ -991,8 +991,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			return UnifiedIndexer.Create(
 					prefix,
-					UnifiedArgument.Create(
-							null, null, CreateExpression(node.Element("expression"))).
+					UnifiedArgument.Create(CreateExpression(node.Element("expression")), null, null).
 							ToCollection());
 		}
 

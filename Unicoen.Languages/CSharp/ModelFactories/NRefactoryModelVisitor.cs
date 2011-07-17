@@ -115,7 +115,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitDirectionExpression(DirectionExpression expr, object data) {
 			var mods = LookupModifier(expr.FieldDirection).ToCollection();
 			var value = expr.Expression.TryAcceptForExpression(this);
-			return UnifiedArgument.Create(mods, null /* no target*/, value);
+			return UnifiedArgument.Create(value, null, mods);
 		}
 
 		public IUnifiedElement VisitIdentifierExpression(IdentifierExpression ident, object data) {
@@ -156,7 +156,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitNamedArgumentExpression(NamedArgumentExpression expr, object data) {
 			var name = UnifiedVariableIdentifier.Create(expr.Identifier);
 			var value = expr.Expression.TryAcceptForExpression(this);
-			return UnifiedArgument.Create(target: name, value: value);
+			return UnifiedArgument.Create(value: value, target: name);
 		}
 
 		public IUnifiedElement VisitNullReferenceExpression(NullReferenceExpression expr, object data) {

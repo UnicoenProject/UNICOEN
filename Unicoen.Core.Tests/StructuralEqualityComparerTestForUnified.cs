@@ -109,26 +109,20 @@ namespace Unicoen.Tests {
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
 							UnifiedArgumentCollection.Create(
-									UnifiedArgument.Create(
-											null, null,
-											UnifiedVariableIdentifier.Create("a")),
-									UnifiedArgument.Create(
-											null, null, UnifiedBinaryExpression.Create(
-													UnifiedVariableIdentifier.Create("n"),
-													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
-													UnifiedInt32Literal.Create(1)))));
+									UnifiedArgument.Create(UnifiedVariableIdentifier.Create("a"), null, null),
+									UnifiedArgument.Create(UnifiedBinaryExpression.Create(
+											UnifiedVariableIdentifier.Create("n"),
+											UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
+											UnifiedInt32Literal.Create(1)), null, null)));
 			var o2 =
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
 							UnifiedArgumentCollection.Create(
-									UnifiedArgument.Create(
-											null, null,
-											UnifiedVariableIdentifier.Create("a")),
-									UnifiedArgument.Create(
-											null, null, UnifiedBinaryExpression.Create(
-													UnifiedVariableIdentifier.Create("n"),
-													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
-													UnifiedInt32Literal.Create(1)))));
+									UnifiedArgument.Create(UnifiedVariableIdentifier.Create("a"), null, null),
+									UnifiedArgument.Create(UnifiedBinaryExpression.Create(
+											UnifiedVariableIdentifier.Create("n"),
+											UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
+											UnifiedInt32Literal.Create(1)), null, null)));
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(o1, o2),
 					Is.True);
@@ -152,27 +146,21 @@ namespace Unicoen.Tests {
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
 							UnifiedArgumentCollection.Create(
-									UnifiedArgument.Create(
-											null, null,
-											UnifiedVariableIdentifier.Create("a")),
-									UnifiedArgument.Create(
-											null, null, UnifiedBinaryExpression.Create(
-													UnifiedVariableIdentifier.Create("n"),
-													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
-													UnifiedInt32Literal.Create(1)
-											            		))));
+									UnifiedArgument.Create(UnifiedVariableIdentifier.Create("a"), null, null),
+									UnifiedArgument.Create(UnifiedBinaryExpression.Create(
+											UnifiedVariableIdentifier.Create("n"),
+											UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
+											UnifiedInt32Literal.Create(1)
+									                       		), null, null)));
 			var o2 =
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
 							UnifiedArgumentCollection.Create(
-									UnifiedArgument.Create(
-											null, null,
-											UnifiedVariableIdentifier.Create("a")),
-									UnifiedArgument.Create(
-											null, null, UnifiedBinaryExpression.Create(
-													UnifiedVariableIdentifier.Create("n2"),
-													UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
-													UnifiedInt32Literal.Create(1)))));
+									UnifiedArgument.Create(UnifiedVariableIdentifier.Create("a"), null, null),
+									UnifiedArgument.Create(UnifiedBinaryExpression.Create(
+											UnifiedVariableIdentifier.Create("n2"),
+											UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Add),
+											UnifiedInt32Literal.Create(1)), null, null)));
 			Assert.That(
 					StructuralEqualityComparer.StructuralEquals(o1, o2),
 					Is.False);

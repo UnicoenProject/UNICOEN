@@ -76,10 +76,7 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedArgument Create(
-				UnifiedModifierCollection modifiers = null,
-				UnifiedIdentifier target = null,
-				IUnifiedExpression value = null) {
+		public static UnifiedArgument Create(IUnifiedExpression value, UnifiedIdentifier target = null, UnifiedModifierCollection modifiers = null) {
 			return new UnifiedArgument {
 					Modifiers = modifiers,
 					Value = value,
