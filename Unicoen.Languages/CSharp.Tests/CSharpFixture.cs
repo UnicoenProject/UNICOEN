@@ -186,7 +186,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 			//yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Core"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Core.Tests"), compileAction);
-			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Languages"), compileAction);
+			//yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Languages"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Utils"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.WebApps"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "UniUni"), compileAction);

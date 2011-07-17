@@ -65,7 +65,7 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedSelectQuery Create(
-				IUnifiedExpression expression, UnifiedVariableIdentifier receiver) {
+				IUnifiedExpression expression, UnifiedVariableIdentifier receiver = null) {
 			return new UnifiedSelectQuery {
 					Expression = expression,
 					Receiver = receiver,

@@ -201,6 +201,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			if (prim.Value is UInt64) {
 				return UnifiedIntegerLiteral.CreateUInt64((UInt64)prim.Value);
 			}
+			if (prim.Value is double) {
+				return UnifiedFractionLiteral.Create((double)prim.Value, UnifiedFractionLiteralKind.Double);
+			}
 			if (prim.Value is char) {
 				return UnifiedCharLiteral.Create(((char)prim.Value).ToString());
 			}
@@ -248,31 +251,37 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return null;
 		}
 
-		public IUnifiedElement VisitQueryExpression(
-				QueryExpression queryExpression, object data) {
-			// TODO: implement
-			return null;
-			throw new NotImplementedException("QueryExpression");
+		public IUnifiedElement VisitQueryExpression(QueryExpression expr, object data) {
+			return expr.Clauses
+					.Select(c => c.AcceptVisitor(this, data))
+					.OfType<UnifiedLinqQuery>()
+					.ToLinqExpression();
 		}
 
-		public IUnifiedElement VisitQueryContinuationClause(
-				QueryContinuationClause queryContinuationClause, object data) {
+		public IUnifiedElement VisitQueryContinuationClause(QueryContinuationClause query, object data) {
+			var expr = query.PrecedingQuery.AcceptVisitor(this, data);
+
 			throw new NotImplementedException("QueryContinuationClause");
 		}
 
-		public IUnifiedElement VisitQueryFromClause(
-				QueryFromClause queryFromClause, object data) {
-			throw new NotImplementedException("QueryFromClause");
+		public IUnifiedElement VisitQueryFromClause(QueryFromClause from, object data) {
+			var ident = UnifiedIdentifier.CreateVariable(from.Identifier);
+			var expr = from.Expression.TryAcceptForExpression(this);
+			if (from.Type == null)
+				return UnifiedFromQuery.Create(ident, expr);
+			var type = LookupType(from.Type);
+			return UnifiedFromQuery.Create(ident, expr, type);
 		}
 
-		public IUnifiedElement VisitQueryLetClause(
-				QueryLetClause queryLetClause, object data) {
-			throw new NotImplementedException("QueryLetClause");
+		public IUnifiedElement VisitQueryLetClause(QueryLetClause let, object data) {
+			var ident = UnifiedIdentifier.CreateVariable(let.Identifier);
+			var expr = let.Expression.TryAcceptForExpression(this);
+			return UnifiedLetQuery.Create(ident, expr);
 		}
 
-		public IUnifiedElement VisitQueryWhereClause(
-				QueryWhereClause queryWhereClause, object data) {
-			throw new NotImplementedException("QueryWhereClause");
+		public IUnifiedElement VisitQueryWhereClause(QueryWhereClause where, object data) {
+			var cond = where.Condition.TryAcceptForExpression(this);
+			return UnifiedWhereQuery.Create(cond);
 		}
 
 		public IUnifiedElement VisitQueryJoinClause(
@@ -285,14 +294,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("QueryOrderClause");
 		}
 
-		public IUnifiedElement VisitQueryOrdering(
-				QueryOrdering queryOrdering, object data) {
+		public IUnifiedElement VisitQueryOrdering(QueryOrdering order, object data) {
 			throw new NotImplementedException("QueryOrdering");
 		}
 
-		public IUnifiedElement VisitQuerySelectClause(
-				QuerySelectClause querySelectClause, object data) {
-			throw new NotImplementedException("QuerySelectClause");
+		public IUnifiedElement VisitQuerySelectClause(QuerySelectClause select, object data) {
+			var expr = select.Expression.TryAcceptForExpression(this);
+			return UnifiedSelectQuery.Create(expr);
 		}
 
 		public IUnifiedElement VisitQueryGroupClause(
@@ -550,26 +558,37 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitUsingStatement(UsingStatement stmt, object data) {
-			stmt.ResourceAcquisition.AcceptVisitor(this, data);
-			stmt.EmbeddedStatement.AcceptVisitor(this, data);
+			//var res = stmt.ResourceAcquisition.AcceptVisitor(this, data);
+			//var block = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
+
+			//var decList = res as UnifiedVariableDefinitionList;
+			//if (decList != null) {
+			//    var dec = decList[0];
+			//    var name = dec.Name.DeepCopy();
+			//    var type = dec.Type.DeepCopy();
+			//    var expr = dec.InitialValue.DeepCopy();
+			//    var part = UnifiedUsingPart.Create()
+			//}
+
 			// TODO: implement
-			//return null;
-			throw new NotImplementedException("VisitUsingStatement");
+			return null;
+			//throw new NotImplementedException("VisitUsingStatement");
 		}
 
 		public IUnifiedElement VisitVariableDeclarationStatement(VariableDeclarationStatement dec, object data) {
-			var uType = LookupType(dec.Type);
 			var uMods = LookupModifiers(dec.Modifiers);
+			var uType = LookupType(dec.Type);
 			var variables =
 					from nVar in dec.Variables
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
 					let uInitValue = nInitValue.TryAcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
-							type: uType.DeepCopy(),
-							modifiers: uMods.DeepCopy(),
-							name: name.ToVariableIdentifier(),
-							initialValue: uInitValue);
+							/* no attribute */null,
+							uMods.DeepCopy(),
+							uType.DeepCopy(),
+							name.ToVariableIdentifier(),
+							uInitValue);
 			return variables.ToVariableDefinitionList();
 		}
 
