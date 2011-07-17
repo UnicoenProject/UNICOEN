@@ -593,6 +593,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedProc element) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element) {
 			throw new NotImplementedException();
 		}
@@ -1183,6 +1187,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedProc element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1259,6 +1267,10 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedUsingPartCollection element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedProc element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
