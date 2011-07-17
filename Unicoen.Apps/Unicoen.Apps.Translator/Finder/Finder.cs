@@ -42,7 +42,7 @@ namespace Unicoen.Apps.Translator {
 		/// <param name = "program"></param>
 		/// <returns></returns>
 		public static List<T> GetAllElements<T>(UnifiedProgram program) {
-			var elements = program.GetElements();
+			var elements = program.Elements();
 			var list = new List<T>();
 
 			foreach (var element in elements) {
@@ -57,7 +57,7 @@ namespace Unicoen.Apps.Translator {
 				return;
 			}
 
-			var elements = element.GetElements();
+			var elements = element.Elements();
 			if (elements == null) {
 				return;
 			}

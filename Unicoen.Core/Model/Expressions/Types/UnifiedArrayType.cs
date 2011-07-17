@@ -63,19 +63,19 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public override IEnumerable<IUnifiedElement> GetElements() {
+		public override IEnumerable<IUnifiedElement> Elements() {
 			yield return Arguments;
 			yield return Type;
 		}
 
-		public override IEnumerable<ElementReference> GetElementReferences() {
+		public override IEnumerable<ElementReference> ElementReferences() {
 			yield return
 					ElementReference.Create(
 							() => Arguments, v => Arguments = (UnifiedArgumentCollection)v);
 			yield return ElementReference.Create(() => Type, v => Type = (UnifiedType)v);
 		}
 
-		public override IEnumerable<ElementReference> GetElementReferencesOfFields() {
+		public override IEnumerable<ElementReference> ElementReferencesOfFields() {
 			yield return
 					ElementReference.Create(
 							() => _arguments, v => _arguments = (UnifiedArgumentCollection)v);

@@ -47,7 +47,7 @@ namespace Unicoen.Model {
 				return UnifiedAnnotationCollection.Create();
 			var ret = collections[0];
 			for (int i = 1; i < collections.Count; i++) {
-				ret.AddRange(collections[i].GetElementsAndClear());
+				ret.AddRange(collections[i].ElementsThenClear());
 			}
 			return ret;
 		}

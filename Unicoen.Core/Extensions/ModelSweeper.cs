@@ -138,7 +138,7 @@ namespace Unicoen.Model {
 		public static IEnumerable<IUnifiedElement> Descendants(
 				this IUnifiedElement element) {
 			Contract.Requires(element != null);
-			var children = element.GetElements()
+			var children = element.Elements()
 			        .Where(e => e != null)
 			        .ToList();
 			foreach (var child in children) {

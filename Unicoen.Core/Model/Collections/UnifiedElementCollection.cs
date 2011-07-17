@@ -35,11 +35,11 @@ namespace Unicoen.Model {
 			  IUnifiedElementCollection<TElement>
 			where TElement : class, IUnifiedElement
 			where TSelf : UnifiedElementCollection<TElement, TSelf> {
-		protected List<TElement> Elements;
+		protected List<TElement> ElementList;
 
 		protected UnifiedElementCollection() {
 			Debug.Assert(typeof(TSelf).Equals(GetType()));
-			Elements = new List<TElement>();
+			ElementList = new List<TElement>();
 		}
 
 		/// <summary>
@@ -67,20 +67,20 @@ namespace Unicoen.Model {
 		///   子要素を列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public override IEnumerable<IUnifiedElement> GetElements() {
-			// base.GetElements(): このクラスが持つ共通表現の要素のプロパティから得られる要素列
-			// Elements: 共通表現の要素集合として持つ子要素列
-			Debug.Assert(base.GetElements().Count() == 0);
-			return Elements;
+		public override IEnumerable<IUnifiedElement> Elements() {
+			// base.GetElementList(): このクラスが持つ共通表現の要素のプロパティから得られる要素列
+			// ElementList: 共通表現の要素集合として持つ子要素列
+			Debug.Assert(base.Elements().Count() == 0);
+			return ElementList;
 		}
 
 		/// <summary>
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public override IEnumerable<ElementReference> GetElementReferences() {
+		public override IEnumerable<ElementReference> ElementReferences() {
 			// このクラスが持つ共通表現の要素のプロパティから得られる要素列
-			foreach (var reference in base.GetElementReferences()) {
+			foreach (var reference in base.ElementReferences()) {
 				yield return reference;
 			}
 			// 共通表現の要素集合として持つ子要素列
@@ -97,17 +97,17 @@ namespace Unicoen.Model {
 		/// </summary>
 		/// <returns>子要素</returns>
 		public override IEnumerable<ElementReference>
-				GetElementReferencesOfFields() {
+				ElementReferencesOfFields() {
 			// このクラスが持つ共通表現の要素のプロパティから得られる要素列
-			foreach (var reference in base.GetElementReferencesOfFields()) {
+			foreach (var reference in base.ElementReferencesOfFields()) {
 				yield return reference;
 			}
 			// 共通表現の要素集合として持つ子要素列
-			var count = Elements.Count;
+			var count = ElementList.Count;
 			for (int i = 0; i < count; i++) {
 				yield return ElementReference.Create(
-						() => Elements[i],
-						e => Elements[i] = (TElement)e);
+						() => ElementList[i],
+						e => ElementList[i] = (TElement)e);
 			}
 		}
 
@@ -117,12 +117,12 @@ namespace Unicoen.Model {
 		/// <param name = "predicator">要素が削除対象かどうか判定するデリゲート</param>
 		/// <returns>削除したか否か</returns>
 		public bool Remove(Func<TElement, bool> predicator) {
-			var count = Elements.Count;
+			var count = ElementList.Count;
 			for (int i = 0; i < count; i++) {
-				var element = Elements[i];
+				var element = ElementList[i];
 				if (predicator(element)) {
 					((UnifiedElement)(IUnifiedElement)element).Parent = null;
-					Elements.RemoveAt(i);
+					ElementList.RemoveAt(i);
 					return true;
 				}
 			}
@@ -135,13 +135,13 @@ namespace Unicoen.Model {
 		/// <param name = "predicator">要素が削除対象かどうか判定するデリゲート</param>
 		/// <returns>削除したか否か</returns>
 		public bool RemoveAll(Func<TElement, bool> predicator) {
-			var count = Elements.Count;
+			var count = ElementList.Count;
 			var result = false;
 			for (int i = count - 1; i >= 0; i--) {
-				var element = Elements[i];
+				var element = ElementList[i];
 				if (predicator(element)) {
 					((UnifiedElement)(IUnifiedElement)element).Parent = null;
-					Elements.RemoveAt(i);
+					ElementList.RemoveAt(i);
 					result = true;
 				}
 			}
@@ -155,8 +155,8 @@ namespace Unicoen.Model {
 		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElementCollection<TElement, TSelf>)MemberwiseClone();
 			ret.Parent = null;
-			// Elementsの深いコピーが必要なため UnifiedElement とは別の処理が必要
-			ret.Elements = new List<TElement>();
+			// ElementListの深いコピーが必要なため UnifiedElement とは別の処理が必要
+			ret.ElementList = new List<TElement>();
 			foreach (var element in this) {
 				ret.Add(element.DeepCopy());
 			}
@@ -179,7 +179,7 @@ namespace Unicoen.Model {
 		/// <returns>レシーバーオブジェクト</returns>
 		public TSelf RemoveChild(TElement target) {
 			Contract.Requires(target != null);
-			Elements.Remove(target);
+			ElementList.Remove(target);
 			((UnifiedElement)(IUnifiedElement)target).Parent = null;
 			return (TSelf)this;
 		}
@@ -193,8 +193,8 @@ namespace Unicoen.Model {
 		public override IUnifiedElement Normalize() {
 			// TODO: パフォーマンス向上のためUnifiedBlockに移したほうが良い？
 			NormalizeChildren();
-			if (Elements.Count == 1) {
-				var element = Elements[0];
+			if (ElementList.Count == 1) {
+				var element = ElementList[0];
 				if (GetType().IsInstanceOfType(element))
 					return element;
 			}
@@ -235,19 +235,19 @@ namespace Unicoen.Model {
 		/// <param name = "index">探索を開始する位置</param>
 		/// <returns>要素が存在する位置，存在しない場合は-1</returns>
 		public int IndexOf(TElement element, int index) {
-			return Elements.IndexOf(element, index);
+			return ElementList.IndexOf(element, index);
 		}
 
 		/// <summary>
 		///   全ての要素を返してからコレクションから要素を取り除きます．
 		/// </summary>
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only. </exception>
-		public IEnumerable<TElement> GetElementsAndClear() {
-			foreach (var element in Elements) {
+		public IEnumerable<TElement> ElementsThenClear() {
+			foreach (var element in ElementList) {
 				((UnifiedElement)(IUnifiedElement)element).Parent = null;
 				yield return element;
 			}
-			Elements.Clear();
+			ElementList.Clear();
 		}
 
 		#region IEnumerable<TElement> Members
@@ -260,7 +260,7 @@ namespace Unicoen.Model {
 		/// </returns>
 		/// <filterpriority>1</filterpriority>
 		public IEnumerator<TElement> GetEnumerator() {
-			return Elements.GetEnumerator();
+			return ElementList.GetEnumerator();
 		}
 
 		/// <summary>
@@ -290,7 +290,7 @@ namespace Unicoen.Model {
 		/// <exception cref = "T:System.NotSupportedException">The property is set and the <see
 		///    cref = "T:System.Collections.Generic.IList`1" /> is read-only.</exception>
 		public TElement this[int index] {
-			get { return Elements[index]; }
+			get { return ElementList[index]; }
 			set {
 				if (value != null) {
 					if (value.Parent != null) {
@@ -298,7 +298,7 @@ namespace Unicoen.Model {
 					}
 					((UnifiedElement)(IUnifiedElement)value).Parent = this;
 				}
-				Elements[index] = value;
+				ElementList[index] = value;
 			}
 		}
 
@@ -309,7 +309,7 @@ namespace Unicoen.Model {
 		///   The number of elements contained in the <see cref = "T:System.Collections.Generic.ICollection`1" />.
 		/// </returns>
 		public int Count {
-			get { return Elements.Count; }
+			get { return ElementList.Count; }
 		}
 
 		/// <summary>
@@ -328,7 +328,7 @@ namespace Unicoen.Model {
 		/// <param name = "item">The object to add to the <see cref = "T:System.Collections.Generic.ICollection`1" />.</param>
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
 		public void Add(TElement element) {
-			Elements.Add(element);
+			ElementList.Add(element);
 			if (element != null) {
 				if (element.Parent != null) {
 					throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
@@ -342,10 +342,10 @@ namespace Unicoen.Model {
 		/// </summary>
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only. </exception>
 		public void Clear() {
-			foreach (var element in Elements) {
+			foreach (var element in ElementList) {
 				((UnifiedElement)(IUnifiedElement)element).Parent = null;
 			}
-			Elements.Clear();
+			ElementList.Clear();
 		}
 
 		/// <summary>
@@ -356,7 +356,7 @@ namespace Unicoen.Model {
 		/// </returns>
 		/// <param name = "item">The object to locate in the <see cref = "T:System.Collections.Generic.ICollection`1" />.</param>
 		public bool Contains(TElement item) {
-			return Elements.Contains(item);
+			return ElementList.Contains(item);
 		}
 
 		/// <summary>
@@ -373,7 +373,7 @@ namespace Unicoen.Model {
 		///    name = "arrayIndex" /> to the end of the destination <paramref name = "array" />.-or-Type <paramref name = "T" /> cannot be cast automatically to the type of the destination <paramref
 		///    name = "array" />.</exception>
 		public void CopyTo(TElement[] array, int arrayIndex) {
-			Elements.CopyTo(array, arrayIndex);
+			ElementList.CopyTo(array, arrayIndex);
 		}
 
 		/// <summary>
@@ -383,7 +383,7 @@ namespace Unicoen.Model {
 		public void AddRange(IEnumerable<TElement> elements) {
 			// 1回の走査で処理を終わらせるようにする
 			foreach (var element in elements) {
-				Elements.Add(element);
+				ElementList.Add(element);
 				if (element != null) {
 					if (element.Parent != null) {
 						throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
@@ -401,7 +401,7 @@ namespace Unicoen.Model {
 		/// </returns>
 		/// <param name = "item">The object to locate in the <see cref = "T:System.Collections.Generic.IList`1" />.</param>
 		public int IndexOf(TElement item) {
-			return Elements.IndexOf(item);
+			return ElementList.IndexOf(item);
 		}
 
 		/// <summary>
@@ -417,7 +417,7 @@ namespace Unicoen.Model {
 				throw new InvalidOperationException("既に親要素が設定されている要素を設定できません。");
 			}
 			((UnifiedElement)(IUnifiedElement)element).Parent = this;
-			Elements.Insert(index, element);
+			ElementList.Insert(index, element);
 		}
 
 		/// <summary>
@@ -431,7 +431,7 @@ namespace Unicoen.Model {
 		/// <param name = "item">The object to remove from the <see cref = "T:System.Collections.Generic.ICollection`1" />.</param>
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
 		public bool Remove(TElement item) {
-			var ret = Elements.Remove(item);
+			var ret = ElementList.Remove(item);
 			if (ret) {
 				((UnifiedElement)(IUnifiedElement)item).Parent = null;
 			}
@@ -446,8 +446,8 @@ namespace Unicoen.Model {
 		///    cref = "T:System.Collections.Generic.IList`1" />.</exception>
 		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.IList`1" /> is read-only.</exception>
 		public void RemoveAt(int index) {
-			((UnifiedElement)(IUnifiedElement)Elements[index]).Parent = null;
-			Elements.RemoveAt(index);
+			((UnifiedElement)(IUnifiedElement)ElementList[index]).Parent = null;
+			ElementList.RemoveAt(index);
 		}
 
 		#endregion

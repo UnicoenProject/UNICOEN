@@ -55,19 +55,19 @@ namespace Unicoen.Model {
 		///   子要素を列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<IUnifiedElement> GetElements();
+		IEnumerable<IUnifiedElement> Elements();
 
 		/// <summary>
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<ElementReference> GetElementReferences();
+		IEnumerable<ElementReference> ElementReferences();
 
 		/// <summary>
 		///   子要素とプロパティを介さないセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		IEnumerable<ElementReference> GetElementReferencesOfFields();
+		IEnumerable<ElementReference> ElementReferencesOfFields();
 
 		/// <summary>
 		///   コードモデルを正規化します。

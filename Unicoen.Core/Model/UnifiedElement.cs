@@ -98,7 +98,7 @@ namespace Unicoen.Model {
 		///   子要素を列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public virtual IEnumerable<IUnifiedElement> GetElements() {
+		public virtual IEnumerable<IUnifiedElement> Elements() {
 			return FieldInfos.Select(f => (IUnifiedElement)f.GetValue(this));
 		}
 
@@ -106,7 +106,7 @@ namespace Unicoen.Model {
 		///   子要素とセッターのペアを列挙します。
 		/// </summary>
 		/// <returns>子要素</returns>
-		public virtual IEnumerable<ElementReference> GetElementReferences() {
+		public virtual IEnumerable<ElementReference> ElementReferences() {
 			return PropertyInfos.Select(
 					p => ElementReference.Create(
 							() => (IUnifiedElement)p.GetValue(this, null),
@@ -118,7 +118,7 @@ namespace Unicoen.Model {
 		/// </summary>
 		/// <returns>子要素</returns>
 		public virtual IEnumerable<ElementReference>
-				GetElementReferencesOfFields() {
+				ElementReferencesOfFields() {
 			return FieldInfos.Select(
 					f => ElementReference.Create(
 							() => (IUnifiedElement)f.GetValue(this),
@@ -140,7 +140,7 @@ namespace Unicoen.Model {
 		///   子要素に対して正規化を再帰的に行います。
 		/// </summary>
 		public void NormalizeChildren() {
-			foreach (var reference in GetElementReferencesOfFields()) {
+			foreach (var reference in ElementReferencesOfFields()) {
 				if (reference.Element != null) {
 					var child = reference.Element.Normalize();
 					reference.Element = child;
@@ -156,7 +156,7 @@ namespace Unicoen.Model {
 		IUnifiedElement IUnifiedElement.PrivateDeepCopy() {
 			var ret = (UnifiedElement)MemberwiseClone();
 			ret.Parent = null;
-			foreach (var reference in ret.GetElementReferences()) {
+			foreach (var reference in ret.ElementReferences()) {
 				reference.Element = reference.Element.DeepCopy();
 			}
 			return ret;
@@ -179,7 +179,7 @@ namespace Unicoen.Model {
 		/// <param name = "target">自分自身</param>
 		/// <returns></returns>
 		public virtual IUnifiedElement RemoveChild(IUnifiedElement target) {
-			var reference = GetElementReferencesOfFields()
+			var reference = ElementReferencesOfFields()
 					.First(e => ReferenceEquals(target, e.Element));
 			reference.Element = null;
 			((UnifiedElement)target).Parent = null;

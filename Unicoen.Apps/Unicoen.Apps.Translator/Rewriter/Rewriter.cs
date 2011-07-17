@@ -35,7 +35,7 @@ namespace Unicoen.Apps.Translator {
 		public static void ExchageElement(UnifiedType from, UnifiedType to) {
 			var parent = from.Parent;
 			var reference =
-					parent.GetElementReferences().Where(e => ReferenceEquals(e.Element, from)).
+					parent.ElementReferences().Where(e => ReferenceEquals(e.Element, from)).
 							ElementAt(0);
 			reference.Element = to;
 

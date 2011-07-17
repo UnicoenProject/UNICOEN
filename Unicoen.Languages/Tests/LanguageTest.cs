@@ -230,10 +230,10 @@ namespace Unicoen.Languages.Tests {
 		private static void AssertGetElements(
 				UnifiedProgram codeObject, string message) {
 			foreach (var element in codeObject.Descendants()) {
-				var elements = element.GetElements();
-				var references = element.GetElementReferences();
+				var elements = element.Elements();
+				var references = element.ElementReferences();
 				var referenecesOfPrivateFields =
-						element.GetElementReferencesOfFields();
+						element.ElementReferencesOfFields();
 				var propValues = GetProperties(element).ToList();
 				var refElements = references.Select(t => t.Element).ToList();
 				var privateRefElements =
@@ -274,13 +274,13 @@ namespace Unicoen.Languages.Tests {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
-				var references = element.GetElementReferences();
+				var references = element.ElementReferences();
 				foreach (var reference in references) {
 					reference.Element = null;
 				}
 			}
 			foreach (var element in elements) {
-				foreach (var child in element.GetElements()) {
+				foreach (var child in element.Elements()) {
 					Assert.That(child, Is.Null, message);
 				}
 			}
@@ -296,13 +296,13 @@ namespace Unicoen.Languages.Tests {
 			codeObject = codeObject.DeepCopy();
 			var elements = codeObject.Descendants().ToList();
 			foreach (var element in elements) {
-				var references = element.GetElementReferencesOfFields();
+				var references = element.ElementReferencesOfFields();
 				foreach (var reference in references) {
 					reference.Element = null;
 				}
 			}
 			foreach (var element in elements) {
-				foreach (var child in element.GetElements()) {
+				foreach (var child in element.Elements()) {
 					Assert.That(child, Is.Null, message);
 				}
 			}
@@ -315,7 +315,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "message">アサーションに違反した際のエラーメッセージ</param>
 		private static void AssertParentProperty(
 				IUnifiedElement codeObject, string message) {
-			foreach (var element in codeObject.GetElements()) {
+			foreach (var element in codeObject.Elements()) {
 				if (element != null) {
 					Assert.That(element.Parent, Is.SameAs(codeObject), message);
 					AssertParentProperty(element, message);

@@ -46,7 +46,7 @@ namespace Unicoen.Applications.Metrics.Utils {
 		private static void InitializeCounter(
 				IUnifiedElement model,
 				IDictionary<string, int> counter) {
-			var outers = model.GetElements()
+			var outers = model.Elements()
 					.Where(
 							e => e is UnifiedClassLikeDefinition ||
 							     e is UnifiedFunctionDefinition);
