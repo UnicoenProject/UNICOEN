@@ -171,5 +171,16 @@ namespace Unicoen.Model {
 				this IUnifiedExpression singleton) {
 			return singleton;
 		}
+
+		public static UnifiedLinqExpression ToLinqExpression(
+				this IEnumerable<UnifiedLinqQuery> collection) {
+			return UnifiedLinqExpression.Create(collection);
+		}
+
+		public static UnifiedLinqExpression ToLinqExpression(
+				this UnifiedLinqQuery singleton) {
+			if (singleton == null) return UnifiedLinqExpression.Create();
+			return UnifiedLinqExpression.Create(singleton);
+		}
 	}
 }

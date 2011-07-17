@@ -21,32 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   LINQのクエリ式を構成するlet句を表します。
-	///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>
+	///   LINQのクエリ式を構成するwhere 句を表します。
+	///   e.g. C#における<c>where p.X > 2</c>
 	/// </summary>
-	public class UnifiedLet : UnifiedLinqPart {
-		private UnifiedVariableIdentifier _variable;
-		private IUnifiedExpression _expression;
+	public class UnifiedWhereQuery : UnifiedLinqQuery {
+		private IUnifiedExpression _condition;
 
 		/// <summary>
-		///   クエリ式中で計算した値を代入する変数を取得もしくは設定します．
-		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>sumZ</c>
+		///   抽出の条件式を取得もしくは設定します．
+		///   e.g. C#における<c>where p.X > 2</c>
 		/// </summary>
-		public UnifiedVariableIdentifier Variable {
-			get { return _variable; }
-			set { _variable = SetChild(value, _variable); }
+		public IUnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
 		}
 
-		/// <summary>
-		///   変数に代入する式を取得もしくは設定します．
-		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>p.Z.Sum()</c>
-		/// </summary>
-		public IUnifiedExpression Expression {
-			get { return _expression; }
-			set { _expression = SetChild(value, _expression); }
-		}
-
-		protected UnifiedLet() {}
+		protected UnifiedWhereQuery() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -64,11 +54,9 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedLet Create(
-				UnifiedVariableIdentifier variable, IUnifiedExpression expression) {
-			return new UnifiedLet {
-					Variable = variable,
-					Expression = expression
+		public static UnifiedWhereQuery Create(IUnifiedExpression condition) {
+			return new UnifiedWhereQuery {
+					Condition = condition,
 			};
 		}
 	}

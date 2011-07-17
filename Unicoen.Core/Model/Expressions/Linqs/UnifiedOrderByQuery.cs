@@ -21,21 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   LINQのクエリ式の構成要素の集合を表します．
-	///   e.g. C#における<c>from e in c orderby e.X, e.Y select e</c>の<c>orderby e.X, e.Y select e</c>
+	///   LINQのクエリ式を構成するorderby句を表します。
+	///   e.g. C#における<c>orderby p.X, p.Y descending, p.Z ascending</c>
 	/// </summary>
-	public class UnifiedLinqElementCollection
-			: UnifiedElementCollection
-			  		<UnifiedLinqPart, UnifiedLinqElementCollection> {
+	public class UnifiedOrderByQuery : UnifiedLinqQuery {
+		private UnifiedOrderByKeyCollection _keys;
+
 		/// <summary>
-		///   レシーバーと同じ型のオブジェクトを生成します．
+		///   ソートを行うキーの集合を取得もしくは設定します．
+		///   e.g. C#における<c>orderby p.X, p.Y descending, p.Z ascending</c>の<c>p.X, p.Y descending, p.Z ascending</c>
 		/// </summary>
-		/// <returns>生成したオブジェクト</returns>
-		public override UnifiedLinqElementCollection CreateSelf() {
-			return new UnifiedLinqElementCollection();
+		public UnifiedOrderByKeyCollection Keys {
+			get { return _keys; }
+			set { _keys = SetChild(value, _keys); }
 		}
 
-		protected UnifiedLinqElementCollection() {}
+		protected UnifiedOrderByQuery() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -43,8 +44,7 @@ namespace Unicoen.Model {
 		}
 
 		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+		public override void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -53,5 +53,11 @@ namespace Unicoen.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			  		}
+
+		public static UnifiedOrderByQuery Create(UnifiedOrderByKeyCollection keys) {
+			return new UnifiedOrderByQuery {
+					Keys = keys,
+			};
+		}
+	}
 }

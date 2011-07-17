@@ -150,21 +150,21 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedRegularExpressionLiteral element);
 		void Visit(UnifiedPropertyDefinition element);
 		void Visit(UnifiedPropertyDefinitionPart element);
-		void Visit(UnifiedSelect element);
-		void Visit(UnifiedWhere element);
-		void Visit(UnifiedLet element);
-		void Visit(UnifiedOrderBy element);
-		void Visit(UnifiedJoin element);
-		void Visit(UnifiedGroupBy element);
+		void Visit(UnifiedSelectQuery element);
+		void Visit(UnifiedWhereQuery element);
+		void Visit(UnifiedLetQuery element);
+		void Visit(UnifiedOrderByQuery element);
+		void Visit(UnifiedJoinQuery element);
+		void Visit(UnifiedGroupByQuery element);
 		void Visit(UnifiedOrderByKeyCollection element);
 		void Visit(UnifiedOrderByKey element);
-		void Visit(UnifiedLinqElementCollection element);
-		void Visit(UnifiedLinq element);
+		void Visit(UnifiedLinqExpression element);
 		void Visit(UnifiedDefault element);
 		void Visit(UnifiedVaueIdentifier element);
 		void Visit(UnifiedEventDefinition element);
 		void Visit(UnifiedUsingPart element);
 		void Visit(UnifiedUsingPartCollection element);
+		void Visit(UnifiedFromQuery element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -297,21 +297,21 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		void Visit(UnifiedPropertyDefinition element, TArg arg);
 		void Visit(UnifiedPropertyDefinitionPart element, TArg arg);
-		void Visit(UnifiedSelect element, TArg arg);
-		void Visit(UnifiedWhere element, TArg arg);
-		void Visit(UnifiedLet element, TArg arg);
-		void Visit(UnifiedOrderBy element, TArg arg);
-		void Visit(UnifiedJoin element, TArg arg);
-		void Visit(UnifiedGroupBy element, TArg arg);
+		void Visit(UnifiedSelectQuery element, TArg arg);
+		void Visit(UnifiedWhereQuery element, TArg arg);
+		void Visit(UnifiedLetQuery element, TArg arg);
+		void Visit(UnifiedOrderByQuery element, TArg arg);
+		void Visit(UnifiedJoinQuery element, TArg arg);
+		void Visit(UnifiedGroupByQuery element, TArg arg);
 		void Visit(UnifiedOrderByKeyCollection element, TArg arg);
 		void Visit(UnifiedOrderByKey element, TArg arg);
-		void Visit(UnifiedLinqElementCollection element, TArg arg);
-		void Visit(UnifiedLinq element, TArg arg);
+		void Visit(UnifiedLinqExpression element, TArg arg);
 		void Visit(UnifiedDefault element, TArg arg);
 		void Visit(UnifiedVaueIdentifier element, TArg arg);
 		void Visit(UnifiedEventDefinition element, TArg arg);
 		void Visit(UnifiedUsingPart element, TArg arg);
 		void Visit(UnifiedUsingPartCollection element, TArg arg);
+		void Visit(UnifiedFromQuery element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -444,20 +444,20 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedRegularExpressionLiteral element, TArg arg);
 		TResult Visit(UnifiedPropertyDefinition element, TArg arg);
 		TResult Visit(UnifiedPropertyDefinitionPart element, TArg arg);
-		TResult Visit(UnifiedSelect element, TArg arg);
-		TResult Visit(UnifiedWhere element, TArg arg);
-		TResult Visit(UnifiedLet element, TArg arg);
-		TResult Visit(UnifiedOrderBy element, TArg arg);
-		TResult Visit(UnifiedJoin element, TArg arg);
-		TResult Visit(UnifiedGroupBy element, TArg arg);
+		TResult Visit(UnifiedSelectQuery element, TArg arg);
+		TResult Visit(UnifiedWhereQuery element, TArg arg);
+		TResult Visit(UnifiedLetQuery element, TArg arg);
+		TResult Visit(UnifiedOrderByQuery element, TArg arg);
+		TResult Visit(UnifiedJoinQuery element, TArg arg);
+		TResult Visit(UnifiedGroupByQuery element, TArg arg);
 		TResult Visit(UnifiedOrderByKeyCollection element, TArg arg);
 		TResult Visit(UnifiedOrderByKey element, TArg arg);
-		TResult Visit(UnifiedLinqElementCollection element, TArg arg);
-		TResult Visit(UnifiedLinq element, TArg arg);
+		TResult Visit(UnifiedLinqExpression element, TArg arg);
 		TResult Visit(UnifiedDefault element, TArg arg);
 		TResult Visit(UnifiedVaueIdentifier element, TArg arg);
 		TResult Visit(UnifiedEventDefinition element, TArg arg);
 		TResult Visit(UnifiedUsingPart element, TArg arg);
 		TResult Visit(UnifiedUsingPartCollection element, TArg arg);
+		TResult Visit(UnifiedFromQuery element, TArg arg);
 	}
 }

@@ -21,32 +21,32 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   LINQのクエリ式を構成するselect句を表します。
-	///   e.g. C#における<c>select new { p.X, p.Y } into x</c>
+	///   LINQのクエリ式を構成するlet句を表します。
+	///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>
 	/// </summary>
-	public class UnifiedSelect : UnifiedLinqPart {
+	public class UnifiedLetQuery : UnifiedLinqQuery {
+		private UnifiedVariableIdentifier _variable;
 		private IUnifiedExpression _expression;
-		private UnifiedVariableIdentifier _receiver;
 
 		/// <summary>
-		///   射影する際のクエリ式の各要素の変換式を取得もしくは設定します．
-		///   e.g. C#における<c>select new { p.X, p.Y } into x</c>の<c>new { p.X, p.Y }</c>
+		///   クエリ式中で計算した値を代入する変数を取得もしくは設定します．
+		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>sumZ</c>
+		/// </summary>
+		public UnifiedVariableIdentifier Variable {
+			get { return _variable; }
+			set { _variable = SetChild(value, _variable); }
+		}
+
+		/// <summary>
+		///   変数に代入する式を取得もしくは設定します．
+		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>p.Z.Sum()</c>
 		/// </summary>
 		public IUnifiedExpression Expression {
 			get { return _expression; }
 			set { _expression = SetChild(value, _expression); }
 		}
 
-		/// <summary>
-		///   クエリを継続するために要素を受け取る変数を取得もしくは設定します．
-		///   e.g. C#における<c>select new { p.X, p.Y } into x</c>の<c>x</c>
-		/// </summary>
-		public UnifiedVariableIdentifier Receiver {
-			get { return _receiver; }
-			set { _receiver = SetChild(value, _receiver); }
-		}
-
-		protected UnifiedSelect() {}
+		protected UnifiedLetQuery() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -64,11 +64,11 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedSelect Create(
-				IUnifiedExpression expression, UnifiedVariableIdentifier receiver) {
-			return new UnifiedSelect {
-					Expression = expression,
-					Receiver = receiver,
+		public static UnifiedLetQuery Create(
+				UnifiedVariableIdentifier variable, IUnifiedExpression expression) {
+			return new UnifiedLetQuery {
+					Variable = variable,
+					Expression = expression
 			};
 		}
 	}
