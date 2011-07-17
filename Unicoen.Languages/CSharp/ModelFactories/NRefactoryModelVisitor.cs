@@ -169,9 +169,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedNew.Create(uType, args);
 		}
 
-		public IUnifiedElement VisitAnonymousTypeCreateExpression(
-				AnonymousTypeCreateExpression anonymousTypeCreateExpression, object data) {
-			throw new NotImplementedException("AnonymousTypeCreateExpression");
+		public IUnifiedElement VisitAnonymousTypeCreateExpression(AnonymousTypeCreateExpression expr, object data) {
+			var block = UnifiedBlock.Create();
+			foreach(var nExpr in expr.Initializer) {
+				var uExpr = nExpr.TryAcceptForExpression(this);
+				if (uExpr != null)
+					block.Add(uExpr);
+			}
+			return UnifiedNew.Create(body: block);
 		}
 
 		public IUnifiedElement VisitParenthesizedExpression(ParenthesizedExpression expr, object data) {
@@ -245,6 +250,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitQueryExpression(
 				QueryExpression queryExpression, object data) {
+			// TODO: implement
+			return null;
 			throw new NotImplementedException("QueryExpression");
 		}
 
@@ -572,14 +579,12 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedWhile.Create(cond, body);
 		}
 
-		public IUnifiedElement VisitYieldBreakStatement(
-				YieldBreakStatement yieldBreakStatement, object data) {
-			throw new NotImplementedException("YieldBreakStatement");
+		public IUnifiedElement VisitYieldBreakStatement(YieldBreakStatement stmt, object data) {
+			// TODO: YieldBreakにする
+			return UnifiedYieldReturn.Create();
 		}
 
 		public IUnifiedElement VisitYieldStatement(YieldStatement stmt, object data) {
-			if (stmt.Expression == null) throw new NotImplementedException("YieldStatement");
-
 			var value = stmt.Expression.TryAcceptForExpression(this);
 			return UnifiedYieldReturn.Create(value);
 		}
