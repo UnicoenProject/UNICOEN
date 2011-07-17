@@ -81,13 +81,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return null;
 		}
 
-		//private static UnifiedGenericArgumentCollection ToArgumentCollection(IEnumerable<AstType> types) {
-		//    return types
-		//            .Select(LookupType)
-		//            .Select(t => UnifiedGenericArgument.Create(t))
-		//            .ToCollection();
-		//}
-
 		internal static UnifiedType LookupType(AstType type) {
 			Contract.Requires<ArgumentNullException>(type != null);
 			Contract.Ensures(Contract.Result<UnifiedType>() != null);
@@ -253,7 +246,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				else {
 					var uExpr = value as IUnifiedExpression;
 					if (uExpr != null)
-						uArgs.Add(UnifiedArgument.Create(value: uExpr));
+						uArgs.Add(UnifiedArgument.Create(uExpr, /*label*/null, /*mod*/null));
 				}
 			}
 			return uArgs;

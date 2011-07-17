@@ -38,6 +38,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return prog;
 		}
 
+		#region expression
+
 		public IUnifiedElement VisitAnonymousMethodExpression(AnonymousMethodExpression expr, object data) {
 			var parameters = expr.Parameters.AcceptVisitorAsParams(this, data);
 			var body = expr.Body.TryAcceptForExpression(this).ToBlock();
@@ -251,6 +253,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return null;
 		}
 
+		#region query
+
 		public IUnifiedElement VisitQueryExpression(QueryExpression expr, object data) {
 			return expr.Clauses
 					.Select(c => c.AcceptVisitor(this, data))
@@ -308,6 +312,12 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new NotImplementedException("QueryGroupClause");
 		}
 
+		#endregion
+
+		#endregion
+
+		#region attribute
+
 		public IUnifiedElement VisitAttribute(Attribute attribute, object data) {
 			var type = LookupType(attribute.Type);
 			if (attribute.HasArgumentList == false)
@@ -323,6 +333,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.OfType<UnifiedAnnotation>()
 					.ToCollection();
 		}
+
+		#endregion
+
+		#region top-level declaration
 
 		public IUnifiedElement VisitDelegateDeclaration(
 				DelegateDeclaration delegateDeclaration, object data) {
@@ -379,6 +393,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				ExternAliasDeclaration externAliasDeclaration, object data) {
 			throw new NotImplementedException("ExternAliasDeclaration");
 		}
+
+		#endregion
+
+		#region statement
 
 		public IUnifiedElement VisitBlockStatement(BlockStatement block, object data) {
 			return block.Statements
@@ -608,6 +626,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return UnifiedYieldReturn.Create(value);
 		}
 
+		#endregion
+
+		#region declaration
+
 		public IUnifiedElement VisitAccessor(Accessor accessor, object data) {
 			var attrs = accessor.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(accessor.Modifiers);
@@ -617,11 +639,11 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitConstructorDeclaration(ConstructorDeclaration ctorDec, object data) {
-			var uMods = LookupModifiers(ctorDec.Modifiers);
-			var uBody = ctorDec.Body.AcceptVisitor(this, data) as UnifiedBlock;
-			var uParms = ctorDec.Parameters.AcceptVisitorAsParams(this, data);
-
-			return UnifiedConstructor.Create(uBody, modifiers: uMods, parameters: uParms);
+			var mods = LookupModifiers(ctorDec.Modifiers);
+			var attrs = ctorDec.Attributes.AcceptVisitorAsAttrs(this, data);
+			var body = ctorDec.Body.AcceptVisitor(this, data) as UnifiedBlock;
+			var parameters = ctorDec.Parameters.AcceptVisitorAsParams(this, data);
+			return UnifiedConstructor.Create(body, attrs, mods, parameters, /*no-generic*/null, /*thorws*/null);
 		}
 
 		public IUnifiedElement VisitConstructorInitializer(
@@ -635,9 +657,12 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitEnumMemberDeclaration(EnumMemberDeclaration dec, object data) {
-			var name = UnifiedVariableIdentifier.Create(dec.Name);
+			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
+			var mods = LookupModifiers(dec.Modifiers);
+			var name = UnifiedIdentifier.CreateVariable(dec.Name);
 			var value = dec.Initializer.TryAcceptForExpression(this);
-			return UnifiedVariableDefinition.Create(name: name, initialValue: value);
+			return UnifiedVariableDefinition.Create(attrs, mods, /*no type*/null, name, value,
+				/*no args*/null, /*no bit field*/null, /*no body*/null);
 		}
 
 		public IUnifiedElement VisitEventDeclaration(
@@ -651,18 +676,20 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitFieldDeclaration(FieldDeclaration dec, object data) {
-			var uType = LookupType(dec.ReturnType);
-			var uMods = LookupModifiers(dec.Modifiers);
+			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
+			var type = LookupType(dec.ReturnType);
+			var mods = LookupModifiers(dec.Modifiers);
 			var definitions =
 					from nVar in dec.Variables
 					let name = nVar.Name
 					let nInitValue = nVar.Initializer
 					let uInitValue = nInitValue.TryAcceptForExpression(this)
 					select UnifiedVariableDefinition.Create(
-							type: uType.DeepCopy(),
-							modifiers: uMods.DeepCopy(),
-							name: name.ToVariableIdentifier(),
-							initialValue: uInitValue);
+							attrs.DeepCopy(),
+							mods.DeepCopy(),
+							type.DeepCopy(),
+							name.ToVariableIdentifier(),
+							uInitValue);
 			return definitions.ToVariableDefinitionList();
 		}
 
@@ -689,7 +716,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var parameters = dec.Parameters.AcceptVisitorAsParams(this, data);
 			var body = dec.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedFunctionDefinition.Create(
-					attrs, mods, type, generics, name, parameters, /* C# dont have throws */ null, body);
+					attrs, mods, type, generics, name, parameters, /* no throws */ null, body);
 		}
 
 		public IUnifiedElement VisitOperatorDeclaration(
@@ -730,6 +757,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				FixedVariableInitializer fixedVariableInitializer, object data) {
 			throw new NotImplementedException("FixedVariableInitializer");
 		}
+
+		#endregion
 
 		public IUnifiedElement VisitSimpleType(SimpleType simpleType, object data) {
 			var type = UnifiedType.Create(simpleType.Identifier);
@@ -780,8 +809,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitCSharpTokenNode(
 				CSharpTokenNode tokenNode, object data) {
-			// TODO 調べる
-			//return null;
 			throw new NotImplementedException("CSharpTokenNode");
 		}
 
