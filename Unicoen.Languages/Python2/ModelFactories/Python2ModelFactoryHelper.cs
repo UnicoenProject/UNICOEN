@@ -1273,10 +1273,9 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.Select(
 							e => e.Name() == "argument"
 							     		? CreateArgument(e)
-							     		: UnifiedArgument.Create(
-							     				UnifiedModifier.Create(
-							     						e.PreviousElement().Value).
-							     						ToCollection(), null, CreateTest(e)))
+							     		: UnifiedArgument.Create(CreateTest(e), null, UnifiedModifier.Create(
+							     				e.PreviousElement().Value).
+							     		                                              		ToCollection()))
 					.ToCollection();
 		}
 
@@ -1289,16 +1288,13 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var test = CreateTest(node.FirstElement());
 			var second = node.NthElementOrDefault(1);
 			if (second == null)
-				return UnifiedArgument.Create(null, null, test);
+				return UnifiedArgument.Create(test, null, null);
 			if (second.Value == "=")
 					// TODO: test '=' test => NAME '=' test のように扱っているが大丈夫か？
-				return UnifiedArgument.Create(
-						null, (UnifiedIdentifier)test, CreateTest(node.LastElement()));
-			return UnifiedArgument.Create(
-					null, null,
-					UnifiedIterableComprehension.Create(
-							test,
-							CreateComp_for(second).ToCollection()));
+				return UnifiedArgument.Create(CreateTest(node.LastElement()), (UnifiedIdentifier)test, null);
+			return UnifiedArgument.Create(UnifiedIterableComprehension.Create(
+					test,
+					CreateComp_for(second).ToCollection()), null, null);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateList_iter(XElement node) {

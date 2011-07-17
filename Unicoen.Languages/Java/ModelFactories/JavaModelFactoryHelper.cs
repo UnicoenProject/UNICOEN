@@ -1010,10 +1010,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * elementValuePair 
 			 * :   IDENTIFIER '=' elementValue 
 			 */
-			return UnifiedArgument.Create(
-					null,
-					UnifiedVariableIdentifier.Create(node.FirstElement().Value),
-					CreateElementValue(node.LastElement()));
+			return UnifiedArgument.Create(CreateElementValue(node.LastElement()), UnifiedVariableIdentifier.Create(node.FirstElement().Value), null);
 		}
 
 		public static IUnifiedExpression CreateElementValue(XElement node) {
@@ -1843,7 +1840,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								            UnifiedIndexer.Create(
 								            		current,
 								            		UnifiedArgumentCollection.Create(
-								            				UnifiedArgument.Create(null, null, exp)))
+								            				UnifiedArgument.Create(exp, null, null)))
 						);
 			}
 			// '.' 'class'				// java.lang.String.class
@@ -1927,7 +1924,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (secondElement.Name() == "expression") {
 				return UnifiedIndexer.Create(
 						prefix,
-						UnifiedArgument.Create(null, null, CreateExpression(secondElement)).
+						UnifiedArgument.Create(CreateExpression(secondElement), null, null).
 								ToCollection());
 			}
 
@@ -2122,7 +2119,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				return UnifiedArgumentCollection.Create();
 
 			return CreateExpressionList(expressionListNode)
-					.Select(value => UnifiedArgument.Create(null, null, value))
+					.Select(value => UnifiedArgument.Create(value, null, null))
 					.ToCollection();
 		}
 

@@ -94,8 +94,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 							(UnifiedArgument[])node.Elements().ElementAt(2).Elements()
 							                   		.Select(
 							                   				e =>
-							                   				UnifiedArgument.Create(
-							                   						null, null, CreateExpression(e)))));
+							                   				UnifiedArgument.Create(CreateExpression(e), null, null))));
 		}
 
 		public static IUnifiedExpression CreateExpression(XElement node) {
