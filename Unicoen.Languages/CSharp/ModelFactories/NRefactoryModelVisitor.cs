@@ -626,13 +626,11 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitAccessor(Accessor accessor, object data) {
-			var block = accessor.Body.TryAcceptForExpression(this).ToBlock();
+			var attrs = accessor.Attributes.AcceptVisitor(this, data);
 			var mods = LookupModifiers(accessor.Modifiers);
-
-			var body = new UnifiedPropertyBody();
-			body.Body = block;
-			body.Modifiers = mods;
-			return body;
+			var block = accessor.Body.TryAcceptForExpression(this).ToBlock();
+			// TODO: attribute
+			return UnifiedPropertyDefinitionPart.Create(attrs, mods, block);
 		}
 
 		public IUnifiedElement VisitConstructorDeclaration(ConstructorDeclaration ctorDec, object data) {
@@ -742,15 +740,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitPropertyDeclaration(PropertyDeclaration dec, object data) {
-			var dfn = new UnifiedPropertyDefinition();
-			dfn.Modifiers = LookupModifiers(dec.Modifiers);
-			if (dec.Getter != null) {
-				dfn.Get = dec.Getter.AcceptVisitor(this, data) as UnifiedPropertyBody;
-			}
-			if (dec.Setter != null) {
-				dfn.Set = dec.Setter.AcceptVisitor(this, data) as UnifiedPropertyBody;
-			}
-			return dfn;
+			var attrs = dec.Attributes.AcceptVisitor(this, data);
+			var mods = LookupModifiers(dec.Modifiers);
+			var type = LookupType(dec.ReturnType);
+			var name = UnifiedIdentifier.CreateVariable(dec.Name);
+			var get = dec.Getter.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart;
+			var set = dec.Setter.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart;
+			return UnifiedPropertyDefinition.Create(attrs, mods, type, name, null /*no parameter*/, get, set);
 		}
 
 		public IUnifiedElement VisitVariableInitializer(
