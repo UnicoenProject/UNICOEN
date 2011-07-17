@@ -362,12 +362,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(dec.Modifiers);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
-			var typeParams = dec.TypeParameters == null
-					? null
-					: dec.TypeParameters.AcceptVisitorAsTypeParams(this, data);
-			var cons = dec.Constraints == null
-				? null
-				: dec.Constraints.AcceptVisitorAsTypeParams(this, data);
+			var typeParams = dec.TypeParameters.AcceptVisitorAsTypeParams(this, data);
+			if (typeParams.Count == 0)
+				typeParams = null;
+			var cons = dec.Constraints.AcceptVisitorAsTypeParams(this, data);
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Members) {
 				var uExpr = node.TryAcceptForExpression(this);
@@ -586,21 +584,10 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitUsingStatement(UsingStatement stmt, object data) {
-			//var res = stmt.ResourceAcquisition.AcceptVisitor(this, data);
-			//var block = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
-
-			//var decList = res as UnifiedVariableDefinitionList;
-			//if (decList != null) {
-			//    var dec = decList[0];
-			//    var name = dec.Name.DeepCopy();
-			//    var type = dec.Type.DeepCopy();
-			//    var expr = dec.InitialValue.DeepCopy();
-			//    var part = UnifiedUsingPart.Create()
-			//}
-
-			// TODO: implement
-			return null;
-			//throw new NotImplementedException("VisitUsingStatement");
+			var target = stmt.ResourceAcquisition.TryAcceptForExpression(this);
+			var parts = UnifiedUsingPart.Create(target).ToCollection();
+			var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
+			return UnifiedUsing.Create(parts, body);
 		}
 
 		public IUnifiedElement VisitVariableDeclarationStatement(VariableDeclarationStatement dec, object data) {
@@ -643,7 +630,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var attrs = accessor.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(accessor.Modifiers);
 			var block = accessor.Body.TryAcceptForExpression(this).ToBlock();
-			// TODO: attribute
 			return UnifiedPropertyDefinitionPart.Create(attrs, mods, block);
 		}
 
@@ -724,6 +710,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			}
 			var parameters = dec.Parameters.AcceptVisitorAsParams(this, data);
 			var body = dec.Body.TryAcceptForExpression(this).ToBlock();
+			// TODO constraint
 			return UnifiedFunctionDefinition.Create(
 					attrs, mods, type, generics, name, parameters, /* no throws */ null, body);
 		}
@@ -813,7 +800,9 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitConstraint(Constraint constraint, object data) {
-			throw new NotImplementedException("Constraint");
+			// TODO: implement
+			return null;
+			//throw new NotImplementedException("Constraint");
 		}
 
 		public IUnifiedElement VisitCSharpTokenNode(
