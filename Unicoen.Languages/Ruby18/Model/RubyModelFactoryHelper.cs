@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -34,18 +35,20 @@ namespace Unicoen.Languages.Ruby18.Model {
 					new Dictionary<string, Func<XElement, IUnifiedExpression>>();
 			ExpressionFuncs["nil"] = CreateNil;
 			ExpressionFuncs["block"] = CreateBlock;
-			ExpressionFuncs["lasgn"] = CreateLasgn;
 			ExpressionFuncs["if"] = CreateFloat;
 			ExpressionFuncs["call"] = CreateFloat;
 			ExpressionFuncs["lvar"] = CreateLvar;
 			ExpressionFuncs["case"] = CreateCase;
 			ExpressionFuncs["array"] = CreateArray;
 			ExpressionFuncs["until"] = CreateUntil;
-			ExpressionFuncs["for"] = CreateUntil;
-			ExpressionFuncs["iter"] = CreateUntil;
-			ExpressionFuncs["defn"] = CreateUntil;
-			ExpressionFuncs["scope"] = CreateUntil;
-			ExpressionFuncs["args"] = CreateUntil;
+
+			ExpressionFuncs["for"] = CreateFor;
+			ExpressionFuncs["iter"] = CreateIter;
+			ExpressionFuncs["defn"] = CreateDefn;
+			ExpressionFuncs["scope"] = CreateScope;
+			ExpressionFuncs["args"] = CreateArgs;
+
+			ExpressionFuncs["lasgn"] = CreateLasgn;
 			ExpressionFuncs["masgn"] = CreateUntil;
 
 			ExpressionFuncs["Symbol"] = CreateSymbol;
@@ -53,6 +56,61 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["Bignum"] = CreateBignum;
 			ExpressionFuncs["Float"] = CreateFloat;
 			ExpressionFuncs["String"] = CreateString;
+		}
+
+		private static IUnifiedExpression CreateArgs(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "args");
+			Contract.Requires(node.Elements().All(e => e.Name() == "Symbol" || e.Name() == "block"));
+			throw new NotImplementedException();
+		}
+
+		private static IUnifiedExpression CreateDefn(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "defn");
+			throw new NotImplementedException();
+			return UnifiedFunctionDefinition.Create(
+					null, null, null, null,
+					CreateSymbol(node.NthElement(0)));
+		}
+
+		private static UnifiedBlock CreateScope(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "scope");
+			Contract.Requires(node.Elements().Count() == 1);
+			Contract.Requires(node.FirstElement().Name() == "block");
+			return CreateBlock(node.FirstElement());
+		}
+
+		private static IEnumerable<UnifiedVariableIdentifier> CreateLasgnOrMasgn(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn");
+			Contract.Requires(node.Elements().Count() == 1);
+			Contract.Requires(node.Name() != "masgn" || node.FirstElement().Name() == "array");
+			return node.Descendants("Symbol")
+					.Select(CreateSymbol);
+		}
+
+		private static UnifiedCall CreateIter(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "iter");
+			var call = CreateCall(node.NthElement(0));
+			var parameters = CreateLasgnOrMasgn(node.NthElement(1))
+					.Select(e => e.ToParameter())
+					.ToCollection();
+			var block = CreateBlock(node.NthElement(2));
+			call.Proc = UnifiedProc.Create(parameters, block);
+			return call;
+		}
+
+		private static IUnifiedExpression CreateFor(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "for");
+			Contract.Assert(node.NthElement(1).Name() == "lasgn" || node.NthElement(1).Name() == "masgn");
+			return UnifiedForeach.Create(
+					CreateExpresion(node.NthElement(0)),
+					CreateExpresion(node.NthElement(1).FirstElement()),
+					CreateBlock(node.NthElement(2)));
 		}
 
 		private static IUnifiedExpression CreateUntil(XElement node) {

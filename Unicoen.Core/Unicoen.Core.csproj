@@ -109,6 +109,7 @@
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructorLike.cs" />
+    <Compile Include="Model\Expressions\Blocks\UnifiedProc.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedFixBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />

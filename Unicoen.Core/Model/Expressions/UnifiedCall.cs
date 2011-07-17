@@ -26,20 +26,19 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedCall : UnifiedElement, IUnifiedExpression {
 		private IUnifiedExpression _function;
+		private UnifiedGenericArgumentCollection _genericArguments;
+		private UnifiedArgumentCollection _arguments;
+		private UnifiedProc _proc;
 
 		public IUnifiedExpression Function {
 			get { return _function; }
 			set { _function = SetChild(value, _function); }
 		}
 
-		private UnifiedGenericArgumentCollection _genericArguments;
-
 		public UnifiedGenericArgumentCollection GenericArguments {
 			get { return _genericArguments; }
 			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
-
-		private UnifiedArgumentCollection _arguments;
 
 		/// <summary>
 		///   実引数の集合を表します
@@ -48,6 +47,15 @@ namespace Unicoen.Model {
 		public UnifiedArgumentCollection Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
+		}
+
+		/// <summary>
+		///   ブロック付きメソッド呼び出しのブロックを表します
+		///   e.g. Rubyにおける<c>[].each { |i| p i }</c>の<c>{ |i| p i }</c>
+		/// </summary>
+		public UnifiedProc Proc {
+			get { return _proc; }
+			set { _proc = SetChild(value, _proc); }
 		}
 
 		private UnifiedCall() {}
@@ -73,11 +81,13 @@ namespace Unicoen.Model {
 		public static UnifiedCall Create(
 				IUnifiedExpression target = null,
 				UnifiedArgumentCollection args = null,
-				UnifiedGenericArgumentCollection genericArguments = null) {
+				UnifiedGenericArgumentCollection genericArguments = null,
+				UnifiedProc proc = null) {
 			return new UnifiedCall {
 					Function = target,
 					Arguments = args,
-					GenericArguments = genericArguments
+					GenericArguments = genericArguments,
+					Proc = proc
 			};
 		}
 	}
