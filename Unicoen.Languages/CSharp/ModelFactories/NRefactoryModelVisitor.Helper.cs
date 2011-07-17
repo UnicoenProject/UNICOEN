@@ -214,8 +214,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return attrs
 					.Select(a => a.AcceptVisitor(visitor, data))
 					.OfType<UnifiedAnnotationCollection>()
-					.SelectMany(_ => _)
-					.ToCollection();
+					.Merge();
 		}
 
 		internal static UnifiedParameterCollection AcceptVisitorAsParams<T, TResult>(

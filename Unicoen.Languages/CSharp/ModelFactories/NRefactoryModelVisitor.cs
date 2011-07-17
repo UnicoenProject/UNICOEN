@@ -125,7 +125,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitIndexerExpression(IndexerExpression indexer, object data) {
 			var target = indexer.Target.TryAcceptForExpression(this);
 			var args = indexer.Arguments.AcceptVisitorAsArgs(this, data);
-			return UnifiedIndexer.Create(target, args.ToCollection());
+			return UnifiedIndexer.Create(target, args);
 		}
 
 		public IUnifiedElement VisitInvocationExpression(InvocationExpression invoc, object data) {

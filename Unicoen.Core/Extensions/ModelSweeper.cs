@@ -33,7 +33,7 @@ namespace Unicoen.Model {
 		public static IEnumerable<T> Ancestors<T>(
 				this IUnifiedElement element) where T : class {
 			Contract.Requires(element != null);
-			return element.Ancestors().Where<T>();
+			return element.Ancestors().OfType<T>();
 		}
 
 		/// <summary>
@@ -72,7 +72,7 @@ namespace Unicoen.Model {
 		public static IEnumerable<T> AncestorsAndSelf<T>(
 				this IUnifiedElement element) where T : class {
 			Contract.Requires(element != null);
-			return element.AncestorsAndSelf().Where<T>();
+			return element.AncestorsAndSelf().OfType<T>();
 		}
 
 		/// <summary>
@@ -113,7 +113,7 @@ namespace Unicoen.Model {
 				this IUnifiedElement element)
 				where T : class {
 			Contract.Requires(element != null);
-			return element.Descendants().Where<T>();
+			return element.Descendants().OfType<T>();
 		}
 
 		/// <summary>
@@ -160,7 +160,7 @@ namespace Unicoen.Model {
 		public static IEnumerable<T> DescendantsAndSelf<T>(
 				this IUnifiedElement element) where T : class {
 			Contract.Requires(element != null);
-			return element.DescendantsAndSelf().Where<T>();
+			return element.DescendantsAndSelf().OfType<T>();
 		}
 
 		/// <summary>
@@ -220,19 +220,6 @@ namespace Unicoen.Model {
 		public static IUnifiedElement GrandGrandParent(this IUnifiedElement element) {
 			Contract.Requires(element != null);
 			return element.Parent.SafeParent().SafeParent();
-		}
-
-		/// <summary>
-		///   指定した型の要素のみを抽出します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "elements"></param>
-		/// <returns></returns>
-		public static IEnumerable<T> Where<T>(
-				this IEnumerable<IUnifiedElement> elements) where T : class {
-			Contract.Requires(elements != null);
-			return elements.Select(e => e as T)
-					.Where(e => e != null);
 		}
 	}
 }

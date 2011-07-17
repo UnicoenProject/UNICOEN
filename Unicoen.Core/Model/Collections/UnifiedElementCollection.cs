@@ -238,6 +238,18 @@ namespace Unicoen.Model {
 			return Elements.IndexOf(element, index);
 		}
 
+		/// <summary>
+		///   全ての要素を返してからコレクションから要素を取り除きます．
+		/// </summary>
+		/// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only. </exception>
+		public IEnumerable<TElement> GetElementsAndClear() {
+			foreach (var element in Elements) {
+				((UnifiedElement)(IUnifiedElement)element).Parent = null;
+				yield return element;
+			}
+			Elements.Clear();
+		}
+
 		#region IEnumerable<TElement> Members
 
 		/// <summary>
