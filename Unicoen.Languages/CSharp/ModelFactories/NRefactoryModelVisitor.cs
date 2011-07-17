@@ -39,9 +39,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitAnonymousMethodExpression(AnonymousMethodExpression expr, object data) {
-			var parameters = expr.Parameters
-					.Select(p => p.AcceptVisitor(this, data) as UnifiedParameter)
-					.ToCollection();
+			var parameters = expr.Parameters.AcceptVisitorAsParams(this, data);
 			var body = expr.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedLambda.Create(parameters: parameters, body: body);
 		}
@@ -52,10 +50,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitArrayCreateExpression(ArrayCreateExpression array, object data) {
 			var type = LookupType(array.Type);
-			var uArgs = array.Arguments
-					.Select(nExpr => nExpr.TryAcceptForExpression(this))
-					.Select(uExpr => UnifiedArgument.Create(value: uExpr))
-					.ToCollection();
+			var uArgs = array.Arguments.AcceptVisitorAsArgs(this, data);
 			var initValues = null as UnifiedArrayLiteral;
 			if (array.Initializer != null) {
 				initValues = array.Initializer.AcceptVisitor(this, data) as UnifiedArrayLiteral;
@@ -129,29 +124,13 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitIndexerExpression(IndexerExpression indexer, object data) {
 			var target = indexer.Target.TryAcceptForExpression(this);
-			var args =
-					from arg in indexer.Arguments
-					let uExpr = arg.TryAcceptForExpression(this)
-					where uExpr != null
-					select UnifiedArgument.Create(value: uExpr);
+			var args = indexer.Arguments.AcceptVisitorAsArgs(this, data);
 			return UnifiedIndexer.Create(target, args.ToCollection());
 		}
 
 		public IUnifiedElement VisitInvocationExpression(InvocationExpression invoc, object data) {
 			var target = invoc.Target.TryAcceptForExpression(this);
-			var uArgs = UnifiedArgumentCollection.Create();
-			foreach (var arg in invoc.Arguments) {
-				var value = arg.AcceptVisitor(this, data);
-				var uArg = value as UnifiedArgument;
-				if (uArg != null) {
-					uArgs.Add(uArg);
-				}
-				else {
-					var uExpr = value as IUnifiedExpression;
-					if (uExpr != null)
-						uArgs.Add(UnifiedArgument.Create(value: uExpr));
-				}
-			}
+			var uArgs = invoc.Arguments.AcceptVisitorAsArgs(this, data);
 			return UnifiedCall.Create(target, uArgs);
 		}
 
@@ -163,9 +142,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitLambdaExpression(LambdaExpression lambda, object data) {
-			var parameters = lambda.Parameters
-					.Select(p => p.AcceptVisitor(this, data) as UnifiedParameter)
-					.ToCollection();
+			var parameters = lambda.Parameters.AcceptVisitorAsParams(this, data);
 			var body = lambda.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedLambda.Create(parameters: parameters, body: body);
 		}
@@ -188,11 +165,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitObjectCreateExpression(ObjectCreateExpression create, object data) {
 			var uType = LookupType(create.Type);
-			var args =
-					from arg in create.Arguments
-					let value = arg.TryAcceptForExpression(this)
-					select UnifiedArgument.Create(value: value);
-			return UnifiedNew.Create(uType, args.ToCollection());
+			var args = create.Arguments.AcceptVisitorAsArgs(this, data);
+			return UnifiedNew.Create(uType, args);
 		}
 
 		public IUnifiedElement VisitAnonymousTypeCreateExpression(
@@ -323,20 +297,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var type = LookupType(attribute.Type);
 			if (attribute.HasArgumentList == false)
 				return UnifiedAnnotation.Create(type);
-
-			var uArgs = UnifiedArgumentCollection.Create();
-			foreach(var nArg in attribute.Arguments) {
-				var uElem = nArg.AcceptVisitor(this, data);
-				var uArg = uElem as UnifiedArgument;
-				if (uArg != null) {
-					uArgs.Add(uArg);
-					continue;
-				}
-				var uExpr = uElem as IUnifiedExpression;
-				if (uExpr != null) {
-					uArgs.Add(UnifiedArgument.Create(value: uExpr));
-				}
-			}
+			var uArgs = attribute.Arguments.AcceptVisitorAsArgs(this, data);
 			return UnifiedAnnotation.Create(type, uArgs);
 		}
 
@@ -364,7 +325,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitTypeDeclaration(TypeDeclaration dec, object data) {
-			var attrs = dec.Attributes.AcceptVisitor(this, data);
+			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(dec.Modifiers);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
 			var body = UnifiedBlock.Create();
@@ -490,10 +451,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			if (nElseStmt == null) {
 				return UnifiedIf.Create(cond, trueBlock);
 			}
-			else {
-				var falseBlock = nElseStmt.TryAcceptForExpression(this).ToBlock();
-				return UnifiedIf.Create(cond, trueBlock, falseBlock);
-			}
+			var falseBlock = nElseStmt.TryAcceptForExpression(this).ToBlock();
+			return UnifiedIf.Create(cond, trueBlock, falseBlock);
 		}
 
 		public IUnifiedElement VisitLabelStatement(LabelStatement label, object data) {
@@ -626,7 +585,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitAccessor(Accessor accessor, object data) {
-			var attrs = accessor.Attributes.AcceptVisitor(this, data);
+			var attrs = accessor.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(accessor.Modifiers);
 			var block = accessor.Body.TryAcceptForExpression(this).ToBlock();
 			// TODO: attribute
@@ -636,12 +595,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitConstructorDeclaration(ConstructorDeclaration ctorDec, object data) {
 			var uMods = LookupModifiers(ctorDec.Modifiers);
 			var uBody = ctorDec.Body.AcceptVisitor(this, data) as UnifiedBlock;
-			var uParms = UnifiedParameterCollection.Create();
-			foreach (var param in ctorDec.Parameters) {
-				var type = LookupType(param.Type);
-				var names = UnifiedVariableIdentifier.Create(param.Name).ToCollection();
-				uParms.Add(UnifiedParameter.Create(type: type, names: names));
-			}
+			var uParms = ctorDec.Parameters.AcceptVisitorAsParams(this, data);
 
 			return UnifiedConstructor.Create(uBody, modifiers: uMods, parameters: uParms);
 		}
@@ -689,34 +643,27 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitIndexerDeclaration(IndexerDeclaration dec, object data) {
-			// TODO: implementation
-			//return null;
-			throw new NotImplementedException("IndexerDeclaration");
+			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
+			var mods = LookupModifiers(dec.Modifiers);
+			var type = LookupType(dec.ReturnType);
+			var name = UnifiedIdentifier.CreateVariable(dec.Name);
+			var param = dec.Parameters.AcceptVisitorAsParams(this, data);
+			var get = dec.Getter.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart;
+			var set = dec.Setter.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart;
+			return UnifiedPropertyDefinition.Create(attrs, mods, type, name, param, get, set);
 		}
 
 		public IUnifiedElement VisitMethodDeclaration(MethodDeclaration dec, object data) {
-			var attrs = dec.Attributes
-					.Select(attr => attr.AcceptVisitor(this, data) as UnifiedAnnotation)
-					.ToCollection();
+			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(dec.Modifiers);
 			var type = LookupType(dec.ReturnType);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
-			var generics = dec.TypeParameters
-					.Select(t => t.AcceptVisitor(this, data) as UnifiedGenericParameter)
-					.ToCollection();
+			var generics = dec.TypeParameters.AcceptVisitorAsTypeParams(this, data);
 			if (generics.IsEmptyOrNull()) {
 				generics = null;
 			}
-			var parameters = dec.Parameters
-					.Select(p => p.AcceptVisitor(this, data))
-					.OfType<UnifiedParameter>()
-					.ToCollection();
-			var body = UnifiedBlock.Create();
-			foreach (var node in dec.Body) {
-				var uExpr = node.TryAcceptForExpression(this);
-				if (uExpr != null)
-					body.Add(uExpr);
-			}
+			var parameters = dec.Parameters.AcceptVisitorAsParams(this, data);
+			var body = dec.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedFunctionDefinition.Create(
 					attrs, mods, type, generics, name, parameters, /* C# dont have throws */ null, body);
 		}
@@ -727,20 +674,16 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitParameterDeclaration(ParameterDeclaration dec, object data) {
-			var attrs = dec.Attributes
-					.Select(attr => attr.AcceptVisitor(this, data))
-					.OfType<UnifiedAnnotation>()
-					.ToCollection();
+			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifier(dec.ParameterModifier).ToCollection();
 			var type = LookupType(dec.Type);
 			var names = dec.Name.ToVariableIdentifier().ToCollection();
 			var defaultValue = dec.DefaultExpression.TryAcceptForExpression(this);
-
 			return UnifiedParameter.Create(attrs, mods, type, names, defaultValue);
 		}
 
 		public IUnifiedElement VisitPropertyDeclaration(PropertyDeclaration dec, object data) {
-			var attrs = dec.Attributes.AcceptVisitor(this, data);
+			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
 			var mods = LookupModifiers(dec.Modifiers);
 			var type = LookupType(dec.ReturnType);
 			var name = UnifiedIdentifier.CreateVariable(dec.Name);
@@ -769,7 +712,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			// TODO: Send a Patch to NRefactory
 			if (Object.ReferenceEquals(simpleType.TypeArguments, null))
 				return type;
-			var uTypeArgs = ToArgumentCollection(simpleType.TypeArguments);
+			var uTypeArgs = simpleType.TypeArguments.AcceptVisitorAsTypeArgs(this, data);
 			return type.WrapGeneric(uTypeArgs);
 		}
 
@@ -780,7 +723,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			// TODO: Send a Patch to NRefactory
 			if (Object.ReferenceEquals(memberType.TypeArguments, null))
 				return uProp;
-			var uTypeArgs = ToArgumentCollection(memberType.TypeArguments);
+			var uTypeArgs = memberType.TypeArguments.AcceptVisitorAsTypeArgs(this, data);
 			return uProp.WrapGeneric(uTypeArgs);
 		}
 

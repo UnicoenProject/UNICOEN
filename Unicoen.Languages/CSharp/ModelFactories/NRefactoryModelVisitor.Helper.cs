@@ -25,6 +25,7 @@ using System.Collections.Generic;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	internal partial class NRefactoryModelVisitor {
+
 		#region Lookups
 
 		private static UnifiedModifierCollection LookupModifiers(Modifiers mods) {
@@ -71,7 +72,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		private static UnifiedModifier LookupModifier(FieldDirection dir) {
-			switch(dir) {
+			switch (dir) {
 			case FieldDirection.Out:
 				return UnifiedModifier.Create("out");
 			case FieldDirection.Ref:
@@ -80,14 +81,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return null;
 		}
 
-		private static UnifiedGenericArgumentCollection ToArgumentCollection(IEnumerable<AstType> types) {
-			return types
-					.Select(LookupType)
-					.Select(t => UnifiedGenericArgument.Create(t))
-					.ToCollection();
-		}
+		//private static UnifiedGenericArgumentCollection ToArgumentCollection(IEnumerable<AstType> types) {
+		//    return types
+		//            .Select(LookupType)
+		//            .Select(t => UnifiedGenericArgument.Create(t))
+		//            .ToCollection();
+		//}
 
-		private static UnifiedType LookupType(AstType type) {
+		internal static UnifiedType LookupType(AstType type) {
 			Contract.Requires<ArgumentNullException>(type != null);
 			Contract.Ensures(Contract.Result<UnifiedType>() != null);
 
@@ -195,15 +196,20 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		#endregion
+
 	}
 
+	#region AcceptVisitorExntension
+
 	internal static class VisitorExtension {
+
 		internal static IUnifiedExpression TryAcceptForExpression(this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
 			if (node == null) return null;
 			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
 
-		internal static UnifiedAnnotationCollection AcceptVisitor<T, TResult>(this IEnumerable<AttributeSection> attrs, IAstVisitor<T, TResult> visitor, T data) {
+		internal static UnifiedAnnotationCollection AcceptVisitorAsAttrs<T, TResult>(
+				this IEnumerable<AttributeSection> attrs, IAstVisitor<T, TResult> visitor, T data) {
 			// TODO: AttributeTarget
 			return attrs
 					.Select(a => a.AcceptVisitor(visitor, data))
@@ -211,5 +217,49 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 					.SelectMany(_ => _)
 					.ToCollection();
 		}
+
+		internal static UnifiedParameterCollection AcceptVisitorAsParams<T, TResult>(
+				this IEnumerable<ParameterDeclaration> parameters, IAstVisitor<T, TResult> visitor, T data) {
+			return parameters
+					.Select(p => p.AcceptVisitor(visitor, data))
+					.OfType<UnifiedParameter>()
+					.ToCollection();
+		}
+
+		internal static UnifiedGenericParameterCollection AcceptVisitorAsTypeParams<T, TResult>(
+				this IEnumerable<TypeParameterDeclaration> types, IAstVisitor<T, TResult> visitor, T data) {
+			return types
+					.Select(p => p.AcceptVisitor(visitor, data))
+					.OfType<UnifiedGenericParameter>()
+					.ToCollection();
+		}
+
+		internal static UnifiedGenericArgumentCollection AcceptVisitorAsTypeArgs<T, TResult>(
+				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor, T data) {
+			return types
+					.Select(NRefactoryModelVisitor.LookupType)
+					.Select(t => UnifiedGenericArgument.Create(t))
+					.ToCollection();
+		}
+
+		internal static UnifiedArgumentCollection AcceptVisitorAsArgs<T, TResult>(
+				this IEnumerable<Expression> args, IAstVisitor<T, TResult> visitor, T data) {
+			var uArgs = UnifiedArgumentCollection.Create();
+			foreach (var arg in args) {
+				var value = arg.AcceptVisitor(visitor, data);
+				var uArg = value as UnifiedArgument;
+				if (uArg != null) {
+					uArgs.Add(uArg);
+				}
+				else {
+					var uExpr = value as IUnifiedExpression;
+					if (uExpr != null)
+						uArgs.Add(UnifiedArgument.Create(value: uExpr));
+				}
+			}
+			return uArgs;
+		}
 	}
+
+	#endregion
 }
