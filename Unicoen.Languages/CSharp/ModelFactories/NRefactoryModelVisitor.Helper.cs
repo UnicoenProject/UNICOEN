@@ -220,10 +220,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var dic = new Dictionary<string, IList<UnifiedTypeConstraint>>();
 			foreach(var c in constraints) {
 				var list = null as IList<UnifiedTypeConstraint>;
-				if (dic.ContainsKey(c.TypeParameter)) {
-					list = dic[c.TypeParameter];
-				}
-				else {
+				if (dic.TryGetValue(c.TypeParameter, out list) == false) {
 					dic[c.TypeParameter] = list =  new List<UnifiedTypeConstraint>();
 				}
 				var types = c.BaseTypes.Select(LookupType);
@@ -253,7 +250,6 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		internal static UnifiedAnnotationCollection AcceptVisitorAsAttrs<T, TResult>(
 				this IEnumerable<AttributeSection> attrs, IAstVisitor<T, TResult> visitor, T data) {
-			// TODO: AttributeTarget
 			return attrs
 					.Select(a => a.AcceptVisitor(visitor, data))
 					.OfType<UnifiedAnnotationCollection>()
