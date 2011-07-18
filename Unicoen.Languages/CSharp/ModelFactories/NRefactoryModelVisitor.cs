@@ -777,9 +777,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitSimpleType(SimpleType simpleType, object data) {
 			var type = UnifiedType.Create(simpleType.Identifier);
-			// TODO: Resolved? Send a Patch to NRefactory
-			//if (Object.ReferenceEquals(simpleType.TypeArguments, null))
-			if (simpleType.TypeArguments == null)
+			if (simpleType.TypeArguments.Count == 0)
 				return type;
 			var uTypeArgs = simpleType.TypeArguments.AcceptVisitorAsTypeArgs(this, data);
 			return type.WrapGeneric(uTypeArgs);
@@ -789,9 +787,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var ident = UnifiedTypeIdentifier.Create(memberType.MemberName);
 			var target = memberType.Target.TryAcceptForExpression(this);
 			var uProp = UnifiedType.Create(UnifiedProperty.Create(".", target, ident));
-			// TODO: Resolved? Send a Patch to NRefactory
-//			if (Object.ReferenceEquals(memberType.TypeArguments, null))
-			if (memberType.TypeArguments == null)
+			if (memberType.TypeArguments.Count == 0)
 				return uProp;
 			var uTypeArgs = memberType.TypeArguments.AcceptVisitorAsTypeArgs(this, data);
 			return uProp.WrapGeneric(uTypeArgs);
