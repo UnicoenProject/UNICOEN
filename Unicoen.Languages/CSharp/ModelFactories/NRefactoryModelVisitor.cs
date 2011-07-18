@@ -823,14 +823,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitTypeParameterDeclaration(TypeParameterDeclaration dec, object data) {
 			var type = UnifiedType.Create(dec.Name);
 			var modifiers = null as UnifiedModifierCollection;
-			switch(dec.Variance) {
-			case VarianceModifier.Covariant:
-				modifiers = UnifiedModifier.Create("in").ToCollection();
-				break;
-			case VarianceModifier.Contravariant:
-				modifiers = UnifiedModifier.Create("out").ToCollection();
-				break;
-			}
+			//switch(dec.Variance) {
+			//case VarianceModifier.Contravariant:
+			//    modifiers = UnifiedModifier.Create("in").ToCollection();
+			//    break;
+			//case VarianceModifier.Covariant:
+			//    modifiers = UnifiedModifier.Create("out").ToCollection();
+			//    break;
+			//}
 			return UnifiedGenericParameter.Create(type, /*constraint*/null, modifiers);
 		}
 
