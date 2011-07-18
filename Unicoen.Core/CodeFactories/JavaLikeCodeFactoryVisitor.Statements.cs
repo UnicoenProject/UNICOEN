@@ -118,6 +118,8 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedUnaryExpression element, VisitorArgument arg) {
+			var paren = GetRequiredParen(element);
+			Writer.Write(paren.Item1);
 			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
 			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
 				element.Operand.TryAccept(this, arg.Set(Paren));
@@ -126,6 +128,7 @@ namespace Unicoen.CodeFactories {
 				element.Operator.TryAccept(this, arg);
 				element.Operand.TryAccept(this, arg.Set(Paren));
 			}
+			Writer.Write(paren.Item2);
 			return true;
 		}
 

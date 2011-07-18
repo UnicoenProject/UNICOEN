@@ -60,6 +60,22 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			return false;
 		}
 
+		public override bool Visit(UnifiedStructDefinition element, VisitorArgument arg) {
+			return Visit(element, arg, "struct");
+		}
+
+		public override bool Visit(UnifiedTypeConstrainCollection element, VisitorArgument arg) {
+			var token = " : ";
+			foreach(var current in element) {
+				Writer.Write(token);
+				current.TryAccept(this, arg);
+				token = ", ";
+			}
+			return false;
+		}
+
+		#region literal suffix
+
 		public override bool Visit(UnifiedBigIntLiteral element, VisitorArgument arg) {
 			Writer.Write(element.Value);
 			return false;
@@ -94,5 +110,9 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 			Writer.Write("l");
 			return false;
 		}
+
+		#endregion
+	
+	
 	}
 }

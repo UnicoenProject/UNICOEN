@@ -100,12 +100,12 @@ namespace Unicoen.Languages.CSharp.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"Fibonacci",
-						"Student",
-						"Block1",
-						"Block2",
-						"Block3",
-						"Binary",
+						//"Fibonacci",
+						//"Student",
+						//"Block1",
+						//"Block2",
+						//"Block3",
+						//"Binary",
 						"TypeConstraint",
 				}
 						.Select(

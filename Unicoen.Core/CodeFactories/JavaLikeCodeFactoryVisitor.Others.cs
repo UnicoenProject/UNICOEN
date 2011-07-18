@@ -39,7 +39,7 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		private bool Visit(
+		protected bool Visit(
 				UnifiedClassLikeDefinition element, VisitorArgument arg, string keyword) {
 			element.Annotations.TryAccept(this, arg);
 			element.Modifiers.TryAccept(this, arg);
