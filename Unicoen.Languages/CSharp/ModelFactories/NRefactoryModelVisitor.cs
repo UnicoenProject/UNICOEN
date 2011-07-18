@@ -821,7 +821,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitConstraint(Constraint constraint, object data) {
-			throw new NotImplementedException("Constraint");
+			throw new InvalidOperationException("VisitConstraint は呼ばれない");
 		}
 
 		public IUnifiedElement VisitCSharpTokenNode(
