@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
@@ -363,24 +364,42 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var mods = LookupModifiers(dec.Modifiers);
 			var name = UnifiedVariableIdentifier.Create(dec.Name);
 			var typeParams = dec.TypeParameters.AcceptVisitorAsTypeParams(this, data);
-			if (typeParams.Count == 0)
-				typeParams = null;
-			var cons = dec.Constraints.AcceptVisitorAsTypeParams(this, data);
+			if (typeParams.Count == 0) typeParams = null;
+			var extends = dec.BaseTypes.AcceptVisitorAsConstrains(this, data);
 			var body = UnifiedBlock.Create();
 			foreach (var node in dec.Members) {
 				var uExpr = node.TryAcceptForExpression(this);
 				if (uExpr != null)
 					body.Add(uExpr);
 			}
+			// set constraint
+			var dic = CreateDictionary(dec.Constraints);
+			if (typeParams != null) {
+				foreach (var generic in typeParams.Descendants<UnifiedGenericParameter>()) {
+					var tName = GetTypeName(generic.Type);
+					if (dic.ContainsKey(tName)) {
+						foreach (var c in dic[tName])
+							generic.Constrains.Add(c.DeepCopy());
+					}
+				}
+			}
+			foreach(var generic in extends.Descendants<UnifiedGenericParameter>()) {
+				var tName = GetTypeName(generic.Type);
+				if (dic.ContainsKey(tName)) {
+					foreach (var c in dic[tName])
+						generic.Constrains.Add(c.DeepCopy());
+				}
+			}
+
 			switch (dec.ClassType) {
 			case ClassType.Class:
-				return UnifiedClassDefinition.Create(attrs, mods, name, typeParams, cons, body);
+				return UnifiedClassDefinition.Create(attrs, mods, name, typeParams, extends, body);
 			case ClassType.Struct:
-				return UnifiedStructDefinition.Create(attrs, mods, name, typeParams, cons, body);
+				return UnifiedStructDefinition.Create(attrs, mods, name, typeParams, extends, body);
 			case ClassType.Interface:
-				return UnifiedInterfaceDefinition.Create(attrs, mods, name, typeParams, cons, body);
+				return UnifiedInterfaceDefinition.Create(attrs, mods, name, typeParams, extends, body);
 			case ClassType.Enum:
-				return UnifiedEnumDefinition.Create(attrs, mods, name, typeParams, cons, body);
+				return UnifiedEnumDefinition.Create(attrs, mods, name, typeParams, extends, body);
 			}
 			var msg = "LookupClassKind : " + dec.ClassType + "には対応していません。";
 			throw new InvalidOperationException(msg);
@@ -800,9 +819,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitConstraint(Constraint constraint, object data) {
-			// TODO: implement
-			return null;
-			//throw new NotImplementedException("Constraint");
+			throw new NotImplementedException("Constraint");
 		}
 
 		public IUnifiedElement VisitCSharpTokenNode(

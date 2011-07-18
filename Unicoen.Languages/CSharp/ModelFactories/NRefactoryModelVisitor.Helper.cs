@@ -188,7 +188,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new ArgumentException("Unknown operator: " + op);
 		}
 
-		private UnifiedAnnotationTarget LookupAttributeTarget(string target) {
+		private static UnifiedAnnotationTarget LookupAttributeTarget(string target) {
 			if (target == null)
 				return UnifiedAnnotationTarget.None;
 			switch(target) {
@@ -216,6 +216,30 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		#endregion
 
+		private static IDictionary<string, IList<UnifiedTypeConstraint>> CreateDictionary(IEnumerable<Constraint> constraints) {
+			var dic = new Dictionary<string, IList<UnifiedTypeConstraint>>();
+			foreach(var c in constraints) {
+				var list = null as IList<UnifiedTypeConstraint>;
+				if (dic.ContainsKey(c.TypeParameter)) {
+					list = dic[c.TypeParameter];
+				}
+				else {
+					dic[c.TypeParameter] = list =  new List<UnifiedTypeConstraint>();
+				}
+				var types = c.BaseTypes.Select(LookupType);
+				foreach(var type in types) {
+					list.Add(UnifiedExtendConstraint.Create(type));
+				}
+			}
+			return dic;
+		}
+
+		private static string GetTypeName(UnifiedType type) {
+			Contract.Requires(type != null);
+			var ident = type.BasicTypeName as UnifiedIdentifier;
+			if (ident == null) return null;
+			return ident.Name;
+		}
 	}
 
 	#region AcceptVisitorExntension
@@ -265,6 +289,14 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return types
 					.Select(NRefactoryModelVisitor.LookupType)
 					.Select(t => UnifiedGenericArgument.Create(t))
+					.ToCollection();
+		}
+
+		internal static UnifiedTypeConstrainCollection AcceptVisitorAsConstrains<T, TResult>(
+				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor, T data) {
+			return types
+					.Select(NRefactoryModelVisitor.LookupType)
+					.Select(UnifiedExtendConstraint.Create)
 					.ToCollection();
 		}
 
