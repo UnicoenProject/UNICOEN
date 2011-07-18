@@ -378,16 +378,22 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				foreach (var generic in typeParams.Descendants<UnifiedGenericParameter>()) {
 					var tName = GetTypeName(generic.Type);
 					if (dic.ContainsKey(tName)) {
-						foreach (var c in dic[tName])
+						foreach (var c in dic[tName]) {
+							if (generic.Constrains == null)
+								generic.Constrains = UnifiedTypeConstrainCollection.Create();
 							generic.Constrains.Add(c.DeepCopy());
+						}
 					}
 				}
 			}
 			foreach(var generic in extends.Descendants<UnifiedGenericParameter>()) {
 				var tName = GetTypeName(generic.Type);
 				if (dic.ContainsKey(tName)) {
-					foreach (var c in dic[tName])
+					foreach (var c in dic[tName]) {
+						if (generic.Constrains == null)
+							generic.Constrains = UnifiedTypeConstrainCollection.Create();
 						generic.Constrains.Add(c.DeepCopy());
+					}
 				}
 			}
 
@@ -815,7 +821,17 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		public IUnifiedElement VisitTypeParameterDeclaration(TypeParameterDeclaration dec, object data) {
-			return UnifiedType.Create(dec.Name);
+			var type = UnifiedType.Create(dec.Name);
+			var modifiers = null as UnifiedModifierCollection;
+			switch(dec.Variance) {
+			case VarianceModifier.Covariant:
+				modifiers = UnifiedModifier.Create("in").ToCollection();
+				break;
+			case VarianceModifier.Contravariant:
+				modifiers = UnifiedModifier.Create("out").ToCollection();
+				break;
+			}
+			return UnifiedGenericParameter.Create(type, /*constraint*/null, modifiers);
 		}
 
 		public IUnifiedElement VisitConstraint(Constraint constraint, object data) {

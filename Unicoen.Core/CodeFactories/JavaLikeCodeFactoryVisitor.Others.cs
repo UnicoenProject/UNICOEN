@@ -182,6 +182,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedGenericParameter element, VisitorArgument arg) {
+			element.Modifiers.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			element.Constrains.TryAccept(this, arg.Set(AndDelimiter));
 			return false;

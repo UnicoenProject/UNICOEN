@@ -26,6 +26,7 @@ namespace Unicoen.Model {
 	///   e.g. C#における<code>public void method&lt;T&gt;(){...}</code>
 	/// </summary>
 	public class UnifiedGenericParameter : UnifiedElement {
+
 		private UnifiedType _type;
 
 		/// <summary>
@@ -45,6 +46,13 @@ namespace Unicoen.Model {
 		public UnifiedTypeConstrainCollection Constrains {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
+		}
+
+		private UnifiedModifierCollection _modifiers;
+
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
 		private UnifiedGenericParameter() {}
@@ -69,11 +77,12 @@ namespace Unicoen.Model {
 
 		public static UnifiedGenericParameter Create(
 				UnifiedType type = null,
-				UnifiedTypeConstrainCollection
-						constrains = null) {
+				UnifiedTypeConstrainCollection constrains = null,
+				UnifiedModifierCollection modifiers = null) {
 			return new UnifiedGenericParameter {
 					Type = type,
 					Constrains = constrains,
+					Modifiers = modifiers,
 			};
 		}
 	}

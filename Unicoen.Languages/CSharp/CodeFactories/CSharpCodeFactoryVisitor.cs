@@ -66,10 +66,12 @@ namespace Unicoen.Languages.CSharp.CodeFactories {
 
 		public override bool Visit(UnifiedTypeConstrainCollection element, VisitorArgument arg) {
 			var token = " : ";
+			var delimiter = arg.Decoration.Delimiter;
+			arg.Decoration.Delimiter = "";
 			foreach(var current in element) {
 				Writer.Write(token);
 				current.TryAccept(this, arg);
-				token = ", ";
+				token = delimiter;
 			}
 			return false;
 		}
