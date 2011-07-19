@@ -78,13 +78,13 @@ namespace Unicoen.Apps.Aop
 
 				if (returns.Count() == 0) {
 					//case function don't have return statement
-					function.Body.Add(advice);
+					function.Body.Add(advice.DeepCopy());
 				} else {
 					foreach (var returnStmt in returns) {
 						var block = returnStmt.Parent as UnifiedBlock;
 						if (block == null)
 							continue;
-						block.Insert(block.IndexOf(returnStmt, 0), advice);
+						block.Insert(block.IndexOf(returnStmt, 0), advice.DeepCopy());
 					}
 				}
 			}
@@ -160,13 +160,13 @@ namespace Unicoen.Apps.Aop
 
 				if (returns.Count() == 0) {
 					//case function don't have return statement
-					function.Body.Add(advice);
+					function.Body.Add(advice.DeepCopy());
 				} else {
 					foreach (var returnStmt in returns) {
 						var block = returnStmt.Parent as UnifiedBlock;
 						if (block == null)
 							continue;
-						block.Insert(block.IndexOf(returnStmt, 0), advice);
+						block.Insert(block.IndexOf(returnStmt, 0), advice.DeepCopy());
 					}
 				}
 			}

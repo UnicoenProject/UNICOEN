@@ -34,7 +34,7 @@ namespace Unicoen.Apps.Aop
 				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
 				var block = call.Parent as UnifiedBlock;
 				if (block != null)
-					block.Insert(block.IndexOf(call, 0), advice);
+					block.Insert(block.IndexOf(call, 0), advice.DeepCopy());
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Unicoen.Apps.Aop
 				//(JavaScriptにおいて)関数呼び出しの親ノードがブロックの場合、それは単独である
 				var block = call.Parent as UnifiedBlock;
 				if (block != null)
-					block.Insert(block.IndexOf(call, 0) + 1, advice);
+					block.Insert(block.IndexOf(call, 0) + 1, advice.DeepCopy());
 			}
 		}
 

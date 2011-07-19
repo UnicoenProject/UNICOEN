@@ -23,7 +23,7 @@ namespace Unicoen.Apps.Aop
 					var className = c.Name as UnifiedIdentifier;
 					if (className != null && className.Name == name) {
 						foreach (var e in members) {
-							c.Body.Insert(0, e);
+							c.Body.Insert(0, e.DeepCopy());
 						}
 					}
 				}
@@ -33,7 +33,7 @@ namespace Unicoen.Apps.Aop
 			//プログラムに対してメンバーを追加(JavaScript向け)
 			if (program != null) {
 				foreach (var e in members) {
-					program.Body.Insert(0, e);
+					program.Body.Insert(0, e.DeepCopy());
 				}
 			}
 		}

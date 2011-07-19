@@ -44,7 +44,7 @@ namespace Unicoen.Apps.Aop
 					continue;
 
 				//アドバイスの合成
-				parent.Insert(parent.IndexOf(exp, 0), advice);
+				parent.Insert(parent.IndexOf(exp, 0), advice.DeepCopy());
 			}
 
 			//int a = b;
@@ -66,7 +66,7 @@ namespace Unicoen.Apps.Aop
 
 				//アドバイスの合成
 				var parent = definition.Parent as UnifiedVariableDefinitionList;
-				block.Insert(block.IndexOf(parent, 0), advice);
+				block.Insert(block.IndexOf(parent, 0), advice.DeepCopy());
 			}
 		}
 
@@ -97,7 +97,7 @@ namespace Unicoen.Apps.Aop
 					continue;
 
 				//アドバイスの合成
-				parent.Insert(parent.IndexOf(exp, 0) + 1, advice);
+				parent.Insert(parent.IndexOf(exp, 0) + 1, advice.DeepCopy());
 			}
 
 			//int a = b;のb
@@ -119,7 +119,7 @@ namespace Unicoen.Apps.Aop
 
 				//アドバイスの合成
 				var parent = definition.Parent as UnifiedVariableDefinitionList;
-				block.Insert(block.IndexOf(parent, 0) + 1, advice);
+				block.Insert(block.IndexOf(parent, 0) + 1, advice.DeepCopy());
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace Unicoen.Apps.Aop
 					continue;
 
 				//アドバイスの合成
-				parent.Insert(parent.IndexOf(exp, 0), advice);
+				parent.Insert(parent.IndexOf(exp, 0), advice.DeepCopy());
 			}
 
 			//int a = b;のa
@@ -171,7 +171,7 @@ namespace Unicoen.Apps.Aop
 
 				//アドバイスの合成
 				var parent = definition.Parent as UnifiedVariableDefinitionList;
-				block.Insert(block.IndexOf(parent, 0), advice);
+				block.Insert(block.IndexOf(parent, 0), advice.DeepCopy());
 			}
 		}
 
@@ -196,7 +196,7 @@ namespace Unicoen.Apps.Aop
 					continue;
 
 				//アドバイスの合成
-				parent.Insert(parent.IndexOf(exp, 0) + 1, advice);
+				parent.Insert(parent.IndexOf(exp, 0) + 1, advice.DeepCopy());
 			}
 
 			//int a = b;のa
@@ -222,7 +222,7 @@ namespace Unicoen.Apps.Aop
 
 				//アドバイスの合成
 				var parent = definition.Parent as UnifiedVariableDefinitionList;
-				block.Insert(block.IndexOf(parent, 0) + 1, advice);
+				block.Insert(block.IndexOf(parent, 0) + 1, advice.DeepCopy());
 			}
 		}
 
