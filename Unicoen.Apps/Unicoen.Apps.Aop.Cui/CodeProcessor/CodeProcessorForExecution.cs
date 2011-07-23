@@ -7,6 +7,8 @@ namespace Unicoen.Apps.Aop
 {
 	public partial class CodeProcessor {
 
+		public static int WeavingCount = 0;
+
 		/// <summary>
 		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
@@ -30,6 +32,7 @@ namespace Unicoen.Apps.Aop
 					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
 					//アドバイスを対象関数に合成する
 					function.Body.Insert(0, copy);
+					WeavingCount++;
 				}
 			}
 		}

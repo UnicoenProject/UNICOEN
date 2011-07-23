@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-07-16 13:51:39
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-07-23 12:00:32
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -17,7 +17,6 @@ using ArrayList = System.Collections.Generic.List<object>;
 public partial class AriesLexer : Antlr.Runtime.Lexer
 {
 	public const int EOF=-1;
-	public const int T__33=33;
 	public const int T__34=34;
 	public const int T__35=35;
 	public const int T__36=36;
@@ -35,6 +34,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 	public const int T__48=48;
 	public const int T__49=49;
 	public const int T__50=50;
+	public const int T__51=51;
 	public const int ASPECT=4;
 	public const int ASPECT_BODY=5;
 	public const int ELEMENTS=6;
@@ -64,6 +64,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 	public const int STRING=30;
 	public const int WS=31;
 	public const int EscapeSequence=32;
+	public const int OTHERS=33;
 
     // delegates
     // delegators
@@ -94,19 +95,19 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 	partial void EnterRule(string ruleName, int ruleIndex);
 	partial void LeaveRule(string ruleName, int ruleIndex);
 
-	partial void Enter_T__33();
-	partial void Leave_T__33();
+	partial void Enter_T__34();
+	partial void Leave_T__34();
 
-	// $ANTLR start "T__33"
-	[GrammarRule("T__33")]
-	private void mT__33()
+	// $ANTLR start "T__34"
+	[GrammarRule("T__34")]
+	private void mT__34()
 	{
-		Enter_T__33();
-		EnterRule("T__33", 1);
-		TraceIn("T__33", 1);
+		Enter_T__34();
+		EnterRule("T__34", 1);
+		TraceIn("T__34", 1);
 		try
 		{
-			int _type = T__33;
+			int _type = T__34;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:7:7: ( 'aspect' )
 			DebugEnterAlt(1);
@@ -123,26 +124,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__33", 1);
-			LeaveRule("T__33", 1);
-			Leave_T__33();
+			TraceOut("T__34", 1);
+			LeaveRule("T__34", 1);
+			Leave_T__34();
 		}
 	}
-	// $ANTLR end "T__33"
+	// $ANTLR end "T__34"
 
-	partial void Enter_T__34();
-	partial void Leave_T__34();
+	partial void Enter_T__35();
+	partial void Leave_T__35();
 
-	// $ANTLR start "T__34"
-	[GrammarRule("T__34")]
-	private void mT__34()
+	// $ANTLR start "T__35"
+	[GrammarRule("T__35")]
+	private void mT__35()
 	{
-		Enter_T__34();
-		EnterRule("T__34", 2);
-		TraceIn("T__34", 2);
+		Enter_T__35();
+		EnterRule("T__35", 2);
+		TraceIn("T__35", 2);
 		try
 		{
-			int _type = T__34;
+			int _type = T__35;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:8:7: ( '{' )
 			DebugEnterAlt(1);
@@ -158,26 +159,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__34", 2);
-			LeaveRule("T__34", 2);
-			Leave_T__34();
+			TraceOut("T__35", 2);
+			LeaveRule("T__35", 2);
+			Leave_T__35();
 		}
 	}
-	// $ANTLR end "T__34"
+	// $ANTLR end "T__35"
 
-	partial void Enter_T__35();
-	partial void Leave_T__35();
+	partial void Enter_T__36();
+	partial void Leave_T__36();
 
-	// $ANTLR start "T__35"
-	[GrammarRule("T__35")]
-	private void mT__35()
+	// $ANTLR start "T__36"
+	[GrammarRule("T__36")]
+	private void mT__36()
 	{
-		Enter_T__35();
-		EnterRule("T__35", 3);
-		TraceIn("T__35", 3);
+		Enter_T__36();
+		EnterRule("T__36", 3);
+		TraceIn("T__36", 3);
 		try
 		{
-			int _type = T__35;
+			int _type = T__36;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:9:7: ( '}' )
 			DebugEnterAlt(1);
@@ -193,26 +194,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__35", 3);
-			LeaveRule("T__35", 3);
-			Leave_T__35();
+			TraceOut("T__36", 3);
+			LeaveRule("T__36", 3);
+			Leave_T__36();
 		}
 	}
-	// $ANTLR end "T__35"
+	// $ANTLR end "T__36"
 
-	partial void Enter_T__36();
-	partial void Leave_T__36();
+	partial void Enter_T__37();
+	partial void Leave_T__37();
 
-	// $ANTLR start "T__36"
-	[GrammarRule("T__36")]
-	private void mT__36()
+	// $ANTLR start "T__37"
+	[GrammarRule("T__37")]
+	private void mT__37()
 	{
-		Enter_T__36();
-		EnterRule("T__36", 4);
-		TraceIn("T__36", 4);
+		Enter_T__37();
+		EnterRule("T__37", 4);
+		TraceIn("T__37", 4);
 		try
 		{
-			int _type = T__36;
+			int _type = T__37;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:10:7: ( '}end' )
 			DebugEnterAlt(1);
@@ -229,26 +230,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__36", 4);
-			LeaveRule("T__36", 4);
-			Leave_T__36();
+			TraceOut("T__37", 4);
+			LeaveRule("T__37", 4);
+			Leave_T__37();
 		}
 	}
-	// $ANTLR end "T__36"
+	// $ANTLR end "T__37"
 
-	partial void Enter_T__37();
-	partial void Leave_T__37();
+	partial void Enter_T__38();
+	partial void Leave_T__38();
 
-	// $ANTLR start "T__37"
-	[GrammarRule("T__37")]
-	private void mT__37()
+	// $ANTLR start "T__38"
+	[GrammarRule("T__38")]
+	private void mT__38()
 	{
-		Enter_T__37();
-		EnterRule("T__37", 5);
-		TraceIn("T__37", 5);
+		Enter_T__38();
+		EnterRule("T__38", 5);
+		TraceIn("T__38", 5);
 		try
 		{
-			int _type = T__37;
+			int _type = T__38;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:11:7: ( '@' )
 			DebugEnterAlt(1);
@@ -264,26 +265,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__37", 5);
-			LeaveRule("T__37", 5);
-			Leave_T__37();
+			TraceOut("T__38", 5);
+			LeaveRule("T__38", 5);
+			Leave_T__38();
 		}
 	}
-	// $ANTLR end "T__37"
+	// $ANTLR end "T__38"
 
-	partial void Enter_T__38();
-	partial void Leave_T__38();
+	partial void Enter_T__39();
+	partial void Leave_T__39();
 
-	// $ANTLR start "T__38"
-	[GrammarRule("T__38")]
-	private void mT__38()
+	// $ANTLR start "T__39"
+	[GrammarRule("T__39")]
+	private void mT__39()
 	{
-		Enter_T__38();
-		EnterRule("T__38", 6);
-		TraceIn("T__38", 6);
+		Enter_T__39();
+		EnterRule("T__39", 6);
+		TraceIn("T__39", 6);
 		try
 		{
-			int _type = T__38;
+			int _type = T__39;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:12:7: ( 'Java' )
 			DebugEnterAlt(1);
@@ -300,26 +301,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__38", 6);
-			LeaveRule("T__38", 6);
-			Leave_T__38();
+			TraceOut("T__39", 6);
+			LeaveRule("T__39", 6);
+			Leave_T__39();
 		}
 	}
-	// $ANTLR end "T__38"
+	// $ANTLR end "T__39"
 
-	partial void Enter_T__39();
-	partial void Leave_T__39();
+	partial void Enter_T__40();
+	partial void Leave_T__40();
 
-	// $ANTLR start "T__39"
-	[GrammarRule("T__39")]
-	private void mT__39()
+	// $ANTLR start "T__40"
+	[GrammarRule("T__40")]
+	private void mT__40()
 	{
-		Enter_T__39();
-		EnterRule("T__39", 7);
-		TraceIn("T__39", 7);
+		Enter_T__40();
+		EnterRule("T__40", 7);
+		TraceIn("T__40", 7);
 		try
 		{
-			int _type = T__39;
+			int _type = T__40;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:13:7: ( 'JavaScript' )
 			DebugEnterAlt(1);
@@ -336,26 +337,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__39", 7);
-			LeaveRule("T__39", 7);
-			Leave_T__39();
+			TraceOut("T__40", 7);
+			LeaveRule("T__40", 7);
+			Leave_T__40();
 		}
 	}
-	// $ANTLR end "T__39"
+	// $ANTLR end "T__40"
 
-	partial void Enter_T__40();
-	partial void Leave_T__40();
+	partial void Enter_T__41();
+	partial void Leave_T__41();
 
-	// $ANTLR start "T__40"
-	[GrammarRule("T__40")]
-	private void mT__40()
+	// $ANTLR start "T__41"
+	[GrammarRule("T__41")]
+	private void mT__41()
 	{
-		Enter_T__40();
-		EnterRule("T__40", 8);
-		TraceIn("T__40", 8);
+		Enter_T__41();
+		EnterRule("T__41", 8);
+		TraceIn("T__41", 8);
 		try
 		{
-			int _type = T__40;
+			int _type = T__41;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:14:7: ( 'CSharp' )
 			DebugEnterAlt(1);
@@ -372,26 +373,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__40", 8);
-			LeaveRule("T__40", 8);
-			Leave_T__40();
+			TraceOut("T__41", 8);
+			LeaveRule("T__41", 8);
+			Leave_T__41();
 		}
 	}
-	// $ANTLR end "T__40"
+	// $ANTLR end "T__41"
 
-	partial void Enter_T__41();
-	partial void Leave_T__41();
+	partial void Enter_T__42();
+	partial void Leave_T__42();
 
-	// $ANTLR start "T__41"
-	[GrammarRule("T__41")]
-	private void mT__41()
+	// $ANTLR start "T__42"
+	[GrammarRule("T__42")]
+	private void mT__42()
 	{
-		Enter_T__41();
-		EnterRule("T__41", 9);
-		TraceIn("T__41", 9);
+		Enter_T__42();
+		EnterRule("T__42", 9);
+		TraceIn("T__42", 9);
 		try
 		{
-			int _type = T__41;
+			int _type = T__42;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:15:7: ( 'Ruby' )
 			DebugEnterAlt(1);
@@ -408,26 +409,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__41", 9);
-			LeaveRule("T__41", 9);
-			Leave_T__41();
+			TraceOut("T__42", 9);
+			LeaveRule("T__42", 9);
+			Leave_T__42();
 		}
 	}
-	// $ANTLR end "T__41"
+	// $ANTLR end "T__42"
 
-	partial void Enter_T__42();
-	partial void Leave_T__42();
+	partial void Enter_T__43();
+	partial void Leave_T__43();
 
-	// $ANTLR start "T__42"
-	[GrammarRule("T__42")]
-	private void mT__42()
+	// $ANTLR start "T__43"
+	[GrammarRule("T__43")]
+	private void mT__43()
 	{
-		Enter_T__42();
-		EnterRule("T__42", 10);
-		TraceIn("T__42", 10);
+		Enter_T__43();
+		EnterRule("T__43", 10);
+		TraceIn("T__43", 10);
 		try
 		{
-			int _type = T__42;
+			int _type = T__43;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:16:7: ( 'Python' )
 			DebugEnterAlt(1);
@@ -444,26 +445,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__42", 10);
-			LeaveRule("T__42", 10);
-			Leave_T__42();
+			TraceOut("T__43", 10);
+			LeaveRule("T__43", 10);
+			Leave_T__43();
 		}
 	}
-	// $ANTLR end "T__42"
+	// $ANTLR end "T__43"
 
-	partial void Enter_T__43();
-	partial void Leave_T__43();
+	partial void Enter_T__44();
+	partial void Leave_T__44();
 
-	// $ANTLR start "T__43"
-	[GrammarRule("T__43")]
-	private void mT__43()
+	// $ANTLR start "T__44"
+	[GrammarRule("T__44")]
+	private void mT__44()
 	{
-		Enter_T__43();
-		EnterRule("T__43", 11);
-		TraceIn("T__43", 11);
+		Enter_T__44();
+		EnterRule("T__44", 11);
+		TraceIn("T__44", 11);
 		try
 		{
-			int _type = T__43;
+			int _type = T__44;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:17:7: ( 'C' )
 			DebugEnterAlt(1);
@@ -479,26 +480,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__43", 11);
-			LeaveRule("T__43", 11);
-			Leave_T__43();
+			TraceOut("T__44", 11);
+			LeaveRule("T__44", 11);
+			Leave_T__44();
 		}
 	}
-	// $ANTLR end "T__43"
+	// $ANTLR end "T__44"
 
-	partial void Enter_T__44();
-	partial void Leave_T__44();
+	partial void Enter_T__45();
+	partial void Leave_T__45();
 
-	// $ANTLR start "T__44"
-	[GrammarRule("T__44")]
-	private void mT__44()
+	// $ANTLR start "T__45"
+	[GrammarRule("T__45")]
+	private void mT__45()
 	{
-		Enter_T__44();
-		EnterRule("T__44", 12);
-		TraceIn("T__44", 12);
+		Enter_T__45();
+		EnterRule("T__45", 12);
+		TraceIn("T__45", 12);
 		try
 		{
-			int _type = T__44;
+			int _type = T__45;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:18:7: ( ':' )
 			DebugEnterAlt(1);
@@ -514,26 +515,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__44", 12);
-			LeaveRule("T__44", 12);
-			Leave_T__44();
+			TraceOut("T__45", 12);
+			LeaveRule("T__45", 12);
+			Leave_T__45();
 		}
 	}
-	// $ANTLR end "T__44"
+	// $ANTLR end "T__45"
 
-	partial void Enter_T__45();
-	partial void Leave_T__45();
+	partial void Enter_T__46();
+	partial void Leave_T__46();
 
-	// $ANTLR start "T__45"
-	[GrammarRule("T__45")]
-	private void mT__45()
+	// $ANTLR start "T__46"
+	[GrammarRule("T__46")]
+	private void mT__46()
 	{
-		Enter_T__45();
-		EnterRule("T__45", 13);
-		TraceIn("T__45", 13);
+		Enter_T__46();
+		EnterRule("T__46", 13);
+		TraceIn("T__46", 13);
 		try
 		{
-			int _type = T__45;
+			int _type = T__46;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:19:7: ( 'pointcut' )
 			DebugEnterAlt(1);
@@ -550,26 +551,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__45", 13);
-			LeaveRule("T__45", 13);
-			Leave_T__45();
+			TraceOut("T__46", 13);
+			LeaveRule("T__46", 13);
+			Leave_T__46();
 		}
 	}
-	// $ANTLR end "T__45"
+	// $ANTLR end "T__46"
 
-	partial void Enter_T__46();
-	partial void Leave_T__46();
+	partial void Enter_T__47();
+	partial void Leave_T__47();
 
-	// $ANTLR start "T__46"
-	[GrammarRule("T__46")]
-	private void mT__46()
+	// $ANTLR start "T__47"
+	[GrammarRule("T__47")]
+	private void mT__47()
 	{
-		Enter_T__46();
-		EnterRule("T__46", 14);
-		TraceIn("T__46", 14);
+		Enter_T__47();
+		EnterRule("T__47", 14);
+		TraceIn("T__47", 14);
 		try
 		{
-			int _type = T__46;
+			int _type = T__47;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:20:7: ( ';' )
 			DebugEnterAlt(1);
@@ -585,26 +586,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__46", 14);
-			LeaveRule("T__46", 14);
-			Leave_T__46();
+			TraceOut("T__47", 14);
+			LeaveRule("T__47", 14);
+			Leave_T__47();
 		}
 	}
-	// $ANTLR end "T__46"
+	// $ANTLR end "T__47"
 
-	partial void Enter_T__47();
-	partial void Leave_T__47();
+	partial void Enter_T__48();
+	partial void Leave_T__48();
 
-	// $ANTLR start "T__47"
-	[GrammarRule("T__47")]
-	private void mT__47()
+	// $ANTLR start "T__48"
+	[GrammarRule("T__48")]
+	private void mT__48()
 	{
-		Enter_T__47();
-		EnterRule("T__47", 15);
-		TraceIn("T__47", 15);
+		Enter_T__48();
+		EnterRule("T__48", 15);
+		TraceIn("T__48", 15);
 		try
 		{
-			int _type = T__47;
+			int _type = T__48;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:21:7: ( '(' )
 			DebugEnterAlt(1);
@@ -620,26 +621,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__47", 15);
-			LeaveRule("T__47", 15);
-			Leave_T__47();
+			TraceOut("T__48", 15);
+			LeaveRule("T__48", 15);
+			Leave_T__48();
 		}
 	}
-	// $ANTLR end "T__47"
+	// $ANTLR end "T__48"
 
-	partial void Enter_T__48();
-	partial void Leave_T__48();
+	partial void Enter_T__49();
+	partial void Leave_T__49();
 
-	// $ANTLR start "T__48"
-	[GrammarRule("T__48")]
-	private void mT__48()
+	// $ANTLR start "T__49"
+	[GrammarRule("T__49")]
+	private void mT__49()
 	{
-		Enter_T__48();
-		EnterRule("T__48", 16);
-		TraceIn("T__48", 16);
+		Enter_T__49();
+		EnterRule("T__49", 16);
+		TraceIn("T__49", 16);
 		try
 		{
-			int _type = T__48;
+			int _type = T__49;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:22:7: ( ')' )
 			DebugEnterAlt(1);
@@ -655,26 +656,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__48", 16);
-			LeaveRule("T__48", 16);
-			Leave_T__48();
+			TraceOut("T__49", 16);
+			LeaveRule("T__49", 16);
+			Leave_T__49();
 		}
 	}
-	// $ANTLR end "T__48"
+	// $ANTLR end "T__49"
 
-	partial void Enter_T__49();
-	partial void Leave_T__49();
+	partial void Enter_T__50();
+	partial void Leave_T__50();
 
-	// $ANTLR start "T__49"
-	[GrammarRule("T__49")]
-	private void mT__49()
+	// $ANTLR start "T__50"
+	[GrammarRule("T__50")]
+	private void mT__50()
 	{
-		Enter_T__49();
-		EnterRule("T__49", 17);
-		TraceIn("T__49", 17);
+		Enter_T__50();
+		EnterRule("T__50", 17);
+		TraceIn("T__50", 17);
 		try
 		{
-			int _type = T__49;
+			int _type = T__50;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:23:7: ( '.' )
 			DebugEnterAlt(1);
@@ -690,26 +691,26 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__49", 17);
-			LeaveRule("T__49", 17);
-			Leave_T__49();
+			TraceOut("T__50", 17);
+			LeaveRule("T__50", 17);
+			Leave_T__50();
 		}
 	}
-	// $ANTLR end "T__49"
+	// $ANTLR end "T__50"
 
-	partial void Enter_T__50();
-	partial void Leave_T__50();
+	partial void Enter_T__51();
+	partial void Leave_T__51();
 
-	// $ANTLR start "T__50"
-	[GrammarRule("T__50")]
-	private void mT__50()
+	// $ANTLR start "T__51"
+	[GrammarRule("T__51")]
+	private void mT__51()
 	{
-		Enter_T__50();
-		EnterRule("T__50", 18);
-		TraceIn("T__50", 18);
+		Enter_T__51();
+		EnterRule("T__51", 18);
+		TraceIn("T__51", 18);
 		try
 		{
-			int _type = T__50;
+			int _type = T__51;
 			int _channel = DefaultTokenChannel;
 			// Aries.g:24:7: ( '=' )
 			DebugEnterAlt(1);
@@ -725,12 +726,12 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("T__50", 18);
-			LeaveRule("T__50", 18);
-			Leave_T__50();
+			TraceOut("T__51", 18);
+			LeaveRule("T__51", 18);
+			Leave_T__51();
 		}
 	}
-	// $ANTLR end "T__50"
+	// $ANTLR end "T__51"
 
 	partial void Enter_POINTCUT_TYPE_ELEMENT();
 	partial void Leave_POINTCUT_TYPE_ELEMENT();
@@ -1254,6 +1255,52 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 	}
 	// $ANTLR end "EscapeSequence"
 
+	partial void Enter_OTHERS();
+	partial void Leave_OTHERS();
+
+	// $ANTLR start "OTHERS"
+	[GrammarRule("OTHERS")]
+	private void mOTHERS()
+	{
+		Enter_OTHERS();
+		EnterRule("OTHERS", 25);
+		TraceIn("OTHERS", 25);
+		try
+		{
+			int _type = OTHERS;
+			int _channel = DefaultTokenChannel;
+			// Aries.g:191:2: ( '+' | '-' | '%' )
+			DebugEnterAlt(1);
+			// Aries.g:
+			{
+			DebugLocation(191, 2);
+			if (input.LA(1)=='%'||input.LA(1)=='+'||input.LA(1)=='-')
+			{
+				input.Consume();
+
+			}
+			else
+			{
+				MismatchedSetException mse = new MismatchedSetException(null,input);
+				DebugRecognitionException(mse);
+				Recover(mse);
+				throw mse;}
+
+
+			}
+
+			state.type = _type;
+			state.channel = _channel;
+		}
+		finally
+		{
+			TraceOut("OTHERS", 25);
+			LeaveRule("OTHERS", 25);
+			Leave_OTHERS();
+		}
+	}
+	// $ANTLR end "OTHERS"
+
 	partial void Enter_WS();
 	partial void Leave_WS();
 
@@ -1262,18 +1309,18 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 	private void mWS()
 	{
 		Enter_WS();
-		EnterRule("WS", 25);
-		TraceIn("WS", 25);
+		EnterRule("WS", 26);
+		TraceIn("WS", 26);
 		try
 		{
 			int _type = WS;
 			int _channel = DefaultTokenChannel;
-			// Aries.g:191:2: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+			// Aries.g:195:2: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
 			DebugEnterAlt(1);
-			// Aries.g:191:4: ( ' ' | '\\t' | '\\r' | '\\n' )+
+			// Aries.g:195:4: ( ' ' | '\\t' | '\\r' | '\\n' )+
 			{
-			DebugLocation(191, 4);
-			// Aries.g:191:4: ( ' ' | '\\t' | '\\r' | '\\n' )+
+			DebugLocation(195, 4);
+			// Aries.g:195:4: ( ' ' | '\\t' | '\\r' | '\\n' )+
 			int cnt7=0;
 			try { DebugEnterSubRule(7);
 			while (true)
@@ -1295,7 +1342,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 					DebugEnterAlt(1);
 					// Aries.g:
 					{
-					DebugLocation(191, 4);
+					DebugLocation(195, 4);
 					if ((input.LA(1)>='\t' && input.LA(1)<='\n')||input.LA(1)=='\r'||input.LA(1)==' ')
 					{
 						input.Consume();
@@ -1327,7 +1374,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 
 			} finally { DebugExitSubRule(7); }
 
-			DebugLocation(192, 3);
+			DebugLocation(196, 3);
 			 Skip(); 
 
 			}
@@ -1337,8 +1384,8 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("WS", 25);
-			LeaveRule("WS", 25);
+			TraceOut("WS", 26);
+			LeaveRule("WS", 26);
 			Leave_WS();
 		}
 	}
@@ -1346,8 +1393,8 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 
 	public override void mTokens()
 	{
-		// Aries.g:1:8: ( T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | POINTCUT_TYPE_ELEMENT | ADVICE_TYPE_ELEMENT | IDENTIFIER | STRING | INTLITERAL | WS )
-		int alt8=24;
+		// Aries.g:1:8: ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | POINTCUT_TYPE_ELEMENT | ADVICE_TYPE_ELEMENT | IDENTIFIER | STRING | INTLITERAL | OTHERS | WS )
+		int alt8=25;
 		try { DebugEnterDecision(8, decisionCanBacktrack[8]);
 		try
 		{
@@ -1363,163 +1410,163 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 		{
 		case 1:
 			DebugEnterAlt(1);
-			// Aries.g:1:10: T__33
+			// Aries.g:1:10: T__34
 			{
 			DebugLocation(1, 10);
-			mT__33(); 
+			mT__34(); 
 
 			}
 			break;
 		case 2:
 			DebugEnterAlt(2);
-			// Aries.g:1:16: T__34
+			// Aries.g:1:16: T__35
 			{
 			DebugLocation(1, 16);
-			mT__34(); 
+			mT__35(); 
 
 			}
 			break;
 		case 3:
 			DebugEnterAlt(3);
-			// Aries.g:1:22: T__35
+			// Aries.g:1:22: T__36
 			{
 			DebugLocation(1, 22);
-			mT__35(); 
+			mT__36(); 
 
 			}
 			break;
 		case 4:
 			DebugEnterAlt(4);
-			// Aries.g:1:28: T__36
+			// Aries.g:1:28: T__37
 			{
 			DebugLocation(1, 28);
-			mT__36(); 
+			mT__37(); 
 
 			}
 			break;
 		case 5:
 			DebugEnterAlt(5);
-			// Aries.g:1:34: T__37
+			// Aries.g:1:34: T__38
 			{
 			DebugLocation(1, 34);
-			mT__37(); 
+			mT__38(); 
 
 			}
 			break;
 		case 6:
 			DebugEnterAlt(6);
-			// Aries.g:1:40: T__38
+			// Aries.g:1:40: T__39
 			{
 			DebugLocation(1, 40);
-			mT__38(); 
+			mT__39(); 
 
 			}
 			break;
 		case 7:
 			DebugEnterAlt(7);
-			// Aries.g:1:46: T__39
+			// Aries.g:1:46: T__40
 			{
 			DebugLocation(1, 46);
-			mT__39(); 
+			mT__40(); 
 
 			}
 			break;
 		case 8:
 			DebugEnterAlt(8);
-			// Aries.g:1:52: T__40
+			// Aries.g:1:52: T__41
 			{
 			DebugLocation(1, 52);
-			mT__40(); 
+			mT__41(); 
 
 			}
 			break;
 		case 9:
 			DebugEnterAlt(9);
-			// Aries.g:1:58: T__41
+			// Aries.g:1:58: T__42
 			{
 			DebugLocation(1, 58);
-			mT__41(); 
+			mT__42(); 
 
 			}
 			break;
 		case 10:
 			DebugEnterAlt(10);
-			// Aries.g:1:64: T__42
+			// Aries.g:1:64: T__43
 			{
 			DebugLocation(1, 64);
-			mT__42(); 
+			mT__43(); 
 
 			}
 			break;
 		case 11:
 			DebugEnterAlt(11);
-			// Aries.g:1:70: T__43
+			// Aries.g:1:70: T__44
 			{
 			DebugLocation(1, 70);
-			mT__43(); 
+			mT__44(); 
 
 			}
 			break;
 		case 12:
 			DebugEnterAlt(12);
-			// Aries.g:1:76: T__44
+			// Aries.g:1:76: T__45
 			{
 			DebugLocation(1, 76);
-			mT__44(); 
+			mT__45(); 
 
 			}
 			break;
 		case 13:
 			DebugEnterAlt(13);
-			// Aries.g:1:82: T__45
+			// Aries.g:1:82: T__46
 			{
 			DebugLocation(1, 82);
-			mT__45(); 
+			mT__46(); 
 
 			}
 			break;
 		case 14:
 			DebugEnterAlt(14);
-			// Aries.g:1:88: T__46
+			// Aries.g:1:88: T__47
 			{
 			DebugLocation(1, 88);
-			mT__46(); 
+			mT__47(); 
 
 			}
 			break;
 		case 15:
 			DebugEnterAlt(15);
-			// Aries.g:1:94: T__47
+			// Aries.g:1:94: T__48
 			{
 			DebugLocation(1, 94);
-			mT__47(); 
+			mT__48(); 
 
 			}
 			break;
 		case 16:
 			DebugEnterAlt(16);
-			// Aries.g:1:100: T__48
+			// Aries.g:1:100: T__49
 			{
 			DebugLocation(1, 100);
-			mT__48(); 
+			mT__49(); 
 
 			}
 			break;
 		case 17:
 			DebugEnterAlt(17);
-			// Aries.g:1:106: T__49
+			// Aries.g:1:106: T__50
 			{
 			DebugLocation(1, 106);
-			mT__49(); 
+			mT__50(); 
 
 			}
 			break;
 		case 18:
 			DebugEnterAlt(18);
-			// Aries.g:1:112: T__50
+			// Aries.g:1:112: T__51
 			{
 			DebugLocation(1, 112);
-			mT__50(); 
+			mT__51(); 
 
 			}
 			break;
@@ -1570,9 +1617,18 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 			break;
 		case 24:
 			DebugEnterAlt(24);
-			// Aries.g:1:189: WS
+			// Aries.g:1:189: OTHERS
 			{
 			DebugLocation(1, 189);
+			mOTHERS(); 
+
+			}
+			break;
+		case 25:
+			DebugEnterAlt(25);
+			// Aries.g:1:196: WS
+			{
+			DebugLocation(1, 196);
 			mWS(); 
 
 			}
@@ -1595,17 +1651,17 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 	private class DFA8 : DFA
 	{
 		private const string DFA8_eotS =
-			"\x1\xFFFF\x1\x15\x1\xFFFF\x1\x1C\x1\xFFFF\x1\x15\x1\x1F\x2\x15\x1\xFFFF"+
-			"\x1\x15\x5\xFFFF\x5\x15\x4\xFFFF\x2\x15\x2\xFFFF\x2\x15\x1\xFFFF\x11"+
-			"\x15\x2\x3D\x3\x15\x1\x42\x1\x15\x1\x44\x3\x15\x1\x3D\x1\xFFFF\x2\x15"+
-			"\x1\x4A\x1\x15\x1\xFFFF\x1\x15\x1\xFFFF\x4\x15\x1\x51\x1\xFFFF\x1\x15"+
-			"\x1\x53\x1\x54\x2\x15\x1\x4A\x1\xFFFF\x1\x15\x2\xFFFF\x3\x15\x1\x5B\x2"+
-			"\x15\x1\xFFFF\x1\x3D\x1\x5E\x1\xFFFF";
+			"\x1\xFFFF\x1\x15\x1\xFFFF\x1\x1D\x1\xFFFF\x1\x15\x1\x20\x2\x15\x1\xFFFF"+
+			"\x1\x15\x5\xFFFF\x5\x15\x5\xFFFF\x2\x15\x2\xFFFF\x2\x15\x1\xFFFF\x11"+
+			"\x15\x2\x3E\x3\x15\x1\x43\x1\x15\x1\x45\x3\x15\x1\x3E\x1\xFFFF\x2\x15"+
+			"\x1\x4B\x1\x15\x1\xFFFF\x1\x15\x1\xFFFF\x4\x15\x1\x52\x1\xFFFF\x1\x15"+
+			"\x1\x54\x1\x55\x2\x15\x1\x4B\x1\xFFFF\x1\x15\x2\xFFFF\x3\x15\x1\x5C\x2"+
+			"\x15\x1\xFFFF\x1\x3E\x1\x5F\x1\xFFFF";
 		private const string DFA8_eofS =
-			"\x5F\xFFFF";
+			"\x60\xFFFF";
 		private const string DFA8_minS =
 			"\x1\x9\x1\x66\x1\xFFFF\x1\x65\x1\xFFFF\x1\x61\x1\x41\x1\x75\x1\x79\x1"+
-			"\xFFFF\x1\x6F\x5\xFFFF\x1\x78\x1\x61\x3\x65\x4\xFFFF\x1\x70\x1\x74\x2"+
+			"\xFFFF\x1\x6F\x5\xFFFF\x1\x78\x1\x61\x3\x65\x5\xFFFF\x1\x70\x1\x74\x2"+
 			"\xFFFF\x1\x76\x1\x68\x1\xFFFF\x1\x62\x1\x74\x1\x69\x1\x65\x1\x6C\x2\x74"+
 			"\x1\x66\x2\x65\x2\x61\x1\x79\x1\x68\x1\x6E\x1\x63\x1\x6C\x2\x41\x1\x6F"+
 			"\x1\x63\x1\x72\x1\x41\x1\x72\x1\x41\x1\x6F\x1\x74\x1\x75\x1\x41\x1\xFFFF"+
@@ -1615,7 +1671,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 			"\x41\x1\xFFFF";
 		private const string DFA8_maxS =
 			"\x1\x7D\x1\x73\x1\xFFFF\x1\x65\x1\xFFFF\x1\x61\x1\x7A\x1\x75\x1\x79"+
-			"\x1\xFFFF\x1\x6F\x5\xFFFF\x1\x78\x1\x61\x3\x65\x4\xFFFF\x1\x70\x1\x74"+
+			"\x1\xFFFF\x1\x6F\x5\xFFFF\x1\x78\x1\x61\x3\x65\x5\xFFFF\x1\x70\x1\x74"+
 			"\x2\xFFFF\x1\x76\x1\x68\x1\xFFFF\x1\x62\x1\x74\x1\x69\x1\x65\x1\x6C\x2"+
 			"\x74\x1\x66\x2\x65\x2\x61\x1\x79\x1\x68\x1\x6E\x1\x63\x1\x6C\x2\x7A\x1"+
 			"\x6F\x1\x63\x1\x72\x1\x7A\x1\x72\x1\x7A\x1\x6F\x1\x74\x1\x75\x1\x7A\x1"+
@@ -1625,52 +1681,52 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 			"\xFFFF\x2\x7A\x1\xFFFF";
 		private const string DFA8_acceptS =
 			"\x2\xFFFF\x1\x2\x1\xFFFF\x1\x5\x4\xFFFF\x1\xC\x1\xFFFF\x1\xE\x1\xF\x1"+
-			"\x10\x1\x11\x1\x12\x5\xFFFF\x1\x15\x1\x16\x1\x17\x1\x18\x2\xFFFF\x1\x4"+
-			"\x1\x3\x2\xFFFF\x1\xB\x1D\xFFFF\x1\x13\x4\xFFFF\x1\x6\x1\xFFFF\x1\x9"+
-			"\x5\xFFFF\x1\x14\x6\xFFFF\x1\x1\x1\xFFFF\x1\x8\x1\xA\x6\xFFFF\x1\xD\x2"+
-			"\xFFFF\x1\x7";
+			"\x10\x1\x11\x1\x12\x5\xFFFF\x1\x15\x1\x16\x1\x17\x1\x18\x1\x19\x2\xFFFF"+
+			"\x1\x4\x1\x3\x2\xFFFF\x1\xB\x1D\xFFFF\x1\x13\x4\xFFFF\x1\x6\x1\xFFFF"+
+			"\x1\x9\x5\xFFFF\x1\x14\x6\xFFFF\x1\x1\x1\xFFFF\x1\x8\x1\xA\x6\xFFFF\x1"+
+			"\xD\x2\xFFFF\x1\x7";
 		private const string DFA8_specialS =
-			"\x5F\xFFFF}>";
+			"\x60\xFFFF}>";
 		private static readonly string[] DFA8_transitionS =
 			{
-				"\x2\x18\x2\xFFFF\x1\x18\x12\xFFFF\x1\x18\x1\xFFFF\x1\x16\x5\xFFFF\x1"+
-				"\xC\x1\xD\x1\x15\x3\xFFFF\x1\xE\x2\xFFFF\x9\x17\x1\x9\x1\xB\x1\xFFFF"+
-				"\x1\xF\x2\xFFFF\x1\x4\x2\x15\x1\x6\x6\x15\x1\x5\x5\x15\x1\x8\x1\x15"+
-				"\x1\x7\x8\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1\x1\x1\x14\x1\x11\x1\x15\x1"+
-				"\x10\x1\x15\x1\x13\x8\x15\x1\xA\x2\x15\x1\x12\x7\x15\x1\x2\x1\xFFFF"+
-				"\x1\x3",
-				"\x1\x1A\xC\xFFFF\x1\x19",
+				"\x2\x19\x2\xFFFF\x1\x19\x12\xFFFF\x1\x19\x1\xFFFF\x1\x16\x2\xFFFF\x1"+
+				"\x18\x2\xFFFF\x1\xC\x1\xD\x1\x15\x1\x18\x1\xFFFF\x1\x18\x1\xE\x2\xFFFF"+
+				"\x9\x17\x1\x9\x1\xB\x1\xFFFF\x1\xF\x2\xFFFF\x1\x4\x2\x15\x1\x6\x6\x15"+
+				"\x1\x5\x5\x15\x1\x8\x1\x15\x1\x7\x8\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1"+
+				"\x1\x1\x14\x1\x11\x1\x15\x1\x10\x1\x15\x1\x13\x8\x15\x1\xA\x2\x15\x1"+
+				"\x12\x7\x15\x1\x2\x1\xFFFF\x1\x3",
+				"\x1\x1B\xC\xFFFF\x1\x1A",
 				"",
-				"\x1\x1B",
+				"\x1\x1C",
 				"",
-				"\x1\x1D",
-				"\x12\x15\x1\x1E\x7\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"\x1\x20",
+				"\x1\x1E",
+				"\x12\x15\x1\x1F\x7\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
 				"\x1\x21",
-				"",
 				"\x1\x22",
 				"",
-				"",
-				"",
-				"",
-				"",
 				"\x1\x23",
+				"",
+				"",
+				"",
+				"",
+				"",
 				"\x1\x24",
 				"\x1\x25",
 				"\x1\x26",
 				"\x1\x27",
-				"",
-				"",
-				"",
-				"",
 				"\x1\x28",
+				"",
+				"",
+				"",
+				"",
+				"",
 				"\x1\x29",
-				"",
-				"",
 				"\x1\x2A",
-				"\x1\x2B",
 				"",
+				"",
+				"\x1\x2B",
 				"\x1\x2C",
+				"",
 				"\x1\x2D",
 				"\x1\x2E",
 				"\x1\x2F",
@@ -1687,48 +1743,49 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 				"\x1\x3A",
 				"\x1\x3B",
 				"\x1\x3C",
+				"\x1\x3D",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"\x1\x3E",
 				"\x1\x3F",
 				"\x1\x40",
-				"\x12\x15\x1\x41\x7\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"\x1\x43",
+				"\x1\x41",
+				"\x12\x15\x1\x42\x7\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
+				"\x1\x44",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"\x1\x45",
 				"\x1\x46",
 				"\x1\x47",
-				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"",
 				"\x1\x48",
-				"\x1\x49",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"\x1\x4B",
 				"",
+				"\x1\x49",
+				"\x1\x4A",
+				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
 				"\x1\x4C",
 				"",
 				"\x1\x4D",
+				"",
 				"\x1\x4E",
 				"\x1\x4F",
 				"\x1\x50",
+				"\x1\x51",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
 				"",
-				"\x1\x52",
+				"\x1\x53",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"\x1\x55",
 				"\x1\x56",
-				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"",
 				"\x1\x57",
-				"",
+				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
 				"",
 				"\x1\x58",
+				"",
+				"",
 				"\x1\x59",
 				"\x1\x5A",
+				"\x1\x5B",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
-				"\x1\x5C",
 				"\x1\x5D",
+				"\x1\x5E",
 				"",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
 				"\x1A\x15\x4\xFFFF\x1\x15\x1\xFFFF\x1A\x15",
@@ -1766,7 +1823,7 @@ public partial class AriesLexer : Antlr.Runtime.Lexer
 			this.transition = DFA8_transition;
 		}
 
-		public override string Description { get { return "1:1: Tokens : ( T__33 | T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | POINTCUT_TYPE_ELEMENT | ADVICE_TYPE_ELEMENT | IDENTIFIER | STRING | INTLITERAL | WS );"; } }
+		public override string Description { get { return "1:1: Tokens : ( T__34 | T__35 | T__36 | T__37 | T__38 | T__39 | T__40 | T__41 | T__42 | T__43 | T__44 | T__45 | T__46 | T__47 | T__48 | T__49 | T__50 | T__51 | POINTCUT_TYPE_ELEMENT | ADVICE_TYPE_ELEMENT | IDENTIFIER | STRING | INTLITERAL | OTHERS | WS );"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{

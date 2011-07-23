@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Aop
@@ -20,8 +21,15 @@ namespace Unicoen.Apps.Aop
 			var classes = program.Descendants<UnifiedClassDefinition>();
 			if (classes.Count() > 0) {
 				foreach (var c in classes) {
-					var className = c.Name as UnifiedIdentifier;
-					if (className != null && className.Name == name) {
+					//クラス名を取得
+					var className = c.Name as UnifiedVariableIdentifier;
+					if(className == null)
+						continue;
+
+					//受け取った名前を正規表現に変換し、クラス名が一致する場合は合成する
+					var regex = new Regex(name == "*" ? ".*" : name);
+					var m = regex.Match(className.Name);
+					if (m.Success) {
 						foreach (var e in members) {
 							c.Body.Insert(0, e.DeepCopy());
 						}
@@ -29,8 +37,14 @@ namespace Unicoen.Apps.Aop
 				}
 				return;
 			}
+			//TODO interfaceのようにUnifiedClassDefinitionがない場合はここまでくるのでどう対処するか
+			//とりあえず応急処置
+			var interfaces = program.Descendants<UnifiedInterfaceDefinition>();
+			if(interfaces.Count() > 0) return;
+			var enums = program.Descendants<UnifiedEnumDefinition>();
+			if(enums.Count() > 0) return;
 
-			//プログラムに対してメンバーを追加(JavaScript向け)
+			//プログラムに対してメンバーを追加(JavaScript向け))
 			if (program != null) {
 				foreach (var e in members) {
 					program.Body.Insert(0, e.DeepCopy());
