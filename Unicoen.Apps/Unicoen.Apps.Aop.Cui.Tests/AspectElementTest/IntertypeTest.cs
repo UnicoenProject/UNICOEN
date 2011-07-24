@@ -20,12 +20,11 @@ using System.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
-using Unicoen.Apps.Aop;
-using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Apps.Aop.Cui.Visitor;
 using Unicoen.Processor;
 using Unicoen.Tests;
 
-namespace Aries.Tests {
+namespace Unicoen.Apps.Aop.Cui.Tests.AspectElementTest {
 	[TestFixture]
 	internal class IntertypeTest {
 		private AstVisitor _visitor;
@@ -77,8 +76,8 @@ namespace Aries.Tests {
 			
 			//文字列をモデル変換した結果を比較
 			Assert.That(
-					CodeProcessor.CreateIntertype("Java", code),
-					Is.EqualTo(CodeProcessor.CreateIntertype("Java", actual)).Using(StructuralEqualityComparer.Instance));
+					CodeProcessor.CodeProcessor.CreateIntertype("Java", code),
+					Is.EqualTo(CodeProcessor.CodeProcessor.CreateIntertype("Java", actual)).Using(StructuralEqualityComparer.Instance));
 
 		}
 	}

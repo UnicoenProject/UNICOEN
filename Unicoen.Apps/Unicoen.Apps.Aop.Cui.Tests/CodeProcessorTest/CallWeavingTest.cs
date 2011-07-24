@@ -27,7 +27,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
 			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return CodeProcessor.CreateModel(ext, code);
+			return CodeProcessor.CodeProcessor.CreateModel(ext, code);
 		}
 
 		[Test]
@@ -37,8 +37,8 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
-			CodeProcessor.InsertAtBeforeCallAll(
-					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
+			CodeProcessor.CodeProcessor.InsertAtBeforeCallAll(
+					model, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					model,
@@ -52,8 +52,8 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
-			CodeProcessor.InsertAtAfterCallAll(
-					model, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
+			CodeProcessor.CodeProcessor.InsertAtAfterCallAll(
+					model, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					model,
@@ -68,9 +68,9 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
-			CodeProcessor.InsertAtBeforeCall(
+			CodeProcessor.CodeProcessor.InsertAtBeforeCall(
 					model, new Regex(regex),
-					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
+					CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					model,
@@ -85,9 +85,9 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
-			CodeProcessor.InsertAtAfterCall(
+			CodeProcessor.CodeProcessor.InsertAtAfterCall(
 					model, new Regex(regex),
-					CodeProcessor.CreateAdvice("Java", "Console.Write();"));
+					CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					model,
@@ -102,8 +102,8 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
-			CodeProcessor.InsertAtBeforeCallByName(
-					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
+			CodeProcessor.CodeProcessor.InsertAtBeforeCallByName(
+					model, name, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					model,
@@ -118,8 +118,8 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
-			CodeProcessor.InsertAtAfterCallByName(
-					model, name, CodeProcessor.CreateAdvice("Java", "Console.Write();"));
+			CodeProcessor.CodeProcessor.InsertAtAfterCallByName(
+					model, name, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
 					model,

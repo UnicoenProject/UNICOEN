@@ -18,9 +18,9 @@
 
 using System;
 using System.Linq;
-using Unicoen.Applications.Metrics.Cores;
+using Unicoen.Apps.Metrics.Core;
 
-namespace Unicoen.Applications.Metrics {
+namespace Unicoen.Apps.Metrics {
 	public class Program {
 		private const string S = "  ";
 		private const int W = 12;

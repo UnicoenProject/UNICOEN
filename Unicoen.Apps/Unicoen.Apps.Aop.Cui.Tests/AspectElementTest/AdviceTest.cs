@@ -20,10 +20,10 @@ using System.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
-using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Apps.Aop.Cui.Visitor;
 using Unicoen.Tests;
 
-namespace Aries.Tests {
+namespace Unicoen.Apps.Aop.Cui.Tests.AspectElementTest {
 	public class AdviceTest {
 		private AstVisitor _visitor;
 

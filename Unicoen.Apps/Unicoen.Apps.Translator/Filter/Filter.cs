@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.Translator {
+namespace Unicoen.Apps.Translator.Filter {
 	public class Filter {
 		// program 以下の null でないオブジェクトの集合を取得する
 		public static List<UnifiedElement> GetValidElements(UnifiedProgram program) {

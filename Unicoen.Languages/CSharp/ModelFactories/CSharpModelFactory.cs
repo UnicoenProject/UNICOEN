@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Model;
@@ -23,6 +24,12 @@ using Unicoen.Processor;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	public class CSharpModelFactory : ModelFactory {
+		private readonly string[] _extensions = new[] { ".cs" };
+
+		public override IEnumerable<string> Extensions {
+			get { return _extensions; }
+		}
+
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var parser = new CSharpParser();
 			var reader = new StringReader(code);

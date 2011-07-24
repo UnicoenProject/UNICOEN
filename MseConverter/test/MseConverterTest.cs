@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using Paraiba.Text;
 using Unicoen.Apps.Aop;
+using Unicoen.Apps.Aop.Cui.CodeProcessor;
 using Unicoen.Model;
 using Unicoen.Tests;
 
@@ -29,28 +30,12 @@ namespace MseConverter.test
 		[Test]
 		public void 共通オブジェクトをmseフォーマットに変換できる() {
 			var filePaths =
-					Collect(
-							Path.Combine(
-									"..", "..", "..", "fixture", "Java", "download", "junit4.8.2", "src"));
+					Collect(FixtureUtil.GetDownloadPath("java", "junit4.8.2", "src"));
 
 			var writer = new StringWriter();
 			var converter = new MseConverter(writer);
 
-			writer.WriteLine("(Moose.Model (id: 1)");
-			writer.WriteLine("\t(entity");
-
-			foreach (var file in filePaths) {
-				//とりあえずJavaファイルのみをフォルタリング
-				var ext = Path.GetExtension(file);
-				if(ext != ".java")
-					continue;
-
-				converter.Generate(CreateModel(file), writer);
-			}
-
-			writer.WriteLine("\t)");
-			//TODO 言語の種類を出力
-			writer.WriteLine("(sourceLanguage 'Java'))");
+			converter.Generate(filePaths, writer);
 
 			Console.Write(writer.ToString());
 		}

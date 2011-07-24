@@ -14,90 +14,86 @@ namespace MseConverter
 
 		//TODO 出力してほしい要素とそうでない要素をどのように見分けるのか
 
-		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
-			foreach (var e in element.Body) {
-				e.TryAccept(this, arg);
-			}
-			return false;
+		public override void Visit(UnifiedProgram element) {
+			element.Body.TryAccept(this);
 		}
 
-		public override bool Visit(UnifiedBlock element, VisitorArgument arg) {
+		public override void Visit(UnifiedBlock element) {
 			foreach (var e in element) {
-				e.TryAccept(this, arg);
+				e.TryAccept(this);
 			}
-			return false;
 		}
 
-		public override bool Visit(UnifiedVariableIdentifier element, VisitorArgument arg) {
+		public override void Visit(UnifiedVariableIdentifier element) {
 			Writer.Write(element.Name);
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedParameterCollection element, VisitorArgument arg) {
+		public override void Visit(UnifiedParameterCollection element) {
 			var delimiter = "";
 			foreach (var parameter in element) {
 				//e.g. int a
 				Writer.Write(delimiter);
-				parameter.Type.TryAccept(this, arg);
+				parameter.Type.TryAccept(this);
 				Writer.Write(" ");
-				parameter.Names.TryAccept(this, arg);
+				parameter.Names.TryAccept(this);
 				delimiter = ", ";
 			}
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
-			element.BasicTypeName.TryAccept(this, arg);
-			return false;
+		public override void Visit(UnifiedBasicType element) {
+			element.BasicTypeName.TryAccept(this);
+			
 		}
 
-		public override bool Visit(UnifiedIdentifierCollection element, VisitorArgument arg) {
+		public override void Visit(UnifiedIdentifierCollection element) {
 			foreach (var identifier in element) {
 				Writer.Write(identifier.Name);
 			}
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedBinaryExpression element, VisitorArgument arg) {
-			element.LeftHandSide.TryAccept(this, arg);
-			element.RightHandSide.TryAccept(this, arg);
-			return false;
+		public override void Visit(UnifiedBinaryExpression element) {
+			element.LeftHandSide.TryAccept(this);
+			element.RightHandSide.TryAccept(this);
+			
 		}
 
-		public override bool Visit(UnifiedProperty element, VisitorArgument arg) {
+		public override void Visit(UnifiedProperty element) {
 			//TODO 何もしなくていいか確認
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedImport element, VisitorArgument arg) {
+		public override void Visit(UnifiedImport element) {
 			//TODO 何もしなくていいか確認
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedGenericType element, VisitorArgument arg) {
+		public override void Visit(UnifiedGenericType element) {
 			//TODO 何もしなくていいか確認
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedInterfaceDefinition element, VisitorArgument arg) {
+		public override void Visit(UnifiedInterfaceDefinition element) {
 			//TODO 何もしなくていいか確認
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedStaticInitializer element, VisitorArgument arg) {
+		public override void Visit(UnifiedStaticInitializer element) {
 			//TODO 何もしなくていいか確認
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedAnnotationDefinition element, VisitorArgument arg) {
+		public override void Visit(UnifiedAnnotationDefinition element) {
 			//TODO 何もしなくていいか確認
-			return false;
+			
 		}
 
-		public override bool Visit(UnifiedArrayType element, VisitorArgument arg) {
+		public override void Visit(UnifiedArrayType element) {
 			//TODO どこまで探索するか考える
 			//TODO とりあえずString[]などが出力されていないので対応する
-			return false;
+			
 		}
 	}
 }

@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unicoen.Apps.Aop.AspectElement {
+namespace Unicoen.Apps.Aop.Cui.AspectElement {
 	/// <summary>
 	///   ポイントカットを表します
 	///   ポイントカットは以下の属性から構成されます

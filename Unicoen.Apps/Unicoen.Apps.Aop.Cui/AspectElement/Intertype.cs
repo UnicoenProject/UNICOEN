@@ -18,7 +18,7 @@
 
 using System;
 
-namespace Unicoen.Apps.Aop.AspectElement {
+namespace Unicoen.Apps.Aop.Cui.AspectElement {
 	/// <summary>
 	///   インタータイプ宣言を表します
 	///   インタータイプ宣言は１つの言語依存ブロックから構成されます

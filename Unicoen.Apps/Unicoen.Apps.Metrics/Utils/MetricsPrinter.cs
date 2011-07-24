@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unicoen.Model;
 
-namespace Unicoen.Applications.Metrics.Utils {
+namespace Unicoen.Apps.Metrics.Utils {
 	public class MetricsPrinter {
 		/// <summary>
 		///   Print cyclomatic of give file

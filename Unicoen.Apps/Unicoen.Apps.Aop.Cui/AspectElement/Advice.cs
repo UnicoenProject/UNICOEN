@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unicoen.Apps.Aop.AspectElement {
+namespace Unicoen.Apps.Aop.Cui.AspectElement {
 	/// <summary>
 	///   アドバイスを表します
 	///   アドバイスは以下の属性から構成されます

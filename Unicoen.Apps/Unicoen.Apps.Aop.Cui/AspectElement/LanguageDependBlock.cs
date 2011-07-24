@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Apps.Aop.AspectElement {
+namespace Unicoen.Apps.Aop.Cui.AspectElement {
 	/// <summary>
 	///   言語依存ブロックを表します
 	/// </summary>

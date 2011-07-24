@@ -27,7 +27,7 @@ using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.Python2;
 
-namespace Unicoen.Applications.Metrics.Utils {
+namespace Unicoen.Apps.Metrics.Utils {
 	public static class CodeAnalyzer {
 		private static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
