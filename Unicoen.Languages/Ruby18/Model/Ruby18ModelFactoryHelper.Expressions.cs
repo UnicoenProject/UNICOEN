@@ -16,7 +16,6 @@
 
 #endregion
 
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -42,22 +41,46 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 			ExpressionFuncs["lasgn"] = CreateLasgn;
 			ExpressionFuncs["masgn"] = CreateMasgn;
+			ExpressionFuncs["const"] = CreateConst;
 			ExpressionFuncs["Symbol"] = CreateSymbol;
+			ExpressionFuncs["self"] = CreateSelf;
+
+			ExpressionFuncs["return"] = CreateReturn;
+		}
+
+		public static IUnifiedExpression CreateExpresion(XElement node) {
+			return ExpressionFuncs[node.Name()](node);
+		}
+
+		public static IUnifiedExpression CreateSmartExpresion(XElement node) {
+			if (node == null || node.Name() == "nil")
+				return null;
+			return ExpressionFuncs[node.Name()](node);
+		}
+
+		private static IUnifiedExpression CreateReturn(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "return");
+			return UnifiedReturn.Create(CreateSmartExpresion(node.FirstElementOrDefault()));
+		}
+
+		private static UnifiedThisIdentifier CreateSelf(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "self");
+			return UnifiedIdentifier.CreateThis("self");
 		}
 
 		public static UnifiedBlock CreateScope(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "scope");
-			Contract.Requires(node.Elements().Count() == 1);
-			Contract.Requires(node.FirstElement().Name() == "block");
-			return CreateBlock(node.FirstElement());
+			return CreateSmartBlock(node.FirstElementOrDefault());
 		}
 
 		public static UnifiedCall CreateIter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iter");
 			var call = CreateCall(node.NthElement(0));
-			var parameters = CreateLasgnOrMasgn(node.NthElement(1))
+			var parameters = CreateLasgnOrMasgnOrNil(node.NthElement(1))
 					.Select(e => e.ToParameter())
 					.ToCollection();
 			var block = CreateBlock(node.NthElement(2));
@@ -91,23 +114,13 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedDoWhile.Create(cond, CreateBlock(secondNode));
 		}
 
-		public static IEnumerable<UnifiedCase> CreateWhen(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "when");
-			var block = CreateExpresion(node.LastElement()).ToBlock();
-			return node.FirstElement()
-					.Elements()
-					.Select(CreateExpresion)
-					.Select(e => UnifiedCase.Create(e, block));
-		}
-
 		public static IUnifiedExpression CreateCase(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "case");
 			return UnifiedSwitch.Create(
 					CreateExpresion(node.NthElement(0)),
 					node.Elements().Skip(1)
-							.SelectMany(CreateWhen)
+							.SelectMany(CreateWhenAndDefault)
 							.ToCollection()
 					);
 		}
@@ -116,10 +129,6 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lvar");
 			return UnifiedVariableIdentifier.Create(node.Value);
-		}
-
-		public static IUnifiedExpression CreateExpresion(XElement node) {
-			return ExpressionFuncs[node.Name()](node);
 		}
 
 		public static UnifiedCall CreateCall(XElement node) {

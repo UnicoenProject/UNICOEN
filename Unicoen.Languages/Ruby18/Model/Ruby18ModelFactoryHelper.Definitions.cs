@@ -27,6 +27,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 	public partial class Ruby18ModelFactoryHelper {
 		private static void InitializeDefinitions() {
 			ExpressionFuncs["defn"] = CreateDefn;
+			ExpressionFuncs["class"] = CreateClass;
+			ExpressionFuncs["module"] = CreateModule;
+			ExpressionFuncs["sclass"] = CreateSclass;
 		}
 
 		public static IUnifiedExpression CreateDefn(XElement node) {
@@ -39,19 +42,14 @@ namespace Unicoen.Languages.Ruby18.Model {
 					CreateScope(node.NthElement(2)));
 		}
 
-		public static UnifiedExtendConstrain CreateConst(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "const");
-			return UnifiedExtendConstrain.Create(
-					UnifiedType.Create(node.Value));
-		}
-
 		public static UnifiedClassDefinition CreateClass(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "class");
 			var constNode = node.NthElement(1);
 			var constrain = constNode.Name() != "nil"
-			                		? CreateConst(constNode) : null;
+			                		? UnifiedExtendConstrain.Create(
+			                				UnifiedType.Create(constNode.Value))
+			                		: null;
 			return UnifiedClassDefinition.Create(
 					null, null, CreateSymbol(node.NthElement(0)), null,
 					constrain.ToCollection(),
@@ -64,16 +62,17 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedClassDefinition.Create(
 					null, null, CreateSymbol(node.NthElement(0)), null,
 					null,
-					CreateScope(node.NthElement(2)));
+					CreateScope(node.NthElement(1)));
 		}
 
-		public static UnifiedClassDefinition CreateModule(XElement node) {
+		public static UnifiedEigenClassDefinition CreateSclass(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "module");
-			return UnifiedClassDefinition.Create(
-					null, null, CreateSymbol(node.NthElement(0)), null,
-					null,
-					CreateScope(node.NthElement(2)));
+			Contract.Requires(node.Name() == "sclass");
+			return UnifiedEigenClassDefinition.Create(
+					null, null, null, null,
+					UnifiedEigenConstrain.Create(CreateExpresion(node.NthElement(0))).
+							ToCollection(),
+					CreateScope(node.NthElement(1)));
 		}
 	}
 }

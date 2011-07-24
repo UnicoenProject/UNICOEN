@@ -36,12 +36,12 @@ namespace Unicoen.Languages.Ruby18.Model {
 					new Dictionary<string, Func<XElement, IUnifiedExpression>>();
 			InitializeExpressions();
 			InitializeLiterals();
+			InitializeDefinitions();
 		}
 
 		public static UnifiedProgram CreateProgram(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "block");
-			return UnifiedProgram.Create(CreateBlock(node));
+			return UnifiedProgram.Create(CreateSmartBlock(node));
 		}
 
 		public static UnifiedParameterCollection CreateArgs(XElement node) {
@@ -52,7 +52,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			var args = node.Elements("Symbol")
 					.Select(e => e.Value.ToVariableIdentifier().ToParameter())
 					.ToCollection();
-			if (node.LastElement().Name.LocalName == "block") {
+			if (args.Count > 0 && node.LastElement().Name() == "block") {
 				// デフォルト引数付き
 				var asgnNodes = node.LastElement().Elements();
 				foreach (var asgnNode in asgnNodes) {
@@ -64,13 +64,12 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return args;
 		}
 
-		public static IEnumerable<UnifiedVariableIdentifier> CreateLasgnOrMasgn(
+		public static IEnumerable<UnifiedVariableIdentifier> CreateLasgnOrMasgnOrNil(
 				XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn");
-			Contract.Requires(node.Elements().Count() == 1);
-			Contract.Requires(
-					node.Name() != "masgn" || node.FirstElement().Name() == "array");
+			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn" || node.Name() == "nil");
+			Contract.Requires(node.Name() == "nil" || node.Elements().Count() == 1);
+			Contract.Requires(node.Name() == "nil" || node.Name() != "masgn" || node.FirstElement().Name() == "array");
 			return node.Descendants("Symbol")
 					.Select(CreateSymbol);
 		}
@@ -81,6 +80,41 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return node.Elements()
 					.Select(e => CreateExpresion(e).ToArgument())
 					.ToCollection();
+		}
+
+		private static UnifiedBlock CreateSmartBlock(XElement node) {
+			if (node == null || node.Name() == "nil")
+				return UnifiedBlock.Create();
+			if (node.Name() == "block")
+				return CreateBlock(node);
+			return CreateExpresion(node).ToBlock();
+		}
+
+		private static IEnumerable<UnifiedCase> CreateWhenAndDefault(XElement node) {
+			Contract.Requires(node != null);
+			if (node.Name() == "nil")
+				yield break;
+
+			if (node.Name() != "when") {
+				yield return UnifiedCase.CreateDefault(CreateSmartBlock(node));
+			} else {
+				var first = node.FirstElement();
+				var caseConds = first.Elements()
+						.Select(CreateExpresion)
+						.ToList();
+				int i;
+				for (i = 0; i < caseConds.Count - 1; i++) {
+					yield return UnifiedCase.Create(caseConds[i]);
+				}
+				yield return
+						UnifiedCase.Create(caseConds[i], CreateSmartBlock(node.LastElement()));
+			}
+		}
+
+		public static UnifiedVariableIdentifier CreateConst(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "const");
+			return UnifiedIdentifier.CreateVariable(node.Value);
 		}
 	}
 }

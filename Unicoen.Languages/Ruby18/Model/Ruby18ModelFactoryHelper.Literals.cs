@@ -34,7 +34,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["Fixnum"] = CreateFixnum;
 			ExpressionFuncs["Bignum"] = CreateBignum;
 			ExpressionFuncs["Float"] = CreateFloat;
-			ExpressionFuncs["String"] = CreateString;
+			ExpressionFuncs["true"] = CreateTrue;
+			ExpressionFuncs["false"] = CreateFalse;
+			ExpressionFuncs["str"] = CreateStr;
 		}
 
 		public static UnifiedArrayLiteral CreateArray(XElement node) {
@@ -76,9 +78,21 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedInt32Literal.Create(LiteralFuzzyParser.ParseInt32(node.Value));
 		}
 
-		private static IUnifiedExpression CreateString(XElement node) {
+		public static UnifiedBooleanLiteral CreateTrue(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "String");
+			Contract.Requires(node.Name() == "true");
+			return UnifiedBooleanLiteral.Create(true);
+		}
+
+		public static UnifiedBooleanLiteral CreateFalse(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "false");
+			return UnifiedBooleanLiteral.Create(false);
+		}
+
+		public static UnifiedStringLiteral CreateStr(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "str");
 			return UnifiedStringLiteral.Create(node.Value);
 		}
 	}

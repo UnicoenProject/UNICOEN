@@ -80,5 +80,12 @@ namespace Unicoen.Model {
 					Condition = condtion,
 			};
 		}
+
+		public static UnifiedCase CreateDefault(
+				UnifiedBlock body = null) {
+			return new UnifiedCase {
+					Body = body,
+			};
+		}
 	}
 }
