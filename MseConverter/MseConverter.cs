@@ -6,13 +6,15 @@ using Unicoen.Processor;
 namespace MseConverter
 {
 	public class MseConverter : CodeFactory {
+
+		public static MseConvertVisitor Visitor;
+
+		public MseConverter(StringWriter writer) {
+			Visitor = new MseConvertVisitor(writer);
+		}
+
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			writer.WriteLine("(Moose.Model (id: 1)");
-			writer.WriteLine("\t(entity");
-			codeObject.Accept(new MseConvertVisitor(writer), new VisitorArgument());
-			writer.WriteLine("\t)");
-			//TODO 言語の種類を出力
-			writer.WriteLine("(sourceLanguage language))");
+			codeObject.Accept(Visitor, new VisitorArgument());
 		}
 
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {

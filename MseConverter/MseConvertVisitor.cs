@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Model;
 using Unicoen.Processor;
 
@@ -12,6 +13,8 @@ namespace MseConverter
 	public partial class MseConvertVisitor : ExplicitDefaultUnifiedVisitor<VisitorArgument, bool> {
 		
 		public TextWriter Writer { get; protected set; }
+		public JavaCodeFactory Generator = new JavaCodeFactory();
+
 		public int Id = 2;
 		public int CurrentPackage = 2;
 		public int CurrentClass = 2;
@@ -32,7 +35,8 @@ namespace MseConverter
 						return "protected";
 				}
 			}
-			//TODO アクセス修飾子がない場合への対応
+			//TODO アクセス修飾子がない場合への対応 -> とりあえずpublic返します
+			return "public";
 			throw new NotImplementedException();
 		}
 
@@ -114,9 +118,9 @@ namespace MseConverter
 
 			WriteIndent(3);
 			Writer.Write("(signature \'");
-			element.Name.TryAccept(this, arg);
+			Generator.Generate(element.Name, Writer);
 			Writer.Write("(");
-			element.Parameters.TryAccept(this, arg);
+			Generator.Generate(element.Parameters, Writer);
 			Writer.WriteLine(")\'))");
 
 			return false;
@@ -163,10 +167,10 @@ namespace MseConverter
 			Writer.Write("(invokedBy (idref: " + CurrentClass + "))");
 			
 			WriteIndent(3);
-			//TODO シグネチャを書く
-			Writer.WriteLine("(invokes )");
+			Writer.Write("(invokes )");
+			Generator.Generate(element, Writer);
+			Writer.WriteLine(")");
 
-			//TODO これはどういう意味か調べる
 			Writer.WriteLine("(stub false))");
 
 			return false;
@@ -179,10 +183,3 @@ namespace MseConverter
 		}
 	}
 }
-/*
-(FAMIX.Invocation (id: 2806)
-			(candidate (idref: 2740))
-			(invokedBy (idref: 2797))
-			(invokes 'CreateModel(string ext, string code)')
-			(stub false))
-*/

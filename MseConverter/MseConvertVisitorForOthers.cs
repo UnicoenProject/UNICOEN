@@ -64,6 +64,36 @@ namespace MseConverter
 			return false;
 		}
 
+		public override bool Visit(UnifiedProperty element, VisitorArgument arg) {
+			//TODO 何もしなくていいか確認
+			return false;
+		}
+
+		public override bool Visit(UnifiedImport element, VisitorArgument arg) {
+			//TODO 何もしなくていいか確認
+			return false;
+		}
+
+		public override bool Visit(UnifiedGenericType element, VisitorArgument arg) {
+			//TODO 何もしなくていいか確認
+			return false;
+		}
+
+		public override bool Visit(UnifiedInterfaceDefinition element, VisitorArgument arg) {
+			//TODO 何もしなくていいか確認
+			return false;
+		}
+
+		public override bool Visit(UnifiedStaticInitializer element, VisitorArgument arg) {
+			//TODO 何もしなくていいか確認
+			return false;
+		}
+
+		public override bool Visit(UnifiedAnnotationDefinition element, VisitorArgument arg) {
+			//TODO 何もしなくていいか確認
+			return false;
+		}
+
 		public override bool Visit(UnifiedArrayType element, VisitorArgument arg) {
 			//TODO どこまで探索するか考える
 			//TODO とりあえずString[]などが出力されていないので対応する

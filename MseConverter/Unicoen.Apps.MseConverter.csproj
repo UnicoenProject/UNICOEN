@@ -63,6 +63,10 @@
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Unicoen.Languages\Java\Unicoen.Languages.Java.csproj">
+      <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
+      <Name>Unicoen.Languages.Java</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="AopAPP.mse" />
