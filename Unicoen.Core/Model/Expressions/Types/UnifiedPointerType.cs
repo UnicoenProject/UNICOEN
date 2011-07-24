@@ -26,6 +26,8 @@ namespace Unicoen.Model {
 	public class UnifiedPointerType : UnifiedWrapType {
 		protected internal UnifiedPointerType() {}
 
+		// UnifiedType.WrapPointer(); として作成
+
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
