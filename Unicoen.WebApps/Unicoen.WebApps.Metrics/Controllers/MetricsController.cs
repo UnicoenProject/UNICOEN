@@ -21,7 +21,6 @@ using System.IO;
 using System.Web.Mvc;
 using Unicoen.Applications.Metrics.Cores;
 using Unicoen.Applications.Metrics.Utils;
-using Unicoen.Core.Model;
 using Unicoen.Utils;
 using Unicoen.WebApps.Metrics.ViewModels.Metrics;
 

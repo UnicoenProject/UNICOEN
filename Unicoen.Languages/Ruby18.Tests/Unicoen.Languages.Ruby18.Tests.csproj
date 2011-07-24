@@ -114,6 +114,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ruby18HeavyLanguageTest.cs" />
+    <Compile Include="Ruby18LanguageTest.cs" />
     <Compile Include="Ruby18Fixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

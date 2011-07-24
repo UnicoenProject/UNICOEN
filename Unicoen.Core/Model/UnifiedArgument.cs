@@ -51,6 +51,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   実引数の代入先の変数名を表します．
 		/// </summary>
+		// TODO: 名前が分かりづらいのでは？
 		public UnifiedIdentifier Target {
 			get { return _target; }
 			set { _target = SetChild(value, _target); }

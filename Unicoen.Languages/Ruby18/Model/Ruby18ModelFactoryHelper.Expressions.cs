@@ -16,65 +16,36 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Model;
 
-namespace Unicoen.Languages.Ruby18.Model {
-	public partial class RubyModelFactoryHelper {
-		private static readonly Dictionary<string, Func<XElement, IUnifiedExpression>>
-				ExpressionFuncs;
+// ReSharper disable InvocationIsSkipped
 
-		static RubyModelFactoryHelper() {
-			ExpressionFuncs =
-					new Dictionary<string, Func<XElement, IUnifiedExpression>>();
-			ExpressionFuncs["nil"] = CreateNil;
+namespace Unicoen.Languages.Ruby18.Model {
+	public partial class Ruby18ModelFactoryHelper {
+		private static void InitializeExpressions() {
+			ExpressionFuncs["scope"] = CreateScope;
+
 			ExpressionFuncs["block"] = CreateBlock;
-			ExpressionFuncs["if"] = CreateFloat;
-			ExpressionFuncs["call"] = CreateFloat;
+			ExpressionFuncs["if"] = CreateIf;
+			ExpressionFuncs["call"] = CreateCall;
 			ExpressionFuncs["lvar"] = CreateLvar;
 			ExpressionFuncs["case"] = CreateCase;
-			ExpressionFuncs["array"] = CreateArray;
 			ExpressionFuncs["until"] = CreateUntil;
 
 			ExpressionFuncs["for"] = CreateFor;
 			ExpressionFuncs["iter"] = CreateIter;
-			ExpressionFuncs["defn"] = CreateDefn;
-			ExpressionFuncs["scope"] = CreateScope;
-			ExpressionFuncs["args"] = CreateArgs;
 
 			ExpressionFuncs["lasgn"] = CreateLasgn;
-			ExpressionFuncs["masgn"] = CreateUntil;
-
+			ExpressionFuncs["masgn"] = CreateMasgn;
 			ExpressionFuncs["Symbol"] = CreateSymbol;
-			ExpressionFuncs["Fixnum"] = CreateFixnum;
-			ExpressionFuncs["Bignum"] = CreateBignum;
-			ExpressionFuncs["Float"] = CreateFloat;
-			ExpressionFuncs["String"] = CreateString;
 		}
 
-		private static IUnifiedExpression CreateArgs(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "args");
-			Contract.Requires(node.Elements().All(e => e.Name() == "Symbol" || e.Name() == "block"));
-			throw new NotImplementedException();
-		}
-
-		private static IUnifiedExpression CreateDefn(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "defn");
-			throw new NotImplementedException();
-			return UnifiedFunctionDefinition.Create(
-					null, null, null, null,
-					CreateSymbol(node.NthElement(0)));
-		}
-
-		private static UnifiedBlock CreateScope(XElement node) {
+		public static UnifiedBlock CreateScope(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "scope");
 			Contract.Requires(node.Elements().Count() == 1);
@@ -82,16 +53,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return CreateBlock(node.FirstElement());
 		}
 
-		private static IEnumerable<UnifiedVariableIdentifier> CreateLasgnOrMasgn(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn");
-			Contract.Requires(node.Elements().Count() == 1);
-			Contract.Requires(node.Name() != "masgn" || node.FirstElement().Name() == "array");
-			return node.Descendants("Symbol")
-					.Select(CreateSymbol);
-		}
-
-		private static UnifiedCall CreateIter(XElement node) {
+		public static UnifiedCall CreateIter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iter");
 			var call = CreateCall(node.NthElement(0));
@@ -103,17 +65,19 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return call;
 		}
 
-		private static IUnifiedExpression CreateFor(XElement node) {
+		public static IUnifiedExpression CreateFor(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "for");
-			Contract.Assert(node.NthElement(1).Name() == "lasgn" || node.NthElement(1).Name() == "masgn");
+			Contract.Assert(
+					node.NthElement(1).Name() == "lasgn"
+					|| node.NthElement(1).Name() == "masgn");
 			return UnifiedForeach.Create(
 					CreateExpresion(node.NthElement(0)),
 					CreateExpresion(node.NthElement(1).FirstElement()),
 					CreateBlock(node.NthElement(2)));
 		}
 
-		private static IUnifiedExpression CreateUntil(XElement node) {
+		public static IUnifiedExpression CreateUntil(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "until");
 			var cond =
@@ -127,13 +91,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedDoWhile.Create(cond, CreateBlock(secondNode));
 		}
 
-		private static UnifiedArrayLiteral CreateArray(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "array");
-			return node.Elements().Select(CreateExpresion).ToArrayLiteral();
-		}
-
-		private static IEnumerable<UnifiedCase> CreateWhen(XElement node) {
+		public static IEnumerable<UnifiedCase> CreateWhen(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "when");
 			var block = CreateExpresion(node.LastElement()).ToBlock();
@@ -143,7 +101,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 					.Select(e => UnifiedCase.Create(e, block));
 		}
 
-		private static IUnifiedExpression CreateCase(XElement node) {
+		public static IUnifiedExpression CreateCase(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "case");
 			return UnifiedSwitch.Create(
@@ -154,33 +112,20 @@ namespace Unicoen.Languages.Ruby18.Model {
 					);
 		}
 
-		private static IUnifiedExpression CreateLvar(XElement node) {
+		public static IUnifiedExpression CreateLvar(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lvar");
 			return UnifiedVariableIdentifier.Create(node.Value);
 		}
 
-		private static IUnifiedExpression CreateExpresion(XElement node) {
+		public static IUnifiedExpression CreateExpresion(XElement node) {
 			return ExpressionFuncs[node.Name()](node);
-		}
-
-		private static IUnifiedExpression CreateNil(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "nil");
-			return null;
-		}
-
-		private static UnifiedArgumentCollection CreateArglist(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "arglist");
-			return node.Elements()
-					.Select(e => CreateExpresion(e).ToArgument())
-					.ToCollection();
 		}
 
 		public static UnifiedCall CreateCall(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "call");
+			// TODO: 演算子への変換
 			var receiver = CreateExpresion(node.NthElement(0));
 			var secondNode = node.NthElement(1);
 			return UnifiedCall.Create(
@@ -208,6 +153,15 @@ namespace Unicoen.Languages.Ruby18.Model {
 		public static UnifiedBinaryExpression CreateLasgn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lasgn");
+			return UnifiedBinaryExpression.Create(
+					CreateExpresion(node.FirstElement()),
+					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
+					CreateExpresion(node.LastElement()));
+		}
+
+		public static UnifiedBinaryExpression CreateMasgn(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "masgn");
 			return UnifiedBinaryExpression.Create(
 					CreateExpresion(node.FirstElement()),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
