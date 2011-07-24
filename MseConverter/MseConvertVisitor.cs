@@ -14,6 +14,7 @@ namespace MseConverter
 		public TextWriter Writer { get; protected set; }
 		public int Id = 2;
 		public int CurrentPackage = 2;
+		public int CurrentClass = 2;
 		public int CurrentMethod = 2;
 
 		public MseConvertVisitor(TextWriter writer) {
@@ -45,17 +46,15 @@ namespace MseConverter
 				UnifiedNamespaceDefinition element, VisitorArgument arg) {
 			WriteIndent(2);
 			Writer.Write("(FAMIX.Package ");
-			WriteIndent(3);
 			Writer.WriteLine("(id: " + Id + ")");
 			CurrentPackage = Id++;
 
 			//パッケージ名の出力
+			WriteIndent(3);
 			Writer.Write("(name \'");
 			element.Name.TryAccept(this, arg);
-			Writer.WriteLine("\')");
-			Writer.WriteLine(")");
+			Writer.WriteLine("\'))");
 
-			//TODO ここでうまいことIdを渡せればあとが楽かも
 			element.Body.TryAccept(this, arg);
 			return false;
 		}
@@ -65,7 +64,7 @@ namespace MseConverter
 			WriteIndent(2);
 			Writer.Write("(FAMIX.Class ");
 			Writer.WriteLine("(id: " + Id + ")");
-			CurrentMethod = Id++;
+			CurrentClass = Id++;
 
 			WriteIndent(3);
 			Writer.Write("(name \'");
@@ -73,7 +72,6 @@ namespace MseConverter
 			Writer.WriteLine("\')");
 			
 			//パッケージ化されているパッケージIDを出力
-			//TODO ここで上からIdを受け取っているとやりやすい
 			WriteIndent(3);
 			Writer.WriteLine("(packagedIn (idref: " + CurrentPackage + "))");
 
@@ -107,7 +105,7 @@ namespace MseConverter
 				GetAccessControlQualifier(element.Modifiers) + "\')");
 			
 			WriteIndent(3);
-			Writer.WriteLine("(belongsTo (idref: " + CurrentMethod + "))");
+			Writer.WriteLine("(belongsTo (idref: " + CurrentClass + "))");
 			//TODO LOCの計算
 			WriteIndent(3);
 			Writer.WriteLine("(LOC 100)");
@@ -147,7 +145,7 @@ namespace MseConverter
 				GetAccessControlQualifier(element.Modifiers) + "\')");
 			
 			WriteIndent(3);
-			Writer.WriteLine("(belongsTo (idref: " + CurrentMethod + "))");
+			Writer.WriteLine("(belongsTo (idref: " + CurrentClass + "))");
 
 			return false;
 		}

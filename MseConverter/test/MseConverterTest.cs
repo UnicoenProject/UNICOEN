@@ -21,17 +21,16 @@ namespace MseConverter.test
 				"..", "..", "..", "fixture", "Java", "input", "Default", "Student.java");
 
 		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
-		public UnifiedProgram CreateModel(string path) {
-			var ext = Path.GetExtension(path);
-			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return CodeProcessor.CreateModel(ext, code);
+		public UnifiedProgram CreateModel() {
+			var code = @"package test; class Sample{ public static void main(String[] args) { System.out.println(); } }";
+			return CodeProcessor.CreateModel(".java", code);
 		}
 
 		[Test]
 		public void 共通オブジェクトをmseフォーマットに変換できる() {
 			var writer = new StringWriter();
 			var converter = new MseConverter();
-			converter.Generate(CreateModel(_studentPath), writer);
+			converter.Generate(CreateModel(), writer);
 			Console.Write(writer.ToString());
 		}
 
