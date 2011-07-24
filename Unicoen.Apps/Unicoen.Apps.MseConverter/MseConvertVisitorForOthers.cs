@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Unicoen.Model;
-using Unicoen.Processor;
+﻿using Unicoen.Model;
 
-namespace MseConverter
+namespace Unicoen.Apps.MseConverter
 {
 	/// <summary>
 	/// MSEフォーマット上に記述されない要素について出力します。

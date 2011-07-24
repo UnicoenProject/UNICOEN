@@ -18,15 +18,17 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Paraiba.Linq;
+using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
-using Unicoen.Model;
 
-namespace MseConverter {
+namespace Unicoen.Apps.MseConverter {
 	public class MseConverter {
 		private readonly MseConvertVisitor _visitor;
 
 		public MseConverter(TextWriter writer) {
-			_visitor = new MseConvertVisitor(writer);
+			_visitor = new MseConvertVisitor(writer, new JavaCodeFactory());
 		}
 
 		public void Generate(
@@ -36,7 +38,7 @@ namespace MseConverter {
 			foreach (var filePath in filePaths) {
 				switch (Path.GetExtension(filePath)) {
 				case ".java":
-					new JavaModelFactory().Generate(filePath).Accept(_visitor);
+					new JavaModelFactory().GenerateFromFile(filePath).Accept(_visitor);
 					break;
 				}
 			}

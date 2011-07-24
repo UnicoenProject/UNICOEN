@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Collections\UnifiedUsingPartCollection.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Model\UnifiedUsingPart.cs" />
     <Compile Include="Processor\DefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
+    <Compile Include="Processor\SemanticAnalyzer.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeFactories\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
