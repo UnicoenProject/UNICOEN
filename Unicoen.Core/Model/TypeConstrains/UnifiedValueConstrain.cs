@@ -21,22 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   型が持つ性質（継承関係など）の集合を表します。
-	///   e.g. Javaにおける<c>public class A extends B</c>の<c>extends B</c>
-	///   e.g. Javaにおける<c>ArrayList&lt;? extends Object&gt;</c>の<c>extends Object</c>
+	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
+	///   なお、継承関係を表す場合、対象の型の個数は１つです。
+	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
+	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
 	/// </summary>
-	public class UnifiedTypeConstrainCollection
-			: UnifiedElementCollection
-			  		<UnifiedTypeConstrain, UnifiedTypeConstrainCollection> {
-		protected UnifiedTypeConstrainCollection() {}
+	public class UnifiedValueConstrain : UnifiedTypeConstrain {
+		protected UnifiedValueConstrain() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
-		}
-
-		public override UnifiedTypeConstrainCollection CreateSelf() {
-			return new UnifiedTypeConstrainCollection();
 		}
 
 		[DebuggerStepThrough]
@@ -50,5 +45,10 @@ namespace Unicoen.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			  		}
+
+		public static UnifiedValueConstrain Create(
+				UnifiedType type) {
+			return new UnifiedValueConstrain { };
+		}
+	}
 }

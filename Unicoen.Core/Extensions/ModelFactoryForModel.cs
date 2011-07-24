@@ -27,6 +27,14 @@ namespace Unicoen.Model {
 			return UnifiedArgument.Create(expression);
 		}
 
+		public static UnifiedParameter ToParameter(this UnifiedIdentifier expression) {
+			return UnifiedParameter.Create(null, null, null, expression.ToCollection());
+		}
+
+		public static UnifiedParameter ToParameter(this UnifiedIdentifier expression, UnifiedType type) {
+			return UnifiedParameter.Create(null, null, type, expression.ToCollection());
+		}
+
 		public static IUnifiedExpression ToProperty(
 				this IEnumerable<IUnifiedExpression> expressions, string delimiter) {
 			return expressions.ToList().ToProperty(delimiter);

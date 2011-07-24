@@ -135,12 +135,12 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedStaticInitializer element);
 		void Visit(UnifiedInstanceInitializer element);
 		void Visit(UnifiedLambda element);
-		void Visit(UnifiedDefaultConstraint element);
-		void Visit(UnifiedExtendConstraint element);
-		void Visit(UnifiedImplementsConstraint element);
-		void Visit(UnifiedReferenceConstraint element);
-		void Visit(UnifiedSuperConstraint element);
-		void Visit(UnifiedValueConstraint element);
+		void Visit(UnifiedDefaultConstrain element);
+		void Visit(UnifiedExtendConstrain element);
+		void Visit(UnifiedImplementsConstrain element);
+		void Visit(UnifiedReferenceConstrain element);
+		void Visit(UnifiedSuperConstrain element);
+		void Visit(UnifiedValueConstrain element);
 		void Visit(UnifiedSuperIdentifier element);
 		void Visit(UnifiedThisIdentifier element);
 		void Visit(UnifiedLabelIdentifier element);
@@ -166,6 +166,9 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedUsingPart element);
 		void Visit(UnifiedUsingPartCollection element);
 		void Visit(UnifiedFromQuery element);
+		void Visit(UnifiedProc element);
+		void Visit(UnifiedEigenClassDefinition element);
+		void Visit(UnifiedEigenConstrain element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -283,12 +286,12 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedStaticInitializer element, TArg arg);
 		void Visit(UnifiedInstanceInitializer element, TArg arg);
 		void Visit(UnifiedLambda element, TArg arg);
-		void Visit(UnifiedDefaultConstraint element, TArg arg);
-		void Visit(UnifiedExtendConstraint element, TArg arg);
-		void Visit(UnifiedImplementsConstraint element, TArg arg);
-		void Visit(UnifiedReferenceConstraint element, TArg arg);
-		void Visit(UnifiedSuperConstraint element, TArg arg);
-		void Visit(UnifiedValueConstraint element, TArg arg);
+		void Visit(UnifiedDefaultConstrain element, TArg arg);
+		void Visit(UnifiedExtendConstrain element, TArg arg);
+		void Visit(UnifiedImplementsConstrain element, TArg arg);
+		void Visit(UnifiedReferenceConstrain element, TArg arg);
+		void Visit(UnifiedSuperConstrain element, TArg arg);
+		void Visit(UnifiedValueConstrain element, TArg arg);
 		void Visit(UnifiedSuperIdentifier element, TArg arg);
 		void Visit(UnifiedThisIdentifier element, TArg arg);
 		void Visit(UnifiedLabelIdentifier element, TArg arg);
@@ -314,6 +317,9 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedUsingPart element, TArg arg);
 		void Visit(UnifiedUsingPartCollection element, TArg arg);
 		void Visit(UnifiedFromQuery element, TArg arg);
+		void Visit(UnifiedProc element, TArg arg);
+		void Visit(UnifiedEigenClassDefinition element, TArg arg);
+		void Visit(UnifiedEigenConstrain element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -431,12 +437,12 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedStaticInitializer element, TArg arg);
 		TResult Visit(UnifiedInstanceInitializer element, TArg arg);
 		TResult Visit(UnifiedLambda element, TArg arg);
-		TResult Visit(UnifiedDefaultConstraint element, TArg arg);
-		TResult Visit(UnifiedExtendConstraint element, TArg arg);
-		TResult Visit(UnifiedImplementsConstraint element, TArg arg);
-		TResult Visit(UnifiedReferenceConstraint element, TArg arg);
-		TResult Visit(UnifiedSuperConstraint element, TArg arg);
-		TResult Visit(UnifiedValueConstraint element, TArg arg);
+		TResult Visit(UnifiedDefaultConstrain element, TArg arg);
+		TResult Visit(UnifiedExtendConstrain element, TArg arg);
+		TResult Visit(UnifiedImplementsConstrain element, TArg arg);
+		TResult Visit(UnifiedReferenceConstrain element, TArg arg);
+		TResult Visit(UnifiedSuperConstrain element, TArg arg);
+		TResult Visit(UnifiedValueConstrain element, TArg arg);
 		TResult Visit(UnifiedSuperIdentifier element, TArg arg);
 		TResult Visit(UnifiedThisIdentifier element, TArg arg);
 		TResult Visit(UnifiedLabelIdentifier element, TArg arg);
@@ -462,5 +468,8 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedUsingPart element, TArg arg);
 		TResult Visit(UnifiedUsingPartCollection element, TArg arg);
 		TResult Visit(UnifiedFromQuery element, TArg arg);
+		TResult Visit(UnifiedProc element, TArg arg);
+		TResult Visit(UnifiedEigenClassDefinition element, TArg arg);
+		TResult Visit(UnifiedEigenConstrain element, TArg arg);
 	}
 }

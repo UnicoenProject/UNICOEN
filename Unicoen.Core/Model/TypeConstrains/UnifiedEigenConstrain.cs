@@ -21,13 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
-	///   なお、継承関係を表す場合、対象の型の個数は１つです。
-	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
-	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
+	///   特異クラスに所属するオブジェクトを表します．
+	///   e.g. Rubyにおける<c>class &lt;&lt; obj ... end</c>の<c>obj</c>
 	/// </summary>
-	public class UnifiedDefaultConstraint : UnifiedTypeConstraint {
-		protected UnifiedDefaultConstraint() {}
+	public class UnifiedEigenConstrain : UnifiedTypeConstrain {
+		private IUnifiedExpression _eigenObject;
+
+		/// <summary>
+		///   制約の対象を表します
+		///   e.g. Javaにおける<c>class C extends P { ... }</c>の<c>P</c>
+		/// </summary>
+		public IUnifiedExpression EigenObject {
+			get { return _eigenObject; }
+			set { _eigenObject = SetChild(value, _eigenObject); }
+		}
+
+		protected UnifiedEigenConstrain() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -46,9 +55,11 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedDefaultConstraint Create(
-				UnifiedType type) {
-			return new UnifiedDefaultConstraint { };
+		public static UnifiedEigenConstrain Create(
+				IUnifiedExpression eigenObject) {
+			return new UnifiedEigenConstrain {
+					EigenObject = eigenObject,
+			};
 		}
 	}
 }

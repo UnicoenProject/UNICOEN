@@ -83,6 +83,11 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Code2Xml.Languages.Ruby18, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Code2Xml.Languages.Ruby18.dll</HintPath>
+    </Reference>
     <Reference Include="IronRuby">
       <HintPath>..\..\lib\IronRuby.dll</HintPath>
     </Reference>
@@ -109,10 +114,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\RubyModelFactoryHelper.Literals.cs" />
-    <Compile Include="Model\RubyModelFactoryHelper.cs" />
+    <Compile Include="Model\Ruby18ModelFactoryHelper.Definitions.cs" />
+    <Compile Include="Model\Ruby18ModelFactoryHelper.Expressions.cs" />
+    <Compile Include="Model\Ruby18ModelFactory.cs" />
+    <Compile Include="Model\Ruby18ModelFactoryHelper.Literals.cs" />
+    <Compile Include="Model\Ruby18ModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\RubyModelFactory.cs" />
+    <Compile Include="Model\OldRubyModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">

@@ -232,11 +232,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var constrains = UnifiedTypeConstrainCollection.Create();
 			if (node.HasElement("type")) {
 				constrains.Add(
-						UnifiedExtendConstraint.Create(CreateType(node.Element("type"))));
+						UnifiedExtendConstrain.Create(CreateType(node.Element("type"))));
 			}
 			if (node.HasElement("typeList")) {
 				foreach (var type in CreateTypeList(node.Element("typeList"))) {
-					constrains.Add(UnifiedImplementsConstraint.Create(type));
+					constrains.Add(UnifiedImplementsConstrain.Create(type));
 				}
 			}
 			var body = CreateClassBody(node.Element("classBody"));
@@ -275,7 +275,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					UnifiedType.Create(node.FirstElement().Value),
 					UnifiedTypeConstrainCollection.Create(
 							CreateTypeBound(node.LastElement())
-									.Select(UnifiedExtendConstraint.Create))
+									.Select(UnifiedExtendConstrain.Create))
 					);
 		}
 
@@ -301,7 +301,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var typeListNode = node.Element("typeList");
 			var constrains = typeListNode != null
 			                 		? CreateTypeList(typeListNode)
-			                 		  		.Select(UnifiedImplementsConstraint.Create)
+			                 		  		.Select(UnifiedImplementsConstrain.Create)
 			                 		  		.ToCollection()
 			                 		: null;
 			var enumBody = CreateEnumBody(node.Element("enumBody"));
@@ -420,7 +420,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var constrains = typeListNode != null
 			                 		? UnifiedTypeConstrainCollection.Create(
 			                 				CreateTypeList(typeListNode).Select(
-			                 						UnifiedExtendConstraint.Create))
+			                 						UnifiedExtendConstrain.Create))
 			                 		: null;
 			var body = CreateInterfaceBody(node.Element("interfaceBody"));
 
@@ -825,11 +825,11 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var anyType = UnifiedType.Create(node.NthElement(0).Value);
 			var typeNode = node.Element("type");
 			if (typeNode != null) {
-				UnifiedTypeConstraint constrain;
+				UnifiedTypeConstrain constrain;
 				if (node.NthElement(1).Value == "extends") {
-					constrain = UnifiedExtendConstraint.Create(CreateType(typeNode));
+					constrain = UnifiedExtendConstrain.Create(CreateType(typeNode));
 				} else {
-					constrain = UnifiedSuperConstraint.Create(CreateType(typeNode));
+					constrain = UnifiedSuperConstrain.Create(CreateType(typeNode));
 				}
 				return UnifiedGenericArgument.Create(
 						anyType, null, constrain.ToCollection());

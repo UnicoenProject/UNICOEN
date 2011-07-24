@@ -18,52 +18,89 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Scripting.Utils;
 using NUnit.Framework;
 using Unicoen.CodeFactories;
+using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Processor;
 using Unicoen.Languages.Tests;
+using Unicoen.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {
 	public class Ruby18Fixture : Fixture {
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
 		public override string Extension {
 			get { return ".rb"; }
 		}
 
+		/// <summary>
+		///   対応する言語のソースコードの拡張子を取得します．
+		/// </summary>
 		public override string CompiledExtension {
-			get { throw new NotImplementedException(); }
+			get { return ".rb"; }
 		}
 
+		/// <summary>
+		///   対応する言語のモデル生成器を取得します．
+		/// </summary>
 		public override ModelFactory ModelFactory {
-			get { throw new NotImplementedException(); }
+			get { return Ruby18ModelFactory.Instance; }
 		}
 
+		/// <summary>
+		///   対応する言語のコード生成器を取得します．
+		/// </summary>
 		public override CodeFactory CodeFactory {
 			get { throw new NotImplementedException(); }
 		}
 
+		/// <summary>
+		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
+		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
+		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
+		/// </summary>
 		public override IEnumerable<TestCaseData> TestCodes {
-			get { throw new NotImplementedException(); }
+			get {
+				return new[] {
+						"a = 1",
+						"class A: pass",
+				}.Select(s => new TestCaseData(s));
+			}
 		}
 
 		public override IEnumerable<TestCaseData> TestFilePathes {
-			get { throw new NotImplementedException(); }
+			get {
+				// 必要に応じて以下の要素をコメントアウト
+				return new[] {
+						"block",
+						"Block1",
+						"Block2",
+						"Block3",
+						"Block4",
+						"Fibonacci",
+						"hierarchy",
+						"prime",
+						"ruby2ruby_test",
+						"sjis",
+						"student",
+				}
+						.Select(
+								s =>
+								new TestCaseData(FixtureUtil.GetInputPath(LanguageName, s + Extension)));
+ }
 		}
 
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { throw new NotImplementedException(); }
+			get { yield break; }
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-			get { throw new NotImplementedException(); }
+			get { yield break; }
 		}
 
 		public override void Compile(string workPath, string srcPath) {
-			throw new NotImplementedException();
-		}
-
-		public override void CompileWithArguments(
-				string workPath, string command, string arguments) {
-			throw new NotImplementedException();
 		}
 	}
 }

@@ -161,12 +161,12 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedTypeConstrainCollection ToCollection(
-				this IEnumerable<UnifiedTypeConstraint> collection) {
+				this IEnumerable<UnifiedTypeConstrain> collection) {
 			return UnifiedTypeConstrainCollection.Create(collection);
 		}
 
 		public static UnifiedTypeConstrainCollection ToCollection(
-				this UnifiedTypeConstraint singleton) {
+				this UnifiedTypeConstrain singleton) {
 			if (singleton == null) return UnifiedTypeConstrainCollection.Create();
 			return UnifiedTypeConstrainCollection.Create(singleton);
 		}

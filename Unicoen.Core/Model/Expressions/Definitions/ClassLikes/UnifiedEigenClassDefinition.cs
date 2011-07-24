@@ -21,22 +21,16 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   型が持つ性質（継承関係など）の集合を表します。
-	///   e.g. Javaにおける<c>public class A extends B</c>の<c>extends B</c>
-	///   e.g. Javaにおける<c>ArrayList&lt;? extends Object&gt;</c>の<c>extends Object</c>
+	///   特異クラスの定義を表します。
+	///   e.g. Rubyにおける<c>class &lt;&lt; obj ... end</c>
 	/// </summary>
-	public class UnifiedTypeConstrainCollection
-			: UnifiedElementCollection
-			  		<UnifiedTypeConstrain, UnifiedTypeConstrainCollection> {
-		protected UnifiedTypeConstrainCollection() {}
+	public class UnifiedEigenClassDefinition
+			: UnifiedBlockDefinition<UnifiedEigenClassDefinition> {
+		protected UnifiedEigenClassDefinition() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
 			visitor.Visit(this);
-		}
-
-		public override UnifiedTypeConstrainCollection CreateSelf() {
-			return new UnifiedTypeConstrainCollection();
 		}
 
 		[DebuggerStepThrough]
@@ -50,5 +44,9 @@ namespace Unicoen.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			  		}
+
+		public override UnifiedEigenClassDefinition CreateSelf() {
+			return new UnifiedEigenClassDefinition();
+		}
+			}
 }

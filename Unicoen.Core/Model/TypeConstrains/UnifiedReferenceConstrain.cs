@@ -16,6 +16,9 @@
 
 #endregion
 
+using System.Diagnostics;
+using Unicoen.Processor;
+
 namespace Unicoen.Model {
 	/// <summary>
 	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
@@ -23,5 +26,29 @@ namespace Unicoen.Model {
 	///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
 	///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
 	/// </summary>
-	public abstract class UnifiedTypeConstraint : UnifiedElement {}
+	public class UnifiedReferenceConstrain : UnifiedTypeConstrain {
+		protected UnifiedReferenceConstrain() {}
+
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
+
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
+
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedReferenceConstrain Create(
+				UnifiedType type) {
+			return new UnifiedReferenceConstrain { };
+		}
+	}
 }

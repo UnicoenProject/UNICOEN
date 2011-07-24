@@ -216,16 +216,16 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		#endregion
 
-		private static IDictionary<string, IList<UnifiedTypeConstraint>> CreateDictionary(IEnumerable<Constraint> constraints) {
-			var dic = new Dictionary<string, IList<UnifiedTypeConstraint>>();
+		private static IDictionary<string, IList<UnifiedTypeConstrain>> CreateDictionary(IEnumerable<Constraint> constraints) {
+			var dic = new Dictionary<string, IList<UnifiedTypeConstrain>>();
 			foreach(var c in constraints) {
-				var list = null as IList<UnifiedTypeConstraint>;
+				var list = null as IList<UnifiedTypeConstrain>;
 				if (dic.TryGetValue(c.TypeParameter, out list) == false) {
-					dic[c.TypeParameter] = list =  new List<UnifiedTypeConstraint>();
+					dic[c.TypeParameter] = list =  new List<UnifiedTypeConstrain>();
 				}
 				var types = c.BaseTypes.Select(LookupType);
 				foreach(var type in types) {
-					list.Add(UnifiedExtendConstraint.Create(type));
+					list.Add(UnifiedExtendConstrain.Create(type));
 				}
 			}
 			return dic;
@@ -276,7 +276,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				this IEnumerable<Constraint> constraints, IAstVisitor<T, TResult> visitor, T data) {
 			return constraints
 					.Select(p => p.AcceptVisitor(visitor, data))
-					.OfType<UnifiedTypeConstraint>()
+					.OfType<UnifiedTypeConstrain>()
 					.ToCollection();
 		}
 
@@ -292,7 +292,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor, T data) {
 			return types
 					.Select(NRefactoryModelVisitor.LookupType)
-					.Select(UnifiedExtendConstraint.Create)
+					.Select(UnifiedExtendConstrain.Create)
 					.ToCollection();
 		}
 
