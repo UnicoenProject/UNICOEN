@@ -150,6 +150,28 @@ namespace MseConverter
 			return false;
 		}
 
+		public override bool Visit(UnifiedCall element, VisitorArgument arg) {
+			WriteIndent(2);
+			Writer.Write("(FAMIX.Invocation ");
+			Writer.WriteLine("(id: " + Id++ + ")");
+
+			WriteIndent(3);
+			//TODO どうやってメソッド定義のidを取得するか
+			Writer.Write("(candidate (idref: ");
+
+			WriteIndent(3);
+			Writer.Write("(invokedBy (idref: " + CurrentClass + "))");
+			
+			WriteIndent(3);
+			//TODO シグネチャを書く
+			Writer.WriteLine("(invokes )");
+
+			//TODO これはどういう意味か調べる
+			Writer.WriteLine("(stub false))");
+
+			return false;
+		}
+
 		public override bool Visit(UnifiedConstructor element, VisitorArgument arg) {
 			//TODO コンストラクタはMethodに含まれるのか確認
 			//element.Body.TryAccept(this, arg);
@@ -157,3 +179,10 @@ namespace MseConverter
 		}
 	}
 }
+/*
+(FAMIX.Invocation (id: 2806)
+			(candidate (idref: 2740))
+			(invokedBy (idref: 2797))
+			(invokes 'CreateModel(string ext, string code)')
+			(stub false))
+*/
