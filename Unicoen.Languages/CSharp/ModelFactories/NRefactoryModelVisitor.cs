@@ -547,9 +547,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		public IUnifiedElement VisitCatchClause(CatchClause catchClause, object data) {
 			var type = LookupType(catchClause.Type);
 			var name = UnifiedVariableIdentifier.Create(catchClause.VariableName);
-			var uMatcher = UnifiedMatcher.Create(matcher: type, assign: name);
 			var body = catchClause.Body.TryAcceptForExpression(this).ToBlock();
-			return UnifiedCatch.Create(uMatcher.ToCollection(), body);
+			return UnifiedCatch.Create(type, name, body);
 		}
 
 		public IUnifiedElement VisitUncheckedStatement(

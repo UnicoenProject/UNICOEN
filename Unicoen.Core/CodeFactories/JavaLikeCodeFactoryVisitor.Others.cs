@@ -166,7 +166,7 @@ namespace Unicoen.CodeFactories {
 		// e.g. catch(Exception e){...}
 		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
 			Writer.Write("catch");
-			element.Matchers.TryAccept(this, arg.Set(Paren));
+			element.Expression.TryAccept(this, arg.Set(Paren));
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}

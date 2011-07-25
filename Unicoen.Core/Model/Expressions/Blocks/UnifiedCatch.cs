@@ -25,19 +25,19 @@ namespace Unicoen.Model {
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
 	public class UnifiedCatch : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _matchers;
+		private IUnifiedExpression _expression;
 		private IUnifiedExpression _assign;
 		private UnifiedBlock _body;
 
 		/// <summary>
 		///   受け取る例外を表す変数宣言か型を取得もしくは設定します．
-		///   例外オブジェクトを変数が受け取らない場合は型のみが指定された変数宣言になります．
+		///   例外オブジェクトを変数が受け取らない場合は型になります．
 		///   e.g. JavaとC#における<c>catch (Exception e) { ... }</c>の<c>Exception e</c>
 		///   e.g. C#における<c>catch (Exception) { ... }</c>の<c>Exception</c>
 		/// </summary>
-		public IUnifiedExpression Matchers {
-			get { return _matchers; }
-			set { _matchers = SetChild(value, _matchers); }
+		public IUnifiedExpression Expression {
+			get { return _expression; }
+			set { _expression = SetChild(value, _expression); }
 		}
 
 		/// <summary>
@@ -77,10 +77,38 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedCatch Create(
-				UnifiedVariableDefinitionList matchers = null,
+				UnifiedVariableDefinition variableDefinition = null,
 				UnifiedBlock body = null) {
 			return new UnifiedCatch {
-					Matchers = matchers,
+					Expression = variableDefinition.ToVariableDefinitionList(),
+					Body = body,
+			};
+		}
+
+		public static UnifiedCatch Create(
+				UnifiedType type = null,
+				UnifiedIdentifier name = null,
+				UnifiedBlock body = null,
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null) {
+			return new UnifiedCatch {
+					Expression = name != null
+					             		? (IUnifiedExpression)
+					             		  UnifiedVariableDefinition
+					             		  		.Create(annotations, modifiers, type, name)
+					             		  		.ToVariableDefinitionList()
+					             		: type,
+					Body = body,
+			};
+		}
+
+		public static UnifiedCatch Create(
+				IUnifiedExpression expression = null,
+				IUnifiedExpression assign = null,
+				UnifiedBlock body = null) {
+			return new UnifiedCatch {
+					Expression = expression,
+					Assign = assign,
 					Body = body,
 			};
 		}
