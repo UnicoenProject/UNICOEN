@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-07-16 13:51:39
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 Aries.g 2011-07-23 12:00:32
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -21,10 +21,9 @@ using RewriteRuleITokenStream = Antlr.Runtime.Tree.RewriteRuleTokenStream;
 public partial class AriesParser : Antlr.Runtime.Parser
 {
 	internal static readonly string[] tokenNames = new string[] {
-		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "ASPECT", "ASPECT_BODY", "ELEMENTS", "ELEMENT", "LANGUAGE_DEPEND_BLOCK", "LANGUAGE_DECLARATION", "INTERTYPE_DECLARATION", "POINTCUT_DECLARATION", "ADVICE_DECLARATION", "TARGET_CLASS", "POINTCUT_NAME", "PARAMETERS", "PARAMETER", "PARAMETER_TYPE", "POINTCUT_DECLARATOR", "POINTCUT_TYPE", "TYPE", "IDENTIFIER_WITH_CLASS_NAME", "ADVICE_TYPE", "ADVICE_TARGET", "ADVICE_BODY", "CONTENTS", "IDENTIFIER", "POINTCUT_TYPE_ELEMENT", "ADVICE_TYPE_ELEMENT", "INTLITERAL", "STRING", "WS", "EscapeSequence", "'aspect'", "'{'", "'}'", "'}end'", "'@'", "'Java'", "'JavaScript'", "'CSharp'", "'Ruby'", "'Python'", "'C'", "':'", "'pointcut'", "';'", "'('", "')'", "'.'", "'='"
+		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "ASPECT", "ASPECT_BODY", "ELEMENTS", "ELEMENT", "LANGUAGE_DEPEND_BLOCK", "LANGUAGE_DECLARATION", "INTERTYPE_DECLARATION", "POINTCUT_DECLARATION", "ADVICE_DECLARATION", "TARGET_CLASS", "POINTCUT_NAME", "PARAMETERS", "PARAMETER", "PARAMETER_TYPE", "POINTCUT_DECLARATOR", "POINTCUT_TYPE", "TYPE", "IDENTIFIER_WITH_CLASS_NAME", "ADVICE_TYPE", "ADVICE_TARGET", "ADVICE_BODY", "CONTENTS", "IDENTIFIER", "POINTCUT_TYPE_ELEMENT", "ADVICE_TYPE_ELEMENT", "INTLITERAL", "STRING", "WS", "EscapeSequence", "OTHERS", "'aspect'", "'{'", "'}'", "'}end'", "'@'", "'Java'", "'JavaScript'", "'CSharp'", "'Ruby'", "'Python'", "'C'", "':'", "'pointcut'", "';'", "'('", "')'", "'.'", "'='"
 	};
 	public const int EOF=-1;
-	public const int T__33=33;
 	public const int T__34=34;
 	public const int T__35=35;
 	public const int T__36=36;
@@ -42,6 +41,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 	public const int T__48=48;
 	public const int T__49=49;
 	public const int T__50=50;
+	public const int T__51=51;
 	public const int ASPECT=4;
 	public const int ASPECT_BODY=5;
 	public const int ELEMENTS=6;
@@ -71,6 +71,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 	public const int STRING=30;
 	public const int WS=31;
 	public const int EscapeSequence=32;
+	public const int OTHERS=33;
 
 	// delegates
 	// delegators
@@ -153,8 +154,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 		object string_literal1_tree=null;
 		object IDENTIFIER2_tree=null;
-		RewriteRuleITokenStream stream_33=new RewriteRuleITokenStream(adaptor,"token 33");
 		RewriteRuleITokenStream stream_IDENTIFIER=new RewriteRuleITokenStream(adaptor,"token IDENTIFIER");
+		RewriteRuleITokenStream stream_34=new RewriteRuleITokenStream(adaptor,"token 34");
 		RewriteRuleSubtreeStream stream_aspectBody=new RewriteRuleSubtreeStream(adaptor,"rule aspectBody");
 		try { DebugEnterRule(GrammarFileName, "aspect");
 		DebugLocation(33, 1);
@@ -165,8 +166,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			// Aries.g:34:4: 'aspect' IDENTIFIER aspectBody
 			{
 			DebugLocation(34, 4);
-			string_literal1=(IToken)Match(input,33,Follow._33_in_aspect123);  
-			stream_33.Add(string_literal1);
+			string_literal1=(IToken)Match(input,34,Follow._34_in_aspect123);  
+			stream_34.Add(string_literal1);
 
 			DebugLocation(34, 13);
 			IDENTIFIER2=(IToken)Match(input,IDENTIFIER,Follow._IDENTIFIER_in_aspect125);  
@@ -271,7 +272,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 		object char_literal4_tree=null;
 		object char_literal6_tree=null;
 		RewriteRuleITokenStream stream_35=new RewriteRuleITokenStream(adaptor,"token 35");
-		RewriteRuleITokenStream stream_34=new RewriteRuleITokenStream(adaptor,"token 34");
+		RewriteRuleITokenStream stream_36=new RewriteRuleITokenStream(adaptor,"token 36");
 		RewriteRuleSubtreeStream stream_elements=new RewriteRuleSubtreeStream(adaptor,"rule elements");
 		try { DebugEnterRule(GrammarFileName, "aspectBody");
 		DebugLocation(38, 1);
@@ -282,8 +283,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			// Aries.g:39:4: '{' elements '}'
 			{
 			DebugLocation(39, 4);
-			char_literal4=(IToken)Match(input,34,Follow._34_in_aspectBody150);  
-			stream_34.Add(char_literal4);
+			char_literal4=(IToken)Match(input,35,Follow._35_in_aspectBody150);  
+			stream_35.Add(char_literal4);
 
 			DebugLocation(39, 8);
 			PushFollow(Follow._elements_in_aspectBody152);
@@ -292,8 +293,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_elements.Add(elements5.Tree);
 			DebugLocation(39, 17);
-			char_literal6=(IToken)Match(input,35,Follow._35_in_aspectBody154);  
-			stream_35.Add(char_literal6);
+			char_literal6=(IToken)Match(input,36,Follow._36_in_aspectBody154);  
+			stream_36.Add(char_literal6);
 
 
 
@@ -399,7 +400,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(1, decisionCanBacktrack[1]);
 				int LA1_0 = input.LA(1);
 
-				if ((LA1_0==IDENTIFIER||LA1_0==ADVICE_TYPE_ELEMENT||LA1_0==45))
+				if ((LA1_0==IDENTIFIER||LA1_0==ADVICE_TYPE_ELEMENT||LA1_0==46))
 				{
 					alt1=1;
 				}
@@ -544,7 +545,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 				alt2=1;
 				}
 				break;
-			case 45:
+			case 46:
 				{
 				alt2=2;
 				}
@@ -761,8 +762,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 		object char_literal12_tree=null;
 		object string_literal14_tree=null;
-		RewriteRuleITokenStream stream_36=new RewriteRuleITokenStream(adaptor,"token 36");
-		RewriteRuleITokenStream stream_34=new RewriteRuleITokenStream(adaptor,"token 34");
+		RewriteRuleITokenStream stream_35=new RewriteRuleITokenStream(adaptor,"token 35");
+		RewriteRuleITokenStream stream_37=new RewriteRuleITokenStream(adaptor,"token 37");
 		RewriteRuleSubtreeStream stream_contents=new RewriteRuleSubtreeStream(adaptor,"rule contents");
 		RewriteRuleSubtreeStream stream_languageDeclaration=new RewriteRuleSubtreeStream(adaptor,"rule languageDeclaration");
 		try { DebugEnterRule(GrammarFileName, "languageDependBlock");
@@ -780,8 +781,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_languageDeclaration.Add(languageDeclaration11.Tree);
 			DebugLocation(58, 24);
-			char_literal12=(IToken)Match(input,34,Follow._34_in_languageDependBlock251);  
-			stream_34.Add(char_literal12);
+			char_literal12=(IToken)Match(input,35,Follow._35_in_languageDependBlock251);  
+			stream_35.Add(char_literal12);
 
 			DebugLocation(58, 28);
 			PushFollow(Follow._contents_in_languageDependBlock253);
@@ -790,8 +791,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_contents.Add(contents13.Tree);
 			DebugLocation(58, 37);
-			string_literal14=(IToken)Match(input,36,Follow._36_in_languageDependBlock255);  
-			stream_36.Add(string_literal14);
+			string_literal14=(IToken)Match(input,37,Follow._37_in_languageDependBlock255);  
+			stream_37.Add(string_literal14);
 
 
 
@@ -883,7 +884,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 		AriesParser.languageType_return languageType16 = default(AriesParser.languageType_return);
 
 		object char_literal15_tree=null;
-		RewriteRuleITokenStream stream_37=new RewriteRuleITokenStream(adaptor,"token 37");
+		RewriteRuleITokenStream stream_38=new RewriteRuleITokenStream(adaptor,"token 38");
 		RewriteRuleSubtreeStream stream_languageType=new RewriteRuleSubtreeStream(adaptor,"rule languageType");
 		try { DebugEnterRule(GrammarFileName, "languageDeclaration");
 		DebugLocation(62, 1);
@@ -894,8 +895,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			// Aries.g:63:4: '@' languageType
 			{
 			DebugLocation(63, 4);
-			char_literal15=(IToken)Match(input,37,Follow._37_in_languageDeclaration278);  
-			stream_37.Add(char_literal15);
+			char_literal15=(IToken)Match(input,38,Follow._38_in_languageDeclaration278);  
+			stream_38.Add(char_literal15);
 
 			DebugLocation(63, 8);
 			PushFollow(Follow._languageType_in_languageDeclaration280);
@@ -1003,7 +1004,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			DebugLocation(68, 2);
 			set17=(IToken)input.LT(1);
-			if ((input.LA(1)>=38 && input.LA(1)<=43))
+			if ((input.LA(1)>=39 && input.LA(1)<=44))
 			{
 				input.Consume();
 				adaptor.AddChild(root_0, (object)adaptor.Create(set17));
@@ -1072,7 +1073,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 		AriesParser.languageDependBlock_return languageDependBlock20 = default(AriesParser.languageDependBlock_return);
 
 		object char_literal19_tree=null;
-		RewriteRuleITokenStream stream_44=new RewriteRuleITokenStream(adaptor,"token 44");
+		RewriteRuleITokenStream stream_45=new RewriteRuleITokenStream(adaptor,"token 45");
 		RewriteRuleSubtreeStream stream_languageDependBlock=new RewriteRuleSubtreeStream(adaptor,"rule languageDependBlock");
 		RewriteRuleSubtreeStream stream_targetClass=new RewriteRuleSubtreeStream(adaptor,"rule targetClass");
 		try { DebugEnterRule(GrammarFileName, "intertypeDeclaration");
@@ -1090,8 +1091,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_targetClass.Add(targetClass18.Tree);
 			DebugLocation(72, 16);
-			char_literal19=(IToken)Match(input,44,Follow._44_in_intertypeDeclaration334);  
-			stream_44.Add(char_literal19);
+			char_literal19=(IToken)Match(input,45,Follow._45_in_intertypeDeclaration334);  
+			stream_45.Add(char_literal19);
 
 			DebugLocation(72, 20);
 			PushFollow(Follow._languageDependBlock_in_intertypeDeclaration336);
@@ -1297,7 +1298,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 		object char_literal25_tree=null;
 		object char_literal27_tree=null;
 		RewriteRuleITokenStream stream_45=new RewriteRuleITokenStream(adaptor,"token 45");
-		RewriteRuleITokenStream stream_44=new RewriteRuleITokenStream(adaptor,"token 44");
+		RewriteRuleITokenStream stream_47=new RewriteRuleITokenStream(adaptor,"token 47");
 		RewriteRuleITokenStream stream_46=new RewriteRuleITokenStream(adaptor,"token 46");
 		RewriteRuleSubtreeStream stream_parameters=new RewriteRuleSubtreeStream(adaptor,"rule parameters");
 		RewriteRuleSubtreeStream stream_pointcutDeclarator=new RewriteRuleSubtreeStream(adaptor,"rule pointcutDeclarator");
@@ -1311,8 +1312,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			// Aries.g:82:4: 'pointcut' pointcutName parameters ':' pointcutDeclarator ';'
 			{
 			DebugLocation(82, 4);
-			string_literal22=(IToken)Match(input,45,Follow._45_in_pointcutDeclaration380);  
-			stream_45.Add(string_literal22);
+			string_literal22=(IToken)Match(input,46,Follow._46_in_pointcutDeclaration380);  
+			stream_46.Add(string_literal22);
 
 			DebugLocation(82, 15);
 			PushFollow(Follow._pointcutName_in_pointcutDeclaration382);
@@ -1327,8 +1328,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_parameters.Add(parameters24.Tree);
 			DebugLocation(82, 39);
-			char_literal25=(IToken)Match(input,44,Follow._44_in_pointcutDeclaration386);  
-			stream_44.Add(char_literal25);
+			char_literal25=(IToken)Match(input,45,Follow._45_in_pointcutDeclaration386);  
+			stream_45.Add(char_literal25);
 
 			DebugLocation(82, 43);
 			PushFollow(Follow._pointcutDeclarator_in_pointcutDeclaration388);
@@ -1337,8 +1338,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_pointcutDeclarator.Add(pointcutDeclarator26.Tree);
 			DebugLocation(82, 62);
-			char_literal27=(IToken)Match(input,46,Follow._46_in_pointcutDeclaration390);  
-			stream_46.Add(char_literal27);
+			char_literal27=(IToken)Match(input,47,Follow._47_in_pointcutDeclaration390);  
+			stream_47.Add(char_literal27);
 
 
 
@@ -1535,8 +1536,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 		object char_literal29_tree=null;
 		object char_literal31_tree=null;
+		RewriteRuleITokenStream stream_49=new RewriteRuleITokenStream(adaptor,"token 49");
 		RewriteRuleITokenStream stream_48=new RewriteRuleITokenStream(adaptor,"token 48");
-		RewriteRuleITokenStream stream_47=new RewriteRuleITokenStream(adaptor,"token 47");
 		RewriteRuleSubtreeStream stream_parameter=new RewriteRuleSubtreeStream(adaptor,"rule parameter");
 		try { DebugEnterRule(GrammarFileName, "parameters");
 		DebugLocation(91, 1);
@@ -1547,8 +1548,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			// Aries.g:92:4: '(' ( parameter )* ')'
 			{
 			DebugLocation(92, 4);
-			char_literal29=(IToken)Match(input,47,Follow._47_in_parameters436);  
-			stream_47.Add(char_literal29);
+			char_literal29=(IToken)Match(input,48,Follow._48_in_parameters436);  
+			stream_48.Add(char_literal29);
 
 			DebugLocation(92, 8);
 			// Aries.g:92:8: ( parameter )*
@@ -1593,8 +1594,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			} finally { DebugExitSubRule(3); }
 
 			DebugLocation(92, 19);
-			char_literal31=(IToken)Match(input,48,Follow._48_in_parameters441);  
-			stream_48.Add(char_literal31);
+			char_literal31=(IToken)Match(input,49,Follow._49_in_parameters441);  
+			stream_49.Add(char_literal31);
 
 
 
@@ -1907,8 +1908,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 		object char_literal36_tree=null;
 		object char_literal40_tree=null;
+		RewriteRuleITokenStream stream_49=new RewriteRuleITokenStream(adaptor,"token 49");
 		RewriteRuleITokenStream stream_48=new RewriteRuleITokenStream(adaptor,"token 48");
-		RewriteRuleITokenStream stream_47=new RewriteRuleITokenStream(adaptor,"token 47");
 		RewriteRuleSubtreeStream stream_pointcutType=new RewriteRuleSubtreeStream(adaptor,"rule pointcutType");
 		RewriteRuleSubtreeStream stream_arguments=new RewriteRuleSubtreeStream(adaptor,"rule arguments");
 		RewriteRuleSubtreeStream stream_type=new RewriteRuleSubtreeStream(adaptor,"rule type");
@@ -1928,8 +1929,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_pointcutType.Add(pointcutType35.Tree);
 			DebugLocation(108, 17);
-			char_literal36=(IToken)Match(input,47,Follow._47_in_pointcutDeclarator512);  
-			stream_47.Add(char_literal36);
+			char_literal36=(IToken)Match(input,48,Follow._48_in_pointcutDeclarator512);  
+			stream_48.Add(char_literal36);
 
 			DebugLocation(108, 21);
 			PushFollow(Follow._type_in_pointcutDeclarator514);
@@ -1950,8 +1951,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_arguments.Add(arguments39.Tree);
 			DebugLocation(108, 60);
-			char_literal40=(IToken)Match(input,48,Follow._48_in_pointcutDeclarator520);  
-			stream_48.Add(char_literal40);
+			char_literal40=(IToken)Match(input,49,Follow._49_in_pointcutDeclarator520);  
+			stream_49.Add(char_literal40);
 
 
 
@@ -2252,8 +2253,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 		object IDENTIFIER43_tree=null;
 		object char_literal44_tree=null;
 		object IDENTIFIER45_tree=null;
-		RewriteRuleITokenStream stream_49=new RewriteRuleITokenStream(adaptor,"token 49");
 		RewriteRuleITokenStream stream_IDENTIFIER=new RewriteRuleITokenStream(adaptor,"token IDENTIFIER");
+		RewriteRuleITokenStream stream_50=new RewriteRuleITokenStream(adaptor,"token 50");
 
 		try { DebugEnterRule(GrammarFileName, "identifierWithClassName");
 		DebugLocation(126, 1);
@@ -2277,7 +2278,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(4, decisionCanBacktrack[4]);
 				int LA4_0 = input.LA(1);
 
-				if ((LA4_0==49))
+				if ((LA4_0==50))
 				{
 					alt4=1;
 				}
@@ -2291,8 +2292,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 					// Aries.g:127:16: '.' IDENTIFIER
 					{
 					DebugLocation(127, 16);
-					char_literal44=(IToken)Match(input,49,Follow._49_in_identifierWithClassName615);  
-					stream_49.Add(char_literal44);
+					char_literal44=(IToken)Match(input,50,Follow._50_in_identifierWithClassName615);  
+					stream_50.Add(char_literal44);
 
 					DebugLocation(127, 20);
 					IDENTIFIER45=(IToken)Match(input,IDENTIFIER,Follow._IDENTIFIER_in_identifierWithClassName617);  
@@ -2428,12 +2429,12 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			root_0 = (object)adaptor.Nil();
 
 			DebugLocation(132, 4);
-			char_literal46=(IToken)Match(input,47,Follow._47_in_arguments641); 
+			char_literal46=(IToken)Match(input,48,Follow._48_in_arguments641); 
 			char_literal46_tree = (object)adaptor.Create(char_literal46);
 			adaptor.AddChild(root_0, char_literal46_tree);
 
 			DebugLocation(132, 8);
-			char_literal47=(IToken)Match(input,48,Follow._48_in_arguments643); 
+			char_literal47=(IToken)Match(input,49,Follow._49_in_arguments643); 
 			char_literal47_tree = (object)adaptor.Create(char_literal47);
 			adaptor.AddChild(root_0, char_literal47_tree);
 
@@ -2495,7 +2496,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 		AriesParser.adviceBody_return adviceBody52 = default(AriesParser.adviceBody_return);
 
 		object char_literal49_tree=null;
-		RewriteRuleITokenStream stream_44=new RewriteRuleITokenStream(adaptor,"token 44");
+		RewriteRuleITokenStream stream_45=new RewriteRuleITokenStream(adaptor,"token 45");
 		RewriteRuleSubtreeStream stream_adviceBody=new RewriteRuleSubtreeStream(adaptor,"rule adviceBody");
 		RewriteRuleSubtreeStream stream_adviceType=new RewriteRuleSubtreeStream(adaptor,"rule adviceType");
 		RewriteRuleSubtreeStream stream_adviceTarget=new RewriteRuleSubtreeStream(adaptor,"rule adviceTarget");
@@ -2515,8 +2516,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 
 			stream_adviceType.Add(adviceType48.Tree);
 			DebugLocation(136, 15);
-			char_literal49=(IToken)Match(input,44,Follow._44_in_adviceDeclaration656);  
-			stream_44.Add(char_literal49);
+			char_literal49=(IToken)Match(input,45,Follow._45_in_adviceDeclaration656);  
+			stream_45.Add(char_literal49);
 
 			DebugLocation(136, 19);
 			PushFollow(Follow._adviceTarget_in_adviceDeclaration658);
@@ -2835,7 +2836,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 		object char_literal55_tree=null;
 		object char_literal57_tree=null;
 		RewriteRuleITokenStream stream_35=new RewriteRuleITokenStream(adaptor,"token 35");
-		RewriteRuleITokenStream stream_34=new RewriteRuleITokenStream(adaptor,"token 34");
+		RewriteRuleITokenStream stream_36=new RewriteRuleITokenStream(adaptor,"token 36");
 		RewriteRuleSubtreeStream stream_languageDependBlock=new RewriteRuleSubtreeStream(adaptor,"rule languageDependBlock");
 		try { DebugEnterRule(GrammarFileName, "adviceBody");
 		DebugLocation(154, 1);
@@ -2846,8 +2847,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			// Aries.g:155:4: '{' ( languageDependBlock )+ '}'
 			{
 			DebugLocation(155, 4);
-			char_literal55=(IToken)Match(input,34,Follow._34_in_adviceBody747);  
-			stream_34.Add(char_literal55);
+			char_literal55=(IToken)Match(input,35,Follow._35_in_adviceBody747);  
+			stream_35.Add(char_literal55);
 
 			DebugLocation(155, 8);
 			// Aries.g:155:8: ( languageDependBlock )+
@@ -2859,7 +2860,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(5, decisionCanBacktrack[5]);
 				int LA5_0 = input.LA(1);
 
-				if ((LA5_0==37))
+				if ((LA5_0==38))
 				{
 					alt5=1;
 				}
@@ -2898,8 +2899,8 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			} finally { DebugExitSubRule(5); }
 
 			DebugLocation(155, 29);
-			char_literal57=(IToken)Match(input,35,Follow._35_in_adviceBody752);  
-			stream_35.Add(char_literal57);
+			char_literal57=(IToken)Match(input,36,Follow._36_in_adviceBody752);  
+			stream_36.Add(char_literal57);
 
 
 
@@ -3119,7 +3120,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(6, decisionCanBacktrack[6]);
 				int LA6_0 = input.LA(1);
 
-				if (((LA6_0>=ASPECT && LA6_0<=35)||(LA6_0>=37 && LA6_0<=50)))
+				if (((LA6_0>=ASPECT && LA6_0<=36)||(LA6_0>=38 && LA6_0<=51)))
 				{
 					alt6=1;
 				}
@@ -3134,7 +3135,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 					{
 					DebugLocation(165, 4);
 					set59=(IToken)input.LT(1);
-					if ((input.LA(1)>=ASPECT && input.LA(1)<=35)||(input.LA(1)>=37 && input.LA(1)<=50))
+					if ((input.LA(1)>=ASPECT && input.LA(1)<=36)||(input.LA(1)>=38 && input.LA(1)<=51))
 					{
 						input.Consume();
 						adaptor.AddChild(root_0, (object)adaptor.Create(set59));
@@ -3229,7 +3230,7 @@ public partial class AriesParser : Antlr.Runtime.Parser
 			root_0 = (object)adaptor.Nil();
 
 			DebugLocation(170, 4);
-			char_literal60=(IToken)Match(input,50,Follow._50_in_variableInitializer842); 
+			char_literal60=(IToken)Match(input,51,Follow._51_in_variableInitializer842); 
 			char_literal60_tree = (object)adaptor.Create(char_literal60);
 			adaptor.AddChild(root_0, char_literal60_tree);
 
@@ -3272,66 +3273,66 @@ public partial class AriesParser : Antlr.Runtime.Parser
 	#region Follow sets
 	private static class Follow
 	{
-		public static readonly BitSet _33_in_aspect123 = new BitSet(new ulong[]{0x4000000UL});
-		public static readonly BitSet _IDENTIFIER_in_aspect125 = new BitSet(new ulong[]{0x400000000UL});
+		public static readonly BitSet _34_in_aspect123 = new BitSet(new ulong[]{0x4000000UL});
+		public static readonly BitSet _IDENTIFIER_in_aspect125 = new BitSet(new ulong[]{0x800000000UL});
 		public static readonly BitSet _aspectBody_in_aspect127 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _34_in_aspectBody150 = new BitSet(new ulong[]{0x200814000000UL});
-		public static readonly BitSet _elements_in_aspectBody152 = new BitSet(new ulong[]{0x800000000UL});
-		public static readonly BitSet _35_in_aspectBody154 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _element_in_elements175 = new BitSet(new ulong[]{0x200014000002UL});
+		public static readonly BitSet _35_in_aspectBody150 = new BitSet(new ulong[]{0x401014000000UL});
+		public static readonly BitSet _elements_in_aspectBody152 = new BitSet(new ulong[]{0x1000000000UL});
+		public static readonly BitSet _36_in_aspectBody154 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _element_in_elements175 = new BitSet(new ulong[]{0x400014000002UL});
 		public static readonly BitSet _intertypeDeclaration_in_element198 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _pointcutDeclaration_in_element213 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _adviceDeclaration_in_element228 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _languageDeclaration_in_languageDependBlock249 = new BitSet(new ulong[]{0x400000000UL});
-		public static readonly BitSet _34_in_languageDependBlock251 = new BitSet(new ulong[]{0x7FFEFFFFFFFF0UL});
-		public static readonly BitSet _contents_in_languageDependBlock253 = new BitSet(new ulong[]{0x1000000000UL});
-		public static readonly BitSet _36_in_languageDependBlock255 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _37_in_languageDeclaration278 = new BitSet(new ulong[]{0xFC000000000UL});
+		public static readonly BitSet _languageDeclaration_in_languageDependBlock249 = new BitSet(new ulong[]{0x800000000UL});
+		public static readonly BitSet _35_in_languageDependBlock251 = new BitSet(new ulong[]{0xFFFDFFFFFFFF0UL});
+		public static readonly BitSet _contents_in_languageDependBlock253 = new BitSet(new ulong[]{0x2000000000UL});
+		public static readonly BitSet _37_in_languageDependBlock255 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _38_in_languageDeclaration278 = new BitSet(new ulong[]{0x1F8000000000UL});
 		public static readonly BitSet _languageType_in_languageDeclaration280 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _set_in_languageType0 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _targetClass_in_intertypeDeclaration332 = new BitSet(new ulong[]{0x100000000000UL});
-		public static readonly BitSet _44_in_intertypeDeclaration334 = new BitSet(new ulong[]{0x2000000000UL});
+		public static readonly BitSet _targetClass_in_intertypeDeclaration332 = new BitSet(new ulong[]{0x200000000000UL});
+		public static readonly BitSet _45_in_intertypeDeclaration334 = new BitSet(new ulong[]{0x4000000000UL});
 		public static readonly BitSet _languageDependBlock_in_intertypeDeclaration336 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _IDENTIFIER_in_targetClass359 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _45_in_pointcutDeclaration380 = new BitSet(new ulong[]{0x4000000UL});
-		public static readonly BitSet _pointcutName_in_pointcutDeclaration382 = new BitSet(new ulong[]{0x800000000000UL});
-		public static readonly BitSet _parameters_in_pointcutDeclaration384 = new BitSet(new ulong[]{0x100000000000UL});
-		public static readonly BitSet _44_in_pointcutDeclaration386 = new BitSet(new ulong[]{0x8000000UL});
-		public static readonly BitSet _pointcutDeclarator_in_pointcutDeclaration388 = new BitSet(new ulong[]{0x400000000000UL});
-		public static readonly BitSet _46_in_pointcutDeclaration390 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _46_in_pointcutDeclaration380 = new BitSet(new ulong[]{0x4000000UL});
+		public static readonly BitSet _pointcutName_in_pointcutDeclaration382 = new BitSet(new ulong[]{0x1000000000000UL});
+		public static readonly BitSet _parameters_in_pointcutDeclaration384 = new BitSet(new ulong[]{0x200000000000UL});
+		public static readonly BitSet _45_in_pointcutDeclaration386 = new BitSet(new ulong[]{0x8000000UL});
+		public static readonly BitSet _pointcutDeclarator_in_pointcutDeclaration388 = new BitSet(new ulong[]{0x800000000000UL});
+		public static readonly BitSet _47_in_pointcutDeclaration390 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _IDENTIFIER_in_pointcutName415 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _47_in_parameters436 = new BitSet(new ulong[]{0x1000004000000UL});
-		public static readonly BitSet _parameter_in_parameters438 = new BitSet(new ulong[]{0x1000004000000UL});
-		public static readonly BitSet _48_in_parameters441 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _48_in_parameters436 = new BitSet(new ulong[]{0x2000004000000UL});
+		public static readonly BitSet _parameter_in_parameters438 = new BitSet(new ulong[]{0x2000004000000UL});
+		public static readonly BitSet _49_in_parameters441 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _parameterType_in_parameter463 = new BitSet(new ulong[]{0x4000000UL});
 		public static readonly BitSet _IDENTIFIER_in_parameter465 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _IDENTIFIER_in_parameterType488 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _pointcutType_in_pointcutDeclarator510 = new BitSet(new ulong[]{0x800000000000UL});
-		public static readonly BitSet _47_in_pointcutDeclarator512 = new BitSet(new ulong[]{0x4000000UL});
+		public static readonly BitSet _pointcutType_in_pointcutDeclarator510 = new BitSet(new ulong[]{0x1000000000000UL});
+		public static readonly BitSet _48_in_pointcutDeclarator512 = new BitSet(new ulong[]{0x4000000UL});
 		public static readonly BitSet _type_in_pointcutDeclarator514 = new BitSet(new ulong[]{0x4000000UL});
-		public static readonly BitSet _identifierWithClassName_in_pointcutDeclarator516 = new BitSet(new ulong[]{0x800000000000UL});
-		public static readonly BitSet _arguments_in_pointcutDeclarator518 = new BitSet(new ulong[]{0x1000000000000UL});
-		public static readonly BitSet _48_in_pointcutDeclarator520 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _identifierWithClassName_in_pointcutDeclarator516 = new BitSet(new ulong[]{0x1000000000000UL});
+		public static readonly BitSet _arguments_in_pointcutDeclarator518 = new BitSet(new ulong[]{0x2000000000000UL});
+		public static readonly BitSet _49_in_pointcutDeclarator520 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _POINTCUT_TYPE_ELEMENT_in_pointcutType547 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _IDENTIFIER_in_type591 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _IDENTIFIER_in_identifierWithClassName612 = new BitSet(new ulong[]{0x2000000000000UL});
-		public static readonly BitSet _49_in_identifierWithClassName615 = new BitSet(new ulong[]{0x4000000UL});
-		public static readonly BitSet _IDENTIFIER_in_identifierWithClassName617 = new BitSet(new ulong[]{0x2000000000002UL});
-		public static readonly BitSet _47_in_arguments641 = new BitSet(new ulong[]{0x1000000000000UL});
-		public static readonly BitSet _48_in_arguments643 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _adviceType_in_adviceDeclaration654 = new BitSet(new ulong[]{0x100000000000UL});
-		public static readonly BitSet _44_in_adviceDeclaration656 = new BitSet(new ulong[]{0x4000000UL});
-		public static readonly BitSet _adviceTarget_in_adviceDeclaration658 = new BitSet(new ulong[]{0x800000000000UL});
-		public static readonly BitSet _parameters_in_adviceDeclaration660 = new BitSet(new ulong[]{0x400000000UL});
+		public static readonly BitSet _IDENTIFIER_in_identifierWithClassName612 = new BitSet(new ulong[]{0x4000000000000UL});
+		public static readonly BitSet _50_in_identifierWithClassName615 = new BitSet(new ulong[]{0x4000000UL});
+		public static readonly BitSet _IDENTIFIER_in_identifierWithClassName617 = new BitSet(new ulong[]{0x4000000000002UL});
+		public static readonly BitSet _48_in_arguments641 = new BitSet(new ulong[]{0x2000000000000UL});
+		public static readonly BitSet _49_in_arguments643 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _adviceType_in_adviceDeclaration654 = new BitSet(new ulong[]{0x200000000000UL});
+		public static readonly BitSet _45_in_adviceDeclaration656 = new BitSet(new ulong[]{0x4000000UL});
+		public static readonly BitSet _adviceTarget_in_adviceDeclaration658 = new BitSet(new ulong[]{0x1000000000000UL});
+		public static readonly BitSet _parameters_in_adviceDeclaration660 = new BitSet(new ulong[]{0x800000000UL});
 		public static readonly BitSet _adviceBody_in_adviceDeclaration662 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _ADVICE_TYPE_ELEMENT_in_adviceType690 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _IDENTIFIER_in_adviceTarget726 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _34_in_adviceBody747 = new BitSet(new ulong[]{0x2000000000UL});
-		public static readonly BitSet _languageDependBlock_in_adviceBody749 = new BitSet(new ulong[]{0x2800000000UL});
-		public static readonly BitSet _35_in_adviceBody752 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _35_in_adviceBody747 = new BitSet(new ulong[]{0x4000000000UL});
+		public static readonly BitSet _languageDependBlock_in_adviceBody749 = new BitSet(new ulong[]{0x5000000000UL});
+		public static readonly BitSet _36_in_adviceBody752 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _content_in_contents774 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _set_in_content795 = new BitSet(new ulong[]{0x7FFEFFFFFFFF2UL});
-		public static readonly BitSet _50_in_variableInitializer842 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _set_in_content795 = new BitSet(new ulong[]{0xFFFDFFFFFFFF2UL});
+		public static readonly BitSet _51_in_variableInitializer842 = new BitSet(new ulong[]{0x20000000UL});
 		public static readonly BitSet _INTLITERAL_in_variableInitializer844 = new BitSet(new ulong[]{0x2UL});
 
 	}
