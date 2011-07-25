@@ -18,7 +18,7 @@
 
 using System;
 
-namespace Unicoen.Apps.Translator {
+namespace Unicoen.Apps.Translator.Util {
 	public class Util {
 		// 言語に応じた拡張子を取得する
 		public static string GetExtention(LanguageType type) {

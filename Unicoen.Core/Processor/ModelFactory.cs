@@ -16,12 +16,15 @@
 
 #endregion
 
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Unicoen.Model;
 
 namespace Unicoen.Processor {
 	public abstract class ModelFactory {
+		public abstract IEnumerable<string> Extensions { get; }
+
 		public abstract UnifiedProgram GenerateWithouNormalizing(string code);
 
 		public virtual UnifiedProgram GenerateFromFile(string filePath) {

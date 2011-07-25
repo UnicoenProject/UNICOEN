@@ -22,11 +22,11 @@ using System.IO;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using Paraiba.Text;
-using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Apps.Aop.Cui.Visitor;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 
-namespace Unicoen.Apps.Aop {
+namespace Unicoen.Apps.Aop.Cui {
 	public class Program {
 		private const string Usage =
 				"Usage: aries <rootDirectoryPath> <aspectFilePath>\nyou should specify missing parameter(s).";
@@ -93,7 +93,7 @@ namespace Unicoen.Apps.Aop {
 					continue;
 
 				var code = File.ReadAllText(file, XEncoding.SJIS);
-				var model = CodeProcessor.CreateModel(fileExtension, code);
+				var model = CodeProcessor.CodeProcessor.CreateModel(fileExtension, code);
 
 				//アスペクトの合成を行う
 				AspectAdaptor.Weave(langType, model, visitor);

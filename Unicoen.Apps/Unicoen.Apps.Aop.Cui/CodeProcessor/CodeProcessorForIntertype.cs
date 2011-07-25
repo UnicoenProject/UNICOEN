@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.Aop
+namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 {
 	public partial class CodeProcessor {
 		

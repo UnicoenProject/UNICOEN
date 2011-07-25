@@ -20,11 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unicoen.Apps.Aop.AspectElement;
-using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Apps.Aop.Cui.AspectElement;
+using Unicoen.Apps.Aop.Cui.Visitor;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.Aop {
+namespace Unicoen.Apps.Aop.Cui {
 	public static class ExtendAspectAdaptor {
 		/// <summary>
 		///   ポイントカットをポイントカット名で参照できるようにします
@@ -41,9 +41,9 @@ namespace Unicoen.Apps.Aop {
 			foreach (var intertype in visitor.Intertypes) {
 				if (intertype.GetLanguageType() != language)
 					continue;
-				var members = CodeProcessor.CreateIntertype(
+				var members = CodeProcessor.CodeProcessor.CreateIntertype(
 						intertype.GetLanguageType(), intertype.GetContents());
-				CodeProcessor.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
+				CodeProcessor.CodeProcessor.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
 			}
 
 			//ポイントカットを登録する
@@ -72,7 +72,7 @@ namespace Unicoen.Apps.Aop {
 				UnifiedBlock code = null;
 				foreach (var languageDependBlock in advice.GetFragments()) {
 					if (languageDependBlock.GetLanguageType().Equals(language)) {
-						code = CodeProcessor.CreateAdvice(
+						code = CodeProcessor.CodeProcessor.CreateAdvice(
 								language, languageDependBlock.GetContents());
 						break;
 					}
@@ -89,12 +89,12 @@ namespace Unicoen.Apps.Aop {
 					if (target.GetPointcutType().Equals("execution")) {
 						//とりあえずメソッド名だけを抜き出して合成
 						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, 5, code);
+						CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, 5, code);
 					} else {
 						//call
 						//とりあえずメソッド名だけを抜き出して合成
 						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtBeforeCallByName(model, methodName, code);
+						CodeProcessor.CodeProcessor.InsertAtBeforeCallByName(model, methodName, code);
 					}
 					break;
 
@@ -102,12 +102,12 @@ namespace Unicoen.Apps.Aop {
 					if (target.GetPointcutType().Equals("execution")) {
 						//とりあえずメソッド名だけを抜き出して合成
 						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtAfterExecutionByName(model, methodName, 5, code);
+						CodeProcessor.CodeProcessor.InsertAtAfterExecutionByName(model, methodName, 5, code);
 					} else {
 						//call
 						//とりあえずメソッド名だけを抜き出して合成
 						var methodName = target.GetTargetName().ElementAt(1);
-						CodeProcessor.InsertAtAfterCallByName(model, methodName, code);
+						CodeProcessor.CodeProcessor.InsertAtAfterCallByName(model, methodName, code);
 					}
 					break;
 

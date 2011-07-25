@@ -18,7 +18,7 @@
 
 using System.Windows;
 
-namespace AopGUI {
+namespace Unicoen.Apps.Aop.Gui {
 	/// <summary>
 	///   App.xaml の相互作用ロジック
 	/// </summary>

@@ -16,7 +16,7 @@
 
 #endregion
 
-namespace Unicoen.Apps.Aop.AspectElement {
+namespace Unicoen.Apps.Aop.Cui.AspectElement {
 	/// <summary>
 	///   アスペクトファイルの構成要素を表します
 	/// </summary>

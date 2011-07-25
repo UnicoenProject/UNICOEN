@@ -19,9 +19,9 @@
 using System;
 using System.Collections.Generic;
 using Antlr.Runtime.Tree;
-using Unicoen.Apps.Aop.AspectElement;
+using Unicoen.Apps.Aop.Cui.AspectElement;
 
-namespace Unicoen.Apps.Aop.Visitor {
+namespace Unicoen.Apps.Aop.Cui.Visitor {
 	public class AstVisitor {
 		//field
 		public List<Intertype> Intertypes = new List<Intertype>();

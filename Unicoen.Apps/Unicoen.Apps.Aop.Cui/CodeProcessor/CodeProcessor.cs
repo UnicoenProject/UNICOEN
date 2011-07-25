@@ -18,8 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
@@ -34,7 +32,7 @@ using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.JavaScript.ModelFactories;
 using Unicoen.Languages.Python2;
 
-namespace Unicoen.Apps.Aop {
+namespace Unicoen.Apps.Aop.Cui.CodeProcessor {
 	/// <summary>
 	///   アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
 	/// </summary>

@@ -19,7 +19,7 @@
 using System;
 using Antlr.Runtime.Tree;
 
-namespace Unicoen.Apps.Aop.Visitor {
+namespace Unicoen.Apps.Aop.Cui.Visitor {
 	public class DebugVisitor {
 		//constructor
 

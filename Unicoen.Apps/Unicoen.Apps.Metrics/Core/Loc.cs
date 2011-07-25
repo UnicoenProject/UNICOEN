@@ -19,10 +19,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unicoen.Applications.Metrics.Utils;
+using Unicoen.Apps.Metrics.Utils;
 using Unicoen.Model;
 
-namespace Unicoen.Applications.Metrics.Cores {
+namespace Unicoen.Apps.Metrics.Core {
 	public class Loc {
 		public static bool Run(IList<string> args) {
 			foreach (var arg in args) {

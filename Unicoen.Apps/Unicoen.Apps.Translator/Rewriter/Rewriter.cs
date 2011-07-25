@@ -19,7 +19,7 @@
 using System.Linq;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.Translator {
+namespace Unicoen.Apps.Translator.Rewriter {
 	// モデルの書き換えに関するクラス
 	public class Rewriter {
 		// targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
