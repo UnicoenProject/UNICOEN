@@ -67,9 +67,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniUni.Tests", "UniUni\UniU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Java.Heavy.Tests", "Unicoen.Languages\Java.Heavy.Tests\Unicoen.Languages.Java.Heavy.Tests.csproj", "{E265A1E4-08CC-477B-A514-32CB2C11E717}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter", "MseConverter\Unicoen.Apps.MseConverter.csproj", "{78C715F5-572A-4AC2-9F44-025D490CD636}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter", "Unicoen.Apps\Unicoen.Apps.MseConverter\Unicoen.Apps.MseConverter.csproj", "{78C715F5-572A-4AC2-9F44-025D490CD636}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter.Tests", "Unicoen.Apps.MseConverter.Tests\Unicoen.Apps.MseConverter.Tests.csproj", "{78ED0918-866A-45BB-A260-ED8ACDDD712E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter.Tests", "Unicoen.Apps\Unicoen.Apps.MseConverter.Tests\Unicoen.Apps.MseConverter.Tests.csproj", "{78ED0918-866A-45BB-A260-ED8ACDDD712E}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
