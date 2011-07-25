@@ -26,7 +26,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			//a = b;
 			//TODO とりえあずAssignのみ +=,-=などについてはおいおい
 			var assignmentExpressions =
-					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign);
+					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign).ToList();
 			
 			foreach (var exp in assignmentExpressions) {
 
@@ -47,7 +47,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			}
 
 			//int a = b;
-			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>();
+			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>().ToList();
 
 			foreach(var definition in variableDefinitions) {
 				//初期化子を変数として取得
@@ -79,7 +79,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			//a = b;のb
 			//TODO とりえあずAssignのみ +=,-=などについてはおいおい
 			var assignmentExpressions =
-					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign);
+					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign).ToList();
 			
 			foreach (var exp in assignmentExpressions) {
 
@@ -100,7 +100,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			}
 
 			//int a = b;のb
-			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>();
+			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>().ToList();
 
 			foreach(var definition in variableDefinitions) {
 				//初期化子を変数として取得
@@ -127,7 +127,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			//a = b;のa
 			//TODO とりえあずAssignのみ +=,-=などについてはおいおい
 			var assignmentExpressions =
-					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign);
+					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign).ToList();
 			
 			foreach (var exp in assignmentExpressions) {
 
@@ -148,7 +148,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			}
 
 			//int a = b;のa
-			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>();
+			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>().ToList();
 
 			foreach(var definition in variableDefinitions) {
 				//初期化子がない場合は値はセットされないので次の要素へ
@@ -178,7 +178,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			//a = b;のa
 			//TODO とりえあずAssignのみ +=,-=などについてはおいおい
 			var assignmentExpressions =
-					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign);
+					root.Descendants<UnifiedBinaryExpression>().Where(e => e.Operator.Kind == UnifiedBinaryOperatorKind.Assign).ToList();
 			
 			foreach (var exp in assignmentExpressions) {
 
@@ -199,7 +199,7 @@ namespace Unicoen.Apps.Aop.Cui.CodeProcessor
 			}
 
 			//int a = b;のa
-			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>();
+			var variableDefinitions = root.Descendants<UnifiedVariableDefinition>().ToList();
 
 			foreach(var definition in variableDefinitions) {
 				//初期化子がない場合は値はセットされないので次の要素へ
