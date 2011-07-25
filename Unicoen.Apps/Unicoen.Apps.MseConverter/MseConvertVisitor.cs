@@ -70,8 +70,6 @@ namespace Unicoen.Apps.MseConverter {
 		public override void Visit(
 				UnifiedNamespaceDefinition element) {
 
-			//TODO パッケージの出力をjunit::xxxのように、::でつなぐようにして出力
-
 			//パッケージ名の取得
 			var buffer = new StringWriter();
 			CodeFactory.Generate(element.Name, buffer);
@@ -95,7 +93,8 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.WriteLine("(id: " + id + ")");
 
 			//パッケージ名の出力
-			Writer.Write("(name \'" + packageName + "\'))");
+			packageName = packageName.Replace(".", "::");
+			Writer.WriteLine("(name \'" + packageName + "\'))");
 
 			//パッケージ内のコードについて探査する
 			element.Body.TryAccept(this);
@@ -123,7 +122,7 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.Write("(FAMIX.Class ");
 			Writer.WriteLine("(id: " + id + ")");
 
-			Writer.Write("(name \'" + className + "\')");
+			Writer.WriteLine("(name \'" + className + "\')");
 
 			//パッケージ化されているパッケージIDを出力
 			buffer = new StringWriter();
@@ -164,7 +163,7 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.Write("(FAMIX.Method ");
 			Writer.WriteLine("(id: " + id + ")");
 
-			Writer.Write("(name \'" + functionName + "\')");
+			Writer.WriteLine("(name \'" + functionName + "\')");
 
 			Writer.WriteLine(
 					"(accessControlQualifier \'" +
@@ -215,7 +214,7 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.Write("(FAMIX.Attribute ");
 			Writer.WriteLine("(id: " + id + ")");
 
-			Writer.Write("(name \'" + attributeName + "\')");
+			Writer.WriteLine("(name \'" + attributeName + "\')");
 
 			Writer.WriteLine(
 					"(accessControlQualifier \'" +

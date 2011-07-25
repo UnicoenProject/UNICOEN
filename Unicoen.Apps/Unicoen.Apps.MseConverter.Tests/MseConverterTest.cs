@@ -21,7 +21,7 @@ namespace Unicoen.Apps.MseConverter.Tests
 		[Test]
 		public void 共通オブジェクトをmseフォーマットに変換できる() {
 			var filePaths =
-					Collect(FixtureUtil.GetDownloadPath("java", "junit4.8.2", "src"));
+					Collect(FixtureUtil.GetDownloadPath("java", "junit4.8.2"));
 
 			var writer = new StringWriter();
 			var converter = new MseConverter(writer);
