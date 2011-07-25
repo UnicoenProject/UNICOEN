@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using Unicoen.Model;
 
 namespace Unicoen.Processor {
@@ -247,18 +248,23 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedInstanceInitializer element) {}
 
 		public virtual void Visit(UnifiedLambda element) {}
+		public virtual void Visit(UnifiedDefaultConstrain element) {
+		}
 
-		public virtual void Visit(UnifiedDefaultConstraint element) {}
+		public virtual void Visit(UnifiedExtendConstrain element) {
+		}
 
-		public virtual void Visit(UnifiedExtendConstraint element) {}
+		public virtual void Visit(UnifiedImplementsConstrain element) {
+		}
 
-		public virtual void Visit(UnifiedImplementsConstraint element) {}
+		public virtual void Visit(UnifiedReferenceConstrain element) {
+		}
 
-		public virtual void Visit(UnifiedReferenceConstraint element) {}
+		public virtual void Visit(UnifiedSuperConstrain element) {
+		}
 
-		public virtual void Visit(UnifiedSuperConstraint element) {}
-
-		public virtual void Visit(UnifiedValueConstraint element) {}
+		public virtual void Visit(UnifiedValueConstrain element) {
+		}
 
 		public virtual void Visit(UnifiedSuperIdentifier element) {}
 
@@ -307,6 +313,14 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedUsingPartCollection element) {}
 
 		public virtual void Visit(UnifiedFromQuery element) {}
+		public virtual void Visit(UnifiedProc element) {
+		}
+
+		public virtual void Visit(UnifiedEigenClassDefinition element) {
+		}
+
+		public virtual void Visit(UnifiedEigenConstrain element) {
+		}
 
 		public virtual void Visit(UnifiedTypeIdentifier element) {}
 	}
@@ -550,18 +564,23 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedInstanceInitializer element, TArg arg) {}
 
 		public virtual void Visit(UnifiedLambda element, TArg arg) {}
+		public virtual void Visit(UnifiedDefaultConstrain element, TArg arg) {
+		}
 
-		public virtual void Visit(UnifiedDefaultConstraint element, TArg arg) {}
+		public virtual void Visit(UnifiedExtendConstrain element, TArg arg) {
+		}
 
-		public virtual void Visit(UnifiedExtendConstraint element, TArg arg) {}
+		public virtual void Visit(UnifiedImplementsConstrain element, TArg arg) {
+		}
 
-		public virtual void Visit(UnifiedImplementsConstraint element, TArg arg) {}
+		public virtual void Visit(UnifiedReferenceConstrain element, TArg arg) {
+		}
 
-		public virtual void Visit(UnifiedReferenceConstraint element, TArg arg) {}
+		public virtual void Visit(UnifiedSuperConstrain element, TArg arg) {
+		}
 
-		public virtual void Visit(UnifiedSuperConstraint element, TArg arg) {}
-
-		public virtual void Visit(UnifiedValueConstraint element, TArg arg) {}
+		public virtual void Visit(UnifiedValueConstrain element, TArg arg) {
+		}
 
 		public virtual void Visit(UnifiedSuperIdentifier element, TArg arg) {}
 
@@ -611,6 +630,14 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedUsingPartCollection element, TArg arg) {}
 
 		public virtual void Visit(UnifiedFromQuery element, TArg arg) {}
+		public virtual void Visit(UnifiedProc element, TArg arg) {
+		}
+
+		public virtual void Visit(UnifiedEigenClassDefinition element, TArg arg) {
+		}
+
+		public virtual void Visit(UnifiedEigenConstrain element, TArg arg) {
+		}
 
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {}
 			}
@@ -686,6 +713,18 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedFromQuery element, TArg arg) {
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedProc element, TArg arg) {
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedEigenClassDefinition element, TArg arg) {
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedEigenConstrain element, TArg arg) {
 			return default(TResult);
 		}
 
@@ -1143,27 +1182,27 @@ namespace Unicoen.Processor {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedDefaultConstraint element, TArg arg) {
+		public virtual TResult Visit(UnifiedDefaultConstrain element, TArg arg) {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedExtendConstraint element, TArg arg) {
+		public virtual TResult Visit(UnifiedExtendConstrain element, TArg arg) {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedImplementsConstraint element, TArg arg) {
+		public virtual TResult Visit(UnifiedImplementsConstrain element, TArg arg) {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedReferenceConstraint element, TArg arg) {
+		public virtual TResult Visit(UnifiedReferenceConstrain element, TArg arg) {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedSuperConstraint element, TArg arg) {
+		public virtual TResult Visit(UnifiedSuperConstrain element, TArg arg) {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedValueConstraint element, TArg arg) {
+		public virtual TResult Visit(UnifiedValueConstrain element, TArg arg) {
 			return default(TResult);
 		}
 

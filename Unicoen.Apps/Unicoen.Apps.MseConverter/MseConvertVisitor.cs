@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Unicoen.CodeFactories;
@@ -32,18 +33,19 @@ namespace Unicoen.Apps.MseConverter {
 		public CodeFactory CodeFactory { get; private set; }
 
 		private Dictionary<string, int> package2Id;
-		private Dictionary<string, int> class2Id;
-		private Dictionary<string, int> method2Id;
-		private Dictionary<string, int> attribute2Id;
-
+		private Dictionary<IUnifiedElement, int> class2Id;
+		private Dictionary<IUnifiedElement, int> method2Id;
+		private Dictionary<IUnifiedElement, int> attribute2Id;
 	
 		private int _id = 2;
-		private int _currentPackage;
-		private int _currentClass;
 
 		public MseConvertVisitor(TextWriter writer, CodeFactory codeFactory) {
 			Writer = writer;
 			CodeFactory = codeFactory;
+			package2Id = new Dictionary<string, int>();
+			class2Id = new Dictionary<IUnifiedElement, int>();
+			method2Id = new Dictionary<IUnifiedElement, int>();
+			attribute2Id = new Dictionary<IUnifiedElement, int>();
 		}
 
 		private int NextId() {
@@ -67,33 +69,69 @@ namespace Unicoen.Apps.MseConverter {
 
 		public override void Visit(
 				UnifiedNamespaceDefinition element) {
-			var id = NextId();
-			Writer.Write("(FAMIX.Package ");
+
+			//TODO パッケージの出力をjunit::xxxのように、::でつなぐようにして出力
+
+			//パッケージ名の取得
+			var buffer = new StringWriter();
+			CodeFactory.Generate(element.Name, buffer);
+			var packageName = buffer.ToString();
+
+			//すでに登録されているか確認
+			int id;
+			package2Id.TryGetValue(packageName, out id);
+
+			if(id != 0) {
+				element.Body.TryAccept(this);
+				return;
+			}
+
+			//登録されていなければ新しいIdを取得する
+			id = NextId();
+				package2Id.Add(packageName, id);
+
+			//規定のフォーマットを出力
+			Writer.Write("(FAMIX.Namespace ");
 			Writer.WriteLine("(id: " + id + ")");
-			_currentPackage = id;
 
 			//パッケージ名の出力
-			Writer.Write("(name \'");
-			CodeFactory.Generate(element.Name, Writer);
-			Writer.WriteLine("\'))");
+			Writer.Write("(name \'" + packageName + "\'))");
 
+			//パッケージ内のコードについて探査する
 			element.Body.TryAccept(this);
 		}
 
 		public override void Visit(
 				UnifiedClassDefinition element) {
-			var id = NextId();
+
+			//クラス名の取得
+			var buffer = new StringWriter();
+			CodeFactory.Generate(element.Name, buffer);
+			var className = buffer.ToString();
+
+			//すでに登録されているか確認
+			int id;
+			class2Id.TryGetValue(element, out id);
+			
+			//登録されていなければ新しいIdを取得する
+			if(id == 0) {
+				id = NextId();
+				class2Id.Add(element, id);
+			}
+
+			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Class ");
 			Writer.WriteLine("(id: " + id + ")");
-			_currentClass = id;
 
-			Writer.Write("(name \'");
-			element.Name.TryAccept(this);
-			Writer.WriteLine("\')");
+			Writer.Write("(name \'" + className + "\')");
 
 			//パッケージ化されているパッケージIDを出力
-			Writer.WriteLine("(packagedIn (idref: " + _currentPackage + "))");
+			buffer = new StringWriter();
+			CodeFactory.Generate(element.Ancestor<UnifiedNamespaceDefinition>().Name, buffer);
+			package2Id.TryGetValue(buffer.ToString(), out id);
+			Writer.WriteLine("(belongsTo (idref: " + id + "))");
 
+			//抽象クラスかどうかを出力
 			var isAbstract = false;
 			var modifiers = element.Modifiers;
 			foreach (var modifier in modifiers) {
@@ -107,22 +145,42 @@ namespace Unicoen.Apps.MseConverter {
 
 		public override void Visit(
 				UnifiedFunctionDefinition element) {
-			var id = NextId();
+			//関数名の取得
+			var buffer = new StringWriter();
+			CodeFactory.Generate(element.Name, buffer);
+			var functionName = buffer.ToString();
+
+			//すでに登録されているか確認
+			int id;
+			method2Id.TryGetValue(element, out id);
+			
+			//登録されていなければ新しいIdを取得する
+			if(id == 0) {
+				id = NextId();
+				method2Id.Add(element, id);
+			}
+
+			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Method ");
 			Writer.WriteLine("(id: " + id + ")");
 
-			Writer.Write("(name \'");
-			element.Name.TryAccept(this);
-			Writer.WriteLine("\')");
+			Writer.Write("(name \'" + functionName + "\')");
 
 			Writer.WriteLine(
 					"(accessControlQualifier \'" +
 					GetAccessControlQualifier(element.Modifiers) + "\')");
 
-			Writer.WriteLine("(belongsTo (idref: " + _currentClass + "))");
+			class2Id.TryGetValue(element.Ancestor<UnifiedClassDefinition>(), out id);
+			Writer.WriteLine("(belongsTo (idref: " + id + "))");
 			//TODO LOCの計算
 			Writer.WriteLine("(LOC 100)");
-			Writer.WriteLine("(packagedIn (idref: " + _currentPackage + "))");
+
+			/*
+			buffer = new StringWriter();
+			CodeFactory.Generate(element.Ancestor<UnifiedNamespaceDefinition>().Name, buffer);
+			package2Id.TryGetValue(buffer.ToString(), out id);			
+			Writer.WriteLine("(packagedIn (idref: " + id + "))");
+			*/
 
 			Writer.Write("(signature \'");
 			CodeFactory.Generate(element.Name, Writer);
@@ -138,19 +196,33 @@ namespace Unicoen.Apps.MseConverter {
 		}
 
 		public override void Visit(UnifiedVariableDefinition element) {
-			var id = NextId();
+			//変数名の取得
+			var buffer = new StringWriter();
+			CodeFactory.Generate(element.Name, buffer);
+			var attributeName = buffer.ToString();
+
+			//すでに登録されているか確認
+			int id;
+			attribute2Id.TryGetValue(element, out id);
+			
+			//登録されていなければ新しいIdを取得する
+			if(id == 0) {
+				attribute2Id.Add(element, id);
+				id = NextId();
+			}
+
+			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Attribute ");
 			Writer.WriteLine("(id: " + id + ")");
 
-			Writer.Write("(name \'");
-			CodeFactory.Generate(element.Name, Writer);
-			Writer.WriteLine("\')");
+			Writer.Write("(name \'" + attributeName + "\')");
 
 			Writer.WriteLine(
 					"(accessControlQualifier \'" +
 					GetAccessControlQualifier(element.Modifiers) + "\')");
 
-			Writer.WriteLine("(belongsTo (idref: " + _currentClass + ")))");
+			class2Id.TryGetValue(element.Ancestor<UnifiedClassDefinition>(), out id);
+			Writer.WriteLine("(belongsTo (idref: " + id + ")))");
 		}
 
 		public override void Visit(UnifiedCall element) {
@@ -161,7 +233,8 @@ namespace Unicoen.Apps.MseConverter {
 			//TODO どうやってメソッド定義のidを取得するか
 			//Writer.Write("(candidate (idref: ");
 
-			Writer.Write("(invokedBy (idref: " + _currentClass + "))");
+			//一時的にコメントアウトします
+			//Writer.Write("(invokedBy (idref: " + _currentClass + "))");
 
 			Writer.Write("(invokes '");
 			CodeFactory.Generate(element, Writer);
