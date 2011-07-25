@@ -748,7 +748,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var expr = exprNode != null
 			           		? CreateExpr(exprNode)
 			           		: null;
-			return UnifiedUsingPart.Create(expr, test);
+			return UnifiedUsingPart.Create(test, expr);
 		}
 
 		public static UnifiedMatcher CreateExcept_clause(XElement node) {

@@ -79,7 +79,7 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		///   変数の初期化部分を表します。
+		///   変数の初期値を表します。
 		///   e.g. Javaにおける<c>int a[] = { 1 };</c>の<c>{ 1 }</c>部分
 		///   e.g. C#, Javaにおける<c>int[] a = { 1 };</c>の<c>{ 1 }</c>部分
 		///   e.g. C, C++, C#, Javaにおける<c>int i = 1;</c>の<c>{ 1 }</c>部分
@@ -90,7 +90,7 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		///   変数の初期化のコンストラクタ呼び出しを表します。
+		///   変数を初期化するコンストラクタ呼び出しの引数を表します。
 		///   e.g. C++における<c>Class c(1);</c>
 		/// </summary>
 		public UnifiedArgumentCollection Arguments {

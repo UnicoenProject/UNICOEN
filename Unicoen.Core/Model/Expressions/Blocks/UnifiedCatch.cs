@@ -21,20 +21,32 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   catch節を表します。
+	///   catch/rescue節を表します。
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
 	public class UnifiedCatch : UnifiedElement, IUnifiedExpression {
-		private UnifiedMatcherCollection _matchers;
+		private IUnifiedExpression _matchers;
+		private IUnifiedExpression _assign;
 		private UnifiedBlock _body;
 
 		/// <summary>
-		///   catch節内のパターンマッチ（例外を受け取る部分）の集合を取得します．
-		///   e.g. <c>catch(Exception e){...}</c>の<c>Exception e</c>
+		///   受け取る例外を表す変数宣言か型を取得もしくは設定します．
+		///   例外オブジェクトを変数が受け取らない場合は型のみが指定された変数宣言になります．
+		///   e.g. JavaとC#における<c>catch (Exception e) { ... }</c>の<c>Exception e</c>
+		///   e.g. C#における<c>catch (Exception) { ... }</c>の<c>Exception</c>
 		/// </summary>
-		public UnifiedMatcherCollection Matchers {
+		public IUnifiedExpression Matchers {
 			get { return _matchers; }
 			set { _matchers = SetChild(value, _matchers); }
+		}
+
+		/// <summary>
+		///   例外オブジェクトを受け取る左辺式（≠変数宣言）を取得もしくは設定します．
+		///   e.g. Rubyにおける<c>rescue ArgumentError, TypeError => e</c>の<c>e</c>
+		/// </summary>
+		public IUnifiedExpression Assign {
+			get { return _assign; }
+			set { _assign = SetChild(value, _assign); }
 		}
 
 		/// <summary>
@@ -65,7 +77,7 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedCatch Create(
-				UnifiedMatcherCollection matchers = null,
+				UnifiedVariableDefinitionList matchers = null,
 				UnifiedBlock body = null) {
 			return new UnifiedCatch {
 					Matchers = matchers,
