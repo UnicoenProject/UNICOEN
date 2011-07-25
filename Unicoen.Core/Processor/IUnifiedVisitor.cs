@@ -168,6 +168,9 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedProc element);
 		void Visit(UnifiedEigenClassDefinition element);
 		void Visit(UnifiedEigenConstrain element);
+		void Visit(UnifiedRange element);
+		void Visit(UnifiedRetry element);
+		void Visit(UnifiedRedo element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -318,6 +321,9 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedProc element, TArg arg);
 		void Visit(UnifiedEigenClassDefinition element, TArg arg);
 		void Visit(UnifiedEigenConstrain element, TArg arg);
+		void Visit(UnifiedRange element, TArg arg);
+		void Visit(UnifiedRedo element, TArg arg);
+		void Visit(UnifiedRetry element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -468,5 +474,8 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedProc element, TArg arg);
 		TResult Visit(UnifiedEigenClassDefinition element, TArg arg);
 		TResult Visit(UnifiedEigenConstrain element, TArg arg);
+		TResult Visit(UnifiedRange element, TArg arg);
+		TResult Visit(UnifiedRedo element, TArg arg);
+		TResult Visit(UnifiedRetry element, TArg arg);
 	}
 }

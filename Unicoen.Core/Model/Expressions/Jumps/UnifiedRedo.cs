@@ -20,15 +20,8 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedBreak : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _value;
-
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
-		}
-
-		protected UnifiedBreak() {}
+	public class UnifiedRedo : UnifiedElement, IUnifiedExpression {
+		protected UnifiedRedo() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -47,11 +40,8 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedBreak Create(
-				IUnifiedExpression value = null) {
-			return new UnifiedBreak {
-					Value = value,
-			};
+		public static UnifiedRedo Create() {
+			return new UnifiedRedo();
 		}
 	}
 }

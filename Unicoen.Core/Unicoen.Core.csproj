@@ -109,6 +109,7 @@
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructorLike.cs" />
+    <Compile Include="Model\Expressions\Blocks\Specials\IUnifiedUsingPart.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedProc.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedFixBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedLambda.cs" />
@@ -118,6 +119,8 @@
     <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinition.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedVaueIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedTypeIdentifier.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedRedo.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedRetry.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt31Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt31Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedBigIntLiteral.cs" />
@@ -129,6 +132,7 @@
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt16Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt32Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt32Literal.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedRange.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedLet.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedJoin.cs" />
@@ -209,7 +213,7 @@
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
-    <Compile Include="Model\UnifiedUsingPart.cs" />
+    <Compile Include="Model\Expressions\Blocks\Specials\UnifiedUsingPart.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeFactories\CodeFactory.cs" />

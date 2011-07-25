@@ -37,6 +37,24 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["true"] = CreateTrue;
 			ExpressionFuncs["false"] = CreateFalse;
 			ExpressionFuncs["str"] = CreateStr;
+			ExpressionFuncs["dot2"] = CreateDot2;
+			ExpressionFuncs["dot3"] = CreateDot3;
+		}
+
+		private static IUnifiedExpression CreateDot3(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "dot3");
+			return UnifiedRange.Create(
+					CreateExpresion(node.FirstElement()),
+					CreateExpresion(node.LastElement()));
+		}
+
+		private static IUnifiedExpression CreateDot2(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "dot2");
+			return UnifiedRange.CreateNotContainingMax(
+					CreateExpresion(node.FirstElement()),
+					CreateExpresion(node.LastElement()));
 		}
 
 		public static UnifiedArrayLiteral CreateArray(XElement node) {

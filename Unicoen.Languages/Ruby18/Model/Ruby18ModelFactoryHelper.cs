@@ -37,6 +37,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			InitializeExpressions();
 			InitializeLiterals();
 			InitializeDefinitions();
+			InitializeControlFlows();
 		}
 
 		public static UnifiedProgram CreateProgram(XElement node) {

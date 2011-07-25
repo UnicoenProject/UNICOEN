@@ -103,6 +103,7 @@
     <Reference Include="Microsoft.Scripting">
       <HintPath>..\..\lib\Microsoft.Scripting.dll</HintPath>
     </Reference>
+    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -114,6 +115,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Ruby18ModelFactoryHelper.ControlFlows.cs" />
     <Compile Include="Model\Ruby18ModelFactoryHelper.Definitions.cs" />
     <Compile Include="Model\Ruby18ModelFactoryHelper.Expressions.cs" />
     <Compile Include="Model\Ruby18ModelFactory.cs" />

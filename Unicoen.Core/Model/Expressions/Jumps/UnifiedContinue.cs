@@ -21,9 +21,9 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	public class UnifiedContinue : UnifiedElement, IUnifiedExpression {
-		private UnifiedIdentifier _value;
+		private IUnifiedExpression _value;
 
-		public UnifiedIdentifier Value {
+		public IUnifiedExpression Value {
 			get { return _value; }
 			set { _value = SetChild(value, _value); }
 		}
@@ -48,7 +48,7 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedContinue Create(
-				UnifiedIdentifier value = null) {
+				IUnifiedExpression value = null) {
 			return new UnifiedContinue {
 					Value = value,
 			};

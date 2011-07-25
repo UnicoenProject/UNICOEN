@@ -20,15 +20,24 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedBreak : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _value;
+	/// <summary>
+	///   範囲リテラルを表します．
+	///   e.g. Rubyにおける<c>1..2</c>や<c>1...3</c>
+	/// </summary>
+	public class UnifiedRange : UnifiedElement, IUnifiedExpression {
+		private IUnifiedExpression _min, _max;
 
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
+		public IUnifiedExpression Min {
+			get { return _min; }
+			set { _min = SetChild(value, _min); }
 		}
 
-		protected UnifiedBreak() {}
+		public IUnifiedExpression Max {
+			get { return _max; }
+			set { _max = SetChild(value, _max); }
+		}
+
+		private UnifiedRange() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -37,7 +46,8 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
@@ -47,10 +57,24 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedBreak Create(
-				IUnifiedExpression value = null) {
-			return new UnifiedBreak {
-					Value = value,
+		public static UnifiedRange Create(
+				IUnifiedExpression min = null,
+				IUnifiedExpression max = null) {
+			return new UnifiedRange {
+					Min = min,
+					Max = max,
+			};
+		}
+
+		public static UnifiedRange CreateNotContainingMax(
+				IUnifiedExpression min = null,
+				IUnifiedExpression max = null) {
+			return new UnifiedRange {
+					Min = min,
+					Max = UnifiedBinaryExpression.Create(
+							max,
+							UnifiedBinaryOperator.Create("-", UnifiedBinaryOperatorKind.Subtract),
+							UnifiedIntegerLiteral.CreateInt32(-1)),
 			};
 		}
 	}

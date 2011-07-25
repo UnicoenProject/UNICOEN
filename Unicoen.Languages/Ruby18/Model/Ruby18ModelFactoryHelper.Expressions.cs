@@ -30,38 +30,34 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["scope"] = CreateScope;
 
 			ExpressionFuncs["block"] = CreateBlock;
-			ExpressionFuncs["if"] = CreateIf;
 			ExpressionFuncs["call"] = CreateCall;
 			ExpressionFuncs["lvar"] = CreateLvar;
-			ExpressionFuncs["case"] = CreateCase;
-			ExpressionFuncs["until"] = CreateUntil;
-
-			ExpressionFuncs["for"] = CreateFor;
-			ExpressionFuncs["iter"] = CreateIter;
 
 			ExpressionFuncs["lasgn"] = CreateLasgn;
 			ExpressionFuncs["masgn"] = CreateMasgn;
+			ExpressionFuncs["attrasgn"] = CreateAttrasgn;
 			ExpressionFuncs["const"] = CreateConst;
 			ExpressionFuncs["Symbol"] = CreateSymbol;
 			ExpressionFuncs["self"] = CreateSelf;
-
-			ExpressionFuncs["return"] = CreateReturn;
 		}
 
 		public static IUnifiedExpression CreateExpresion(XElement node) {
 			return ExpressionFuncs[node.Name()](node);
 		}
 
+		private static IUnifiedExpression CreateAttrasgn(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "attrasgn");
+			Contract.Requires(node.NthElement(1).Value == "[]=");
+			return UnifiedIndexer.Create(
+					CreateExpresion(node.FirstElement()),
+					CreateArglist(node.LastElement()));
+		}
+
 		public static IUnifiedExpression CreateSmartExpresion(XElement node) {
 			if (node == null || node.Name() == "nil")
 				return null;
 			return ExpressionFuncs[node.Name()](node);
-		}
-
-		private static IUnifiedExpression CreateReturn(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "return");
-			return UnifiedReturn.Create(CreateSmartExpresion(node.FirstElementOrDefault()));
 		}
 
 		private static UnifiedThisIdentifier CreateSelf(XElement node) {
@@ -74,55 +70,6 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "scope");
 			return CreateSmartBlock(node.FirstElementOrDefault());
-		}
-
-		public static UnifiedCall CreateIter(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "iter");
-			var call = CreateCall(node.NthElement(0));
-			var parameters = CreateLasgnOrMasgnOrNil(node.NthElement(1))
-					.Select(e => e.ToParameter())
-					.ToCollection();
-			var block = CreateBlock(node.NthElement(2));
-			call.Proc = UnifiedProc.Create(parameters, block);
-			return call;
-		}
-
-		public static IUnifiedExpression CreateFor(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "for");
-			Contract.Assert(
-					node.NthElement(1).Name() == "lasgn"
-					|| node.NthElement(1).Name() == "masgn");
-			return UnifiedForeach.Create(
-					CreateExpresion(node.NthElement(0)),
-					CreateExpresion(node.NthElement(1).FirstElement()),
-					CreateBlock(node.NthElement(2)));
-		}
-
-		public static IUnifiedExpression CreateUntil(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "until");
-			var cond =
-					UnifiedUnaryExpression.Create(
-							CreateExpresion(node.FirstElement()),
-							UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.Not));
-			var secondNode = node.NthElement(1);
-			if (node.LastElement().Name() == "TrueClass") {
-				return UnifiedWhile.Create(cond, CreateBlock(secondNode));
-			}
-			return UnifiedDoWhile.Create(cond, CreateBlock(secondNode));
-		}
-
-		public static IUnifiedExpression CreateCase(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "case");
-			return UnifiedSwitch.Create(
-					CreateExpresion(node.NthElement(0)),
-					node.Elements().Skip(1)
-							.SelectMany(CreateWhenAndDefault)
-							.ToCollection()
-					);
 		}
 
 		public static IUnifiedExpression CreateLvar(XElement node) {
@@ -142,15 +89,6 @@ namespace Unicoen.Languages.Ruby18.Model {
 							? UnifiedProperty.Create(".", receiver, CreateExpresion(secondNode))
 							: CreateExpresion(secondNode),
 					CreateArglist(node.NthElement(2)));
-		}
-
-		public static UnifiedIf CreateIf(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "if");
-			return UnifiedIf.Create(
-					CreateExpresion(node.NthElement(0)),
-					CreateBlock(node.NthElement(1)),
-					CreateBlock(node.NthElement(2)));
 		}
 
 		public static UnifiedVariableIdentifier CreateSymbol(XElement node) {

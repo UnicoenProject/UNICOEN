@@ -17,6 +17,7 @@
 #endregion
 
 using System.Diagnostics;
+using System.IO;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
@@ -26,11 +27,23 @@ namespace Unicoen.Model {
 	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1</c>
 	/// </summary>
 	public class UnifiedUsingPart : UnifiedElement {
+		private UnifiedVariableDefinition _variableDefinition;
 		private IUnifiedExpression _assign;
 		private IUnifiedExpression _target;
 
 		/// <summary>
-		///   管理対象のリソースの値を受け取る左辺式や変数宣言を取得もしくは設定します．
+		///   管理対象のリソースの値を受け取る変数の宣言を取得もしくは設定します．
+		///   変数宣言のない動的言語ではこのプロパティは利用できません．
+		///   このプロパティがnullでなければ，TargetプロパティはVariableDefinitionのInitialValueプロパティを参照します．
+		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
+		/// </summary>
+		public UnifiedVariableDefinition VariableDefinition {
+			get { return _variableDefinition; }
+			set { _variableDefinition = SetChild(value, _variableDefinition); }
+		}
+
+		/// <summary>
+		///   管理対象のリソースの値を受け取る左辺式を取得もしくは設定します．
 		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r</c>
 		///   e.g. Pythonにおける<c>with file(p1) as f1:</c>の<c>f1</c>
 		/// </summary>
@@ -66,6 +79,15 @@ namespace Unicoen.Model {
 		public override TResult Accept<TArg, TResult>(
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedUsingPart Create(
+				IUnifiedExpression assign = null,
+				IUnifiedExpression target = null) {
+			return new UnifiedUsingPart {
+					Assign = assign,
+					Target = target,
+			};
 		}
 
 		public static UnifiedUsingPart Create(
