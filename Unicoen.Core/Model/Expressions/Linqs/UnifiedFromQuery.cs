@@ -21,17 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   LINQのクエリ式を表します。
+	///   LINQのクエリ式を構成するfrom句を表します。
+	///   e.g. C#における<c>from int element in array</c>
 	/// </summary>
-	public class UnifiedLinq : UnifiedElement, IUnifiedExpression {
+	public class UnifiedFromQuery : UnifiedLinqQuery {
 		private UnifiedType _receiverType;
 		private UnifiedVariableIdentifier _receiver;
 		private IUnifiedExpression _source;
-		private UnifiedLinqElementCollection _linqParts;
 
 		/// <summary>
 		///   fromで受け取る変数の型を取得もしくは設定します．
-		///   e.g. C#における<c>from int p in a select p</c>の<c>int</c>
+		///   e.g. C#における<c>from int element in array</c>の<c>int</c>
 		/// </summary>
 		public UnifiedType ReceiverType {
 			get { return _receiverType; }
@@ -40,7 +40,7 @@ namespace Unicoen.Model {
 
 		/// <summary>
 		///   要素を受け取る変数を取得もしくは設定します．
-		///   e.g. C#における<c>from int p in a select p</c>の<c>p</c>
+		///   e.g. C#における<c>from int element in array</c>の<c>element</c>
 		/// </summary>
 		public UnifiedVariableIdentifier Receiver {
 			get { return _receiver; }
@@ -49,23 +49,14 @@ namespace Unicoen.Model {
 
 		/// <summary>
 		///   クエリ式の対象となる式を取得もしくは設定します．
-		///   e.g. C#における<c>from int p in a select p</c>の<c>a</c>
+		///   e.g. C#における<c>from int element in array</c>の<c>array</c>
 		/// </summary>
 		public IUnifiedExpression Source {
 			get { return _source; }
 			set { _source = SetChild(value, _source); }
 		}
 
-		/// <summary>
-		///   クエリ式を構成する要素の集合を取得もしくは設定します．
-		///   e.g. C#における<c>from int p in a select p</c>の<c>select p</c>
-		/// </summary>
-		public UnifiedLinqElementCollection LinqParts {
-			get { return _linqParts; }
-			set { _linqParts = SetChild(value, _linqParts); }
-		}
-
-		protected UnifiedLinq() {}
+		protected UnifiedFromQuery() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -83,16 +74,13 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedLinq Create(
-				UnifiedVariableIdentifier element,
-				IUnifiedExpression source,
-				UnifiedLinqElementCollection linqParts,
-				UnifiedType elementType = null) {
-			return new UnifiedLinq {
-					Receiver = element,
-					Source = source,
-					LinqParts = linqParts,
-					ReceiverType = elementType,
+		public static UnifiedFromQuery Create(
+				UnifiedVariableIdentifier receiver, IUnifiedExpression source,
+				UnifiedType receiverType = null) {
+			return new UnifiedFromQuery {
+					ReceiverType = receiverType,
+					Receiver = receiver,
+					Source = source
 			};
 		}
 	}

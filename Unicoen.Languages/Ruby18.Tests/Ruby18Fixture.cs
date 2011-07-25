@@ -65,7 +65,6 @@ namespace Unicoen.Languages.Ruby18.Tests {
 			get {
 				return new[] {
 						"a = 1",
-						"class A: pass",
 				}.Select(s => new TestCaseData(s));
 			}
 		}

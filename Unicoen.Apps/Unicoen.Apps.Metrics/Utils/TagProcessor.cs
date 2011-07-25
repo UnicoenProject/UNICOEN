@@ -19,7 +19,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Unicoen.Applications.Metrics.Utils {
+namespace Unicoen.Apps.Metrics.Utils {
 	public static class TagProcessor {
 		public static SortedSet<string> HierarchizeTags(IEnumerable<string> tagSet) {
 			var newTagSet = new SortedSet<string>();

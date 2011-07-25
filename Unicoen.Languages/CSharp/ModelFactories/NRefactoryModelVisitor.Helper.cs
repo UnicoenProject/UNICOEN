@@ -25,6 +25,7 @@ using System.Collections.Generic;
 
 namespace Unicoen.Languages.CSharp.ModelFactories {
 	internal partial class NRefactoryModelVisitor {
+
 		#region Lookups
 
 		private static UnifiedModifierCollection LookupModifiers(Modifiers mods) {
@@ -71,7 +72,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 		}
 
 		private static UnifiedModifier LookupModifier(FieldDirection dir) {
-			switch(dir) {
+			switch (dir) {
 			case FieldDirection.Out:
 				return UnifiedModifier.Create("out");
 			case FieldDirection.Ref:
@@ -80,14 +81,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			return null;
 		}
 
-		private static UnifiedGenericArgumentCollection ToArgumentCollection(IEnumerable<AstType> types) {
-			return types
-					.Select(LookupType)
-					.Select(t => UnifiedGenericArgument.Create(t))
-					.ToCollection();
-		}
-
-		private static UnifiedType LookupType(AstType type) {
+		internal static UnifiedType LookupType(AstType type) {
 			Contract.Requires<ArgumentNullException>(type != null);
 			Contract.Ensures(Contract.Result<UnifiedType>() != null);
 
@@ -194,13 +188,132 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			throw new ArgumentException("Unknown operator: " + op);
 		}
 
+		private static UnifiedAnnotationTarget LookupAttributeTarget(string target) {
+			if (target == null)
+				return UnifiedAnnotationTarget.None;
+			switch(target) {
+			case "assembly":
+				return UnifiedAnnotationTarget.Assembly;
+			case "module":
+				return UnifiedAnnotationTarget.Module;
+			case "type":
+				return UnifiedAnnotationTarget.Type;
+			case "field":
+				return UnifiedAnnotationTarget.Field;
+			case "method":
+				return UnifiedAnnotationTarget.Method;
+			case "event":
+				return UnifiedAnnotationTarget.Event;
+			case "property":
+				return UnifiedAnnotationTarget.Property;
+			case "param":
+				return UnifiedAnnotationTarget.Param;
+			case "return":
+				return UnifiedAnnotationTarget.Return;
+			}
+			throw new ArgumentException("未対応の対象です: " + target);
+		}
+
 		#endregion
+
+		private static IDictionary<string, IList<UnifiedTypeConstrain>> CreateDictionary(IEnumerable<Constraint> constraints) {
+			var dic = new Dictionary<string, IList<UnifiedTypeConstrain>>();
+			foreach(var c in constraints) {
+				var list = null as IList<UnifiedTypeConstrain>;
+				if (dic.TryGetValue(c.TypeParameter, out list) == false) {
+					dic[c.TypeParameter] = list =  new List<UnifiedTypeConstrain>();
+				}
+				var types = c.BaseTypes.Select(LookupType);
+				foreach(var type in types) {
+					list.Add(UnifiedExtendConstrain.Create(type));
+				}
+			}
+			return dic;
+		}
+
+		private static string GetTypeName(UnifiedType type) {
+			Contract.Requires(type != null);
+			var ident = type.BasicTypeName as UnifiedIdentifier;
+			if (ident == null) return null;
+			return ident.Name;
+		}
 	}
 
+	#region AcceptVisitorExntension
+
 	internal static class VisitorExtension {
+
 		internal static IUnifiedExpression TryAcceptForExpression(this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
 			if (node == null) return null;
 			return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
 		}
+
+		internal static UnifiedAnnotationCollection AcceptVisitorAsAttrs<T, TResult>(
+				this IEnumerable<AttributeSection> attrs, IAstVisitor<T, TResult> visitor, T data) {
+			return attrs
+					.Select(a => a.AcceptVisitor(visitor, data))
+					.OfType<UnifiedAnnotationCollection>()
+					.Merge();
+		}
+
+		internal static UnifiedParameterCollection AcceptVisitorAsParams<T, TResult>(
+				this IEnumerable<ParameterDeclaration> parameters, IAstVisitor<T, TResult> visitor, T data) {
+			return parameters
+					.Select(p => p.AcceptVisitor(visitor, data))
+					.OfType<UnifiedParameter>()
+					.ToCollection();
+		}
+
+		internal static UnifiedGenericParameterCollection AcceptVisitorAsTypeParams<T, TResult>(
+				this IEnumerable<TypeParameterDeclaration> types, IAstVisitor<T, TResult> visitor, T data) {
+			return types
+					.Select(p => p.AcceptVisitor(visitor, data))
+					.OfType<UnifiedGenericParameter>()
+					.ToCollection();
+		}
+
+		internal static UnifiedTypeConstrainCollection AcceptVisitorAsTypeParams<T, TResult>(
+				this IEnumerable<Constraint> constraints, IAstVisitor<T, TResult> visitor, T data) {
+			return constraints
+					.Select(p => p.AcceptVisitor(visitor, data))
+					.OfType<UnifiedTypeConstrain>()
+					.ToCollection();
+		}
+
+		internal static UnifiedGenericArgumentCollection AcceptVisitorAsTypeArgs<T, TResult>(
+				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor, T data) {
+			return types
+					.Select(NRefactoryModelVisitor.LookupType)
+					.Select(t => UnifiedGenericArgument.Create(t))
+					.ToCollection();
+		}
+
+		internal static UnifiedTypeConstrainCollection AcceptVisitorAsConstrains<T, TResult>(
+				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor, T data) {
+			return types
+					.Select(NRefactoryModelVisitor.LookupType)
+					.Select(UnifiedExtendConstrain.Create)
+					.ToCollection();
+		}
+
+		internal static UnifiedArgumentCollection AcceptVisitorAsArgs<T, TResult>(
+				this IEnumerable<Expression> args, IAstVisitor<T, TResult> visitor, T data) {
+			var uArgs = UnifiedArgumentCollection.Create();
+			foreach (var arg in args) {
+				var value = arg.AcceptVisitor(visitor, data);
+				var uArg = value as UnifiedArgument;
+				if (uArg != null) {
+					uArgs.Add(uArg);
+				}
+				else {
+					var uExpr = value as IUnifiedExpression;
+					if (uExpr != null)
+						uArgs.Add(UnifiedArgument.Create(uExpr, /*label*/null, /*mod*/null));
+				}
+			}
+			return uArgs;
+		}
 	}
+
+	#endregion
 }

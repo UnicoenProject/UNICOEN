@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using Code2Xml.Languages.C.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -23,6 +24,10 @@ using Unicoen.Processor;
 namespace Unicoen.Languages.C.ModelFactories {
 	public class CModelFactory : ModelFactory {
 		public static CModelFactory Instance = new CModelFactory();
+
+		public override IEnumerable<string> Extensions {
+			get { return CCodeToXml.Instance.TargetExtensions; }
+		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = CCodeToXml.Instance.Generate(code, true);

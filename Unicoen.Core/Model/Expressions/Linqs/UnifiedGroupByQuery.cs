@@ -24,7 +24,7 @@ namespace Unicoen.Model {
 	///   LINQのクエリ式を構成するgroup by句を表します。
 	///   e.g. C#における<c>group p.W in p.X into g</c>
 	/// </summary>
-	public class UnifiedGroupBy : UnifiedLinqPart {
+	public class UnifiedGroupByQuery : UnifiedLinqQuery {
 		private IUnifiedExpression _element;
 		private IUnifiedExpression _key;
 		private UnifiedVariableIdentifier _receiver;
@@ -56,7 +56,7 @@ namespace Unicoen.Model {
 			set { _receiver = SetChild(value, _receiver); }
 		}
 
-		protected UnifiedGroupBy() {}
+		protected UnifiedGroupByQuery() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -74,10 +74,10 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedGroupBy Create(
+		public static UnifiedGroupByQuery Create(
 				IUnifiedExpression element, IUnifiedExpression key,
 				UnifiedVariableIdentifier receiver = null) {
-			return new UnifiedGroupBy {
+			return new UnifiedGroupByQuery {
 					Element = element,
 					Key = key,
 					Receiver = receiver

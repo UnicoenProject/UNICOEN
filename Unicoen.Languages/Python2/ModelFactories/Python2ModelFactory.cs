@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using Code2Xml.Languages.Python2.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -23,6 +24,10 @@ using Unicoen.Processor;
 namespace Unicoen.Languages.Python2.ModelFactories {
 	public class Python2ModelFactory : ModelFactory {
 		public static Python2ModelFactory Instance = new Python2ModelFactory();
+
+		public override IEnumerable<string> Extensions {
+			get { return Python2CodeToXml.Instance.TargetExtensions; }
+		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = Python2CodeToXml.Instance.Generate(code, true);

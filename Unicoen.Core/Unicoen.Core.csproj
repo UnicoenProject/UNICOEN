@@ -99,10 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
+    <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
     <Compile Include="Model\Collections\UnifiedUsingPartCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedLinqElementCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
@@ -121,6 +121,8 @@
     <Compile Include="Model\Expressions\Identifiers\UnifiedTypeIdentifier.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedRedo.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedRetry.cs" />
+    <Compile Include="Model\Expressions\Jumps\UnifiedYieldBreak.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedFromQuery.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt31Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt31Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedBigIntLiteral.cs" />
@@ -134,15 +136,15 @@
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt32Literal.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedRange.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedLet.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedJoin.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedOrderBy.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedGroupBy.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedLetQuery.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedJoinQuery.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedOrderByQuery.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedGroupByQuery.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedOrderByKey.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedWhere.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedLinqPart.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedSelect.cs" />
-    <Compile Include="Model\Expressions\Linqs\UnifiedLinq.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedWhereQuery.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedLinqQuery.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedSelectQuery.cs" />
+    <Compile Include="Model\Expressions\Linqs\UnifiedLinqExpression.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedPropertyDefinitionPart.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedArrayLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\Collections\UnifiedIterableLiteral.cs" />
@@ -198,15 +200,16 @@
     <Compile Include="Extensions\ModelGenerator.cs" />
     <Compile Include="Extensions\SafeModelSweeper.cs" />
     <Compile Include="Model\IUnifiedCreatable.cs" />
-    <Compile Include="Model\TypeConstrains\UnifiedEigenConstrain.cs" />
-    <Compile Include="Model\TypeConstrains\UnifiedSuperConstrain.cs" />
-    <Compile Include="Model\TypeConstrains\UnifiedValueConstrain.cs" />
-    <Compile Include="Model\TypeConstrains\UnifiedReferenceConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedDefaultConstrain.cs" />
-    <Compile Include="Model\TypeConstrains\UnifiedImplementsConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedEigenConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedExtendConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedImplementsConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedReferenceConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedSuperConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedTypeConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedValueConstrain.cs" />
     <Compile Include="Model\UnifiedAnnotation.cs" />
+    <Compile Include="Model\UnifiedAnnotationTarget.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Model\UnifiedElement.Serialize.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Collections.cs" />
@@ -214,7 +217,9 @@
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedUsingPart.cs" />
+    <Compile Include="Processor\DefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
+    <Compile Include="Processor\SemanticAnalyzer.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeFactories\CodeFactory.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />

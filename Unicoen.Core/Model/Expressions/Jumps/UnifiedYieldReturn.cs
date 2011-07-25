@@ -47,8 +47,7 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedYieldReturn Create(
-				IUnifiedExpression value = null) {
+		public static UnifiedYieldReturn Create(IUnifiedExpression value = null) {
 			return new UnifiedYieldReturn {
 					Value = value,
 			};

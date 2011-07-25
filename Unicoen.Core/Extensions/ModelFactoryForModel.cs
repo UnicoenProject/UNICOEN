@@ -24,7 +24,7 @@ using System.Linq;
 namespace Unicoen.Model {
 	public static class ModelFactoryForModel {
 		public static UnifiedArgument ToArgument(this IUnifiedExpression expression) {
-			return UnifiedArgument.Create(null, null, expression);
+			return UnifiedArgument.Create(expression);
 		}
 
 		public static UnifiedParameter ToParameter(this UnifiedIdentifier expression) {

@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -31,6 +32,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["if"] = CreateIf;
 			ExpressionFuncs["case"] = CreateCase;
 			ExpressionFuncs["until"] = CreateUntil;
+			ExpressionFuncs["while"] = CreateWhile;
 			ExpressionFuncs["for"] = CreateFor;
 			ExpressionFuncs["iter"] = CreateIter;
 			ExpressionFuncs["ensure"] = CreateEnsure;
@@ -43,12 +45,35 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["redo"] = CreateRetry;
 		}
 
-		private static UnifiedCatch CreateResbody(XElement node) {
+		private static IUnifiedExpression CreateWhile(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "while");
+			var cond = CreateExpresion(node.FirstElement());
+			var secondNode = node.NthElement(1);
+			if (node.LastElement().Name() == "TrueClass") {
+				return UnifiedWhile.Create(cond, CreateSmartBlock(secondNode));
+			}
+			return UnifiedDoWhile.Create(cond, CreateSmartBlock(secondNode));
+		}
+
+		private static IEnumerable<UnifiedCatch> CreateResbody(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "resbody");
-			node.FirstElement().Elements().SkipLast().Select(CreateConst).Select(
-				ident => UnifiedMatcher.Create(null, null, ident))
-			UnifiedCatch.Create()
+			Contract.Requires(node.FirstElement().Name() == "array");
+			// TODO: UnifiedType.Create(ident) => identをUnifiedTypeIdentifierにべきでは？
+			var children = node.FirstElement().Elements().ToList();
+			var assign = CreateExpresion(children.Last().FirstElement());
+			var block = CreateSmartBlock(node.LastElement());
+			var result = children
+					.SkipLast()
+					.Select(CreateConst)
+					.Select(
+							ident => UnifiedCatch.Create(
+									UnifiedType.Create(ident),
+									assign.DeepCopy()))
+					.ToList();
+			result.Last().Body = block;
+			return result;
 		}
 
 		private static IUnifiedExpression CreateRescue(XElement node) {
@@ -56,10 +81,12 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node.Name() == "rescue");
 			var lastNode = node.LastElement();
 			var elseBlock = lastNode.Name() != "resbody"
-				? CreateSmartBlock(lastNode)
-				: null;
+			                		? CreateSmartBlock(lastNode)
+			                		: null;
 			return UnifiedTry.Create(
-					CreateSmartBlock(node.FirstElement()), node.Elements("resbody").Select(CreateResbody).ToCollection(), elseBlock);
+					CreateSmartBlock(node.FirstElement()),
+					node.Elements("resbody").SelectMany(CreateResbody).ToCollection(),
+					elseBlock);
 		}
 
 		private static IUnifiedExpression CreateEnsure(XElement node) {
@@ -85,19 +112,22 @@ namespace Unicoen.Languages.Ruby18.Model {
 		private static IUnifiedExpression CreateNext(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "next");
-			return UnifiedContinue.Create(CreateSmartExpresion(node.FirstElementOrDefault()));
+			return
+					UnifiedContinue.Create(CreateSmartExpresion(node.FirstElementOrDefault()));
 		}
 
 		private static IUnifiedExpression CreateBreak(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "break");
-			return UnifiedBreak.Create(CreateSmartExpresion(node.FirstElementOrDefault()));
+			return UnifiedBreak.Create(
+					CreateSmartExpresion(node.FirstElementOrDefault()));
 		}
 
 		private static IUnifiedExpression CreateReturn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "return");
-			return UnifiedReturn.Create(CreateSmartExpresion(node.FirstElementOrDefault()));
+			return
+					UnifiedReturn.Create(CreateSmartExpresion(node.FirstElementOrDefault()));
 		}
 
 		public static UnifiedCall CreateIter(XElement node) {
@@ -133,9 +163,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 							UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.Not));
 			var secondNode = node.NthElement(1);
 			if (node.LastElement().Name() == "TrueClass") {
-				return UnifiedWhile.Create(cond, CreateBlock(secondNode));
+				return UnifiedWhile.Create(cond, CreateSmartBlock(secondNode));
 			}
-			return UnifiedDoWhile.Create(cond, CreateBlock(secondNode));
+			return UnifiedDoWhile.Create(cond, CreateSmartBlock(secondNode));
 		}
 
 		public static IUnifiedExpression CreateCase(XElement node) {
@@ -157,6 +187,5 @@ namespace Unicoen.Languages.Ruby18.Model {
 					CreateBlock(node.NthElement(1)),
 					CreateBlock(node.NthElement(2)));
 		}
-
 	}
 }

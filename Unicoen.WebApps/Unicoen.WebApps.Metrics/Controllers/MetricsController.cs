@@ -19,8 +19,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
-using Unicoen.Applications.Metrics.Cores;
-using Unicoen.Applications.Metrics.Utils;
+using Unicoen.Apps.Metrics.Core;
+using Unicoen.Apps.Metrics.Utils;
 using Unicoen.Utils;
 using Unicoen.WebApps.Metrics.ViewModels.Metrics;
 

@@ -16,6 +16,8 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
 using Code2Xml.Languages.Ruby18.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -23,6 +25,10 @@ using Unicoen.Processor;
 namespace Unicoen.Languages.Ruby18.Model {
 	public class Ruby18ModelFactory : ModelFactory {
 		public static Ruby18ModelFactory Instance = new Ruby18ModelFactory();
+
+		public override IEnumerable<string> Extensions {
+			get { return Ruby18CodeToXml.Instance.TargetExtensions; }
+		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = Ruby18CodeToXml.Instance.Generate(code, true);

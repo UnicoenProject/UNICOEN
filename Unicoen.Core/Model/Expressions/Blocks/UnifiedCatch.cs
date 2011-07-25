@@ -86,8 +86,8 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedCatch Create(
-				UnifiedType type = null,
-				UnifiedIdentifier name = null,
+				UnifiedType type,
+				UnifiedIdentifier name,
 				UnifiedBlock body = null,
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null) {
@@ -103,7 +103,7 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedCatch Create(
-				IUnifiedExpression expression = null,
+				IUnifiedExpression expression,
 				IUnifiedExpression assign = null,
 				UnifiedBlock body = null) {
 			return new UnifiedCatch {

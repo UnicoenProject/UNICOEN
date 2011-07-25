@@ -25,14 +25,15 @@ using System.Windows.Forms;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using Paraiba.Text;
-using Unicoen.Apps.Aop;
-using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Apps.Aop.Cui;
+using Unicoen.Apps.Aop.Cui.CodeProcessor;
+using Unicoen.Apps.Aop.Cui.Visitor;
 using Unicoen.Tests;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
-namespace AopGUI {
+namespace Unicoen.Apps.Aop.Gui {
 	/// <summary>
 	///   MainWindow.xaml の相互作用ロジック
 	/// </summary>

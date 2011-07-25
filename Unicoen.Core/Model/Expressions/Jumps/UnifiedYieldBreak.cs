@@ -20,22 +20,8 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   LINQのクエリ式の構成要素の集合を表します．
-	///   e.g. C#における<c>from e in c orderby e.X, e.Y select e</c>の<c>orderby e.X, e.Y select e</c>
-	/// </summary>
-	public class UnifiedLinqElementCollection
-			: UnifiedElementCollection
-			  		<UnifiedLinqPart, UnifiedLinqElementCollection> {
-		/// <summary>
-		///   レシーバーと同じ型のオブジェクトを生成します．
-		/// </summary>
-		/// <returns>生成したオブジェクト</returns>
-		public override UnifiedLinqElementCollection CreateSelf() {
-			return new UnifiedLinqElementCollection();
-		}
-
-		protected UnifiedLinqElementCollection() {}
+	public class UnifiedYieldBreak : UnifiedElement, IUnifiedExpression {
+		protected UnifiedYieldBreak() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -53,5 +39,9 @@ namespace Unicoen.Model {
 				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
-			  		}
+
+		public static UnifiedYieldBreak Create(IUnifiedExpression value = null) {
+			return new UnifiedYieldBreak();
+		}
+	}
 }

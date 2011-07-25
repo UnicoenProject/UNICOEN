@@ -100,12 +100,13 @@ namespace Unicoen.Languages.CSharp.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"Fibonacci",
-						"Student",
-						"Block1",
-						"Block2",
-						"Block3",
-						"Binary",
+						//"Fibonacci",
+						//"Student",
+						//"Block1",
+						//"Block2",
+						//"Block3",
+						//"Binary",
+						"TypeConstraint",
 				}
 						.Select(
 								s => new TestCaseData(FixtureUtil.GetInputPath("CSharp", s + Extension)));
@@ -183,9 +184,9 @@ namespace Unicoen.Languages.CSharp.Tests {
 
 		public IEnumerable<TestCaseData> SetUpUnicoen() {
 			Action<string, string> compileAction = (s1, s2) => { };
-			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileAction);
+			//yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Core"), compileAction);
-			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Tests"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Core.Tests"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Languages"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Utils"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.WebApps"), compileAction);

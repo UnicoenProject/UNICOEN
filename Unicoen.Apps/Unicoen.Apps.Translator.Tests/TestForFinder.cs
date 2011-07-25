@@ -37,7 +37,7 @@ namespace Unicoen.Apps.Translator.Tests {
 		[Test]
 		public void 関数をすべて取得できる() {
 			var functions =
-					Finder.GetAllElements<UnifiedFunctionDefinition>(_program);
+					Finder.Finder.GetAllElements<UnifiedFunctionDefinition>(_program);
 			Assert.That(functions.Count, Is.EqualTo(3));
 		}
 	}

@@ -16,7 +16,9 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Unicoen.Model {
@@ -30,6 +32,24 @@ namespace Unicoen.Model {
 				this UnifiedAnnotation singleton) {
 			if (singleton == null) return UnifiedAnnotationCollection.Create();
 			return UnifiedAnnotationCollection.Create(singleton);
+		}
+
+		public static UnifiedAnnotationCollection Merge(
+				this IEnumerable<UnifiedAnnotationCollection> collections) {
+			return collections.ToList().Merge();
+		}
+
+		public static UnifiedAnnotationCollection Merge(
+				this IList<UnifiedAnnotationCollection> collections) {
+			Contract.Requires<InvalidOperationException>(
+					collections.All(c => c.Parent == null));
+			if (collections.Count == 0)
+				return UnifiedAnnotationCollection.Create();
+			var ret = collections[0];
+			for (int i = 1; i < collections.Count; i++) {
+				ret.AddRange(collections[i].ElementsThenClear());
+			}
+			return ret;
 		}
 
 		public static UnifiedArgumentCollection ToCollection(

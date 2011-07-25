@@ -19,7 +19,7 @@
 using System.Linq;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.Translator {
+namespace Unicoen.Apps.Translator.Rewriter {
 	// モデルの書き換えに関するクラス
 	public class Rewriter {
 		// targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
@@ -35,7 +35,7 @@ namespace Unicoen.Apps.Translator {
 		public static void ExchageElement(UnifiedType from, UnifiedType to) {
 			var parent = from.Parent;
 			var reference =
-					parent.GetElementReferences().Where(e => ReferenceEquals(e.Element, from)).
+					parent.ElementReferences().Where(e => ReferenceEquals(e.Element, from)).
 							ElementAt(0);
 			reference.Element = to;
 

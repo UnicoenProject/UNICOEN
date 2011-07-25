@@ -389,6 +389,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedYieldBreak element) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedDelete element) {
 			throw new NotImplementedException();
 		}
@@ -533,27 +537,27 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSelect element) {
+		public virtual void Visit(UnifiedSelectQuery element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedWhere element) {
+		public virtual void Visit(UnifiedWhereQuery element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedLet element) {
+		public virtual void Visit(UnifiedLetQuery element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedOrderBy element) {
+		public virtual void Visit(UnifiedOrderByQuery element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedJoin element) {
+		public virtual void Visit(UnifiedJoinQuery element) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedGroupBy element) {
+		public virtual void Visit(UnifiedGroupByQuery element) {
 			throw new NotImplementedException();
 		}
 
@@ -565,11 +569,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedLinqElementCollection element) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedLinq element) {
+		public virtual void Visit(UnifiedLinqExpression element) {
 			throw new NotImplementedException();
 		}
 
@@ -593,6 +593,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedFromQuery element) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedProc element) {
 			throw new NotImplementedException();
 		}
@@ -606,6 +610,14 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedRange element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedRetry element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedRedo element) {
 			throw new NotImplementedException();
 		}
 
@@ -994,6 +1006,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedYieldBreak element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedDelete element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1139,27 +1155,27 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedSelect element, TArg arg) {
+		public virtual void Visit(UnifiedSelectQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedWhere element, TArg arg) {
+		public virtual void Visit(UnifiedWhereQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedLet element, TArg arg) {
+		public virtual void Visit(UnifiedLetQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedOrderBy element, TArg arg) {
+		public virtual void Visit(UnifiedOrderByQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedJoin element, TArg arg) {
+		public virtual void Visit(UnifiedJoinQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedGroupBy element, TArg arg) {
+		public virtual void Visit(UnifiedGroupByQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1171,11 +1187,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedLinqElementCollection element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedLinq element, TArg arg) {
+		public virtual void Visit(UnifiedLinqExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1199,6 +1211,9 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedFromQuery element, TArg arg) {
+			throw new NotImplementedException();
+		}
 		public virtual void Visit(UnifiedProc element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1212,6 +1227,14 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedRange element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedRedo element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedRetry element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1234,27 +1257,27 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedSelect element, TArg arg) {
+		public virtual TResult Visit(UnifiedSelectQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedWhere element, TArg arg) {
+		public virtual TResult Visit(UnifiedWhereQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedLet element, TArg arg) {
+		public virtual TResult Visit(UnifiedLetQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedOrderBy element, TArg arg) {
+		public virtual TResult Visit(UnifiedOrderByQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedJoin element, TArg arg) {
+		public virtual TResult Visit(UnifiedJoinQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedGroupBy element, TArg arg) {
+		public virtual TResult Visit(UnifiedGroupByQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1266,11 +1289,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedLinqElementCollection element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual TResult Visit(UnifiedLinq element, TArg arg) {
+		public virtual TResult Visit(UnifiedLinqExpression element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1294,6 +1313,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual TResult Visit(UnifiedFromQuery element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
 		public virtual TResult Visit(UnifiedProc element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1307,6 +1330,14 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedRange element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedRedo element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedRetry element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1673,6 +1704,10 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedYieldReturn element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedYieldBreak element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

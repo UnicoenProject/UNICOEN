@@ -21,22 +21,32 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   LINQのクエリ式を構成するwhere 句を表します。
-	///   e.g. C#における<c>where p.X > 2</c>
+	///   LINQのクエリ式を構成するselect句を表します。
+	///   e.g. C#における<c>select new { p.X, p.Y } into x</c>
 	/// </summary>
-	public class UnifiedWhere : UnifiedLinqPart {
-		private IUnifiedExpression _condition;
+	public class UnifiedSelectQuery : UnifiedLinqQuery {
+		private IUnifiedExpression _expression;
+		private UnifiedVariableIdentifier _receiver;
 
 		/// <summary>
-		///   抽出の条件式を取得もしくは設定します．
-		///   e.g. C#における<c>where p.X > 2</c>
+		///   射影する際のクエリ式の各要素の変換式を取得もしくは設定します．
+		///   e.g. C#における<c>select new { p.X, p.Y } into x</c>の<c>new { p.X, p.Y }</c>
 		/// </summary>
-		public IUnifiedExpression Condition {
-			get { return _condition; }
-			set { _condition = SetChild(value, _condition); }
+		public IUnifiedExpression Expression {
+			get { return _expression; }
+			set { _expression = SetChild(value, _expression); }
 		}
 
-		protected UnifiedWhere() {}
+		/// <summary>
+		///   クエリを継続するために要素を受け取る変数を取得もしくは設定します．
+		///   e.g. C#における<c>select new { p.X, p.Y } into x</c>の<c>x</c>
+		/// </summary>
+		public UnifiedVariableIdentifier Receiver {
+			get { return _receiver; }
+			set { _receiver = SetChild(value, _receiver); }
+		}
+
+		protected UnifiedSelectQuery() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -54,9 +64,11 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedWhere Create(IUnifiedExpression condition) {
-			return new UnifiedWhere {
-					Condition = condition,
+		public static UnifiedSelectQuery Create(
+				IUnifiedExpression expression, UnifiedVariableIdentifier receiver = null) {
+			return new UnifiedSelectQuery {
+					Expression = expression,
+					Receiver = receiver,
 			};
 		}
 	}

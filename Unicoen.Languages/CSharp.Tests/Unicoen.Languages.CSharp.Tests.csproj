@@ -73,6 +73,9 @@
     <None Include="..\..\fixture\CSharp\input\Student.cs">
       <Link>fixture\Student.cs</Link>
     </None>
+    <None Include="..\..\fixture\CSharp\input\TypeConstraint.cs">
+      <Link>fixture\TypeConstraint.cs</Link>
+    </None>
     <Compile Include="CSharpFixture.cs" />
     <Compile Include="CSharpHeavyLanguageTest.cs" />
     <Compile Include="CSharpLanguageTest.cs" />

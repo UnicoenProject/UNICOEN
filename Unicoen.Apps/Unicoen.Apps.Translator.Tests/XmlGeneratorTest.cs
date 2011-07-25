@@ -18,6 +18,7 @@
 
 using System;
 using NUnit.Framework;
+using Unicoen.Apps.Translator.Sandbox;
 using Unicoen.Tests;
 
 namespace Unicoen.Apps.Translator.Tests {

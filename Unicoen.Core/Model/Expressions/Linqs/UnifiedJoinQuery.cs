@@ -24,7 +24,7 @@ namespace Unicoen.Model {
 	///   LINQのクエリ式を構成するjoin句を表します。
 	///   e.g. C#における<c>join q in array2 on p.X equals q.X</c>
 	/// </summary>
-	public class UnifiedJoin : UnifiedLinqPart {
+	public class UnifiedJoinQuery : UnifiedLinqQuery {
 		private UnifiedVariableIdentifier _receiver;
 		private IUnifiedExpression _joinSource;
 		private IUnifiedExpression _firstEqualsKey;
@@ -66,7 +66,7 @@ namespace Unicoen.Model {
 			set { _secondEqualsKey = SetChild(value, _secondEqualsKey); }
 		}
 
-		protected UnifiedJoin() {}
+		protected UnifiedJoinQuery() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -84,10 +84,10 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedJoin Create(
+		public static UnifiedJoinQuery Create(
 				UnifiedVariableIdentifier receiver, IUnifiedExpression joinSource,
 				IUnifiedExpression firstEqualsKey, IUnifiedExpression secondEqualsKey) {
-			return new UnifiedJoin {
+			return new UnifiedJoinQuery {
 					Receiver = receiver,
 					JoinSource = joinSource,
 					FirstEqualsKey = firstEqualsKey,

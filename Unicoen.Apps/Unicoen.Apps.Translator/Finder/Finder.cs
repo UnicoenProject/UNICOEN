@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.Translator {
+namespace Unicoen.Apps.Translator.Finder {
 	// モデルの検索に関するクラス
 	public class Finder {
 		// 関数が与えられたパラメータを持っているか
@@ -42,7 +42,7 @@ namespace Unicoen.Apps.Translator {
 		/// <param name = "program"></param>
 		/// <returns></returns>
 		public static List<T> GetAllElements<T>(UnifiedProgram program) {
-			var elements = program.GetElements();
+			var elements = program.Elements();
 			var list = new List<T>();
 
 			foreach (var element in elements) {
@@ -57,7 +57,7 @@ namespace Unicoen.Apps.Translator {
 				return;
 			}
 
-			var elements = element.GetElements();
+			var elements = element.Elements();
 			if (elements == null) {
 				return;
 			}

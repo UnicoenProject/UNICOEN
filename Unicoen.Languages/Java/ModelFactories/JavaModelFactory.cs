@@ -16,12 +16,17 @@
 
 #endregion
 
+using System.Collections.Generic;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.Java.ModelFactories {
 	public class JavaModelFactory : ModelFactory {
+		public override IEnumerable<string> Extensions {
+			get { return JavaCodeToXml.Instance.TargetExtensions; }
+		}
+
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = JavaCodeToXml.Instance.Generate(code, true);
 			return JavaModelFactoryHelper.CreateCompilationUnit(ast);

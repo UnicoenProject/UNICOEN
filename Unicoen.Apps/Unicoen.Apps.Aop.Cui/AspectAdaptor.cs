@@ -20,11 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unicoen.Apps.Aop.AspectElement;
-using Unicoen.Apps.Aop.Visitor;
+using Unicoen.Apps.Aop.Cui.AspectElement;
+using Unicoen.Apps.Aop.Cui.Visitor;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.Aop {
+namespace Unicoen.Apps.Aop.Cui {
 	public static class AspectAdaptor {
 		/// <summary>
 		///   ポイントカットをポイントカット名で参照できるようにします
@@ -41,9 +41,9 @@ namespace Unicoen.Apps.Aop {
 			foreach (var intertype in visitor.Intertypes) {
 				if (intertype.GetLanguageType() != language)
 					continue;
-				var members = CodeProcessor.CreateIntertype(
+				var members = CodeProcessor.CodeProcessor.CreateIntertype(
 						intertype.GetLanguageType(), intertype.GetContents());
-				CodeProcessor.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
+				CodeProcessor.CodeProcessor.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
 			}
 
 			//ポイントカットを登録する
@@ -73,7 +73,7 @@ namespace Unicoen.Apps.Aop {
 				foreach (var languageDependBlock in advice.GetFragments()) {
 					//
 					if (languageDependBlock.GetLanguageType().Equals(language)) {
-						code = CodeProcessor.CreateAdvice(
+						code = CodeProcessor.CodeProcessor.CreateAdvice(
 								language, languageDependBlock.GetContents());
 						break;
 					}
@@ -94,13 +94,13 @@ namespace Unicoen.Apps.Aop {
 						//ポイントカットタイプによる分岐
 						switch (target.GetPointcutType()) {
 							case "execution":
-								CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, code); break;							
+								CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, code); break;							
 							case "call":
-								CodeProcessor.InsertAtBeforeCallByName(model, methodName, code); break;
+								CodeProcessor.CodeProcessor.InsertAtBeforeCallByName(model, methodName, code); break;
 							case "get":
-								CodeProcessor.InsertAtBeforeGetByName(model, methodName, code); break;
+								CodeProcessor.CodeProcessor.InsertAtBeforeGetByName(model, methodName, code); break;
 							case "set":
-								CodeProcessor.InsertAtBeforeSetByName(model, methodName, code); break;
+								CodeProcessor.CodeProcessor.InsertAtBeforeSetByName(model, methodName, code); break;
 							default:
 								throw new InvalidOperationException("ポイントカットの種類が正しくありません");
 						}
@@ -109,13 +109,13 @@ namespace Unicoen.Apps.Aop {
 					case "after":
 						switch (target.GetPointcutType()) {
 							case "execution":
-								CodeProcessor.InsertAtAfterExecutionByName(model, methodName, code); break;						
+								CodeProcessor.CodeProcessor.InsertAtAfterExecutionByName(model, methodName, code); break;						
 							case "call":
-								CodeProcessor.InsertAtAfterCallByName(model, methodName, code); break;
+								CodeProcessor.CodeProcessor.InsertAtAfterCallByName(model, methodName, code); break;
 							case "get":
-								CodeProcessor.InsertAtAfterGetByName(model, methodName, code); break;
+								CodeProcessor.CodeProcessor.InsertAtAfterGetByName(model, methodName, code); break;
 							case "set":
-								CodeProcessor.InsertAtAfterSetByName(model, methodName, code); break;
+								CodeProcessor.CodeProcessor.InsertAtAfterSetByName(model, methodName, code); break;
 							default:
 								throw new InvalidOperationException("ポイントカットの種類が正しくありません");
 						}

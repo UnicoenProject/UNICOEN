@@ -19,14 +19,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Model;
-using Unicoen.Processor;
 using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
@@ -78,7 +76,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return program;
 		}
 
-		public static UnifiedClassLikeDefinition CreatePackageDeclaration(XElement node) {
+		public static UnifiedClassLikeDefinition CreatePackageDeclaration(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "packageDeclaration");
 			/*
@@ -269,7 +268,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 */
 			if (node.Elements().Count() == 1) {
 				return
-						UnifiedGenericParameter.Create(UnifiedType.Create(node.FirstElement().Value));
+						UnifiedGenericParameter.Create(
+								UnifiedType.Create(node.FirstElement().Value));
 			}
 			return UnifiedGenericParameter.Create(
 					UnifiedType.Create(node.FirstElement().Value),
@@ -385,7 +385,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 					.SelectMany(CreateClassBodyDeclaration);
 		}
 
-		public static UnifiedClassLikeDefinition CreateInterfaceDeclaration(XElement node) {
+		public static UnifiedClassLikeDefinition CreateInterfaceDeclaration(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "interfaceDeclaration");
 			/*
@@ -1011,9 +1012,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   IDENTIFIER '=' elementValue 
 			 */
 			return UnifiedArgument.Create(
-					null,
-					UnifiedVariableIdentifier.Create(node.FirstElement().Value),
-					CreateElementValue(node.LastElement()));
+					CreateElementValue(node.LastElement()),
+					UnifiedVariableIdentifier.Create(node.FirstElement().Value), null);
 		}
 
 		public static IUnifiedExpression CreateElementValue(XElement node) {
@@ -1384,11 +1384,12 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * :   'catch' '(' formalParameter ')' block  
 			 */
 			return UnifiedCatch.Create(
-					CreateFormalParameter(node.Element("formalParameter")).ToCollection(),
+					CreateFormalParameter(node.Element("formalParameter")).
+							ToVariableDefinitionList(),
 					CreateBlock(node.Element("block")));
 		}
 
-		public static UnifiedMatcher CreateFormalParameter(XElement node) {
+		public static UnifiedVariableDefinition CreateFormalParameter(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameter");
 			/*
@@ -1400,9 +1401,10 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var dimension = node.ElementsByContent("[").Count();
 			type = type.WrapArrayRepeatedly(dimension);
 			var annotationsAndModifiers = CreateVariableModifiers(node.FirstElement());
-			return UnifiedMatcher.Create(
-					annotationsAndModifiers.Item1, annotationsAndModifiers.Item2, type,
-					UnifiedVariableIdentifier.Create(node.NthElement(2).Value));
+			return UnifiedVariableDefinition.Create(
+					annotationsAndModifiers.Item1,
+					annotationsAndModifiers.Item2,
+					type, UnifiedVariableIdentifier.Create(node.NthElement(2).Value));
 		}
 
 		public static IUnifiedExpression CreateForstatement(XElement node) {
@@ -1843,7 +1845,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 								            UnifiedIndexer.Create(
 								            		current,
 								            		UnifiedArgumentCollection.Create(
-								            				UnifiedArgument.Create(null, null, exp)))
+								            				UnifiedArgument.Create(exp, null, null)))
 						);
 			}
 			// '.' 'class'				// java.lang.String.class
@@ -1927,7 +1929,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			if (secondElement.Name() == "expression") {
 				return UnifiedIndexer.Create(
 						prefix,
-						UnifiedArgument.Create(null, null, CreateExpression(secondElement)).
+						UnifiedArgument.Create(CreateExpression(secondElement), null, null).
 								ToCollection());
 			}
 
@@ -2122,7 +2124,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 				return UnifiedArgumentCollection.Create();
 
 			return CreateExpressionList(expressionListNode)
-					.Select(value => UnifiedArgument.Create(null, null, value))
+					.Select(value => UnifiedArgument.Create(value, null, null))
 					.ToCollection();
 		}
 
@@ -2335,7 +2337,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * 'do' statement 'while' parExpression ';' 
 			 */
 			return
-					UnifiedDoWhile.Create(CreateParExpression(node.Element("parExpression")), UnifiedBlock.Create(CreateStatement(node.Element("statement"))));
+					UnifiedDoWhile.Create(
+							CreateParExpression(node.Element("parExpression")),
+							UnifiedBlock.Create(CreateStatement(node.Element("statement"))));
 		}
 
 		private static UnifiedSwitch CreateSwitch(XElement node) {

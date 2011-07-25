@@ -31,18 +31,33 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 			ExpressionFuncs["block"] = CreateBlock;
 			ExpressionFuncs["call"] = CreateCall;
-			ExpressionFuncs["lvar"] = CreateLvar;
+			ExpressionFuncs["lvar"] = CreateVar;
+			ExpressionFuncs["ivar"] = CreateVar;
+			ExpressionFuncs["cvar"] = CreateVar;
+			ExpressionFuncs["gvar"] = CreateVar;
 
-			ExpressionFuncs["lasgn"] = CreateLasgn;
-			ExpressionFuncs["masgn"] = CreateMasgn;
+			ExpressionFuncs["lasgn"] = CreateAsgn;
+			ExpressionFuncs["masgn"] = CreateAsgn;
+			ExpressionFuncs["iasgn"] = CreateAsgn;
+			ExpressionFuncs["cvasgn"] = CreateAsgn;
+			ExpressionFuncs["gasgn"] = CreateAsgn;
 			ExpressionFuncs["attrasgn"] = CreateAttrasgn;
 			ExpressionFuncs["const"] = CreateConst;
 			ExpressionFuncs["Symbol"] = CreateSymbol;
 			ExpressionFuncs["self"] = CreateSelf;
+
+			ExpressionFuncs["to_ary"] = CreateToAry;
+			
 		}
 
 		public static IUnifiedExpression CreateExpresion(XElement node) {
 			return ExpressionFuncs[node.Name()](node);
+		}
+
+		private static IUnifiedExpression CreateToAry(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "to_ary");
+			return CreateExpresion(node.FirstElement());
 		}
 
 		private static IUnifiedExpression CreateAttrasgn(XElement node) {
@@ -72,9 +87,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return CreateSmartBlock(node.FirstElementOrDefault());
 		}
 
-		public static IUnifiedExpression CreateLvar(XElement node) {
+		public static IUnifiedExpression CreateVar(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lvar");
+			Contract.Requires(node.Name() == "lvar" || node.Name() == "ivar" || node.Name() == "cvar" || node.Name() == "gvar");
 			return UnifiedVariableIdentifier.Create(node.Value);
 		}
 
@@ -97,18 +112,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedVariableIdentifier.Create(node.Value);
 		}
 
-		public static UnifiedBinaryExpression CreateLasgn(XElement node) {
+		public static UnifiedBinaryExpression CreateAsgn(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lasgn");
-			return UnifiedBinaryExpression.Create(
-					CreateExpresion(node.FirstElement()),
-					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
-					CreateExpresion(node.LastElement()));
-		}
-
-		public static UnifiedBinaryExpression CreateMasgn(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "masgn");
+			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn" || node.Name() == "iasgn" || node.Name() == "cvasgn" || node.Name() == "gasgn");
 			return UnifiedBinaryExpression.Create(
 					CreateExpresion(node.FirstElement()),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),

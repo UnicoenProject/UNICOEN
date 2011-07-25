@@ -22,7 +22,7 @@ using Unicoen.Model;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 
-namespace Unicoen.Apps.Translator {
+namespace Unicoen.Apps.Translator.Sandbox {
 	/// <summary>
 	///   ソースファイルの共通表現オブジェクトをXMLにシリアライズして出力する機能を提供します．
 	/// </summary>

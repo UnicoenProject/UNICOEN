@@ -721,13 +721,9 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 *		: 'catch' LT!* '(' LT!* Identifier LT!* ')' LT!* statementBlock
 			 */
 
-			var matchers =
-					UnifiedMatcher.Create(
-							null, null,
-							UnifiedVariableIdentifier.Create(node.Element("Identifier").Value), null)
-							.ToCollection();
+			var name = UnifiedVariableIdentifier.Create(node.Element("Identifier").Value);
 			var body = CreateStatementBlock(node.Element("statementBlock"));
-			var catchClause = UnifiedCatch.Create(matchers, body);
+			var catchClause = UnifiedCatch.Create(null, name, body);
 
 			return catchClause.ToCollection();
 		}
@@ -976,7 +972,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 			 */
 
 			return node.Elements("assignmentExpression").Select(
-					e => UnifiedArgument.Create(null, null, CreateAssignmentExpression(e))).
+					e => UnifiedArgument.Create(CreateAssignmentExpression(e), null, null)).
 					ToCollection();
 		}
 
@@ -991,8 +987,7 @@ namespace Unicoen.Languages.JavaScript.ModelFactories {
 
 			return UnifiedIndexer.Create(
 					prefix,
-					UnifiedArgument.Create(
-							null, null, CreateExpression(node.Element("expression"))).
+					UnifiedArgument.Create(CreateExpression(node.Element("expression")), null, null).
 							ToCollection());
 		}
 
