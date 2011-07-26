@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unicoen.CodeFactories;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -81,7 +82,6 @@ namespace Unicoen.Apps.MseConverter {
 			package2Id.TryGetValue(packageName, out id);
 
 			if(id != 0) {
-				element.Body.TryAccept(this);
 				return;
 			}
 
@@ -97,8 +97,7 @@ namespace Unicoen.Apps.MseConverter {
 			packageName = packageName.Replace(".", "::");
 			Writer.WriteLine("(name \'" + packageName + "\'))");
 
-			//パッケージ内のコードについて探査する
-			element.Body.TryAccept(this);
+			element.TryAcceptAllChildren(this);
 		}
 
 
@@ -143,15 +142,11 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.WriteLine("(belongsTo (idref: " + id + "))");
 
 			//抽象クラスかどうかを出力
-			var isAbstract = false;
 			var modifiers = element.Modifiers;
-			foreach (var modifier in modifiers) {
-				if (modifier.Name == "abstract")
-					isAbstract = true;
-			}
+			var isAbstract = modifiers != null && modifiers.Any(m => m.Name == "abstract");
 			Writer.WriteLine(isAbstract ? "(isAbstract true))" : "(isAbstract false))");
 
-			element.Body.TryAccept(this);
+			element.TryAcceptAllChildren(this);
 		}
 
 		public override void Visit(
@@ -192,8 +187,10 @@ namespace Unicoen.Apps.MseConverter {
 				}
 			}
 			Writer.WriteLine("(belongsTo (idref: " + id + "))");
-			//TODO LOCの計算
-			Writer.WriteLine("(LOC 100)");
+			var loc = element.Body.Descendants<IUnifiedExpression>()
+					.Where(e => e.Parent is UnifiedBlock)
+					.Count();
+			Writer.WriteLine("(LOC " + loc + ")");
 
 			/*
 			buffer = new StringWriter();
@@ -208,13 +205,6 @@ namespace Unicoen.Apps.MseConverter {
 			CodeFactory.Generate(element.Parameters, Writer);
 			Writer.WriteLine("\'))");
 			*/
-		}
-
-		public override void Visit(
-				UnifiedVariableDefinitionList element) {
-			foreach (var variableDefinition in element) {
-				variableDefinition.TryAccept(this);
-			}
 		}
 
 		public override void Visit(UnifiedVariableDefinition element) {
@@ -251,6 +241,8 @@ namespace Unicoen.Apps.MseConverter {
 				id = 3;
 			}
 			Writer.WriteLine("(belongsTo (idref: " + id + ")))");
+
+			element.TryAcceptAllChildren(this);
 		}
 
 		public override void Visit(UnifiedCall element) {
@@ -272,11 +264,8 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.WriteLine("')");
 
 			Writer.WriteLine("(stub false))");
-		}
 
-		public override void Visit(UnifiedConstructor element) {
-			//TODO コンストラクタはMethodに含まれるのか確認
-			//element.Body.TryAccept(this);
+			element.TryAcceptAllChildren(this);
 		}
 	}
 }

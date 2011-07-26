@@ -218,6 +218,7 @@
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedUsingPart.cs" />
     <Compile Include="Processor\DefaultUnifiedVisitor.cs" />
+    <Compile Include="Processor\EmptyUnifiedVisitor.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
     <Compile Include="Processor\SemanticAnalyzer.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
