@@ -59,11 +59,25 @@ namespace Unicoen.Apps.Aop.Gui {
 
 		private void GetTargetContent(object sender, RoutedEventArgs e) {
 			//フォルダ選択用のダイアログを作成
+			/*
 			var dialog = new FolderBrowserDialog {
 					Description = @"Select Target Project"
 			};
 			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
 				TargetPath.Text = dialog.SelectedPath;
+			}
+			*/
+
+			var dialog = new OpenFileDialog();
+			dialog.FileName = "";
+			dialog.DefaultExt = "*.*";
+			if (dialog.ShowDialog() == true) {
+				TargetPath.Text = dialog.FileName;
+			}
+			if (dialog.FileName.Length > 0) {
+				var code = File.ReadAllText(
+						dialog.FileName, Encoding.GetEncoding("Shift_JIS"));
+				OriginalSourceArea.Text = code;
 			}
 		}
 
@@ -109,6 +123,7 @@ namespace Unicoen.Apps.Aop.Gui {
 
 			//指定されたパス以下にあるディレクトリをすべてoutput以下にコピーします
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
+
 			var directories = Directory.EnumerateDirectories(
 					targetPath, "*", SearchOption.AllDirectories);
 			foreach (var dir in directories) {
@@ -175,6 +190,55 @@ namespace Unicoen.Apps.Aop.Gui {
 			WeavedSourceArea.Text += stopwatch.Elapsed;
 			WeavedSourceArea.Text += "\nJava: " + javaCount;
 			WeavedSourceArea.Text += "\nJS: " + jsCount;
+		}
+
+		private void WeaveForOne(object sender, RoutedEventArgs e) {
+			//選択されたパスからファイルを取得
+			var targetPath = TargetPath.Text;
+			var aspectPath = AspectPath.Text;
+
+			//アスペクト情報を持つオブジェクトを生成する
+			var aspect = new ANTLRFileStream(aspectPath);
+			var lexer = new AriesLexer(aspect);
+			var tokens = new CommonTokenStream(lexer);
+			var parser = new AriesParser(tokens);
+
+			//アスペクトファイルを解析してASTを生成する
+			var result = parser.aspect();
+			var ast = (CommonTree)result.Tree;
+
+			//ASTを走査してパース結果をアスペクトオブジェクトとしてvisitor内に格納する
+			var visitor = new AstVisitor();
+			visitor.Visit(ast, 0, null);
+
+			//対象ファイルの拡張子を取得
+			var fileExtension = Path.GetExtension(targetPath);
+
+			//対象言語のソースコードでない場合は次の対象へ進む
+			string langType;
+			if (fileExtension == null
+				|| !TargetLanguage.TryGetValue(fileExtension, out langType)) {
+				WeavedSourceArea.Text = "指定のプログラミング言語には対応していません";
+				return;
+			}
+
+			var code = File.ReadAllText(targetPath, XEncoding.SJIS);
+			var model = CodeProcessor.CreateModel(fileExtension, code);
+
+			//アスペクトの合成を行う
+			AspectAdaptor.Weave(langType, model, visitor);
+
+			//とりえあず標準出力に表示;
+			switch (langType) {
+			case "Java":
+				WeavedSourceArea.Text = JavaFactory.GenerateCode(model);
+				break;
+			case "JavaScript":
+				WeavedSourceArea.Text = JavaScriptFactory.GenerateCode(model);
+				break;
+			default:
+				throw new InvalidOperationException();
+			}
 		}
 	}
 }
