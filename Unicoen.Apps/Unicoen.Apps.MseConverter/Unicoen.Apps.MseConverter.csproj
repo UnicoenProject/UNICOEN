@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MseConverter.cs" />
-    <Compile Include="MseConvertVisitorForOthers.cs" />
     <Compile Include="MseConvertVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
