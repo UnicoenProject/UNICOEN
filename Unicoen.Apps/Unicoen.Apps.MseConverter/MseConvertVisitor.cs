@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unicoen.CodeFactories;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -131,12 +132,8 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.WriteLine("(belongsTo (idref: " + id + "))");
 
 			//抽象クラスかどうかを出力
-			var isAbstract = false;
 			var modifiers = element.Modifiers;
-			foreach (var modifier in modifiers) {
-				if (modifier.Name == "abstract")
-					isAbstract = true;
-			}
+			var isAbstract = modifiers != null && modifiers.Any(m => m.Name == "abstract");
 			Writer.WriteLine(isAbstract ? "(isAbstract true))" : "(isAbstract false))");
 
 			element.Body.TryAccept(this);
@@ -171,8 +168,10 @@ namespace Unicoen.Apps.MseConverter {
 
 			class2Id.TryGetValue(element.Ancestor<UnifiedClassDefinition>(), out id);
 			Writer.WriteLine("(belongsTo (idref: " + id + "))");
-			//TODO LOCの計算
-			Writer.WriteLine("(LOC 100)");
+			var loc = element.Body.Descendants<IUnifiedExpression>()
+					.Where(e => e.Parent is UnifiedBlock)
+					.Count();
+			Writer.WriteLine("(LOC " + loc + ")");
 
 			/*
 			buffer = new StringWriter();
