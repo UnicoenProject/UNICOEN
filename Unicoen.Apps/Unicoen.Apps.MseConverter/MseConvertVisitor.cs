@@ -38,6 +38,7 @@ namespace Unicoen.Apps.MseConverter {
 		private Dictionary<IUnifiedElement, int> attribute2Id;
 	
 		private int _id = 2;
+		private UnifiedClassDefinition _anonymousClass = UnifiedClassDefinition.Create();
 
 		public MseConvertVisitor(TextWriter writer, CodeFactory codeFactory) {
 			Writer = writer;
@@ -100,6 +101,8 @@ namespace Unicoen.Apps.MseConverter {
 			element.Body.TryAccept(this);
 		}
 
+
+
 		public override void Visit(
 				UnifiedClassDefinition element) {
 
@@ -126,8 +129,17 @@ namespace Unicoen.Apps.MseConverter {
 
 			//パッケージ化されているパッケージIDを出力
 			buffer = new StringWriter();
-			CodeFactory.Generate(element.Ancestor<UnifiedNamespaceDefinition>().Name, buffer);
-			package2Id.TryGetValue(buffer.ToString(), out id);
+			var package = element.Ancestor<UnifiedNamespaceDefinition>();
+			if(package != null) {
+				CodeFactory.Generate(package.Name, buffer);
+				package2Id.TryGetValue(buffer.ToString(), out id);
+			} 
+			else {
+				if(!package2Id.TryGetValue("__anonymous", out id)) {
+					id = NextId();
+					package2Id.Add("__anonymous", id);
+				}
+			}
 			Writer.WriteLine("(belongsTo (idref: " + id + "))");
 
 			//抽象クラスかどうかを出力
@@ -169,7 +181,16 @@ namespace Unicoen.Apps.MseConverter {
 					"(accessControlQualifier \'" +
 					GetAccessControlQualifier(element.Modifiers) + "\')");
 
-			class2Id.TryGetValue(element.Ancestor<UnifiedClassDefinition>(), out id);
+			var klass = element.Ancestor<UnifiedClassDefinition>();
+			if(klass != null) {
+				class2Id.TryGetValue(klass, out id);
+			} 
+			else {
+				if(!class2Id.TryGetValue(_anonymousClass, out id)) {
+					id = NextId();
+					class2Id.Add(_anonymousClass, id);
+				}
+			}
 			Writer.WriteLine("(belongsTo (idref: " + id + "))");
 			//TODO LOCの計算
 			Writer.WriteLine("(LOC 100)");
@@ -181,10 +202,12 @@ namespace Unicoen.Apps.MseConverter {
 			Writer.WriteLine("(packagedIn (idref: " + id + "))");
 			*/
 
+			/*
 			Writer.Write("(signature \'");
 			CodeFactory.Generate(element.Name, Writer);
 			CodeFactory.Generate(element.Parameters, Writer);
 			Writer.WriteLine("\'))");
+			*/
 		}
 
 		public override void Visit(
@@ -220,11 +243,20 @@ namespace Unicoen.Apps.MseConverter {
 					"(accessControlQualifier \'" +
 					GetAccessControlQualifier(element.Modifiers) + "\')");
 
-			class2Id.TryGetValue(element.Ancestor<UnifiedClassDefinition>(), out id);
+			var klass = element.Ancestor<UnifiedClassDefinition>();
+			if(klass != null) {
+				class2Id.TryGetValue(klass, out id);
+			}
+			else {
+				id = 3;
+			}
 			Writer.WriteLine("(belongsTo (idref: " + id + ")))");
 		}
 
 		public override void Visit(UnifiedCall element) {
+
+			return;
+
 			var id = NextId();
 			Writer.Write("(FAMIX.Invocation ");
 			Writer.WriteLine("(id: " + id + ")");

@@ -380,6 +380,8 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
+			return false;
+			//TODO Mseコンバーターのために一時的に例外を吐かないようにします
 			throw new NotImplementedException();
 		}
 

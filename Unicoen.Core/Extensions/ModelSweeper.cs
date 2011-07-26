@@ -34,7 +34,7 @@ namespace Unicoen.Model {
 		public static T Ancestor<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
-			return element.Ancestors<T>().First();
+			return element.Ancestors<T>().FirstOrDefault();
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Unicoen.Model {
 		public static T AncestorOrSelf<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
-			return element.AncestorsAndSelf<T>().First();
+			return element.AncestorsAndSelf<T>().FirstOrDefault();
 		}
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace Unicoen.Model {
 		public static T Descendant<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
-			return element.Descendants<T>().First();
+			return element.Descendants<T>().FirstOrDefault();
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace Unicoen.Model {
 		public static T DescendantOrSelf<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
-			return element.DescendantsAndSelf<T>().First();
+			return element.DescendantsAndSelf<T>().FirstOrDefault();
 		}
 
 		/// <summary>

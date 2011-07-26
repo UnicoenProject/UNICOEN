@@ -50,6 +50,7 @@ namespace Unicoen.Apps.MseConverter
 		}
 
 		public override void Visit(UnifiedBinaryExpression element) {
+			return;
 			element.LeftHandSide.TryAccept(this);
 			element.RightHandSide.TryAccept(this);
 			
@@ -84,7 +85,7 @@ namespace Unicoen.Apps.MseConverter
 			//TODO 何もしなくていいか確認
 			
 		}
-
+		
 		public override void Visit(UnifiedArrayType element) {
 			//TODO どこまで探索するか考える
 			//TODO とりあえずString[]などが出力されていないので対応する
