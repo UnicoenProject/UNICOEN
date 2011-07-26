@@ -44,8 +44,8 @@ namespace Unicoen.Apps.Metrics.Core {
 
 		private static IEnumerable<IUnifiedElement> GetTargetElements(
 				IUnifiedElement model) {
-			return model.Descendants()
-					.Where(e => e is IUnifiedExpression && e.Parent is UnifiedBlock);
+			return model.Descendants<IUnifiedExpression>()
+					.Where(e => e.Parent is UnifiedBlock);
 		}
 	}
 }

@@ -47,12 +47,7 @@ namespace Unicoen.Apps.Metrics.Core {
 
 		public static IEnumerable<IUnifiedElement> GetTargetElements(
 				IUnifiedElement model) {
-			return model.Descendants().Where(e => e is UnifiedIf)
-					.Concat(model.Descendants().Where(e => e is UnifiedFor))
-					.Concat(model.Descendants().Where(e => e is UnifiedForeach))
-					.Concat(model.Descendants().Where(e => e is UnifiedWhile))
-					.Concat(model.Descendants().Where(e => e is UnifiedDoWhile))
-					.Concat(model.Descendants().Where(e => e is UnifiedCase));
+			return model.Descendants<UnifiedIf, UnifiedFor, UnifiedWhile, UnifiedDoWhile, UnifiedCase>();
 		}
 	}
 }

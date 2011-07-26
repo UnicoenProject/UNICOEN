@@ -25,84 +25,6 @@ using System.Linq;
 namespace Unicoen.Model {
 	public static class ModelSweeper {
 		/// <summary>
-		///   指定した型に限定して，指定した要素の最初の祖先を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T Ancestor<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.Ancestors<T>().First();
-		}
-
-		/// <summary>
-		///   指定した型に限定して，最初の指定した要素もしくはその祖先を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T AncestorOrSelf<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.AncestorsAndSelf<T>().First();
-		}
-
-		/// <summary>
-		///   指定した型に限定して，指定した要素の最初の子孫を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T Descendant<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.Descendants<T>().First();
-		}
-
-		/// <summary>
-		///   指定した型に限定して，最初の指定した要素もしくはその子孫を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T DescendantOrSelf<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.DescendantsAndSelf<T>().First();
-		}
-
-		/// <summary>
-		///   指定した型に限定して，指定した要素の子要素を列挙します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static IEnumerable<T> Elements<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.Elements().OfType<T>();
-		}
-
-		/// <summary>
-		///   指定した型に限定して，指定した要素の祖先を列挙します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static IEnumerable<T> Ancestors<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.Ancestors().OfType<T>();
-		}
-
-		/// <summary>
 		///   指定した要素の祖先を列挙します．
 		/// </summary>
 		/// <param name = "element"></param>
@@ -114,19 +36,6 @@ namespace Unicoen.Model {
 			while ((parent = parent.Parent) != null) {
 				yield return parent;
 			}
-		}
-
-		/// <summary>
-		///   指定した型に限定して，指定した要素とその祖先を列挙します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static IEnumerable<T> AncestorsAndSelf<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.AncestorsAndSelf().OfType<T>();
 		}
 
 		/// <summary>
@@ -142,20 +51,6 @@ namespace Unicoen.Model {
 			while ((parent = parent.Parent) != null) {
 				yield return parent;
 			}
-		}
-
-		/// <summary>
-		///   指定した型に限定して，指定した要素の子孫を列挙します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static IEnumerable<T> Descendants<T>(
-				this IUnifiedElement element, T dummyForInference = null)
-				where T : class {
-			Contract.Requires(element != null);
-			return element.Descendants().OfType<T>();
 		}
 
 		/// <summary>
@@ -197,19 +92,6 @@ namespace Unicoen.Model {
 					queue.Enqueue(child);
 				}
 			}
-		}
-
-		/// <summary>
-		///   指定した型に限定して，指定した要素とその子孫を列挙します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static IEnumerable<T> DescendantsAndSelf<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.DescendantsAndSelf().OfType<T>();
 		}
 
 		/// <summary>
