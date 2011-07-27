@@ -17,7 +17,9 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Scripting.Utils;
 using NUnit.Framework;
 using Unicoen.CodeFactories;
@@ -71,6 +73,9 @@ namespace Unicoen.Languages.Ruby18.Tests {
 
 		public override IEnumerable<TestCaseData> TestFilePathes {
 			get {
+				return Directory.EnumerateFiles(FixtureUtil.GetInputPath(LanguageName), "*.rb", SearchOption.AllDirectories)
+				    .Select(s => new TestCaseData(
+				        FixtureUtil.GetInputPath(LanguageName, Path.GetFileName(s))));
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
 						"block",

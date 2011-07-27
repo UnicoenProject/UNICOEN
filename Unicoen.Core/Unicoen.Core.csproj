@@ -125,6 +125,7 @@
     <Compile Include="Model\Expressions\Jumps\UnifiedRetry.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedYieldBreak.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedFromQuery.cs" />
+    <Compile Include="Model\Expressions\Literals\UnifiedSymbolLiteral.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt31Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt31Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedBigIntLiteral.cs" />

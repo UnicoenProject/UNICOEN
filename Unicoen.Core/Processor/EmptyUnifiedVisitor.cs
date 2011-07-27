@@ -318,6 +318,7 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedRetry element) {}
 
 		public virtual void Visit(UnifiedRedo element) {}
+		public virtual void Visit(UnifiedSymbolLiteral element) {}
 
 		public virtual void Visit(UnifiedTypeIdentifier element) {}
 	}
@@ -632,6 +633,7 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedRedo element, TArg arg) {}
 
 		public virtual void Visit(UnifiedRetry element, TArg arg) {}
+		public virtual void Visit(UnifiedSymbolLiteral element, TArg arg) {}
 
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {}
 			}
@@ -731,6 +733,10 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedRetry element, TArg arg) {
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedSymbolLiteral element, TArg arg) {
 			return default(TResult);
 		}
 

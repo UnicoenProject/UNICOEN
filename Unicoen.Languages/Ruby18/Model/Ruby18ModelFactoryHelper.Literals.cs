@@ -19,6 +19,7 @@
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
+using UniUni.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -33,12 +34,27 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["lit"] = CreateLit;
 			ExpressionFuncs["Fixnum"] = CreateFixnum;
 			ExpressionFuncs["Bignum"] = CreateBignum;
+			ExpressionFuncs["Symbol"] = CreateSymbol;
 			ExpressionFuncs["Float"] = CreateFloat;
 			ExpressionFuncs["true"] = CreateTrue;
 			ExpressionFuncs["false"] = CreateFalse;
-			ExpressionFuncs["str"] = CreateStr;
 			ExpressionFuncs["dot2"] = CreateDot2;
 			ExpressionFuncs["dot3"] = CreateDot3;
+			ExpressionFuncs["str"] = CreateStr;
+			ExpressionFuncs["dstr"] = CreateDstr;
+			ExpressionFuncs["hash"] = CreateHash;
+		}
+
+		private static IUnifiedExpression CreateHash(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "hash");
+			return UnifiedMapLiteral.Create(
+					node.Elements()
+							.Split2()
+							.Select(
+									t => UnifiedKeyValue.Create(
+											CreateExpresion(t.Item1),
+											CreateExpresion(t.Item2))));
 		}
 
 		private static IUnifiedExpression CreateDot3(XElement node) {
@@ -72,7 +88,12 @@ namespace Unicoen.Languages.Ruby18.Model {
 		public static IUnifiedExpression CreateLit(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lit");
-			return CreateExpresion(node.FirstElement());
+			var child = node.FirstElement();
+			switch (child.Name()) {
+			case "Symbol":
+				return UnifiedSymbolLiteral.Create(child.Value);
+			}
+			return CreateExpresion(child);
 		}
 
 		public static IUnifiedExpression CreateFloat(XElement node) {
@@ -112,6 +133,13 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "str");
 			return UnifiedStringLiteral.Create(node.Value);
+		}
+
+		private static IUnifiedExpression CreateDstr(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "dstr");
+			// TODO: Implement
+			return UnifiedStringLiteral.Create("");
 		}
 	}
 }

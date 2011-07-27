@@ -151,7 +151,7 @@ namespace Unicoen.Model {
 		NotIn,
 
 		/// <summary>
-		///   a && b
+		///   a &amp;&amp; b
 		/// </summary>
 		AndAlso,
 
@@ -161,7 +161,7 @@ namespace Unicoen.Model {
 		OrElse,
 
 		/// <summary>
-		///   a & b
+		///   a &amp; b
 		/// </summary>
 		And,
 

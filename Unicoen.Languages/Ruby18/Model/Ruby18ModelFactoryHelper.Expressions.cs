@@ -47,7 +47,11 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["self"] = CreateSelf;
 
 			ExpressionFuncs["to_ary"] = CreateToAry;
-			
+
+			ExpressionFuncs["alias"] = CreateAlias;
+			ExpressionFuncs["colon2"] = CreateColon2;
+			ExpressionFuncs["and"] = CreateAnd;
+			ExpressionFuncs["or"] = CreateOr;
 		}
 
 		public static IUnifiedExpression CreateExpresion(XElement node) {
@@ -127,6 +131,47 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return node.Elements()
 					.Select(CreateExpresion)
 					.ToBlock();
+		}
+
+		public static IUnifiedExpression CreateAlias(XElement node) {
+		    Contract.Requires(node != null);
+		    Contract.Requires(node.Name() == "alias");
+		    // TODO: UnifiedCall?
+			return UnifiedCall.Create(
+					UnifiedVariableIdentifier.Create("alias"),
+					new[] {
+							CreateExpresion(node.FirstElement()).ToArgument(),
+							CreateExpresion(node.LastElement()).ToArgument()
+					}.ToCollection());
+		}
+
+		private static IUnifiedExpression CreateColon2(XElement node) {
+		    Contract.Requires(node != null);
+		    Contract.Requires(node.Name() == "colon2");
+			return UnifiedProperty.Create(
+					"::",
+					CreateExpresion(node.FirstElement()),
+					CreateExpresion(node.LastElement()));
+		}
+
+		private static IUnifiedExpression CreateAnd(XElement node) {
+		    Contract.Requires(node != null);
+		    Contract.Requires(node.Name() == "and");
+			// TODO: && と and
+			return UnifiedBinaryExpression.Create(
+					CreateExpresion(node.FirstElement()),
+					UnifiedBinaryOperator.Create("and", UnifiedBinaryOperatorKind.AndAlso), 
+					CreateExpresion(node.LastElement()));
+		}
+
+		private static IUnifiedExpression CreateOr(XElement node) {
+		    Contract.Requires(node != null);
+		    Contract.Requires(node.Name() == "or");
+			// TODO: || と or
+			return UnifiedBinaryExpression.Create(
+					CreateExpresion(node.FirstElement()),
+					UnifiedBinaryOperator.Create("or", UnifiedBinaryOperatorKind.OrElse), 
+					CreateExpresion(node.LastElement()));
 		}
 	}
 }

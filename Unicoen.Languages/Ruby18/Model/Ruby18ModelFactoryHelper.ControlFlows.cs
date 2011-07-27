@@ -42,7 +42,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["break"] = CreateBreak;
 			ExpressionFuncs["next"] = CreateNext;
 			ExpressionFuncs["redo"] = CreateRedo;
-			ExpressionFuncs["redo"] = CreateRetry;
+			ExpressionFuncs["retry"] = CreateRetry;
 		}
 
 		private static IUnifiedExpression CreateWhile(XElement node) {
