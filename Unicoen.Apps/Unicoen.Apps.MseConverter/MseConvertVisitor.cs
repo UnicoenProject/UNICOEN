@@ -39,7 +39,17 @@ namespace Unicoen.Apps.MseConverter {
 		private Dictionary<IUnifiedElement, int> attribute2Id;
 	
 		private int _id = 2;
-		private UnifiedClassDefinition _anonymousClass = UnifiedClassDefinition.Create();
+		
+		private UnifiedClassDefinition _anonymousClass;
+		public void SetAnonymousClass(UnifiedClassDefinition newClass) {
+			_anonymousClass = newClass;
+		}
+
+
+		private string _filename;
+		public void SetFilename(string name) {
+			_filename = name;
+		}
 
 		public MseConvertVisitor(TextWriter writer, CodeFactory codeFactory) {
 			Writer = writer;
@@ -56,6 +66,9 @@ namespace Unicoen.Apps.MseConverter {
 
 		private static string GetAccessControlQualifier(
 				IEnumerable<UnifiedModifier> modifiers) {
+			if(modifiers == null)
+				return "";
+
 			foreach (var modifier in modifiers) {
 				switch (modifier.Name) {
 				case "public":
@@ -74,6 +87,7 @@ namespace Unicoen.Apps.MseConverter {
 
 			//パッケージ名の取得
 			var buffer = new StringWriter();
+			//TODO element.Name as UnifiedVariableIdentifierなどで、COdeGeneratorを使わないようにする
 			CodeFactory.Generate(element.Name, buffer);
 			var packageName = buffer.ToString();
 
@@ -104,9 +118,35 @@ namespace Unicoen.Apps.MseConverter {
 
 		public override void Visit(
 				UnifiedClassDefinition element) {
+			var buffer = new StringWriter();
+
+			//パッケージがあるかどうかを確認
+			int packageId;
+			var package = element.Ancestor<UnifiedNamespaceDefinition>();
+			
+			//ある場合
+			if(package != null) {
+				CodeFactory.Generate(package.Name, buffer);
+				package2Id.TryGetValue(buffer.ToString(), out packageId);
+			} 
+			//ない場合
+			else{
+				//仮のパッケージが定義されているか確認
+				package2Id.TryGetValue(_filename, out packageId);
+				//パッケージがない場合は、仮のパッケージを作る
+				if(packageId == 0) {
+					var newPackage = 
+						UnifiedNamespaceDefinition.Create(null, null, UnifiedVariableIdentifier.Create(_filename));
+					newPackage.TryAccept(this);
+					//新しい登録したパッケージのidを取得する
+					package2Id.TryGetValue(_filename, out packageId);
+					if(packageId == 0)
+						throw new InvalidOperationException();
+				}
+			}
 
 			//クラス名の取得
-			var buffer = new StringWriter();
+			buffer = new StringWriter();
 			CodeFactory.Generate(element.Name, buffer);
 			var className = buffer.ToString();
 
@@ -123,23 +163,8 @@ namespace Unicoen.Apps.MseConverter {
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Class ");
 			Writer.WriteLine("(id: " + id + ")");
-
 			Writer.WriteLine("(name \'" + className + "\')");
-
-			//パッケージ化されているパッケージIDを出力
-			buffer = new StringWriter();
-			var package = element.Ancestor<UnifiedNamespaceDefinition>();
-			if(package != null) {
-				CodeFactory.Generate(package.Name, buffer);
-				package2Id.TryGetValue(buffer.ToString(), out id);
-			} 
-			else {
-				if(!package2Id.TryGetValue("__anonymous", out id)) {
-					id = NextId();
-					package2Id.Add("__anonymous", id);
-				}
-			}
-			Writer.WriteLine("(belongsTo (idref: " + id + "))");
+			Writer.WriteLine("(belongsTo (idref: " + packageId + "))");
 
 			//抽象クラスかどうかを出力
 			var modifiers = element.Modifiers;
@@ -151,6 +176,30 @@ namespace Unicoen.Apps.MseConverter {
 
 		public override void Visit(
 				UnifiedFunctionDefinition element) {
+			//関数本体がない場合は対象としない
+			if (element.Body == null) {
+				return;
+			}
+
+			int klassId;
+			var klass = element.Ancestor<UnifiedClassDefinition>();
+			//クラスがある場合
+			if(klass != null) {
+				class2Id.TryGetValue(klass, out klassId);
+			}
+			//クラスがない場合
+			else {
+				//仮のクラスが定義されているか確認
+				class2Id.TryGetValue(_anonymousClass, out klassId);
+				if(klassId == 0) {
+					_anonymousClass.TryAccept(this);
+					//新しく登録したクラスのidを取得する
+					class2Id.TryGetValue(_anonymousClass, out klassId);
+					if(klassId == 0)
+						throw new InvalidOperationException();
+				}
+			}
+			
 			//関数名の取得
 			var buffer = new StringWriter();
 			CodeFactory.Generate(element.Name, buffer);
@@ -169,45 +218,37 @@ namespace Unicoen.Apps.MseConverter {
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Method ");
 			Writer.WriteLine("(id: " + id + ")");
-
 			Writer.WriteLine("(name \'" + functionName + "\')");
-
 			Writer.WriteLine(
 					"(accessControlQualifier \'" +
 					GetAccessControlQualifier(element.Modifiers) + "\')");
-
-			var klass = element.Ancestor<UnifiedClassDefinition>();
-			if(klass != null) {
-				class2Id.TryGetValue(klass, out id);
-			} 
-			else {
-				if(!class2Id.TryGetValue(_anonymousClass, out id)) {
-					id = NextId();
-					class2Id.Add(_anonymousClass, id);
-				}
-			}
-			Writer.WriteLine("(belongsTo (idref: " + id + "))");
+			Writer.WriteLine("(belongsTo (idref: " + klassId + "))");
 			var loc = element.Body.Descendants<IUnifiedExpression>()
 					.Where(e => e.Parent is UnifiedBlock)
 					.Count();
-			Writer.WriteLine("(LOC " + loc + ")");
-
-			/*
-			buffer = new StringWriter();
-			CodeFactory.Generate(element.Ancestor<UnifiedNamespaceDefinition>().Name, buffer);
-			package2Id.TryGetValue(buffer.ToString(), out id);			
-			Writer.WriteLine("(packagedIn (idref: " + id + "))");
-			*/
-
-			/*
-			Writer.Write("(signature \'");
-			CodeFactory.Generate(element.Name, Writer);
-			CodeFactory.Generate(element.Parameters, Writer);
-			Writer.WriteLine("\'))");
-			*/
+			Writer.WriteLine("(LOC " + loc + "))");
 		}
 
 		public override void Visit(UnifiedVariableDefinition element) {
+			int klassId;
+			var klass = element.Ancestor<UnifiedClassDefinition>();
+			//クラスがある場合
+			if(klass != null) {
+				class2Id.TryGetValue(klass, out klassId);
+			}
+			//クラスがない場合
+			else {
+				//仮のクラスが定義されているか確認
+				class2Id.TryGetValue(_anonymousClass, out klassId);
+				if(klassId == 0) {
+					_anonymousClass.TryAccept(this);
+					//新しく登録したクラスのidを取得する
+					class2Id.TryGetValue(_anonymousClass, out klassId);
+					if(klassId == 0)
+						throw new InvalidOperationException();
+				}
+			}
+
 			//変数名の取得
 			var buffer = new StringWriter();
 			CodeFactory.Generate(element.Name, buffer);
@@ -226,46 +267,19 @@ namespace Unicoen.Apps.MseConverter {
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Attribute ");
 			Writer.WriteLine("(id: " + id + ")");
-
 			Writer.WriteLine("(name \'" + attributeName + "\')");
-
 			Writer.WriteLine(
 					"(accessControlQualifier \'" +
 					GetAccessControlQualifier(element.Modifiers) + "\')");
-
-			var klass = element.Ancestor<UnifiedClassDefinition>();
-			if(klass != null) {
-				class2Id.TryGetValue(klass, out id);
-			}
-			else {
-				id = 3;
-			}
-			Writer.WriteLine("(belongsTo (idref: " + id + ")))");
+			Writer.WriteLine("(belongsTo (idref: " + klassId + ")))");
 
 			element.TryAcceptAllChildren(this);
 		}
 
 		public override void Visit(UnifiedCall element) {
-
-			return;
-
-			var id = NextId();
-			Writer.Write("(FAMIX.Invocation ");
-			Writer.WriteLine("(id: " + id + ")");
-
-			//TODO どうやってメソッド定義のidを取得するか
-			//Writer.Write("(candidate (idref: ");
-
-			//一時的にコメントアウトします
-			//Writer.Write("(invokedBy (idref: " + _currentClass + "))");
-
-			Writer.Write("(invokes '");
-			CodeFactory.Generate(element, Writer);
-			Writer.WriteLine("')");
-
-			Writer.WriteLine("(stub false))");
-
 			element.TryAcceptAllChildren(this);
+			return;
+			//TODO 将来的にはCall,Accessも実装する
 		}
 	}
 }

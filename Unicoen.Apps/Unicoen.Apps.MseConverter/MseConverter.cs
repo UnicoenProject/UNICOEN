@@ -37,7 +37,7 @@ namespace Unicoen.Apps.MseConverter {
 		private readonly MseConvertVisitor _visitor;
 
 		public MseConverter(TextWriter writer, string language) {
-			CodeFactory factory = null;
+			CodeFactory factory;
 			switch (language) {
 				case "Java":
 					factory = new JavaCodeFactory();
@@ -59,6 +59,9 @@ namespace Unicoen.Apps.MseConverter {
 			writer.WriteLine("(Moose.Model (id: 1)");
 			writer.WriteLine("(entity");
 			foreach (var filePath in filePaths) {
+				//名前空間、クラスがない場合向けにファイルネームを登録しておく
+				_visitor.SetFilename(filePath);
+				_visitor.SetAnonymousClass(UnifiedClassDefinition.Create(null, null, UnifiedVariableIdentifier.Create(filePath)));
 				switch (Path.GetExtension(filePath)) {
 				case ".java":
 					new JavaModelFactory().GenerateFromFile(filePath).Accept(_visitor);
