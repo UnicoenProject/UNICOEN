@@ -16,57 +16,67 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unicoen.CodeFactories;
+using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Apps.MseConverter {
-
 	/// <summary>
 	///   MSEフォーマット上に記述される要素について出力します。
 	/// </summary>
-	public partial class MseConvertVisitor : DefaultUnifiedVisitor {
+	public class MseConvertVisitor : DefaultUnifiedVisitor {
+		private readonly Dictionary<IUnifiedElement, int> _package2Id;
+		private readonly Dictionary<IUnifiedElement, int> _class2Id;
+		private readonly Dictionary<IUnifiedElement, int> _method2Id;
+		private readonly Dictionary<IUnifiedElement, int> _attribute2Id;
+		private UnifiedClassDefinition _defaultClass;
+		private UnifiedNamespaceDefinition _defaultNamespace;
+		private int _id = 1;
+
 		public TextWriter Writer { get; private set; }
-		public CodeFactory CodeFactory { get; private set; }
+		public CodeFactory CodeFactory { get; set; }
+		public int LanguageValue { get; set; }
 
-		private Dictionary<string, int> package2Id;
-		private Dictionary<IUnifiedElement, int> class2Id;
-		private Dictionary<IUnifiedElement, int> method2Id;
-		private Dictionary<IUnifiedElement, int> attribute2Id;
-	
-		private int _id = 2;
-		
-		private UnifiedClassDefinition _anonymousClass;
-		public void SetAnonymousClass(UnifiedClassDefinition newClass) {
-			_anonymousClass = newClass;
+		public UnifiedClassDefinition DefaultClass {
+			get { return _defaultClass; }
+			set {
+				if (_defaultClass != value) {
+					_class2Id[_defaultClass] = NextId();
+					_defaultClass = value;
+				}
+			}
 		}
 
-
-		private string _filename;
-		public void SetFilename(string name) {
-			_filename = name;
+		public UnifiedNamespaceDefinition DefaultNamespace {
+			get { return _defaultNamespace; }
+			set {
+				if (_defaultNamespace != value) {
+					_package2Id[_defaultNamespace] = NextId();
+					_defaultNamespace = value;
+				}
+			}
 		}
 
-		public MseConvertVisitor(TextWriter writer, CodeFactory codeFactory) {
+		public MseConvertVisitor(TextWriter writer) {
 			Writer = writer;
-			CodeFactory = codeFactory;
-			package2Id = new Dictionary<string, int>();
-			class2Id = new Dictionary<IUnifiedElement, int>();
-			method2Id = new Dictionary<IUnifiedElement, int>();
-			attribute2Id = new Dictionary<IUnifiedElement, int>();
+			CodeFactory = new JavaCodeFactory();
+			_package2Id = new Dictionary<IUnifiedElement, int>();
+			_class2Id = new Dictionary<IUnifiedElement, int>();
+			_method2Id = new Dictionary<IUnifiedElement, int>();
+			_attribute2Id = new Dictionary<IUnifiedElement, int>();
 		}
 
 		private int NextId() {
-			return _id++;
+			return ++_id;
 		}
 
 		private static string GetAccessControlQualifier(
 				IEnumerable<UnifiedModifier> modifiers) {
-			if(modifiers == null)
+			if (modifiers == null)
 				return "";
 
 			foreach (var modifier in modifiers) {
@@ -84,80 +94,44 @@ namespace Unicoen.Apps.MseConverter {
 
 		public override void Visit(
 				UnifiedNamespaceDefinition element) {
-
-			//パッケージ名の取得
-			var buffer = new StringWriter();
-			//TODO element.Name as UnifiedVariableIdentifierなどで、CodeGeneratorを使わないようにする
-			CodeFactory.Generate(element.Name, buffer);
-			var packageName = buffer.ToString();
-
 			//すでに登録されているか確認
 			int id;
-			package2Id.TryGetValue(packageName, out id);
-
-			if(id != 0) {
+			if (_package2Id.TryGetValue(element, out id)) {
 				return;
 			}
 
 			//登録されていなければ新しいIdを取得する
 			id = NextId();
-				package2Id.Add(packageName, id);
+			_package2Id.Add(element, id);
 
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Namespace ");
 			Writer.WriteLine("(id: " + id + ")");
 
 			//パッケージ名の出力
-			packageName = packageName.Replace(".", "::");
+			//TODO element.Name as UnifiedVariableIdentifierなどで、CodeGeneratorを使わないようにする
+			var packageName = CodeFactory.Generate(element.Name).Replace(".", "::");
 			Writer.WriteLine("(name \'" + packageName + "\'))");
 
 			element.TryAcceptAllChildren(this);
 		}
 
-
-
 		public override void Visit(
 				UnifiedClassDefinition element) {
-			var buffer = new StringWriter();
-
-			//パッケージがあるかどうかを確認
-			int packageId;
-			var package = element.Ancestor<UnifiedNamespaceDefinition>();
-			
-			//ある場合
-			if(package != null) {
-				CodeFactory.Generate(package.Name, buffer);
-				package2Id.TryGetValue(buffer.ToString(), out packageId);
-			} 
-			//ない場合
-			else{
-				//仮のパッケージが定義されているか確認
-				package2Id.TryGetValue(_filename, out packageId);
-				//パッケージがない場合は、仮のパッケージを作る
-				if(packageId == 0) {
-					var newPackage = 
-						UnifiedNamespaceDefinition.Create(null, null, UnifiedVariableIdentifier.Create(_filename));
-					newPackage.TryAccept(this);
-					//新しい登録したパッケージのidを取得する
-					package2Id.TryGetValue(_filename, out packageId);
-					if(packageId == 0)
-						throw new InvalidOperationException();
-				}
-			}
+			// パッケージがあるかどうかを確認
+			var package = element.Ancestor<UnifiedNamespaceDefinition>()
+			              ?? DefaultNamespace;
+			var packageId = _package2Id[package];
 
 			//クラス名の取得
-			buffer = new StringWriter();
-			CodeFactory.Generate(element.Name, buffer);
-			var className = buffer.ToString();
+			var className = CodeFactory.Generate(element.Name);
 
 			//すでに登録されているか確認
-			int id;
-			class2Id.TryGetValue(element, out id);
-			
 			//登録されていなければ新しいIdを取得する
-			if(id == 0) {
+			int id;
+			if (!_class2Id.TryGetValue(element, out id)) {
 				id = NextId();
-				class2Id.Add(element, id);
+				_class2Id.Add(element, id);
 			}
 
 			//規定のフォーマットを出力
@@ -168,7 +142,8 @@ namespace Unicoen.Apps.MseConverter {
 
 			//抽象クラスかどうかを出力
 			var modifiers = element.Modifiers;
-			var isAbstract = modifiers != null && modifiers.Any(m => m.Name == "abstract");
+			var isAbstract = modifiers != null
+			                 && modifiers.Any(m => m.Name == "abstract");
 			Writer.WriteLine(isAbstract ? "(isAbstract true))" : "(isAbstract false))");
 
 			element.TryAcceptAllChildren(this);
@@ -181,38 +156,18 @@ namespace Unicoen.Apps.MseConverter {
 				return;
 			}
 
-			int klassId;
-			var klass = element.Ancestor<UnifiedClassDefinition>();
-			//クラスがある場合
-			if(klass != null) {
-				class2Id.TryGetValue(klass, out klassId);
-			}
-			//クラスがない場合
-			else {
-				//仮のクラスが定義されているか確認
-				class2Id.TryGetValue(_anonymousClass, out klassId);
-				if(klassId == 0) {
-					_anonymousClass.TryAccept(this);
-					//新しく登録したクラスのidを取得する
-					class2Id.TryGetValue(_anonymousClass, out klassId);
-					if(klassId == 0)
-						throw new InvalidOperationException();
-				}
-			}
-			
+			var klass = element.Ancestor<UnifiedClassDefinition>() ?? DefaultClass;
+			var klassId = _class2Id[klass];
+
 			//関数名の取得
-			var buffer = new StringWriter();
-			CodeFactory.Generate(element.Name, buffer);
-			var functionName = buffer.ToString();
+			var functionName = CodeFactory.Generate(element.Name);
 
 			//すでに登録されているか確認
-			int id;
-			method2Id.TryGetValue(element, out id);
-			
 			//登録されていなければ新しいIdを取得する
-			if(id == 0) {
+			int id;
+			if (!_method2Id.TryGetValue(element, out id)) {
 				id = NextId();
-				method2Id.Add(element, id);
+				_method2Id.Add(element, id);
 			}
 
 			//規定のフォーマットを出力
@@ -230,37 +185,17 @@ namespace Unicoen.Apps.MseConverter {
 		}
 
 		public override void Visit(UnifiedVariableDefinition element) {
-			int klassId;
-			var klass = element.Ancestor<UnifiedClassDefinition>();
-			//クラスがある場合
-			if(klass != null) {
-				class2Id.TryGetValue(klass, out klassId);
-			}
-			//クラスがない場合
-			else {
-				//仮のクラスが定義されているか確認
-				class2Id.TryGetValue(_anonymousClass, out klassId);
-				if(klassId == 0) {
-					_anonymousClass.TryAccept(this);
-					//新しく登録したクラスのidを取得する
-					class2Id.TryGetValue(_anonymousClass, out klassId);
-					if(klassId == 0)
-						throw new InvalidOperationException();
-				}
-			}
+			var klass = element.Ancestor<UnifiedClassDefinition>() ?? DefaultClass;
+			var klassId = _class2Id[klass];
 
 			//変数名の取得
-			var buffer = new StringWriter();
-			CodeFactory.Generate(element.Name, buffer);
-			var attributeName = buffer.ToString();
+			var attributeName = CodeFactory.Generate(element.Name);
 
 			//すでに登録されているか確認
-			int id;
-			attribute2Id.TryGetValue(element, out id);
-			
 			//登録されていなければ新しいIdを取得する
-			if(id == 0) {
-				attribute2Id.Add(element, id);
+			int id;
+			if (!_attribute2Id.TryGetValue(element, out id)) {
+				_attribute2Id.Add(element, id);
 				id = NextId();
 			}
 

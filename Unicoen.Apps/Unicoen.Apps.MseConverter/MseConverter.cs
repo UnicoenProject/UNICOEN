@@ -17,11 +17,9 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Paraiba.Linq;
 using Unicoen.CodeFactories;
+using Unicoen.Languages.CSharp.CodeFactories;
 using Unicoen.Languages.CSharp.ModelFactories;
 using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
@@ -37,53 +35,53 @@ namespace Unicoen.Apps.MseConverter {
 	public class MseConverter {
 		private readonly MseConvertVisitor _visitor;
 
-		public MseConverter(TextWriter writer, string language) {
-			CodeFactory factory;
-			switch (language) {
-				case "Java":
-					factory = new JavaCodeFactory();
-					break;
-				case "JavaScript":
-					factory = new JavaScriptCodeFactory();
-					break;
-				case "Python":
-					factory = new Python2CodeFactory();
-					break;
-				default:
-					throw new NotImplementedException();
-			}
-			_visitor = new MseConvertVisitor(writer, factory);
+		public MseConverter(TextWriter writer) {
+			_visitor = new MseConvertVisitor(writer);
 		}
 
-		public void Generate(
-				IEnumerable<string> filePaths, TextWriter writer, string language) {
+		public void Generate(string dirPath, TextWriter writer) {
+			dirPath = Path.GetFullPath(dirPath);
+			var filePaths = Directory.EnumerateFiles(
+					dirPath, "*", SearchOption.AllDirectories);
+
 			writer.WriteLine("(Moose.Model (id: 1)");
 			writer.WriteLine("(entity");
 			foreach (var filePath in filePaths) {
 				//名前空間、クラスがない場合向けにファイルネームを登録しておく
-				var namespaceName = filePath.Replace(FixtureUtil.GetDownloadPath("Python2"), "");
-				_visitor.SetFilename(namespaceName);
-				_visitor.SetAnonymousClass(UnifiedClassDefinition.Create(null, null, UnifiedVariableIdentifier.Create(namespaceName)));
+				var namespaceName = filePath.Substring(dirPath.Length + 1);
+				_visitor.DefaultNamespace = UnifiedNamespaceDefinition.Create(
+						null, null, UnifiedVariableIdentifier.Create("NoClass"));
+				_visitor.DefaultClass = UnifiedClassDefinition.Create(
+						null, null, UnifiedVariableIdentifier.Create(namespaceName));
 				switch (Path.GetExtension(filePath)) {
 				case ".java":
+					//_visitor.CodeFactory = new JavaCodeFactory();
+					_visitor.LanguageValue = 0;
 					new JavaModelFactory().GenerateFromFile(filePath).Accept(_visitor);
 					break;
 				case ".js":
+					//_visitor.CodeFactory = new JavaScriptCodeFactory();
+					_visitor.LanguageValue = 2;
 					new JavaScriptModelFactory().GenerateFromFile(filePath).Accept(_visitor);
 					break;
 				case ".cs":
+					//_visitor.CodeFactory = new CSharpCodeFactory();
+					_visitor.LanguageValue = 1;
 					new CSharpModelFactory().GenerateFromFile(filePath).Accept(_visitor);
 					break;
 				case ".rb":
+					//_visitor.CodeFactory = new Ruby18CodeFactory();
+					_visitor.LanguageValue = 4;
 					new Ruby18ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
 					break;
 				case ".py":
+					//_visitor.CodeFactory = new Python2CodeFactory();
+					_visitor.LanguageValue = 3;
 					new Python2ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
 					break;
 				}
 			}
-			writer.WriteLine("\t)");
-			writer.WriteLine("(sourceLanguage '" + language + "'))");
+			writer.WriteLine("\t))");
 		}
 	}
 }

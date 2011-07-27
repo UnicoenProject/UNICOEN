@@ -103,7 +103,11 @@ namespace Unicoen.Languages.Python2.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { return SetUpPyPy(); }
+			get { return 
+				SetUpDjango()
+				.Concat(SetUpTornade())
+				.Concat(SetUpPyPy())
+				; }
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
@@ -137,6 +141,22 @@ namespace Unicoen.Languages.Python2.Tests {
 						File.Delete(Path.Combine(path, @"pypy-1.5-src\pypy\translator\goal\old_queries.py"));
 						Directory.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\test"), true);
 					});
+		}
+
+		private IEnumerable<TestCaseData> SetUpDjango() {
+			return SetUpTestCaseData(
+					"django-1.3",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/django/django/zipball/1.3", path));
+		}
+
+		private IEnumerable<TestCaseData> SetUpTornade() {
+			return SetUpTestCaseData(
+					"tornade-2.0.0",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/facebook/tornado/zipball/v2.0.0", path));
 		}
 	}
 }

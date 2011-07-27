@@ -1,96 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.IO;
-using System.Linq;
 using NUnit.Framework;
-using Paraiba.Text;
-using Unicoen.Apps.Aop.Cui.CodeProcessor;
-using Unicoen.Model;
 using Unicoen.Tests;
 
-namespace Unicoen.Apps.MseConverter.Tests
-{
+namespace Unicoen.Apps.MseConverter.Tests {
 	[TestFixture]
 	public class MseConverterTest {
 		[Test]
 		public void Javaから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			const string langType = ".java";
-			var filePaths =
-					Collect(FixtureUtil.GetDownloadPath("java", "junit4.8.2"), langType);
-
+			var dirPath = FixtureUtil.GetDownloadPath("java", "junit4.8.2");
 			var writer = new StringWriter();
-			var converter = new MseConverter(writer, "Java");
-
-			converter.Generate(filePaths, writer, "Java");
-
+			var converter = new MseConverter(writer);
+			converter.Generate(dirPath, writer);
 			Console.Write(writer.ToString());
 		}
 
 		[Test]
 		public void JavaScriptから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			const string langType = ".js";
-			var filePaths =
-					Collect(FixtureUtil.GetDownloadPath("JavaScript", "Processing.js-1.2.3"), langType);
-
+			var dirPath = FixtureUtil.GetDownloadPath(
+					"JavaScript", "Processing.js-1.2.3");
 			var writer = new StringWriter();
-			var converter = new MseConverter(writer, "JavaScript");
-
-			converter.Generate(filePaths, writer, "JavaScript");
-
+			var converter = new MseConverter(writer);
+			converter.Generate(dirPath, writer);
 			Console.Write(writer.ToString());
 		}
 
 		[Test]
 		public void CSharpから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			const string langType = ".cs";
-			var filePaths =
-					Collect(FixtureUtil.GetDownloadPath("java", "junit4.8.2"), langType);
-
+			var dirPath = FixtureUtil.GetDownloadPath("java", "junit4.8.2");
 			var writer = new StringWriter();
-			var converter = new MseConverter(writer, "CSharp");
-
-			converter.Generate(filePaths, writer, "CSharp");
-
+			var converter = new MseConverter(writer);
+			converter.Generate(dirPath, writer);
 			Console.Write(writer.ToString());
 		}
 
 		[Test]
 		public void Pythonから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			const string langType = ".py";
-			var filePaths =
-					Collect(FixtureUtil.GetDownloadPath("Python2", "django"), langType);
-
+			var dirPath = FixtureUtil.GetDownloadPath("Python2", "django-1.3");
 			var writer = new StringWriter();
-			var converter = new MseConverter(writer, "Python");
-
-			converter.Generate(filePaths, writer, "Python");
-
+			var converter = new MseConverter(writer);
+			converter.Generate(dirPath, writer);
 			Console.Write(writer.ToString());
 		}
 
 		[Test]
 		public void Tornadeをmseフォーマットに変換できる() {
-			const string langType = ".py";
-			var filePaths =
-					Collect(FixtureUtil.GetDownloadPath("Python2", "tornado"), langType);
-
+			var dirPath = FixtureUtil.GetDownloadPath("Python2", "tornade-2.0.0");
 			var writer = new StringWriter();
-			var converter = new MseConverter(writer, "Python");
-
-			converter.Generate(filePaths, writer, "Python");
-
+			var converter = new MseConverter(writer);
+			converter.Generate(dirPath, writer);
 			Console.Write(writer.ToString());
-		}
-
-		public static IEnumerable<string> Collect(string folderRootPath, string language) {
-			//指定された文字列がフォルダじゃなかった場合
-			if (!Directory.Exists(folderRootPath)) {
-				return Enumerable.Repeat(folderRootPath, 1);
-			}
-
-			//指定された文字列に該当するフォルダがある場合
-			return Directory.EnumerateFiles(
-					folderRootPath, ("*" + language), SearchOption.AllDirectories);
 		}
 	}
 }
