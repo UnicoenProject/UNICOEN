@@ -76,19 +76,21 @@ namespace Unicoen.Apps.MseConverter {
 
 		public class UnifiedNamespaceDefinitionEqualityComparer
 				: EqualityComparer<UnifiedNamespaceDefinition> {
+			public CodeFactory CodeFactory { get; set; }
+
 			public override bool Equals(
 					UnifiedNamespaceDefinition x, UnifiedNamespaceDefinition y) {
 				if (x == y)
 					return true;
 				if (x == null || y == null)
 					return false;
-				return x.Name.StructuralEquals(y.Name);
+				return CodeFactory.Generate(x.Name) == CodeFactory.Generate(y.Name);
 			}
 
 			public override int GetHashCode(UnifiedNamespaceDefinition obj) {
-				if (obj == null)
+				if (obj == null || obj.Name == null)
 					return 0;
-				return obj.Name.GetHashCode();
+				return CodeFactory.Generate(obj.Name).GetHashCode();
 			}
 				}
 
@@ -97,7 +99,8 @@ namespace Unicoen.Apps.MseConverter {
 			CodeFactory = new JavaCodeFactory();
 			_package2Id =
 					new Dictionary<UnifiedNamespaceDefinition, int>(
-							new UnifiedNamespaceDefinitionEqualityComparer());
+							new UnifiedNamespaceDefinitionEqualityComparer
+							{ CodeFactory = CodeFactory });
 			_class2Id = new Dictionary<UnifiedClassDefinition, int>();
 			_method2Id = new Dictionary<UnifiedFunctionDefinition, int>();
 			_attribute2Id = new Dictionary<IUnifiedElement, int>();
