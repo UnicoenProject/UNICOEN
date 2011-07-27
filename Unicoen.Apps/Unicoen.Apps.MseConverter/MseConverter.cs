@@ -16,20 +16,13 @@
 
 #endregion
 
-using System;
 using System.IO;
-using Unicoen.CodeFactories;
-using Unicoen.Languages.CSharp.CodeFactories;
 using Unicoen.Languages.CSharp.ModelFactories;
-using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Languages.Java.ModelFactories;
-using Unicoen.Languages.JavaScript.CodeFactories;
 using Unicoen.Languages.JavaScript.ModelFactories;
-using Unicoen.Languages.Python2.CodeFactories;
 using Unicoen.Languages.Python2.ModelFactories;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
-using Unicoen.Tests;
 
 namespace Unicoen.Apps.MseConverter {
 	public class MseConverter {
