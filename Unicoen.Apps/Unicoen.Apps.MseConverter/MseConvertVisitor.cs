@@ -45,7 +45,8 @@ namespace Unicoen.Apps.MseConverter {
 			get {
 				if (_lastGetDefaultClass != _defaultClass) {
 					_lastGetDefaultClass = _defaultClass;
-					WriteClass(_defaultClass, _package2Id[DefaultNamespace], _class2Id[_defaultClass]);
+					WriteClass(
+							_defaultClass, _package2Id[DefaultNamespace], _class2Id[_defaultClass]);
 				}
 				return _defaultClass;
 			}
@@ -73,20 +74,30 @@ namespace Unicoen.Apps.MseConverter {
 			}
 		}
 
-		public class UnifiedNamespaceDefinitionEqualityComparer : EqualityComparer<UnifiedNamespaceDefinition> {
-			public override bool Equals(UnifiedNamespaceDefinition x, UnifiedNamespaceDefinition y) {
+		public class UnifiedNamespaceDefinitionEqualityComparer
+				: EqualityComparer<UnifiedNamespaceDefinition> {
+			public override bool Equals(
+					UnifiedNamespaceDefinition x, UnifiedNamespaceDefinition y) {
+				if (x == y)
+					return true;
+				if (x == null || y == null)
+					return false;
 				return x.Name.StructuralEquals(y.Name);
 			}
 
 			public override int GetHashCode(UnifiedNamespaceDefinition obj) {
+				if (obj == null)
+					return 0;
 				return obj.Name.GetHashCode();
 			}
-		} 
+				}
 
 		public MseConvertVisitor(TextWriter writer) {
 			Writer = writer;
 			CodeFactory = new JavaCodeFactory();
-			_package2Id = new Dictionary<UnifiedNamespaceDefinition, int>(new UnifiedNamespaceDefinitionEqualityComparer());
+			_package2Id =
+					new Dictionary<UnifiedNamespaceDefinition, int>(
+							new UnifiedNamespaceDefinitionEqualityComparer());
 			_class2Id = new Dictionary<UnifiedClassDefinition, int>();
 			_method2Id = new Dictionary<UnifiedFunctionDefinition, int>();
 			_attribute2Id = new Dictionary<IUnifiedElement, int>();
