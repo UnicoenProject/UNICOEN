@@ -33,7 +33,7 @@ namespace Unicoen.Apps.MseConverter {
 		private readonly Dictionary<IUnifiedElement, int> _class2Id;
 		private readonly Dictionary<IUnifiedElement, int> _method2Id;
 		private readonly Dictionary<IUnifiedElement, int> _attribute2Id;
-		private UnifiedClassDefinition _defaultClass;
+		private UnifiedClassDefinition _defaultClass, _lastGetDefaultClass;
 		private UnifiedNamespaceDefinition _defaultNamespace, _lastGetDefaultNamespace;
 		private int _id = 1;
 
@@ -42,7 +42,13 @@ namespace Unicoen.Apps.MseConverter {
 		public int LanguageValue { get; set; }
 
 		public UnifiedClassDefinition DefaultClass {
-			get { return _defaultClass; }
+			get {
+				if (_lastGetDefaultClass != _defaultClass) {
+					_lastGetDefaultClass = _defaultClass;
+					WriteClass(_defaultClass, _package2Id[DefaultNamespace], _class2Id[_defaultClass]);
+				}
+				return _defaultClass;
+			}
 			set {
 				if (_defaultClass != value) {
 					_defaultClass = value;
@@ -52,15 +58,17 @@ namespace Unicoen.Apps.MseConverter {
 		}
 
 		public UnifiedNamespaceDefinition DefaultNamespace {
-			get { return _defaultNamespace; }
+			get {
+				if (_lastGetDefaultNamespace != _defaultNamespace) {
+					_lastGetDefaultNamespace = _defaultNamespace;
+					WriteNamespace(_defaultNamespace, _package2Id[_defaultNamespace]);
+				}
+				return _defaultNamespace;
+			}
 			set {
 				if (_defaultNamespace != value) {
 					_defaultNamespace = value;
 					_package2Id[_defaultNamespace] = NextId();
-
-					Writer.Write("(FAMIX.Namespace ");
-					Writer.WriteLine("(id: " + _id + ")");
-					Writer.WriteLine("(name \'" + CodeFactory.Generate(_defaultNamespace.Name) + "\'))");
 				}
 			}
 		}
@@ -108,6 +116,12 @@ namespace Unicoen.Apps.MseConverter {
 			id = NextId();
 			_package2Id.Add(element, id);
 
+			WriteNamespace(element, id);
+
+			element.TryAcceptAllChildren(this);
+		}
+
+		private void WriteNamespace(UnifiedNamespaceDefinition element, int id) {
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Namespace ");
 			Writer.WriteLine("(id: " + id + ")");
@@ -116,8 +130,6 @@ namespace Unicoen.Apps.MseConverter {
 			//TODO element.Name as UnifiedVariableIdentifierなどで、CodeGeneratorを使わないようにする
 			var packageName = CodeFactory.Generate(element.Name).Replace(".", "::");
 			Writer.WriteLine("(name \'" + packageName + "\'))");
-
-			element.TryAcceptAllChildren(this);
 		}
 
 		public override void Visit(
@@ -127,9 +139,6 @@ namespace Unicoen.Apps.MseConverter {
 			              ?? DefaultNamespace;
 			var packageId = _package2Id[package];
 
-			//クラス名の取得
-			var className = CodeFactory.Generate(element.Name);
-
 			//すでに登録されているか確認
 			//登録されていなければ新しいIdを取得する
 			int id;
@@ -138,6 +147,15 @@ namespace Unicoen.Apps.MseConverter {
 				_class2Id.Add(element, id);
 			}
 
+			WriteClass(element, packageId, id);
+
+			element.TryAcceptAllChildren(this);
+		}
+
+		private void WriteClass(
+				UnifiedClassDefinition element, int packageId, int id) {
+			//クラス名の取得
+			var className = CodeFactory.Generate(element.Name);
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Class ");
 			Writer.WriteLine("(id: " + id + ")");
@@ -149,9 +167,7 @@ namespace Unicoen.Apps.MseConverter {
 			var isAbstract = modifiers != null
 			                 && modifiers.Any(m => m.Name == "abstract");
 			Writer.WriteLine(isAbstract ? "(isAbstract true)" : "(isAbstract false)");
-			Writer.WriteLine("(WMC "+ LanguageValue + ".00))");
-
-			element.TryAcceptAllChildren(this);
+			Writer.WriteLine("(WMC " + LanguageValue + ".00))");
 		}
 
 		public override void Visit(
@@ -175,6 +191,11 @@ namespace Unicoen.Apps.MseConverter {
 				_method2Id.Add(element, id);
 			}
 
+			WriteMethod(element, klassId, id, functionName);
+		}
+
+		private void WriteMethod(
+				UnifiedFunctionDefinition element, int klassId, int id, string functionName) {
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Method ");
 			Writer.WriteLine("(id: " + id + ")");
@@ -193,9 +214,6 @@ namespace Unicoen.Apps.MseConverter {
 			var klass = element.Ancestor<UnifiedClassDefinition>() ?? DefaultClass;
 			var klassId = _class2Id[klass];
 
-			//変数名の取得
-			var attributeName = CodeFactory.Generate(element.Name);
-
 			//すでに登録されているか確認
 			//登録されていなければ新しいIdを取得する
 			int id;
@@ -204,6 +222,15 @@ namespace Unicoen.Apps.MseConverter {
 				id = NextId();
 			}
 
+			WriteAttribute(element, klassId, id);
+
+			element.TryAcceptAllChildren(this);
+		}
+
+		private void WriteAttribute(
+				UnifiedVariableDefinition element, int klassId, int id) {
+			//変数名の取得
+			var attributeName = CodeFactory.Generate(element.Name);
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Attribute ");
 			Writer.WriteLine("(id: " + id + ")");
@@ -212,8 +239,6 @@ namespace Unicoen.Apps.MseConverter {
 					"(accessControlQualifier \'" +
 					GetAccessControlQualifier(element.Modifiers) + "\')");
 			Writer.WriteLine("(belongsTo (idref: " + klassId + ")))");
-
-			element.TryAcceptAllChildren(this);
 		}
 
 		public override void Visit(UnifiedCall element) {

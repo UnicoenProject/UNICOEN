@@ -141,7 +141,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedThrowsTypeCollection element) {
+		public virtual void Visit(UnifiedTypeCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -238,14 +238,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedNullLiteral element) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedMatcher element) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedMatcherCollection element) {
 			throw new NotImplementedException();
 		}
 
@@ -585,14 +577,6 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedUsingPart element) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedUsingPartCollection element) {
-			throw new NotImplementedException();
-		}
-
 		public virtual void Visit(UnifiedFromQuery element) {
 			throw new NotImplementedException();
 		}
@@ -750,7 +734,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedThrowsTypeCollection element, TArg arg) {
+		public virtual void Visit(UnifiedTypeCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -850,14 +834,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedNullLiteral element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedMatcher element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedMatcherCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1203,17 +1179,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedUsingPart element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedUsingPartCollection element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
 		public virtual void Visit(UnifiedFromQuery element, TArg arg) {
 			throw new NotImplementedException();
 		}
+
 		public virtual void Visit(UnifiedProc element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1302,14 +1271,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedEventDefinition element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual TResult Visit(UnifiedUsingPart element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual TResult Visit(UnifiedUsingPartCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1458,7 +1419,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedThrowsTypeCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1556,14 +1517,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedNullLiteral element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual TResult Visit(UnifiedMatcher element, TArg arg) {
-			throw new NotImplementedException();
-		}
-
-		public virtual TResult Visit(UnifiedMatcherCollection element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

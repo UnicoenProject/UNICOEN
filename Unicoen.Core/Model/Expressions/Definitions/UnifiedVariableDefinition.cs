@@ -35,7 +35,7 @@ namespace Unicoen.Model {
 		private UnifiedBlock _body;
 
 		/// <summary>
-		///   付与されているアノテーションを取得または設定します．
+		///   アノテーションの集合を取得または設定します．
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
@@ -43,7 +43,7 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		///   変数に付随する修飾子の集合を取得または設定します．
+		///   修飾子の集合を取得または設定します．
 		///   e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {

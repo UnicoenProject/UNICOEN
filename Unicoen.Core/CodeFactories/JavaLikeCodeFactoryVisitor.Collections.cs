@@ -36,7 +36,7 @@ namespace Unicoen.CodeFactories {
 
 		// e.g. throws E1, E2 ...
 		public override bool Visit(
-				UnifiedThrowsTypeCollection element, VisitorArgument arg) {
+				UnifiedTypeCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Throws));
 			return false;
 		}
@@ -120,12 +120,6 @@ namespace Unicoen.CodeFactories {
 				WriteIndent(arg.IndentDepth);
 				caseElement.TryAccept(this, arg);
 			}
-			return false;
-		}
-
-		public override bool Visit(
-				UnifiedMatcherCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
 			return false;
 		}
 

@@ -77,7 +77,7 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		}
 
 		//JavaScriptでは例外型の列挙は出現しない
-		public override bool Visit(UnifiedThrowsTypeCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
 			return false;
 		}
 
@@ -90,12 +90,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		public override bool Visit(
 				UnifiedIdentifierCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(CommaDelimiter));
-			return false;
-		}
-
-		public override bool Visit(
-				UnifiedMatcherCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
 			return false;
 		}
 

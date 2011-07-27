@@ -35,7 +35,7 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		// e.g. throws E1, E2 ...
-		public override bool Visit(UnifiedThrowsTypeCollection element, VisitorArgument arg) {
+		public override bool Visit(UnifiedTypeCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
@@ -84,12 +84,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 				WriteIndent(arg.IndentDepth);
 				caseElement.TryAccept(this, arg);
 			}
-			return false;
-		}
-
-		public override bool Visit(
-				UnifiedMatcherCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
 			return false;
 		}
 

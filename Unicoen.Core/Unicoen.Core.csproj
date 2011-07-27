@@ -104,7 +104,6 @@
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
-    <Compile Include="Model\Collections\UnifiedUsingPartCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
@@ -218,7 +217,6 @@
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
-    <Compile Include="Model\Expressions\Blocks\Specials\UnifiedUsingPart.cs" />
     <Compile Include="Processor\DefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\EmptyUnifiedVisitor.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
@@ -230,7 +228,6 @@
     <Compile Include="Processor\ModelFactory.cs" />
     <Compile Include="Processor\ModelFactoryHelper.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
-    <Compile Include="Model\Collections\UnifiedMatcherCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedGenericParameterCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedCatch.cs" />
@@ -271,7 +268,7 @@
     <Compile Include="Model\Expressions\UnifiedProperty.cs" />
     <Compile Include="Model\Expressions\UnifiedSwitch.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedBasicType.cs" />
-    <Compile Include="Model\Collections\UnifiedThrowsTypeCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedTypeCollection.cs" />
     <Compile Include="Model\Expressions\Operators\UnifiedUnaryExpression.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedIdentifier.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedWhile.cs" />
@@ -290,7 +287,6 @@
     <Compile Include="Model\UnifiedElement.cs" />
     <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedImport.cs" />
-    <Compile Include="Model\UnifiedMatcher.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\Collections\UnifiedModifierCollection.cs" />
     <Compile Include="Model\UnifiedParameter.cs" />

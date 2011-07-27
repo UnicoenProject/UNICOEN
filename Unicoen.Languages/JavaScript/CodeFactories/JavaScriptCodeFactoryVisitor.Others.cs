@@ -400,16 +400,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			Writer.Write("null");
 			return false;
 		}
-
-		//TODO パターンマッチ文 : JavaScriptでは出現しない?
-		public override bool Visit(UnifiedMatcher element, VisitorArgument arg) {
-			element.Modifiers.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Matcher.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Assign.TryAccept(this, arg);
-			return false;
-		}
 		
 		//using文 : JavaScriptでは出現しない
 		public override bool Visit(UnifiedUsing element, VisitorArgument arg) {

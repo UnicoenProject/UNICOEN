@@ -16,11 +16,9 @@
 
 #endregion
 
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-using Paraiba.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Model;
 
@@ -56,7 +54,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			return UnifiedDoWhile.Create(cond, CreateSmartBlock(secondNode));
 		}
 
-		private static IEnumerable<UnifiedCatch> CreateResbody(XElement node) {
+		private static UnifiedCatch CreateResbody(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "resbody");
 			Contract.Requires(node.FirstElement().Name() == "array");
@@ -64,16 +62,10 @@ namespace Unicoen.Languages.Ruby18.Model {
 			var children = node.FirstElement().Elements().ToList();
 			var assign = CreateExpresion(children.Last().FirstElement());
 			var block = CreateSmartBlock(node.LastElement());
-			var result = children
-					.SkipLast()
-					.Select(CreateConst)
-					.Select(
-							ident => UnifiedCatch.Create(
-									UnifiedType.Create(ident),
-									assign.DeepCopy()))
-					.ToList();
-			result.Last().Body = block;
-			return result;
+			var types = children.Select(CreateConst)
+					.Select(UnifiedType.Create)
+					.ToCollection();
+			return UnifiedCatch.Create(types, assign, block);
 		}
 
 		private static IUnifiedExpression CreateRescue(XElement node) {
@@ -85,7 +77,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			                		: null;
 			return UnifiedTry.Create(
 					CreateSmartBlock(node.FirstElement()),
-					node.Elements("resbody").SelectMany(CreateResbody).ToCollection(),
+					node.Elements("resbody").Select(CreateResbody).ToCollection(),
 					elseBlock);
 		}
 

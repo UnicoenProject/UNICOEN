@@ -80,7 +80,7 @@ namespace Unicoen.Processor {
 
 		public virtual void Visit(UnifiedCatch element) {}
 
-		public virtual void Visit(UnifiedThrowsTypeCollection element) {}
+		public virtual void Visit(UnifiedTypeCollection element) {}
 
 		public virtual void Visit(UnifiedCatchCollection element) {}
 
@@ -129,10 +129,6 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedStringLiteral element) {}
 
 		public virtual void Visit(UnifiedNullLiteral element) {}
-
-		public virtual void Visit(UnifiedMatcher element) {}
-
-		public virtual void Visit(UnifiedMatcherCollection element) {}
 
 		public virtual void Visit(UnifiedUsing element) {}
 
@@ -301,10 +297,6 @@ namespace Unicoen.Processor {
 
 		public virtual void Visit(UnifiedEventDefinition element) {}
 
-		public virtual void Visit(UnifiedUsingPart element) {}
-
-		public virtual void Visit(UnifiedUsingPartCollection element) {}
-
 		public virtual void Visit(UnifiedFromQuery element) {}
 
 		public virtual void Visit(UnifiedProc element) {}
@@ -386,7 +378,7 @@ namespace Unicoen.Processor {
 
 		public virtual void Visit(UnifiedCatch element, TArg arg) {}
 
-		public virtual void Visit(UnifiedThrowsTypeCollection element, TArg arg) {}
+		public virtual void Visit(UnifiedTypeCollection element, TArg arg) {}
 
 		public virtual void Visit(UnifiedCatchCollection element, TArg arg) {}
 
@@ -438,10 +430,6 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedStringLiteral element, TArg arg) {}
 
 		public virtual void Visit(UnifiedNullLiteral element, TArg arg) {}
-
-		public virtual void Visit(UnifiedMatcher element, TArg arg) {}
-
-		public virtual void Visit(UnifiedMatcherCollection element, TArg arg) {}
 
 		public virtual void Visit(UnifiedUsing element, TArg arg) {}
 
@@ -616,11 +604,8 @@ namespace Unicoen.Processor {
 
 		public virtual void Visit(UnifiedEventDefinition element, TArg arg) {}
 
-		public virtual void Visit(UnifiedUsingPart element, TArg arg) {}
-
-		public virtual void Visit(UnifiedUsingPartCollection element, TArg arg) {}
-
 		public virtual void Visit(UnifiedFromQuery element, TArg arg) {}
+
 		public virtual void Visit(UnifiedProc element, TArg arg) {}
 
 		public virtual void Visit(UnifiedEigenClassDefinition element, TArg arg) {}
@@ -695,14 +680,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedEventDefinition element, TArg arg) {
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedUsingPart element, TArg arg) {
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedUsingPartCollection element, TArg arg) {
 			return default(TResult);
 		}
 
@@ -851,7 +828,7 @@ namespace Unicoen.Processor {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedThrowsTypeCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeCollection element, TArg arg) {
 			return default(TResult);
 		}
 
@@ -949,14 +926,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedNullLiteral element, TArg arg) {
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedMatcher element, TArg arg) {
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedMatcherCollection element, TArg arg) {
 			return default(TResult);
 		}
 

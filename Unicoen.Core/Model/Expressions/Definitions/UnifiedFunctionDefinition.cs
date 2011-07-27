@@ -33,7 +33,7 @@ namespace Unicoen.Model {
 		private UnifiedGenericParameterCollection _genericParameters;
 		private UnifiedIdentifier _name;
 		private UnifiedParameterCollection _parameters;
-		private UnifiedThrowsTypeCollection _throws;
+		private UnifiedTypeCollection _throws;
 		private UnifiedBlock _body;
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace Unicoen.Model {
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		public UnifiedThrowsTypeCollection Throws {
+		public UnifiedTypeCollection Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
@@ -119,7 +119,7 @@ namespace Unicoen.Model {
 				UnifiedGenericParameterCollection genericParameters = null,
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
-				UnifiedThrowsTypeCollection throws = null,
+				UnifiedTypeCollection throws = null,
 				UnifiedBlock body = null) {
 			return new UnifiedFunctionDefinition {
 					Name = name,

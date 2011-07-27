@@ -105,17 +105,6 @@ namespace Unicoen.Model {
 			return UnifiedIdentifierCollection.Create(singleton);
 		}
 
-		public static UnifiedMatcherCollection ToCollection(
-				this IEnumerable<UnifiedMatcher> collection) {
-			return UnifiedMatcherCollection.Create(collection);
-		}
-
-		public static UnifiedMatcherCollection ToCollection(
-				this UnifiedMatcher singleton) {
-			if (singleton == null) return UnifiedMatcherCollection.Create();
-			return UnifiedMatcherCollection.Create(singleton);
-		}
-
 		public static UnifiedModifierCollection ToCollection(
 				this IEnumerable<UnifiedModifier> collection) {
 			return UnifiedModifierCollection.Create(collection);
@@ -149,15 +138,15 @@ namespace Unicoen.Model {
 			return UnifiedGenericArgumentCollection.Create(singleton);
 		}
 
-		public static UnifiedThrowsTypeCollection ToCollection(
+		public static UnifiedTypeCollection ToCollection(
 				this IEnumerable<UnifiedType> collection) {
-			return UnifiedThrowsTypeCollection.Create(collection);
+			return UnifiedTypeCollection.Create(collection);
 		}
 
-		public static UnifiedThrowsTypeCollection ToCollection(
+		public static UnifiedTypeCollection ToCollection(
 				this UnifiedType singleton) {
-			if (singleton == null) return UnifiedThrowsTypeCollection.Create();
-			return UnifiedThrowsTypeCollection.Create(singleton);
+			if (singleton == null) return UnifiedTypeCollection.Create();
+			return UnifiedTypeCollection.Create(singleton);
 		}
 
 		public static UnifiedTypeConstrainCollection ToCollection(
@@ -180,17 +169,6 @@ namespace Unicoen.Model {
 				this UnifiedGenericParameter singleton) {
 			if (singleton == null) return UnifiedGenericParameterCollection.Create();
 			return UnifiedGenericParameterCollection.Create(singleton);
-		}
-
-		public static UnifiedUsingPartCollection ToCollection(
-				this IEnumerable<UnifiedUsingPart> collection) {
-			return UnifiedUsingPartCollection.Create(collection);
-		}
-
-		public static UnifiedUsingPartCollection ToCollection(
-				this UnifiedUsingPart singleton) {
-			if (singleton == null) return UnifiedUsingPartCollection.Create();
-			return UnifiedUsingPartCollection.Create(singleton);
 		}
 	}
 }

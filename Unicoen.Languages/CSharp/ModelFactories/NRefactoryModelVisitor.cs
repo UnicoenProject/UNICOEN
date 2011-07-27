@@ -594,7 +594,7 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 			var type = LookupType(catchClause.Type);
 			var name = UnifiedVariableIdentifier.Create(catchClause.VariableName);
 			var body = catchClause.Body.TryAcceptForExpression(this).ToBlock();
-			return UnifiedCatch.Create(type, name, body);
+			return UnifiedCatch.Create(type.ToCollection(), name, body);
 		}
 
 		public IUnifiedElement VisitUncheckedStatement(
@@ -609,9 +609,8 @@ namespace Unicoen.Languages.CSharp.ModelFactories {
 
 		public IUnifiedElement VisitUsingStatement(UsingStatement stmt, object data) {
 			var target = stmt.ResourceAcquisition.TryAcceptForExpression(this);
-			var parts = UnifiedUsingPart.Create(target).ToCollection();
 			var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
-			return UnifiedUsing.Create(parts, body);
+			return UnifiedUsing.Create(target.ToCollection(), body);
 		}
 
 		public IUnifiedElement VisitVariableDeclarationStatement(VariableDeclarationStatement dec, object data) {
