@@ -43,7 +43,7 @@ namespace Unicoen.Apps.MseConverter {
 				//名前空間、クラスがない場合向けにファイルネームを登録しておく
 				var namespaceName = filePath.Substring(dirPath.Length + 1);
 				_visitor.DefaultNamespace = UnifiedNamespaceDefinition.Create(
-						null, null, UnifiedVariableIdentifier.Create("NoClass"));
+						null, null, UnifiedVariableIdentifier.Create(namespaceName));
 				_visitor.DefaultClass = UnifiedClassDefinition.Create(
 						null, null, UnifiedVariableIdentifier.Create(namespaceName));
 				switch (Path.GetExtension(filePath)) {

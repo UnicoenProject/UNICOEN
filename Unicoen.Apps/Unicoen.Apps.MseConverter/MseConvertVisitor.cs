@@ -57,6 +57,10 @@ namespace Unicoen.Apps.MseConverter {
 				if (_defaultNamespace != value) {
 					_defaultNamespace = value;
 					_package2Id[_defaultNamespace] = NextId();
+
+					Writer.Write("(FAMIX.Namespace ");
+					Writer.WriteLine("(id: " + _id + ")");
+					Writer.WriteLine("(name \'" + CodeFactory.Generate(_defaultNamespace.Name) + "\'))");
 				}
 			}
 		}
