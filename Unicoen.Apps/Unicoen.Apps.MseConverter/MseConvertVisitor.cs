@@ -144,7 +144,8 @@ namespace Unicoen.Apps.MseConverter {
 			var modifiers = element.Modifiers;
 			var isAbstract = modifiers != null
 			                 && modifiers.Any(m => m.Name == "abstract");
-			Writer.WriteLine(isAbstract ? "(isAbstract true))" : "(isAbstract false))");
+			Writer.WriteLine(isAbstract ? "(isAbstract true)" : "(isAbstract false)");
+			Writer.WriteLine("(WMC "+ LanguageValue + ".00))");
 
 			element.TryAcceptAllChildren(this);
 		}
