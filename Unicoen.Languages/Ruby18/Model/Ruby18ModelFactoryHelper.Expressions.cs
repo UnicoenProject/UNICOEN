@@ -41,6 +41,8 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["iasgn"] = CreateAsgn;
 			ExpressionFuncs["cvasgn"] = CreateAsgn;
 			ExpressionFuncs["gasgn"] = CreateAsgn;
+			ExpressionFuncs["cdecl"] = CreateAsgn;
+
 			ExpressionFuncs["attrasgn"] = CreateAttrasgn;
 			ExpressionFuncs["const"] = CreateConst;
 			ExpressionFuncs["Symbol"] = CreateSymbol;
@@ -118,7 +120,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		public static UnifiedBinaryExpression CreateAsgn(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn" || node.Name() == "iasgn" || node.Name() == "cvasgn" || node.Name() == "gasgn");
+			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn" || node.Name() == "iasgn" || node.Name() == "cvasgn" || node.Name() == "gasgn" || node.Name() == "cdecl");
 			return UnifiedBinaryExpression.Create(
 					CreateExpresion(node.FirstElement()),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
