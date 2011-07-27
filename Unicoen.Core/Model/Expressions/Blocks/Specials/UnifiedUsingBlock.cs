@@ -27,17 +27,18 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedUsing
 			: UnifiedElement, IUnifiedExpression {
-		private UnifiedUsingPartCollection _parts;
+		private UnifiedExpressionCollection _expressions;
 		private UnifiedBlock _body;
 
 		/// <summary>
 		///   リソース管理の対象となる式の集合を取得もしくは設定します．
 		///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
 		///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+		/// なお，Pythonにおける<c>file(p1) as f1</c>は<c>f1 = file(p1)</c>という代入式だと見なします
 		/// </summary>
-		public UnifiedUsingPartCollection Parts {
-			get { return _parts; }
-			set { _parts = SetChild(value, _parts); }
+		public UnifiedExpressionCollection Expressions {
+			get { return _expressions; }
+			set { _expressions = SetChild(value, _expressions); }
 		}
 
 		/// <summary>
@@ -69,10 +70,10 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedUsing Create(
-				UnifiedUsingPartCollection parts = null,
+				UnifiedExpressionCollection expressions = null,
 				UnifiedBlock body = null) {
 			return new UnifiedUsing {
-					Parts = parts,
+					Expressions = expressions,
 					Body = body,
 			};
 		}

@@ -25,23 +25,42 @@ namespace Unicoen.Model {
 	///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
 	/// </summary>
 	public class UnifiedCatch : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _expression;
+		private UnifiedAnnotationCollection _annotations;
+		private UnifiedModifierCollection _modifiers;
+		private UnifiedTypeCollection _types;
 		private IUnifiedExpression _assign;
 		private UnifiedBlock _body;
 
 		/// <summary>
-		///   受け取る例外を表す変数宣言か型を取得もしくは設定します．
-		///   例外オブジェクトを変数が受け取らない場合は型になります．
-		///   e.g. JavaとC#における<c>catch (Exception e) { ... }</c>の<c>Exception e</c>
+		///   アノテーションの集合を取得または設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetChild(value, _annotations); }
+		}
+
+		/// <summary>
+		///   修飾子の集合を取得または設定します．
+		///   e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
+		/// </summary>
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetChild(value, _modifiers); }
+		}
+
+		/// <summary>
+		///   受け取る例外の型の集合を取得もしくは設定します．
+		///   e.g. JavaとC#における<c>catch (Exception e) { ... }</c>の<c>Exception</c>
 		///   e.g. C#における<c>catch (Exception) { ... }</c>の<c>Exception</c>
 		/// </summary>
-		public IUnifiedExpression Expression {
-			get { return _expression; }
-			set { _expression = SetChild(value, _expression); }
+		public UnifiedTypeCollection Types {
+			get { return _types; }
+			set { _types = SetChild(value, _types); }
 		}
 
 		/// <summary>
 		///   例外オブジェクトを受け取る左辺式（≠変数宣言）を取得もしくは設定します．
+		///   e.g. JavaとC#における<c>catch (Exception e) { ... }</c>の<c>e</c>
 		///   e.g. Rubyにおける<c>rescue ArgumentError, TypeError => e</c>の<c>e</c>
 		/// </summary>
 		public IUnifiedExpression Assign {
@@ -77,37 +96,15 @@ namespace Unicoen.Model {
 		}
 
 		public static UnifiedCatch Create(
-				UnifiedVariableDefinition variableDefinition = null,
-				UnifiedBlock body = null) {
-			return new UnifiedCatch {
-					Expression = variableDefinition.ToVariableDefinitionList(),
-					Body = body,
-			};
-		}
-
-		public static UnifiedCatch Create(
-				UnifiedType type,
-				UnifiedIdentifier name,
+				UnifiedTypeCollection types,
+				IUnifiedExpression assign,
 				UnifiedBlock body = null,
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null) {
 			return new UnifiedCatch {
-					Expression = name != null
-					             		? (IUnifiedExpression)
-					             		  UnifiedVariableDefinition
-					             		  		.Create(annotations, modifiers, type, name)
-					             		  		.ToVariableDefinitionList()
-					             		: type,
-					Body = body,
-			};
-		}
-
-		public static UnifiedCatch Create(
-				IUnifiedExpression expression,
-				IUnifiedExpression assign = null,
-				UnifiedBlock body = null) {
-			return new UnifiedCatch {
-					Expression = expression,
+					Annotations = annotations,
+					Modifiers = modifiers,
+					Types = types,
 					Assign = assign,
 					Body = body,
 			};

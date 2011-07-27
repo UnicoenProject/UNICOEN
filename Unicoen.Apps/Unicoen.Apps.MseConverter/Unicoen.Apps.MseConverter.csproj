@@ -46,6 +46,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Unicoen.Languages\CSharp\Unicoen.Languages.CSharp.csproj">
+      <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
+      <Name>Unicoen.Languages.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\JavaScript\Unicoen.Languages.JavaScript.csproj">
+      <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
+      <Name>Unicoen.Languages.JavaScript</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\Python2\Unicoen.Languages.Python2.csproj">
+      <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
+      <Name>Unicoen.Languages.Python2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\Ruby18\Unicoen.Languages.Ruby18.csproj">
+      <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
+      <Name>Unicoen.Languages.Ruby18</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unicoen.Apps.Aop.Cui\Unicoen.Apps.Aop.Cui.csproj">
       <Project>{78406882-043E-451A-98B4-335AD8BB7DAD}</Project>
       <Name>Unicoen.Apps.Aop.Cui</Name>

@@ -27,7 +27,7 @@ namespace Unicoen.Model {
 		protected UnifiedModifierCollection _modifiers;
 		protected UnifiedParameterCollection _parameters;
 		protected UnifiedGenericParameterCollection _genericParameters;
-		protected UnifiedThrowsTypeCollection _throws;
+		protected UnifiedTypeCollection _throws;
 		protected UnifiedBlock _body;
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace Unicoen.Model {
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
-		public UnifiedThrowsTypeCollection Throws {
+		public UnifiedTypeCollection Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
@@ -74,7 +74,7 @@ namespace Unicoen.Model {
 				UnifiedModifierCollection modifiers = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedGenericParameterCollection genericParameters = null,
-				UnifiedThrowsTypeCollection throws = null) {
+				UnifiedTypeCollection throws = null) {
 			var ret = UnifiedFactory<TSelf>.Create();
 			ret.Body = body;
 			ret.Annotations = annotations;

@@ -311,14 +311,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		//catch節
-		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
-			Writer.Write("catch");
-			element.Expression.TryAccept(this, arg.Set(Paren));
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return false;
-		}
-
 		//try文
 		public override bool Visit(UnifiedTry element, VisitorArgument arg) {
 			//tryブロック
@@ -406,16 +398,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 		//nullリテラル
 		public override bool Visit(UnifiedNullLiteral element, VisitorArgument arg) {
 			Writer.Write("null");
-			return false;
-		}
-
-		//TODO パターンマッチ文 : JavaScriptでは出現しない?
-		public override bool Visit(UnifiedMatcher element, VisitorArgument arg) {
-			element.Modifiers.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Matcher.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Assign.TryAccept(this, arg);
 			return false;
 		}
 		

@@ -26,7 +26,6 @@ using UniUni.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
-using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming
@@ -702,7 +701,11 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var catches = exceptClauseNodes
 					.Select(CreateExcept_clause)
 					.Zip(exceptClauseSuites)
-					.Select(t => UnifiedCatch.Create(t.Item1.Item1, t.Item1.Item2, t.Item2))
+					.Select(
+							t => UnifiedCatch.Create(
+									UnifiedType.Create(t.Item1.Item1).ToCollection(),
+									t.Item1.Item2,
+									t.Item2))
 					.ToCollection();
 			var elseSuiteNode = node.ElementByContent("else")
 					.SafeNextElement(1);
@@ -727,14 +730,14 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			 *   for line in f:
 			 *     print line
 			 */
-			var matchers = node.Elements("with_item")
+			var withItems = node.Elements("with_item")
 					.Select(CreateWith_item)
 					.ToCollection();
 			var suite = CreateSuite(node.Element("suite"));
-			return UnifiedUsing.Create(matchers, suite);
+			return UnifiedUsing.Create(withItems.ToCollection(), suite);
 		}
 
-		public static UnifiedUsingPart CreateWith_item(XElement node) {
+		public static IUnifiedExpression CreateWith_item(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "with_item");
 			/*
@@ -748,24 +751,28 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var expr = exprNode != null
 			           		? CreateExpr(exprNode)
 			           		: null;
-			return UnifiedUsingPart.Create(test, expr);
+			return UnifiedBinaryExpression.Create(
+					expr,
+					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
+					test);
 		}
 
-		public static Tuple<IUnifiedExpression, IUnifiedExpression> CreateExcept_clause(XElement node) {
+		public static Tuple<IUnifiedExpression, IUnifiedExpression>
+				CreateExcept_clause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "except_clause");
 			/*
 			 * except_clause: 'except' [test [('as' | ',') test]]
 			 */
 			var firstTestNode = node.NthElementOrDefault(1);
-			var firstTest = firstTestNode != null
-			                		? CreateTest(firstTestNode)
-			                		: null;
+			var type = firstTestNode != null
+			           		? CreateTest(firstTestNode)
+			           		: null;
 			var lastTestNode = node.NthElementOrDefault(3);
-			var lastTest = lastTestNode != null
-			               		? CreateTest(lastTestNode)
-			               		: null;
-			return Tuple.Create(firstTest, lastTest);
+			var assign = lastTestNode != null
+			             		? CreateTest(lastTestNode)
+			             		: null;
+			return Tuple.Create(type, assign);
 		}
 
 		public static UnifiedBlock CreateSuite(XElement node) {
@@ -814,8 +821,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var varargslistNode = node.Element("varargslist");
 			return UnifiedLambda.Create(
 					null, varargslistNode != null
-					                  		? CreateVarargslist(varargslistNode)
-					                  		: null,
+					      		? CreateVarargslist(varargslistNode)
+					      		: null,
 					CreateOld_test(node.LastElement()).ToBlock());
 		}
 
@@ -1101,8 +1108,8 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 			var varargslistNode = node.Element("varargslist");
 			return UnifiedLambda.Create(
 					null, varargslistNode != null
-					                  		? CreateVarargslist(varargslistNode)
-					                  		: null,
+					      		? CreateVarargslist(varargslistNode)
+					      		: null,
 					CreateTest(node.LastElement()).ToBlock());
 		}
 
@@ -1273,9 +1280,10 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.Select(
 							e => e.Name() == "argument"
 							     		? CreateArgument(e)
-							     		: UnifiedArgument.Create(CreateTest(e), null, UnifiedModifier.Create(
-							     				e.PreviousElement().Value).
-							     		                                              		ToCollection()))
+							     		: UnifiedArgument.Create(
+							     				CreateTest(e), null, UnifiedModifier.Create(
+							     						e.PreviousElement().Value).
+							     				                     		ToCollection()))
 					.ToCollection();
 		}
 
@@ -1291,10 +1299,12 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 				return UnifiedArgument.Create(test, null, null);
 			if (second.Value == "=")
 					// TODO: test '=' test => NAME '=' test のように扱っているが大丈夫か？
-				return UnifiedArgument.Create(CreateTest(node.LastElement()), (UnifiedIdentifier)test, null);
-			return UnifiedArgument.Create(UnifiedIterableComprehension.Create(
-					test,
-					CreateComp_for(second).ToCollection()), null, null);
+				return UnifiedArgument.Create(
+						CreateTest(node.LastElement()), (UnifiedIdentifier)test, null);
+			return UnifiedArgument.Create(
+					UnifiedIterableComprehension.Create(
+							test,
+							CreateComp_for(second).ToCollection()), null, null);
 		}
 
 		public static IEnumerable<IUnifiedExpression> CreateList_iter(XElement node) {

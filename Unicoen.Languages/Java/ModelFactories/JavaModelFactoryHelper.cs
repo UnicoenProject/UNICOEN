@@ -684,7 +684,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var parameters = CreateFormalParameters(node.Element("formalParameters"));
 
 			var throws = node.HasElement("qualifiedNameList")
-			             		? UnifiedThrowsTypeCollection.Create(
+			             		? UnifiedTypeCollection.Create(
 			             				CreateQualifiedNameList(node.Element("qualifiedNameList"))
 			             						.Select(UnifiedType.Create))
 			             		: null;
@@ -1383,13 +1383,24 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			 * catchClause 
 			 * :   'catch' '(' formalParameter ')' block  
 			 */
+			var t = CreateFormalParameter(node.Element("formalParameter"));
 			return UnifiedCatch.Create(
-					CreateFormalParameter(node.Element("formalParameter")).
-							ToVariableDefinitionList(),
-					CreateBlock(node.Element("block")));
+					t.Item2.ToCollection(),
+					t.Item3,
+					CreateBlock(node.Element("block")),
+					t.Item1.Item1,
+					t.Item1.Item2);
 		}
 
-		public static UnifiedVariableDefinition CreateFormalParameter(XElement node) {
+		public static
+				Tuple<
+						Tuple<
+								UnifiedAnnotationCollection,
+								UnifiedModifierCollection>,
+						UnifiedType,
+						UnifiedVariableIdentifier>
+				CreateFormalParameter(
+				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameter");
 			/*
@@ -1401,10 +1412,9 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			var dimension = node.ElementsByContent("[").Count();
 			type = type.WrapArrayRepeatedly(dimension);
 			var annotationsAndModifiers = CreateVariableModifiers(node.FirstElement());
-			return UnifiedVariableDefinition.Create(
-					annotationsAndModifiers.Item1,
-					annotationsAndModifiers.Item2,
-					type, UnifiedVariableIdentifier.Create(node.NthElement(2).Value));
+			return Tuple.Create(
+					annotationsAndModifiers, type,
+					UnifiedVariableIdentifier.Create(node.NthElement(2).Value));
 		}
 
 		public static IUnifiedExpression CreateForstatement(XElement node) {

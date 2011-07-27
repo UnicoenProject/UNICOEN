@@ -17,7 +17,6 @@
 #endregion
 
 using Unicoen.Model;
-using Unicoen.Model;
 
 namespace Unicoen.Processor {
 	public interface IUnifiedVisitor {
@@ -51,7 +50,7 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedCaseCollection element);
 		void Visit(UnifiedCase element);
 		void Visit(UnifiedCatch element);
-		void Visit(UnifiedThrowsTypeCollection element);
+		void Visit(UnifiedTypeCollection element);
 		void Visit(UnifiedCatchCollection element);
 		void Visit(UnifiedTry element);
 		void Visit(UnifiedCast element);
@@ -76,8 +75,6 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedUInt64Literal element);
 		void Visit(UnifiedStringLiteral element);
 		void Visit(UnifiedNullLiteral element);
-		void Visit(UnifiedMatcher element);
-		void Visit(UnifiedMatcherCollection element);
 		void Visit(UnifiedUsing element);
 		void Visit(UnifiedListComprehension element);
 		void Visit(UnifiedListLiteral element);
@@ -163,8 +160,6 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedDefault element);
 		void Visit(UnifiedVaueIdentifier element);
 		void Visit(UnifiedEventDefinition element);
-		void Visit(UnifiedUsingPart element);
-		void Visit(UnifiedUsingPartCollection element);
 		void Visit(UnifiedFromQuery element);
 		void Visit(UnifiedProc element);
 		void Visit(UnifiedEigenClassDefinition element);
@@ -206,7 +201,7 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedCaseCollection element, TArg arg);
 		void Visit(UnifiedCase element, TArg arg);
 		void Visit(UnifiedCatch element, TArg arg);
-		void Visit(UnifiedThrowsTypeCollection element, TArg arg);
+		void Visit(UnifiedTypeCollection element, TArg arg);
 		void Visit(UnifiedCatchCollection element, TArg arg);
 		void Visit(UnifiedTry element, TArg arg);
 		void Visit(UnifiedCast element, TArg arg);
@@ -231,8 +226,6 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedUInt64Literal element, TArg arg);
 		void Visit(UnifiedStringLiteral element, TArg arg);
 		void Visit(UnifiedNullLiteral element, TArg arg);
-		void Visit(UnifiedMatcher element, TArg arg);
-		void Visit(UnifiedMatcherCollection element, TArg arg);
 		void Visit(UnifiedUsing element, TArg arg);
 		void Visit(UnifiedListComprehension element, TArg arg);
 		void Visit(UnifiedListLiteral element, TArg arg);
@@ -318,8 +311,6 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedDefault element, TArg arg);
 		void Visit(UnifiedVaueIdentifier element, TArg arg);
 		void Visit(UnifiedEventDefinition element, TArg arg);
-		void Visit(UnifiedUsingPart element, TArg arg);
-		void Visit(UnifiedUsingPartCollection element, TArg arg);
 		void Visit(UnifiedFromQuery element, TArg arg);
 		void Visit(UnifiedProc element, TArg arg);
 		void Visit(UnifiedEigenClassDefinition element, TArg arg);
@@ -361,7 +352,7 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedCaseCollection element, TArg arg);
 		TResult Visit(UnifiedCase element, TArg arg);
 		TResult Visit(UnifiedCatch element, TArg arg);
-		TResult Visit(UnifiedThrowsTypeCollection element, TArg arg);
+		TResult Visit(UnifiedTypeCollection element, TArg arg);
 		TResult Visit(UnifiedCatchCollection element, TArg arg);
 		TResult Visit(UnifiedTry element, TArg arg);
 		TResult Visit(UnifiedCast element, TArg arg);
@@ -386,8 +377,6 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedUInt64Literal element, TArg arg);
 		TResult Visit(UnifiedStringLiteral element, TArg arg);
 		TResult Visit(UnifiedNullLiteral element, TArg arg);
-		TResult Visit(UnifiedMatcher element, TArg arg);
-		TResult Visit(UnifiedMatcherCollection element, TArg arg);
 		TResult Visit(UnifiedUsing element, TArg arg);
 		TResult Visit(UnifiedListComprehension element, TArg arg);
 		TResult Visit(UnifiedListLiteral element, TArg arg);
@@ -473,8 +462,6 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedDefault element, TArg arg);
 		TResult Visit(UnifiedVaueIdentifier element, TArg arg);
 		TResult Visit(UnifiedEventDefinition element, TArg arg);
-		TResult Visit(UnifiedUsingPart element, TArg arg);
-		TResult Visit(UnifiedUsingPartCollection element, TArg arg);
 		TResult Visit(UnifiedFromQuery element, TArg arg);
 		TResult Visit(UnifiedProc element, TArg arg);
 		TResult Visit(UnifiedEigenClassDefinition element, TArg arg);

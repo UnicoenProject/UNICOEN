@@ -165,8 +165,13 @@ namespace Unicoen.CodeFactories {
 
 		// e.g. catch(Exception e){...}
 		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
-			Writer.Write("catch");
-			element.Expression.TryAccept(this, arg.Set(Paren));
+			Writer.Write("catch(");
+			element.Annotations.TryAccept(this, arg);
+			element.Modifiers.TryAccept(this, arg);
+			element.Types.FirstOrDefault().TryAccept(this, arg);
+			Writer.Write(" ");
+			element.Assign.TryAccept(this, arg);
+			Writer.Write(")");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return false;
 		}
@@ -476,20 +481,11 @@ namespace Unicoen.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedMatcher element, VisitorArgument arg) {
-			element.Modifiers.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Matcher.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Assign.TryAccept(this, arg);
-			return false;
-		}
-
 		public override bool Visit(UnifiedUsing element, VisitorArgument arg) {
 			Writer.Write("/* using ");
-			element.Parts.TryAccept(this, arg);
+			element.Expressions.TryAccept(this, arg);
 			Writer.WriteLine(" { */");
-			element.Parts.TryAccept(this, arg);
+			element.Expressions.TryAccept(this, arg);
 			Writer.WriteLine("/* } */");
 			return false;
 		}

@@ -112,14 +112,6 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		// e.g. catch(Exception e){...}
-		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
-			Writer.Write("catch");
-			element.Expression.TryAccept(this, arg.Set(Paren));
-			element.Body.TryAccept(this, arg);
-			return false;
-		}
-
 		// e.g. try{...}catch(E e){...}finally{...}
 		public override bool Visit(UnifiedTry element, VisitorArgument arg) {
 			// try block
@@ -351,20 +343,11 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 			return false;
 		}
 
-		public override bool Visit(UnifiedMatcher element, VisitorArgument arg) {
-			element.Modifiers.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Matcher.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Assign.TryAccept(this, arg);
-			return false;
-		}
-
 		public override bool Visit(UnifiedUsing element, VisitorArgument arg) {
 			Writer.Write("/* using ");
-			element.Parts.TryAccept(this, arg);
+			element.Expressions.TryAccept(this, arg);
 			Writer.WriteLine(" { */");
-			element.Parts.TryAccept(this, arg);
+			element.Expressions.TryAccept(this, arg);
 			Writer.WriteLine("//extracted from above");
 			Writer.WriteLine("/* } */");
 			return false;
@@ -380,6 +363,8 @@ namespace Unicoen.Languages.Python2.CodeFactories {
 		}
 
 		public override bool Visit(UnifiedMapLiteral element, VisitorArgument arg) {
+			return false;
+			//TODO Mseコンバーターのために一時的に例外を吐かないようにします
 			throw new NotImplementedException();
 		}
 

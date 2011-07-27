@@ -140,7 +140,7 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
-		public virtual void Visit(UnifiedThrowsTypeCollection element) {
+		public virtual void Visit(UnifiedTypeCollection element) {
 			element.TryAcceptAllChildren(this);
 		}
 
@@ -237,14 +237,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedNullLiteral element) {
-			element.TryAcceptAllChildren(this);
-		}
-
-		public virtual void Visit(UnifiedMatcher element) {
-			element.TryAcceptAllChildren(this);
-		}
-
-		public virtual void Visit(UnifiedMatcherCollection element) {
 			element.TryAcceptAllChildren(this);
 		}
 
@@ -584,14 +576,6 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
-		public virtual void Visit(UnifiedUsingPart element) {
-			element.TryAcceptAllChildren(this);
-		}
-
-		public virtual void Visit(UnifiedUsingPartCollection element) {
-			element.TryAcceptAllChildren(this);
-		}
-
 		public virtual void Visit(UnifiedFromQuery element) {
 			element.TryAcceptAllChildren(this);
 		}
@@ -753,7 +737,7 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
-		public virtual void Visit(UnifiedThrowsTypeCollection element, TArg arg) {
+		public virtual void Visit(UnifiedTypeCollection element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
@@ -853,14 +837,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedNullLiteral element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-		}
-
-		public virtual void Visit(UnifiedMatcher element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-		}
-
-		public virtual void Visit(UnifiedMatcherCollection element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
@@ -1206,14 +1182,6 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
-		public virtual void Visit(UnifiedUsingPart element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-		}
-
-		public virtual void Visit(UnifiedUsingPartCollection element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-		}
-
 		public virtual void Visit(UnifiedFromQuery element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
@@ -1330,16 +1298,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedEventDefinition element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedUsingPart element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedUsingPartCollection element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}
@@ -1530,7 +1488,7 @@ namespace Unicoen.Processor {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedThrowsTypeCollection element, TArg arg) {
+		public virtual TResult Visit(UnifiedTypeCollection element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}
@@ -1652,16 +1610,6 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedNullLiteral element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedMatcher element, TArg arg) {
-			element.TryAcceptAllChildren(this, arg);
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedMatcherCollection element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}

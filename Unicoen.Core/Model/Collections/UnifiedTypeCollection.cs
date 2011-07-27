@@ -21,20 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   リソース管理に用いられるローンパターンを提供する構文の構文要素の集合を表します。
-	///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+	///   型の集合を表します。
+	///   Javaのthrowsの右辺を表現するために存在しています．
+	///   e.g. Javaにおける<c>throws e1, e2...</c>の<c>e1, e2...</c>
 	/// </summary>
-	public class UnifiedUsingPartCollection
-			: UnifiedElementCollection<UnifiedUsingPart, UnifiedUsingPartCollection> {
-		/// <summary>
-		///   レシーバーと同じ型のオブジェクトを生成します．
-		/// </summary>
-		/// <returns>生成したオブジェクト</returns>
-		public override UnifiedUsingPartCollection CreateSelf() {
-			return new UnifiedUsingPartCollection();
+	public class UnifiedTypeCollection
+			: UnifiedElementCollection<UnifiedType, UnifiedTypeCollection> {
+		public override UnifiedTypeCollection CreateSelf() {
+			return new UnifiedTypeCollection();
 		}
 
-		protected UnifiedUsingPartCollection() {}
+		protected UnifiedTypeCollection() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
