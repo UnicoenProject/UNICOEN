@@ -33,6 +33,8 @@ namespace Unicoen.Processor {
 		}
 
 		public UnifiedProgram Generate(string code) {
+			if (string.IsNullOrWhiteSpace(code))
+				return UnifiedProgram.Create(UnifiedBlock.Create());
 			var model = GenerateWithouNormalizing(code);
 			model.Normalize();
 			return model;

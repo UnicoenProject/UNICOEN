@@ -104,8 +104,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get { return 
-				SetUpDjango()
-				.Concat(SetUpTornade())
+				SetUpTornade()
 				.Concat(SetUpPyPy())
 				; }
 		}
@@ -143,13 +142,14 @@ namespace Unicoen.Languages.Python2.Tests {
 					});
 		}
 
-		private IEnumerable<TestCaseData> SetUpDjango() {
-			return SetUpTestCaseData(
-					"django-1.3",
-					path =>
-					DownloadAndUnzip(
-							"https://github.com/django/django/zipball/1.3", path));
-		}
+		//TODO: For Python3
+		//private IEnumerable<TestCaseData> SetUpDjango() {
+		//    return SetUpTestCaseData(
+		//            "django-1.3",
+		//            path =>
+		//            DownloadAndUnzip(
+		//                    "https://github.com/django/django/zipball/1.3", path));
+		//}
 
 		private IEnumerable<TestCaseData> SetUpTornade() {
 			return SetUpTestCaseData(

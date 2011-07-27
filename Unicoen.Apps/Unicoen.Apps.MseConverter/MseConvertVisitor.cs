@@ -45,8 +45,8 @@ namespace Unicoen.Apps.MseConverter {
 			get { return _defaultClass; }
 			set {
 				if (_defaultClass != value) {
-					_class2Id[_defaultClass] = NextId();
 					_defaultClass = value;
+					_class2Id[_defaultClass] = NextId();
 				}
 			}
 		}
@@ -55,8 +55,8 @@ namespace Unicoen.Apps.MseConverter {
 			get { return _defaultNamespace; }
 			set {
 				if (_defaultNamespace != value) {
-					_package2Id[_defaultNamespace] = NextId();
 					_defaultNamespace = value;
+					_package2Id[_defaultNamespace] = NextId();
 				}
 			}
 		}
