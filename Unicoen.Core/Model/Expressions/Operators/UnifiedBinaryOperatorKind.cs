@@ -141,6 +141,11 @@ namespace Unicoen.Model {
 		ReferenceNotEqual,
 
 		/// <summary>
+		///   a =~ b in Ruby
+		/// </summary>
+		RegexEqual,
+
+		/// <summary>
 		///   a in b in Python
 		/// </summary>
 		In,
@@ -247,6 +252,16 @@ namespace Unicoen.Model {
 		OrAssign,
 
 		/// <summary>
+		///   a &amp;&amp;= b
+		/// </summary>
+		AndAlsoAssign,
+
+		/// <summary>
+		///   a ||= b
+		/// </summary>
+		OrElseAssign,
+
+		/// <summary>
 		///   a ^= b
 		/// </summary>
 		ExclusiveOrAssign,
@@ -261,6 +276,5 @@ namespace Unicoen.Model {
 		/// <c>obj as String</c> in C#
 		/// </summary>
 		As,
-
 	}
 }

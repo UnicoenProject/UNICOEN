@@ -23,6 +23,7 @@ using System.Linq;
 using System.Xml.Linq;
 using UniUni.Xml.Linq;
 using Unicoen.Model;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -31,7 +32,17 @@ namespace Unicoen.Languages.Ruby18.Model {
 		private static readonly Dictionary<string, Func<XElement, IUnifiedExpression>>
 				ExpressionFuncs;
 
+		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
+
+		public static Dictionary<string, UnifiedUnaryOperator>
+				Sign2PrefixUnaryOperator;
+
 		static Ruby18ModelFactoryHelper() {
+			Sign2BinaryOperator =
+					ModelFactoryHelper.CreateBinaryOperatorDictionary();
+			Sign2PrefixUnaryOperator =
+					ModelFactoryHelper.CreatePrefixUnaryOperatorDictionaryForJava();
+
 			ExpressionFuncs =
 					new Dictionary<string, Func<XElement, IUnifiedExpression>>();
 			InitializeExpressions();

@@ -193,6 +193,9 @@ namespace Unicoen.Processor {
 					UnifiedBinaryOperator.Create("|=", UnifiedBinaryOperatorKind.OrAssign),
 					UnifiedBinaryOperator.Create(
 							"^=", UnifiedBinaryOperatorKind.ExclusiveOrAssign),
+					// Logocal Assignment
+					UnifiedBinaryOperator.Create("&&=", UnifiedBinaryOperatorKind.AndAlsoAssign),
+					UnifiedBinaryOperator.Create("||=", UnifiedBinaryOperatorKind.OrElseAssign),
 					// Shift Assignment
 					UnifiedBinaryOperator.Create(
 							"<<=", UnifiedBinaryOperatorKind.LogicalLeftShiftAssign),
