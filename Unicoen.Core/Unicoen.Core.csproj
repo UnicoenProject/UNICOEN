@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
+    <Compile Include="Extensions\ModelSweeperGenericsForElement.cs" />
+    <Compile Include="Extensions\ModelSweeperGenerics.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />

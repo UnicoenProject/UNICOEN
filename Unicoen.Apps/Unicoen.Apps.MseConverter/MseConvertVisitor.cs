@@ -87,7 +87,7 @@ namespace Unicoen.Apps.MseConverter {
 
 			//パッケージ名の取得
 			var buffer = new StringWriter();
-			//TODO element.Name as UnifiedVariableIdentifierなどで、COdeGeneratorを使わないようにする
+			//TODO element.Name as UnifiedVariableIdentifierなどで、CodeGeneratorを使わないようにする
 			CodeFactory.Generate(element.Name, buffer);
 			var packageName = buffer.ToString();
 

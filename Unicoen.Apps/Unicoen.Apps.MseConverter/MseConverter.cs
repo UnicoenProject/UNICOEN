@@ -31,6 +31,7 @@ using Unicoen.Languages.Python2.CodeFactories;
 using Unicoen.Languages.Python2.ModelFactories;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
+using Unicoen.Tests;
 
 namespace Unicoen.Apps.MseConverter {
 	public class MseConverter {
@@ -60,8 +61,9 @@ namespace Unicoen.Apps.MseConverter {
 			writer.WriteLine("(entity");
 			foreach (var filePath in filePaths) {
 				//名前空間、クラスがない場合向けにファイルネームを登録しておく
-				_visitor.SetFilename(filePath);
-				_visitor.SetAnonymousClass(UnifiedClassDefinition.Create(null, null, UnifiedVariableIdentifier.Create(filePath)));
+				var namespaceName = filePath.Replace(FixtureUtil.GetDownloadPath("Python2"), "");
+				_visitor.SetFilename(namespaceName);
+				_visitor.SetAnonymousClass(UnifiedClassDefinition.Create(null, null, UnifiedVariableIdentifier.Create(namespaceName)));
 				switch (Path.GetExtension(filePath)) {
 				case ".java":
 					new JavaModelFactory().GenerateFromFile(filePath).Accept(_visitor);

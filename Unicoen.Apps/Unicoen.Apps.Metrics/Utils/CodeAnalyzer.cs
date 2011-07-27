@@ -22,6 +22,9 @@ using System.IO;
 using System.Linq;
 using Paraiba.Collections.Generic;
 using Paraiba.Text;
+using Unicoen.Languages.C;
+using Unicoen.Languages.CSharp;
+using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
@@ -31,14 +34,18 @@ namespace Unicoen.Apps.Metrics.Utils {
 	public static class CodeAnalyzer {
 		private static UnifiedProgram CreateModel(string ext, string code) {
 			switch (ext.ToLower()) {
-				/*case ".cs":
-				return CSharpFactory.GenerateModel(code);*/
+			case ".c":
+				return CFactory.GenerateModel(code);
+			case ".cs":
+				return CSharpFactory.GenerateModel(code);
 			case ".java":
 				return JavaFactory.GenerateModel(code);
 			case ".js":
 				return JavaScriptFactory.GenerateModel(code);
 			case ".py":
 				return Python2Factory.GenerateModel(code);
+			case ".rb":
+				return Ruby18ModelFactory.Instance.Generate(code);
 			}
 			return null;
 		}
