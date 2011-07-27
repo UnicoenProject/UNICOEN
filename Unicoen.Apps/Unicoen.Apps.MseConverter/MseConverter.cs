@@ -41,7 +41,8 @@ namespace Unicoen.Apps.MseConverter {
 			writer.WriteLine("(entity");
 			foreach (var filePath in filePaths) {
 				//名前空間、クラスがない場合向けにファイルネームを登録しておく
-				var namespaceName = filePath.Substring(dirPath.Length + 1);
+				var namespaceName = filePath.Substring(dirPath.Length + 1)
+					.Replace(Path.DirectorySeparatorChar, '.');
 				_visitor.DefaultNamespace = UnifiedNamespaceDefinition.Create(
 						null, null, UnifiedVariableIdentifier.Create(namespaceName));
 				_visitor.DefaultClass = UnifiedClassDefinition.Create(

@@ -1386,6 +1386,7 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			return UnifiedCatch.Create(
 					CreateFormalParameter(node.Element("formalParameter")).
 							ToVariableDefinitionList(),
+					null,
 					CreateBlock(node.Element("block")));
 		}
 

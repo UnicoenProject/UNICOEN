@@ -311,14 +311,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
-		//catch節
-		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
-			Writer.Write("catch");
-			element.Expression.TryAccept(this, arg.Set(Paren));
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return false;
-		}
-
 		//try文
 		public override bool Visit(UnifiedTry element, VisitorArgument arg) {
 			//tryブロック
