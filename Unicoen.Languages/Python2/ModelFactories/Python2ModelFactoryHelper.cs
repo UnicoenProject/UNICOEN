@@ -734,7 +734,7 @@ namespace Unicoen.Languages.Python2.ModelFactories {
 					.Select(CreateWith_item)
 					.ToCollection();
 			var suite = CreateSuite(node.Element("suite"));
-			return UnifiedUsing.Create(withItems.ToCollection(), suite);
+			return UnifiedUsing.Create(withItems, suite);
 		}
 
 		public static IUnifiedExpression CreateWith_item(XElement node) {
