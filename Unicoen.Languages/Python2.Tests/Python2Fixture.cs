@@ -104,8 +104,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get { return 
-				SetUpDjango()
-				.Concat(SetUpTornade())
+				SetUpTornade()
 				.Concat(SetUpPyPy())
 				; }
 		}
