@@ -39,6 +39,19 @@ namespace Unicoen.Apps.MseConverter {
 
 			writer.WriteLine("(Moose.Model (id: 1)");
 			writer.WriteLine("(entity");
+			
+			//言語による色付けをするための処理
+			writer.WriteLine("(FAMIX.Namespace (id: 2)");
+			writer.WriteLine("(name 'ColorSample'))");
+			writer.WriteLine("(FAMIX.Class (id: 3)");
+			writer.WriteLine("(name 'Java')");
+			writer.WriteLine("(belongsTo (idref: 2))");
+			writer.WriteLine("(WMC 0.00))");
+			writer.WriteLine("(FAMIX.Class (id: 4)");
+			writer.WriteLine("(name 'Ruby')");
+			writer.WriteLine("(belongsTo (idref: 2))");
+			writer.WriteLine("(WMC 4.00))");
+
 			foreach (var filePath in filePaths) {
 				//名前空間、クラスがない場合向けにファイルネームを登録しておく
 				var namespaceName = filePath.Substring(dirPath.Length + 1)

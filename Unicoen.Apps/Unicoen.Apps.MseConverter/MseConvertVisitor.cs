@@ -35,7 +35,7 @@ namespace Unicoen.Apps.MseConverter {
 		private readonly Dictionary<IUnifiedElement, int> _attribute2Id;
 		private UnifiedClassDefinition _defaultClass, _lastGetDefaultClass;
 		private UnifiedNamespaceDefinition _defaultNamespace, _lastGetDefaultNamespace;
-		private int _id = 1;
+		private int _id = 4;
 
 		public TextWriter Writer { get; private set; }
 		public CodeFactory CodeFactory { get; set; }
