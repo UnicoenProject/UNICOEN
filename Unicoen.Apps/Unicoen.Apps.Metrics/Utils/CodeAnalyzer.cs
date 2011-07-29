@@ -95,6 +95,25 @@ namespace Unicoen.Apps.Metrics.Utils {
 			if (string.IsNullOrEmpty(result)) {
 				result = "::";
 			}
+
+			var outerName = target.Ancestors()
+				.Select(e => {
+					var klass = e as UnifiedClassLikeDefinition;
+					if (klass != null)
+						return klass.Name;
+					var method = e as UnifiedFunctionDefinition;
+					if (method != null)
+						return method.Name;
+					return null;
+				})
+				.Where(e => e != null)
+				.FirstOrDefault();
+			if (outerName != null) {
+				result = JavaFactory.GenerateCode(outerName);
+			}
+			else {
+				result = "";
+			}
 			return result;
 		}
 
