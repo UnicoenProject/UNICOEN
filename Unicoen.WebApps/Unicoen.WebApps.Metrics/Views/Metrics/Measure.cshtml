@@ -61,8 +61,8 @@
 			new google.visualization.ColumnChart(document.getElementById('visualization')).
 			draw(data,
 				 { title: "Cyclomatic Complexity in your project",
-					 width: 1000, height: 800, isStacked: true,
-					 vAxis: { title: "Directory"}
+					 width: 1200, height: 600, isStacked: true,
+					 vAxis: { title: "Cyclomatic Complexity" }
 				 }
 			);
 		}
@@ -73,7 +73,7 @@
   </head>
   <body style="font-family: Arial;border: 0 none;">
 	<center>
-	<div id="visualization" style="width: 1000px; height: 800px;"></div>
+	<div id="visualization" style="width: 1200px; height: 600px;"></div>
 	</center>
   </body>
 </html>

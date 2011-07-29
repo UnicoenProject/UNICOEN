@@ -29,9 +29,9 @@ namespace Unicoen.Apps.MseConverter {
 	///   MSEフォーマット上に記述される要素について出力します。
 	/// </summary>
 	public class MseConvertVisitor : DefaultUnifiedVisitor {
-		private readonly Dictionary<IUnifiedElement, int> _package2Id;
-		private readonly Dictionary<IUnifiedElement, int> _class2Id;
-		private readonly Dictionary<IUnifiedElement, int> _method2Id;
+		private readonly Dictionary<UnifiedNamespaceDefinition, int> _package2Id;
+		private readonly Dictionary<UnifiedClassDefinition, int> _class2Id;
+		private readonly Dictionary<UnifiedFunctionDefinition, int> _method2Id;
 		private readonly Dictionary<IUnifiedElement, int> _attribute2Id;
 		private UnifiedClassDefinition _defaultClass, _lastGetDefaultClass;
 		private UnifiedNamespaceDefinition _defaultNamespace, _lastGetDefaultNamespace;
@@ -45,7 +45,8 @@ namespace Unicoen.Apps.MseConverter {
 			get {
 				if (_lastGetDefaultClass != _defaultClass) {
 					_lastGetDefaultClass = _defaultClass;
-					WriteClass(_defaultClass, _package2Id[DefaultNamespace], _class2Id[_defaultClass]);
+					WriteClass(
+							_defaultClass, _package2Id[DefaultNamespace], _class2Id[_defaultClass]);
 				}
 				return _defaultClass;
 			}
@@ -73,12 +74,35 @@ namespace Unicoen.Apps.MseConverter {
 			}
 		}
 
+		public class UnifiedNamespaceDefinitionEqualityComparer
+				: EqualityComparer<UnifiedNamespaceDefinition> {
+			public CodeFactory CodeFactory { get; set; }
+
+			public override bool Equals(
+					UnifiedNamespaceDefinition x, UnifiedNamespaceDefinition y) {
+				if (x == y)
+					return true;
+				if (x == null || y == null)
+					return false;
+				return CodeFactory.Generate(x.Name) == CodeFactory.Generate(y.Name);
+			}
+
+			public override int GetHashCode(UnifiedNamespaceDefinition obj) {
+				if (obj == null || obj.Name == null)
+					return 0;
+				return CodeFactory.Generate(obj.Name).GetHashCode();
+			}
+				}
+
 		public MseConvertVisitor(TextWriter writer) {
 			Writer = writer;
 			CodeFactory = new JavaCodeFactory();
-			_package2Id = new Dictionary<IUnifiedElement, int>();
-			_class2Id = new Dictionary<IUnifiedElement, int>();
-			_method2Id = new Dictionary<IUnifiedElement, int>();
+			_package2Id =
+					new Dictionary<UnifiedNamespaceDefinition, int>(
+							new UnifiedNamespaceDefinitionEqualityComparer
+							{ CodeFactory = CodeFactory });
+			_class2Id = new Dictionary<UnifiedClassDefinition, int>();
+			_method2Id = new Dictionary<UnifiedFunctionDefinition, int>();
 			_attribute2Id = new Dictionary<IUnifiedElement, int>();
 		}
 
@@ -192,6 +216,8 @@ namespace Unicoen.Apps.MseConverter {
 			}
 
 			WriteMethod(element, klassId, id, functionName);
+
+			element.TryAcceptAllChildren(this);
 		}
 
 		private void WriteMethod(
