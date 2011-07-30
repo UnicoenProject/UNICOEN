@@ -41,6 +41,8 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["iasgn"] = CreateAsgn;
 			ExpressionFuncs["cvasgn"] = CreateAsgn;
 			ExpressionFuncs["gasgn"] = CreateAsgn;
+			ExpressionFuncs["cdecl"] = CreateAsgn;
+
 			ExpressionFuncs["attrasgn"] = CreateAttrasgn;
 			ExpressionFuncs["const"] = CreateConst;
 			ExpressionFuncs["Symbol"] = CreateSymbol;
@@ -52,6 +54,37 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["colon2"] = CreateColon2;
 			ExpressionFuncs["and"] = CreateAnd;
 			ExpressionFuncs["or"] = CreateOr;
+			ExpressionFuncs["not"] = CreateNot;
+			ExpressionFuncs["match3"] = CreateMatch3;
+
+			ExpressionFuncs["op_asgn1"] = CreateOpAsgn1;
+			ExpressionFuncs["op_asgn2"] = CreateOpAsgn2;
+		}
+
+		private static IUnifiedExpression CreateOpAsgn2(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "op_asgn2");
+			var propName = node.NthElement(1).Value;
+			var expression = UnifiedProperty.Create(
+					".", CreateExpresion(node.FirstElement()),
+					UnifiedVariableIdentifier.Create(
+							propName.Substring(0, propName.Length - 1)));
+			return UnifiedBinaryExpression.Create(
+					expression,
+					Sign2BinaryOperator[node.NthElement(2).Value + "="].DeepCopy(),
+					CreateExpresion(node.LastElement()));
+		}
+
+		private static IUnifiedExpression CreateOpAsgn1(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "op_asgn1");
+			var expression = UnifiedIndexer.Create(
+					CreateExpresion(node.FirstElement()),
+					CreateArglist(node.NthElement(1)));
+			return UnifiedBinaryExpression.Create(
+					expression,
+					Sign2BinaryOperator[node.NthElement(2).Value + "="].DeepCopy(),
+					CreateExpresion(node.LastElement()));
 		}
 
 		public static IUnifiedExpression CreateExpresion(XElement node) {
@@ -67,10 +100,25 @@ namespace Unicoen.Languages.Ruby18.Model {
 		private static IUnifiedExpression CreateAttrasgn(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "attrasgn");
-			Contract.Requires(node.NthElement(1).Value == "[]=");
-			return UnifiedIndexer.Create(
-					CreateExpresion(node.FirstElement()),
-					CreateArglist(node.LastElement()));
+			var left = CreateExpresion(node.FirstElement());
+			var name = node.NthElement(1);
+			var args = CreateArglist(node.LastElement());
+			var right = args[args.Count - 1].Value;
+			args.RemoveAt(args.Count - 1);
+			right.RemoveSelf();
+			IUnifiedExpression expression;
+			if (name.Value == "[]=") {
+				expression = UnifiedIndexer.Create(left, args);
+			} else {
+				var propName = name.Value;
+				propName = propName.Substring(0, propName.Length - 1);
+				expression = UnifiedProperty.Create(
+						".", left, UnifiedVariableIdentifier.Create(propName));
+			}
+			return UnifiedBinaryExpression.Create(
+					expression,
+					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
+					right);
 		}
 
 		public static IUnifiedExpression CreateSmartExpresion(XElement node) {
@@ -93,7 +141,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		public static IUnifiedExpression CreateVar(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lvar" || node.Name() == "ivar" || node.Name() == "cvar" || node.Name() == "gvar");
+			Contract.Requires(
+					node.Name() == "lvar" || node.Name() == "ivar" || node.Name() == "cvar"
+					|| node.Name() == "gvar");
 			return UnifiedVariableIdentifier.Create(node.Value);
 		}
 
@@ -118,7 +168,10 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		public static UnifiedBinaryExpression CreateAsgn(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lasgn" || node.Name() == "masgn" || node.Name() == "iasgn" || node.Name() == "cvasgn" || node.Name() == "gasgn");
+			Contract.Requires(
+					node.Name() == "lasgn" || node.Name() == "masgn" || node.Name() == "iasgn"
+					|| node.Name() == "cvasgn" || node.Name() == "gasgn"
+					|| node.Name() == "cdecl");
 			return UnifiedBinaryExpression.Create(
 					CreateExpresion(node.FirstElement()),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
@@ -134,9 +187,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 		}
 
 		public static IUnifiedExpression CreateAlias(XElement node) {
-		    Contract.Requires(node != null);
-		    Contract.Requires(node.Name() == "alias");
-		    // TODO: UnifiedCall?
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "alias");
+			// TODO: UnifiedCall?
 			return UnifiedCall.Create(
 					UnifiedVariableIdentifier.Create("alias"),
 					new[] {
@@ -146,8 +199,8 @@ namespace Unicoen.Languages.Ruby18.Model {
 		}
 
 		private static IUnifiedExpression CreateColon2(XElement node) {
-		    Contract.Requires(node != null);
-		    Contract.Requires(node.Name() == "colon2");
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "colon2");
 			return UnifiedProperty.Create(
 					"::",
 					CreateExpresion(node.FirstElement()),
@@ -155,22 +208,40 @@ namespace Unicoen.Languages.Ruby18.Model {
 		}
 
 		private static IUnifiedExpression CreateAnd(XElement node) {
-		    Contract.Requires(node != null);
-		    Contract.Requires(node.Name() == "and");
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "and");
 			// TODO: && と and
 			return UnifiedBinaryExpression.Create(
 					CreateExpresion(node.FirstElement()),
-					UnifiedBinaryOperator.Create("and", UnifiedBinaryOperatorKind.AndAlso), 
+					UnifiedBinaryOperator.Create("and", UnifiedBinaryOperatorKind.AndAlso),
 					CreateExpresion(node.LastElement()));
 		}
 
 		private static IUnifiedExpression CreateOr(XElement node) {
-		    Contract.Requires(node != null);
-		    Contract.Requires(node.Name() == "or");
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "or");
 			// TODO: || と or
 			return UnifiedBinaryExpression.Create(
 					CreateExpresion(node.FirstElement()),
-					UnifiedBinaryOperator.Create("or", UnifiedBinaryOperatorKind.OrElse), 
+					UnifiedBinaryOperator.Create("or", UnifiedBinaryOperatorKind.OrElse),
+					CreateExpresion(node.LastElement()));
+		}
+
+		private static IUnifiedExpression CreateNot(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "not");
+			// TODO: || と or
+			return UnifiedUnaryExpression.Create(
+					CreateExpresion(node.FirstElement()),
+					UnifiedUnaryOperator.Create("!", UnifiedUnaryOperatorKind.Not));
+		}
+
+		private static IUnifiedExpression CreateMatch3(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "match3");
+			return UnifiedBinaryExpression.Create(
+					CreateExpresion(node.FirstElement()),
+					UnifiedBinaryOperator.Create("=~", UnifiedBinaryOperatorKind.RegexEqual),
 					CreateExpresion(node.LastElement()));
 		}
 	}

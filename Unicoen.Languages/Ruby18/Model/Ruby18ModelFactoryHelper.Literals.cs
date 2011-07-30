@@ -43,6 +43,16 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["str"] = CreateStr;
 			ExpressionFuncs["dstr"] = CreateDstr;
 			ExpressionFuncs["hash"] = CreateHash;
+			ExpressionFuncs["Regexp"] = CreateRegexp;
+		}
+
+		private static IUnifiedExpression CreateRegexp(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "Regexp");
+			// TODO: Implement correctly
+			var str = node.Value;
+			return UnifiedRegularExpressionLiteral.Create(
+					str.Substring(7, str.Length - 8));
 		}
 
 		private static IUnifiedExpression CreateHash(XElement node) {
