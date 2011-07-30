@@ -87,6 +87,8 @@ namespace Unicoen.WebApps.Metrics.Controllers {
 			var ix = path.LastIndexOf(".");
 			var ext = path.Substring(ix, path.Length - ix);
 			switch (ext) {
+			case ".c":
+				return "C";
 			case ".py":
 				return "Python";
 			case ".java":
@@ -95,6 +97,8 @@ namespace Unicoen.WebApps.Metrics.Controllers {
 				return "Ruby";
 			case ".cs":
 				return "C#";
+			case ".vb":
+				return "VB";
 			case ".js":
 				return "JavaScript";
 			}

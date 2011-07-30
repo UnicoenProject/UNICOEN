@@ -30,11 +30,13 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["class"] = CreateClass;
 			ExpressionFuncs["module"] = CreateModule;
 			ExpressionFuncs["sclass"] = CreateSclass;
+
+			ExpressionFuncs["defs"] = CreateDefn;
 		}
 
 		public static IUnifiedExpression CreateDefn(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "defn");
+			Contract.Requires(node.Name() == "defn" || node.Name() == "defs");
 			return UnifiedFunctionDefinition.Create(
 					null, null, null, null,
 					CreateSymbol(node.NthElement(0)),
