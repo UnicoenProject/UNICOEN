@@ -61,6 +61,12 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["op_asgn2"] = CreateOpAsgn2;
 		}
 
+		public static IUnifiedExpression CreateExpresion(XElement node) {
+			if (!ExpressionFuncs.ContainsKey(node.Name()))
+				return null;
+			return ExpressionFuncs[node.Name()](node);
+		}
+
 		private static IUnifiedExpression CreateOpAsgn2(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "op_asgn2");
@@ -85,10 +91,6 @@ namespace Unicoen.Languages.Ruby18.Model {
 					expression,
 					Sign2BinaryOperator[node.NthElement(2).Value + "="].DeepCopy(),
 					CreateExpresion(node.LastElement()));
-		}
-
-		public static IUnifiedExpression CreateExpresion(XElement node) {
-			return ExpressionFuncs[node.Name()](node);
 		}
 
 		private static IUnifiedExpression CreateToAry(XElement node) {
