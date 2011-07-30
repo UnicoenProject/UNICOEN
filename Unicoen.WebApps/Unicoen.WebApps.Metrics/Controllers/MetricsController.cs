@@ -41,26 +41,26 @@ namespace Unicoen.WebApps.Metrics.Controllers {
 			//var url = "https://github.com/mitsuhiko/flask";
 
 			if (!url.EndsWith("/"))
-				url += "/";
+			    url += "/";
 			url += "zipball/master";
 
 			const string outPath = @"C:\output\source.zip";
 			var outDirPath = Path.GetDirectoryName(outPath);
-			if (Directory.Exists(outDirPath)) {
-				var dirPaths = Directory.EnumerateDirectories(
-						outDirPath, "*", SearchOption.TopDirectoryOnly);
-				foreach (var dirPath in dirPaths) {
-					Directory.Delete(dirPath, true);
-				}
-				var filePaths = Directory.EnumerateFiles(
-						outDirPath, "*", SearchOption.TopDirectoryOnly);
-				foreach (var filePath in filePaths) {
-					System.IO.File.Delete(filePath);
-				}
-			}
-			Directory.CreateDirectory(outDirPath);
-			Downloader.Download(url, outPath);
-			Extractor.Unzip(outPath);
+			//if (Directory.Exists(outDirPath)) {
+			//    var dirPaths = Directory.EnumerateDirectories(
+			//            outDirPath, "*", SearchOption.TopDirectoryOnly);
+			//    foreach (var dirPath in dirPaths) {
+			//        Directory.Delete(dirPath, true);
+			//    }
+			//    var filePaths = Directory.EnumerateFiles(
+			//            outDirPath, "*", SearchOption.TopDirectoryOnly);
+			//    foreach (var filePath in filePaths) {
+			//        System.IO.File.Delete(filePath);
+			//    }
+			//}
+			//Directory.CreateDirectory(outDirPath);
+			//Downloader.Download(url, outPath);
+			//Extractor.Unzip(outPath);
 
 			var targetPaths = Directory.EnumerateFiles(
 					outDirPath, "*", SearchOption.AllDirectories);
