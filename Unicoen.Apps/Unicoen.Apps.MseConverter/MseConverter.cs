@@ -60,32 +60,35 @@ namespace Unicoen.Apps.MseConverter {
 						null, null, UnifiedVariableIdentifier.Create(namespaceName));
 				_visitor.DefaultClass = UnifiedClassDefinition.Create(
 						null, null, UnifiedVariableIdentifier.Create(namespaceName));
-				switch (Path.GetExtension(filePath)) {
-				case ".java":
-					//_visitor.CodeFactory = new JavaCodeFactory();
-					_visitor.LanguageValue = 0;
-					new JavaModelFactory().GenerateFromFile(filePath).Accept(_visitor);
-					break;
-				case ".js":
-					//_visitor.CodeFactory = new JavaScriptCodeFactory();
-					_visitor.LanguageValue = 2;
-					new JavaScriptModelFactory().GenerateFromFile(filePath).Accept(_visitor);
-					break;
-				case ".cs":
-					//_visitor.CodeFactory = new CSharpCodeFactory();
-					_visitor.LanguageValue = 1;
-					new CSharpModelFactory().GenerateFromFile(filePath).Accept(_visitor);
-					break;
-				case ".rb":
-					//_visitor.CodeFactory = new Ruby18CodeFactory();
-					_visitor.LanguageValue = 4;
-					new Ruby18ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
-					break;
-				case ".py":
-					//_visitor.CodeFactory = new Python2CodeFactory();
-					_visitor.LanguageValue = 3;
-					new Python2ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
-					break;
+				try {
+					switch (Path.GetExtension(filePath)) {
+					case ".java":
+						//_visitor.CodeFactory = new JavaCodeFactory();
+						_visitor.LanguageValue = 0;
+						new JavaModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						break;
+					case ".js":
+						//_visitor.CodeFactory = new JavaScriptCodeFactory();
+						_visitor.LanguageValue = 2;
+						new JavaScriptModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						break;
+					case ".cs":
+						//_visitor.CodeFactory = new CSharpCodeFactory();
+						_visitor.LanguageValue = 1;
+						new CSharpModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						break;
+					case ".rb":
+						//_visitor.CodeFactory = new Ruby18CodeFactory();
+						_visitor.LanguageValue = 4;
+						new Ruby18ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						break;
+					case ".py":
+						//_visitor.CodeFactory = new Python2CodeFactory();
+						_visitor.LanguageValue = 3;
+						new Python2ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						break;
+					}
+				}catch {
 				}
 			}
 			writer.WriteLine("\t))");

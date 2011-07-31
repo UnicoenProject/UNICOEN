@@ -69,5 +69,14 @@ namespace Unicoen.Apps.MseConverter.Tests {
 			converter.Generate(dirPath, writer);
 			Console.Write(writer.ToString());
 		}
+
+		[Test]
+		public void UNICOENをmseフォーマットに変換できる() {
+			var dirPath = @"C:\output\1\UnicoenProject-UNICOEN-2cefbbb";
+			var writer = new StringWriter();
+			var converter = new MseConverter(writer);
+			converter.Generate(dirPath, writer);
+			Console.Write(writer.ToString());
+		}
 	}
 }

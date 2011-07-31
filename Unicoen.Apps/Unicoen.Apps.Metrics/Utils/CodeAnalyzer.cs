@@ -36,6 +36,8 @@ namespace Unicoen.Apps.Metrics.Utils {
 			switch (ext.ToLower()) {
 			case ".c":
 				return CFactory.GenerateModel(code);
+			case ".vb":
+				return CSharpFactory.GenerateModel(code);
 			case ".cs":
 				return CSharpFactory.GenerateModel(code);
 			case ".java":

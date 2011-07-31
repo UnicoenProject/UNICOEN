@@ -33,6 +33,8 @@ namespace Unicoen.WebApps.Metrics.Controllers {
 			return View();
 		}
 
+		private static int id = 0;
+
 		public virtual ActionResult Measure(MeasureViewModel model) {
 			var url = model.Url;
 
@@ -44,7 +46,7 @@ namespace Unicoen.WebApps.Metrics.Controllers {
 			    url += "/";
 			url += "zipball/master";
 
-			const string outPath = @"C:\output\source.zip";
+			string outPath = @"C:\output\" + (id++) + @"\source.zip";
 			var outDirPath = Path.GetDirectoryName(outPath);
 			//if (Directory.Exists(outDirPath)) {
 			//    var dirPaths = Directory.EnumerateDirectories(

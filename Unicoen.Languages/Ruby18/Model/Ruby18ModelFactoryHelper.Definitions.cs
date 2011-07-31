@@ -27,16 +27,27 @@ namespace Unicoen.Languages.Ruby18.Model {
 	public partial class Ruby18ModelFactoryHelper {
 		private static void InitializeDefinitions() {
 			ExpressionFuncs["defn"] = CreateDefn;
+			ExpressionFuncs["defs"] = CreateDefs;
 			ExpressionFuncs["class"] = CreateClass;
 			ExpressionFuncs["module"] = CreateModule;
 			ExpressionFuncs["sclass"] = CreateSclass;
+		}
 
-			ExpressionFuncs["defs"] = CreateDefn;
+		private static IUnifiedExpression CreateDefs(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "defs");
+			var owner = CreateExpresion(node.NthElement(0));
+			var target = UnifiedFunctionDefinition.Create(
+					null, null, null, null,
+					CreateSymbol(node.NthElement(1)),
+					CreateArgs(node.NthElement(2)), null,
+					CreateScope(node.NthElement(3)));
+			return UnifiedProperty.Create(".", owner, target);
 		}
 
 		public static IUnifiedExpression CreateDefn(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "defn" || node.Name() == "defs");
+			Contract.Requires(node.Name() == "defn");
 			return UnifiedFunctionDefinition.Create(
 					null, null, null, null,
 					CreateSymbol(node.NthElement(0)),
