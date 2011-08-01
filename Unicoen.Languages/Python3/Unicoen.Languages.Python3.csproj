@@ -58,9 +58,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Code2Xml.Languages.Python3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,7 +72,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelFactories\Python3ModelFactory.cs" />
+    <Compile Include="ModelFactories\Python3ModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Python3CodeFactory.cs" />
+    <Compile Include="Python3Factory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Python321.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Unicoen.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UniUni\UniUni\UniUni.csproj">
+      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
+      <Name>UniUni %28UniUni\UniUni%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

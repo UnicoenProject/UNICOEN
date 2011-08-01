@@ -35,6 +35,7 @@ namespace Unicoen.Model {
 		private UnifiedParameterCollection _parameters;
 		private UnifiedTypeCollection _throws;
 		private UnifiedBlock _body;
+		private IUnifiedExpression _annotationExpression;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
@@ -83,6 +84,14 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
+		///   関数の戻り値の情報を表す付与された式（主に文字列）を取得もしくは設定します．
+		/// </summary>
+		public IUnifiedExpression AnnotationExpression {
+			get { return _annotationExpression; }
+			set { _annotationExpression = SetChild(value, _annotationExpression); }
+		}
+
+		/// <summary>
 		///   ブロックを取得もしくは設定します．
 		/// </summary>
 		public UnifiedBlock Body {
@@ -120,7 +129,8 @@ namespace Unicoen.Model {
 				UnifiedIdentifier name = null,
 				UnifiedParameterCollection parameters = null,
 				UnifiedTypeCollection throws = null,
-				UnifiedBlock body = null) {
+				UnifiedBlock body = null,
+				IUnifiedExpression annotationExpression = null) {
 			return new UnifiedFunctionDefinition {
 					Name = name,
 					Annotations = annotations,
@@ -130,6 +140,7 @@ namespace Unicoen.Model {
 					Parameters = parameters,
 					Throws = throws,
 					Body = body,
+					AnnotationExpression = annotationExpression,
 			};
 		}
 	}

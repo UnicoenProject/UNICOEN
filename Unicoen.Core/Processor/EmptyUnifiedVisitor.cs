@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using Unicoen.Model;
 
 namespace Unicoen.Processor {
@@ -310,7 +311,16 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedRetry element) {}
 
 		public virtual void Visit(UnifiedRedo element) {}
+
 		public virtual void Visit(UnifiedSymbolLiteral element) {}
+
+		public virtual void Visit(UnifiedDefined element) {
+			
+		}
+
+		public virtual void Visit(UnifiedAlias element) {
+			
+		}
 
 		public virtual void Visit(UnifiedTypeIdentifier element) {}
 	}
@@ -619,9 +629,18 @@ namespace Unicoen.Processor {
 
 		public virtual void Visit(UnifiedRetry element, TArg arg) {}
 		public virtual void Visit(UnifiedSymbolLiteral element, TArg arg) {}
+		public virtual void Visit(UnifiedDefined element, TArg arg) {
+			
+		}
+
+		public virtual void Visit(UnifiedAlias element, TArg arg) {
+			
+		}
 
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {}
 			}
+
+	class EmptyUnifiedVisitorImpl<TArg> : EmptyUnifiedVisitor<TArg> {}
 
 	public abstract class EmptyUnifiedVisitor<TArg, TResult>
 			: IUnifiedVisitor<TArg, TResult> {
@@ -714,6 +733,14 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedSymbolLiteral element, TArg arg) {
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedDefined element, TArg arg) {
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedAlias element, TArg arg) {
 			return default(TResult);
 		}
 

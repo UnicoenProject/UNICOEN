@@ -80,6 +80,16 @@ namespace Unicoen.Model {
 			set { _defaultValue = SetChild(value, _defaultValue); }
 		}
 
+		private IUnifiedExpression _annotationExpression;
+
+		/// <summary>
+		///   パラメータの情報を表す付与された式（主に文字列）を取得もしくは設定します．
+		/// </summary>
+		public IUnifiedExpression AnnotationExpression {
+			get { return _annotationExpression; }
+			set { _annotationExpression = SetChild(value, _annotationExpression); }
+		}
+
 		private UnifiedParameter() {}
 
 		[DebuggerStepThrough]
@@ -105,13 +115,15 @@ namespace Unicoen.Model {
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null,
 				UnifiedIdentifierCollection names = null,
-				IUnifiedExpression defaultValue = null) {
+				IUnifiedExpression defaultValue = null,
+				IUnifiedExpression annotationExpression = null) {
 			return new UnifiedParameter {
 					Annotations = annotations,
 					Modifiers = modifiers,
 					Type = type,
 					Names = names,
 					DefaultValue = defaultValue,
+					AnnotationExpression = annotationExpression,
 			};
 		}
 	}

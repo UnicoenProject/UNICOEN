@@ -76,5 +76,15 @@ namespace Unicoen.Model {
 		///   e.g. *a
 		/// </summary>
 		Indirect,
+
+		/// <summary>
+		///   e.g. *a in Ruby
+		/// </summary>
+		Expand,
+
+		/// <summary>
+		///   e.g. &a in Ruby
+		/// </summary>
+		BlockPass,
 	}
 }

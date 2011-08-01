@@ -168,6 +168,8 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedRetry element);
 		void Visit(UnifiedRedo element);
 		void Visit(UnifiedSymbolLiteral element);
+		void Visit(UnifiedDefined element);
+		void Visit(UnifiedAlias element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -319,6 +321,8 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedRedo element, TArg arg);
 		void Visit(UnifiedRetry element, TArg arg);
 		void Visit(UnifiedSymbolLiteral element, TArg arg);
+		void Visit(UnifiedDefined element, TArg arg);
+		void Visit(UnifiedAlias element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -470,5 +474,7 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedRedo element, TArg arg);
 		TResult Visit(UnifiedRetry element, TArg arg);
 		TResult Visit(UnifiedSymbolLiteral element, TArg arg);
+		TResult Visit(UnifiedDefined element, TArg arg);
+		TResult Visit(UnifiedAlias element, TArg arg);
 	}
 }

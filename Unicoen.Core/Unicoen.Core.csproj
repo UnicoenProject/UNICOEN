@@ -137,6 +137,8 @@
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedUInt32Literal.cs" />
     <Compile Include="Model\Expressions\Literals\Integers\UnifiedInt32Literal.cs" />
     <Compile Include="Model\Expressions\Literals\UnifiedRange.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedDefined.cs" />
+    <Compile Include="Model\Expressions\Specials\UnifiedAlias.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedDefault.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedLetQuery.cs" />
     <Compile Include="Model\Expressions\Linqs\UnifiedJoinQuery.cs" />

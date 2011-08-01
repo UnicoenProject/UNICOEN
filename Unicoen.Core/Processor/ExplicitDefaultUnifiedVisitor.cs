@@ -609,6 +609,14 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedDefined element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedAlias element) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element) {
 			throw new NotImplementedException();
 		}
@@ -1215,6 +1223,14 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedDefined element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedAlias element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1311,6 +1327,14 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedSymbolLiteral element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedDefined element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedAlias element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

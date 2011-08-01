@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -34,7 +35,6 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["lit"] = CreateLit;
 			ExpressionFuncs["Fixnum"] = CreateFixnum;
 			ExpressionFuncs["Bignum"] = CreateBignum;
-			ExpressionFuncs["Symbol"] = CreateSymbol;
 			ExpressionFuncs["Float"] = CreateFloat;
 			ExpressionFuncs["true"] = CreateTrue;
 			ExpressionFuncs["false"] = CreateFalse;
@@ -42,17 +42,33 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["dot3"] = CreateDot3;
 			ExpressionFuncs["str"] = CreateStr;
 			ExpressionFuncs["dstr"] = CreateDstr;
+			ExpressionFuncs["Symbol"] = CreateSymbol;
+			ExpressionFuncs["dsym"] = CreateDsym;
 			ExpressionFuncs["hash"] = CreateHash;
 			ExpressionFuncs["Regexp"] = CreateRegexp;
+			ExpressionFuncs["dregx_once"] = CreateDregxOnce;
+			ExpressionFuncs["Range"] = CreateRange;
 		}
 
-		private static IUnifiedExpression CreateRegexp(XElement node) {
+		private static IUnifiedExpression CreateRange(XElement node) {
 			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "Regexp");
-			// TODO: Implement correctly
-			var str = node.Value;
-			return UnifiedRegularExpressionLiteral.Create(
-					str.Substring(7, str.Length - 8));
+			Contract.Requires(node.Name() == "Range");
+			if (node.Value.Contains("...")) {
+				var numbers = node.Value.Split(new []{"..."}, StringSplitOptions.None);
+				return UnifiedRange.CreateNotContainingMax(
+						UnifiedIntegerLiteral.CreateInt32(
+								LiteralFuzzyParser.ParseBigInteger(numbers[0])),
+						UnifiedIntegerLiteral.CreateInt32(
+								LiteralFuzzyParser.ParseBigInteger(numbers[1])));
+			}
+			{
+				var numbers = node.Value.Split(new[] { ".." }, StringSplitOptions.None);
+				return UnifiedRange.Create(
+						UnifiedIntegerLiteral.CreateInt32(
+								LiteralFuzzyParser.ParseBigInteger(numbers[0])),
+						UnifiedIntegerLiteral.CreateInt32(
+								LiteralFuzzyParser.ParseBigInteger(numbers[1])));
+			}
 		}
 
 		private static IUnifiedExpression CreateHash(XElement node) {
@@ -150,6 +166,36 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node.Name() == "dstr");
 			// TODO: Implement
 			return UnifiedStringLiteral.Create("");
+		}
+
+		public static UnifiedVariableIdentifier CreateSymbol(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "Symbol");
+			return UnifiedVariableIdentifier.Create(node.Value);
+		}
+
+		private static IUnifiedExpression CreateDsym(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "dsym");
+			// TODO: Implement
+			return UnifiedVariableIdentifier.Create(node.Value);
+		}
+
+		private static IUnifiedExpression CreateDregxOnce(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "dregx_once");
+			// TODO: Implement correctly
+			var str = node.Value;
+			return UnifiedRegularExpressionLiteral.Create(str);
+		}
+
+		private static IUnifiedExpression CreateRegexp(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "Regexp");
+			// TODO: Implement correctly
+			var str = node.Value;
+			return UnifiedRegularExpressionLiteral.Create(
+					str.Substring(7, str.Length - 8));
 		}
 	}
 }

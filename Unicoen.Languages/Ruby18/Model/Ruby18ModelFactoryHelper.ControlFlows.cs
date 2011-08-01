@@ -16,11 +16,13 @@
 
 #endregion
 
+using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-using UniUni.Xml.Linq;
+using Paraiba.Linq;
 using Unicoen.Model;
+using UniUni.Xml.Linq;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -41,6 +43,16 @@ namespace Unicoen.Languages.Ruby18.Model {
 			ExpressionFuncs["next"] = CreateNext;
 			ExpressionFuncs["redo"] = CreateRedo;
 			ExpressionFuncs["retry"] = CreateRetry;
+			ExpressionFuncs["yield"] = CreateYield;
+		}
+
+		private static IUnifiedExpression CreateYield(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "yield");
+			var args = node.Elements()
+					.Select(CreateExpresion)
+					.ToTupleLiteral();
+			return UnifiedYieldReturn.Create(args);
 		}
 
 		private static IUnifiedExpression CreateWhile(XElement node) {
@@ -60,9 +72,13 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node.FirstElement().Name() == "array");
 			// TODO: UnifiedType.Create(ident) => identをUnifiedTypeIdentifierにべきでは？
 			var children = node.FirstElement().Elements().ToList();
-			var assign = CreateExpresion(children.Last().FirstElement());
 			var block = CreateSmartBlock(node.LastElement());
-			var types = children.Select(CreateConst)
+			if (children.Count == 0) {
+				return UnifiedCatch.Create(UnifiedTypeCollection.Create(), null, block);
+			}
+			var assign = CreateExpresion(children.Last().FirstElement());
+			var types = children.SkipLast()
+					.Select(CreateConst)
 					.Select(UnifiedType.Create)
 					.ToCollection();
 			return UnifiedCatch.Create(types, assign, block);
@@ -126,9 +142,13 @@ namespace Unicoen.Languages.Ruby18.Model {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iter");
 			var call = CreateCall(node.NthElement(0));
-			var parameters = CreateLasgnOrMasgnOrNil(node.NthElement(1))
-					.Select(e => e.ToParameter())
-					.ToCollection();
+			var paramNode = node.NthElement(1);
+			Contract.Assert(paramNode.Name() != "Fixnum" || paramNode.Value == "0");
+			var parameters = paramNode.Name() != "Fixnum"
+			                 		? CreateLasgnOrMasgnOrNil(node.NthElement(1))
+			                 		  		.Select(e => e.ToParameter())
+			                 		  		.ToCollection()
+			                 		: null;
 			var block = CreateBlock(node.NthElement(2));
 			call.Proc = UnifiedProc.Create(parameters, block);
 			return call;

@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using Unicoen.Model;
 
 namespace Unicoen.Processor {
@@ -605,6 +606,14 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedSymbolLiteral element) {
+			element.TryAcceptAllChildren(this);
+		}
+
+		public virtual void Visit(UnifiedDefined element) {
+			element.TryAcceptAllChildren(this);
+		}
+
+		public virtual void Visit(UnifiedAlias element) {
 			element.TryAcceptAllChildren(this);
 		}
 
@@ -1214,6 +1223,14 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
+		public virtual void Visit(UnifiedDefined element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+		}
+
+		public virtual void Visit(UnifiedAlias element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
@@ -1339,6 +1356,14 @@ namespace Unicoen.Processor {
 
 		public TResult Visit(UnifiedSymbolLiteral element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedDefined element, TArg arg) {
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedAlias element, TArg arg) {
 			return default(TResult);
 		}
 
