@@ -287,6 +287,10 @@ namespace Unicoen.Languages.Python3.ModelFactories {
 			}
 		}
 
+		private static IUnifiedExpression CreateNonlocal_stmt(XElement first) {
+			throw new NotImplementedException();
+		}
+
 		public static IUnifiedExpression CreateExpr_stmt(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expr_stmt");
