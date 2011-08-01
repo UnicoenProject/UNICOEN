@@ -93,6 +93,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return new[] {
 						"fibonacci",
 						"student",
+						"Application",
 				}
 						.Select(
 								s =>
@@ -134,7 +135,9 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						.Concat(SetUpProcessing_jsApiMin())
 						.Concat(SetUpProcessing_jsMin())
 						.Concat(SetUpDojo())
-						.Concat(SetUpDojoMin());
+						.Concat(SetUpDojoMin())
+						.Concat(SetUpPlay())
+						.Concat(SetUpAIChallenge());
 			}
 		}
 
@@ -237,6 +240,24 @@ namespace Unicoen.Languages.JavaScript.Tests {
 					path => Downloader.Download(
 							"http://download.dojotoolkit.org/release-1.6.1/dojo.js",
 							Path.Combine(path, "src.js")),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpPlay() {
+			return SetUpTestCaseData(
+					"play-1.2RC3",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/playframework/play/zipball/1.2RC3", path),
+					CompileAll);
+		}
+
+		private IEnumerable<TestCaseData> SetUpAIChallenge() {
+			return SetUpTestCaseData(
+					"aichallenge",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/aichallenge/aichallenge/zipball/epsilon", path),
 					CompileAll);
 		}
 	}

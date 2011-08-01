@@ -330,6 +330,18 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return false;
 		}
 
+		// catchブロック
+		public override bool Visit(UnifiedCatch element, VisitorArgument arg) {
+			Writer.Write("catch(");
+			element.Annotations.TryAccept(this, arg);
+			element.Modifiers.TryAccept(this, arg);
+			Writer.Write(" ");
+			element.Assign.TryAccept(this, arg);
+			Writer.Write(")");
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			return false;
+		}
+
 		//継承 : JavaScriptでは出現しない
 		public override bool Visit(
 				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
