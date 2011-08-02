@@ -20,8 +20,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NUnit.Framework;
 using Paraiba.Core;
+using UniUni.Text;
 using Unicoen.CodeFactories;
 using Unicoen.Processor;
 using Unicoen.Tests;
@@ -164,7 +166,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "Rhino");
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
 			if (Directory.Exists(path)
-			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any())
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Count() >= 2)
 				return jarPath;
 			Directory.CreateDirectory(path);
 			DownloadAndUnzip(
@@ -249,7 +251,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 					path =>
 					DownloadAndUnzip(
 							"https://github.com/playframework/play/zipball/1.2RC3", path),
-					CompileAll);
+					TryCompileAll);
 		}
 
 		private IEnumerable<TestCaseData> SetUpAIChallenge() {
@@ -258,7 +260,14 @@ namespace Unicoen.Languages.JavaScript.Tests {
 					path =>
 					DownloadAndUnzip(
 							"https://github.com/aichallenge/aichallenge/zipball/epsilon", path),
-					CompileAll);
+					workPath => {
+						var paths = Directory.EnumerateFiles(
+								workPath, "*.js", SearchOption.AllDirectories);
+						foreach (var path in paths) {
+							GuessEncoding.Convert(path, Encoding.Default);
+						}
+						CompileAll(workPath);
+					});
 		}
 	}
 }

@@ -113,6 +113,19 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
+		///   例外を無視して指定したディレクトリ内の全てのソースコードをデフォルトの設定でコンパイルします．
+		/// </summary>
+		/// <param name = "workPath">ソースコードが格納されている作業ディレクトリのパス</param>
+		public virtual void TryCompileAll(string workPath) {
+			var filePaths = GetAllSourceFilePaths(workPath);
+			foreach (var filePath in filePaths) {
+				try {
+					Compile(workPath, filePath);
+				} catch {}
+			}
+		}
+
+		/// <summary>
 		///   ソースコードを指定したコマンドと引数でコンパイルします．
 		/// </summary>
 		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
@@ -186,39 +199,39 @@ namespace Unicoen.Languages.Tests {
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName, Action<string> deploySource,
-				Action<string> compileAction) {
+				Action<string> compileActionByWorkPath) {
 			return SetUpTestCaseData(
 					dirName, path => {
 						deploySource(path);
 						return true;
-					}, (workPath, inPath) => compileAction(workPath));
+					}, (workPath, inPath) => compileActionByWorkPath(workPath));
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName, Action<string> deploySource,
-				Action<string, string> compileAction) {
+				Action<string, string> compileActionByWorkAndDirPath) {
 			return SetUpTestCaseData(
 					dirName, path => {
 						deploySource(path);
 						return true;
-					}, compileAction);
+					}, compileActionByWorkAndDirPath);
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName, Func<string, bool> deploySource,
-				Action<string> compileAction) {
+				Action<string> compileActionByWorkPath) {
 			return SetUpTestCaseData(
 					dirName, deploySource,
-					(workPath, inPath) => compileAction(workPath));
+					(workPath, inPath) => compileActionByWorkPath(workPath));
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName, Func<string, bool> deploySource,
-				Action<string, string> compileAction) {
+				Action<string, string> compileActionByWorkAndDirPath) {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
-			var testCase = new TestCaseData(path, compileAction);
+			var testCase = new TestCaseData(path, compileActionByWorkAndDirPath);
 			if (Directory.Exists(path)
-			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Any()) {
+			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Count() >= 2) {
 				yield return testCase;
 				yield break;
 			}

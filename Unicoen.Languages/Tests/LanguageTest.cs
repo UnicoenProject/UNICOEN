@@ -159,21 +159,15 @@ namespace Unicoen.Languages.Tests {
 		///   ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name = "dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "compileAction">コンパイル処理</param>
+		/// <param name = "compileActionByWorkAndDirPath">コンパイル処理</param>
 		public void VerifyRegenerateCodeUsingProject(
-				string dirPath, Action<string, string> compileAction) {
+				string dirPath, Action<string, string> compileActionByWorkAndDirPath) {
 			// コンパイル用の作業ディレクトリの取得
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			// 作業ディレクトリ内にソースコードを配置
 			FileUtility.CopyRecursively(dirPath, workPath);
-			var canCompile = true;
-			try {
-				// 作業ディレクトリ内でコンパイル
-				compileAction(workPath, dirPath);
-			} catch(Exception e) {
-				Console.WriteLine(e);
-				canCompile = false;
-			}
+			// 作業ディレクトリ内でコンパイル
+			compileActionByWorkAndDirPath(workPath, dirPath);
 			// コンパイル結果の取得
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
 			var codePaths = Fixture.GetAllSourceFilePaths(workPath);
@@ -187,12 +181,10 @@ namespace Unicoen.Languages.Tests {
 				var code2 = Fixture.CodeFactory.Generate(codeAndObject.Item2);
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
-			if (canCompile) {
-				// 再生成したソースコードのコンパイル結果の取得
-				compileAction(workPath, dirPath);
-				var byteCode2 = Fixture.GetAllCompiledCode(workPath);
-				Assert.That(FuzzyCompare(orgByteCode1, byteCode2), Is.True);
-			}
+			// 再生成したソースコードのコンパイル結果の取得
+			compileActionByWorkAndDirPath(workPath, dirPath);
+			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
+			Assert.That(FuzzyCompare(orgByteCode1, byteCode2), Is.True);
 		}
 
 		/// <summary>

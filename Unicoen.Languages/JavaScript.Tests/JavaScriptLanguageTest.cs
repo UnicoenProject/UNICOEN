@@ -106,11 +106,11 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		///   ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name = "dirPath">検査対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "compileAction">コンパイル処理</param>
+		/// <param name = "compileActionByWorkAndDirPath">コンパイル処理</param>
 		[Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyRegenerateCodeUsingProject(
-				string dirPath, Action<string, string> compileAction) {
-			Test.VerifyRegenerateCodeUsingProject(dirPath, compileAction);
+				string dirPath, Action<string, string> compileActionByWorkAndDirPath) {
+			Test.VerifyRegenerateCodeUsingProject(dirPath, compileActionByWorkAndDirPath);
 		}
 	}
 }
