@@ -37,7 +37,7 @@ namespace Unicoen.Languages.Java.Tests {
 	/// </summary>
 	public class JavaFixture : Fixture {
 		private readonly string _mavenCommand;
-		private const string MavenArg = "package";
+		private const string MavenArg = "compile";
 		private const string CompileCommand = "javac";
 		private const string DisassembleCommand = "javap";
 
@@ -146,6 +146,9 @@ namespace Unicoen.Languages.Java.Tests {
 						.Concat(SetUpJUnit())
 						//.Concat(SetUpCraftBukkit())
 						.Concat(SetUpBukkit())
+						.Concat(SetUpGameOfLife())
+						.Concat(SetUpJedis())
+						.Concat(SetUpZoie())
 						;
 			}
 		}
@@ -253,7 +256,7 @@ namespace Unicoen.Languages.Java.Tests {
 			return SetUpTestCaseData(
 					"jdk", path => {
 						var jdkPath = Directory.GetDirectories(@"C:\Program Files\Java\")
-								.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk"));
+								.LastOrDefault(p => Path.GetFileName(p).StartsWith("jdk1.6"));
 						if (jdkPath == null)
 							return false;
 						var arcPath = Path.Combine(jdkPath, "src.zip");
@@ -286,6 +289,30 @@ namespace Unicoen.Languages.Java.Tests {
 					path =>
 					DownloadAndUnzip(
 							"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.418", path));
+		}
+
+		private IEnumerable<TestCaseData> SetUpGameOfLife() {
+			return SetUpTestCaseData(
+					"game-of-life_release-candidate-44",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/wakaleo/game-of-life/zipball/release-candidate-44", path));
+		}
+
+		private IEnumerable<TestCaseData> SetUpJedis() {
+			return SetUpTestCaseData(
+					"jedis-2.0.0",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/xetorthio/jedis/zipball/jedis-2.0.0", path));
+		}
+
+		private IEnumerable<TestCaseData> SetUpZoie() {
+			return SetUpTestCaseData(
+					"zoie-3.0.0",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/javasoze/zoie/zipball/release-3.0.0", path));
 		}
 	}
 }

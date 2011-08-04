@@ -81,6 +81,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				return new[] {
+						"a = 1;",
 						"var a = 1;",
 						"for ( i = 0, length = args.length; i < length; i++ ) { }",
 						"a = \"1\" + (1 + 2) + \"2\""
