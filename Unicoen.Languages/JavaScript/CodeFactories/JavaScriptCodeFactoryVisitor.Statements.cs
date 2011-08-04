@@ -23,22 +23,6 @@ using Unicoen.Processor;
 namespace Unicoen.Languages.JavaScript.CodeFactories {
 	public partial class JavaScriptCodeFactoryVisitor {
 
-		//2項式
-		public override bool Visit(
-				UnifiedBinaryExpression element, VisitorArgument arg) {
-			//丸括弧が必要かどうか確認 : e.g.(1+2)*3
-			var paren = GetRequiredParen(element);
-			Writer.Write(paren.Item1);
-			//TODO ここのarg.Set(Paren)が不要な気がするので、後ではずしてテストしてみる
-			element.LeftHandSide.TryAccept(this, arg.Set(Paren));
-			Writer.Write(" ");
-			element.Operator.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.RightHandSide.TryAccept(this, arg.Set(Paren));
-			Writer.Write(paren.Item2);
-			return true;
-		}
-
 		//関数呼び出し
 		public override bool Visit(UnifiedCall element, VisitorArgument arg) {
 			//JavaScriptではTypeArgumentsが存在しない
@@ -76,21 +60,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			Writer.Write(")");
 			//TODO ここのarg.Set(Paren)が不要な気がするので、後ではずしてテストしてみる
 			element.Expression.TryAccept(this, arg.Set(Paren));
-			return true;
-		}
-		
-		//3項式
-		public override bool Visit(
-				UnifiedTernaryExpression element, VisitorArgument arg) {
-			////丸括弧が必要かどうか確認 : e.g.(i<10 ? i : 10)*3
-			var paren = GetRequiredParen(element);
-			Writer.Write(paren.Item1);
-			element.Condition.TryAccept(this, arg.Set(Paren));
-			Writer.Write(" ? ");
-			element.TrueExpression.TryAccept(this, arg.Set(Paren));
-			Writer.Write(" : ");
-			element.FalseExpression.TryAccept(this, arg.Set(Paren));
-			Writer.Write(paren.Item2);
 			return true;
 		}
 

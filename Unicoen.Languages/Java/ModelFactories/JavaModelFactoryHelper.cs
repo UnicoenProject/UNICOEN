@@ -2298,8 +2298,8 @@ namespace Unicoen.Languages.Java.ModelFactories {
 			value = value.ToLower();
 			var numAndExp = value.Split('p');
 			var number = numAndExp[0].Split('.');
-			var n = LiteralFuzzyParser.ParseDouble(number[0].Substring(2));
-			var f = LiteralFuzzyParser.ParseDouble(number[1], 1.0 / 16) / 16;
+			var n = LiteralFuzzyParser.ParseIntegerDouble(number[0].Substring(2));
+			var f = LiteralFuzzyParser.ParseHexicalFractionDouble(number[1]);
 			var result = n + f;
 			if (numAndExp[1].Length != 0) {
 				var exp = int.Parse(numAndExp[1]);

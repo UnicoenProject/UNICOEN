@@ -148,7 +148,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
-		protected override byte[] GetCompiledByteCode(string path) {
+		public override byte[] GetCompiledByteCode(string path) {
 			var ildasmPath = IldasmPathes.First(File.Exists);
 			var args = new[] { "/text", path };
 			var info = new ProcessStartInfo {

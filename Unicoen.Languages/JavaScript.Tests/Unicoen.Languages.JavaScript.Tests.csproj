@@ -84,6 +84,10 @@
       <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
       <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Java.Tests\Unicoen.Languages.Java.Tests.csproj">
+      <Project>{DACB2574-1700-4ABB-993B-0DE489CDBB29}</Project>
+      <Name>Unicoen.Languages.Java.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JavaScript\Unicoen.Languages.JavaScript.csproj">
       <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
       <Name>Unicoen.Languages.JavaScript</Name>

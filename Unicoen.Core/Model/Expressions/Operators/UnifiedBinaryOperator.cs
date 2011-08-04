@@ -25,6 +25,8 @@ namespace Unicoen.Model {
 	///   e.g. <c>a + b</c>の<c>+</c>
 	/// </summary>
 	public class UnifiedBinaryOperator : UnifiedElement {
+		private static readonly bool[] AssignTalbe;
+
 		/// <summary>
 		///   演算子の識別子を表します
 		/// </summary>
@@ -35,7 +37,32 @@ namespace Unicoen.Model {
 		/// </summary>
 		public UnifiedBinaryOperatorKind Kind { get; private set; }
 
+		static UnifiedBinaryOperator() {
+			AssignTalbe = new bool[256];
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.AddAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.AndAlsoAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.ArithmeticLeftShiftAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.ArithmeticRightShiftAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.AndAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.Assign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.DivideAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.ExclusiveOrAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.FloorDivideAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.LogicalLeftShiftAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.LogicalRightShiftAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.ModuloAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.MultiplyAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.OrAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.OrElseAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.PowerAssign] = true;
+			AssignTalbe[(int)UnifiedBinaryOperatorKind.SubtractAssign] = true;
+		}
+
 		private UnifiedBinaryOperator() {}
+
+		public bool IsAssignOperator() {
+			return AssignTalbe[(int)Kind];
+		}
 
 		public static UnifiedBinaryOperator Create(
 				string sign,

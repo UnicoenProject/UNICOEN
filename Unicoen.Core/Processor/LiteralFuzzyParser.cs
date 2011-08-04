@@ -80,7 +80,7 @@ namespace Unicoen.Processor {
 			return ParseBigInteger(number, 16);
 		}
 
-		public static Double ParseDouble(string number, double factor) {
+		public static Double ParseIntegerDouble(string number, double factor) {
 			Double result = 0;
 			foreach (var ch in number) {
 				result = result * factor + Char2Int[ch];
@@ -90,16 +90,38 @@ namespace Unicoen.Processor {
 			return result;
 		}
 
-		public static Double ParseDouble(string number) {
-			return ParseDouble(number, 10);
+		public static Double ParseIntegerDouble(string number) {
+			return ParseIntegerDouble(number, 10);
 		}
 
-		public static Double ParseOcatleDouble(string number) {
-			return ParseDouble(number, 8);
+		public static Double ParseOcatleIntegerDouble(string number) {
+			return ParseIntegerDouble(number, 8);
 		}
 
-		public static Double ParseHexicalDouble(string number) {
-			return ParseDouble(number, 16);
+		public static Double ParseHexicalIntegerDouble(string number) {
+			return ParseIntegerDouble(number, 16);
+		}
+
+		public static Double ParseFractionDouble(string number, double factor) {
+			Double result = 0;
+			for (int i = number.Length - 1; i >= 0; i--) {
+				result = (result + Char2Int[number[i]]) * factor;
+			}
+			if (number[0] == '-')
+				return -result;
+			return result;
+		}
+
+		public static Double ParseFractionDouble(string number) {
+			return ParseFractionDouble(number, 1.0 / 10);
+		}
+
+		public static Double ParseOcatleFractionDouble(string number) {
+			return ParseFractionDouble(number, 1.0 / 8);
+		}
+
+		public static Double ParseHexicalFractionDouble(string number) {
+			return ParseFractionDouble(number, 1.0 / 16);
 		}
 	}
 }

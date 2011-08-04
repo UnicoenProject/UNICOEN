@@ -25,6 +25,7 @@ using NUnit.Framework;
 using Paraiba.Core;
 using UniUni.Text;
 using Unicoen.CodeFactories;
+using Unicoen.Languages.Java.Tests;
 using Unicoen.Processor;
 using Unicoen.Tests;
 using Unicoen.Languages.Tests;
@@ -96,8 +97,6 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return new[] {
 						"fibonacci",
 						"student",
-						"Application",
-						"ui-element",
 				}
 						.Select(
 								s =>
@@ -162,6 +161,17 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(workPath, CompileCommand, arguments);
+		}
+
+		private readonly JavaFixture _javaFixture = new JavaFixture();
+
+		/// <summary>
+		///   コンパイル済みのコードのバイト列を取得します．
+		/// </summary>
+		/// <param name = "path">コンパイル済みのコードのパス</param>
+		/// <returns>コンパイル済みのコードのバイト列</returns>
+		public override byte[] GetCompiledByteCode(string path) {
+			return _javaFixture.GetCompiledByteCode(path);
 		}
 
 		private string SetUpRhino() {

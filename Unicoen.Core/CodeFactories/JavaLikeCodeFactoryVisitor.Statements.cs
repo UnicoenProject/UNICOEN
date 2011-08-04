@@ -22,21 +22,49 @@ using Unicoen.Processor;
 
 namespace Unicoen.CodeFactories {
 	public partial class JavaLikeCodeFactoryVisitor {
-		protected static Tuple<string, string> GetRequiredParen(
-				IUnifiedElement element) {
-			var parent = element.Parent;
+		protected virtual bool IsLeftAssociative(UnifiedBinaryOperator op) {
+			return !IsRightAssociative(op);
+		}
 
-			// 親も自分も2項式で、演算子が同じ場合は括弧をつけない
-			var exp1 = element as UnifiedBinaryExpression;
-			var exp2 = parent as UnifiedBinaryExpression;
-			if (exp1 != null && exp2 != null) {
-				return exp1.Operator.Sign == exp2.Operator.Sign
-				       		? Tuple.Create("", "") : Tuple.Create("(", ")");
+		protected virtual bool IsRightAssociative(UnifiedBinaryOperator op) {
+			return op.IsAssignOperator();
+		}
+
+		protected bool GetRequiredParen(UnifiedBinaryExpression exp) {
+			var parent = exp.Parent;
+			var parentExp = parent as UnifiedBinaryExpression;
+			if (parentExp != null) {
+				if (exp.Operator.Kind == parentExp.Operator.Kind) {
+					if (IsLeftAssociative(exp.Operator)) {
+						var left = parentExp.LeftHandSide as UnifiedBinaryExpression;
+						if (exp == left)
+							return false;
+					} else if (IsRightAssociative(exp.Operator)) {
+						var right = parentExp.RightHandSide as UnifiedBinaryExpression;
+						if (exp == right)
+							return false;
+					}
+				}
+				return true;
 			}
 
-			if (parent is IUnifiedExpression)
-				return Tuple.Create("(", ")");
-			return Tuple.Create("", "");
+			return parent is UnifiedFunctionDefinition ||
+			       parent is UnifiedIndexer ||
+			       parent is UnifiedProperty ||
+			       parent is UnifiedCast ||
+			       parent is UnifiedUnaryExpression ||
+			       parent is UnifiedTernaryExpression;
+		}
+
+		protected static bool GetRequiredParen(IUnifiedElement element) {
+			var parent = element.Parent;
+			return parent is UnifiedFunctionDefinition ||
+			       parent is UnifiedIndexer ||
+			       parent is UnifiedProperty ||
+			       parent is UnifiedCast ||
+			       parent is UnifiedUnaryExpression ||
+			       parent is UnifiedBinaryExpression ||
+			       parent is UnifiedTernaryExpression;
 		}
 
 		// e.g. (Int)a  or (int)(a + b)
@@ -53,7 +81,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedTernaryExpression element, VisitorArgument arg) {
-			var paren = GetRequiredParen(element);
+			var paren = GetRequiredParen(element) ? Tuple.Create("(", ")") : Tuple.Create("", "");
 			Writer.Write(paren.Item1);
 			element.Condition.TryAccept(this, arg.Set(Paren));
 			Writer.Write(" ? ");
@@ -73,7 +101,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedBinaryExpression element, VisitorArgument arg) {
-			var paren = GetRequiredParen(element);
+			var paren = GetRequiredParen(element) ? Tuple.Create("(", ")") : Tuple.Create("", "");
 			Writer.Write(paren.Item1);
 			element.LeftHandSide.TryAccept(this, arg.Set(Paren));
 			Writer.Write(" ");
@@ -114,7 +142,7 @@ namespace Unicoen.CodeFactories {
 
 		public override bool Visit(
 				UnifiedUnaryExpression element, VisitorArgument arg) {
-			var paren = GetRequiredParen(element);
+			var paren = GetRequiredParen(element) ? Tuple.Create("(", ")") : Tuple.Create("", "");
 			Writer.Write(paren.Item1);
 			if (element.Operator.Kind == UnifiedUnaryOperatorKind.PostIncrementAssign ||
 			    element.Operator.Kind == UnifiedUnaryOperatorKind.PostDecrementAssign) {
