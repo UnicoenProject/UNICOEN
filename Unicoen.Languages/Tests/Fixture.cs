@@ -167,11 +167,12 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
 		/// <returns></returns>
-		public IEnumerable<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
+		public IList<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
 					dirPath, "*" + CompiledExtension,
 					SearchOption.AllDirectories)
-					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)));
+					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)))
+					.ToList();
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
