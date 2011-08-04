@@ -94,20 +94,6 @@ namespace Unicoen.Languages.JavaScript.CodeFactories {
 			return true;
 		}
 
-		//break文
-		public override bool Visit(UnifiedBreak element, VisitorArgument arg) {
-			Writer.Write("break ");
-			Writer.Write(element.Value); //ラベル付きbreak文のため
-			return true;
-		}
-
-		//continue文
-		public override bool Visit(UnifiedContinue element, VisitorArgument arg) {
-			Writer.Write("continue ");
-			Writer.Write(element.Value); //ラベル付きcontinue文のため
-			return true;
-		}
-
 		//return文
 		public override bool Visit(UnifiedReturn element, VisitorArgument arg) {
 			Writer.Write("return ");

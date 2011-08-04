@@ -34,11 +34,7 @@ namespace Unicoen.CodeFactories {
 				       		? Tuple.Create("", "") : Tuple.Create("(", ")");
 			}
 
-			if (parent is UnifiedProperty ||
-			    parent is UnifiedCast ||
-			    parent is UnifiedUnaryExpression ||
-			    parent is UnifiedBinaryExpression ||
-			    parent is UnifiedTernaryExpression)
+			if (parent is IUnifiedExpression)
 				return Tuple.Create("(", ")");
 			return Tuple.Create("", "");
 		}

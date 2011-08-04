@@ -169,9 +169,25 @@ namespace UniUni.Text {
 			return str.Length == 0 || str[0] != 65279 ? str : str.Substring(1);
 		}
 
+		/// <summary>
+		/// 指定したパスのファイルを指定したエンコーディングでエンコードし直します．
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="encoding"></param>
 		public static void Convert(string path, Encoding encoding) {
 			var text = ReadAllText(path);
 			File.WriteAllText(path, text, encoding);
+		}
+
+		/// <summary>
+		/// 指定したパスのファイルを指定したエンコーディングで指定したパスに出力します．
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="outpath"></param>
+		/// <param name="encoding"></param>
+		public static void Convert(string path, string outpath, Encoding encoding) {
+			var text = ReadAllText(path);
+			File.WriteAllText(outpath, text, encoding);
 		}
 	}
 }

@@ -180,11 +180,12 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
 		/// <returns></returns>
-		public IEnumerable<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
+		public IList<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
 					dirPath, "*" + CompiledExtension,
 					SearchOption.AllDirectories)
-					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)));
+					.Select(path => Tuple.Create(path, File.ReadAllBytes(path)))
+					.ToList();
 		}
 
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
@@ -231,7 +232,7 @@ namespace Unicoen.Languages.Tests {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
 			var testCase = new TestCaseData(path, compileActionByWorkAndDirPath);
 			if (Directory.Exists(path)
-			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Count() >= 2) {
+			    && Directory.EnumerateFiles(path, "*" + Extension, SearchOption.AllDirectories).Count() >= 1) {
 				yield return testCase;
 				yield break;
 			}

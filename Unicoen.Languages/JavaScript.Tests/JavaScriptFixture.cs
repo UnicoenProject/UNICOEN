@@ -82,6 +82,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 				return new[] {
 						"var a = 1;",
 						"for ( i = 0, length = args.length; i < length; i++ ) { }",
+						"a = \"1\" + (1 + 2) + \"2\""
 				}.Select(s => new TestCaseData(s));
 			}
 		}
@@ -96,6 +97,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 						"fibonacci",
 						"student",
 						"Application",
+						"ui-element",
 				}
 						.Select(
 								s =>
@@ -166,7 +168,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "Rhino");
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
 			if (Directory.Exists(path)
-			    && Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Count() >= 2)
+			    && Directory.EnumerateFiles(path, "*" + Extension, SearchOption.AllDirectories).Count() >= 1)
 				return jarPath;
 			Directory.CreateDirectory(path);
 			DownloadAndUnzip(

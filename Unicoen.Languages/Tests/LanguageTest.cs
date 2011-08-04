@@ -122,7 +122,7 @@ namespace Unicoen.Languages.Tests {
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			var fileName = Path.GetFileName(orgPath);
 			var srcPath = FixtureUtil.GetOutputPath(fileName);
-			File.Copy(orgPath, srcPath);
+			GuessEncoding.Convert(orgPath, srcPath, Encoding.Default);
 			Fixture.Compile(workPath, srcPath);
 			var expected = Fixture.GetAllCompiledCode(workPath);
 			Fixture.Compile(workPath, srcPath);
