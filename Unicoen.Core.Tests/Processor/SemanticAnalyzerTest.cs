@@ -18,7 +18,6 @@
 
 using System.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
-using Code2Xml.Languages.JavaScript.CodeToXmls;
 using NUnit.Framework;
 using Unicoen.Languages.Java.ModelFactories;
 using Unicoen.Model;

@@ -94,7 +94,7 @@
       <HintPath>..\..\lib\Code2Xml.Languages.C.dll</HintPath>
     </Reference>
     <Reference Include="Paraiba">
-      <HintPath>..\lib\Paraiba.dll</HintPath>
+      <HintPath>..\..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

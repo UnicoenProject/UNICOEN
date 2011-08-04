@@ -37,8 +37,8 @@
     <Reference Include="nunit.mocks, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\lib\Paraiba.dll</HintPath>
+    <Reference Include="Paraiba">
+      <HintPath>..\..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="Paraiba.IO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\lib\Paraiba.IO.dll</HintPath>

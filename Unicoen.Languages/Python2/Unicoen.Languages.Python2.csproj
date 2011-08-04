@@ -84,14 +84,14 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\lib\Code2Xml.Core.dll</HintPath>
+    <Reference Include="Code2Xml.Core">
+      <HintPath>..\..\lib\Code2Xml.Core.dll</HintPath>
     </Reference>
     <Reference Include="Code2Xml.Languages.Python2">
       <HintPath>..\..\lib\Code2Xml.Languages.Python2.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\lib\Paraiba.dll</HintPath>
+    <Reference Include="Paraiba">
+      <HintPath>..\..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

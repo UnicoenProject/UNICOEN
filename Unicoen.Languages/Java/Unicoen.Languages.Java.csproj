@@ -86,7 +86,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Code2Xml.Core">
+      <HintPath>..\..\lib\Code2Xml.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Code2Xml.Languages.Java">
       <HintPath>..\..\lib\Code2Xml.Languages.Java.dll</HintPath>
     </Reference>
@@ -94,7 +96,7 @@
       <HintPath>..\..\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
     </Reference>
     <Reference Include="Paraiba">
-      <HintPath>..\lib\Paraiba.dll</HintPath>
+      <HintPath>..\..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
