@@ -170,7 +170,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// </summary>
 		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
-		public override byte[] GetCompiledByteCode(string path) {
+		public override object GetCompiledByteCode(string path) {
 			return _javaFixture.GetCompiledByteCode(path);
 		}
 

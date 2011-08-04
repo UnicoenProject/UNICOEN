@@ -81,18 +81,18 @@ namespace Unicoen.Languages.Java.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				var statements = new[] {
-						//"double MAX_VALUE = 0x1.fffffffffffffP+1023; // 1.7976931348623157e+308",
-						//"double MIN_NORMAL = 0x1.0p-1022; // 2.2250738585072014E-308",
+						"double MAX_VALUE = 0x1.fffffffffffffP+1023; // 1.7976931348623157e+308",
+						"double MIN_NORMAL = 0x1.0p-1022; // 2.2250738585072014E-308",
 						"double MIN_VALUE = 0x0.0000000000001P-1022; // 4.9e-324", // 4.94065645841247E-324
-						//"M1();",
-						//"new A();",
-						//"int[] a[][] = new int[1][1][1]; System.out.println(a);",
-						//"int[] a[] = new int[10][10], b[][] = new int[10][10][10];",
-						//"int i; for (i = 0; i < 0; i++) System.out.println(1);",
-						//"Integer i; if ((i = 0).toString() != null) { }",
-						//"int mask = 0x80000000;",
+						"M1();",
+						"new A();",
+						"int[] a[][] = new int[1][1][1]; System.out.println(a);",
+						"int[] a[] = new int[10][10], b[][] = new int[10][10][10];",
+						"int i; for (i = 0; i < 0; i++) System.out.println(1);",
+						"Integer i; if ((i = 0).toString() != null) { }",
+						"int mask = 0x80000000;",
+						"System.out.println(0x1E.ep0); System.out.println(0x1E.eP+1);",
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
-				return statements;
 
 				var codes = new[] {
 				        "class A { void execute(String ... str) { } }",
@@ -176,7 +176,7 @@ namespace Unicoen.Languages.Java.Tests {
 		/// </summary>
 		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
-		public override byte[] GetCompiledByteCode(string path) {
+		public override object GetCompiledByteCode(string path) {
 			var args = new[] { "-c", path };
 			var info = new ProcessStartInfo {
 					FileName = DisassembleCommand,
@@ -195,7 +195,7 @@ namespace Unicoen.Languages.Java.Tests {
 						throw new InvalidOperationException(
 								"Failed to disassemble the exe file.");
 					}
-					return Encoding.Unicode.GetBytes(str);
+					return str;
 				}
 			} catch (Win32Exception e) {
 				throw new InvalidOperationException(

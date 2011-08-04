@@ -127,7 +127,7 @@ namespace Unicoen.Languages.Tests {
 			var expected = Fixture.GetAllCompiledCode(workPath);
 			Fixture.Compile(workPath, srcPath);
 			var actual = Fixture.GetAllCompiledCode(workPath);
-			Assert.That(FuzzyCompare(actual, expected), Is.True);
+			AssertFuzzyEquals(actual, expected);
 		}
 
 		/// <summary>
@@ -137,8 +137,8 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "code">検査対象のソースコード</param>
 		public void VerifyRegenerateCodeUsingCode(string code) {
 			var codeObject = Fixture.ModelFactory.Generate(code);
-			AssertCompareModel(code, codeObject);
-			AssertCompareCompiledCode(code, "A" + Fixture.Extension, codeObject);
+			AssertEqualsModel(code, codeObject);
+			AssertEqualsCompiledCode(code, "A" + Fixture.Extension, codeObject);
 		}
 
 		/// <summary>
@@ -150,8 +150,8 @@ namespace Unicoen.Languages.Tests {
 			var codeAndObject = GenerateCodeObject(path);
 			var code = codeAndObject.Item1;
 			var codeObject = codeAndObject.Item2;
-			AssertCompareModel(code, codeObject);
-			AssertCompareCompiledCode(code, Path.GetFileName(path), codeObject);
+			AssertEqualsModel(code, codeObject);
+			AssertEqualsCompiledCode(code, Path.GetFileName(path), codeObject);
 		}
 
 		/// <summary>
@@ -176,7 +176,7 @@ namespace Unicoen.Languages.Tests {
 
 				// モデルを生成して，合わせて各種検査を実施する
 				var codeAndObject = GenerateCodeObject(codePath);
-				AssertCompareModel(orgCode1, codeAndObject.Item2);
+				AssertEqualsModel(orgCode1, codeAndObject.Item2);
 
 				var code2 = Fixture.CodeFactory.Generate(codeAndObject.Item2);
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
@@ -184,7 +184,7 @@ namespace Unicoen.Languages.Tests {
 			// 再生成したソースコードのコンパイル結果の取得
 			compileActionByWorkAndDirPath(workPath, dirPath);
 			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
-			Assert.That(FuzzyCompare(orgByteCode1, byteCode2), Is.True);
+			AssertFuzzyEquals(byteCode2, orgByteCode1);
 		}
 
 		/// <summary>
@@ -341,7 +341,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "orgCode">検査対象のソースコード</param>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private void AssertCompareModel(string orgCode, UnifiedProgram codeObject) {
+		private void AssertEqualsModel(string orgCode, UnifiedProgram codeObject) {
 			string code2 = null, code3 = null;
 			try {
 				code2 = Fixture.CodeFactory.Generate(codeObject);
@@ -371,7 +371,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "orgCode">検査対象のソースコード</param>
 		/// <param name = "fileName">再生成するソースコードのファイル名</param>
 		/// <param name = "codeObject">検査対象のモデル</param>
-		private void AssertCompareCompiledCode(
+		private void AssertEqualsCompiledCode(
 				string orgCode, string fileName, UnifiedProgram codeObject) {
 			// コンパイル用の作業ディレクトリの取得
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
@@ -388,7 +388,7 @@ namespace Unicoen.Languages.Tests {
 			// 再生成したソースコードのコンパイル結果の取得
 			Fixture.Compile(workPath, srcPath);
 			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
-			Assert.That(FuzzyCompare(orgByteCode1, byteCode2), Is.True);
+			AssertFuzzyEquals(byteCode2, orgByteCode1);
 		}
 
 		/// <summary>
@@ -397,20 +397,21 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "actual"></param>
 		/// <param name = "expected"></param>
 		/// <returns></returns>
-		private bool FuzzyCompare(
-				IEnumerable<Tuple<string, byte[]>> actual,
-				IEnumerable<Tuple<string, byte[]>> expected) {
+		private void AssertFuzzyEquals(
+				IEnumerable<Tuple<string, object>> actual,
+				IEnumerable<Tuple<string, object>> expected) {
 			var actuals = actual.ToList();
 			var expecteds = expected.ToList();
-			if (actuals.Count != expecteds.Count)
-				return false;
+			Assert.That(actuals.Count, Is.EqualTo(expecteds.Count));
 			for (int i = 0; i < actuals.Count; i++) {
-				if (actuals[i].Item1 != expecteds[i].Item1)
-					return false;
-				if (!FuzzyCompare(actuals[i].Item2, expecteds[i].Item2))
-					return false;
+				Assert.That(actuals[i].Item1, Is.EqualTo(expecteds[i].Item1));
+				if (actuals[i].Item2 is byte[]) {
+					Assert.That(AssertFuzzyEquals((byte[])actuals[i].Item2, (byte[])expecteds[i].Item2), Is.True);
+				}
+				else {
+				Assert.That(actuals[i].Item2, Is.EqualTo(expecteds[i].Item2));
+				}
 			}
-			return true;
 		}
 
 		/// <summary>
@@ -419,7 +420,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name = "actual"></param>
 		/// <param name = "expected"></param>
 		/// <returns></returns>
-		private bool FuzzyCompare(byte[] actual, byte[] expected) {
+		private bool AssertFuzzyEquals(byte[] actual, byte[] expected) {
 			if (actual.Length != expected.Length)
 				return false;
 			var count = Fixture.AllowedMismatchCount;

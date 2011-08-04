@@ -171,7 +171,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
-		public virtual byte[] GetCompiledByteCode(string path) {
+		public virtual object GetCompiledByteCode(string path) {
 			return File.ReadAllBytes(path);
 		}
 
@@ -180,7 +180,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "dirPath">コンパイル済みコードが格納されているディレクトリのパス</param>
 		/// <returns></returns>
-		public IList<Tuple<string, byte[]>> GetAllCompiledCode(string dirPath) {
+		public IList<Tuple<string, object>> GetAllCompiledCode(string dirPath) {
 			return Directory.EnumerateFiles(
 					dirPath, "*" + CompiledExtension,
 					SearchOption.AllDirectories)

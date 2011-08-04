@@ -148,7 +148,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
-		public override byte[] GetCompiledByteCode(string path) {
+		public override object GetCompiledByteCode(string path) {
 			var ildasmPath = IldasmPathes.First(File.Exists);
 			var args = new[] { "/text", path };
 			var info = new ProcessStartInfo {
@@ -174,7 +174,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 							.Where(l => !l.StartsWith(".assembly"))
 							.Where(l => !l.StartsWith(".module"))
 							.JoinString("\n");
-					return Encoding.Unicode.GetBytes(str);
+					return str;
 				}
 			} catch (Win32Exception e) {
 				throw new InvalidOperationException(
