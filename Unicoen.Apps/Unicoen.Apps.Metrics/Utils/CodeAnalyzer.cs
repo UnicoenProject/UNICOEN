@@ -24,15 +24,16 @@ using Paraiba.Collections.Generic;
 using Paraiba.Text;
 using Unicoen.Languages.C;
 using Unicoen.Languages.CSharp;
-using Unicoen.Languages.Ruby18.Model;
-using Unicoen.Model;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.Python2;
+using Unicoen.Languages.Ruby18.Model;
+using Unicoen.Model;
+using UniUni.Text;
 
 namespace Unicoen.Apps.Metrics.Utils {
 	public static class CodeAnalyzer {
-		private static UnifiedProgram CreateModel(string ext, string code) {
+		public static UnifiedProgram CreateCodeObject(string ext, string code) {
 			switch (ext.ToLower()) {
 			case ".c":
 				return CFactory.GenerateModel(code);
@@ -49,6 +50,51 @@ namespace Unicoen.Apps.Metrics.Utils {
 			case ".rb":
 				return Ruby18ModelFactory.Instance.Generate(code);
 			}
+			return null;
+		}
+
+		public static UnifiedProgram CreateCodeObjectOrDefault(string ext, string code) {
+			try {
+				switch (ext.ToLower()) {
+				case ".c":
+					return CFactory.GenerateModel(code);
+				case ".vb":
+					return CSharpFactory.GenerateModel(code);
+				case ".cs":
+					return CSharpFactory.GenerateModel(code);
+				case ".java":
+					return JavaFactory.GenerateModel(code);
+				case ".js":
+					return JavaScriptFactory.GenerateModel(code);
+				case ".py":
+					return Python2Factory.GenerateModel(code);
+				case ".rb":
+					return Ruby18ModelFactory.Instance.Generate(code);
+				}
+			} catch {}
+			return null;
+		}
+
+		public static UnifiedProgram CreateCodeObjectOrDefault(string filePath) {
+			try {
+				var code = GuessEncoding.ReadAllText(filePath);
+				switch ((Path.GetExtension(filePath) ?? "").ToLower()) {
+				case ".c":
+					return CFactory.GenerateModel(code);
+				case ".vb":
+					return CSharpFactory.GenerateModel(code);
+				case ".cs":
+					return CSharpFactory.GenerateModel(code);
+				case ".java":
+					return JavaFactory.GenerateModel(code);
+				case ".js":
+					return JavaScriptFactory.GenerateModel(code);
+				case ".py":
+					return Python2Factory.GenerateModel(code);
+				case ".rb":
+					return Ruby18ModelFactory.Instance.Generate(code);
+				}
+			} catch {}
 			return null;
 		}
 
@@ -87,36 +133,41 @@ namespace Unicoen.Apps.Metrics.Utils {
 		}
 
 		private static string GetOutersString(IUnifiedElement target) {
-			var result = "";
+			var result = "::";
 			foreach (var e in target.AncestorsAndSelf()) {
 				var name = GetOutersName(e);
 				if (name == null)
 					continue;
-				result = name + "::" + result;
+				result = "::" + name + result;
 			}
-			if (string.IsNullOrEmpty(result)) {
-				result = "::";
-			}
-
-			var outerName = target.Ancestors()
-				.Select(e => {
-					var klass = e as UnifiedClassLikeDefinition;
-					if (klass != null)
-						return klass.Name;
-					var method = e as UnifiedFunctionDefinition;
-					if (method != null)
-						return method.Name;
-					return null;
-				})
-				.Where(e => e != null)
-				.FirstOrDefault();
-			if (outerName != null) {
-				result = JavaFactory.GenerateCode(outerName);
-			}
-			else {
-				result = "";
-			}
+			//var outerName = target.Ancestors()
+			//        .Select(
+			//                e => {
+			//                    var klass = e as UnifiedClassLikeDefinition;
+			//                    if (klass != null)
+			//                        return klass.Name;
+			//                    var method = e as UnifiedFunctionDefinition;
+			//                    if (method != null)
+			//                        return method.Name;
+			//                    return null;
+			//                })
+			//        .Where(e => e != null)
+			//        .FirstOrDefault();
+			//if (outerName != null) {
+			//    result = JavaFactory.GenerateCode(outerName);
+			//} else {
+			//    result = "";
+			//}
 			return result;
+		}
+
+		public static Dictionary<string, int> Measure(
+				IUnifiedElement codeObject,
+				Func<IUnifiedElement, IEnumerable<IUnifiedElement>> getTargetElementsFunc) {
+			var counts = new Dictionary<string, int>();
+			InitializeCounter(codeObject, counts);
+			CountElements(getTargetElementsFunc(codeObject), counts);
+			return counts;
 		}
 
 		public static Dictionary<string, int> Measure(
@@ -126,7 +177,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 				var counts = new Dictionary<string, int>();
 				var ext = Path.GetExtension(filePath);
 				var code = File.ReadAllText(filePath, XEncoding.SJIS);
-				var model = CreateModel(ext, code);
+				var model = CreateCodeObject(ext, code);
 				if (model == null) {
 					return new Dictionary<string, int>();
 				}
