@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unicoen.Apps.Aop.Cui</RootNamespace>
-    <AssemblyName>Unicoen.Apps.Aop.Cui</AssemblyName>
+    <AssemblyName>UniAspect</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
