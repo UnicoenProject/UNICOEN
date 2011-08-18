@@ -18,6 +18,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,14 +28,15 @@ using Paraiba.Core;
 using UniUni.Text;
 using Unicoen.CodeFactories;
 using Unicoen.Languages.Java.Tests;
+using Unicoen.Languages.Tests;
 using Unicoen.Processor;
 using Unicoen.Tests;
-using Unicoen.Languages.Tests;
 using Unicoen.Utils;
 
 namespace Unicoen.Languages.JavaScript.Tests {
 	public class JavaScriptFixture : Fixture {
 		private const string CompileCommand = "java";
+		private const string DisassembleCommand = "javap";
 
 		private readonly string[] _compileArguments;
 
@@ -95,8 +98,9 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"fibonacci",
-						"student",
+						//"fibonacci",
+						//"student",
+						"src",
 				}
 						.Select(
 								s =>
@@ -158,7 +162,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 					new[] {
 							"\"" + Path.Combine(workPath, srcPath) + "\""
 					});
-			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main **.js
+			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main *.js
 			var arguments = args.JoinString(" ");
 			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
@@ -171,14 +175,54 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <param name = "path">コンパイル済みのコードのパス</param>
 		/// <returns>コンパイル済みのコードのバイト列</returns>
 		public override object GetCompiledByteCode(string path) {
-			return _javaFixture.GetCompiledByteCode(path);
+			var args = new[] { "-c", path };
+			var info = new ProcessStartInfo {
+					FileName = DisassembleCommand,
+					Arguments = args.JoinString(" "),
+					CreateNoWindow = true,
+					RedirectStandardInput = true,
+					RedirectStandardOutput = true,
+					UseShellExecute = false,
+			};
+
+			try {
+				using (var p = Process.Start(info)) {
+					var str = p.StandardOutput.ReadToEnd();
+					p.WaitForExit();
+					if (p.ExitCode != 0) {
+						throw new InvalidOperationException(
+								"Failed to disassemble the exe file.");
+					}
+					var indexOfgetEncodedSource =
+							str.IndexOf("  public java.lang.String getEncodedSource();");
+					var indexOfgetParamOrVarConst =
+							str.IndexOf("  public boolean getParamOrVarConst(int);");
+					str = str.Substring(0, indexOfgetEncodedSource)
+					      + str.Substring(indexOfgetParamOrVarConst);
+					return str;
+					//return string.Join(
+					//        "\n", str.Split(new[] { "\n" }, StringSplitOptions.None).Select(
+					//                s => {
+					//                    var index = s.IndexOf("//");
+					//                    if (index >= 0) {
+					//                        return s.Substring(0, index);
+					//                    }
+					//                    return s;
+					//                }));
+				}
+			} catch (Win32Exception e) {
+				throw new InvalidOperationException(
+						"Failed to launch 'ildasmPath': " + DisassembleCommand, e);
+			}
 		}
 
 		private string SetUpRhino() {
 			var path = FixtureUtil.GetDownloadPath(LanguageName, "Rhino");
 			var jarPath = Path.Combine(path, "rhino1_7R3", "js.jar");
 			if (Directory.Exists(path)
-			    && Directory.EnumerateFiles(path, "*" + Extension, SearchOption.AllDirectories).Count() >= 1)
+			    &&
+			    Directory.EnumerateFiles(
+			    		path, "*" + Extension, SearchOption.AllDirectories).Count() >= 1)
 				return jarPath;
 			Directory.CreateDirectory(path);
 			DownloadAndUnzip(
