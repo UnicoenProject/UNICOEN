@@ -17,37 +17,27 @@
 #endregion
 
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Unicoen.Apps.Metrics.Utils;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Metrics.Core {
-	public class Cyclomatic {
-		public static bool Run(IList<string> args) {
-			foreach (var arg in args) {
-				// do a given path indicate directory?
-				if (Directory.Exists(arg)) {
-					// find .rb files from a given directory path
-					foreach (
-							var path in Directory.GetFiles(arg, "*.*", SearchOption.AllDirectories)) {
-						MetricsPrinter.PrintMetrics(
-								"Cyclomatic complexity", path, GetTargetElements);
-					}
-				}
-						// or do a given path indicate file?
-				else if (File.Exists(arg)) {
-					// not check the extension
-					MetricsPrinter.PrintMetrics(
-							"Cyclomatic complexity", arg, GetTargetElements);
-				}
-			}
-			return true;
+	public class Cyclomatic : MetricsPrinter {
+		protected override string MeticName {
+			get { return "Cyclomatic complexity"; }
+		}
+
+		protected override int AdditionalCount {
+			get { return 1; }
+		}
+
+		protected override IEnumerable<IUnifiedElement> ProtectedGetTargetElements(
+				IUnifiedElement codeObject) {
+			return GetTargetElements(codeObject);
 		}
 
 		public static IEnumerable<IUnifiedElement> GetTargetElements(
-				IUnifiedElement model) {
-			return model.Descendants<UnifiedIf, UnifiedFor, UnifiedWhile, UnifiedDoWhile, UnifiedCase>();
+				IUnifiedElement codeObject) {
+			return codeObject.Descendants<UnifiedIf, UnifiedFor, UnifiedWhile, UnifiedDoWhile, UnifiedCase>();
 		}
 	}
 }

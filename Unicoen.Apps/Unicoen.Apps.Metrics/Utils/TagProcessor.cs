@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using Paraiba.Linq;
 
 namespace Unicoen.Apps.Metrics.Utils {
 	public static class TagProcessor {
@@ -30,11 +31,9 @@ namespace Unicoen.Apps.Metrics.Utils {
 		}
 
 		public static void HierarchizeTag(string tag, ISet<string> newTagSet) {
-			var tagElements = tag.Split(
-					new[] { "::" },
-					StringSplitOptions.RemoveEmptyEntries);
+			var tagElements = tag.Split(new[] { "::" }, StringSplitOptions.None);
 			var newTag = string.Empty;
-			foreach (var tagEelment in tagElements) {
+			foreach (var tagEelment in tagElements.SkipLast()) {
 				newTag += tagEelment + "::";
 				newTagSet.Add(newTag);
 			}

@@ -42,20 +42,15 @@ namespace Unicoen.Apps.Metrics {
 		}
 
 		private static bool Run(string[] args) {
-			args = new[] {
-					"cyclomatic",
-					@"C:\Users\exKAZUu\Documents\Projects\Unicoen\bin\Debug\jenkinsci-jenkins-jenkins-1.417-151-g52aa28e\core\src\main\java\hudson"
-			};
-
 			if (args.Length < 1)
 				return Print(Usage);
 
 			var newArgs = args.Skip(1).ToArray();
 			switch (args[0]) {
 			case "loc":
-				return Loc.Run(newArgs);
+				return new Loc().Run(newArgs);
 			case "cyclomatic":
-				return Cyclomatic.Run(newArgs);
+				return new Cyclomatic().Run(newArgs);
 			}
 			return Print(Usage);
 		}
