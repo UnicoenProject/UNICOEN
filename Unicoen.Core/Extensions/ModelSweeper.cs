@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -66,6 +67,26 @@ namespace Unicoen.Model {
 			foreach (var child in children) {
 				yield return child;
 				foreach (var grandchild in child.Descendants()) {
+					yield return grandchild;
+				}
+			}
+		}
+
+		/// <summary>
+		/// 深さ優先で指定した要素の子孫を列挙します．
+		/// ただし条件に一致する要素を見つけたとき，その要素の探索を中止し次の要素の探索に移ります．
+		/// </summary>
+		/// <param name = "element"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public static IEnumerable<IUnifiedElement> DescendantsUntil(
+				this IUnifiedElement element, Func<IUnifiedElement, bool> predicate) {
+			Contract.Requires(element != null);
+			var children = element.Elements()
+					.Where(e => e != null && !predicate(e));
+			foreach (var child in children) {
+				yield return child;
+				foreach (var grandchild in child.DescendantsUntil(predicate)) {
 					yield return grandchild;
 				}
 			}

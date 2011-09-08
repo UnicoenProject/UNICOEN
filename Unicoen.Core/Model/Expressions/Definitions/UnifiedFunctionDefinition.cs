@@ -24,7 +24,7 @@ namespace Unicoen.Model {
 	///   関数やメソッドなどのサブルーチンの定義部分を表します。
 	///   e.g. Javaにおける<c>public void method(int a){...}</c>
 	/// </summary>
-	public class UnifiedFunctionDefinition : UnifiedElement, IUnifiedExpression {
+	public class UnifiedFunctionDefinition : UnifiedElement, IUnifiedExpression, IDynamicFunctionDefinition {
 		#region fields & properties
 
 		private UnifiedAnnotationCollection _annotations;

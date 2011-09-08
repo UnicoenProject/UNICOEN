@@ -18,8 +18,10 @@
 
 using System.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
+using Code2Xml.Languages.JavaScript.CodeToXmls;
 using NUnit.Framework;
 using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.JavaScript.ModelFactories;
 using Unicoen.Model;
 using Unicoen.Processor;
 
@@ -82,6 +84,34 @@ namespace Unicoen.Core.Tests.Processor {
 			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
 
 			var variable = codeObject.Descendants<UnifiedIdentifier>().ElementAt(1);
+			var definition = SemanticAnalyzer.FindDefinition(variable);
+
+			Assert.That(definition, Is.EqualTo(null));
+		}
+
+		[Test]
+		public void IgnoreSliblingScope() {
+			var ast = JavaCodeToXml.Instance
+					.Generate(
+							"{ {int j = 0;} { j = 1; } }",
+							p => p.block());
+			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+
+			var variable = codeObject.Descendants<UnifiedIdentifier>().ElementAt(2);
+			var definition = SemanticAnalyzer.FindDefinition(variable);
+
+			Assert.That(definition, Is.EqualTo(null));
+		}
+
+		[Test]
+		public void JavascriptBlockProblem() {
+			var ast = JavaScriptCodeToXml.Instance
+					.Generate(
+							"{ i = 0, var j = 0; j = 1; }",
+							p => p.statementBlock());
+			var codeObject = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
+
+			var variable = codeObject.Descendants<UnifiedIdentifier>().Last();
 			var definition = SemanticAnalyzer.FindDefinition(variable);
 
 			Assert.That(definition, Is.EqualTo(null));

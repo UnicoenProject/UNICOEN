@@ -17,28 +17,24 @@
 #endregion
 
 using System.Linq;
+using Code2Xml.Languages.Java.CodeToXmls;
+using NUnit.Framework;
+using Unicoen.Languages.Java.ModelFactories;
 using Unicoen.Model;
 
-namespace Unicoen.Processor {
-	public static class SemanticAnalyzer {
-		public static UnifiedVariableDefinition FindDefinition(UnifiedIdentifier variable) {
-			var scopes = variable.Ancestors<UnifiedBlock>();
-			var name = variable.Name;
-			IUnifiedElement searched = variable;
-
-			foreach (var scope in scopes) {
-				var definition = scope
-						.DescendantsUntil(e2 => e2 is UnifiedBlock)
-						.TakeWhile(e => e != searched)
-						.OfType<UnifiedVariableDefinition>()
-						.FirstOrDefault(e => e.Name.Name == name);
-				if (definition != null)
-					return definition;
-
-				searched = scope;
-			}
-			return null;
+namespace Unicoen.Core.Tests.Processor {
+	[TestFixture]
+	public class ModelSweeperTest {
+		[Test]
+		public void DescendantUntil() {
+			var ast = JavaCodeToXml.Instance
+					.Generate(
+							"{ {int j = 0;} { j = 1; } }",
+							p => p.block());
+			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			Assert.That(
+					codeObject.DescendantsUntil(e => e is UnifiedBlock).Count(),
+					Is.EqualTo(0));
 		}
-
 	}
 }
