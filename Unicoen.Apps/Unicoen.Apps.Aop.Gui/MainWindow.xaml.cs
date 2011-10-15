@@ -136,7 +136,7 @@ namespace AopGUI {
 				var model = CodeProcessor.CreateModel(fileExtension, code);
 
 				//アスペクトの合成を行う
-				AspectAdaptor.Weave(langType, model, visitor);
+				ExtendAspectAdaptor.Weave(langType, model, visitor);
 
 				//ファイル出力
 				switch (langType) {
