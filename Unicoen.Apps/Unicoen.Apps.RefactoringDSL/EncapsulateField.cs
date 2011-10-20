@@ -64,6 +64,22 @@ namespace Unicoen.Apps.RefactoringDSL {
 
 
 		}
+
+		[Test]
+		public void 任意にモデルを作ってみるテスト() {
+			var func = new UnifiedFunctionDefinition();
+			var identifier = UnifiedIdentifier.CreateLabel("getField");
+			var modifier = UnifiedModifier.Create("public");
+			func.Modifiers = UnifiedModifierCollection.Create(modifier);
+			func.Type = UnifiedType.Create("int");
+
+			var returnValue = UnifiedIdentifier.CreateVariable("field");
+			var statemenet = UnifiedReturn.Create(returnValue);
+			func.Body = UnifiedBlock.Create(statemenet);
+
+			func.Name = identifier;
+			Console.WriteLine(JavaFactory.GenerateCode(func));
+		}
 		public IEnumerable<UnifiedClassDefinition> FindByClassName(UnifiedProgram program, string className) {
 			var result =
 					program.Descendants<UnifiedClassDefinition>().Where(e => (e.Name as UnifiedIdentifier).Name.Equals(className));
