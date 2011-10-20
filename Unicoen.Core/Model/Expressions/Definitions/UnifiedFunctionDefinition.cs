@@ -109,7 +109,7 @@ namespace Unicoen.Model {
 
 		#endregion
 
-		protected UnifiedFunctionDefinition() {}
+		public UnifiedFunctionDefinition() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {

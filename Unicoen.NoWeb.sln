@@ -67,7 +67,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter.Tests", "Unicoen.Apps\Unicoen.Apps.MseConverter.Tests\Unicoen.Apps.MseConverter.Tests.csproj", "{78ED0918-866A-45BB-A260-ED8ACDDD712E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.RefactoringDSL", "Unicoen.Apps.RefactoringDSL\Unicoen.Apps.RefactoringDSL.csproj", "{B47D51ED-5D1F-45E2-B88D-452332AD58EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.RefactoringDSL", "Unicoen.Apps\Unicoen.Apps.RefactoringDSL\Unicoen.Apps.RefactoringDSL.csproj", "{B47D51ED-5D1F-45E2-B88D-452332AD58EA}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
