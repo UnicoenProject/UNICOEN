@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncapsulateCollection\EncapsulateFieldTest_.cs" />
     <Compile Include="EncapsulateField\EncapsulateField.cs" />
     <Compile Include="EncapsulateField\EncapsulateFieldHelper.cs" />
     <Compile Include="EncapsulateField\EncapsulateFieldTest.cs" />
@@ -76,6 +77,13 @@
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\Ruby18\Unicoen.Languages.Ruby18.csproj">
+      <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
+      <Name>Unicoen.Languages.Ruby18</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IntroduceFactory\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
