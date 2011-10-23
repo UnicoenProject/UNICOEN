@@ -1,6 +1,7 @@
 public class Encapsulate{}
 
 class Foo {
-	public int field1;
+	public static int field1;
 	public int field2;
+	public String field3;
 }

@@ -54,9 +54,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EncapsulateField.cs" />
+    <Compile Include="EncapsulateField\EncapsulateField.cs" />
+    <Compile Include="EncapsulateField\EncapsulateFieldHelper.cs" />
+    <Compile Include="EncapsulateField\EncapsulateFieldTest.cs" />
+    <Compile Include="EncapsulateField\EncapsulateFieldTest_.cs" />
+    <Compile Include="IRefactorable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\StringUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">

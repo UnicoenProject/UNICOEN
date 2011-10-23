@@ -58,7 +58,7 @@ namespace Unicoen.Model {
 			set { _rightHandSide = SetChild(value, _rightHandSide); }
 		}
 
-		private UnifiedBinaryExpression() {}
+		public UnifiedBinaryExpression() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
