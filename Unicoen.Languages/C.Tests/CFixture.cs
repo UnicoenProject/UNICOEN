@@ -84,10 +84,17 @@ namespace Unicoen.Languages.C.Tests {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
-						"Fibonacci",
+						"fibonacci",
+						"fibonacci2",
 						"empty",
 						"assignment",
-						"Block1"
+						"Block1",
+						"Block2",
+						"Block3",
+						"hello",
+						"test",
+						"fact",
+						"pointer",
 				}
 						.Select(
 								s =>

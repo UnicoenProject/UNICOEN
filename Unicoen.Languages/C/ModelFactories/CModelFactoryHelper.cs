@@ -169,7 +169,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 					types.Add(CreateTypeSpecifier(e));
 					break;
 				case "type_qualifier":
-					ms.Add(CreateTypeQualifier(e));
+					throw new NotImplementedException(); //TODO: implement
+//					ms.Add(CreateTypeQualifier(e));
 					break;
 				default:
 					throw new InvalidOperationException();
@@ -378,7 +379,8 @@ namespace Unicoen.Languages.C.ModelFactories {
 			foreach (var e in node.Elements()) {
 				switch (e.Name()) {
 				case "type_qualifier":
-					modifiers.Add(CreateTypeQualifier(e));
+					//modifiers.Add(CreateTypeQualifier(e));
+					throw new NotImplementedException(); //TODO: implement
 					break;
 				case "type_specifier":
 					types.Add(CreateTypeSpecifier(e));
@@ -470,14 +472,15 @@ namespace Unicoen.Languages.C.ModelFactories {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static UnifiedModifier CreateTypeQualifier(XElement node) {
+		public static String CreateTypeQualifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_qualifier");
 			/* type_qualifier
 			 * : 'const'
 			 * | 'volatile'
 			 */
-			return UnifiedModifier.Create(node.FirstElement().Value);
+
+			return node.FirstElement().Name();
 		}
 
 		public static void CreateDeclarator(
@@ -493,6 +496,7 @@ namespace Unicoen.Languages.C.ModelFactories {
 
 			if (node.Element("direct_declarator") != null) {
 				if (node.Element("pointer") != null) {
+					CreatePointer(node.Element("pointer"));
 					throw new NotImplementedException(); //TODO: implement
 				}
 
@@ -574,6 +578,21 @@ namespace Unicoen.Languages.C.ModelFactories {
 			 * | '*'
 			 */
 
+			/*
+			if (node.Element("type_qualifier") != null) {
+				modifiers = UnifiedModifierCollection.Create();
+
+				foreach (var modifier in node.Elements("type_qualifier")) {
+					modifiers.Add(CreateTypeQualifier((modifier)));
+				}
+			}
+
+			if (node.Element("pointer") != null) {
+			}
+			*/
+
+			UnifiedPointerType p;
+			
 			throw new NotImplementedException(); //TODO: implement
 		}
 
