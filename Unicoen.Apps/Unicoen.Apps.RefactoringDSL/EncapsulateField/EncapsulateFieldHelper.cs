@@ -15,10 +15,10 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 			return cls.Descendants<UnifiedVariableDefinition>()
 					.Where(
 							e => e.Modifiers
-							     		.Any(m => m.Name.Equals("public")))
+							     		.Any(m => m.Name == "public"))
 					.Where(
 							e => e.Modifiers
-							     		.All(m => !m.Name.Equals("static")));
+							     		.All(m => m.Name != "static"));
 		}
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 		/// <returns>検索したクラスの UnifiedClassDefinition オブジェクト（の集合）</returns>
 		public static IEnumerable<UnifiedClassDefinition> FindByClassName(UnifiedProgram program, string className) {
 			var result =
-					program.Descendants<UnifiedClassDefinition>().Where(e => (e.Name as UnifiedIdentifier).Name.Equals(className));
+					program.Descendants<UnifiedClassDefinition>().Where(e => ((UnifiedIdentifier)(e.Name)).Name == className);
 			return result;
 		}
 
@@ -39,6 +39,7 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 		/// <param name="variable">対象の変数</param>
 		/// <param name="newModifierStrings">付け替えるアクセス修飾子</param>
 		public static void ChangeModifier(UnifiedVariableDefinition variable, params string[] newModifierStrings) {
+			// TODO: Clear() するとアクセス修飾子以外（e.g. static） なども消えてしまうので，ignoredKeywordList とかどこかに用意して対処する
 			variable.Modifiers.Clear();
 			variable.Modifiers = UnifiedModifierCollection.Create(
 					newModifierStrings.Select(UnifiedModifier.Create));
@@ -51,7 +52,7 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 		/// <param name="accessModifierString">ゲッタのアクセス修飾子（デフォルトは public ）</param>
 		/// <returns>生成されたゲッタ（UnifiedFunctionDefinition オブジェクト）</returns>
 		public static UnifiedFunctionDefinition GenerateGetter(UnifiedVariableDefinition variable, string accessModifierString = "public") {
-			var getter = new UnifiedFunctionDefinition();
+			var getter = UnifiedFunctionDefinition.Create();
 			var getterName = "get" + StringUtil.UpperFirstChar(variable.Name.Name); 
 			getter.Name = UnifiedIdentifier.CreateLabel(getterName);
 			getter.Type = variable.Type.DeepCopy();
@@ -75,7 +76,7 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 		/// <param name="accessModifierString">セッタのアクセス修飾子（デフォルトは public ）</param>
 		/// <returns>生成されたセッタ（UnifiedFunctionDefinition オブジェクト）</returns>
 		public static UnifiedFunctionDefinition GenerateSetter(UnifiedVariableDefinition variable, string accessModifierString = "public") {
-			var setter = new UnifiedFunctionDefinition();
+			var setter = UnifiedFunctionDefinition.Create();
 			setter.Name = UnifiedIdentifier.CreateLabel(
 					"set" + StringUtil.UpperFirstChar(variable.Name.Name));
 			setter.Type = UnifiedType.Create("void");

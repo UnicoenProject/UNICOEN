@@ -12,8 +12,8 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 
 		[SetUp]
 		public void SetUp() {
-			var inPath = FixtureUtil.GetInputPath("Java", "default", "Encapsulate.java");
-			var code = File.ReadAllText(inPath, Encoding.Default);
+			var inputPath = FixtureUtil.GetInputPath("Java", "default", "Encapsulate.java");
+			var code = File.ReadAllText(inputPath, Encoding.Default);
 			_model = JavaFactory.GenerateModel(code);
 		}
 

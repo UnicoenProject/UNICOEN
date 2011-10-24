@@ -59,7 +59,7 @@ namespace Unicoen.Model {
 		/// </summary>
 		public string Delimiter { get; set; }
 
-		public UnifiedProperty() {}
+		private UnifiedProperty() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {

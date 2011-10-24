@@ -137,7 +137,7 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 
 		[Test]
 		public void 任意にモデルを作ってみるテスト() {
-			var func = new UnifiedFunctionDefinition();
+			var func = UnifiedFunctionDefinition.Create();
 			var identifier = UnifiedIdentifier.CreateLabel("getField");
 			var modifier = UnifiedModifier.Create("public");
 			func.Modifiers = UnifiedModifierCollection.Create(modifier);
@@ -180,7 +180,7 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 			variable.Type = type;
 			variable.Name = identifier;
 
-			var getter = new UnifiedFunctionDefinition();
+			var getter = UnifiedFunctionDefinition.Create();
 			var getterName = "";
 			var charArray = variable.Name.Name.ToCharArray();
 			getterName += charArray[0].ToString().ToUpper();
@@ -204,7 +204,7 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 		[Test]
 		public void セッタを作るテスト() {
 			var variable = GenerateTestVariable();
-			var setter = new UnifiedFunctionDefinition();
+			var setter = UnifiedFunctionDefinition.Create();
 			setter.Name = UnifiedIdentifier.CreateLabel(
 					"set" + UpperFirstChar(variable.Name.Name));
 			setter.Type = UnifiedType.Create("void");
