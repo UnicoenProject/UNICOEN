@@ -5,7 +5,7 @@ using System.Text;
 using Unicoen.Languages.Java;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
+namespace Unicoen.Apps.RefactoringDSL{
 	/// <summary>
 	/// EncapsulateField リファクタリングを行うためのクラス
 	/// </summary>
