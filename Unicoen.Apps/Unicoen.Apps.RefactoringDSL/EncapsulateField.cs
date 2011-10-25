@@ -5,10 +5,14 @@ using System.Text;
 using Unicoen.Languages.Java;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.RefactoringDSL{
+namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
+	/// <summary>
+	/// EncapsulateField リファクタリングを行うためのクラス
+	/// </summary>
 	public class EncapsulateField{
 		private UnifiedProgram Program { get; set; }
 
+		// コンストラクタ
 		public EncapsulateField(UnifiedProgram program) {
 			this.Program = program;
 		}
@@ -32,17 +36,9 @@ namespace Unicoen.Apps.RefactoringDSL{
 				EncapsulateFieldHelper.ChangeModifier(pv, "private");
 			}
 
-			var body = targetClass.Body;
-			var elements = new List<IUnifiedExpression>();
-			foreach (var e in body.Elements()) {
-				elements.Add(e.DeepCopy() as IUnifiedExpression);
-			}
-
+			var list = targetClass.Body.DeepCopy();
 			// 元の要素群とアクセッサを結合
-			var list = new List<IUnifiedExpression>();
-			foreach (var e in elements) {
-				list.Add(e);
-			}
+			// var list = new List<IUnifiedExpression>();
 			foreach (var getter in getters) {
 				list.Add(getter);
 			}
@@ -50,9 +46,10 @@ namespace Unicoen.Apps.RefactoringDSL{
 				list.Add(setter);
 			}
 			
-			var newBody = UnifiedBlock.Create(list);
+			// var newBody = UnifiedBlock.Create(list);
+			// var newBody = list;
 
-			targetClass.Body = newBody;
+			targetClass.Body = list;
 
 			return model;
 
