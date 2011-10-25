@@ -4,7 +4,7 @@ using System.Linq;
 using Unicoen.Apps.RefactoringDSL.Util;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
+namespace Unicoen.Apps.RefactoringDSL{
 	class EncapsulateFieldHelper {
 		/// <summary>
 		/// クラス内から public なインスタンスフィールドを検索して取得します

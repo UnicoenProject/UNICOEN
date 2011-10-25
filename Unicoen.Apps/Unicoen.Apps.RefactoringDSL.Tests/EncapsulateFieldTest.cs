@@ -6,7 +6,7 @@ using Unicoen.Languages.Java;
 using Unicoen.Model;
 using Unicoen.Tests;
 
-namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
+namespace Unicoen.Apps.RefactoringDSL.Tests {
 	public class EncapsulateFieldTest {
 		private UnifiedProgram _model;
 
@@ -24,6 +24,5 @@ namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
 			var refactored = enc.Refactor(targetClassName);
 			Console.WriteLine(JavaFactory.GenerateCode(refactored));
 		}
-
 	}
 }

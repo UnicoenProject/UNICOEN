@@ -5,7 +5,7 @@ using System.Text;
 using Unicoen.Languages.Java;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.RefactoringDSL.EncapsulateField {
+namespace Unicoen.Apps.RefactoringDSL{
 	public class EncapsulateField{
 		private UnifiedProgram Program { get; set; }
 
