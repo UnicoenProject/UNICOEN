@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.MseConverter.Tests", "Unicoen.Apps\Unicoen.Apps.MseConverter.Tests\Unicoen.Apps.MseConverter.Tests.csproj", "{78ED0918-866A-45BB-A260-ED8ACDDD712E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Findbug", "Unicoen.Apps.Findbug\Unicoen.Apps.Findbug.csproj", "{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
@@ -442,6 +444,18 @@ Global
 		{78ED0918-866A-45BB-A260-ED8ACDDD712E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{78ED0918-866A-45BB-A260-ED8ACDDD712E}.Release|Win32.ActiveCfg = Release|Any CPU
 		{78ED0918-866A-45BB-A260-ED8ACDDD712E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Debug|Win32.ActiveCfg = Debug|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Debug|x86.ActiveCfg = Debug|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Debug|x86.Build.0 = Debug|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Release|Any CPU.ActiveCfg = Release|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Release|Win32.ActiveCfg = Release|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Release|x86.ActiveCfg = Release|x86
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -472,6 +486,7 @@ Global
 		{46435299-F41E-461F-BED7-993CBB4F4781} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
 		{78C715F5-572A-4AC2-9F44-025D490CD636} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
 		{78ED0918-866A-45BB-A260-ED8ACDDD712E} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
+		{F9E659B9-2CBF-414D-A091-5AACAE8DCE67} = {75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}
 		{0407CB97-AE97-4645-9249-DECCC5DF25C6} = {3D441E58-DA67-4435-9BCD-EFBDAECF23BA}
 		{544CC9C4-C9FD-44A5-9EE1-2A24922C6593} = {3D441E58-DA67-4435-9BCD-EFBDAECF23BA}
 	EndGlobalSection
