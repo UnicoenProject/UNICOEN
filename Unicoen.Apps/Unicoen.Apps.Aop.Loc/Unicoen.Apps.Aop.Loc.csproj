@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>9428305c-b8e1-40da-8ae8-71debbdf6b28</ProjectGuid>
+    <ProjectGuid>{A1839E51-87A4-40BA-9000-172A6485ADC3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Apps.Loc</RootNamespace>
-    <AssemblyName>Unicoen.Apps.Loc</AssemblyName>
+    <RootNamespace>Unicoen.Apps.Aop.Loc</RootNamespace>
+    <AssemblyName>Unicoen.Apps.Aop.Loc</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
