@@ -50,6 +50,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.Languages", "Unicoen.Languages", "{1D40B438-308E-42C0-8FAB-802FFCC9C755}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unicoen.Apps", "Unicoen.Apps", "{75F49AE8-B16D-4DDF-9B72-71F9EE1EEF4A}"
+	ProjectSection(SolutionItems) = preProject
+		Unicoen.Apps\Unicoen.Apps.DePoT\Unicoen.Apps.DePoT.csproj = Unicoen.Apps\Unicoen.Apps.DePoT\Unicoen.Apps.DePoT.csproj
+		Unicoen.Apps\Unicoen.Apps.Findbug\Unicoen.Apps.Findbug.csproj = Unicoen.Apps\Unicoen.Apps.Findbug\Unicoen.Apps.Findbug.csproj
+		Unicoen.Apps\Unicoen.Apps.Loc\Unicoen.Apps.Loc.csproj = Unicoen.Apps\Unicoen.Apps.Loc\Unicoen.Apps.Loc.csproj
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Apps.Aop.Gui", "Unicoen.Apps\Unicoen.Apps.Aop.Gui\Unicoen.Apps.Aop.Gui.csproj", "{46435299-F41E-461F-BED7-993CBB4F4781}"
 EndProject
