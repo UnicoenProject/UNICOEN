@@ -16,9 +16,9 @@
 
 #endregion
 
+using Unicoen.Languages.JavaScript.CodeGenerators;
+using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.JavaScript.CodeFactories;
-using Unicoen.Languages.JavaScript.ModelFactories;
 
 namespace Unicoen.Languages.JavaScript {
 	public static class JavaScriptFactory {

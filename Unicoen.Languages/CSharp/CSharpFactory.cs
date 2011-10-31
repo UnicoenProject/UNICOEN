@@ -16,9 +16,9 @@
 
 #endregion
 
+using Unicoen.Languages.CSharp.CodeGenerators;
+using Unicoen.Languages.CSharp.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.CSharp.CodeFactories;
-using Unicoen.Languages.CSharp.ModelFactories;
 
 namespace Unicoen.Languages.CSharp {
 	public static class CSharpFactory {

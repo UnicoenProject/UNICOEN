@@ -24,7 +24,7 @@ using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 
-namespace Unicoen.Languages.C.ModelFactories {
+namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CModelFactoryHelper {
 		// Operator
 		public static IUnifiedElement CreateUnaryOperator(XElement node) {

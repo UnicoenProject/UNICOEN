@@ -23,7 +23,7 @@ using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Model;
 using System.Collections.Generic;
 
-namespace Unicoen.Languages.CSharp.ModelFactories {
+namespace Unicoen.Languages.CSharp.ProgramGenerators {
 	internal partial class NRefactoryModelVisitor {
 
 		#region Lookups

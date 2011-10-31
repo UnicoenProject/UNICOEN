@@ -21,7 +21,7 @@ using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.Python2.CodeFactories {
+namespace Unicoen.Languages.Python2.CodeGenerators {
 	public class Python2CodeGenerator : UnifiedCodeGenerator {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {

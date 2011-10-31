@@ -20,8 +20,8 @@ using System.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using NUnit.Framework;
-using Unicoen.Languages.Java.ModelFactories;
-using Unicoen.Languages.JavaScript.ModelFactories;
+using Unicoen.Languages.Java.ProgramGenerators;
+using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 

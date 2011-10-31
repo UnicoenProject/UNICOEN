@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
@@ -25,7 +24,7 @@ using ICSharpCode.NRefactory.TypeSystem;
 using Unicoen.Model;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
-namespace Unicoen.Languages.CSharp.ModelFactories {
+namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
 	internal partial class NRefactoryModelVisitor : IAstVisitor<object, IUnifiedElement> {
 

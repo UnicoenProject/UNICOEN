@@ -19,10 +19,9 @@
 using System.Collections.Generic;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Model;
-using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
 
-namespace Unicoen.Languages.JavaScript.ModelFactories {
+namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 	public class JavaScriptProgramGenerator : UnifiedProgramGenerator {
 		public static JavaScriptProgramGenerator Instance = new JavaScriptProgramGenerator();
 

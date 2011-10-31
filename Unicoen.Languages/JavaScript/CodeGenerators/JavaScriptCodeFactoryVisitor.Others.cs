@@ -20,7 +20,7 @@ using System;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.JavaScript.CodeFactories {
+namespace Unicoen.Languages.JavaScript.CodeGenerators {
 	public partial class JavaScriptCodeFactoryVisitor {
 
 		//2項演算子

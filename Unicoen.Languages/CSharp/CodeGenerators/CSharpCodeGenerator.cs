@@ -21,7 +21,7 @@ using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.CSharp.CodeFactories {
+namespace Unicoen.Languages.CSharp.CodeGenerators {
 	public class CSharpCodeGenerator : UnifiedCodeGenerator {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {

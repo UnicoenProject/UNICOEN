@@ -16,11 +16,10 @@
 
 #endregion
 
-using System;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.JavaScript.CodeFactories {
+namespace Unicoen.Languages.JavaScript.CodeGenerators {
 	public partial class JavaScriptCodeFactoryVisitor {
 
 		//関数呼び出し

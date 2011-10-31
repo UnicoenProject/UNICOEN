@@ -19,8 +19,8 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 	[TestFixture]

@@ -31,7 +31,7 @@ using Unicoen.Processor;
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming
 
-namespace Unicoen.Languages.Python2.ModelFactories {
+namespace Unicoen.Languages.Python2.ProgramGenerators {
 	public static class Python2ModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 

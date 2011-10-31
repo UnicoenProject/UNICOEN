@@ -104,13 +104,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\Python2CodeFactoryVisitor.cs" />
-    <Compile Include="CodeFactories\Python2CodeGenerator.cs" />
-    <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Others.cs" />
-    <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Collections.cs" />
-    <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Statements.cs" />
-    <Compile Include="ModelFactories\Python2ModelFactoryHelper.cs" />
-    <Compile Include="ModelFactories\Python2ProgramGenerator.cs" />
+    <Compile Include="CodeGenerators\Python2CodeFactoryVisitor.cs" />
+    <Compile Include="CodeGenerators\Python2CodeGenerator.cs" />
+    <Compile Include="CodeGenerators\Python2CodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeGenerators\Python2CodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeGenerators\Python2CodeFactoryVisitor.Statements.cs" />
+    <Compile Include="ProgramGenerators\Python2ModelFactoryHelper.cs" />
+    <Compile Include="ProgramGenerators\Python2ProgramGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Python2Factory.cs" />
   </ItemGroup>

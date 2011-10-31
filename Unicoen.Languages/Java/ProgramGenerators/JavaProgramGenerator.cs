@@ -19,10 +19,9 @@
 using System.Collections.Generic;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.Model;
-using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
 
-namespace Unicoen.Languages.Java.ModelFactories {
+namespace Unicoen.Languages.Java.ProgramGenerators {
 	public class JavaProgramGenerator : UnifiedProgramGenerator {
 		public override IEnumerable<string> Extensions {
 			get { return JavaCodeToXml.Instance.TargetExtensions; }

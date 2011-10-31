@@ -19,9 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.Linq;
-using System.Numerics;
 using System.Xml.Linq;
 using Unicoen.ProgramGeneratos;
 using UniUni.Xml.Linq;
@@ -30,7 +28,7 @@ using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
-namespace Unicoen.Languages.JavaScript.ModelFactories {
+namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 	public static class JavaScriptModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 

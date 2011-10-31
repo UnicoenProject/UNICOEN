@@ -20,7 +20,7 @@ using System.IO;
 using Unicoen.CodeGenerators;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.Python2.CodeFactories {
+namespace Unicoen.Languages.Python2.CodeGenerators {
 	public partial class Python2CodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
 		private static readonly Decoration CommaMostLeft =
 				new Decoration { MostLeft = "," };

@@ -19,10 +19,9 @@
 using System.Collections.Generic;
 using Code2Xml.Languages.C.CodeToXmls;
 using Unicoen.Model;
-using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
 
-namespace Unicoen.Languages.C.ModelFactories {
+namespace Unicoen.Languages.C.ProgramGenerators {
 	public class CProgramGenerator : UnifiedProgramGenerator {
 		public static CProgramGenerator Instance = new CProgramGenerator();
 

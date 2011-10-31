@@ -19,10 +19,9 @@
 using System.Collections.Generic;
 using Code2Xml.Languages.Python2.CodeToXmls;
 using Unicoen.Model;
-using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
 
-namespace Unicoen.Languages.Python2.ModelFactories {
+namespace Unicoen.Languages.Python2.ProgramGenerators {
 	public class Python2ProgramGenerator : UnifiedProgramGenerator {
 		public static Python2ProgramGenerator Instance = new Python2ProgramGenerator();
 

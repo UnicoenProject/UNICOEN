@@ -25,7 +25,7 @@ using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 
-namespace Unicoen.Languages.C.ModelFactories {
+namespace Unicoen.Languages.C.ProgramGenerators {
 	// for Expressions
 	public static partial class CModelFactoryHelper {
 		// Expressions

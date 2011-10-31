@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Unicoen.CodeGenerators;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 

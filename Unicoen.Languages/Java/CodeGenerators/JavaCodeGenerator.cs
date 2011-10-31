@@ -21,7 +21,7 @@ using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.Java.CodeFactories {
+namespace Unicoen.Languages.Java.CodeGenerators {
 	public class JavaCodeGenerator : UnifiedCodeGenerator {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {

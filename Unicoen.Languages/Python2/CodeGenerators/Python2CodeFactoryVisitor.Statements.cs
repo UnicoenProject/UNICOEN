@@ -20,7 +20,7 @@ using System;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.Python2.CodeFactories {
+namespace Unicoen.Languages.Python2.CodeGenerators {
 	public partial class Python2CodeFactoryVisitor {
 		private static Tuple<string, string> GetRequiredParen(IUnifiedElement element) {
 			var parent = element.Parent;

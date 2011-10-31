@@ -20,10 +20,9 @@ using System.Collections.Generic;
 using System.IO;
 using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Model;
-using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
 
-namespace Unicoen.Languages.CSharp.ModelFactories {
+namespace Unicoen.Languages.CSharp.ProgramGenerators {
 	public class CSharpProgramGenerator : UnifiedProgramGenerator {
 		private readonly string[] _extensions = new[] { ".cs" };
 

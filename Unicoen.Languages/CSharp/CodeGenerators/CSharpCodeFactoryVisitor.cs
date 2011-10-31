@@ -21,7 +21,7 @@ using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.CSharp.CodeFactories {
+namespace Unicoen.Languages.CSharp.CodeGenerators {
 	public class CSharpCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
 		public CSharpCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {
 			ForeachKeyword = "foreach";

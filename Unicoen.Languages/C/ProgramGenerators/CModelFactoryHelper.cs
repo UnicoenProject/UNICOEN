@@ -27,7 +27,7 @@ using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 
-namespace Unicoen.Languages.C.ModelFactories {
+namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CModelFactoryHelper {
 		public static UnifiedProgram CreateTranslationUnit(XElement node) {
 			Contract.Requires(node != null);

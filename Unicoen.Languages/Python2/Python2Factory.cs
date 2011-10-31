@@ -16,9 +16,9 @@
 
 #endregion
 
+using Unicoen.Languages.Python2.CodeGenerators;
+using Unicoen.Languages.Python2.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.Python2.CodeFactories;
-using Unicoen.Languages.Python2.ModelFactories;
 
 namespace Unicoen.Languages.Python2 {
 	public static class Python2Factory {

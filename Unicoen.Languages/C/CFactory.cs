@@ -16,9 +16,9 @@
 
 #endregion
 
+using Unicoen.Languages.C.CodeGenerators;
+using Unicoen.Languages.C.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.C.CodeFactories;
-using Unicoen.Languages.C.ModelFactories;
 
 namespace Unicoen.Languages.C {
 	public static class CFactory {

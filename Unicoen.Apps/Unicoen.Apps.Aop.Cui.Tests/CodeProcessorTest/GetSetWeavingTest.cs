@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 	/// <summary>

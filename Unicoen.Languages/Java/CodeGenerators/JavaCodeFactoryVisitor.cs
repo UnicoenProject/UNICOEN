@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using Unicoen.CodeGenerators;
-using Unicoen.Processor;
 
-namespace Unicoen.Languages.Java.CodeFactories {
+namespace Unicoen.Languages.Java.CodeGenerators {
 	public class JavaCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
 		public JavaCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {}
 	}

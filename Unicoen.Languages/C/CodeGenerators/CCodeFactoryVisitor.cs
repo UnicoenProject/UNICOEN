@@ -19,7 +19,7 @@
 using System.IO;
 using Unicoen.CodeGenerators;
 
-namespace Unicoen.Languages.C.CodeFactories {
+namespace Unicoen.Languages.C.CodeGenerators {
 	public partial class CCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
 		public CCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {}
 	}

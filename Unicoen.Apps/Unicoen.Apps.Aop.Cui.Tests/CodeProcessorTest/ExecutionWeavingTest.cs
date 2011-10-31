@@ -6,10 +6,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.Tests;
-using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 	/// <summary>

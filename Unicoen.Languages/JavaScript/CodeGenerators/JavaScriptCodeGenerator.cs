@@ -21,7 +21,7 @@ using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
-namespace Unicoen.Languages.JavaScript.CodeFactories {
+namespace Unicoen.Languages.JavaScript.CodeGenerators {
 	public class JavaScriptCodeGenerator : UnifiedCodeGenerator {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {

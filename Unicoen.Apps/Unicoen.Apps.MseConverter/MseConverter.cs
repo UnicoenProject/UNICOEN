@@ -17,10 +17,10 @@
 #endregion
 
 using System.IO;
-using Unicoen.Languages.CSharp.ModelFactories;
-using Unicoen.Languages.Java.ModelFactories;
-using Unicoen.Languages.JavaScript.ModelFactories;
-using Unicoen.Languages.Python2.ModelFactories;
+using Unicoen.Languages.CSharp.ProgramGenerators;
+using Unicoen.Languages.Java.ProgramGenerators;
+using Unicoen.Languages.JavaScript.ProgramGenerators;
+using Unicoen.Languages.Python2.ProgramGenerators;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
 

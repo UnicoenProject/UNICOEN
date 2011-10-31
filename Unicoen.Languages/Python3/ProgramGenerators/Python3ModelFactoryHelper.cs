@@ -31,7 +31,7 @@ using UniUni.Xml.Linq;
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming
 
-namespace Unicoen.Languages.Python3.ModelFactories {
+namespace Unicoen.Languages.Python3.ProgramGenerators {
 	public static class Python3ModelFactoryHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 

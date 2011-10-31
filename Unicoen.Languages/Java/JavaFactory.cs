@@ -16,9 +16,9 @@
 
 #endregion
 
+using Unicoen.Languages.Java.CodeGenerators;
+using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.Java.CodeFactories;
-using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Languages.Java {
 	public static class JavaFactory {

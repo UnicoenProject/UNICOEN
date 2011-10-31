@@ -24,7 +24,7 @@ using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Paraiba.Text;
 using Unicoen.Apps.Aop.Cui.Visitor;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.Tests;
