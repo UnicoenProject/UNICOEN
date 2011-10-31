@@ -24,8 +24,8 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
-using UniUni.Linq;
-using UniUni.Xml.Linq;
+using Paraiba.Linq;
+using Paraiba.Xml.Linq;
 
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming

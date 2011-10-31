@@ -24,8 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Paraiba.Core;
-using UniUni.Text;
+using Paraiba.Text;
 using Unicoen.CodeFactories;
 using Unicoen.Languages.Java.Tests;
 using Unicoen.Languages.Tests;
@@ -115,7 +114,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
-				var arguments = _compileArguments.JoinString(" ") + " *.js";
+				var arguments = string.Join(" ", _compileArguments) + " *.js";
 				return new[] {
 						new {
 								DirName = "Blocks",
@@ -164,7 +163,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 							"\"" + Path.Combine(workPath, srcPath) + "\""
 					});
 			//e.g. (java) -cp js.jar org.mozilla.javascript.tools.jsc.Main *.js
-			var arguments = args.JoinString(" ");
+			var arguments = string.Join(" ", args);
 			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
@@ -179,7 +178,7 @@ namespace Unicoen.Languages.JavaScript.Tests {
 			var args = new[] { "-c", path };
 			var info = new ProcessStartInfo {
 					FileName = DisassembleCommand,
-					Arguments = args.JoinString(" "),
+					Arguments = string.Join(" ", args),
 					CreateNoWindow = true,
 					RedirectStandardInput = true,
 					RedirectStandardOutput = true,

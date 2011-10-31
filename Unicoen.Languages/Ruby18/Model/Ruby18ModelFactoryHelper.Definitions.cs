@@ -18,7 +18,7 @@
 
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped

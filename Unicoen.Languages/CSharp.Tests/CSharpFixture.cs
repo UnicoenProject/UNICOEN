@@ -139,7 +139,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 					"\"/out:" + exeFilePath + "\"",
 					"\"" + Path.Combine(workPath, srcPath) + "\""
 			};
-			var arguments = args.JoinString(" ");
+			var arguments = string.Join(" ", args);
 			CompileWithArguments(workPath, CscPath, arguments);
 		}
 
@@ -153,7 +153,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 			var args = new[] { "/text", path };
 			var info = new ProcessStartInfo {
 					FileName = ildasmPath,
-					Arguments = args.JoinString(" "),
+					Arguments = string.Join(" ", args),
 					CreateNoWindow = true,
 					RedirectStandardInput = true,
 					RedirectStandardOutput = true,
@@ -190,7 +190,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Languages"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Utils"), compileAction);
 			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.WebApps"), compileAction);
-			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "UniUni"), compileAction);
+			yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Paraiba"), compileAction);
 		} 
 	}
 }

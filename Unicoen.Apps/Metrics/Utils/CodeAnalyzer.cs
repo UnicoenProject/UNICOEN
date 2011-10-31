@@ -29,7 +29,7 @@ using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.Python2;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
-using UniUni.Text;
+using Paraiba.Text;
 
 namespace Unicoen.Apps.Metrics.Utils {
 	public static class CodeAnalyzer {

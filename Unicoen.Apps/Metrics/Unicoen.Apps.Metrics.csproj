@@ -37,6 +37,9 @@
     <Reference Include="Paraiba">
       <HintPath>..\lib\Paraiba.dll</HintPath>
     </Reference>
+    <Reference Include="Paraiba.Experiment, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Paraiba.Experiment.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -82,10 +85,6 @@
     <ProjectReference Include="..\..\Unicoen.Languages\Ruby18\Unicoen.Languages.Ruby18.csproj">
       <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
       <Name>Unicoen.Languages.Ruby18</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\UniUni\UniUni\UniUni.csproj">
-      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
-      <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

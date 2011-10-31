@@ -22,7 +22,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Model;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 
 // ReSharper disable InvocationIsSkipped
 

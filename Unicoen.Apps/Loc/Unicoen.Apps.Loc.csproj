@@ -59,10 +59,6 @@
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UniUni\UniUni\UniUni.csproj">
-      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
-      <Name>UniUni %28UniUni\UniUni%29</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
