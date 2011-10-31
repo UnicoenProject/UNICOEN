@@ -18,7 +18,6 @@
 
 using System.Diagnostics;
 using System.Numerics;
-using Paraiba.Numerics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {

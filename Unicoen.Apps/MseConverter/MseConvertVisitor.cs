@@ -159,7 +159,7 @@ namespace Unicoen.Apps.MseConverter {
 		public override void Visit(
 				UnifiedClassDefinition element) {
 			// パッケージがあるかどうかを確認
-			var package = element.Ancestor<UnifiedNamespaceDefinition>()
+			var package = element.FirstAncestor<UnifiedNamespaceDefinition>()
 			              ?? DefaultNamespace;
 			var packageId = _package2Id[package];
 
@@ -201,7 +201,7 @@ namespace Unicoen.Apps.MseConverter {
 				return;
 			}
 
-			var klass = element.Ancestor<UnifiedClassDefinition>() ?? DefaultClass;
+			var klass = element.FirstAncestor<UnifiedClassDefinition>() ?? DefaultClass;
 			var klassId = _class2Id[klass];
 
 			//関数名の取得
@@ -237,7 +237,7 @@ namespace Unicoen.Apps.MseConverter {
 		}
 
 		public override void Visit(UnifiedVariableDefinition element) {
-			var klass = element.Ancestor<UnifiedClassDefinition>() ?? DefaultClass;
+			var klass = element.FirstAncestor<UnifiedClassDefinition>() ?? DefaultClass;
 			var klassId = _class2Id[klass];
 
 			//すでに登録されているか確認
