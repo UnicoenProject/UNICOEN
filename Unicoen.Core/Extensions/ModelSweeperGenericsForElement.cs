@@ -31,7 +31,7 @@ namespace Unicoen.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static T Element<T>(
+		public static T FirstElement<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
 			return element.Elements<T>().FirstOrDefault();
@@ -44,7 +44,7 @@ namespace Unicoen.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static T Ancestor<T>(
+		public static T FirstAncestor<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
 			return element.Ancestors<T>().FirstOrDefault();
@@ -57,7 +57,7 @@ namespace Unicoen.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static T AncestorOrSelf<T>(
+		public static T FirstAncestorOrSelf<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
 			return element.AncestorsAndSelf<T>().FirstOrDefault();
@@ -70,7 +70,7 @@ namespace Unicoen.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static T Descendant<T>(
+		public static T FirstDescendant<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
 			return element.Descendants<T>().FirstOrDefault();
@@ -83,7 +83,7 @@ namespace Unicoen.Model {
 		/// <param name = "element"></param>
 		/// <param name = "dummyForInference"></param>
 		/// <returns></returns>
-		public static T DescendantOrSelf<T>(
+		public static T FirstDescendantOrSelf<T>(
 				this IUnifiedElement element, T dummyForInference = null) where T : class {
 			Contract.Requires(element != null);
 			return element.DescendantsAndSelf<T>().FirstOrDefault();
