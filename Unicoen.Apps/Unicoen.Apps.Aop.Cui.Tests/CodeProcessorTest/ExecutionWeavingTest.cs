@@ -146,7 +146,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock + 1));
@@ -164,7 +164,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//合成の前後でブロックの数が変わらない
@@ -183,7 +183,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//if文で1statement, trueブロック内で4statementsなので処理が合成される
@@ -202,7 +202,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//For文が含まれているので処理が合成される
@@ -222,7 +222,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//For文が含まれていないので合成の前後でコードが変わらない

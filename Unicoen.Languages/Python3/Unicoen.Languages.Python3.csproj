@@ -78,7 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ModelFactories\Python3ModelFactory.cs" />
+    <Compile Include="ModelFactories\Python3ProgramGenerator.cs" />
     <Compile Include="ModelFactories\Python3ModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Python3CodeFactory.cs" />

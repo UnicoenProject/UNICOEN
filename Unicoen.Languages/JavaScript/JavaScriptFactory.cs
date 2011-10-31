@@ -22,20 +22,20 @@ using Unicoen.Languages.JavaScript.ModelFactories;
 
 namespace Unicoen.Languages.JavaScript {
 	public static class JavaScriptFactory {
-		public static readonly JavaScriptCodeFactory CodeFactory;
-		public static readonly JavaScriptModelFactory ModelFactory;
+		public static readonly JavaScriptCodeGenerator CodeGenerator;
+		public static readonly JavaScriptProgramGenerator ProgramGenerator;
 
 		static JavaScriptFactory() {
-			CodeFactory = new JavaScriptCodeFactory();
-			ModelFactory = new JavaScriptModelFactory();
+			CodeGenerator = new JavaScriptCodeGenerator();
+			ProgramGenerator = new JavaScriptProgramGenerator();
 		}
 
 		public static string GenerateCode(IUnifiedElement model) {
-			return CodeFactory.Generate(model);
+			return CodeGenerator.Generate(model);
 		}
 
 		public static UnifiedProgram GenerateModel(string code) {
-			return ModelFactory.Generate(code);
+			return ProgramGenerator.Generate(code);
 		}
 	}
 }

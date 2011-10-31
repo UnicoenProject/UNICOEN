@@ -105,12 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\Python2CodeFactoryVisitor.cs" />
-    <Compile Include="CodeFactories\Python2CodeFactory.cs" />
+    <Compile Include="CodeFactories\Python2CodeGenerator.cs" />
     <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Collections.cs" />
     <Compile Include="CodeFactories\Python2CodeFactoryVisitor.Statements.cs" />
     <Compile Include="ModelFactories\Python2ModelFactoryHelper.cs" />
-    <Compile Include="ModelFactories\Python2ModelFactory.cs" />
+    <Compile Include="ModelFactories\Python2ProgramGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Python2Factory.cs" />
   </ItemGroup>

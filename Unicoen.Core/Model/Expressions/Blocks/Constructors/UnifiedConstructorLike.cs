@@ -16,6 +16,8 @@
 
 #endregion
 
+using Unicoen.Processor;
+
 namespace Unicoen.Model {
 	/// <summary>
 	///   コンストラクタの定義やイニシャライザの定義に必要な機能を提供します．

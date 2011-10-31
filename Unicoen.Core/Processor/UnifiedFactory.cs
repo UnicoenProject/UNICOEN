@@ -18,8 +18,9 @@
 
 using System;
 using System.Reflection;
+using Unicoen.Model;
 
-namespace Unicoen.Model {
+namespace Unicoen.Processor {
 	public static class UnifiedFactory<T>
 			where T : IUnifiedCreatable<T> {
 		private static readonly T Prototype = (T)typeof(T).GetConstructor(

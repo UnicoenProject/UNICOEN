@@ -105,12 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.cs" />
-    <Compile Include="CodeFactories\JavaScriptCodeFactory.cs" />
+    <Compile Include="CodeFactories\JavaScriptCodeGenerator.cs" />
     <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Collections.cs" />
     <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Statements.cs" />
     <Compile Include="JavaScriptFactory.cs" />
-    <Compile Include="ModelFactories\JavaScriptModelFactory.cs" />
+    <Compile Include="ModelFactories\JavaScriptProgramGenerator.cs" />
     <Compile Include="ModelFactories\JavaScriptModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

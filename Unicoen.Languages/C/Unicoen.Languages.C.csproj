@@ -108,9 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFactory.cs" />
-    <Compile Include="CodeFactories\CCodeFactory.cs" />
+    <Compile Include="CodeFactories\CCodeGenerator.cs" />
     <Compile Include="CodeFactories\CCodeFactoryVisitor.cs" />
-    <Compile Include="ModelFactories\CModelFactory.cs" />
+    <Compile Include="ModelFactories\CProgramGenerator.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Expression.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.cs" />
     <Compile Include="ModelFactories\CModelFactoryHelper.Literal.cs" />

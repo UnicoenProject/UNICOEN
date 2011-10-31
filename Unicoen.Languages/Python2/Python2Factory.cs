@@ -22,20 +22,20 @@ using Unicoen.Languages.Python2.ModelFactories;
 
 namespace Unicoen.Languages.Python2 {
 	public static class Python2Factory {
-		public static readonly Python2CodeFactory CodeFactory;
-		public static readonly Python2ModelFactory ModelFactory;
+		public static readonly Python2CodeGenerator CodeGenerator;
+		public static readonly Python2ProgramGenerator ProgramGenerator;
 
 		static Python2Factory() {
-			CodeFactory = new Python2CodeFactory();
-			ModelFactory = new Python2ModelFactory();
+			CodeGenerator = new Python2CodeGenerator();
+			ProgramGenerator = new Python2ProgramGenerator();
 		}
 
 		public static string GenerateCode(IUnifiedElement model) {
-			return CodeFactory.Generate(model);
+			return CodeGenerator.Generate(model);
 		}
 
 		public static UnifiedProgram GenerateModel(string code) {
-			return ModelFactory.Generate(code);
+			return ProgramGenerator.Generate(code);
 		}
 	}
 }

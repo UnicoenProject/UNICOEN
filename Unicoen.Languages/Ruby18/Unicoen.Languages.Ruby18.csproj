@@ -122,7 +122,7 @@
     <Compile Include="Model\Ruby18ModelFactoryHelper.ControlFlows.cs" />
     <Compile Include="Model\Ruby18ModelFactoryHelper.Definitions.cs" />
     <Compile Include="Model\Ruby18ModelFactoryHelper.Expressions.cs" />
-    <Compile Include="Model\Ruby18ModelFactory.cs" />
+    <Compile Include="Model\Ruby18ProgramGenerator.cs" />
     <Compile Include="Model\Ruby18ModelFactoryHelper.Literals.cs" />
     <Compile Include="Model\Ruby18ModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

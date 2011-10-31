@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Languages.Java.CodeFactories;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -38,7 +38,7 @@ namespace Unicoen.Apps.MseConverter {
 		private int _id = 4;
 
 		public TextWriter Writer { get; private set; }
-		public CodeFactory CodeFactory { get; set; }
+		public UnifiedCodeGenerator CodeGenerator { get; set; }
 		public int LanguageValue { get; set; }
 
 		public UnifiedClassDefinition DefaultClass {
@@ -76,7 +76,7 @@ namespace Unicoen.Apps.MseConverter {
 
 		public class UnifiedNamespaceDefinitionEqualityComparer
 				: EqualityComparer<UnifiedNamespaceDefinition> {
-			public CodeFactory CodeFactory { get; set; }
+			public UnifiedCodeGenerator CodeGenerator { get; set; }
 
 			public override bool Equals(
 					UnifiedNamespaceDefinition x, UnifiedNamespaceDefinition y) {
@@ -84,23 +84,23 @@ namespace Unicoen.Apps.MseConverter {
 					return true;
 				if (x == null || y == null)
 					return false;
-				return CodeFactory.Generate(x.Name) == CodeFactory.Generate(y.Name);
+				return CodeGenerator.Generate(x.Name) == CodeGenerator.Generate(y.Name);
 			}
 
 			public override int GetHashCode(UnifiedNamespaceDefinition obj) {
 				if (obj == null || obj.Name == null)
 					return 0;
-				return CodeFactory.Generate(obj.Name).GetHashCode();
+				return CodeGenerator.Generate(obj.Name).GetHashCode();
 			}
 				}
 
 		public MseConvertVisitor(TextWriter writer) {
 			Writer = writer;
-			CodeFactory = new JavaCodeFactory();
+			CodeGenerator = new JavaCodeGenerator();
 			_package2Id =
 					new Dictionary<UnifiedNamespaceDefinition, int>(
 							new UnifiedNamespaceDefinitionEqualityComparer
-							{ CodeFactory = CodeFactory });
+							{ CodeGenerator = CodeGenerator });
 			_class2Id = new Dictionary<UnifiedClassDefinition, int>();
 			_method2Id = new Dictionary<UnifiedFunctionDefinition, int>();
 			_attribute2Id = new Dictionary<IUnifiedElement, int>();
@@ -152,7 +152,7 @@ namespace Unicoen.Apps.MseConverter {
 
 			//パッケージ名の出力
 			//TODO element.Name as UnifiedVariableIdentifierなどで、CodeGeneratorを使わないようにする
-			var packageName = CodeFactory.Generate(element.Name).Replace(".", "::");
+			var packageName = CodeGenerator.Generate(element.Name).Replace(".", "::");
 			Writer.WriteLine("(name \'" + packageName + "\'))");
 		}
 
@@ -179,7 +179,7 @@ namespace Unicoen.Apps.MseConverter {
 		private void WriteClass(
 				UnifiedClassDefinition element, int packageId, int id) {
 			//クラス名の取得
-			var className = CodeFactory.Generate(element.Name);
+			var className = CodeGenerator.Generate(element.Name);
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Class ");
 			Writer.WriteLine("(id: " + id + ")");
@@ -205,7 +205,7 @@ namespace Unicoen.Apps.MseConverter {
 			var klassId = _class2Id[klass];
 
 			//関数名の取得
-			var functionName = CodeFactory.Generate(element.Name);
+			var functionName = CodeGenerator.Generate(element.Name);
 
 			//すでに登録されているか確認
 			//登録されていなければ新しいIdを取得する
@@ -256,7 +256,7 @@ namespace Unicoen.Apps.MseConverter {
 		private void WriteAttribute(
 				UnifiedVariableDefinition element, int klassId, int id) {
 			//変数名の取得
-			var attributeName = CodeFactory.Generate(element.Name);
+			var attributeName = CodeGenerator.Generate(element.Name);
 			//規定のフォーマットを出力
 			Writer.Write("(FAMIX.Attribute ");
 			Writer.WriteLine("(id: " + id + ")");

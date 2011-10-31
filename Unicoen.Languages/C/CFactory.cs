@@ -22,20 +22,20 @@ using Unicoen.Languages.C.ModelFactories;
 
 namespace Unicoen.Languages.C {
 	public static class CFactory {
-		public static readonly CCodeFactory CodeFactory;
-		public static readonly CModelFactory ModelFactory;
+		public static readonly CCodeGenerator CodeGenerator;
+		public static readonly CProgramGenerator ProgramGenerator;
 
 		static CFactory() {
-			CodeFactory = new CCodeFactory();
-			ModelFactory = new CModelFactory();
+			CodeGenerator = new CCodeGenerator();
+			ProgramGenerator = new CProgramGenerator();
 		}
 
 		public static string GenerateCode(IUnifiedElement model) {
-			return CodeFactory.Generate(model);
+			return CodeGenerator.Generate(model);
 		}
 
 		public static UnifiedProgram GenerateModel(string code) {
-			return ModelFactory.Generate(code);
+			return ProgramGenerator.Generate(code);
 		}
 	}
 }

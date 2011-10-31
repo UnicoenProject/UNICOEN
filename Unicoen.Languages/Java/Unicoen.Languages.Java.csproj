@@ -109,10 +109,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\JavaCodeFactory.cs" />
+    <Compile Include="CodeFactories\JavaCodeGenerator.cs" />
     <Compile Include="CodeFactories\JavaCodeFactoryVisitor.cs" />
     <Compile Include="JavaFactory.cs" />
-    <Compile Include="ModelFactories\JavaModelFactory.cs" />
+    <Compile Include="ModelFactories\JavaProgramGenerator.cs" />
     <Compile Include="ModelFactories\JavaModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

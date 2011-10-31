@@ -97,10 +97,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\CSharpCodeFactory.cs" />
+    <Compile Include="CodeFactories\CSharpCodeGenerator.cs" />
     <Compile Include="CodeFactories\CSharpCodeFactoryVisitor.cs" />
     <Compile Include="CSharpFactory.cs" />
-    <Compile Include="ModelFactories\CSharpModelFactory.cs" />
+    <Compile Include="ModelFactories\CSharpProgramGenerator.cs" />
     <Compile Include="ModelFactories\NRefactoryModelVisitor.cs" />
     <Compile Include="ModelFactories\NRefactoryModelVisitor.Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

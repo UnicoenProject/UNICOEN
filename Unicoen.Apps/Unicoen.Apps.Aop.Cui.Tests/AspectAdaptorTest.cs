@@ -102,7 +102,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests {
 			var expectation = CodeProcessor.CodeProcessor.CreateModel(".java", code);
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(_javaModel));
 
 			//モデル内のブロック数が１増えているかどうか
