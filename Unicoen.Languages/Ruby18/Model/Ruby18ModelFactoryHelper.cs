@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
+using Unicoen.ProgramGeneratos;
 using UniUni.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -39,9 +40,9 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		static Ruby18ModelFactoryHelper() {
 			Sign2BinaryOperator =
-					ModelFactoryHelper.CreateBinaryOperatorDictionary();
+					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =
-					ModelFactoryHelper.CreatePrefixUnaryOperatorDictionaryForJava();
+					UnifiedProgramGeneratorHelper.CreatePrefixUnaryOperatorDictionaryForJava();
 
 			ExpressionFuncs =
 					new Dictionary<string, Func<XElement, IUnifiedExpression>>();

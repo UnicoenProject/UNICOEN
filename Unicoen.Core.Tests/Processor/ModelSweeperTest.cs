@@ -19,7 +19,7 @@
 using System.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
 using NUnit.Framework;
-using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Core.Tests.Processor {

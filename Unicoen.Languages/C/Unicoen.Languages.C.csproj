@@ -108,14 +108,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFactory.cs" />
-    <Compile Include="CodeFactories\CCodeFactory.cs" />
-    <Compile Include="CodeFactories\CCodeFactoryVisitor.cs" />
-    <Compile Include="ModelFactories\CModelFactory.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelper.Expression.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelper.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelper.Literal.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelper.Operator.cs" />
-    <Compile Include="ModelFactories\CModelFactoryHelper.Statement.cs" />
+    <Compile Include="CodeGenerators\CCodeGenerator.cs" />
+    <Compile Include="CodeGenerators\CCodeFactoryVisitor.cs" />
+    <Compile Include="ProgramGenerators\CProgramGenerator.cs" />
+    <Compile Include="ProgramGenerators\CModelFactoryHelper.Expression.cs" />
+    <Compile Include="ProgramGenerators\CModelFactoryHelper.cs" />
+    <Compile Include="ProgramGenerators\CModelFactoryHelper.Literal.cs" />
+    <Compile Include="ProgramGenerators\CModelFactoryHelper.Operator.cs" />
+    <Compile Include="ProgramGenerators\CModelFactoryHelper.Statement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -19,8 +19,8 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 	[TestFixture]
@@ -87,7 +87,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			code = "System.out.println(\"test\" + \" is executed!\");";
 			var actual = CodeProcessor.CodeProcessor.CreateAdvice("Java", code);
 
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.WriteLine(gen.Generate(advice));
 
 			Assert.That(gen.Generate(advice), Is.EqualTo(gen.Generate(actual)));

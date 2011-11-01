@@ -60,7 +60,7 @@ namespace Unicoen.Languages.Tests {
 
 		private Tuple<string, UnifiedProgram> GenerateCodeObject(string path) {
 			var code = GuessEncoding.ReadAllText(path);
-			var obj = Fixture.ModelFactory.Generate(code);
+			var obj = Fixture.ProgramGenerator.Generate(code);
 			return Tuple.Create(code, obj);
 		}
 
@@ -70,7 +70,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "code">検査対象のソースコード</param>
 		public void VerifyCodeObjectFeatureUsingCode(string code) {
-			var codeObject = Fixture.ModelFactory.Generate(code);
+			var codeObject = Fixture.ProgramGenerator.Generate(code);
 			AssertModelFeature(codeObject, "no file");
 		}
 
@@ -136,7 +136,7 @@ namespace Unicoen.Languages.Tests {
 		/// </summary>
 		/// <param name = "code">検査対象のソースコード</param>
 		public void VerifyRegenerateCodeUsingCode(string code) {
-			var codeObject = Fixture.ModelFactory.Generate(code);
+			var codeObject = Fixture.ProgramGenerator.Generate(code);
 			AssertEqualsModel(code, codeObject);
 			AssertEqualsCompiledCode(code, "A" + Fixture.Extension, codeObject);
 		}
@@ -178,7 +178,7 @@ namespace Unicoen.Languages.Tests {
 				var codeAndObject = GenerateCodeObject(codePath);
 				AssertEqualsModel(orgCode1, codeAndObject.Item2);
 
-				var code2 = Fixture.CodeFactory.Generate(codeAndObject.Item2);
+				var code2 = Fixture.CodeGenerator.Generate(codeAndObject.Item2);
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
 			// 再生成したソースコードのコンパイル結果の取得
@@ -344,10 +344,10 @@ namespace Unicoen.Languages.Tests {
 		private void AssertEqualsModel(string orgCode, UnifiedProgram codeObject) {
 			string code2 = null, code3 = null;
 			try {
-				code2 = Fixture.CodeFactory.Generate(codeObject);
-				var obj2 = Fixture.ModelFactory.Generate(code2);
-				code3 = Fixture.CodeFactory.Generate(obj2);
-				var obj3 = Fixture.ModelFactory.Generate(code3);
+				code2 = Fixture.CodeGenerator.Generate(codeObject);
+				var obj2 = Fixture.ProgramGenerator.Generate(code2);
+				code3 = Fixture.CodeGenerator.Generate(obj2);
+				var obj3 = Fixture.ProgramGenerator.Generate(code3);
 				Assert.That(
 						obj3,
 						Is.EqualTo(obj2).Using(StructuralEqualityComparerForDebug.Instance));
@@ -383,7 +383,7 @@ namespace Unicoen.Languages.Tests {
 			// コンパイル結果の取得
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
 			// 再生成したソースコードを配置
-			var code2 = Fixture.CodeFactory.Generate(codeObject);
+			var code2 = Fixture.CodeGenerator.Generate(codeObject);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
 			// 再生成したソースコードのコンパイル結果の取得
 			Fixture.Compile(workPath, srcPath);

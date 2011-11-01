@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.Java.CodeFactories;
 
 namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 	/// <summary>
@@ -32,7 +32,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える
@@ -50,7 +50,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える
@@ -68,7 +68,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える
@@ -86,7 +86,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える
@@ -104,7 +104,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える
@@ -122,7 +122,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える
@@ -140,7 +140,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える
@@ -158,7 +158,7 @@ namespace Unicoen.Apps.Aop.Cui.Tests.CodeProcessorTest {
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(model));
 
 			//アスペクトが合成されるためブロックの数が1つ増える

@@ -18,9 +18,10 @@
 
 using System;
 using NUnit.Framework;
+using Unicoen.Languages.Java.Tests;
 using Unicoen.Languages.Tests;
 
-namespace Unicoen.Languages.Java.Tests {
+namespace Unicoen.Languages.Java.Heavy.Tests {
 	[TestFixture]
 	public class JavaHeavyLanguageTest : LanguageTestBase {
 		private Fixture _fixture;

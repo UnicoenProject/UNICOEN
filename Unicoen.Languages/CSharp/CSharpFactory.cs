@@ -16,26 +16,26 @@
 
 #endregion
 
+using Unicoen.Languages.CSharp.CodeGenerators;
+using Unicoen.Languages.CSharp.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.CSharp.CodeFactories;
-using Unicoen.Languages.CSharp.ModelFactories;
 
 namespace Unicoen.Languages.CSharp {
 	public static class CSharpFactory {
-		public static readonly CSharpCodeFactory CodeFactory;
-		public static readonly CSharpModelFactory ModelFactory;
+		public static readonly CSharpCodeGenerator CodeGenerator;
+		public static readonly CSharpProgramGenerator ProgramGenerator;
 
 		static CSharpFactory() {
-			CodeFactory = new CSharpCodeFactory();
-			ModelFactory = new CSharpModelFactory();
+			CodeGenerator = new CSharpCodeGenerator();
+			ProgramGenerator = new CSharpProgramGenerator();
 		}
 
 		public static string GenerateCode(IUnifiedElement model) {
-			return CodeFactory.Generate(model);
+			return CodeGenerator.Generate(model);
 		}
 
 		public static UnifiedProgram GenerateModel(string code) {
-			return ModelFactory.Generate(code);
+			return ProgramGenerator.Generate(code);
 		}
 	}
 }

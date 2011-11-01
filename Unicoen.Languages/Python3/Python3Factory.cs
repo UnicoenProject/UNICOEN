@@ -1,14 +1,14 @@
-﻿using Unicoen.Languages.Python3.ModelFactories;
+﻿using Unicoen.Languages.Python3.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.Python3 {
 	public static class Python3Factory {
 		public static readonly Python3CodeFactory CodeFactory;
-		public static readonly Python3ModelFactory ModelFactory;
+		public static readonly Python3ProgramGenerator ProgramGenerator;
 
 		static Python3Factory() {
 			CodeFactory = new Python3CodeFactory();
-			ModelFactory = new Python3ModelFactory();
+			ProgramGenerator = new Python3ProgramGenerator();
 		}
 
 		public static string GenerateCode(IUnifiedElement model) {
@@ -16,7 +16,7 @@ namespace Unicoen.Languages.Python3 {
 		}
 
 		public static UnifiedProgram GenerateModel(string code) {
-			return ModelFactory.Generate(code);
+			return ProgramGenerator.Generate(code);
 		}
 	}
 }

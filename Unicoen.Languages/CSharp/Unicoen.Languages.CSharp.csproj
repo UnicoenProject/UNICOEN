@@ -97,12 +97,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\CSharpCodeFactory.cs" />
-    <Compile Include="CodeFactories\CSharpCodeFactoryVisitor.cs" />
+    <Compile Include="CodeGenerators\CSharpCodeGenerator.cs" />
+    <Compile Include="CodeGenerators\CSharpCodeFactoryVisitor.cs" />
     <Compile Include="CSharpFactory.cs" />
-    <Compile Include="ModelFactories\CSharpModelFactory.cs" />
-    <Compile Include="ModelFactories\NRefactoryModelVisitor.cs" />
-    <Compile Include="ModelFactories\NRefactoryModelVisitor.Helper.cs" />
+    <Compile Include="ProgramGenerators\CSharpProgramGenerator.cs" />
+    <Compile Include="ProgramGenerators\NRefactoryModelVisitor.cs" />
+    <Compile Include="ProgramGenerators\NRefactoryModelVisitor.Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

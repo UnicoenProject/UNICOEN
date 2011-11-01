@@ -22,10 +22,11 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Scripting.Utils;
 using NUnit.Framework;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Processor;
 using Unicoen.Languages.Tests;
+using Unicoen.ProgramGeneratos;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {
@@ -47,14 +48,14 @@ namespace Unicoen.Languages.Ruby18.Tests {
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
 		/// </summary>
-		public override ModelFactory ModelFactory {
-			get { return Ruby18ModelFactory.Instance; }
+		public override UnifiedProgramGenerator ProgramGenerator {
+			get { return Ruby18ProgramGenerator.Instance; }
 		}
 
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override CodeFactory CodeFactory {
+		public override UnifiedCodeGenerator CodeGenerator {
 			get { throw new NotImplementedException(); }
 		}
 

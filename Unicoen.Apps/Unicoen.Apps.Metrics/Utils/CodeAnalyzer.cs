@@ -48,7 +48,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 			case ".py":
 				return Python2Factory.GenerateModel(code);
 			case ".rb":
-				return Ruby18ModelFactory.Instance.Generate(code);
+				return Ruby18ProgramGenerator.Instance.Generate(code);
 			}
 			return null;
 		}
@@ -69,7 +69,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 				case ".py":
 					return Python2Factory.GenerateModel(code);
 				case ".rb":
-					return Ruby18ModelFactory.Instance.Generate(code);
+					return Ruby18ProgramGenerator.Instance.Generate(code);
 				}
 			} catch {}
 			return null;
@@ -92,7 +92,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 				case ".py":
 					return Python2Factory.GenerateModel(code);
 				case ".rb":
-					return Ruby18ModelFactory.Instance.Generate(code);
+					return Ruby18ProgramGenerator.Instance.Generate(code);
 				}
 			} catch {}
 			return null;

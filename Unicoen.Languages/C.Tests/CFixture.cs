@@ -19,8 +19,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 using Unicoen.Tests;
 using Unicoen.Languages.Tests;
 
@@ -43,15 +44,15 @@ namespace Unicoen.Languages.C.Tests {
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
 		/// </summary>
-		public override ModelFactory ModelFactory {
-			get { return CFactory.ModelFactory; }
+		public override UnifiedProgramGenerator ProgramGenerator {
+			get { return CFactory.ProgramGenerator; }
 		}
 
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override CodeFactory CodeFactory {
-			get { return CFactory.CodeFactory; }
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return CFactory.CodeGenerator; }
 		}
 
 		/// <summary>
