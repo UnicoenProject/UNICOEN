@@ -24,11 +24,12 @@ using System.Xml.Linq;
 using Paraiba.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public partial class Ruby18ModelFactoryHelper {
+	public partial class Ruby18ProgramGeneratorHelper {
 		private static readonly Dictionary<string, Func<XElement, IUnifiedExpression>>
 				ExpressionFuncs;
 
@@ -37,11 +38,11 @@ namespace Unicoen.Languages.Ruby18.Model {
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static Ruby18ModelFactoryHelper() {
+		static Ruby18ProgramGeneratorHelper() {
 			Sign2BinaryOperator =
-					ModelFactoryHelper.CreateBinaryOperatorDictionary();
+					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =
-					ModelFactoryHelper.CreatePrefixUnaryOperatorDictionaryForJava();
+					UnifiedProgramGeneratorHelper.CreatePrefixUnaryOperatorDictionaryForJava();
 
 			ExpressionFuncs =
 					new Dictionary<string, Func<XElement, IUnifiedExpression>>();

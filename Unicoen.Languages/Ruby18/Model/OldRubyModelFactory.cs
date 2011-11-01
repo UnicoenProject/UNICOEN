@@ -25,11 +25,11 @@ using Microsoft.Scripting.Math;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public class OldRubyModelFactory {
+	public class OldRubyProgramGenerator {
 		private static readonly Dictionary<string, UnifiedBinaryOperatorKind>
 				Sign2Type;
 
-		static OldRubyModelFactory() {
+		static OldRubyProgramGenerator() {
 			Sign2Type = new Dictionary<string, UnifiedBinaryOperatorKind>();
 			Sign2Type["+"] = UnifiedBinaryOperatorKind.Add;
 			Sign2Type["-"] = UnifiedBinaryOperatorKind.Subtract;

@@ -17,10 +17,10 @@
 #endregion
 
 using System.IO;
-using Unicoen.Languages.CSharp.ModelFactories;
-using Unicoen.Languages.Java.ModelFactories;
-using Unicoen.Languages.JavaScript.ModelFactories;
-using Unicoen.Languages.Python2.ModelFactories;
+using Unicoen.Languages.CSharp.ProgramGenerators;
+using Unicoen.Languages.Java.ProgramGenerators;
+using Unicoen.Languages.JavaScript.ProgramGenerators;
+using Unicoen.Languages.Python2.ProgramGenerators;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
 
@@ -65,27 +65,27 @@ namespace Unicoen.Apps.MseConverter {
 					case ".java":
 						//_visitor.CodeFactory = new JavaCodeFactory();
 						_visitor.LanguageValue = 0;
-						new JavaModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						new JavaProgramGenerator().GenerateFromFile(filePath).Accept(_visitor);
 						break;
 					case ".js":
 						//_visitor.CodeFactory = new JavaScriptCodeFactory();
 						_visitor.LanguageValue = 2;
-						new JavaScriptModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						new JavaScriptProgramGenerator().GenerateFromFile(filePath).Accept(_visitor);
 						break;
 					case ".cs":
 						//_visitor.CodeFactory = new CSharpCodeFactory();
 						_visitor.LanguageValue = 1;
-						new CSharpModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						new CSharpProgramGenerator().GenerateFromFile(filePath).Accept(_visitor);
 						break;
 					case ".rb":
 						//_visitor.CodeFactory = new Ruby18CodeFactory();
 						_visitor.LanguageValue = 4;
-						new Ruby18ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						new Ruby18ProgramGenerator().GenerateFromFile(filePath).Accept(_visitor);
 						break;
 					case ".py":
 						//_visitor.CodeFactory = new Python2CodeFactory();
 						_visitor.LanguageValue = 3;
-						new Python2ModelFactory().GenerateFromFile(filePath).Accept(_visitor);
+						new Python2ProgramGenerator().GenerateFromFile(filePath).Accept(_visitor);
 						break;
 					}
 				}catch {

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Unicoen.Model {
-	public static class ModelFactoryForExpressions {
+	public static class ProgramGeneratorForExpressions {
 		public static UnifiedBlock ToBlock(
 				this IEnumerable<IUnifiedExpression> expressions) {
 			return UnifiedBlock.Create(expressions);

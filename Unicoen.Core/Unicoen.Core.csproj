@@ -98,7 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Types.cs" />
+    <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Types.cs" />
     <Compile Include="Extensions\ModelSweeperGenericsForElement.cs" />
     <Compile Include="Extensions\ModelSweeperGenerics.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
@@ -217,20 +217,20 @@
     <Compile Include="Model\UnifiedAnnotationTarget.cs" />
     <Compile Include="Model\UnifiedComment.cs" />
     <Compile Include="Model\UnifiedElement.Serialize.cs" />
-    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Collections.cs" />
-    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.cs" />
-    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Others.cs" />
-    <Compile Include="CodeFactories\JavaLikeCodeFactoryVisitor.Statements.cs" />
+    <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.cs" />
+    <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Statements.cs" />
     <Compile Include="Processor\DefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\EmptyUnifiedVisitor.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
     <Compile Include="Processor\SemanticAnalyzer.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
-    <Compile Include="CodeFactories\CodeFactory.cs" />
+    <Compile Include="CodeGenerators\UnifiedCodeGenerator.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\Decoration.cs" />
-    <Compile Include="Processor\ModelFactory.cs" />
-    <Compile Include="Processor\ModelFactoryHelper.cs" />
+    <Compile Include="ProgramGeneratos\UnifiedProgramGenerator.cs" />
+    <Compile Include="ProgramGeneratos\UnifiedProgramGeneratorHelper.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedGenericParameterCollection.cs" />

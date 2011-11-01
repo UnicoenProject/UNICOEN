@@ -110,14 +110,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.cs" />
-    <Compile Include="CodeFactories\JavaScriptCodeFactory.cs" />
-    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Others.cs" />
-    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Collections.cs" />
-    <Compile Include="CodeFactories\JavaScriptCodeFactoryVisitor.Statements.cs" />
+    <Compile Include="CodeGenerators\JavaScriptCodeFactoryVisitor.cs" />
+    <Compile Include="CodeGenerators\JavaScriptCodeGenerator.cs" />
+    <Compile Include="CodeGenerators\JavaScriptCodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeGenerators\JavaScriptCodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeGenerators\JavaScriptCodeFactoryVisitor.Statements.cs" />
     <Compile Include="JavaScriptFactory.cs" />
-    <Compile Include="ModelFactories\JavaScriptModelFactory.cs" />
-    <Compile Include="ModelFactories\JavaScriptModelFactoryHelper.cs" />
+    <Compile Include="ProgramGenerators\JavaScriptProgramGenerator.cs" />
+    <Compile Include="ProgramGenerators\JavaScriptModelFactoryHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,8 +21,9 @@ using System.IO;
 using System.Linq;
 using Code2Xml.Core;
 using NUnit.Framework;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 using Unicoen.Tests;
 using Unicoen.Languages.Tests;
 
@@ -55,15 +56,15 @@ namespace Unicoen.Languages.Python2.Tests {
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
 		/// </summary>
-		public override ModelFactory ModelFactory {
-			get { return Python2Factory.ModelFactory; }
+		public override UnifiedProgramGenerator ProgramGenerator {
+			get { return Python2Factory.ProgramGenerator; }
 		}
 
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override CodeFactory CodeFactory {
-			get { return Python2Factory.CodeFactory; }
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return Python2Factory.CodeGenerator; }
 		}
 
 		/// <summary>

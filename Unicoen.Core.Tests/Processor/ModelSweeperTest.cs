@@ -19,7 +19,7 @@
 using System.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
 using NUnit.Framework;
-using Unicoen.Languages.Java.ModelFactories;
+using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Core.Tests.Processor {
@@ -31,7 +31,7 @@ namespace Unicoen.Core.Tests.Processor {
 					.Generate(
 							"{ {int j = 0;} { j = 1; } }",
 							p => p.block());
-			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 			Assert.That(
 					codeObject.DescendantsUntil(e => e is UnifiedBlock).Count(),
 					Is.EqualTo(0));

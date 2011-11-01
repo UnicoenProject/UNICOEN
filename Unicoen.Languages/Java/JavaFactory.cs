@@ -16,26 +16,26 @@
 
 #endregion
 
+using Unicoen.Languages.Java.CodeGenerators;
+using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Languages.Java.CodeFactories;
-using Unicoen.Languages.Java.ModelFactories;
 
 namespace Unicoen.Languages.Java {
 	public static class JavaFactory {
-		public static readonly JavaCodeFactory CodeFactory;
-		public static readonly JavaModelFactory ModelFactory;
+		public static readonly JavaCodeGenerator CodeGenerator;
+		public static readonly JavaProgramGenerator ProgramGenerator;
 
 		static JavaFactory() {
-			CodeFactory = new JavaCodeFactory();
-			ModelFactory = new JavaModelFactory();
+			CodeGenerator = new JavaCodeGenerator();
+			ProgramGenerator = new JavaProgramGenerator();
 		}
 
 		public static string GenerateCode(IUnifiedElement model) {
-			return CodeFactory.Generate(model);
+			return CodeGenerator.Generate(model);
 		}
 
 		public static UnifiedProgram GenerateModel(string code) {
-			return ModelFactory.Generate(code);
+			return ProgramGenerator.Generate(code);
 		}
 	}
 }

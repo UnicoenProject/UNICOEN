@@ -25,10 +25,10 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Languages.Java.Tests;
 using Unicoen.Languages.Tests;
-using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 using Unicoen.Tests;
 using Unicoen.Utils;
 
@@ -64,15 +64,15 @@ namespace Unicoen.Languages.JavaScript.Tests {
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
 		/// </summary>
-		public override ModelFactory ModelFactory {
-			get { return JavaScriptFactory.ModelFactory; }
+		public override UnifiedProgramGenerator ProgramGenerator {
+			get { return JavaScriptFactory.ProgramGenerator; }
 		}
 
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override CodeFactory CodeFactory {
-			get { return JavaScriptFactory.CodeFactory; }
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return JavaScriptFactory.CodeGenerator; }
 		}
 
 		/// <summary>

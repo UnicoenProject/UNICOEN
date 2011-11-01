@@ -17,7 +17,7 @@
 #endregion
 
 using System.Diagnostics;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {

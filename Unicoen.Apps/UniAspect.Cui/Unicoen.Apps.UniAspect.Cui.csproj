@@ -34,21 +34,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <HintPath>..\lib\Antlr3.Runtime.dll</HintPath>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\bin\Debug\Code2Xml.Core.dll</HintPath>
+    <Reference Include="Code2Xml.Core">
+      <HintPath>..\..\lib\Code2Xml.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.C, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="Code2Xml.Languages.Java, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\lib\Code2Xml.Languages.Java.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.C">
+      <HintPath>..\..\lib\Code2Xml.Languages.C.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.JavaScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.CSharp">
+      <HintPath>..\..\lib\Code2Xml.Languages.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Code2Xml.Languages.Java">
+      <HintPath>..\..\lib\Code2Xml.Languages.Java.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.JavaScript">
+      <HintPath>..\..\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Lua">
+      <HintPath>..\..\lib\Code2Xml.Languages.Lua.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Python2">
+      <HintPath>..\..\lib\Code2Xml.Languages.Python2.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Python3">
+      <HintPath>..\..\lib\Code2Xml.Languages.Python3.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Ruby18">
+      <HintPath>..\..\lib\Code2Xml.Languages.Ruby18.dll</HintPath>
+    </Reference>
+    <Reference Include="Paraiba">
       <HintPath>..\..\lib\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="Paraiba.Experiment, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

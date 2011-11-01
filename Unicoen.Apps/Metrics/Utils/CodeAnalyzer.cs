@@ -29,7 +29,6 @@ using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.Python2;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
-using Paraiba.Text;
 
 namespace Unicoen.Apps.Metrics.Utils {
 	public static class CodeAnalyzer {
@@ -48,7 +47,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 			case ".py":
 				return Python2Factory.GenerateModel(code);
 			case ".rb":
-				return Ruby18ModelFactory.Instance.Generate(code);
+				return Ruby18ProgramGenerator.Instance.Generate(code);
 			}
 			return null;
 		}
@@ -69,7 +68,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 				case ".py":
 					return Python2Factory.GenerateModel(code);
 				case ".rb":
-					return Ruby18ModelFactory.Instance.Generate(code);
+					return Ruby18ProgramGenerator.Instance.Generate(code);
 				}
 			} catch {}
 			return null;
@@ -92,7 +91,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 				case ".py":
 					return Python2Factory.GenerateModel(code);
 				case ".rb":
-					return Ruby18ModelFactory.Instance.Generate(code);
+					return Ruby18ProgramGenerator.Instance.Generate(code);
 				}
 			} catch {}
 			return null;

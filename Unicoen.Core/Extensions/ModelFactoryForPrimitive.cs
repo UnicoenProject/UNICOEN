@@ -17,7 +17,7 @@
 #endregion
 
 namespace Unicoen.Model {
-	public static class ModelFactoryForPrimitive {
+	public static class ProgramGeneratorForPrimitive {
 		public static UnifiedVariableIdentifier ToVariableIdentifier(this string name) {
 			return UnifiedVariableIdentifier.Create(name);
 		}

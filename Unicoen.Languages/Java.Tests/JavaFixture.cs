@@ -25,8 +25,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Paraiba.Core;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 using Unicoen.Tests;
 using Unicoen.Languages.Tests;
 using Unicoen.Utils;
@@ -62,15 +63,15 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
 		/// </summary>
-		public override ModelFactory ModelFactory {
-			get { return JavaFactory.ModelFactory; }
+		public override UnifiedProgramGenerator ProgramGenerator {
+			get { return JavaFactory.ProgramGenerator; }
 		}
 
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public override CodeFactory CodeFactory {
-			get { return JavaFactory.CodeFactory; }
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return JavaFactory.CodeGenerator; }
 		}
 
 		/// <summary>

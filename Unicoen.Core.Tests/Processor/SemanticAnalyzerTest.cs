@@ -20,8 +20,8 @@ using System.Linq;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using NUnit.Framework;
-using Unicoen.Languages.Java.ModelFactories;
-using Unicoen.Languages.JavaScript.ModelFactories;
+using Unicoen.Languages.Java.ProgramGenerators;
+using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
@@ -32,7 +32,7 @@ namespace Unicoen.Core.Tests.Processor {
 		public void 直前の変数定義オブジェクトを取得できる() {
 			var ast = JavaCodeToXml.Instance.Generate(
 					"{ int i; i = 1; }", p => p.block());
-			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
 			var variable = codeObject.Descendants<UnifiedIdentifier>().Last();
 			var definition = SemanticAnalyzer.FindDefinition(variable);
@@ -48,7 +48,7 @@ namespace Unicoen.Core.Tests.Processor {
 					.Generate(
 							"{ int i; { i = 1; } }",
 							p => p.block());
-			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
 			var variable = codeObject.Descendants<UnifiedIdentifier>().Last();
 			var definition = SemanticAnalyzer.FindDefinition(variable);
@@ -64,7 +64,7 @@ namespace Unicoen.Core.Tests.Processor {
 					.Generate(
 							"{ int i; int j; int k; { j = 1; } }",
 							p => p.block());
-			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
 			var variable = codeObject.Descendants<UnifiedIdentifier>().Last();
 			var definition = SemanticAnalyzer.FindDefinition(variable);
@@ -81,7 +81,7 @@ namespace Unicoen.Core.Tests.Processor {
 					.Generate(
 							"{ j = 0; { j = 1; } int j; }",
 							p => p.block());
-			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
 			var variable = codeObject.Descendants<UnifiedIdentifier>().ElementAt(1);
 			var definition = SemanticAnalyzer.FindDefinition(variable);
@@ -95,7 +95,7 @@ namespace Unicoen.Core.Tests.Processor {
 					.Generate(
 							"{ {int j = 0;} { j = 1; } }",
 							p => p.block());
-			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
 			var variable = codeObject.Descendants<UnifiedIdentifier>().ElementAt(2);
 			var definition = SemanticAnalyzer.FindDefinition(variable);
@@ -109,7 +109,7 @@ namespace Unicoen.Core.Tests.Processor {
 					.Generate(
 							"{ i = 0, var j = 0; j = 1; }",
 							p => p.statementBlock());
-			var codeObject = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
+			var codeObject = JavaScriptProgramGeneratorHelper.CreateStatementBlock(ast);
 
 			var variable = codeObject.Descendants<UnifiedIdentifier>().Last();
 			var definition = SemanticAnalyzer.FindDefinition(variable);

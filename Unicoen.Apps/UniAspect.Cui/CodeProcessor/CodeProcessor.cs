@@ -22,14 +22,14 @@ using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
+using Unicoen.Languages.C.ProgramGenerators;
+using Unicoen.Languages.Java.ProgramGenerators;
+using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Model;
 using Unicoen.Languages.C;
-using Unicoen.Languages.C.ModelFactories;
 using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java;
-using Unicoen.Languages.Java.ModelFactories;
 using Unicoen.Languages.JavaScript;
-using Unicoen.Languages.JavaScript.ModelFactories;
 using Unicoen.Languages.Python2;
 
 namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
@@ -76,16 +76,16 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
 			switch (language) {
 			case "Java":
 				ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
-				actual = JavaModelFactoryHelper.CreateBlock(ast);
+				actual = JavaProgramGeneratorHelper.CreateBlock(ast);
 				break;
 			case "JavaScript":
 				ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.statementBlock());
-				actual = JavaScriptModelFactoryHelper.CreateStatementBlock(ast);
+				actual = JavaScriptProgramGeneratorHelper.CreateStatementBlock(ast);
 				break;
 			case "C":
 				//TODO Cでのアスペクト合成はこれで大丈夫か確認
 				ast = CCodeToXml.Instance.Generate(code, p => p.compound_statement());
-				actual = CModelFactoryHelper.CreateCompoundStatement(ast);
+				actual = CProgramGeneratorHelper.CreateCompoundStatement(ast);
 				break;
 			default:
 				//CSharp, Ruby, Python
@@ -112,7 +112,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
 				//classBodyとしてパースするために中括弧を補う
 				code = "{ " + code + " }";
 				ast = JavaCodeToXml.Instance.Generate(code, p => p.classBody());
-				var classBody = JavaModelFactoryHelper.CreateClassBody(ast);
+				var classBody = JavaProgramGeneratorHelper.CreateClassBody(ast);
 				foreach (var e in classBody) {
 					var method = e as UnifiedFunctionDefinition;
 					var field = e as UnifiedVariableDefinitionList;
@@ -125,7 +125,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
 
 			case "JavaScript":
 				ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.program());
-				var program = JavaScriptModelFactoryHelper.CreateProgram(ast);
+				var program = JavaScriptProgramGeneratorHelper.CreateProgram(ast);
 				actual.AddRange(program.Body);
 				break;
 			default:

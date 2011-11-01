@@ -23,8 +23,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.CodeFactories;
+using Unicoen.CodeGenerators;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 using Unicoen.Tests;
 using Unicoen.Utils;
 
@@ -65,12 +66,12 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   対応する言語のモデル生成器を取得します．
 		/// </summary>
-		public abstract ModelFactory ModelFactory { get; }
+		public abstract UnifiedProgramGenerator ProgramGenerator { get; }
 
 		/// <summary>
 		///   対応する言語のコード生成器を取得します．
 		/// </summary>
-		public abstract CodeFactory CodeFactory { get; }
+		public abstract UnifiedCodeGenerator CodeGenerator { get; }
 
 		/// <summary>
 		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。

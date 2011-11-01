@@ -25,7 +25,7 @@ using NUnit.Framework;
 using Paraiba.Text;
 using Unicoen.Apps.UniAspect.Cui.AspectCompiler;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
-using Unicoen.Languages.Java.CodeFactories;
+using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.Tests;
@@ -103,7 +103,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			var expectation = CodeProcessor.CodeProcessor.CreateModel(".java", code);
 
 			//for debug
-			var gen = new JavaCodeFactory();
+			var gen = new JavaCodeGenerator();
 			Console.Write(gen.Generate(_javaModel));
 
 			//モデル内のブロック数が１増えているかどうか
