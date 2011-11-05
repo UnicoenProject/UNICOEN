@@ -224,7 +224,6 @@
     <Compile Include="Processor\DefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\EmptyUnifiedVisitor.cs" />
     <Compile Include="Processor\LiteralFuzzyParser.cs" />
-    <Compile Include="Processor\SemanticAnalyzer.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeGenerators\UnifiedCodeGenerator.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />

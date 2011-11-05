@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</ProjectGuid>
+    <ProjectGuid>{8215C4CF-CA92-4214-917B-7B829C6F72F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unicoen.Core.Tests</RootNamespace>
-    <AssemblyName>Unicoen.Core.Tests</AssemblyName>
+    <RootNamespace>Unicoen.Sematics.Tests</RootNamespace>
+    <AssemblyName>Unicoen.Sematics.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,25 +40,22 @@
     <Reference Include="Code2Xml.Languages.Java">
       <HintPath>..\lib\Code2Xml.Languages.Java.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.JavaScript, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Code2Xml.Languages.JavaScript">
+      <HintPath>..\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.mocks, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\lib\Paraiba.dll</HintPath>
-    </Reference>
-    <Reference Include="Paraiba.Experiment">
-      <HintPath>..\lib\Paraiba.Experiment.dll</HintPath>
-    </Reference>
-    <Reference Include="pnunit.framework, Version=1.0.4109.34242, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="pnunit.framework">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,12 +63,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Processor\ModelSweeperTest.cs" />
-    <Compile Include="StructuralEqualityComparerForDebug.cs" />
-    <Compile Include="FixtureUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StructuralEqualityComparerTestForPrimitive.cs" />
-    <Compile Include="StructuralEqualityComparerTestForUnified.cs" />
+    <Compile Include="SemanticAnalyzerTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
@@ -86,9 +82,10 @@
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Unicoen.Sematics\Unicoen.Sematics.csproj">
+      <Project>{685FE8C6-0924-400A-B2D1-C81781D1EF67}</Project>
+      <Name>Unicoen.Sematics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
