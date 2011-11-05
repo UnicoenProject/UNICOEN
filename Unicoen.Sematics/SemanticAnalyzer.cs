@@ -19,7 +19,7 @@
 using System.Linq;
 using Unicoen.Model;
 
-namespace Unicoen.Processor {
+namespace Unicoen.Sematics {
 	public static class SemanticAnalyzer {
 		public static UnifiedVariableDefinition FindDefinition(UnifiedIdentifier variable) {
 			var scopes = variable.Ancestors<UnifiedBlock>();

@@ -23,9 +23,8 @@ using NUnit.Framework;
 using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Model;
-using Unicoen.Processor;
 
-namespace Unicoen.Core.Tests.Processor {
+namespace Unicoen.Sematics.Tests {
 	[TestFixture]
 	internal class SemanticAnalyzerTest {
 		[Test]
