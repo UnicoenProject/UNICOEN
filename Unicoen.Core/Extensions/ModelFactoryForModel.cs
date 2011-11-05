@@ -22,7 +22,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Unicoen.Model {
-	public static class ModelFactoryForModel {
+	public static class ProgramGeneratorForModel {
 		public static UnifiedArgument ToArgument(this IUnifiedExpression expression) {
 			return UnifiedArgument.Create(expression);
 		}

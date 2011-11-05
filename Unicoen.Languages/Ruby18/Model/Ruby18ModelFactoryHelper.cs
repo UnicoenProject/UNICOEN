@@ -21,15 +21,15 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-using Unicoen.ProgramGeneratos;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public partial class Ruby18ModelFactoryHelper {
+	public partial class Ruby18ProgramGeneratorHelper {
 		private static readonly Dictionary<string, Func<XElement, IUnifiedExpression>>
 				ExpressionFuncs;
 
@@ -38,7 +38,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static Ruby18ModelFactoryHelper() {
+		static Ruby18ProgramGeneratorHelper() {
 			Sign2BinaryOperator =
 					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =

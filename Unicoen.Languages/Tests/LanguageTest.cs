@@ -25,7 +25,7 @@ using NUnit.Framework;
 using Paraiba.IO;
 using Paraiba.Linq;
 using Paraiba.Text;
-using UniUni.Text;
+using Paraiba.Text;
 using Unicoen.Model;
 using Unicoen.Tests;
 

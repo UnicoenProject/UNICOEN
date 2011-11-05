@@ -31,7 +31,7 @@ namespace Unicoen.Languages.Python3.ProgramGenerators {
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = Python3CodeToXml.Instance.Generate(code, true);
-			return Python3ModelFactoryHelper.CreateFile_input(ast);
+			return Python3ProgramGeneratorHelper.CreateFile_input(ast);
 		}
 	}
 }

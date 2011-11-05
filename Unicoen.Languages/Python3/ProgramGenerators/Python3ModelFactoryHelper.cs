@@ -24,21 +24,21 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
+using Paraiba.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.ProgramGeneratos;
-using UniUni.Linq;
-using UniUni.Xml.Linq;
 
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming
 
 namespace Unicoen.Languages.Python3.ProgramGenerators {
-	public static class Python3ModelFactoryHelper {
+	public static class Python3ProgramGeneratorHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static Python3ModelFactoryHelper() {
+		static Python3ProgramGeneratorHelper() {
 			Sign2BinaryOperator =
 					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =

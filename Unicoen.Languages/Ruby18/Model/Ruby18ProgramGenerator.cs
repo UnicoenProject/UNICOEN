@@ -33,7 +33,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = Ruby18CodeToXml.Instance.Generate(code, true);
-			return Ruby18ModelFactoryHelper.CreateProgram(ast);
+			return Ruby18ProgramGeneratorHelper.CreateProgram(ast);
 		}
 	}
 }

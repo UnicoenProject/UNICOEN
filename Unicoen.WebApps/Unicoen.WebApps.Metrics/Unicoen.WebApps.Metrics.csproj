@@ -114,7 +114,7 @@
     <Content Include="Views\Metrics\Measure.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Unicoen.Apps\Unicoen.Apps.Metrics\Unicoen.Apps.Metrics.csproj">
+    <ProjectReference Include="..\..\Unicoen.Apps\Metrics\Unicoen.Apps.Metrics.csproj">
       <Project>{0F43ECA9-FAA3-4565-A585-A33BA2B12883}</Project>
       <Name>Unicoen.Apps.Metrics</Name>
     </ProjectReference>

@@ -19,13 +19,13 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.C.ProgramGenerators {
-	public static partial class CModelFactoryHelper {
+	public static partial class CProgramGeneratorHelper {
 		// literals
 		public static UnifiedLiteral CreateHexLiteral(XElement node) {
 			Contract.Requires(node != null);

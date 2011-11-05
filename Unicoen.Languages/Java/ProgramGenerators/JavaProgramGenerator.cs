@@ -29,7 +29,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = JavaCodeToXml.Instance.Generate(code, true);
-			return JavaModelFactoryHelper.CreateCompilationUnit(ast);
+			return JavaProgramGeneratorHelper.CreateCompilationUnit(ast);
 		}
 	}
 }

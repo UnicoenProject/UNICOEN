@@ -31,7 +31,7 @@ namespace Unicoen.Core.Tests.Processor {
 					.Generate(
 							"{ {int j = 0;} { j = 1; } }",
 							p => p.block());
-			var codeObject = JavaModelFactoryHelper.CreateBlock(ast);
+			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 			Assert.That(
 					codeObject.DescendantsUntil(e => e is UnifiedBlock).Count(),
 					Is.EqualTo(0));

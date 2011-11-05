@@ -21,21 +21,21 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-using Unicoen.ProgramGeneratos;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.JavaScript.ProgramGenerators {
-	public static class JavaScriptModelFactoryHelper {
+	public static class JavaScriptProgramGeneratorHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static JavaScriptModelFactoryHelper() {
+		static JavaScriptProgramGeneratorHelper() {
 			Sign2BinaryOperator =
 					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =

@@ -23,21 +23,21 @@ using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Linq;
-using Unicoen.ProgramGeneratos;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Java.ProgramGenerators {
-	public static class JavaModelFactoryHelper {
+	public static class JavaProgramGeneratorHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static JavaModelFactoryHelper() {
+		static JavaProgramGeneratorHelper() {
 			Sign2BinaryOperator =
 					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =

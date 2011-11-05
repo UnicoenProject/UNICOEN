@@ -31,7 +31,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = CCodeToXml.Instance.Generate(code, true);
-			return CModelFactoryHelper.CreateTranslationUnit(ast);
+			return CProgramGeneratorHelper.CreateTranslationUnit(ast);
 		}
 	}
 }

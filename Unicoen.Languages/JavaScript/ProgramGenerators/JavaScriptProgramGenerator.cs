@@ -31,7 +31,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
 			var ast = JavaScriptCodeToXml.Instance.Generate(code, true);
-			return JavaScriptModelFactoryHelper.CreateProgram(ast);
+			return JavaScriptProgramGeneratorHelper.CreateProgram(ast);
 		}
 	}
 }

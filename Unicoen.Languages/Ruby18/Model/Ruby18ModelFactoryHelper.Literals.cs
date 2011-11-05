@@ -20,15 +20,15 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
-using UniUni.Linq;
-using UniUni.Xml.Linq;
+using Paraiba.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public partial class Ruby18ModelFactoryHelper {
+	public partial class Ruby18ProgramGeneratorHelper {
 		private static void InitializeLiterals() {
 			ExpressionFuncs["nil"] = CreateNil;
 			ExpressionFuncs["array"] = CreateArray;

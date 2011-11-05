@@ -37,8 +37,11 @@
     <Reference Include="nunit.mocks, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
-    <Reference Include="Paraiba">
+    <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\lib\Paraiba.dll</HintPath>
+    </Reference>
+    <Reference Include="Paraiba.Experiment, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\lib\Paraiba.Experiment.dll</HintPath>
     </Reference>
     <Reference Include="pnunit.framework, Version=1.0.4109.34242, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
@@ -70,10 +73,6 @@
     <ProjectReference Include="..\..\Unicoen.Utils\Unicoen.Utils.csproj">
       <Project>{C5722D52-DD9D-4FD8-9316-B6F5442080A3}</Project>
       <Name>Unicoen.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\UniUni\UniUni\UniUni.csproj">
-      <Project>{0407CB97-AE97-4645-9249-DECCC5DF25C6}</Project>
-      <Name>UniUni %28UniUni\UniUni%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Java.Tests\Unicoen.Languages.Java.Tests.csproj">
       <Project>{DACB2574-1700-4ABB-993B-0DE489CDBB29}</Project>

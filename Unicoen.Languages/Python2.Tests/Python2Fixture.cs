@@ -21,7 +21,6 @@ using System.IO;
 using System.Linq;
 using Code2Xml.Core;
 using NUnit.Framework;
-using Paraiba.Core;
 using Unicoen.CodeGenerators;
 using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
@@ -125,7 +124,7 @@ namespace Unicoen.Languages.Python2.Tests {
 					"compileall",
 					"\"" + srcPath + "\""
 			};
-			var arguments = args.JoinString(" ");
+			var arguments = string.Join(" ", args);
 			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 

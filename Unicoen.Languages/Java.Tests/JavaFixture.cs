@@ -171,7 +171,7 @@ namespace Unicoen.Languages.Java.Tests {
 			var args = new[] {
 					"\"" + srcPath + "\""
 			};
-			var arguments = args.JoinString(" ");
+			var arguments = string.Join(" ", args);
 			CompileWithArguments(workPath, CompileCommand, arguments);
 		}
 
@@ -184,7 +184,7 @@ namespace Unicoen.Languages.Java.Tests {
 			var args = new[] { "-c", path };
 			var info = new ProcessStartInfo {
 					FileName = DisassembleCommand,
-					Arguments = args.JoinString(" "),
+					Arguments = string.Join(" ", args),
 					CreateNoWindow = true,
 					RedirectStandardInput = true,
 					RedirectStandardOutput = true,
@@ -240,7 +240,7 @@ namespace Unicoen.Languages.Java.Tests {
 									".;\"" + depPath + "\"",
 									"\"" + srcPath + "\"",
 							};
-							CompileWithArguments(workPath, CompileCommand, args.JoinString(" "));
+							CompileWithArguments(workPath, CompileCommand, string.Join(" ", args));
 						}
 					});
 		}

@@ -22,7 +22,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Unicoen.Model {
-	public static class ModelFactoryForCollection {
+	public static class ProgramGeneratorForCollection {
 		public static UnifiedAnnotationCollection ToCollection(
 				this IEnumerable<UnifiedAnnotation> collection) {
 			return UnifiedAnnotationCollection.Create(collection);

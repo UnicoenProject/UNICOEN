@@ -18,13 +18,13 @@
 
 using System.Diagnostics.Contracts;
 using System.Xml.Linq;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public partial class Ruby18ModelFactoryHelper {
+	public partial class Ruby18ProgramGeneratorHelper {
 		private static void InitializeDefinitions() {
 			ExpressionFuncs["defn"] = CreateDefn;
 			ExpressionFuncs["defs"] = CreateDefs;

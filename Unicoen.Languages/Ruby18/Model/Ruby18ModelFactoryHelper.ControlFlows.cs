@@ -22,12 +22,12 @@ using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Linq;
 using Unicoen.Model;
-using UniUni.Xml.Linq;
+using Paraiba.Xml.Linq;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public partial class Ruby18ModelFactoryHelper {
+	public partial class Ruby18ProgramGeneratorHelper {
 		private static void InitializeControlFlows() {
 			ExpressionFuncs["if"] = CreateIf;
 			ExpressionFuncs["case"] = CreateCase;

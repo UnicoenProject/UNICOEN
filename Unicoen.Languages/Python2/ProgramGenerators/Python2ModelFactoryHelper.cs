@@ -22,23 +22,23 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
 using Paraiba.Linq;
-using Unicoen.ProgramGeneratos;
-using UniUni.Linq;
-using UniUni.Xml.Linq;
+using Paraiba.Linq;
+using Paraiba.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
+using Unicoen.ProgramGeneratos;
 
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming
 
 namespace Unicoen.Languages.Python2.ProgramGenerators {
-	public static class Python2ModelFactoryHelper {
+	public static class Python2ProgramGeneratorHelper {
 		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
 
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static Python2ModelFactoryHelper() {
+		static Python2ProgramGeneratorHelper() {
 			Sign2BinaryOperator =
 					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
 			Sign2PrefixUnaryOperator =
