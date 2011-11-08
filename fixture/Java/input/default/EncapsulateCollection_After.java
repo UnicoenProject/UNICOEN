@@ -1,4 +1,8 @@
 class EncapsulateCollection{
+}
+class Foo{
+	private int[] _collection;
+	
 	public int[] getCollection(){
 		return _collection.clone();
 	}
