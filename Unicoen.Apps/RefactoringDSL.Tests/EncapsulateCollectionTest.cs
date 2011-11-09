@@ -22,7 +22,17 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 
 		[Test]
 		public void Sandbox() {
+			var arrays = SearchArrayField(_model);
+			Console.Write(arrays.Count());
 
+		}
+
+		// このテストは，最低限の「手順」しか書かない！ その他の処理はヘルパに委譲する
+		[Test]
+		public void 下のヘルパたちを使ってリファクタリングしてみるテスト() {
+			var arrays = SearchArrayField(_model);
+			Console.Write(arrays.Count());
+			
 		}
 
 		[Test]
@@ -53,6 +63,8 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 
 			Console.WriteLine(genericFields.Count());
 
+			Assert.That(genericFields.Count(), Is.EqualTo(3));
+
 			/*
 			Console.WriteLine(((UnifiedVariableIdentifier)(genericFields.First().Descendants<UnifiedGenericType>().First().Type.BasicTypeName)).Name); // => List
 			foreach(var arg in (genericFields.First().Descendants<UnifiedGenericType>().First().Arguments)) {
@@ -60,6 +72,32 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 				Console.WriteLine(typeString);
 			}// => Integer 
 			 * */
+
+		}
+
+		[Test]
+		public void TestForGenerateAddMethod() {
+			
+		}
+
+		public UnifiedFunctionDefinition GenerateAddMethod(
+			UnifiedFunctionDefinition collectionField,
+			string functionName = "addElement", 
+			UnifiedParameterCollection parameters = null) {
+			var func = UnifiedFunctionDefinition.Create();
+			func.Name = UnifiedIdentifier.CreateLabel(functionName);
+			func.Modifiers = UnifiedModifierCollection.Create( UnifiedModifier.Create("public"));
+
+			var parameter = UnifiedParameter.Create();
+			parameter.Type = UnifiedType.Create("int");
+			parameter.Names = UnifiedIdentifierCollection.Create(UnifiedIdentifier.CreateLabel("i"));
+
+			func.Parameters = UnifiedParameterCollection.Create(parameter);
+
+			var body = UnifiedBlock.Create();
+			body.Add();
+			func.Body = body;
+
 
 		}
 
@@ -74,14 +112,15 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 
 		// 入力されたフィールドをクローンしたフィールドを表すモデルを生成します
 		// cloningMethodName でクローンに利用するメソッドの名前を指定します
-		public static UnifiedElement GenerateClonedField(UnifiedVariableDefinition variable, string cloningMethodName) {
+		public static UnifiedElement GenerateClonedField(UnifiedVariableDefinition variable, string cloningMethodName = "clone") {
 			var clonedField = UnifiedProperty.Create(
 				".",
 				variable.Name.DeepCopy(),
 				UnifiedIdentifier.CreateLabel(cloningMethodName)
 				);
+			var cloned = UnifiedCall.Create(clonedField);
 
-			return clonedField;
+			return cloned;
 		}
 
 
@@ -95,7 +134,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			return null;
 		}
 
-		// 配列のフィールドを探すよ
+		// 配列フィールドの定義を探す
 		public static IEnumerable<UnifiedElement> SearchArrayField(UnifiedElement element) {
 			var fields = element.Descendants<UnifiedVariableDefinition>();
 			return fields.Where(
