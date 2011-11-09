@@ -33,3 +33,5 @@ output
 download
 *.docstates
 *.dotCover
+
+/Experiments/AntlrSurvey/lib
