@@ -51,10 +51,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlankLocTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
+      <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
+      <Name>Unicoen.Core.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Loc\Unicoen.Apps.Loc.csproj">
+      <Project>{A1839E51-87A4-40BA-9000-172A6485ADC3}</Project>
+      <Name>Unicoen.Apps.Loc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Unicoen.Apps.Loc.Util
 {
-    class BLoc
+    public class BLoc
     {
         public static int CountBLoc(string filePath)
         {
