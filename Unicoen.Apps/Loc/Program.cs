@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using Microsoft.Win32;
 using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
 using Unicoen.Tests;
@@ -21,11 +23,11 @@ namespace Unicoen.Apps.Loc {
             var jsInputPath = FixtureUtil.GetInputPath("JavaScript", "student.js");
             PrintInfo(jsInputPath);
 
-            var pyInputPath = FixtureUtil.GetInputPath("Python2", "fibonacci.py");
-            //PrintInfo(pyInputPath);
+			var pyInputPath = FixtureUtil.GetInputPath("Python2", "fibonacci.py");
+            PrintInfo(pyInputPath);
 
             var rubyInputPath = FixtureUtil.GetInputPath("Ruby18", "fibonacci.rb");
-            //PrintInfo(rubyInputPath);
+            PrintInfo(rubyInputPath);
         }
 
         static void PrintInfo(string inputPath)
