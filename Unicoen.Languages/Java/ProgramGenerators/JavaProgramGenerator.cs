@@ -17,11 +17,13 @@
 #endregion
 
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
 namespace Unicoen.Languages.Java.ProgramGenerators {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class JavaProgramGenerator : UnifiedProgramGenerator {
 		public override IEnumerable<string> Extensions {
 			get { return JavaCodeToXml.Instance.TargetExtensions; }

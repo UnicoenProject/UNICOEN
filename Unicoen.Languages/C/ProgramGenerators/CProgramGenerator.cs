@@ -17,11 +17,13 @@
 #endregion
 
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Code2Xml.Languages.C.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
 namespace Unicoen.Languages.C.ProgramGenerators {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class CProgramGenerator : UnifiedProgramGenerator {
 		public static CProgramGenerator Instance = new CProgramGenerator();
 

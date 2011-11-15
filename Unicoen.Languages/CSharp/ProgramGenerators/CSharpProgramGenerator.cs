@@ -17,12 +17,14 @@
 #endregion
 
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using ICSharpCode.NRefactory.CSharp;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
 namespace Unicoen.Languages.CSharp.ProgramGenerators {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class CSharpProgramGenerator : UnifiedProgramGenerator {
 		private readonly string[] _extensions = new[] { ".cs" };
 

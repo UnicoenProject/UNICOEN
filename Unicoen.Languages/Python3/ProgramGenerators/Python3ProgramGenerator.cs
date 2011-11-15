@@ -17,11 +17,13 @@
 #endregion
 
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Code2Xml.Languages.Python3.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
 namespace Unicoen.Languages.Python3.ProgramGenerators {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class Python3ProgramGenerator : UnifiedProgramGenerator {
 		public static Python3ProgramGenerator Instance = new Python3ProgramGenerator();
 

@@ -17,11 +17,13 @@
 #endregion
 
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
 namespace Unicoen.Languages.JavaScript.ProgramGenerators {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class JavaScriptProgramGenerator : UnifiedProgramGenerator {
 		public static JavaScriptProgramGenerator Instance = new JavaScriptProgramGenerator();
 

@@ -18,12 +18,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Code2Xml.Languages.Ruby18.CodeToXmls;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
 
 namespace Unicoen.Languages.Ruby18.Model {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class Ruby18ProgramGenerator : UnifiedProgramGenerator {
 		public static Ruby18ProgramGenerator Instance = new Ruby18ProgramGenerator();
 
