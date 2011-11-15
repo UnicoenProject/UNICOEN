@@ -17,5 +17,4 @@ public class NP_NULL_ON_SOME_PATH {
 			System.out.println("STRING");
 		}
 	}
-
 }
