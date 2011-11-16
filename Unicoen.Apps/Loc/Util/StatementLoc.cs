@@ -10,47 +10,73 @@ using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Languages.Python2.ProgramGenerators;
 using Unicoen.Languages.Python3.ProgramGenerators;
 using Unicoen.Languages.Ruby18.Model;
+using System.IO;
 
 namespace Unicoen.Apps.Loc.Util
 {
     class StatementLoc
     {
-        public static int StmtC(string inputPath)
+        // measure number of statements as the logical lines of code
+        public static int CountStatementLoc(string inputPath)
         {
-            var codeObj = new CProgramGenerator().GenerateFromFile(inputPath);
-            return CountStmt(codeObj);
+            FileAttributes attr = File.GetAttributes(@inputPath);
+            // if inputPath is a directory
+            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                DirectoryInfo dirPath = new DirectoryInfo(@inputPath);
+                return DirStatement(dirPath);
+            }
+            // if inputPath is a file
+            else
+            {
+                return FileStatement(inputPath);
+            }
         }
 
-        public static int StmtCSharp(string inputPath)
+        // count  sum of statements of all files in directory
+        private static int DirStatement(DirectoryInfo dirPath)
         {
-            var codeObj = new CSharpProgramGenerator().GenerateFromFile(inputPath);
-            return CountStmt(codeObj);
+            var sum = 0;
+            FileInfo[] files = dirPath.GetFiles("*.*");
+            foreach (FileInfo file in files)
+            {
+                String fi = file.FullName;
+                var fiLoc = FileStatement(fi);
+                sum += fiLoc;
+                Console.WriteLine(fi + " | stmt=" + fiLoc);
+            }
+            DirectoryInfo[] dirs = dirPath.GetDirectories("*.*");
+            foreach (DirectoryInfo dir in dirs)
+            {
+                sum += DirStatement(dir);
+            }
+            return sum;
         }
 
-        public static int StmtJava(string inputPath)
+        // count number of statements of a file
+        private static int FileStatement(string filePath)
         {
-            var codeObj = new JavaProgramGenerator().GenerateFromFile(inputPath);
-            return CountStmt(codeObj);
+            var ext = Path.GetExtension(filePath);
+            switch (ext.ToLower())
+            {
+                case ".c":
+                    return CountStmt(new CProgramGenerator().GenerateFromFile(filePath));
+                case ".cs":
+                    return CountStmt(new CSharpProgramGenerator().GenerateFromFile(filePath));
+                case ".java":
+                    return CountStmt(new JavaProgramGenerator().GenerateFromFile(filePath));
+                case ".js":
+                    return CountStmt(new JavaScriptProgramGenerator().GenerateFromFile(filePath));
+                case ".py":
+                    return CountStmt(new Python2ProgramGenerator().GenerateFromFile(filePath));
+                case ".rb":
+                    return CountStmt(new Ruby18ProgramGenerator().GenerateFromFile(filePath));
+                default:
+                    return 0;
+            }
         }
 
-        public static int StmtJavaScript(string inputPath)
-        {
-            var codeObj = new JavaScriptProgramGenerator().GenerateFromFile(inputPath);
-            return CountStmt(codeObj);
-        }
-
-        public static int StmtPython(string inputPath)
-        {
-            var codeObj = new Python2ProgramGenerator().GenerateFromFile(inputPath);
-            return CountStmt(codeObj);
-        }
-
-        public static int StmtRuby(string inputPath)
-        {
-            var codeObj = new Ruby18ProgramGenerator().GenerateFromFile(inputPath);
-            return CountStmt(codeObj);
-        }
-
+        // count statements of a unified code object
         private static int CountStmt(UnifiedProgram codeObject)
         {
             var blocks = codeObject.Descendants<UnifiedBlock>();

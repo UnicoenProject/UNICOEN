@@ -10,16 +10,17 @@ namespace Unicoen.Apps.Loc {
 		static void Main(string[] args) 
         {
             var cInputPath = FixtureUtil.GetInputPath("C", "fibonacci.c");
-            PrintInfo(cInputPath);
+            //PrintInfo(cInputPath);
 
             var cSharpInputPath = FixtureUtil.GetInputPath("CSharp", "Student.cs");
-            PrintInfo(cSharpInputPath);
+            //PrintInfo(cSharpInputPath);
 
-            var javaInputPath = FixtureUtil.GetInputPath("Java", "Fibonacci.java");
+            var javaInputPath = FixtureUtil.GetInputPath("Java", "point");
+            Console.WriteLine(javaInputPath);
             PrintInfo(javaInputPath);
 
             var jsInputPath = FixtureUtil.GetInputPath("JavaScript", "student.js");
-            PrintInfo(jsInputPath);
+            //PrintInfo(jsInputPath);
 
             var pyInputPath = FixtureUtil.GetInputPath("Python2", "fibonacci.py");
             //PrintInfo(pyInputPath);
@@ -35,9 +36,9 @@ namespace Unicoen.Apps.Loc {
             string stmt = "Statements Count of Code: ";
 
             Console.WriteLine("\n" + inputPath);
-            Console.WriteLine(tloc + new MeasureLoc().MeasureTLoc(inputPath));
-            Console.WriteLine(bloc + new MeasureLoc().MeasureBLoc(inputPath));
-            Console.WriteLine(stmt + new MeasureLoc().MeasureStmt(inputPath));
+            Console.WriteLine(tloc + TotalLoc.CountTotalLoc(inputPath));
+            Console.WriteLine(bloc + BlankLoc.CountBlankLoc(inputPath));
+            Console.WriteLine(stmt + StatementLoc.CountStatementLoc(inputPath));
         }
 	}
 }
