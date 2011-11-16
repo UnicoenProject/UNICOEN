@@ -13,12 +13,11 @@ using Unicoen.Languages.Ruby18.Model;
 
 namespace Unicoen.Apps.Loc.Util
 {
-    class Stmt
+    class StatementLoc
     {
         public static int StmtC(string inputPath)
         {
             var codeObj = new CProgramGenerator().GenerateFromFile(inputPath);
-            //System.IO.File.WriteAllText(@"D:\fibonacci.c.txt", codeObj.ToString());
             return CountStmt(codeObj);
         }
 
@@ -31,7 +30,6 @@ namespace Unicoen.Apps.Loc.Util
         public static int StmtJava(string inputPath)
         {
             var codeObj = new JavaProgramGenerator().GenerateFromFile(inputPath);
-            //System.IO.File.WriteAllText(@"D:\Fibonacci.java.txt", codeObj.ToString());
             return CountStmt(codeObj);
         }
 

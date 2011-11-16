@@ -11,12 +11,12 @@ namespace Unicoen.Apps.Loc.Util
     {
         public int MeasureTLoc(string inputPath)
         {
-            return TLoc.CountTLoc(inputPath);
+            return TotalLoc.CountTotalLoc(inputPath);
         }
 
         public int MeasureBLoc(string inputPath)
         {
-            return BLoc.CountBLoc(inputPath);
+            return BlankLoc.CountBlankLoc(inputPath);
         }
 
         public int MeasureStmt(string inputPath)
@@ -25,17 +25,17 @@ namespace Unicoen.Apps.Loc.Util
             switch (ext.ToLower())
             {
                 case ".c":
-                    return Stmt.StmtC(inputPath);
+                    return StatementLoc.StmtC(inputPath);
                 case ".cs":
-                    return Stmt.StmtCSharp(inputPath);
+                    return StatementLoc.StmtCSharp(inputPath);
                 case ".java":
-                    return Stmt.StmtJava(inputPath);
+                    return StatementLoc.StmtJava(inputPath);
                 case ".js":
-                    return Stmt.StmtJavaScript(inputPath);
+                    return StatementLoc.StmtJavaScript(inputPath);
                 case ".py":
-                    return Stmt.StmtPython(inputPath);
+                    return StatementLoc.StmtPython(inputPath);
                 case ".rb":
-                    return Stmt.StmtRuby(inputPath);
+                    return StatementLoc.StmtRuby(inputPath);
                 //case ".vb":
                     //return CSharpFactory.GenerateModel(code);
             }

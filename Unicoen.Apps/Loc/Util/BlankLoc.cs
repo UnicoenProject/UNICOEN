@@ -6,15 +6,16 @@ using System.IO;
 
 namespace Unicoen.Apps.Loc.Util
 {
-    class TLoc
+    class BlankLoc
     {
-        public static int CountTLoc(string filePath)
+        public static int CountBlankLoc(string filePath)
         {
+            string line;
             int count = 0;
             var sr = new StreamReader(filePath);
-            while (sr.ReadLine() != null)
+            while ((line = sr.ReadLine()) != null)
             {
-                count++;
+                if (line.Trim().Length == 0) count++;
             }
             sr.Close();
             return count;
