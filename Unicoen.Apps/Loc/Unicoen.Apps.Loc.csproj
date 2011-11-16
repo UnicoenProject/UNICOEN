@@ -46,7 +46,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\BlankLoc.cs" />
-    <Compile Include="Util\MeasureLoc.cs" />
     <Compile Include="Util\StatementLoc.cs" />
     <Compile Include="Util\TotalLoc.cs" />
   </ItemGroup>

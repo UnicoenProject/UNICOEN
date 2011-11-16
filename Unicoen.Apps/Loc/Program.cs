@@ -15,7 +15,7 @@ namespace Unicoen.Apps.Loc {
             var cSharpInputPath = FixtureUtil.GetInputPath("CSharp", "Student.cs");
             //PrintInfo(cSharpInputPath);
 
-            var javaInputPath = FixtureUtil.GetInputPath("Java", "point");
+            var javaInputPath = FixtureUtil.GetInputPath("Java", "LocSample");
             Console.WriteLine(javaInputPath);
             PrintInfo(javaInputPath);
 
