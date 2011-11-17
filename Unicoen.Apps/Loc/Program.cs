@@ -10,7 +10,6 @@ namespace Unicoen.Apps.Loc {
         {
             // args[0] is the language
             // arge[1] is the file name or directory name
-
             var inputPath = FixtureUtil.GetInputPath(args[0], args[1]);
             Console.WriteLine("Language : " + args[0]);
             Console.WriteLine("Input    : " + inputPath + "\n");
