@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
 using Unicoen.Tests;
 using Unicoen.Apps.Loc.Util;
@@ -9,29 +8,13 @@ namespace Unicoen.Apps.Loc {
 	class Program {
 		static void Main(string[] args) 
         {
-            var cInputPath = FixtureUtil.GetInputPath("C", "fibonacci.c");
-            //PrintInfo(cInputPath);
+            // args[0] is the language
+            // arge[1] is the file name or directory name
 
-            var cSharpInputPath = FixtureUtil.GetInputPath("CSharp", "Student.cs");
-            //PrintInfo(cSharpInputPath);
-
-            var javaInputPath = FixtureUtil.GetInputPath("Java", "LocSample");
-            //PrintInfo(javaInputPath);
-
-            var javaInputPath2 = FixtureUtil.GetInputPath("Java", "point.java");
-            //PrintInfo(javaInputPath2);
-
-            var jsInputPath = FixtureUtil.GetInputPath("JavaScript", "tiny_mce");
-            PrintInfo(jsInputPath);
-
-            var jsInputPath2 = FixtureUtil.GetInputPath("JavaScript", "student.js");
-            PrintInfo(jsInputPath2);
-
-            var pyInputPath = FixtureUtil.GetInputPath("Python2", "fibonacci.py");
-            //PrintInfo(pyInputPath);
-
-            var rubyInputPath = FixtureUtil.GetInputPath("Ruby18", "fibonacci.rb");
-            //PrintInfo(rubyInputPath);
+            var inputPath = FixtureUtil.GetInputPath(args[0], args[1]);
+            Console.WriteLine("Language : " + args[0]);
+            Console.WriteLine("Input    : " + inputPath + "\n");
+            PrintInfo(inputPath);
         }
 
         static void PrintInfo(string inputPath)
@@ -40,10 +23,10 @@ namespace Unicoen.Apps.Loc {
             string bloc = "Blank Lines of Code: ";
             string stmt = "Statements Count of Code: ";
 
-            Console.WriteLine("\n" + inputPath);
             Console.WriteLine(tloc + TotalLoc.CountTotalLoc(inputPath));
             Console.WriteLine(bloc + BlankLoc.CountBlankLoc(inputPath));
             Console.WriteLine(stmt + StatementLoc.CountStatementLoc(inputPath));
+            Console.WriteLine();
         }
 	}
 }

@@ -38,5 +38,11 @@ namespace Unicoen.Apps.Loc.Tests
             var jsInputPath2 = FixtureUtil.GetInputPath("JavaScript", "tiny_mce");
             Assert.That(TotalLoc.CountTotalLoc(jsInputPath2), Is.EqualTo(14202));
         }
+
+
+        //var cInputPath = FixtureUtil.GetInputPath("C", "fibonacci.c");
+        //var cSharpInputPath = FixtureUtil.GetInputPath("CSharp", "Student.cs");
+        //var pyInputPath = FixtureUtil.GetInputPath("Python2", "fibonacci.py");
+        //var rubyInputPath = FixtureUtil.GetInputPath("Ruby18", "fibonacci.rb");
     }
 }
