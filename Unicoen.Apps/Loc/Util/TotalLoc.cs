@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Unicoen.Apps.Loc.Util
 {
-    class TotalLoc
+    public class TotalLoc
     {
         // measure number of physical lines of target source code
         public static int CountTotalLoc(string inputPath)

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Unicoen.Apps.Loc.Util
 {
-    class BlankLoc
+    public class BlankLoc
     {
         // measure number of the lines which contain only space character(s) 
         // (the blank character, tab character and newline character) 

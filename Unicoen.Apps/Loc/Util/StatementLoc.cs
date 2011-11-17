@@ -14,7 +14,7 @@ using System.IO;
 
 namespace Unicoen.Apps.Loc.Util
 {
-    class StatementLoc
+    public class StatementLoc
     {
         // measure number of statements as the logical lines of code
         public static int CountStatementLoc(string inputPath)

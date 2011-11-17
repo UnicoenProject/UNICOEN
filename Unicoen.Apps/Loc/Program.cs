@@ -16,11 +16,16 @@ namespace Unicoen.Apps.Loc {
             //PrintInfo(cSharpInputPath);
 
             var javaInputPath = FixtureUtil.GetInputPath("Java", "LocSample");
-            Console.WriteLine(javaInputPath);
-            PrintInfo(javaInputPath);
+            //PrintInfo(javaInputPath);
 
-            var jsInputPath = FixtureUtil.GetInputPath("JavaScript", "student.js");
-            //PrintInfo(jsInputPath);
+            var javaInputPath2 = FixtureUtil.GetInputPath("Java", "point.java");
+            //PrintInfo(javaInputPath2);
+
+            var jsInputPath = FixtureUtil.GetInputPath("JavaScript", "tiny_mce");
+            PrintInfo(jsInputPath);
+
+            var jsInputPath2 = FixtureUtil.GetInputPath("JavaScript", "student.js");
+            PrintInfo(jsInputPath2);
 
             var pyInputPath = FixtureUtil.GetInputPath("Python2", "fibonacci.py");
             //PrintInfo(pyInputPath);
