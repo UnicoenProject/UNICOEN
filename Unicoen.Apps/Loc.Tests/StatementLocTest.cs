@@ -24,5 +24,19 @@ namespace Unicoen.Apps.Loc.Tests
             var javaInputPath2 = FixtureUtil.GetInputPath("Java", "LocSample");
             Assert.That(StatementLoc.CountStatementLoc(javaInputPath2), Is.EqualTo(85));
         }
+
+        [Test]
+        public void TestJavaScriptFile()
+        {
+            var jsInputPath1 = FixtureUtil.GetInputPath("JavaScript", "student.js");
+            Assert.That(StatementLoc.CountStatementLoc(jsInputPath1), Is.EqualTo(10));
+        }
+
+        [Test]
+        public void TestJavaScriptDir()
+        {
+            var jsInputPath2 = FixtureUtil.GetInputPath("JavaScript", "tiny_mce");
+            Assert.That(StatementLoc.CountStatementLoc(jsInputPath2), Is.EqualTo(13253));
+        }
     }
 }
