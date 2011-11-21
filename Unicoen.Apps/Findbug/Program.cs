@@ -9,14 +9,10 @@ namespace Unicoen.Apps.Findbug {
         static void Main(string[] args) {
             try {
 
-                var inputPath = FixtureUtil.GetInputPath("Java", "NP_ALWAYS_NULL.java");
+                var inputPath = FixtureUtil.GetInputPath("Java", "BugPatterns", "NP_ALWAYS_NULL.java");
                 var codeObj = new JavaProgramGenerator().GenerateFromFile(inputPath);
                 var nulls = codeObj.Descendants<UnifiedNullLiteral>();
-                var sum = 0;
-                foreach (var NULL in nulls) {
-                    sum += NULL.Elements().Count();
-                }
-                Console.WriteLine(sum);
+                Console.WriteLine(nulls.Count());
             }
             catch (Exception e) {
                 Console.WriteLine(e);
