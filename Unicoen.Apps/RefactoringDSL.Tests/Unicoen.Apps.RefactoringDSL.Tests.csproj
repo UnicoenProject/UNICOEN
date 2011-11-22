@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="EncapsulateCollectionTest.cs" />
     <Compile Include="EncapsulateFieldTest.cs" />
+    <Compile Include="FindUtilTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
