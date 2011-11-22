@@ -83,7 +83,7 @@
     </ProjectReference>
     <ProjectReference Include="..\UniAspect.Cui\Unicoen.Apps.UniAspect.Cui.csproj">
       <Project>{78406882-043E-451A-98B4-335AD8BB7DAD}</Project>
-      <Name>UniAspect.Cui</Name>
+      <Name>Unicoen.Apps.UniAspect.Cui</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
       <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
