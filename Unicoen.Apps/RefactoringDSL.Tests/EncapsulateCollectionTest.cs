@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System;//
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +28,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		}
 
 		// このテストは，最低限の「手順」しか書かない！ その他の処理はヘルパに委譲する
+		// で，最終的に EncapsulateCollectionHelper に引き上げる
 		[Test]
 		public void 下のヘルパたちを使ってリファクタリングしてみるテスト() {
 			var arrays = SearchArrayField(_model);
@@ -76,31 +77,93 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		}
 
 		[Test]
-		public void TestForGenerateAddMethod() {
+		public void TestForGenerateRemoveMethod() {
+			var list = SearchGenericsField(_model, "List").First();
+			var removingProcedure = GenerateRemovingProcedureForList((UnifiedVariableDefinition)list);
+			var removeMethod = GenerateRemoveMethod(list, "removeItem", removingProcedure);
 			
+			Console.WriteLine(JavaFactory.GenerateCode(removeMethod));
+
+
 		}
 
-		public UnifiedFunctionDefinition GenerateAddMethod(
-			UnifiedFunctionDefinition collectionField,
-			string functionName = "addElement", 
-			UnifiedParameterCollection parameters = null) {
+		// removeメソッド（コレクションに対して，要素を削除するメソッド）を生成します
+		public static UnifiedFunctionDefinition GenerateRemoveMethod(UnifiedElement collectionField, string functionName, UnifiedBlock removingProcedure) {
+			// 関数本体
 			var func = UnifiedFunctionDefinition.Create();
 			func.Name = UnifiedIdentifier.CreateLabel(functionName);
 			func.Modifiers = UnifiedModifierCollection.Create( UnifiedModifier.Create("public"));
 
+			// 引数（操作対象のインデクス）
 			var parameter = UnifiedParameter.Create();
 			parameter.Type = UnifiedType.Create("int");
 			parameter.Names = UnifiedIdentifierCollection.Create(UnifiedIdentifier.CreateLabel("i"));
 
 			func.Parameters = UnifiedParameterCollection.Create(parameter);
 
-			var body = UnifiedBlock.Create();
-			body.Add();
-			func.Body = body;
+			func.Type = UnifiedType.Create("void");
+			func.Body = removingProcedure;
+			return func;
+		}
 
+		// Javaにおけるリスト要素の削除を作成する例
+		public UnifiedBlock GenerateRemovingProcedureForList(UnifiedVariableDefinition list) {
+			var name = list.Name;
+
+			var property = UnifiedProperty.Create(
+					".",
+					name.DeepCopy(),
+					UnifiedIdentifier.CreateLabel("remove"));
+			var call = UnifiedCall.Create();
+			call.Function = property;
+
+			var argument = UnifiedArgument.Create(UnifiedIdentifier.CreateLabel("i"));
+			var arguments = UnifiedArgumentCollection.Create(argument);
+			call.Arguments = arguments;
+
+
+			var block = UnifiedBlock.Create();
+			block.Add(call);
+			
+			return block;
 
 		}
 
+		[Test]
+		public void TestForGenerateAddMethod() {
+			var list = SearchGenericsField(_model, "List").First();
+			var addingProcedure = GenerateAddingProcedureForList((UnifiedVariableDefinition)list);
+			var addMethod = GenerateAddMethod(list, "addItem", addingProcedure);
+			
+			Console.WriteLine(JavaFactory.GenerateCode(addMethod));
+			
+			
+		}
+
+		public static UnifiedFunctionDefinition GenerateAddMethod(UnifiedElement collectionField, string functionName, UnifiedBlock addingProcedure) {
+			var func = UnifiedFunctionDefinition.Create();
+			func.Name = UnifiedIdentifier.CreateLabel(functionName);
+			func.Modifiers = UnifiedModifierCollection.Create(UnifiedModifier.Create("public"));
+
+			// 引数
+			var parameter = UnifiedParameter.Create();
+			parameter.Type = GetBasicType((UnifiedGenericType)((UnifiedVariableDefinition)collectionField).Type);
+			parameter.Names = UnifiedIdentifierCollection.Create(UnifiedIdentifier.CreateLabel("object"));
+
+			func.Parameters = UnifiedParameterCollection.Create(parameter);
+			func.Type = UnifiedType.Create("void");
+			func.Body = addingProcedure;
+
+			return func;
+		}
+
+		// ジェネリックタイプから，＜＞内の型だけ取り出す
+		// List<T> => T
+		public static UnifiedType GetBasicType(UnifiedGenericType genericType) {
+			// 以下のロジックは違う！修正
+			return genericType.Type.DeepCopy();
+		}
+		
 		[Test]
 		public void TestForGenerateClonedField() {
 			var variable = _model.Descendants<UnifiedVariableDefinition>().First();
@@ -123,6 +186,28 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			return cloned;
 		}
 
+		// Java におけるリスト要素の追加を作成する例
+		public static UnifiedBlock GenerateAddingProcedureForList(UnifiedVariableDefinition list) {
+			var name = list.Name;
+
+			var property = UnifiedProperty.Create(
+					".",
+					name.DeepCopy(),
+					UnifiedIdentifier.CreateLabel("add"));
+			var call = UnifiedCall.Create();
+			call.Function = property;
+
+			var argument = UnifiedArgument.Create(UnifiedIdentifier.CreateLabel("object"));
+			var arguments = UnifiedArgumentCollection.Create(argument);
+			call.Arguments = arguments;
+
+
+			var block = UnifiedBlock.Create();
+			block.Add(call);
+			
+			return block;
+		}
+
 
 		// コレクションフィールドを検索します
 		public static IEnumerable<UnifiedElement> SearchCollectionField(UnifiedProgram program) {
@@ -130,7 +215,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		}
 
 		// コレクションフィールドの種類を返します（最終的には適当なデータ構造に変換するよ）
-		public static List<String> AllCollectionField(UnifiedProgram program) {
+		public static List<Type> AllCollectionField(UnifiedProgram program) {
 			return null;
 		}
 
