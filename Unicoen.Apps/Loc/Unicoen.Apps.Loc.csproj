@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DiffPlex">
+      <HintPath>..\..\lib\DiffPlex.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +49,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\BlankLoc.cs" />
+    <Compile Include="Util\DiffCounter.cs" />
+    <Compile Include="Util\DifferentialLoc.cs" />
     <Compile Include="Util\StatementLoc.cs" />
     <Compile Include="Util\TotalLoc.cs" />
   </ItemGroup>
