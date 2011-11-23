@@ -19,7 +19,7 @@ namespace Unicoen.Apps.RefactoringDSL.Util {
 		}
 
 		/// <summary>
-		/// ジェネリックタイプから，型引数（<>の中身）をUnifiedTypeオブジェクトにして取得する 
+		/// ジェネリックタイプから，型引数（[]の中身）をUnifiedTypeオブジェクトにして取得する 
 		/// (e.g. List[T] なる UnifiedGenericType オブジェクトから，T (UnifiedType オブジェクト） を生成して返却） 
 		/// </summary>
 		/// <param name="genericType"></param>

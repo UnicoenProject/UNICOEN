@@ -71,8 +71,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			var model = JavaFactory.GenerateModel(code);
 
 			var targetClass = FindUtil.FindClassByClassName(model, "Bar").First();
-			Console.WriteLine(targetClass.ToXml());
-		}
+			Console.WriteLine(targetClass.ToXml());}
 
 		[Test]
 		public void TestForSearchArrayField() {
@@ -86,13 +85,9 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		public void TestForSearchGenericsField() {
 			var className = "Bar";
 			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-
-			Console.WriteLine(FindUtil.SearchGenericsField(targetClass, "List", "Integer").Count());
 			var genericFields = FindUtil.SearchGenericsField(targetClass, "List", "*");
 
-			Console.WriteLine(genericFields.Count());
-
-			Assert.That(genericFields.Count(), Is.EqualTo(3));
+			Assert.That(genericFields.Count(), Is.EqualTo(1));
 
 			/*
 			Console.WriteLine(((UnifiedVariableIdentifier)(genericFields.First().Descendants<UnifiedGenericType>().First().Type.BasicTypeName)).Name); // => List
@@ -102,6 +97,20 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			}// => Integer 
 			 * */
 		}
+
+		[Test]
+		public void TestForGetParameterAsType() {
+			var className = "Bar";
+			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
+			var genericField = FindUtil.SearchGenericsField(targetClass, "List", "*").First();
+
+			var type = FindUtil.GetTypeParameterAsType(
+					(UnifiedGenericType)((UnifiedVariableDefinition)genericField).Type);
+
+			Assert.That((type.BasicTypeName as UnifiedIdentifier).Name, Is.EqualTo("Integer"));		
+			// Console.WriteLine((type.BasicTypeName as UnifiedIdentifier).Name);
+		}
+
 
 		[Test]
 		public void TestForGenerateRemoveMethod() {

@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncapsulateCollectionHelperTest.cs" />
     <Compile Include="EncapsulateCollectionTest.cs" />
     <Compile Include="EncapsulateFieldTest.cs" />
     <Compile Include="FindUtilTest.cs" />
