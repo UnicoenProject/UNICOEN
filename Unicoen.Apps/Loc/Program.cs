@@ -38,19 +38,19 @@ namespace Unicoen.Apps.Loc {
 
         static void PrintBasicInfo(string inputPath)
         {
-            Console.WriteLine("Total Lines of Code      : " + TotalLoc.CountTotalLoc(inputPath));
-            Console.WriteLine("Blank Lines of Code      : " + BlankLoc.CountBlankLoc(inputPath));
-            Console.WriteLine("Statements Count of Code : " + StatementLoc.CountStatementLoc(inputPath));
+            Console.WriteLine("Total Lines of Code      : " + TotalLoc.Count(inputPath));
+            Console.WriteLine("Blank Lines of Code      : " + BlankLoc.Count(inputPath));
+            Console.WriteLine("Statements Count of Code : " + StatementLoc.Count(inputPath));
             Console.WriteLine();
         }
 
         static void PrintDifferentialInfo(string orign, string modif)
         {
-            DiffCounter c = DifferentialLoc.CountDifferentialLoc(orign, modif);
-            Console.WriteLine("Added Line of Code    : " + c.NumAdded);
-            Console.WriteLine("Deleted Line of Code  : " + c.NumDeleted);
-            Console.WriteLine("Modified Line of Code : " + c.NumModified);
-            Console.WriteLine("Equal Line of Code    : " + c.NumEqual);
+            DiffCounter c = DifferentialLoc.Count(orign, modif);
+            Console.WriteLine("Added Line of Code    : " + c.AddedCount);
+            Console.WriteLine("Deleted Line of Code  : " + c.DeletedCount);
+            Console.WriteLine("Modified Line of Code : " + c.ModifiedCount);
+            Console.WriteLine("Equal Line of Code    : " + c.EqualCount);
             Console.WriteLine();
         }
 

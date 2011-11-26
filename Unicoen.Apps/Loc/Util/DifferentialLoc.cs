@@ -13,7 +13,7 @@ namespace Unicoen.Apps.Loc.Util
     public class DifferentialLoc
     {
         // measure differential between two files
-        public static DiffCounter CountDifferentialLoc(string originalFile, string modifiedFile)
+        public static DiffCounter Count(string originalFile, string modifiedFile)
         {
             string original = File.ReadAllText(@originalFile);
             string modified = File.ReadAllText(@modifiedFile);
@@ -26,15 +26,15 @@ namespace Unicoen.Apps.Loc.Util
             // added, modified, and unmodified at modified file
             foreach (var line in result.NewText.Lines)
             {
-                if (line.Type == ChangeType.Inserted)  counter.NumAdded++;
-                if (line.Type == ChangeType.Modified)  counter.NumModified++;
-                if (line.Type == ChangeType.Unchanged) counter.NumEqual++;
+                if (line.Type == ChangeType.Inserted)  counter.AddedCount++;
+                if (line.Type == ChangeType.Modified)  counter.ModifiedCount++;
+                if (line.Type == ChangeType.Unchanged) counter.EqualCount++;
             }
 
             // deleted from original file
             foreach (var line in result.OldText.Lines)
             {
-                if (line.Type == ChangeType.Deleted)   counter.NumDeleted++;
+                if (line.Type == ChangeType.Deleted)   counter.DeletedCount++;
             }
 
             return counter;

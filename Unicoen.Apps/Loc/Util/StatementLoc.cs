@@ -17,67 +17,67 @@ namespace Unicoen.Apps.Loc.Util
     public class StatementLoc
     {
         // measure number of statements as the logical lines of code
-        public static int CountStatementLoc(string inputPath)
+        public static int Count(string inputPath)
         {
             FileAttributes attr = File.GetAttributes(@inputPath);
             // if inputPath is a directory
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 DirectoryInfo dirPath = new DirectoryInfo(@inputPath);
-                return DirStatement(dirPath);
+                return CountForDirectory(dirPath);
             }
             // if inputPath is a file
             else
             {
-                return FileStatement(inputPath);
+                return CountForFile(inputPath);
             }
         }
 
         // count  sum of statements of all files in directory
-        private static int DirStatement(DirectoryInfo dirPath)
+        private static int CountForDirectory(DirectoryInfo dirPath)
         {
             var sum = 0;
-            FileInfo[] files = dirPath.GetFiles("*.*");
+            var files = dirPath.GetFiles("*.*");
             foreach (FileInfo file in files)
             {
                 String fi = file.FullName;
-                var fiLoc = FileStatement(fi);
+                var fiLoc = CountForFile(fi);
                 sum += fiLoc;
                 Console.WriteLine(fi + " | stmt=" + fiLoc);
             }
-            DirectoryInfo[] dirs = dirPath.GetDirectories("*.*");
+            var dirs = dirPath.GetDirectories("*.*");
             foreach (DirectoryInfo dir in dirs)
             {
-                sum += DirStatement(dir);
+                sum += CountForDirectory(dir);
             }
             return sum;
         }
 
         // count number of statements of a file
-        private static int FileStatement(string filePath)
+        private static int CountForFile(string filePath)
         {
             var ext = Path.GetExtension(filePath);
             switch (ext.ToLower())
             {
                 case ".c":
-                    return CountStmt(new CProgramGenerator().GenerateFromFile(filePath));
+                    return StatementNumber(new CProgramGenerator().GenerateFromFile(filePath));
                 case ".cs":
-                    return CountStmt(new CSharpProgramGenerator().GenerateFromFile(filePath));
+                    return StatementNumber(new CSharpProgramGenerator().GenerateFromFile(filePath));
                 case ".java":
-                    return CountStmt(new JavaProgramGenerator().GenerateFromFile(filePath));
+                    return StatementNumber(new JavaProgramGenerator().GenerateFromFile(filePath));
                 case ".js":
-                    return CountStmt(new JavaScriptProgramGenerator().GenerateFromFile(filePath));
+                    return StatementNumber(new JavaScriptProgramGenerator().GenerateFromFile(filePath));
                 case ".py":
-                    return CountStmt(new Python2ProgramGenerator().GenerateFromFile(filePath));
+                    return StatementNumber(new Python2ProgramGenerator().GenerateFromFile(filePath));
                 case ".rb":
-                    return CountStmt(new Ruby18ProgramGenerator().GenerateFromFile(filePath));
+                    return StatementNumber(new Ruby18ProgramGenerator().GenerateFromFile(filePath));
                 default:
                     return 0;
             }
         }
 
         // count statements of a unified code object
-        private static int CountStmt(UnifiedProgram codeObject)
+        private static int StatementNumber(UnifiedProgram codeObject)
         {
             var blocks = codeObject.Descendants<UnifiedBlock>();
             var sum = 0;

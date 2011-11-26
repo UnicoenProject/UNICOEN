@@ -10,44 +10,44 @@ namespace Unicoen.Apps.Loc.Util
     {
         // measure number of the lines which contain only space character(s) 
         // (the blank character, tab character and newline character) 
-        public static int CountBlankLoc(string inputPath)
+        public static int Count(string inputPath)
         {
             FileAttributes attr = File.GetAttributes(@inputPath);
             // if inputPath is a directory
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
                 DirectoryInfo dirPath = new DirectoryInfo(@inputPath);
-                return DirBLoc(dirPath);
+                return CountForDirectory(dirPath);
             }
             // if inputPath is a file
             else
             {
-                return FileBLoc(inputPath);
+                return CountForFile(inputPath);
             }
         }
 
         // count  sum of blank LOC of all files in directory
-        private static int DirBLoc(DirectoryInfo dirPath)
+        private static int CountForDirectory(DirectoryInfo dirPath)
         {
             var sum = 0;
-            FileInfo[] files = dirPath.GetFiles("*.*");
+            var files = dirPath.GetFiles("*.*");
             foreach (FileInfo file in files)
             {
                 String fi = file.FullName;
-                var fiLoc = FileBLoc(fi);
+                var fiLoc = CountForFile(fi);
                 sum += fiLoc;
                 Console.WriteLine(fi + " | bloc=" + fiLoc);
             }
-            DirectoryInfo[] dirs = dirPath.GetDirectories("*.*");
+            var dirs = dirPath.GetDirectories("*.*");
             foreach (DirectoryInfo dir in dirs)
             {
-                sum += DirBLoc(dir);
+                sum += CountForDirectory(dir);
             }
             return sum;
         }
 
         // count blank LOC of a file
-        private static int FileBLoc(string filePath)
+        private static int CountForFile(string filePath)
         {
             string line;
             int count = 0;

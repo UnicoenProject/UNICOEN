@@ -8,17 +8,17 @@ namespace Unicoen.Apps.Loc.Util
     // class containing number of differential elements
     public class DiffCounter
     {
-        public int NumAdded { get; set; }
-        public int NumDeleted { get; set; }
-        public int NumModified { get; set; }
-        public int NumEqual { get; set; }
+        public int AddedCount { get; set; }
+        public int DeletedCount { get; set; }
+        public int ModifiedCount { get; set; }
+        public int EqualCount { get; set; }
 
         public DiffCounter(int na, int nd, int nm, int ne)
         {
-            NumAdded = na;
-            NumDeleted = nd;
-            NumModified = nm;
-            NumEqual = ne;
+            AddedCount = na;
+            DeletedCount = nd;
+            ModifiedCount = nm;
+            EqualCount = ne;
         }
 
         public DiffCounter()
