@@ -2,17 +2,16 @@ package src;
 
 public class NULL_SAMPLE {
 	public static void main(String[] args){
-		final String st = null;
-		final Integer in = null;
+		String st = null;
+		Integer in = null;
 		Boolean bool = null;
 
-		int[] array = new int[5];
+		System.out.println(st + in + bool);
 
-		int i = array[6];
+		st = "STRING";
+		in = 100;
+		bool = false;
 
-		System.out.println(i);
-
-		System.out.println(st + "\n" + in + "\n" + bool);
-
+		System.out.println(st + in + bool);
 	}
 }
