@@ -8,25 +8,25 @@ using System.Collections.Generic;
 namespace Unicoen.Apps.Findbug {
     class Program {
         public static IEnumerable<UnifiedIdentifier> getVariables(string name, UnifiedProgram codeObj){
-            var vari = UnifiedIdentifier.CreateVariable(name);
-            var id = codeObj.Descendants<UnifiedIdentifier>();
-            var strV = vari.ToString();
-            foreach(var ID in id){
-                var strID = ID.ToString();
-                if(strID.Equals(strV)){
-                    yield return ID;
+            var variable = UnifiedIdentifier.CreateVariable(name);
+            var ids = codeObj.Descendants<UnifiedIdentifier>();
+            var strV = variable.Name;
+            foreach(var id in ids){
+                var strId = id.Name;
+                if(strId.Equals(strV)){
+                    yield return id;
                 }
             }
         }
 
         static void Main(string[] args) {
             try {
-                var inputPath = FixtureUtil.GetInputPath("Java", "BugPatterns", "NP_ALWAYS_NULL.java");
+                var inputPath = FixtureUtil.GetInputPath("Java", "BugPatterns", "NULL_SAMPLE.java");
                 var codeObj = new JavaProgramGenerator().GenerateFromFile(inputPath);
                 var idname = "bool";
-                var idCount = getVariables(idname, codeObj);
+                var idSet = getVariables(idname, codeObj);
 
-                Console.WriteLine("{0}: " + idCount.Count(), idname);
+                Console.WriteLine("{0}: " + idSet.Count(), idname);
                 var nulls = codeObj.Descendants<UnifiedNullLiteral>();
                 Console.WriteLine("null: " + nulls.Count());
             }
