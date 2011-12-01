@@ -19,6 +19,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Code2Xml.Languages.C.CodeToXmls;
+using Unicoen.CodeGenerators;
+using Unicoen.Languages.C.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
@@ -29,6 +31,10 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 
 		public override IEnumerable<string> Extensions {
 			get { return CCodeToXml.Instance.TargetExtensions; }
+		}
+
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return CFactory.CodeGenerator; }
 		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {

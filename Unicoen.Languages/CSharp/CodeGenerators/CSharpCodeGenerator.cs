@@ -23,6 +23,10 @@ using Unicoen.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeGenerators {
 	public class CSharpCodeGenerator : UnifiedCodeGenerator {
+		public override string Extension {
+			get { return ".cs"; }
+		}
+
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(

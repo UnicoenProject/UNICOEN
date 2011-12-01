@@ -16,11 +16,14 @@
 
 #endregion
 
+using System.Collections.Generic;
 using System.IO;
 using Unicoen.Model;
 
 namespace Unicoen.CodeGenerators {
 	public abstract class UnifiedCodeGenerator {
+		public abstract string Extension { get; }
+
 		public abstract void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign);
 

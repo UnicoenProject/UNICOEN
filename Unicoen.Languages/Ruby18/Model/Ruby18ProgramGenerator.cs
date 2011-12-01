@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Code2Xml.Languages.Ruby18.CodeToXmls;
+using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.ProgramGeneratos;
@@ -31,6 +32,10 @@ namespace Unicoen.Languages.Ruby18.Model {
 
 		public override IEnumerable<string> Extensions {
 			get { return Ruby18CodeToXml.Instance.TargetExtensions; }
+		}
+
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return null; }
 		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {

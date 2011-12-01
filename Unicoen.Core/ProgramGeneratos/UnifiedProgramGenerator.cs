@@ -19,16 +19,31 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Paraiba.Text;
+using Unicoen.CodeGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.ProgramGeneratos {
 	public abstract class UnifiedProgramGenerator {
+		/// <summary>
+		/// 解析対象の言語のソースコードの拡張子を取得します．
+		/// </summary>
 		public abstract IEnumerable<string> Extensions { get; }
+		
+		/// <summary>
+		/// 解析対象の言語のソースコードのコード生成器を取得します．
+		/// </summary>
+		public abstract UnifiedCodeGenerator CodeGenerator { get; }
 
 		public abstract UnifiedProgram GenerateWithouNormalizing(string code);
 
+		public virtual UnifiedProgram GenerateFromFile(string filePath, Encoding encoding) {
+			var code = File.ReadAllText(filePath, encoding);
+			return Generate(code);
+		}
+
 		public virtual UnifiedProgram GenerateFromFile(string filePath) {
-			var code = File.ReadAllText(filePath, Encoding.Default);
+			var code = GuessEncoding.ReadAllText(filePath);
 			return Generate(code);
 		}
 

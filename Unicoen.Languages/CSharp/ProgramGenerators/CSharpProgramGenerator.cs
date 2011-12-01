@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using ICSharpCode.NRefactory.CSharp;
+using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
@@ -30,6 +31,10 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
 		public override IEnumerable<string> Extensions {
 			get { return _extensions; }
+		}
+
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return CSharpFactory.CodeGenerator; }
 		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {

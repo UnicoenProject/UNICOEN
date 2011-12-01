@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Code2Xml.Languages.Python2.CodeToXmls;
+using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
@@ -29,6 +30,10 @@ namespace Unicoen.Languages.Python2.ProgramGenerators {
 
 		public override IEnumerable<string> Extensions {
 			get { return Python2CodeToXml.Instance.TargetExtensions; }
+		}
+
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return Python2Factory.CodeGenerator; }
 		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {

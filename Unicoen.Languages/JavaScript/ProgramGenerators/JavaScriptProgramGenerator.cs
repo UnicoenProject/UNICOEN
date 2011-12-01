@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
+using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.ProgramGeneratos;
 
@@ -29,6 +30,10 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 
 		public override IEnumerable<string> Extensions {
 			get { return JavaScriptCodeToXml.Instance.TargetExtensions; }
+		}
+
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return JavaScriptFactory.CodeGenerator; }
 		}
 
 		public override UnifiedProgram GenerateWithouNormalizing(string code) {
