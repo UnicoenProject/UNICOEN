@@ -12,7 +12,7 @@ using Unicoen.Apps.RefactoringDSL.Util;
 
 namespace Unicoen.Apps.RefactoringDSL.Tests {
 	public class EncapsulateCollectionTest {
-		private UnifiedProgram _model;
+		protected UnifiedProgram _model;
 
 		[SetUp]
 		public void SetUp() {
@@ -21,18 +21,6 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			_model = JavaFactory.GenerateModel(code);
 		}
 
-		[Test]
-		public void SearchArrayFieldのテスト() {
-			var arrays = FindUtil.SearchArrayField(_model);
-			Console.Write(arrays.Count());
-		}
-
-		[Ignore]
-		public void 生成されたXMLを見るためのテスト() {
-			Console.WriteLine(_model.ToXml());
-		}
-
-		
 		[Test]
 		public void 下のヘルパたちを使ってリファクタリングしてみるテスト() {
 			var className = "Bar";
@@ -65,84 +53,27 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		}
 
 		[Test]
-		public void AfterXML() {
-			var inputPath = FixtureUtil.GetInputPath("Java", "default", "EncapsulateCollection.java");
-			var code = File.ReadAllText(inputPath, Encoding.Default);
-			var model = JavaFactory.GenerateModel(code);
-
-			var targetClass = FindUtil.FindClassByClassName(model, "Bar").First();
-			Console.WriteLine(targetClass.ToXml());}
-
-		[Test]
-		public void TestForSearchArrayField() {
-			var className = "Foo";
-			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-
-			Console.WriteLine(FindUtil.SearchArrayField(targetClass).Count());
-		}
-
-		[Test]
-		public void TestForSearchGenericsField() {
+		public void リファクタリングエンジンを使ってリファクタリングしてみるテスト() {
 			var className = "Bar";
-			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-			var genericFields = FindUtil.SearchGenericsField(targetClass, "List", "*");
+			var engine = new EncapsulateCollection(_model);
+			var refactored = engine.Refactor(className);
 
-			Assert.That(genericFields.Count(), Is.EqualTo(1));
+			Console.WriteLine(JavaFactory.GenerateCode(refactored));
 
-			/*
-			Console.WriteLine(((UnifiedVariableIdentifier)(genericFields.First().Descendants<UnifiedGenericType>().First().Type.BasicTypeName)).Name); // => List
-			foreach(var arg in (genericFields.First().Descendants<UnifiedGenericType>().First().Arguments)) {
-				var typeString = arg.Descendants<UnifiedIdentifier>().First().Name;
-				Console.WriteLine(typeString);
-			}// => Integer 
-			 * */
 		}
 
+		// ---------------------- 以下サンドボックス（あとでどこかに引き上げる
 		[Test]
-		public void TestForGetParameterAsType() {
-			var className = "Bar";
-			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-			var genericField = FindUtil.SearchGenericsField(targetClass, "List", "*").First();
-
-			var type = FindUtil.GetTypeParameterAsType(
-					(UnifiedGenericType)((UnifiedVariableDefinition)genericField).Type);
-
-			Assert.That((type.BasicTypeName as UnifiedIdentifier).Name, Is.EqualTo("Integer"));		
-			// Console.WriteLine((type.BasicTypeName as UnifiedIdentifier).Name);
-		}
-
-
-		[Test]
-		public void TestForGenerateRemoveMethod() {
-			var list = FindUtil.SearchGenericsField(_model, "List").First();
-			var removingProcedure = EncapsulateCollectionHelperForJava.GenerateRemovingProcedureForList((UnifiedVariableDefinition)list);
-			var removeMethod = EncapsulateCollectionHelper.GenerateRemoveMethod(list, "removeItem", removingProcedure);
-			
-			Console.WriteLine(JavaFactory.GenerateCode(removeMethod));
-		}
-
-
-
-		[Test]
-		public void TestForGenerateAddMethod() {
-			var list = FindUtil.SearchGenericsField(_model, "List").First();
-			var addingProcedure = EncapsulateCollectionHelperForJava.GenerateAddingProcedureForList((UnifiedVariableDefinition)list);
-			var addMethod = EncapsulateCollectionHelper.GenerateAddMethod(list, "addItem", addingProcedure);
-			
-			Console.WriteLine(JavaFactory.GenerateCode(addMethod));
-			
+		public void コレクションフィールドをそのまま返却している関数を探す() {
 			
 		}
 
-		
 		[Test]
-		public void TestForGenerateClonedField() {
-			var variable = _model.Descendants<UnifiedVariableDefinition>().First();
-			var cloned = EncapsulateCollectionHelper.GenerateClonedField(variable, "clone()");
-			var code = JavaFactory.GenerateCode(cloned);
-			Console.WriteLine(code);
-
+		public void コレクションフィールドをセットしている関数を探す() {
+			
 		}
+
+
 
 	}
 }
