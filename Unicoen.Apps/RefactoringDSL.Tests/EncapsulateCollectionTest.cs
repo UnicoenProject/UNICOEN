@@ -65,7 +65,25 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		// ---------------------- 以下サンドボックス（あとでどこかに引き上げる
 		[Test]
 		public void コレクションフィールドをそのまま返却している関数を探す() {
-			
+			var className = "Bar";
+			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
+
+			var collections = FindUtil.SearchGenericsField(targetClass, "List");
+
+			var func =
+					targetClass.Descendants<UnifiedFunctionDefinition>().Where(
+							f => f.Body.Count == 1 && f.Body.First() is UnifiedReturn);
+			var collectionNames = collections.Select(e => e as UnifiedVariableDefinition).Select(e => e.Name.Name);
+
+			var result = func.Where(
+					f => collectionNames.Contains(
+							(((UnifiedReturn)f.Body.First()).Value as UnifiedVariableIdentifier).Name));
+
+			result.First().RemoveSelf();
+
+
+			Console.WriteLine(JavaFactory.GenerateCode(targetClass));
+
 		}
 
 		[Test]
@@ -77,3 +95,4 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 
 	}
 }
+
