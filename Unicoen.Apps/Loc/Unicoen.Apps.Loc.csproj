@@ -15,7 +15,7 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\bin\Release\</OutputPath>
@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DiffPlex">
+      <HintPath>..\..\lib\DiffPlex.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +48,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\BlankLoc.cs" />
+    <Compile Include="Util\DiffCounter.cs" />
+    <Compile Include="Util\DifferentialLoc.cs" />
+    <Compile Include="Util\StatementLoc.cs" />
+    <Compile Include="Util\TotalLoc.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
@@ -55,11 +63,36 @@
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\CSharp\Unicoen.Languages.CSharp.csproj">
+      <Project>{2B706EC6-51C7-463F-962B-375A5036E40B}</Project>
+      <Name>Unicoen.Languages.CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\C\Unicoen.Languages.C.csproj">
+      <Project>{161EB3E2-D62F-4D7D-91F6-A495275C08FC}</Project>
+      <Name>Unicoen.Languages.C</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\JavaScript\Unicoen.Languages.JavaScript.csproj">
+      <Project>{F8E6563A-2EF3-4819-ACC3-024028815ED7}</Project>
+      <Name>Unicoen.Languages.JavaScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Languages\Java\Unicoen.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\Python2\Unicoen.Languages.Python2.csproj">
+      <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
+      <Name>Unicoen.Languages.Python2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\Python3\Unicoen.Languages.Python3.csproj">
+      <Project>{CF31A92F-646A-4155-A280-038AD9B84D0F}</Project>
+      <Name>Unicoen.Languages.Python3</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Languages\Ruby18\Unicoen.Languages.Ruby18.csproj">
+      <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>
+      <Name>Unicoen.Languages.Ruby18</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
