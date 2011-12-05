@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Unicoen.Apps.RefactoringDSL.Util;
+using Unicoen.Languages.Java;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.RefactoringDSL {
@@ -109,10 +110,10 @@ namespace Unicoen.Apps.RefactoringDSL {
 					element.Descendants<UnifiedFunctionDefinition>().Where(
 							f => f.Body.Count == 1 && f.Body.First() is UnifiedReturn);
 			var collectionNames = collections.Select(e => e as UnifiedVariableDefinition).Select(e => e.Name.Name);
-
+			
 			var result = func.Where(
 					f => collectionNames.Contains(
-							((UnifiedVariableIdentifier)((UnifiedReturn)f.Body.First()).Value).Name));
+							(((UnifiedReturn)f.Body.First()).Value as UnifiedVariableIdentifier).Name));
 
 			return result;
 		}
