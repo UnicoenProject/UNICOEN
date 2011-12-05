@@ -33,7 +33,7 @@ namespace Unicoen.Apps.RefactoringDSL.Util {
 		/// </summary>
 		/// <param name="element">検索するトップノード</param>
 		/// <returns>配列フィールドの定義</returns>
-		public static IEnumerable<UnifiedElement> SearchArrayField(UnifiedElement element) {
+		public static IEnumerable<UnifiedElement> FindArrayField(UnifiedElement element) {
 			var fields = element.Descendants<UnifiedVariableDefinition>();
 			return fields.Where(
 				f => f.Descendants().Any(e => e is UnifiedArrayType));
@@ -46,7 +46,7 @@ namespace Unicoen.Apps.RefactoringDSL.Util {
 		/// <param name="containerType">コンテナの型名(e.g. List[T] の List)</param>
 		/// <param name="type">型引数の型名(e.g. List[T] の T，'*'はワイルドカード)</param>
 		/// <returns></returns>
-		public static IEnumerable<UnifiedElement> SearchGenericsField(UnifiedElement element, string containerType, string type = "*") {
+		public static IEnumerable<UnifiedElement> FindGenericsField(UnifiedElement element, string containerType, string type = "*") {
 			var fields = element.Descendants<UnifiedVariableDefinition>();
 			var genericsFields = fields.Where(
 					f => f.Descendants().Any(e => e is UnifiedGenericType));

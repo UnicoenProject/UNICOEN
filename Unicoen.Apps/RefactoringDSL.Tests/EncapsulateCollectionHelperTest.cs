@@ -12,7 +12,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 	public class EncapsulateCollectionHelperTest : EncapsulateCollectionTest{
 		[Test]
 		public void TestForGenerateRemoveMethod() {
-			var list = FindUtil.SearchGenericsField(_model, "List").First();
+			var list = FindUtil.FindGenericsField(_model, "List").First();
 			var removingProcedure = EncapsulateCollectionHelperForJava.GenerateRemovingProcedureForList((UnifiedVariableDefinition)list);
 			var removeMethod = EncapsulateCollectionHelper.GenerateRemoveMethod(list, "removeItem", removingProcedure);
 			
@@ -23,7 +23,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 
 		[Test]
 		public void TestForGenerateAddMethod() {
-			var list = FindUtil.SearchGenericsField(_model, "List").First();
+			var list = FindUtil.FindGenericsField(_model, "List").First();
 			var addingProcedure = EncapsulateCollectionHelperForJava.GenerateAddingProcedureForList((UnifiedVariableDefinition)list);
 			var addMethod = EncapsulateCollectionHelper.GenerateAddMethod(list, "addItem", addingProcedure);
 			
@@ -57,14 +57,14 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			var className = "Foo";
 			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
 
-			Console.WriteLine(FindUtil.SearchArrayField(targetClass).Count());
+			Console.WriteLine(FindUtil.FindArrayField(targetClass).Count());
 		}
 
 		[Test]
 		public void TestForGetTypeParameterAsType() {
 			var className = "Bar";
 			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-			var genericField = FindUtil.SearchGenericsField(targetClass, "List", "*").First();
+			var genericField = FindUtil.FindGenericsField(targetClass, "List", "*").First();
 
 			var type = FindUtil.GetTypeParameterAsType(
 					(UnifiedGenericType)((UnifiedVariableDefinition)genericField).Type);
@@ -77,7 +77,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		public void TestForSearchGenericsField() {
 			var className = "Bar";
 			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-			var genericFields = FindUtil.SearchGenericsField(targetClass, "List", "*");
+			var genericFields = FindUtil.FindGenericsField(targetClass, "List", "*");
 
 			Assert.That(genericFields.Count(), Is.EqualTo(1));
 

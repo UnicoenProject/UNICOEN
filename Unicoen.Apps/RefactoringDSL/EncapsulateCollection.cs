@@ -18,7 +18,7 @@ namespace Unicoen.Apps.RefactoringDSL {
 		public UnifiedProgram Refactor(string className) {
 			var model = Program.DeepCopy();
 			var targetClass = FindUtil.FindClassByClassName(model, className).First();
-			var genericParameters = FindUtil.SearchGenericsField(model, "List");
+			var genericParameters = FindUtil.FindGenericsField(model, "List");
 
 			var list = targetClass.Body.DeepCopy();
 			foreach (var gp in genericParameters) {
@@ -34,6 +34,10 @@ namespace Unicoen.Apps.RefactoringDSL {
 				list.Add(collectionFieldGetter);
 			}
 
+			var collections = FindUtil.FindGenericsField(list, "List");
+			var rfs = EncapsulateCollectionHelper.FindReturningCollectionFunction(list, collections);
+
+			Console.WriteLine(rfs.ToArray() );
 			targetClass.Body = list;
 
 			return model;

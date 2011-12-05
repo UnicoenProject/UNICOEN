@@ -8,7 +8,7 @@ class Foo{
 	}
 	
 	public void setCollection(int[] collection){
-		_colection = collection;
+		_collection = collection;
 	}
 }
 
@@ -20,6 +20,6 @@ class Bar{
 	}
 	
 	public void setCollection(List<Integer> collection){
-		_colection = collection;
+		_collection = collection;
 	}
 }

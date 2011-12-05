@@ -97,5 +97,39 @@ namespace Unicoen.Apps.RefactoringDSL {
 			return func;
 
 		}
+
+		/// <summary>
+		/// コレクションフィールドをそのまま返却している関数を検索し取得します
+		/// </summary>
+		/// <param name="element">検索対象のトップノード</param>
+		/// <param name="collections">コレクションフィールド群</param>
+		/// <returns></returns>
+		public static IEnumerable<UnifiedFunctionDefinition> FindReturningCollectionFunction(UnifiedElement element, IEnumerable<UnifiedElement> collections) {
+			var func =
+					element.Descendants<UnifiedFunctionDefinition>().Where(
+							f => f.Body.Count == 1 && f.Body.First() is UnifiedReturn);
+			var collectionNames = collections.Select(e => e as UnifiedVariableDefinition).Select(e => e.Name.Name);
+
+			var result = func.Where(
+					f => collectionNames.Contains(
+							((UnifiedVariableIdentifier)((UnifiedReturn)f.Body.First()).Value).Name));
+
+			return result;
+		}
+
+		/// <summary>
+		/// コレクションにコレクションを代入している関数を検索し取得します．
+		/// </summary>
+		/// <param name="element">検索対象のトップノード</param>
+		/// <param name="collections">コレクションフィールド群</param>
+		/// <returns></returns>
+		public static IEnumerable<UnifiedFunctionDefinition> FindSettingCollectionFunction(UnifiedElement element, IEnumerable<UnifiedElement> collections) {
+			var collectionNames = collections.Select(e => e as UnifiedVariableDefinition).Select(e => e.Name.Name);
+			var func = element.Descendants<UnifiedFunctionDefinition>()
+					.Where(e => e.Body.Count == 1 && e.Body.First() is UnifiedBinaryExpression) // 2項演算式で
+					.Where(e => ((UnifiedBinaryExpression)e.Body.First()).Operator.Kind == UnifiedBinaryOperatorKind.Assign)
+					.Where(e => collectionNames.Contains((((UnifiedBinaryExpression)e.Body.First()).LeftHandSide as UnifiedVariableIdentifier).Name));  // とりあえずは名前で判断
+			return func;
+		}
 	}
 }

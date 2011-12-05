@@ -25,13 +25,13 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		public void 下のヘルパたちを使ってリファクタリングしてみるテスト() {
 			var className = "Bar";
 			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-			if(targetClass == null) {
+			if (targetClass == null) {
 				return;
 			}
 
 			var block = targetClass.Body.DeepCopy();
 
-			var collections = FindUtil.SearchGenericsField(targetClass, "List", "*");
+			var collections = FindUtil.FindGenericsField(targetClass, "List", "*");
 			foreach (var collection in collections) {
 				var addingProcedure = EncapsulateCollectionHelperForJava.GenerateAddingProcedureForList((UnifiedVariableDefinition)collection);
 				var addMethod = EncapsulateCollectionHelper.GenerateAddMethod(collection, "addElement", addingProcedure);
@@ -58,6 +58,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			var engine = new EncapsulateCollection(_model);
 			var refactored = engine.Refactor(className);
 
+			Console.WriteLine(refactored.ToXml());
 			Console.WriteLine(JavaFactory.GenerateCode(refactored));
 
 		}
@@ -67,8 +68,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		public void コレクションフィールドをそのまま返却している関数を探す() {
 			var className = "Bar";
 			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
-
-			var collections = FindUtil.SearchGenericsField(targetClass, "List");
+			var collections = FindUtil.FindGenericsField(targetClass, "List");
 
 			var func =
 					targetClass.Descendants<UnifiedFunctionDefinition>().Where(
@@ -79,6 +79,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 					f => collectionNames.Contains(
 							(((UnifiedReturn)f.Body.First()).Value as UnifiedVariableIdentifier).Name));
 
+			// 当該ノードの削除
 			result.First().RemoveSelf();
 
 
@@ -87,10 +88,22 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 		}
 
 		[Test]
-		public void コレクションフィールドをセットしている関数を探す() {
-			
-		}
+		public void コレクションフィールドにコレクションをセットしている関数を探す() {
+			var className = "Bar";
+			var targetClass = FindUtil.FindClassByClassName(_model, className).First();
+			var collections = FindUtil.FindGenericsField(targetClass, "List");
 
+			var collectionNames = collections.Select(e => e as UnifiedVariableDefinition).Select(e => e.Name.Name);
+			var func = targetClass.Descendants<UnifiedFunctionDefinition>()
+					.Where(e => e.Body.Count == 1 && e.Body.First() is UnifiedBinaryExpression) // 2項演算式で
+					.Where(e => ((UnifiedBinaryExpression)e.Body.First()).Operator.Kind == UnifiedBinaryOperatorKind.Assign)
+					.Where(e => collectionNames.Contains((((UnifiedBinaryExpression)e.Body.First()).LeftHandSide as UnifiedVariableIdentifier).Name));  // とりあえずは名前で判断
+
+			Console.WriteLine(func.Count());
+			func.First().RemoveSelf();
+
+			Console.WriteLine(JavaFactory.GenerateCode(targetClass));
+		}
 
 
 	}
