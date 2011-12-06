@@ -103,7 +103,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 	// $ANTLR start "prog"
 	// E1.g:8:1: prog : (e= expression NEWLINE | NEWLINE );
 	[GrammarRule("prog")]
-	private E1Parser.prog_return prog()
+	public E1Parser.prog_return prog()
 	{
 		Enter_prog();
 		EnterRule("prog", 1);
