@@ -8,25 +8,38 @@ namespace AntlrSurvey
 {
 	class Program {
 		static void Main(string[] args) {
-			var expression = "1+2+3 //comment";
+			var expression = "1+2*3 //comment";
 
 			var input = new ANTLRStringStream(expression);
 			var lexer = new E1Lexer(input);
+
 			var tokens = new CommonTokenStream(lexer);
 
-			for(var i = 0; i < 10; i++) {
-				Console.WriteLine("" + i + tokens.LT(i));
+			Console.WriteLine("-----Lexer---------------");
+
+			//on channelな要素のみを出力
+			Console.WriteLine("-----on channel---------------");
+			var i = 1;
+			while(!tokens.LT(i).Text.Equals("<EOF>")) {
+				Console.WriteLine("tokens[" + i + "]= " + tokens.LT(i).Text);
+				i++;
 			}
+			Console.WriteLine();
 
-			Console.WriteLine(tokens.Count);
+			//HIDDENな要素のみを出力
+			Console.WriteLine("-----Hidden channel---------------");
+			i = 0;
+			while(!tokens.Get(i).Text.Equals("<EOF>")) {
+				var t = tokens.Get(i);
+				if(t.Channel == TokenChannels.Hidden)
+					Console.WriteLine("tokens[" + i + "]= " + tokens.Get(i).Text);
+				i++;
+			}
+			Console.WriteLine();
 
-			/*
+			Console.WriteLine("-----Parser---------------");
 			var parser = new E1Parser(tokens);
-
-			var result = parser.prog();
-
-			Console.Write(result);
-			 * */
+			Console.WriteLine(parser.prog());
 		}
 	}
 }
