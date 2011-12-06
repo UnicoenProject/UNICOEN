@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Unicoen.Apps.RefactoringDSL.Util;
 using Unicoen.Languages.Java;
 using Unicoen.Model;
 using Unicoen.Tests;
@@ -32,6 +33,15 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 
 		[Test]
 		public void クラスの名前空間を取得するテスト() {
+			var targetClass = FindUtil.FindClassByClassName(_model, "Cls").First();
+			var className = targetClass.Descendants<UnifiedVariableIdentifier>().First().Name;
+			Console.WriteLine(className);
+			var ns = new NameSpace() {
+					Value = className,
+					NamespaceType = NamespaceType.Class,
+					FieldScopeType = FieldScopeType.Ignore,
+			};
+
 		}
 
 		public static NameSpace GetPackageName(UnifiedProgram program, string delimiter = ".") {
