@@ -21,11 +21,11 @@ namespace Unicoen.Apps.RefactoringDSL {
 			if(targetClass == null) {
 				throw new ClassNotFoundException();
 			}
-			var genericParameters = FindUtil.FindGenericsField(model, "List");
+			var body = targetClass.Body.DeepCopy();
 
-			var list = targetClass.Body.DeepCopy();
-			var collections = FindUtil.FindGenericsField(list, "List");
-			var rfs = EncapsulateCollectionHelper.FindReturningCollectionFunction(list, collections);
+			// TODO コレクションタイプの任意・複数指定
+			var collections = FindUtil.FindGenericsField(body, "List");
+			var rfs = EncapsulateCollectionHelper.FindReturningCollectionFunction(body, collections);
 
 			// コレクションをそのまま返却している関数を削除
 			var count = rfs.Count();
@@ -33,14 +33,16 @@ namespace Unicoen.Apps.RefactoringDSL {
 				rfs.First().RemoveSelf();
 			}
 			
-			// コレクションを丸ごとセットしている関数を削除
-			var sfs = EncapsulateCollectionHelper.FindSettingCollectionFunction(list, collections);
+			// コレクションを丸ごとセットしているような関数を削除
+			var sfs = EncapsulateCollectionHelper.FindSettingCollectionFunction(body, collections);
 			count = sfs.Count();
 			for (var i = 0; i < count; i++ ) {
 				sfs.First().RemoveSelf();
 			}
 
 			// add / remove / colne メソッドを追加
+			// TODO コレクションタイプの任意・複数指定
+			var genericParameters = FindUtil.FindGenericsField(model, "List");
 			foreach (var gp in genericParameters) {
 				var addingProcedure = EncapsulateCollectionHelperForJava.GenerateAddingProcedureForList((UnifiedVariableDefinition)gp);
 				var removingProcedure = EncapsulateCollectionHelperForJava.GenerateRemovingProcedureForList((UnifiedVariableDefinition)gp);
@@ -49,18 +51,17 @@ namespace Unicoen.Apps.RefactoringDSL {
 				var removeMethod = EncapsulateCollectionHelper.GenerateRemoveMethod(gp, "removeItem", removingProcedure);
 				var collectionFieldGetter = EncapsulateCollectionHelper.GenerateClonedFieldGetter((UnifiedVariableDefinition)gp);
 
-				list.Add(addMethod);
-				list.Add(removeMethod);
-				list.Add(collectionFieldGetter);
+				body.Add(addMethod);
+				body.Add(removeMethod);
+				body.Add(collectionFieldGetter);
 			}
 
-
-			targetClass.Body = list;
-
+			targetClass.Body = body;
 			return model;
-
 		}
 	}
 
-	public class ClassNotFoundException : Exception {}
+	public class ClassNotFoundException : Exception {
+		public ClassNotFoundException() : base("クラス探したけど見つからなかったorz") {}
+	}
 }

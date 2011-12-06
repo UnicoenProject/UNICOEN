@@ -66,7 +66,6 @@ namespace Unicoen.Apps.RefactoringDSL.Util {
 
 			}
 
-
 			return result;
 
 		}

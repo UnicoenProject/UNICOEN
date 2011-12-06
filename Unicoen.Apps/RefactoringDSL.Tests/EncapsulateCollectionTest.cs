@@ -28,9 +28,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests {
 			var refactored = engine.Refactor(className);
 
 			Console.WriteLine(JavaFactory.GenerateCode(refactored));
-
 		}
-
 	}
 }
 
