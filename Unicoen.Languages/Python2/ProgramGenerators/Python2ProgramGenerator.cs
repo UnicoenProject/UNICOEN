@@ -21,7 +21,7 @@ using System.ComponentModel.Composition;
 using Code2Xml.Languages.Python2.CodeToXmls;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Python2.ProgramGenerators {
 	[Export(typeof(UnifiedProgramGenerator))]
@@ -36,7 +36,7 @@ namespace Unicoen.Languages.Python2.ProgramGenerators {
 			get { return Python2Factory.CodeGenerator; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var ast = Python2CodeToXml.Instance.Generate(code, true);
 			return Python2ProgramGeneratorHelper.CreateFile_input(ast);
 		}

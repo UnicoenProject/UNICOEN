@@ -26,7 +26,7 @@ using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Unicoen.Model;
 using Unicoen.Processor;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -532,7 +532,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 
 			/* コード例
-			 * public int[] getName(String name) [] throws Error {
+			 * public int[] getName(String className) [] throws Error {
 			 *	   int[][] a = null;
 			 *     return a;
 			 * } 

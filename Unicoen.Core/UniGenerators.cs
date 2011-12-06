@@ -26,7 +26,7 @@ using System.Reflection;
 using Paraiba.Linq;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen {
 	public class UniGenerators {
@@ -74,12 +74,12 @@ namespace Unicoen {
 			}
 		}
 
-		public static UnifiedProgramGenerator GetProgramGeneratorByName(string name) {
-			var lowerName = name.ToLower();
+		public static UnifiedProgramGenerator GetProgramGeneratorByClassName(string className) {
+			var lowerName = className.ToLower();
 			return ProgramGenerators
 					.Where(gen => gen.GetType().Name.ToLower().Contains(lowerName))
 					.MinElementOrDefault(
-							gen => Math.Abs(gen.GetType().Name.Length - name.Length));
+							gen => Math.Abs(gen.GetType().Name.Length - className.Length));
 		}
 
 		public static UnifiedProgramGenerator GetProgramGeneratorByExtension(string ext) {
@@ -91,12 +91,12 @@ namespace Unicoen {
 							       		.Contains(lowerExt));
 		}
 
-		public static UnifiedCodeGenerator GetCodeGeneratorByName(string name) {
-			var lowerName = name.ToLower();
+		public static UnifiedCodeGenerator GetCodeGeneratorByClassName(string className) {
+			var lowerName = className.ToLower();
 			return CodeGenerators
 					.Where(gen => gen.GetType().Name.ToLower().Contains(lowerName))
 					.MinElementOrDefault(
-							gen => Math.Abs(gen.GetType().Name.Length - name.Length));
+							gen => Math.Abs(gen.GetType().Name.Length - className.Length));
 		}
 
 		public static UnifiedCodeGenerator GetCodeGeneratorByExtension(string ext) {

@@ -229,8 +229,8 @@
     <Compile Include="CodeGenerators\UnifiedCodeGenerator.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\Decoration.cs" />
-    <Compile Include="ProgramGeneratos\UnifiedProgramGenerator.cs" />
-    <Compile Include="ProgramGeneratos\UnifiedProgramGeneratorHelper.cs" />
+    <Compile Include="ProgramGenerators\UnifiedProgramGenerator.cs" />
+    <Compile Include="ProgramGenerators\UnifiedProgramGeneratorHelper.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedGenericParameterCollection.cs" />

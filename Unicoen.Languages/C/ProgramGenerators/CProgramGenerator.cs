@@ -22,7 +22,7 @@ using Code2Xml.Languages.C.CodeToXmls;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.C.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.C.ProgramGenerators {
 	[Export(typeof(UnifiedProgramGenerator))]
@@ -37,7 +37,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			get { return CFactory.CodeGenerator; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var ast = CCodeToXml.Instance.Generate(code, true);
 			return CProgramGeneratorHelper.CreateTranslationUnit(ast);
 		}

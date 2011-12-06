@@ -23,7 +23,7 @@ using Code2Xml.Languages.Ruby18.CodeToXmls;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Ruby18.Model {
 	[Export(typeof(UnifiedProgramGenerator))]
@@ -38,7 +38,7 @@ namespace Unicoen.Languages.Ruby18.Model {
 			get { return null; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var ast = Ruby18CodeToXml.Instance.Generate(code, true);
 			return Ruby18ProgramGeneratorHelper.CreateProgram(ast);
 		}

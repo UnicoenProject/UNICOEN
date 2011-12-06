@@ -23,7 +23,7 @@ using Paraiba.Text;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
 
-namespace Unicoen.ProgramGeneratos {
+namespace Unicoen.ProgramGenerators {
 	public abstract class UnifiedProgramGenerator {
 		/// <summary>
 		/// 解析対象の言語のソースコードの拡張子を取得します．
@@ -35,7 +35,7 @@ namespace Unicoen.ProgramGeneratos {
 		/// </summary>
 		public abstract UnifiedCodeGenerator CodeGenerator { get; }
 
-		public abstract UnifiedProgram GenerateWithouNormalizing(string code);
+		public abstract UnifiedProgram GenerateWithoutNormalizing(string code);
 
 		public virtual UnifiedProgram GenerateFromFile(string filePath, Encoding encoding) {
 			var code = File.ReadAllText(filePath, encoding);
@@ -50,7 +50,7 @@ namespace Unicoen.ProgramGeneratos {
 		public UnifiedProgram Generate(string code) {
 			if (string.IsNullOrWhiteSpace(code))
 				return UnifiedProgram.Create(UnifiedBlock.Create());
-			var model = GenerateWithouNormalizing(code);
+			var model = GenerateWithoutNormalizing(code);
 			model.Normalize();
 			return model;
 		}

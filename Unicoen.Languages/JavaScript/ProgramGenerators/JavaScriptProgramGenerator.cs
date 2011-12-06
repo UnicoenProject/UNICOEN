@@ -21,7 +21,7 @@ using System.ComponentModel.Composition;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 	[Export(typeof(UnifiedProgramGenerator))]
@@ -36,7 +36,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			get { return JavaScriptFactory.CodeGenerator; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var ast = JavaScriptCodeToXml.Instance.Generate(code, true);
 			return JavaScriptProgramGeneratorHelper.CreateProgram(ast);
 		}

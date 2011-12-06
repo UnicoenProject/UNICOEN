@@ -27,7 +27,7 @@ using NUnit.Framework;
 using Paraiba.Core;
 using Unicoen.CodeGenerators;
 using Unicoen.Processor;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 using Unicoen.Languages.Tests;
 using Unicoen.Utils;

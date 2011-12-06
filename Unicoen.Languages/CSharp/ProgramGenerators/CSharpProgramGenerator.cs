@@ -22,7 +22,7 @@ using System.IO;
 using ICSharpCode.NRefactory.CSharp;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.CSharp.ProgramGenerators {
 	[Export(typeof(UnifiedProgramGenerator))]
@@ -37,7 +37,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			get { return CSharpFactory.CodeGenerator; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var parser = new CSharpParser();
 			var reader = new StringReader(code);
 			var unit = parser.Parse(reader);

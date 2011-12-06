@@ -21,7 +21,7 @@ using System.ComponentModel.Composition;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Java.ProgramGenerators {
 	[Export(typeof(UnifiedProgramGenerator))]
@@ -34,7 +34,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			get { return JavaFactory.CodeGenerator; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var ast = JavaCodeToXml.Instance.Generate(code, true);
 			return JavaProgramGeneratorHelper.CreateCompilationUnit(ast);
 		}
