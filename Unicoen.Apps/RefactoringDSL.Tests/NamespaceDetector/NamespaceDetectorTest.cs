@@ -25,17 +25,6 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 		public void Xml表示用() {
 			Console.WriteLine(_model.ToXml());
 		}
-		[Test]
-		public void パッケージ名など最上位名前空間を取得するテスト() {
-			var package = GetPackageName(_model);
-			Console.WriteLine(package);
-		}
-
-		[Test]
-		public void クラスの名前空間を取得するテスト() {
-			var targetClass = FindUtil.FindClassByClassName(_model, "Cls").First();
-			Console.WriteLine(targetClass.ToXml());
-		}
 
 		public static Namespace GetPackageName(UnifiedProgram program, string delimiter = ".") {
 			var package = new Namespace();
@@ -79,7 +68,13 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 				Value = string.Join(delimiter, firstProperty.Descendants<UnifiedVariableIdentifier>().Select(e => e.Name)),
 				NamespaceType = NamespaceType.Package,
 			};
-			
+		}
+
+		[Test]
+		public void TestForGetNamespace_package() {
+			var packageNode = _model.FirstDescendant<UnifiedNamespaceDefinition>();
+			var nsString = GetNamespace(packageNode).ToString();
+			Console.WriteLine(nsString);
 		}
 
 		public static Namespace GetNamespace(UnifiedClassDefinition classNode) {
@@ -138,14 +133,55 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 		}
 
 		[Test]
-		public void TestForGetNamespace_variabel() {
+		public void TestForGetNamespace_variable() {
 			var targetClass = FindUtil.FindClassByClassName(_model, "Cls").First();
 			var functionNode = targetClass.FirstDescendant<UnifiedVariableDefinition>();
 			var nsString = GetNamespace(functionNode).GetNamespaceString();
+			var detailedNsString = GetNamespace(functionNode).GetDetailedNamespaceString();
 			Console.WriteLine(nsString);
+			Console.WriteLine(detailedNsString);
 		}
 
 
+		public static Namespace GetNamespace(UnifiedFor forNode) {
+			throw new NotImplementedException();			
+		}
+		public static Namespace GetNamespace(UnifiedWhile whileNode) {
+			throw new NotImplementedException();			
+		}
+
+		public static Namespace GetNamespace(UnifiedDoWhile dowhileNode) {
+			throw new NotImplementedException();			
+		}
+
+		// 名前空間文字列からコードオブジェクトを検索する
+		public static IEnumerable<IUnifiedElement> FindUnifiedElementByNamespace(string nsString, IUnifiedElement element) {
+			var result = new List<IUnifiedElement>();
+			foreach (var e in element.Descendants()) {
+				var ns = Dispatcher(e);
+				if(ns != null) {
+					if(ns.GetNamespaceString().Equals(nsString)) {
+						result.Add(e);
+					}
+				}
+			}
+
+			return result;
+		}
+
+		[Test]
+		public void TestForFindUnifiedElementByNamespace() {
+			var nsString = "pkg.subpkg.subsubpkg.subsubsubpkg.Cls";
+			var found = FindUnifiedElementByNamespace(nsString, _model);
+			
+			Console.WriteLine(found.Count());
+			foreach (var f in found) {
+				Console.WriteLine(f);
+			}
+		}
+
+
+		// element の種類によって，GetNamespace を使い分けるディスパッチャ
 		public static Namespace Dispatcher(IUnifiedElement element) {
 			if(element is UnifiedClassDefinition) {
 				return GetNamespace(element as UnifiedClassDefinition);
@@ -153,10 +189,14 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 			if(element is UnifiedNamespaceDefinition) {
 				return GetNamespace(element as UnifiedNamespaceDefinition);
 			}
+			if(element is UnifiedVariableDefinition) {
+				return GetNamespace(element as UnifiedVariableDefinition);
+			}
 
 			return null;
 		}
 
+		// node から親をたどって行って，types のうち一番早く見つかったものを返す．見つからなかったら null
 		public static IUnifiedElement GetFirstFoundNode(UnifiedElement node, IEnumerable<Type> type) {
 			foreach (var ancestor in node.Ancestors()) {
 				foreach (var t in type) {
@@ -165,7 +205,6 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 					}
 				}
 			}
-
 			return null;
 
 		}
@@ -225,7 +264,6 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 		// 自分を含めて親を全部たどって，名前空間文字列くっつける
 		public string GetNamespaceString(string originalDelimiter = ".") {
 			var delimiter = "";
-			;
 			var ns = "";
 			var node = this;
 			while(node != null) {
@@ -236,12 +274,29 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 
 			return ns;
 		}
+
+		// 詳細名前空間文字列を生成する
+		public string GetDetailedNamespaceString(string originalDelimiter = ".") {
+			var delimiter = "";
+			var ns = "";
+			var node = this;
+			while(node != null) {
+				ns = node.Value + "[" + node.NamespaceType.ToString() + "]" + delimiter + ns;
+				node = node.Parent;
+				delimiter = originalDelimiter;
+			}
+
+			return ns;
+			
+		}
 	}
 
 
 	// 名前空間を作りうる言語要素
 	public enum NamespaceType {
-		Package, Class, Function, Variable,
+		Package, Class, Function, Variable, TemporaryScope
 	}
+
+
 
 }
