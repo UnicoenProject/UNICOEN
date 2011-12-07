@@ -112,7 +112,7 @@
     <Compile Include="CodeGenerators\Python2CodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeGenerators\Python2CodeFactoryVisitor.Collections.cs" />
     <Compile Include="CodeGenerators\Python2CodeFactoryVisitor.Statements.cs" />
-    <Compile Include="ProgramGenerators\Python2ModelFactoryHelper.cs" />
+    <Compile Include="ProgramGenerators\Python2ProgramGeneratorHelper.cs" />
     <Compile Include="ProgramGenerators\Python2ProgramGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Python2Factory.cs" />

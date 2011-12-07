@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProgramGenerators\Python3ProgramGenerator.cs" />
-    <Compile Include="ProgramGenerators\Python3ModelFactoryHelper.cs" />
+    <Compile Include="ProgramGenerators\Python3ProgramGeneratorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Python3CodeGenerator.cs" />
     <Compile Include="Python3Factory.cs" />

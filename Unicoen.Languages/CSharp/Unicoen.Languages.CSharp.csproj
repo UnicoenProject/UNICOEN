@@ -107,8 +107,8 @@
     <Compile Include="CodeGenerators\CSharpCodeFactoryVisitor.cs" />
     <Compile Include="CSharpFactory.cs" />
     <Compile Include="ProgramGenerators\CSharpProgramGenerator.cs" />
-    <Compile Include="ProgramGenerators\NRefactoryModelVisitor.cs" />
-    <Compile Include="ProgramGenerators\NRefactoryModelVisitor.Helper.cs" />
+    <Compile Include="ProgramGenerators\NRefactoryAstVisitor.cs" />
+    <Compile Include="ProgramGenerators\NRefactoryAstVisitor.Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

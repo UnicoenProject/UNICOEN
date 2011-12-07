@@ -41,7 +41,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			var parser = new CSharpParser();
 			var reader = new StringReader(code);
 			var unit = parser.Parse(reader);
-			var visitor = new NRefactoryModelVisitor();
+			var visitor = new NRefactoryAstVisitor();
 			var uElem = unit.AcceptVisitor(visitor, null);
 			return uElem as UnifiedProgram;
 		}

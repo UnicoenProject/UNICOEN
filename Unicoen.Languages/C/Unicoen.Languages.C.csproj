@@ -114,11 +114,11 @@
     <Compile Include="CodeGenerators\CCodeGenerator.cs" />
     <Compile Include="CodeGenerators\CCodeFactoryVisitor.cs" />
     <Compile Include="ProgramGenerators\CProgramGenerator.cs" />
-    <Compile Include="ProgramGenerators\CModelFactoryHelper.Expression.cs" />
-    <Compile Include="ProgramGenerators\CModelFactoryHelper.cs" />
-    <Compile Include="ProgramGenerators\CModelFactoryHelper.Literal.cs" />
-    <Compile Include="ProgramGenerators\CModelFactoryHelper.Operator.cs" />
-    <Compile Include="ProgramGenerators\CModelFactoryHelper.Statement.cs" />
+    <Compile Include="ProgramGenerators\CProgramGeneratorHelper.Expression.cs" />
+    <Compile Include="ProgramGenerators\CProgramGeneratorHelper.cs" />
+    <Compile Include="ProgramGenerators\CProgramGeneratorHelper.Literal.cs" />
+    <Compile Include="ProgramGenerators\CProgramGeneratorHelper.Operator.cs" />
+    <Compile Include="ProgramGenerators\CProgramGeneratorHelper.Statement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

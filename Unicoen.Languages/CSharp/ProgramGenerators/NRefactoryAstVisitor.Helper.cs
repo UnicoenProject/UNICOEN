@@ -24,7 +24,7 @@ using Unicoen.Model;
 using System.Collections.Generic;
 
 namespace Unicoen.Languages.CSharp.ProgramGenerators {
-	internal partial class NRefactoryModelVisitor {
+	internal partial class NRefactoryAstVisitor {
 
 		#region Lookups
 
@@ -283,7 +283,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		internal static UnifiedGenericArgumentCollection AcceptVisitorAsTypeArgs<T, TResult>(
 				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor, T data) {
 			return types
-					.Select(NRefactoryModelVisitor.LookupType)
+					.Select(NRefactoryAstVisitor.LookupType)
 					.Select(t => UnifiedGenericArgument.Create(t))
 					.ToCollection();
 		}
@@ -291,7 +291,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		internal static UnifiedTypeConstrainCollection AcceptVisitorAsConstrains<T, TResult>(
 				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor, T data) {
 			return types
-					.Select(NRefactoryModelVisitor.LookupType)
+					.Select(NRefactoryAstVisitor.LookupType)
 					.Select(UnifiedExtendConstrain.Create)
 					.ToCollection();
 		}

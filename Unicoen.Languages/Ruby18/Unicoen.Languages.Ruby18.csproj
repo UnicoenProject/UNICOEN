@@ -122,12 +122,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Ruby18ModelFactoryHelper.ControlFlows.cs" />
-    <Compile Include="Model\Ruby18ModelFactoryHelper.Definitions.cs" />
-    <Compile Include="Model\Ruby18ModelFactoryHelper.Expressions.cs" />
+    <Compile Include="Model\Ruby18ProgramGeneratorHelper.ControlFlows.cs" />
+    <Compile Include="Model\Ruby18ProgramGeneratorHelper.Definitions.cs" />
+    <Compile Include="Model\Ruby18ProgramGeneratorHelper.Expressions.cs" />
     <Compile Include="Model\Ruby18ProgramGenerator.cs" />
-    <Compile Include="Model\Ruby18ModelFactoryHelper.Literals.cs" />
-    <Compile Include="Model\Ruby18ModelFactoryHelper.cs" />
+    <Compile Include="Model\Ruby18ProgramGeneratorHelper.Literals.cs" />
+    <Compile Include="Model\Ruby18ProgramGeneratorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\OldRubyModelFactory.cs" />
   </ItemGroup>

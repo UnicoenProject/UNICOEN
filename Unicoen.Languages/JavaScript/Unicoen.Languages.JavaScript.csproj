@@ -117,7 +117,7 @@
     <Compile Include="CodeGenerators\JavaScriptCodeFactoryVisitor.Statements.cs" />
     <Compile Include="JavaScriptFactory.cs" />
     <Compile Include="ProgramGenerators\JavaScriptProgramGenerator.cs" />
-    <Compile Include="ProgramGenerators\JavaScriptModelFactoryHelper.cs" />
+    <Compile Include="ProgramGenerators\JavaScriptProgramGeneratorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

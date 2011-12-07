@@ -116,7 +116,7 @@
     <Compile Include="CodeGenerators\JavaCodeFactoryVisitor.cs" />
     <Compile Include="JavaFactory.cs" />
     <Compile Include="ProgramGenerators\JavaProgramGenerator.cs" />
-    <Compile Include="ProgramGenerators\JavaModelFactoryHelper.cs" />
+    <Compile Include="ProgramGenerators\JavaProgramGeneratorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

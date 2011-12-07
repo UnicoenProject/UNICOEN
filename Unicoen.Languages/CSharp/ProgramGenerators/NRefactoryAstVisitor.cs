@@ -26,7 +26,7 @@ using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
 namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
-	internal partial class NRefactoryModelVisitor : IAstVisitor<object, IUnifiedElement> {
+	internal partial class NRefactoryAstVisitor : IAstVisitor<object, IUnifiedElement> {
 
 		public IUnifiedElement VisitCompilationUnit(CompilationUnit unit, object data) {
 			var prog = UnifiedProgram.Create(UnifiedBlock.Create());
