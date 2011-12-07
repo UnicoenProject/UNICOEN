@@ -1,6 +1,10 @@
-﻿package pkg;
+﻿package pkg.subpkg.subsubpkg.subsubsubpkg;
 
 class Cls{
+	class Inner{
+		public int inner;
+	}
+	
 	// instance field
 	public int a;				// pkg(package).Cls(class).a(field, instance)
 	// class field
