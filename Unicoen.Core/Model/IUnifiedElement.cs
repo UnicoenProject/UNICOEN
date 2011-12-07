@@ -28,6 +28,11 @@ namespace Unicoen.Model {
 		IUnifiedElement Parent { get; }
 
 		/// <summary>
+		///   ソースコード上の位置情報を取得します．
+		/// </summary>
+		CodePosition Position { get; }
+
+		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
 		/// <param name = "visitor"></param>
