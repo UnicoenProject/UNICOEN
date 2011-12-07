@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Types.cs" />
+    <Compile Include="CodePosition.cs" />
     <Compile Include="Extensions\ModelSweeperGenericsForElement.cs" />
     <Compile Include="Extensions\ModelSweeperGenerics.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
