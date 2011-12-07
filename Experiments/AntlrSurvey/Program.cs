@@ -8,7 +8,8 @@ namespace AntlrSurvey
 {
 	class Program {
 		static void Main(string[] args) {
-			var expression = "1+2*3 //comment";
+			var expression = @"1+3 //addition\n
+							   5*6 //multiply";
 
 			var input = new ANTLRStringStream(expression);
 			var lexer = new E1Lexer(input);
@@ -39,7 +40,7 @@ namespace AntlrSurvey
 
 			Console.WriteLine("-----Parser---------------");
 			var parser = new E1Parser(tokens);
-			Console.WriteLine(parser.prog());
+			parser.prog();
 		}
 	}
 }

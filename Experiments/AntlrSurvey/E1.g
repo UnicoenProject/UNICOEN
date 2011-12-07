@@ -6,8 +6,15 @@ options{
 }
 
 prog
+@after {
+  	//Output the position of element
+	Console.WriteLine("(" + retval.Start.Line + ", " + retval.Start.StartIndex + ") - (" + retval.Stop.Line + ", " + retval.Stop.StartIndex + ")");			
+	//Output next token only when it is comment
+	if(input.Get(retval.Stop.TokenIndex + 1).Channel == TokenChannels.Hidden)
+		Console.WriteLine(input.Get(retval.Stop.TokenIndex + 1).Text);
+}
 	: e=expression NEWLINE
-		{ Console.WriteLine($e.value);}
+		{ Console.WriteLine("result= " + $e.value);}
 	| NEWLINE
 	;
 expression returns [int value]

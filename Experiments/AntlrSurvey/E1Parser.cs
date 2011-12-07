@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 E1.g 2011-11-09 11:44:22
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 E1.g 2011-12-07 18:14:35
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -124,7 +124,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 		DebugLocation(8, 1);
 		try
 		{
-			// E1.g:9:2: (e= expression NEWLINE | NEWLINE )
+			// E1.g:16:2: (e= expression NEWLINE | NEWLINE )
 			int alt1=2;
 			try { DebugEnterDecision(1, decisionCanBacktrack[1]);
 			int LA1_0 = input.LA(1);
@@ -149,34 +149,34 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// E1.g:9:4: e= expression NEWLINE
+				// E1.g:16:4: e= expression NEWLINE
 				{
 				root_0 = (object)adaptor.Nil();
 
-				DebugLocation(9, 5);
-				PushFollow(Follow._expression_in_prog32);
+				DebugLocation(16, 5);
+				PushFollow(Follow._expression_in_prog37);
 				e=expression();
 				PopFollow();
 
 				adaptor.AddChild(root_0, e.Tree);
-				DebugLocation(9, 17);
-				NEWLINE1=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_prog34); 
+				DebugLocation(16, 17);
+				NEWLINE1=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_prog39); 
 				NEWLINE1_tree = (object)adaptor.Create(NEWLINE1);
 				adaptor.AddChild(root_0, NEWLINE1_tree);
 
-				DebugLocation(10, 3);
-				 Console.WriteLine((e!=null?e.value:default(int)));
+				DebugLocation(17, 3);
+				 Console.WriteLine("result= " + (e!=null?e.value:default(int)));
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// E1.g:11:4: NEWLINE
+				// E1.g:18:4: NEWLINE
 				{
 				root_0 = (object)adaptor.Nil();
 
-				DebugLocation(11, 4);
-				NEWLINE2=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_prog43); 
+				DebugLocation(18, 4);
+				NEWLINE2=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_prog48); 
 				NEWLINE2_tree = (object)adaptor.Create(NEWLINE2);
 				adaptor.AddChild(root_0, NEWLINE2_tree);
 
@@ -189,6 +189,13 @@ public partial class E1Parser : Antlr.Runtime.Parser
 
 			retval.Tree = (object)adaptor.RulePostProcessing(root_0);
 			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+
+
+			  	//Output the position of element
+				Console.WriteLine("(" + retval.Start.Line + ", " + retval.Start.StartIndex + ") - (" + retval.Stop.Line + ", " + retval.Stop.StartIndex + ")");			
+				//Output next token only when it is comment
+				if(input.Get(retval.Stop.TokenIndex + 1).Channel == TokenChannels.Hidden)
+					Console.WriteLine(input.Get(retval.Stop.TokenIndex + 1).Text);
 
 		}
 		catch (RecognitionException re)
@@ -204,7 +211,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			LeaveRule("prog", 1);
 			Leave_prog();
 		}
-		DebugLocation(12, 1);
+		DebugLocation(19, 1);
 		} finally { DebugExitRule(GrammarFileName, "prog"); }
 		return retval;
 
@@ -222,7 +229,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 	partial void Leave_expression();
 
 	// $ANTLR start "expression"
-	// E1.g:13:1: expression returns [int value] : e= product ( '+' e= product | '-' e= product )* ;
+	// E1.g:20:1: expression returns [int value] : e= product ( '+' e= product | '-' e= product )* ;
 	[GrammarRule("expression")]
 	private E1Parser.expression_return expression()
 	{
@@ -242,25 +249,25 @@ public partial class E1Parser : Antlr.Runtime.Parser
 		object char_literal4_tree=null;
 
 		try { DebugEnterRule(GrammarFileName, "expression");
-		DebugLocation(13, 1);
+		DebugLocation(20, 1);
 		try
 		{
-			// E1.g:14:2: (e= product ( '+' e= product | '-' e= product )* )
+			// E1.g:21:2: (e= product ( '+' e= product | '-' e= product )* )
 			DebugEnterAlt(1);
-			// E1.g:14:4: e= product ( '+' e= product | '-' e= product )*
+			// E1.g:21:4: e= product ( '+' e= product | '-' e= product )*
 			{
 			root_0 = (object)adaptor.Nil();
 
-			DebugLocation(14, 5);
-			PushFollow(Follow._product_in_expression59);
+			DebugLocation(21, 5);
+			PushFollow(Follow._product_in_expression64);
 			e=product();
 			PopFollow();
 
 			adaptor.AddChild(root_0, e.Tree);
-			DebugLocation(15, 3);
+			DebugLocation(22, 3);
 			retval.value = (e!=null?e.value:default(int));
-			DebugLocation(16, 2);
-			// E1.g:16:2: ( '+' e= product | '-' e= product )*
+			DebugLocation(23, 2);
+			// E1.g:23:2: ( '+' e= product | '-' e= product )*
 			try { DebugEnterSubRule(2);
 			while (true)
 			{
@@ -283,40 +290,40 @@ public partial class E1Parser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// E1.g:16:4: '+' e= product
+					// E1.g:23:4: '+' e= product
 					{
-					DebugLocation(16, 4);
-					char_literal3=(IToken)Match(input,9,Follow._9_in_expression69); 
+					DebugLocation(23, 4);
+					char_literal3=(IToken)Match(input,9,Follow._9_in_expression74); 
 					char_literal3_tree = (object)adaptor.Create(char_literal3);
 					adaptor.AddChild(root_0, char_literal3_tree);
 
-					DebugLocation(16, 9);
-					PushFollow(Follow._product_in_expression73);
+					DebugLocation(23, 9);
+					PushFollow(Follow._product_in_expression78);
 					e=product();
 					PopFollow();
 
 					adaptor.AddChild(root_0, e.Tree);
-					DebugLocation(17, 3);
+					DebugLocation(24, 3);
 					retval.value += (e!=null?e.value:default(int));
 
 					}
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// E1.g:18:4: '-' e= product
+					// E1.g:25:4: '-' e= product
 					{
-					DebugLocation(18, 4);
-					char_literal4=(IToken)Match(input,10,Follow._10_in_expression83); 
+					DebugLocation(25, 4);
+					char_literal4=(IToken)Match(input,10,Follow._10_in_expression88); 
 					char_literal4_tree = (object)adaptor.Create(char_literal4);
 					adaptor.AddChild(root_0, char_literal4_tree);
 
-					DebugLocation(18, 9);
-					PushFollow(Follow._product_in_expression87);
+					DebugLocation(25, 9);
+					PushFollow(Follow._product_in_expression92);
 					e=product();
 					PopFollow();
 
 					adaptor.AddChild(root_0, e.Tree);
-					DebugLocation(19, 3);
+					DebugLocation(26, 3);
 					retval.value -= (e!=null?e.value:default(int));
 
 					}
@@ -354,7 +361,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			LeaveRule("expression", 2);
 			Leave_expression();
 		}
-		DebugLocation(21, 1);
+		DebugLocation(28, 1);
 		} finally { DebugExitRule(GrammarFileName, "expression"); }
 		return retval;
 
@@ -372,7 +379,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 	partial void Leave_product();
 
 	// $ANTLR start "product"
-	// E1.g:22:1: product returns [int value] : e= power ( '*' e= power | '/' e= power )* ;
+	// E1.g:29:1: product returns [int value] : e= power ( '*' e= power | '/' e= power )* ;
 	[GrammarRule("product")]
 	private E1Parser.product_return product()
 	{
@@ -392,25 +399,25 @@ public partial class E1Parser : Antlr.Runtime.Parser
 		object char_literal6_tree=null;
 
 		try { DebugEnterRule(GrammarFileName, "product");
-		DebugLocation(22, 1);
+		DebugLocation(29, 1);
 		try
 		{
-			// E1.g:23:2: (e= power ( '*' e= power | '/' e= power )* )
+			// E1.g:30:2: (e= power ( '*' e= power | '/' e= power )* )
 			DebugEnterAlt(1);
-			// E1.g:23:4: e= power ( '*' e= power | '/' e= power )*
+			// E1.g:30:4: e= power ( '*' e= power | '/' e= power )*
 			{
 			root_0 = (object)adaptor.Nil();
 
-			DebugLocation(23, 5);
-			PushFollow(Follow._power_in_product111);
+			DebugLocation(30, 5);
+			PushFollow(Follow._power_in_product116);
 			e=power();
 			PopFollow();
 
 			adaptor.AddChild(root_0, e.Tree);
-			DebugLocation(24, 3);
+			DebugLocation(31, 3);
 			retval.value = (e!=null?e.value:default(int));
-			DebugLocation(25, 2);
-			// E1.g:25:2: ( '*' e= power | '/' e= power )*
+			DebugLocation(32, 2);
+			// E1.g:32:2: ( '*' e= power | '/' e= power )*
 			try { DebugEnterSubRule(3);
 			while (true)
 			{
@@ -433,40 +440,40 @@ public partial class E1Parser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// E1.g:25:4: '*' e= power
+					// E1.g:32:4: '*' e= power
 					{
-					DebugLocation(25, 4);
-					char_literal5=(IToken)Match(input,11,Follow._11_in_product122); 
+					DebugLocation(32, 4);
+					char_literal5=(IToken)Match(input,11,Follow._11_in_product127); 
 					char_literal5_tree = (object)adaptor.Create(char_literal5);
 					adaptor.AddChild(root_0, char_literal5_tree);
 
-					DebugLocation(25, 9);
-					PushFollow(Follow._power_in_product126);
+					DebugLocation(32, 9);
+					PushFollow(Follow._power_in_product131);
 					e=power();
 					PopFollow();
 
 					adaptor.AddChild(root_0, e.Tree);
-					DebugLocation(26, 3);
+					DebugLocation(33, 3);
 					retval.value *= (e!=null?e.value:default(int));
 
 					}
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// E1.g:27:4: '/' e= power
+					// E1.g:34:4: '/' e= power
 					{
-					DebugLocation(27, 4);
-					char_literal6=(IToken)Match(input,12,Follow._12_in_product136); 
+					DebugLocation(34, 4);
+					char_literal6=(IToken)Match(input,12,Follow._12_in_product141); 
 					char_literal6_tree = (object)adaptor.Create(char_literal6);
 					adaptor.AddChild(root_0, char_literal6_tree);
 
-					DebugLocation(27, 9);
-					PushFollow(Follow._power_in_product140);
+					DebugLocation(34, 9);
+					PushFollow(Follow._power_in_product145);
 					e=power();
 					PopFollow();
 
 					adaptor.AddChild(root_0, e.Tree);
-					DebugLocation(28, 3);
+					DebugLocation(35, 3);
 					retval.value /= (e!=null?e.value:default(int));
 
 					}
@@ -504,7 +511,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			LeaveRule("product", 3);
 			Leave_product();
 		}
-		DebugLocation(30, 1);
+		DebugLocation(37, 1);
 		} finally { DebugExitRule(GrammarFileName, "product"); }
 		return retval;
 
@@ -522,7 +529,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 	partial void Leave_power();
 
 	// $ANTLR start "power"
-	// E1.g:31:1: power returns [int value] : b= factor ( '^' e= power )? ;
+	// E1.g:38:1: power returns [int value] : b= factor ( '^' e= power )? ;
 	[GrammarRule("power")]
 	private E1Parser.power_return power()
 	{
@@ -541,25 +548,25 @@ public partial class E1Parser : Antlr.Runtime.Parser
 		object char_literal7_tree=null;
 
 		try { DebugEnterRule(GrammarFileName, "power");
-		DebugLocation(31, 1);
+		DebugLocation(38, 1);
 		try
 		{
-			// E1.g:32:2: (b= factor ( '^' e= power )? )
+			// E1.g:39:2: (b= factor ( '^' e= power )? )
 			DebugEnterAlt(1);
-			// E1.g:32:4: b= factor ( '^' e= power )?
+			// E1.g:39:4: b= factor ( '^' e= power )?
 			{
 			root_0 = (object)adaptor.Nil();
 
-			DebugLocation(32, 5);
-			PushFollow(Follow._factor_in_power164);
+			DebugLocation(39, 5);
+			PushFollow(Follow._factor_in_power169);
 			b=factor();
 			PopFollow();
 
 			adaptor.AddChild(root_0, b.Tree);
-			DebugLocation(33, 3);
+			DebugLocation(40, 3);
 			 retval.value = (b!=null?b.value:default(int));
-			DebugLocation(34, 2);
-			// E1.g:34:2: ( '^' e= power )?
+			DebugLocation(41, 2);
+			// E1.g:41:2: ( '^' e= power )?
 			int alt4=2;
 			try { DebugEnterSubRule(4);
 			try { DebugEnterDecision(4, decisionCanBacktrack[4]);
@@ -574,20 +581,20 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// E1.g:34:4: '^' e= power
+				// E1.g:41:4: '^' e= power
 				{
-				DebugLocation(34, 4);
-				char_literal7=(IToken)Match(input,13,Follow._13_in_power174); 
+				DebugLocation(41, 4);
+				char_literal7=(IToken)Match(input,13,Follow._13_in_power179); 
 				char_literal7_tree = (object)adaptor.Create(char_literal7);
 				adaptor.AddChild(root_0, char_literal7_tree);
 
-				DebugLocation(34, 9);
-				PushFollow(Follow._power_in_power178);
+				DebugLocation(41, 9);
+				PushFollow(Follow._power_in_power183);
 				e=power();
 				PopFollow();
 
 				adaptor.AddChild(root_0, e.Tree);
-				DebugLocation(35, 3);
+				DebugLocation(42, 3);
 				 double v = Math.Pow((b!=null?b.value:default(int)), (e!=null?e.value:default(int)));
 						  retval.value = (int)v;
 						
@@ -620,7 +627,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			LeaveRule("power", 4);
 			Leave_power();
 		}
-		DebugLocation(39, 1);
+		DebugLocation(46, 1);
 		} finally { DebugExitRule(GrammarFileName, "power"); }
 		return retval;
 
@@ -638,7 +645,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 	partial void Leave_factor();
 
 	// $ANTLR start "factor"
-	// E1.g:40:1: factor returns [int value] : ( IDENTIFIER | CONSTANT | '(' expression ')' );
+	// E1.g:47:1: factor returns [int value] : ( IDENTIFIER | CONSTANT | '(' expression ')' );
 	[GrammarRule("factor")]
 	private E1Parser.factor_return factor()
 	{
@@ -662,10 +669,10 @@ public partial class E1Parser : Antlr.Runtime.Parser
 		object char_literal12_tree=null;
 
 		try { DebugEnterRule(GrammarFileName, "factor");
-		DebugLocation(40, 1);
+		DebugLocation(47, 1);
 		try
 		{
-			// E1.g:41:2: ( IDENTIFIER | CONSTANT | '(' expression ')' )
+			// E1.g:48:2: ( IDENTIFIER | CONSTANT | '(' expression ')' )
 			int alt5=3;
 			try { DebugEnterDecision(5, decisionCanBacktrack[5]);
 			switch (input.LA(1))
@@ -699,16 +706,16 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// E1.g:41:4: IDENTIFIER
+				// E1.g:48:4: IDENTIFIER
 				{
 				root_0 = (object)adaptor.Nil();
 
-				DebugLocation(41, 4);
-				IDENTIFIER8=(IToken)Match(input,IDENTIFIER,Follow._IDENTIFIER_in_factor203); 
+				DebugLocation(48, 4);
+				IDENTIFIER8=(IToken)Match(input,IDENTIFIER,Follow._IDENTIFIER_in_factor208); 
 				IDENTIFIER8_tree = (object)adaptor.Create(IDENTIFIER8);
 				adaptor.AddChild(root_0, IDENTIFIER8_tree);
 
-				DebugLocation(42, 3);
+				DebugLocation(49, 3);
 				retval.value = 0;
 						Console.WriteLine((IDENTIFIER8!=null?IDENTIFIER8.Text:null));
 
@@ -716,43 +723,43 @@ public partial class E1Parser : Antlr.Runtime.Parser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// E1.g:44:4: CONSTANT
+				// E1.g:51:4: CONSTANT
 				{
 				root_0 = (object)adaptor.Nil();
 
-				DebugLocation(44, 4);
-				CONSTANT9=(IToken)Match(input,CONSTANT,Follow._CONSTANT_in_factor212); 
+				DebugLocation(51, 4);
+				CONSTANT9=(IToken)Match(input,CONSTANT,Follow._CONSTANT_in_factor217); 
 				CONSTANT9_tree = (object)adaptor.Create(CONSTANT9);
 				adaptor.AddChild(root_0, CONSTANT9_tree);
 
-				DebugLocation(45, 3);
+				DebugLocation(52, 3);
 				retval.value = int.Parse((CONSTANT9!=null?CONSTANT9.Text:null));
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// E1.g:46:4: '(' expression ')'
+				// E1.g:53:4: '(' expression ')'
 				{
 				root_0 = (object)adaptor.Nil();
 
-				DebugLocation(46, 4);
-				char_literal10=(IToken)Match(input,14,Follow._14_in_factor221); 
+				DebugLocation(53, 4);
+				char_literal10=(IToken)Match(input,14,Follow._14_in_factor226); 
 				char_literal10_tree = (object)adaptor.Create(char_literal10);
 				adaptor.AddChild(root_0, char_literal10_tree);
 
-				DebugLocation(46, 8);
-				PushFollow(Follow._expression_in_factor223);
+				DebugLocation(53, 8);
+				PushFollow(Follow._expression_in_factor228);
 				expression11=expression();
 				PopFollow();
 
 				adaptor.AddChild(root_0, expression11.Tree);
-				DebugLocation(46, 19);
-				char_literal12=(IToken)Match(input,15,Follow._15_in_factor225); 
+				DebugLocation(53, 19);
+				char_literal12=(IToken)Match(input,15,Follow._15_in_factor230); 
 				char_literal12_tree = (object)adaptor.Create(char_literal12);
 				adaptor.AddChild(root_0, char_literal12_tree);
 
-				DebugLocation(47, 3);
+				DebugLocation(54, 3);
 				retval.value = (expression11!=null?expression11.value:default(int));
 
 				}
@@ -778,7 +785,7 @@ public partial class E1Parser : Antlr.Runtime.Parser
 			LeaveRule("factor", 5);
 			Leave_factor();
 		}
-		DebugLocation(48, 1);
+		DebugLocation(55, 1);
 		} finally { DebugExitRule(GrammarFileName, "factor"); }
 		return retval;
 
@@ -790,27 +797,27 @@ public partial class E1Parser : Antlr.Runtime.Parser
 	#region Follow sets
 	private static class Follow
 	{
-		public static readonly BitSet _expression_in_prog32 = new BitSet(new ulong[]{0x10UL});
-		public static readonly BitSet _NEWLINE_in_prog34 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _NEWLINE_in_prog43 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _product_in_expression59 = new BitSet(new ulong[]{0x602UL});
-		public static readonly BitSet _9_in_expression69 = new BitSet(new ulong[]{0x4060UL});
-		public static readonly BitSet _product_in_expression73 = new BitSet(new ulong[]{0x602UL});
-		public static readonly BitSet _10_in_expression83 = new BitSet(new ulong[]{0x4060UL});
-		public static readonly BitSet _product_in_expression87 = new BitSet(new ulong[]{0x602UL});
-		public static readonly BitSet _power_in_product111 = new BitSet(new ulong[]{0x1802UL});
-		public static readonly BitSet _11_in_product122 = new BitSet(new ulong[]{0x4060UL});
-		public static readonly BitSet _power_in_product126 = new BitSet(new ulong[]{0x1802UL});
-		public static readonly BitSet _12_in_product136 = new BitSet(new ulong[]{0x4060UL});
-		public static readonly BitSet _power_in_product140 = new BitSet(new ulong[]{0x1802UL});
-		public static readonly BitSet _factor_in_power164 = new BitSet(new ulong[]{0x2002UL});
-		public static readonly BitSet _13_in_power174 = new BitSet(new ulong[]{0x4060UL});
-		public static readonly BitSet _power_in_power178 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _IDENTIFIER_in_factor203 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _CONSTANT_in_factor212 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _14_in_factor221 = new BitSet(new ulong[]{0x4060UL});
-		public static readonly BitSet _expression_in_factor223 = new BitSet(new ulong[]{0x8000UL});
-		public static readonly BitSet _15_in_factor225 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _expression_in_prog37 = new BitSet(new ulong[]{0x10UL});
+		public static readonly BitSet _NEWLINE_in_prog39 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _NEWLINE_in_prog48 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _product_in_expression64 = new BitSet(new ulong[]{0x602UL});
+		public static readonly BitSet _9_in_expression74 = new BitSet(new ulong[]{0x4060UL});
+		public static readonly BitSet _product_in_expression78 = new BitSet(new ulong[]{0x602UL});
+		public static readonly BitSet _10_in_expression88 = new BitSet(new ulong[]{0x4060UL});
+		public static readonly BitSet _product_in_expression92 = new BitSet(new ulong[]{0x602UL});
+		public static readonly BitSet _power_in_product116 = new BitSet(new ulong[]{0x1802UL});
+		public static readonly BitSet _11_in_product127 = new BitSet(new ulong[]{0x4060UL});
+		public static readonly BitSet _power_in_product131 = new BitSet(new ulong[]{0x1802UL});
+		public static readonly BitSet _12_in_product141 = new BitSet(new ulong[]{0x4060UL});
+		public static readonly BitSet _power_in_product145 = new BitSet(new ulong[]{0x1802UL});
+		public static readonly BitSet _factor_in_power169 = new BitSet(new ulong[]{0x2002UL});
+		public static readonly BitSet _13_in_power179 = new BitSet(new ulong[]{0x4060UL});
+		public static readonly BitSet _power_in_power183 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _IDENTIFIER_in_factor208 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _CONSTANT_in_factor217 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _14_in_factor226 = new BitSet(new ulong[]{0x4060UL});
+		public static readonly BitSet _expression_in_factor228 = new BitSet(new ulong[]{0x8000UL});
+		public static readonly BitSet _15_in_factor230 = new BitSet(new ulong[]{0x2UL});
 
 	}
 	#endregion Follow sets

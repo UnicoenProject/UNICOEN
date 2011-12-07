@@ -1,4 +1,4 @@
-// $ANTLR 3.3 Nov 30, 2010 12:50:56 E1.g 2011-11-09 11:44:22
+// $ANTLR 3.3 Nov 30, 2010 12:50:56 E1.g 2011-12-07 18:14:35
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -318,7 +318,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 		{
 			int _type = LINE_COMMENT;
 			int _channel = DefaultTokenChannel;
-			// E1.g:51:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* )
+			// E1.g:58:5: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* )
 			int alt4=2;
 			try { DebugEnterDecision(4, decisionCanBacktrack[4]);
 			try
@@ -335,13 +335,13 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// E1.g:51:9: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' )
+				// E1.g:58:9: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' )
 				{
-				DebugLocation(51, 9);
+				DebugLocation(58, 9);
 				Match("//"); 
 
-				DebugLocation(51, 14);
-				// E1.g:51:14: (~ ( '\\n' | '\\r' ) )*
+				DebugLocation(58, 14);
+				// E1.g:58:14: (~ ( '\\n' | '\\r' ) )*
 				try { DebugEnterSubRule(1);
 				while (true)
 				{
@@ -360,9 +360,9 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// E1.g:51:14: ~ ( '\\n' | '\\r' )
+						// E1.g:58:14: ~ ( '\\n' | '\\r' )
 						{
-						DebugLocation(51, 14);
+						DebugLocation(58, 14);
 						if ((input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF'))
 						{
 							input.Consume();
@@ -389,8 +389,8 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 
 				} finally { DebugExitSubRule(1); }
 
-				DebugLocation(51, 29);
-				// E1.g:51:29: ( '\\r\\n' | '\\r' | '\\n' )
+				DebugLocation(58, 29);
+				// E1.g:58:29: ( '\\r\\n' | '\\r' | '\\n' )
 				int alt2=3;
 				try { DebugEnterSubRule(2);
 				try { DebugEnterDecision(2, decisionCanBacktrack[2]);
@@ -424,9 +424,9 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// E1.g:51:30: '\\r\\n'
+					// E1.g:58:30: '\\r\\n'
 					{
-					DebugLocation(51, 30);
+					DebugLocation(58, 30);
 					Match("\r\n"); 
 
 
@@ -434,18 +434,18 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// E1.g:51:39: '\\r'
+					// E1.g:58:39: '\\r'
 					{
-					DebugLocation(51, 39);
+					DebugLocation(58, 39);
 					Match('\r'); 
 
 					}
 					break;
 				case 3:
 					DebugEnterAlt(3);
-					// E1.g:51:46: '\\n'
+					// E1.g:58:46: '\\n'
 					{
-					DebugLocation(51, 46);
+					DebugLocation(58, 46);
 					Match('\n'); 
 
 					}
@@ -454,7 +454,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 				}
 				} finally { DebugExitSubRule(2); }
 
-				DebugLocation(52, 13);
+				DebugLocation(59, 13);
 
 				_channel=Hidden;
 				            
@@ -463,13 +463,13 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// E1.g:55:9: '//' (~ ( '\\n' | '\\r' ) )*
+				// E1.g:62:9: '//' (~ ( '\\n' | '\\r' ) )*
 				{
-				DebugLocation(55, 9);
+				DebugLocation(62, 9);
 				Match("//"); 
 
-				DebugLocation(55, 14);
-				// E1.g:55:14: (~ ( '\\n' | '\\r' ) )*
+				DebugLocation(62, 14);
+				// E1.g:62:14: (~ ( '\\n' | '\\r' ) )*
 				try { DebugEnterSubRule(3);
 				while (true)
 				{
@@ -488,9 +488,9 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// E1.g:55:14: ~ ( '\\n' | '\\r' )
+						// E1.g:62:14: ~ ( '\\n' | '\\r' )
 						{
-						DebugLocation(55, 14);
+						DebugLocation(62, 14);
 						if ((input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF'))
 						{
 							input.Consume();
@@ -517,7 +517,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 
 				} finally { DebugExitSubRule(3); }
 
-				DebugLocation(56, 13);
+				DebugLocation(63, 13);
 
 				_channel=Hidden;
 				            
@@ -552,12 +552,12 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 		{
 			int _type = IDENTIFIER;
 			int _channel = DefaultTokenChannel;
-			// E1.g:61:12: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
+			// E1.g:68:12: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
 			DebugEnterAlt(1);
-			// E1.g:61:16: ( 'a' .. 'z' | 'A' .. 'Z' )+
+			// E1.g:68:16: ( 'a' .. 'z' | 'A' .. 'Z' )+
 			{
-			DebugLocation(61, 16);
-			// E1.g:61:16: ( 'a' .. 'z' | 'A' .. 'Z' )+
+			DebugLocation(68, 16);
+			// E1.g:68:16: ( 'a' .. 'z' | 'A' .. 'Z' )+
 			int cnt5=0;
 			try { DebugEnterSubRule(5);
 			while (true)
@@ -579,7 +579,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 					DebugEnterAlt(1);
 					// E1.g:
 					{
-					DebugLocation(61, 16);
+					DebugLocation(68, 16);
 					if ((input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z'))
 					{
 						input.Consume();
@@ -640,12 +640,12 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 		{
 			int _type = CONSTANT;
 			int _channel = DefaultTokenChannel;
-			// E1.g:62:10: ( ( '0' .. '9' )+ )
+			// E1.g:69:10: ( ( '0' .. '9' )+ )
 			DebugEnterAlt(1);
-			// E1.g:62:14: ( '0' .. '9' )+
+			// E1.g:69:14: ( '0' .. '9' )+
 			{
-			DebugLocation(62, 14);
-			// E1.g:62:14: ( '0' .. '9' )+
+			DebugLocation(69, 14);
+			// E1.g:69:14: ( '0' .. '9' )+
 			int cnt6=0;
 			try { DebugEnterSubRule(6);
 			while (true)
@@ -665,9 +665,9 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// E1.g:62:14: '0' .. '9'
+					// E1.g:69:14: '0' .. '9'
 					{
-					DebugLocation(62, 14);
+					DebugLocation(69, 14);
 					MatchRange('0','9'); 
 
 					}
@@ -717,12 +717,12 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 		{
 			int _type = NEWLINE;
 			int _channel = DefaultTokenChannel;
-			// E1.g:63:10: ( ( '\\r' )? '\\n' )
+			// E1.g:70:10: ( ( '\\r' )? '\\n' )
 			DebugEnterAlt(1);
-			// E1.g:63:14: ( '\\r' )? '\\n'
+			// E1.g:70:14: ( '\\r' )? '\\n'
 			{
-			DebugLocation(63, 14);
-			// E1.g:63:14: ( '\\r' )?
+			DebugLocation(70, 14);
+			// E1.g:70:14: ( '\\r' )?
 			int alt7=2;
 			try { DebugEnterSubRule(7);
 			try { DebugEnterDecision(7, decisionCanBacktrack[7]);
@@ -737,9 +737,9 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// E1.g:63:14: '\\r'
+				// E1.g:70:14: '\\r'
 				{
-				DebugLocation(63, 14);
+				DebugLocation(70, 14);
 				Match('\r'); 
 
 				}
@@ -748,7 +748,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 			}
 			} finally { DebugExitSubRule(7); }
 
-			DebugLocation(63, 20);
+			DebugLocation(70, 20);
 			Match('\n'); 
 
 			}
@@ -779,12 +779,12 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 		{
 			int _type = WS;
 			int _channel = DefaultTokenChannel;
-			// E1.g:64:6: ( ( ' ' | '\\t' )+ )
+			// E1.g:71:6: ( ( ' ' | '\\t' )+ )
 			DebugEnterAlt(1);
-			// E1.g:64:10: ( ' ' | '\\t' )+
+			// E1.g:71:10: ( ' ' | '\\t' )+
 			{
-			DebugLocation(64, 10);
-			// E1.g:64:10: ( ' ' | '\\t' )+
+			DebugLocation(71, 10);
+			// E1.g:71:10: ( ' ' | '\\t' )+
 			int cnt8=0;
 			try { DebugEnterSubRule(8);
 			while (true)
@@ -806,7 +806,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 					DebugEnterAlt(1);
 					// E1.g:
 					{
-					DebugLocation(64, 10);
+					DebugLocation(71, 10);
 					if (input.LA(1)=='\t'||input.LA(1)==' ')
 					{
 						input.Consume();
@@ -838,7 +838,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 
 			} finally { DebugExitSubRule(8); }
 
-			DebugLocation(64, 22);
+			DebugLocation(71, 22);
 			Skip();
 
 			}
@@ -1053,7 +1053,7 @@ public partial class E1Lexer : Antlr.Runtime.Lexer
 			this.transition = DFA4_transition;
 		}
 
-		public override string Description { get { return "50:1: LINE_COMMENT : ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* );"; } }
+		public override string Description { get { return "57:1: LINE_COMMENT : ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r\\n' | '\\r' | '\\n' ) | '//' (~ ( '\\n' | '\\r' ) )* );"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
