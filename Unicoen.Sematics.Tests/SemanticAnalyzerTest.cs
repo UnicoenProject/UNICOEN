@@ -92,7 +92,7 @@ namespace Unicoen.Sematics.Tests {
 		public void IgnoreSliblingScope() {
 			var ast = JavaCodeToXml.Instance
 					.Generate(
-							"{ {int j = 0;} { j = 1; } }",
+							"{ {int j = 0;} {j = 1;} }",
 							p => p.block());
 			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
@@ -106,7 +106,7 @@ namespace Unicoen.Sematics.Tests {
 		public void JavascriptBlockProblem() {
 			var ast = JavaScriptCodeToXml.Instance
 					.Generate(
-							"{ i = 0, var j = 0; j = 1; }",
+							"{ i = 0; var j = 0; j = 1; }",
 							p => p.statementBlock());
 			var codeObject = JavaScriptProgramGeneratorHelper.CreateStatementBlock(ast);
 
