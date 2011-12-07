@@ -26,7 +26,7 @@ using Unicoen.Model;
 using Unicoen.Processor;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 // ReSharper disable InvocationIsSkipped
 // ReSharper disable InconsistentNaming

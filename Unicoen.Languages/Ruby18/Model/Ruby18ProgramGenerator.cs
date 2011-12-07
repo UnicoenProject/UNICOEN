@@ -18,12 +18,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Code2Xml.Languages.Ruby18.CodeToXmls;
+using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Ruby18.Model {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class Ruby18ProgramGenerator : UnifiedProgramGenerator {
 		public static Ruby18ProgramGenerator Instance = new Ruby18ProgramGenerator();
 
@@ -31,7 +34,11 @@ namespace Unicoen.Languages.Ruby18.Model {
 			get { return Ruby18CodeToXml.Instance.TargetExtensions; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return null; }
+		}
+
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var ast = Ruby18CodeToXml.Instance.Generate(code, true);
 			return Ruby18ProgramGeneratorHelper.CreateProgram(ast);
 		}

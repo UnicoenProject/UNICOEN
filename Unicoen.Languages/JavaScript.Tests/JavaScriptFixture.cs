@@ -28,7 +28,7 @@ using Paraiba.Text;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.Java.Tests;
 using Unicoen.Languages.Tests;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 using Unicoen.Utils;
 

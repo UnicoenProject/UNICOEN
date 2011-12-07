@@ -90,6 +90,7 @@
       <HintPath>..\lib\Paraiba.Experiment.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
@@ -228,8 +229,8 @@
     <Compile Include="CodeGenerators\UnifiedCodeGenerator.cs" />
     <Compile Include="Processor\ExplicitDefaultUnifiedVisitor.cs" />
     <Compile Include="Processor\Decoration.cs" />
-    <Compile Include="ProgramGeneratos\UnifiedProgramGenerator.cs" />
-    <Compile Include="ProgramGeneratos\UnifiedProgramGeneratorHelper.cs" />
+    <Compile Include="ProgramGenerators\UnifiedProgramGenerator.cs" />
+    <Compile Include="ProgramGenerators\UnifiedProgramGeneratorHelper.cs" />
     <Compile Include="Model\Collections\UnifiedIdentifierCollection.cs" />
     <Compile Include="Model\Collections\UnifiedTypeConstrainCollection.cs" />
     <Compile Include="Model\Collections\UnifiedGenericParameterCollection.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="Processor\VisitorArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ElementReference.cs" />
+    <Compile Include="UniGenerators.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ParserScripts\IronRubyParser\composite_sexp_processor.rb">

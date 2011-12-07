@@ -23,6 +23,10 @@ using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeGenerators {
 	public class Python2CodeGenerator : UnifiedCodeGenerator {
+		public override string Extension {
+			get { return ".py"; }
+		}
+
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(new Python2CodeFactoryVisitor(writer, indentSign), new VisitorArgument());

@@ -23,6 +23,10 @@ using Unicoen.Processor;
 
 namespace Unicoen.Languages.C.CodeGenerators {
 	public class CCodeGenerator : UnifiedCodeGenerator {
+		public override string Extension {
+			get { return ".c"; }
+		}
+
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(new CCodeFactoryVisitor(writer, indentSign), new VisitorArgument());

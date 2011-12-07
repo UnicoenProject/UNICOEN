@@ -21,7 +21,7 @@ using System.Linq;
 using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.Processor;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 using Unicoen.Languages.Tests;
 

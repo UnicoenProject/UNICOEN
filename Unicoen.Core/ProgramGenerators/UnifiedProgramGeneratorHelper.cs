@@ -24,7 +24,7 @@ using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Unicoen.Model;
 
-namespace Unicoen.ProgramGeneratos {
+namespace Unicoen.ProgramGenerators {
 	public static class UnifiedProgramGeneratorHelper {
 		/// <summary>
 		///   指定したXMLノードから演算子が項の前に付くUnaryExpressionを作成します．

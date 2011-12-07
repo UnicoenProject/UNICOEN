@@ -23,6 +23,10 @@ using Unicoen.Processor;
 
 namespace Unicoen.Languages.Java.CodeGenerators {
 	public class JavaCodeGenerator : UnifiedCodeGenerator {
+		public override string Extension {
+			get { return ".java"; }
+		}
+
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(new JavaCodeFactoryVisitor(writer, indentSign), new VisitorArgument());

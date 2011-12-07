@@ -26,7 +26,7 @@ using Unicoen.CodeGenerators;
 using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Processor;
 using Unicoen.Languages.Tests;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {

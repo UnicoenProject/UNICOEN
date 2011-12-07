@@ -17,17 +17,24 @@
 #endregion
 
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Code2Xml.Languages.Java.CodeToXmls;
+using Unicoen.CodeGenerators;
 using Unicoen.Model;
-using Unicoen.ProgramGeneratos;
+using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Java.ProgramGenerators {
+	[Export(typeof(UnifiedProgramGenerator))]
 	public class JavaProgramGenerator : UnifiedProgramGenerator {
 		public override IEnumerable<string> Extensions {
 			get { return JavaCodeToXml.Instance.TargetExtensions; }
 		}
 
-		public override UnifiedProgram GenerateWithouNormalizing(string code) {
+		public override UnifiedCodeGenerator CodeGenerator {
+			get { return JavaFactory.CodeGenerator; }
+		}
+
+		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var ast = JavaCodeToXml.Instance.Generate(code, true);
 			return JavaProgramGeneratorHelper.CreateCompilationUnit(ast);
 		}
