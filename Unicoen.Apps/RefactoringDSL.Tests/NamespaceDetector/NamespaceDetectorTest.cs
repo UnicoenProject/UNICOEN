@@ -26,33 +26,6 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 			Console.WriteLine(_model.ToXml());
 		}
 
-		public static Namespace GetPackageName(UnifiedProgram program, string delimiter = ".") {
-			var package = new Namespace();
-			var namespaceNodes = program.Descendants<UnifiedNamespaceDefinition>();
-			// パッケージ指定がないとき
-			if (namespaceNodes.Count() == 0) {
-				return new Namespace() {
-					Parent = null,
-					Value = "",
-					NamespaceType = NamespaceType.Package,
-				};
-			}
-			var namespaceNode = namespaceNodes.First();
-			if (namespaceNode.Descendants<UnifiedProperty>().Count() == 0) {
-				return new Namespace() {
-					Parent = null,
-					Value = namespaceNode.Descendants<UnifiedVariableIdentifier>().First().Name,
-					NamespaceType = NamespaceType.Package,
-				};
-			}
-			var firstProperty = namespaceNode.Descendants<UnifiedProperty>().First();
-			return new Namespace() {
-				Parent = null,
-				Value = string.Join(delimiter, firstProperty.Descendants<UnifiedVariableIdentifier>().Select(e => e.Name)),
-				NamespaceType = NamespaceType.Package,
-			};
-		}
-
 		public static Namespace GetNamespace(UnifiedNamespaceDefinition packageNode) {
 			if (packageNode.Descendants<UnifiedProperty>().Count() == 0) {
 				return new Namespace() {
@@ -144,13 +117,49 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 
 
 		public static Namespace GetNamespace(UnifiedFor forNode) {
-			throw new NotImplementedException();			
+			var type = NamespaceType.TemporaryScope;
+			var parents = GetParentTypes(type).Select(t => Namespace2UnifiedType(t));
+			var parentNode = GetFirstFoundNode(forNode, parents);
+			return new Namespace() {
+				Value = "(for)",
+				NamespaceType = type,
+				Parent = Dispatcher(parentNode)
+			};
 		}
+
+		[Test]
+		public void TestForGetNamespace_for() {
+			var targetClass = FindUtil.FindClassByClassName(_model, "Cls").First();
+			var functionNode = targetClass.FirstDescendant<UnifiedFor>();
+			var nsString = GetNamespace(functionNode).GetNamespaceString();
+			var detailedNsString = GetNamespace(functionNode).GetDetailedNamespaceString();
+			Console.WriteLine(nsString);
+			Console.WriteLine(detailedNsString);
+		}
+
 		public static Namespace GetNamespace(UnifiedWhile whileNode) {
-			throw new NotImplementedException();			
+			var type = NamespaceType.TemporaryScope;
+			var parents = GetParentTypes(type).Select(t => Namespace2UnifiedType(t));
+			var parentNode = GetFirstFoundNode(whileNode, parents);
+			return new Namespace() {
+				Value = "(while)",
+				NamespaceType = type,
+				Parent = Dispatcher(parentNode)
+			};
+		}
+
+		[Test]
+		public void TestForGetNamespace_while() {
+			var targetClass = FindUtil.FindClassByClassName(_model, "Cls").First();
+			var whileNode = targetClass.FirstDescendant<UnifiedWhile>();
+			var nsString = GetNamespace(whileNode).GetNamespaceString();
+			var detailedNsString = GetNamespace(whileNode).GetDetailedNamespaceString();
+			Console.WriteLine(nsString);
+			Console.WriteLine(detailedNsString);
 		}
 
 		public static Namespace GetNamespace(UnifiedDoWhile dowhileNode) {
+			return null;
 			throw new NotImplementedException();			
 		}
 
@@ -169,9 +178,15 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 			return result;
 		}
 
+		// ディスパッチ先がなかった時用
+		public static Namespace GetNamespace(UnifiedElement element) {
+			return null;
+		}
+
 		[Test]
 		public void TestForFindUnifiedElementByNamespace() {
 			var nsString = "pkg.subpkg.subsubpkg.subsubsubpkg.Cls";
+			nsString = "pkg.subpkg.subsubpkg.subsubsubpkg.Cls.method2.(for)";
 			var found = FindUnifiedElementByNamespace(nsString, _model);
 			
 			Console.WriteLine(found.Count());
@@ -180,28 +195,31 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 			}
 		}
 
-
-		// element の種類によって，GetNamespace を使い分けるディスパッチャ
-		public static Namespace Dispatcher(IUnifiedElement element) {
-			if(element is UnifiedClassDefinition) {
-				return GetNamespace(element as UnifiedClassDefinition);
+		[Test]
+		public void 名前空間に対応する要素は必ず1() {
+			var variableNodes = _model.Descendants<UnifiedVariableDefinition>();
+			Console.WriteLine(variableNodes.Count() + " assertions");
+			foreach (var vn in variableNodes) {
+				var namespaceString = GetNamespace(vn).GetNamespaceString();
+				Assert.That(FindUnifiedElementByNamespace(namespaceString, _model).Count(), Is.EqualTo(1));
 			}
-			if(element is UnifiedNamespaceDefinition) {
-				return GetNamespace(element as UnifiedNamespaceDefinition);
-			}
-			if(element is UnifiedVariableDefinition) {
-				return GetNamespace(element as UnifiedVariableDefinition);
-			}
-
-			return null;
 		}
 
+
+
+		// element の種類によって，GetNamespace を使い分けるディスパッチャ
+		// 関数名だけ変えて，ダッグタイピング的な
+		public static Namespace Dispatcher(dynamic element) {
+			return GetNamespace(element);
+		}
 		// node から親をたどって行って，types のうち一番早く見つかったものを返す．見つからなかったら null
-		public static IUnifiedElement GetFirstFoundNode(UnifiedElement node, IEnumerable<Type> type) {
+		public static IUnifiedElement GetFirstFoundNode(UnifiedElement node, IEnumerable<IEnumerable<Type>> typeArray) {
 			foreach (var ancestor in node.Ancestors()) {
-				foreach (var t in type) {
-					if(ancestor.GetType().Equals(t)) {
-						return ancestor;
+				foreach (var types in typeArray) {
+					foreach (var t in types) {
+						if (ancestor.GetType().Equals(t)) {
+							return ancestor;
+						}
 					}
 				}
 			}
@@ -219,7 +237,9 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 				case NamespaceType.Function:
 					return new NamespaceType[] { NamespaceType.Class, NamespaceType.Package, NamespaceType.Function};
 				case NamespaceType.Variable:
-					return new NamespaceType[] {NamespaceType.Class, NamespaceType.Function};
+					return new NamespaceType[] {NamespaceType.Class, NamespaceType.Function, NamespaceType.TemporaryScope};
+				case NamespaceType.TemporaryScope:
+					return new NamespaceType[] {NamespaceType.Function};
 				default:
 					throw new InvalidOperationException();
 
@@ -227,14 +247,20 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 		}
 
 		// タイプから型へ変換（上へトラバースするときに使う）
-		public static Type Namespace2UnifiedType(NamespaceType type) {
+		public static IEnumerable<Type> Namespace2UnifiedType(NamespaceType type) {
 			switch(type) {
 				case NamespaceType.Package:
-					return UnifiedNamespaceDefinition.Create().GetType();
+					return new List<Type> { UnifiedNamespaceDefinition.Create().GetType() };
 				case NamespaceType.Class:
-					return UnifiedClassDefinition.Create().GetType();
+					return new List<Type> { UnifiedClassDefinition.Create().GetType() };
 				case NamespaceType.Function:
-					return UnifiedFunctionDefinition.Create().GetType();
+					return new List<Type> { UnifiedFunctionDefinition.Create().GetType() };
+				case NamespaceType.TemporaryScope:
+					return new List<Type> {
+						UnifiedFor.Create().GetType(),
+						UnifiedWhile.Create().GetType(),
+						UnifiedDoWhile.Create().GetType(),
+				};
 				default:
 					throw new InvalidOperationException();
 

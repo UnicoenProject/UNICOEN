@@ -17,7 +17,16 @@ class Cls{
 	
 	public void method2(){
 		for(int i = 0; i < N; i++){
-			method();
+			int n = 0;
+			method(n);
+		}
+	}
+	
+		
+	public void method3(){
+		i = 0;
+		while(i < 100){
+			foo();
 		}
 	}
 }
