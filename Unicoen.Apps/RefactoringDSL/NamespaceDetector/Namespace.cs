@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
-	// 名前空間オブジェクトを表すクラス
+	/// <summary>
+	/// 名前空間を表すクラス
+	/// </summary>
 	public class Namespace {
 		public Namespace Parent { get; set; }
 		public string Value { get; set; }
@@ -22,7 +24,11 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 			}
 		}
 
-		// 自分を含めて親を全部たどって，名前空間文字列くっつける
+		/// <summary>
+		/// 自分を含めて親をすべてたどり，名前空間文字列を結合することで，完全修飾名を取得します
+		/// </summary>
+		/// <param name="originalDelimiter">名前空間のデリミタ（デフォルトはピリオド）</param>
+		/// <returns>完全修飾名</returns>
 		public string GetNamespaceString(string originalDelimiter = ".") {
 			var delimiter = "";
 			var ns = "";
@@ -36,7 +42,11 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 			return ns;
 		}
 
-		// 詳細名前空間文字列を生成する
+		/// <summary>
+		/// 詳細な完全修飾名を取得します
+		/// </summary>
+		/// <param name="originalDelimiter">名前空間のデリミタ（デフォルトはピリオド）</param>
+		/// <returns>詳細完全修飾名</returns>
 		public string GetDetailedNamespaceString(string originalDelimiter = ".") {
 			var delimiter = "";
 			var ns = "";
@@ -49,6 +59,15 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 
 			return ns;
 			
+		}
+
+		// 自分から始まって，ひたすら親を返す
+		public IEnumerable<Namespace> YieldParents() {
+			var node = this;
+			while(node != null) {
+				yield return node;
+				node = node.Parent;
+			}
 		}
 	}
 }

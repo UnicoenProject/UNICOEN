@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 
 namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
-	// 名前空間を作りうる言語要素
+	/// <summary>
+	/// 新しい名前区間を作成し得る要素の種類を列挙します
+	/// </summary>
 	public enum NamespaceType {
 		Package, Class, Function, Variable, TemporaryScope,
 	}

@@ -6,7 +6,7 @@ using Unicoen.Apps.RefactoringDSL.Util;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
-	class Detector {
+	public class Detector {
 		public static Namespace GetNamespace(UnifiedNamespaceDefinition packageNode) {
 			if (packageNode.Descendants<UnifiedProperty>().Count() == 0) {
 				return new Namespace() {
@@ -27,8 +27,8 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 		public static Namespace GetNamespace(UnifiedClassDefinition classNode) {
 			var type = NamespaceType.Class;
 			var className = classNode.FirstDescendant<UnifiedVariableIdentifier>().Name;
-			var parents = Helper.GetParentTypes(type).Select(t => Helper.Namespace2UnifiedType(t));
-			var parentNode = Helper.GetFirstFoundNode(classNode, parents);
+			var parents = DetectorHelper.GetParentTypes(type).Select(t => DetectorHelper.Namespace2UnifiedType(t));
+			var parentNode = DetectorHelper.GetFirstFoundNode(classNode, parents);
 
 			return new Namespace() {
 				Value = className,
@@ -41,8 +41,8 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 		public static Namespace GetNamespace(UnifiedFunctionDefinition functionNode) {
 			var type = NamespaceType.Function;
 			var functionName = functionNode.Name.Name;
-			var parents = Helper.GetParentTypes(type).Select(t => Helper.Namespace2UnifiedType(t));
-			var parentNode = Helper.GetFirstFoundNode(functionNode, parents);
+			var parents = DetectorHelper.GetParentTypes(type).Select(t => DetectorHelper.Namespace2UnifiedType(t));
+			var parentNode = DetectorHelper.GetFirstFoundNode(functionNode, parents);
 
 			return new Namespace() {
 				Value = functionName,
@@ -54,8 +54,8 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 		public static Namespace GetNamespace(UnifiedVariableDefinition variableNode) {
 			var type = NamespaceType.Variable;
 			var variableName = variableNode.Name.Name;
-			var parents = Helper.GetParentTypes(type).Select(t => Helper.Namespace2UnifiedType(t));
-			var parentNode = Helper.GetFirstFoundNode(variableNode, parents);
+			var parents = DetectorHelper.GetParentTypes(type).Select(t => DetectorHelper.Namespace2UnifiedType(t));
+			var parentNode = DetectorHelper.GetFirstFoundNode(variableNode, parents);
 
 			return new Namespace() {
 				Value = variableName,
@@ -66,8 +66,8 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 
 		public static Namespace GetNamespace(UnifiedFor forNode) {
 			var type = NamespaceType.TemporaryScope;
-			var parents = Helper.GetParentTypes(type).Select(t => Helper.Namespace2UnifiedType(t));
-			var parentNode = Helper.GetFirstFoundNode(forNode, parents);
+			var parents = DetectorHelper.GetParentTypes(type).Select(t => DetectorHelper.Namespace2UnifiedType(t));
+			var parentNode = DetectorHelper.GetFirstFoundNode(forNode, parents);
 			return new Namespace() {
 				Value = "(for)",
 				NamespaceType = type,
@@ -75,10 +75,21 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 			};
 		}
 
+		public static Namespace GetNamespace(UnifiedForeach foreachNode) {
+			var type = NamespaceType.TemporaryScope;
+			var parents = DetectorHelper.GetParentTypes(type).Select(t => DetectorHelper.Namespace2UnifiedType(t));
+			var parentNode = DetectorHelper.GetFirstFoundNode(foreachNode, parents);
+			return new Namespace() {
+				Value = "(foreach)",
+				NamespaceType = type,
+				Parent = Dispatcher(parentNode)
+			};
+		}
+
 		public static Namespace GetNamespace(UnifiedWhile whileNode) {
 			var type = NamespaceType.TemporaryScope;
-			var parents = Helper.GetParentTypes(type).Select(t => Helper.Namespace2UnifiedType(t));
-			var parentNode = Helper.GetFirstFoundNode(whileNode, parents);
+			var parents = DetectorHelper.GetParentTypes(type).Select(t => DetectorHelper.Namespace2UnifiedType(t));
+			var parentNode = DetectorHelper.GetFirstFoundNode(whileNode, parents);
 			return new Namespace() {
 				Value = "(while)",
 				NamespaceType = type,
@@ -88,7 +99,6 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 
 		public static Namespace GetNamespace(UnifiedDoWhile dowhileNode) {
 			return null;
-			throw new NotImplementedException();			
 		}
 
 		// ディスパッチ先がなかった時用
@@ -97,6 +107,7 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 		}
 
 		// element の種類によって，GetNamespace を使い分けるディスパッチャ
+		// 逆に，element の種類がわかっているなら，直接 GetNamespace() を呼べばおｋ
 		// 関数名だけ変えて，ダッグタイピング的な
 		public static Namespace Dispatcher(dynamic element) {
 			return GetNamespace(element);

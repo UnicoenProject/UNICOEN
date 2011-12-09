@@ -51,7 +51,7 @@
     <Compile Include="Java\EncapsulateCollectionHelperForJava.cs" />
     <Compile Include="NamespaceDetector\Application.cs" />
     <Compile Include="NamespaceDetector\Detector.cs" />
-    <Compile Include="NamespaceDetector\Helper.cs" />
+    <Compile Include="NamespaceDetector\DetectorHelper.cs" />
     <Compile Include="NamespaceDetector\Namespace.cs" />
     <Compile Include="NamespaceDetector\NamespaceType.cs" />
     <Compile Include="Program.cs" />
