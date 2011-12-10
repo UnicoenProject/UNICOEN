@@ -83,9 +83,7 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\..\lib\ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
+    <Reference Include="ICSharpCode.NRefactory, Version=1.0.4216.40518, Culture=neutral, PublicKeyToken=d4bfe873e7598c49, processorArchitecture=MSIL" />
     <Reference Include="Paraiba, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\lib\Paraiba.dll</HintPath>
     </Reference>
