@@ -17,7 +17,6 @@
 #endregion
 
 using Unicoen.Model;
-using Unicoen.Model.Expressions.Blocks.Specials;
 
 namespace Unicoen.Processor {
 	public interface IUnifiedVisitor {

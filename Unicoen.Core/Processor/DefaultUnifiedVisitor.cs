@@ -617,6 +617,14 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
+		public void Visit(UnifiedUncheckedBlock element) {
+			element.TryAcceptAllChildren(this);
+		}
+
+		public void Visit(UnifiedCheckedBlock element) {
+			element.TryAcceptAllChildren(this);
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element) {
 			element.TryAcceptAllChildren(this);
 		}
