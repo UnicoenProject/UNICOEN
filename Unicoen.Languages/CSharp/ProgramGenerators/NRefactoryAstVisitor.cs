@@ -22,7 +22,7 @@ using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
 using ICSharpCode.NRefactory.TypeSystem;
 using Unicoen.Model;
-using Attribute = System.Attribute;
+using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
 
 namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
@@ -312,9 +312,6 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			throw new NotImplementedException("QueryGroupClause");
 		}
 
-		public IUnifiedElement VisitAttribute(ICSharpCode.NRefactory.CSharp.Attribute attribute, object data) {
-			throw new NotImplementedException();
-		}
 
 		#endregion
 
@@ -323,12 +320,11 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		#region attribute
 
 		public IUnifiedElement VisitAttribute(Attribute attribute, object data) {
-			throw new NotImplementedException("Attribute");
-			//var type = LookupType(attribute.Type);
-			//if (attribute.HasArgumentList == false)
-			//    return UnifiedAnnotation.Create(type);
-			//var uArgs = attribute.Arguments.AcceptVisitorAsArgs(this, data);
-			//return UnifiedAnnotation.Create(type, uArgs);
+			var type = LookupType(attribute.Type);
+			if (attribute.HasArgumentList == false)
+			    return UnifiedAnnotation.Create(type);
+			var uArgs = attribute.Arguments.AcceptVisitorAsArgs(this, data);
+			return UnifiedAnnotation.Create(type, uArgs);
 		}
 
 		public IUnifiedElement VisitAttributeSection(AttributeSection attrSec, object data) {
@@ -603,7 +599,9 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
 		public IUnifiedElement VisitUncheckedStatement(
 				UncheckedStatement uncheckedStatement, object data) {
-			throw new NotImplementedException("UncheckedStatement");
+			var stmts = uncheckedStatement.Body.TryAcceptForExpression(this).ToBlock();
+		
+   throw new NotImplementedException("UncheckedStatement");
 		}
 
 		public IUnifiedElement VisitUnsafeStatement(
@@ -823,17 +821,16 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		}
 
 		public IUnifiedElement VisitTypeParameterDeclaration(TypeParameterDeclaration dec, object data) {
-			throw new NotImplementedException("TypeParameterDeclaration");
 			var type = UnifiedType.Create(dec.Name);
 			var modifiers = null as UnifiedModifierCollection;
-			//switch(dec.Variance) {
-			//case VarianceModifier.Contravariant:
-			//    modifiers = UnifiedModifier.Create("in").ToCollection();
-			//    break;
-			//case VarianceModifier.Covariant:
-			//    modifiers = UnifiedModifier.Create("out").ToCollection();
-			//    break;
-			//}
+			switch(dec.Variance) {
+			case VarianceModifier.Contravariant:
+			    modifiers = UnifiedModifier.Create("in").ToCollection();
+			    break;
+			case VarianceModifier.Covariant:
+			    modifiers = UnifiedModifier.Create("out").ToCollection();
+			    break;
+			}
 			return UnifiedGenericParameter.Create(type, /*constraint*/null, modifiers);
 		}
 

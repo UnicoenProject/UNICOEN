@@ -17,6 +17,7 @@
 #endregion
 
 using Unicoen.Model;
+using Unicoen.Model.Expressions.Blocks.Specials;
 
 namespace Unicoen.Processor {
 	public interface IUnifiedVisitor {
@@ -170,6 +171,8 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedSymbolLiteral element);
 		void Visit(UnifiedDefined element);
 		void Visit(UnifiedAlias element);
+		void Visit(UnifiedUncheckedBlock element);
+		void Visit(UnifiedCheckedBlock element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -323,6 +326,8 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedSymbolLiteral element, TArg arg);
 		void Visit(UnifiedDefined element, TArg arg);
 		void Visit(UnifiedAlias element, TArg arg);
+		void Visit(UnifiedUncheckedBlock element, TArg arg);
+		void Visit(UnifiedCheckedBlock element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -476,5 +481,7 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedSymbolLiteral element, TArg arg);
 		TResult Visit(UnifiedDefined element, TArg arg);
 		TResult Visit(UnifiedAlias element, TArg arg);
+		TResult Visit(UnifiedUncheckedBlock element, TArg arg);
+		TResult Visit(UnifiedCheckedBlock element, TArg arg);
 	}
 }
