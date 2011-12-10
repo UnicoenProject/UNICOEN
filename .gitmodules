@@ -1,0 +1,6 @@
+[submodule "NRefactory"]
+	path = NRefactory
+	url = git://github.com/icsharpcode/NRefactory.git
+[submodule "cecil"]
+	path = cecil
+	url = git://github.com/jbevain/cecil.git
