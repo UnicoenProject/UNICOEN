@@ -22,9 +22,14 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 			_model = JavaFactory.GenerateModel(code);
 		}
 
-		[Ignore]
+		[Test]
 		public void Xml表示用() {
 			Console.WriteLine(_model.ToXml());
+		}
+
+		[Test]
+		public void コード表示用() {
+			Console.WriteLine(JavaFactory.GenerateCode(_model));
 		}
 
 		[Test]

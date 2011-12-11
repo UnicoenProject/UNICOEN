@@ -33,13 +33,36 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 		public void 自分の親を探して関数の宣言部分を探す() {
 			var callNode = _model.FirstDescendant<UnifiedCall>();
 			var belongingNamespace = Application.GetBelongingNamespace(callNode);
+			Console.WriteLine(((UnifiedVariableIdentifier)callNode.Function).Name);
+			var callingFuncName = ((UnifiedVariableIdentifier)callNode.Function).Name;
 			Console.WriteLine(belongingNamespace.GetNamespaceString());
+
+			UnifiedFunctionDefinition parent = null;
 			foreach (var ns in belongingNamespace.YieldParents()) {
 				var unifiedElement = Application.FindUnifiedElementByNamespace(ns.GetNamespaceString(), _model);
 				Console.WriteLine(unifiedElement.Count());
 				var element = unifiedElement.First();
-				var found = element.Descendants<UnifiedFunctionDefinition>().Where(e => e.Name == callNode.Function);
+				var found = element.Descendants<UnifiedFunctionDefinition>().Where(e => e.Name.Name == callingFuncName);
+				if(found.Count() > 0) {
+					parent = found.First();
+					break;
+				}
 			}
+			if (parent == null) {
+				Console.WriteLine("Mitsukaranaiyo!");
+			}
+
+			Console.WriteLine(JavaFactory.GenerateCode(parent));
+		}
+
+		[Test]
+		public void 自分の親を探して変数の宣言部分を探す() {
+			// Expression 以下の VariableIdentifier を取り出す
+			var expressionTypes = new[] { UnifiedBinaryExpression.Create().GetType() };
+			var vis = new List<UnifiedVariableIdentifier>();
+			_model.Descendants<IUnifiedExpression>().Select(e => e.Descendants<UnifiedVariableIdentifier>());
+
+
 		}
 
 	}
