@@ -43,7 +43,7 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 		}
 
 		/// <summary>
-		/// 詳細な完全修飾名を取得します
+		/// 詳細な完全修飾名（各名前空間のタイプを併記）を取得します
 		/// </summary>
 		/// <param name="originalDelimiter">名前空間のデリミタ（デフォルトはピリオド）</param>
 		/// <returns>詳細完全修飾名</returns>
@@ -61,7 +61,15 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 			
 		}
 
-		// 自分から始まって，ひたすら親を返す
+		/// <summary>
+		/// 自分の親の名前空間（上位名前空間）を yield return していきます
+		/// </summary>
+		/// <example>
+		/// <code>
+		/// foreach(var p in node.YieldParents()){...}
+		/// </code>
+		/// </example>
+		/// <returns>自分の親</returns>
 		public IEnumerable<Namespace> YieldParents() {
 			var node = this;
 			while(node != null) {

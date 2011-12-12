@@ -43,7 +43,7 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 				Console.WriteLine(unifiedElement.Count());
 				var element = unifiedElement.First();
 				var found = element.Descendants<UnifiedFunctionDefinition>().Where(e => e.Name.Name == callingFuncName);
-				if(found.Count() > 0) {
+				if (found.Count() > 0) {
 					parent = found.First();
 					break;
 				}
@@ -58,11 +58,46 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 		[Test]
 		public void 自分の親を探して変数の宣言部分を探す() {
 			// Expression 以下の VariableIdentifier を取り出す
-			var expressionTypes = new[] { UnifiedBinaryExpression.Create().GetType() };
-			var vis = new List<UnifiedVariableIdentifier>();
-			_model.Descendants<IUnifiedExpression>().Select(e => e.Descendants<UnifiedVariableIdentifier>());
+			var viList = new List<UnifiedVariableIdentifier>();
+			foreach (var unifiedVariableIdentifiers in _model.Descendants<UnifiedBinaryExpression>().Select(e => e.Descendants<UnifiedVariableIdentifier>())) {
+				foreach (var uvi in unifiedVariableIdentifiers) {
+					viList.Add(uvi);
+				}
+			}
+			foreach (var unifiedVariableIdentifiers in _model.Descendants<UnifiedUnaryExpression>().Select(e => e.Descendants<UnifiedVariableIdentifier>())) {
+				foreach (var uvi in unifiedVariableIdentifiers) {
+					viList.Add(uvi);
+				}
+			}
+			foreach (var unifiedVariableIdentifiers in _model.Descendants<UnifiedTernaryExpression>().Select(e => e.Descendants<UnifiedVariableIdentifier>())) {
+				foreach (var uvi in unifiedVariableIdentifiers) {
+					viList.Add(uvi);
+				}
+			}
+
+			Console.WriteLine(viList.Count);
+			foreach (var vi in viList) {
+				Console.WriteLine(vi);
+			}
+
+		}
+
+		[Test]
+		public void 関数が呼ばれている部分を探す() {
+			var fdNode = _model.FirstDescendant<UnifiedFunctionDefinition>();
+			var brothers = GetBrotherNode(fdNode);
+			foreach (var brother in brothers) {
+				var callNodes = brother.Descendants<UnifiedCall>();
+			}
 
 
+
+
+		}
+
+		// 自分の兄弟ノード（自分も含む）を取得する
+		public static IEnumerable<IUnifiedElement> GetBrotherNode(UnifiedElement node) {
+			return node.FirstAncestor<IUnifiedElement>().Descendants();
 		}
 
 	}

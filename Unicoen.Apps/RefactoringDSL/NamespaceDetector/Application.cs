@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Unicoen.Languages.Java;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
@@ -41,6 +42,29 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 
 			var belongingSpace = Detector.Dispatcher(firstFound);
 			return belongingSpace;
+		}
+
+		public static UnifiedFunctionDefinition FindDefinition(UnifiedCall callNode) {
+			var belongingNamespace = Application.GetBelongingNamespace(callNode);
+			var callingFuncName = ((UnifiedVariableIdentifier)callNode.Function).Name;
+
+			UnifiedFunctionDefinition parent = null;
+			foreach (var ns in belongingNamespace.YieldParents()) {
+				var unifiedElement = Application.FindUnifiedElementByNamespace(ns.GetNamespaceString(), _model);
+//				Console.WriteLine(unifiedElement.Count());
+				var element = unifiedElement.First();
+				var found = element.Descendants<UnifiedFunctionDefinition>().Where(e => e.Name.Name == callingFuncName);
+				if (found.Count() > 0) {
+					parent = found.First();
+					break;
+				}
+			}
+			if (parent == null) {
+				throw new Exception();	
+			}
+
+			return parent;
+
 		}
 
 
