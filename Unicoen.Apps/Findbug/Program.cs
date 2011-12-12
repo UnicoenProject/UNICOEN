@@ -7,13 +7,11 @@ using System.Collections.Generic;
 
 namespace Unicoen.Apps.Findbug {
     class Program {
-        public static IEnumerable<UnifiedIdentifier> getVariables(string name, UnifiedProgram codeObj){
-            var variable = UnifiedIdentifier.CreateVariable(name);
+        public static IEnumerable<UnifiedIdentifier> GetVariables(string name, UnifiedProgram codeObj){
             var ids = codeObj.Descendants<UnifiedIdentifier>();
-            var strV = variable.Name;
             foreach(var id in ids){
                 var strId = id.Name;
-                if(strId.Equals(strV)){
+                if (strId.Equals(UnifiedIdentifier.CreateVariable(name).Name)) {
                     yield return id;
                 }
             }
@@ -23,10 +21,10 @@ namespace Unicoen.Apps.Findbug {
             try {
                 var inputPath = FixtureUtil.GetInputPath("Java", "BugPatterns", "NULL_SAMPLE.java");
                 var codeObj = new JavaProgramGenerator().GenerateFromFile(inputPath);
-                var idname = "bool";
-                var idSet = getVariables(idname, codeObj);
+                var idName = "bool";
+                var idSet = GetVariables(idName, codeObj);
 
-                Console.WriteLine("{0}: " + idSet.Count(), idname);
+                Console.WriteLine("{0}: " + idSet.Count(), idName);
                 var nulls = codeObj.Descendants<UnifiedNullLiteral>();
                 Console.WriteLine("null: " + nulls.Count());
             }
