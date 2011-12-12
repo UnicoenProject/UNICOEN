@@ -44,14 +44,19 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 			return belongingSpace;
 		}
 
-		public static UnifiedFunctionDefinition FindDefinition(UnifiedCall callNode) {
+		/// <summary>
+		/// 関数呼び出しから，定義を探します
+		/// </summary>
+		/// <param name="callNode">関数呼び出しノード</param>
+		/// <param name="topNode">検索対象のトップノード</param>
+		/// <returns>呼び出された関数の定義</returns>
+		public static UnifiedFunctionDefinition FindDefinition(UnifiedCall callNode, UnifiedElement topNode) {
 			var belongingNamespace = Application.GetBelongingNamespace(callNode);
 			var callingFuncName = ((UnifiedVariableIdentifier)callNode.Function).Name;
 
 			UnifiedFunctionDefinition parent = null;
 			foreach (var ns in belongingNamespace.YieldParents()) {
-				var unifiedElement = Application.FindUnifiedElementByNamespace(ns.GetNamespaceString(), _model);
-//				Console.WriteLine(unifiedElement.Count());
+				var unifiedElement = Application.FindUnifiedElementByNamespace(ns.GetNamespaceString(), topNode);
 				var element = unifiedElement.First();
 				var found = element.Descendants<UnifiedFunctionDefinition>().Where(e => e.Name.Name == callingFuncName);
 				if (found.Count() > 0) {
@@ -59,12 +64,9 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
 					break;
 				}
 			}
-			if (parent == null) {
-				throw new Exception();	
-			}
+			// 呼び出しがあるのに，定義がない場合（標準関数など）は null が変える
 
 			return parent;
-
 		}
 
 

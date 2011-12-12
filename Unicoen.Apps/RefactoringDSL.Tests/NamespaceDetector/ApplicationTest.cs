@@ -30,29 +30,11 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
 		}
 
 		[Test]
-		public void 自分の親を探して関数の宣言部分を探す() {
+		public void 自分の親を探して関数の宣言部分を取得できる() {
 			var callNode = _model.FirstDescendant<UnifiedCall>();
-			var belongingNamespace = Application.GetBelongingNamespace(callNode);
-			Console.WriteLine(((UnifiedVariableIdentifier)callNode.Function).Name);
-			var callingFuncName = ((UnifiedVariableIdentifier)callNode.Function).Name;
-			Console.WriteLine(belongingNamespace.GetNamespaceString());
-
-			UnifiedFunctionDefinition parent = null;
-			foreach (var ns in belongingNamespace.YieldParents()) {
-				var unifiedElement = Application.FindUnifiedElementByNamespace(ns.GetNamespaceString(), _model);
-				Console.WriteLine(unifiedElement.Count());
-				var element = unifiedElement.First();
-				var found = element.Descendants<UnifiedFunctionDefinition>().Where(e => e.Name.Name == callingFuncName);
-				if (found.Count() > 0) {
-					parent = found.First();
-					break;
-				}
-			}
-			if (parent == null) {
-				Console.WriteLine("Mitsukaranaiyo!");
-			}
-
-			Console.WriteLine(JavaFactory.GenerateCode(parent));
+			var definition = Application.FindDefinition(callNode, _model);
+			Assert.That(definition != null);
+			Assert.That(definition.Name.Name, Is.EqualTo(((UnifiedVariableIdentifier)callNode.Function).Name));
 		}
 
 		[Test]
