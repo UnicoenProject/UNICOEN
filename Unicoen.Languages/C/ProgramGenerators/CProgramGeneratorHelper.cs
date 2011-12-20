@@ -54,6 +54,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | declaration
 			 * ;
 			 */
+			// 前者が関数宣言のこと、後者がtypedefのこと
+
 			var first = node.FirstElement();
 			if (first.Name() == "function_definition") {
 				return CreateFunctionDefinition(first);
@@ -82,17 +84,20 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			UnifiedParameterCollection parameters = null;
 			UnifiedBlock body = null;
 
-			XElement first = node.FirstElement();
-			if (first.Name() == "declaration_specifiers") {
-				CreateDeclarationSpecifiers(first, out modifiers, out type);
+			var first = node.FirstElement();
+			if (first.Name() == "declaration_specifiers") { 
+				var modifiersAndType = CreateDeclarationSpecifiers(first);
+				modifiers = modifiersAndType.Item1;
+				type = modifiersAndType.Item2;
 			}
 
-			CreateDeclarator(
-					node.Element("declarator"),
-					out name, out parameters);
+			var declarator = CreateDeclarator(node.Element("declarator"));
+			name = declarator.Item1;
+			parameters = declarator.Item2;
 
 			if (!node.Elements("declaration").IsEmpty()) {
-				throw new NotImplementedException(); //TODO: implement
+				// TODO declaration+ compound_statement　に該当するケースが未検出
+				throw new NotImplementedException();
 			}
 
 			body = CreateCompoundStatement(node.Element("compound_statement"));
@@ -110,47 +115,42 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			    init_declarator_list ';' // special case, looking for typedef	
 			| declaration_specifiers init_declarator_list? ';'
 			 */
-			// declaration_specifiers init_declarator_list? ';' において init_declarator_list がない時だけ
-			// struct, と union を UnifiedClassDefenition とする。その他は UnifiedType でラップする
+
 			var firstNode = node.FirstElement();
 			switch (firstNode.Name()) {
-			case "Node":
-				throw new NotImplementedException(); //TODO: implement
+			case "TOKEN":
+				// TODO このケースになるプログラムが未検証
+				// typedef int S8; はいいけれど、これに初期化子も付けられるのが謎
+				throw new NotImplementedException();
 				break;
 
 			case "declaration_specifiers":
-				UnifiedModifierCollection modifiers;
-				UnifiedType type;
-				CreateDeclarationSpecifiers(firstNode, out modifiers, out type);
-				var initDeclaratorListNode = node.Element("init_declarator_list");
-				if (node.Elements("init_declarator_list").Count() > 0) {
-					var definitionList = UnifiedVariableDefinitionList.Create();
-					foreach (var initDeclarator in CreateInitDeclaratorList(node.Element("init_declarator_list"))) {
-						if (initDeclarator.Item2 != null) {
-							// 関数ポインタ
-							throw new NotImplementedException(); //TODO: implement
-						}
-						definitionList.Add(UnifiedVariableDefinition.Create(
-							null, modifiers.DeepCopy(), type.DeepCopy(), initDeclarator.Item1, initDeclarator.Item3, null, null, null));
-						
-					}
-					return definitionList;
-				} else {
-					throw new NotImplementedException(); //TODO: implement
+				// const int a = 0;
+				// struct data { int x; }; => ここもこれになるのだけど、扱いはどうすれば
+				var modifiersAndType = CreateDeclarationSpecifiers(firstNode);
+				var modifiers = modifiersAndType.Item1;
+				var type = modifiersAndType.Item2;
+
+				// TODO typeがstructである場合には、UnifiedClassDefinitionを返す
+				// -> structの場合、変数名も初期化子も持たないのでvariableDefinition化できないのでどうするのか
+
+				var initDeclaratorList = node.Element("init_declarator_list");
+				UnifiedVariableDefinitionList variables = null;
+				if(initDeclaratorList != null) {
+					variables = UnifiedVariableDefinitionList.Create(
+						CreateInitDeclaratorList(initDeclaratorList).
+						Select(e => UnifiedVariableDefinition.Create(null, modifiers, type, e.Item1, e.Item2)));
 				}
-				throw new NotImplementedException(); //TODO: implement
-				break;
+				return variables;
+
 			default:
 				throw new InvalidOperationException();
 
 			}
-			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static void CreateDeclarationSpecifiers(
-				XElement node,
-				out UnifiedModifierCollection modifiers,
-				out UnifiedType type) {
+		public static Tuple<UnifiedModifierCollection, UnifiedType> 
+			CreateDeclarationSpecifiers(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration_specifiers");
 			/*	declaration_specifiers
@@ -158,74 +158,65 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 *       |   type_specifier
 			 *       |   type_qualifier      )+
 			 */
-			UnifiedModifierCollection ms = UnifiedModifierCollection.Create();
+			var modifiers = UnifiedModifierCollection.Create();
 			IList<UnifiedType> types = new List<UnifiedType>();
-			foreach (XElement e in node.Elements()) {
+			
+			foreach (var e in node.Elements()) {
 				switch (e.Name()) {
 				case "storage_class_specifier":
-					ms.Add(CreateStorageClassSpecifier(e));
+					modifiers.Add(CreateStorageClassSpecifier(e));
 					break;
 				case "type_specifier":
 					types.Add(CreateTypeSpecifier(e));
 					break;
 				case "type_qualifier":
-					throw new NotImplementedException(); //TODO: implement
-//					ms.Add(CreateTypeQualifier(e));
+					//TODO: const または volatileのことであるが、安直にリストに追加していいか要確認
+					modifiers.Add(CreateTypeQualifier(e));
 					break;
 				default:
 					throw new InvalidOperationException();
 				}
 			}
-			modifiers = ms.IsEmpty() ? null : ms;
+			// 修飾子が空の場合はnullにする
+			if(modifiers.IsEmpty())
+				modifiers = null;
 
+			UnifiedType type;
 			if (types.Count == 1) {
 				type = types[0];
-				return;
-			}
+			} else {
+				var s = "";
+				var prefix = "";
+				// TODO unsigned int, long long int などは そのまま１つの型で表されるのか？
+				foreach (var t in types) {
+					s += prefix + ((UnifiedVariableIdentifier)t.BasicTypeName).Name;
+					prefix = " ";
+				}
+				type = UnifiedType.Create(UnifiedVariableIdentifier.Create(s));
 
-			String s = "";
-			String prefix = "";
-			foreach (UnifiedType t in types) {
-				s += prefix + ((UnifiedVariableIdentifier)t.BasicTypeName).Name;
-				prefix = " ";
 			}
-			type =
-					UnifiedType.Create(UnifiedVariableIdentifier.Create(s));
+			return Tuple.Create(modifiers, type);
 		}
 
-		public static IEnumerable<Tuple<UnifiedIdentifier, UnifiedParameterCollection, IUnifiedExpression>> CreateInitDeclaratorList(XElement node) {
+		public static IEnumerable<Tuple<UnifiedIdentifier, IUnifiedExpression>>CreateInitDeclaratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "init_declarator_list");
 			/*
 			init_declarator_list
 			: init_declarator (',' init_declarator)*
 			*/
-			var expressionList = new List<Tuple<UnifiedIdentifier, UnifiedParameterCollection, IUnifiedExpression>>();
-			foreach (var initDeclaratorNode in node.Elements("init_declarator")) {
-				UnifiedIdentifier name;
-				UnifiedParameterCollection parameters;
-				IUnifiedExpression initializer;
-				CreateInitDeclarator(initDeclaratorNode, out name, out parameters, out initializer);
-				expressionList.Add(Tuple.Create(name, parameters, initializer));
-			}
-			return expressionList;
+			return node.Elements("init_declarator").Select(CreateInitDeclarator);
 		}
 
-		public static void CreateInitDeclarator(XElement node, out UnifiedIdentifier name,
-			out UnifiedParameterCollection parameters, out IUnifiedExpression initializer) {
+		public static Tuple<UnifiedIdentifier, IUnifiedExpression> CreateInitDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "init_declarator");
 			/* init_declarator : declarator ('=' initializer)? ; */
 
-			CreateDeclarator(node.Element("declarator"), out name, out parameters);
+			var declarator = CreateDeclarator(node.Element("declarator"));
+			var initializer = node.Element("initializer") != null ? CreateInitializer(node.Element("initializer")) : null;
 
-			if (parameters != null) {
-				// 関数ポインタ
-				throw new NotImplementedException(); //TODO: implement
-			}
-
-
-			initializer = node.Element("initializer") != null ? CreateInitializer(node.Element("initializer")) : null;
+			return Tuple.Create(declarator.Item1, initializer);
 		}
 
 
@@ -259,7 +250,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | enum_specifier
 			 * | type_id
 			 */
-			XElement first = node.FirstElement();
+			var first = node.FirstElement();
 			switch (first.Name()) {
 			case "struct_or_union_specifier":
 				return CreateStructOrUnionSpecifier(first);
@@ -268,8 +259,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			case "type_id":
 				return CreateTypeId(first);
 			default:
-				var ui = UnifiedVariableIdentifier.Create(first.Value);
-				return UnifiedType.Create(ui);
+				return UnifiedType.Create(UnifiedVariableIdentifier.Create(first.Value));
 			}
 		}
 
@@ -280,8 +270,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			type_id
 			: {isTypeName(input.LT(1).getText())}? IDENTIFIER
 			*/
-
-			throw new NotImplementedException(); //TODO: implement
+			// typedefされた型名が使用される場合
+			return UnifiedType.Create(node.Elements().First().Value);
 		}
 
 		public static UnifiedType CreateStructOrUnionSpecifier(XElement node) {
@@ -292,46 +282,41 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | struct_or_union IDENTIFIER
 			 */
 			// 構造体の定義と宣言の両方をこのメソッドで作成
-			// 常に UnifiedTyep を返すが、
+			// 常に UnifiedType を返すが、
 			// 構造体定義をしている場合だけ関数の呼び出し元で UnifiedType の中身をとりだす
 
-			var isStruct = node.FirstElement().Name() == "struct";
-			var identElem = node.Element("IDENTIFIER");
-			var uIdent = identElem == null
-			             		? null
-			             		: UnifiedVariableIdentifier.Create(identElem.Value);
+			// typedef "struct {}" data; -> クラス？
+			// "struct data {}"; -> クラス
+			// "struct data" a; -> 型
 
+			var isStruct = CreateStructOrUnion(node.FirstElement()) == "struct";
+			var identifier = node.Element("IDENTIFIER");
+			var typeName = identifier == null ? null : UnifiedVariableIdentifier.Create(identifier.Value);
+
+			// 型の場合
 			if (node.Elements().Count() == 2) {
-				var baseType = UnifiedType.Create(uIdent);
-				if (isStruct) {
-					return baseType.WrapStruct();
-				} else {
-					return baseType.WrapUnion();
-				}
+				var baseType = UnifiedType.Create(typeName);
+				return isStruct ? baseType.WrapStruct() : baseType.WrapUnion();
 			}
 
+			// struct or union の定義がある場合
 			var body =
 					CreateStructDeclarationList(node.Element("struct_declaration_list"));
-			var structOrUnion = isStruct
-			                    		? (UnifiedClassLikeDefinition)UnifiedStructDefinition.Create(
-			                    				name: uIdent,
-			                    				body: body)
-			                    		: UnifiedUnionDefinition.Create(
-			                    				name: uIdent,
-			                    				body: body);
+			var structOrUnion = isStruct　? (UnifiedClassLikeDefinition)UnifiedStructDefinition.
+				Create(name: typeName, body: body) : UnifiedUnionDefinition.Create(name: typeName, body: body);
 
+			// TODO struct or unionはあくまでもTypeとして返すののか？
 			return UnifiedType.Create(structOrUnion);
 		}
 
-		public static IUnifiedElement CreateStructOrUnion(XElement node) {
+		public static string CreateStructOrUnion(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_or_union");
 			/* struct_or_union
 			 * : 'struct'
 			 * | 'union'
 			 */
-			// CreateStructOrUnionSpecifier からしか呼び出されていないので使わない
-			throw new InvalidOperationException("this method isn't supported.");
+			return node.Value;
 		}
 
 		public static UnifiedBlock CreateStructDeclarationList(XElement node) {
@@ -340,9 +325,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			/* struct_declaration_list
 			 * : struct_declaration+
 			 */
-			return
-					UnifiedBlock.Create(
-							node.Elements("struct_declaration").Select(CreateStructDeclaration));
+			return UnifiedBlock.Create(node.Elements("struct_declaration").Select(CreateStructDeclaration));
 		}
 
 		public static UnifiedVariableDefinitionList CreateStructDeclaration(
@@ -353,59 +336,58 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * struct_declaration
 			 * : specifier_qualifier_list struct_declarator_list ';'
 			 */
-			UnifiedModifierCollection modifiers = null;
-			UnifiedType type;
 
-			CreateSpecifierQualifierList(
-					node.Element("specifier_qualifier_list"),
-					out modifiers, out type);
+			var modifiersAndType = CreateSpecifierQualifierList(
+					node.Element("specifier_qualifier_list"));
+			var modifiers = modifiersAndType.Item1;
+			var type = modifiersAndType.Item2;
 
-			return CreateStructDeclaratorList(
-					node.Element("struct_declarator_list"),
-					modifiers, type);
+			var structDeclaratorList = node.Element("struct_declarator_list");
+			UnifiedVariableDefinitionList variables = null;
+			if(structDeclaratorList != null) {
+				variables = UnifiedVariableDefinitionList.Create(
+					CreateStructDeclaratorList(structDeclaratorList).
+					Select(e => UnifiedVariableDefinition.Create(null, modifiers, type, e.Item1, e.Item2)));
+			}
+			return variables;
 		}
 
-		public static void CreateSpecifierQualifierList(
-				XElement node,
-				out UnifiedModifierCollection modifiers, out UnifiedType type) {
+		public static Tuple<UnifiedModifierCollection, UnifiedType> 
+			CreateSpecifierQualifierList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "specifier_qualifier_list");
 			/*
 			 * specifier_qualifier_list
 			 * : ( type_qualifier | type_specifier )+
 			 */
-			modifiers = UnifiedModifierCollection.Create();
+			var modifiers = UnifiedModifierCollection.Create();
 			var types = new List<UnifiedType>();
 			foreach (var e in node.Elements()) {
 				switch (e.Name()) {
 				case "type_qualifier":
-					//modifiers.Add(CreateTypeQualifier(e));
-					throw new NotImplementedException(); //TODO: implement
+					modifiers.Add(CreateTypeQualifier(e));
 					break;
 				case "type_specifier":
 					types.Add(CreateTypeSpecifier(e));
 					break;
 				}
 			}
+			// 修飾子が空の場合はnullにする
+			if(modifiers.IsEmpty())
+				modifiers = null;
 
-			modifiers = modifiers.IsEmpty() ? null : modifiers;
-
-			String s = "";
-			String prefix = "";
+			var s = "";
+			var prefix = "";
 			foreach (var t in types) {
 				s += prefix + t.BasicTypeName;
 				prefix = " ";
 			}
-			type = s.Equals("")
-			       		? null
-			       		: UnifiedType.Create(
-			       				UnifiedVariableIdentifier.Create(s));
+			var type = s.Equals("") ? null : UnifiedType.Create(UnifiedVariableIdentifier.Create(s));
+			return Tuple.Create(modifiers, type);
 		}
 
-		public static UnifiedVariableDefinitionList
-				CreateStructDeclaratorList(
-				XElement node,
-				UnifiedModifierCollection modifiers, UnifiedType type) {
+		public static IEnumerable<Tuple<UnifiedIdentifier, IUnifiedExpression>> 
+			CreateStructDeclaratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");
 			/*
@@ -413,18 +395,11 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * : struct_declarator (',' struct_declarator)*
 			 * */
 
-			var variableDefinitionList = UnifiedVariableDefinitionList.Create();
-			foreach (var e in node.Elements("struct_declarator")) {
-				var variableDefinition = UnifiedVariableDefinition.Create(
-						modifiers: modifiers.DeepCopy(),
-						type: type.DeepCopy());
-				variableDefinitionList.Add(CreateStructDeclarator(e, variableDefinition));
-			}
-			return variableDefinitionList;
+			return node.Elements("struct_declarator").Select(CreateStructDeclarator);
 		}
 
-		public static UnifiedVariableDefinition CreateStructDeclarator(
-				XElement node, UnifiedVariableDefinition variableDefinition) {
+		public static Tuple<UnifiedIdentifier, IUnifiedExpression> 
+			CreateStructDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator");
 			/*
@@ -433,9 +408,14 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | ':' constant_expression
 			 * */
 
-			//UnifiedVariableDefinition.Create();
+			var declarator = CreateDeclarator(node.Element("declarator"));
+			if(declarator == null)
+				throw new NotImplementedException(); // TODO まだ、コロンを使うプログラムが未検証
 
-			throw new NotImplementedException(); //TODO: implement
+			var initializer = node.Element("constant_expression") != null 
+				? CreateConstantExpression(node.Element("constant_expression")) : null;
+
+			return Tuple.Create(declarator.Item1, initializer);
 		}
 
 		public static UnifiedType CreateEnumSpecifier(XElement node) {
@@ -472,7 +452,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static String CreateTypeQualifier(XElement node) {
+		public static UnifiedModifier CreateTypeQualifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_qualifier");
 			/* type_qualifier
@@ -480,13 +460,11 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | 'volatile'
 			 */
 
-			return node.FirstElement().Name();
+			return UnifiedModifier.Create(node.FirstElement().Name());
 		}
 
-		public static void CreateDeclarator(
-				XElement node,
-				out UnifiedIdentifier name,
-				out UnifiedParameterCollection parameters) {
+		public static Tuple<UnifiedIdentifier, UnifiedParameterCollection> 
+			CreateDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator");
 			/*	declarator
@@ -494,48 +472,50 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | pointer
 			 */
 
+			// int *func(){ }など
 			if (node.Element("direct_declarator") != null) {
 				if (node.Element("pointer") != null) {
 					CreatePointer(node.Element("pointer"));
 					throw new NotImplementedException(); //TODO: implement
 				}
 
-				CreateDirectDeclarator(
-						node.Element("direct_declarator"),
-						out name, out parameters);
+				//現状では、int func(){ }のような一般的な関数名の場合のみ
+				return CreateDirectDeclarator(node.Element("direct_declarator"));
 			} else {
+				// pointerだけの場合にどんなケースがあるのか未検出
 				throw new NotImplementedException(); //TODO: implement
 			}
 		}
 
-		public static void CreateDirectDeclarator(
-				XElement node,
-				out UnifiedIdentifier name,
-				out UnifiedParameterCollection parameters) {
+		public static Tuple<UnifiedIdentifier, UnifiedParameterCollection> 
+			CreateDirectDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "direct_declarator");
 			/* direct_declarator
 			 * :   (	IDENTIFIER  | '(' declarator ')' ) declarator_suffix*
 			 */
+			
 			var identifier = node.Element("IDENTIFIER");
+			UnifiedIdentifier name;
 			if (identifier != null) {
 				name = UnifiedVariableIdentifier.Create(identifier.Value);
 			} else if (node.Element("declarator") != null) {
-				throw new NotImplementedException(); //TODO: implement
+				// TODO (test())(){ }が許されるとして、その場合はどうするのか
+				return CreateDeclarator(node.Element("declarator"));
 			} else {
 				throw new InvalidOperationException();
 			}
 
-			parameters = null;
+			UnifiedParameterCollection parameters = null;
 			if (node.Elements("declarator_suffix").Count() > 1) {
-				throw new NotImplementedException(); //TODO: implement
+				// TODO test()()となるケースが未検出
+				throw new NotImplementedException();
 			} else if (node.Elements("declarator_suffix").Count() == 1) {
-				CreateDeclaratorSuffix(
-						node.Element("declarator_suffix"),
-						out parameters);
+				// TODO 上記対応を考える
+				//parameters = CreateDeclaratorSuffix(node.Element("declarator_suffix"));
 			}
 
-			//throw new NotImplementedException(); //TODO: implement
+			return Tuple.Create(name, parameters);
 		}
 
 		public static void CreateDeclaratorSuffix(
@@ -637,20 +617,21 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			: declaration_specifiers (declarator|abstract_declarator)*
 			 */
 
-			UnifiedModifierCollection modifiers;
-			UnifiedType type;
 			UnifiedIdentifier name;
 			UnifiedParameterCollection parameters;
 
-			CreateDeclarationSpecifiers(
-					node.Element("declaration_specifiers"), out modifiers, out type);
+			var modifiersAndType = CreateDeclarationSpecifiers(node.Element("declaration_specifiers"));
+			var modifiers = modifiersAndType.Item1;
+			var type = modifiersAndType.Item2;
 
 			if (node.Element("abstract_declarator") != null) {
 				throw new NotImplementedException(); //TODO: implement
 			} else if (node.Elements("declarator").Count() > 1) {
 				throw new NotImplementedException(); //TODO: implement
 			} else if (node.Element("declarator") != null) {
-				CreateDeclarator(node.Element("declarator"), out name, out parameters);
+				var declarator = CreateDeclarator(node.Element("declarator"));
+				parameters = declarator.Item2;
+				name = declarator.Item1;
 				if (parameters != null && parameters.Count > 0) {
 					// この場合はパラメータが関数ポインタ
 					var returnType = type;
