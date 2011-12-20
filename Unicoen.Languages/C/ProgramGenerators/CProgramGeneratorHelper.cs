@@ -255,7 +255,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			case "struct_or_union_specifier":
 				return CreateStructOrUnionSpecifier(first);
 			case "enum_specifier":
-				return CreateEnumSpecifier(first);
+				return (UnifiedType)CreateEnumSpecifier(first); // TODO enum定義時の場合を考慮していない
 			case "type_id":
 				return CreateTypeId(first);
 			default:
@@ -418,7 +418,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return Tuple.Create(declarator.Item1, initializer);
 		}
 
-		public static UnifiedType CreateEnumSpecifier(XElement node) {
+		public static IUnifiedExpression CreateEnumSpecifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enum_specifier");
 			/*
@@ -427,10 +427,23 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| 'enum' IDENTIFIER '{' enumerator_list '}'
 			| 'enum' IDENTIFIER
 			*/
-			throw new NotImplementedException(); //TODO: implement
+
+			// enum { RED, BLUE, YELLOW } -> 宣言
+			// enum COLOR { RED, BLUE, YELLOW } -> 宣言
+			// enum COLOR -> 型
+			
+			if(node.Elements("enumerator_list").Count() == 0) {
+				// TODO 型名はどうなるのか？
+				return UnifiedType.Create("enum " + node.FirstElement("IDENTIFIER").Value);
+			}
+
+			var identifier = node.Element("IDENTIFIER");
+			UnifiedIdentifier name = identifier != null ? UnifiedIdentifier.CreateVariable(identifier.Value) : null;
+			var body = CreateEnumeratorList(node.Element("enumerator_list"));
+			return UnifiedEnumDefinition.Create(null, null, name, null, null, body);
 		}
 
-		public static IUnifiedElement CreateEnumeratorList(XElement node) {
+		public static UnifiedBlock CreateEnumeratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumerator_list");
 			/*
@@ -438,18 +451,24 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			: enumerator (',' enumerator)*
 			*/
 
-			throw new NotImplementedException(); //TODO: implement
+			var enumerators = node.Elements("enumerator").Select(CreateEnumerator);
+			return UnifiedBlock.Create(UnifiedVariableDefinitionList.Create(enumerators));
 		}
 
-		public static IUnifiedElement CreateEnumerator(XElement node) {
+		public static UnifiedVariableDefinition CreateEnumerator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enumerator");
 			/*
 			enumerator
 			: IDENTIFIER ('=' constant_expression)?
 			*/
-
-			throw new NotImplementedException(); //TODO: implement
+		
+			var identifier = UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
+			IUnifiedExpression value = null;
+			var expression = node.FirstElement("constant_expression");
+			if(expression != null)
+				value = CreateConstantExpression(expression);
+			return UnifiedVariableDefinition.Create(null, null, null, identifier, value);
 		}
 
 		public static UnifiedModifier CreateTypeQualifier(XElement node) {
@@ -472,18 +491,18 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | pointer
 			 */
 
-			// int *func(){ }など
 			if (node.Element("direct_declarator") != null) {
 				if (node.Element("pointer") != null) {
+					// TODO ポインタ型はタイプにくっつくが、ＡＳＴ上では型とは分離されているがどうするか
 					CreatePointer(node.Element("pointer"));
-					throw new NotImplementedException(); //TODO: implement
+					throw new NotImplementedException();
 				}
 
 				//現状では、int func(){ }のような一般的な関数名の場合のみ
 				return CreateDirectDeclarator(node.Element("direct_declarator"));
 			} else {
-				// pointerだけの場合にどんなケースがあるのか未検出
-				throw new NotImplementedException(); //TODO: implement
+				// TODO pointerだけの場合にどんなケースがあるのか未検出
+				throw new NotImplementedException();
 			}
 		}
 
@@ -511,16 +530,13 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				// TODO test()()となるケースが未検出
 				throw new NotImplementedException();
 			} else if (node.Elements("declarator_suffix").Count() == 1) {
-				// TODO 上記対応を考える
-				//parameters = CreateDeclaratorSuffix(node.Element("declarator_suffix"));
+				parameters = CreateDeclaratorSuffix(node.Element("declarator_suffix"));
 			}
 
 			return Tuple.Create(name, parameters);
 		}
 
-		public static void CreateDeclaratorSuffix(
-				XElement node,
-				out UnifiedParameterCollection parameters) {
+		public static UnifiedParameterCollection CreateDeclaratorSuffix(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator_suffix");
 			/* declarator_suffix
@@ -532,21 +548,23 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * ;
 			*/
 
-			if (node.FirstElement().Value.Equals("(")
-			    && node.LastElement().Value.Equals(")")) {
+			UnifiedParameterCollection parameters = null;
+			// ()の場合
+			if (node.FirstElement().Value.Equals("(") && node.LastElement().Value.Equals(")")) {
 				if (node.Element("parameter_type_list") != null) {
 					parameters = CreateParameterTypeList(node.Element("parameter_type_list"));
 				} else if (node.Element("identifier_list") != null) {
-					throw new NotImplementedException(); //TODO: implement
-				} else {
-					parameters = UnifiedParameterCollection.Create();
+					// TODO どう考えてもargumentCollectionだが、対応するプログラムをまずは検証する
+					throw new NotImplementedException();
 				}
-			} else if (node.FirstElement().Value.Equals("[")
-			           && node.LastElement().Value.Equals("]")) {
-				throw new NotImplementedException(); //TODO: implement
+			// []の場合
+			} else if (node.FirstElement().Value.Equals("[") && node.LastElement().Value.Equals("]")) {
+				// TODO []がくるケースがまだ未検証
+				throw new NotImplementedException();
 			} else {
 				throw new InvalidOperationException();
 			}
+			return parameters;
 		}
 
 		public static IUnifiedElement CreatePointer(XElement node) {
@@ -557,27 +575,12 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * | '*' pointer
 			 * | '*'
 			 */
-
-			/*
-			if (node.Element("type_qualifier") != null) {
-				modifiers = UnifiedModifierCollection.Create();
-
-				foreach (var modifier in node.Elements("type_qualifier")) {
-					modifiers.Add(CreateTypeQualifier((modifier)));
-				}
-			}
-
-			if (node.Element("pointer") != null) {
-			}
-			*/
-
-			UnifiedPointerType p;
 			
-			throw new NotImplementedException(); //TODO: implement
+			// TODO ポインタ型がtypeに付くのかidentifierに付くのか決定する必要がある
+			throw new NotImplementedException();
 		}
 
-		public static UnifiedParameterCollection CreateParameterTypeList(
-				XElement node) {
+		public static UnifiedParameterCollection CreateParameterTypeList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameter_type_list");
 			/*
@@ -585,6 +588,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			: parameter_list (',' '...')?
 			*/
 			var parameters = CreateParameterList(node.Element("parameter_list"));
+			// TODO 可変長引数はmodifierなのか確認
 			if (node.LastElement().Value == "...") {
 				parameters.Add(
 						UnifiedParameter.Create(
@@ -624,31 +628,35 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			var modifiers = modifiersAndType.Item1;
 			var type = modifiersAndType.Item2;
 
+			var declarators = node.Elements("declarator");
+			var declarator = CreateDeclarator(node.FirstElement("declarator"));
+
+			// abstract_declaratorはおそらく[]など=> よって、最初に現れることはないはず( // TODO 未検証)
+
 			if (node.Element("abstract_declarator") != null) {
-				throw new NotImplementedException(); //TODO: implement
-			} else if (node.Elements("declarator").Count() > 1) {
-				throw new NotImplementedException(); //TODO: implement
-			} else if (node.Element("declarator") != null) {
-				var declarator = CreateDeclarator(node.Element("declarator"));
+				// TODO (int y[])の場合は、[]はどこに付くのか？
+				throw new NotImplementedException();
+			} 
+			// TODO 実際のところ、そこまで理解しきれていない
+			else if (declarators.Count() == 1) { // 多分declarator自体は１つしか現れないはず( // TODO 未検証)
+				return UnifiedParameter.Create(null, modifiers, type, declarator.Item1.ToCollection());
+			} 
+			else if (node.Element("declarator") != null) {
 				parameters = declarator.Item2;
 				name = declarator.Item1;
 				if (parameters != null && parameters.Count > 0) {
 					// この場合はパラメータが関数ポインタ
 					var returnType = type;
 					type = UnifiedType.Create(
-							UnifiedFunctionDefinition.Create(
-									null, modifiers, returnType,
-									null, null, parameters, null, null));
+							UnifiedFunctionDefinition.Create(null, modifiers, returnType,null, null, parameters));
 					modifiers = null;
 				}
-				return UnifiedParameter.Create(
-						null, modifiers, type, name.ToCollection(), null);
+				return UnifiedParameter.Create(null, modifiers, type, name.ToCollection(), null);
 			}
-
-			throw new NotImplementedException(); //TODO: implement
+			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedElement CreateIdentifierList(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateIdentifierList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "identifier_list");
 			/*
@@ -656,7 +664,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			: IDENTIFIER (',' IDENTIFIER)*
 			*/
 
-			throw new NotImplementedException(); //TODO: implement
+			// TODO 使いどころがわからない
+			return node.Elements("IDENTIFIER").Select(e => UnifiedIdentifier.CreateVariable(e.Value));
 		}
 
 		public static UnifiedType CreateTypeName(XElement node) {
@@ -667,7 +676,11 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			: specifier_qualifier_list abstract_declarator?
 			*/
 
-			throw new NotImplementedException(); //TODO: implement
+			var modifiersAndType = CreateSpecifierQualifierList(node.Element("specifier_qualifier_list"));
+			CreateAbstractDeclarator(node.Element("abstract_declarator"));
+
+			// TODO modifiersはどう扱うのか？ abstract_declaratorがどう出現するのか未検証
+			return modifiersAndType.Item2;
 		}
 
 		public static IUnifiedElement CreateAbstractDeclarator(XElement node) {
@@ -680,10 +693,14 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 */
 
 			if (node.Element("pointer") != null) {
-				throw new NotImplementedException(); //TODO: implement
-			} else if (node.Element("direct_abstract_declarator") != null) {
-				throw new NotImplementedException(); //TODO: implement
-			} else {
+				// TODO declaratorと同じでポイント型の扱い方次第
+				throw new NotImplementedException();
+			} 
+			else if (node.Element("direct_abstract_declarator") != null) {
+				// TODO 実際に出現する例を調べる
+				throw new NotImplementedException();
+			} 
+			else {
 				throw new InvalidOperationException();
 			}
 		}
@@ -695,8 +712,9 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			direct_abstract_declarator
 			:	( '(' abstract_declarator ')' | abstract_declarator_suffix ) abstract_declarator_suffix*
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			
+			// TODO 実際に出現する例を調べる
+			throw new NotImplementedException();
 		}
 
 		public static IUnifiedElement CreateAbstractDeclaratorSuffix(XElement node) {
@@ -710,7 +728,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			|	'(' parameter_type_list ')'
 			*/
 
-			throw new NotImplementedException(); //TODO: implement
+			// TODO どこにくっ付いているsuffixなのか確認する
+			throw new NotImplementedException();
 		}
 
 		public static IUnifiedExpression CreateInitializer(XElement node) {
@@ -723,21 +742,22 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 */
 			if (node.Element("assignment_expression") != null) {
 				return CreateAssignmentExpression(node.Element("assignment_expression"));
-			} else if (node.Element("initializer_list") != null) {
-				throw new NotImplementedException(); //TODO: implement
+			}
+			else if (node.Element("initializer_list") != null) {
+				// TODO おそらく構造体の初期化子=> どの要素に当てはまるのか確認する
+				throw new NotImplementedException();
 			}
 			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedElement CreateInitializerList(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateInitializerList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "initializer_list");
 			/*
 			initializer_list
 			: initializer (',' initializer)*
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			return node.Elements("initializer").Select(CreateInitializer);
 		}
 	}
 }

@@ -245,7 +245,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new NotImplementedException(); //TODO: implement
 		}
 
-		public static IUnifiedElement CreateConstantExpression(XElement node) {
+		public static IUnifiedExpression CreateConstantExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "constant_expression");
 			/*
