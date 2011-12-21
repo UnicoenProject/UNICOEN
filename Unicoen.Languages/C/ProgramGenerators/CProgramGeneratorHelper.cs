@@ -24,11 +24,23 @@ using System.Xml.Linq;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
 using Unicoen.Model;
+using Unicoen.ProgramGenerators;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CProgramGeneratorHelper {
+
+		public static Dictionary<string, UnifiedBinaryOperator> Sign2BinaryOperator;
+		public static Dictionary<string, UnifiedUnaryOperator> Sign2PrefixUnaryOperator;
+
+		static CProgramGeneratorHelper() {
+			Sign2BinaryOperator =
+					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary();
+			Sign2PrefixUnaryOperator =
+					UnifiedProgramGeneratorHelper.CreatePrefixUnaryOperatorDictionaryForJava();
+		}
+
 		public static UnifiedProgram CreateTranslationUnit(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "translation_unit");

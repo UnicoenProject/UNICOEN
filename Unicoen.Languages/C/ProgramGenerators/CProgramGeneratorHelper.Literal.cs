@@ -18,43 +18,43 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Numerics;
 using System.Xml.Linq;
 using Paraiba.Xml.Linq;
 using Unicoen.Model;
+using Unicoen.Processor;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CProgramGeneratorHelper {
 		// literals
-		public static UnifiedLiteral CreateHexLiteral(XElement node) {
+		// TODO BigIntegerでいいのか確認
+		public static BigInteger CreateHexLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "HEX_LITERAL");
 			/*
 			 * HEX_LITERAL : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return LiteralFuzzyParser.ParseHexicalBigInteger(node.Value.Substring(2));
 		}
 
-		public static UnifiedLiteral CreateOctalLiteral(XElement node) {
+		public static BigInteger CreateOctalLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "OCTAL_LITERAL");
 			/*
 			 * OCTAL_LITERAL : '0' ('0'..'7')+ IntegerTypeSuffix? ;
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			return LiteralFuzzyParser.ParseOcatleBigInteger(node.Value.Substring(1));
 		}
 
-		public static UnifiedLiteral CreateDecimalLiteral(XElement node) {
+		public static BigInteger CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "DECIMAL_LITERAL");
 			/*
 			 * DECIMAL_LITERAL : ('0' | '1'..'9' '0'..'9'*) IntegerTypeSuffix? ;
 			 */
-			if (node.Element("IntegerTypeSuffix") != null) {
-				throw new NotImplementedException(); //TODO: implement
-			}
-			return UnifiedIntegerLiteral.CreateInt32(int.Parse(node.Value));
+			return LiteralFuzzyParser.ParseBigInteger(node.Value);
 		}
 
 		public static UnifiedLiteral CreateCharacterLiteral(XElement node) {
@@ -64,7 +64,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * CHARACTER_LITERAL
 			 * :   '\'' ( EscapeSequence | ~('\''|'\\') ) '\'' ;
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			// TODO シングルクォーテーションの中だけ取得するのか確認
+			return UnifiedCharLiteral.Create(node.Value.Substring(1, node.Value.Length - 2));
 		}
 
 		public static UnifiedLiteral CreateStringLiteral(XElement node) {
@@ -74,7 +75,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * STRING_LITERAL
 			 * :  '"' ( EscapeSequence | ~('\\'|'"') )* '"'	;
 			 */
-			throw new NotImplementedException(); //TODO: implement
+			// TODO ダブルクォーテーションの中だけ取得するのか確認
+			return UnifiedStringLiteral.Create(node.Value.Substring(1, node.Value.Length - 2));
 		}
 
 		public static IUnifiedExpression CreateFloatingPointLiteral(XElement node) {
@@ -88,8 +90,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * |   ('0'..'9')+ Exponent? FloatTypeSuffix
 			 * ;
 			 */
-
-			throw new NotImplementedException(); //TODO: implement
+			// TODO UnifiedFractionLiteralKind.Doubleはダブルで大丈夫か？
+			return UnifiedFractionLiteral.Create(double.Parse(node.Value), UnifiedFractionLiteralKind.Double);
 		}
 	}
 }
