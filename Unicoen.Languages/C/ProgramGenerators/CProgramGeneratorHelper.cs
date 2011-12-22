@@ -107,7 +107,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			name = declarator.Item1;
 			parameters = declarator.Item2;
 
-			if (!node.Elements("declaration").IsEmpty()) {
+			if (node.Elements("declaration").Count() != 0) {
 				// TODO declaration+ compound_statement　に該当するケースが未検出
 				throw new NotImplementedException();
 			}
@@ -119,6 +119,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 		}
 
 		public static IUnifiedExpression CreateDeclaration(XElement node) {
+			// TODO なぜかここのcontractにひっかかる
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration");
 			/*

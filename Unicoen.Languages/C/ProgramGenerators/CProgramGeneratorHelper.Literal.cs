@@ -29,32 +29,34 @@ using Unicoen.Processor;
 namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CProgramGeneratorHelper {
 		// literals
-		// TODO BigIntegerでいいのか確認
-		public static BigInteger CreateHexLiteral(XElement node) {
+		public static UnifiedIntegerLiteral CreateHexLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "HEX_LITERAL");
 			/*
 			 * HEX_LITERAL : '0' ('x'|'X') HexDigit+ IntegerTypeSuffix? ;
 			 */
-			return LiteralFuzzyParser.ParseHexicalBigInteger(node.Value.Substring(2));
+			var result = LiteralFuzzyParser.ParseHexicalBigInteger(node.Value.Substring(2));
+			return UnifiedIntegerLiteral.CreateInt32(result);
 		}
 
-		public static BigInteger CreateOctalLiteral(XElement node) {
+		public static UnifiedIntegerLiteral CreateOctalLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "OCTAL_LITERAL");
 			/*
 			 * OCTAL_LITERAL : '0' ('0'..'7')+ IntegerTypeSuffix? ;
 			 */
-			return LiteralFuzzyParser.ParseOcatleBigInteger(node.Value.Substring(1));
+			var result = LiteralFuzzyParser.ParseOcatleBigInteger(node.Value.Substring(1));
+			return UnifiedIntegerLiteral.CreateInt32(result);
 		}
 
-		public static BigInteger CreateDecimalLiteral(XElement node) {
+		public static UnifiedIntegerLiteral CreateDecimalLiteral(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "DECIMAL_LITERAL");
 			/*
 			 * DECIMAL_LITERAL : ('0' | '1'..'9' '0'..'9'*) IntegerTypeSuffix? ;
 			 */
-			return LiteralFuzzyParser.ParseBigInteger(node.Value);
+			var result = LiteralFuzzyParser.ParseBigInteger(node.Value);
+			return UnifiedIntegerLiteral.CreateInt32(result);
 		}
 
 		public static UnifiedLiteral CreateCharacterLiteral(XElement node) {

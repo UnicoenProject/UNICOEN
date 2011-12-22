@@ -275,7 +275,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			if(first.Name == "conditional_expression")
 				return CreateConditionalExpression(first);
 			if(first.Name == "lvalue") {
-				UnifiedBinaryExpression.Create(
+				return UnifiedBinaryExpression.Create(
 						CreateLvalue(first), 
 						CreateAssignmentOperator(node.ElementAt(1)), 
 						CreateAssignmentExpression(node.ElementAt(2)));
@@ -398,7 +398,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			: additive_expression (('<<'|'>>') additive_expression)*
 			*/
 			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-				node, CreateShiftExpression, Sign2BinaryOperator);
+				node, CreateAdditiveExpression, Sign2BinaryOperator);
 		}
 	}
 }
