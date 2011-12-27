@@ -31,7 +31,7 @@ namespace Unicoen.Apps.Findbug.Tests {
 					"{ int i; i = 1; }", p => p.block());
 			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
-			var definitions = DefUseAnalyzer.FindDefines();
+			var definitions = DefUseAnalyzer.FindDefines(codeObject);
 
 			// i = 1; の i に該当するUnifiedIdentifierが得られるはず
 			var expected = new[] { codeObject.Descendants<UnifiedIdentifier>() };
