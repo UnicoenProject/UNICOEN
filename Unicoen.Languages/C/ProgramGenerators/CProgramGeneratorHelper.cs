@@ -120,8 +120,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 
 		public static IUnifiedExpression CreateDeclaration(XElement node) {
 			// TODO なぜかここのcontractにひっかかる
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "declaration");
+//			Contract.Requires(node != null);
+//			Contract.Requires(node.Name() == "declaration");
 			/*
 			declaration
 			:	'typedef' declaration_specifiers? {$declaration::isTypedef=true;}

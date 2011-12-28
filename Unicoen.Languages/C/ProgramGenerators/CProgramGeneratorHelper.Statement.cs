@@ -29,7 +29,10 @@ using Unicoen.Model;
 namespace Unicoen.Languages.C.ProgramGenerators {
 	// for Statement
 	public static partial class CProgramGeneratorHelper {
-		public static IUnifiedElement CreateStatement(XElement node) {
+
+		// labeled_statementは２つのExpressionを必要とするので、
+		// それに合わせてこの関数の返り値はIEnumerable<IUnifiedExpression>になります。
+		public static IEnumerable<IUnifiedExpression> CreateStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
 			/* statement
@@ -43,24 +46,33 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			var first = node.FirstElement();
 			switch (first.Name.LocalName) {
 				case "labeled_statement":
-					return CreateLabeledStatement(first);
+					var label = first.FirstElement();
+						if(label.Name == "IDENTIFIER") {
+							yield return UnifiedLabel.Create(label.Value);
+							yield return CreateStatement(first.NthElement(2)) as IUnifiedExpression;
+						}
+					yield break;
 				case "compound_statement":
-					return CreateCompoundStatement(first);
+					yield return CreateCompoundStatement(first);
+					yield break;
 				case "expression_statement":
-					return CreateExpressionStatement(first);
+					yield return CreateExpressionStatement(first);
+					yield break;
 				case "selection_statement":
-					return CreateSelectionStatement(first);
+					yield return CreateSelectionStatement(first);
+					yield break;
 				case "iteration_statement":
-					return CreateIterationStatement(first);
+					yield return CreateIterationStatement(first);
+					yield break;
 				case "jump_statement":
-					return CreateJumpStatement(first);
+					yield return CreateJumpStatement(first);
+					yield break;
 				default:
 					throw new InvalidOperationException();
 			}
 		}
 
-		// TODO どう対処するか検討する
-		public static IUnifiedElement CreateLabeledStatement(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateLabeledStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labeled_statement");
 			/*
@@ -70,21 +82,9 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| 'default' ':' statement
 			 */
 
-			var first = node.FirstElement();
-			if(first.Value == "case") {
-				var statement = CreateStatement(node.NthElement(3)) as IUnifiedExpression;
-				if(statement != null)
-					return UnifiedCase.Create(
-						CreateConstantExpression(node.NthElement(1)), statement.ToBlock());
-			}
-			if(first.Value == "default") {
-				var statement = CreateStatement(node.NthElement(2)) as IUnifiedExpression;
-				if (statement != null)
-					return UnifiedCase.CreateDefault(statement.ToBlock());
-			}
-
-			return UnifiedLabel.Create(first.Value); // TODO どうやって２つ要素を返すか検討する
-			return CreateStatement(node.NthElement(2));
+			// ラベルに関わるオブジェクトは、それぞれが必要となる箇所で直接生成されます。
+			// case文はIUnifiedElementであり、CreateStatementの型をIEnumerable<IUnifiedElement>にすることを防ぐため
+			throw new InvalidOperationException();
 		}
 
 		public static UnifiedBlock CreateCompoundStatement(XElement node) {
@@ -101,21 +101,20 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			var statementList = node.Element("statement_list");
 			if (statementList != null) {
 				foreach (var statement in CreateStatementList(statementList)) {
-					// TODO この方法で大丈夫か検討する
-					var stmt = statement as IUnifiedExpression;
+					var stmt = statement;
 					block.Add(stmt);
 				}
 			}
 			return block;
 		}
 
-		public static IEnumerable<IUnifiedElement> CreateStatementList(XElement node) {
+		public static IEnumerable<IUnifiedExpression> CreateStatementList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
 			/* statement_list
 			 * : statement+
 			 */
-			return node.Elements("statement").Select(CreateStatement);
+			return node.Elements("statement").SelectMany(CreateStatement);
 		}
 
 		public static IUnifiedExpression CreateExpressionStatement(XElement node) {
@@ -127,7 +126,6 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| expression ';'
 			*/
 
-			// TODO expressionの扱いについて検討する
 			var first = node.FirstElement();
 			return first.Name == "expression" ? CreateExpression(first).First() : null;
 		}
@@ -143,15 +141,47 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 
 			var first = node.FirstElement();
 			if(first.Value == "if") {
-				var statement = CreateStatement(node.NthElement(4)) as IUnifiedExpression;
+				var statement = CreateStatement(node.NthElement(4)).First();
 				return UnifiedIf.Create(CreateExpression(node.NthElement(2)).First(), statement.ToBlock());
 			}
 			if(first.Value == "switch") {
+				// statementの中身を解析して、この関数内で直接UnifiedCaseを生成します。
+				// switch文がネストしていることを考慮して、case文に相当するノードかつ
+				// その親の親に当該statementノードがある要素のみを取得します
 				var cases = UnifiedCaseCollection.Create();
-				// TODO どうやってcase文を取り出すか検討する
+				var statement = node.FirstElement("statement");
+				var labels = statement.DescendantsAndSelf("labeled_statement")
+						.Where(e => e.FirstElement().Name == "TOKEN")
+						.Where(e2 => e2.Parent.Equals(statement));
+
+				foreach(var e in labels) {
+					cases.Add(CreateCaseOrDefault(e));
+				}
 				return UnifiedSwitch.Create(CreateExpression(node.NthElement(2)).First(), cases);
 			}
 			throw new InvalidOperationException();
+		}
+
+		private static UnifiedCase CreateCaseOrDefault(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "labeled_statement");
+			/*
+			labeled_statement
+			: IDENTIFIER ':' statement
+			| 'case' constant_expression ':' statement
+			| 'default' ':' statement
+			 */
+
+			var first = node.FirstElement();
+			switch (first.Value) {
+				case "case":
+					return UnifiedCase.Create(CreateConstantExpression(node.NthElement(1)), 
+						UnifiedBlock.Create(CreateStatement(node.NthElement(3))));
+				case "default":
+					return UnifiedCase.CreateDefault((UnifiedBlock)CreateStatement(node.NthElement(2)));
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
 		public static IUnifiedExpression CreateIterationStatement(XElement node) {
@@ -163,8 +193,24 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| 'do' statement 'while' '(' expression ')' ';'
 			| 'for' '(' expression_statement expression_statement expression? ')' statement
 			 */
-			// TODO statementの扱いを考えてから
-			throw new NotImplementedException(); //TODO: implement
+
+			var first = node.FirstElement().Value;
+			var body = UnifiedBlock.Create(CreateStatement(node.FirstElement("statement")));
+			switch(first) {
+				case "while":
+					return UnifiedWhile.Create(CreateExpression(node.NthElement(2)).First(), body);
+				case "do":
+					return UnifiedDoWhile.Create(CreateExpression(node.NthElement(4)).First(), body);
+				case "for":
+					var step = node.Element("expression") != null ? 
+						CreateExpression(node.FirstElement("expression")).First() : null;
+					return UnifiedFor.Create(
+							CreateExpressionStatement(node.NthElement(2)),
+							CreateExpressionStatement(node.NthElement(3)),
+							step, body);
+				default:
+					throw new InvalidOperationException();
+			}
 		}
 
 		public static IUnifiedExpression CreateJumpStatement(XElement node) {
@@ -179,22 +225,20 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 */
 			var firstElement = node.FirstElement();
 			switch (firstElement.Value) {
-			case "goto":
-				return
-						UnifiedGoto.Create(
-								UnifiedLabelIdentifier.Create(node.NthElement(1).Value));
-			case "continue":
-				return UnifiedContinue.Create();
-			case "break":
-				return UnifiedBreak.Create();
-			case "return":
-				var expression = node.Element("expression");
-				if (expression != null) {
-					return UnifiedReturn.Create(CreateExpression(expression).First());
-				}
-				return UnifiedReturn.Create();
-			default:
-				throw new InvalidOperationException();
+				case "goto":
+					return UnifiedGoto.Create(UnifiedLabelIdentifier.Create(node.NthElement(1).Value));
+				case "continue":
+					return UnifiedContinue.Create();
+				case "break":
+					return UnifiedBreak.Create();
+				case "return":
+					var expression = node.Element("expression");
+					if (expression != null) {
+						return UnifiedReturn.Create(CreateExpression(expression).First());
+					}
+					return UnifiedReturn.Create();
+				default:
+					throw new InvalidOperationException();
 			}
 		}
 	}
