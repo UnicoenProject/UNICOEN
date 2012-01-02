@@ -146,9 +146,10 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 						i++; // ']'読み飛ばし
 						break;
 					case "(":
-						UnifiedArgumentCollection args = null;
 						if(elements.ElementAt(i).Name == "argument_expression_list")
 							result = UnifiedCall.Create(result, CreateArgumentExpressionList(elements.ElementAt(i++)));
+						else
+							result = UnifiedCall.Create(result, UnifiedArgumentCollection.Create());
 						i++; // ')'読み飛ばし
 						break;
 					case ".":
