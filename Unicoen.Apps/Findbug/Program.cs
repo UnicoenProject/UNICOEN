@@ -35,23 +35,40 @@ namespace Unicoen.Apps.Findbug {
                 }
             }
         }
-
+        
         static void Main(string[] args) {
             try {
-                var inputPath = FixtureUtil.GetInputPath("Java", "BugPatterns", "NP_NULL_ON_SOME_PATH.java");
+                var inputPath = FixtureUtil.GetInputPath("Java", "BugPatterns", "NULL_SAMPLE.java");
                 var codeObj = new JavaProgramGenerator().GenerateFromFile(inputPath);
-                const string idName = "bool";
+                /*const string idName = "bool";
                 var idSet = GetVariables(idName, codeObj);
+                */
+
+                /*var a = FindUses(codeObj);
+                Console.WriteLine(a.Count());
+                */
+
                 var ast = JavaCodeToXml.Instance.Generate(
                     "{ int i; i = 1; }", p => p.block());
-                var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
+                var ast2 = JavaCodeToXml.Instance.Generate(
+                    "{ int i, j; i = 1; j = i; }", p => p.block());
 
-                var definitions = DefUseAnalyzer.FindDefines(codeObject);
+                var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
+                var codeObject2 = JavaProgramGeneratorHelper.CreateBlock(ast2);
+
+                var defs = DefUseAnalyzer.FindDefines(codeObject);
+                var uses = DefUseAnalyzer.FindUses(codeObject2);
                 
-                Console.WriteLine("{0}: " + idSet.Count(), idName);
-                Console.WriteLine(definitions.Count());
+                foreach (var def in defs) {
+                    Console.WriteLine(def);
+                }
+                foreach (var use in uses) {
+                    Console.WriteLine(use);
+                }
+
+                /*Console.WriteLine("{0}: " + idSet.Count(), idName);
                 var nulls = codeObj.Descendants<UnifiedNullLiteral>();
-                Console.WriteLine("null: " + nulls.Count());
+                Console.WriteLine("null: " + nulls.Count());*/
             }
             catch (Exception e) {
                 Console.WriteLine(e);

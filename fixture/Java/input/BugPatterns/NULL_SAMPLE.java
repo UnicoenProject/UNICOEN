@@ -6,13 +6,16 @@ public class NULL_SAMPLE {
 		Integer in = null;
 		Boolean bool = null;
 		Boolean np = true;
+		int abc = 0;
 
 		System.out.println(st + in + bool);
-
+		
+		abc = 2;
 		st = "STRING";
 		in = 100;
 		bool = false;
 		np = null;
+		abc = in;
 
 		System.out.println(st + in + bool);
 	}
