@@ -47,6 +47,17 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			return false;
 		}
 		
+		// Case文(UnifiedCaseCollection)
+		public override bool Visit(UnifiedCaseCollection element, VisitorArgument arg) {
+			arg = arg.IncrementDepth();
+			foreach (var caseElement in element) {
+				WriteIndent(arg.IndentDepth);
+				caseElement.TryAccept(this, arg);
+				Writer.Write("\n");
+			}
+			return false;
+		}
+
 		// 変数定義(UnifiedVariableDefinitionList)
 		public override bool Visit(UnifiedVariableDefinitionList element, VisitorArgument arg) {
 			// enumとしての変数宣言リストの場合

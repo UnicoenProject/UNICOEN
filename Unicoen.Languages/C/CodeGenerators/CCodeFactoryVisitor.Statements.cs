@@ -95,7 +95,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			if (!string.IsNullOrEmpty(arg.Decoration.MostRight)) {
 				arg = arg.DecrementDepth();
 				WriteIndent(arg);
-				Writer.WriteLine(arg.Decoration.MostRight);
+				Writer.Write(arg.Decoration.MostRight);
 			}
 			return false;
 		}
@@ -127,10 +127,75 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			Writer.Write(")");
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			if(element.ElseBody != null) {
+				Writer.WriteLine(); //if(cond){ }の後の改行
 				WriteIndent(arg);
 				Writer.Write("else");
 				element.ElseBody.TryAccept(this, arg.Set(ForBlock));
 			}
+			return false;
+		}
+
+		// For文(UnifiedFor)
+		public override bool Visit(UnifiedFor element, VisitorArgument arg) {
+			Writer.Write("for(");
+			element.Initializer.TryAccept(this, arg.Set(CommaDelimiter));
+			Writer.Write("; ");
+			element.Condition.TryAccept(this, arg.Set(CommaDelimiter));
+			Writer.Write("; ");
+			element.Step.TryAccept(this, arg.Set(CommaDelimiter));
+			Writer.Write(")");
+
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			return false;
+		}
+
+		// While文(UnifiedWhile)
+		public override bool Visit(UnifiedWhile element, VisitorArgument arg) {
+			Writer.Write("while(");
+			element.Condition.TryAccept(this, arg);
+			Writer.Write(")");
+
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			return false;
+		}
+
+		// Do-While文(UnifiedDoWhile)
+		public override bool Visit(UnifiedDoWhile element, VisitorArgument arg) {
+			Writer.Write("do");
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			Writer.Write("\n");
+			WriteIndent(arg);
+			Writer.Write("while(");
+			element.Condition.TryAccept(this, arg);
+			Writer.Write(");");
+			return false;
+		}
+
+		// Switch文(UnifiedSwitch)
+		// TODO インデントについてUNICOENチームの総意を出す
+		public override bool Visit(UnifiedSwitch element, VisitorArgument arg) {
+			Writer.Write("switch(");
+			element.Value.TryAccept(this, arg);
+			Writer.Write(") {\n");
+
+			element.Cases.TryAccept(this, arg);
+			WriteIndent(arg);
+			Writer.Write("}");
+			return false;
+		}
+
+		// Case文(UnifiedCase)
+		public override bool Visit(UnifiedCase element, VisitorArgument arg) {
+			// default文の条件式はnullとしてオブジェクト化される
+			if (element.Condition == null) {
+				Writer.Write("default:\n");
+			} else {
+				Writer.Write("case ");
+				element.Condition.TryAccept(this, arg);
+				Writer.Write(":\n");
+			}
+			WriteIndent(arg);
+			element.Body.TryAccept(this, arg.Set(ForBlock)); // 各Case文のブロックには中括弧を付ける
 			return false;
 		}
 

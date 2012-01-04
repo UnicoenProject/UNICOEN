@@ -36,7 +36,6 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			IndentSign = indentSign;
 		}
 
-
 		# region Decorations
 
 		// UnifiedProgramはブロックを持っているが、プログラム全体は中括弧でくくらないため特別なDecorationを用いる

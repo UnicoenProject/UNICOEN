@@ -49,7 +49,9 @@ namespace Unicoen.Languages.C.CodeGenerators {
 
 		// 文字列リテラル(UnifiedStringLiteral)
 		public override bool Visit(UnifiedStringLiteral element, VisitorArgument arg) {
+			Writer.Write("\"");
 			Writer.Write(element.Value);
+			Writer.Write("\"");
 			return false;
 		}
 
