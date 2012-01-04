@@ -111,6 +111,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFactory.cs" />
+    <Compile Include="CodeGenerators\CCodeFactoryVisitor.Collections.cs" />
+    <Compile Include="CodeGenerators\CCodeFactoryVisitor.Others.cs" />
+    <Compile Include="CodeGenerators\CCodeFactoryVisitor.Statements.cs" />
+    <Compile Include="CodeGenerators\CCodeFactoryVisitor.Types.cs" />
     <Compile Include="CodeGenerators\CCodeGenerator.cs" />
     <Compile Include="CodeGenerators\CCodeFactoryVisitor.cs" />
     <Compile Include="ProgramGenerators\CProgramGenerator.cs" />

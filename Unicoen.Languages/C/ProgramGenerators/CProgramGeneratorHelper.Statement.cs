@@ -141,9 +141,16 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 
 			var first = node.FirstElement();
 			if(first.Value == "if") {
-				var statement = CreateStatement(node.NthElement(4)).First();
-				return UnifiedIf.Create(CreateExpression(node.NthElement(2)).First(), statement.ToBlock());
+				var statements = node.Elements("statement");
+				var trueBlock = CreateStatement(statements.ElementAt(0));
+				// statementが２つある場合はelse文がある
+				if(statements.Count() == 2) {
+					return UnifiedIf.Create(CreateExpression(node.NthElement(2)).First(), 
+						trueBlock.ToBlock(), CreateStatement(statements.ElementAt(1)).ToBlock());
+				}
+				return UnifiedIf.Create(CreateExpression(node.NthElement(2)).First(), trueBlock.ToBlock());
 			}
+
 			if(first.Value == "switch") {
 				// statementの中身を解析して、この関数内で直接UnifiedCaseを生成します。
 				// switch文がネストしていることを考慮して、case文に相当するノードかつ

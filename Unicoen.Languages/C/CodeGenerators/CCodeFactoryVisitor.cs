@@ -28,13 +28,6 @@ namespace Unicoen.Languages.C.CodeGenerators {
 		public TextWriter Writer { get; protected set; }
 		protected string IndentSign;
 
-		// Decorations
-		protected static readonly Decoration ForTopBlock = new Decoration { EachRight = "\n" };
-		
-		protected static readonly Decoration ForBlock = new Decoration { MostLeft = "{", EachRight = "\n", MostRight = "}" };
-		
-		protected static readonly Decoration Paren = new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
-
 		// constructor
 		protected CCodeFactoryVisitor(TextWriter writer) : this(writer, "\t") {}
 
@@ -43,7 +36,26 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			IndentSign = indentSign;
 		}
 
-		// 出力汎用メソッド
+
+		# region Decorations
+
+		// UnifiedProgramはブロックを持っているが、プログラム全体は中括弧でくくらないため特別なDecorationを用いる
+		protected static readonly Decoration ForTopBlock = new Decoration { EachRight = "\n" };
+		
+		// ブロック構文の開始と終了を示す中括弧とブロック内の各要素を区切る改行記号
+		protected static readonly Decoration ForBlock = new Decoration { MostLeft = "{", EachRight = "\n", MostRight = "}" };
+		
+		// パラメータや実引数を表現するために使用される
+		protected static readonly Decoration Paren = new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
+
+		// 変数宣言を1行に書く際に使用される e.g. int a, b;
+		protected static readonly Decoration CommaDelimiter = new Decoration { Delimiter = ", " };
+
+		# endregion
+
+		# region Utility Functions
+		
+		// 現在のインデントに応じた\tを出力します
 		protected void WriteIndent(VisitorArgument arg) {
 			WriteIndent(arg.IndentDepth);
 		}
@@ -52,114 +64,31 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			for (var i = 0; i < indentDepth; i++)
 				Writer.Write(IndentSign);
 		}
-
-		protected void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
-				where T : class, IUnifiedElement
-				where TSelf : UnifiedElementCollection<T, TSelf> {
-			var decoration = arg.Decoration;
-			Writer.Write(decoration.MostLeft);
-			var splitter = "";
-			foreach (var e in elements) {
-				Writer.Write(splitter);
-				Writer.Write(decoration.EachLeft);
-				e.TryAccept(this, arg);
-				Writer.Write(decoration.EachRight);
-				splitter = decoration.Delimiter;
-			}
-			Writer.Write(decoration.MostRight);
+		
+		// 現在のインデントの深さを取得します
+		protected string GetIndent(VisitorArgument arg) {
+			return GetIndent(arg.IndentDepth);
 		}
 
-		// プログラム全体(UnifiedProgram)
-		public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
-			// Console.Write(element);
-			element.Body.TryAccept(this, arg.Set(ForTopBlock));
-			return false;
+		protected string GetIndent(int indentDepth) {
+			var ret = "";
+			for (int i = 0; i < indentDepth; i++)
+				ret += IndentSign;
+			return ret;
 		}
-		// ブロック(UnifiedBlock)
-		public override bool Visit(UnifiedBlock element, VisitorArgument arg) {
-			// 要素の左端に記述すべきものがある場合はそれを出力する
-			// プログラム全体の場合は何も出力しないが、関数の場合には中括弧が必要になるなど
-			if (!string.IsNullOrEmpty(arg.Decoration.MostLeft)) {
-				Writer.WriteLine(arg.Decoration.MostLeft);
-				arg = arg.IncrementDepth();
-			}
 
-			// ブロック内の要素を列挙する
-			// セミコロンが必要な要素の場合にはセミコロンを出力する
-			foreach (var stmt in element) {
-				WriteIndent(arg);
-				if (stmt.TryAccept(this, arg))
-					Writer.Write(";");
-				Writer.Write(arg.Decoration.EachRight);
-			}
+		// あるオブジェクトをファイルに出力する前に、別のStringWriterで取得しそのString値を返します
+		// 例えば、int a, b;のようなコードは、統合コードオブジェクト上ではint a, int bとして保存されるが、
+		// 出力の際には元のコードのように出力させるために用いられます
+		protected string GetString(IUnifiedElement element, VisitorArgument arg) {
+			var oldWriter = Writer;
+			Writer = new StringWriter();
+			element.TryAccept(this, arg);
+			var ret = Writer.ToString();
+			Writer = oldWriter;
+			return ret;
+		}
 
-			// 要素の右端に記述すべきものがある場合はインデントを元に戻しそれを出力する
-			if (!string.IsNullOrEmpty(arg.Decoration.MostRight)) {
-				arg = arg.DecrementDepth();
-				WriteIndent(arg);
-				Writer.WriteLine(arg.Decoration.MostRight);
-			}
-			return false;
-		}
-		// 関数定義(UnifiedFunctionDefinition)
-		public override bool Visit(UnifiedFunctionDefinition element, VisitorArgument arg) {
-			// int main(int param) { ... };
-			element.Type.TryAccept(this, arg);
-			Writer.Write(" ");
-			element.Name.TryAccept(this, arg);
-			element.Parameters.TryAccept(this, arg);
-			element.Body.TryAccept(this, arg.Set(ForBlock));
-			return element.Body == null;
-		}
-		// 型(UnifiedBasicType)
-		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
-			element.BasicTypeName.TryAccept(this, arg);
-			return false;
-		}
-		// 変数名(UnifiedVariableIdentifier)
-		public override bool Visit(UnifiedVariableIdentifier element, VisitorArgument arg) {
-			Writer.Write(element.Name);
-			return false;
-		}
-		// Rerurn文(UnifiedReturn)
-		public override bool Visit(UnifiedReturn element, VisitorArgument arg) {
-			Writer.Write("return ");
-			element.Value.TryAccept(this, arg);
-			return true;
-		}
-		// intリテラル(UnifiedInt32Literal)
-		public override bool Visit(UnifiedInt32Literal element, VisitorArgument arg) {
-			Writer.Write(element.Value);
-			return false;
-		}
-		// パラメータ(UnifiedParameterCollection)
-		public override bool Visit(UnifiedParameterCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg.Set(Paren));
-			return false;
-		}
-		// 関数呼び出し(UnifiedCall)
-		public override bool Visit(UnifiedCall element, VisitorArgument arg) {
-			var prop = element.Function as UnifiedProperty;
-			if (prop != null) {
-				prop.Owner.TryAccept(this, arg);
-				Writer.Write(prop.Delimiter);
-				element.GenericArguments.TryAccept(this, arg);
-				prop.Name.TryAccept(this, arg);
-			} else {
-				// Javaでifが実行されるケースは存在しないが、言語変換のため
-				if (element.GenericArguments != null)
-					Writer.Write("this.");
-				element.GenericArguments.TryAccept(this, arg);
-				element.Function.TryAccept(this, arg);
-			}
-			element.Arguments.TryAccept(this, arg.Set(Paren));
-			return true;
-		}
-		// 実引数(UnifiedArgumentCollection)
-		public override bool Visit(UnifiedArgumentCollection element, VisitorArgument arg) {
-			VisitCollection(element, arg);
-			return false;
-		}
+		# endregion
 	}
 }
