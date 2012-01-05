@@ -28,6 +28,7 @@ using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using Unicoen.Model;
+using Unicoen.Tests;
 
 namespace Unicoen.Apps.UniAspect.Cui {
 	public static class Weaver {
@@ -56,15 +57,30 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		// このメソッドはすべてのファイルに対してWeave()メソッドを呼び出す処理を行い、
 		// 実際の合成処理はWeave()メソッドが行います
 		public static void Run(string directoryPath) {
+			
+			//指定されたパス以下にあるディレクトリをすべてoutput以下にコピーします
+			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
+			var directories = Directory.EnumerateDirectories(
+					directoryPath, "*", SearchOption.AllDirectories);
+			foreach (var dir in directories) {
+				var newDir = dir.Replace(directoryPath, workPath);
+				//WeavedSourceArea.Text += newDir;
+				Directory.CreateDirectory(newDir);
+			}
+
 			//指定されたパス以下にあるソースコードのパスをすべて取得します
 			var targetFiles = Collect(directoryPath);
 
 			foreach (var file in targetFiles) {
+				var newPath = file.Replace(directoryPath, workPath);
+
 				// 対象ファイルの統合コードオブジェクトを生成する
 				var model = UniGenerators.GenerateProgramFromFile(file);
 				// TODO 対応していない拡張子の場合はどうなるのか確認
-				if(model == null)
+				if (model == null) {
+					File.Copy(file, newPath);
 					continue;
+				}
 
 				//アスペクトの合成を行う
 				Weave(ExtenstionToLanguageName(Path.GetExtension(file)), model);
@@ -72,16 +88,14 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				// TODO モデルの出力先をここに記述する
 				// TODO 拡張子がこれで合っているか確認する
 				switch (Path.GetExtension(file)) {
-				case ".java":
-					Console.WriteLine(JavaFactory.GenerateCode(model));
-					Console.WriteLine();
-					break;
-				case ".js":
-					Console.WriteLine(JavaScriptFactory.GenerateCode(model));
-					Console.WriteLine();
-					break;
-				default:
-					throw new NotImplementedException();
+					case "Java":
+						File.WriteAllText(newPath, JavaFactory.GenerateCode(model));
+						break;
+					case "JavaScript":
+						File.WriteAllText(newPath, JavaScriptFactory.GenerateCode(model));
+						break;
+					default:
+						throw new NotImplementedException();
 				}
 			}
 		}
@@ -145,44 +159,19 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				//TODO 複数のターゲットを持つポイントカットへの対応(これはそもそもパーサを改良する必要あり)
 
 				var methodName = target.GetTargetName().ElementAt(1);
-				//アドバイスタイプによる分岐
-				switch (advice.GetAdviceType()) {
 
-					case "before":
-						//ポイントカットタイプによる分岐
-						switch (target.GetPointcutType()) {
-							case "execution":
-								CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(model, methodName, code); break;							
-							case "call":
-								CodeProcessor.CodeProcessor.InsertAtBeforeCallByName(model, methodName, code); break;
-							case "get":
-								CodeProcessor.CodeProcessor.InsertAtBeforeGetByName(model, methodName, code); break;
-							case "set":
-								CodeProcessor.CodeProcessor.InsertAtBeforeSetByName(model, methodName, code); break;
-							default:
-								throw new InvalidOperationException("ポイントカットの種類が正しくありません");
-						}
-					break;
+				// アドバイスの合成
+				// リフレクションを用いて、対応するメソッドが呼び出されます
 
-					case "after":
-						switch (target.GetPointcutType()) {
-							case "execution":
-								CodeProcessor.CodeProcessor.InsertAtAfterExecutionByName(model, methodName, code); break;						
-							case "call":
-								CodeProcessor.CodeProcessor.InsertAtAfterCallByName(model, methodName, code); break;
-							case "get":
-								CodeProcessor.CodeProcessor.InsertAtAfterGetByName(model, methodName, code); break;
-							case "set":
-								CodeProcessor.CodeProcessor.InsertAtAfterSetByName(model, methodName, code); break;
-							default:
-								throw new InvalidOperationException("ポイントカットの種類が正しくありません");
-						}
-					break;
+				// ポイントカットの型に対応するクラスをインスタンス化するため、最初の1文字を大文字にします
+				var pointcutType = target.GetPointcutType().ToUpper().Substring(0,1) + target.GetPointcutType().Substring(1);
+				var type = Type.GetType("Unicoen.Apps.UniAspect.Cui.CodeProcessor." + pointcutType);
+				var aspect = Activator.CreateInstance(type);
 
-				default:
-					throw new InvalidOperationException(
-							"アドバイスの種類が正しくありません");
-				}
+				var aOrb = advice.GetAdviceType() == "before" ? 0 : 1;
+				var m = type.GetMethod(target.GetPointcutType());
+				Object[] objs = {aOrb, model, methodName, code};
+				m.Invoke(aspect, objs);
 			}
 		}
 

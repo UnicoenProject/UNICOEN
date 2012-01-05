@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using Paraiba.Text;
+using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
@@ -40,7 +41,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 									"Java", "Fibonacci_functionBefore.java"));
 
 			//アスペクト合成処理の実行
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecutionAll(
+			Execution.InsertAtBeforeExecutionAll(
 					model, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 			
 			//合成後のモデルと期待値のモデルを比較
@@ -56,7 +57,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
-			CodeProcessor.CodeProcessor.InsertAtAfterExecutionAll(
+			Execution.InsertAtAfterExecutionAll(
 					model, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
@@ -73,7 +74,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 							FixtureUtil.GetAopExpectationPath(
 									"Java", "Fibonacci_functionBefore.java"));
 
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecution(
+			Execution.InsertAtBeforeExecution(
 					model, new Regex(regex),
 					CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
@@ -90,7 +91,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
-			CodeProcessor.CodeProcessor.InsertAtAfterExecution(
+			Execution.InsertAtAfterExecution(
 					model, new Regex(regex),
 					CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
@@ -108,7 +109,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 							FixtureUtil.GetAopExpectationPath(
 									"Java", "Fibonacci_functionBefore.java"));
 
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(
+			Execution.InsertAtBeforeExecutionByName(
 					model, name, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
@@ -124,7 +125,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 					CreateModel(
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
-			CodeProcessor.CodeProcessor.InsertAtAfterExecutionByName(
+			Execution.InsertAtAfterExecutionByName(
 					model, name, CodeProcessor.CodeProcessor.CreateAdvice("Java", "Console.Write();"));
 
 			Assert.That(
@@ -140,7 +141,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			var model = CodeProcessor.CodeProcessor.CreateModel(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			Execution.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
@@ -158,7 +159,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			var model = CodeProcessor.CodeProcessor.CreateModel(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			Execution.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
@@ -177,7 +178,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			var model = CodeProcessor.CodeProcessor.CreateModel(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			Execution.InsertAtBeforeExecutionByName(model, "M", 5, CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
@@ -196,7 +197,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			var model = CodeProcessor.CodeProcessor.CreateModel(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(model, "M", typeof(UnifiedFor), CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
+			Execution.InsertAtBeforeExecutionByName(model, "M", typeof(UnifiedFor), CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 
 			//for debug
@@ -215,7 +216,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			var model = CodeProcessor.CodeProcessor.CreateModel(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
-			CodeProcessor.CodeProcessor.InsertAtBeforeExecutionByName(
+			Execution.InsertAtBeforeExecutionByName(
 					model, "M", typeof(UnifiedFor), CodeProcessor.CodeProcessor.CreateAdvice("Java", "System.out.println();"));
 			var afterNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 

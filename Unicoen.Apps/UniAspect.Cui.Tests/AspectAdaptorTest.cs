@@ -128,6 +128,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 
 			//アスペクトの合成処理
 			Weaver.Weave("JavaScript", _javaScriptModel);
+			Console.WriteLine(_javaScriptModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath(expectationFile);

@@ -79,6 +79,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeProcessor\Call.cs" />
+    <Compile Include="CodeProcessor\Execution.cs" />
+    <Compile Include="CodeProcessor\Get.cs" />
+    <Compile Include="CodeProcessor\Set.cs" />
     <Compile Include="Weaver.cs" />
     <Compile Include="AspectCompiler\AriesLexer.cs" />
     <Compile Include="AspectCompiler\AriesParser.cs" />
@@ -88,11 +92,6 @@
     <Compile Include="AspectElement\LanguageDependBlock.cs" />
     <Compile Include="AspectElement\Pointcut.cs" />
     <Compile Include="CodeProcessor\CodeProcessor.cs" />
-    <Compile Include="CodeProcessor\CodeProcessorForCall.cs" />
-    <Compile Include="CodeProcessor\CodeProcessorForExecution.cs" />
-    <Compile Include="CodeProcessor\CodeProcessorForGetSet.cs" />
-    <Compile Include="CodeProcessor\CodeProcessorForIntertype.cs" />
-    <Compile Include="ExtendAspectAdaptor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitor\AstVisitor.cs" />

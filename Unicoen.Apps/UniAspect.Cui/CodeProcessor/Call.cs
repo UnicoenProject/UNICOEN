@@ -1,11 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
-{
-	public partial class CodeProcessor {
-		
+namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
+	public class Call {
+		public void call(int AorB, IUnifiedElement root, string name, UnifiedBlock advice) {
+			if(AorB == 0) { // before
+				InsertAtBeforeCallByName(root, name, advice);
+			}
+			else { // after
+				InsertAtAfterCallByName(root, name, advice);
+			}
+		}
+
 		/// <summary>
 		///   指定された関数呼び出しの直前に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>

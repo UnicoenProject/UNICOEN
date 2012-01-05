@@ -19,6 +19,7 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
 
@@ -82,7 +83,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			var advice = CodeProcessor.CodeProcessor.CreateAdvice("Java", code);
 
 			//アドバイス内の特殊文字を置き換える
-			CodeProcessor.CodeProcessor.ReplaceSpecialToken(advice, "test");
+			Execution.ReplaceSpecialToken(advice, "test");
 
 			code = "System.out.println(\"test\" + \" is executed!\");";
 			var actual = CodeProcessor.CodeProcessor.CreateAdvice("Java", code);

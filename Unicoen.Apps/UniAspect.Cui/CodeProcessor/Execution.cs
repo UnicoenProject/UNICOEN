@@ -1,13 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
-{
-	public partial class CodeProcessor {
-
-		public static int WeavingCount = 0;
+namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
+	public class Execution {
+		public void execution(int AorB, IUnifiedElement root, string name, UnifiedBlock advice) {
+			if(AorB == 0) { // before
+				InsertAtBeforeExecutionByName(root, name, advice);
+			}
+			else { // after
+				InsertAtAfterExecutionByName(root, name, advice);
+			}
+		}
 
 		/// <summary>
 		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
@@ -32,7 +39,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
 					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
 					//アドバイスを対象関数に合成する
 					function.Body.Insert(0, copy);
-					WeavingCount++;
 				}
 			}
 		}
