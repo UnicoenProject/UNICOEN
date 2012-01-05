@@ -79,7 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspectAdaptor.cs" />
+    <Compile Include="Weaver.cs" />
     <Compile Include="AspectCompiler\AriesLexer.cs" />
     <Compile Include="AspectCompiler\AriesParser.cs" />
     <Compile Include="AspectElement\Advice.cs" />

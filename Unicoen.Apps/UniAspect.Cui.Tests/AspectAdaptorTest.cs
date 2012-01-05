@@ -92,10 +92,10 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void AssertCorrectWeavingForJava(string aspectFile, string expectationFile) {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath(aspectFile);
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("Java", _javaModel, visitor);
+			Weaver.Weave("Java", _javaModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath(expectationFile);
@@ -124,10 +124,10 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void AssertCorrectWeavingForJavaScript(string aspectFile, string expectationFile) {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath(aspectFile);
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+			Weaver.Weave("JavaScript", _javaScriptModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath(expectationFile);
@@ -229,10 +229,10 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void Java言語にインタータイプ宣言が正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath("intertype.apt");
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("Java", _javaModel, visitor);
+			Weaver.Weave("Java", _javaModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath("intertype.java");
@@ -255,10 +255,10 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void JavaScript言語にインタータイプ宣言が正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath("intertype.apt");
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+			Weaver.Weave("JavaScript", _javaScriptModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath("intertype.js");

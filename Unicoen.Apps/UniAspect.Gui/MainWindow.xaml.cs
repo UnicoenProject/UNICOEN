@@ -133,7 +133,7 @@ namespace Unicoen.Apps.Aop.Gui {
 				Directory.CreateDirectory(newDir);
 			}
 			//指定されたパス以下にあるソースコードのパスをすべて取得します
-			var targetFiles = AspectAdaptor.Collect(targetPath);
+			var targetFiles = Weaver.Collect(targetPath);
 
 			foreach (var file in targetFiles) {
 				//対象ファイルの拡張子を取得
@@ -226,8 +226,9 @@ namespace Unicoen.Apps.Aop.Gui {
 			var code = File.ReadAllText(targetPath, XEncoding.SJIS);
 			var model = CodeProcessor.CreateModel(fileExtension, code);
 
+			Weaver.AnalizeAspect(aspectPath);
 			//アスペクトの合成を行う
-			AspectAdaptor.Weave(langType, model, visitor);
+			Weaver.Weave(langType, model);
 
 			//とりえあず標準出力に表示;
 			switch (langType) {

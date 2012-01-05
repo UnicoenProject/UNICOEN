@@ -20,25 +20,83 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Antlr.Runtime;
+using Antlr.Runtime.Tree;
+using Unicoen.Apps.UniAspect.Cui.AspectCompiler;
 using Unicoen.Apps.UniAspect.Cui.AspectElement;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
+using Unicoen.Languages.Java;
+using Unicoen.Languages.JavaScript;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.UniAspect.Cui {
-	public static class AspectAdaptor {
-		/// <summary>
-		///   ポイントカットをポイントカット名で参照できるようにします
-		/// </summary>
+	public static class Weaver {
+
+		// アスペクトファイルを解析してその結果を保持する
+		private static AstVisitor _visitor;
+
+		// アスペクトファイルを解析してその結果をフィールドに格納します
+		public static void AnalizeAspect(string aspectPath) {
+			//アスペクト情報を持つオブジェクトを生成する
+			var aspect = new ANTLRFileStream(aspectPath);
+			var lexer = new AriesLexer(aspect);
+			var tokens = new CommonTokenStream(lexer);
+			var parser = new AriesParser(tokens);
+
+			//アスペクトファイルを解析してASTを生成する
+			var result = parser.aspect();
+			var ast = (CommonTree)result.Tree;
+
+			//ASTを走査してパース結果をアスペクトオブジェクトとしてvisitor内に格納する
+			_visitor = new AstVisitor();
+			_visitor.Visit(ast, 0, null);
+		}
+		
+		// アスペクトの合成処理を実行します
+		// このメソッドはすべてのファイルに対してWeave()メソッドを呼び出す処理を行い、
+		// 実際の合成処理はWeave()メソッドが行います
+		public static void Run(string directoryPath) {
+			//指定されたパス以下にあるソースコードのパスをすべて取得します
+			var targetFiles = Collect(directoryPath);
+
+			foreach (var file in targetFiles) {
+				// 対象ファイルの統合コードオブジェクトを生成する
+				var model = UniGenerators.GenerateProgramFromFile(file);
+				// TODO 対応していない拡張子の場合はどうなるのか確認
+				if(model == null)
+					continue;
+
+				//アスペクトの合成を行う
+				Weave(ExtenstionToLanguageName(Path.GetExtension(file)), model);
+
+				// TODO モデルの出力先をここに記述する
+				// TODO 拡張子がこれで合っているか確認する
+				switch (Path.GetExtension(file)) {
+				case ".java":
+					Console.WriteLine(JavaFactory.GenerateCode(model));
+					Console.WriteLine();
+					break;
+				case ".js":
+					Console.WriteLine(JavaScriptFactory.GenerateCode(model));
+					Console.WriteLine();
+					break;
+				default:
+					throw new NotImplementedException();
+				}
+			}
+		}
+
+		// ポイントカットをポイントカット名で参照できるようにします
 		private static readonly Dictionary<string, Pointcut> Pointcuts =
 				new Dictionary<string, Pointcut>();
 
-		public static void Weave(
-				string language, UnifiedProgram model, AstVisitor visitor) {
+		// 統合コードオブジェクトに対してアスペクトの合成処理を行います
+		public static void Weave(string language, UnifiedProgram model) {
 			//以前のアスペクトファイルの情報を消去するために辞書の内容を初期化する
 			Pointcuts.Clear();
 
 			//与えられたモデルに対してインタータイプを合成する
-			foreach (var intertype in visitor.Intertypes) {
+			foreach (var intertype in _visitor.Intertypes) {
 				if (intertype.GetLanguageType() != language)
 					continue;
 				var members = CodeProcessor.CodeProcessor.CreateIntertype(
@@ -47,7 +105,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			}
 
 			//ポイントカットを登録する
-			foreach (var pointcut in visitor.Pointcuts) {
+			foreach (var pointcut in _visitor.Pointcuts) {
 				var name = pointcut.GetName();
 				//同じ名前のポイントカットがある場合にはエラーとする
 				if (Pointcuts.ContainsKey(name))
@@ -58,7 +116,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			}
 
 			//アドバイスの適用
-			foreach (var advice in visitor.Advices) {
+			foreach (var advice in _visitor.Advices) {
 				//アドバイスのターゲットがポイントカット宣言されていない場合はエラーとする
 				if (!Pointcuts.ContainsKey(advice.GetTarget()))
 					throw new InvalidOperationException(
@@ -128,6 +186,9 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			}
 		}
 
+		# region Utilities
+
+		// 指定されたフォルダ以下にあるファイルのパスのリストを返します
 		public static IEnumerable<string> Collect(string folderRootPath) {
 			//指定された文字列がフォルダじゃなかった場合
 			if (!Directory.Exists(folderRootPath)) {
@@ -140,5 +201,19 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			return Directory.EnumerateFiles(
 					folderRootPath, "*", SearchOption.AllDirectories);
 		}
+
+		// 拡張子名から言語名を返します
+		private static string ExtenstionToLanguageName(string ext) {
+			switch (ext) {
+				case ".java":
+					return "Java";
+				case ".js":
+					return "JavaScript";
+				default:
+					throw new NotImplementedException();
+			}
+		}
+
+		# endregion
 	}
 }
