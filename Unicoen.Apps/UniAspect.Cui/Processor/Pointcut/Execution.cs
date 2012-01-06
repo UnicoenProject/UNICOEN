@@ -1,14 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
-{
-	public partial class CodeProcessor {
-
-		public static int WeavingCount = 0;
-
+namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
+	[Export(typeof(CodeProcessor))]
+	public class Execution : CodeProcessor{
 		/// <summary>
 		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
@@ -32,7 +30,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
 					var copy = ReplaceSpecialToken(advice.DeepCopy(), function.Name.Name);
 					//アドバイスを対象関数に合成する
 					function.Body.Insert(0, copy);
-					WeavingCount++;
 				}
 			}
 		}
@@ -287,6 +284,22 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
 		public static void InsertAtBeforeExecutionByName(
 				IUnifiedElement root, string name, Type element, UnifiedBlock advice) {
 			InsertAtBeforeExecution(root, new Regex("^" + name + "$"), element, advice);
+		}
+
+		public override string PointcutName {
+			get { return "execution"; }
+		}
+
+		public override void Before(IUnifiedElement model, string targetName, UnifiedBlock advice) {
+			InsertAtBeforeExecutionByName(model, targetName, advice);
+		}
+
+		public override void After(IUnifiedElement model, string targetName, UnifiedBlock advice) {
+			InsertAtAfterExecutionByName(model, targetName, advice);
+		}
+
+		public override void Around(IUnifiedElement model) {
+			throw new NotImplementedException();
 		}
 	}
 }

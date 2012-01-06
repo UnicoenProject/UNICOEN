@@ -1,11 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel.Composition;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
-{
-	public partial class CodeProcessor {
-		
+namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
+	[Export(typeof(Processor.Pointcut.CodeProcessor))]
+	public class Call : Processor.Pointcut.CodeProcessor{
+		public void call(int AorB, IUnifiedElement root, string name, UnifiedBlock advice) {
+			if(AorB == 0) { // before
+				InsertAtBeforeCallByName(root, name, advice);
+			}
+			else { // after
+				InsertAtAfterCallByName(root, name, advice);
+			}
+		}
+
 		/// <summary>
 		///   指定された関数呼び出しの直前に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
@@ -109,6 +119,22 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
 		public static void InsertAtAfterCallByName(
 				IUnifiedElement root, string name, UnifiedBlock advice) {
 			InsertAtAfterCall(root, new Regex("^" + name + "$"), advice);
+		}
+
+		public override string PointcutName {
+			get { return "call"; }
+		}
+
+		public override void Before(IUnifiedElement model, string targetName, UnifiedBlock advice) {
+			InsertAtBeforeCallByName(model, targetName, advice);
+		}
+
+		public override void After(IUnifiedElement model, string targetName, UnifiedBlock advice) {
+			InsertAtAfterCallByName(model, targetName, advice);
+		}
+
+		public override void Around(IUnifiedElement model) {
+			throw new NotImplementedException();
 		}
 	}
 }

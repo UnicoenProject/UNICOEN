@@ -19,6 +19,8 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
+using Unicoen.Apps.UniAspect.Cui.Processor.Pointcut;
 using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
 
@@ -29,21 +31,21 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		public void Java言語向けコード片を正しくモデル化できる() {
 			const string code = "System.out.println(JOINPOINT_NAME + \"This is a test!\");";
-			var advice = CodeProcessor.CodeProcessor.CreateAdvice("Java", code);
+			var advice = UcoGenerator.CreateAdvice("Java", code);
 			Assert.That(advice.GetType(), Is.EqualTo(typeof(UnifiedBlock)));
 		}
 
 		[Test]
 		public void JavaScript言語向けコード片を正しくモデル化できる() {
 			const string code = "alert(\"This is a test!\");";
-			var advice = CodeProcessor.CodeProcessor.CreateAdvice("JavaScript", code);
+			var advice = UcoGenerator.CreateAdvice("JavaScript", code);
 			Assert.That(advice.GetType(), Is.EqualTo(typeof(UnifiedBlock)));
 		}
 
 		[Test]
 		public void Java言語向けメソッドインタータイプ宣言を正しくモデル化できる() {
 			const string code = "public int getX() { return x; }";
-			var elements = CodeProcessor.CodeProcessor.CreateIntertype("Java", code);
+			var elements = UcoGenerator.CreateIntertype("Java", code);
 			Assert.That(
 					elements.ElementAt(0).GetType(),
 					Is.EqualTo(typeof(UnifiedFunctionDefinition)));
@@ -52,7 +54,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		public void Java言語向けフィールドインタータイプ宣言を正しくモデル化できる() {
 			const string code = "private int x = 10;";
-			var elements = CodeProcessor.CodeProcessor.CreateIntertype("Java", code);
+			var elements = UcoGenerator.CreateIntertype("Java", code);
 			Assert.That(
 					elements.ElementAt(0).GetType(),
 					Is.EqualTo(typeof(UnifiedVariableDefinitionList)));
@@ -61,7 +63,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		public void JavaScript言語向けメソッドインタータイプ宣言を正しくモデル化できる() {
 			const string code = "function getX() { return x; }";
-			var elements = CodeProcessor.CodeProcessor.CreateIntertype("JavaScript", code);
+			var elements = UcoGenerator.CreateIntertype("JavaScript", code);
 			Assert.That(
 					elements.ElementAt(0).GetType(),
 					Is.EqualTo(typeof(UnifiedFunctionDefinition)));
@@ -70,7 +72,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		public void JavaScript言語向けフィールドインタータイプ宣言を正しくモデル化できる() {
 			const string code = "var x = 10;";
-			var elements = CodeProcessor.CodeProcessor.CreateIntertype("JavaScript", code);
+			var elements = UcoGenerator.CreateIntertype("JavaScript", code);
 			Assert.That(
 					elements.ElementAt(0).GetType(),
 					Is.EqualTo(typeof(UnifiedVariableDefinitionList)));
@@ -79,13 +81,13 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		public void 特殊文字を含むアドバイス内の変数を指定された文字列に置き換えられる() {
 			var code = "System.out.println(JOINPOINT_NAME + \" is executed!\");";
-			var advice = CodeProcessor.CodeProcessor.CreateAdvice("Java", code);
+			var advice = UcoGenerator.CreateAdvice("Java", code);
 
 			//アドバイス内の特殊文字を置き換える
-			CodeProcessor.CodeProcessor.ReplaceSpecialToken(advice, "test");
+			Execution.ReplaceSpecialToken(advice, "test");
 
 			code = "System.out.println(\"test\" + \" is executed!\");";
-			var actual = CodeProcessor.CodeProcessor.CreateAdvice("Java", code);
+			var actual = UcoGenerator.CreateAdvice("Java", code);
 
 			var gen = new JavaCodeGenerator();
 			Console.WriteLine(gen.Generate(advice));

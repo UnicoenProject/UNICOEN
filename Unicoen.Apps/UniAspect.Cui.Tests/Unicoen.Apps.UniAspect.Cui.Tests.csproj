@@ -71,6 +71,7 @@
     <Compile Include="AspectElementTest\PointcutTest.cs" />
     <Compile Include="CodeProcessorTest\AdviceCodeToModelTest.cs" />
     <Compile Include="CodeProcessorTest\CallWeavingTest.cs" />
+    <Compile Include="CodeProcessorTest\CustomWeavingTest.cs" />
     <Compile Include="CodeProcessorTest\ExecutionWeavingTest.cs" />
     <Compile Include="CodeProcessorTest\GetSetWeavingTest.cs" />
     <Compile Include="CodeProcessorTest\WeavingTest.cs" />

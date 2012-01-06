@@ -1,42 +1,24 @@
-﻿#region License
-
-// Copyright (C) 2011 The Unicoen Project
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-#endregion
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
-using Unicoen.Languages.C.ProgramGenerators;
-using Unicoen.Languages.Java.ProgramGenerators;
-using Unicoen.Languages.JavaScript.ProgramGenerators;
-using Unicoen.Model;
 using Unicoen.Languages.C;
+using Unicoen.Languages.C.ProgramGenerators;
 using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java;
+using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Languages.JavaScript;
+using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Languages.Python2;
+using Unicoen.Model;
 
 namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
-	/// <summary>
-	///   アスペクト指向プログラミングに必要なソースコードの加工処理メソッドを保有します。
-	/// </summary>
-	public partial class CodeProcessor {
+	public class UcoGenerator {
+
 		/// <summary>
 		///   与えられたソースコードを共通モデルに変換します
 		/// </summary>
@@ -95,7 +77,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
 
 			return actual;
 		}
-
 		/// <summary>
 		///   与えられたコードをインタータイプ宣言のために共通コードモデルとして生成します
 		/// </summary>
@@ -134,5 +115,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
 			}
 			return actual;
 		}
+
 	}
 }

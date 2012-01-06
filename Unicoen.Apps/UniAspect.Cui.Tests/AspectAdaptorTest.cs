@@ -23,7 +23,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Apps.UniAspect.Cui.AspectCompiler;
+using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
@@ -56,13 +56,13 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void Setup() {
 			//Java言語のモデルを作成
 			var javaCode = File.ReadAllText(JavaCodePath, XEncoding.SJIS);
-			_javaModel = CodeProcessor.CodeProcessor.CreateModel(".java", javaCode);
+			_javaModel = UcoGenerator.CreateModel(".java", javaCode);
 			_amountOfBlockInJava =
 					_javaModel.Descendants<UnifiedBlock>().Count();
 
 			//JavaScript言語のモデルを作成
 			var javaScriptCode = File.ReadAllText(JavaScriptCodePath, XEncoding.SJIS);
-			_javaScriptModel = CodeProcessor.CodeProcessor.CreateModel(".js", javaScriptCode);
+			_javaScriptModel = UcoGenerator.CreateModel(".js", javaScriptCode);
 			_amountOfBlockInJavaScript =
 					_javaScriptModel.Descendants<UnifiedBlock>().Count();
 		}
@@ -92,15 +92,15 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void AssertCorrectWeavingForJava(string aspectFile, string expectationFile) {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath(aspectFile);
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("Java", _javaModel, visitor);
+			Weaver.Weave("Java", _javaModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath(expectationFile);
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".java", code);
+			var expectation = UcoGenerator.CreateModel(".java", code);
 
 			//for debug
 			var gen = new JavaCodeGenerator();
@@ -124,15 +124,16 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void AssertCorrectWeavingForJavaScript(string aspectFile, string expectationFile) {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath(aspectFile);
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+			Weaver.Weave("JavaScript", _javaScriptModel);
+			Console.WriteLine(_javaScriptModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath(expectationFile);
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".js", code);
+			var expectation = UcoGenerator.CreateModel(".js", code);
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
@@ -229,15 +230,15 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void Java言語にインタータイプ宣言が正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath("intertype.apt");
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("Java", _javaModel, visitor);
+			Weaver.Weave("Java", _javaModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath("intertype.java");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".java", code);
+			var expectation = UcoGenerator.CreateModel(".java", code);
 
 			var amountOfMethodInExpectation =
 					expectation.Descendants<UnifiedFunctionDefinition>().Count();
@@ -255,15 +256,15 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void JavaScript言語にインタータイプ宣言が正しく合成される() {
 			//アスペクトモデルの作成
 			var aspectPath = FixtureUtil.GetAspectPath("intertype.apt");
-			var visitor = CreateAspectElement(aspectPath);
+			Weaver.AnalizeAspect(aspectPath);
 
 			//アスペクトの合成処理
-			AspectAdaptor.Weave("JavaScript", _javaScriptModel, visitor);
+			Weaver.Weave("JavaScript", _javaScriptModel);
 
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath("intertype.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".js", code);
+			var expectation = UcoGenerator.CreateModel(".js", code);
 
 			var amountOfMethodInExpectation =
 					expectation.Descendants<UnifiedFunctionDefinition>().Count();

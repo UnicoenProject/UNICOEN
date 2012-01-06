@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
-{
-	public partial class CodeProcessor {
-		
+namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
+	public class InterType {
 		/// <summary>
 		///   指定されたクラスまたはプログラムに指定されたフィールドやメソッドを追加します。
 		/// </summary>
@@ -49,5 +49,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor
 				}
 			}
 		}
+
 	}
 }
