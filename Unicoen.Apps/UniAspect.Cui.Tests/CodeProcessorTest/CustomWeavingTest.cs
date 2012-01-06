@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Processor;
 using Unicoen.Tests;

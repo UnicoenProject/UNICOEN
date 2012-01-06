@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
@@ -16,7 +14,7 @@ using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Languages.Python2;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
+namespace Unicoen.Apps.UniAspect.Cui.Processor {
 	public class UcoGenerator {
 
 		/// <summary>

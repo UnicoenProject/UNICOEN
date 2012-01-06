@@ -19,7 +19,7 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
+using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Apps.UniAspect.Cui.Processor.Pointcut;
 using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;

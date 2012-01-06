@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {

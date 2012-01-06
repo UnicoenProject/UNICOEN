@@ -19,7 +19,7 @@
 using System.IO;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
+using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Model;
 using Unicoen.Tests;
 

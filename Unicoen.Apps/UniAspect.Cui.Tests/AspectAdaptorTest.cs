@@ -23,7 +23,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
+using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;

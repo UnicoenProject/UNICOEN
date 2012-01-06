@@ -5,17 +5,8 @@ using System.Text.RegularExpressions;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
-	[Export(typeof(Processor.Pointcut.CodeProcessor))]
-	public class Call : Processor.Pointcut.CodeProcessor{
-		public void call(int AorB, IUnifiedElement root, string name, UnifiedBlock advice) {
-			if(AorB == 0) { // before
-				InsertAtBeforeCallByName(root, name, advice);
-			}
-			else { // after
-				InsertAtAfterCallByName(root, name, advice);
-			}
-		}
-
+	[Export(typeof(CodeProcessor))]
+	public class Call : CodeProcessor{
 		/// <summary>
 		///   指定された関数呼び出しの直前に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>
