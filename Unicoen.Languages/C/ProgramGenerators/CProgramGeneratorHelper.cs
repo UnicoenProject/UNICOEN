@@ -561,7 +561,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * ;
 			*/
 
-			UnifiedParameterCollection parameters = null;
+			// 空のパラメータリストを生成する
+			var parameters = UnifiedParameterCollection.Create();
 			// ()の場合
 			if (node.FirstElement().Value.Equals("(") && node.LastElement().Value.Equals(")")) {
 				if (node.Element("parameter_type_list") != null) {

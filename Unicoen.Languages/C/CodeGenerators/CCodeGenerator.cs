@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.IO;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
@@ -30,6 +31,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(new CCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
+			Console.WriteLine(writer.ToString()); //TODO debug用
 		}
 
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {

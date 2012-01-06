@@ -63,7 +63,7 @@ namespace Unicoen.Languages.C.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				var statements = new[] {
-						"{ main(); }",
+						"{ func(); }",
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
 
 				var codes = new[] {
