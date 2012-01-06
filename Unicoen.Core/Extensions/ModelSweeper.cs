@@ -20,6 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Xml.Linq;
+using Paraiba.Xml.Linq;
 
 // ReSharper disable InvocationIsSkipped
 
@@ -89,6 +91,15 @@ namespace Unicoen.Model {
 				foreach (var grandchild in child.DescendantsUntil(predicate)) {
 					yield return grandchild;
 				}
+			}
+		}
+
+		public static IEnumerable<XElement> AncestorsUntil(this XElement element, XElement node) {
+			Contract.Requires(element != null);
+			var parent = element.SafeParent();
+			while(parent != node) {
+				yield return parent;
+				parent = parent.SafeParent();
 			}
 		}
 

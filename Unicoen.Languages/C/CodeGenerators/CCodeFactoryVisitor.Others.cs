@@ -41,6 +41,12 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			return false;
 		}
 
+		// ラベル名(UnifiedVariableIdentifier)
+		public override bool Visit(UnifiedLabelIdentifier element, VisitorArgument arg) {
+			Writer.Write(element.Name);
+			return false;
+		}
+
 		// intリテラル(UnifiedInt32Literal)
 		public override bool Visit(UnifiedInt32Literal element, VisitorArgument arg) {
 			Writer.Write(element.Value);

@@ -210,9 +210,22 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			return true;
 		}
 
+		public override bool Visit(UnifiedBreak element, VisitorArgument arg) {
+			Writer.Write("break ");
+			element.Value.TryAccept(this, arg);
+			return true;
+		}
+
 		# endregion
 
 		# region expression
+
+		// ラベル
+		public override bool Visit(UnifiedLabel element, VisitorArgument arg) {
+			element.Name.TryAccept(this, arg);
+			Writer.Write(": ");
+			return false;
+		}
 
 		// 2項式(UnifiedBinaryExpression)
 		public override bool Visit(UnifiedBinaryExpression element, VisitorArgument arg) {

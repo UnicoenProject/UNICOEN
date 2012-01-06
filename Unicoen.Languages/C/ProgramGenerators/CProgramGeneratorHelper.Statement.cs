@@ -49,7 +49,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					var label = first.FirstElement();
 						if(label.Name == "IDENTIFIER") {
 							yield return UnifiedLabel.Create(label.Value);
-							yield return CreateStatement(first.NthElement(2)) as IUnifiedExpression;
+							yield return CreateStatement(first.NthElement(2)).First();
 						}
 					yield break;
 				case "compound_statement":
@@ -139,6 +139,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| 'switch' '(' expression ')' statement
 			*/
 
+			// TODO switch文のstatementについて、{}がないと単一のstatementしか取得できないため対応を考える
+
 			var first = node.FirstElement();
 			if(first.Value == "if") {
 				var statements = node.Elements("statement");
@@ -156,10 +158,10 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				// labeled_statementから辿って、このノードに到達するまでにlabeled_statementがなければ、
 				// そのlabeled_statementはこのノードのケース文です
 
-				// TODO 未完成！【このノードに到達するまで、をどのように記述するか】
 				var cases = UnifiedCaseCollection.Create();
 				var labels = node.DescendantsAndSelf("labeled_statement").
-						Where(e => e.AncestorsAndSelf().Any(e2 => e2.Name != "labeled_statement"));
+					Where(e => e.FirstElement().Name != "IDENTIFIER").
+					Where(e => !e.AncestorsUntil(node).Any(e2 => e2.Name == "selection_statement" && e2.Value.StartsWith("switch")));
 
 				foreach(var e in labels) {
 					cases.Add(CreateCaseOrDefault(e));
@@ -185,7 +187,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					return UnifiedCase.Create(CreateConstantExpression(node.NthElement(1)), 
 						UnifiedBlock.Create(CreateStatement(node.NthElement(3))));
 				case "default":
-					return UnifiedCase.CreateDefault((UnifiedBlock)CreateStatement(node.NthElement(2)));
+					return UnifiedCase.CreateDefault(UnifiedBlock.Create(CreateStatement(node.NthElement(2))));
 				default:
 					throw new InvalidOperationException();
 			}
