@@ -22,8 +22,8 @@ using System.IO;
 using System.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
-using Unicoen.Apps.UniAspect.Cui.AspectCompiler;
 using Unicoen.Apps.UniAspect.Cui.AspectElement;
+using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
@@ -113,9 +113,9 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			foreach (var intertype in _visitor.Intertypes) {
 				if (intertype.GetLanguageType() != language)
 					continue;
-				var members = CodeProcessor.CodeProcessor.CreateIntertype(
+				var members = CodeProcessor.UcoGenerator.CreateIntertype(
 						intertype.GetLanguageType(), intertype.GetContents());
-				CodeProcessor.CodeProcessor.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
+				CodeProcessor.InterType.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
 			}
 
 			//ポイントカットを登録する
@@ -145,7 +145,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				foreach (var languageDependBlock in advice.GetFragments()) {
 					//
 					if (languageDependBlock.GetLanguageType().Equals(language)) {
-						code = CodeProcessor.CodeProcessor.CreateAdvice(
+						code = CodeProcessor.UcoGenerator.CreateAdvice(
 								language, languageDependBlock.GetContents());
 						break;
 					}
@@ -161,17 +161,17 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				var methodName = target.GetTargetName().ElementAt(1);
 
 				// アドバイスの合成
-				// リフレクションを用いて、対応するメソッドが呼び出されます
-
-				// ポイントカットの型に対応するクラスをインスタンス化するため、最初の1文字を大文字にします
-				var pointcutType = target.GetPointcutType().ToUpper().Substring(0,1) + target.GetPointcutType().Substring(1);
-				var type = Type.GetType("Unicoen.Apps.UniAspect.Cui.CodeProcessor." + pointcutType);
-				var aspect = Activator.CreateInstance(type);
-
-				var aOrb = advice.GetAdviceType() == "before" ? 0 : 1;
-				var m = type.GetMethod(target.GetPointcutType());
-				Object[] objs = {aOrb, model, methodName, code};
-				m.Invoke(aspect, objs);
+				// リフレクション(MEF)を用いて、対応するメソッドが呼び出されます
+				switch (advice.GetAdviceType()) {
+				case "before":
+					CodeProcessorProvider.WeavingBefore(target.GetPointcutType(), model, methodName, code);
+					break;
+				case "after":
+					CodeProcessorProvider.WeavingAfter(target.GetPointcutType(), model, methodName, code);
+					break;
+				default:
+					throw new InvalidOperationException();
+				}
 			}
 		}
 

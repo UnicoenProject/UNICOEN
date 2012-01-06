@@ -71,6 +71,7 @@
       <HintPath>..\..\lib\Paraiba.Experiment.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -79,10 +80,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeProcessor\Call.cs" />
-    <Compile Include="CodeProcessor\Execution.cs" />
-    <Compile Include="CodeProcessor\Get.cs" />
-    <Compile Include="CodeProcessor\Set.cs" />
+    <Compile Include="Processor\Pointcut\Call.cs" />
+    <Compile Include="Processor\Pointcut\Execution.cs" />
+    <Compile Include="Processor\Pointcut\Get.cs" />
+    <Compile Include="Processor\Pointcut\CodeProcessor.cs" />
+    <Compile Include="Processor\Pointcut\InterType.cs" />
+    <Compile Include="Processor\Pointcut\Set.cs" />
+    <Compile Include="Processor\UcoGenerator.cs" />
     <Compile Include="Weaver.cs" />
     <Compile Include="AspectCompiler\AriesLexer.cs" />
     <Compile Include="AspectCompiler\AriesParser.cs" />
@@ -91,7 +95,7 @@
     <Compile Include="AspectElement\Intertype.cs" />
     <Compile Include="AspectElement\LanguageDependBlock.cs" />
     <Compile Include="AspectElement\Pointcut.cs" />
-    <Compile Include="CodeProcessor\CodeProcessor.cs" />
+    <Compile Include="Processor\CodeProcessorProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitor\AstVisitor.cs" />

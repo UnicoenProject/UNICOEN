@@ -23,7 +23,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
 using Paraiba.Text;
-using Unicoen.Apps.UniAspect.Cui.AspectCompiler;
+using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Languages.Java.CodeGenerators;
 using Unicoen.Model;
@@ -56,13 +56,13 @@ namespace Unicoen.Apps.UniAspect.Cui {
 		public void Setup() {
 			//Java言語のモデルを作成
 			var javaCode = File.ReadAllText(JavaCodePath, XEncoding.SJIS);
-			_javaModel = CodeProcessor.CodeProcessor.CreateModel(".java", javaCode);
+			_javaModel = UcoGenerator.CreateModel(".java", javaCode);
 			_amountOfBlockInJava =
 					_javaModel.Descendants<UnifiedBlock>().Count();
 
 			//JavaScript言語のモデルを作成
 			var javaScriptCode = File.ReadAllText(JavaScriptCodePath, XEncoding.SJIS);
-			_javaScriptModel = CodeProcessor.CodeProcessor.CreateModel(".js", javaScriptCode);
+			_javaScriptModel = UcoGenerator.CreateModel(".js", javaScriptCode);
 			_amountOfBlockInJavaScript =
 					_javaScriptModel.Descendants<UnifiedBlock>().Count();
 		}
@@ -100,7 +100,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath(expectationFile);
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".java", code);
+			var expectation = UcoGenerator.CreateModel(".java", code);
 
 			//for debug
 			var gen = new JavaCodeGenerator();
@@ -133,7 +133,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath(expectationFile);
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".js", code);
+			var expectation = UcoGenerator.CreateModel(".js", code);
 
 			//モデル内のブロック数が１増えているかどうか
 			Assert.That(
@@ -238,7 +238,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath("intertype.java");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".java", code);
+			var expectation = UcoGenerator.CreateModel(".java", code);
 
 			var amountOfMethodInExpectation =
 					expectation.Descendants<UnifiedFunctionDefinition>().Count();
@@ -264,7 +264,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			//期待されるモデルの作成
 			var filePath = FixtureUtil.GetAspectExpectationPath("intertype.js");
 			var code = File.ReadAllText(filePath, XEncoding.SJIS);
-			var expectation = CodeProcessor.CodeProcessor.CreateModel(".js", code);
+			var expectation = UcoGenerator.CreateModel(".js", code);
 
 			var amountOfMethodInExpectation =
 					expectation.Descendants<UnifiedFunctionDefinition>().Count();

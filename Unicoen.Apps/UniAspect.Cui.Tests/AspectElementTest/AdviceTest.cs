@@ -20,7 +20,6 @@ using System.Linq;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using NUnit.Framework;
-using Unicoen.Apps.UniAspect.Cui.AspectCompiler;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Tests;
 

@@ -18,19 +18,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Forms;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using Paraiba.Text;
 using Unicoen.Apps.UniAspect.Cui;
-using Unicoen.Apps.UniAspect.Cui.AspectCompiler;
 using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
-using Unicoen.Tests;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -139,7 +135,7 @@ namespace Unicoen.Apps.Aop.Gui {
 			}
 
 			var code = File.ReadAllText(targetPath, XEncoding.SJIS);
-			var model = CodeProcessor.CreateModel(fileExtension, code);
+			var model = UcoGenerator.CreateModel(fileExtension, code);
 
 			Weaver.AnalizeAspect(aspectPath);
 			//アスペクトの合成を行う

@@ -19,6 +19,7 @@
 using System.IO;
 using NUnit.Framework;
 using Paraiba.Text;
+using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
 using Unicoen.Model;
 using Unicoen.Tests;
 
@@ -38,7 +39,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public UnifiedProgram CreateModel(string path) {
 			var ext = Path.GetExtension(path);
 			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return CodeProcessor.CodeProcessor.CreateModel(ext, code);
+			return UcoGenerator.CreateModel(ext, code);
 		}
 
 		//TODO インタータイプ宣言の合成に関するテストを追加する

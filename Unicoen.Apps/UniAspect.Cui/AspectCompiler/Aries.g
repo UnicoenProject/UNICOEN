@@ -110,12 +110,8 @@ pointcutDeclarator
 	;
 
 pointcutType
-	: POINTCUT_TYPE_ELEMENT
-		-> ^(POINTCUT_TYPE POINTCUT_TYPE_ELEMENT)
-	;
-
-POINTCUT_TYPE_ELEMENT
-	: 'execution' | 'call' | 'set' | 'get'
+	: IDENTIFIER
+		-> ^(POINTCUT_TYPE IDENTIFIER)
 	;
 
 type
