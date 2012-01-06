@@ -16,7 +16,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
@@ -24,12 +23,12 @@ using System.Linq;
 using System.Reflection;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
+namespace Unicoen.Apps.UniAspect.Cui.Processor {
 	public class CodeProcessorProvider {
 		private static CodeProcessorProvider _instance;
 
 #pragma warning disable 649
-		[ImportMany] private IEnumerable<Aspect> _aspects;
+		[ImportMany] private IEnumerable<Pointcut.CodeProcessor> _aspects;
 #pragma warning restore 649
 
 		private CodeProcessorProvider() {
@@ -45,7 +44,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
 			get { return _instance ?? (_instance = new CodeProcessorProvider()); }
 		}
 
-		public static IEnumerable<Aspect> Aspects {
+		public static IEnumerable<Pointcut.CodeProcessor> Aspects {
 			get { return Instance._aspects; }
 		}
 
@@ -64,7 +63,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
 			aspect.Around(model);
 		}
 
-		public static Aspect GetAspectFromName(string name) {
+		public static Pointcut.CodeProcessor GetAspectFromName(string name) {
 			// TODO １つだけ取得するいい方法をみつける
 			// -> UniGeneratorsの実装を見てみる？
 			return Aspects.Where(e => e.PointcutName == name).First();

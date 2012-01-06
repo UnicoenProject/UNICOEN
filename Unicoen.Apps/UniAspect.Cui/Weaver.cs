@@ -24,6 +24,7 @@ using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using Unicoen.Apps.UniAspect.Cui.AspectElement;
 using Unicoen.Apps.UniAspect.Cui.CodeProcessor;
+using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
@@ -113,9 +114,9 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			foreach (var intertype in _visitor.Intertypes) {
 				if (intertype.GetLanguageType() != language)
 					continue;
-				var members = CodeProcessor.UcoGenerator.CreateIntertype(
+				var members = UcoGenerator.CreateIntertype(
 						intertype.GetLanguageType(), intertype.GetContents());
-				CodeProcessor.InterType.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
+				InterType.AddIntertypeDeclaration(model, intertype.GetTarget(), members);
 			}
 
 			//ポイントカットを登録する
@@ -145,7 +146,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				foreach (var languageDependBlock in advice.GetFragments()) {
 					//
 					if (languageDependBlock.GetLanguageType().Equals(language)) {
-						code = CodeProcessor.UcoGenerator.CreateAdvice(
+						code = UcoGenerator.CreateAdvice(
 								language, languageDependBlock.GetContents());
 						break;
 					}

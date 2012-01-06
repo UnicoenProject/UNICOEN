@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Unicoen.Model;
+﻿using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
-	public abstract class Aspect {
+namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
+	public abstract class CodeProcessor {
 		public abstract string PointcutName { get; }
 
 		public abstract void Before(IUnifiedElement model, string targetName, UnifiedBlock advice);

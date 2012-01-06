@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Processor\Pointcut\Call.cs" />
+    <Compile Include="Processor\Pointcut\Exception.cs" />
     <Compile Include="Processor\Pointcut\Execution.cs" />
     <Compile Include="Processor\Pointcut\Get.cs" />
     <Compile Include="Processor\Pointcut\CodeProcessor.cs" />

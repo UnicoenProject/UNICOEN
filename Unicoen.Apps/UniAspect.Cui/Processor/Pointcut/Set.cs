@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
-	[Export(typeof(Aspect))]
-	public class Set : Aspect{
-		public void set(int AorB, IUnifiedElement root, string name, UnifiedBlock advice) {
-			if(AorB == 0) { // before
-				InsertAtBeforeSetByName(root, name, advice);
-			}
-			else { // after
-				InsertAtAfterSetByName(root, name, advice);
-			}
-		}
-
+namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
+	[Export(typeof(CodeProcessor))]
+	public class Set : CodeProcessor{
 		//TODO a = b = cの扱いはどうするか考える
 		public static void InsertAtBeforeSet(IUnifiedElement root, Regex regex, UnifiedBlock advice) {
 			//a = b;のa

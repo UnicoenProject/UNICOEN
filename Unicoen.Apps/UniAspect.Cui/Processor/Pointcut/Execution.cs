@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
-	[Export(typeof(Aspect))]
-	public class Execution : Aspect{
-		public void execution(int AorB, IUnifiedElement root, string name, UnifiedBlock advice) {
-			if(AorB == 0) { // before
-				InsertAtBeforeExecutionByName(root, name, advice);
-			}
-			else { // after
-				InsertAtAfterExecutionByName(root, name, advice);
-			}
-		}
-
+namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
+	[Export(typeof(CodeProcessor))]
+	public class Execution : CodeProcessor{
 		/// <summary>
 		///   指定された関数ブロックの先頭に、指定されたコードを共通コードモデルとして挿入します。
 		/// </summary>

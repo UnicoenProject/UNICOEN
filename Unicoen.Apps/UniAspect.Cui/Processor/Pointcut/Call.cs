@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Unicoen.Model;
-using Unicoen.ProgramGenerators;
 
-namespace Unicoen.Apps.UniAspect.Cui.CodeProcessor {
-	[Export(typeof(Aspect))]
-	public class Call : Aspect{
+namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
+	[Export(typeof(Processor.Pointcut.CodeProcessor))]
+	public class Call : Processor.Pointcut.CodeProcessor{
 		public void call(int AorB, IUnifiedElement root, string name, UnifiedBlock advice) {
 			if(AorB == 0) { // before
 				InsertAtBeforeCallByName(root, name, advice);
