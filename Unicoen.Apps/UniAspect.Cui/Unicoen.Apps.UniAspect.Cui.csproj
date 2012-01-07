@@ -43,40 +43,16 @@
     <Reference Include="Code2Xml.Languages.C">
       <HintPath>..\..\lib\Code2Xml.Languages.C.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.CSharp">
-      <HintPath>..\..\lib\Code2Xml.Languages.CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Code2Xml.Languages.Java">
       <HintPath>..\..\lib\Code2Xml.Languages.Java.dll</HintPath>
     </Reference>
     <Reference Include="Code2Xml.Languages.JavaScript">
       <HintPath>..\..\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.Lua">
-      <HintPath>..\..\lib\Code2Xml.Languages.Lua.dll</HintPath>
-    </Reference>
-    <Reference Include="Code2Xml.Languages.Python2">
-      <HintPath>..\..\lib\Code2Xml.Languages.Python2.dll</HintPath>
-    </Reference>
-    <Reference Include="Code2Xml.Languages.Python3">
-      <HintPath>..\..\lib\Code2Xml.Languages.Python3.dll</HintPath>
-    </Reference>
-    <Reference Include="Code2Xml.Languages.Ruby18">
-      <HintPath>..\..\lib\Code2Xml.Languages.Ruby18.dll</HintPath>
-    </Reference>
-    <Reference Include="Paraiba">
-      <HintPath>..\..\lib\Paraiba.dll</HintPath>
-    </Reference>
-    <Reference Include="Paraiba.Experiment, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\lib\Paraiba.Experiment.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +111,7 @@
   <ItemGroup>
     <None Include="AspectCompiler\Aries.g" />
     <None Include="AspectCompiler\Aries.tokens" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
