@@ -135,7 +135,8 @@ namespace Unicoen.Apps.Aop.Gui {
 			}
 
 			var code = File.ReadAllText(targetPath, XEncoding.SJIS);
-			var model = UcoGenerator.CreateModel(fileExtension, code);
+			var gen = UniGenerators.GetProgramGeneratorByExtension(fileExtension);
+			var model = gen.Generate(code);
 
 			Weaver.AnalizeAspect(aspectPath);
 			//アスペクトの合成を行う

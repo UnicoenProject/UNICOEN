@@ -26,11 +26,6 @@ using Unicoen.Apps.UniAspect.Cui.AspectElement;
 using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Apps.UniAspect.Cui.Processor.Pointcut;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
-using Unicoen.Languages.C;
-using Unicoen.Languages.CSharp;
-using Unicoen.Languages.Java;
-using Unicoen.Languages.JavaScript;
-using Unicoen.Languages.Python2;
 using Unicoen.Model;
 using Unicoen.Tests;
 
@@ -80,7 +75,6 @@ namespace Unicoen.Apps.UniAspect.Cui {
 
 				// 対象ファイルの統合コードオブジェクトを生成する
 				var model = UniGenerators.GenerateProgramFromFile(file);
-				// TODO 対応していない拡張子の場合はどうなるのか確認
 				if (model == null) {
 					File.Copy(file, newPath);
 					continue;
@@ -88,28 +82,8 @@ namespace Unicoen.Apps.UniAspect.Cui {
 
 				//アスペクトの合成を行う
 				Weave(ExtenstionToLanguageName(Path.GetExtension(file)), model);
-
-				// TODO モデルの出力先をここに記述する
-				// TODO 拡張子がこれで合っているか確認する
-				switch (Path.GetExtension(file)) {
-					case ".java":
-						File.WriteAllText(newPath, JavaFactory.GenerateCode(model));
-						break;
-					case ".js":
-						File.WriteAllText(newPath, JavaScriptFactory.GenerateCode(model));
-						break;
-					case ".c":
-						File.WriteAllText(newPath, CFactory.GenerateCode(model));
-						break;
-					case ".cs":
-						File.WriteAllText(newPath, CSharpFactory.GenerateCode(model));
-						break;
-					case ".py":
-						File.WriteAllText(newPath, Python2Factory.GenerateCode(model));
-						break;
-					default:
-						throw new NotImplementedException();
-				}
+				// 結果のファイル出力
+				File.WriteAllText(newPath, UniGenerators.GetCodeGeneratorByExtension(Path.GetExtension(file)).Generate(model));
 			}
 		}
 

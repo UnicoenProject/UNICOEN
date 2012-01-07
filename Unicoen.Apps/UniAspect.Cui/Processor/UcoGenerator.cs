@@ -3,60 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
-using Code2Xml.Languages.CSharp.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
-using Code2Xml.Languages.Python2.CodeToXmls;
-using Unicoen.Languages.C;
 using Unicoen.Languages.C.ProgramGenerators;
-using Unicoen.Languages.CSharp;
 using Unicoen.Languages.CSharp.ProgramGenerators;
-using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.ProgramGenerators;
-using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.JavaScript.ProgramGenerators;
-using Unicoen.Languages.Python2;
 using Unicoen.Languages.Python2.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.UniAspect.Cui.Processor {
 	public class UcoGenerator {
-
 		/// <summary>
-		///   与えられたソースコードを共通モデルに変換します
-		/// </summary>
-		/// <param name = "ext">対象言語の拡張子</param>
-		/// <param name = "code">対象ソースコードの中身</param>
-		/// <returns></returns>
-		public static UnifiedProgram CreateModel(string ext, string code) {
-			switch (ext.ToLower()) {
-			case ".cs":
-				return CSharpFactory.GenerateModel(code);
-			case ".java":
-				return JavaFactory.GenerateModel(code);
-			case ".js":
-				return JavaScriptFactory.GenerateModel(code);
-			case ".c":
-			case ".h":
-				return CFactory.GenerateModel(code);
-			case ".py":
-				return Python2Factory.GenerateModel(code);
-			}
-			//Ruby
-			throw new InvalidOperationException("対応していない言語ファイルが指定されました");
-		}
-
-		/// <summary>
-		///   与えられたコードを共通コードモデルとして生成します。
+		///   与えられたコードを共通コードオブジェクトとして生成します。
 		/// </summary>
 		/// <param name = "language">対象言語</param>
 		/// <param name = "code">コード断片</param>
 		/// <returns></returns>
 		public static UnifiedBlock CreateAdvice(string language, string code) {
-			//generate model from string advice (as UnifiedBlock)
-			XElement ast = null;
-			UnifiedBlock actual = null;
+			XElement ast;
+			UnifiedBlock actual;
 
+			/*
+			 * 与えられたコード断片をブロックとして統合コードオブジェクトに変換します
+			 * これにより、シンタックス上では安全なオブジェクトの挿入を実現します
+			 * (カスタムポイントカットは除く)
+			 * 
+			 * 部分的なコードを統合コードオブジェクトに変換する機能が提供されている言語の場合：
+			 * (Java, JavaScript, C)
+			 * コード断片全体を中括弧で括ることでブロックとしてのパースができるようにします
+			 * したがって、ブロック内に記述できないプログラムはアドバイスとして記述できません
+			 * 
+			 * 上記の機能が提供されていない言語の場合：
+			 * (CSharp, Python)
+			 * 専用のメソッドを使用します
+			 * 具体的には、コード断片に対して、それが１プログラムとしてパースできるまで最小限のコード補完を行い、
+			 * 統合コードオブジェクトに変換後、元のコードに該当する部分だけを抽出します
+			 */
 			switch (language) {
 			case "Java":
 				code = "{ " + code + " }";
@@ -80,7 +63,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 				actual = CreateAdviceForPython(code);
 				break;
 			default:
-				//Ruby
+				//Ruby, VB // TODO Ruby言語の対応
 				throw new InvalidOperationException("対応していない言語が指定されました");
 			}
 			actual.Normalize();
@@ -88,8 +71,10 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 			return actual;
 		}
 
+		// 与えられたC#のコードを共通コードオブジェクトとして生成します
 		private static UnifiedBlock CreateAdviceForCSharp(string code) {
-			// TODO テストを書く
+			// 1つのメソッドを持つクラスとして統合コードオブジェクトを生成するために、
+			// そのメソッドが、与えられたコード断片を内部持つようにコードを補完します
 			code = "public class C { public int M() {" + code + "}}";
 			var gen = new CSharpProgramGenerator();
 			var model = gen.Generate(code);
@@ -97,8 +82,11 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 			return block;
 		}
 
+		// 与えられたPythonのコードを共通コードオブジェクトとして生成します
 		private static UnifiedBlock CreateAdviceForPython(string code) {
-			// TODO テストを書く
+			// Pythonはインタプリタ言語のため、
+			// 文法的に正しいコード断片であればそのまま統合コードオブジェクトに変換できます
+			// プログラム全体(UnifiedProgram)はブロックから構成されるため、そのブロックをアドバイスとして返します
 			var gen = new Python2ProgramGenerator();
 			var model = gen.Generate(code);
 			var block = model.Descendants<UnifiedBlock>().First();
@@ -113,7 +101,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 		/// <returns></returns>
 		public static List<IUnifiedExpression> CreateIntertype(
 				string language, string code) {
-			XElement ast = null;
+			XElement ast;
 			var actual = new List<IUnifiedExpression>();
 
 			switch (language) {
@@ -137,12 +125,16 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 				var program = JavaScriptProgramGeneratorHelper.CreateProgram(ast);
 				actual.AddRange(program.Body);
 				break;
-			default:
-				//TODO implement 他の言語についても実装する
+			case "C":
 				throw new NotImplementedException();
+			case "CSharp":
+				throw new NotImplementedException();
+			case "Python":
+				throw new NotImplementedException();
+			default: //Ruby, VB // TODO Ruby言語の対応
+				throw new InvalidOperationException("対応していない言語が指定されました");
 			}
 			return actual;
 		}
-
 	}
 }
