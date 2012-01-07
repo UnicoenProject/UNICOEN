@@ -16,17 +16,16 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 	[TestFixture]
 	public class GetSetWeavingTest {
 		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
-		public UnifiedProgram CreateModel(string path) {
-			var ext = Path.GetExtension(path);
-			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return UcoGenerator.CreateModel(ext, code);
+		public UnifiedProgram CreateProgramFromCode(string extension, string code) {
+			var gen = UniGenerators.GetProgramGeneratorByExtension(extension);
+			return gen.Generate(code);
 		}
 		
 		[Test]
 		public void Getポイントカットを用いて代入文の直前にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Get.InsertAtBeforeGet(model, new Regex("a"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));
@@ -44,7 +43,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public void Getポイントカットを用いて初期化子つき変数宣言の直前にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Get.InsertAtBeforeGet(model, new Regex("a"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));
@@ -62,7 +61,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public void Getポイントカットを用いて代入文の直後にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Get.InsertAtAfterGet(model, new Regex("a"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));
@@ -80,7 +79,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public void Getポイントカットを用いて初期化子つき変数宣言の直後にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Get.InsertAtAfterGet(model, new Regex("a"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));
@@ -98,7 +97,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public void Setポイントカットを用いて代入文の直前にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Set.InsertAtBeforeSet(model, new Regex("b"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));
@@ -116,7 +115,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public void Setポイントカットを用いて初期化子つき変数宣言の直前にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Set.InsertAtBeforeSet(model, new Regex("b"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));
@@ -134,7 +133,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public void Setポイントカットを用いて代入文の直後にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b; b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Set.InsertAtAfterSet(model, new Regex("b"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));
@@ -152,7 +151,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		public void Setポイントカットを用いて初期化子つき変数宣言の直後にアスペクトを合成できる() {
 			const string code = @"class A{ public void M() { int a = 10; int b = a; } }";
 			//モデル化
-			var model = UcoGenerator.CreateModel(".java", code);
+			var model = CreateProgramFromCode(".java", code);
 			var beforeNumBlock = model.Descendants().OfType<UnifiedBlock>().Count();
 			//アスペクトの合成
 			Set.InsertAtAfterSet(model, new Regex("b"), UcoGenerator.CreateAdvice("Java", "System.out.println();"));

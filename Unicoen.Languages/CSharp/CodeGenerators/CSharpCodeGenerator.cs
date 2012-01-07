@@ -16,12 +16,14 @@
 
 #endregion
 
+using System.ComponentModel.Composition;
 using System.IO;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeGenerators {
+	[Export(typeof(UnifiedCodeGenerator))]
 	public class CSharpCodeGenerator : UnifiedCodeGenerator {
 		public override string Extension {
 			get { return ".cs"; }

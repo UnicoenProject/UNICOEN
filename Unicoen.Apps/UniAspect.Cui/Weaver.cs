@@ -26,8 +26,6 @@ using Unicoen.Apps.UniAspect.Cui.AspectElement;
 using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Apps.UniAspect.Cui.Processor.Pointcut;
 using Unicoen.Apps.UniAspect.Cui.Visitor;
-using Unicoen.Languages.Java;
-using Unicoen.Languages.JavaScript;
 using Unicoen.Model;
 using Unicoen.Tests;
 
@@ -77,7 +75,6 @@ namespace Unicoen.Apps.UniAspect.Cui {
 
 				// 対象ファイルの統合コードオブジェクトを生成する
 				var model = UniGenerators.GenerateProgramFromFile(file);
-				// TODO 対応していない拡張子の場合はどうなるのか確認
 				if (model == null) {
 					File.Copy(file, newPath);
 					continue;
@@ -85,19 +82,8 @@ namespace Unicoen.Apps.UniAspect.Cui {
 
 				//アスペクトの合成を行う
 				Weave(ExtenstionToLanguageName(Path.GetExtension(file)), model);
-
-				// TODO モデルの出力先をここに記述する
-				// TODO 拡張子がこれで合っているか確認する
-				switch (Path.GetExtension(file)) {
-					case "Java":
-						File.WriteAllText(newPath, JavaFactory.GenerateCode(model));
-						break;
-					case "JavaScript":
-						File.WriteAllText(newPath, JavaScriptFactory.GenerateCode(model));
-						break;
-					default:
-						throw new NotImplementedException();
-				}
+				// 結果のファイル出力
+				File.WriteAllText(newPath, UniGenerators.GetCodeGeneratorByExtension(Path.GetExtension(file)).Generate(model));
 			}
 		}
 
@@ -165,6 +151,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				// リフレクション(MEF)を用いて、対応するメソッドが呼び出されます
 				switch (advice.GetAdviceType()) {
 				case "before":
+						Console.WriteLine(model);
 					CodeProcessorProvider.WeavingBefore(target.GetPointcutType(), model, methodName, code);
 					break;
 				case "after":
@@ -199,6 +186,14 @@ namespace Unicoen.Apps.UniAspect.Cui {
 					return "Java";
 				case ".js":
 					return "JavaScript";
+				case ".c":
+					return "C";
+				case ".rb":
+					return "Ruby";
+				case ".py":
+					return "Python";
+				case ".cs":
+					return "CSharp";
 				default:
 					throw new NotImplementedException();
 			}

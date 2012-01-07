@@ -1,10 +1,7 @@
-﻿using System.IO;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using NUnit.Framework;
-using Paraiba.Text;
 using Unicoen.Apps.UniAspect.Cui.Processor;
 using Unicoen.Apps.UniAspect.Cui.Processor.Pointcut;
-using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.Tests;
 
@@ -22,18 +19,18 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
 
 		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
-		public UnifiedProgram CreateModel(string path) {
-			var ext = Path.GetExtension(path);
-			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return UcoGenerator.CreateModel(ext, code);
-		}
+//		public UnifiedProgram UniGenerators.GenerateProgramFromFile(string path) {
+//			var ext = Path.GetExtension(path);
+//			var code = File.ReadAllText(path, XEncoding.SJIS);
+//			return UcoGenerator.UniGenerators.GenerateProgramFromFile(ext, code);
+//		}
 
 		[Test]
-		public void WeavingAtBeforeCallAll() {
-			var model = CreateModel(_studentPath);
+		public void WeavingAtBeforeCallAll()
+		{
+			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					CreateModel(
-							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
+				UniGenerators.GenerateProgramFromFile(FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			Call.InsertAtBeforeCallAll(
 					model, UcoGenerator.CreateAdvice("Java", "Console.Write();"));
@@ -45,9 +42,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		
 		[Test]
 		public void WeavingAtAfterCallAll() {
-			var model = CreateModel(_studentPath);
+			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					CreateModel(
+					UniGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			Call.InsertAtAfterCallAll(
@@ -61,9 +58,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("^w")]
 		public void WeavingAtBeforeCallByRegex(string regex) {
-			var model = CreateModel(_studentPath);
+			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					CreateModel(
+					UniGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			Call.InsertAtBeforeCall(
@@ -78,9 +75,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("^w")]
 		public void WeavingAtAfterCallByRegex(string regex) {
-			var model = CreateModel(_studentPath);
+			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					CreateModel(
+					UniGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			Call.InsertAtAfterCall(
@@ -95,9 +92,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("write")]
 		public void WeavingAtBeforeCallByName(string name) {
-			var model = CreateModel(_studentPath);
+			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					CreateModel(
+					UniGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			Call.InsertAtBeforeCallByName(
@@ -111,9 +108,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("write")]
 		public void WeavingAtAfterCallByName(string name) {
-			var model = CreateModel(_studentPath);
+			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					CreateModel(
+					UniGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			Call.InsertAtAfterCallByName(

@@ -29,6 +29,13 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 	public class AdviceToModelTest {
 
 		[Test]
+		public void Python言語向けコード片を正しくモデル化できる() {
+			const string code = "print \"test\"";
+			var advice = UcoGenerator.CreateAdvice("Python", code);
+			Assert.That(advice.GetType(), Is.EqualTo(typeof(UnifiedBlock)));
+		}
+
+		[Test]
 		public void Java言語向けコード片を正しくモデル化できる() {
 			const string code = "System.out.println(JOINPOINT_NAME + \"This is a test!\");";
 			var advice = UcoGenerator.CreateAdvice("Java", code);

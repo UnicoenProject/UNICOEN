@@ -16,12 +16,14 @@
 
 #endregion
 
+using System.ComponentModel.Composition;
 using System.IO;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeGenerators {
+	[Export(typeof(UnifiedCodeGenerator))]
 	public class Python2CodeGenerator : UnifiedCodeGenerator {
 		public override string Extension {
 			get { return ".py"; }

@@ -37,12 +37,12 @@ namespace Unicoen.Apps.UniAspect.Cui {
 			}
 
 			// 配布用コード：コマンドラインからファイルのパスを取得する場合のコード
-			// var directoryPath = args[0];
-			// var aspectPath = args[1];
+			var directoryPath = args[0];
+			var aspectPath = args[1];
 
 			// テスト用コード：以下にファイルのパスを直接指定する
-			const string directoryPath = "";
-			const string aspectPath = "../../fixture/Aspect/input/partial_aspect/before_execution.txt";
+//			const string directoryPath = "";
+//			const string aspectPath = "../../fixture/Aspect/input/partial_aspect/before_execution.txt";
 
 			// アスペクトファイルの解析
 			Weaver.AnalizeAspect(aspectPath);

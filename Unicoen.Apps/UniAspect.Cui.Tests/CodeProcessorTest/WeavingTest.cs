@@ -35,12 +35,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		private readonly string _studentPath =
 				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
 
-		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
-		public UnifiedProgram CreateModel(string path) {
-			var ext = Path.GetExtension(path);
-			var code = File.ReadAllText(path, XEncoding.SJIS);
-			return UcoGenerator.CreateModel(ext, code);
-		}
 
 		//TODO インタータイプ宣言の合成に関するテストを追加する
 
