@@ -51,6 +51,28 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
+		// TODO 期待値も準備する
+		[Test]
+		public void WeavingAtBeforeExecutionForC() {
+			var model = UniGenerators.GenerateProgramFromFile(FixtureUtil.GetInputPath("C", "fibonacci.c"));
+			
+			//あらかじめ用意されたアスペクト合成後の期待値であるプログラムをモデル化する
+//			var actual =
+//					CreateModel(
+//							FixtureUtil.GetAopExpectationPath(
+//									"Java", "Fibonacci_functionBefore.java"));
+
+			//アスペクト合成処理の実行
+			Execution.InsertAtBeforeExecutionByName(
+					model, "fibonacci", UcoGenerator.CreateAdvice("C", "printf(\"test\");"));
+			
+			Console.WriteLine(UniGenerators.GetCodeGeneratorByExtension(".c").Generate(model));
+			//合成後のモデルと期待値のモデルを比較
+//			Assert.That(
+//					model, 
+//					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
+		}
+
 		[Test]
 		public void WeavingAtAfterExecutionAll() {
 			var model = CreateModel(_fibonacciPath);

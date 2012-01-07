@@ -645,7 +645,7 @@ namespace Unicoen.Languages.Python2.ProgramGenerators {
 									CreateTest(n),
 									CreateSuite(((n)).NextElement(1))));
 			var elseSuiteNode = node.LastElement();
-			var elseSuite = elseSuiteNode.PreviousElement(1).Value == "else"
+			var elseSuite = elseSuiteNode.PreviousElements().ElementAt(1).Value == "else"
 			                		? CreateSuite(elseSuiteNode) : null;
 			return UnifiedIf.Create(conditionAndBodies, elseSuite);
 		}

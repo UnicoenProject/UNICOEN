@@ -17,12 +17,14 @@
 #endregion
 
 using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using Unicoen.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.C.CodeGenerators {
+	[Export(typeof(UnifiedCodeGenerator))]
 	public class CCodeGenerator : UnifiedCodeGenerator {
 		public override string Extension {
 			get { return ".c"; }
@@ -31,7 +33,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(new CCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
-			Console.WriteLine(writer.ToString()); //TODO debug用
+			// Console.WriteLine(writer.ToString()); //TODO debug用
 		}
 
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {

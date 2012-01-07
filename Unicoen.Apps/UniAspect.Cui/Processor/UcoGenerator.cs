@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Code2Xml.Languages.C.CodeToXmls;
+using Code2Xml.Languages.CSharp.CodeToXmls;
 using Code2Xml.Languages.Java.CodeToXmls;
 using Code2Xml.Languages.JavaScript.CodeToXmls;
+using Code2Xml.Languages.Python2.CodeToXmls;
 using Unicoen.Languages.C;
 using Unicoen.Languages.C.ProgramGenerators;
 using Unicoen.Languages.CSharp;
+using Unicoen.Languages.CSharp.ProgramGenerators;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Languages.JavaScript;
 using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Languages.Python2;
+using Unicoen.Languages.Python2.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.UniAspect.Cui.Processor {
@@ -51,30 +56,55 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 			//generate model from string advice (as UnifiedBlock)
 			XElement ast = null;
 			UnifiedBlock actual = null;
-			code = "{ " + code + " }";
 
 			switch (language) {
 			case "Java":
+				code = "{ " + code + " }";
 				ast = JavaCodeToXml.Instance.Generate(code, p => p.block());
 				actual = JavaProgramGeneratorHelper.CreateBlock(ast);
 				break;
 			case "JavaScript":
+				code = "{ " + code + " }";
 				ast = JavaScriptCodeToXml.Instance.Generate(code, p => p.statementBlock());
 				actual = JavaScriptProgramGeneratorHelper.CreateStatementBlock(ast);
 				break;
 			case "C":
-				//TODO Cでのアスペクト合成はこれで大丈夫か確認
+				code = "{ " + code + " }";
 				ast = CCodeToXml.Instance.Generate(code, p => p.compound_statement());
 				actual = CProgramGeneratorHelper.CreateCompoundStatement(ast);
 				break;
+			case "CSharp":
+				actual = CreateAdviceForCSharp(code);
+				break;
+			case "Python":
+				actual = CreateAdviceForPython(code);
+				break;
 			default:
-				//CSharp, Ruby, Python
+				//Ruby
 				throw new InvalidOperationException("対応していない言語が指定されました");
 			}
 			actual.Normalize();
 
 			return actual;
 		}
+
+		private static UnifiedBlock CreateAdviceForCSharp(string code) {
+			// TODO テストを書く
+			code = "public class C { public int M() {" + code + "}}";
+			var gen = new CSharpProgramGenerator();
+			var model = gen.Generate(code);
+			var block = model.Descendants<UnifiedFunctionDefinition>().First().Body;
+			return block;
+		}
+
+		private static UnifiedBlock CreateAdviceForPython(string code) {
+			// TODO テストを書く
+			var gen = new Python2ProgramGenerator();
+			var model = gen.Generate(code);
+			var block = model.Descendants<UnifiedBlock>().First();
+			return block;
+		}
+		
 		/// <summary>
 		///   与えられたコードをインタータイプ宣言のために共通コードモデルとして生成します
 		/// </summary>

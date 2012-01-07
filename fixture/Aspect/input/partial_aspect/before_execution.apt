@@ -9,5 +9,8 @@ aspect Logger {
         @JavaScript {
             alert("executed");
         }end
+        @C {
+        	printf("executed");
+        }end
     }
 }

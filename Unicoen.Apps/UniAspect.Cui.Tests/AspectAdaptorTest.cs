@@ -144,7 +144,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 					_javaScriptModel,
 					Is.EqualTo(expectation).Using(StructuralEqualityComparer.Instance));
 		}
-
+		
 		[Test]
 		public void Java言語の関数実行前にコードが正しく合成される() {
 			AssertCorrectWeavingForJava("before_execution.apt", "before_execution.java");
