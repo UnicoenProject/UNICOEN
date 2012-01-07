@@ -643,6 +643,8 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			var type = modifiersAndType.Item2;
 
 			var declarators = node.Elements("declarator");
+			if(declarators.Count() == 0)
+				return UnifiedParameter.Create(null, modifiers, type);
 			var declarator = CreateDeclarator(node.FirstElement("declarator"));
 
 			// abstract_declaratorはおそらく[]など=> よって、最初に現れることはないはず( // TODO 未検証)
