@@ -43,7 +43,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 		
 		// ブロック構文の開始と終了を示す中括弧とブロック内の各要素を区切る改行記号
 		protected static readonly Decoration ForBlock = new Decoration { MostLeft = "{", EachRight = "\n", MostRight = "}" };
-		
+	
 		// パラメータや実引数を表現するために使用される
 		protected static readonly Decoration Paren = new Decoration { MostLeft = "(", Delimiter = ", ", MostRight = ")" };
 

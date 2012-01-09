@@ -100,7 +100,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			if (first.Name() == "declaration_specifiers") { 
 				var modifiersAndType = CreateDeclarationSpecifiers(first);
 				modifiers = modifiersAndType.Item1;
-				type = modifiersAndType.Item2;
+				type = (UnifiedType)modifiersAndType.Item2;
 			}
 
 			var declarator = CreateDeclarator(node.Element("declarator"));
@@ -137,24 +137,26 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				throw new NotImplementedException();
 				break;
 
+			// TODO プロトタイプ宣言はどう扱うか決める
 			case "declaration_specifiers":
 				// const int a = 0;
 				// struct data { int x; }; => ここもこれになるのだけど、扱いはどうすれば
 				var modifiersAndType = CreateDeclarationSpecifiers(firstNode);
 				var modifiers = modifiersAndType.Item1;
-				var type = modifiersAndType.Item2;
-
-				// TODO typeがstructである場合には、UnifiedClassDefinitionを返す
-				// -> structの場合、変数名も初期化子も持たないのでvariableDefinition化できないのでどうするのか
+				var type = modifiersAndType.Item2; // TODO 返り値をtypeじゃなくす
 
 				var initDeclaratorList = node.Element("init_declarator_list");
-				UnifiedVariableDefinitionList variables = null;
-				if(initDeclaratorList != null) {
+				if(initDeclaratorList == null) {
+					return type.DeepCopy();
+				}
+				else {
+					UnifiedVariableDefinitionList variables = null;
 					variables = UnifiedVariableDefinitionList.Create(
 						CreateInitDeclaratorList(initDeclaratorList).
-						Select(e => UnifiedVariableDefinition.Create(null, modifiers, type, e.Item1, e.Item2)));
+						Select(e => UnifiedVariableDefinition.Create(null, 
+							modifiers.DeepCopy(), (UnifiedType)type.DeepCopy(), e.Item1, e.Item2)));
+					return variables;
 				}
-				return variables;
 
 			default:
 				throw new InvalidOperationException();
@@ -162,7 +164,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static Tuple<UnifiedModifierCollection, UnifiedType> 
+		public static Tuple<UnifiedModifierCollection, IUnifiedExpression> 
 			CreateDeclarationSpecifiers(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration_specifiers");
@@ -173,14 +175,19 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 */
 			var modifiers = UnifiedModifierCollection.Create();
 			IList<UnifiedType> types = new List<UnifiedType>();
-			
+			IUnifiedExpression declaration = null;
+
 			foreach (var e in node.Elements()) {
 				switch (e.Name()) {
 				case "storage_class_specifier":
 					modifiers.Add(CreateStorageClassSpecifier(e));
 					break;
 				case "type_specifier":
-					types.Add(CreateTypeSpecifier(e));
+					var typeSpecifier = CreateTypeSpecifier(e);
+					if(typeSpecifier.GetType().Equals(typeof(UnifiedType)))
+						types.Add((UnifiedType)CreateTypeSpecifier(e));
+					else
+						declaration = typeSpecifier;
 					break;
 				case "type_qualifier":
 					//TODO: const または volatileのことであるが、安直にリストに追加していいか要確認
@@ -194,7 +201,10 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			if(modifiers.IsEmpty())
 				modifiers = null;
 
-			UnifiedType type;
+			if(declaration != null)
+				return Tuple.Create(modifiers, declaration);
+
+			IUnifiedExpression type;
 			if (types.Count == 1) {
 				type = types[0];
 			} else {
@@ -246,7 +256,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return UnifiedModifier.Create(node.FirstElement().Value);
 		}
 
-		public static UnifiedType CreateTypeSpecifier(XElement node) {
+		public static IUnifiedExpression CreateTypeSpecifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_specifier");
 			/*	type_specifier
@@ -268,7 +278,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			case "struct_or_union_specifier":
 				return CreateStructOrUnionSpecifier(first);
 			case "enum_specifier":
-				return (UnifiedType)CreateEnumSpecifier(first); // TODO enum定義時の場合を考慮していない
+				return CreateEnumSpecifier(first);
 			case "type_id":
 				return CreateTypeId(first);
 			default:
@@ -381,7 +391,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					modifiers.Add(CreateTypeQualifier(e));
 					break;
 				case "type_specifier":
-					types.Add(CreateTypeSpecifier(e));
+					types.Add((UnifiedType)CreateTypeSpecifier(e));
 					break;
 				}
 			}
@@ -478,7 +488,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 		
 			var identifier = UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
 			IUnifiedExpression value = null;
-			var expression = node.FirstElement("constant_expression");
+			var expression = node.Element("constant_expression");
 			if(expression != null)
 				value = CreateConstantExpression(expression);
 			return UnifiedVariableDefinition.Create(null, null, null, identifier, value);
@@ -640,7 +650,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 
 			var modifiersAndType = CreateDeclarationSpecifiers(node.Element("declaration_specifiers"));
 			var modifiers = modifiersAndType.Item1;
-			var type = modifiersAndType.Item2;
+			var type = (UnifiedType)modifiersAndType.Item2;
 
 			var declarators = node.Elements("declarator");
 			if(declarators.Count() == 0)

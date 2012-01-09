@@ -15,8 +15,9 @@
 #include "kernel.h"
 #include "kernel_id.h"
 
-DeclareCounter(SysTimerCnt);
-static S8 i,j;
+// TODO 下のコードがパースできるか検証する
+//void DeclareCounter(SysTimerCnt); // add void return type
+static int i,j; // replace from S8 to int
 
 
 /*
@@ -348,7 +349,7 @@ static void AC_changeStatus(int status) {
 /**
  * 行動制御を行うタスク（優先度：低）
  */
-void tsk0(VP_INT exinf){
+void tsk0(int exinf){ // replace from VP_INT to int
 
 	/* 現在のステータスを表示 */
 	DU_showNumber(AC_currentStatus);
@@ -391,7 +392,7 @@ void tsk0(VP_INT exinf){
 }
 
 //周期ハンドラ0用の関数
-void cyc0(VP_INT exinf) {
+void cyc0(int exinf) { // replace from VP_INT to int
 
 	//タスクを起動する
 	//具体的には，対象タスクを休止状態から，実行状態に移行させ，
@@ -399,7 +400,7 @@ void cyc0(VP_INT exinf) {
 	iact_tsk(TSK0);
 }
 
-void cyc2(VP_INT exinf) {
+void cyc2(int exinf) { // replace from VP_INT to int
 	AC_log();
 
 	
