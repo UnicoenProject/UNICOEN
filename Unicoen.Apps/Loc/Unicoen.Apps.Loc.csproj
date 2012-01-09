@@ -39,11 +39,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -82,10 +77,6 @@
     <ProjectReference Include="..\..\Unicoen.Languages\Python2\Unicoen.Languages.Python2.csproj">
       <Project>{7341270B-D8CE-4894-A32C-6E51D7A57B2B}</Project>
       <Name>Unicoen.Languages.Python2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Unicoen.Languages\Python3\Unicoen.Languages.Python3.csproj">
-      <Project>{CF31A92F-646A-4155-A280-038AD9B84D0F}</Project>
-      <Name>Unicoen.Languages.Python3</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Languages\Ruby18\Unicoen.Languages.Ruby18.csproj">
       <Project>{94C425D1-CCEE-43A3-84F6-D5342EFA92B7}</Project>

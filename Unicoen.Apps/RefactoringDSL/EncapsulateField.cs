@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Unicoen.Languages.Java;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.RefactoringDSL{

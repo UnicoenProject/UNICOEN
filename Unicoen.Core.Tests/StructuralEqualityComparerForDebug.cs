@@ -18,7 +18,6 @@
 
 using System.Collections.Generic;
 using System.IO;
-using Paraiba.Text;
 using Unicoen.Model;
 using Unicoen.Processor;
 

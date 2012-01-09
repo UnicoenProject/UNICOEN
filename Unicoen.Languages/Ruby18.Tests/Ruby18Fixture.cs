@@ -20,7 +20,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Scripting.Utils;
 using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.Ruby18.Model;
