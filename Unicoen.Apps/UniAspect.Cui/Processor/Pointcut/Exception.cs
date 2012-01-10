@@ -9,7 +9,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
 		public override string PointcutName {
 			get { return "exception"; }
 		}
-
+		
 		public override void Before(IUnifiedElement model, string targetName, UnifiedBlock advice) {
 			var exceptions = model.Descendants<UnifiedCatch>();
 			foreach (var e in exceptions) {

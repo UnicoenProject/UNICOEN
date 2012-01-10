@@ -19,14 +19,53 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		private readonly string _fibonacciPath =
 				FixtureUtil.GetInputPath("Java", "Default", "Fibonacci.java");
 
-		private readonly string _studentPath =
-				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
-
 		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
 		public UnifiedProgram CreateProgramFromCode(string extension, string code) {
 			var gen = UniGenerators.GetProgramGeneratorByExtension(extension);
 			return gen.Generate(code);
 		}
+
+		// TODO コメントアウトしている言語のファイルを用意する
+		// TODO CodeProcessorProviderを使うようにする
+		[Test]
+		[TestCase("Java", ".java", "System.out.println(\"Inserted before.\");")]
+//		[TestCase("JavaScript", ".js", "Console.log(\"Inserted before.\");")]
+//		[TestCase("C", ".c", "printf(\"Inserted before.\");")]
+//		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted before.\");")]
+//		[TestCase("Python", ".py", "print \"Inserted before.\"")]
+		public void ExecutionBeforeが正しく動作することを検証します(string language, string ext, string code) {
+			var model = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci" + ext));
+			var actual = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci_expectation_before" + ext));
+
+			Execution.InsertAtBeforeExecutionByName(
+					model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
+
+			Assert.That(model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+		[TestCase("Java", ".java", "System.out.println(\"Inserted after.\");")]
+//		[TestCase("JavaScript", ".js", "Console.log(\"Inserted after.\");")]
+//		[TestCase("C", ".c", "printf(\"Inserted after.\");")]
+//		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted after.\");")]
+//		[TestCase("Python", ".py", "print \"Inserted after.\"")]
+		public void ExecutionAfterが正しく動作することを検証します(string language, string ext, string code) {
+			var model = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci" + ext));
+			var actual = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci_expectation_after" + ext));
+
+			Execution.InsertAtAfterExecutionByName(
+					model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
+
+			Assert.That(model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));		
+		}
+
+		# region old
 
 		[Test]
 		public void WeavingAtBeforeExecutionAll() {
@@ -46,28 +85,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			Assert.That(
 					model, 
 					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
-		}
-
-		// TODO 期待値も準備する
-		[Test]
-		public void WeavingAtBeforeExecutionForC() {
-			var model = UniGenerators.GenerateProgramFromFile(FixtureUtil.GetInputPath("C", "fibonacci.c"));
-			
-			//あらかじめ用意されたアスペクト合成後の期待値であるプログラムをモデル化する
-//			var actual =
-//					CreateModel(
-//							FixtureUtil.GetAopExpectationPath(
-//									"Java", "Fibonacci_functionBefore.java"));
-
-			//アスペクト合成処理の実行
-			Execution.InsertAtBeforeExecutionByName(
-					model, "fibonacci", UcoGenerator.CreateAdvice("C", "printf(\"test\");"));
-			
-			Console.WriteLine(UniGenerators.GetCodeGeneratorByExtension(".c").Generate(model));
-			//合成後のモデルと期待値のモデルを比較
-//			Assert.That(
-//					model, 
-//					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
@@ -118,39 +135,6 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			Assert.That(
 					model,
 					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
-		}
-
-		[Test]
-		[TestCase("fibonacci")]
-		public void WeavingAtBeforeExecutionByName(string name) {
-			var model = UniGenerators.GenerateProgramFromFile(_fibonacciPath);
-			var actual =
-					UniGenerators.GenerateProgramFromFile(
-							FixtureUtil.GetAopExpectationPath(
-									"Java", "Fibonacci_functionBefore.java"));
-
-			Execution.InsertAtBeforeExecutionByName(
-					model, name, UcoGenerator.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					model,
-					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
-		}
-
-		[Test]
-		[TestCase("fibonacci")]
-		public void WeavingAtAfterExecutionByName(string name) {
-			var model = UniGenerators.GenerateProgramFromFile(_fibonacciPath);
-			var actual =
-					UniGenerators.GenerateProgramFromFile(
-							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
-
-			Execution.InsertAtAfterExecutionByName(
-					model, name, UcoGenerator.CreateAdvice("Java", "Console.Write();"));
-
-			Assert.That(
-					model,
-					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));		
 		}
 
 		[Test]
@@ -247,5 +231,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			//For文が含まれていないので合成の前後でコードが変わらない
 			Assert.That(afterNumBlock, Is.EqualTo(beforeNumBlock));
 		}
+
+		# endregion
 	}
 }

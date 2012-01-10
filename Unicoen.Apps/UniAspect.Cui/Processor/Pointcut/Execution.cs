@@ -34,6 +34,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
 			}
 		}
 		
+		// TODO 置換前は変数だが、置換後は文字列リテラルになるので、どのように置換するか考える
 		/// <summary>
 		/// 指定されたアドバイスに含まれる特殊文字を指定された関数名に置き換えます
 		/// </summary>
