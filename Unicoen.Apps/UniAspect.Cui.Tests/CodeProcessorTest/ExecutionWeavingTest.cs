@@ -25,32 +25,29 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			return gen.Generate(code);
 		}
 
-		// TODO コメントアウトしている言語のファイルを用意する
-		// TODO CodeProcessorProviderを使うようにする
+		// TODO Pythonのコードの準備
 		[Test]
 		[TestCase("Java", ".java", "System.out.println(\"Inserted before.\");")]
-//		[TestCase("JavaScript", ".js", "Console.log(\"Inserted before.\");")]
-//		[TestCase("C", ".c", "printf(\"Inserted before.\");")]
-//		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted before.\");")]
+		[TestCase("JavaScript", ".js", "Console.log(\"Inserted before.\");")]
+		[TestCase("C", ".c", "printf(\"Inserted before.\");")]
+		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted before.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted before.\"")]
 		public void ExecutionBeforeが正しく動作することを検証します(string language, string ext, string code) {
 			var model = UniGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci" + ext));
 			var actual = UniGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci_expectation_before" + ext));
-
-			Execution.InsertAtBeforeExecutionByName(
-					model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
-
+	
+			CodeProcessorProvider.WeavingBefore("execution", model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
 			Assert.That(model,
 					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
 		}
 
 		[Test]
 		[TestCase("Java", ".java", "System.out.println(\"Inserted after.\");")]
-//		[TestCase("JavaScript", ".js", "Console.log(\"Inserted after.\");")]
-//		[TestCase("C", ".c", "printf(\"Inserted after.\");")]
-//		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted after.\");")]
+		[TestCase("JavaScript", ".js", "Console.log(\"Inserted after.\");")]
+		[TestCase("C", ".c", "printf(\"Inserted after.\");")]
+		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted after.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted after.\"")]
 		public void ExecutionAfterが正しく動作することを検証します(string language, string ext, string code) {
 			var model = UniGenerators.GenerateProgramFromFile(
@@ -58,9 +55,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 			var actual = UniGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci_expectation_after" + ext));
 
-			Execution.InsertAtAfterExecutionByName(
-					model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
-
+			CodeProcessorProvider.WeavingAfter("execution", model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
 			Assert.That(model,
 					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));		
 		}
