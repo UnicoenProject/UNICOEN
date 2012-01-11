@@ -7,6 +7,7 @@ public class NULL_SAMPLE {
 		Boolean bool = null;
 		Boolean np = true;
 		int abc = 0;
+		double def;
 
 		System.out.println(st + in + bool);
 		
@@ -16,6 +17,7 @@ public class NULL_SAMPLE {
 		bool = false;
 		np = null;
 		abc = in;
+		in = 200;
 
 		System.out.println(st + in + bool);
 	}
