@@ -24,11 +24,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Unicoen.Core")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("UNICOEN is a UNIfied COde ENgineering framework which provides a language-independent model to analyze and transform source code supporting multiple programming languages.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("The UNICOEN Project")]
 [assembly: AssemblyProduct("Unicoen.Core")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCopyright("Copyright © The UNICOEN Project 2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
