@@ -15,3 +15,4 @@ FOR %%f IN (*.nuspec) DO (
 FOR %%f IN (*.nupkg) DO (
 	nuget push %%f
 )
+cd ..\
