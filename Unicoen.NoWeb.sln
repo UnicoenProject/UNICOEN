@@ -77,9 +77,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Sematics", "Unicoen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Sematics.Tests", "Unicoen.Sematics.Tests\Unicoen.Sematics.Tests.csproj", "{8215C4CF-CA92-4214-917B-7B829C6F72F0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A36CD78B-EFE1-4647-AFFF-6C9E79EAE436}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		Unicoen.NoWeb.vsmdi = Unicoen.NoWeb.vsmdi
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = UnifiedCodeProcessorFramework.vsmdi
+		CategoryFile = Unicoen.NoWeb.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
