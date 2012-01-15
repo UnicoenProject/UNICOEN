@@ -617,6 +617,14 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedUncheckedBlock element) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedCheckedBlock element) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element) {
 			throw new NotImplementedException();
 		}
@@ -1231,6 +1239,14 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedUncheckedBlock element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedCheckedBlock element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
 			throw new NotImplementedException();
 		}
@@ -1335,6 +1351,14 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedAlias element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedUncheckedBlock element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedCheckedBlock element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

@@ -617,6 +617,14 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
+		public void Visit(UnifiedUncheckedBlock element) {
+			element.TryAcceptAllChildren(this);
+		}
+
+		public void Visit(UnifiedCheckedBlock element) {
+			element.TryAcceptAllChildren(this);
+		}
+
 		public virtual void Visit(UnifiedTypeIdentifier element) {
 			element.TryAcceptAllChildren(this);
 		}
@@ -1231,7 +1239,15 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
-		public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
+	    public virtual void Visit(UnifiedUncheckedBlock element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+	    }
+
+	    public virtual void Visit(UnifiedCheckedBlock element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+	    }
+
+	    public virtual void Visit(UnifiedTypeIdentifier element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
 			}
@@ -1360,14 +1376,26 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedDefined element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}
 
 		public virtual TResult Visit(UnifiedAlias element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedUnaryOperator element, TArg arg) {
+	    public virtual TResult Visit(UnifiedUncheckedBlock element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+			return default(TResult);
+	    }
+
+	    public TResult Visit(UnifiedCheckedBlock element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+			return default(TResult);
+	    }
+
+	    public virtual TResult Visit(UnifiedUnaryOperator element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}

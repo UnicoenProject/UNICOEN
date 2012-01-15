@@ -312,6 +312,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			throw new NotImplementedException("QueryGroupClause");
 		}
 
+
 		#endregion
 
 		#endregion
@@ -321,7 +322,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		public IUnifiedElement VisitAttribute(Attribute attribute, object data) {
 			var type = LookupType(attribute.Type);
 			if (attribute.HasArgumentList == false)
-				return UnifiedAnnotation.Create(type);
+			    return UnifiedAnnotation.Create(type);
 			var uArgs = attribute.Arguments.AcceptVisitorAsArgs(this, data);
 			return UnifiedAnnotation.Create(type, uArgs);
 		}
@@ -598,7 +599,9 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
 		public IUnifiedElement VisitUncheckedStatement(
 				UncheckedStatement uncheckedStatement, object data) {
-			throw new NotImplementedException("UncheckedStatement");
+			var stmts = uncheckedStatement.Body.TryAcceptForExpression(this).ToBlock();
+		
+   throw new NotImplementedException("UncheckedStatement");
 		}
 
 		public IUnifiedElement VisitUnsafeStatement(
@@ -844,9 +847,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			throw new NotImplementedException("Identifier");
 		}
 
-		public IUnifiedElement VisitPatternPlaceholder(
-				AstNode placeholder, Pattern pattern, object data) {
-			throw new NotImplementedException("AstNode");
+		public IUnifiedElement VisitPatternPlaceholder(AstNode placeholder, Pattern pattern, object data) {
+			throw new NotImplementedException("PatternPlaceholder");
 		}
 	}
 }
