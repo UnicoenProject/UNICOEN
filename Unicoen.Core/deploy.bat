@@ -1,4 +1,4 @@
-del nuspec
+del nuspec /Q
 mkdir nuspec
 copy *.nuspec nuspec /y
 cd nuspec
