@@ -12,18 +12,49 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 	/// </summary>
 	[TestFixture]
 	public class CallWeavingTest {
-		private readonly string _fibonacciPath =
-				FixtureUtil.GetInputPath("Java", "Default", "Fibonacci.java");
 
 		private readonly string _studentPath =
 				FixtureUtil.GetInputPath("Java", "Default", "Student.java");
 
-		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
-//		public UnifiedProgram UniGenerators.GenerateProgramFromFile(string path) {
-//			var ext = Path.GetExtension(path);
-//			var code = File.ReadAllText(path, XEncoding.SJIS);
-//			return UcoGenerator.UniGenerators.GenerateProgramFromFile(ext, code);
-//		}
+		// TODO コメントアウトしている言語のファイルを用意する
+		// TODO CodeProcessorProviderを使うようにする
+		[Test]
+//		[TestCase("Java", ".java", "System.out.println(\"Inserted before.\");")]
+//		[TestCase("JavaScript", ".js", "Console.log(\"Inserted before.\");")]
+//		[TestCase("C", ".c", "printf(\"Inserted before.\");")]
+//		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted before.\");")]
+//		[TestCase("Python", ".py", "print \"Inserted before.\"")]
+		public void CallBeforeが正しく動作することを検証します(string language, string ext, string code) {
+			var model = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci" + ext));
+			var actual = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci_expectation_before" + ext));
+
+			Call.InsertAtBeforeCallByName(
+					model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
+
+			Assert.That(model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));
+		}
+
+		[Test]
+//		[TestCase("Java", ".java", "System.out.println(\"Inserted after.\");")]
+//		[TestCase("JavaScript", ".js", "Console.log(\"Inserted after.\");")]
+//		[TestCase("C", ".c", "printf(\"Inserted after.\");")]
+//		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted after.\");")]
+//		[TestCase("Python", ".py", "print \"Inserted after.\"")]
+		public void CallAfterが正しく動作することを検証します(string language, string ext, string code) {
+			var model = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci" + ext));
+			var actual = UniGenerators.GenerateProgramFromFile(
+				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci_expectation_after" + ext));
+
+			Call.InsertAtAfterCallByName(
+					model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
+
+			Assert.That(model,
+					Is.EqualTo(actual).Using(StructuralEqualityComparer.Instance));		
+		}
 
 		[Test]
 		public void WeavingAtBeforeCallAll()

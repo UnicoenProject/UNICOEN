@@ -51,7 +51,8 @@
     <Compile Include="CodeProcessorTest\CallWeavingTest.cs" />
     <Compile Include="CodeProcessorTest\CustomWeavingTest.cs" />
     <Compile Include="CodeProcessorTest\ExecutionWeavingTest.cs" />
-    <Compile Include="CodeProcessorTest\GetSetWeavingTest.cs" />
+    <Compile Include="CodeProcessorTest\GetWeavingTest.cs" />
+    <Compile Include="CodeProcessorTest\SetWeavingTest.cs" />
     <Compile Include="CodeProcessorTest\WeavingTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
