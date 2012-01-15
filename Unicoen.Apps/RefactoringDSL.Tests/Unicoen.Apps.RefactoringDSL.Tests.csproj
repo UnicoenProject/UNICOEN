@@ -39,7 +39,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EncapsulateCollectionHelperTest.cs" />
+    <Compile Include="EncapsulateCollectionTest.cs" />
     <Compile Include="EncapsulateFieldTest.cs" />
+    <Compile Include="NamespaceDetector\ApplicationTest.cs" />
+    <Compile Include="NamespaceDetector\NamespaceDetectorTest.cs" />
+    <Compile Include="FindUtilTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

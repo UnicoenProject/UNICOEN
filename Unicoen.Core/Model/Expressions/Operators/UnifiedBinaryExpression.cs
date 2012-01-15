@@ -88,5 +88,9 @@ namespace Unicoen.Model {
 					RightHandSide = rightHandSide,
 			};
 		}
+
+		public static UnifiedBinaryExpression Create() {
+			return new UnifiedBinaryExpression();
+		}
 	}
 }
