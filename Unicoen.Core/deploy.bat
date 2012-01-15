@@ -1,3 +1,4 @@
+del nuspec
 mkdir nuspec
 copy *.nuspec nuspec /y
 cd nuspec
@@ -8,7 +9,6 @@ copy ..\bin\Release\*.pdb lib\
 del lib\Paraiba.*
 del lib\Antlr3.*
 del lib\Code2Xml.*
-del *.nupkg
 FOR %%f IN (*.nuspec) DO (
 	nuget pack %%f
 )
