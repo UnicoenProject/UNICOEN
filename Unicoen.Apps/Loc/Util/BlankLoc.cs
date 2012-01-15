@@ -57,6 +57,13 @@ namespace Unicoen.Apps.Loc.Util
                 if (line.Trim().Length == 0) count++;
             }
             sr.Close();
+
+            var srb = new StreamReader(filePath);
+            var arrb = srb.ReadToEnd().ToCharArray();
+            var lastb = BitConverter.GetBytes(arrb[arrb.Length - 1]);
+            if (lastb[0] == 10) count++;
+            srb.Close();
+
             return count;
         }
     }

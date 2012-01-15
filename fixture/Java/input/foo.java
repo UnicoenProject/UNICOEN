@@ -1,9 +1,9 @@
 public class foo {
-	public static int foo(int n) {
-		if (n < 2) {
+	public int foo(int n) {
+		if (n > 0) {
 			return n;
 		}
 	}
-	public static void Main(string[] args)
+	public int bar (int n) {
 	}
 }

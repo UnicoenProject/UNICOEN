@@ -50,11 +50,15 @@ namespace Unicoen.Apps.Loc.Util
         {
             int count = 0;
             var sr = new StreamReader(filePath);
-            while (sr.ReadLine() != null)
-            {
-                count++;
-            }
+            while (sr.ReadLine() != null) count++;
             sr.Close();
+            
+            var srb = new StreamReader(filePath);
+            var arrb = srb.ReadToEnd().ToCharArray();
+            var lastb = BitConverter.GetBytes(arrb[arrb.Length - 1]);
+            if (lastb[0] == 10) count++;
+            srb.Close();
+            
             return count;
         }
     }

@@ -52,6 +52,10 @@
       <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
       <Name>Unicoen.Core.Tests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
+      <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
+      <Name>Unicoen.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loc\Unicoen.Apps.Loc.csproj">
       <Project>{A1839E51-87A4-40BA-9000-172A6485ADC3}</Project>
       <Name>Unicoen.Apps.Loc</Name>

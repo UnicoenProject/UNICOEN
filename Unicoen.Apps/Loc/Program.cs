@@ -29,9 +29,11 @@ namespace Unicoen.Apps.Loc {
 			{
 				var orign = FixtureUtil.GetInputPath(args[0], args[1]);
 				var modif = FixtureUtil.GetInputPath(args[0], args[2]);
-				Console.WriteLine("Language      : " + args[0]);
-				Console.WriteLine("Original File : " + orign);
-				Console.WriteLine("Modified File : " + modif + "\n");
+				Console.WriteLine("Language      : " + args[0] + "\n");
+				Console.WriteLine("File 1 : " + orign);
+				PrintBasicInfo(orign);
+				Console.WriteLine("File 2 : " + modif);
+				PrintBasicInfo(modif);
 				PrintDifferentialInfo(orign, modif);
 			}
 		}
