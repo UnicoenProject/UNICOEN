@@ -31,10 +31,10 @@ namespace Unicoen.Apps.Findbug.Tests {
 					"{ int i; i = 1; }", p => p.block());
 			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
-			var definitions = DefUseAnalyzer.FindDefines();
+			var definitions = DefUseAnalyzer.FindDefines(codeObject).ToArray();
 
 			// i = 1; の i に該当するUnifiedIdentifierが得られるはず
-			var expected = new[] { codeObject.Descendants<UnifiedIdentifier>() };
+			var expected = new[] { codeObject.Descendants<UnifiedIdentifier>().Last() };
 			Assert.That(definitions, Is.EqualTo(expected));
 		}
 
@@ -44,7 +44,7 @@ namespace Unicoen.Apps.Findbug.Tests {
 					"{ int i, j; i = 1; j = i; }", p => p.block());
 			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
 
-			var definitions = DefUseAnalyzer.FindUses();
+			var definitions = DefUseAnalyzer.FindUses(codeObject).ToArray();
 
 			// j = i; の i に該当するUnifiedBinaryExpressionが得られるはず
 			var expected = new[] { codeObject.Descendants<UnifiedIdentifier>().Last() };
