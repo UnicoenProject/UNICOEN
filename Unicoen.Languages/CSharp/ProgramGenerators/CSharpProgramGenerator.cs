@@ -40,7 +40,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
 			var parser = new CSharpParser();
 			var reader = new StringReader(code);
-			var unit = parser.Parse(reader);
+			// TODO: use proper value for the second argument
+			var unit = parser.Parse(reader, "TextReader");
 			var visitor = new NRefactoryAstVisitor();
 			var uElem = unit.AcceptVisitor(visitor, null);
 			return uElem as UnifiedProgram;

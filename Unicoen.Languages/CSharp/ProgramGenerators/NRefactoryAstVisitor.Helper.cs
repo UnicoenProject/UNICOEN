@@ -46,7 +46,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 					new { Mod = Modifiers.Override, Name = "override" },
 					new { Mod = Modifiers.Virtual, Name = "virtual" },
 					new { Mod = Modifiers.Extern, Name = "extern" },
-					new { Mod = Modifiers.Fixed, Name = "fixed" },
+					new { Mod = Modifiers.Async, Name = "async" },
 					new { Mod = Modifiers.Unsafe, Name = "unsafe" },
 					new { Mod = Modifiers.Volatile, Name = "volatile" },
 			};
@@ -220,8 +220,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			var dic = new Dictionary<string, IList<UnifiedTypeConstrain>>();
 			foreach(var c in constraints) {
 				var list = null as IList<UnifiedTypeConstrain>;
-				if (dic.TryGetValue(c.TypeParameter, out list) == false) {
-					dic[c.TypeParameter] = list =  new List<UnifiedTypeConstrain>();
+				if (dic.TryGetValue(c.TypeParameter.Identifier, out list) == false) {
+					dic[c.TypeParameter.Identifier] = list =  new List<UnifiedTypeConstrain>();
 				}
 				var types = c.BaseTypes.Select(LookupType);
 				foreach(var type in types) {
