@@ -1,0 +1,1 @@
+java -Xms128m -Xmx1024m -classpath "C:\Tools\antlr-3.3-complete.jar" org.antlr.Tool -g *.g -Xconversiontimeout 100000
