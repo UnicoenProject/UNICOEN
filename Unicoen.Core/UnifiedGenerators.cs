@@ -29,15 +29,15 @@ using Unicoen.Model;
 using Unicoen.ProgramGenerators;
 
 namespace Unicoen {
-	public class UniGenerators {
-		private static UniGenerators _instance;
+	public class UnifiedGenerators {
+		private static UnifiedGenerators _instance;
 
 #pragma warning disable 649
 		[ImportMany] private IEnumerable<UnifiedProgramGenerator> _programGenerators;
 		[ImportMany] private IEnumerable<UnifiedCodeGenerator> _codeGenerators;
 #pragma warning restore 649
 
-		private UniGenerators() {
+		private UnifiedGenerators() {
 			var catalog = new AggregateCatalog();
 			catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
 			catalog.Catalogs.Add(new DirectoryCatalog("."));
@@ -46,8 +46,8 @@ namespace Unicoen {
 			container.ComposeParts(this);
 		}
 
-		private static UniGenerators Instance {
-			get { return _instance ?? (_instance = new UniGenerators()); }
+		private static UnifiedGenerators Instance {
+			get { return _instance ?? (_instance = new UnifiedGenerators()); }
 		}
 
 		public static IEnumerable<UnifiedProgramGenerator> ProgramGenerators {

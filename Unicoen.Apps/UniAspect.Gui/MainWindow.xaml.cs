@@ -135,7 +135,7 @@ namespace Unicoen.Apps.Aop.Gui {
 			}
 
 			var code = File.ReadAllText(targetPath, XEncoding.SJIS);
-			var gen = UniGenerators.GetProgramGeneratorByExtension(fileExtension);
+			var gen = UnifiedGenerators.GetProgramGeneratorByExtension(fileExtension);
 			var model = gen.Generate(code);
 
 			Weaver.AnalizeAspect(aspectPath);

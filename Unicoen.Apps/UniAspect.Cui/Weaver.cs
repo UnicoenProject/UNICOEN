@@ -74,7 +74,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				var newPath = file.Replace(directoryPath, workPath);
 
 				// 対象ファイルの統合コードオブジェクトを生成する
-				var model = UniGenerators.GenerateProgramFromFile(file);
+				var model = UnifiedGenerators.GenerateProgramFromFile(file);
 				if (model == null) {
 					File.Copy(file, newPath);
 					continue;
@@ -83,7 +83,7 @@ namespace Unicoen.Apps.UniAspect.Cui {
 				//アスペクトの合成を行う
 				Weave(ExtenstionToLanguageName(Path.GetExtension(file)), model);
 				// 結果のファイル出力
-				File.WriteAllText(newPath, UniGenerators.GetCodeGeneratorByExtension(Path.GetExtension(file)).Generate(model));
+				File.WriteAllText(newPath, UnifiedGenerators.GetCodeGeneratorByExtension(Path.GetExtension(file)).Generate(model));
 			}
 		}
 

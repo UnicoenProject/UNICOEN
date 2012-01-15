@@ -25,9 +25,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 //		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted before.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted before.\"")]
 		public void CallBeforeが正しく動作することを検証します(string language, string ext, string code) {
-			var model = UniGenerators.GenerateProgramFromFile(
+			var model = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci" + ext));
-			var actual = UniGenerators.GenerateProgramFromFile(
+			var actual = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci_expectation_before" + ext));
 
 			Call.InsertAtBeforeCallByName(
@@ -44,9 +44,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 //		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted after.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted after.\"")]
 		public void CallAfterが正しく動作することを検証します(string language, string ext, string code) {
-			var model = UniGenerators.GenerateProgramFromFile(
+			var model = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci" + ext));
-			var actual = UniGenerators.GenerateProgramFromFile(
+			var actual = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Call", "Fibonacci_expectation_after" + ext));
 
 			Call.InsertAtAfterCallByName(
@@ -59,9 +59,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		public void WeavingAtBeforeCallAll()
 		{
-			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-				UniGenerators.GenerateProgramFromFile(FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
+				UnifiedGenerators.GenerateProgramFromFile(FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			Call.InsertAtBeforeCallAll(
 					model, UcoGenerator.CreateAdvice("Java", "Console.Write();"));
@@ -73,9 +73,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		
 		[Test]
 		public void WeavingAtAfterCallAll() {
-			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			Call.InsertAtAfterCallAll(
@@ -89,9 +89,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("^w")]
 		public void WeavingAtBeforeCallByRegex(string regex) {
-			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			Call.InsertAtBeforeCall(
@@ -106,9 +106,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("^w")]
 		public void WeavingAtAfterCallByRegex(string regex) {
-			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			Call.InsertAtAfterCall(
@@ -123,9 +123,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("write")]
 		public void WeavingAtBeforeCallByName(string name) {
-			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callBefore.java"));
 
 			Call.InsertAtBeforeCallByName(
@@ -139,9 +139,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest
 		[Test]
 		[TestCase("write")]
 		public void WeavingAtAfterCallByName(string name) {
-			var model = UniGenerators.GenerateProgramFromFile(_studentPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_studentPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Student_callAfter.java"));
 
 			Call.InsertAtAfterCallByName(

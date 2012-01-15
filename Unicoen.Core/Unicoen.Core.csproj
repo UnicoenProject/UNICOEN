@@ -306,7 +306,7 @@
     <Compile Include="Processor\VisitorArgument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ElementReference.cs" />
-    <Compile Include="UniGenerators.cs" />
+    <Compile Include="UnifiedGenerators.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ParserScripts\IronRubyParser\composite_sexp_processor.rb">

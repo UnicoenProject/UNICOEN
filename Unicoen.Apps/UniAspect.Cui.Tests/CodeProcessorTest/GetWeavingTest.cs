@@ -18,7 +18,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 	public class GetWeavingTest {
 		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
 		public UnifiedProgram CreateProgramFromCode(string extension, string code) {
-			var gen = UniGenerators.GetProgramGeneratorByExtension(extension);
+			var gen = UnifiedGenerators.GetProgramGeneratorByExtension(extension);
 			return gen.Generate(code);
 		}
 		
@@ -31,9 +31,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 //		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted before.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted before.\"")]
 		public void GetBeforeが正しく動作することを検証します(string language, string ext, string code) {
-			var model = UniGenerators.GenerateProgramFromFile(
+			var model = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Get", "Fibonacci" + ext));
-			var actual = UniGenerators.GenerateProgramFromFile(
+			var actual = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Get", "Fibonacci_expectation_before" + ext));
 
 			Get.InsertAtBeforeGetByName(
@@ -50,9 +50,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 //		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted after.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted after.\"")]
 		public void GetAfterが正しく動作することを検証します(string language, string ext, string code) {
-			var model = UniGenerators.GenerateProgramFromFile(
+			var model = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Get", "Fibonacci" + ext));
-			var actual = UniGenerators.GenerateProgramFromFile(
+			var actual = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Get", "Fibonacci_expectation_after" + ext));
 
 			Get.InsertAtAfterGetByName(

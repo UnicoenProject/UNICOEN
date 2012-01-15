@@ -21,7 +21,7 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 
 		//指定されたパスのファイルを読み込んで共通コードオブジェクトに変換します
 		public UnifiedProgram CreateProgramFromCode(string extension, string code) {
-			var gen = UniGenerators.GetProgramGeneratorByExtension(extension);
+			var gen = UnifiedGenerators.GetProgramGeneratorByExtension(extension);
 			return gen.Generate(code);
 		}
 
@@ -33,9 +33,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted before.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted before.\"")]
 		public void ExecutionBeforeが正しく動作することを検証します(string language, string ext, string code) {
-			var model = UniGenerators.GenerateProgramFromFile(
+			var model = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci" + ext));
-			var actual = UniGenerators.GenerateProgramFromFile(
+			var actual = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci_expectation_before" + ext));
 	
 			CodeProcessorProvider.WeavingBefore("execution", model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
@@ -50,9 +50,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[TestCase("CSharp", ".cs", "Console.WriteLine(\"Inserted after.\");")]
 //		[TestCase("Python", ".py", "print \"Inserted after.\"")]
 		public void ExecutionAfterが正しく動作することを検証します(string language, string ext, string code) {
-			var model = UniGenerators.GenerateProgramFromFile(
+			var model = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci" + ext));
-			var actual = UniGenerators.GenerateProgramFromFile(
+			var actual = UnifiedGenerators.GenerateProgramFromFile(
 				FixtureUtil.GetInputPath("Aspect", "Execution", "Fibonacci_expectation_after" + ext));
 
 			CodeProcessorProvider.WeavingAfter("execution", model, "fibonacci", UcoGenerator.CreateAdvice(language, code));
@@ -65,10 +65,10 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		public void WeavingAtBeforeExecutionAll() {
 			//アスペクト合成処理対象のプログラムをモデル化する
-			var model = UniGenerators.GenerateProgramFromFile(_fibonacciPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_fibonacciPath);
 			//あらかじめ用意されたアスペクト合成後の期待値であるプログラムをモデル化する
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath(
 									"Java", "Fibonacci_functionBefore.java"));
 
@@ -84,9 +84,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 
 		[Test]
 		public void WeavingAtAfterExecutionAll() {
-			var model = UniGenerators.GenerateProgramFromFile(_fibonacciPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_fibonacciPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
 			Execution.InsertAtAfterExecutionAll(
@@ -100,9 +100,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		[TestCase("^fib")]
 		public void WeavingAtBeforeExecutionByRegex(string regex) {
-			var model = UniGenerators.GenerateProgramFromFile(_fibonacciPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_fibonacciPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath(
 									"Java", "Fibonacci_functionBefore.java"));
 
@@ -118,9 +118,9 @@ namespace Unicoen.Apps.UniAspect.Cui.CodeProcessorTest {
 		[Test]
 		[TestCase("^fib")]
 		public void WeavingAtAfterExecutionByRegex(string regex) {
-			var model = UniGenerators.GenerateProgramFromFile(_fibonacciPath);
+			var model = UnifiedGenerators.GenerateProgramFromFile(_fibonacciPath);
 			var actual =
-					UniGenerators.GenerateProgramFromFile(
+					UnifiedGenerators.GenerateProgramFromFile(
 							FixtureUtil.GetAopExpectationPath("Java", "Fibonacci_functionAfter.java"));
 
 			Execution.InsertAtAfterExecution(
