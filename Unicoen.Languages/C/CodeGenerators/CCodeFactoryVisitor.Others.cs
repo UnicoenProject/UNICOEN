@@ -23,12 +23,24 @@ namespace Unicoen.Languages.C.CodeGenerators {
 		// 関数定義(UnifiedFunctionDefinition)
 		public override bool Visit(UnifiedFunctionDefinition element, VisitorArgument arg) {
 			// int main(int param) { ... };
+			element.Modifiers.TryAccept(this, arg);
 			element.Type.TryAccept(this, arg);
 			Writer.Write(" ");
 			element.Name.TryAccept(this, arg);
 			element.Parameters.TryAccept(this, arg);
 			element.Body.TryAccept(this, arg.Set(ForBlock));
 			return element.Body == null;
+		}
+
+		// enum定義(UnifiedEnumDefinition)
+		public override bool Visit(UnifiedEnumDefinition element, VisitorArgument arg) {
+			// enum COLOR {RED, BLUE, YELLOW};
+			element.Modifiers.TryAccept(this, arg);
+			Writer.Write("enum ");
+			element.Name.TryAccept(this, arg);
+			Writer.Write(" ");
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			return true;
 		}
 
 		# endregion
@@ -64,6 +76,12 @@ namespace Unicoen.Languages.C.CodeGenerators {
 		# endregion
 
 		# region suffix(parameter, argument)
+		
+		// 修飾子(UnifiedModifier)
+		public override bool Visit(UnifiedModifier element, VisitorArgument arg) {
+			Writer.Write(element.Name);
+			return false;
+		}
 
 		// パラメータ(UnifiedParameter)
 		// TODO 可変長引数について調査する

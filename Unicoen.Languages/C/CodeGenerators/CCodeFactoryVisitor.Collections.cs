@@ -27,6 +27,12 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			Writer.Write(decoration.MostRight);
 		}
 
+		// 修飾子(UnifiedModifierCollection)
+		public override bool Visit(UnifiedModifierCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg);
+			return false;
+		}
+
 		// 実引数(UnifiedArgumentCollection)
 		public override bool Visit(UnifiedArgumentCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg);
@@ -73,7 +79,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 					}
 					comma = ", ";
 				}
-				return true;
+				return false;
 			}
 
 			// 通常の変数宣言リストの場合
@@ -90,7 +96,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			var isFirst = true;
 			foreach (var e in element) {
 				if (isFirst) {
-					e.Modifiers.TryAccept(this, arg);
+					e.Modifiers.TryAccept(this, arg); // TODO なぜか修飾子の後で改行される問題を調査する
 					commonTypeStr = GetString(e.Type, arg);
 					Writer.Write(commonTypeStr + " ");
 					e.Name.TryAccept(this, arg);

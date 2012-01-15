@@ -33,7 +33,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 		public override void Generate(
 				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
 			codeObject.Accept(new CCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
-			// Console.WriteLine(writer.ToString()); //TODO debug用
+			Console.WriteLine(writer.ToString()); //TODO debug用
 		}
 
 		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
