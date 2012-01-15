@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Diagnostics;
 using Unicoen.Processor;
 
@@ -102,6 +103,10 @@ namespace Unicoen.Model {
 					Body = body,
 					ElseBody = elseBody,
 			};
+		}
+
+		public static UnifiedForeach Create() {
+			return new UnifiedForeach();
 		}
 	}
 }
