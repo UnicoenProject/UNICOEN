@@ -22,20 +22,21 @@ using Unicoen.Apps.Metrics.Utils;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Metrics.Core {
-	public class Loc : MetricsPrinter {
-		protected override string MeticName {
-			get { return "LOC(lines of code)"; }
-		}
+    public class Loc : MetricsPrinter {
+        protected override string MeticName {
+            get { return "LOC(lines of code)"; }
+        }
 
-		protected override IEnumerable<IUnifiedElement> ProtectedGetTargetElements(
-				IUnifiedElement codeObject) {
-			return GetTargetElements(codeObject);
-		}
+        protected override IEnumerable<IUnifiedElement>
+                ProtectedGetTargetElements(
+                IUnifiedElement codeObject) {
+            return GetTargetElements(codeObject);
+        }
 
-		public static IEnumerable<IUnifiedElement> GetTargetElements(
-				IUnifiedElement codeObject) {
-			return codeObject.Descendants<IUnifiedExpression>()
-					.Where(e => e.Parent is UnifiedBlock);
-		}
-	}
+        public static IEnumerable<IUnifiedElement> GetTargetElements(
+                IUnifiedElement codeObject) {
+            return codeObject.Descendants<IUnifiedExpression>()
+                    .Where(e => e.Parent is UnifiedBlock);
+        }
+    }
 }

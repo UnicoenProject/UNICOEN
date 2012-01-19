@@ -24,21 +24,22 @@ using Unicoen.Model;
 using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Python2.ProgramGenerators {
-	[Export(typeof(UnifiedProgramGenerator))]
-	public class Python2ProgramGenerator : UnifiedProgramGenerator {
-		public static Python2ProgramGenerator Instance = new Python2ProgramGenerator();
+    [Export(typeof(UnifiedProgramGenerator))]
+    public class Python2ProgramGenerator : UnifiedProgramGenerator {
+        public static Python2ProgramGenerator Instance =
+                new Python2ProgramGenerator();
 
-		public override IEnumerable<string> Extensions {
-			get { return Python2CodeToXml.Instance.TargetExtensions; }
-		}
+        public override IEnumerable<string> Extensions {
+            get { return Python2CodeToXml.Instance.TargetExtensions; }
+        }
 
-		public override UnifiedCodeGenerator CodeGenerator {
-			get { return Python2Factory.CodeGenerator; }
-		}
+        public override UnifiedCodeGenerator CodeGenerator {
+            get { return Python2Factory.CodeGenerator; }
+        }
 
-		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
-			var ast = Python2CodeToXml.Instance.Generate(code, true);
-			return Python2ProgramGeneratorHelper.CreateFile_input(ast);
-		}
-	}
+        public override UnifiedProgram GenerateWithoutNormalizing(string code) {
+            var ast = Python2CodeToXml.Instance.Generate(code, true);
+            return Python2ProgramGeneratorHelper.CreateFile_input(ast);
+        }
+    }
 }

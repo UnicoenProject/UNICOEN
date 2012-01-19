@@ -25,26 +25,26 @@ using Unicoen.Model;
 using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.CSharp.ProgramGenerators {
-	[Export(typeof(UnifiedProgramGenerator))]
-	public class CSharpProgramGenerator : UnifiedProgramGenerator {
-		private readonly string[] _extensions = new[] { ".cs" };
+    [Export(typeof(UnifiedProgramGenerator))]
+    public class CSharpProgramGenerator : UnifiedProgramGenerator {
+        private readonly string[] _extensions = new[] { ".cs" };
 
-		public override IEnumerable<string> Extensions {
-			get { return _extensions; }
-		}
+        public override IEnumerable<string> Extensions {
+            get { return _extensions; }
+        }
 
-		public override UnifiedCodeGenerator CodeGenerator {
-			get { return CSharpFactory.CodeGenerator; }
-		}
+        public override UnifiedCodeGenerator CodeGenerator {
+            get { return CSharpFactory.CodeGenerator; }
+        }
 
-		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
-			var parser = new CSharpParser();
-			var reader = new StringReader(code);
-			// TODO: use proper value for the second argument
-			var unit = parser.Parse(reader, "TextReader");
-			var visitor = new NRefactoryAstVisitor();
-			var uElem = unit.AcceptVisitor(visitor, null);
-			return uElem as UnifiedProgram;
-		}
-	}
+        public override UnifiedProgram GenerateWithoutNormalizing(string code) {
+            var parser = new CSharpParser();
+            var reader = new StringReader(code);
+            // TODO: use proper value for the second argument
+            var unit = parser.Parse(reader, "TextReader");
+            var visitor = new NRefactoryAstVisitor();
+            var uElem = unit.AcceptVisitor(visitor, null);
+            return uElem as UnifiedProgram;
+        }
+    }
 }

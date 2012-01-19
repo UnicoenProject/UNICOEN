@@ -20,9 +20,11 @@ using System.IO;
 using Unicoen.CodeGenerators;
 
 namespace Unicoen.Languages.JavaScript.CodeGenerators {
-	public partial class JavaScriptCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
-		public JavaScriptCodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {
-			ForeachDelimiter = " in ";
-		}
-	}
+    public partial class JavaScriptCodeFactoryVisitor
+            : JavaLikeCodeFactoryVisitor {
+        public JavaScriptCodeFactoryVisitor(
+                TextWriter writer, string indentSign) : base(writer, indentSign) {
+            ForeachDelimiter = " in ";
+        }
+            }
 }

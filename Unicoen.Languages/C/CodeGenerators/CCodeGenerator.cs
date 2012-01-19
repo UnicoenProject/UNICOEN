@@ -24,20 +24,23 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.C.CodeGenerators {
-	[Export(typeof(UnifiedCodeGenerator))]
-	public class CCodeGenerator : UnifiedCodeGenerator {
-		public override string Extension {
-			get { return ".c"; }
-		}
+    [Export(typeof(UnifiedCodeGenerator))]
+    public class CCodeGenerator : UnifiedCodeGenerator {
+        public override string Extension {
+            get { return ".c"; }
+        }
 
-		public override void Generate(
-				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			codeObject.Accept(new CCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
-			Console.WriteLine(writer.ToString()); //TODO debug用
-		}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+            codeObject.Accept(
+                    new CCodeFactoryVisitor(writer, indentSign),
+                    new VisitorArgument());
+            Console.WriteLine(writer.ToString()); //TODO debug用
+        }
 
-		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
-			Generate(codeObject, writer, "\t");
-		}
-	}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer) {
+            Generate(codeObject, writer, "\t");
+        }
+    }
 }

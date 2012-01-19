@@ -16,77 +16,81 @@
 
 #endregion
 
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Model {
-	public static class ModelSweeperGenericsForElement {
-		/// <summary>
-		///   指定した型に限定して，指定した要素の最初の子要素を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T FirstElement<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.Elements<T>().FirstOrDefault();
-		}
+    public static class ModelSweeperGenericsForElement {
+        /// <summary>
+        ///   指定した型に限定して，指定した要素の最初の子要素を取得します．
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="element"> </param>
+        /// <param name="dummyForInference"> </param>
+        /// <returns> </returns>
+        public static T FirstElement<T>(
+                this IUnifiedElement element, T dummyForInference = null)
+                where T : class {
+            Contract.Requires(element != null);
+            return element.Elements<T>().FirstOrDefault();
+        }
 
-		/// <summary>
-		///   指定した型に限定して，指定した要素の最初の祖先を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T FirstAncestor<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.Ancestors<T>().FirstOrDefault();
-		}
+        /// <summary>
+        ///   指定した型に限定して，指定した要素の最初の祖先を取得します．
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="element"> </param>
+        /// <param name="dummyForInference"> </param>
+        /// <returns> </returns>
+        public static T FirstAncestor<T>(
+                this IUnifiedElement element, T dummyForInference = null)
+                where T : class {
+            Contract.Requires(element != null);
+            return element.Ancestors<T>().FirstOrDefault();
+        }
 
-		/// <summary>
-		///   指定した型に限定して，最初の指定した要素もしくはその祖先を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T FirstAncestorOrSelf<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.AncestorsAndSelf<T>().FirstOrDefault();
-		}
+        /// <summary>
+        ///   指定した型に限定して，最初の指定した要素もしくはその祖先を取得します．
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="element"> </param>
+        /// <param name="dummyForInference"> </param>
+        /// <returns> </returns>
+        public static T FirstAncestorOrSelf<T>(
+                this IUnifiedElement element, T dummyForInference = null)
+                where T : class {
+            Contract.Requires(element != null);
+            return element.AncestorsAndSelf<T>().FirstOrDefault();
+        }
 
-		/// <summary>
-		///   指定した型に限定して，指定した要素の最初の子孫を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T FirstDescendant<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.Descendants<T>().FirstOrDefault();
-		}
+        /// <summary>
+        ///   指定した型に限定して，指定した要素の最初の子孫を取得します．
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="element"> </param>
+        /// <param name="dummyForInference"> </param>
+        /// <returns> </returns>
+        public static T FirstDescendant<T>(
+                this IUnifiedElement element, T dummyForInference = null)
+                where T : class {
+            Contract.Requires(element != null);
+            return element.Descendants<T>().FirstOrDefault();
+        }
 
-		/// <summary>
-		///   指定した型に限定して，最初の指定した要素もしくはその子孫を取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "element"></param>
-		/// <param name = "dummyForInference"></param>
-		/// <returns></returns>
-		public static T FirstDescendantOrSelf<T>(
-				this IUnifiedElement element, T dummyForInference = null) where T : class {
-			Contract.Requires(element != null);
-			return element.DescendantsAndSelf<T>().FirstOrDefault();
-		}
-	}
+        /// <summary>
+        ///   指定した型に限定して，最初の指定した要素もしくはその子孫を取得します．
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="element"> </param>
+        /// <param name="dummyForInference"> </param>
+        /// <returns> </returns>
+        public static T FirstDescendantOrSelf<T>(
+                this IUnifiedElement element, T dummyForInference = null)
+                where T : class {
+            Contract.Requires(element != null);
+            return element.DescendantsAndSelf<T>().FirstOrDefault();
+        }
+    }
 }

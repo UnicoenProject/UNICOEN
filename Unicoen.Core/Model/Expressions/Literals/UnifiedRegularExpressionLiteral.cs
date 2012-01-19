@@ -20,37 +20,36 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedRegularExpressionLiteral : UnifiedTypedLiteral<string> {
-		public override string Value { get; set; }
+    public class UnifiedRegularExpressionLiteral : UnifiedTypedLiteral<string> {
+        private UnifiedRegularExpressionLiteral() {}
+        public override string Value { get; set; }
 
-		public string Options { get; set; }
+        public string Options { get; set; }
 
-		private UnifiedRegularExpressionLiteral() {}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedRegularExpressionLiteral Create(
-				string value, string options = null) {
-			return new UnifiedRegularExpressionLiteral {
-					Value = value,
-					Options = options,
-			};
-		}
-	}
+        public static UnifiedRegularExpressionLiteral Create(
+                string value, string options = null) {
+            return new UnifiedRegularExpressionLiteral {
+                    Value = value,
+                    Options = options,
+            };
+        }
+    }
 }

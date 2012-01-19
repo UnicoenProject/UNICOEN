@@ -22,40 +22,39 @@ using Paraiba.Numerics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   整数のリテラルを表します。
-	///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分
-	/// </summary>
-	public class UnifiedInt31Literal : UnifiedIntegerLiteral {
-		public override BigInteger Value {
-			get { return _value; }
-			set { _value = value.ToForceInt31(); }
-		}
+    /// <summary>
+    ///   整数のリテラルを表します。 e.g. Javaにおける <c>int i = 10;</c> の <c>10</c> の部分
+    /// </summary>
+    public class UnifiedInt31Literal : UnifiedIntegerLiteral {
+        protected UnifiedInt31Literal() {}
 
-		protected UnifiedInt31Literal() {}
+        public override BigInteger Value {
+            get { return _value; }
+            set { _value = value.ToForceInt31(); }
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		public static UnifiedInt31Literal Create(BigInteger value) {
-			return new UnifiedInt31Literal {
-					Value = value,
-			};
-		}
-	}
+        public static UnifiedInt31Literal Create(BigInteger value) {
+            return new UnifiedInt31Literal {
+                    Value = value,
+            };
+        }
+    }
 }

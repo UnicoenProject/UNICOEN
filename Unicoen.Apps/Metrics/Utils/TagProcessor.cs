@@ -21,22 +21,23 @@ using System.Collections.Generic;
 using Paraiba.Linq;
 
 namespace Unicoen.Apps.Metrics.Utils {
-	public static class TagProcessor {
-		public static SortedSet<string> HierarchizeTags(IEnumerable<string> tagSet) {
-			var newTagSet = new SortedSet<string>();
-			foreach (var tag in tagSet) {
-				HierarchizeTag(tag, newTagSet);
-			}
-			return newTagSet;
-		}
+    public static class TagProcessor {
+        public static SortedSet<string> HierarchizeTags(
+                IEnumerable<string> tagSet) {
+            var newTagSet = new SortedSet<string>();
+            foreach (var tag in tagSet) {
+                HierarchizeTag(tag, newTagSet);
+            }
+            return newTagSet;
+        }
 
-		public static void HierarchizeTag(string tag, ISet<string> newTagSet) {
-			var tagElements = tag.Split(new[] { "::" }, StringSplitOptions.None);
-			var newTag = string.Empty;
-			foreach (var tagEelment in tagElements.SkipLast()) {
-				newTag += tagEelment + "::";
-				newTagSet.Add(newTag);
-			}
-		}
-	}
+        public static void HierarchizeTag(string tag, ISet<string> newTagSet) {
+            var tagElements = tag.Split(new[] { "::" }, StringSplitOptions.None);
+            var newTag = string.Empty;
+            foreach (var tagEelment in tagElements.SkipLast()) {
+                newTag += tagEelment + "::";
+                newTagSet.Add(newTag);
+            }
+        }
+    }
 }

@@ -20,37 +20,37 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   関数やメソッド呼び出しの実引数の集合を表します。
-	///   e.g. Javaにおける<c>method(1, 2);</c>の<c>(1, 2)</c>
-	/// </summary>
-	public class UnifiedArgumentCollection
-			: UnifiedElementCollection<UnifiedArgument, UnifiedArgumentCollection> {
-		/// <summary>
-		///   レシーバーと同じ型のオブジェクトを生成します．
-		/// </summary>
-		/// <returns>生成したオブジェクト</returns>
-		public override UnifiedArgumentCollection CreateSelf() {
-			return new UnifiedArgumentCollection();
-		}
+    /// <summary>
+    ///   関数やメソッド呼び出しの実引数の集合を表します。 e.g. Javaにおける <c>method(1, 2);</c> の <c>(1, 2)</c>
+    /// </summary>
+    public class UnifiedArgumentCollection
+            : UnifiedElementCollection
+                      <UnifiedArgument, UnifiedArgumentCollection> {
+        protected UnifiedArgumentCollection() {}
 
-		protected UnifiedArgumentCollection() {}
+        /// <summary>
+        ///   レシーバーと同じ型のオブジェクトを生成します．
+        /// </summary>
+        /// <returns> 生成したオブジェクト </returns>
+        public override UnifiedArgumentCollection CreateSelf() {
+            return new UnifiedArgumentCollection();
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-			}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+                      }
 }

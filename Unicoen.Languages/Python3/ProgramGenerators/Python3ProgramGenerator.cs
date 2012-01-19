@@ -24,21 +24,22 @@ using Unicoen.Model;
 using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Python3.ProgramGenerators {
-	[Export(typeof(UnifiedProgramGenerator))]
-	public class Python3ProgramGenerator : UnifiedProgramGenerator {
-		public static Python3ProgramGenerator Instance = new Python3ProgramGenerator();
+    [Export(typeof(UnifiedProgramGenerator))]
+    public class Python3ProgramGenerator : UnifiedProgramGenerator {
+        public static Python3ProgramGenerator Instance =
+                new Python3ProgramGenerator();
 
-		public override IEnumerable<string> Extensions {
-			get { return Python3CodeToXml.Instance.TargetExtensions; }
-		}
+        public override IEnumerable<string> Extensions {
+            get { return Python3CodeToXml.Instance.TargetExtensions; }
+        }
 
-		public override UnifiedCodeGenerator CodeGenerator {
-			get { return Python3Factory.CodeGenerator; }
-		}
+        public override UnifiedCodeGenerator CodeGenerator {
+            get { return Python3Factory.CodeGenerator; }
+        }
 
-		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
-			var ast = Python3CodeToXml.Instance.Generate(code, true);
-			return Python3ProgramGeneratorHelper.CreateFile_input(ast);
-		}
-	}
+        public override UnifiedProgram GenerateWithoutNormalizing(string code) {
+            var ast = Python3CodeToXml.Instance.Generate(code, true);
+            return Python3ProgramGeneratorHelper.CreateFile_input(ast);
+        }
+    }
 }

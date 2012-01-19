@@ -29,88 +29,104 @@ using Unicoen.Model;
 using Unicoen.ProgramGenerators;
 
 namespace Unicoen {
-	public class UnifiedGenerators {
-		private static UnifiedGenerators _instance;
+    public class UnifiedGenerators {
+        private static UnifiedGenerators _instance;
 
 #pragma warning disable 649
-		[ImportMany] private IEnumerable<UnifiedProgramGenerator> _programGenerators;
-		[ImportMany] private IEnumerable<UnifiedCodeGenerator> _codeGenerators;
+        [ImportMany] private IEnumerable<UnifiedProgramGenerator>
+                _programGenerators;
+
+        [ImportMany] private IEnumerable<UnifiedCodeGenerator> _codeGenerators;
 #pragma warning restore 649
 
-		private UnifiedGenerators() {
-			var catalog = new AggregateCatalog();
-			catalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetExecutingAssembly()));
-			catalog.Catalogs.Add(new DirectoryCatalog("."));
-			//catalog.Catalogs.Add(new DirectoryCatalog("Extensions"));
-			var container = new CompositionContainer(catalog);
-			container.ComposeParts(this);
-		}
+        private UnifiedGenerators() {
+            var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(
+                    new AssemblyCatalog(Assembly.GetExecutingAssembly()));
+            catalog.Catalogs.Add(new DirectoryCatalog("."));
+            //catalog.Catalogs.Add(new DirectoryCatalog("Extensions"));
+            var container = new CompositionContainer(catalog);
+            container.ComposeParts(this);
+        }
 
-		private static UnifiedGenerators Instance {
-			get { return _instance ?? (_instance = new UnifiedGenerators()); }
-		}
+        private static UnifiedGenerators Instance {
+            get { return _instance ?? (_instance = new UnifiedGenerators()); }
+        }
 
-		public static IEnumerable<UnifiedProgramGenerator> ProgramGenerators {
-			get { return Instance._programGenerators; }
-		}
+        public static IEnumerable<UnifiedProgramGenerator> ProgramGenerators {
+            get { return Instance._programGenerators; }
+        }
 
-		public static IEnumerable<UnifiedCodeGenerator> CodeGenerators {
-			get { return Instance._codeGenerators; }
-		}
+        public static IEnumerable<UnifiedCodeGenerator> CodeGenerators {
+            get { return Instance._codeGenerators; }
+        }
 
-		public static UnifiedProgram GenerateProgramFromFile(string filePath) {
-			var extension = Path.GetExtension(filePath);
-			var progGen = GetProgramGeneratorByExtension(extension);
-			return progGen.GenerateFromFile(filePath);
-		}
+        public static UnifiedProgram GenerateProgramFromFile(string filePath) {
+            var extension = Path.GetExtension(filePath);
+            var progGen = GetProgramGeneratorByExtension(extension);
+            return progGen.GenerateFromFile(filePath);
+        }
 
-		public static UnifiedProgram GenerateProgramFromFileOrDefault(string filePath) {
-			var extension = Path.GetExtension(filePath);
-			var progGen = GetProgramGeneratorByExtension(extension);
-			try {
-				return progGen.GenerateFromFile(filePath);
-			} catch {
-				return null;
-			}
-		}
+        public static UnifiedProgram GenerateProgramFromFileOrDefault(
+                string filePath) {
+            var extension = Path.GetExtension(filePath);
+            var progGen = GetProgramGeneratorByExtension(extension);
+            try {
+                return progGen.GenerateFromFile(filePath);
+            } catch {
+                return null;
+            }
+        }
 
-		public static UnifiedProgramGenerator GetProgramGeneratorByClassName(string className) {
-			var lowerName = className.ToLower();
-			return ProgramGenerators
-					.Where(gen => gen.GetType().Name.ToLower().Contains(lowerName))
-					.MinElementOrDefault(
-							gen => Math.Abs(gen.GetType().Name.Length - className.Length));
-		}
+        public static UnifiedProgramGenerator GetProgramGeneratorByClassName(
+                string className) {
+            var lowerName = className.ToLower();
+            return ProgramGenerators
+                    .Where(
+                            gen =>
+                            gen.GetType().Name.ToLower().Contains(lowerName))
+                    .MinElementOrDefault(
+                            gen =>
+                            Math.Abs(
+                                    gen.GetType().Name.Length - className.Length));
+        }
 
-		public static UnifiedProgramGenerator GetProgramGeneratorByExtension(string ext) {
-			var lowerExt = NormalizeExtension(ext);
-			return ProgramGenerators
-					.FirstOrDefault(
-							gen => gen.Extensions
-							       		.Select(e => e.ToLower())
-							       		.Contains(lowerExt));
-		}
+        public static UnifiedProgramGenerator GetProgramGeneratorByExtension(
+                string ext) {
+            var lowerExt = NormalizeExtension(ext);
+            return ProgramGenerators
+                    .FirstOrDefault(
+                            gen => gen.Extensions
+                                           .Select(e => e.ToLower())
+                                           .Contains(lowerExt));
+        }
 
-		public static UnifiedCodeGenerator GetCodeGeneratorByClassName(string className) {
-			var lowerName = className.ToLower();
-			return CodeGenerators
-					.Where(gen => gen.GetType().Name.ToLower().Contains(lowerName))
-					.MinElementOrDefault(
-							gen => Math.Abs(gen.GetType().Name.Length - className.Length));
-		}
+        public static UnifiedCodeGenerator GetCodeGeneratorByClassName(
+                string className) {
+            var lowerName = className.ToLower();
+            return CodeGenerators
+                    .Where(
+                            gen =>
+                            gen.GetType().Name.ToLower().Contains(lowerName))
+                    .MinElementOrDefault(
+                            gen =>
+                            Math.Abs(
+                                    gen.GetType().Name.Length - className.Length));
+        }
 
-		public static UnifiedCodeGenerator GetCodeGeneratorByExtension(string ext) {
-			var lowerExt = NormalizeExtension(ext);
-			return CodeGenerators
-					.FirstOrDefault(gen => gen.Extension.ToLower() == lowerExt);
-		}
+        public static UnifiedCodeGenerator GetCodeGeneratorByExtension(
+                string ext) {
+            var lowerExt = NormalizeExtension(ext);
+            return CodeGenerators
+                    .FirstOrDefault(gen => gen.Extension.ToLower() == lowerExt);
+        }
 
-		private static string NormalizeExtension(string ext) {
-			var lowerExt = ext.ToLower();
-			if (!lowerExt.StartsWith(".")) {
-				lowerExt = "." + lowerExt;
-			}
-			return lowerExt;
-		}
-	}
+        private static string NormalizeExtension(string ext) {
+            var lowerExt = ext.ToLower();
+            if (!lowerExt.StartsWith(".")) {
+                lowerExt = "." + lowerExt;
+            }
+            return lowerExt;
+        }
+    }
 }

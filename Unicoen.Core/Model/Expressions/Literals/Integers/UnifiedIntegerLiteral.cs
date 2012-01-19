@@ -19,55 +19,55 @@
 using System.Numerics;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   整数のリテラルを表します。
-	///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分
-	/// </summary>
-	public abstract class UnifiedIntegerLiteral : UnifiedTypedLiteral<BigInteger> {
-		protected BigInteger _value;
+    /// <summary>
+    ///   整数のリテラルを表します。 e.g. Javaにおける <c>int i = 10;</c> の <c>10</c> の部分
+    /// </summary>
+    public abstract class UnifiedIntegerLiteral
+            : UnifiedTypedLiteral<BigInteger> {
+        protected BigInteger _value;
 
-		public static UnifiedIntegerLiteral CreateInt8(BigInteger value) {
-			return UnifiedInt8Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateInt8(BigInteger value) {
+            return UnifiedInt8Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateInt16(BigInteger value) {
-			return UnifiedInt16Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateInt16(BigInteger value) {
+            return UnifiedInt16Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateInt31(BigInteger value) {
-			return UnifiedInt31Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateInt31(BigInteger value) {
+            return UnifiedInt31Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateInt32(BigInteger value) {
-			return UnifiedInt32Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateInt32(BigInteger value) {
+            return UnifiedInt32Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateInt64(BigInteger value) {
-			return UnifiedInt64Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateInt64(BigInteger value) {
+            return UnifiedInt64Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateUInt8(BigInteger value) {
-			return UnifiedUInt8Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateUInt8(BigInteger value) {
+            return UnifiedUInt8Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateUInt16(BigInteger value) {
-			return UnifiedUInt16Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateUInt16(BigInteger value) {
+            return UnifiedUInt16Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateUInt31(BigInteger value) {
-			return UnifiedUInt31Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateUInt31(BigInteger value) {
+            return UnifiedUInt31Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateUInt32(BigInteger value) {
-			return UnifiedUInt32Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateUInt32(BigInteger value) {
+            return UnifiedUInt32Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateUInt64(BigInteger value) {
-			return UnifiedUInt64Literal.Create(value);
-		}
+        public static UnifiedIntegerLiteral CreateUInt64(BigInteger value) {
+            return UnifiedUInt64Literal.Create(value);
+        }
 
-		public static UnifiedIntegerLiteral CreateBigInteger(BigInteger value) {
-			return UnifiedBigIntLiteral.Create(value);
-		}
-	}
+        public static UnifiedIntegerLiteral CreateBigInteger(BigInteger value) {
+            return UnifiedBigIntLiteral.Create(value);
+        }
+            }
 }

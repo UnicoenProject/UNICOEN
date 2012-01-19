@@ -19,74 +19,76 @@
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   コンストラクタの定義やイニシャライザの定義に必要な機能を提供します．
-	/// </summary>
-	public abstract class UnifiedConstructorLike<TSelf>
-			: UnifiedElement, IUnifiedExpression, IUnifiedCreatable<TSelf>
-			where TSelf : UnifiedConstructorLike<TSelf> {
-		protected UnifiedAnnotationCollection _annotations;
-		protected UnifiedModifierCollection _modifiers;
-		protected UnifiedParameterCollection _parameters;
-		protected UnifiedGenericParameterCollection _genericParameters;
-		protected UnifiedTypeCollection _throws;
-		protected UnifiedBlock _body;
+    /// <summary>
+    ///   コンストラクタの定義やイニシャライザの定義に必要な機能を提供します．
+    /// </summary>
+    public abstract class UnifiedConstructorLike<TSelf>
+            : UnifiedElement, IUnifiedExpression, IUnifiedCreatable<TSelf>
+            where TSelf : UnifiedConstructorLike<TSelf> {
+        protected UnifiedAnnotationCollection _annotations;
+        protected UnifiedBlock _body;
+        protected UnifiedGenericParameterCollection _genericParameters;
+        protected UnifiedModifierCollection _modifiers;
+        protected UnifiedParameterCollection _parameters;
+        protected UnifiedTypeCollection _throws;
 
-		/// <summary>
-		///   付与されているアノテーションを取得もしくは設定します．
-		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
-			get { return _annotations; }
-			set { _annotations = SetChild(value, _annotations); }
-		}
+        /// <summary>
+        ///   付与されているアノテーションを取得もしくは設定します．
+        /// </summary>
+        public UnifiedAnnotationCollection Annotations {
+            get { return _annotations; }
+            set { _annotations = SetChild(value, _annotations); }
+        }
 
-		public UnifiedModifierCollection Modifiers {
-			get { return _modifiers; }
-			set { _modifiers = SetChild(value, _modifiers); }
-		}
+        public UnifiedModifierCollection Modifiers {
+            get { return _modifiers; }
+            set { _modifiers = SetChild(value, _modifiers); }
+        }
 
-		public UnifiedParameterCollection Parameters {
-			get { return _parameters; }
-			set { _parameters = SetChild(value, _parameters); }
-		}
+        public UnifiedParameterCollection Parameters {
+            get { return _parameters; }
+            set { _parameters = SetChild(value, _parameters); }
+        }
 
-		public UnifiedGenericParameterCollection GenericParameters {
-			get { return _genericParameters; }
-			set { _genericParameters = SetChild(value, _genericParameters); }
-		}
+        public UnifiedGenericParameterCollection GenericParameters {
+            get { return _genericParameters; }
+            set { _genericParameters = SetChild(value, _genericParameters); }
+        }
 
-		public UnifiedTypeCollection Throws {
-			get { return _throws; }
-			set { _throws = SetChild(value, _throws); }
-		}
+        public UnifiedTypeCollection Throws {
+            get { return _throws; }
+            set { _throws = SetChild(value, _throws); }
+        }
 
-		/// <summary>
-		///   ブロックを取得します．
-		/// </summary>
-		public UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
-		}
+        /// <summary>
+        ///   ブロックを取得します．
+        /// </summary>
+        public UnifiedBlock Body {
+            get { return _body; }
+            set { _body = SetChild(value, _body); }
+        }
 
-		protected UnifiedConstructorLike() {}
+        #region IUnifiedCreatable<TSelf> Members
 
-		public static TSelf Create(
-				UnifiedBlock body = null,
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedParameterCollection parameters = null,
-				UnifiedGenericParameterCollection genericParameters = null,
-				UnifiedTypeCollection throws = null) {
-			var ret = UnifiedFactory<TSelf>.Create();
-			ret.Body = body;
-			ret.Annotations = annotations;
-			ret.Modifiers = modifiers;
-			ret.Parameters = parameters;
-			ret.GenericParameters = genericParameters;
-			ret.Throws = throws;
-			return ret;
-		}
+        public abstract TSelf CreateSelf();
 
-		public abstract TSelf CreateSelf();
-			}
+        #endregion
+
+        public static TSelf Create(
+                UnifiedBlock body = null,
+                UnifiedAnnotationCollection annotations = null,
+                UnifiedModifierCollection modifiers = null,
+                UnifiedParameterCollection parameters = null,
+                UnifiedGenericParameterCollection genericParameters = null,
+                UnifiedTypeCollection throws = null) {
+            var ret = UnifiedFactory<TSelf>.Create();
+            ret.Body = body;
+            ret.Annotations = annotations;
+            ret.Modifiers = modifiers;
+            ret.Parameters = parameters;
+            ret.GenericParameters = genericParameters;
+            ret.Throws = throws;
+            return ret;
+        }
+            }
 }

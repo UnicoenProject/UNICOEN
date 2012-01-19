@@ -19,31 +19,31 @@
 using System;
 
 namespace Unicoen.Apps.Translator.Util {
-	public class Util {
-		// 言語に応じた拡張子を取得する
-		public static string GetExtention(LanguageType type) {
-			switch (type) {
-			case LanguageType.C:
-				return "c";
-			case LanguageType.Java:
-				return "java";
-			case LanguageType.CSharp:
-				return "cs";
-			case LanguageType.Ruby:
-				return "rb";
-			case LanguageType.Python:
-				return "py";
-			default:
-				throw new ArgumentOutOfRangeException();
-			}
-		}
-	}
+    public class Util {
+        // 言語に応じた拡張子を取得する
+        public static string GetExtention(LanguageType type) {
+            switch (type) {
+            case LanguageType.C:
+                return "c";
+            case LanguageType.Java:
+                return "java";
+            case LanguageType.CSharp:
+                return "cs";
+            case LanguageType.Ruby:
+                return "rb";
+            case LanguageType.Python:
+                return "py";
+            default:
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+    }
 
-	public enum LanguageType {
-		C,
-		Java,
-		CSharp,
-		Ruby,
-		Python,
-	}
+    public enum LanguageType {
+        C,
+        Java,
+        CSharp,
+        Ruby,
+        Python,
+    }
 }

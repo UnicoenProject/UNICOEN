@@ -20,33 +20,33 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   関数やメソッド呼び出しの仮引数の集合を表します。
-	///   e.g. Javaにおける<c>int method(int a, double b){....}</c>の<c>(int a, double b)</c>
-	/// </summary>
-	public class UnifiedParameterCollection
-			: UnifiedElementCollection<UnifiedParameter, UnifiedParameterCollection> {
-		public override UnifiedParameterCollection CreateSelf() {
-			return new UnifiedParameterCollection();
-		}
+    /// <summary>
+    ///   関数やメソッド呼び出しの仮引数の集合を表します。 e.g. Javaにおける <c>int method(int a, double b){....}</c> の <c>(int a, double b)</c>
+    /// </summary>
+    public class UnifiedParameterCollection
+            : UnifiedElementCollection
+                      <UnifiedParameter, UnifiedParameterCollection> {
+        protected UnifiedParameterCollection() {}
 
-		protected UnifiedParameterCollection() {}
+        public override UnifiedParameterCollection CreateSelf() {
+            return new UnifiedParameterCollection();
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-			}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+                      }
 }

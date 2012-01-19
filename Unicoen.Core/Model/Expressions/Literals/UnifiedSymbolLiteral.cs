@@ -20,37 +20,35 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   シンボルリテラルを表します。
-	///   e.g. Rubyにおける<c>:b</c>や<c>:"b"</c>
-	/// </summary>
-	public class UnifiedSymbolLiteral : UnifiedTypedLiteral<string> {
-		public override string Value { get; set; }
+    /// <summary>
+    ///   シンボルリテラルを表します。 e.g. Rubyにおける <c>:b</c> や <c>:"b"</c>
+    /// </summary>
+    public class UnifiedSymbolLiteral : UnifiedTypedLiteral<string> {
+        private UnifiedSymbolLiteral() {}
+        public override string Value { get; set; }
 
-		private UnifiedSymbolLiteral() {}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedSymbolLiteral Create(string value) {
-			return new UnifiedSymbolLiteral {
-					Value = value,
-			};
-		}
-	}
+        public static UnifiedSymbolLiteral Create(string value) {
+            return new UnifiedSymbolLiteral {
+                    Value = value,
+            };
+        }
+    }
 }

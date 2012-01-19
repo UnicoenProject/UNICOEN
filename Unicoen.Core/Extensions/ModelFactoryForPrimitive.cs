@@ -17,18 +17,19 @@
 #endregion
 
 namespace Unicoen.Model {
-	public static class ProgramGeneratorForPrimitive {
-		public static UnifiedVariableIdentifier ToVariableIdentifier(this string name) {
-			return UnifiedVariableIdentifier.Create(name);
-		}
+    public static class ProgramGeneratorForPrimitive {
+        public static UnifiedVariableIdentifier ToVariableIdentifier(
+                this string name) {
+            return UnifiedVariableIdentifier.Create(name);
+        }
 
-		public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
-			return UnifiedBooleanLiteral.Create(literal);
-		}
+        public static UnifiedBooleanLiteral ToLiteral(this bool literal) {
+            return UnifiedBooleanLiteral.Create(literal);
+        }
 
-		public static UnifiedFractionLiteral ToLiteral(this double value) {
-			return UnifiedFractionLiteral.Create(
-					value, UnifiedFractionLiteralKind.Double);
-		}
-	}
+        public static UnifiedFractionLiteral ToLiteral(this double value) {
+            return UnifiedFractionLiteral.Create(
+                    value, UnifiedFractionLiteralKind.Double);
+        }
+    }
 }

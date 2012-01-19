@@ -24,7 +24,10 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("Unicoen.Core")]
-[assembly: AssemblyDescription("UNICOEN is a UNIfied COde ENgineering framework which provides a language-independent model to analyze and transform source code supporting multiple programming languages.")]
+[assembly:
+        AssemblyDescription(
+                "UNICOEN is a UNIfied COde ENgineering framework which provides a language-independent model to analyze and transform source code supporting multiple programming languages."
+                )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The UNICOEN Project")]
 [assembly: AssemblyProduct("Unicoen.Core")]
@@ -53,5 +56,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.0.26")]
-[assembly: AssemblyFileVersion("1.0.0.26")]
+[assembly: AssemblyVersion("1.0.2.26")]
+[assembly: AssemblyFileVersion("1.0.2.26")]

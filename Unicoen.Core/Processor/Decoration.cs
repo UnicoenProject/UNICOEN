@@ -19,47 +19,47 @@
 using System.Diagnostics;
 
 namespace Unicoen.Processor {
-	/// <summary>
-	///   MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
-	/// </summary>
-	public class Decoration {
-		/// <summary>
-		///   左端の文字
-		/// </summary>
-		public string MostLeft;
+    /// <summary>
+    ///   MostLeft EachLeft Element1 EachRight Delimiter EachLeft Element2 EachRight ... MostRight
+    /// </summary>
+    public class Decoration {
+        /// <summary>
+        ///   区切り文字
+        /// </summary>
+        public string Delimiter;
 
-		/// <summary>
-		///   右端の文字
-		/// </summary>
-		public string MostRight;
+        /// <summary>
+        ///   各要素の直前
+        /// </summary>
+        public string EachLeft;
 
-		/// <summary>
-		///   各要素の直前
-		/// </summary>
-		public string EachLeft;
+        /// <summary>
+        ///   各要素の直後
+        /// </summary>
+        public string EachRight;
 
-		/// <summary>
-		///   各要素の直後
-		/// </summary>
-		public string EachRight;
+        /// <summary>
+        ///   左端の文字
+        /// </summary>
+        public string MostLeft;
 
-		/// <summary>
-		///   区切り文字
-		/// </summary>
-		public string Delimiter;
+        /// <summary>
+        ///   右端の文字
+        /// </summary>
+        public string MostRight;
 
-		[DebuggerStepThrough]
-		public Decoration() {
-			MostLeft = "";
-			MostRight = "";
-			EachLeft = "";
-			EachRight = "";
-			Delimiter = "";
-		}
+        [DebuggerStepThrough]
+        public Decoration() {
+            MostLeft = "";
+            MostRight = "";
+            EachLeft = "";
+            EachRight = "";
+            Delimiter = "";
+        }
 
-		///// <summary>
-		///// 親要素が集合である場合の自分自身の要素位置
-		///// </summary>
-		//public int Index;
-	}
+        ///// <summary>
+        ///// 親要素が集合である場合の自分自身の要素位置
+        ///// </summary>
+        //public int Index;
+    }
 }

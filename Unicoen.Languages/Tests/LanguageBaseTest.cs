@@ -20,47 +20,47 @@ using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Unicoen.Languages.Tests {
-	public abstract class LanguageTestBase {
-		/// <summary>
-		///   テストフィクスチャを取得します．
-		/// </summary>
-		protected abstract Fixture Fixture { get; }
+    public abstract class LanguageTestBase {
+        private LanguageTest _test;
 
-		private LanguageTest _test;
+        /// <summary>
+        ///   テストフィクスチャを取得します．
+        /// </summary>
+        protected abstract Fixture Fixture { get; }
 
-		/// <summary>
-		///   テスト実行用のオブジェクトを取得します．
-		/// </summary>
-		protected LanguageTest Test {
-			get { return _test ?? (_test = new LanguageTest(Fixture)); }
-		}
+        /// <summary>
+        ///   テスト実行用のオブジェクトを取得します．
+        /// </summary>
+        protected LanguageTest Test {
+            get { return _test ?? (_test = new LanguageTest(Fixture)); }
+        }
 
-		/// <summary>
-		///   テスト対象のソースコードの集合を取得します．
-		/// </summary>
-		public IEnumerable<TestCaseData> TestCodes {
-			get { return Fixture.TestCodes; }
-		}
+        /// <summary>
+        ///   テスト対象のソースコードの集合を取得します．
+        /// </summary>
+        public IEnumerable<TestCaseData> TestCodes {
+            get { return Fixture.TestCodes; }
+        }
 
-		/// <summary>
-		///   テスト対象のソースコードのパスの集合を取得します．
-		/// </summary>
-		public IEnumerable<TestCaseData> TestFilePathes {
-			get { return Fixture.TestFilePathes; }
-		}
+        /// <summary>
+        ///   テスト対象のソースコードのパスの集合を取得します．
+        /// </summary>
+        public IEnumerable<TestCaseData> TestFilePathes {
+            get { return Fixture.TestFilePathes; }
+        }
 
-		/// <summary>
-		///   テスト対象のプロジェクトのパスとコンパイルのコマンドと引数の集合を取得します．
-		/// </summary>
-		public IEnumerable<TestCaseData> TestProjectInfos {
-			get { return Fixture.TestProjectInfos; }
-		}
+        /// <summary>
+        ///   テスト対象のプロジェクトのパスとコンパイルのコマンドと引数の集合を取得します．
+        /// </summary>
+        public IEnumerable<TestCaseData> TestProjectInfos {
+            get { return Fixture.TestProjectInfos; }
+        }
 
-		/// <summary>
-		///   テスト対象のプロジェクトのパスとコンパイルのコマンドと引数の集合を取得します．
-		/// </summary>
-		public IEnumerable<TestCaseData> TestHeavyProjectInfos {
-			get { return Fixture.TestHeavyProjectInfos; }
-		}
-	}
+        /// <summary>
+        ///   テスト対象のプロジェクトのパスとコンパイルのコマンドと引数の集合を取得します．
+        /// </summary>
+        public IEnumerable<TestCaseData> TestHeavyProjectInfos {
+            get { return Fixture.TestHeavyProjectInfos; }
+        }
+    }
 }

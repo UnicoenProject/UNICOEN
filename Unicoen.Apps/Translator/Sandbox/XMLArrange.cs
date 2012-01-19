@@ -17,5 +17,5 @@
 #endregion
 
 namespace Unicoen.Apps.Translator.Sandbox {
-	internal class XMLArrange {}
+    internal class XMLArrange {}
 }

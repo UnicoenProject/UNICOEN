@@ -23,19 +23,22 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeGenerators {
-	[Export(typeof(UnifiedCodeGenerator))]
-	public class Python2CodeGenerator : UnifiedCodeGenerator {
-		public override string Extension {
-			get { return ".py"; }
-		}
+    [Export(typeof(UnifiedCodeGenerator))]
+    public class Python2CodeGenerator : UnifiedCodeGenerator {
+        public override string Extension {
+            get { return ".py"; }
+        }
 
-		public override void Generate(
-				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			codeObject.Accept(new Python2CodeFactoryVisitor(writer, indentSign), new VisitorArgument());
-		}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+            codeObject.Accept(
+                    new Python2CodeFactoryVisitor(writer, indentSign),
+                    new VisitorArgument());
+        }
 
-		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
-			Generate(codeObject, writer, "\t");
-		}
-	}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer) {
+            Generate(codeObject, writer, "\t");
+        }
+    }
 }

@@ -20,28 +20,29 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedInstanceInitializer
-			: UnifiedConstructorLike<UnifiedInstanceInitializer> {
-		protected UnifiedInstanceInitializer() {}
+    public class UnifiedInstanceInitializer
+            : UnifiedConstructorLike<UnifiedInstanceInitializer> {
+        protected UnifiedInstanceInitializer() {}
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		public override UnifiedInstanceInitializer CreateSelf() {
-			return new UnifiedInstanceInitializer();
-		}
-			}
+        public override UnifiedInstanceInitializer CreateSelf() {
+            return new UnifiedInstanceInitializer();
+        }
+            }
 }

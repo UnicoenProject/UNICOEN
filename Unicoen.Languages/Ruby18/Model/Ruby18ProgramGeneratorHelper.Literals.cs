@@ -28,174 +28,179 @@ using Unicoen.Processor;
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public partial class Ruby18ProgramGeneratorHelper {
-		private static void InitializeLiterals() {
-			ExpressionFuncs["nil"] = CreateNil;
-			ExpressionFuncs["array"] = CreateArray;
-			ExpressionFuncs["lit"] = CreateLit;
-			ExpressionFuncs["Fixnum"] = CreateFixnum;
-			ExpressionFuncs["Bignum"] = CreateBignum;
-			ExpressionFuncs["Float"] = CreateFloat;
-			ExpressionFuncs["true"] = CreateTrue;
-			ExpressionFuncs["false"] = CreateFalse;
-			ExpressionFuncs["dot2"] = CreateDot2;
-			ExpressionFuncs["dot3"] = CreateDot3;
-			ExpressionFuncs["str"] = CreateStr;
-			ExpressionFuncs["dstr"] = CreateDstr;
-			ExpressionFuncs["Symbol"] = CreateSymbol;
-			ExpressionFuncs["dsym"] = CreateDsym;
-			ExpressionFuncs["hash"] = CreateHash;
-			ExpressionFuncs["Regexp"] = CreateRegexp;
-			ExpressionFuncs["dregx_once"] = CreateDregxOnce;
-			ExpressionFuncs["Range"] = CreateRange;
-		}
+    public partial class Ruby18ProgramGeneratorHelper {
+        private static void InitializeLiterals() {
+            ExpressionFuncs["nil"] = CreateNil;
+            ExpressionFuncs["array"] = CreateArray;
+            ExpressionFuncs["lit"] = CreateLit;
+            ExpressionFuncs["Fixnum"] = CreateFixnum;
+            ExpressionFuncs["Bignum"] = CreateBignum;
+            ExpressionFuncs["Float"] = CreateFloat;
+            ExpressionFuncs["true"] = CreateTrue;
+            ExpressionFuncs["false"] = CreateFalse;
+            ExpressionFuncs["dot2"] = CreateDot2;
+            ExpressionFuncs["dot3"] = CreateDot3;
+            ExpressionFuncs["str"] = CreateStr;
+            ExpressionFuncs["dstr"] = CreateDstr;
+            ExpressionFuncs["Symbol"] = CreateSymbol;
+            ExpressionFuncs["dsym"] = CreateDsym;
+            ExpressionFuncs["hash"] = CreateHash;
+            ExpressionFuncs["Regexp"] = CreateRegexp;
+            ExpressionFuncs["dregx_once"] = CreateDregxOnce;
+            ExpressionFuncs["Range"] = CreateRange;
+        }
 
-		private static IUnifiedExpression CreateRange(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "Range");
-			if (node.Value.Contains("...")) {
-				var numbers = node.Value.Split(new []{"..."}, StringSplitOptions.None);
-				return UnifiedRange.CreateNotContainingMax(
-						UnifiedIntegerLiteral.CreateInt32(
-								LiteralFuzzyParser.ParseBigInteger(numbers[0])),
-						UnifiedIntegerLiteral.CreateInt32(
-								LiteralFuzzyParser.ParseBigInteger(numbers[1])));
-			}
-			{
-				var numbers = node.Value.Split(new[] { ".." }, StringSplitOptions.None);
-				return UnifiedRange.Create(
-						UnifiedIntegerLiteral.CreateInt32(
-								LiteralFuzzyParser.ParseBigInteger(numbers[0])),
-						UnifiedIntegerLiteral.CreateInt32(
-								LiteralFuzzyParser.ParseBigInteger(numbers[1])));
-			}
-		}
+        private static IUnifiedExpression CreateRange(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "Range");
+            if (node.Value.Contains("...")) {
+                var numbers = node.Value.Split(
+                        new[] { "..." }, StringSplitOptions.None);
+                return UnifiedRange.CreateNotContainingMax(
+                        UnifiedIntegerLiteral.CreateInt32(
+                                LiteralFuzzyParser.ParseBigInteger(numbers[0])),
+                        UnifiedIntegerLiteral.CreateInt32(
+                                LiteralFuzzyParser.ParseBigInteger(numbers[1])));
+            }
+            {
+                var numbers = node.Value.Split(
+                        new[] { ".." }, StringSplitOptions.None);
+                return UnifiedRange.Create(
+                        UnifiedIntegerLiteral.CreateInt32(
+                                LiteralFuzzyParser.ParseBigInteger(numbers[0])),
+                        UnifiedIntegerLiteral.CreateInt32(
+                                LiteralFuzzyParser.ParseBigInteger(numbers[1])));
+            }
+        }
 
-		private static IUnifiedExpression CreateHash(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "hash");
-			return UnifiedMapLiteral.Create(
-					node.Elements()
-							.Split2()
-							.Select(
-									t => UnifiedKeyValue.Create(
-											CreateExpresion(t.Item1),
-											CreateExpresion(t.Item2))));
-		}
+        private static IUnifiedExpression CreateHash(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "hash");
+            return UnifiedMapLiteral.Create(
+                    node.Elements()
+                            .Split2()
+                            .Select(
+                                    t => UnifiedKeyValue.Create(
+                                            CreateExpresion(t.Item1),
+                                            CreateExpresion(t.Item2))));
+        }
 
-		private static IUnifiedExpression CreateDot3(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "dot3");
-			return UnifiedRange.Create(
-					CreateExpresion(node.FirstElement()),
-					CreateExpresion(node.LastElement()));
-		}
+        private static IUnifiedExpression CreateDot3(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "dot3");
+            return UnifiedRange.Create(
+                    CreateExpresion(node.FirstElement()),
+                    CreateExpresion(node.LastElement()));
+        }
 
-		private static IUnifiedExpression CreateDot2(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "dot2");
-			return UnifiedRange.CreateNotContainingMax(
-					CreateExpresion(node.FirstElement()),
-					CreateExpresion(node.LastElement()));
-		}
+        private static IUnifiedExpression CreateDot2(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "dot2");
+            return UnifiedRange.CreateNotContainingMax(
+                    CreateExpresion(node.FirstElement()),
+                    CreateExpresion(node.LastElement()));
+        }
 
-		public static UnifiedArrayLiteral CreateArray(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "array");
-			return node.Elements().Select(CreateExpresion).ToArrayLiteral();
-		}
+        public static UnifiedArrayLiteral CreateArray(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "array");
+            return node.Elements().Select(CreateExpresion).ToArrayLiteral();
+        }
 
-		public static IUnifiedExpression CreateNil(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "nil");
-			return null;
-		}
+        public static IUnifiedExpression CreateNil(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "nil");
+            return null;
+        }
 
-		public static IUnifiedExpression CreateLit(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lit");
-			var child = node.FirstElement();
-			switch (child.Name()) {
-			case "Symbol":
-				return UnifiedSymbolLiteral.Create(child.Value);
-			}
-			return CreateExpresion(child);
-		}
+        public static IUnifiedExpression CreateLit(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "lit");
+            var child = node.FirstElement();
+            switch (child.Name()) {
+            case "Symbol":
+                return UnifiedSymbolLiteral.Create(child.Value);
+            }
+            return CreateExpresion(child);
+        }
 
-		public static IUnifiedExpression CreateFloat(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "Float");
-			return UnifiedFractionLiteral.Create(
-					double.Parse(node.Value),
-					UnifiedFractionLiteralKind.Double);
-		}
+        public static IUnifiedExpression CreateFloat(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "Float");
+            return UnifiedFractionLiteral.Create(
+                    double.Parse(node.Value),
+                    UnifiedFractionLiteralKind.Double);
+        }
 
-		public static IUnifiedExpression CreateBignum(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "Bignum");
-			return
-					UnifiedInt32Literal.Create(LiteralFuzzyParser.ParseBigInteger(node.Value));
-		}
+        public static IUnifiedExpression CreateBignum(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "Bignum");
+            return
+                    UnifiedInt32Literal.Create(
+                            LiteralFuzzyParser.ParseBigInteger(node.Value));
+        }
 
-		public static IUnifiedExpression CreateFixnum(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "Fixnum");
-			return UnifiedInt32Literal.Create(LiteralFuzzyParser.ParseInt32(node.Value));
-		}
+        public static IUnifiedExpression CreateFixnum(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "Fixnum");
+            return
+                    UnifiedInt32Literal.Create(
+                            LiteralFuzzyParser.ParseInt32(node.Value));
+        }
 
-		public static UnifiedBooleanLiteral CreateTrue(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "true");
-			return UnifiedBooleanLiteral.Create(true);
-		}
+        public static UnifiedBooleanLiteral CreateTrue(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "true");
+            return UnifiedBooleanLiteral.Create(true);
+        }
 
-		public static UnifiedBooleanLiteral CreateFalse(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "false");
-			return UnifiedBooleanLiteral.Create(false);
-		}
+        public static UnifiedBooleanLiteral CreateFalse(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "false");
+            return UnifiedBooleanLiteral.Create(false);
+        }
 
-		public static UnifiedStringLiteral CreateStr(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "str");
-			return UnifiedStringLiteral.Create(node.Value);
-		}
+        public static UnifiedStringLiteral CreateStr(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "str");
+            return UnifiedStringLiteral.Create(node.Value);
+        }
 
-		private static IUnifiedExpression CreateDstr(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "dstr");
-			// TODO: Implement
-			return UnifiedStringLiteral.Create("");
-		}
+        private static IUnifiedExpression CreateDstr(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "dstr");
+            // TODO: Implement
+            return UnifiedStringLiteral.Create("");
+        }
 
-		public static UnifiedVariableIdentifier CreateSymbol(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "Symbol");
-			return UnifiedVariableIdentifier.Create(node.Value);
-		}
+        public static UnifiedVariableIdentifier CreateSymbol(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "Symbol");
+            return UnifiedVariableIdentifier.Create(node.Value);
+        }
 
-		private static IUnifiedExpression CreateDsym(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "dsym");
-			// TODO: Implement
-			return UnifiedVariableIdentifier.Create(node.Value);
-		}
+        private static IUnifiedExpression CreateDsym(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "dsym");
+            // TODO: Implement
+            return UnifiedVariableIdentifier.Create(node.Value);
+        }
 
-		private static IUnifiedExpression CreateDregxOnce(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "dregx_once");
-			// TODO: Implement correctly
-			var str = node.Value;
-			return UnifiedRegularExpressionLiteral.Create(str);
-		}
+        private static IUnifiedExpression CreateDregxOnce(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "dregx_once");
+            // TODO: Implement correctly
+            var str = node.Value;
+            return UnifiedRegularExpressionLiteral.Create(str);
+        }
 
-		private static IUnifiedExpression CreateRegexp(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "Regexp");
-			// TODO: Implement correctly
-			var str = node.Value;
-			return UnifiedRegularExpressionLiteral.Create(
-					str.Substring(7, str.Length - 8));
-		}
-	}
+        private static IUnifiedExpression CreateRegexp(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "Regexp");
+            // TODO: Implement correctly
+            var str = node.Value;
+            return UnifiedRegularExpressionLiteral.Create(
+                    str.Substring(7, str.Length - 8));
+        }
+    }
 }

@@ -23,55 +23,63 @@ using System.Linq;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Metrics.Utils {
-	public abstract class MetricsPrinter {
-		protected abstract string MeticName { get; }
-		protected virtual int AdditionalCount { get { return 0; } }
+    public abstract class MetricsPrinter {
+        protected abstract string MeticName { get; }
 
-		public bool Run(IList<string> args) {
-			var filePaths = ExtendFilePath(args);
-			foreach (var filePath in filePaths) {
-				PrintMetrics(filePath);
-			}
-			return true;
-		}
+        protected virtual int AdditionalCount {
+            get { return 0; }
+        }
 
-		protected abstract IEnumerable<IUnifiedElement> ProtectedGetTargetElements(IUnifiedElement codeObject);
+        public bool Run(IList<string> args) {
+            var filePaths = ExtendFilePath(args);
+            foreach (var filePath in filePaths) {
+                PrintMetrics(filePath);
+            }
+            return true;
+        }
 
-		/// <summary>
-		///   Print cyclomatic of give file
-		/// </summary>
-		/// <param name = "filePath">a target file path</param>
-		protected virtual void PrintMetrics(string filePath) {
-			var codeObject = CodeAnalyzer.CreateCodeObjectOrDefault(filePath);
-			if (codeObject == null)
-				return;
+        protected abstract IEnumerable<IUnifiedElement>
+                ProtectedGetTargetElements(IUnifiedElement codeObject);
 
-			Console.WriteLine("**** " + MeticName + " of " + filePath + " ****");
+        /// <summary>
+        ///   Print cyclomatic of give file
+        /// </summary>
+        /// <param name="filePath"> a target file path </param>
+        protected virtual void PrintMetrics(string filePath) {
+            var codeObject = CodeAnalyzer.CreateCodeObjectOrDefault(filePath);
+            if (codeObject == null) {
+                return;
+            }
 
-			var result = CodeAnalyzer.Measure(filePath, ProtectedGetTargetElements);
+            Console.WriteLine("**** " + MeticName + " of " + filePath + " ****");
 
-			var newTagSet = TagProcessor.HierarchizeTags(result.Keys);
+            var result = CodeAnalyzer.Measure(
+                    filePath, ProtectedGetTargetElements);
 
-			foreach (var tag in newTagSet) {
-				var count = result.Where(p => p.Key.StartsWith(tag))
-						.Aggregate(AdditionalCount, (s, p) => s + p.Value);
-				Console.WriteLine(tag + " " + count);
-			}
-		}
+            var newTagSet = TagProcessor.HierarchizeTags(result.Keys);
 
-		private static IEnumerable<string> ExtendFilePath(IEnumerable<string> paths) {
-			return paths.SelectMany(
-					path => {
-						// do a given path indicate directory?
-						if (Directory.Exists(path)) {
-							return Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
-						}
-						// or do a given path indicate file?
-						if (File.Exists(path)) {
-							return Enumerable.Repeat(path, 1);
-						}
-						return Enumerable.Empty<string>();
-					});
-		}
-	}
+            foreach (var tag in newTagSet) {
+                var count = result.Where(p => p.Key.StartsWith(tag))
+                        .Aggregate(AdditionalCount, (s, p) => s + p.Value);
+                Console.WriteLine(tag + " " + count);
+            }
+        }
+
+        private static IEnumerable<string> ExtendFilePath(
+                IEnumerable<string> paths) {
+            return paths.SelectMany(
+                    path => {
+                        // do a given path indicate directory?
+                        if (Directory.Exists(path)) {
+                            return Directory.EnumerateFiles(
+                                    path, "*", SearchOption.AllDirectories);
+                        }
+                        // or do a given path indicate file?
+                        if (File.Exists(path)) {
+                            return Enumerable.Repeat(path, 1);
+                        }
+                        return Enumerable.Empty<string>();
+                    });
+        }
+    }
 }

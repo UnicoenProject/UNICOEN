@@ -20,39 +20,37 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   修飾子を表します。
-	///   e.g. Javaにおける<c>public int method(){...}</c>の<c>public</c>
-	///   e.g. Javaにおける<c>private String _str</c>の<c>private</c>
-	/// </summary>
-	public class UnifiedModifier : UnifiedElement {
-		/// <summary>
-		///   修飾子の名前を表します
-		/// </summary>
-		public string Name { get; set; }
+    /// <summary>
+    ///   修飾子を表します。 e.g. Javaにおける <c>public int method(){...}</c> の <c>public</c> e.g. Javaにおける <c>private String _str</c> の <c>private</c>
+    /// </summary>
+    public class UnifiedModifier : UnifiedElement {
+        private UnifiedModifier() {}
 
-		private UnifiedModifier() {}
+        /// <summary>
+        ///   修飾子の名前を表します
+        /// </summary>
+        public string Name { get; set; }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		public static UnifiedModifier Create(string name) {
-			return new UnifiedModifier { Name = name };
-		}
-	}
+        public static UnifiedModifier Create(string name) {
+            return new UnifiedModifier { Name = name };
+        }
+    }
 }

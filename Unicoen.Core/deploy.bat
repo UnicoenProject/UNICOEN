@@ -3,7 +3,6 @@ mkdir nuspec
 copy *.nuspec nuspec /y
 cd nuspec
 mkdir lib
-mkdir content
 copy ..\bin\Release\*.dll lib\
 copy ..\bin\Release\*.pdb lib\
 del lib\Paraiba.*

@@ -1,30 +1,48 @@
-﻿namespace Unicoen.Apps.RefactoringDSL.Util {
-	/// <summary>
-	/// 文字列操作に関するユーティリティメソッド群
-	/// </summary>
-	public class StringUtil {
-		/// <summary>
-		/// 文字列の先頭の文字だけ大文字に変換します
-		/// </summary>
-		/// <example>field => Field</example>
-		/// <param name="str">対象文字列</param>
-		/// <returns></returns>
-		public static string UpperFirstChar(string str) {
-			if (string.IsNullOrEmpty(str)) {
-				return "";
-			}
+﻿#region License
 
-			var result = "";
-			var charArray = str.ToCharArray();
-			result += charArray[0].ToString().ToUpper();
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-			for (int i = 1; i < charArray.Length; i++) {
-				result += charArray[i];
-			}
+#endregion
 
-			return result;
-		}
-	}
+namespace Unicoen.Apps.RefactoringDSL.Util {
+    /// <summary>
+    ///   文字列操作に関するユーティリティメソッド群
+    /// </summary>
+    public class StringUtil {
+        /// <summary>
+        ///   文字列の先頭の文字だけ大文字に変換します
+        /// </summary>
+        /// <example>
+        ///   field => Field
+        /// </example>
+        /// <param name="str"> 対象文字列 </param>
+        /// <returns> </returns>
+        public static string UpperFirstChar(string str) {
+            if (string.IsNullOrEmpty(str)) {
+                return "";
+            }
 
-	
+            var result = "";
+            var charArray = str.ToCharArray();
+            result += charArray[0].ToString().ToUpper();
+
+            for (int i = 1; i < charArray.Length; i++) {
+                result += charArray[i];
+            }
+
+            return result;
+        }
+    }
 }

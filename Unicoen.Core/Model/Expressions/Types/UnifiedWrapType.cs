@@ -21,33 +21,34 @@ using System.Linq;
 using System.Reflection;
 
 namespace Unicoen.Model {
-	public abstract class UnifiedWrapType : UnifiedType {
-		protected UnifiedType _type;
+    public abstract class UnifiedWrapType : UnifiedType {
+        protected UnifiedType _type;
 
-		/// <summary>
-		///   修飾しているベースとなる型を取得します．
-		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
-		}
+        /// <summary>
+        ///   修飾しているベースとなる型を取得します．
+        /// </summary>
+        public UnifiedType Type {
+            get { return _type; }
+            set { _type = SetChild(value, _type); }
+        }
 
-		/// <summary>
-		///   型の基礎部分の名前を表します．
-		///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
-		///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
-		/// </summary>
-		public override IUnifiedExpression BasicTypeName {
-			get { return Type.BasicTypeName; }
-			set { Type.BasicTypeName = value; }
-		}
+        /// <summary>
+        ///   型の基礎部分の名前を表します． e.g. Javaにおける <c>Package.ClassA instance = null;</c> の <c>Package.ClassA</c> (UnifiedPropertyで表現される) e.g. Javaにおける <c>ArrayList&lt;Integer&gt;</c> の <c>ArrayList</c>
+        /// </summary>
+        public override IUnifiedExpression BasicTypeName {
+            get { return Type.BasicTypeName; }
+            set { Type.BasicTypeName = value; }
+        }
 
-		protected override List<PropertyInfo> GetPropertyInfos() {
-			return GetType().GetProperties()
-					.Where(p => p.Name != "Parent" && p.Name != "BasicTypeName")
-					.Where(p => p.GetIndexParameters().Length == 0)
-					.Where(p => typeof(IUnifiedElement).IsAssignableFrom(p.PropertyType))
-					.ToList();
-		}
-	}
+        protected override List<PropertyInfo> GetPropertyInfos() {
+            return GetType().GetProperties()
+                    .Where(p => p.Name != "Parent" && p.Name != "BasicTypeName")
+                    .Where(p => p.GetIndexParameters().Length == 0)
+                    .Where(
+                            p =>
+                            typeof(IUnifiedElement).IsAssignableFrom(
+                                    p.PropertyType))
+                    .ToList();
+        }
+    }
 }

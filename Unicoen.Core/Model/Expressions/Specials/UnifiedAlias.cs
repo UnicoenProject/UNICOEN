@@ -20,47 +20,49 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedAlias : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _value;
+    public class UnifiedAlias : UnifiedElement, IUnifiedExpression {
+        private IUnifiedExpression _alias;
+        private IUnifiedExpression _value;
+        protected UnifiedAlias() {}
 
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
-		}
+        public IUnifiedExpression Value {
+            get { return _value; }
+            set { _value = SetChild(value, _value); }
+        }
 
-		private IUnifiedExpression _alias;
+        public IUnifiedExpression Alias {
+            get { return _alias; }
+            set { _alias = SetChild(value, _alias); }
+        }
 
-		public IUnifiedExpression Alias {
-			get { return _alias; }
-			set { _alias = SetChild(value, _alias); }
-		}
+        #region IUnifiedExpression Members
 
-		protected UnifiedAlias() {}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        #endregion
 
-		public static UnifiedAlias Create(
-				IUnifiedExpression value = null,
-				IUnifiedExpression alias = null) {
-			return new UnifiedAlias {
-					Value = value,
-					Alias = alias,
-			};
-		}
-	}
+        public static UnifiedAlias Create(
+                IUnifiedExpression value = null,
+                IUnifiedExpression alias = null) {
+            return new UnifiedAlias {
+                    Value = value,
+                    Alias = alias,
+            };
+        }
+    }
 }

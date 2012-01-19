@@ -21,22 +21,8 @@ using System.Linq;
 using ICSharpCode.NRefactory.CSharp;
 using ICSharpCode.NRefactory.PatternMatching;
 using ICSharpCode.NRefactory.TypeSystem;
-using Mono.CSharp;
 using Unicoen.Model;
-using AnonymousMethodExpression =
-        ICSharpCode.NRefactory.CSharp.AnonymousMethodExpression;
 using Attribute = ICSharpCode.NRefactory.CSharp.Attribute;
-using ConstructorInitializer =
-        ICSharpCode.NRefactory.CSharp.ConstructorInitializer;
-using DefaultValueExpression =
-        ICSharpCode.NRefactory.CSharp.DefaultValueExpression;
-using EmptyExpression = ICSharpCode.NRefactory.CSharp.EmptyExpression;
-using EmptyStatement = ICSharpCode.NRefactory.CSharp.EmptyStatement;
-using ExpressionStatement = ICSharpCode.NRefactory.CSharp.ExpressionStatement;
-using LambdaExpression = ICSharpCode.NRefactory.CSharp.LambdaExpression;
-using ParenthesizedExpression =
-        ICSharpCode.NRefactory.CSharp.ParenthesizedExpression;
-using SwitchSection = ICSharpCode.NRefactory.CSharp.SwitchSection;
 
 namespace Unicoen.Languages.CSharp.ProgramGenerators {
     internal partial class NRefactoryAstVisitor
@@ -102,7 +88,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             return null;
         }
 
-        public IUnifiedElement VisitPreProcessorDirective(PreProcessorDirective preProcessorDirective, object data) {
+        public IUnifiedElement VisitPreProcessorDirective(
+                PreProcessorDirective preProcessorDirective, object data) {
             throw new NotImplementedException();
         }
 
@@ -291,7 +278,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             return UnifiedArgument.Create(value: value, target: name);
         }
 
-        public IUnifiedElement VisitNamedExpression(NamedExpression namedExpression, object data) {
+        public IUnifiedElement VisitNamedExpression(
+                NamedExpression namedExpression, object data) {
             throw new NotImplementedException();
         }
 
@@ -546,6 +534,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
                 foreach (
                         var generic in
                                 typeParams.Descendants<UnifiedGenericParameter>(
+                                        
                                         )) {
                     var tName = GetTypeName(generic.Type);
                     if (dic.ContainsKey(tName)) {
@@ -641,6 +630,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
                 DoWhileStatement stmt, object data) {
             var body =
                     stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock(
+                            
                             );
             var cond = stmt.Condition.TryAcceptForExpression(this);
             return UnifiedDoWhile.Create(cond, body);
@@ -668,6 +658,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             var set = stmt.InExpression.TryAcceptForExpression(this);
             var body =
                     stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock(
+                            
                             );
 
             var varDec = UnifiedVariableDefinition.Create(
@@ -830,6 +821,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             var target = stmt.ResourceAcquisition.TryAcceptForExpression(this);
             var body =
                     stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock(
+                            
                             );
             return UnifiedUsing.Create(target.ToCollection(), body);
         }
@@ -857,6 +849,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             var cond = stmt.Condition.TryAcceptForExpression(this);
             var body =
                     stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock(
+                            
                             );
             return UnifiedWhile.Create(cond, body);
         }
@@ -866,7 +859,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             return UnifiedYieldBreak.Create();
         }
 
-        public IUnifiedElement VisitYieldReturnStatement(YieldReturnStatement stmt, object data) {
+        public IUnifiedElement VisitYieldReturnStatement(
+                YieldReturnStatement stmt, object data) {
             var value = stmt.Expression.TryAcceptForExpression(this);
             return UnifiedYieldReturn.Create(value);
         }

@@ -237,7 +237,8 @@ namespace Unicoen.Languages.Tests {
                 &&
                 Directory.EnumerateFiles(
                         path, "*" + Extension, SearchOption.AllDirectories).Any(
-                                )) {
+                                
+                        )) {
                 yield return testCase;
                 yield break;
             }

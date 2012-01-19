@@ -20,38 +20,37 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   式の集合を表します。
-	///   Pythonにおける内包表記の式の集合を表現するために存在します．
-	///   e.g. Pythonにおける<c>[x + y for x in [1, 2] for y in [3, 4]]</c>の<c>for x in [1, 2]</c>と<c> for y in [3, 4]</c>
-	/// </summary>
-	public class UnifiedExpressionCollection
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionCollection> {
-		/// <summary>
-		///   レシーバーと同じ型のオブジェクトを生成します．
-		/// </summary>
-		/// <returns>生成したオブジェクト</returns>
-		public override UnifiedExpressionCollection CreateSelf() {
-			return new UnifiedExpressionCollection();
-		}
+    /// <summary>
+    ///   式の集合を表します。 Pythonにおける内包表記の式の集合を表現するために存在します． e.g. Pythonにおける <c>[x + y for x in [1, 2] for y in [3, 4]]</c> の <c>for x in [1, 2]</c> と <c>for y in [3, 4]</c>
+    /// </summary>
+    public class UnifiedExpressionCollection
+            : UnifiedElementCollection
+                      <IUnifiedExpression, UnifiedExpressionCollection> {
+        protected UnifiedExpressionCollection() {}
 
-		protected UnifiedExpressionCollection() {}
+        /// <summary>
+        ///   レシーバーと同じ型のオブジェクトを生成します．
+        /// </summary>
+        /// <returns> 生成したオブジェクト </returns>
+        public override UnifiedExpressionCollection CreateSelf() {
+            return new UnifiedExpressionCollection();
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-			}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+                      }
 }

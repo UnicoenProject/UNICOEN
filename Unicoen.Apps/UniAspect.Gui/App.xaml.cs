@@ -19,8 +19,8 @@
 using System.Windows;
 
 namespace Unicoen.Apps.Aop.Gui {
-	/// <summary>
-	///   App.xaml の相互作用ロジック
-	/// </summary>
-	public partial class App : Application {}
+    /// <summary>
+    ///   App.xaml の相互作用ロジック
+    /// </summary>
+    public partial class App : Application {}
 }

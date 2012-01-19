@@ -25,122 +25,147 @@ using Microsoft.Scripting.Math;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public class OldRubyProgramGenerator {
-		private static readonly Dictionary<string, UnifiedBinaryOperatorKind>
-				Sign2Type;
+    public class OldRubyProgramGenerator {
+        private static readonly Dictionary<string, UnifiedBinaryOperatorKind>
+                Sign2Type;
 
-		static OldRubyProgramGenerator() {
-			Sign2Type = new Dictionary<string, UnifiedBinaryOperatorKind>();
-			Sign2Type["+"] = UnifiedBinaryOperatorKind.Add;
-			Sign2Type["-"] = UnifiedBinaryOperatorKind.Subtract;
-			Sign2Type["*"] = UnifiedBinaryOperatorKind.Multiply;
-			Sign2Type["/"] = UnifiedBinaryOperatorKind.Divide;
-			Sign2Type["%"] = UnifiedBinaryOperatorKind.Modulo;
-			Sign2Type["<"] = UnifiedBinaryOperatorKind.LessThan;
-			Sign2Type["<="] = UnifiedBinaryOperatorKind.LessThanOrEqual;
-			Sign2Type[">"] = UnifiedBinaryOperatorKind.GreaterThan;
-			Sign2Type[">="] = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
-		}
+        static OldRubyProgramGenerator() {
+            Sign2Type = new Dictionary<string, UnifiedBinaryOperatorKind>();
+            Sign2Type["+"] = UnifiedBinaryOperatorKind.Add;
+            Sign2Type["-"] = UnifiedBinaryOperatorKind.Subtract;
+            Sign2Type["*"] = UnifiedBinaryOperatorKind.Multiply;
+            Sign2Type["/"] = UnifiedBinaryOperatorKind.Divide;
+            Sign2Type["%"] = UnifiedBinaryOperatorKind.Modulo;
+            Sign2Type["<"] = UnifiedBinaryOperatorKind.LessThan;
+            Sign2Type["<="] = UnifiedBinaryOperatorKind.LessThanOrEqual;
+            Sign2Type[">"] = UnifiedBinaryOperatorKind.GreaterThan;
+            Sign2Type[">="] = UnifiedBinaryOperatorKind.GreaterThanOrEqual;
+        }
 
-		public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
-			Contract.Requires(
-					node.Name.LocalName == "true" ||
-					node.Name.LocalName == "false");
-			return UnifiedBooleanLiteral.Create(node.Name.LocalName == "true");
-		}
+        public static UnifiedBooleanLiteral CreateBooleanLiteral(XElement node) {
+            Contract.Requires(
+                    node.Name.LocalName == "true" ||
+                    node.Name.LocalName == "false");
+            return UnifiedBooleanLiteral.Create(node.Name.LocalName == "true");
+        }
 
-		public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
-			Contract.Requires(node.Name.LocalName == "str");
-			return UnifiedStringLiteral.Create(node.Value);
-		}
+        public static UnifiedStringLiteral CreateStringLiteral(XElement node) {
+            Contract.Requires(node.Name.LocalName == "str");
+            return UnifiedStringLiteral.Create(node.Value);
+        }
 
-		public static UnifiedLiteral CreateLiteral(XElement node) {
-			if (node.Name.LocalName == "lit") {
-				switch (node.Elements().First().Name.LocalName) {
-				case "Fixnum":
-					return UnifiedIntegerLiteral.CreateBigInteger(BigInteger.Parse(node.Value));
-				}
-			}
-			throw new NotImplementedException();
-		}
+        public static UnifiedLiteral CreateLiteral(XElement node) {
+            if (node.Name.LocalName == "lit") {
+                switch (node.Elements().First().Name.LocalName) {
+                case "Fixnum":
+                    return
+                            UnifiedIntegerLiteral.CreateBigInteger(
+                                    BigInteger.Parse(node.Value));
+                }
+            }
+            throw new NotImplementedException();
+        }
 
-		public static UnifiedFractionLiteral CreateDecimalLiteral(XElement node) {
-			Contract.Requires(node.Name.LocalName == "lit");
-			return UnifiedFractionLiteral.Create(
-					double.Parse(node.Value), UnifiedFractionLiteralKind.Double);
-		}
+        public static UnifiedFractionLiteral CreateDecimalLiteral(XElement node) {
+            Contract.Requires(node.Name.LocalName == "lit");
+            return UnifiedFractionLiteral.Create(
+                    double.Parse(node.Value), UnifiedFractionLiteralKind.Double);
+        }
 
-		public static UnifiedBinaryOperator CreateOperator(string sign) {
-			UnifiedBinaryOperatorKind result;
-			return Sign2Type.TryGetValue(sign, out result)
-			       		? UnifiedBinaryOperator.Create(sign, result) : null;
-		}
+        public static UnifiedBinaryOperator CreateOperator(string sign) {
+            UnifiedBinaryOperatorKind result;
+            return Sign2Type.TryGetValue(sign, out result)
+                           ? UnifiedBinaryOperator.Create(sign, result) : null;
+        }
 
-		public static IUnifiedExpression CreateCall(XElement node) {
-			Contract.Requires(node.Name.LocalName == "call");
-			var funcName = node.Elements().ElementAt(1).Value;
-			if (node.Elements().ElementAt(2).Elements().Count() == 1) {
-				var @operator = CreateOperator(funcName);
-				if (@operator != null) {
-					return UnifiedBinaryExpression.Create(
-							CreateExpression(node.Elements().First()),
-							@operator,
-							CreateExpression(node.Elements().ElementAt(2).Elements().First()));
-				}
-			}
-			return UnifiedCall.Create(
-					UnifiedVariableIdentifier.Create(funcName),
-					UnifiedArgumentCollection.Create(
-							(UnifiedArgument[])node.Elements().ElementAt(2).Elements()
-							                   		.Select(
-							                   				e =>
-							                   				UnifiedArgument.Create(CreateExpression(e), null, null))));
-		}
+        public static IUnifiedExpression CreateCall(XElement node) {
+            Contract.Requires(node.Name.LocalName == "call");
+            var funcName = node.Elements().ElementAt(1).Value;
+            if (node.Elements().ElementAt(2).Elements().Count() == 1) {
+                var @operator = CreateOperator(funcName);
+                if (@operator != null) {
+                    return UnifiedBinaryExpression.Create(
+                            CreateExpression(node.Elements().First()),
+                            @operator,
+                            CreateExpression(
+                                    node.Elements().ElementAt(2).Elements().
+                                            First()));
+                }
+            }
+            return UnifiedCall.Create(
+                    UnifiedVariableIdentifier.Create(funcName),
+                    UnifiedArgumentCollection.Create(
+                            (UnifiedArgument[])
+                            node.Elements().ElementAt(2).Elements()
+                                    .Select(
+                                            e =>
+                                            UnifiedArgument.Create(
+                                                    CreateExpression(e), null,
+                                                    null))));
+        }
 
-		public static IUnifiedExpression CreateExpression(XElement node) {
-			var elems = node.Elements();
-			switch (node.Name.LocalName) {
-			case "lit":
-				return CreateLiteral(node);
-			case "lvar":
-				return UnifiedVariableIdentifier.Create(node.Value);
-			case "call":
-				return CreateCall(node);
-			case "if":
-				return UnifiedIf.Create(
-						CreateExpression(elems.ElementAt(0)), CreateBlock(elems.ElementAt(1)),
-						CreateBlock(elems.ElementAt(2)));
-			case "return":
-				return UnifiedReturn.Create(CreateExpression(elems.First()));
-			default:
-				throw new NotImplementedException();
-			}
-		}
+        public static IUnifiedExpression CreateExpression(XElement node) {
+            var elems = node.Elements();
+            switch (node.Name.LocalName) {
+            case "lit":
+                return CreateLiteral(node);
+            case "lvar":
+                return UnifiedVariableIdentifier.Create(node.Value);
+            case "call":
+                return CreateCall(node);
+            case "if":
+                return UnifiedIf.Create(
+                        CreateExpression(elems.ElementAt(0)),
+                        CreateBlock(elems.ElementAt(1)),
+                        CreateBlock(elems.ElementAt(2)));
+            case "return":
+                return UnifiedReturn.Create(CreateExpression(elems.First()));
+            default:
+                throw new NotImplementedException();
+            }
+        }
 
-		public static UnifiedFunctionDefinition CreateDefineFunction(XElement node) {
-			Contract.Requires(node.Name.LocalName == "defn");
-			var elems = node.Elements();
-			return UnifiedFunctionDefinition.Create(
-					null, UnifiedModifierCollection.Create(), null, null,
-					UnifiedVariableIdentifier.Create(elems.First().Value),
-					UnifiedParameterCollection.Create(
-							(UnifiedParameter[])elems.ElementAt(1).Elements()
-							                    		.Select(
-							                    				e => UnifiedParameter.Create(
-							                    						null,
-							                    						null, null,
-							                    						UnifiedVariableIdentifier.Create(e.Value).
-							                    								ToCollection(),
-							                    						null))), null,
-					CreateBlock(elems.ElementAt(2).Elements().First()));
-		}
+        public static UnifiedFunctionDefinition CreateDefineFunction(
+                XElement node) {
+            Contract.Requires(node.Name.LocalName == "defn");
+            var elems = node.Elements();
+            return UnifiedFunctionDefinition.Create(
+                    null, UnifiedModifierCollection.Create(), null, null,
+                    UnifiedVariableIdentifier.Create(elems.First().Value),
+                    UnifiedParameterCollection.Create(
+                            (UnifiedParameter[])elems.ElementAt(1).Elements()
+                                                        .Select(
+                                                                e =>
+                                                                UnifiedParameter
+                                                                        .Create(
+                                                                                null,
+                                                                                null,
+                                                                                null,
+                                                                                UnifiedVariableIdentifier
+                                                                                        .
+                                                                                        Create
+                                                                                        (
+                                                                                                e
+                                                                                                        .
+                                                                                                        Value)
+                                                                                        .
+                                                                                        ToCollection
+                                                                                        (
+                                                                                                ),
+                                                                                null))),
+                    null,
+                    CreateBlock(elems.ElementAt(2).Elements().First()));
+        }
 
-		private static UnifiedBlock CreateBlock(XElement node) {
-			Contract.Requires(node.Name.LocalName == "block");
-			return UnifiedBlock.Create(
-					(IUnifiedExpression[])node.Elements()
-					                      		.Where(e => e.Name.LocalName != "nil")
-					                      		.Select(CreateExpression));
-		}
-	}
+        private static UnifiedBlock CreateBlock(XElement node) {
+            Contract.Requires(node.Name.LocalName == "block");
+            return UnifiedBlock.Create(
+                    (IUnifiedExpression[])node.Elements()
+                                                  .Where(
+                                                          e =>
+                                                          e.Name.LocalName
+                                                          != "nil")
+                                                  .Select(CreateExpression));
+        }
+    }
 }

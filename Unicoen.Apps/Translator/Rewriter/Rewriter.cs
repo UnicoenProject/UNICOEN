@@ -20,38 +20,40 @@ using System.Linq;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Translator.Rewriter {
-	// モデルの書き換えに関するクラス
-	public class Rewriter {
-		// targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
-		public static void RewriteIdentifierName(
-				string newName, UnifiedElement target) {
-			if (target is UnifiedFunctionDefinition) {
-				((UnifiedFunctionDefinition)target).Name.Name = newName;
-				return;
-			}
-		}
+    // モデルの書き換えに関するクラス
+    public class Rewriter {
+        // targetの Name.Value プロパティを newName に書き換える（関数名を書き換えるなど）
+        public static void RewriteIdentifierName(
+                string newName, UnifiedElement target) {
+            if (target is UnifiedFunctionDefinition) {
+                ((UnifiedFunctionDefinition)target).Name.Name = newName;
+                return;
+            }
+        }
 
-		// ある要素を置き換える
-		public static void ExchageElement(UnifiedType from, UnifiedType to) {
-			var parent = from.Parent;
-			var reference =
-					parent.ElementReferences().Where(e => ReferenceEquals(e.Element, from)).
-							ElementAt(0);
-			reference.Element = to;
+        // ある要素を置き換える
+        public static void ExchageElement(UnifiedType from, UnifiedType to) {
+            var parent = from.Parent;
+            var reference =
+                    parent.ElementReferences().Where(
+                            e => ReferenceEquals(e.Element, from)).
+                            ElementAt(0);
+            reference.Element = to;
 
-			return;
-		}
+            return;
+        }
 
-		// ある要素を削除する
-		public static void DeleteElement(UnifiedElement target) {
-			target.RemoveSelf();
-		}
+        // ある要素を削除する
+        public static void DeleteElement(UnifiedElement target) {
+            target.RemoveSelf();
+        }
 
-		/// <summary>
-		///   ある要素の直下に特定の要素を追加する（木構造的に）
-		/// </summary>
-		public static void AddElement(UnifiedElement resource, UnifiedElement target) {
-			// TODO : implement
-		}
-	}
+        /// <summary>
+        ///   ある要素の直下に特定の要素を追加する（木構造的に）
+        /// </summary>
+        public static void AddElement(
+                UnifiedElement resource, UnifiedElement target) {
+            // TODO : implement
+        }
+    }
 }

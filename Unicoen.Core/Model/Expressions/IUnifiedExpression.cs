@@ -17,8 +17,8 @@
 #endregion
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   式を表します。
-	/// </summary>
-	public interface IUnifiedExpression : IUnifiedElement {}
+    /// <summary>
+    ///   式を表します。
+    /// </summary>
+    public interface IUnifiedExpression : IUnifiedElement {}
 }

@@ -20,32 +20,36 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedVariableDefinitionList
-			: UnifiedElementCollection
-			  		<UnifiedVariableDefinition, UnifiedVariableDefinitionList>,
-			  IUnifiedExpression {
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+    public class UnifiedVariableDefinitionList
+            : UnifiedElementCollection
+                      <UnifiedVariableDefinition, UnifiedVariableDefinitionList>,
+              IUnifiedExpression {
+        protected UnifiedVariableDefinitionList() {}
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        #region IUnifiedExpression Members
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-		
-		public override UnifiedVariableDefinitionList CreateSelf() {
-			return new UnifiedVariableDefinitionList();
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		protected UnifiedVariableDefinitionList() {}
-			  }
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
+
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+
+        #endregion
+
+        public override UnifiedVariableDefinitionList CreateSelf() {
+            return new UnifiedVariableDefinitionList();
+        }
+              }
 }

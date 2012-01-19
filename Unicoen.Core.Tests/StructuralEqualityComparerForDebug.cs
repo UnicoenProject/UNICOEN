@@ -22,29 +22,34 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Tests {
-	public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
-		public static StructuralEqualityComparerForDebug Instance =
-				new StructuralEqualityComparerForDebug();
+    public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
+        public static StructuralEqualityComparerForDebug Instance =
+                new StructuralEqualityComparerForDebug();
 
-		bool IEqualityComparer<object>.Equals(object x, object y) {
-			var result = StructuralEqualityComparer.StructuralEquals(x, y);
-			if (result)
-				return true;
-			var x2 = x as IUnifiedElement;
-			if (x2 != null) {
-				File.WriteAllText(
-						FixtureUtil.GetOutputPath("model1.txt"), x2.ToString());
-			}
-			var y2 = y as IUnifiedElement;
-			if (y2 != null) {
-				File.WriteAllText(
-						FixtureUtil.GetOutputPath("model2.txt"), y2.ToString());
-			}
-			return false;
-		}
+        #region IEqualityComparer<object> Members
 
-		public int GetHashCode(object obj) {
-			return StructuralEqualityComparer.Instance.GetHashCode(obj);
-		}
-	}
+        bool IEqualityComparer<object>.Equals(object x, object y) {
+            var result = StructuralEqualityComparer.StructuralEquals(x, y);
+            if (result) {
+                return true;
+            }
+            var x2 = x as IUnifiedElement;
+            if (x2 != null) {
+                File.WriteAllText(
+                        FixtureUtil.GetOutputPath("model1.txt"), x2.ToString());
+            }
+            var y2 = y as IUnifiedElement;
+            if (y2 != null) {
+                File.WriteAllText(
+                        FixtureUtil.GetOutputPath("model2.txt"), y2.ToString());
+            }
+            return false;
+        }
+
+        public int GetHashCode(object obj) {
+            return StructuralEqualityComparer.Instance.GetHashCode(obj);
+        }
+
+        #endregion
+    }
 }

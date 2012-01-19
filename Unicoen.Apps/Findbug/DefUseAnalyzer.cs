@@ -1,40 +1,61 @@
-﻿using System;
+﻿#region License
+
+// Copyright (C) 2011 The Unicoen Project
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Findbug {
-	public class DefUseAnalyzer {
-		public static IEnumerable<IUnifiedElement> FindDefines(UnifiedBlock codeObj) {
-			/*
+    public class DefUseAnalyzer {
+        public static IEnumerable<IUnifiedElement> FindDefines(
+                UnifiedBlock codeObj) {
+            /*
 			 * Binary Expressionを探索
 			 * "="だけ
 			 * 左辺の変数名を調べる
 			 * 左辺のやつを表示するものを作る
 			 * 
 			 */
-			var binaryExpressions = codeObj.Descendants<UnifiedBinaryExpression>();
-            
-		    foreach (var be in binaryExpressions) {
-				if (be.Operator.Kind == UnifiedBinaryOperatorKind.Assign) {
-					var leftName = "";
-					var left = be.LeftHandSide as UnifiedVariableIdentifier;
-					if (left != null) {
-						Console.WriteLine("left is \n{0}", left);
-						leftName = left.Name;
-					}
-					var right = be.RightHandSide as UnifiedNullLiteral;
-					if (right != null) {
-						Console.WriteLine("{0} is NULL", leftName);
-					}
-					yield return left;
-				}
-			}
-		}
+            var binaryExpressions =
+                    codeObj.Descendants<UnifiedBinaryExpression>();
 
-		public static IEnumerable<IUnifiedElement> FindUses(UnifiedBlock codeObj) {
-            var binaryExpressions = codeObj.Descendants<UnifiedBinaryExpression>();
+            foreach (var be in binaryExpressions) {
+                if (be.Operator.Kind == UnifiedBinaryOperatorKind.Assign) {
+                    var leftName = "";
+                    var left = be.LeftHandSide as UnifiedVariableIdentifier;
+                    if (left != null) {
+                        Console.WriteLine("left is \n{0}", left);
+                        leftName = left.Name;
+                    }
+                    var right = be.RightHandSide as UnifiedNullLiteral;
+                    if (right != null) {
+                        Console.WriteLine("{0} is NULL", leftName);
+                    }
+                    yield return left;
+                }
+            }
+        }
+
+        public static IEnumerable<IUnifiedElement> FindUses(
+                UnifiedBlock codeObj) {
+            var binaryExpressions =
+                    codeObj.Descendants<UnifiedBinaryExpression>();
             foreach (var be in binaryExpressions) {
                 if (be.Operator.Kind == UnifiedBinaryOperatorKind.Assign) {
                     var right = be.RightHandSide as UnifiedVariableIdentifier;
@@ -45,11 +66,12 @@ namespace Unicoen.Apps.Findbug {
                     }
                 }
             }
-		}
+        }
 
         //new
         public static IEnumerable<string> FindNullDefines(UnifiedBlock codeObj) {
-            var binaryExpressions = codeObj.Descendants<UnifiedBinaryExpression>();
+            var binaryExpressions =
+                    codeObj.Descendants<UnifiedBinaryExpression>();
             var definition = codeObj.Descendants<UnifiedVariableDefinition>();
             var nameList = new LinkedList<string>();
             foreach (var def in definition) {
@@ -78,16 +100,19 @@ namespace Unicoen.Apps.Findbug {
             var defineNames = FindUses(codeObj);
             foreach (var defName in defineNames) {
                 var name = defName;
-                var elements = codeObj.Descendants<UnifiedBinaryExpression>().Where(e => name != e);
+                var elements =
+                        codeObj.Descendants<UnifiedBinaryExpression>().Where(
+                                e => name != e);
                 var variableName = (UnifiedVariableIdentifier)defName;
                 foreach (var element in elements) {
                     var left = element.LeftHandSide as UnifiedVariableIdentifier;
                     var right = element.RightHandSide as UnifiedNullLiteral;
                     if (left != null && left.Name.Equals(variableName.Name)) {
-                        Console.WriteLine("{0} is {1}", left.Name, element.RightHandSide);
+                        Console.WriteLine(
+                                "{0} is {1}", left.Name, element.RightHandSide);
                     }
                 }
             }
         }
-	}
+    }
 }

@@ -19,17 +19,17 @@
 using System;
 using System.IO;
 using System.Text;
-using Unicoen.Model;
 using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.Python2;
+using Unicoen.Model;
 
 namespace Unicoen.Apps.Translator {
-	internal class Program {
-		public static void Main(string[] args) {
-			#region garbage
+    internal class Program {
+        public static void Main(string[] args) {
+            #region garbage
 
-			/*
+            /*
 			const string filePath =
 					@"C:\Users\T.Kamiya\Desktop\Projects\Unicoen\fixture\Java\input\default\Student.java";
 			var code = File.ReadAllText(filePath, Encoding.Default);
@@ -54,9 +54,9 @@ namespace Unicoen.Apps.Translator {
 			a = FunctionFinder.Instance.FindByName("getName", functions);
 			 * */
 
-			#endregion
+            #endregion
 
-			/*
+            /*
 			args = new[] {
 					@"C:\Users\T.Kamiya\Desktop\debian_shared/test.java",
 					"java",
@@ -64,62 +64,62 @@ namespace Unicoen.Apps.Translator {
 			};
 			 */
 
-			if (args.Length != 3) {
-				Console.WriteLine("error!");
-				return;
-			}
+            if (args.Length != 3) {
+                Console.WriteLine("error!");
+                return;
+            }
 
-			var filePath = args[0];
-			var srcLang = args[1];
+            var filePath = args[0];
+            var srcLang = args[1];
 
-			Func<string, UnifiedProgram> modelGenerator;
-			switch (srcLang) {
-			case "java":
-			case "Java":
-				modelGenerator = JavaFactory.GenerateModel;
-				break;
-			case "c":
-			case "C":
-				modelGenerator = CFactory.GenerateModel;
-				break;
-			case "python":
-			case "Python":
-			case "py":
-				modelGenerator = Python2Factory.GenerateModel;
-				break;
-			default:
-				modelGenerator = CFactory.GenerateModel;
-				break;
-			}
+            Func<string, UnifiedProgram> modelGenerator;
+            switch (srcLang) {
+            case "java":
+            case "Java":
+                modelGenerator = JavaFactory.GenerateModel;
+                break;
+            case "c":
+            case "C":
+                modelGenerator = CFactory.GenerateModel;
+                break;
+            case "python":
+            case "Python":
+            case "py":
+                modelGenerator = Python2Factory.GenerateModel;
+                break;
+            default:
+                modelGenerator = CFactory.GenerateModel;
+                break;
+            }
 
-			// return;
+            // return;
 
-			var destLang = args[2];
-			Func<IUnifiedElement, string> codeGenerator;
-			switch (destLang) {
-			case "java":
-			case "Java":
-				codeGenerator = JavaFactory.GenerateCode;
-				break;
-			case "c":
-			case "C":
-				codeGenerator = CFactory.GenerateCode;
-				break;
-			case "python":
-			case "Python":
-			case "py":
-				codeGenerator = Python2Factory.GenerateCode;
-				break;
-			default:
-				codeGenerator = CFactory.GenerateCode;
-				break;
-			}
+            var destLang = args[2];
+            Func<IUnifiedElement, string> codeGenerator;
+            switch (destLang) {
+            case "java":
+            case "Java":
+                codeGenerator = JavaFactory.GenerateCode;
+                break;
+            case "c":
+            case "C":
+                codeGenerator = CFactory.GenerateCode;
+                break;
+            case "python":
+            case "Python":
+            case "py":
+                codeGenerator = Python2Factory.GenerateCode;
+                break;
+            default:
+                codeGenerator = CFactory.GenerateCode;
+                break;
+            }
 
-			var code = File.ReadAllText(filePath, Encoding.Default);
-			var model = modelGenerator(code);
-			var output = codeGenerator(model);
+            var code = File.ReadAllText(filePath, Encoding.Default);
+            var model = modelGenerator(code);
+            var output = codeGenerator(model);
 
-			Console.WriteLine(output);
-		}
-	}
+            Console.WriteLine(output);
+        }
+    }
 }

@@ -20,33 +20,34 @@ using System;
 using Unicoen.Model;
 
 namespace Unicoen {
-	public class ElementReference : ElementReference<IUnifiedElement> {
-		public ElementReference(
-				Func<IUnifiedElement> getter, Action<IUnifiedElement> setter)
-				: base(getter, setter) {}
+    public class ElementReference : ElementReference<IUnifiedElement> {
+        public ElementReference(
+                Func<IUnifiedElement> getter, Action<IUnifiedElement> setter)
+                : base(getter, setter) {}
 
-		public new static ElementReference Create(
-				Func<IUnifiedElement> getter, Action<IUnifiedElement> setter) {
-			return new ElementReference(getter, setter);
-		}
-	}
+        public new static ElementReference Create(
+                Func<IUnifiedElement> getter, Action<IUnifiedElement> setter) {
+            return new ElementReference(getter, setter);
+        }
+    }
 
-	public class ElementReference<T> {
-		private readonly Func<T> _getter;
-		private readonly Action<T> _setter;
+    public class ElementReference<T> {
+        private readonly Func<T> _getter;
+        private readonly Action<T> _setter;
 
-		public ElementReference(Func<T> getter, Action<T> setter) {
-			_getter = getter;
-			_setter = setter;
-		}
+        public ElementReference(Func<T> getter, Action<T> setter) {
+            _getter = getter;
+            _setter = setter;
+        }
 
-		public T Element {
-			get { return _getter(); }
-			set { _setter(value); }
-		}
+        public T Element {
+            get { return _getter(); }
+            set { _setter(value); }
+        }
 
-		public static ElementReference<T> Create(Func<T> getter, Action<T> setter) {
-			return new ElementReference<T>(getter, setter);
-		}
-	}
+        public static ElementReference<T> Create(
+                Func<T> getter, Action<T> setter) {
+            return new ElementReference<T>(getter, setter);
+        }
+    }
 }

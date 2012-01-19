@@ -21,73 +21,75 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using NUnit.Framework;
-using Unicoen.Tests;
 using Unicoen.Languages.JavaScript;
+using Unicoen.Tests;
 
 namespace Unicoen.Apps.Translator.Tests {
-	public class XmlGenerateTest {
-		[Test]
-		public void Xmlを生成できる() {
-			var inPath = FixtureUtil.GetInputPath("JavaScript", "hello.js");
-			var outPath = FixtureUtil.GetOutputPath("hello_js.xml");
+    public class XmlGenerateTest {
+        [Test]
+        public void Xmlを生成できる() {
+            var inPath = FixtureUtil.GetInputPath("JavaScript", "hello.js");
+            var outPath = FixtureUtil.GetOutputPath("hello_js.xml");
 
-			var code = File.ReadAllText(inPath, Encoding.Default);
-			var model = JavaScriptFactory.GenerateModel(code);
+            var code = File.ReadAllText(inPath, Encoding.Default);
+            var model = JavaScriptFactory.GenerateModel(code);
 
-			var xml = model.ToXml();
-			var str = model.ToString();
+            var xml = model.ToXml();
+            var str = model.ToString();
 
-			using (var fs = new FileStream(outPath, FileMode.Create)) {
-				using (var writer = new StreamWriter(fs)) {
-					writer.WriteLine(xml);
-					Console.WriteLine(xml);
-				}
-			}
-		}
+            using (var fs = new FileStream(outPath, FileMode.Create)) {
+                using (var writer = new StreamWriter(fs)) {
+                    writer.WriteLine(xml);
+                    Console.WriteLine(xml);
+                }
+            }
+        }
 
-		[Test]
-		public void SandBox() {
-			var root = new XmlDocument();
-			if (!File.Exists(@"c:\hello_java.xml")) {
-				return;
-			}
+        [Test]
+        public void SandBox() {
+            var root = new XmlDocument();
+            if (!File.Exists(@"c:\hello_java.xml")) {
+                return;
+            }
 
-			root.Load(@"c:\hello_java.xml");
-			var modifier = root.GetElementsByTagName("UnifiedModifier").Item(0);
+            root.Load(@"c:\hello_java.xml");
+            var modifier = root.GetElementsByTagName("UnifiedModifier").Item(0);
 
-			var strings = (modifier as XmlElement).GetElementsByTagName("String");
-			for (int i = 0; i < strings.Count; i++) {
-				var node = strings.Item(i);
-				Console.WriteLine(node.Value);
-			}
+            var strings = (modifier as XmlElement).GetElementsByTagName(
+                    "String");
+            for (int i = 0; i < strings.Count; i++) {
+                var node = strings.Item(i);
+                Console.WriteLine(node.Value);
+            }
 
-			// Function calling
-			var callNode = root.GetElementsByTagName("UnifiedCall").Item(0);
-			var children = callNode.ChildNodes;
+            // Function calling
+            var callNode = root.GetElementsByTagName("UnifiedCall").Item(0);
+            var children = callNode.ChildNodes;
 
-			Console.WriteLine(children.Count);
+            Console.WriteLine(children.Count);
 
-			XmlNode propNode = null;
-			for (int i = 0; i < children.Count; i++) {
-				var node = children.Item(i);
-				if (node.LocalName.Equals("UnifiedProperty")) {
-					propNode = node;
-					break;
-				}
-			}
+            XmlNode propNode = null;
+            for (int i = 0; i < children.Count; i++) {
+                var node = children.Item(i);
+                if (node.LocalName.Equals("UnifiedProperty")) {
+                    propNode = node;
+                    break;
+                }
+            }
 
-			if (propNode == null) {
-				Console.WriteLine("aaaaa:");
-				return;
-			}
+            if (propNode == null) {
+                Console.WriteLine("aaaaa:");
+                return;
+            }
 
-			var strNodeList = (propNode as XmlElement).GetElementsByTagName("String");
+            var strNodeList =
+                    (propNode as XmlElement).GetElementsByTagName("String");
 
-			for (int i = 0; i < strNodeList.Count; i++) {
-				var node = strNodeList.Item(i);
-				Console.WriteLine("aaaaasdfasdfadsfasda");
-				Console.WriteLine(node.Value);
-			}
-		}
-	}
+            for (int i = 0; i < strNodeList.Count; i++) {
+                var node = strNodeList.Item(i);
+                Console.WriteLine("aaaaasdfasdfadsfasda");
+                Console.WriteLine(node.Value);
+            }
+        }
+    }
 }

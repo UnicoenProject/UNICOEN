@@ -20,25 +20,26 @@ using System.Linq;
 using Unicoen.Model;
 
 namespace Unicoen.Sematics {
-	public static class SemanticAnalyzer {
-		public static UnifiedVariableDefinition FindDefinition(UnifiedIdentifier variable) {
-			var scopes = variable.Ancestors<UnifiedBlock>();
-			var name = variable.Name;
-			IUnifiedElement searched = variable;
+    public static class SemanticAnalyzer {
+        public static UnifiedVariableDefinition FindDefinition(
+                UnifiedIdentifier variable) {
+            var scopes = variable.Ancestors<UnifiedBlock>();
+            var name = variable.Name;
+            IUnifiedElement searched = variable;
 
-			foreach (var scope in scopes) {
-				var definition = scope
-						.DescendantsUntil(e2 => e2 is UnifiedBlock)
-						.TakeWhile(e => e != searched)
-						.OfType<UnifiedVariableDefinition>()
-						.FirstOrDefault(e => e.Name.Name == name);
-				if (definition != null)
-					return definition;
+            foreach (var scope in scopes) {
+                var definition = scope
+                        .DescendantsUntil(e2 => e2 is UnifiedBlock)
+                        .TakeWhile(e => e != searched)
+                        .OfType<UnifiedVariableDefinition>()
+                        .FirstOrDefault(e => e.Name.Name == name);
+                if (definition != null) {
+                    return definition;
+                }
 
-				searched = scope;
-			}
-			return null;
-		}
-
-	}
+                searched = scope;
+            }
+            return null;
+        }
+    }
 }

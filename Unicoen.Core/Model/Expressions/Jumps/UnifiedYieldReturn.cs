@@ -20,37 +20,41 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedYieldReturn : UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _value;
+    public class UnifiedYieldReturn : UnifiedElement, IUnifiedExpression {
+        private IUnifiedExpression _value;
 
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
-		}
+        protected UnifiedYieldReturn() {}
 
-		protected UnifiedYieldReturn() {}
+        public IUnifiedExpression Value {
+            get { return _value; }
+            set { _value = SetChild(value, _value); }
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        #region IUnifiedExpression Members
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		public static UnifiedYieldReturn Create(IUnifiedExpression value = null) {
-			return new UnifiedYieldReturn {
-					Value = value,
-			};
-		}
-	}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+
+        #endregion
+
+        public static UnifiedYieldReturn Create(IUnifiedExpression value = null) {
+            return new UnifiedYieldReturn {
+                    Value = value,
+            };
+        }
+    }
 }

@@ -24,51 +24,54 @@ using Unicoen.Apps.UniAspect.Cui.Visitor;
 using Unicoen.Tests;
 
 namespace Unicoen.Apps.UniAspect.Cui.AspectElementTest {
-	public class AdviceTest {
-		private AstVisitor _visitor;
+    public class AdviceTest {
+        private AstVisitor _visitor;
 
-		[SetUp]
-		public void SetUp() {
-			//アスペクトファイルのパスを取得
-			var input = new ANTLRFileStream(FixtureUtil.GetAspectPath("simple_advice_sample.apt"));
+        [SetUp]
+        public void SetUp() {
+            //アスペクトファイルのパスを取得
+            var input =
+                    new ANTLRFileStream(
+                            FixtureUtil.GetAspectPath(
+                                    "simple_advice_sample.apt"));
 
-			//アスペクトファイルをパースして抽象構文木を生成する
-			var lex = new AriesLexer(input);
-			var tokens = new CommonTokenStream(lex);
-			var parser = new AriesParser(tokens);
+            //アスペクトファイルをパースして抽象構文木を生成する
+            var lex = new AriesLexer(input);
+            var tokens = new CommonTokenStream(lex);
+            var parser = new AriesParser(tokens);
 
-			var result = parser.aspect();
-			var ast = (CommonTree)result.Tree;
+            var result = parser.aspect();
+            var ast = (CommonTree)result.Tree;
 
-			//抽象構文木を走査して、ポイントカット・アドバイス情報を格納する
-			_visitor = new AstVisitor();
-			_visitor.Visit(ast, 0, null);
-		}
+            //抽象構文木を走査して、ポイントカット・アドバイス情報を格納する
+            _visitor = new AstVisitor();
+            _visitor.Visit(ast, 0, null);
+        }
 
-		[Test]
-		public void アドバイスの種類を取得できる() {
-			var adviceType = _visitor.Advices.ElementAt(0).GetAdviceType();
-			Assert.That(adviceType, Is.EqualTo("before"));
-		}
+        [Test]
+        public void アドバイスの種類を取得できる() {
+            var adviceType = _visitor.Advices.ElementAt(0).GetAdviceType();
+            Assert.That(adviceType, Is.EqualTo("before"));
+        }
 
-		[Test]
-		public void アドバイスの対象ポイントカット名を取得できる() {
-			var target = _visitor.Advices.ElementAt(0).GetTarget();
-			Assert.That(target, Is.EqualTo("move"));
-		}
+        [Test]
+        public void アドバイスの対象ポイントカット名を取得できる() {
+            var target = _visitor.Advices.ElementAt(0).GetTarget();
+            Assert.That(target, Is.EqualTo("move"));
+        }
 
-		[Test, Ignore]
-		public void アドバイスのパラメータを取得できる() {
-			//TODO アドバイスにパラメータを指定できるようにジョインポイントモデルを拡張する
-		}
+        [Test, Ignore]
+        public void アドバイスのパラメータを取得できる() {
+            //TODO アドバイスにパラメータを指定できるようにジョインポイントモデルを拡張する
+        }
 
-		[Test]
-		public void アドバイスのコード断片を取得できる() {
-			var advice = _visitor.Advices.ElementAt(1);
-			var javaBlock = advice.GetFragments().ElementAt(0).GetLanguageType();
-			Assert.That(javaBlock, Is.EqualTo("Java"));
-			var jsBlock = advice.GetFragments().ElementAt(1).GetLanguageType();
-			Assert.That(jsBlock, Is.EqualTo("JavaScript"));
-		}
-	}
+        [Test]
+        public void アドバイスのコード断片を取得できる() {
+            var advice = _visitor.Advices.ElementAt(1);
+            var javaBlock = advice.GetFragments().ElementAt(0).GetLanguageType();
+            Assert.That(javaBlock, Is.EqualTo("Java"));
+            var jsBlock = advice.GetFragments().ElementAt(1).GetLanguageType();
+            Assert.That(jsBlock, Is.EqualTo("JavaScript"));
+        }
+    }
 }

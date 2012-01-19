@@ -20,45 +20,47 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   default式を表します。
-	///   e.g. C#における<c>default(int)</c>
-	/// </summary>
-	public class UnifiedDefault : UnifiedElement, IUnifiedExpression {
-		private UnifiedType _type;
+    /// <summary>
+    ///   default式を表します。 e.g. C#における <c>default(int)</c>
+    /// </summary>
+    public class UnifiedDefault : UnifiedElement, IUnifiedExpression {
+        private UnifiedType _type;
 
-		/// <summary>
-		///   キャスト対象の式を表します
-		///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
-		/// </summary>
-		public UnifiedType Type {
-			get { return _type; }
-			set { _type = SetChild(value, _type); }
-		}
+        protected UnifiedDefault() {}
 
-		protected UnifiedDefault() {}
+        /// <summary>
+        ///   キャスト対象の式を表します e.g. Javaにおける <c>(int)a</c> の <c>a</c>
+        /// </summary>
+        public UnifiedType Type {
+            get { return _type; }
+            set { _type = SetChild(value, _type); }
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        #region IUnifiedExpression Members
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		public static UnifiedDefault Create(UnifiedType type) {
-			return new UnifiedDefault {
-					Type = type,
-			};
-		}
-	}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+
+        #endregion
+
+        public static UnifiedDefault Create(UnifiedType type) {
+            return new UnifiedDefault {
+                    Type = type,
+            };
+        }
+    }
 }

@@ -23,19 +23,22 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.JavaScript.CodeGenerators {
-	[Export(typeof(UnifiedCodeGenerator))]
-	public class JavaScriptCodeGenerator : UnifiedCodeGenerator {
-		public override string Extension {
-			get { return ".js"; }
-		}
+    [Export(typeof(UnifiedCodeGenerator))]
+    public class JavaScriptCodeGenerator : UnifiedCodeGenerator {
+        public override string Extension {
+            get { return ".js"; }
+        }
 
-		public override void Generate(
-				IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			codeObject.Accept(new JavaScriptCodeFactoryVisitor(writer, indentSign), new VisitorArgument());
-		}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+            codeObject.Accept(
+                    new JavaScriptCodeFactoryVisitor(writer, indentSign),
+                    new VisitorArgument());
+        }
 
-		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
-			Generate(codeObject, writer, "\t");
-		}
-	}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer) {
+            Generate(codeObject, writer, "\t");
+        }
+    }
 }

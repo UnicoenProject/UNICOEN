@@ -19,37 +19,37 @@
 using System.Diagnostics;
 
 namespace Unicoen.Processor {
-	public class VisitorArgument {
-		public int IndentDepth { get; private set; }
-		public Decoration Decoration { get; private set; }
+    public class VisitorArgument {
+        [DebuggerStepThrough]
+        public VisitorArgument() {
+            Decoration = new Decoration();
+        }
 
-		[DebuggerStepThrough]
-		public VisitorArgument() {
-			Decoration = new Decoration();
-		}
+        public int IndentDepth { get; private set; }
+        public Decoration Decoration { get; private set; }
 
-		[DebuggerStepThrough]
-		public VisitorArgument Set(Decoration decoration) {
-			return new VisitorArgument {
-					Decoration = decoration,
-					IndentDepth = IndentDepth,
-			};
-		}
+        [DebuggerStepThrough]
+        public VisitorArgument Set(Decoration decoration) {
+            return new VisitorArgument {
+                    Decoration = decoration,
+                    IndentDepth = IndentDepth,
+            };
+        }
 
-		[DebuggerStepThrough]
-		public VisitorArgument IncrementDepth() {
-			return new VisitorArgument {
-					Decoration = Decoration,
-					IndentDepth = IndentDepth + 1,
-			};
-		}
+        [DebuggerStepThrough]
+        public VisitorArgument IncrementDepth() {
+            return new VisitorArgument {
+                    Decoration = Decoration,
+                    IndentDepth = IndentDepth + 1,
+            };
+        }
 
-		[DebuggerStepThrough]
-		public VisitorArgument DecrementDepth() {
-			return new VisitorArgument {
-					Decoration = Decoration,
-					IndentDepth = IndentDepth - 1,
-			};
-		}
-	}
+        [DebuggerStepThrough]
+        public VisitorArgument DecrementDepth() {
+            return new VisitorArgument {
+                    Decoration = Decoration,
+                    IndentDepth = IndentDepth - 1,
+            };
+        }
+    }
 }

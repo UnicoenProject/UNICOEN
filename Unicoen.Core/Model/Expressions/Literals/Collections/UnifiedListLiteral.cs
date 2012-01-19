@@ -20,30 +20,34 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedListLiteral
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedListLiteral>,
-			  IUnifiedExpression {
-		protected UnifiedListLiteral() {}
+    public class UnifiedListLiteral
+            : UnifiedElementCollection<IUnifiedExpression, UnifiedListLiteral>,
+              IUnifiedExpression {
+        protected UnifiedListLiteral() {}
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        #region IUnifiedExpression Members
 
-		public override UnifiedListLiteral CreateSelf() {
-			return new UnifiedListLiteral();
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-			  }
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+
+        #endregion
+
+        public override UnifiedListLiteral CreateSelf() {
+            return new UnifiedListLiteral();
+        }
+              }
 }

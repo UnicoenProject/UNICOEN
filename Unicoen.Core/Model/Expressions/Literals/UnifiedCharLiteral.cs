@@ -20,37 +20,35 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   文字列であるリテラルを表します。
-	///   e.g. Javaにおける<c>char str = 'c'</c>の<c>'c'</c>の部分
-	/// </summary>
-	public class UnifiedCharLiteral : UnifiedTypedLiteral<string> {
-		public override string Value { get; set; }
+    /// <summary>
+    ///   文字列であるリテラルを表します。 e.g. Javaにおける <c>char str = 'c'</c> の <c>'c'</c> の部分
+    /// </summary>
+    public class UnifiedCharLiteral : UnifiedTypedLiteral<string> {
+        private UnifiedCharLiteral() {}
+        public override string Value { get; set; }
 
-		private UnifiedCharLiteral() {}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedCharLiteral Create(string value) {
-			return new UnifiedCharLiteral {
-					Value = value,
-			};
-		}
-	}
+        public static UnifiedCharLiteral Create(string value) {
+            return new UnifiedCharLiteral {
+                    Value = value,
+            };
+        }
+    }
 }

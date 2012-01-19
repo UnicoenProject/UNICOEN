@@ -20,56 +20,54 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   LINQのクエリ式を構成するlet句を表します。
-	///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>
-	/// </summary>
-	public class UnifiedLetQuery : UnifiedLinqQuery {
-		private UnifiedVariableIdentifier _variable;
-		private IUnifiedExpression _expression;
+    /// <summary>
+    ///   LINQのクエリ式を構成するlet句を表します。 e.g. C#における <c>let sumZ = p.Z.Sum()</c>
+    /// </summary>
+    public class UnifiedLetQuery : UnifiedLinqQuery {
+        private IUnifiedExpression _expression;
+        private UnifiedVariableIdentifier _variable;
+        protected UnifiedLetQuery() {}
 
-		/// <summary>
-		///   クエリ式中で計算した値を代入する変数を取得もしくは設定します．
-		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>sumZ</c>
-		/// </summary>
-		public UnifiedVariableIdentifier Variable {
-			get { return _variable; }
-			set { _variable = SetChild(value, _variable); }
-		}
+        /// <summary>
+        ///   クエリ式中で計算した値を代入する変数を取得もしくは設定します． e.g. C#における <c>let sumZ = p.Z.Sum()</c> の <c>sumZ</c>
+        /// </summary>
+        public UnifiedVariableIdentifier Variable {
+            get { return _variable; }
+            set { _variable = SetChild(value, _variable); }
+        }
 
-		/// <summary>
-		///   変数に代入する式を取得もしくは設定します．
-		///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>p.Z.Sum()</c>
-		/// </summary>
-		public IUnifiedExpression Expression {
-			get { return _expression; }
-			set { _expression = SetChild(value, _expression); }
-		}
+        /// <summary>
+        ///   変数に代入する式を取得もしくは設定します． e.g. C#における <c>let sumZ = p.Z.Sum()</c> の <c>p.Z.Sum()</c>
+        /// </summary>
+        public IUnifiedExpression Expression {
+            get { return _expression; }
+            set { _expression = SetChild(value, _expression); }
+        }
 
-		protected UnifiedLetQuery() {}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedLetQuery Create(
-				UnifiedVariableIdentifier variable, IUnifiedExpression expression) {
-			return new UnifiedLetQuery {
-					Variable = variable,
-					Expression = expression
-			};
-		}
-	}
+        public static UnifiedLetQuery Create(
+                UnifiedVariableIdentifier variable,
+                IUnifiedExpression expression) {
+            return new UnifiedLetQuery {
+                    Variable = variable,
+                    Expression = expression
+            };
+        }
+    }
 }

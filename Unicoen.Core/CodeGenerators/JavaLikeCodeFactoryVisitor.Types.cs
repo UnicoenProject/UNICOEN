@@ -20,58 +20,67 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.CodeGenerators {
-	public partial class JavaLikeCodeFactoryVisitor {
-		public override bool Visit(UnifiedBasicType element, VisitorArgument arg) {
-			element.BasicTypeName.TryAccept(this, arg);
-			return false;
-		}
+    public partial class JavaLikeCodeFactoryVisitor {
+        public override bool Visit(
+                UnifiedBasicType element, VisitorArgument arg) {
+            element.BasicTypeName.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedConstType element, VisitorArgument arg) {
-			Writer.Write("final ");
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
+        public override bool Visit(
+                UnifiedConstType element, VisitorArgument arg) {
+            Writer.Write("final ");
+            element.Type.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedPointerType element, VisitorArgument arg) {
-			Writer.Write("/* * */");
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
+        public override bool Visit(
+                UnifiedPointerType element, VisitorArgument arg) {
+            Writer.Write("/* * */");
+            element.Type.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedReferenceType element, VisitorArgument arg) {
-			Writer.Write("/* & */");
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
+        public override bool Visit(
+                UnifiedReferenceType element, VisitorArgument arg) {
+            Writer.Write("/* & */");
+            element.Type.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedVolatileType element, VisitorArgument arg) {
-			Writer.Write("volatile ");
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
+        public override bool Visit(
+                UnifiedVolatileType element, VisitorArgument arg) {
+            Writer.Write("volatile ");
+            element.Type.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedStructType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
+        public override bool Visit(
+                UnifiedStructType element, VisitorArgument arg) {
+            element.Type.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedUnionType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			return false;
-		}
+        public override bool Visit(
+                UnifiedUnionType element, VisitorArgument arg) {
+            element.Type.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedGenericType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			element.Arguments.TryAccept(this, arg);
-			return false;
-		}
+        public override bool Visit(
+                UnifiedGenericType element, VisitorArgument arg) {
+            element.Type.TryAccept(this, arg);
+            element.Arguments.TryAccept(this, arg);
+            return false;
+        }
 
-		public override bool Visit(UnifiedArrayType element, VisitorArgument arg) {
-			element.Type.TryAccept(this, arg);
-			Writer.Write("[");
-			element.Arguments.TryAccept(this, arg.Set(CommaDelimiter));
-			Writer.Write("]");
-			return false;
-		}
-	}
+        public override bool Visit(
+                UnifiedArrayType element, VisitorArgument arg) {
+            element.Type.TryAccept(this, arg);
+            Writer.Write("[");
+            element.Arguments.TryAccept(this, arg.Set(CommaDelimiter));
+            Writer.Write("]");
+            return false;
+        }
+    }
 }

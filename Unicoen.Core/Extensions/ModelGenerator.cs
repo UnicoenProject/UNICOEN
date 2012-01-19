@@ -17,18 +17,19 @@
 #endregion
 
 namespace Unicoen.Model {
-	public static class ModelGenerator {
-		/// <summary>
-		///   深いコピーを取得します．
-		/// </summary>
-		/// <typeparam name = "T"></typeparam>
-		/// <param name = "self"></param>
-		/// <returns></returns>
-		public static T DeepCopy<T>(this T self)
-				where T : class, IUnifiedElement {
-			if (self == null)
-				return null;
-			return (T)self.PrivateDeepCopy();
-		}
-	}
+    public static class ModelGenerator {
+        /// <summary>
+        ///   深いコピーを取得します．
+        /// </summary>
+        /// <typeparam name="T"> </typeparam>
+        /// <param name="self"> </param>
+        /// <returns> </returns>
+        public static T DeepCopy<T>(this T self)
+                where T : class, IUnifiedElement {
+            if (self == null) {
+                return null;
+            }
+            return (T)self.PrivateDeepCopy();
+        }
+    }
 }

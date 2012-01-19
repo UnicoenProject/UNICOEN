@@ -24,21 +24,22 @@ using Unicoen.Model;
 using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.JavaScript.ProgramGenerators {
-	[Export(typeof(UnifiedProgramGenerator))]
-	public class JavaScriptProgramGenerator : UnifiedProgramGenerator {
-		public static JavaScriptProgramGenerator Instance = new JavaScriptProgramGenerator();
+    [Export(typeof(UnifiedProgramGenerator))]
+    public class JavaScriptProgramGenerator : UnifiedProgramGenerator {
+        public static JavaScriptProgramGenerator Instance =
+                new JavaScriptProgramGenerator();
 
-		public override IEnumerable<string> Extensions {
-			get { return JavaScriptCodeToXml.Instance.TargetExtensions; }
-		}
+        public override IEnumerable<string> Extensions {
+            get { return JavaScriptCodeToXml.Instance.TargetExtensions; }
+        }
 
-		public override UnifiedCodeGenerator CodeGenerator {
-			get { return JavaScriptFactory.CodeGenerator; }
-		}
+        public override UnifiedCodeGenerator CodeGenerator {
+            get { return JavaScriptFactory.CodeGenerator; }
+        }
 
-		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
-			var ast = JavaScriptCodeToXml.Instance.Generate(code, true);
-			return JavaScriptProgramGeneratorHelper.CreateProgram(ast);
-		}
-	}
+        public override UnifiedProgram GenerateWithoutNormalizing(string code) {
+            var ast = JavaScriptCodeToXml.Instance.Generate(code, true);
+            return JavaScriptProgramGeneratorHelper.CreateProgram(ast);
+        }
+    }
 }

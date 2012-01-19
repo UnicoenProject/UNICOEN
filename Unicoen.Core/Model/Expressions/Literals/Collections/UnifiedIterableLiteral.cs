@@ -20,30 +20,35 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public class UnifiedIterableLiteral
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedIterableLiteral>,
-			  IUnifiedExpression {
-		protected UnifiedIterableLiteral() {}
+    public class UnifiedIterableLiteral
+            : UnifiedElementCollection
+                      <IUnifiedExpression, UnifiedIterableLiteral>,
+              IUnifiedExpression {
+        protected UnifiedIterableLiteral() {}
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        #region IUnifiedExpression Members
 
-		public override UnifiedIterableLiteral CreateSelf() {
-			return new UnifiedIterableLiteral();
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-			  }
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+
+        #endregion
+
+        public override UnifiedIterableLiteral CreateSelf() {
+            return new UnifiedIterableLiteral();
+        }
+              }
 }

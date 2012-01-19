@@ -24,68 +24,69 @@ using Unicoen.Model;
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.Ruby18.Model {
-	public partial class Ruby18ProgramGeneratorHelper {
-		private static void InitializeDefinitions() {
-			ExpressionFuncs["defn"] = CreateDefn;
-			ExpressionFuncs["defs"] = CreateDefs;
-			ExpressionFuncs["class"] = CreateClass;
-			ExpressionFuncs["module"] = CreateModule;
-			ExpressionFuncs["sclass"] = CreateSclass;
-		}
+    public partial class Ruby18ProgramGeneratorHelper {
+        private static void InitializeDefinitions() {
+            ExpressionFuncs["defn"] = CreateDefn;
+            ExpressionFuncs["defs"] = CreateDefs;
+            ExpressionFuncs["class"] = CreateClass;
+            ExpressionFuncs["module"] = CreateModule;
+            ExpressionFuncs["sclass"] = CreateSclass;
+        }
 
-		private static IUnifiedExpression CreateDefs(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "defs");
-			var owner = CreateExpresion(node.NthElement(0));
-			var target = UnifiedFunctionDefinition.Create(
-					null, null, null, null,
-					CreateSymbol(node.NthElement(1)),
-					CreateArgs(node.NthElement(2)), null,
-					CreateScope(node.NthElement(3)));
-			return UnifiedProperty.Create(".", owner, target);
-		}
+        private static IUnifiedExpression CreateDefs(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "defs");
+            var owner = CreateExpresion(node.NthElement(0));
+            var target = UnifiedFunctionDefinition.Create(
+                    null, null, null, null,
+                    CreateSymbol(node.NthElement(1)),
+                    CreateArgs(node.NthElement(2)), null,
+                    CreateScope(node.NthElement(3)));
+            return UnifiedProperty.Create(".", owner, target);
+        }
 
-		public static IUnifiedExpression CreateDefn(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "defn");
-			return UnifiedFunctionDefinition.Create(
-					null, null, null, null,
-					CreateSymbol(node.NthElement(0)),
-					CreateArgs(node.NthElement(1)), null,
-					CreateScope(node.NthElement(2)));
-		}
+        public static IUnifiedExpression CreateDefn(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "defn");
+            return UnifiedFunctionDefinition.Create(
+                    null, null, null, null,
+                    CreateSymbol(node.NthElement(0)),
+                    CreateArgs(node.NthElement(1)), null,
+                    CreateScope(node.NthElement(2)));
+        }
 
-		public static UnifiedClassDefinition CreateClass(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "class");
-			var constNode = node.NthElement(1);
-			var constrain = constNode.Name() != "nil"
-			                		? UnifiedExtendConstrain.Create(
-			                				UnifiedType.Create(constNode.Value))
-			                		: null;
-			return UnifiedClassDefinition.Create(
-					null, null, CreateSymbol(node.NthElement(0)), null,
-					constrain.ToCollection(),
-					CreateScope(node.NthElement(2)));
-		}
+        public static UnifiedClassDefinition CreateClass(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "class");
+            var constNode = node.NthElement(1);
+            var constrain = constNode.Name() != "nil"
+                                    ? UnifiedExtendConstrain.Create(
+                                            UnifiedType.Create(constNode.Value))
+                                    : null;
+            return UnifiedClassDefinition.Create(
+                    null, null, CreateSymbol(node.NthElement(0)), null,
+                    constrain.ToCollection(),
+                    CreateScope(node.NthElement(2)));
+        }
 
-		public static UnifiedClassDefinition CreateModule(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "module");
-			return UnifiedClassDefinition.Create(
-					null, null, CreateSymbol(node.NthElement(0)), null,
-					null,
-					CreateScope(node.NthElement(1)));
-		}
+        public static UnifiedClassDefinition CreateModule(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "module");
+            return UnifiedClassDefinition.Create(
+                    null, null, CreateSymbol(node.NthElement(0)), null,
+                    null,
+                    CreateScope(node.NthElement(1)));
+        }
 
-		public static UnifiedEigenClassDefinition CreateSclass(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "sclass");
-			return UnifiedEigenClassDefinition.Create(
-					null, null, null, null,
-					UnifiedEigenConstrain.Create(CreateExpresion(node.NthElement(0))).
-							ToCollection(),
-					CreateScope(node.NthElement(1)));
-		}
-	}
+        public static UnifiedEigenClassDefinition CreateSclass(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "sclass");
+            return UnifiedEigenClassDefinition.Create(
+                    null, null, null, null,
+                    UnifiedEigenConstrain.Create(
+                            CreateExpresion(node.NthElement(0))).
+                            ToCollection(),
+                    CreateScope(node.NthElement(1)));
+        }
+    }
 }

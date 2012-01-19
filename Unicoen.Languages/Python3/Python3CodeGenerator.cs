@@ -22,21 +22,23 @@ using Unicoen.CodeGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.Python3 {
-	public class Python3CodeGenerator : UnifiedCodeGenerator {
-		public override string Extension {
-			get { return ".py"; }
-		}
+    public class Python3CodeGenerator : UnifiedCodeGenerator {
+        public override string Extension {
+            get { return ".py"; }
+        }
 
-		public override void Generate(IUnifiedElement codeObject, TextWriter writer, string indentSign) {
-			throw new NotImplementedException();
-		}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+            throw new NotImplementedException();
+        }
 
-		public override void Generate(IUnifiedElement codeObject, TextWriter writer) {
-			throw new NotImplementedException();
-		}
+        public override void Generate(
+                IUnifiedElement codeObject, TextWriter writer) {
+            throw new NotImplementedException();
+        }
 
-		public string Generate(IUnifiedElement model) {
-			throw new NotImplementedException();
-		}
-	}
+        public string Generate(IUnifiedElement model) {
+            throw new NotImplementedException();
+        }
+    }
 }

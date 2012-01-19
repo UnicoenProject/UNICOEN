@@ -20,67 +20,68 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   while文を表します。
-	///   e.g. Javaにおける<c>while(cond){...}</c>
-	/// </summary>
-	public class UnifiedWhile
-			: UnifiedElement, IUnifiedExpression {
-		private IUnifiedExpression _condition;
-		private UnifiedBlock _body;
-		private UnifiedBlock _elseBody;
+    /// <summary>
+    ///   while文を表します。 e.g. Javaにおける <c>while(cond){...}</c>
+    /// </summary>
+    public class UnifiedWhile
+            : UnifiedElement, IUnifiedExpression {
+        private UnifiedBlock _body;
+        private IUnifiedExpression _condition;
+        private UnifiedBlock _elseBody;
+        private UnifiedWhile() {}
 
-		/// <summary>
-		///   ループの継続の条件式を表します
-		///   e.g. Javaにおける<c>while(cond){...}</c>の<c>cond</c>
-		/// </summary>
-		public IUnifiedExpression Condition {
-			get { return _condition; }
-			set { _condition = SetChild(value, _condition); }
-		}
+        /// <summary>
+        ///   ループの継続の条件式を表します e.g. Javaにおける <c>while(cond){...}</c> の <c>cond</c>
+        /// </summary>
+        public IUnifiedExpression Condition {
+            get { return _condition; }
+            set { _condition = SetChild(value, _condition); }
+        }
 
-		/// <summary>
-		///   ループ中に実行するブロックを取得もしくは設定します．
-		/// </summary>
-		public UnifiedBlock Body {
-			get { return _body; }
-			set { _body = SetChild(value, _body); }
-		}
+        /// <summary>
+        ///   ループ中に実行するブロックを取得もしくは設定します．
+        /// </summary>
+        public UnifiedBlock Body {
+            get { return _body; }
+            set { _body = SetChild(value, _body); }
+        }
 
-		public UnifiedBlock ElseBody {
-			get { return _elseBody; }
-			set { _elseBody = SetChild(value, _elseBody); }
-		}
+        public UnifiedBlock ElseBody {
+            get { return _elseBody; }
+            set { _elseBody = SetChild(value, _elseBody); }
+        }
 
-		private UnifiedWhile() {}
+        #region IUnifiedExpression Members
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		public static UnifiedWhile Create(
-				IUnifiedExpression condition = null,
-				UnifiedBlock body = null,
-				UnifiedBlock elseBody = null) {
-			return new UnifiedWhile {
-					Condition = condition,
-					Body = body,
-					ElseBody = elseBody,
-			};
-		}
-			}
+        #endregion
+
+        public static UnifiedWhile Create(
+                IUnifiedExpression condition = null,
+                UnifiedBlock body = null,
+                UnifiedBlock elseBody = null) {
+            return new UnifiedWhile {
+                    Condition = condition,
+                    Body = body,
+                    ElseBody = elseBody,
+            };
+        }
+            }
 }

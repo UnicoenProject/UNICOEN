@@ -20,69 +20,67 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   実引数を表します。
-	///   e.g. Javaにおける<c>method(a, b, c)</c>の<c>a</c>
-	/// </summary>
-	public class UnifiedArgument : UnifiedElement {
-		private UnifiedModifierCollection _modifiers;
+    /// <summary>
+    ///   実引数を表します。 e.g. Javaにおける <c>method(a, b, c)</c> の <c>a</c>
+    /// </summary>
+    public class UnifiedArgument : UnifiedElement {
+        private UnifiedModifierCollection _modifiers;
+        private UnifiedIdentifier _target;
 
-		/// <summary>
-		///   実引数の修飾子を表します．
-		///   e.g. C#における<code>method(out v);</code>の<code>out</code>
-		/// </summary>
-		public UnifiedModifierCollection Modifiers {
-			get { return _modifiers; }
-			set { _modifiers = SetChild(value, _modifiers); }
-		}
+        private IUnifiedExpression _value;
+        private UnifiedArgument() {}
 
-		private IUnifiedExpression _value;
+        /// <summary>
+        ///   実引数の修飾子を表します． e.g. C#における <code>method(out v);</code> の <code>out</code>
+        /// </summary>
+        public UnifiedModifierCollection Modifiers {
+            get { return _modifiers; }
+            set { _modifiers = SetChild(value, _modifiers); }
+        }
 
-		/// <summary>
-		///   実引数の値を表します．
-		/// </summary>
-		public IUnifiedExpression Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
-		}
+        /// <summary>
+        ///   実引数の値を表します．
+        /// </summary>
+        public IUnifiedExpression Value {
+            get { return _value; }
+            set { _value = SetChild(value, _value); }
+        }
 
-		private UnifiedIdentifier _target;
+        /// <summary>
+        ///   実引数の代入先の変数名を表します．
+        /// </summary>
+        // TODO: 名前が分かりづらいのでは？
+        public UnifiedIdentifier Target {
+            get { return _target; }
+            set { _target = SetChild(value, _target); }
+        }
 
-		/// <summary>
-		///   実引数の代入先の変数名を表します．
-		/// </summary>
-		// TODO: 名前が分かりづらいのでは？
-		public UnifiedIdentifier Target {
-			get { return _target; }
-			set { _target = SetChild(value, _target); }
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		private UnifiedArgument() {}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor,
+                TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
-				TArg arg) {
-			visitor.Visit(this, arg);
-		}
-
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-
-		public static UnifiedArgument Create(IUnifiedExpression value, UnifiedIdentifier target = null, UnifiedModifierCollection modifiers = null) {
-			return new UnifiedArgument {
-					Modifiers = modifiers,
-					Value = value,
-					Target = target,
-			};
-		}
-	}
+        public static UnifiedArgument Create(
+                IUnifiedExpression value, UnifiedIdentifier target = null,
+                UnifiedModifierCollection modifiers = null) {
+            return new UnifiedArgument {
+                    Modifiers = modifiers,
+                    Value = value,
+                    Target = target,
+            };
+        }
+    }
 }

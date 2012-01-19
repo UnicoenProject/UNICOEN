@@ -21,80 +21,89 @@ using Unicoen.CodeGenerators;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	public static class ModelExtensionsForVisitor {
-		[DebuggerStepThrough]
-		public static void TryAcceptAllChildren<TElement>(
-				this TElement element, IUnifiedVisitor visitor)
-				where TElement : class, IUnifiedElement {
-			foreach (var child in element.Elements()) {
-				child.TryAccept(visitor);
-			}
-		}
+    public static class ModelExtensionsForVisitor {
+        [DebuggerStepThrough]
+        public static void TryAcceptAllChildren<TElement>(
+                this TElement element, IUnifiedVisitor visitor)
+                where TElement : class, IUnifiedElement {
+            foreach (var child in element.Elements()) {
+                child.TryAccept(visitor);
+            }
+        }
 
-		[DebuggerStepThrough]
-		public static void TryAcceptAllChildren<TElement, TArg>(
-				this TElement element, IUnifiedVisitor<TArg> visitor, TArg arg)
-				where TElement : class, IUnifiedElement {
-			foreach (var child in element.Elements()) {
-				child.TryAccept(visitor, arg);
-			}
-		}
+        [DebuggerStepThrough]
+        public static void TryAcceptAllChildren<TElement, TArg>(
+                this TElement element, IUnifiedVisitor<TArg> visitor, TArg arg)
+                where TElement : class, IUnifiedElement {
+            foreach (var child in element.Elements()) {
+                child.TryAccept(visitor, arg);
+            }
+        }
 
-		[DebuggerStepThrough]
-		public static void TryAcceptAllChildren<TElement, TArg, TResult>(
-				this TElement element, IUnifiedVisitor<TArg, TResult> visitor, TArg arg)
-				where TElement : class, IUnifiedElement {
-			foreach (var child in element.Elements()) {
-				child.TryAccept(visitor, arg);
-			}
-		}
+        [DebuggerStepThrough]
+        public static void TryAcceptAllChildren<TElement, TArg, TResult>(
+                this TElement element, IUnifiedVisitor<TArg, TResult> visitor,
+                TArg arg)
+                where TElement : class, IUnifiedElement {
+            foreach (var child in element.Elements()) {
+                child.TryAccept(visitor, arg);
+            }
+        }
 
-		[DebuggerStepThrough]
-		public static void TryAccept<TElement>(
-				this TElement element, IUnifiedVisitor visitor)
-				where TElement : class, IUnifiedElement {
-			if (element != null)
-				element.Accept(visitor);
-		}
+        [DebuggerStepThrough]
+        public static void TryAccept<TElement>(
+                this TElement element, IUnifiedVisitor visitor)
+                where TElement : class, IUnifiedElement {
+            if (element != null) {
+                element.Accept(visitor);
+            }
+        }
 
-		[DebuggerStepThrough]
-		public static void TryAccept<TElement, TArg>(
-				this TElement element, IUnifiedVisitor<TArg> visitor, TArg arg)
-				where TElement : class, IUnifiedElement {
-			if (element != null)
-				element.Accept(visitor, arg);
-		}
+        [DebuggerStepThrough]
+        public static void TryAccept<TElement, TArg>(
+                this TElement element, IUnifiedVisitor<TArg> visitor, TArg arg)
+                where TElement : class, IUnifiedElement {
+            if (element != null) {
+                element.Accept(visitor, arg);
+            }
+        }
 
-		[DebuggerStepThrough]
-		public static TResult TryAccept<TElement, TArg, TResult>(
-				this TElement element, IUnifiedVisitor<TArg, TResult> visitor, TArg arg)
-				where TElement : class, IUnifiedElement {
-			if (element == null)
-				return default(TResult);
-			return element.Accept(visitor, arg);
-		}
+        [DebuggerStepThrough]
+        public static TResult TryAccept<TElement, TArg, TResult>(
+                this TElement element, IUnifiedVisitor<TArg, TResult> visitor,
+                TArg arg)
+                where TElement : class, IUnifiedElement {
+            if (element == null) {
+                return default(TResult);
+            }
+            return element.Accept(visitor, arg);
+        }
 
-		[DebuggerStepThrough]
-		public static bool TryAccept<TElement>(
-				this TElement element, JavaLikeCodeFactoryVisitor visitor, VisitorArgument arg, string mostLeft)
-				where TElement : class, IUnifiedElement {
-			if (element == null)
-				return default(bool);
-			visitor.Writer.Write(mostLeft);
-			var ret = element.Accept(visitor, arg);
-			return ret;
-		}
+        [DebuggerStepThrough]
+        public static bool TryAccept<TElement>(
+                this TElement element, JavaLikeCodeFactoryVisitor visitor,
+                VisitorArgument arg, string mostLeft)
+                where TElement : class, IUnifiedElement {
+            if (element == null) {
+                return default(bool);
+            }
+            visitor.Writer.Write(mostLeft);
+            var ret = element.Accept(visitor, arg);
+            return ret;
+        }
 
-		[DebuggerStepThrough]
-		public static bool TryAccept<TElement>(
-				this TElement element, JavaLikeCodeFactoryVisitor visitor, VisitorArgument arg, string mostLeft, string mostRight)
-				where TElement : class, IUnifiedElement {
-			if (element == null)
-				return default(bool);
-			visitor.Writer.Write(mostLeft);
-			var ret = element.Accept(visitor, arg);
-			visitor.Writer.Write(mostRight);
-			return ret;
-		}
-	}
+        [DebuggerStepThrough]
+        public static bool TryAccept<TElement>(
+                this TElement element, JavaLikeCodeFactoryVisitor visitor,
+                VisitorArgument arg, string mostLeft, string mostRight)
+                where TElement : class, IUnifiedElement {
+            if (element == null) {
+                return default(bool);
+            }
+            visitor.Writer.Write(mostLeft);
+            var ret = element.Accept(visitor, arg);
+            visitor.Writer.Write(mostRight);
+            return ret;
+        }
+    }
 }

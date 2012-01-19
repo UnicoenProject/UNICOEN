@@ -20,109 +20,113 @@ using System;
 using System.Collections.Generic;
 
 namespace Unicoen.Apps.UniAspect.Cui.AspectElement {
-	/// <summary>
-	///   アドバイスを表します
-	///   アドバイスは以下の属性から構成されます
-	/// </summary>
-	public class Advice : IAspectElement {
-		//アドバイスの種類(before or after)
-		private string _adviceType;
-		//アドバイスのターゲット名
-		private string _target;
-		//TODO パラメータの実装
-		private readonly List<string> _parameters = new List<string>();
-		//直前の言語依存ブロックの言語の種類を保存しておくための一時変数
-		private string _currentLanguageType;
-		//実際に合成されるコード片
-		private readonly List<LanguageDependBlock> _fragments =
-				new List<LanguageDependBlock>();
+    /// <summary>
+    ///   アドバイスを表します アドバイスは以下の属性から構成されます
+    /// </summary>
+    public class Advice : IAspectElement {
+        //アドバイスの種類(before or after)
+        //TODO パラメータの実装
+        private readonly List<LanguageDependBlock> _fragments =
+                new List<LanguageDependBlock>();
 
-		//アドバイスの種類を指定します
-		public void SetElementType(string elementType) {
-			_adviceType = elementType;
-		}
+        private readonly List<string> _parameters = new List<string>();
+        private string _adviceType;
+        //直前の言語依存ブロックの言語の種類を保存しておくための一時変数
+        private string _currentLanguageType;
+        private string _target;
+        //実際に合成されるコード片
 
-		//アドバイスのターゲットを指定します
-		public void SetTarget(string target) {
-			_target = target;
-		}
+        //アドバイスの種類を指定します
 
-		//アドバイスのパラメータを指定します
-		public void SetParameter(string param) {
-			_parameters.Add(param);
-		}
+        #region IAspectElement Members
 
-		//コード片の対象言語を指定します
-		public void SetLanguageType(string language) {
-			_currentLanguageType = language;
-		}
+        public void SetElementType(string elementType) {
+            _adviceType = elementType;
+        }
 
-		//コード片の内容を指定します
-		public void SetContents(string content) {
-			foreach (var block in _fragments) {
-				//すでに現在の言語に対する言語依存ブロックがある場合
-				if (block.GetLanguageType() == _currentLanguageType) {
-					block.SetContents(content);
-					return;
-				}
-			}
+        //アドバイスのターゲットを指定します
+        public void SetTarget(string target) {
+            _target = target;
+        }
 
-			//現在の言語に対する言語依存ブロックがなかった場合
-			var newBlock = new LanguageDependBlock();
-			newBlock.SetLanguageType(_currentLanguageType);
-			newBlock.SetContents(content);
-			_fragments.Add(newBlock);
-		}
+        //アドバイスのパラメータを指定します
+        public void SetParameter(string param) {
+            _parameters.Add(param);
+        }
 
-		#region Un-use Method
+        //コード片の対象言語を指定します
+        public void SetLanguageType(string language) {
+            _currentLanguageType = language;
+        }
 
-		public void SetName(string name) {
-			throw new InvalidOperationException();
-		}
+        //コード片の内容を指定します
+        public void SetContents(string content) {
+            foreach (var block in _fragments) {
+                //すでに現在の言語に対する言語依存ブロックがある場合
+                if (block.GetLanguageType() == _currentLanguageType) {
+                    block.SetContents(content);
+                    return;
+                }
+            }
 
-		public void SetParameterType(string paramType) {
-			throw new InvalidOperationException();
-		}
+            //現在の言語に対する言語依存ブロックがなかった場合
+            var newBlock = new LanguageDependBlock();
+            newBlock.SetLanguageType(_currentLanguageType);
+            newBlock.SetContents(content);
+            _fragments.Add(newBlock);
+        }
 
-		public void SetType(string type) {
-			throw new InvalidOperationException();
-		}
+        public string GetProperty() {
+            var property = "advice type: " + _adviceType + "\n";
+            property += "target: " + _target + "\n";
+            property += "parameters: ";
+            var splitter = "";
+            foreach (var parameter in _parameters) {
+                property += splitter + parameter;
+                splitter = ",";
+            }
+            property += "\n";
+            property += "fragments:\n";
+            foreach (var fragment in _fragments) {
+                property += "  languege: " + fragment.GetLanguageType() + "\n";
+                property += "  contents: " + fragment.GetContents() + "\n";
+            }
 
-		#endregion
+            return property;
+        }
 
-		public string GetProperty() {
-			var property = "advice type: " + _adviceType + "\n";
-			property += "target: " + _target + "\n";
-			property += "parameters: ";
-			var splitter = "";
-			foreach (var parameter in _parameters) {
-				property += splitter + parameter;
-				splitter = ",";
-			}
-			property += "\n";
-			property += "fragments:\n";
-			foreach (var fragment in _fragments) {
-				property += "  languege: " + fragment.GetLanguageType() + "\n";
-				property += "  contents: " + fragment.GetContents() + "\n";
-			}
+        #endregion
 
-			return property;
-		}
+        #region Un-use Method
 
-		public string GetAdviceType() {
-			return _adviceType;
-		}
+        public void SetName(string name) {
+            throw new InvalidOperationException();
+        }
 
-		public string GetTarget() {
-			return _target;
-		}
+        public void SetParameterType(string paramType) {
+            throw new InvalidOperationException();
+        }
 
-		public List<string> GetParameters() {
-			return _parameters;
-		}
+        public void SetType(string type) {
+            throw new InvalidOperationException();
+        }
 
-		public List<LanguageDependBlock> GetFragments() {
-			return _fragments;
-		}
-	}
+        #endregion
+
+        public string GetAdviceType() {
+            return _adviceType;
+        }
+
+        public string GetTarget() {
+            return _target;
+        }
+
+        public List<string> GetParameters() {
+            return _parameters;
+        }
+
+        public List<LanguageDependBlock> GetFragments() {
+            return _fragments;
+        }
+    }
 }

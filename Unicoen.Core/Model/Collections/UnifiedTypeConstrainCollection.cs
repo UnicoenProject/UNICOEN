@@ -20,35 +20,33 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   型が持つ性質（継承関係など）の集合を表します。
-	///   e.g. Javaにおける<c>public class A extends B</c>の<c>extends B</c>
-	///   e.g. Javaにおける<c>ArrayList&lt;? extends Object&gt;</c>の<c>extends Object</c>
-	/// </summary>
-	public class UnifiedTypeConstrainCollection
-			: UnifiedElementCollection
-			  		<UnifiedTypeConstrain, UnifiedTypeConstrainCollection> {
-		protected UnifiedTypeConstrainCollection() {}
+    /// <summary>
+    ///   型が持つ性質（継承関係など）の集合を表します。 e.g. Javaにおける <c>public class A extends B</c> の <c>extends B</c> e.g. Javaにおける <c>ArrayList&lt;? extends Object&gt;</c> の <c>extends Object</c>
+    /// </summary>
+    public class UnifiedTypeConstrainCollection
+            : UnifiedElementCollection
+                      <UnifiedTypeConstrain, UnifiedTypeConstrainCollection> {
+        protected UnifiedTypeConstrainCollection() {}
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		public override UnifiedTypeConstrainCollection CreateSelf() {
-			return new UnifiedTypeConstrainCollection();
-		}
+        public override UnifiedTypeConstrainCollection CreateSelf() {
+            return new UnifiedTypeConstrainCollection();
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
-			  		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+                      }
 }

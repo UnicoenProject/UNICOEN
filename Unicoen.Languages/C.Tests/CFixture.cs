@@ -20,117 +20,116 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.CodeGenerators;
-using Unicoen.Processor;
+using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
-using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-	public class CFixture : Fixture {
-		/// <summary>
-		///   対応する言語のソースコードの拡張子を取得します．
-		/// </summary>
-		public override string Extension {
-			get { return ".c"; }
-		}
+    public class CFixture : Fixture {
+        /// <summary>
+        ///   対応する言語のソースコードの拡張子を取得します．
+        /// </summary>
+        public override string Extension {
+            get { return ".c"; }
+        }
 
-		/// <summary>
-		///   対応する言語のソースコードの拡張子を取得します．
-		/// </summary>
-		public override string CompiledExtension {
-			get { return ".exe"; }
-		}
+        /// <summary>
+        ///   対応する言語のソースコードの拡張子を取得します．
+        /// </summary>
+        public override string CompiledExtension {
+            get { return ".exe"; }
+        }
 
-		/// <summary>
-		///   対応する言語のモデル生成器を取得します．
-		/// </summary>
-		public override UnifiedProgramGenerator ProgramGenerator {
-			get { return CFactory.ProgramGenerator; }
-		}
+        /// <summary>
+        ///   対応する言語のモデル生成器を取得します．
+        /// </summary>
+        public override UnifiedProgramGenerator ProgramGenerator {
+            get { return CFactory.ProgramGenerator; }
+        }
 
-		/// <summary>
-		///   対応する言語のコード生成器を取得します．
-		/// </summary>
-		public override UnifiedCodeGenerator CodeGenerator {
-			get { return CFactory.CodeGenerator; }
-		}
+        /// <summary>
+        ///   対応する言語のコード生成器を取得します．
+        /// </summary>
+        public override UnifiedCodeGenerator CodeGenerator {
+            get { return CFactory.CodeGenerator; }
+        }
 
-		/// <summary>
-		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。
-		///   Java言語であれば，<c>class A { public void M1() { ... } }</c>の...部分に
-		///   このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-		/// </summary>
-		public override IEnumerable<TestCaseData> TestCodes {
-			get {
-				var statements = new[] {
-						"{ func(); }",
-				}.Select(s => new TestCaseData(DecorateToCompile(s)));
+        /// <summary>
+        ///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。 Java言語であれば， <c>class A { public void M1() { ... } }</c> の...部分に このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
+        /// </summary>
+        public override IEnumerable<TestCaseData> TestCodes {
+            get {
+                var statements = new[] {
+                        "{ func(); }",
+                }.Select(s => new TestCaseData(DecorateToCompile(s)));
 
-				var codes = new[] {
-						"int main() { return 0; }",
-				}.Select(s => new TestCaseData(s));
+                var codes = new[] {
+                        "int main() { return 0; }",
+                }.Select(s => new TestCaseData(s));
 
-				return statements.Concat(codes);
-			}
-		}
+                return statements.Concat(codes);
+            }
+        }
 
-		private static string DecorateToCompile(string statement) {
-			return "int main() {" + statement + "}";
-		}
+        /// <summary>
+        ///   テスト時に入力するファイルパスの集合です．
+        /// </summary>
+        public override IEnumerable<TestCaseData> TestFilePathes {
+            get {
+                // 必要に応じて以下の要素をコメントアウト
+                return new[] {
+                        //"fibonacci",
+                        //"fibonacci2",
+                        //"empty",
+                        //"assignment",
+                        //"Block1",
+                        //"Block2",
+                        //"Block3",
+                        //"hello",
+                        //"test",
+                        //"fact",
+                        //"LineDriveController",
+                        "ActionController",
+                        //"switchNest",
+                        //"pointer",
+                }
+                        .Select(
+                                s =>
+                                new TestCaseData(
+                                        FixtureUtil.GetInputPath(
+                                                "C", s + Extension)));
+            }
+        }
 
-		/// <summary>
-		///   テスト時に入力するファイルパスの集合です．
-		/// </summary>
-		public override IEnumerable<TestCaseData> TestFilePathes {
-			get {
-				// 必要に応じて以下の要素をコメントアウト
-				return new[] {
-						//"fibonacci",
-						//"fibonacci2",
-						//"empty",
-						//"assignment",
-						//"Block1",
-						//"Block2",
-						//"Block3",
-						//"hello",
-						//"test",
-						//"fact",
-						//"LineDriveController",
-						"ActionController",
-						//"switchNest",
-						//"pointer",
-				}
-						.Select(
-								s =>
-								new TestCaseData(FixtureUtil.GetInputPath("C", s + Extension)));
-			}
-		}
+        /// <summary>
+        ///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
+        /// </summary>
+        public override IEnumerable<TestCaseData> TestProjectInfos {
+            get { yield break; }
+        }
 
-		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
-		/// </summary>
-		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { yield break; }
-		}
+        public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+            get { yield break; }
+        }
 
-		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-			get { yield break; }
-		}
+        private static string DecorateToCompile(string statement) {
+            return "int main() {" + statement + "}";
+        }
 
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
-		/// </summary>
-		/// <param name = "workPath">コンパイル対象のソースコードが格納されているディレクトリのパス</param>
-		/// <param name = "srcPath">コンパイル対象のソースコードのファイル名</param>
-		public override void Compile(string workPath, string srcPath) {}
+        /// <summary>
+        ///   セマンティクスの変化がないか比較するためにソースコードをデフォルトの設定でコンパイルします．
+        /// </summary>
+        /// <param name="workPath"> コンパイル対象のソースコードが格納されているディレクトリのパス </param>
+        /// <param name="srcPath"> コンパイル対象のソースコードのファイル名 </param>
+        public override void Compile(string workPath, string srcPath) {}
 
-		/// <summary>
-		///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
-		/// </summary>
-		/// <param name = "workPath">コマンドを実行する作業ディレクトリのパス</param>
-		/// <param name = "command">コンパイルのコマンド</param>
-		/// <param name = "arguments">コマンドの引数</param>
-		public override void CompileWithArguments(
-				string workPath, string command, string arguments) {}
-	}
+        /// <summary>
+        ///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
+        /// </summary>
+        /// <param name="workPath"> コマンドを実行する作業ディレクトリのパス </param>
+        /// <param name="command"> コンパイルのコマンド </param>
+        /// <param name="arguments"> コマンドの引数 </param>
+        public override void CompileWithArguments(
+                string workPath, string command, string arguments) {}
+    }
 }

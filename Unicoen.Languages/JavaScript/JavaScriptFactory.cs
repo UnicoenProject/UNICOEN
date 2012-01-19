@@ -21,21 +21,21 @@ using Unicoen.Languages.JavaScript.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.JavaScript {
-	public static class JavaScriptFactory {
-		public static readonly JavaScriptCodeGenerator CodeGenerator;
-		public static readonly JavaScriptProgramGenerator ProgramGenerator;
+    public static class JavaScriptFactory {
+        public static readonly JavaScriptCodeGenerator CodeGenerator;
+        public static readonly JavaScriptProgramGenerator ProgramGenerator;
 
-		static JavaScriptFactory() {
-			CodeGenerator = new JavaScriptCodeGenerator();
-			ProgramGenerator = new JavaScriptProgramGenerator();
-		}
+        static JavaScriptFactory() {
+            CodeGenerator = new JavaScriptCodeGenerator();
+            ProgramGenerator = new JavaScriptProgramGenerator();
+        }
 
-		public static string GenerateCode(IUnifiedElement model) {
-			return CodeGenerator.Generate(model);
-		}
+        public static string GenerateCode(IUnifiedElement model) {
+            return CodeGenerator.Generate(model);
+        }
 
-		public static UnifiedProgram GenerateModel(string code) {
-			return ProgramGenerator.Generate(code);
-		}
-	}
+        public static UnifiedProgram GenerateModel(string code) {
+            return ProgramGenerator.Generate(code);
+        }
+    }
 }

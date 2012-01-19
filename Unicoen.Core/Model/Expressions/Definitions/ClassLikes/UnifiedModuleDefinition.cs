@@ -20,33 +20,32 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   クラスの定義部分を表します。
-	///   e.g. Javaにおける<c>public class A{....}</c>
-	/// </summary>
-	public class UnifiedModuleDefinition
-			: UnifiedBlockDefinition<UnifiedModuleDefinition> {
-		protected UnifiedModuleDefinition() {}
+    /// <summary>
+    ///   クラスの定義部分を表します。 e.g. Javaにおける <c>public class A{....}</c>
+    /// </summary>
+    public class UnifiedModuleDefinition
+            : UnifiedBlockDefinition<UnifiedModuleDefinition> {
+        protected UnifiedModuleDefinition() {}
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		public override UnifiedModuleDefinition CreateSelf() {
-			return new UnifiedModuleDefinition();
-		}
-			}
+        public override UnifiedModuleDefinition CreateSelf() {
+            return new UnifiedModuleDefinition();
+        }
+            }
 }

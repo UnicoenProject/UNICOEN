@@ -19,17 +19,17 @@
 using System.Collections.Generic;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   集合としての操作を備えている共通表現オブジェクトを表します．
-	/// </summary>
-	/// <typeparam name = "TElement"></typeparam>
-	public interface IUnifiedElementCollection<TElement>
-			: IUnifiedElement, IList<TElement>
-			where TElement : class, IUnifiedElement {
-		/// <summary>
-		///   共通表現の要素列を追加します．
-		/// </summary>
-		/// <param name = "elements"></param>
-		void AddRange(IEnumerable<TElement> elements);
-			}
+    /// <summary>
+    ///   集合としての操作を備えている共通表現オブジェクトを表します．
+    /// </summary>
+    /// <typeparam name="TElement"> </typeparam>
+    public interface IUnifiedElementCollection<TElement>
+            : IUnifiedElement, IList<TElement>
+            where TElement : class, IUnifiedElement {
+        /// <summary>
+        ///   共通表現の要素列を追加します．
+        /// </summary>
+        /// <param name="elements"> </param>
+        void AddRange(IEnumerable<TElement> elements);
+            }
 }

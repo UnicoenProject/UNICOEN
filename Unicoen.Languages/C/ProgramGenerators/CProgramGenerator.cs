@@ -20,26 +20,25 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using Code2Xml.Languages.C.CodeToXmls;
 using Unicoen.CodeGenerators;
-using Unicoen.Languages.C.CodeGenerators;
 using Unicoen.Model;
 using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.C.ProgramGenerators {
-	[Export(typeof(UnifiedProgramGenerator))]
-	public class CProgramGenerator : UnifiedProgramGenerator {
-		public static CProgramGenerator Instance = new CProgramGenerator();
+    [Export(typeof(UnifiedProgramGenerator))]
+    public class CProgramGenerator : UnifiedProgramGenerator {
+        public static CProgramGenerator Instance = new CProgramGenerator();
 
-		public override IEnumerable<string> Extensions {
-			get { return CCodeToXml.Instance.TargetExtensions; }
-		}
+        public override IEnumerable<string> Extensions {
+            get { return CCodeToXml.Instance.TargetExtensions; }
+        }
 
-		public override UnifiedCodeGenerator CodeGenerator {
-			get { return CFactory.CodeGenerator; }
-		}
+        public override UnifiedCodeGenerator CodeGenerator {
+            get { return CFactory.CodeGenerator; }
+        }
 
-		public override UnifiedProgram GenerateWithoutNormalizing(string code) {
-			var ast = CCodeToXml.Instance.Generate(code, true);
-			return CProgramGeneratorHelper.CreateTranslationUnit(ast);
-		}
-	}
+        public override UnifiedProgram GenerateWithoutNormalizing(string code) {
+            var ast = CCodeToXml.Instance.Generate(code, true);
+            return CProgramGeneratorHelper.CreateTranslationUnit(ast);
+        }
+    }
 }

@@ -21,15 +21,16 @@ using Unicoen.CodeGenerators;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.Python2.CodeGenerators {
-	public partial class Python2CodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
-		private static readonly Decoration CommaMostLeft =
-				new Decoration { MostLeft = "," };
+    public partial class Python2CodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
+        private static readonly Decoration CommaMostLeft =
+                new Decoration { MostLeft = "," };
 
-		private static readonly Decoration Empty = new Decoration();
+        private static readonly Decoration Empty = new Decoration();
 
-		private static readonly Decoration SpaceDelimiter =
-				new Decoration { EachRight = " " };
+        private static readonly Decoration SpaceDelimiter =
+                new Decoration { EachRight = " " };
 
-		public Python2CodeFactoryVisitor(TextWriter writer, string indentSign) : base(writer, indentSign) {}
-	}
+        public Python2CodeFactoryVisitor(TextWriter writer, string indentSign)
+                : base(writer, indentSign) {}
+    }
 }

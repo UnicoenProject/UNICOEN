@@ -21,21 +21,21 @@ using Unicoen.Languages.Python2.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.Python2 {
-	public static class Python2Factory {
-		public static readonly Python2CodeGenerator CodeGenerator;
-		public static readonly Python2ProgramGenerator ProgramGenerator;
+    public static class Python2Factory {
+        public static readonly Python2CodeGenerator CodeGenerator;
+        public static readonly Python2ProgramGenerator ProgramGenerator;
 
-		static Python2Factory() {
-			CodeGenerator = new Python2CodeGenerator();
-			ProgramGenerator = new Python2ProgramGenerator();
-		}
+        static Python2Factory() {
+            CodeGenerator = new Python2CodeGenerator();
+            ProgramGenerator = new Python2ProgramGenerator();
+        }
 
-		public static string GenerateCode(IUnifiedElement model) {
-			return CodeGenerator.Generate(model);
-		}
+        public static string GenerateCode(IUnifiedElement model) {
+            return CodeGenerator.Generate(model);
+        }
 
-		public static UnifiedProgram GenerateModel(string code) {
-			return ProgramGenerator.Generate(code);
-		}
-	}
+        public static UnifiedProgram GenerateModel(string code) {
+            return ProgramGenerator.Generate(code);
+        }
+    }
 }

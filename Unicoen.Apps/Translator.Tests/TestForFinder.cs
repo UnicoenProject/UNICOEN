@@ -19,26 +19,28 @@
 using System.IO;
 using System.Text;
 using NUnit.Framework;
+using Unicoen.Languages.Java;
 using Unicoen.Model;
 using Unicoen.Tests;
-using Unicoen.Languages.Java;
 
 namespace Unicoen.Apps.Translator.Tests {
-	public class TestForFinder {
-		private UnifiedProgram _program;
+    public class TestForFinder {
+        private UnifiedProgram _program;
 
-		[SetUp]
-		public void SetUp() {
-			var filePath = FixtureUtil.GetInputPath("Java", "default", "Student.java");
-			var code = File.ReadAllText(filePath, Encoding.Default);
-			_program = JavaFactory.GenerateModel(code);
-		}
+        [SetUp]
+        public void SetUp() {
+            var filePath = FixtureUtil.GetInputPath(
+                    "Java", "default", "Student.java");
+            var code = File.ReadAllText(filePath, Encoding.Default);
+            _program = JavaFactory.GenerateModel(code);
+        }
 
-		[Test]
-		public void 関数をすべて取得できる() {
-			var functions =
-					Finder.Finder.GetAllElements<UnifiedFunctionDefinition>(_program);
-			Assert.That(functions.Count, Is.EqualTo(3));
-		}
-	}
+        [Test]
+        public void 関数をすべて取得できる() {
+            var functions =
+                    Finder.Finder.GetAllElements<UnifiedFunctionDefinition>(
+                            _program);
+            Assert.That(functions.Count, Is.EqualTo(3));
+        }
+    }
 }

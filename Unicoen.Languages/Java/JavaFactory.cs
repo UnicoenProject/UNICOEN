@@ -21,21 +21,21 @@ using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.Java {
-	public static class JavaFactory {
-		public static readonly JavaCodeGenerator CodeGenerator;
-		public static readonly JavaProgramGenerator ProgramGenerator;
+    public static class JavaFactory {
+        public static readonly JavaCodeGenerator CodeGenerator;
+        public static readonly JavaProgramGenerator ProgramGenerator;
 
-		static JavaFactory() {
-			CodeGenerator = new JavaCodeGenerator();
-			ProgramGenerator = new JavaProgramGenerator();
-		}
+        static JavaFactory() {
+            CodeGenerator = new JavaCodeGenerator();
+            ProgramGenerator = new JavaProgramGenerator();
+        }
 
-		public static string GenerateCode(IUnifiedElement model) {
-			return CodeGenerator.Generate(model);
-		}
+        public static string GenerateCode(IUnifiedElement model) {
+            return CodeGenerator.Generate(model);
+        }
 
-		public static UnifiedProgram GenerateModel(string code) {
-			return ProgramGenerator.Generate(code);
-		}
-	}
+        public static UnifiedProgram GenerateModel(string code) {
+            return ProgramGenerator.Generate(code);
+        }
+    }
 }

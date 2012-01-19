@@ -21,23 +21,27 @@ using Unicoen.Apps.Metrics.Utils;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Metrics.Core {
-	public class Cyclomatic : MetricsPrinter {
-		protected override string MeticName {
-			get { return "Cyclomatic complexity"; }
-		}
+    public class Cyclomatic : MetricsPrinter {
+        protected override string MeticName {
+            get { return "Cyclomatic complexity"; }
+        }
 
-		protected override int AdditionalCount {
-			get { return 1; }
-		}
+        protected override int AdditionalCount {
+            get { return 1; }
+        }
 
-		protected override IEnumerable<IUnifiedElement> ProtectedGetTargetElements(
-				IUnifiedElement codeObject) {
-			return GetTargetElements(codeObject);
-		}
+        protected override IEnumerable<IUnifiedElement>
+                ProtectedGetTargetElements(
+                IUnifiedElement codeObject) {
+            return GetTargetElements(codeObject);
+        }
 
-		public static IEnumerable<IUnifiedElement> GetTargetElements(
-				IUnifiedElement codeObject) {
-			return codeObject.Descendants<UnifiedIf, UnifiedFor, UnifiedWhile, UnifiedDoWhile, UnifiedCase>();
-		}
-	}
+        public static IEnumerable<IUnifiedElement> GetTargetElements(
+                IUnifiedElement codeObject) {
+            return
+                    codeObject.Descendants
+                            <UnifiedIf, UnifiedFor, UnifiedWhile, UnifiedDoWhile
+                                    , UnifiedCase>();
+        }
+    }
 }

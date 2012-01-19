@@ -17,34 +17,34 @@
 #endregion
 
 namespace Unicoen.Apps.UniAspect.Cui.AspectElement {
-	/// <summary>
-	///   言語依存ブロックを表します
-	/// </summary>
-	public class LanguageDependBlock {
-		/// <summary>
-		///   依存する言語の種類
-		/// </summary>
-		private string _languageType;
+    /// <summary>
+    ///   言語依存ブロックを表します
+    /// </summary>
+    public class LanguageDependBlock {
+        /// <summary>
+        ///   合成される処理内容
+        /// </summary>
+        private string _contents;
 
-		/// <summary>
-		///   合成される処理内容
-		/// </summary>
-		private string _contents;
+        /// <summary>
+        ///   依存する言語の種類
+        /// </summary>
+        private string _languageType;
 
-		public string GetLanguageType() {
-			return _languageType;
-		}
+        public string GetLanguageType() {
+            return _languageType;
+        }
 
-		public string GetContents() {
-			return _contents;
-		}
+        public string GetContents() {
+            return _contents;
+        }
 
-		public void SetLanguageType(string language) {
-			_languageType = language;
-		}
+        public void SetLanguageType(string language) {
+            _languageType = language;
+        }
 
-		public void SetContents(string content) {
-			_contents += (content + " ");
-		}
-	}
+        public void SetContents(string content) {
+            _contents += (content + " ");
+        }
+    }
 }

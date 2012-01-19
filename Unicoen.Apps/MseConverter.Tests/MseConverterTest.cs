@@ -22,61 +22,62 @@ using NUnit.Framework;
 using Unicoen.Tests;
 
 namespace Unicoen.Apps.MseConverter.Tests {
-	[TestFixture]
-	public class MseConverterTest {
-		[Test]
-		public void Javaから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			var dirPath = FixtureUtil.GetDownloadPath("java", "junit4.8.2");
-			var writer = new StringWriter();
-			var converter = new MseConverter(writer);
-			converter.Generate(dirPath, writer);
-			Console.Write(writer.ToString());
-		}
+    [TestFixture]
+    public class MseConverterTest {
+        [Test]
+        public void CSharpから変換された共通オブジェクトをmseフォーマットに変換できる() {
+            var dirPath = FixtureUtil.GetDownloadPath("java", "junit4.8.2");
+            var writer = new StringWriter();
+            var converter = new MseConverter(writer);
+            converter.Generate(dirPath, writer);
+            Console.Write(writer.ToString());
+        }
 
-		[Test]
-		public void JavaScriptから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			var dirPath = FixtureUtil.GetDownloadPath(
-					"JavaScript", "Processing.js-1.2.3");
-			var writer = new StringWriter();
-			var converter = new MseConverter(writer);
-			converter.Generate(dirPath, writer);
-			Console.Write(writer.ToString());
-		}
+        [Test]
+        public void JavaScriptから変換された共通オブジェクトをmseフォーマットに変換できる() {
+            var dirPath = FixtureUtil.GetDownloadPath(
+                    "JavaScript", "Processing.js-1.2.3");
+            var writer = new StringWriter();
+            var converter = new MseConverter(writer);
+            converter.Generate(dirPath, writer);
+            Console.Write(writer.ToString());
+        }
 
-		[Test]
-		public void CSharpから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			var dirPath = FixtureUtil.GetDownloadPath("java", "junit4.8.2");
-			var writer = new StringWriter();
-			var converter = new MseConverter(writer);
-			converter.Generate(dirPath, writer);
-			Console.Write(writer.ToString());
-		}
+        [Test]
+        public void Javaから変換された共通オブジェクトをmseフォーマットに変換できる() {
+            var dirPath = FixtureUtil.GetDownloadPath("java", "junit4.8.2");
+            var writer = new StringWriter();
+            var converter = new MseConverter(writer);
+            converter.Generate(dirPath, writer);
+            Console.Write(writer.ToString());
+        }
 
-		[Test]
-		public void Pythonから変換された共通オブジェクトをmseフォーマットに変換できる() {
-			var dirPath = FixtureUtil.GetDownloadPath("Python2", "django-1.3");
-			var writer = new StringWriter();
-			var converter = new MseConverter(writer);
-			converter.Generate(dirPath, writer);
-			Console.Write(writer.ToString());
-		}
+        [Test]
+        public void Pythonから変換された共通オブジェクトをmseフォーマットに変換できる() {
+            var dirPath = FixtureUtil.GetDownloadPath("Python2", "django-1.3");
+            var writer = new StringWriter();
+            var converter = new MseConverter(writer);
+            converter.Generate(dirPath, writer);
+            Console.Write(writer.ToString());
+        }
 
-		[Test]
-		public void Tornadeをmseフォーマットに変換できる() {
-			var dirPath = FixtureUtil.GetDownloadPath("Python2", "tornade-2.0.0");
-			var writer = new StringWriter();
-			var converter = new MseConverter(writer);
-			converter.Generate(dirPath, writer);
-			Console.Write(writer.ToString());
-		}
+        [Test]
+        public void Tornadeをmseフォーマットに変換できる() {
+            var dirPath = FixtureUtil.GetDownloadPath(
+                    "Python2", "tornade-2.0.0");
+            var writer = new StringWriter();
+            var converter = new MseConverter(writer);
+            converter.Generate(dirPath, writer);
+            Console.Write(writer.ToString());
+        }
 
-		[Test]
-		public void UNICOENをmseフォーマットに変換できる() {
-			var dirPath = @"C:\output\1\UnicoenProject-UNICOEN-2cefbbb";
-			var writer = new StringWriter();
-			var converter = new MseConverter(writer);
-			converter.Generate(dirPath, writer);
-			Console.Write(writer.ToString());
-		}
-	}
+        [Test]
+        public void UNICOENをmseフォーマットに変換できる() {
+            var dirPath = @"C:\output\1\UnicoenProject-UNICOEN-2cefbbb";
+            var writer = new StringWriter();
+            var converter = new MseConverter(writer);
+            converter.Generate(dirPath, writer);
+            Console.Write(writer.ToString());
+        }
+    }
 }

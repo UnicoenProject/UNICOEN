@@ -21,21 +21,21 @@ using Unicoen.Languages.C.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Languages.C {
-	public static class CFactory {
-		public static readonly CCodeGenerator CodeGenerator;
-		public static readonly CProgramGenerator ProgramGenerator;
+    public static class CFactory {
+        public static readonly CCodeGenerator CodeGenerator;
+        public static readonly CProgramGenerator ProgramGenerator;
 
-		static CFactory() {
-			CodeGenerator = new CCodeGenerator();
-			ProgramGenerator = new CProgramGenerator();
-		}
+        static CFactory() {
+            CodeGenerator = new CCodeGenerator();
+            ProgramGenerator = new CProgramGenerator();
+        }
 
-		public static string GenerateCode(IUnifiedElement model) {
-			return CodeGenerator.Generate(model);
-		}
+        public static string GenerateCode(IUnifiedElement model) {
+            return CodeGenerator.Generate(model);
+        }
 
-		public static UnifiedProgram GenerateModel(string code) {
-			return ProgramGenerator.Generate(code);
-		}
-	}
+        public static UnifiedProgram GenerateModel(string code) {
+            return ProgramGenerator.Generate(code);
+        }
+    }
 }

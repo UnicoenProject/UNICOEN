@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>UNICOEN</id>
-    <version>1.0.1.2</version>
+    <version>1.0.2.26</version>
     <title>UNICOEN</title>
     <authors>The UNICOEN Project</authors>
     <owners>Kazunori Sakamoto</owners>
@@ -15,7 +15,7 @@
     <tags>Parser Programming Language C Java C# VisualBasic JavaScript Python Ruby Framework</tags>
     <dependencies>
       <dependency id="Paraiba.Experiment" version="1.0.0.11" />
-      <dependency id="Code2Xml" version="1.0.1.15" />
+      <dependency id="Code2Xml" version="1.1.0.26" />
     </dependencies>
   </metadata>
 </package>

@@ -19,74 +19,78 @@
 using System;
 
 namespace Unicoen.Apps.UniAspect.Cui.AspectElement {
-	/// <summary>
-	///   インタータイプ宣言を表します
-	///   インタータイプ宣言は１つの言語依存ブロックから構成されます
-	/// </summary>
-	public class Intertype : IAspectElement {
-		private readonly LanguageDependBlock _block = new LanguageDependBlock();
-		private string _targetClass;
+    /// <summary>
+    ///   インタータイプ宣言を表します インタータイプ宣言は１つの言語依存ブロックから構成されます
+    /// </summary>
+    public class Intertype : IAspectElement {
+        private readonly LanguageDependBlock _block = new LanguageDependBlock();
+        private string _targetClass;
 
-		//織り込み対象となる言語を指定します
-		public void SetLanguageType(string language) {
-			_block.SetLanguageType(language);
-		}
+        //織り込み対象となる言語を指定します
 
-		//織り込み対象に合成する処理を指定します
-		public void SetContents(string content) {
-			_block.SetContents(content);
-		}
+        #region IAspectElement Members
 
-		public void SetTarget(string target) {
-			_targetClass = target;
-		}
+        public void SetLanguageType(string language) {
+            _block.SetLanguageType(language);
+        }
 
-		#region Un-use Methods
+        //織り込み対象に合成する処理を指定します
+        public void SetContents(string content) {
+            _block.SetContents(content);
+        }
 
-		public void SetElementType(string elementType) {
-			throw new InvalidOperationException();
-		}
+        public void SetTarget(string target) {
+            _targetClass = target;
+        }
 
-		public void SetName(string name) {
-			throw new InvalidProgramException();
-		}
+        public string GetProperty() {
+            var property = "language: " + _block.GetLanguageType() + "\n";
+            property += "ClassName: " + _targetClass + "\n";
+            property += "contents: ";
+            foreach (var c in _block.GetContents()) {
+                property += c;
+            }
+            property += "\n";
 
-		public void SetParameterType(string paramType) {
-			throw new InvalidOperationException();
-		}
+            return property;
+        }
 
-		public void SetParameter(string param) {
-			throw new InvalidOperationException();
-		}
+        #endregion
 
-		public void SetType(string type) {
-			throw new InvalidOperationException();
-		}
+        #region Un-use Methods
 
-		#endregion
+        public void SetElementType(string elementType) {
+            throw new InvalidOperationException();
+        }
 
-		public string GetProperty() {
-			var property = "language: " + _block.GetLanguageType() + "\n";
-			property += "ClassName: " + _targetClass + "\n";
-			property += "contents: ";
-			foreach (var c in _block.GetContents()) {
-				property += c;
-			}
-			property += "\n";
+        public void SetName(string name) {
+            throw new InvalidProgramException();
+        }
 
-			return property;
-		}
+        public void SetParameterType(string paramType) {
+            throw new InvalidOperationException();
+        }
 
-		public string GetLanguageType() {
-			return _block.GetLanguageType();
-		}
+        public void SetParameter(string param) {
+            throw new InvalidOperationException();
+        }
 
-		public string GetContents() {
-			return _block.GetContents();
-		}
+        public void SetType(string type) {
+            throw new InvalidOperationException();
+        }
 
-		public string GetTarget() {
-			return _targetClass;
-		}
-	}
+        #endregion
+
+        public string GetLanguageType() {
+            return _block.GetLanguageType();
+        }
+
+        public string GetContents() {
+            return _block.GetContents();
+        }
+
+        public string GetTarget() {
+            return _targetClass;
+        }
+    }
 }

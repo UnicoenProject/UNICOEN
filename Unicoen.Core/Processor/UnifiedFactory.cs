@@ -21,14 +21,14 @@ using System.Reflection;
 using Unicoen.Model;
 
 namespace Unicoen.Processor {
-	public static class UnifiedFactory<T>
-			where T : IUnifiedCreatable<T> {
-		private static readonly T Prototype = (T)typeof(T).GetConstructor(
-				BindingFlags.Instance | BindingFlags.NonPublic,
-				null, Type.EmptyTypes, null).Invoke(null);
+    public static class UnifiedFactory<T>
+            where T : IUnifiedCreatable<T> {
+        private static readonly T Prototype = (T)typeof(T).GetConstructor(
+                BindingFlags.Instance | BindingFlags.NonPublic,
+                null, Type.EmptyTypes, null).Invoke(null);
 
-		public static T Create() {
-			return Prototype.CreateSelf();
-		}
-			}
+        public static T Create() {
+            return Prototype.CreateSelf();
+        }
+            }
 }

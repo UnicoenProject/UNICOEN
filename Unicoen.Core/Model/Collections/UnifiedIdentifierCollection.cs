@@ -21,37 +21,37 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-	/// <summary>
-	///   識別子の集合を表します．
-	///   e.g. Pythonにおける<c>def f((a,b) = [1, 2], c = 1):</c>の<c>(a, b)</c>
-	/// </summary>
-	public class UnifiedIdentifierCollection
-			: UnifiedElementCollection<UnifiedIdentifier, UnifiedIdentifierCollection> {
-		public override UnifiedIdentifierCollection CreateSelf() {
-			return new UnifiedIdentifierCollection();
-		}
+    /// <summary>
+    ///   識別子の集合を表します． e.g. Pythonにおける <c>def f((a,b) = [1, 2], c = 1):</c> の <c>(a, b)</c>
+    /// </summary>
+    public class UnifiedIdentifierCollection
+            : UnifiedElementCollection
+                      <UnifiedIdentifier, UnifiedIdentifierCollection> {
+        protected UnifiedIdentifierCollection() {}
 
-		protected UnifiedIdentifierCollection() {}
+        public override UnifiedIdentifierCollection CreateSelf() {
+            return new UnifiedIdentifierCollection();
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(IUnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
-			visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                IUnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-			return visitor.Visit(this, arg);
-		}
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
 
-		public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
-			return this;
-		}
-			}
+        public IEnumerable<UnifiedIdentifier> GetIdentifiers() {
+            return this;
+        }
+                      }
 }
