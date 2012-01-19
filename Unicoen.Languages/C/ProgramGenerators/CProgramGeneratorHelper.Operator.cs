@@ -25,12 +25,12 @@ using Unicoen.Model;
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.C.ProgramGenerators {
-    public static partial class CProgramGeneratorHelper {
-        // Operator
-        public static IUnifiedElement CreateUnaryOperator(XElement node) {
-            Contract.Requires(node != null);
-            Contract.Requires(node.Name() == "unary_operator");
-            /*
+	public static partial class CProgramGeneratorHelper {
+		// Operator
+		public static IUnifiedElement CreateUnaryOperator(XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "unary_operator");
+			/*
 			unary_operator
 			: '&'
 			| '*'
@@ -39,37 +39,37 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| '~'
 			| '!'
 			 */
-            UnifiedUnaryOperatorKind kind;
-            switch (node.Value) {
-            case "&":
-                kind = UnifiedUnaryOperatorKind.Address;
-                break;
-            case "*":
-                kind = UnifiedUnaryOperatorKind.Indirect;
-                break;
-            case "+":
-                kind = UnifiedUnaryOperatorKind.UnaryPlus;
-                break;
-            case "-":
-                kind = UnifiedUnaryOperatorKind.Negate;
-                break;
-            case "~":
-                kind = UnifiedUnaryOperatorKind.OnesComplement;
-                break;
-            case "!":
-                kind = UnifiedUnaryOperatorKind.Not;
-                break;
-            default:
-                throw new InvalidOperationException();
-            }
-            return UnifiedUnaryOperator.Create(node.Value, kind);
-        }
+			UnifiedUnaryOperatorKind kind;
+			switch (node.Value) {
+			case "&":
+				kind = UnifiedUnaryOperatorKind.Address;
+				break;
+			case "*":
+				kind = UnifiedUnaryOperatorKind.Indirect;
+				break;
+			case "+":
+				kind = UnifiedUnaryOperatorKind.UnaryPlus;
+				break;
+			case "-":
+				kind = UnifiedUnaryOperatorKind.Negate;
+				break;
+			case "~":
+				kind = UnifiedUnaryOperatorKind.OnesComplement;
+				break;
+			case "!":
+				kind = UnifiedUnaryOperatorKind.Not;
+				break;
+			default:
+				throw new InvalidOperationException();
+			}
+			return UnifiedUnaryOperator.Create(node.Value, kind);
+		}
 
-        public static UnifiedBinaryOperator CreateAssignmentOperator(
-                XElement node) {
-            Contract.Requires(node != null);
-            Contract.Requires(node.Name() == "assignment_operator");
-            /*
+		public static UnifiedBinaryOperator CreateAssignmentOperator(
+				XElement node) {
+			Contract.Requires(node != null);
+			Contract.Requires(node.Name() == "assignment_operator");
+			/*
 			assignment_operator
 			: '='
 			| '*='
@@ -84,46 +84,46 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| '|='
 			 */
 
-            UnifiedBinaryOperatorKind kind;
-            switch (node.Value) {
-            case "=":
-                kind = UnifiedBinaryOperatorKind.Assign;
-                break;
-            case "*=":
-                kind = UnifiedBinaryOperatorKind.MultiplyAssign;
-                break;
-            case "/=":
-                kind = UnifiedBinaryOperatorKind.DivideAssign;
-                break;
-            case "%=":
-                kind = UnifiedBinaryOperatorKind.ModuloAssign;
-                break;
-            case "+=":
-                kind = UnifiedBinaryOperatorKind.AddAssign;
-                break;
-            case "-=":
-                kind = UnifiedBinaryOperatorKind.SubtractAssign;
-                break;
-            case "<<=":
-                kind = UnifiedBinaryOperatorKind.LogicalLeftShiftAssign;
-                break;
-            case ">>=":
-                kind = UnifiedBinaryOperatorKind.ArithmeticRightShiftAssign;
-                break;
-            case "&=":
-                kind = UnifiedBinaryOperatorKind.AndAssign;
-                break;
-            case "^=":
-                kind = UnifiedBinaryOperatorKind.ExclusiveOrAssign;
-                break;
-            case "|=":
-                kind = UnifiedBinaryOperatorKind.OrAssign;
-                break;
-            default:
-                throw new InvalidOperationException();
-            }
+			UnifiedBinaryOperatorKind kind;
+			switch (node.Value) {
+			case "=":
+				kind = UnifiedBinaryOperatorKind.Assign;
+				break;
+			case "*=":
+				kind = UnifiedBinaryOperatorKind.MultiplyAssign;
+				break;
+			case "/=":
+				kind = UnifiedBinaryOperatorKind.DivideAssign;
+				break;
+			case "%=":
+				kind = UnifiedBinaryOperatorKind.ModuloAssign;
+				break;
+			case "+=":
+				kind = UnifiedBinaryOperatorKind.AddAssign;
+				break;
+			case "-=":
+				kind = UnifiedBinaryOperatorKind.SubtractAssign;
+				break;
+			case "<<=":
+				kind = UnifiedBinaryOperatorKind.LogicalLeftShiftAssign;
+				break;
+			case ">>=":
+				kind = UnifiedBinaryOperatorKind.ArithmeticRightShiftAssign;
+				break;
+			case "&=":
+				kind = UnifiedBinaryOperatorKind.AndAssign;
+				break;
+			case "^=":
+				kind = UnifiedBinaryOperatorKind.ExclusiveOrAssign;
+				break;
+			case "|=":
+				kind = UnifiedBinaryOperatorKind.OrAssign;
+				break;
+			default:
+				throw new InvalidOperationException();
+			}
 
-            return UnifiedBinaryOperator.Create(node.Value, kind);
-        }
-    }
+			return UnifiedBinaryOperator.Create(node.Value, kind);
+		}
+	}
 }
