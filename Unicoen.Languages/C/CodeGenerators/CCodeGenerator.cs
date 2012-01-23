@@ -35,7 +35,6 @@ namespace Unicoen.Languages.C.CodeGenerators {
             codeObject.Accept(
                     new CCodeFactoryVisitor(writer, indentSign),
                     new VisitorArgument());
-            Console.WriteLine(writer.ToString()); //TODO debug用
         }
 
         public override void Generate(

@@ -7,7 +7,7 @@ options{
 
 prog
 @after {
-  	//Output the position of element
+	//Output the position of element
 	Console.WriteLine("(" + retval.Start.Line + ", " + retval.Start.StartIndex + ") - (" + retval.Stop.Line + ", " + retval.Stop.StartIndex + ")");			
 	//Output next token only when it is comment
 	if(input.Get(retval.Stop.TokenIndex + 1).Channel == TokenChannels.Hidden)
@@ -55,15 +55,15 @@ factor returns [int value]
 	;
 
 LINE_COMMENT
-    :   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
-            {
+	:   '//' ~('\n'|'\r')*  ('\r\n' | '\r' | '\n') 
+			{
 $channel=HIDDEN;
-            }
-    |   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
-            {
+			}
+	|   '//' ~('\n'|'\r')*     // a line comment could appear at the end of the file without CR/LF
+			{
 $channel=HIDDEN;
-            }
-    ;
+			}
+	;
 
 IDENTIFIER	:   ('a'..'z'|'A'..'Z')+ ;
 CONSTANT	:   '0'..'9'+ ;
