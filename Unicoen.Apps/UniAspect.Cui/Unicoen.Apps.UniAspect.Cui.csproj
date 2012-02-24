@@ -109,6 +109,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="AspectCompiler\Aries.g" />
     <None Include="AspectCompiler\Aries.tokens" />
     <None Include="packages.config" />
