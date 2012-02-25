@@ -23,8 +23,8 @@ namespace Unicoen.Model {
     /// <summary>
     ///   プロパティのセッターの値を表します。 e.g. C#の <c>string Text { get { return _text; } set { _text = value; } }</c> の <c>value</c>
     /// </summary>
-    public class UnifiedVaueIdentifier : UnifiedIdentifier {
-        protected UnifiedVaueIdentifier() {}
+    public class UnifiedValueIdentifier : UnifiedIdentifier {
+        protected UnifiedValueIdentifier() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -44,8 +44,8 @@ namespace Unicoen.Model {
             return visitor.Visit(this, arg);
         }
 
-        public static UnifiedVaueIdentifier Create(string name) {
-            return new UnifiedVaueIdentifier {
+        public static UnifiedValueIdentifier Create(string name) {
+            return new UnifiedValueIdentifier {
                     Name = name,
             };
         }

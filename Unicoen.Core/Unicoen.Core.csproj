@@ -123,7 +123,7 @@
     <Compile Include="Model\Expressions\Definitions\ClassLikes\UnifiedEigenClassDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\IDynamicFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinition.cs" />
-    <Compile Include="Model\Expressions\Identifiers\UnifiedVaueIdentifier.cs" />
+    <Compile Include="Model\Expressions\Identifiers\UnifiedValueIdentifier.cs" />
     <Compile Include="Model\Expressions\Identifiers\UnifiedTypeIdentifier.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedRedo.cs" />
     <Compile Include="Model\Expressions\Jumps\UnifiedRetry.cs" />
