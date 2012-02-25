@@ -34,7 +34,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		private const string CscPath =
 				@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
 
-		private static readonly string[] IldasmPathes = new[] {
+		private static readonly string[] IldasmPaths = new[] {
 				@"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe"
 				,
 				@"C:\Program Files\Microsoft SDKs\Windows\v7.0A\Bin\ildasm.exe",
@@ -90,7 +90,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// <summary>
 		///   テスト時に入力するファイルパスの集合です．
 		/// </summary>
-		public override IEnumerable<TestCaseData> TestFilePathes {
+		public override IEnumerable<TestCaseData> TestFilePaths {
 			get {
 				// 必要に応じて以下の要素をコメントアウト
 				return new[] {
@@ -115,7 +115,9 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { return SetUpUnicoen(); }
+			get {
+				return SetUpUnicoen().Concat(SetUpKurogane());
+			}
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
@@ -151,7 +153,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// <param name="path"> コンパイル済みのコードのパス </param>
 		/// <returns> コンパイル済みのコードのバイト列 </returns>
 		public override object GetCompiledByteCode(string path) {
-			var ildasmPath = IldasmPathes.First(File.Exists);
+			var ildasmPath = IldasmPaths.First(File.Exists);
 			var args = new[] { "/text", path };
 			var info = new ProcessStartInfo {
 					FileName = ildasmPath,
@@ -183,6 +185,17 @@ namespace Unicoen.Languages.CSharp.Tests {
 						"Failed to launch 'ildasmPath': " + ildasmPath, e);
 			}
 		}
+
+		public IEnumerable<TestCaseData> SetUpKurogane() {
+			Action<string, string> compileAction = (s1, s2) => { };
+			return SetUpTestCaseData(
+					"Kurogane",
+					path =>
+					DownloadAndUnzip(
+							"http://kurogane.codeplex.com/SourceControl/list/changesets",
+							path),
+					compileAction);
+		} 
 
 		public IEnumerable<TestCaseData> SetUpUnicoen() {
 			Action<string, string> compileAction = (s1, s2) => { };

@@ -33,7 +33,7 @@ namespace Unicoen.Languages.C.Tests {
         ///   再生成を行わずAssertCompareCompiledCodeが正常に動作するかテストします。 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
         /// </summary>
         /// <param name="orgPath"> 再生成するソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePathes")]
+        [Test, TestCaseSource("TestFilePaths")]
         public void VerifyAssertCompareCompiledCode(string orgPath) {
             Test.VerifyAssertCompareCompiledCode(orgPath);
         }
@@ -42,7 +42,7 @@ namespace Unicoen.Languages.C.Tests {
         ///   再生成を行わずAssertCompareModelが正常に動作するかテストします。 全く同じコードから生成したモデル同士で比較します。
         /// </summary>
         /// <param name="orgPath"> 再生成するソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePathes")]
+        [Test, TestCaseSource("TestFilePaths")]
         public void VerifyAssertCompareModel(string orgPath) {
             Test.VerifyAssertCompareModel(orgPath);
         }
@@ -60,7 +60,7 @@ namespace Unicoen.Languages.C.Tests {
         ///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
         /// </summary>
         /// <param name="path"> 検査対象のソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePathes")]
+        [Test, TestCaseSource("TestFilePaths")]
         public void VerifyCodeObjectFeatureUsingFile(string path) {
             Test.VerifyCodeObjectFeatureUsingFile(path);
         }
@@ -89,7 +89,7 @@ namespace Unicoen.Languages.C.Tests {
         ///   指定したパスのソースコードの統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
         /// </summary>
         /// <param name="path"> 検査対象のソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePathes")]
+        [Test, TestCaseSource("TestFilePaths")]
         public void VerifyRegenerateCodeUsingFile(string path) {
             Test.VerifyRegenerateCodeUsingFile(path);
         }
