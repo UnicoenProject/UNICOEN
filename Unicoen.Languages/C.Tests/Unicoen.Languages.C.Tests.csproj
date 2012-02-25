@@ -41,6 +41,7 @@
     <Compile Include="CFixture.cs" />
     <Compile Include="CHeavyLanguageTest.cs" />
     <Compile Include="CLanguageTest.cs" />
+    <Compile Include="CFixture.TestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

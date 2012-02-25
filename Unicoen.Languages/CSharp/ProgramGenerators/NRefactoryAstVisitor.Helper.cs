@@ -219,9 +219,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             throw new ArgumentException("Unknown operator: " + op);
         }
 
-        private static UnifiedAnnotationTarget LookupAttributeTarget(
-                string target) {
-            if (target == null) {
+        private static UnifiedAnnotationTarget LookupAttributeTarget(string target) {
+            if (String.IsNullOrEmpty(target)) {
                 return UnifiedAnnotationTarget.None;
             }
             switch (target) {

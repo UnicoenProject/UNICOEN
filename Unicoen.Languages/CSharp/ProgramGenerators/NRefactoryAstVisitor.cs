@@ -751,9 +751,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
                                            : UnifiedCase.Create(expr);
                         };
                 var cases = sec.CaseLabels
-                        .Select(
-                                lbl =>
-                                lbl.Expression.TryAcceptForExpression(this))
+                        .Select(lbl => lbl.Expression.TryAcceptForExpression(this))
                         .Select(func);
                 foreach (var c in cases) {
                     caseCollection.Add(c);
@@ -762,8 +760,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             return UnifiedSwitch.Create(uExpr, caseCollection);
         }
 
-        public IUnifiedElement VisitSwitchSection(
-                SwitchSection switchSection, object data) {
+        public IUnifiedElement VisitSwitchSection(SwitchSection switchSection, object data) {
             throw new NotImplementedException("SwitchSection");
         }
 
@@ -771,17 +768,13 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             throw new NotImplementedException("CaseLabel");
         }
 
-        public IUnifiedElement VisitThrowStatement(
-                ThrowStatement stmt, object data) {
+        public IUnifiedElement VisitThrowStatement(ThrowStatement stmt, object data) {
             var uExpr = stmt.Expression.TryAcceptForExpression(this);
             return UnifiedThrow.Create(uExpr);
         }
 
-        public IUnifiedElement VisitTryCatchStatement(
-                TryCatchStatement tryCatchStatement, object data) {
-            var uTry =
-                    tryCatchStatement.TryBlock.TryAcceptForExpression(this).
-                            ToBlock();
+        public IUnifiedElement VisitTryCatchStatement(TryCatchStatement tryCatchStatement, object data) {
+            var uTry = tryCatchStatement.TryBlock.TryAcceptForExpression(this).ToBlock();
             var uCatchs = tryCatchStatement
                     .CatchClauses
                     .Select(c => c.AcceptVisitor(this, data))
@@ -790,41 +783,31 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
             var nFinally = tryCatchStatement.FinallyBlock;
             var uFinally = nFinally == null
                                    ? null
-                                   : nFinally.TryAcceptForExpression(this).
-                                             ToBlock();
+                                   : nFinally.TryAcceptForExpression(this).ToBlock();
             return UnifiedTry.Create(uTry, uCatchs, /* else */null, uFinally);
         }
 
-        public IUnifiedElement VisitCatchClause(
-                CatchClause catchClause, object data) {
+        public IUnifiedElement VisitCatchClause(CatchClause catchClause, object data) {
             var type = LookupType(catchClause.Type);
-            var name = UnifiedVariableIdentifier.Create(
-                    catchClause.VariableName);
+            var name = UnifiedVariableIdentifier.Create(catchClause.VariableName);
             var body = catchClause.Body.TryAcceptForExpression(this).ToBlock();
             return UnifiedCatch.Create(type.ToCollection(), name, body);
         }
 
         public IUnifiedElement VisitUncheckedStatement(
                 UncheckedStatement uncheckedStatement, object data) {
-            var stmts =
-                    uncheckedStatement.Body.TryAcceptForExpression(this).ToBlock
-                            ();
-
+            var stmts = uncheckedStatement.Body.TryAcceptForExpression(this).ToBlock();
+        	return UnifiedUncheckedBlock.Create(stmts);
             throw new NotImplementedException("UncheckedStatement");
         }
 
-        public IUnifiedElement VisitUnsafeStatement(
-                UnsafeStatement unsafeStatement, object data) {
+        public IUnifiedElement VisitUnsafeStatement(UnsafeStatement unsafeStatement, object data) {
             throw new NotImplementedException("UnsafeStatement");
         }
 
-        public IUnifiedElement VisitUsingStatement(
-                UsingStatement stmt, object data) {
+        public IUnifiedElement VisitUsingStatement(UsingStatement stmt, object data) {
             var target = stmt.ResourceAcquisition.TryAcceptForExpression(this);
-            var body =
-                    stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock(
-                            
-                            );
+            var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
             return UnifiedUsing.Create(target.ToCollection(), body);
         }
 
@@ -849,20 +832,15 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
         public IUnifiedElement VisitWhileStatement(
                 WhileStatement stmt, object data) {
             var cond = stmt.Condition.TryAcceptForExpression(this);
-            var body =
-                    stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock(
-                            
-                            );
+            var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
             return UnifiedWhile.Create(cond, body);
         }
 
-        public IUnifiedElement VisitYieldBreakStatement(
-                YieldBreakStatement stmt, object data) {
+        public IUnifiedElement VisitYieldBreakStatement(YieldBreakStatement stmt, object data) {
             return UnifiedYieldBreak.Create();
         }
 
-        public IUnifiedElement VisitYieldReturnStatement(
-                YieldReturnStatement stmt, object data) {
+        public IUnifiedElement VisitYieldReturnStatement(YieldReturnStatement stmt, object data) {
             var value = stmt.Expression.TryAcceptForExpression(this);
             return UnifiedYieldReturn.Create(value);
         }
@@ -976,9 +954,17 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
                     /* no throws */ null, body);
         }
 
-        public IUnifiedElement VisitOperatorDeclaration(
-                OperatorDeclaration operatorDeclaration, object data) {
-            throw new NotImplementedException("OperatorDeclaration");
+        public IUnifiedElement VisitOperatorDeclaration(OperatorDeclaration dec, object data)
+        {
+
+        	var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
+        	var mods = LookupModifiers(dec.Modifiers);
+        	var type = LookupType(dec.ReturnType);
+        	var name = UnifiedVariableIdentifier.Create(dec.Name);
+        	var parameters = dec.Parameters.AcceptVisitorAsParams(this, data);
+        	var body = dec.Body.TryAcceptForExpression(this).ToBlock();
+        	return UnifiedFunctionDefinition.Create(
+        		attrs, mods, type, /*generics*/null, name, parameters, /*throws*/null, body);
         }
 
         public IUnifiedElement VisitParameterDeclaration(

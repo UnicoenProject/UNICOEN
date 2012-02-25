@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScriptFixture.TestData.cs" />
     <Compile Include="JavaScriptHeavyLanguageTest.cs" />
     <Compile Include="JavaScriptLanguageTest.cs" />
     <Compile Include="JavaScriptFixture.cs" />

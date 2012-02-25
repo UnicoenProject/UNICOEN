@@ -570,7 +570,7 @@ namespace Unicoen.Processor {
             element.TryAcceptAllChildren(this);
         }
 
-        public virtual void Visit(UnifiedVaueIdentifier element) {
+        public virtual void Visit(UnifiedValueIdentifier element) {
             element.TryAcceptAllChildren(this);
         }
 
@@ -1197,7 +1197,7 @@ namespace Unicoen.Processor {
             element.TryAcceptAllChildren(this, arg);
         }
 
-        public virtual void Visit(UnifiedVaueIdentifier element, TArg arg) {
+        public virtual void Visit(UnifiedValueIdentifier element, TArg arg) {
             element.TryAcceptAllChildren(this, arg);
         }
 
@@ -1332,7 +1332,7 @@ namespace Unicoen.Processor {
             return default(TResult);
         }
 
-        public virtual TResult Visit(UnifiedVaueIdentifier element, TArg arg) {
+        public virtual TResult Visit(UnifiedValueIdentifier element, TArg arg) {
             element.TryAcceptAllChildren(this, arg);
             return default(TResult);
         }

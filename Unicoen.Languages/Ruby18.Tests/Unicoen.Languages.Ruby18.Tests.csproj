@@ -90,6 +90,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ruby18Fixture.TestData.cs" />
     <Compile Include="Ruby18HeavyLanguageTest.cs" />
     <Compile Include="Ruby18LanguageTest.cs" />
     <Compile Include="Ruby18Fixture.cs" />

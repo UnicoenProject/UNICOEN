@@ -80,7 +80,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
 			get {
-				return SetUpUnicoen().Concat(SetUpKurogane());
+				return SetUpUnicoen();
 			}
 		}
 

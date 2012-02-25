@@ -130,17 +130,6 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
-		public IEnumerable<TestCaseData> SetUpKurogane() {
-			Action<string, string> compileAction = (s1, s2) => { };
-			return SetUpTestCaseData(
-					"Kurogane",
-					path =>
-					DownloadAndUnzip(
-							"http://kurogane.codeplex.com/SourceControl/list/changesets",
-							path),
-					compileAction);
-		} 
-
 		public IEnumerable<TestCaseData> SetUpUnicoen() {
 			Action<string, string> compileAction = (s1, s2) => { };
 			//yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileAction);

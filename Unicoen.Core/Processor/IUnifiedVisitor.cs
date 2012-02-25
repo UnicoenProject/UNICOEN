@@ -158,7 +158,7 @@ namespace Unicoen.Processor {
         void Visit(UnifiedOrderByKey element);
         void Visit(UnifiedLinqExpression element);
         void Visit(UnifiedDefault element);
-        void Visit(UnifiedVaueIdentifier element);
+        void Visit(UnifiedValueIdentifier element);
         void Visit(UnifiedEventDefinition element);
         void Visit(UnifiedFromQuery element);
         void Visit(UnifiedProc element);
@@ -313,7 +313,7 @@ namespace Unicoen.Processor {
         void Visit(UnifiedOrderByKey element, TArg arg);
         void Visit(UnifiedLinqExpression element, TArg arg);
         void Visit(UnifiedDefault element, TArg arg);
-        void Visit(UnifiedVaueIdentifier element, TArg arg);
+        void Visit(UnifiedValueIdentifier element, TArg arg);
         void Visit(UnifiedEventDefinition element, TArg arg);
         void Visit(UnifiedFromQuery element, TArg arg);
         void Visit(UnifiedProc element, TArg arg);
@@ -468,7 +468,7 @@ namespace Unicoen.Processor {
         TResult Visit(UnifiedOrderByKey element, TArg arg);
         TResult Visit(UnifiedLinqExpression element, TArg arg);
         TResult Visit(UnifiedDefault element, TArg arg);
-        TResult Visit(UnifiedVaueIdentifier element, TArg arg);
+        TResult Visit(UnifiedValueIdentifier element, TArg arg);
         TResult Visit(UnifiedEventDefinition element, TArg arg);
         TResult Visit(UnifiedFromQuery element, TArg arg);
         TResult Visit(UnifiedProc element, TArg arg);
