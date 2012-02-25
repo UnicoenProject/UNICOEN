@@ -85,12 +85,14 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
         }
 
         public IUnifiedElement VisitComment(Comment comment, object data) {
+			// コメントは無視する
             return null;
         }
 
         public IUnifiedElement VisitPreProcessorDirective(
                 PreProcessorDirective preProcessorDirective, object data) {
-            throw new NotImplementedException();
+			// region は無視する
+        	return null;
         }
 
         public IUnifiedElement VisitTypeParameterDeclaration(
