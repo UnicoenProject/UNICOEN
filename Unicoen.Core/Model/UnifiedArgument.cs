@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,22 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   実引数を表します。 e.g. Javaにおける <c>method(a, b, c)</c> の <c>a</c>
+    ///   実引数を表します。
+    ///   e.g. Javaにおける<c>method(a, b, c)</c>の<c>a</c>
     /// </summary>
     public class UnifiedArgument : UnifiedElement {
         private UnifiedModifierCollection _modifiers;
-        private UnifiedIdentifier _target;
-
-        private IUnifiedExpression _value;
-        private UnifiedArgument() {}
 
         /// <summary>
-        ///   実引数の修飾子を表します． e.g. C#における <code>method(out v);</code> の <code>out</code>
+        ///   実引数の修飾子を表します．
+        ///   e.g. C#における<code>method(out v);</code>の<code>out</code>
         /// </summary>
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }
             set { _modifiers = SetChild(value, _modifiers); }
         }
+
+        private IUnifiedExpression _value;
 
         /// <summary>
         ///   実引数の値を表します．
@@ -46,6 +46,8 @@ namespace Unicoen.Model {
             set { _value = SetChild(value, _value); }
         }
 
+        private UnifiedIdentifier _target;
+
         /// <summary>
         ///   実引数の代入先の変数名を表します．
         /// </summary>
@@ -54,6 +56,8 @@ namespace Unicoen.Model {
             get { return _target; }
             set { _target = SetChild(value, _target); }
         }
+
+        private UnifiedArgument() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

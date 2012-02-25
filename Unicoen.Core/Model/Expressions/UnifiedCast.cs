@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,30 +21,33 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   Cast式を表します。 e.g. Javaにおける <c>(int)a</c>
+    ///   Cast式を表します。
+    ///   e.g. Javaにおける<c>(int)a</c>
     /// </summary>
     public class UnifiedCast : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _expression;
         private UnifiedType _type;
-        private UnifiedCast() {}
 
         /// <summary>
-        ///   キャスト先の型を表します e.g. Javaにおける <c>(int)a</c> の <c>int</c>
+        ///   キャスト先の型を表します
+        ///   e.g. Javaにおける<c>(int)a</c>の<c>int</c>
         /// </summary>
         public UnifiedType Type {
             get { return _type; }
             set { _type = SetChild(value, _type); }
         }
 
+        private IUnifiedExpression _expression;
+
         /// <summary>
-        ///   キャスト対象の式を表します e.g. Javaにおける <c>(int)a</c> の <c>a</c>
+        ///   キャスト対象の式を表します
+        ///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
         /// </summary>
         public IUnifiedExpression Expression {
             get { return _expression; }
             set { _expression = SetChild(value, _expression); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedCast() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -63,8 +66,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedCast Create(
                 UnifiedType type,

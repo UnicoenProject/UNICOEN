@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,14 +21,15 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   LINQのクエリ式を構成するorderby句で指定するキーを表します。 e.g. C#における <c>orderby p.X descending</c> の <c>p.X descending</c>
+    ///   LINQのクエリ式を構成するorderby句で指定するキーを表します。
+    ///   e.g. C#における<c>orderby p.X descending</c>の<c>p.X descending</c>
     /// </summary>
     public class UnifiedOrderByKey : UnifiedElement {
         private IUnifiedExpression _expression;
-        protected UnifiedOrderByKey() {}
 
         /// <summary>
-        ///   ソートを行うキーを取得もしくは設定します． e.g. C#における <c>orderby p.X descending</c> の <c>p.X</c>
+        ///   ソートを行うキーを取得もしくは設定します．
+        ///   e.g. C#における<c>orderby p.X descending</c>の<c>p.X</c>
         /// </summary>
         public IUnifiedExpression Expression {
             get { return _expression; }
@@ -36,9 +37,12 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   昇順でソートするかどうかを取得もしくは設定します． e.g. C#における <c>orderby p.X descending</c> の <c>descending</c>
+        ///   昇順でソートするかどうかを取得もしくは設定します．
+        ///   e.g. C#における<c>orderby p.X descending</c>の<c>descending</c>
         /// </summary>
         public bool Ascending { get; set; }
+
+        protected UnifiedOrderByKey() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

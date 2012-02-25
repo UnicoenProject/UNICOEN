@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,42 +21,44 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   二項式を表します。 e.g. JavaやCにおける <c>a + b</c> など
+    ///   二項式を表します。
+    ///   e.g. JavaやCにおける<c>a + b</c>など
     /// </summary>
     public class UnifiedBinaryExpression : UnifiedElement, IUnifiedExpression {
         private IUnifiedExpression _leftHandSide;
 
-        private UnifiedBinaryOperator _operator;
-
-        private IUnifiedExpression _rightHandSide;
-
-        private UnifiedBinaryExpression() {}
-
         /// <summary>
-        ///   第1オペランドを表します e.g. <c>a + b</c> の <c>a</c>
+        ///   第1オペランドを表します
+        ///   e.g. <c>a + b</c>の<c>a</c>
         /// </summary>
         public IUnifiedExpression LeftHandSide {
             get { return _leftHandSide; }
             set { _leftHandSide = SetChild(value, _leftHandSide); }
         }
 
+        private UnifiedBinaryOperator _operator;
+
         /// <summary>
-        ///   演算子を表します e.g. <c>a + b</c> の <c>+</c>
+        ///   演算子を表します
+        ///   e.g. <c>a + b</c>の<c>+</c>
         /// </summary>
         public UnifiedBinaryOperator Operator {
             get { return _operator; }
             set { _operator = SetChild(value, _operator); }
         }
 
+        private IUnifiedExpression _rightHandSide;
+
         /// <summary>
-        ///   第2オペランドを表します e.g. <c>a + b</c> の <c>b</c>
+        ///   第2オペランドを表します
+        ///   e.g. <c>a + b</c>の<c>b</c>
         /// </summary>
         public IUnifiedExpression RightHandSide {
             get { return _rightHandSide; }
             set { _rightHandSide = SetChild(value, _rightHandSide); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedBinaryExpression() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -75,8 +77,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedBinaryExpression Create(
                 IUnifiedExpression leftHandSide,

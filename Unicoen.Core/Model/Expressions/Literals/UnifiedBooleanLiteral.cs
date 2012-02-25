@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,11 +21,13 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   boolean型であるリテラルを表します。 e.g. Javaにおける <c>Boolean flag = true;</c> の <c>true</c> の部分
+    ///   boolean型であるリテラルを表します。
+    ///   e.g. Javaにおける<c>Boolean flag = true;</c>の<c>true</c>の部分
     /// </summary>
     public class UnifiedBooleanLiteral : UnifiedTypedLiteral<bool> {
-        private UnifiedBooleanLiteral() {}
         public override bool Value { get; set; }
+
+        private UnifiedBooleanLiteral() {}
 
         public static UnifiedBooleanLiteral Create(bool value) {
             return new UnifiedBooleanLiteral { Value = value };

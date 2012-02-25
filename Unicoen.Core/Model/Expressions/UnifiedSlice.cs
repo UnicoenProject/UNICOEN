@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,39 +21,44 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   スライス表記を表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c>
+    ///   スライス表記を表します．
+    ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>
     /// </summary>
     public class UnifiedSlice : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _end;
         private IUnifiedExpression _start;
-        private IUnifiedExpression _step;
-        private UnifiedSlice() {}
 
         /// <summary>
-        ///   開始インデックスを表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c> の <c>0</c>
+        ///   開始インデックスを表します．
+        ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>0</c>
         /// </summary>
         public IUnifiedExpression Start {
             get { return _start; }
             set { _start = SetChild(value, _start); }
         }
 
+        private IUnifiedExpression _end;
+
         /// <summary>
-        ///   終了インデックスを表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c> の <c>10</c>
+        ///   終了インデックスを表します．
+        ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>10</c>
         /// </summary>
         public IUnifiedExpression End {
             get { return _end; }
             set { _end = SetChild(value, _end); }
         }
 
+        private IUnifiedExpression _step;
+
         /// <summary>
-        ///   ステップを表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c> の <c>2</c>
+        ///   ステップを表します．
+        ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>2</c>
         /// </summary>
         public IUnifiedExpression Step {
             get { return _step; }
             set { _step = SetChild(value, _step); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedSlice() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -72,8 +77,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedSlice Create(
                 IUnifiedExpression initializer = null,

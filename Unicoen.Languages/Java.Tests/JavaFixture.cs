@@ -124,7 +124,7 @@ namespace Unicoen.Languages.Java.Tests {
         private string SetUpMaven3() {
             var path = FixtureUtil.GetDownloadPath(LanguageName, "Maven3");
             var exePath = Path.Combine(
-                    path, "apache-maven-3.0.3", "bin", "mvn.bat");
+                    path, "apache-maven-3.0.4", "bin", "mvn.bat");
             if (Directory.Exists(path)
                 &&
                 Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories)
@@ -133,7 +133,7 @@ namespace Unicoen.Languages.Java.Tests {
             }
             Directory.CreateDirectory(path);
             DownloadAndUntgz(
-                    "http://www.meisei-u.ac.jp/mirror/apache/dist//maven/binaries/apache-maven-3.0.3-bin.tar.gz",
+                    "http://ftp.kddilabs.jp/infosystems/apache//maven/binaries/apache-maven-3.0.4-bin.tar.gz",
                     path);
             return exePath;
         }

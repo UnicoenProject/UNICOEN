@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,7 +22,9 @@ using System.Linq;
 namespace Unicoen.Model {
     public abstract class UnifiedType : UnifiedElement, IUnifiedExpression {
         /// <summary>
-        ///   型の基礎部分の名前を表します． e.g. Javaにおける <c>Package.ClassA instance = null;</c> の <c>Package.ClassA</c> (UnifiedPropertyで表現される) e.g. Javaにおける <c>ArrayList&lt;Integer&gt;</c> の <c>ArrayList</c>
+        ///   型の基礎部分の名前を表します．
+        ///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
+        ///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
         /// </summary>
         public abstract IUnifiedExpression BasicTypeName { get; set; }
 

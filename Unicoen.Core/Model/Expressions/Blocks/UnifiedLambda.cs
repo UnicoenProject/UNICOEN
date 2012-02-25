@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,9 +26,9 @@ namespace Unicoen.Model {
     public class UnifiedLambda : UnifiedElement, IUnifiedExpression {
         #region fields
 
-        private UnifiedBlock _body;
         private UnifiedIdentifier _name;
         private UnifiedParameterCollection _parameters;
+        private UnifiedBlock _body;
 
         public UnifiedIdentifier Name {
             get { return _name; }
@@ -52,8 +52,6 @@ namespace Unicoen.Model {
 
         private UnifiedLambda() {}
 
-        #region IUnifiedExpression Members
-
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
             visitor.Visit(this);
@@ -71,8 +69,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedLambda Create(
                 UnifiedIdentifier name = null,

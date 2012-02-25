@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,6 @@ namespace Unicoen.Model {
     public class UnifiedUncheckedBlock : UnifiedElement {
         private UnifiedBlock _body;
 
-        private UnifiedUncheckedBlock() {}
-
         /// <summary>
         ///   ブロックを取得します．
         /// </summary>
@@ -32,6 +30,8 @@ namespace Unicoen.Model {
             get { return _body; }
             set { _body = SetChild(value, _body); }
         }
+
+        private UnifiedUncheckedBlock() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

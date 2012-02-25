@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,21 +21,23 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   プロパティの宣言を表す共通表現です。 e.g. C#における <c>public int Value { get; set; }</c>
+    ///   プロパティの宣言を表す共通表現です。
+    ///   e.g. C#における<c>public int Value { get; set; }</c>
     /// </summary>
     public class UnifiedPropertyDefinition : UnifiedElement, IUnifiedExpression {
         #region fields & properties
 
         private UnifiedAnnotationCollection _annotations;
-        private UnifiedPropertyDefinitionPart _getter;
         private UnifiedModifierCollection _modifiers;
+        private UnifiedType _type;
         private UnifiedIdentifier _name;
         private UnifiedParameterCollection _parameters;
+        private UnifiedPropertyDefinitionPart _getter;
         private UnifiedPropertyDefinitionPart _setter;
-        private UnifiedType _type;
 
         /// <summary>
-        ///   付与されているアノテーションを取得もしくは設定します． e.g. C#における <c>[Pure] int Value { get; set; }</c> の <c>[Pure]</c>
+        ///   付与されているアノテーションを取得もしくは設定します．
+        ///   e.g. C#における<c>[Pure] int Value { get; set; }</c>の<c>[Pure]</c>
         /// </summary>
         public UnifiedAnnotationCollection Annotations {
             get { return _annotations; }
@@ -43,7 +45,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   付与されている修飾子の集合を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>public</c>
+        ///   付与されている修飾子の集合を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>public</c>
         /// </summary>
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }
@@ -51,7 +54,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   プロパティが表す値の型を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>int</c>
+        ///   プロパティが表す値の型を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>int</c>
         /// </summary>
         public UnifiedType Type {
             get { return _type; }
@@ -59,7 +63,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   名前を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>Value</c>
+        ///   名前を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>Value</c>
         /// </summary>
         public UnifiedIdentifier Name {
             get { return _name; }
@@ -67,7 +72,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   パラメータ（仮引数）の集合を取得もしくは設定します． e.g. C#における <c>public int Table[int x, int y] { get; set; }</c> の <c>int x, int y</c>
+        ///   パラメータ（仮引数）の集合を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Table[int x, int y] { get; set; }</c>の<c>int x, int y</c>
         /// </summary>
         public UnifiedParameterCollection Parameters {
             get { return _parameters; }
@@ -75,7 +81,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   ゲッターの定義を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>get;</c>
+        ///   ゲッターの定義を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>get;</c>
         /// </summary>
         public UnifiedPropertyDefinitionPart Getter {
             get { return _getter; }
@@ -83,7 +90,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   セッターの定義を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>set;</c>
+        ///   セッターの定義を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>set;</c>
         /// </summary>
         public UnifiedPropertyDefinitionPart Setter {
             get { return _setter; }
@@ -93,8 +101,6 @@ namespace Unicoen.Model {
         #endregion
 
         protected UnifiedPropertyDefinition() {}
-
-        #region IUnifiedExpression Members
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -112,8 +118,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedPropertyDefinition Create(
                 UnifiedAnnotationCollection annotations = null,

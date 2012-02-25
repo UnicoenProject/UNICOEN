@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,16 +22,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   識別子の集合を表します． e.g. Pythonにおける <c>def f((a,b) = [1, 2], c = 1):</c> の <c>(a, b)</c>
+    ///   識別子の集合を表します．
+    ///   e.g. Pythonにおける<c>def f((a,b) = [1, 2], c = 1):</c>の<c>(a, b)</c>
     /// </summary>
     public class UnifiedIdentifierCollection
             : UnifiedElementCollection
                       <UnifiedIdentifier, UnifiedIdentifierCollection> {
-        protected UnifiedIdentifierCollection() {}
-
         public override UnifiedIdentifierCollection CreateSelf() {
             return new UnifiedIdentifierCollection();
         }
+
+        protected UnifiedIdentifierCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,15 +21,15 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   配列の生成を含むコンストラクタ呼び出しを表します。 e.g. Javaにおける <c>Object o = new Object();</c> の <c>new Object()</c> の部分
+    ///   配列の生成を含むコンストラクタ呼び出しを表します。
+    ///   e.g. Javaにおける<c>Object o = new Object();</c>の<c>new Object()</c>の部分
     /// </summary>
     public class UnifiedNew : UnifiedElement, IUnifiedExpression {
+        private IUnifiedExpression _target;
         private UnifiedArgumentCollection _arguments;
-        private UnifiedBlock _body;
         private UnifiedGenericArgumentCollection _genericArguments;
         private UnifiedArrayLiteral _initialValue;
-        private IUnifiedExpression _target;
-        private UnifiedNew() {}
+        private UnifiedBlock _body;
 
         public IUnifiedExpression Target {
             get { return _target; }
@@ -47,7 +47,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   配列生成時の初期値を表します。 e.g. Javaにおける <c>new int[10] { 0, 1 }</c> の <c>{ 0, 1 }</c> 部分
+        ///   配列生成時の初期値を表します。
+        ///   e.g. Javaにおける<c>new int[10] { 0, 1 }</c>の<c>{ 0, 1 }</c>部分
         /// </summary>
         public UnifiedArrayLiteral InitialValue {
             get { return _initialValue; }
@@ -62,7 +63,7 @@ namespace Unicoen.Model {
             set { _body = SetChild(value, _body); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedNew() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -81,8 +82,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedNew Create(
                 IUnifiedExpression target = null,

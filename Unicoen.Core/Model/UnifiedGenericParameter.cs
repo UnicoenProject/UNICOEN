@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,21 +21,23 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   ジェネリクスパラメータなど型に対する仮引数を表します。 e.g. Javaにおける <code>public &lt;T&gt; void method(){...}</code> e.g. C#における <code>public void method&lt;T&gt;(){...}</code>
+    ///   ジェネリクスパラメータなど型に対する仮引数を表します。
+    ///   e.g. Javaにおける<code>public &lt;T&gt; void method(){...}</code>
+    ///   e.g. C#における<code>public void method&lt;T&gt;(){...}</code>
     /// </summary>
     public class UnifiedGenericParameter : UnifiedElement {
-        private UnifiedTypeConstrainCollection _constrains;
-        private UnifiedModifierCollection _modifiers;
         private UnifiedType _type;
-        private UnifiedGenericParameter() {}
 
         /// <summary>
-        ///   仮引数の型を表します e.g. Javaにおける <code>public &lt;T&gt; void method(){...}</code> の <code>T</code>
+        ///   仮引数の型を表します
+        ///   e.g. Javaにおける<code>public &lt;T&gt; void method(){...}</code>の<code>T</code>
         /// </summary>
         public UnifiedType Type {
             get { return _type; }
             set { _type = SetChild(value, _type); }
         }
+
+        private UnifiedTypeConstrainCollection _constrains;
 
         /// <summary>
         ///   型が持つ制約の集合を表します
@@ -45,10 +47,14 @@ namespace Unicoen.Model {
             set { _constrains = SetChild(value, _constrains); }
         }
 
+        private UnifiedModifierCollection _modifiers;
+
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }
             set { _modifiers = SetChild(value, _modifiers); }
         }
+
+        private UnifiedGenericParameter() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

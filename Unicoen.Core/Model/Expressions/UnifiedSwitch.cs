@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,20 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   switch文を表します。 e.g. Javaにおける <c>switch(v){...}</c>
+    ///   switch文を表します。
+    ///   e.g. Javaにおける<c>switch(v){...}</c>
     /// </summary>
     public class UnifiedSwitch : UnifiedElement, IUnifiedExpression {
-        private UnifiedCaseCollection _cases;
         private IUnifiedExpression _value;
-        private UnifiedSwitch() {}
 
         /// <summary>
-        ///   caseの分岐に使用される式を表します e.g. Javaにおける <c>switch(v){...}</c> の <c>v</c>
+        ///   caseの分岐に使用される式を表します
+        ///   e.g. Javaにおける<c>switch(v){...}</c>の<c>v</c>
         /// </summary>
         public IUnifiedExpression Value {
             get { return _value; }
             set { _value = SetChild(value, _value); }
         }
+
+        private UnifiedCaseCollection _cases;
 
         /// <summary>
         ///   switch文に付随するcase節の集合を表します
@@ -44,7 +46,12 @@ namespace Unicoen.Model {
             set { _cases = SetChild(value, _cases); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedSwitch() {}
+
+        public UnifiedSwitch AddToCases(UnifiedCase kase) {
+            Cases.Add(kase);
+            return this;
+        }
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -62,13 +69,6 @@ namespace Unicoen.Model {
         public override TResult Accept<TArg, TResult>(
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
-        }
-
-        #endregion
-
-        public UnifiedSwitch AddToCases(UnifiedCase kase) {
-            Cases.Add(kase);
-            return this;
         }
 
         public static UnifiedSwitch Create(

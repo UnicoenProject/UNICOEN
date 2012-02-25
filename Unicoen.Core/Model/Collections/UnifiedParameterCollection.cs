@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   関数やメソッド呼び出しの仮引数の集合を表します。 e.g. Javaにおける <c>int method(int a, double b){....}</c> の <c>(int a, double b)</c>
+    ///   関数やメソッド呼び出しの仮引数の集合を表します。
+    ///   e.g. Javaにおける<c>int method(int a, double b){....}</c>の<c>(int a, double b)</c>
     /// </summary>
     public class UnifiedParameterCollection
             : UnifiedElementCollection
                       <UnifiedParameter, UnifiedParameterCollection> {
-        protected UnifiedParameterCollection() {}
-
         public override UnifiedParameterCollection CreateSelf() {
             return new UnifiedParameterCollection();
         }
+
+        protected UnifiedParameterCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

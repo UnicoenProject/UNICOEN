@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,11 +24,12 @@ namespace Unicoen.Model {
         #region fields & properties
 
         private UnifiedAnnotationCollection _annotations;
-        private UnifiedBlock _body;
         private UnifiedModifierCollection _modifiers;
+        private UnifiedBlock _body;
 
         /// <summary>
-        ///   付与されているアノテーションを取得もしくは設定します． e.g. C#における <c>public int Value { [Pure] get; set; }</c> の <c>[Pure]</c>
+        ///   付与されているアノテーションを取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { [Pure] get; set; }</c>の<c>[Pure]</c>
         /// </summary>
         public UnifiedAnnotationCollection Annotations {
             get { return _annotations; }
@@ -36,7 +37,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   付与されている修飾子の集合を取得もしくは設定します． e.g. C#における <c>public int Value { private get; set; }</c> の <c>private</c>
+        ///   付与されている修飾子の集合を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { private get; set; }</c>の<c>private</c>
         /// </summary>
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }

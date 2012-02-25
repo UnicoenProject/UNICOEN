@@ -213,7 +213,6 @@ namespace Unicoen.Languages.Tests {
 				Assert.That(
 						ReferenceEquals(pair.Item1.Parent, pair.Item2.Parent),
 						Is.False, message);
-				//Assert.That(pair.Item1.Parent, Is.Not.EqualTo(pair.Item2.Parent), message);
 			}
 		}
 
@@ -234,10 +233,9 @@ namespace Unicoen.Languages.Tests {
 				var privateRefElements =
 						referenecesOfPrivateFields.Select(t => t.Element).ToList
 								();
-				// TODO: restore
-				//Assert.That(elements, Is.EqualTo(propValues), message);
+				Assert.That(elements, Is.EqualTo(propValues), message);
 				Assert.That(refElements, Is.EqualTo(propValues), message);
-				//Assert.That(privateRefElements, Is.EqualTo(propValues), message);
+				Assert.That(privateRefElements, Is.EqualTo(propValues), message);
 			}
 		}
 

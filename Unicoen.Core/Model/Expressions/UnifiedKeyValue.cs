@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,27 +26,27 @@ namespace Unicoen.Model {
     public class UnifiedKeyValue : UnifiedElement, IUnifiedExpression {
         private IUnifiedExpression _key;
 
-        private IUnifiedExpression _value;
-
-        private UnifiedKeyValue() {}
-
         /// <summary>
-        ///   辞書リテラルにおけるキーを表します． e.g. Pythonにおける <c>{ "key" : 1 }</c> の <c>"key"</c>
+        ///   辞書リテラルにおけるキーを表します．
+        ///   e.g. Pythonにおける<c>{ "key" : 1 }</c>の<c>"key"</c>
         /// </summary>
         public IUnifiedExpression Key {
             get { return _key; }
             set { _key = SetChild(value, _key); }
         }
 
+        private IUnifiedExpression _value;
+
         /// <summary>
-        ///   辞書リテラルにおけるバリューを表します． e.g. Pythonにおける <c>{ "key" : 1 }</c> の <c>1</c>
+        ///   辞書リテラルにおけるバリューを表します．
+        ///   e.g. Pythonにおける<c>{ "key" : 1 }</c>の<c>1</c>
         /// </summary>
         public IUnifiedExpression Value {
             get { return _value; }
             set { _value = SetChild(value, _value); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedKeyValue() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -65,8 +65,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedKeyValue Create(
                 IUnifiedExpression key = null,

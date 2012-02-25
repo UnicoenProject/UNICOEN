@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ namespace Unicoen.Model {
             : UnifiedElement, IUnifiedExpression {
         protected IUnifiedExpression _element;
 
-        protected UnifiedExpressionCollection _generator;
-
         /// <summary>
         ///   リスト内包表記によって生成される要素部分の式を表します．
         /// </summary>
@@ -30,6 +28,8 @@ namespace Unicoen.Model {
             get { return _element; }
             set { _element = SetChild(value, _element); }
         }
+
+        protected UnifiedExpressionCollection _generator;
 
         /// <summary>
         ///   リスト内包表記の集合部分の式を表します．

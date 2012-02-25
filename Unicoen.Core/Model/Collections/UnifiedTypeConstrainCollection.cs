@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,9 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   型が持つ性質（継承関係など）の集合を表します。 e.g. Javaにおける <c>public class A extends B</c> の <c>extends B</c> e.g. Javaにおける <c>ArrayList&lt;? extends Object&gt;</c> の <c>extends Object</c>
+    ///   型が持つ性質（継承関係など）の集合を表します。
+    ///   e.g. Javaにおける<c>public class A extends B</c>の<c>extends B</c>
+    ///   e.g. Javaにおける<c>ArrayList&lt;? extends Object&gt;</c>の<c>extends Object</c>
     /// </summary>
     public class UnifiedTypeConstrainCollection
             : UnifiedElementCollection

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,20 +21,21 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   ソーティングのキーの集合を表します． e.g. C#における <c>from e in c orderby e.X, e.Y select e</c> の <c>e.X, e.Y</c>
+    ///   ソーティングのキーの集合を表します．
+    ///   e.g. C#における<c>from e in c orderby e.X, e.Y select e</c>の<c>e.X, e.Y</c>
     /// </summary>
     public class UnifiedOrderByKeyCollection
             : UnifiedElementCollection
                       <UnifiedOrderByKey, UnifiedOrderByKeyCollection> {
-        protected UnifiedOrderByKeyCollection() {}
-
         /// <summary>
         ///   レシーバーと同じ型のオブジェクトを生成します．
         /// </summary>
-        /// <returns> 生成したオブジェクト </returns>
+        /// <returns>生成したオブジェクト</returns>
         public override UnifiedOrderByKeyCollection CreateSelf() {
             return new UnifiedOrderByKeyCollection();
         }
+
+        protected UnifiedOrderByKeyCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

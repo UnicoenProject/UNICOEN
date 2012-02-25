@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,17 +21,18 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   try文を表します。 e.g. Javaにおける <c>try { ... } catch(Exception e) { ... }</c>
+    ///   try文を表します。
+    ///   e.g. Javaにおける<c>try { ... } catch(Exception e) { ... }</c>
     /// </summary>
     public class UnifiedTry : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
         private UnifiedCatchCollection _catches;
+        private UnifiedBlock _body;
         private UnifiedBlock _elseBody;
         private UnifiedBlock _finallyBody;
-        private UnifiedTry() {}
 
         /// <summary>
-        ///   catch節の集合を取得もしくは設定します． e.g. Javaにおける <c>try { ... } catch(Exception e) { ... }</c> の <c>catch(Exception e) { ... }</c>
+        ///   catch節の集合を取得もしくは設定します．
+        ///   e.g. Javaにおける<c>try { ... } catch(Exception e) { ... }</c>の<c>catch(Exception e) { ... }</c>
         /// </summary>
         public UnifiedCatchCollection Catches {
             get { return _catches; }
@@ -47,7 +48,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   else節のブロックを取得もしくは設定します． e.g. Pythonにおける <c>try: ...  else: ... finally: ...</c> の <c>else: ...</c>
+        ///   else節のブロックを取得もしくは設定します．
+        ///   e.g. Pythonにおける<c>try: ...  else: ... finally: ...</c>の<c>else: ...</c>
         /// </summary>
         public UnifiedBlock ElseBody {
             get { return _elseBody; }
@@ -55,14 +57,15 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   finally節のブロックを取得もしくは設定します． e.g. Javaにおける <c>try{...}catch(Exception e){...}finally{...}</c> の <c>finally{...}</c>
+        ///   finally節のブロックを取得もしくは設定します．
+        ///   e.g. Javaにおける<c>try{...}catch(Exception e){...}finally{...}</c>の<c>finally{...}</c>
         /// </summary>
         public UnifiedBlock FinallyBody {
             get { return _finallyBody; }
             set { _finallyBody = SetChild(value, _finallyBody); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedTry() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -81,8 +84,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedTry Create(
                 UnifiedBlock body = null,

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,14 +21,11 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   ジェネリクスパラメータなど型に対する実引数を表します。 e.g. Javaにおける <c>HashMap&lt;String, Integer&gt; map;</c> の <c>&lt;String, Integer&gt;</c>
+    ///   ジェネリクスパラメータなど型に対する実引数を表します。
+    ///   e.g. Javaにおける<c>HashMap&lt;String, Integer&gt; map;</c>の<c>&lt;String, Integer&gt;</c>
     /// </summary>
     public class UnifiedGenericArgument : UnifiedElement {
-        private UnifiedTypeConstrainCollection _constrains;
         private UnifiedModifierCollection _modifiers;
-
-        private IUnifiedExpression _value;
-        private UnifiedGenericArgument() {}
 
         /// <summary>
         ///   修飾子の集合を表します
@@ -38,15 +35,21 @@ namespace Unicoen.Model {
             set { _modifiers = SetChild(value, _modifiers); }
         }
 
+        private IUnifiedExpression _value;
+
         public IUnifiedExpression Value {
             get { return _value; }
             set { _value = SetChild(value, _value); }
         }
 
+        private UnifiedTypeConstrainCollection _constrains;
+
         public UnifiedTypeConstrainCollection Constrains {
             get { return _constrains; }
             set { _constrains = SetChild(value, _constrains); }
         }
+
+        private UnifiedGenericArgument() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

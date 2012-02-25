@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,20 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   式の集合を表します。 Pythonにおける内包表記の式の集合を表現するために存在します． e.g. Pythonにおける <c>[x + y for x in [1, 2] for y in [3, 4]]</c> の <c>for x in [1, 2]</c> と <c>for y in [3, 4]</c>
+    ///   式の集合を表します。
+    ///   Pythonにおける内包表記の式の集合を表現するために存在します．
+    ///   e.g. Pythonにおける<c>[x + y for x in [1, 2] for y in [3, 4]]</c>の<c>for x in [1, 2]</c>と<c> for y in [3, 4]</c>
     /// </summary>
     public class UnifiedExpressionCollection
             : UnifiedElementCollection
                       <IUnifiedExpression, UnifiedExpressionCollection> {
-        protected UnifiedExpressionCollection() {}
-
         /// <summary>
         ///   レシーバーと同じ型のオブジェクトを生成します．
         /// </summary>
-        /// <returns> 生成したオブジェクト </returns>
+        /// <returns>生成したオブジェクト</returns>
         public override UnifiedExpressionCollection CreateSelf() {
             return new UnifiedExpressionCollection();
         }
+
+        protected UnifiedExpressionCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

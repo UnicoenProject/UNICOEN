@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ namespace Unicoen.Model {
             : UnifiedElement, IUnifiedExpression, IUnifiedCreatable<TSelf>
             where TSelf : UnifiedConstructorLike<TSelf> {
         protected UnifiedAnnotationCollection _annotations;
-        protected UnifiedBlock _body;
-        protected UnifiedGenericParameterCollection _genericParameters;
         protected UnifiedModifierCollection _modifiers;
         protected UnifiedParameterCollection _parameters;
+        protected UnifiedGenericParameterCollection _genericParameters;
         protected UnifiedTypeCollection _throws;
+        protected UnifiedBlock _body;
 
         /// <summary>
         ///   付与されているアノテーションを取得もしくは設定します．
@@ -68,12 +68,6 @@ namespace Unicoen.Model {
             set { _body = SetChild(value, _body); }
         }
 
-        #region IUnifiedCreatable<TSelf> Members
-
-        public abstract TSelf CreateSelf();
-
-        #endregion
-
         public static TSelf Create(
                 UnifiedBlock body = null,
                 UnifiedAnnotationCollection annotations = null,
@@ -90,5 +84,7 @@ namespace Unicoen.Model {
             ret.Throws = throws;
             return ret;
         }
+
+        public abstract TSelf CreateSelf();
             }
 }

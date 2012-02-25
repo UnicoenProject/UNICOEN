@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,20 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   LINQのクエリ式を構成するorderby句を表します。 e.g. C#における <c>orderby p.X, p.Y descending, p.Z ascending</c>
+    ///   LINQのクエリ式を構成するorderby句を表します。
+    ///   e.g. C#における<c>orderby p.X, p.Y descending, p.Z ascending</c>
     /// </summary>
     public class UnifiedOrderByQuery : UnifiedLinqQuery {
         private UnifiedOrderByKeyCollection _keys;
 
-        protected UnifiedOrderByQuery() {}
-
         /// <summary>
-        ///   ソートを行うキーの集合を取得もしくは設定します． e.g. C#における <c>orderby p.X, p.Y descending, p.Z ascending</c> の <c>p.X, p.Y descending, p.Z ascending</c>
+        ///   ソートを行うキーの集合を取得もしくは設定します．
+        ///   e.g. C#における<c>orderby p.X, p.Y descending, p.Z ascending</c>の<c>p.X, p.Y descending, p.Z ascending</c>
         /// </summary>
         public UnifiedOrderByKeyCollection Keys {
             get { return _keys; }
             set { _keys = SetChild(value, _keys); }
         }
+
+        protected UnifiedOrderByQuery() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

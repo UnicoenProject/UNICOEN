@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,16 +24,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   if文を表します。 e.g. C, Java, C#における <c>if (i == 1) { ... } else { ... }</c>
+    ///   if文を表します。
+    ///   e.g. C, Java, C#における<c>if (i == 1) { ... } else { ... }</c>
     /// </summary>
     public class UnifiedIf : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
         private IUnifiedExpression _condition;
+        private UnifiedBlock _body;
         private UnifiedBlock _elseBody;
-        private UnifiedIf() {}
 
         /// <summary>
-        ///   条件式を取得もしくは設定します． e.g. C, Java, C#における <c>if (i == 1) a = 1; else a = 2;</c> の <c>i == 1</c>
+        ///   条件式を取得もしくは設定します．
+        ///   e.g. C, Java, C#における<c>if (i == 1) a = 1; else a = 2;</c>の<c>i == 1</c>
         /// </summary>
         public IUnifiedExpression Condition {
             get { return _condition; }
@@ -41,7 +42,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   条件式が真であったときに実行されるブロックを取得もしくは設定します． e.g. C, Java, C#における <c>if (i == 1) a = 1; else a = 2;</c> の <c>a = 1;</c>
+        ///   条件式が真であったときに実行されるブロックを取得もしくは設定します．
+        ///   e.g. C, Java, C#における<c>if (i == 1) a = 1; else a = 2;</c>の<c>a = 1;</c>
         /// </summary>
         public UnifiedBlock Body {
             get { return _body; }
@@ -49,14 +51,25 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   条件式が偽であったときに実行されるブロックを取得もしくは設定します． e.g. C, Java, C#における <c>if (i == 1) a = 1; else a = 2;</c> の <c>a = 2;</c>
+        ///   条件式が偽であったときに実行されるブロックを取得もしくは設定します．
+        ///   e.g. C, Java, C#における<c>if (i == 1) a = 1; else a = 2;</c>の<c>a = 2;</c>
         /// </summary>
         public UnifiedBlock ElseBody {
             get { return _elseBody; }
             set { _elseBody = SetChild(value, _elseBody); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedIf() {}
+
+        public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
+            ElseBody.Add(expression);
+            return this;
+        }
+
+        public UnifiedIf RemoveFalseBody() {
+            ElseBody = null;
+            return this;
+        }
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -76,18 +89,6 @@ namespace Unicoen.Model {
             return visitor.Visit(this, arg);
         }
 
-        #endregion
-
-        public UnifiedIf AddToFalseBody(IUnifiedExpression expression) {
-            ElseBody.Add(expression);
-            return this;
-        }
-
-        public UnifiedIf RemoveFalseBody() {
-            ElseBody = null;
-            return this;
-        }
-
         public static UnifiedIf Create(UnifiedBlock body) {
             return new UnifiedIf {
                     Body = body,
@@ -105,9 +106,9 @@ namespace Unicoen.Model {
         /// <summary>
         ///   一個以上のelse if節によって構成されているif-else式に分解してモデルを構築します．
         /// </summary>
-        /// <param name="conditionAndBodies"> </param>
-        /// <param name="lastElseBody"> </param>
-        /// <returns> </returns>
+        /// <param name = "conditionAndBodies"></param>
+        /// <param name = "lastElseBody"></param>
+        /// <returns></returns>
         public static UnifiedIf Create(
                 IEnumerable<Tuple<IUnifiedExpression, UnifiedBlock>>
                         conditionAndBodies,

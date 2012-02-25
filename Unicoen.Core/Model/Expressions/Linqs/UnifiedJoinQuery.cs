@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,17 +21,18 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   LINQのクエリ式を構成するjoin句を表します。 e.g. C#における <c>join q in array2 on p.X equals q.X</c>
+    ///   LINQのクエリ式を構成するjoin句を表します。
+    ///   e.g. C#における<c>join q in array2 on p.X equals q.X</c>
     /// </summary>
     public class UnifiedJoinQuery : UnifiedLinqQuery {
-        private IUnifiedExpression _firstEqualsKey;
-        private IUnifiedExpression _joinSource;
         private UnifiedVariableIdentifier _receiver;
+        private IUnifiedExpression _joinSource;
+        private IUnifiedExpression _firstEqualsKey;
         private IUnifiedExpression _secondEqualsKey;
-        protected UnifiedJoinQuery() {}
 
         /// <summary>
-        ///   クエリ式を継続するために要素を受け取る変数を取得もしくは設定します． e.g. C#における <c>group p.W in p.X into g</c> の <c>g</c>
+        ///   クエリ式を継続するために要素を受け取る変数を取得もしくは設定します．
+        ///   e.g. C#における<c>group p.W in p.X into g</c>の<c>g</c>
         /// </summary>
         public UnifiedVariableIdentifier Receiver {
             get { return _receiver; }
@@ -39,7 +40,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   結合対象となる式を取得もしくは設定します． e.g. C#における <c>join q in array2 on p.X equals q.X</c> の <c>array2</c>
+        ///   結合対象となる式を取得もしくは設定します．
+        ///   e.g. C#における<c>join q in array2 on p.X equals q.X</c>の<c>array2</c>
         /// </summary>
         public IUnifiedExpression JoinSource {
             get { return _joinSource; }
@@ -47,7 +49,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   結合条件となる比較対象のクエリ式の入力元の要素の式を取得もしくは設定します． e.g. C#における <c>join q in array2 on p.X equals q.X</c> の <c>array2</c>
+        ///   結合条件となる比較対象のクエリ式の入力元の要素の式を取得もしくは設定します．
+        ///   e.g. C#における<c>join q in array2 on p.X equals q.X</c>の<c>array2</c>
         /// </summary>
         public IUnifiedExpression FirstEqualsKey {
             get { return _firstEqualsKey; }
@@ -55,12 +58,15 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   結合条件となる比較対象の結合対象の要素の式を取得もしくは設定します． e.g. C#における <c>join q in array2 on p.X equals q.X</c> の <c>array2</c>
+        ///   結合条件となる比較対象の結合対象の要素の式を取得もしくは設定します．
+        ///   e.g. C#における<c>join q in array2 on p.X equals q.X</c>の<c>array2</c>
         /// </summary>
         public IUnifiedExpression SecondEqualsKey {
             get { return _secondEqualsKey; }
             set { _secondEqualsKey = SetChild(value, _secondEqualsKey); }
         }
+
+        protected UnifiedJoinQuery() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

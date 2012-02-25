@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   LINQのクエリ式を構成するgroup by句を表します。 e.g. C#における <c>group p.W in p.X into g</c>
+    ///   LINQのクエリ式を構成するgroup by句を表します。
+    ///   e.g. C#における<c>group p.W in p.X into g</c>
     /// </summary>
     public class UnifiedGroupByQuery : UnifiedLinqQuery {
         private IUnifiedExpression _element;
         private IUnifiedExpression _key;
         private UnifiedVariableIdentifier _receiver;
-        protected UnifiedGroupByQuery() {}
 
         /// <summary>
-        ///   グループ化した各要素となる式を取得もしくは設定します． e.g. C#における <c>group p.W in p.X into g</c> の <c>p.W</c>
+        ///   グループ化した各要素となる式を取得もしくは設定します．
+        ///   e.g. C#における<c>group p.W in p.X into g</c>の<c>p.W</c>
         /// </summary>
         public IUnifiedExpression Element {
             get { return _element; }
@@ -38,7 +39,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   グループ化する際のキーとなる式を取得もしくは設定します． e.g. C#における <c>group p.W in p.X into g</c> の <c>p.X</c>
+        ///   グループ化する際のキーとなる式を取得もしくは設定します．
+        ///   e.g. C#における<c>group p.W in p.X into g</c>の<c>p.X</c>
         /// </summary>
         public IUnifiedExpression Key {
             get { return _key; }
@@ -46,12 +48,15 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   クエリを継続するために要素を受け取る変数を取得もしくは設定します． e.g. C#における <c>group p.W in p.X into g</c> の <c>g</c>
+        ///   クエリを継続するために要素を受け取る変数を取得もしくは設定します．
+        ///   e.g. C#における<c>group p.W in p.X into g</c>の<c>g</c>
         /// </summary>
         public UnifiedVariableIdentifier Receiver {
             get { return _receiver; }
             set { _receiver = SetChild(value, _receiver); }
         }
+
+        protected UnifiedGroupByQuery() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

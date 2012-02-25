@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,28 +21,33 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   switch文におけるcase式を表します。 e.g. Javaにおける <c>switch(sw){case 1: BLOCK1 ...}</c> の <c>case 1: BLOCK1</c>
+    ///   switch文におけるcase式を表します。
+    ///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>case 1: BLOCK1</c>
     /// </summary>
     public class UnifiedCase : UnifiedElement {
-        private UnifiedBlock _body;
         private IUnifiedExpression _condition;
-        private UnifiedCase() {}
 
         /// <summary>
-        ///   case式の分岐条件を表します e.g. Javaにおける <c>switch(sw){case 1: EXPRESSION1 ...}</c> の <c>1</c>
+        ///   case式の分岐条件を表します
+        ///   e.g. Javaにおける<c>switch(sw){case 1: EXPRESSION1 ...}</c>の<c>1</c>
         /// </summary>
         public IUnifiedExpression Condition {
             get { return _condition; }
             set { _condition = SetChild(value, _condition); }
         }
 
+        private UnifiedBlock _body;
+
         /// <summary>
-        ///   case式の分岐に対応する内容を表します e.g. Javaにおける <c>switch(sw){case 1: BLOCK1 ...}</c> の <c>BLOCK1</c>
+        ///   case式の分岐に対応する内容を表します
+        ///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>BLOCK1</c>
         /// </summary>
         public UnifiedBlock Body {
             get { return _body; }
             set { _body = SetChild(value, _body); }
         }
+
+        private UnifiedCase() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

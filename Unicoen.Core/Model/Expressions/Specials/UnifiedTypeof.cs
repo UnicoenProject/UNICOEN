@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,22 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   Typeof式を表します。 e.g. Javaにおける <c>typeof(int)</c>
+    ///   Typeof式を表します。
+    ///   e.g. Javaにおける<c>typeof(int)</c>
     /// </summary>
     public class UnifiedTypeof : UnifiedElement, IUnifiedExpression {
         private IUnifiedExpression _value;
 
-        protected UnifiedTypeof() {}
-
         /// <summary>
-        ///   キャスト対象の式を表します e.g. Javaにおける <c>typeof(int)</c> の <c>int</c>
+        ///   キャスト対象の式を表します
+        ///   e.g. Javaにおける<c>typeof(int)</c>の<c>int</c>
         /// </summary>
         public IUnifiedExpression Value {
             get { return _value; }
             set { _value = SetChild(value, _value); }
         }
 
-        #region IUnifiedExpression Members
+        protected UnifiedTypeof() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -54,8 +54,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedTypeof Create(IUnifiedExpression type) {
             return new UnifiedTypeof {

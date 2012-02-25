@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,27 +21,28 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     public class UnifiedThrow : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _data;
-        private IUnifiedExpression _trace;
         private IUnifiedExpression _value;
-        protected UnifiedThrow() {}
 
         public IUnifiedExpression Value {
             get { return _value; }
             set { _value = SetChild(value, _value); }
         }
 
+        private IUnifiedExpression _data;
+
         public IUnifiedExpression Data {
             get { return _data; }
             set { _data = SetChild(value, _data); }
         }
+
+        private IUnifiedExpression _trace;
 
         public IUnifiedExpression Trace {
             get { return _trace; }
             set { _trace = SetChild(value, _trace); }
         }
 
-        #region IUnifiedExpression Members
+        protected UnifiedThrow() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -59,8 +60,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedThrow Create(
                 IUnifiedExpression value = null,

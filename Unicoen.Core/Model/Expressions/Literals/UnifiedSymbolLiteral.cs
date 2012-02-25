@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,11 +21,13 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   シンボルリテラルを表します。 e.g. Rubyにおける <c>:b</c> や <c>:"b"</c>
+    ///   シンボルリテラルを表します。
+    ///   e.g. Rubyにおける<c>:b</c>や<c>:"b"</c>
     /// </summary>
     public class UnifiedSymbolLiteral : UnifiedTypedLiteral<string> {
-        private UnifiedSymbolLiteral() {}
         public override string Value { get; set; }
+
+        private UnifiedSymbolLiteral() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

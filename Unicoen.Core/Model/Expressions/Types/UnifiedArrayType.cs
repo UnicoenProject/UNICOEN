@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,14 +22,15 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   Javaにおける <c>int[10] a;</c> の <c>[10]</c> 部分、 <c>int[] a;</c> の <c>[]</c> 部分などが該当します。
+    ///   Javaにおける<c>int[10] a;</c>の<c>[10]</c>部分、
+    ///   <c>int[] a;</c>の<c>[]</c>部分などが該当します。
     /// </summary>
     public class UnifiedArrayType : UnifiedWrapType {
         private UnifiedArgumentCollection _arguments;
-        internal UnifiedArrayType() {}
 
         /// <summary>
-        ///   実引数の集合を取得します． e.g. Cにおける <c>new int[10]</c> の <c>10</c>
+        ///   実引数の集合を取得します．
+        ///   e.g. Cにおける<c>new int[10]</c>の<c>10</c>
         /// </summary>
         public UnifiedArgumentCollection Arguments {
             get { return _arguments; }
@@ -42,6 +43,8 @@ namespace Unicoen.Model {
         public bool IsRectangleArray {
             get { return _arguments != null && _arguments.Count >= 2; }
         }
+
+        internal UnifiedArrayType() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

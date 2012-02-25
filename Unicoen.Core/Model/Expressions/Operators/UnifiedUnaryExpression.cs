@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,30 +21,35 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   単項式を表します。 e.g. Javaにおける <c>a++</c> e.g. Javaにおける <c>-b</c> e.g. Javaにおける <c>!c</c>
+    ///   単項式を表します。
+    ///   e.g. Javaにおける<c>a++</c>
+    ///   e.g. Javaにおける<c>-b</c>
+    ///   e.g. Javaにおける<c>!c</c>
     /// </summary>
     public class UnifiedUnaryExpression : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _operand;
         private UnifiedUnaryOperator _operator;
-        private UnifiedUnaryExpression() {}
 
         /// <summary>
-        ///   単項式の演算式を表します e.g. Javaにおける <c>a++</c> の <c>++</c>
+        ///   単項式の演算式を表します
+        ///   e.g. Javaにおける<c>a++</c>の<c>++</c>
         /// </summary>
         public UnifiedUnaryOperator Operator {
             get { return _operator; }
             set { _operator = SetChild(value, _operator); }
         }
 
+        private IUnifiedExpression _operand;
+
         /// <summary>
-        ///   単項式のオペランドを表します e.g. Javaにおける <c>a++</c> の <c>a</c>
+        ///   単項式のオペランドを表します
+        ///   e.g. Javaにおける<c>a++</c>の<c>a</c>
         /// </summary>
         public IUnifiedExpression Operand {
             get { return _operand; }
             set { _operand = SetChild(value, _operand); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedUnaryExpression() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -78,8 +83,6 @@ namespace Unicoen.Model {
             }
             return this;
         }
-
-        #endregion
 
         public static UnifiedUnaryExpression Create(
                 IUnifiedExpression operand,

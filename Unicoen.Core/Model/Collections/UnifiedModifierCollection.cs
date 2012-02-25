@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   修飾子の集合を表します。 e.g. Javaにおける <code>public static void method(){...}</code> の <code>public static</code>
+    ///   修飾子の集合を表します。
+    ///   e.g. Javaにおける<code>public static void method(){...}</code>の<code>public static</code>
     /// </summary>
     public class UnifiedModifierCollection
             : UnifiedElementCollection
                       <UnifiedModifier, UnifiedModifierCollection> {
-        protected UnifiedModifierCollection() {}
-
         public override UnifiedModifierCollection CreateSelf() {
             return new UnifiedModifierCollection();
         }
+
+        protected UnifiedModifierCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

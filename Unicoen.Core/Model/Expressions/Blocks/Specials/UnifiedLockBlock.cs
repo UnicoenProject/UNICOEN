@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   synchronizedなど特殊なブロックを表します。 e.g. Javaにおける <c>synchronized(this) {...}</c>
+    ///   synchronizedなど特殊なブロックを表します。
+    ///   e.g. Javaにおける<c>synchronized(this) {...}</c>
     /// </summary>
     public class UnifiedSynchronized
             : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
         private IUnifiedExpression _value;
-        private UnifiedSynchronized() {}
+        private UnifiedBlock _body;
 
         public IUnifiedExpression Value {
             get { return _value; }
@@ -42,7 +42,7 @@ namespace Unicoen.Model {
             set { _body = SetChild(value, _body); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedSynchronized() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -60,8 +60,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedSynchronized Create(
                 IUnifiedExpression value = null,

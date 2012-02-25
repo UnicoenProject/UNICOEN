@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,18 +21,19 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   for文を表します。 e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c>
+    ///   for文を表します。
+    ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>
     /// </summary>
     public class UnifiedFor : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
-        private IUnifiedExpression _condition;
-        private UnifiedBlock _falseBody;
         private IUnifiedExpression _initializer;
+        private IUnifiedExpression _condition;
         private IUnifiedExpression _step;
-        private UnifiedFor() {}
+        private UnifiedBlock _body;
+        private UnifiedBlock _falseBody;
 
         /// <summary>
-        ///   初期条件を表します e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c> <c>int i = 0</c>
+        ///   初期条件を表します
+        ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c><c>int i = 0</c>
         /// </summary>
         public IUnifiedExpression Initializer {
             get { return _initializer; }
@@ -40,7 +41,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   ループの継続の条件式を表します e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c> の <c>i &lt; 10</c>
+        ///   ループの継続の条件式を表します
+        ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
         /// </summary>
         public IUnifiedExpression Condition {
             get { return _condition; }
@@ -48,7 +50,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   ステップを表します e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c> の <c>i++</c>
+        ///   ステップを表します
+        ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i++</c>
         /// </summary>
         public IUnifiedExpression Step {
             get { return _step; }
@@ -68,7 +71,7 @@ namespace Unicoen.Model {
             set { _falseBody = SetChild(value, _falseBody); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedFor() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -87,8 +90,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedFor Create(
                 IUnifiedExpression initializer = null,

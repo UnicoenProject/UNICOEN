@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,20 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   リソース管理に用いられるローンパターンを提供する構文を表します。 e.g. C#における <c>using(var r = new StreamReader(path)){...}</c> の <c>var r = new StreamReader(path)</c> e.g. Pythonにおける <c>with file(p1) as f1, file(p2) as f2:</c> の <c>file(p1) as f1</c>
+    ///   リソース管理に用いられるローンパターンを提供する構文を表します。
+    ///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
+    ///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1</c>
     /// </summary>
     public class UnifiedUsing
             : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
         private UnifiedExpressionCollection _expressions;
-        private UnifiedUsing() {}
+        private UnifiedBlock _body;
 
         /// <summary>
-        ///   リソース管理の対象となる式の集合を取得もしくは設定します． e.g. C#における <c>using(var r = new StreamReader(path)){...}</c> の <c>var r = new StreamReader(path)</c> e.g. Pythonにおける <c>with file(p1) as f1, file(p2) as f2:</c> の <c>file(p1) as f1, file(p2) as f2</c> なお，Pythonにおける <c>file(p1) as f1</c> は <c>f1 = file(p1)</c> という代入式だと見なします
+        ///   リソース管理の対象となる式の集合を取得もしくは設定します．
+        ///   e.g. C#における<c>using(var r = new StreamReader(path)){...}</c>の<c>var r = new StreamReader(path)</c>
+        ///   e.g. Pythonにおける<c>with file(p1) as f1, file(p2) as f2:</c>の<c>file(p1) as f1, file(p2) as f2</c>
+        /// なお，Pythonにおける<c>file(p1) as f1</c>は<c>f1 = file(p1)</c>という代入式だと見なします
         /// </summary>
         public UnifiedExpressionCollection Expressions {
             get { return _expressions; }
@@ -45,7 +49,7 @@ namespace Unicoen.Model {
             set { _body = SetChild(value, _body); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedUsing() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -64,8 +68,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedUsing Create(
                 UnifiedExpressionCollection expressions = null,

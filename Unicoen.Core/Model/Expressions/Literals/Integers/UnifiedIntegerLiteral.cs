@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@ using System.Numerics;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   整数のリテラルを表します。 e.g. Javaにおける <c>int i = 10;</c> の <c>10</c> の部分
+    ///   整数のリテラルを表します。
+    ///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分
     /// </summary>
     public abstract class UnifiedIntegerLiteral
             : UnifiedTypedLiteral<BigInteger> {
