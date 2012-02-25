@@ -571,7 +571,7 @@ namespace Unicoen.Processor {
             throw new NotImplementedException();
         }
 
-        public virtual void Visit(UnifiedVaueIdentifier element) {
+        public virtual void Visit(UnifiedValueIdentifier element) {
             throw new NotImplementedException();
         }
 
@@ -1198,7 +1198,7 @@ namespace Unicoen.Processor {
             throw new NotImplementedException();
         }
 
-        public virtual void Visit(UnifiedVaueIdentifier element, TArg arg) {
+        public virtual void Visit(UnifiedValueIdentifier element, TArg arg) {
             throw new NotImplementedException();
         }
 
@@ -1320,7 +1320,7 @@ namespace Unicoen.Processor {
             throw new NotImplementedException();
         }
 
-        public virtual TResult Visit(UnifiedVaueIdentifier element, TArg arg) {
+        public virtual TResult Visit(UnifiedValueIdentifier element, TArg arg) {
             throw new NotImplementedException();
         }
 

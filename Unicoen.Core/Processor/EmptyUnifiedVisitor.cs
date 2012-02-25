@@ -296,7 +296,7 @@ namespace Unicoen.Processor {
 
         public virtual void Visit(UnifiedDefault element) {}
 
-        public virtual void Visit(UnifiedVaueIdentifier element) {}
+        public virtual void Visit(UnifiedValueIdentifier element) {}
 
         public virtual void Visit(UnifiedEventDefinition element) {}
 
@@ -622,7 +622,7 @@ namespace Unicoen.Processor {
 
         public virtual void Visit(UnifiedDefault element, TArg arg) {}
 
-        public virtual void Visit(UnifiedVaueIdentifier element, TArg arg) {}
+        public virtual void Visit(UnifiedValueIdentifier element, TArg arg) {}
 
         public virtual void Visit(UnifiedEventDefinition element, TArg arg) {}
 
@@ -714,7 +714,7 @@ namespace Unicoen.Processor {
             return default(TResult);
         }
 
-        public virtual TResult Visit(UnifiedVaueIdentifier element, TArg arg) {
+        public virtual TResult Visit(UnifiedValueIdentifier element, TArg arg) {
             return default(TResult);
         }
 
