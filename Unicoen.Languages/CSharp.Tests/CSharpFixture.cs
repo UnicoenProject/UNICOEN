@@ -30,7 +30,7 @@ using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
-	public class CSharpFixture : Fixture {
+	public partial class CSharpFixture : Fixture {
 		private const string CscPath =
 				@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
 
@@ -66,62 +66,6 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// </summary>
 		public override UnifiedCodeGenerator CodeGenerator {
 			get { return CSharpFactory.CodeGenerator; }
-		}
-
-		/// <summary>
-		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。 Java言語であれば， <c>class A { public void M1() { ... } }</c> の...部分に このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-		/// </summary>
-		public override IEnumerable<TestCaseData> TestCodes {
-			get {
-				var statements = new[] {
-						"M1();",
-						"new A();",
-				}.Select(s => new TestCaseData(DecorateToCompile(s)));
-
-				var codes = new[] {
-						"class A { }",
-						"public class A { }",
-				}.Select(s => new TestCaseData(s));
-
-				return statements.Concat(codes);
-			}
-		}
-
-		/// <summary>
-		///   テスト時に入力するファイルパスの集合です．
-		/// </summary>
-		public override IEnumerable<TestCaseData> TestFilePaths {
-			get {
-				// 必要に応じて以下の要素をコメントアウト
-				return new[] {
-						//"Fibonacci",
-						//"Student",
-						//"Block1",
-						//"Block2",
-						//"Block3",
-						//"Binary",
-						//"TypeConstraint",
-						"Ifdef",
-				}
-						.Select(
-								s =>
-								new TestCaseData(
-										FixtureUtil.GetInputPath(
-												"CSharp", s + Extension)));
-			}
-		}
-
-		/// <summary>
-		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
-		/// </summary>
-		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get {
-				return SetUpUnicoen().Concat(SetUpKurogane());
-			}
-		}
-
-		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-			get { yield break; }
 		}
 
 		private static string DecorateToCompile(string statement) {
