@@ -68,7 +68,7 @@ namespace Unicoen.Languages.Ruby18.Tests {
             }
         }
 
-        public override IEnumerable<TestCaseData> TestFilePathes {
+        public override IEnumerable<TestCaseData> TestFilePaths {
             get {
                 return Directory.EnumerateFiles(
                         FixtureUtil.GetInputPath(LanguageName), "*.rb",

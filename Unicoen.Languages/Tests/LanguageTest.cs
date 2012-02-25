@@ -46,8 +46,8 @@ namespace Unicoen.Languages.Tests {
 		/// <summary>
 		///   テスト対象のソースコードのパスの集合を取得します．
 		/// </summary>
-		public IEnumerable<TestCaseData> TestFilePathes {
-			get { return Fixture.TestFilePathes; }
+		public IEnumerable<TestCaseData> TestFilePaths {
+			get { return Fixture.TestFilePaths; }
 		}
 
 		/// <summary>

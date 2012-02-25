@@ -112,7 +112,7 @@ namespace Unicoen.Languages.Java.Tests {
         /// <summary>
         ///   テスト時に入力するファイルパスの集合です．
         /// </summary>
-        public override IEnumerable<TestCaseData> TestFilePathes {
+        public override IEnumerable<TestCaseData> TestFilePaths {
             get {
                 // 必要に応じて以下の要素をコメントアウト
                 return new[] {
