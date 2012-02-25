@@ -1,7 +1,0 @@
-aspect Logger {
-    pointcut move() :
-        execution(double Rectangle.shift());
-	
-	pointcut push() :
-        call(double Rectangle.onClicked());
-}
