@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Python2Fixture.TestData.cs" />
     <Compile Include="Python2HeavyLanguageTest.cs" />
     <Compile Include="Python2LanguageTest.cs" />
     <Compile Include="Python2Fixture.cs" />

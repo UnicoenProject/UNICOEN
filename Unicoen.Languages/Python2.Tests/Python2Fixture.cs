@@ -27,7 +27,7 @@ using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
-    public class Python2Fixture : Fixture {
+    public partial class Python2Fixture : Fixture {
         private static readonly string CompileCommand =
                 Settings.GetPythonInstallPath("2.") ?? "python";
 
@@ -64,54 +64,6 @@ namespace Unicoen.Languages.Python2.Tests {
         /// </summary>
         public override UnifiedCodeGenerator CodeGenerator {
             get { return Python2Factory.CodeGenerator; }
-        }
-
-        /// <summary>
-        ///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。 Java言語であれば， <c>class A { public void M1() { ... } }</c> の...部分に このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-        /// </summary>
-        public override IEnumerable<TestCaseData> TestCodes {
-            get {
-                return new[] {
-                        "a = 1",
-                        "class A: pass",
-                }.Select(s => new TestCaseData(s));
-            }
-        }
-
-        /// <summary>
-        ///   テスト時に入力するファイルパスの集合です．
-        /// </summary>
-        public override IEnumerable<TestCaseData> TestFilePaths {
-            get {
-                // 必要に応じて以下の要素をコメントアウト
-                return new[] {
-                        "Block1",
-                        "Block2",
-                        "Block3",
-                        "Fibonacci",
-                }
-                        .Select(
-                                s =>
-                                new TestCaseData(
-                                        FixtureUtil.GetInputPath(
-                                                LanguageName, s + Extension)));
-            }
-        }
-
-        /// <summary>
-        ///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
-        /// </summary>
-        public override IEnumerable<TestCaseData> TestProjectInfos {
-            get {
-                return
-                        SetUpTornade()
-                                .Concat(SetUpPyPy())
-                        ;
-            }
-        }
-
-        public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-            get { yield break; }
         }
 
         /// <summary>

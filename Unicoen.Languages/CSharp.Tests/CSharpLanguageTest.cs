@@ -21,88 +21,105 @@ using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
-    [TestFixture]
-    public class CSharpLanguageTest : LanguageTestBase {
-        private Fixture _fixture;
+	[TestFixture]
+	public class CSharpLanguageTest : LanguageTestBase {
+		private Fixture _fixture;
 
-        protected override Fixture Fixture {
-            get { return _fixture ?? (_fixture = new CSharpFixture()); }
-        }
+		protected override Fixture Fixture {
+			get { return _fixture ?? (_fixture = new CSharpFixture()); }
+		}
 
-        /// <summary>
-        ///   再生成を行わずAssertCompareCompiledCodeが正常に動作するかテストします。 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
-        /// </summary>
-        /// <param name="orgPath"> 再生成するソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePaths")]
-        public void VerifyAssertCompareCompiledCode(string orgPath) {
-            Test.VerifyAssertCompareCompiledCode(orgPath);
-        }
+		#region TestFilePaths
+		/// <summary>
+		///   再生成を行わずAssertCompareCompiledCodeが正常に動作するかテストします。 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
+		/// </summary>
+		/// <param name="orgPath"> 再生成するソースコードのパス </param>
+		[Test, TestCaseSource("TestFilePaths")]
+		public void VerifyAssertCompareCompiledCode(string orgPath)
+		{
+			Test.VerifyAssertCompareCompiledCode(orgPath);
+		}
 
-        /// <summary>
-        ///   再生成を行わずAssertCompareModelが正常に動作するかテストします。 全く同じコードから生成したモデル同士で比較します。
-        /// </summary>
-        /// <param name="orgPath"> 再生成するソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePaths")]
-        public void VerifyAssertCompareModel(string orgPath) {
-            Test.VerifyAssertCompareModel(orgPath);
-        }
+		/// <summary>
+		///   再生成を行わずAssertCompareModelが正常に動作するかテストします。 全く同じコードから生成したモデル同士で比較します。
+		/// </summary>
+		/// <param name="orgPath"> 再生成するソースコードのパス </param>
+		[Test, TestCaseSource("TestFilePaths")]
+		public void VerifyAssertCompareModel(string orgPath)
+		{
+			Test.VerifyAssertCompareModel(orgPath);
+		}
 
-        /// <summary>
-        ///   指定したソースコードから統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
-        /// </summary>
-        /// <param name="code"> 検査対象のソースコード </param>
-        [Test, TestCaseSource("TestCodes")]
-        public void VerifyCodeObjectFeatureUsingCode(string code) {
-            Test.VerifyCodeObjectFeatureUsingCode(code);
-        }
+		/// <summary>
+		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// </summary>
+		/// <param name="path"> 検査対象のソースコードのパス </param>
+		[Test, TestCaseSource("TestFilePaths")]
+		public void VerifyCodeObjectFeatureUsingFile(string path)
+		{
+			Test.VerifyCodeObjectFeatureUsingFile(path);
+		}
 
-        /// <summary>
-        ///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
-        /// </summary>
-        /// <param name="path"> 検査対象のソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePaths")]
-        public void VerifyCodeObjectFeatureUsingFile(string path) {
-            Test.VerifyCodeObjectFeatureUsingFile(path);
-        }
+		/// <summary>
+		///   指定したパスのソースコードの統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// </summary>
+		/// <param name="path"> 検査対象のソースコードのパス </param>
+		[Test, TestCaseSource("TestFilePaths")]
+		public void VerifyRegenerateCodeUsingFile(string path)
+		{
+			Test.VerifyRegenerateCodeUsingFile(path);
+		}
+		
+		#endregion
 
-        /// <summary>
-        ///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
-        /// </summary>
-        /// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-        /// <param name="compileAction"> 使用しません </param>
-        [Test, TestCaseSource("TestProjectInfos")]
-        public void VerifyCodeObjectFeatureUsingProject(
-                string dirPath, Action<string, string> compileAction) {
-            Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);
-        }
+		#region TestCodes
+		/// <summary>
+		///   指定したソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// </summary>
+		/// <param name="code"> 検査対象のソースコード </param>
+		[Test, TestCaseSource("TestCodes")]
+		public void VerifyRegenerateCodeUsingCode(string code)
+		{
+			Test.VerifyRegenerateCodeUsingCode(code);
+		}
 
-        /// <summary>
-        ///   指定したソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
-        /// </summary>
-        /// <param name="code"> 検査対象のソースコード </param>
-        [Test, TestCaseSource("TestCodes")]
-        public void VerifyRegenerateCodeUsingCode(string code) {
-            Test.VerifyRegenerateCodeUsingCode(code);
-        }
+		/// <summary>
+		///   指定したソースコードから統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// </summary>
+		/// <param name="code"> 検査対象のソースコード </param>
+		[Test, TestCaseSource("TestCodes")]
+		public void VerifyCodeObjectFeatureUsingCode(string code)
+		{
+			Test.VerifyCodeObjectFeatureUsingCode(code);
+		}
+		
+		#endregion
 
-        /// <summary>
-        ///   指定したパスのソースコードの統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
-        /// </summary>
-        /// <param name="path"> 検査対象のソースコードのパス </param>
-        [Test, TestCaseSource("TestFilePaths")]
-        public void VerifyRegenerateCodeUsingFile(string path) {
-            Test.VerifyRegenerateCodeUsingFile(path);
-        }
+		#region TestProjectInfos
+		/// <summary>
+		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// </summary>
+		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
+		/// <param name="compileAction"> 使用しません </param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public void VerifyCodeObjectFeatureUsingProject(
+				string dirPath, Action<string, string> compileAction)
+		{
+			Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);
+		}
 
-        /// <summary>
-        ///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
-        /// </summary>
-        /// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-        /// <param name="compileAction"> コンパイル処理 </param>
-        [Test, TestCaseSource("TestProjectInfos")]
-        public void VerifyRegenerateCodeUsingProject(
-                string dirPath, Action<string, string> compileAction) {
-            Test.VerifyRegenerateCodeUsingProject(dirPath, compileAction);
-        }
-    }
+		/// <summary>
+		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// </summary>
+		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
+		/// <param name="compileAction"> コンパイル処理 </param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public void VerifyRegenerateCodeUsingProject(
+				string dirPath, Action<string, string> compileAction)
+		{
+			Test.VerifyRegenerateCodeUsingProject(dirPath, compileAction);
+		}
+		
+		#endregion
+	}
 }

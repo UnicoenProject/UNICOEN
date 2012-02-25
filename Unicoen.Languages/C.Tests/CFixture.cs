@@ -25,7 +25,7 @@ using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-    public class CFixture : Fixture {
+    public partial class CFixture : Fixture {
         /// <summary>
         ///   対応する言語のソースコードの拡張子を取得します．
         /// </summary>
@@ -52,64 +52,6 @@ namespace Unicoen.Languages.C.Tests {
         /// </summary>
         public override UnifiedCodeGenerator CodeGenerator {
             get { return CFactory.CodeGenerator; }
-        }
-
-        /// <summary>
-        ///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。 Java言語であれば， <c>class A { public void M1() { ... } }</c> の...部分に このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-        /// </summary>
-        public override IEnumerable<TestCaseData> TestCodes {
-            get {
-                var statements = new[] {
-                        "{ func(); }",
-                }.Select(s => new TestCaseData(DecorateToCompile(s)));
-
-                var codes = new[] {
-                        "int main() { return 0; }",
-                }.Select(s => new TestCaseData(s));
-
-                return statements.Concat(codes);
-            }
-        }
-
-        /// <summary>
-        ///   テスト時に入力するファイルパスの集合です．
-        /// </summary>
-        public override IEnumerable<TestCaseData> TestFilePaths {
-            get {
-                // 必要に応じて以下の要素をコメントアウト
-                return new[] {
-                        //"fibonacci",
-                        //"fibonacci2",
-                        //"empty",
-                        //"assignment",
-                        //"Block1",
-                        //"Block2",
-                        //"Block3",
-                        //"hello",
-                        //"test",
-                        //"fact",
-                        //"LineDriveController",
-                        "ActionController",
-                        //"switchNest",
-                        //"pointer",
-                }
-                        .Select(
-                                s =>
-                                new TestCaseData(
-                                        FixtureUtil.GetInputPath(
-                                                "C", s + Extension)));
-            }
-        }
-
-        /// <summary>
-        ///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
-        /// </summary>
-        public override IEnumerable<TestCaseData> TestProjectInfos {
-            get { yield break; }
-        }
-
-        public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-            get { yield break; }
         }
 
         private static string DecorateToCompile(string statement) {

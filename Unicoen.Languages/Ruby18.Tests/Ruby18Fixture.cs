@@ -28,7 +28,7 @@ using Unicoen.ProgramGenerators;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.Ruby18.Tests {
-    public class Ruby18Fixture : Fixture {
+    public partial class Ruby18Fixture : Fixture {
         /// <summary>
         ///   対応する言語のソースコードの拡張子を取得します．
         /// </summary>
@@ -55,57 +55,6 @@ namespace Unicoen.Languages.Ruby18.Tests {
         /// </summary>
         public override UnifiedCodeGenerator CodeGenerator {
             get { throw new NotImplementedException(); }
-        }
-
-        /// <summary>
-        ///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。 Java言語であれば， <c>class A { public void M1() { ... } }</c> の...部分に このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
-        /// </summary>
-        public override IEnumerable<TestCaseData> TestCodes {
-            get {
-                return new[] {
-                        "a = 1",
-                }.Select(s => new TestCaseData(s));
-            }
-        }
-
-        public override IEnumerable<TestCaseData> TestFilePaths {
-            get {
-                return Directory.EnumerateFiles(
-                        FixtureUtil.GetInputPath(LanguageName), "*.rb",
-                        SearchOption.AllDirectories)
-                        .Select(
-                                s => new TestCaseData(
-                                             FixtureUtil.GetInputPath(
-                                                     LanguageName,
-                                                     Path.GetFileName(s))));
-                // 必要に応じて以下の要素をコメントアウト
-                return new[] {
-                        "block",
-                        "Block1",
-                        "Block2",
-                        "Block3",
-                        "Block4",
-                        "Fibonacci",
-                        "hierarchy",
-                        "prime",
-                        "ruby2ruby_test",
-                        "sjis",
-                        "student",
-                }
-                        .Select(
-                                s =>
-                                new TestCaseData(
-                                        FixtureUtil.GetInputPath(
-                                                LanguageName, s + Extension)));
-            }
-        }
-
-        public override IEnumerable<TestCaseData> TestProjectInfos {
-            get { yield break; }
-        }
-
-        public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-            get { yield break; }
         }
 
         public override void Compile(string workPath, string srcPath) {}
