@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,20 +21,21 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   関数やメソッド呼び出しの実引数の集合を表します。 e.g. Javaにおける <c>method(1, 2);</c> の <c>(1, 2)</c>
+    ///   関数やメソッド呼び出しの実引数の集合を表します。
+    ///   e.g. Javaにおける<c>method(1, 2);</c>の<c>(1, 2)</c>
     /// </summary>
     public class UnifiedArgumentCollection
             : UnifiedElementCollection
                       <UnifiedArgument, UnifiedArgumentCollection> {
-        protected UnifiedArgumentCollection() {}
-
         /// <summary>
         ///   レシーバーと同じ型のオブジェクトを生成します．
         /// </summary>
-        /// <returns> 生成したオブジェクト </returns>
+        /// <returns>生成したオブジェクト</returns>
         public override UnifiedArgumentCollection CreateSelf() {
             return new UnifiedArgumentCollection();
         }
+
+        protected UnifiedArgumentCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

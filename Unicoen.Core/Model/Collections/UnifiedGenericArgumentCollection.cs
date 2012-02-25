@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,9 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   ジェネリックタイプなどにおける型の実引数の集合を表します。 型パラメータに具体的な型を指定する際に利用します。 e.g. Javaにおける <c>HashMap&lt;Integer, String&gt; a;</c> の <c>&lt;Integer, String&gt;</c>
+    ///   ジェネリックタイプなどにおける型の実引数の集合を表します。
+    ///   型パラメータに具体的な型を指定する際に利用します。
+    ///   e.g. Javaにおける<c>HashMap&lt;Integer, String&gt; a;</c>の<c>&lt;Integer, String&gt;</c>
     /// </summary>
     public class UnifiedGenericArgumentCollection
             : UnifiedElementCollection

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,17 +21,18 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   foreach文あるいは拡張for文を表します。 e.g. Javaにおける <c>for(int n : array){...}</c> やC#における <c>foreach(var n in array){...}</c>
+    ///   foreach文あるいは拡張for文を表します。
+    ///   e.g. Javaにおける<c>for(int n : array){...}</c>やC#における<c>foreach(var n in array){...}</c>
     /// </summary>
     public class UnifiedForeach : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
         private IUnifiedExpression _element;
-        private UnifiedBlock _elseBody;
         private IUnifiedExpression _set;
-        private UnifiedForeach() {}
+        private UnifiedBlock _body;
+        private UnifiedBlock _elseBody;
 
         /// <summary>
-        ///   集合から取り出した要素を表します e.g. Javaにおける <c>for(int n : array){...}</c> の <c>int n</c>
+        ///   集合から取り出した要素を表します
+        ///   e.g. Javaにおける<c>for(int n : array){...}</c>の<c>int n</c>
         /// </summary>
         public IUnifiedExpression Element {
             get { return _element; }
@@ -39,7 +40,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   対象の集合を表します e.g. Javaにおける <c>for(int n : array){...}</c> の <c>array</c>
+        ///   対象の集合を表します
+        ///   e.g. Javaにおける<c>for(int n : array){...}</c>の<c>array</c>
         /// </summary>
         public IUnifiedExpression Set {
             get { return _set; }
@@ -59,7 +61,7 @@ namespace Unicoen.Model {
             set { _elseBody = SetChild(value, _elseBody); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedForeach() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -78,8 +80,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedForeach Create(
                 IUnifiedExpression element,

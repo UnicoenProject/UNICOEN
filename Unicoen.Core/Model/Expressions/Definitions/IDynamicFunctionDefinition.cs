@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,8 @@ namespace Unicoen.Model {
         UnifiedAnnotationCollection Annotations { get; set; }
 
         /// <summary>
-        ///   付与されている修飾子の集合を取得もしくは設定します． e.g. Javaにおける <c>public static void method(int a){...}</c> の <c>public static</c>
+        ///   付与されている修飾子の集合を取得もしくは設定します．
+        ///   e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
         /// </summary>
         UnifiedModifierCollection Modifiers { get; set; }
 

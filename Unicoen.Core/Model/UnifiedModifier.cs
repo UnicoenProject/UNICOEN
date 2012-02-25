@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,15 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   修飾子を表します。 e.g. Javaにおける <c>public int method(){...}</c> の <c>public</c> e.g. Javaにおける <c>private String _str</c> の <c>private</c>
+    ///   修飾子を表します。
+    ///   e.g. Javaにおける<c>public int method(){...}</c>の<c>public</c>
+    ///   e.g. Javaにおける<c>private String _str</c>の<c>private</c>
     /// </summary>
     public class UnifiedModifier : UnifiedElement {
-        private UnifiedModifier() {}
-
         /// <summary>
         ///   修飾子の名前を表します
         /// </summary>
         public string Name { get; set; }
+
+        private UnifiedModifier() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

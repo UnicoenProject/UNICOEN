@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,15 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   型の集合を表します。 Javaのthrowsの右辺を表現するために存在しています． e.g. Javaにおける <c>throws e1, e2...</c> の <c>e1, e2...</c>
+    ///   型の集合を表します。
+    ///   Javaのthrowsの右辺を表現するために存在しています．
+    ///   e.g. Javaにおける<c>throws e1, e2...</c>の<c>e1, e2...</c>
     /// </summary>
     public class UnifiedTypeCollection
             : UnifiedElementCollection<UnifiedType, UnifiedTypeCollection> {
-        protected UnifiedTypeCollection() {}
-
         public override UnifiedTypeCollection CreateSelf() {
             return new UnifiedTypeCollection();
         }
+
+        protected UnifiedTypeCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

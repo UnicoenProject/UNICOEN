@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,21 +21,21 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     public class UnifiedAssert : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _message;
         private IUnifiedExpression _value;
-        protected UnifiedAssert() {}
 
         public IUnifiedExpression Value {
             get { return _value; }
             set { _value = SetChild(value, _value); }
         }
 
+        private IUnifiedExpression _message;
+
         public IUnifiedExpression Message {
             get { return _message; }
             set { _message = SetChild(value, _message); }
         }
 
-        #region IUnifiedExpression Members
+        protected UnifiedAssert() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -53,8 +53,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedAssert Create(
                 IUnifiedExpression value = null,

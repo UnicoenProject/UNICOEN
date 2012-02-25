@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,41 +21,14 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   関数やメソッドなどのサブルーチンの定義部分を表します。 e.g. Javaにおける <c>public void method(int a){...}</c>
+    ///   関数やメソッドなどのサブルーチンの定義部分を表します。
+    ///   e.g. Javaにおける<c>public void method(int a){...}</c>
     /// </summary>
     public class UnifiedFunctionDefinition
             : UnifiedElement, IUnifiedExpression, IDynamicFunctionDefinition {
         #region fields & properties
 
-        private IUnifiedExpression _annotationExpression;
         private UnifiedAnnotationCollection _annotations;
-        private UnifiedBlock _body;
-        private UnifiedGenericParameterCollection _genericParameters;
-
-        private UnifiedModifierCollection _modifiers;
-        private UnifiedIdentifier _name;
-        private UnifiedParameterCollection _parameters;
-        private UnifiedTypeCollection _throws;
-
-        private UnifiedType _type;
-
-        /// <summary>
-        ///   名前を取得もしくは設定します． e.g. Javaにおける <c>public void method(int a){...}</c> の <c>method</c>
-        /// </summary>
-        public UnifiedType Type {
-            get { return _type; }
-            set { _type = SetChild(value, _type); }
-        }
-
-        public UnifiedGenericParameterCollection GenericParameters {
-            get { return _genericParameters; }
-            set { _genericParameters = SetChild(value, _genericParameters); }
-        }
-
-        public UnifiedTypeCollection Throws {
-            get { return _throws; }
-            set { _throws = SetChild(value, _throws); }
-        }
 
         /// <summary>
         ///   付与されているアノテーションを取得もしくは設定します．
@@ -65,23 +38,57 @@ namespace Unicoen.Model {
             set { _annotations = SetChild(value, _annotations); }
         }
 
+        private UnifiedModifierCollection _modifiers;
+
         /// <summary>
-        ///   付与されている修飾子の集合を取得もしくは設定します． e.g. Javaにおける <c>public static void method(int a){...}</c> の <c>public static</c>
+        ///   付与されている修飾子の集合を取得もしくは設定します．
+        ///   e.g. Javaにおける<c>public static void method(int a){...}</c>の<c>public static</c>
         /// </summary>
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }
             set { _modifiers = SetChild(value, _modifiers); }
         }
 
+        private UnifiedType _type;
+
+        /// <summary>
+        ///   名前を取得もしくは設定します．
+        ///   e.g. Javaにおける<c>public void method(int a){...}</c>の<c>method</c>
+        /// </summary>
+        public UnifiedType Type {
+            get { return _type; }
+            set { _type = SetChild(value, _type); }
+        }
+
+        private UnifiedGenericParameterCollection _genericParameters;
+
+        public UnifiedGenericParameterCollection GenericParameters {
+            get { return _genericParameters; }
+            set { _genericParameters = SetChild(value, _genericParameters); }
+        }
+
+        private UnifiedIdentifier _name;
+
         public UnifiedIdentifier Name {
             get { return _name; }
             set { _name = SetChild(value, _name); }
         }
 
+        private UnifiedParameterCollection _parameters;
+
         public UnifiedParameterCollection Parameters {
             get { return _parameters; }
             set { _parameters = SetChild(value, _parameters); }
         }
+
+        private UnifiedTypeCollection _throws;
+
+        public UnifiedTypeCollection Throws {
+            get { return _throws; }
+            set { _throws = SetChild(value, _throws); }
+        }
+
+        private IUnifiedExpression _annotationExpression;
 
         /// <summary>
         ///   関数の戻り値の情報を表す付与された式（主に文字列）を取得もしくは設定します．
@@ -90,6 +97,8 @@ namespace Unicoen.Model {
             get { return _annotationExpression; }
             set { _annotationExpression = SetChild(value, _annotationExpression); }
         }
+
+        private UnifiedBlock _body;
 
         /// <summary>
         ///   ブロックを取得もしくは設定します．
@@ -102,8 +111,6 @@ namespace Unicoen.Model {
         #endregion
 
         protected UnifiedFunctionDefinition() {}
-
-        #region IUnifiedExpression Members
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -122,8 +129,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedFunctionDefinition Create(
                 UnifiedAnnotationCollection annotations = null,

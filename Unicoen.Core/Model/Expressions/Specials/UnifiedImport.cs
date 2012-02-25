@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,46 +21,58 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   使用する名前空間の指定や外部ファイルの読み込みを表します。 e.g. Javaにおける <c>import package;</c> e.g. C#における <c>using Gen = System.Collections.Generic</c> e.g. Pythonにおける <c>import sys</c> e.g. Pythonにおける <c>from lib.package import func as f</c>
+    ///   使用する名前空間の指定や外部ファイルの読み込みを表します。
+    ///   e.g. Javaにおける<c>import package;</c>
+    ///   e.g. C#における<c>using Gen = System.Collections.Generic</c>
+    ///   e.g. Pythonにおける<c>import sys</c>
+    ///   e.g. Pythonにおける<c>from lib.package import func as f</c>
     /// </summary>
     public class UnifiedImport : UnifiedElement, IUnifiedExpression {
-        private UnifiedIdentifier _alias;
         private IUnifiedExpression _member;
-        private UnifiedModifierCollection _modifiers;
-
-        private IUnifiedExpression _name;
-        private UnifiedImport() {}
 
         /// <summary>
-        ///   Pythonにおいてパッケージ名を省略して使用できるようにする変数もしくは関数名 e.g. Pythonにおける <c>from lib.package import func as f</c> の <c>func</c>
+        ///   Pythonにおいてパッケージ名を省略して使用できるようにする変数もしくは関数名
+        ///   e.g. Pythonにおける<c>from lib.package import func as f</c>の<c>func</c>
         /// </summary>
         public IUnifiedExpression Member {
             get { return _member; }
             set { _member = SetChild(value, _member); }
         }
 
+        private IUnifiedExpression _name;
+
         /// <summary>
-        ///   使用する名前空間や関数名を表します． e.g. Javaにおける <c>import package;</c> の <c>package</c> e.g. C#における <c>using Gen = System.Collections.Generic</c> の <c>System.Collections.Generic</c> e.g. Pythonにおける <c>import sys</c> の <c>sys</c> e.g. Pythonにおける <c>from lib.package import funcas f</c> の <c>lib.package</c>
+        ///   使用する名前空間や関数名を表します．
+        ///   e.g. Javaにおける<c>import package;</c>の<c>package</c>
+        ///   e.g. C#における<c>using Gen = System.Collections.Generic</c>の<c>System.Collections.Generic</c>
+        ///   e.g. Pythonにおける<c>import sys</c>の<c>sys</c>
+        ///   e.g. Pythonにおける<c>from lib.package import funcas f</c>の<c>lib.package</c>
         /// </summary>
         public IUnifiedExpression Name {
             get { return _name; }
             set { _name = SetChild(value, _name); }
         }
 
+        private UnifiedIdentifier _alias;
+
         /// <summary>
-        ///   使用する名前空間や関数名のエイリアスを表します． e.g. C#における <c>using Gen = System.Collections.Generic</c> の <c>Gen</c> e.g. Pythonにおける <c>from lib.package import funcas f</c> の <c>f</c>
+        ///   使用する名前空間や関数名のエイリアスを表します．
+        ///   e.g. C#における<c>using Gen = System.Collections.Generic</c>の<c>Gen</c>
+        ///   e.g. Pythonにおける<c>from lib.package import funcas f</c>の<c>f</c>
         /// </summary>
         public UnifiedIdentifier Alias {
             get { return _alias; }
             set { _alias = SetChild(value, _alias); }
         }
 
+        private UnifiedModifierCollection _modifiers;
+
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }
             set { _modifiers = SetChild(value, _modifiers); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedImport() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -79,8 +91,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedImport Create(
                 IUnifiedExpression name = null, string alias = null,

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +21,15 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   小数のリテラルを表します。 e.g. Javaにおける <c>double d = 1.0;</c> の <c>1.0</c> の部分
+    ///   小数のリテラルを表します。
+    ///   e.g. Javaにおける<c>double d = 1.0;</c>の<c>1.0</c>の部分
     /// </summary>
     public class UnifiedFractionLiteral : UnifiedTypedLiteral<double> {
-        private UnifiedFractionLiteral() {}
         public override double Value { get; set; }
 
         public UnifiedFractionLiteralKind Kind { get; set; }
+
+        private UnifiedFractionLiteral() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

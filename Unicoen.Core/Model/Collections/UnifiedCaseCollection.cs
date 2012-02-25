@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,19 +21,20 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   case文の集合を表します。 e.g. Javaにおける <c>switch(v) { case 1: ... case 2: ... }</c> の <c>case 1: ... case 2: ...</c>
+    ///   case文の集合を表します。
+    ///   e.g. Javaにおける<c>switch(v) { case 1: ... case 2: ... }</c>の<c>case 1: ... case 2: ...</c>
     /// </summary>
     public class UnifiedCaseCollection
             : UnifiedElementCollection<UnifiedCase, UnifiedCaseCollection> {
-        protected UnifiedCaseCollection() {}
-
         /// <summary>
         ///   レシーバーと同じ型のオブジェクトを生成します．
         /// </summary>
-        /// <returns> 生成したオブジェクト </returns>
+        /// <returns>生成したオブジェクト</returns>
         public override UnifiedCaseCollection CreateSelf() {
             return new UnifiedCaseCollection();
         }
+
+        protected UnifiedCaseCollection() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

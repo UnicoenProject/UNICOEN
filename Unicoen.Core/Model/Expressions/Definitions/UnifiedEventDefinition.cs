@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,21 +21,23 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   イベントの宣言を表す共通表現です。 e.g. C#における <c>public int Value { get; set; }</c>
+    ///   イベントの宣言を表す共通表現です。
+    ///   e.g. C#における<c>public int Value { get; set; }</c>
     /// </summary>
     public class UnifiedEventDefinition : UnifiedElement, IUnifiedExpression {
         #region fields & properties
 
-        private UnifiedPropertyDefinitionPart _adder;
         private UnifiedAnnotationCollection _annotations;
         private UnifiedModifierCollection _modifiers;
+        private UnifiedType _type;
         private UnifiedIdentifier _name;
         private UnifiedParameterCollection _parameters;
+        private UnifiedPropertyDefinitionPart _adder;
         private UnifiedPropertyDefinitionPart _remover;
-        private UnifiedType _type;
 
         /// <summary>
-        ///   付与されているアノテーションを取得もしくは設定します． e.g. C#における <c>[Pure] int Value { get; set; }</c> の <c>[Pure]</c>
+        ///   付与されているアノテーションを取得もしくは設定します．
+        ///   e.g. C#における<c>[Pure] int Value { get; set; }</c>の<c>[Pure]</c>
         /// </summary>
         public UnifiedAnnotationCollection Annotations {
             get { return _annotations; }
@@ -43,7 +45,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   付与されている修飾子の集合を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>public</c>
+        ///   付与されている修飾子の集合を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>public</c>
         /// </summary>
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }
@@ -51,7 +54,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   プロパティが表す値の型を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>int</c>
+        ///   プロパティが表す値の型を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>int</c>
         /// </summary>
         public UnifiedType Type {
             get { return _type; }
@@ -59,7 +63,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   名前を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>Value</c>
+        ///   名前を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Value { get; set; }</c>の<c>Value</c>
         /// </summary>
         public UnifiedIdentifier Name {
             get { return _name; }
@@ -67,7 +72,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   パラメータ（仮引数）の集合を取得もしくは設定します． e.g. C#における <c>public int Table[int x, int y] { get; set; }</c> の <c>int x, int y</c>
+        ///   パラメータ（仮引数）の集合を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Table[int x, int y] { get; set; }</c>の<c>int x, int y</c>
         /// </summary>
         public UnifiedParameterCollection Parameters {
             get { return _parameters; }
@@ -75,7 +81,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   イベントの追加処理の定義を取得もしくは設定します． e.g. C#における <c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c> の <c>add { _events.Add(value); }</c>
+        ///   イベントの追加処理の定義を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c>の<c>add { _events.Add(value); }</c>
         /// </summary>
         public UnifiedPropertyDefinitionPart Adder {
             get { return _adder; }
@@ -83,7 +90,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   イベントの削除処理の定義を取得もしくは設定します． e.g. C#における <c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c> の <c>remove { _events.Remove(value); }</c>
+        ///   イベントの削除処理の定義を取得もしくは設定します．
+        ///   e.g. C#における<c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c>の<c>remove { _events.Remove(value); }</c>
         /// </summary>
         public UnifiedPropertyDefinitionPart Remover {
             get { return _remover; }
@@ -93,8 +101,6 @@ namespace Unicoen.Model {
         #endregion
 
         protected UnifiedEventDefinition() {}
-
-        #region IUnifiedExpression Members
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -112,8 +118,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedEventDefinition Create(
                 UnifiedAnnotationCollection annotations = null,

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,12 +21,11 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   範囲リテラルを表します． e.g. Rubyにおける <c>1..2</c> や <c>1...3</c>
+    ///   範囲リテラルを表します．
+    ///   e.g. Rubyにおける<c>1..2</c>や<c>1...3</c>
     /// </summary>
     public class UnifiedRange : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _max;
-        private IUnifiedExpression _min;
-        private UnifiedRange() {}
+        private IUnifiedExpression _min, _max;
 
         public IUnifiedExpression Min {
             get { return _min; }
@@ -38,7 +37,7 @@ namespace Unicoen.Model {
             set { _max = SetChild(value, _max); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedRange() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -57,8 +56,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedRange Create(
                 IUnifiedExpression min = null,

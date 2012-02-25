@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,15 +21,15 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   catch/rescue節を表します。 e.g. Javaにおける <c>try{...}catch(Exception e){...}</c> の <c>catch(Exception e){...}</c> の部分
+    ///   catch/rescue節を表します。
+    ///   e.g. Javaにおける<c>try{...}catch(Exception e){...}</c>の<c>catch(Exception e){...}</c>の部分
     /// </summary>
     public class UnifiedCatch : UnifiedElement, IUnifiedExpression {
         private UnifiedAnnotationCollection _annotations;
-        private IUnifiedExpression _assign;
-        private UnifiedBlock _body;
         private UnifiedModifierCollection _modifiers;
         private UnifiedTypeCollection _types;
-        protected UnifiedCatch() {}
+        private IUnifiedExpression _assign;
+        private UnifiedBlock _body;
 
         /// <summary>
         ///   アノテーションの集合を取得または設定します．
@@ -40,7 +40,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   修飾子の集合を取得または設定します． e.g. Javaにおける <c>public static int a</c> の <c>public static</c>
+        ///   修飾子の集合を取得または設定します．
+        ///   e.g. Javaにおける<c>public static int a</c>の<c>public static</c>
         /// </summary>
         public UnifiedModifierCollection Modifiers {
             get { return _modifiers; }
@@ -48,7 +49,9 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   受け取る例外の型の集合を取得もしくは設定します． e.g. JavaとC#における <c>catch (Exception e) { ... }</c> の <c>Exception</c> e.g. C#における <c>catch (Exception) { ... }</c> の <c>Exception</c>
+        ///   受け取る例外の型の集合を取得もしくは設定します．
+        ///   e.g. JavaとC#における<c>catch (Exception e) { ... }</c>の<c>Exception</c>
+        ///   e.g. C#における<c>catch (Exception) { ... }</c>の<c>Exception</c>
         /// </summary>
         public UnifiedTypeCollection Types {
             get { return _types; }
@@ -56,7 +59,9 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   例外オブジェクトを受け取る左辺式（≠変数宣言）を取得もしくは設定します． e.g. JavaとC#における <c>catch (Exception e) { ... }</c> の <c>e</c> e.g. Rubyにおける <c>rescue ArgumentError, TypeError => e</c> の <c>e</c>
+        ///   例外オブジェクトを受け取る左辺式（≠変数宣言）を取得もしくは設定します．
+        ///   e.g. JavaとC#における<c>catch (Exception e) { ... }</c>の<c>e</c>
+        ///   e.g. Rubyにおける<c>rescue ArgumentError, TypeError => e</c>の<c>e</c>
         /// </summary>
         public IUnifiedExpression Assign {
             get { return _assign; }
@@ -71,7 +76,7 @@ namespace Unicoen.Model {
             set { _body = SetChild(value, _body); }
         }
 
-        #region IUnifiedExpression Members
+        protected UnifiedCatch() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -89,8 +94,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedCatch Create(
                 UnifiedTypeCollection types,

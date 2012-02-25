@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,15 +21,16 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   LINQのクエリ式を構成するlet句を表します。 e.g. C#における <c>let sumZ = p.Z.Sum()</c>
+    ///   LINQのクエリ式を構成するlet句を表します。
+    ///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>
     /// </summary>
     public class UnifiedLetQuery : UnifiedLinqQuery {
-        private IUnifiedExpression _expression;
         private UnifiedVariableIdentifier _variable;
-        protected UnifiedLetQuery() {}
+        private IUnifiedExpression _expression;
 
         /// <summary>
-        ///   クエリ式中で計算した値を代入する変数を取得もしくは設定します． e.g. C#における <c>let sumZ = p.Z.Sum()</c> の <c>sumZ</c>
+        ///   クエリ式中で計算した値を代入する変数を取得もしくは設定します．
+        ///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>sumZ</c>
         /// </summary>
         public UnifiedVariableIdentifier Variable {
             get { return _variable; }
@@ -37,12 +38,15 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   変数に代入する式を取得もしくは設定します． e.g. C#における <c>let sumZ = p.Z.Sum()</c> の <c>p.Z.Sum()</c>
+        ///   変数に代入する式を取得もしくは設定します．
+        ///   e.g. C#における<c>let sumZ = p.Z.Sum()</c>の<c>p.Z.Sum()</c>
         /// </summary>
         public IUnifiedExpression Expression {
             get { return _expression; }
             set { _expression = SetChild(value, _expression); }
         }
+
+        protected UnifiedLetQuery() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

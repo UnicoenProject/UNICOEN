@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,15 +24,16 @@ namespace Unicoen.Model {
     public class UnifiedGenericType : UnifiedWrapType {
         private UnifiedGenericArgumentCollection _arguments;
 
-        internal UnifiedGenericType() {}
-
         /// <summary>
-        ///   ジェネリックタイプにおける実引数の集合を表します e.g. Javaにおける <c>HashMap&lt;Integer, String&gt;</c> の <c>Integer, String</c>
+        ///   ジェネリックタイプにおける実引数の集合を表します
+        ///   e.g. Javaにおける<c>HashMap&lt;Integer, String&gt;</c>の<c>Integer, String</c>
         /// </summary>
         public UnifiedGenericArgumentCollection Arguments {
             get { return _arguments; }
             set { _arguments = SetChild(value, _arguments); }
         }
+
+        internal UnifiedGenericType() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

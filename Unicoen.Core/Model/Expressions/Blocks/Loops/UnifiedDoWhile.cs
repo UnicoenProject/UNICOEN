@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,17 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   do-while文を表します。 e.g. Javaにおける <c>do { ... } while(cond);</c>
+    ///   do-while文を表します。
+    ///   e.g. Javaにおける<c>do { ... } while(cond);</c>
     /// </summary>
     public class UnifiedDoWhile : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
         private IUnifiedExpression _condition;
+        private UnifiedBlock _body;
         private UnifiedBlock _falseBody;
-        private UnifiedDoWhile() {}
 
         /// <summary>
-        ///   ループの継続を判定する条件式を取得もしくは設定します． e.g. Javaにおける <c>do{...}while(cond)</c> の <c>cond</c>
+        ///   ループの継続を判定する条件式を取得もしくは設定します．
+        ///   e.g. Javaにおける<c>do{...}while(cond)</c>の<c>cond</c>
         /// </summary>
         public IUnifiedExpression Condition {
             get { return _condition; }
@@ -46,14 +47,15 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   条件式が満たされない際に一度だけ実行されるブロックを取得もしくは設定します． 今のところ該当する言語が存在しません．
+        ///   条件式が満たされない際に一度だけ実行されるブロックを取得もしくは設定します．
+        ///   今のところ該当する言語が存在しません．
         /// </summary>
         public UnifiedBlock FalseBody {
             get { return _falseBody; }
             set { _falseBody = SetChild(value, _falseBody); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedDoWhile() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -72,8 +74,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedDoWhile Create(
                 IUnifiedExpression condition = null, UnifiedBlock body = null,

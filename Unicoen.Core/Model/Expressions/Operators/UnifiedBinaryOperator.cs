@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,10 +21,21 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   二項演算子を表します。 e.g. <c>a + b</c> の <c>+</c>
+    ///   二項演算子を表します。
+    ///   e.g. <c>a + b</c>の<c>+</c>
     /// </summary>
     public class UnifiedBinaryOperator : UnifiedElement {
         private static readonly bool[] AssignTalbe;
+
+        /// <summary>
+        ///   演算子の識別子を表します
+        /// </summary>
+        public string Sign { get; private set; }
+
+        /// <summary>
+        ///   演算子の種類を表します
+        /// </summary>
+        public UnifiedBinaryOperatorKind Kind { get; private set; }
 
         static UnifiedBinaryOperator() {
             AssignTalbe = new bool[256];
@@ -53,16 +64,6 @@ namespace Unicoen.Model {
         }
 
         private UnifiedBinaryOperator() {}
-
-        /// <summary>
-        ///   演算子の識別子を表します
-        /// </summary>
-        public string Sign { get; private set; }
-
-        /// <summary>
-        ///   演算子の種類を表します
-        /// </summary>
-        public UnifiedBinaryOperatorKind Kind { get; private set; }
 
         public bool IsAssignOperator() {
             return AssignTalbe[(int)Kind];

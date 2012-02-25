@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,40 +21,44 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   3項式（条件式）を表します． Javaにおける <c>a ? b : c</c>
+    ///   3項式（条件式）を表します．
+    ///   Javaにおける<c>a ? b : c</c>
     /// </summary>
     public class UnifiedTernaryExpression : UnifiedElement, IUnifiedExpression {
         private IUnifiedExpression _condition;
-        private IUnifiedExpression _falseExpression;
-
-        private IUnifiedExpression _trueExpression;
-        private UnifiedTernaryExpression() {}
 
         /// <summary>
-        ///   3項式の第1オペランドを表します e.g. Javaにおける <c>a ? b : c</c> の <c>a</c>
+        ///   3項式の第1オペランドを表します
+        ///   e.g. Javaにおける<c>a ? b : c</c>の<c>a</c>
         /// </summary>
         public IUnifiedExpression Condition {
             get { return _condition; }
             set { _condition = SetChild(value, _condition); }
         }
 
+        private IUnifiedExpression _trueExpression;
+
         /// <summary>
-        ///   3項式の第2オペランドを表します Javaにおける <c>a ? b : c</c> の <c>b</c>
+        ///   3項式の第2オペランドを表します
+        ///   Javaにおける<c>a ? b : c</c>の<c>b</c>
         /// </summary>
         public IUnifiedExpression TrueExpression {
             get { return _trueExpression; }
             set { _trueExpression = SetChild(value, _trueExpression); }
         }
 
+        private IUnifiedExpression _falseExpression;
+
         /// <summary>
-        ///   3項式の第3オペランドを表します Javaにおける <c>a ? b : c</c> の <c>c</c>
+        ///   3項式の第3オペランドを表します
+        ///   Javaにおける<c>a ? b : c</c>の<c>c</c>
         /// </summary>
         public IUnifiedExpression FalseExpression {
             get { return _falseExpression; }
             set { _falseExpression = SetChild(value, _falseExpression); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedTernaryExpression() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -73,8 +77,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedTernaryExpression Create(
                 IUnifiedExpression condition,

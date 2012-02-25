@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,12 +24,12 @@ namespace Unicoen.Model {
     ///   コメントを表します．
     /// </summary>
     public class UnifiedComment : UnifiedElement {
-        private UnifiedComment() {}
-
         /// <summary>
         ///   コメントの文字列表現です．
         /// </summary>
         public string Content { get; set; }
+
+        private UnifiedComment() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,20 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   LINQのクエリ式を構成するwhere 句を表します。 e.g. C#における <c>where p.X > 2</c>
+    ///   LINQのクエリ式を構成するwhere 句を表します。
+    ///   e.g. C#における<c>where p.X > 2</c>
     /// </summary>
     public class UnifiedWhereQuery : UnifiedLinqQuery {
         private IUnifiedExpression _condition;
 
-        protected UnifiedWhereQuery() {}
-
         /// <summary>
-        ///   抽出の条件式を取得もしくは設定します． e.g. C#における <c>where p.X > 2</c>
+        ///   抽出の条件式を取得もしくは設定します．
+        ///   e.g. C#における<c>where p.X > 2</c>
         /// </summary>
         public IUnifiedExpression Condition {
             get { return _condition; }
             set { _condition = SetChild(value, _condition); }
         }
+
+        protected UnifiedWhereQuery() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

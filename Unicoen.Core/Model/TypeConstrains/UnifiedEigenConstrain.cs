@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,20 +21,22 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   特異クラスに所属するオブジェクトを表します． e.g. Rubyにおける <c>class &lt;&lt; obj ... end</c> の <c>obj</c>
+    ///   特異クラスに所属するオブジェクトを表します．
+    ///   e.g. Rubyにおける<c>class &lt;&lt; obj ... end</c>の<c>obj</c>
     /// </summary>
     public class UnifiedEigenConstrain : UnifiedTypeConstrain {
         private IUnifiedExpression _eigenObject;
 
-        protected UnifiedEigenConstrain() {}
-
         /// <summary>
-        ///   制約の対象を表します e.g. Javaにおける <c>class C extends P { ... }</c> の <c>P</c>
+        ///   制約の対象を表します
+        ///   e.g. Javaにおける<c>class C extends P { ... }</c>の<c>P</c>
         /// </summary>
         public IUnifiedExpression EigenObject {
             get { return _eigenObject; }
             set { _eigenObject = SetChild(value, _eigenObject); }
         }
+
+        protected UnifiedEigenConstrain() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

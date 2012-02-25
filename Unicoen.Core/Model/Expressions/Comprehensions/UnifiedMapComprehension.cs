@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,10 +26,6 @@ namespace Unicoen.Model {
     public class UnifiedMapComprehension : UnifiedElement, IUnifiedExpression {
         private UnifiedKeyValue _element;
 
-        private UnifiedExpressionCollection _generator;
-
-        private UnifiedMapComprehension() {}
-
         /// <summary>
         ///   辞書内包表記によって生成される要素部分の式を表します．
         /// </summary>
@@ -37,6 +33,8 @@ namespace Unicoen.Model {
             get { return _element; }
             set { _element = SetChild(value, _element); }
         }
+
+        private UnifiedExpressionCollection _generator;
 
         /// <summary>
         ///   辞書内包表記の集合を生成する式を表します．
@@ -46,7 +44,7 @@ namespace Unicoen.Model {
             set { _generator = SetChild(value, _generator); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedMapComprehension() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -64,8 +62,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedMapComprehension Create(
                 UnifiedKeyValue element = null,

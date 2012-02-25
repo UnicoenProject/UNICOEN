@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,9 +26,6 @@ namespace Unicoen.Model {
         #region Methods for ToString()
 
         // ToString() のためのユーティリティ
-        private static readonly string[] IgnorePropertyNames =
-                new[] { "Parent", "PropertyInfos", "FieldInfos" };
-
         private static void Write(
                 object obj, string content, StringBuilder buffer, int depth) {
             for (int i = 0; i < depth; i++) {
@@ -52,6 +49,9 @@ namespace Unicoen.Model {
                 object obj, StringBuilder buffer, int depth) {
             Write(obj, obj + "", buffer, depth);
         }
+
+        private static readonly string[] IgnorePropertyNames =
+                new[] { "Parent", "PropertyInfos", "FieldInfos" };
 
         private static void WriteUnifiedElement(
                 UnifiedElement elem, StringBuilder buffer, int depth) {

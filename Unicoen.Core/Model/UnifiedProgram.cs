@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,17 +24,18 @@ namespace Unicoen.Model {
     ///   ブログラム全体を表します。
     /// </summary>
     public class UnifiedProgram : UnifiedElement {
-        private UnifiedBlock _body;
         private UnifiedComment _comments;
-        protected UnifiedProgram() {}
 
         /// <summary>
-        ///   ソースコードの先頭に表記されたマジックコメントを取得もしくは設定します． e.g. Pythonにおける <c># -*- coding: utf-8 -*-</c>
+        ///   ソースコードの先頭に表記されたマジックコメントを取得もしくは設定します．
+        ///   e.g. Pythonにおける<c># -*- coding: utf-8 -*-</c>
         /// </summary>
         public UnifiedComment Comments {
             get { return _comments; }
             set { _comments = SetChild(value, _comments); }
         }
+
+        private UnifiedBlock _body;
 
         /// <summary>
         ///   プログラム全体を構成するブロックを取得もしくは設定します．
@@ -43,6 +44,8 @@ namespace Unicoen.Model {
             get { return _body; }
             set { _body = SetChild(value, _body); }
         }
+
+        protected UnifiedProgram() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,12 +21,15 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   単項演算子を表します。 e.g. Javaにおける <c>^a</c> の <c>^</c> e.g. Javaにおける <c>b++</c> の <c>++</c>
+    ///   単項演算子を表します。
+    ///   e.g. Javaにおける<c>^a</c>の<c>^</c>
+    ///   e.g. Javaにおける<c>b++</c>の<c>++</c>
     /// </summary>
     public class UnifiedUnaryOperator : UnifiedElement {
-        private UnifiedUnaryOperator() {}
         public string Sign { get; private set; }
         public UnifiedUnaryOperatorKind Kind { get; private set; }
+
+        private UnifiedUnaryOperator() {}
 
         public static UnifiedUnaryOperator Create(
                 string sign,

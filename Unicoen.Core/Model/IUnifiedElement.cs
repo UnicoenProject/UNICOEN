@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,67 +35,70 @@ namespace Unicoen.Model {
         /// <summary>
         ///   ビジターを適用してコードモデルを走査します。
         /// </summary>
-        /// <param name="visitor"> </param>
+        /// <param name = "visitor"></param>
         void Accept(IUnifiedVisitor visitor);
 
         /// <summary>
         ///   ビジターを適用してコードモデルを走査します。
         /// </summary>
-        /// <param name="visitor"> </param>
-        /// <param name="arg"> </param>
+        /// <param name = "visitor"></param>
+        /// <param name = "arg"></param>
         void Accept<TArg>(IUnifiedVisitor<TArg> visitor, TArg arg);
 
         /// <summary>
         ///   ビジターを適用してコードモデルを走査します。
         /// </summary>
-        /// <typeparam name="TArg"> </typeparam>
-        /// <typeparam name="TResult"> </typeparam>
-        /// <param name="visitor"> </param>
-        /// <param name="arg"> </param>
-        /// <returns> </returns>
+        /// <typeparam name = "TArg"></typeparam>
+        /// <typeparam name = "TResult"></typeparam>
+        /// <param name = "visitor"></param>
+        /// <param name = "arg"></param>
+        /// <returns></returns>
         TResult Accept<TArg, TResult>(
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg);
 
         /// <summary>
         ///   子要素を列挙します。
         /// </summary>
-        /// <returns> 子要素 </returns>
+        /// <returns>子要素</returns>
         IEnumerable<IUnifiedElement> Elements();
 
         /// <summary>
         ///   子要素とセッターのペアを列挙します。
         /// </summary>
-        /// <returns> 子要素 </returns>
+        /// <returns>子要素</returns>
         IEnumerable<ElementReference> ElementReferences();
 
         /// <summary>
         ///   子要素とプロパティを介さないセッターのペアを列挙します。
         /// </summary>
-        /// <returns> 子要素 </returns>
+        /// <returns>子要素</returns>
         IEnumerable<ElementReference> ElementReferencesOfFields();
 
         /// <summary>
-        ///   コードモデルを正規化します。 正規化の内容は以下のとおりです。 ・子要素がUnifiedBlockだけのUnifiedBlockを削除 ・-1や+1などの単項式を定数に変換
+        ///   コードモデルを正規化します。
+        ///   正規化の内容は以下のとおりです。
+        ///   ・子要素がUnifiedBlockだけのUnifiedBlockを削除
+        ///   ・-1や+1などの単項式を定数に変換
         /// </summary>
         IUnifiedElement Normalize();
 
         /// <summary>
         ///   深いコピーを取得します。
         /// </summary>
-        /// <returns> 深いコピー </returns>
+        /// <returns>深いコピー</returns>
         IUnifiedElement PrivateDeepCopy();
 
         /// <summary>
         ///   指定した子要素を削除して、自分自身を取得します。
         /// </summary>
-        /// <param name="target"> 自分自身 </param>
-        /// <returns> </returns>
+        /// <param name = "target">自分自身</param>
+        /// <returns></returns>
         IUnifiedElement RemoveChild(IUnifiedElement target);
 
         /// <summary>
         ///   親要素から自分自身を削除して、親要素を取得します。
         /// </summary>
-        /// <returns> 親要素 </returns>
+        /// <returns>親要素</returns>
         IUnifiedElement RemoveSelf();
     }
 }

@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   関数呼び出しを表します。 e.g. Javaにおける <c>method(a, b, c)</c>
+    ///   関数呼び出しを表します。
+    ///   e.g. Javaにおける<c>method(a, b, c)</c>
     /// </summary>
     public class UnifiedCall : UnifiedElement, IUnifiedExpression {
-        private UnifiedArgumentCollection _arguments;
         private IUnifiedExpression _function;
         private UnifiedGenericArgumentCollection _genericArguments;
+        private UnifiedArgumentCollection _arguments;
         private UnifiedProc _proc;
-        private UnifiedCall() {}
 
         public IUnifiedExpression Function {
             get { return _function; }
@@ -41,7 +41,8 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   実引数の集合を表します e.g. Javaにおける <c>method(a, b, c)</c> の <c>a, b, c</c> の部分
+        ///   実引数の集合を表します
+        ///   e.g. Javaにおける<c>method(a, b, c)</c>の<c>a, b, c</c>の部分
         /// </summary>
         public UnifiedArgumentCollection Arguments {
             get { return _arguments; }
@@ -49,14 +50,15 @@ namespace Unicoen.Model {
         }
 
         /// <summary>
-        ///   ブロック付きメソッド呼び出しのブロックを表します e.g. Rubyにおける <c>[].each { |i| p i }</c> の <c>{ |i| p i }</c>
+        ///   ブロック付きメソッド呼び出しのブロックを表します
+        ///   e.g. Rubyにおける<c>[].each { |i| p i }</c>の<c>{ |i| p i }</c>
         /// </summary>
         public UnifiedProc Proc {
             get { return _proc; }
             set { _proc = SetChild(value, _proc); }
         }
 
-        #region IUnifiedExpression Members
+        private UnifiedCall() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -75,8 +77,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedCall Create(
                 IUnifiedExpression target = null,

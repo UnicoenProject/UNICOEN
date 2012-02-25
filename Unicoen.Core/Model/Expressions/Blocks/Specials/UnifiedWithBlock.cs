@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,12 +21,13 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
     /// <summary>
-    ///   Pythonのwith文はUnifiedUsingBlockを参照してください． with in JavaScript Javaのstatic importのような役割
+    ///   Pythonのwith文はUnifiedUsingBlockを参照してください．
+    ///   with in JavaScript
+    ///   Javaのstatic importのような役割
     /// </summary>
     public class UnifiedWith : UnifiedElement, IUnifiedExpression {
-        private UnifiedBlock _body;
         private IUnifiedExpression _value;
-        protected UnifiedWith() {}
+        private UnifiedBlock _body;
 
         public IUnifiedExpression Value {
             get { return _value; }
@@ -41,7 +42,7 @@ namespace Unicoen.Model {
             set { _body = SetChild(value, _body); }
         }
 
-        #region IUnifiedExpression Members
+        protected UnifiedWith() {}
 
         [DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
@@ -59,8 +60,6 @@ namespace Unicoen.Model {
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
         }
-
-        #endregion
 
         public static UnifiedWith Create(
                 IUnifiedExpression value = null,
