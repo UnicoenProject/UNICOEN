@@ -29,7 +29,7 @@ namespace Unicoen.Apps.MseConverter {
     ///   MSEフォーマット上に記述される要素について出力します。
     /// </summary>
     public class MseConvertVisitor : DefaultUnifiedVisitor {
-        private readonly Dictionary<IUnifiedElement, int> _attribute2Id;
+        private readonly Dictionary<UnifiedElement, int> _attribute2Id;
         private readonly Dictionary<UnifiedClassDefinition, int> _class2Id;
         private readonly Dictionary<UnifiedFunctionDefinition, int> _method2Id;
         private readonly Dictionary<UnifiedNamespaceDefinition, int> _package2Id;
@@ -50,7 +50,7 @@ namespace Unicoen.Apps.MseConverter {
                             { CodeGenerator = CodeGenerator });
             _class2Id = new Dictionary<UnifiedClassDefinition, int>();
             _method2Id = new Dictionary<UnifiedFunctionDefinition, int>();
-            _attribute2Id = new Dictionary<IUnifiedElement, int>();
+            _attribute2Id = new Dictionary<UnifiedElement, int>();
         }
 
         public TextWriter Writer { get; private set; }
@@ -221,7 +221,7 @@ namespace Unicoen.Apps.MseConverter {
                     "(accessControlQualifier \'" +
                     GetAccessControlQualifier(element.Modifiers) + "\')");
             Writer.WriteLine("(belongsTo (idref: " + klassId + "))");
-            var loc = element.Body.Descendants<IUnifiedExpression>()
+            var loc = element.Body.Descendants<UnifiedExpression>()
                     .Where(e => e.Parent is UnifiedBlock)
                     .Count();
             Writer.WriteLine("(LOC " + loc + "))");

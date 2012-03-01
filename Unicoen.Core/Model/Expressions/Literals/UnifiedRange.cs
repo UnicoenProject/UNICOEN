@@ -20,63 +20,62 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   範囲リテラルを表します．
-    ///   e.g. Rubyにおける<c>1..2</c>や<c>1...3</c>
-    /// </summary>
-    public class UnifiedRange : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _min, _max;
+	/// <summary>
+	///   範囲リテラルを表します． e.g. Rubyにおける <c>1..2</c> や <c>1...3</c>
+	/// </summary>
+	public class UnifiedRange : UnifiedExpression {
+		private UnifiedExpression _min, _max;
 
-        public IUnifiedExpression Min {
-            get { return _min; }
-            set { _min = SetChild(value, _min); }
-        }
+		public UnifiedExpression Min {
+			get { return _min; }
+			set { _min = SetChild(value, _min); }
+		}
 
-        public IUnifiedExpression Max {
-            get { return _max; }
-            set { _max = SetChild(value, _max); }
-        }
+		public UnifiedExpression Max {
+			get { return _max; }
+			set { _max = SetChild(value, _max); }
+		}
 
-        private UnifiedRange() {}
+		private UnifiedRange() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedRange Create(
-                IUnifiedExpression min = null,
-                IUnifiedExpression max = null) {
-            return new UnifiedRange {
-                    Min = min,
-                    Max = max,
-            };
-        }
+		public static UnifiedRange Create(
+				UnifiedExpression min = null,
+				UnifiedExpression max = null) {
+			return new UnifiedRange {
+					Min = min,
+					Max = max,
+			};
+		}
 
-        public static UnifiedRange CreateNotContainingMax(
-                IUnifiedExpression min = null,
-                IUnifiedExpression max = null) {
-            return new UnifiedRange {
-                    Min = min,
-                    Max = UnifiedBinaryExpression.Create(
-                            max,
-                            UnifiedBinaryOperator.Create(
-                                    "-", UnifiedBinaryOperatorKind.Subtract),
-                            UnifiedIntegerLiteral.CreateInt32(-1)),
-            };
-        }
-    }
+		public static UnifiedRange CreateNotContainingMax(
+				UnifiedExpression min = null,
+				UnifiedExpression max = null) {
+			return new UnifiedRange {
+					Min = min,
+					Max = UnifiedBinaryExpression.Create(
+							max,
+							UnifiedBinaryOperator.Create(
+									"-", UnifiedBinaryOperatorKind.Subtract),
+							UnifiedIntegerLiteral.CreateInt32(-1)),
+			};
+		}
+	}
 }

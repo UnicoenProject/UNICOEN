@@ -20,65 +20,65 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   ラムダ式の定義部分を表します。
-    /// </summary>
-    public class UnifiedLambda : UnifiedElement, IUnifiedExpression {
-        #region fields
+	/// <summary>
+	///   ラムダ式の定義部分を表します。
+	/// </summary>
+	public class UnifiedLambda : UnifiedExpression {
+		#region fields
 
-        private UnifiedIdentifier _name;
-        private UnifiedParameterCollection _parameters;
-        private UnifiedBlock _body;
+		private UnifiedIdentifier _name;
+		private UnifiedParameterCollection _parameters;
+		private UnifiedBlock _body;
 
-        public UnifiedIdentifier Name {
-            get { return _name; }
-            set { _name = SetChild(value, _name); }
-        }
+		public UnifiedIdentifier Name {
+			get { return _name; }
+			set { _name = SetChild(value, _name); }
+		}
 
-        public UnifiedParameterCollection Parameters {
-            get { return _parameters; }
-            set { _parameters = SetChild(value, _parameters); }
-        }
+		public UnifiedParameterCollection Parameters {
+			get { return _parameters; }
+			set { _parameters = SetChild(value, _parameters); }
+		}
 
-        /// <summary>
-        ///   ブロックを取得もしくは設定します．
-        /// </summary>
-        public UnifiedBlock Body {
-            get { return _body; }
-            set { _body = SetChild(value, _body); }
-        }
+		/// <summary>
+		///   ブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
-        #endregion
+		#endregion
 
-        private UnifiedLambda() {}
+		private UnifiedLambda() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedLambda Create(
-                UnifiedIdentifier name = null,
-                UnifiedParameterCollection parameters = null,
-                UnifiedBlock body = null) {
-            return new UnifiedLambda {
-                    Name = name,
-                    Parameters = parameters,
-                    Body = body,
-            };
-        }
-    }
+		public static UnifiedLambda Create(
+				UnifiedIdentifier name = null,
+				UnifiedParameterCollection parameters = null,
+				UnifiedBlock body = null) {
+			return new UnifiedLambda {
+					Name = name,
+					Parameters = parameters,
+					Body = body,
+			};
+		}
+	}
 }

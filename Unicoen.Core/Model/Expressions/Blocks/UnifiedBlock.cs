@@ -20,38 +20,36 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   ブロックを表します．
-    ///   e.g. Java, C, C#における<c>{ int i = 0; }</c>
-    /// </summary>
-    public class UnifiedBlock
-            : UnifiedElementCollection<IUnifiedExpression, UnifiedBlock>,
-              IUnifiedExpression {
-        /// <summary>
-        ///   レシーバーと同じ型のオブジェクトを生成します．
-        /// </summary>
-        /// <returns>生成したオブジェクト</returns>
-        public override UnifiedBlock CreateSelf() {
-            return new UnifiedBlock();
-        }
+	/// <summary>
+	///   ブロックを表します． e.g. Java, C, C#における <c>{ int i = 0; }</c>
+	/// </summary>
+	public class UnifiedBlock
+			: UnifiedExpressionCollectionBase<UnifiedExpression, UnifiedBlock> {
+		/// <summary>
+		///   レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns> 生成したオブジェクト </returns>
+		public override UnifiedBlock CreateSelf() {
+			return new UnifiedBlock();
+		}
 
-        protected UnifiedBlock() {}
+		protected UnifiedBlock() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-              }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+			}
 }

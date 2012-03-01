@@ -21,47 +21,47 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    public class UnifiedGoto : UnifiedElement, IUnifiedExpression {
-        private UnifiedIdentifier _value;
+	public class UnifiedGoto : UnifiedExpression {
+		private UnifiedIdentifier _value;
 
-        public UnifiedIdentifier Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		public UnifiedIdentifier Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        protected UnifiedGoto() {}
+		protected UnifiedGoto() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedGoto Create(string label) {
-            if (label == null) {
-                throw new ArgumentNullException("label is null");
-            }
-            return new UnifiedGoto {
-                    Value = UnifiedLabelIdentifier.Create(label),
-            };
-        }
+		public static UnifiedGoto Create(string label) {
+			if (label == null) {
+				throw new ArgumentNullException("label is null");
+			}
+			return new UnifiedGoto {
+					Value = UnifiedLabelIdentifier.Create(label),
+			};
+		}
 
-        public static UnifiedGoto Create(
-                UnifiedIdentifier value = null) {
-            return new UnifiedGoto {
-                    Value = value,
-            };
-        }
-    }
+		public static UnifiedGoto Create(
+				UnifiedIdentifier value = null) {
+			return new UnifiedGoto {
+					Value = value,
+			};
+		}
+	}
 }

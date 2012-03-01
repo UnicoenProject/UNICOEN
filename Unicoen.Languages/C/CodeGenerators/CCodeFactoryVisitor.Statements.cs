@@ -77,7 +77,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
         }
 
         // 指定された単項式を括弧でくくる必要があるかどうかを判定します
-        protected static bool GetRequiredParen(IUnifiedElement element) {
+        protected static bool GetRequiredParen(UnifiedElement element) {
             var parent = element.Parent;
             return parent is UnifiedFunctionDefinition ||
                    parent is UnifiedIndexer ||

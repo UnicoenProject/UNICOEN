@@ -20,90 +20,79 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   使用する名前空間の指定や外部ファイルの読み込みを表します。
-    ///   e.g. Javaにおける<c>import package;</c>
-    ///   e.g. C#における<c>using Gen = System.Collections.Generic</c>
-    ///   e.g. Pythonにおける<c>import sys</c>
-    ///   e.g. Pythonにおける<c>from lib.package import func as f</c>
-    /// </summary>
-    public class UnifiedImport : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _member;
+	/// <summary>
+	///   使用する名前空間の指定や外部ファイルの読み込みを表します。 e.g. Javaにおける <c>import package;</c> e.g. C#における <c>using Gen = System.Collections.Generic</c> e.g. Pythonにおける <c>import sys</c> e.g. Pythonにおける <c>from lib.package import func as f</c>
+	/// </summary>
+	public class UnifiedImport : UnifiedExpression {
+		private UnifiedExpression _member;
 
-        /// <summary>
-        ///   Pythonにおいてパッケージ名を省略して使用できるようにする変数もしくは関数名
-        ///   e.g. Pythonにおける<c>from lib.package import func as f</c>の<c>func</c>
-        /// </summary>
-        public IUnifiedExpression Member {
-            get { return _member; }
-            set { _member = SetChild(value, _member); }
-        }
+		/// <summary>
+		///   Pythonにおいてパッケージ名を省略して使用できるようにする変数もしくは関数名 e.g. Pythonにおける <c>from lib.package import func as f</c> の <c>func</c>
+		/// </summary>
+		public UnifiedExpression Member {
+			get { return _member; }
+			set { _member = SetChild(value, _member); }
+		}
 
-        private IUnifiedExpression _name;
+		private UnifiedExpression _name;
 
-        /// <summary>
-        ///   使用する名前空間や関数名を表します．
-        ///   e.g. Javaにおける<c>import package;</c>の<c>package</c>
-        ///   e.g. C#における<c>using Gen = System.Collections.Generic</c>の<c>System.Collections.Generic</c>
-        ///   e.g. Pythonにおける<c>import sys</c>の<c>sys</c>
-        ///   e.g. Pythonにおける<c>from lib.package import funcas f</c>の<c>lib.package</c>
-        /// </summary>
-        public IUnifiedExpression Name {
-            get { return _name; }
-            set { _name = SetChild(value, _name); }
-        }
+		/// <summary>
+		///   使用する名前空間や関数名を表します． e.g. Javaにおける <c>import package;</c> の <c>package</c> e.g. C#における <c>using Gen = System.Collections.Generic</c> の <c>System.Collections.Generic</c> e.g. Pythonにおける <c>import sys</c> の <c>sys</c> e.g. Pythonにおける <c>from lib.package import funcas f</c> の <c>lib.package</c>
+		/// </summary>
+		public UnifiedExpression Name {
+			get { return _name; }
+			set { _name = SetChild(value, _name); }
+		}
 
-        private UnifiedIdentifier _alias;
+		private UnifiedIdentifier _alias;
 
-        /// <summary>
-        ///   使用する名前空間や関数名のエイリアスを表します．
-        ///   e.g. C#における<c>using Gen = System.Collections.Generic</c>の<c>Gen</c>
-        ///   e.g. Pythonにおける<c>from lib.package import funcas f</c>の<c>f</c>
-        /// </summary>
-        public UnifiedIdentifier Alias {
-            get { return _alias; }
-            set { _alias = SetChild(value, _alias); }
-        }
+		/// <summary>
+		///   使用する名前空間や関数名のエイリアスを表します． e.g. C#における <c>using Gen = System.Collections.Generic</c> の <c>Gen</c> e.g. Pythonにおける <c>from lib.package import funcas f</c> の <c>f</c>
+		/// </summary>
+		public UnifiedIdentifier Alias {
+			get { return _alias; }
+			set { _alias = SetChild(value, _alias); }
+		}
 
-        private UnifiedModifierCollection _modifiers;
+		private UnifiedModifierCollection _modifiers;
 
-        public UnifiedModifierCollection Modifiers {
-            get { return _modifiers; }
-            set { _modifiers = SetChild(value, _modifiers); }
-        }
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetChild(value, _modifiers); }
+		}
 
-        private UnifiedImport() {}
+		private UnifiedImport() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedImport Create(
-                IUnifiedExpression name = null, string alias = null,
-                IUnifiedExpression member = null,
-                UnifiedModifierCollection modifiers = null) {
-            return new UnifiedImport {
-                    Member = member,
-                    Name = name,
-                    Alias = alias != null
-                                    ? UnifiedVariableIdentifier.Create(alias)
-                                    : null,
-                    Modifiers = modifiers,
-            };
-        }
-    }
+		public static UnifiedImport Create(
+				UnifiedExpression name = null, string alias = null,
+				UnifiedExpression member = null,
+				UnifiedModifierCollection modifiers = null) {
+			return new UnifiedImport {
+					Member = member,
+					Name = name,
+					Alias = alias != null
+					        		? UnifiedVariableIdentifier.Create(alias)
+					        		: null,
+					Modifiers = modifiers,
+			};
+		}
+	}
 }

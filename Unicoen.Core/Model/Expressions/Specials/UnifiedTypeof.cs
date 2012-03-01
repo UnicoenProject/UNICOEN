@@ -20,45 +20,43 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   Typeof式を表します。
-    ///   e.g. Javaにおける<c>typeof(int)</c>
-    /// </summary>
-    public class UnifiedTypeof : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _value;
+	/// <summary>
+	///   Typeof式を表します。 e.g. Javaにおける <c>typeof(int)</c>
+	/// </summary>
+	public class UnifiedTypeof : UnifiedExpression {
+		private UnifiedExpression _value;
 
-        /// <summary>
-        ///   キャスト対象の式を表します
-        ///   e.g. Javaにおける<c>typeof(int)</c>の<c>int</c>
-        /// </summary>
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		/// <summary>
+		///   キャスト対象の式を表します e.g. Javaにおける <c>typeof(int)</c> の <c>int</c>
+		/// </summary>
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        protected UnifiedTypeof() {}
+		protected UnifiedTypeof() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedTypeof Create(IUnifiedExpression type) {
-            return new UnifiedTypeof {
-                    Value = type
-            };
-        }
-    }
+		public static UnifiedTypeof Create(UnifiedExpression type) {
+			return new UnifiedTypeof {
+					Value = type
+			};
+		}
+	}
 }

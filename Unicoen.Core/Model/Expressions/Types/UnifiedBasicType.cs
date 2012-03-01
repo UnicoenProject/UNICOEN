@@ -20,44 +20,41 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   型を表します。
-    ///   Javaにおける<c>int, double, char</c>
-    /// </summary>
-    public class UnifiedBasicType : UnifiedType {
-        // パッケージ名が付いているときに
-        // UnifiedProperty が name に入る時があるので
-        // isntace.Class
-        private IUnifiedExpression _basicTypeName;
+	/// <summary>
+	///   型を表します。 Javaにおける <c>int, double, char</c>
+	/// </summary>
+	public class UnifiedBasicType : UnifiedType {
+		// パッケージ名が付いているときに
+		// UnifiedProperty が name に入る時があるので
+		// isntace.Class
+		private UnifiedExpression _basicTypeName;
 
-        /// <summary>
-        ///   型の基礎部分の名前を表します．
-        ///   e.g. Javaにおける<c>Package.ClassA instance = null;</c>の<c>Package.ClassA</c>(UnifiedPropertyで表現される)
-        ///   e.g. Javaにおける<c>ArrayList&lt;Integer&gt;</c>の<c>ArrayList</c>
-        /// </summary>
-        public override IUnifiedExpression BasicTypeName {
-            get { return _basicTypeName; }
-            set { _basicTypeName = SetChild(value, _basicTypeName); }
-        }
+		/// <summary>
+		///   型の基礎部分の名前を表します． e.g. Javaにおける <c>Package.ClassA instance = null;</c> の <c>Package.ClassA</c> (UnifiedPropertyで表現される) e.g. Javaにおける <c>ArrayList&lt;Integer&gt;</c> の <c>ArrayList</c>
+		/// </summary>
+		public override UnifiedExpression BasicTypeName {
+			get { return _basicTypeName; }
+			set { _basicTypeName = SetChild(value, _basicTypeName); }
+		}
 
-        internal UnifiedBasicType() {}
+		internal UnifiedBasicType() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-    }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+	}
 }

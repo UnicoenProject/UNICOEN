@@ -20,72 +20,69 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   switch文におけるcase式を表します。
-    ///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>case 1: BLOCK1</c>
-    /// </summary>
-    public class UnifiedCase : UnifiedElement {
-        private IUnifiedExpression _condition;
+	/// <summary>
+	///   switch文におけるcase式を表します。 e.g. Javaにおける <c>switch(sw){case 1: BLOCK1 ...}</c> の <c>case 1: BLOCK1</c>
+	/// </summary>
+	public class UnifiedCase : UnifiedElement {
+		private UnifiedExpression _condition;
 
-        /// <summary>
-        ///   case式の分岐条件を表します
-        ///   e.g. Javaにおける<c>switch(sw){case 1: EXPRESSION1 ...}</c>の<c>1</c>
-        /// </summary>
-        public IUnifiedExpression Condition {
-            get { return _condition; }
-            set { _condition = SetChild(value, _condition); }
-        }
+		/// <summary>
+		///   case式の分岐条件を表します e.g. Javaにおける <c>switch(sw){case 1: EXPRESSION1 ...}</c> の <c>1</c>
+		/// </summary>
+		public UnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
+		}
 
-        private UnifiedBlock _body;
+		private UnifiedBlock _body;
 
-        /// <summary>
-        ///   case式の分岐に対応する内容を表します
-        ///   e.g. Javaにおける<c>switch(sw){case 1: BLOCK1 ...}</c>の<c>BLOCK1</c>
-        /// </summary>
-        public UnifiedBlock Body {
-            get { return _body; }
-            set { _body = SetChild(value, _body); }
-        }
+		/// <summary>
+		///   case式の分岐に対応する内容を表します e.g. Javaにおける <c>switch(sw){case 1: BLOCK1 ...}</c> の <c>BLOCK1</c>
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
-        private UnifiedCase() {}
+		private UnifiedCase() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public UnifiedCase AddToBody(IUnifiedExpression expression) {
-            Body.Add(expression);
-            return this;
-        }
+		public UnifiedCase AddToBody(UnifiedExpression expression) {
+			Body.Add(expression);
+			return this;
+		}
 
-        public static UnifiedCase Create(
-                IUnifiedExpression condtion = null,
-                UnifiedBlock body = null) {
-            return new UnifiedCase {
-                    Body = body,
-                    Condition = condtion,
-            };
-        }
+		public static UnifiedCase Create(
+				UnifiedExpression condtion = null,
+				UnifiedBlock body = null) {
+			return new UnifiedCase {
+					Body = body,
+					Condition = condtion,
+			};
+		}
 
-        public static UnifiedCase CreateDefault(
-                UnifiedBlock body = null) {
-            return new UnifiedCase {
-                    Body = body,
-            };
-        }
-    }
+		public static UnifiedCase CreateDefault(
+				UnifiedBlock body = null) {
+			return new UnifiedCase {
+					Body = body,
+			};
+		}
+	}
 }

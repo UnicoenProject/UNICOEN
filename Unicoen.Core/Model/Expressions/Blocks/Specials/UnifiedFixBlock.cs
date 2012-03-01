@@ -20,53 +20,52 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   Fixなど特殊なブロックを表します。
-    ///   e.g. Javaにおける<c>Fix(this) {...}</c>
-    /// </summary>
-    public class UnifiedFix : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _value;
-        private UnifiedBlock _body;
+	/// <summary>
+	///   Fixなど特殊なブロックを表します。 e.g. Javaにおける <c>Fix(this) {...}</c>
+	/// </summary>
+	public class UnifiedFix : UnifiedExpression {
+		private UnifiedExpression _value;
+		private UnifiedBlock _body;
 
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        /// <summary>
-        ///   ブロックを取得します．
-        /// </summary>
-        public UnifiedBlock Body {
-            get { return _body; }
-            set { _body = SetChild(value, _body); }
-        }
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
-        private UnifiedFix() {}
+		private UnifiedFix() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedFix Create(
-                IUnifiedExpression value = null,
-                UnifiedBlock body = null) {
-            return new UnifiedFix {
-                    Value = value,
-                    Body = body,
-            };
-        }
-    }
+		public static UnifiedFix Create(
+				UnifiedExpression value = null,
+				UnifiedBlock body = null) {
+			return new UnifiedFix {
+					Value = value,
+					Body = body,
+			};
+		}
+	}
 }

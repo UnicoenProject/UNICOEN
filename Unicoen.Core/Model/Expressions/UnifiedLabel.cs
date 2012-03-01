@@ -20,42 +20,41 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   ラベル式を表します。
-    ///   e.g. Javaにおける<c>loop: while(cond){ ... }</c>の<c>loop</c>の部分
-    /// </summary>
-    public class UnifiedLabel : UnifiedElement, IUnifiedExpression {
-        private UnifiedLabelIdentifier _name;
+	/// <summary>
+	///   ラベル式を表します。 e.g. Javaにおける <c>loop: while(cond){ ... }</c> の <c>loop</c> の部分
+	/// </summary>
+	public class UnifiedLabel : UnifiedExpression {
+		private UnifiedLabelIdentifier _name;
 
-        public UnifiedLabelIdentifier Name {
-            get { return _name; }
-            set { _name = SetChild(value, _name); }
-        }
+		public UnifiedLabelIdentifier Name {
+			get { return _name; }
+			set { _name = SetChild(value, _name); }
+		}
 
-        private UnifiedLabel() {}
+		private UnifiedLabel() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static IUnifiedExpression Create(string name) {
-            return new UnifiedLabel {
-                    Name = UnifiedLabelIdentifier.Create(name),
-            };
-        }
-    }
+		public static UnifiedExpression Create(string name) {
+			return new UnifiedLabel {
+					Name = UnifiedLabelIdentifier.Create(name),
+			};
+		}
+	}
 }

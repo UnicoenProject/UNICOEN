@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@ using System.Reflection;
 using Unicoen.Model;
 
 namespace Unicoen.Processor {
-    public static class UnifiedFactory<T>
-            where T : IUnifiedCreatable<T> {
-        private static readonly T Prototype = (T)typeof(T).GetConstructor(
-                BindingFlags.Instance | BindingFlags.NonPublic,
-                null, Type.EmptyTypes, null).Invoke(null);
+	public static class UnifiedFactory<T>
+			where T : IUnifiedCreatable<T> {
+		private static readonly T Prototype = (T)typeof(T).GetConstructor(
+				BindingFlags.Instance | BindingFlags.NonPublic,
+				null, Type.EmptyTypes, null).Invoke(null);
 
-        public static T Create() {
-            return Prototype.CreateSelf();
-        }
-            }
+		public static T Create() {
+			return Prototype.CreateSelf();
+		}
+			}
 }

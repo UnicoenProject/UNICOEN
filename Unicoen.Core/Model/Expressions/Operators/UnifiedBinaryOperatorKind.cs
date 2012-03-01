@@ -17,264 +17,258 @@
 #endregion
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   二項演算子の種類を表します。
-    ///   http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
-    /// </summary>
-    public enum UnifiedBinaryOperatorKind {
-        /// <summary>
-        ///   種類が不明
-        /// </summary>
-        Unknown,
+	/// <summary>
+	///   二項演算子の種類を表します。 http://msdn.microsoft.com/ja-jp/library/bb361179.aspx
+	/// </summary>
+	public enum UnifiedBinaryOperatorKind {
+		/// <summary>
+		///   種類が不明
+		/// </summary>
+		Unknown,
 
-        /// <summary>
-        ///   a + b
-        /// </summary>
-        Add,
+		/// <summary>
+		///   a + b
+		/// </summary>
+		Add,
 
-        /// <summary>
-        ///   a - b
-        /// </summary>
-        Subtract,
+		/// <summary>
+		///   a - b
+		/// </summary>
+		Subtract,
 
-        /// <summary>
-        ///   a * b
-        /// </summary>
-        Multiply,
+		/// <summary>
+		///   a * b
+		/// </summary>
+		Multiply,
 
-        /// <summary>
-        ///   a / b
-        /// </summary>
-        Divide,
+		/// <summary>
+		///   a / b
+		/// </summary>
+		Divide,
 
-        /// <summary>
-        ///   a % b
-        /// </summary>
-        Modulo,
+		/// <summary>
+		///   a % b
+		/// </summary>
+		Modulo,
 
-        /// <summary>
-        ///   a ^ b in VB
-        ///   a ** b in Python
-        /// </summary>
-        Power,
+		/// <summary>
+		///   a ^ b in VB a ** b in Python
+		/// </summary>
+		Power,
 
-        /// <summary>
-        ///   a // b in Python
-        /// </summary>
-        FloorDivide,
+		/// <summary>
+		///   a // b in Python
+		/// </summary>
+		FloorDivide,
 
-        /// <summary>
-        ///   nothing in Java
-        /// </summary>
-        ArithmeticLeftShift,
+		/// <summary>
+		///   nothing in Java
+		/// </summary>
+		ArithmeticLeftShift,
 
-        /// <summary>
-        ///   a >> b
-        /// </summary>
-        ArithmeticRightShift,
+		/// <summary>
+		///   a >> b
+		/// </summary>
+		ArithmeticRightShift,
 
-        /// <summary>
-        ///   a &lt;&lt; b
-        /// </summary>
-        LogicalLeftShift,
+		/// <summary>
+		///   a &lt;&lt; b
+		/// </summary>
+		LogicalLeftShift,
 
-        /// <summary>
-        ///   a >>> b
-        /// </summary>
-        LogicalRightShift,
+		/// <summary>
+		///   a >>> b
+		/// </summary>
+		LogicalRightShift,
 
-        /// <summary>
-        ///   a > b
-        /// </summary>
-        GreaterThan,
+		/// <summary>
+		///   a > b
+		/// </summary>
+		GreaterThan,
 
-        /// <summary>
-        ///   a >= b
-        /// </summary>
-        GreaterThanOrEqual,
+		/// <summary>
+		///   a >= b
+		/// </summary>
+		GreaterThanOrEqual,
 
-        /// <summary>
-        ///   a ?? b
-        /// </summary>
-        Coalesce,
+		/// <summary>
+		///   a ?? b
+		/// </summary>
+		Coalesce,
 
-        /// <summary>
-        ///   a &lt; b
-        /// </summary>
-        LessThan,
+		/// <summary>
+		///   a &lt; b
+		/// </summary>
+		LessThan,
 
-        /// <summary>
-        ///   a &lt;= b
-        /// </summary>
-        LessThanOrEqual,
+		/// <summary>
+		///   a &lt;= b
+		/// </summary>
+		LessThanOrEqual,
 
-        /// <summary>
-        ///   a == b
-        /// </summary>
-        Equal,
+		/// <summary>
+		///   a == b
+		/// </summary>
+		Equal,
 
-        /// <summary>
-        ///   a != b
-        /// </summary>
-        NotEqual,
+		/// <summary>
+		///   a != b
+		/// </summary>
+		NotEqual,
 
-        /// <summary>
-        ///   e.g. JavaScriptにおける<c>a === b</c>
-        ///   暗黙の型変換を行わない等価演算子
-        /// </summary>
-        StrictEqual,
+		/// <summary>
+		///   e.g. JavaScriptにおける <c>a === b</c> 暗黙の型変換を行わない等価演算子
+		/// </summary>
+		StrictEqual,
 
-        /// <summary>
-        ///   e.g. JavaScriptにおける<c>a !== b</c>
-        ///   暗黙の型変換を行わない等価演算子
-        /// </summary>
-        StrictNotEqual,
+		/// <summary>
+		///   e.g. JavaScriptにおける <c>a !== b</c> 暗黙の型変換を行わない等価演算子
+		/// </summary>
+		StrictNotEqual,
 
-        /// <summary>
-        ///   a is b in Python
-        /// </summary>
-        ReferenceEqual,
+		/// <summary>
+		///   a is b in Python
+		/// </summary>
+		ReferenceEqual,
 
-        /// <summary>
-        ///   a is not b in Python
-        /// </summary>
-        ReferenceNotEqual,
+		/// <summary>
+		///   a is not b in Python
+		/// </summary>
+		ReferenceNotEqual,
 
-        /// <summary>
-        ///   a =~ b in Ruby
-        /// </summary>
-        RegexEqual,
+		/// <summary>
+		///   a =~ b in Ruby
+		/// </summary>
+		RegexEqual,
 
-        /// <summary>
-        ///   a in b in Python
-        /// </summary>
-        In,
+		/// <summary>
+		///   a in b in Python
+		/// </summary>
+		In,
 
-        /// <summary>
-        ///   a not in b in Python
-        /// </summary>
-        NotIn,
+		/// <summary>
+		///   a not in b in Python
+		/// </summary>
+		NotIn,
 
-        /// <summary>
-        ///   a &amp;&amp; b
-        /// </summary>
-        AndAlso,
+		/// <summary>
+		///   a &amp;&amp; b
+		/// </summary>
+		AndAlso,
 
-        /// <summary>
-        ///   a || b
-        /// </summary>
-        OrElse,
+		/// <summary>
+		///   a || b
+		/// </summary>
+		OrElse,
 
-        /// <summary>
-        ///   a &amp; b
-        /// </summary>
-        And,
+		/// <summary>
+		///   a &amp; b
+		/// </summary>
+		And,
 
-        /// <summary>
-        ///   a | b
-        /// </summary>
-        Or,
+		/// <summary>
+		///   a | b
+		/// </summary>
+		Or,
 
-        /// <summary>
-        ///   a ^ b
-        /// </summary>
-        ExclusiveOr,
+		/// <summary>
+		///   a ^ b
+		/// </summary>
+		ExclusiveOr,
 
-        /// <summary>
-        ///   a = b
-        /// </summary>
-        Assign,
+		/// <summary>
+		///   a = b
+		/// </summary>
+		Assign,
 
-        /// <summary>
-        ///   a += b
-        /// </summary>
-        AddAssign,
+		/// <summary>
+		///   a += b
+		/// </summary>
+		AddAssign,
 
-        /// <summary>
-        ///   a -= b
-        /// </summary>
-        SubtractAssign,
+		/// <summary>
+		///   a -= b
+		/// </summary>
+		SubtractAssign,
 
-        /// <summary>
-        ///   a *= b
-        /// </summary>
-        MultiplyAssign,
+		/// <summary>
+		///   a *= b
+		/// </summary>
+		MultiplyAssign,
 
-        /// <summary>
-        ///   a /= b
-        /// </summary>
-        DivideAssign,
+		/// <summary>
+		///   a /= b
+		/// </summary>
+		DivideAssign,
 
-        /// <summary>
-        ///   a %= b
-        /// </summary>
-        ModuloAssign,
+		/// <summary>
+		///   a %= b
+		/// </summary>
+		ModuloAssign,
 
-        /// <summary>
-        ///   a ^= b in VB
-        ///   a **= b in Python
-        /// </summary>
-        PowerAssign,
+		/// <summary>
+		///   a ^= b in VB a **= b in Python
+		/// </summary>
+		PowerAssign,
 
-        /// <summary>
-        ///   a //= b in Python
-        /// </summary>
-        FloorDivideAssign,
+		/// <summary>
+		///   a //= b in Python
+		/// </summary>
+		FloorDivideAssign,
 
-        /// <summary>
-        ///   nothing in Java
-        /// </summary>
-        ArithmeticLeftShiftAssign,
+		/// <summary>
+		///   nothing in Java
+		/// </summary>
+		ArithmeticLeftShiftAssign,
 
-        /// <summary>
-        ///   a &lt;&lt;= b
-        /// </summary>
-        LogicalLeftShiftAssign,
+		/// <summary>
+		///   a &lt;&lt;= b
+		/// </summary>
+		LogicalLeftShiftAssign,
 
-        /// <summary>
-        ///   a >>= b
-        /// </summary>
-        ArithmeticRightShiftAssign,
+		/// <summary>
+		///   a >>= b
+		/// </summary>
+		ArithmeticRightShiftAssign,
 
-        /// <summary>
-        ///   a >>>= b
-        /// </summary>
-        LogicalRightShiftAssign,
+		/// <summary>
+		///   a >>>= b
+		/// </summary>
+		LogicalRightShiftAssign,
 
-        /// <summary>
-        ///   a &amp;= b
-        /// </summary>
-        AndAssign,
+		/// <summary>
+		///   a &amp;= b
+		/// </summary>
+		AndAssign,
 
-        /// <summary>
-        ///   a |= b
-        /// </summary>
-        OrAssign,
+		/// <summary>
+		///   a |= b
+		/// </summary>
+		OrAssign,
 
-        /// <summary>
-        ///   a &amp;&amp;= b
-        /// </summary>
-        AndAlsoAssign,
+		/// <summary>
+		///   a &amp;&amp;= b
+		/// </summary>
+		AndAlsoAssign,
 
-        /// <summary>
-        ///   a ||= b
-        /// </summary>
-        OrElseAssign,
+		/// <summary>
+		///   a ||= b
+		/// </summary>
+		OrElseAssign,
 
-        /// <summary>
-        ///   a ^= b
-        /// </summary>
-        ExclusiveOrAssign,
+		/// <summary>
+		///   a ^= b
+		/// </summary>
+		ExclusiveOrAssign,
 
-        /// <summary>
-        /// <c>obj instanceof Object</c> in Java,
-        /// <c>obj is object</c> in C#
-        /// </summary>
-        InstanceOf,
+		/// <summary>
+		///   <c>obj instanceof Object</c> in Java, <c>obj is object</c> in C#
+		/// </summary>
+		InstanceOf,
 
-        /// <summary>
-        /// <c>obj as String</c> in C#
-        /// </summary>
-        As,
-    }
+		/// <summary>
+		///   <c>obj as String</c> in C#
+		/// </summary>
+		As,
+	}
 }

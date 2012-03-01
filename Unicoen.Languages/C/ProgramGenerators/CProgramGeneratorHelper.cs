@@ -60,7 +60,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return program;
 		}
 
-		public static IUnifiedExpression CreateExternalDeclaration(
+		public static UnifiedExpression CreateExternalDeclaration(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "external_declaration");
@@ -124,7 +124,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					null, body);
 		}
 
-		public static IUnifiedExpression CreateDeclaration(XElement node) {
+		public static UnifiedExpression CreateDeclaration(XElement node) {
 			// TODO なぜかここのcontractにひっかかる
 			//			Contract.Requires(node != null);
 			//			Contract.Requires(node.Name() == "declaration");
@@ -173,7 +173,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static Tuple<UnifiedModifierCollection, IUnifiedExpression>
+		public static Tuple<UnifiedModifierCollection, UnifiedExpression>
 				CreateDeclarationSpecifiers(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration_specifiers");
@@ -184,7 +184,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 */
 			var modifiers = UnifiedModifierCollection.Create();
 			IList<UnifiedType> types = new List<UnifiedType>();
-			IUnifiedExpression declaration = null;
+			UnifiedExpression declaration = null;
 
 			foreach (var e in node.Elements()) {
 				switch (e.Name()) {
@@ -216,7 +216,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				return Tuple.Create(modifiers, declaration);
 			}
 
-			IUnifiedExpression type;
+			UnifiedExpression type;
 			if (types.Count == 1) {
 				type = types[0];
 			} else {
@@ -233,7 +233,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return Tuple.Create(modifiers, type);
 		}
 
-		public static IEnumerable<Tuple<UnifiedIdentifier, IUnifiedExpression>>
+		public static IEnumerable<Tuple<UnifiedIdentifier, UnifiedExpression>>
 				CreateInitDeclaratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "init_declarator_list");
@@ -244,7 +244,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return node.Elements("init_declarator").Select(CreateInitDeclarator);
 		}
 
-		public static Tuple<UnifiedIdentifier, IUnifiedExpression>
+		public static Tuple<UnifiedIdentifier, UnifiedExpression>
 				CreateInitDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "init_declarator");
@@ -272,7 +272,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return UnifiedModifier.Create(node.FirstElement().Value);
 		}
 
-		public static IUnifiedExpression CreateTypeSpecifier(XElement node) {
+		public static UnifiedExpression CreateTypeSpecifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "type_specifier");
 			/*	type_specifier
@@ -448,7 +448,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return Tuple.Create(modifiers, type);
 		}
 
-		public static IEnumerable<Tuple<UnifiedIdentifier, IUnifiedExpression>>
+		public static IEnumerable<Tuple<UnifiedIdentifier, UnifiedExpression>>
 				CreateStructDeclaratorList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator_list");
@@ -462,7 +462,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 							CreateStructDeclarator);
 		}
 
-		public static Tuple<UnifiedIdentifier, IUnifiedExpression>
+		public static Tuple<UnifiedIdentifier, UnifiedExpression>
 				CreateStructDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "struct_declarator");
@@ -486,7 +486,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return Tuple.Create(declarator.Item1, initializer);
 		}
 
-		public static IUnifiedExpression CreateEnumSpecifier(XElement node) {
+		public static UnifiedExpression CreateEnumSpecifier(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "enum_specifier");
 			/*
@@ -541,7 +541,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 
 			var identifier =
 					UnifiedIdentifier.CreateVariable(node.NthElement(0).Value);
-			IUnifiedExpression value = null;
+			UnifiedExpression value = null;
 			var expression = node.Element("constant_expression");
 			if (expression != null) {
 				value = CreateConstantExpression(expression);
@@ -654,7 +654,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return parameters;
 		}
 
-		public static IUnifiedElement CreatePointer(XElement node) {
+		public static UnifiedElement CreatePointer(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "pointer");
 			/*	pointer
@@ -756,7 +756,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new InvalidOperationException();
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateIdentifierList(
+		public static IEnumerable<UnifiedExpression> CreateIdentifierList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "identifier_list");
@@ -788,7 +788,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return modifiersAndType.Item2;
 		}
 
-		public static IUnifiedElement CreateAbstractDeclarator(XElement node) {
+		public static UnifiedElement CreateAbstractDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "abstract_declarator");
 			/*
@@ -808,7 +808,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static IUnifiedElement CreateDirectAbstractDeclarator(
+		public static UnifiedElement CreateDirectAbstractDeclarator(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "direct_abstract_declarator");
@@ -821,7 +821,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new NotImplementedException();
 		}
 
-		public static IUnifiedElement CreateAbstractDeclaratorSuffix(
+		public static UnifiedElement CreateAbstractDeclaratorSuffix(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "abstract_declarator_suffix");
@@ -837,7 +837,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new NotImplementedException();
 		}
 
-		public static IUnifiedExpression CreateInitializer(XElement node) {
+		public static UnifiedExpression CreateInitializer(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "initializer");
 			/*
@@ -856,7 +856,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new InvalidOperationException();
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateInitializerList(
+		public static IEnumerable<UnifiedExpression> CreateInitializerList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "initializer_list");

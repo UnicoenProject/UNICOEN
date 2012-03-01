@@ -23,7 +23,7 @@ using Unicoen.Processor;
 namespace Unicoen.Languages.Python2.CodeGenerators {
     public partial class Python2CodeFactoryVisitor {
         private static Tuple<string, string> GetRequiredParen(
-                IUnifiedElement element) {
+                UnifiedElement element) {
             var parent = element.Parent;
             if (parent is UnifiedUnaryExpression ||
                 parent is UnifiedBinaryExpression ||

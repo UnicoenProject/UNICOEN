@@ -20,73 +20,69 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   スライス表記を表します．
-    ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>
-    /// </summary>
-    public class UnifiedSlice : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _start;
+	/// <summary>
+	///   スライス表記を表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c>
+	/// </summary>
+	public class UnifiedSlice : UnifiedExpression {
+		private UnifiedExpression _start;
 
-        /// <summary>
-        ///   開始インデックスを表します．
-        ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>0</c>
-        /// </summary>
-        public IUnifiedExpression Start {
-            get { return _start; }
-            set { _start = SetChild(value, _start); }
-        }
+		/// <summary>
+		///   開始インデックスを表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c> の <c>0</c>
+		/// </summary>
+		public UnifiedExpression Start {
+			get { return _start; }
+			set { _start = SetChild(value, _start); }
+		}
 
-        private IUnifiedExpression _end;
+		private UnifiedExpression _end;
 
-        /// <summary>
-        ///   終了インデックスを表します．
-        ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>10</c>
-        /// </summary>
-        public IUnifiedExpression End {
-            get { return _end; }
-            set { _end = SetChild(value, _end); }
-        }
+		/// <summary>
+		///   終了インデックスを表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c> の <c>10</c>
+		/// </summary>
+		public UnifiedExpression End {
+			get { return _end; }
+			set { _end = SetChild(value, _end); }
+		}
 
-        private IUnifiedExpression _step;
+		private UnifiedExpression _step;
 
-        /// <summary>
-        ///   ステップを表します．
-        ///   e.g. Pythonにおける<c>[0 : 10 : 2]</c>の<c>2</c>
-        /// </summary>
-        public IUnifiedExpression Step {
-            get { return _step; }
-            set { _step = SetChild(value, _step); }
-        }
+		/// <summary>
+		///   ステップを表します． e.g. Pythonにおける <c>[0 : 10 : 2]</c> の <c>2</c>
+		/// </summary>
+		public UnifiedExpression Step {
+			get { return _step; }
+			set { _step = SetChild(value, _step); }
+		}
 
-        private UnifiedSlice() {}
+		private UnifiedSlice() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedSlice Create(
-                IUnifiedExpression initializer = null,
-                IUnifiedExpression condition = null,
-                IUnifiedExpression step = null) {
-            return new UnifiedSlice {
-                    Start = initializer,
-                    End = condition,
-                    Step = step,
-            };
-        }
-    }
+		public static UnifiedSlice Create(
+				UnifiedExpression initializer = null,
+				UnifiedExpression condition = null,
+				UnifiedExpression step = null) {
+			return new UnifiedSlice {
+					Start = initializer,
+					End = condition,
+					Step = step,
+			};
+		}
+	}
 }

@@ -95,7 +95,7 @@ namespace Unicoen.Apps.Translator {
             // return;
 
             var destLang = args[2];
-            Func<IUnifiedElement, string> codeGenerator;
+            Func<UnifiedElement, string> codeGenerator;
             switch (destLang) {
             case "java":
             case "Java":

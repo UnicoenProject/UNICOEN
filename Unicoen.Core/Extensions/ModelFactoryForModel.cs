@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,40 +22,40 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Unicoen.Model {
-    public static class ProgramGeneratorForModel {
-        public static UnifiedArgument ToArgument(
-                this IUnifiedExpression expression) {
-            return UnifiedArgument.Create(expression);
-        }
+	public static class ProgramGeneratorForModel {
+		public static UnifiedArgument ToArgument(
+				this UnifiedExpression expression) {
+			return UnifiedArgument.Create(expression);
+		}
 
-        public static UnifiedParameter ToParameter(
-                this UnifiedIdentifier expression) {
-            return UnifiedParameter.Create(
-                    null, null, null, expression.ToCollection());
-        }
+		public static UnifiedParameter ToParameter(
+				this UnifiedIdentifier expression) {
+			return UnifiedParameter.Create(
+					null, null, null, expression.ToCollection());
+		}
 
-        public static UnifiedParameter ToParameter(
-                this UnifiedIdentifier expression, UnifiedType type) {
-            return UnifiedParameter.Create(
-                    null, null, type, expression.ToCollection());
-        }
+		public static UnifiedParameter ToParameter(
+				this UnifiedIdentifier expression, UnifiedType type) {
+			return UnifiedParameter.Create(
+					null, null, type, expression.ToCollection());
+		}
 
-        public static IUnifiedExpression ToProperty(
-                this IEnumerable<IUnifiedExpression> expressions,
-                string delimiter) {
-            return expressions.ToList().ToProperty(delimiter);
-        }
+		public static UnifiedExpression ToProperty(
+				this IEnumerable<UnifiedExpression> expressions,
+				string delimiter) {
+			return expressions.ToList().ToProperty(delimiter);
+		}
 
-        public static IUnifiedExpression ToProperty(
-                this IList<IUnifiedExpression> expressions, string delimiter) {
-            Contract.Requires<ArgumentNullException>(expressions != null);
-            Contract.Requires<ArgumentException>(expressions.Count >= 1);
-            if (expressions.Count == 1) {
-                return expressions[0];
-            }
-            return expressions.Skip(1).Aggregate(
-                    expressions[0],
-                    (l, r) => UnifiedProperty.Create(delimiter, l, r));
-        }
-    }
+		public static UnifiedExpression ToProperty(
+				this IList<UnifiedExpression> expressions, string delimiter) {
+			Contract.Requires<ArgumentNullException>(expressions != null);
+			Contract.Requires<ArgumentException>(expressions.Count >= 1);
+			if (expressions.Count == 1) {
+				return expressions[0];
+			}
+			return expressions.Skip(1).Aggregate(
+					expressions[0],
+					(l, r) => UnifiedProperty.Create(delimiter, l, r));
+		}
+	}
 }

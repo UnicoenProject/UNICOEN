@@ -99,7 +99,7 @@ namespace Unicoen.Apps.Metrics.Utils {
         }
 
         private static void InitializeCounter(
-                IUnifiedElement model,
+                UnifiedElement model,
                 IDictionary<string, int> counter) {
             var outers = model.Elements()
                     .Where(
@@ -112,7 +112,7 @@ namespace Unicoen.Apps.Metrics.Utils {
         }
 
         private static void CountElements(
-                IEnumerable<IUnifiedElement> targets,
+                IEnumerable<UnifiedElement> targets,
                 IDictionary<string, int> counter) {
             foreach (var e in targets) {
                 var outerStr = GetOutersString(e);
@@ -120,7 +120,7 @@ namespace Unicoen.Apps.Metrics.Utils {
             }
         }
 
-        private static string GetOutersName(IUnifiedElement element) {
+        private static string GetOutersName(UnifiedElement element) {
             var klass = element as UnifiedClassLikeDefinition;
             if (klass != null) {
                 return "[class] " + JavaFactory.GenerateCode(klass.Name);
@@ -132,7 +132,7 @@ namespace Unicoen.Apps.Metrics.Utils {
             return null;
         }
 
-        private static string GetOutersString(IUnifiedElement target) {
+        private static string GetOutersString(UnifiedElement target) {
             var result = "::";
             foreach (var e in target.AncestorsAndSelf()) {
                 var name = GetOutersName(e);
@@ -163,8 +163,8 @@ namespace Unicoen.Apps.Metrics.Utils {
         }
 
         public static Dictionary<string, int> Measure(
-                IUnifiedElement codeObject,
-                Func<IUnifiedElement, IEnumerable<IUnifiedElement>>
+                UnifiedElement codeObject,
+                Func<UnifiedElement, IEnumerable<UnifiedElement>>
                         getTargetElementsFunc) {
             var counts = new Dictionary<string, int>();
             InitializeCounter(codeObject, counts);
@@ -174,7 +174,7 @@ namespace Unicoen.Apps.Metrics.Utils {
 
         public static Dictionary<string, int> Measure(
                 string filePath,
-                Func<IUnifiedElement, IEnumerable<IUnifiedElement>>
+                Func<UnifiedElement, IEnumerable<UnifiedElement>>
                         getTargetElementsFunc) {
             try {
                 var counts = new Dictionary<string, int>();

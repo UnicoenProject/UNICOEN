@@ -21,63 +21,63 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    public class UnifiedGenericType : UnifiedWrapType {
-        private UnifiedGenericArgumentCollection _arguments;
+	public class UnifiedGenericType : UnifiedWrapType {
+		private UnifiedGenericArgumentCollection _arguments;
 
-        /// <summary>
-        ///   ジェネリックタイプにおける実引数の集合を表します
-        ///   e.g. Javaにおける<c>HashMap&lt;Integer, String&gt;</c>の<c>Integer, String</c>
-        /// </summary>
-        public UnifiedGenericArgumentCollection Arguments {
-            get { return _arguments; }
-            set { _arguments = SetChild(value, _arguments); }
-        }
+		/// <summary>
+		///   ジェネリックタイプにおける実引数の集合を表します e.g. Javaにおける <c>HashMap&lt;Integer, String&gt;</c> の <c>Integer, String</c>
+		/// </summary>
+		public UnifiedGenericArgumentCollection Arguments {
+			get { return _arguments; }
+			set { _arguments = SetChild(value, _arguments); }
+		}
 
-        internal UnifiedGenericType() {}
+		internal UnifiedGenericType() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public override IEnumerable<IUnifiedElement> Elements() {
-            yield return Arguments;
-            yield return Type;
-        }
+		public override IEnumerable<UnifiedElement> Elements() {
+			yield return Arguments;
+			yield return Type;
+		}
 
-        public override IEnumerable<ElementReference> ElementReferences() {
-            yield return
-                    ElementReference.Create(
-                            () => Arguments,
-                            v => Arguments = (UnifiedGenericArgumentCollection)v)
-                    ;
-            yield return
-                    ElementReference.Create(
-                            () => Type, v => Type = (UnifiedType)v);
-        }
+		public override IEnumerable<ElementReference> ElementReferences() {
+			yield return
+					ElementReference.Create(
+							() => Arguments,
+							v => Arguments = (UnifiedGenericArgumentCollection)v)
+					;
+			yield return
+					ElementReference.Create(
+							() => Type, v => Type = (UnifiedType)v);
+		}
 
-        public override IEnumerable<ElementReference> ElementReferencesOfFields(
-                ) {
-            yield return
-                    ElementReference.Create(
-                            () => _arguments,
-                            v =>
-                            _arguments = (UnifiedGenericArgumentCollection)v);
-            yield return
-                    ElementReference.Create(
-                            () => _type, v => _type = (UnifiedType)v);
-        }
-    }
+		public override IEnumerable<ElementReference> ElementReferencesOfFields(
+				
+				) {
+			yield return
+					ElementReference.Create(
+							() => _arguments,
+							v =>
+							_arguments = (UnifiedGenericArgumentCollection)v);
+			yield return
+					ElementReference.Create(
+							() => _type, v => _type = (UnifiedType)v);
+		}
+	}
 }

@@ -20,35 +20,33 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   LINQのクエリ式を表します。
-    ///   e.g. C#における<c>from int p in a select p</c>
-    /// </summary>
-    public class UnifiedLinqExpression
-            : UnifiedElementCollection
-                      <UnifiedLinqQuery, UnifiedLinqExpression>,
-              IUnifiedExpression {
-        protected UnifiedLinqExpression() {}
+	/// <summary>
+	///   LINQのクエリ式を表します。 e.g. C#における <c>from int p in a select p</c>
+	/// </summary>
+	public class UnifiedLinqExpression
+			: UnifiedExpressionCollectionBase
+			  		<UnifiedLinqQuery, UnifiedLinqExpression> {
+		protected UnifiedLinqExpression() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public override UnifiedLinqExpression CreateSelf() {
-            return new UnifiedLinqExpression();
-        }
-              }
+		public override UnifiedLinqExpression CreateSelf() {
+			return new UnifiedLinqExpression();
+		}
+			  		}
 }

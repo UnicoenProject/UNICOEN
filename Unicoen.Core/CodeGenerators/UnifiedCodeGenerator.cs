@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,28 +20,28 @@ using System.IO;
 using Unicoen.Model;
 
 namespace Unicoen.CodeGenerators {
-    public abstract class UnifiedCodeGenerator {
-        public abstract string Extension { get; }
+	public abstract class UnifiedCodeGenerator {
+		public abstract string Extension { get; }
 
-        public abstract void Generate(
-                IUnifiedElement codeObject, TextWriter writer, string indentSign);
+		public abstract void Generate(
+				UnifiedElement codeObject, TextWriter writer, string indentSign);
 
-        public abstract void Generate(
-                IUnifiedElement codeObject, TextWriter writer);
+		public abstract void Generate(
+				UnifiedElement codeObject, TextWriter writer);
 
-        public string Generate(IUnifiedElement codeObject) {
-            var writer = new StringWriter();
-            Generate(codeObject, writer);
-            return writer.ToString();
-        }
+		public string Generate(UnifiedElement codeObject) {
+			var writer = new StringWriter();
+			Generate(codeObject, writer);
+			return writer.ToString();
+		}
 
-        public string GenerateOrEmpty(IUnifiedElement model) {
-            if (model == null) {
-                return string.Empty;
-            }
-            var writer = new StringWriter();
-            Generate(model, writer);
-            return writer.ToString();
-        }
-    }
+		public string GenerateOrEmpty(UnifiedElement model) {
+			if (model == null) {
+				return string.Empty;
+			}
+			var writer = new StringWriter();
+			Generate(model, writer);
+			return writer.ToString();
+		}
+	}
 }

@@ -30,7 +30,7 @@ namespace Unicoen.Languages.Java {
             ProgramGenerator = new JavaProgramGenerator();
         }
 
-        public static string GenerateCode(IUnifiedElement model) {
+        public static string GenerateCode(UnifiedElement model) {
             return CodeGenerator.Generate(model);
         }
 

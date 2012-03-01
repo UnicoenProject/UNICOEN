@@ -20,38 +20,38 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    public class UnifiedReturn : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _value;
+	public class UnifiedReturn : UnifiedExpression {
+		private UnifiedExpression _value;
 
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        protected UnifiedReturn() {}
+		protected UnifiedReturn() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedReturn Create(
-                IUnifiedExpression value = null) {
-            return new UnifiedReturn {
-                    Value = value,
-            };
-        }
-    }
+		public static UnifiedReturn Create(
+				UnifiedExpression value = null) {
+			return new UnifiedReturn {
+					Value = value,
+			};
+		}
+	}
 }

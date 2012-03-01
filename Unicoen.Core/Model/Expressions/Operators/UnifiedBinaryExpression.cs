@@ -20,77 +20,73 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   二項式を表します。
-    ///   e.g. JavaやCにおける<c>a + b</c>など
-    /// </summary>
-    public class UnifiedBinaryExpression : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _leftHandSide;
+	/// <summary>
+	///   二項式を表します。 e.g. JavaやCにおける <c>a + b</c> など
+	/// </summary>
+	public class UnifiedBinaryExpression : UnifiedExpression {
+		private UnifiedExpression _leftHandSide;
 
-        /// <summary>
-        ///   第1オペランドを表します
-        ///   e.g. <c>a + b</c>の<c>a</c>
-        /// </summary>
-        public IUnifiedExpression LeftHandSide {
-            get { return _leftHandSide; }
-            set { _leftHandSide = SetChild(value, _leftHandSide); }
-        }
+		/// <summary>
+		///   第1オペランドを表します e.g. <c>a + b</c> の <c>a</c>
+		/// </summary>
+		public UnifiedExpression LeftHandSide {
+			get { return _leftHandSide; }
+			set { _leftHandSide = SetChild(value, _leftHandSide); }
+		}
 
-        private UnifiedBinaryOperator _operator;
+		private UnifiedBinaryOperator _operator;
 
-        /// <summary>
-        ///   演算子を表します
-        ///   e.g. <c>a + b</c>の<c>+</c>
-        /// </summary>
-        public UnifiedBinaryOperator Operator {
-            get { return _operator; }
-            set { _operator = SetChild(value, _operator); }
-        }
+		/// <summary>
+		///   演算子を表します e.g. <c>a + b</c> の <c>+</c>
+		/// </summary>
+		public UnifiedBinaryOperator Operator {
+			get { return _operator; }
+			set { _operator = SetChild(value, _operator); }
+		}
 
-        private IUnifiedExpression _rightHandSide;
+		private UnifiedExpression _rightHandSide;
 
-        /// <summary>
-        ///   第2オペランドを表します
-        ///   e.g. <c>a + b</c>の<c>b</c>
-        /// </summary>
-        public IUnifiedExpression RightHandSide {
-            get { return _rightHandSide; }
-            set { _rightHandSide = SetChild(value, _rightHandSide); }
-        }
+		/// <summary>
+		///   第2オペランドを表します e.g. <c>a + b</c> の <c>b</c>
+		/// </summary>
+		public UnifiedExpression RightHandSide {
+			get { return _rightHandSide; }
+			set { _rightHandSide = SetChild(value, _rightHandSide); }
+		}
 
-        private UnifiedBinaryExpression() {}
+		private UnifiedBinaryExpression() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedBinaryExpression Create(
-                IUnifiedExpression leftHandSide,
-                UnifiedBinaryOperator binaryOperator,
-                IUnifiedExpression rightHandSide) {
-            return new UnifiedBinaryExpression {
-                    LeftHandSide = leftHandSide,
-                    Operator = binaryOperator,
-                    RightHandSide = rightHandSide,
-            };
-        }
+		public static UnifiedBinaryExpression Create(
+				UnifiedExpression leftHandSide,
+				UnifiedBinaryOperator binaryOperator,
+				UnifiedExpression rightHandSide) {
+			return new UnifiedBinaryExpression {
+					LeftHandSide = leftHandSide,
+					Operator = binaryOperator,
+					RightHandSide = rightHandSide,
+			};
+		}
 
-        public static UnifiedBinaryExpression Create() {
-            return new UnifiedBinaryExpression();
-        }
-    }
+		public static UnifiedBinaryExpression Create() {
+			return new UnifiedBinaryExpression();
+		}
+	}
 }

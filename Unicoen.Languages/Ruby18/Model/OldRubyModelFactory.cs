@@ -78,7 +78,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                            ? UnifiedBinaryOperator.Create(sign, result) : null;
         }
 
-        public static IUnifiedExpression CreateCall(XElement node) {
+        public static UnifiedExpression CreateCall(XElement node) {
             Contract.Requires(node.Name.LocalName == "call");
             var funcName = node.Elements().ElementAt(1).Value;
             if (node.Elements().ElementAt(2).Elements().Count() == 1) {
@@ -104,7 +104,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                                                     null))));
         }
 
-        public static IUnifiedExpression CreateExpression(XElement node) {
+        public static UnifiedExpression CreateExpression(XElement node) {
             var elems = node.Elements();
             switch (node.Name.LocalName) {
             case "lit":
@@ -160,7 +160,7 @@ namespace Unicoen.Languages.Ruby18.Model {
         private static UnifiedBlock CreateBlock(XElement node) {
             Contract.Requires(node.Name.LocalName == "block");
             return UnifiedBlock.Create(
-                    (IUnifiedExpression[])node.Elements()
+                    (UnifiedExpression[])node.Elements()
                                                   .Where(
                                                           e =>
                                                           e.Name.LocalName

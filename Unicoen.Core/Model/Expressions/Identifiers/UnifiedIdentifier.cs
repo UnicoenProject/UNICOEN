@@ -17,29 +17,29 @@
 #endregion
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   識別子を表します。
-    /// </summary>
-    public abstract class UnifiedIdentifier : UnifiedElement, IUnifiedExpression {
-        /// <summary>
-        ///   識別子の名前を取得します．
-        /// </summary>
-        public string Name { get; set; }
+	/// <summary>
+	///   識別子を表します。
+	/// </summary>
+	public abstract class UnifiedIdentifier : UnifiedExpression {
+		/// <summary>
+		///   識別子の名前を取得します．
+		/// </summary>
+		public string Name { get; set; }
 
-        public static UnifiedVariableIdentifier CreateVariable(string name) {
-            return UnifiedVariableIdentifier.Create(name);
-        }
+		public static UnifiedVariableIdentifier CreateVariable(string name) {
+			return UnifiedVariableIdentifier.Create(name);
+		}
 
-        public static UnifiedLabelIdentifier CreateLabel(string name) {
-            return UnifiedLabelIdentifier.Create(name);
-        }
+		public static UnifiedLabelIdentifier CreateLabel(string name) {
+			return UnifiedLabelIdentifier.Create(name);
+		}
 
-        public static UnifiedSuperIdentifier CreateSuper(string name) {
-            return UnifiedSuperIdentifier.Create(name);
-        }
+		public static UnifiedSuperIdentifier CreateSuper(string name) {
+			return UnifiedSuperIdentifier.Create(name);
+		}
 
-        public static UnifiedThisIdentifier CreateThis(string name) {
-            return UnifiedThisIdentifier.Create(name);
-        }
-    }
+		public static UnifiedThisIdentifier CreateThis(string name) {
+			return UnifiedThisIdentifier.Create(name);
+		}
+	}
 }

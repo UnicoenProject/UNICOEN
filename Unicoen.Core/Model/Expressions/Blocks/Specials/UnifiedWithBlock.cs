@@ -20,54 +20,52 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   Pythonのwith文はUnifiedUsingBlockを参照してください．
-    ///   with in JavaScript
-    ///   Javaのstatic importのような役割
-    /// </summary>
-    public class UnifiedWith : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _value;
-        private UnifiedBlock _body;
+	/// <summary>
+	///   Pythonのwith文はUnifiedUsingBlockを参照してください． with in JavaScript Javaのstatic importのような役割
+	/// </summary>
+	public class UnifiedWith : UnifiedExpression {
+		private UnifiedExpression _value;
+		private UnifiedBlock _body;
 
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        /// <summary>
-        ///   ブロックを取得します．
-        /// </summary>
-        public UnifiedBlock Body {
-            get { return _body; }
-            set { _body = SetChild(value, _body); }
-        }
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
-        protected UnifiedWith() {}
+		protected UnifiedWith() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedWith Create(
-                IUnifiedExpression value = null,
-                UnifiedBlock body = null) {
-            return new UnifiedWith {
-                    Value = value,
-                    Body = body,
-            };
-        }
-    }
+		public static UnifiedWith Create(
+				UnifiedExpression value = null,
+				UnifiedBlock body = null) {
+			return new UnifiedWith {
+					Value = value,
+					Body = body,
+			};
+		}
+	}
 }

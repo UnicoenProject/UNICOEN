@@ -38,8 +38,8 @@ namespace Unicoen.Apps.Metrics.Utils {
             return true;
         }
 
-        protected abstract IEnumerable<IUnifiedElement>
-                ProtectedGetTargetElements(IUnifiedElement codeObject);
+        protected abstract IEnumerable<UnifiedElement>
+                ProtectedGetTargetElements(UnifiedElement codeObject);
 
         /// <summary>
         ///   Print cyclomatic of give file

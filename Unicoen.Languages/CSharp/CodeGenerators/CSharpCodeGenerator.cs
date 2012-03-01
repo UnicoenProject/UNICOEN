@@ -30,14 +30,14 @@ namespace Unicoen.Languages.CSharp.CodeGenerators {
         }
 
         public override void Generate(
-                IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+                UnifiedElement codeObject, TextWriter writer, string indentSign) {
             codeObject.Accept(
                     new CSharpCodeFactoryVisitor(writer, indentSign),
                     new VisitorArgument());
         }
 
         public override void Generate(
-                IUnifiedElement codeObject, TextWriter writer) {
+                UnifiedElement codeObject, TextWriter writer) {
             Generate(codeObject, writer, "\t");
         }
     }

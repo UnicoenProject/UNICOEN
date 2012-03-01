@@ -23,7 +23,7 @@ using Unicoen.Model;
 
 namespace Unicoen.Apps.Findbug {
     public class DefUseAnalyzer {
-        public static IEnumerable<IUnifiedElement> FindDefines(
+        public static IEnumerable<UnifiedElement> FindDefines(
                 UnifiedBlock codeObj) {
             /*
 			 * Binary Expressionを探索
@@ -52,7 +52,7 @@ namespace Unicoen.Apps.Findbug {
             }
         }
 
-        public static IEnumerable<IUnifiedElement> FindUses(
+        public static IEnumerable<UnifiedElement> FindUses(
                 UnifiedBlock codeObj) {
             var binaryExpressions =
                     codeObj.Descendants<UnifiedBinaryExpression>();

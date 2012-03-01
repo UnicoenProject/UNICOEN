@@ -17,26 +17,26 @@
 #endregion
 
 namespace Unicoen.Model {
-    public abstract class UnifiedComprehensionBase
-            : UnifiedElement, IUnifiedExpression {
-        protected IUnifiedExpression _element;
+	public abstract class UnifiedComprehensionBase
+			: UnifiedExpression {
+		protected UnifiedExpression _element;
 
-        /// <summary>
-        ///   リスト内包表記によって生成される要素部分の式を表します．
-        /// </summary>
-        public IUnifiedExpression Element {
-            get { return _element; }
-            set { _element = SetChild(value, _element); }
-        }
+		/// <summary>
+		///   リスト内包表記によって生成される要素部分の式を表します．
+		/// </summary>
+		public UnifiedExpression Element {
+			get { return _element; }
+			set { _element = SetChild(value, _element); }
+		}
 
-        protected UnifiedExpressionCollection _generator;
+		protected UnifiedExpressionCollection _generator;
 
-        /// <summary>
-        ///   リスト内包表記の集合部分の式を表します．
-        /// </summary>
-        public UnifiedExpressionCollection Generator {
-            get { return _generator; }
-            set { _generator = SetChild(value, _generator); }
-        }
-            }
+		/// <summary>
+		///   リスト内包表記の集合部分の式を表します．
+		/// </summary>
+		public UnifiedExpressionCollection Generator {
+			get { return _generator; }
+			set { _generator = SetChild(value, _generator); }
+		}
+			}
 }

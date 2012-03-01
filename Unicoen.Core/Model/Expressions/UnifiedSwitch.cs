@@ -20,64 +20,62 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   switch文を表します。
-    ///   e.g. Javaにおける<c>switch(v){...}</c>
-    /// </summary>
-    public class UnifiedSwitch : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _value;
+	/// <summary>
+	///   switch文を表します。 e.g. Javaにおける <c>switch(v){...}</c>
+	/// </summary>
+	public class UnifiedSwitch : UnifiedExpression {
+		private UnifiedExpression _value;
 
-        /// <summary>
-        ///   caseの分岐に使用される式を表します
-        ///   e.g. Javaにおける<c>switch(v){...}</c>の<c>v</c>
-        /// </summary>
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		/// <summary>
+		///   caseの分岐に使用される式を表します e.g. Javaにおける <c>switch(v){...}</c> の <c>v</c>
+		/// </summary>
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        private UnifiedCaseCollection _cases;
+		private UnifiedCaseCollection _cases;
 
-        /// <summary>
-        ///   switch文に付随するcase節の集合を表します
-        /// </summary>
-        public UnifiedCaseCollection Cases {
-            get { return _cases; }
-            set { _cases = SetChild(value, _cases); }
-        }
+		/// <summary>
+		///   switch文に付随するcase節の集合を表します
+		/// </summary>
+		public UnifiedCaseCollection Cases {
+			get { return _cases; }
+			set { _cases = SetChild(value, _cases); }
+		}
 
-        private UnifiedSwitch() {}
+		private UnifiedSwitch() {}
 
-        public UnifiedSwitch AddToCases(UnifiedCase kase) {
-            Cases.Add(kase);
-            return this;
-        }
+		public UnifiedSwitch AddToCases(UnifiedCase kase) {
+			Cases.Add(kase);
+			return this;
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedSwitch Create(
-                IUnifiedExpression value = null,
-                UnifiedCaseCollection cases = null) {
-            return new UnifiedSwitch {
-                    Value = value,
-                    Cases = cases,
-            };
-        }
-    }
+		public static UnifiedSwitch Create(
+				UnifiedExpression value = null,
+				UnifiedCaseCollection cases = null) {
+			return new UnifiedSwitch {
+					Value = value,
+					Cases = cases,
+			};
+		}
+	}
 }

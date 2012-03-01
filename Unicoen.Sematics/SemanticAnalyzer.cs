@@ -25,7 +25,7 @@ namespace Unicoen.Sematics {
                 UnifiedIdentifier variable) {
             var scopes = variable.Ancestors<UnifiedBlock>();
             var name = variable.Name;
-            IUnifiedElement searched = variable;
+            UnifiedElement searched = variable;
 
             foreach (var scope in scopes) {
                 var definition = scope

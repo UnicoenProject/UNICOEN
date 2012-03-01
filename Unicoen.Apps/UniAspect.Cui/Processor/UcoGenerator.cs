@@ -122,10 +122,10 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
         /// <param name="language"> 対象言語 </param>
         /// <param name="code"> コード断片 </param>
         /// <returns> </returns>
-        public static List<IUnifiedExpression> CreateIntertype(
+        public static List<UnifiedExpression> CreateIntertype(
                 string language, string code) {
             XElement ast;
-            var actual = new List<IUnifiedExpression>();
+            var actual = new List<UnifiedExpression>();
 
             switch (language) {
             case "Java":

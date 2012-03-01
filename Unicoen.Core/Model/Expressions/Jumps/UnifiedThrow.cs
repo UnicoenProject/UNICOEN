@@ -20,57 +20,57 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    public class UnifiedThrow : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _value;
+	public class UnifiedThrow : UnifiedExpression {
+		private UnifiedExpression _value;
 
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        private IUnifiedExpression _data;
+		private UnifiedExpression _data;
 
-        public IUnifiedExpression Data {
-            get { return _data; }
-            set { _data = SetChild(value, _data); }
-        }
+		public UnifiedExpression Data {
+			get { return _data; }
+			set { _data = SetChild(value, _data); }
+		}
 
-        private IUnifiedExpression _trace;
+		private UnifiedExpression _trace;
 
-        public IUnifiedExpression Trace {
-            get { return _trace; }
-            set { _trace = SetChild(value, _trace); }
-        }
+		public UnifiedExpression Trace {
+			get { return _trace; }
+			set { _trace = SetChild(value, _trace); }
+		}
 
-        protected UnifiedThrow() {}
+		protected UnifiedThrow() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedThrow Create(
-                IUnifiedExpression value = null,
-                IUnifiedExpression data = null,
-                IUnifiedExpression trace = null
-                ) {
-            return new UnifiedThrow {
-                    Value = value,
-                    Data = data,
-                    Trace = trace,
-            };
-        }
-    }
+		public static UnifiedThrow Create(
+				UnifiedExpression value = null,
+				UnifiedExpression data = null,
+				UnifiedExpression trace = null
+				) {
+			return new UnifiedThrow {
+					Value = value,
+					Data = data,
+					Trace = trace,
+			};
+		}
+	}
 }

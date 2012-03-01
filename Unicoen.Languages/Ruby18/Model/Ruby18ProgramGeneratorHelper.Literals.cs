@@ -50,7 +50,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             ExpressionFuncs["Range"] = CreateRange;
         }
 
-        private static IUnifiedExpression CreateRange(XElement node) {
+        private static UnifiedExpression CreateRange(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "Range");
             if (node.Value.Contains("...")) {
@@ -73,7 +73,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             }
         }
 
-        private static IUnifiedExpression CreateHash(XElement node) {
+        private static UnifiedExpression CreateHash(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "hash");
             return UnifiedMapLiteral.Create(
@@ -85,7 +85,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                                             CreateExpresion(t.Item2))));
         }
 
-        private static IUnifiedExpression CreateDot3(XElement node) {
+        private static UnifiedExpression CreateDot3(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dot3");
             return UnifiedRange.Create(
@@ -93,7 +93,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateDot2(XElement node) {
+        private static UnifiedExpression CreateDot2(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dot2");
             return UnifiedRange.CreateNotContainingMax(
@@ -107,13 +107,13 @@ namespace Unicoen.Languages.Ruby18.Model {
             return node.Elements().Select(CreateExpresion).ToArrayLiteral();
         }
 
-        public static IUnifiedExpression CreateNil(XElement node) {
+        public static UnifiedExpression CreateNil(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "nil");
             return null;
         }
 
-        public static IUnifiedExpression CreateLit(XElement node) {
+        public static UnifiedExpression CreateLit(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "lit");
             var child = node.FirstElement();
@@ -124,7 +124,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return CreateExpresion(child);
         }
 
-        public static IUnifiedExpression CreateFloat(XElement node) {
+        public static UnifiedExpression CreateFloat(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "Float");
             return UnifiedFractionLiteral.Create(
@@ -132,7 +132,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     UnifiedFractionLiteralKind.Double);
         }
 
-        public static IUnifiedExpression CreateBignum(XElement node) {
+        public static UnifiedExpression CreateBignum(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "Bignum");
             return
@@ -140,7 +140,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                             LiteralFuzzyParser.ParseBigInteger(node.Value));
         }
 
-        public static IUnifiedExpression CreateFixnum(XElement node) {
+        public static UnifiedExpression CreateFixnum(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "Fixnum");
             return
@@ -166,7 +166,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedStringLiteral.Create(node.Value);
         }
 
-        private static IUnifiedExpression CreateDstr(XElement node) {
+        private static UnifiedExpression CreateDstr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dstr");
             // TODO: Implement
@@ -179,14 +179,14 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedVariableIdentifier.Create(node.Value);
         }
 
-        private static IUnifiedExpression CreateDsym(XElement node) {
+        private static UnifiedExpression CreateDsym(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dsym");
             // TODO: Implement
             return UnifiedVariableIdentifier.Create(node.Value);
         }
 
-        private static IUnifiedExpression CreateDregxOnce(XElement node) {
+        private static UnifiedExpression CreateDregxOnce(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "dregx_once");
             // TODO: Implement correctly
@@ -194,7 +194,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedRegularExpressionLiteral.Create(str);
         }
 
-        private static IUnifiedExpression CreateRegexp(XElement node) {
+        private static UnifiedExpression CreateRegexp(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "Regexp");
             // TODO: Implement correctly

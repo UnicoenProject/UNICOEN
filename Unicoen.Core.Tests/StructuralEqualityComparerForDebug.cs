@@ -33,12 +33,12 @@ namespace Unicoen.Tests {
             if (result) {
                 return true;
             }
-            var x2 = x as IUnifiedElement;
+            var x2 = x as UnifiedElement;
             if (x2 != null) {
                 File.WriteAllText(
                         FixtureUtil.GetOutputPath("model1.txt"), x2.ToString());
             }
-            var y2 = y as IUnifiedElement;
+            var y2 = y as UnifiedElement;
             if (y2 != null) {
                 File.WriteAllText(
                         FixtureUtil.GetOutputPath("model2.txt"), y2.ToString());

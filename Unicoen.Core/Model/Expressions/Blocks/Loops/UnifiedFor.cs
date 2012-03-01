@@ -20,88 +20,84 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   for文を表します。
-    ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>
-    /// </summary>
-    public class UnifiedFor : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _initializer;
-        private IUnifiedExpression _condition;
-        private IUnifiedExpression _step;
-        private UnifiedBlock _body;
-        private UnifiedBlock _falseBody;
+	/// <summary>
+	///   for文を表します。 e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c>
+	/// </summary>
+	public class UnifiedFor : UnifiedExpression {
+		private UnifiedExpression _initializer;
+		private UnifiedExpression _condition;
+		private UnifiedExpression _step;
+		private UnifiedBlock _body;
+		private UnifiedBlock _falseBody;
 
-        /// <summary>
-        ///   初期条件を表します
-        ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c><c>int i = 0</c>
-        /// </summary>
-        public IUnifiedExpression Initializer {
-            get { return _initializer; }
-            set { _initializer = SetChild(value, _initializer); }
-        }
+		/// <summary>
+		///   初期条件を表します e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c> <c>int i = 0</c>
+		/// </summary>
+		public UnifiedExpression Initializer {
+			get { return _initializer; }
+			set { _initializer = SetChild(value, _initializer); }
+		}
 
-        /// <summary>
-        ///   ループの継続の条件式を表します
-        ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i &lt; 10</c>
-        /// </summary>
-        public IUnifiedExpression Condition {
-            get { return _condition; }
-            set { _condition = SetChild(value, _condition); }
-        }
+		/// <summary>
+		///   ループの継続の条件式を表します e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c> の <c>i &lt; 10</c>
+		/// </summary>
+		public UnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
+		}
 
-        /// <summary>
-        ///   ステップを表します
-        ///   e.g. Javaにおける<c>for(int i = 0; i &lt; 10; i++){...}</c>の<c>i++</c>
-        /// </summary>
-        public IUnifiedExpression Step {
-            get { return _step; }
-            set { _step = SetChild(value, _step); }
-        }
+		/// <summary>
+		///   ステップを表します e.g. Javaにおける <c>for(int i = 0; i &lt; 10; i++){...}</c> の <c>i++</c>
+		/// </summary>
+		public UnifiedExpression Step {
+			get { return _step; }
+			set { _step = SetChild(value, _step); }
+		}
 
-        /// <summary>
-        ///   ループ中に実行するブロックを取得もしくは設定します．
-        /// </summary>
-        public UnifiedBlock Body {
-            get { return _body; }
-            set { _body = SetChild(value, _body); }
-        }
+		/// <summary>
+		///   ループ中に実行するブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
-        public UnifiedBlock FalseBody {
-            get { return _falseBody; }
-            set { _falseBody = SetChild(value, _falseBody); }
-        }
+		public UnifiedBlock FalseBody {
+			get { return _falseBody; }
+			set { _falseBody = SetChild(value, _falseBody); }
+		}
 
-        private UnifiedFor() {}
+		private UnifiedFor() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedFor Create(
-                IUnifiedExpression initializer = null,
-                IUnifiedExpression condition = null,
-                IUnifiedExpression step = null,
-                UnifiedBlock body = null) {
-            return new UnifiedFor {
-                    Initializer = initializer,
-                    Condition = condition,
-                    Step = step,
-                    Body = body,
-            };
-        }
-    }
+		public static UnifiedFor Create(
+				UnifiedExpression initializer = null,
+				UnifiedExpression condition = null,
+				UnifiedExpression step = null,
+				UnifiedBlock body = null) {
+			return new UnifiedFor {
+					Initializer = initializer,
+					Condition = condition,
+					Step = step,
+					Body = body,
+			};
+		}
+	}
 }

@@ -17,16 +17,16 @@
 #endregion
 
 namespace Unicoen.Model {
-    public enum UnifiedAnnotationTarget {
-        None = 0,
-        Assembly,
-        Module,
-        Type,
-        Field,
-        Method,
-        Event,
-        Property,
-        Param,
-        Return
-    }
+	public enum UnifiedAnnotationTarget {
+		None = 0,
+		Assembly,
+		Module,
+		Type,
+		Field,
+		Method,
+		Event,
+		Property,
+		Param,
+		Return
+	}
 }

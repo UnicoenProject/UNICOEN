@@ -20,45 +20,43 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   LINQのクエリ式を構成するwhere 句を表します。
-    ///   e.g. C#における<c>where p.X > 2</c>
-    /// </summary>
-    public class UnifiedWhereQuery : UnifiedLinqQuery {
-        private IUnifiedExpression _condition;
+	/// <summary>
+	///   LINQのクエリ式を構成するwhere 句を表します。 e.g. C#における <c>where p.X > 2</c>
+	/// </summary>
+	public class UnifiedWhereQuery : UnifiedLinqQuery {
+		private UnifiedExpression _condition;
 
-        /// <summary>
-        ///   抽出の条件式を取得もしくは設定します．
-        ///   e.g. C#における<c>where p.X > 2</c>
-        /// </summary>
-        public IUnifiedExpression Condition {
-            get { return _condition; }
-            set { _condition = SetChild(value, _condition); }
-        }
+		/// <summary>
+		///   抽出の条件式を取得もしくは設定します． e.g. C#における <c>where p.X > 2</c>
+		/// </summary>
+		public UnifiedExpression Condition {
+			get { return _condition; }
+			set { _condition = SetChild(value, _condition); }
+		}
 
-        protected UnifiedWhereQuery() {}
+		protected UnifiedWhereQuery() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedWhereQuery Create(IUnifiedExpression condition) {
-            return new UnifiedWhereQuery {
-                    Condition = condition,
-            };
-        }
-    }
+		public static UnifiedWhereQuery Create(UnifiedExpression condition) {
+			return new UnifiedWhereQuery {
+					Condition = condition,
+			};
+		}
+	}
 }

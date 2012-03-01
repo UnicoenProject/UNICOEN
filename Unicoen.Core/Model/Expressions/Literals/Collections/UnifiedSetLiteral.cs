@@ -20,30 +20,29 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    public class UnifiedSetLiteral
-            : UnifiedElementCollection<IUnifiedExpression, UnifiedSetLiteral>,
-              IUnifiedExpression {
-        protected UnifiedSetLiteral() {}
+	public class UnifiedSetLiteral
+			: UnifiedExpressionCollectionBase<UnifiedExpression, UnifiedSetLiteral> {
+		protected UnifiedSetLiteral() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        public override UnifiedSetLiteral CreateSelf() {
-            return new UnifiedSetLiteral();
-        }
+		public override UnifiedSetLiteral CreateSelf() {
+			return new UnifiedSetLiteral();
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-              }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+			}
 }

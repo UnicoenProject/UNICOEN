@@ -82,7 +82,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
         // あるオブジェクトをファイルに出力する前に、別のStringWriterで取得しそのString値を返します
         // 例えば、int a, b;のようなコードは、統合コードオブジェクト上ではint a, int bとして保存されるが、
         // 出力の際には元のコードのように出力させるために用いられます
-        protected string GetString(IUnifiedElement element, VisitorArgument arg) {
+        protected string GetString(UnifiedElement element, VisitorArgument arg) {
             var oldWriter = Writer;
             Writer = new StringWriter();
             element.TryAccept(this, arg);

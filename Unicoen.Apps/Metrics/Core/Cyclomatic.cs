@@ -30,14 +30,14 @@ namespace Unicoen.Apps.Metrics.Core {
             get { return 1; }
         }
 
-        protected override IEnumerable<IUnifiedElement>
+        protected override IEnumerable<UnifiedElement>
                 ProtectedGetTargetElements(
-                IUnifiedElement codeObject) {
+                UnifiedElement codeObject) {
             return GetTargetElements(codeObject);
         }
 
-        public static IEnumerable<IUnifiedElement> GetTargetElements(
-                IUnifiedElement codeObject) {
+        public static IEnumerable<UnifiedElement> GetTargetElements(
+                UnifiedElement codeObject) {
             return
                     codeObject.Descendants
                             <UnifiedIf, UnifiedFor, UnifiedWhile, UnifiedDoWhile

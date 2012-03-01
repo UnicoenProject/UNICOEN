@@ -33,7 +33,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             ExpressionFuncs["sclass"] = CreateSclass;
         }
 
-        private static IUnifiedExpression CreateDefs(XElement node) {
+        private static UnifiedExpression CreateDefs(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "defs");
             var owner = CreateExpresion(node.NthElement(0));
@@ -45,7 +45,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedProperty.Create(".", owner, target);
         }
 
-        public static IUnifiedExpression CreateDefn(XElement node) {
+        public static UnifiedExpression CreateDefn(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "defn");
             return UnifiedFunctionDefinition.Create(

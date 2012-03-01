@@ -20,48 +20,44 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   継承関係やデフォルトコンストラクタの存在などの制約を表します。
-    ///   なお、継承関係を表す場合、対象の型の個数は１つです。
-    ///   e.g. Javaにおける継承関係の制約(<c>class C extends P { ... }</c>の<c>extends P</c>部分)
-    ///   e.g. C#におけるデフォルトコンストラクタの制約(<c>where A : new()</c>の<c>: new()</c>部分)
-    /// </summary>
-    public class UnifiedSuperConstrain : UnifiedTypeConstrain {
-        private UnifiedType _type;
+	/// <summary>
+	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。 なお、継承関係を表す場合、対象の型の個数は１つです。 e.g. Javaにおける継承関係の制約( <c>class C extends P { ... }</c> の <c>extends P</c> 部分) e.g. C#におけるデフォルトコンストラクタの制約( <c>where A : new()</c> の <c>: new()</c> 部分)
+	/// </summary>
+	public class UnifiedSuperConstrain : UnifiedTypeConstrain {
+		private UnifiedType _type;
 
-        /// <summary>
-        ///   制約の対象を表します
-        ///   e.g. Javaにおける<c>class C extends P { ... }</c>の<c>P</c>
-        /// </summary>
-        public UnifiedType Type {
-            get { return _type; }
-            set { _type = SetChild(value, _type); }
-        }
+		/// <summary>
+		///   制約の対象を表します e.g. Javaにおける <c>class C extends P { ... }</c> の <c>P</c>
+		/// </summary>
+		public UnifiedType Type {
+			get { return _type; }
+			set { _type = SetChild(value, _type); }
+		}
 
-        protected UnifiedSuperConstrain() {}
+		protected UnifiedSuperConstrain() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedSuperConstrain Create(
-                UnifiedType type) {
-            return new UnifiedSuperConstrain {
-                    Type = type,
-            };
-        }
-    }
+		public static UnifiedSuperConstrain Create(
+				UnifiedType type) {
+			return new UnifiedSuperConstrain {
+					Type = type,
+			};
+		}
+	}
 }

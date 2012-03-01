@@ -30,7 +30,7 @@ namespace Unicoen.Languages.C {
             ProgramGenerator = new CProgramGenerator();
         }
 
-        public static string GenerateCode(IUnifiedElement model) {
+        public static string GenerateCode(UnifiedElement model) {
             return CodeGenerator.Generate(model);
         }
 

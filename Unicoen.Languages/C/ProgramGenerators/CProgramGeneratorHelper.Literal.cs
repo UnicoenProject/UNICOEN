@@ -87,7 +87,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 							node.Value.Substring(1, node.Value.Length - 2));
 		}
 
-		public static IUnifiedExpression CreateFloatingPointLiteral(
+		public static UnifiedExpression CreateFloatingPointLiteral(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "FLOATING_POINT_LITERAL");

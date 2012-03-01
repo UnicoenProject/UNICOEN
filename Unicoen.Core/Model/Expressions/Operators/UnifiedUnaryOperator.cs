@@ -20,42 +20,40 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   単項演算子を表します。
-    ///   e.g. Javaにおける<c>^a</c>の<c>^</c>
-    ///   e.g. Javaにおける<c>b++</c>の<c>++</c>
-    /// </summary>
-    public class UnifiedUnaryOperator : UnifiedElement {
-        public string Sign { get; private set; }
-        public UnifiedUnaryOperatorKind Kind { get; private set; }
+	/// <summary>
+	///   単項演算子を表します。 e.g. Javaにおける <c>^a</c> の <c>^</c> e.g. Javaにおける <c>b++</c> の <c>++</c>
+	/// </summary>
+	public class UnifiedUnaryOperator : UnifiedElement {
+		public string Sign { get; private set; }
+		public UnifiedUnaryOperatorKind Kind { get; private set; }
 
-        private UnifiedUnaryOperator() {}
+		private UnifiedUnaryOperator() {}
 
-        public static UnifiedUnaryOperator Create(
-                string sign,
-                UnifiedUnaryOperatorKind kind) {
-            return new UnifiedUnaryOperator {
-                    Sign = sign,
-                    Kind = kind,
-            };
-        }
+		public static UnifiedUnaryOperator Create(
+				string sign,
+				UnifiedUnaryOperatorKind kind) {
+			return new UnifiedUnaryOperator {
+					Sign = sign,
+					Kind = kind,
+			};
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-    }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+	}
 }

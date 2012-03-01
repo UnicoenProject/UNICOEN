@@ -20,39 +20,37 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   アノテーション（属性）の集合を表します．
-    ///   e.g. Javaにおける<c>@Override @Deprecated void method() { ... }</c>の<c>@Override @Deprecated</c>
-    ///   e.g. C#における<c>[Pure, DebuggerStepThrough] void Method() { ... }</c>の<c>[Pure, DebuggerStepThrough]</c>
-    /// </summary>
-    public class UnifiedAnnotationCollection
-            : UnifiedElementCollection
-                      <UnifiedAnnotation, UnifiedAnnotationCollection> {
-        /// <summary>
-        ///   レシーバーと同じ型のオブジェクトを生成します．
-        /// </summary>
-        /// <returns>生成したオブジェクト</returns>
-        public override UnifiedAnnotationCollection CreateSelf() {
-            return new UnifiedAnnotationCollection();
-        }
+	/// <summary>
+	///   アノテーション（属性）の集合を表します． e.g. Javaにおける <c>@Override @Deprecated void method() { ... }</c> の <c>@Override @Deprecated</c> e.g. C#における <c>[Pure, DebuggerStepThrough] void Method() { ... }</c> の <c>[Pure, DebuggerStepThrough]</c>
+	/// </summary>
+	public class UnifiedAnnotationCollection
+			: UnifiedElementCollectionBase
+			  		<UnifiedAnnotation, UnifiedAnnotationCollection> {
+		/// <summary>
+		///   レシーバーと同じ型のオブジェクトを生成します．
+		/// </summary>
+		/// <returns> 生成したオブジェクト </returns>
+		public override UnifiedAnnotationCollection CreateSelf() {
+			return new UnifiedAnnotationCollection();
+		}
 
-        protected UnifiedAnnotationCollection() {}
+		protected UnifiedAnnotationCollection() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-                      }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+			  		}
 }

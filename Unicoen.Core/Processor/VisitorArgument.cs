@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,37 +19,37 @@
 using System.Diagnostics;
 
 namespace Unicoen.Processor {
-    public class VisitorArgument {
-        [DebuggerStepThrough]
-        public VisitorArgument() {
-            Decoration = new Decoration();
-        }
+	public class VisitorArgument {
+		[DebuggerStepThrough]
+		public VisitorArgument() {
+			Decoration = new Decoration();
+		}
 
-        public int IndentDepth { get; private set; }
-        public Decoration Decoration { get; private set; }
+		public int IndentDepth { get; private set; }
+		public Decoration Decoration { get; private set; }
 
-        [DebuggerStepThrough]
-        public VisitorArgument Set(Decoration decoration) {
-            return new VisitorArgument {
-                    Decoration = decoration,
-                    IndentDepth = IndentDepth,
-            };
-        }
+		[DebuggerStepThrough]
+		public VisitorArgument Set(Decoration decoration) {
+			return new VisitorArgument {
+					Decoration = decoration,
+					IndentDepth = IndentDepth,
+			};
+		}
 
-        [DebuggerStepThrough]
-        public VisitorArgument IncrementDepth() {
-            return new VisitorArgument {
-                    Decoration = Decoration,
-                    IndentDepth = IndentDepth + 1,
-            };
-        }
+		[DebuggerStepThrough]
+		public VisitorArgument IncrementDepth() {
+			return new VisitorArgument {
+					Decoration = Decoration,
+					IndentDepth = IndentDepth + 1,
+			};
+		}
 
-        [DebuggerStepThrough]
-        public VisitorArgument DecrementDepth() {
-            return new VisitorArgument {
-                    Decoration = Decoration,
-                    IndentDepth = IndentDepth - 1,
-            };
-        }
-    }
+		[DebuggerStepThrough]
+		public VisitorArgument DecrementDepth() {
+			return new VisitorArgument {
+					Decoration = Decoration,
+					IndentDepth = IndentDepth - 1,
+			};
+		}
+	}
 }

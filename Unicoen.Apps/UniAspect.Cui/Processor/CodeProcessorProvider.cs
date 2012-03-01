@@ -57,7 +57,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 
         // 指定されたポイントカット(名)に対応するbeforeの織り込み処理を与えられたmodelに適用します
         public static void WeavingBefore(
-                string name, IUnifiedElement model, string targetName,
+                string name, UnifiedElement model, string targetName,
                 UnifiedBlock advice) {
             var aspect = GetProcessorFromName(name);
             aspect.Before(model, targetName, advice);
@@ -65,14 +65,14 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor {
 
         // 指定されたポイントカット(名)に対応するafterの織り込み処理を与えられたmodelに適用します
         public static void WeavingAfter(
-                string name, IUnifiedElement model, string targetName,
+                string name, UnifiedElement model, string targetName,
                 UnifiedBlock advice) {
             var aspect = GetProcessorFromName(name);
             aspect.After(model, targetName, advice);
         }
 
         // 指定されたポイントカット(名)に対応するaroundの織り込み処理を与えられたmodelに適用します
-        public static void WeavingAround(string name, IUnifiedElement model) {
+        public static void WeavingAround(string name, UnifiedElement model) {
             var aspect = GetProcessorFromName(name);
             aspect.Around(model);
         }

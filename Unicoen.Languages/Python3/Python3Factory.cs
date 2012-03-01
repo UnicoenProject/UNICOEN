@@ -29,7 +29,7 @@ namespace Unicoen.Languages.Python3 {
             ProgramGenerator = new Python3ProgramGenerator();
         }
 
-        public static string GenerateCode(IUnifiedElement model) {
+        public static string GenerateCode(UnifiedElement model) {
             return CodeGenerator.Generate(model);
         }
 

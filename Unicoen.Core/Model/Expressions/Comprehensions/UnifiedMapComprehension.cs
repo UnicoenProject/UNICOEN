@@ -20,56 +20,56 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   辞書内包表記を表します．
-    /// </summary>
-    public class UnifiedMapComprehension : UnifiedElement, IUnifiedExpression {
-        private UnifiedKeyValue _element;
+	/// <summary>
+	///   辞書内包表記を表します．
+	/// </summary>
+	public class UnifiedMapComprehension : UnifiedExpression {
+		private UnifiedKeyValue _element;
 
-        /// <summary>
-        ///   辞書内包表記によって生成される要素部分の式を表します．
-        /// </summary>
-        public UnifiedKeyValue Element {
-            get { return _element; }
-            set { _element = SetChild(value, _element); }
-        }
+		/// <summary>
+		///   辞書内包表記によって生成される要素部分の式を表します．
+		/// </summary>
+		public UnifiedKeyValue Element {
+			get { return _element; }
+			set { _element = SetChild(value, _element); }
+		}
 
-        private UnifiedExpressionCollection _generator;
+		private UnifiedExpressionCollection _generator;
 
-        /// <summary>
-        ///   辞書内包表記の集合を生成する式を表します．
-        /// </summary>
-        public UnifiedExpressionCollection Generator {
-            get { return _generator; }
-            set { _generator = SetChild(value, _generator); }
-        }
+		/// <summary>
+		///   辞書内包表記の集合を生成する式を表します．
+		/// </summary>
+		public UnifiedExpressionCollection Generator {
+			get { return _generator; }
+			set { _generator = SetChild(value, _generator); }
+		}
 
-        private UnifiedMapComprehension() {}
+		private UnifiedMapComprehension() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedMapComprehension Create(
-                UnifiedKeyValue element = null,
-                UnifiedExpressionCollection generator = null) {
-            return new UnifiedMapComprehension {
-                    Element = element,
-                    Generator = generator,
-            };
-        }
-    }
+		public static UnifiedMapComprehension Create(
+				UnifiedKeyValue element = null,
+				UnifiedExpressionCollection generator = null) {
+			return new UnifiedMapComprehension {
+					Element = element,
+					Generator = generator,
+			};
+		}
+	}
 }

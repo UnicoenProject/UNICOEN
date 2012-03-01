@@ -20,36 +20,36 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   リスト内包表記式やジェネレータ式などを表します．
-    /// </summary>
-    public class UnifiedListComprehension : UnifiedComprehensionBase {
-        private UnifiedListComprehension() {}
+	/// <summary>
+	///   リスト内包表記式やジェネレータ式などを表します．
+	/// </summary>
+	public class UnifiedListComprehension : UnifiedComprehensionBase {
+		private UnifiedListComprehension() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedListComprehension Create(
-                IUnifiedExpression element,
-                UnifiedExpressionCollection generator) {
-            return new UnifiedListComprehension {
-                    Element = element,
-                    Generator = generator,
-            };
-        }
-    }
+		public static UnifiedListComprehension Create(
+				UnifiedExpression element,
+				UnifiedExpressionCollection generator) {
+			return new UnifiedListComprehension {
+					Element = element,
+					Generator = generator,
+			};
+		}
+	}
 }

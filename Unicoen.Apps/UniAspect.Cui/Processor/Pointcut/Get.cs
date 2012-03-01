@@ -36,7 +36,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         /// <param name="regex"> 対象変数を指定する正規表現 </param>
         /// <param name="advice"> 挿入するコード断片 </param>
         public static void InsertAtBeforeGet(
-                IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+                UnifiedElement root, Regex regex, UnifiedBlock advice) {
             //a = b;
             //TODO とりえあずAssignのみ +=,-=などについてはおいおい
             var assignmentExpressions =
@@ -98,7 +98,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         /// <param name="regex"> 対象変数を指定する正規表現 </param>
         /// <param name="advice"> 挿入するコード断片 </param>
         public static void InsertAtAfterGet(
-                IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+                UnifiedElement root, Regex regex, UnifiedBlock advice) {
             //a = b;のb
             //TODO とりえあずAssignのみ +=,-=などについてはおいおい
             var assignmentExpressions =
@@ -154,26 +154,26 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         }
 
         public static void InsertAtBeforeGetByName(
-                IUnifiedElement root, string name, UnifiedBlock advice) {
+                UnifiedElement root, string name, UnifiedBlock advice) {
             InsertAtBeforeGet(root, new Regex(name), advice);
         }
 
         public static void InsertAtAfterGetByName(
-                IUnifiedElement root, string name, UnifiedBlock advice) {
+                UnifiedElement root, string name, UnifiedBlock advice) {
             InsertAtAfterGet(root, new Regex(name), advice);
         }
 
         public override void Before(
-                IUnifiedElement model, string targetName, UnifiedBlock advice) {
+                UnifiedElement model, string targetName, UnifiedBlock advice) {
             InsertAtBeforeGetByName(model, targetName, advice);
         }
 
         public override void After(
-                IUnifiedElement model, string targetName, UnifiedBlock advice) {
+                UnifiedElement model, string targetName, UnifiedBlock advice) {
             InsertAtAfterGetByName(model, targetName, advice);
         }
 
-        public override void Around(IUnifiedElement model) {
+        public override void Around(UnifiedElement model) {
             throw new NotImplementedException();
         }
     }

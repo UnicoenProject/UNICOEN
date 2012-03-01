@@ -31,7 +31,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         }
 
         public static void InsertAtBeforeSet(
-                IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+                UnifiedElement root, Regex regex, UnifiedBlock advice) {
             //a = b;のa
             //TODO とりえあずAssignのみ +=,-=などについてはおいおい
             var assignmentExpressions =
@@ -91,7 +91,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         }
 
         public static void InsertAtAfterSet(
-                IUnifiedElement root, Regex regex, UnifiedBlock advice) {
+                UnifiedElement root, Regex regex, UnifiedBlock advice) {
             //a = b;のa
             //TODO とりえあずAssignのみ +=,-=などについてはおいおい
             var assignmentExpressions =
@@ -151,26 +151,26 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         }
 
         public static void InsertAtBeforeSetByName(
-                IUnifiedElement root, string name, UnifiedBlock advice) {
+                UnifiedElement root, string name, UnifiedBlock advice) {
             InsertAtBeforeSet(root, new Regex(name), advice);
         }
 
         public static void InsertAtAfterSetByName(
-                IUnifiedElement root, string name, UnifiedBlock advice) {
+                UnifiedElement root, string name, UnifiedBlock advice) {
             InsertAtAfterSet(root, new Regex(name), advice);
         }
 
         public override void Before(
-                IUnifiedElement model, string targetName, UnifiedBlock advice) {
+                UnifiedElement model, string targetName, UnifiedBlock advice) {
             InsertAtBeforeSetByName(model, targetName, advice);
         }
 
         public override void After(
-                IUnifiedElement model, string targetName, UnifiedBlock advice) {
+                UnifiedElement model, string targetName, UnifiedBlock advice) {
             InsertAtAfterSetByName(model, targetName, advice);
         }
 
-        public override void Around(IUnifiedElement model) {
+        public override void Around(UnifiedElement model) {
             throw new NotImplementedException();
         }
     }

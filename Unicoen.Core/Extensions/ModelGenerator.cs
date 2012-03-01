@@ -1,6 +1,6 @@
 #region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,20 +16,29 @@
 
 #endregion
 
+using System.Xml.Linq;
+using Code2Xml.Core.Position;
+
 namespace Unicoen.Model {
-    public static class ModelGenerator {
-        /// <summary>
-        ///   深いコピーを取得します．
-        /// </summary>
-        /// <typeparam name="T"> </typeparam>
-        /// <param name="self"> </param>
-        /// <returns> </returns>
-        public static T DeepCopy<T>(this T self)
-                where T : class, IUnifiedElement {
-            if (self == null) {
-                return null;
-            }
-            return (T)self.PrivateDeepCopy();
-        }
-    }
+	public static class ModelGenerator {
+		/// <summary>
+		///   深いコピーを取得します．
+		/// </summary>
+		/// <typeparam name="T"> </typeparam>
+		/// <param name="self"> </param>
+		/// <returns> </returns>
+		public static T DeepCopy<T>(this T self)
+				where T : UnifiedElement, ICopiable {
+			if (self == null) {
+				return null;
+			}
+			return (T)self.PrivateDeepCopy();
+		}
+
+		public static T SetPosition<T>(this T element, XElement e)
+				where T : UnifiedElement {
+			element.Position = CodePositionAnalyzer.Create(e);
+			return element;
+		}
+	}
 }

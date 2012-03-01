@@ -17,8 +17,8 @@
 #endregion
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   リテラルを表します。
-    /// </summary>
-    public abstract class UnifiedLiteral : UnifiedElement, IUnifiedExpression {}
+	/// <summary>
+	///   リテラルを表します。
+	/// </summary>
+	public abstract class UnifiedLiteral : UnifiedExpression {}
 }

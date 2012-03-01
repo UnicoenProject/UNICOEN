@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    public static class ModelExtensions {
-        /// <summary>
-        ///   指定しオブジェクトのプロパティを再帰的に比較してオブジェクト同士の等価性を判断します．
-        /// </summary>
-        /// <param name="element"> </param>
-        /// <param name="that"> </param>
-        /// <returns> </returns>
-        public static bool StructuralEquals(
-                this IUnifiedElement element, IUnifiedElement that) {
-            return StructuralEqualityComparer.StructuralEquals(element, that);
-        }
-    }
+	public static class ModelExtensions {
+		/// <summary>
+		///   指定しオブジェクトのプロパティを再帰的に比較してオブジェクト同士の等価性を判断します．
+		/// </summary>
+		/// <param name="element"> </param>
+		/// <param name="that"> </param>
+		/// <returns> </returns>
+		public static bool StructuralEquals(
+				this UnifiedElement element, UnifiedElement that) {
+			return StructuralEqualityComparer.StructuralEquals(element, that);
+		}
+	}
 }

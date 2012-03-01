@@ -27,7 +27,7 @@ using Unicoen.Model;
 namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CProgramGeneratorHelper {
 		// Operator
-		public static IUnifiedElement CreateUnaryOperator(XElement node) {
+		public static UnifiedElement CreateUnaryOperator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "unary_operator");
 			/*

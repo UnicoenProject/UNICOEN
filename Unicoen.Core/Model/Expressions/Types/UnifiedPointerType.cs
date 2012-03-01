@@ -20,29 +20,29 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   Cにおける<c>int** a;</c>の<c>*</c>一個分
-    /// </summary>
-    public class UnifiedPointerType : UnifiedWrapType {
-        protected internal UnifiedPointerType() {}
+	/// <summary>
+	///   Cにおける <c>int** a;</c> の <c>*</c> 一個分
+	/// </summary>
+	public class UnifiedPointerType : UnifiedWrapType {
+		protected internal UnifiedPointerType() {}
 
-        // UnifiedType.WrapPointer(); として作成
+		// UnifiedType.WrapPointer(); として作成
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-    }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+	}
 }

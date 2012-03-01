@@ -20,34 +20,34 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   識別子を表します。
-    /// </summary>
-    public class UnifiedSuperIdentifier : UnifiedIdentifier {
-        protected UnifiedSuperIdentifier() {}
+	/// <summary>
+	///   識別子を表します。
+	/// </summary>
+	public class UnifiedSuperIdentifier : UnifiedIdentifier {
+		protected UnifiedSuperIdentifier() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedSuperIdentifier Create(string name) {
-            return new UnifiedSuperIdentifier {
-                    Name = name,
-            };
-        }
-    }
+		public static UnifiedSuperIdentifier Create(string name) {
+			return new UnifiedSuperIdentifier {
+					Name = name,
+			};
+		}
+	}
 }

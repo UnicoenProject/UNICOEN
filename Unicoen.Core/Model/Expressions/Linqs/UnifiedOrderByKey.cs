@@ -20,53 +20,50 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   LINQのクエリ式を構成するorderby句で指定するキーを表します。
-    ///   e.g. C#における<c>orderby p.X descending</c>の<c>p.X descending</c>
-    /// </summary>
-    public class UnifiedOrderByKey : UnifiedElement {
-        private IUnifiedExpression _expression;
+	/// <summary>
+	///   LINQのクエリ式を構成するorderby句で指定するキーを表します。 e.g. C#における <c>orderby p.X descending</c> の <c>p.X descending</c>
+	/// </summary>
+	public class UnifiedOrderByKey : UnifiedElement {
+		private UnifiedExpression _expression;
 
-        /// <summary>
-        ///   ソートを行うキーを取得もしくは設定します．
-        ///   e.g. C#における<c>orderby p.X descending</c>の<c>p.X</c>
-        /// </summary>
-        public IUnifiedExpression Expression {
-            get { return _expression; }
-            set { _expression = SetChild(value, _expression); }
-        }
+		/// <summary>
+		///   ソートを行うキーを取得もしくは設定します． e.g. C#における <c>orderby p.X descending</c> の <c>p.X</c>
+		/// </summary>
+		public UnifiedExpression Expression {
+			get { return _expression; }
+			set { _expression = SetChild(value, _expression); }
+		}
 
-        /// <summary>
-        ///   昇順でソートするかどうかを取得もしくは設定します．
-        ///   e.g. C#における<c>orderby p.X descending</c>の<c>descending</c>
-        /// </summary>
-        public bool Ascending { get; set; }
+		/// <summary>
+		///   昇順でソートするかどうかを取得もしくは設定します． e.g. C#における <c>orderby p.X descending</c> の <c>descending</c>
+		/// </summary>
+		public bool Ascending { get; set; }
 
-        protected UnifiedOrderByKey() {}
+		protected UnifiedOrderByKey() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedOrderByKey Create(
-                IUnifiedExpression expression, bool ascending) {
-            return new UnifiedOrderByKey {
-                    Expression = expression,
-                    Ascending = ascending,
-            };
-        }
-    }
+		public static UnifiedOrderByKey Create(
+				UnifiedExpression expression, bool ascending) {
+			return new UnifiedOrderByKey {
+					Expression = expression,
+					Ascending = ascending,
+			};
+		}
+	}
 }

@@ -31,7 +31,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         /// <param name="members"> 挿入するメンバーのリスト </param>
         public static void AddIntertypeDeclaration(
                 UnifiedProgram program, string name,
-                List<IUnifiedExpression> members) {
+                List<UnifiedExpression> members) {
             //クラスのリストを取得(Java, C#向け)
             var classes = program.Descendants<UnifiedClassDefinition>();
             if (classes.Count() > 0) {

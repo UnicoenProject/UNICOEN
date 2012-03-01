@@ -239,9 +239,9 @@ namespace Unicoen.Languages.Tests {
 			}
 		}
 
-		private static IEnumerable<IUnifiedElement> GetProperties(
-				IUnifiedElement element) {
-			var elements = element as IEnumerable<IUnifiedElement>;
+		private static IEnumerable<UnifiedElement> GetProperties(
+				UnifiedElement element) {
+			var elements = element as IEnumerable<UnifiedElement>;
 			if (elements != null) {
 				foreach (var e in elements) {
 					yield return e;
@@ -252,13 +252,13 @@ namespace Unicoen.Languages.Tests {
 					.Where(prop => prop.GetIndexParameters().Length == 0)
 					.Where(
 							prop =>
-							typeof(IUnifiedElement).IsAssignableFrom(
+							typeof(UnifiedElement).IsAssignableFrom(
 									prop.PropertyType));
 			if (element is UnifiedWrapType) {
 				props = props.Where(prop => prop.Name != "BasicTypeName");
 			}
 			foreach (var prop in props) {
-				yield return (IUnifiedElement)prop.GetValue(element, null);
+				yield return (UnifiedElement)prop.GetValue(element, null);
 			}
 		}
 
@@ -312,7 +312,7 @@ namespace Unicoen.Languages.Tests {
 		/// <param name="codeObject"> 検査対象のモデル </param>
 		/// <param name="message"> アサーションに違反した際のエラーメッセージ </param>
 		private static void AssertParentProperty(
-				IUnifiedElement codeObject, string message) {
+				UnifiedElement codeObject, string message) {
 			foreach (var element in codeObject.Elements()) {
 				if (element != null) {
 					Assert.That(element.Parent, Is.SameAs(codeObject), message);

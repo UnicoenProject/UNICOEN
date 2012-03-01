@@ -20,69 +20,65 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   LINQのクエリ式を構成するgroup by句を表します。
-    ///   e.g. C#における<c>group p.W in p.X into g</c>
-    /// </summary>
-    public class UnifiedGroupByQuery : UnifiedLinqQuery {
-        private IUnifiedExpression _element;
-        private IUnifiedExpression _key;
-        private UnifiedVariableIdentifier _receiver;
+	/// <summary>
+	///   LINQのクエリ式を構成するgroup by句を表します。 e.g. C#における <c>group p.W in p.X into g</c>
+	/// </summary>
+	public class UnifiedGroupByQuery : UnifiedLinqQuery {
+		private UnifiedExpression _element;
+		private UnifiedExpression _key;
+		private UnifiedVariableIdentifier _receiver;
 
-        /// <summary>
-        ///   グループ化した各要素となる式を取得もしくは設定します．
-        ///   e.g. C#における<c>group p.W in p.X into g</c>の<c>p.W</c>
-        /// </summary>
-        public IUnifiedExpression Element {
-            get { return _element; }
-            set { _element = SetChild(value, _element); }
-        }
+		/// <summary>
+		///   グループ化した各要素となる式を取得もしくは設定します． e.g. C#における <c>group p.W in p.X into g</c> の <c>p.W</c>
+		/// </summary>
+		public UnifiedExpression Element {
+			get { return _element; }
+			set { _element = SetChild(value, _element); }
+		}
 
-        /// <summary>
-        ///   グループ化する際のキーとなる式を取得もしくは設定します．
-        ///   e.g. C#における<c>group p.W in p.X into g</c>の<c>p.X</c>
-        /// </summary>
-        public IUnifiedExpression Key {
-            get { return _key; }
-            set { _key = SetChild(value, _key); }
-        }
+		/// <summary>
+		///   グループ化する際のキーとなる式を取得もしくは設定します． e.g. C#における <c>group p.W in p.X into g</c> の <c>p.X</c>
+		/// </summary>
+		public UnifiedExpression Key {
+			get { return _key; }
+			set { _key = SetChild(value, _key); }
+		}
 
-        /// <summary>
-        ///   クエリを継続するために要素を受け取る変数を取得もしくは設定します．
-        ///   e.g. C#における<c>group p.W in p.X into g</c>の<c>g</c>
-        /// </summary>
-        public UnifiedVariableIdentifier Receiver {
-            get { return _receiver; }
-            set { _receiver = SetChild(value, _receiver); }
-        }
+		/// <summary>
+		///   クエリを継続するために要素を受け取る変数を取得もしくは設定します． e.g. C#における <c>group p.W in p.X into g</c> の <c>g</c>
+		/// </summary>
+		public UnifiedVariableIdentifier Receiver {
+			get { return _receiver; }
+			set { _receiver = SetChild(value, _receiver); }
+		}
 
-        protected UnifiedGroupByQuery() {}
+		protected UnifiedGroupByQuery() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedGroupByQuery Create(
-                IUnifiedExpression element, IUnifiedExpression key,
-                UnifiedVariableIdentifier receiver = null) {
-            return new UnifiedGroupByQuery {
-                    Element = element,
-                    Key = key,
-                    Receiver = receiver
-            };
-        }
-    }
+		public static UnifiedGroupByQuery Create(
+				UnifiedExpression element, UnifiedExpression key,
+				UnifiedVariableIdentifier receiver = null) {
+			return new UnifiedGroupByQuery {
+					Element = element,
+					Key = key,
+					Receiver = receiver
+			};
+		}
+	}
 }

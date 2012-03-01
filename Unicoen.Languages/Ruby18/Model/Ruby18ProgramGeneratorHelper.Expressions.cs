@@ -73,20 +73,20 @@ namespace Unicoen.Languages.Ruby18.Model {
             ExpressionFuncs["nth_ref"] = CreateNthRef;
         }
 
-        public static IUnifiedExpression CreateExpresion(XElement node) {
+        public static UnifiedExpression CreateExpresion(XElement node) {
             //if (!ExpressionFuncs.ContainsKey(node.Name()))
             //    return null;
             return ExpressionFuncs[node.Name()](node);
         }
 
-        private static IUnifiedExpression CreateNthRef(XElement node) {
+        private static UnifiedExpression CreateNthRef(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "nth_ref");
             // TODO: 正規表現オブジェクトのパターンにマッチした文字列の処理
             return UnifiedIdentifier.CreateVariable("$" + node.Value);
         }
 
-        private static IUnifiedExpression CreateBlockPass(XElement node) {
+        private static UnifiedExpression CreateBlockPass(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "block_pass");
             return UnifiedUnaryExpression.Create(
@@ -95,7 +95,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                             "&", UnifiedUnaryOperatorKind.BlockPass));
         }
 
-        private static IUnifiedExpression CreateSplat(XElement node) {
+        private static UnifiedExpression CreateSplat(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "splat");
             return UnifiedUnaryExpression.Create(
@@ -104,7 +104,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                             "*", UnifiedUnaryOperatorKind.Expand));
         }
 
-        private static IUnifiedExpression CreateSuper(XElement node) {
+        private static UnifiedExpression CreateSuper(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "super");
             // 引数を省略するとコンストラクタと同じ引数を渡す
@@ -117,7 +117,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     );
         }
 
-        private static IUnifiedExpression CreateZsuper(XElement node) {
+        private static UnifiedExpression CreateZsuper(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "zsuper");
             // 引数を省略するとコンストラクタと同じ引数を渡す
@@ -125,14 +125,14 @@ namespace Unicoen.Languages.Ruby18.Model {
                     UnifiedSuperIdentifier.Create("super"));
         }
 
-        private static IUnifiedExpression CreateColon3(XElement node) {
+        private static UnifiedExpression CreateColon3(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "colon3");
             return UnifiedProperty.Create(
                     "::", null, CreateExpresion(node.FirstElement()));
         }
 
-        private static IUnifiedExpression CreateOpAsgn2(XElement node) {
+        private static UnifiedExpression CreateOpAsgn2(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "op_asgn2");
             var propName = node.NthElement(1).Value;
@@ -147,7 +147,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateOpAsgn1(XElement node) {
+        private static UnifiedExpression CreateOpAsgn1(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "op_asgn1");
             var expression = UnifiedIndexer.Create(
@@ -160,13 +160,13 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateToAry(XElement node) {
+        private static UnifiedExpression CreateToAry(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "to_ary");
             return CreateExpresion(node.FirstElement());
         }
 
-        private static IUnifiedExpression CreateAttrasgn(XElement node) {
+        private static UnifiedExpression CreateAttrasgn(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "attrasgn");
             var left = CreateExpresion(node.FirstElement());
@@ -175,7 +175,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             var right = args[args.Count - 1].Value;
             args.RemoveAt(args.Count - 1);
             right.RemoveSelf();
-            IUnifiedExpression expression;
+            UnifiedExpression expression;
             if (name.Value == "[]=") {
                 expression = UnifiedIndexer.Create(left, args);
             } else {
@@ -191,7 +191,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     right);
         }
 
-        public static IUnifiedExpression CreateSmartExpresion(XElement node) {
+        public static UnifiedExpression CreateSmartExpresion(XElement node) {
             if (node == null || node.Name() == "nil") {
                 return null;
             }
@@ -210,7 +210,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return CreateSmartBlock(node.FirstElementOrDefault());
         }
 
-        public static IUnifiedExpression CreateVar(XElement node) {
+        public static UnifiedExpression CreateVar(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(
                     node.Name() == "lvar" || node.Name() == "ivar"
@@ -255,7 +255,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     .ToBlock();
         }
 
-        public static IUnifiedExpression CreateAlias(XElement node) {
+        public static UnifiedExpression CreateAlias(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "alias");
             return UnifiedAlias.Create(
@@ -263,21 +263,21 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateDefined(XElement node) {
+        private static UnifiedExpression CreateDefined(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "defined");
             return UnifiedDefined.Create(
                     CreateExpresion(node.FirstElement()));
         }
 
-        private static IUnifiedExpression CreateUndef(XElement node) {
+        private static UnifiedExpression CreateUndef(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "undef");
             return UnifiedDelete.Create(
                     CreateExpresion(node.FirstElement()));
         }
 
-        private static IUnifiedExpression CreateColon2(XElement node) {
+        private static UnifiedExpression CreateColon2(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "colon2");
             return UnifiedProperty.Create(
@@ -286,7 +286,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateAnd(XElement node) {
+        private static UnifiedExpression CreateAnd(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "and");
             // 優先順位の違いはASTの深さ（&& / and）
@@ -297,7 +297,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateOr(XElement node) {
+        private static UnifiedExpression CreateOr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "or");
             // 優先順位の違いはASTの深さ（|| / or）
@@ -308,7 +308,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateNot(XElement node) {
+        private static UnifiedExpression CreateNot(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "not");
             return UnifiedUnaryExpression.Create(
@@ -317,7 +317,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                             "!", UnifiedUnaryOperatorKind.Not));
         }
 
-        private static IUnifiedExpression CreateOpAsgnAnd(XElement node) {
+        private static UnifiedExpression CreateOpAsgnAnd(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "op_asgn_and");
             // 優先順位の違いはASTの深さ（&& / and）
@@ -328,7 +328,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateOpAsgnOr(XElement node) {
+        private static UnifiedExpression CreateOpAsgnOr(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "op_asgn_or");
             // 優先順位の違いはASTの深さ（|| / or）
@@ -339,7 +339,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateMatch3(XElement node) {
+        private static UnifiedExpression CreateMatch3(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "match3");
             return UnifiedBinaryExpression.Create(

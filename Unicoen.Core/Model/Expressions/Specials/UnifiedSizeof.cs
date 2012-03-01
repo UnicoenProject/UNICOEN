@@ -20,45 +20,43 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   Sizeof式を表します。
-    ///   e.g. Javaにおける<c>(int)a</c>
-    /// </summary>
-    public class UnifiedSizeof : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _value;
+	/// <summary>
+	///   Sizeof式を表します。 e.g. Javaにおける <c>(int)a</c>
+	/// </summary>
+	public class UnifiedSizeof : UnifiedExpression {
+		private UnifiedExpression _value;
 
-        /// <summary>
-        ///   キャスト対象の式を表します
-        ///   e.g. Javaにおける<c>(int)a</c>の<c>a</c>
-        /// </summary>
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		/// <summary>
+		///   キャスト対象の式を表します e.g. Javaにおける <c>(int)a</c> の <c>a</c>
+		/// </summary>
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        protected UnifiedSizeof() {}
+		protected UnifiedSizeof() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedSizeof Create(IUnifiedExpression expression) {
-            return new UnifiedSizeof {
-                    Value = expression
-            };
-        }
-    }
+		public static UnifiedSizeof Create(UnifiedExpression expression) {
+			return new UnifiedSizeof {
+					Value = expression
+			};
+		}
+	}
 }

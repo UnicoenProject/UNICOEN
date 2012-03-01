@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,17 +17,17 @@
 #endregion
 
 namespace Unicoen.Model {
-    public static class SafeModelSweeper {
-        /// <summary>
-        ///   レシーバーがnullでも動作するParentプロパティです．
-        /// </summary>
-        /// <param name="element"> </param>
-        /// <returns> </returns>
-        public static IUnifiedElement SafeParent(this IUnifiedElement element) {
-            if (element == null) {
-                return null;
-            }
-            return element.Parent;
-        }
-    }
+	public static class SafeModelSweeper {
+		/// <summary>
+		///   レシーバーがnullでも動作するParentプロパティです．
+		/// </summary>
+		/// <param name="element"> </param>
+		/// <returns> </returns>
+		public static UnifiedElement SafeParent(this UnifiedElement element) {
+			if (element == null) {
+				return null;
+			}
+			return element.Parent;
+		}
+	}
 }

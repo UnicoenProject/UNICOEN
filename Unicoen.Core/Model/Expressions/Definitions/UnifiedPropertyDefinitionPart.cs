@@ -20,69 +20,67 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    public class UnifiedPropertyDefinitionPart : UnifiedElement {
-        #region fields & properties
+	public class UnifiedPropertyDefinitionPart : UnifiedElement {
+		#region fields & properties
 
-        private UnifiedAnnotationCollection _annotations;
-        private UnifiedModifierCollection _modifiers;
-        private UnifiedBlock _body;
+		private UnifiedAnnotationCollection _annotations;
+		private UnifiedModifierCollection _modifiers;
+		private UnifiedBlock _body;
 
-        /// <summary>
-        ///   付与されているアノテーションを取得もしくは設定します．
-        ///   e.g. C#における<c>public int Value { [Pure] get; set; }</c>の<c>[Pure]</c>
-        /// </summary>
-        public UnifiedAnnotationCollection Annotations {
-            get { return _annotations; }
-            set { _annotations = SetChild(value, _annotations); }
-        }
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します． e.g. C#における <c>public int Value { [Pure] get; set; }</c> の <c>[Pure]</c>
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetChild(value, _annotations); }
+		}
 
-        /// <summary>
-        ///   付与されている修飾子の集合を取得もしくは設定します．
-        ///   e.g. C#における<c>public int Value { private get; set; }</c>の<c>private</c>
-        /// </summary>
-        public UnifiedModifierCollection Modifiers {
-            get { return _modifiers; }
-            set { _modifiers = SetChild(value, _modifiers); }
-        }
+		/// <summary>
+		///   付与されている修飾子の集合を取得もしくは設定します． e.g. C#における <c>public int Value { private get; set; }</c> の <c>private</c>
+		/// </summary>
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetChild(value, _modifiers); }
+		}
 
-        /// <summary>
-        ///   ボディとなるブロックを取得もしくは設定します．
-        /// </summary>
-        public UnifiedBlock Body {
-            get { return _body; }
-            set { _body = SetChild(value, _body); }
-        }
+		/// <summary>
+		///   ボディとなるブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
-        #endregion
+		#endregion
 
-        protected UnifiedPropertyDefinitionPart() {}
+		protected UnifiedPropertyDefinitionPart() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedPropertyDefinitionPart Create(
-                UnifiedAnnotationCollection annotations = null,
-                UnifiedModifierCollection modifiers = null,
-                UnifiedBlock body = null) {
-            return new UnifiedPropertyDefinitionPart {
-                    Annotations = annotations,
-                    Modifiers = modifiers,
-                    Body = body,
-            };
-        }
-    }
+		public static UnifiedPropertyDefinitionPart Create(
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedBlock body = null) {
+			return new UnifiedPropertyDefinitionPart {
+					Annotations = annotations,
+					Modifiers = modifiers,
+					Body = body,
+			};
+		}
+	}
 }

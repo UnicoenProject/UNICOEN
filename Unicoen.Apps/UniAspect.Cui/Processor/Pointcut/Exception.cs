@@ -29,7 +29,7 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         }
 
         public override void Before(
-                IUnifiedElement model, string targetName, UnifiedBlock advice) {
+                UnifiedElement model, string targetName, UnifiedBlock advice) {
             var exceptions = model.Descendants<UnifiedCatch>();
             foreach (var e in exceptions) {
                 var regex = new Regex("^" + targetName + "$");
@@ -46,11 +46,11 @@ namespace Unicoen.Apps.UniAspect.Cui.Processor.Pointcut {
         }
 
         public override void After(
-                IUnifiedElement model, string targetName, UnifiedBlock advice) {
+                UnifiedElement model, string targetName, UnifiedBlock advice) {
             throw new NotImplementedException();
         }
 
-        public override void Around(IUnifiedElement model) {
+        public override void Around(UnifiedElement model) {
             throw new NotImplementedException();
         }
     }

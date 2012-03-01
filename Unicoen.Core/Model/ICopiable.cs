@@ -1,4 +1,4 @@
-ï»¿#region License
+#region License
 
 // Copyright (C) 2011-2012 The Unicoen Project
 // 
@@ -17,8 +17,11 @@
 #endregion
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   å¼ã‚’è¡¨ã—ã¾ã™ã€‚
-    /// </summary>
-    public interface IUnifiedExpression : IUnifiedElement {}
+	public interface ICopiable {
+		/// <summary>
+		///   [‚¢ƒRƒs[‚ğæ“¾‚µ‚Ü‚·B
+		/// </summary>
+		/// <returns> [‚¢ƒRƒs[ </returns>
+		UnifiedElement PrivateDeepCopy();
+	}
 }

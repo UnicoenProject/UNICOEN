@@ -28,16 +28,16 @@ namespace Unicoen.Languages.Python3 {
         }
 
         public override void Generate(
-                IUnifiedElement codeObject, TextWriter writer, string indentSign) {
+                UnifiedElement codeObject, TextWriter writer, string indentSign) {
             throw new NotImplementedException();
         }
 
         public override void Generate(
-                IUnifiedElement codeObject, TextWriter writer) {
+                UnifiedElement codeObject, TextWriter writer) {
             throw new NotImplementedException();
         }
 
-        public string Generate(IUnifiedElement model) {
+        public string Generate(UnifiedElement model) {
             throw new NotImplementedException();
         }
     }

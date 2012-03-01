@@ -128,6 +128,7 @@
     <Compile Include="CodeGenerators\JavaCodeGenerator.cs" />
     <Compile Include="CodeGenerators\JavaCodeFactoryVisitor.cs" />
     <Compile Include="JavaFactory.cs" />
+    <Compile Include="ProgramGenerators\CodePositionAttribute.cs" />
     <Compile Include="ProgramGenerators\JavaProgramGenerator.cs" />
     <Compile Include="ProgramGenerators\JavaProgramGeneratorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

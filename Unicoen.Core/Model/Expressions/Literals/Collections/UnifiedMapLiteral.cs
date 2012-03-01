@@ -20,33 +20,32 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   辞書リテラルを表します．
-    /// </summary>
-    public class UnifiedMapLiteral
-            : UnifiedElementCollection<UnifiedKeyValue, UnifiedMapLiteral>,
-              IUnifiedExpression {
-        protected UnifiedMapLiteral() {}
+	/// <summary>
+	///   辞書リテラルを表します．
+	/// </summary>
+	public class UnifiedMapLiteral
+			: UnifiedExpressionCollectionBase<UnifiedKeyValue, UnifiedMapLiteral> {
+		protected UnifiedMapLiteral() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        public override UnifiedMapLiteral CreateSelf() {
-            return new UnifiedMapLiteral();
-        }
+		public override UnifiedMapLiteral CreateSelf() {
+			return new UnifiedMapLiteral();
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-              }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+			}
 }

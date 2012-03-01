@@ -20,33 +20,32 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   特異クラスの定義を表します。
-    ///   e.g. Rubyにおける<c>class &lt;&lt; obj ... end</c>
-    /// </summary>
-    public class UnifiedEigenClassDefinition
-            : UnifiedBlockDefinition<UnifiedEigenClassDefinition> {
-        protected UnifiedEigenClassDefinition() {}
+	/// <summary>
+	///   特異クラスの定義を表します。 e.g. Rubyにおける <c>class &lt;&lt; obj ... end</c>
+	/// </summary>
+	public class UnifiedEigenClassDefinition
+			: UnifiedBlockDefinition<UnifiedEigenClassDefinition> {
+		protected UnifiedEigenClassDefinition() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public override UnifiedEigenClassDefinition CreateSelf() {
-            return new UnifiedEigenClassDefinition();
-        }
-            }
+		public override UnifiedEigenClassDefinition CreateSelf() {
+			return new UnifiedEigenClassDefinition();
+		}
+			}
 }

@@ -30,7 +30,7 @@ using Unicoen.ProgramGenerators;
 namespace Unicoen.Languages.Ruby18.Model {
     public partial class Ruby18ProgramGeneratorHelper {
         private static readonly
-                Dictionary<string, Func<XElement, IUnifiedExpression>>
+                Dictionary<string, Func<XElement, UnifiedExpression>>
                 ExpressionFuncs;
 
         public static Dictionary<string, UnifiedBinaryOperator>
@@ -48,7 +48,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                             CreatePrefixUnaryOperatorDictionaryForJava();
 
             ExpressionFuncs =
-                    new Dictionary<string, Func<XElement, IUnifiedExpression>>();
+                    new Dictionary<string, Func<XElement, UnifiedExpression>>();
             InitializeExpressions();
             InitializeLiterals();
             InitializeDefinitions();

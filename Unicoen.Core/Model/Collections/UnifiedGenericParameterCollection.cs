@@ -20,36 +20,34 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   ジェネリックタイプなどにおける型の仮引数の集合を表します。
-    ///   クラスやメソッドを宣言する際に型パラメータを宣言するために利用します。
-    ///   e.g. Javaにおける<c>class A&lt;T1, T2&gt; {  }</c>の<c>&lt;T1, T2&gt;</c>
-    /// </summary>
-    public class UnifiedGenericParameterCollection
-            : UnifiedElementCollection
-                      <UnifiedGenericParameter,
-                      UnifiedGenericParameterCollection> {
-        protected UnifiedGenericParameterCollection() {}
+	/// <summary>
+	///   ジェネリックタイプなどにおける型の仮引数の集合を表します。 クラスやメソッドを宣言する際に型パラメータを宣言するために利用します。 e.g. Javaにおける <c>class A&lt;T1, T2&gt; {  }</c> の <c>&lt;T1, T2&gt;</c>
+	/// </summary>
+	public class UnifiedGenericParameterCollection
+			: UnifiedElementCollectionBase
+			  		<UnifiedGenericParameter,
+			  		UnifiedGenericParameterCollection> {
+		protected UnifiedGenericParameterCollection() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        public override UnifiedGenericParameterCollection CreateSelf() {
-            return new UnifiedGenericParameterCollection();
-        }
+		public override UnifiedGenericParameterCollection CreateSelf() {
+			return new UnifiedGenericParameterCollection();
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-                      }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+			  		}
 }

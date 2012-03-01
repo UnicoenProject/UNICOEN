@@ -20,59 +20,57 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   辞書リテラルにおけるキー/バリューペアを表します．
-    /// </summary>
-    public class UnifiedKeyValue : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _key;
+	/// <summary>
+	///   辞書リテラルにおけるキー/バリューペアを表します．
+	/// </summary>
+	public class UnifiedKeyValue : UnifiedExpression {
+		private UnifiedExpression _key;
 
-        /// <summary>
-        ///   辞書リテラルにおけるキーを表します．
-        ///   e.g. Pythonにおける<c>{ "key" : 1 }</c>の<c>"key"</c>
-        /// </summary>
-        public IUnifiedExpression Key {
-            get { return _key; }
-            set { _key = SetChild(value, _key); }
-        }
+		/// <summary>
+		///   辞書リテラルにおけるキーを表します． e.g. Pythonにおける <c>{ "key" : 1 }</c> の <c>"key"</c>
+		/// </summary>
+		public UnifiedExpression Key {
+			get { return _key; }
+			set { _key = SetChild(value, _key); }
+		}
 
-        private IUnifiedExpression _value;
+		private UnifiedExpression _value;
 
-        /// <summary>
-        ///   辞書リテラルにおけるバリューを表します．
-        ///   e.g. Pythonにおける<c>{ "key" : 1 }</c>の<c>1</c>
-        /// </summary>
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		/// <summary>
+		///   辞書リテラルにおけるバリューを表します． e.g. Pythonにおける <c>{ "key" : 1 }</c> の <c>1</c>
+		/// </summary>
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        private UnifiedKeyValue() {}
+		private UnifiedKeyValue() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedKeyValue Create(
-                IUnifiedExpression key = null,
-                IUnifiedExpression value = null) {
-            return new UnifiedKeyValue {
-                    Key = key,
-                    Value = value,
-            };
-        }
-    }
+		public static UnifiedKeyValue Create(
+				UnifiedExpression key = null,
+				UnifiedExpression value = null) {
+			return new UnifiedKeyValue {
+					Key = key,
+					Value = value,
+			};
+		}
+	}
 }

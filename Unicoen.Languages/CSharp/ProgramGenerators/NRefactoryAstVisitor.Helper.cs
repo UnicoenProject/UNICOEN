@@ -279,12 +279,12 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
     #region AcceptVisitorExntension
 
     internal static class VisitorExtension {
-        internal static IUnifiedExpression TryAcceptForExpression(
-                this AstNode node, IAstVisitor<IUnifiedElement, object> visitor) {
+        internal static UnifiedExpression TryAcceptForExpression(
+                this AstNode node, IAstVisitor<UnifiedElement, object> visitor) {
             if (node == null) {
                 return null;
             }
-            return node.AcceptVisitor(visitor, null) as IUnifiedExpression;
+            return node.AcceptVisitor(visitor, null) as UnifiedExpression;
         }
 
         internal static UnifiedAnnotationCollection AcceptVisitorAsAttrs
@@ -358,7 +358,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
                 if (uArg != null) {
                     uArgs.Add(uArg);
                 } else {
-                    var uExpr = value as IUnifiedExpression;
+                    var uExpr = value as UnifiedExpression;
                     if (uExpr != null) {
                         uArgs.Add(
                                 UnifiedArgument.Create(

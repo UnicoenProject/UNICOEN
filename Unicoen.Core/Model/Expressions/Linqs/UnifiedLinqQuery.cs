@@ -17,8 +17,8 @@
 #endregion
 
 namespace Unicoen.Model {
-    /// <summary>
-    /// LINQのクエリ式を構成する要素を表します。
-    /// </summary>
-    public abstract class UnifiedLinqQuery : UnifiedElement {}
+	/// <summary>
+	///   LINQのクエリ式を構成する要素を表します。
+	/// </summary>
+	public abstract class UnifiedLinqQuery : UnifiedElement {}
 }

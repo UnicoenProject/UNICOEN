@@ -30,7 +30,7 @@ namespace Unicoen.Languages.JavaScript {
             ProgramGenerator = new JavaScriptProgramGenerator();
         }
 
-        public static string GenerateCode(IUnifiedElement model) {
+        public static string GenerateCode(UnifiedElement model) {
             return CodeGenerator.Generate(model);
         }
 

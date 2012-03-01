@@ -45,7 +45,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             ExpressionFuncs["yield"] = CreateYield;
         }
 
-        private static IUnifiedExpression CreateYield(XElement node) {
+        private static UnifiedExpression CreateYield(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "yield");
             var args = node.Elements()
@@ -54,7 +54,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedYieldReturn.Create(args);
         }
 
-        private static IUnifiedExpression CreateWhile(XElement node) {
+        private static UnifiedExpression CreateWhile(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "while");
             var cond = CreateExpresion(node.FirstElement());
@@ -84,7 +84,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedCatch.Create(types, assign, block);
         }
 
-        private static IUnifiedExpression CreateRescue(XElement node) {
+        private static UnifiedExpression CreateRescue(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "rescue");
             var lastNode = node.LastElement();
@@ -98,7 +98,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     elseBlock);
         }
 
-        private static IUnifiedExpression CreateEnsure(XElement node) {
+        private static UnifiedExpression CreateEnsure(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "ensure");
             return UnifiedTry.Create(
@@ -106,19 +106,19 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateSmartBlock(node.LastElement()));
         }
 
-        private static IUnifiedExpression CreateRetry(XElement node) {
+        private static UnifiedExpression CreateRetry(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "retry");
             return UnifiedRedo.Create();
         }
 
-        private static IUnifiedExpression CreateRedo(XElement node) {
+        private static UnifiedExpression CreateRedo(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "redo");
             return UnifiedRedo.Create();
         }
 
-        private static IUnifiedExpression CreateNext(XElement node) {
+        private static UnifiedExpression CreateNext(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "next");
             return
@@ -126,14 +126,14 @@ namespace Unicoen.Languages.Ruby18.Model {
                             CreateSmartExpresion(node.FirstElementOrDefault()));
         }
 
-        private static IUnifiedExpression CreateBreak(XElement node) {
+        private static UnifiedExpression CreateBreak(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "break");
             return UnifiedBreak.Create(
                     CreateSmartExpresion(node.FirstElementOrDefault()));
         }
 
-        private static IUnifiedExpression CreateReturn(XElement node) {
+        private static UnifiedExpression CreateReturn(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "return");
             return
@@ -159,7 +159,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return call;
         }
 
-        public static IUnifiedExpression CreateFor(XElement node) {
+        public static UnifiedExpression CreateFor(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "for");
             Contract.Assert(
@@ -171,7 +171,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateBlock(node.NthElement(2)));
         }
 
-        public static IUnifiedExpression CreateUntil(XElement node) {
+        public static UnifiedExpression CreateUntil(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "until");
             var cond =
@@ -186,7 +186,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedDoWhile.Create(cond, CreateSmartBlock(secondNode));
         }
 
-        public static IUnifiedExpression CreateCase(XElement node) {
+        public static UnifiedExpression CreateCase(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "case");
             return UnifiedSwitch.Create(

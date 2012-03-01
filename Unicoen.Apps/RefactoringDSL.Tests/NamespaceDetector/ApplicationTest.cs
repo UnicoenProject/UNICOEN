@@ -111,9 +111,9 @@ namespace Unicoen.Apps.RefactoringDSL.Tests.NamespaceDetector {
         }
 
         // 自分の兄弟ノード（自分も含む）を取得する
-        public static IEnumerable<IUnifiedElement> GetBrotherNode(
+        public static IEnumerable<UnifiedElement> GetBrotherNode(
                 UnifiedElement node) {
-            return node.FirstAncestor<IUnifiedElement>().Descendants();
+            return node.FirstAncestor<UnifiedElement>().Descendants();
         }
     }
 }

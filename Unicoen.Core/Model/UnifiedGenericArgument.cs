@@ -20,65 +20,64 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   ジェネリクスパラメータなど型に対する実引数を表します。
-    ///   e.g. Javaにおける<c>HashMap&lt;String, Integer&gt; map;</c>の<c>&lt;String, Integer&gt;</c>
-    /// </summary>
-    public class UnifiedGenericArgument : UnifiedElement {
-        private UnifiedModifierCollection _modifiers;
+	/// <summary>
+	///   ジェネリクスパラメータなど型に対する実引数を表します。 e.g. Javaにおける <c>HashMap&lt;String, Integer&gt; map;</c> の <c>&lt;String, Integer&gt;</c>
+	/// </summary>
+	public class UnifiedGenericArgument : UnifiedElement {
+		private UnifiedModifierCollection _modifiers;
 
-        /// <summary>
-        ///   修飾子の集合を表します
-        /// </summary>
-        public UnifiedModifierCollection Modifiers {
-            get { return _modifiers; }
-            set { _modifiers = SetChild(value, _modifiers); }
-        }
+		/// <summary>
+		///   修飾子の集合を表します
+		/// </summary>
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetChild(value, _modifiers); }
+		}
 
-        private IUnifiedExpression _value;
+		private UnifiedExpression _value;
 
-        public IUnifiedExpression Value {
-            get { return _value; }
-            set { _value = SetChild(value, _value); }
-        }
+		public UnifiedExpression Value {
+			get { return _value; }
+			set { _value = SetChild(value, _value); }
+		}
 
-        private UnifiedTypeConstrainCollection _constrains;
+		private UnifiedTypeConstrainCollection _constrains;
 
-        public UnifiedTypeConstrainCollection Constrains {
-            get { return _constrains; }
-            set { _constrains = SetChild(value, _constrains); }
-        }
+		public UnifiedTypeConstrainCollection Constrains {
+			get { return _constrains; }
+			set { _constrains = SetChild(value, _constrains); }
+		}
 
-        private UnifiedGenericArgument() {}
+		private UnifiedGenericArgument() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedGenericArgument Create(
-                IUnifiedExpression type = null,
-                UnifiedModifierCollection modifiers = null,
-                UnifiedTypeConstrainCollection
-                        constrains = null) {
-            return new UnifiedGenericArgument {
-                    Value = type,
-                    Modifiers = modifiers,
-                    Constrains = constrains
-            };
-        }
-    }
+		public static UnifiedGenericArgument Create(
+				UnifiedExpression type = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedTypeConstrainCollection
+						constrains = null) {
+			return new UnifiedGenericArgument {
+					Value = type,
+					Modifiers = modifiers,
+					Constrains = constrains
+			};
+		}
+	}
 }

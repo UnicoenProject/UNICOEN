@@ -31,7 +31,7 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
         /// <param name="node"> 検索対象のノード </param>
         /// <param name="typeArray"> 検索する型の集合（の集合） </param>
         /// <returns> 1番早く見つかったオブジェクト </returns>
-        public static IUnifiedElement GetFirstFoundNode(
+        public static UnifiedElement GetFirstFoundNode(
                 UnifiedElement node, IEnumerable<IEnumerable<Type>> typeArray) {
             foreach (var ancestor in node.Ancestors()) {
                 foreach (var types in typeArray) {

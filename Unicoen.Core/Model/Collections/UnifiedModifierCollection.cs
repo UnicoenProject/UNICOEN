@@ -20,34 +20,33 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   修飾子の集合を表します。
-    ///   e.g. Javaにおける<code>public static void method(){...}</code>の<code>public static</code>
-    /// </summary>
-    public class UnifiedModifierCollection
-            : UnifiedElementCollection
-                      <UnifiedModifier, UnifiedModifierCollection> {
-        public override UnifiedModifierCollection CreateSelf() {
-            return new UnifiedModifierCollection();
-        }
+	/// <summary>
+	///   修飾子の集合を表します。 e.g. Javaにおける <code>public static void method(){...}</code> の <code>public static</code>
+	/// </summary>
+	public class UnifiedModifierCollection
+			: UnifiedElementCollectionBase
+			  		<UnifiedModifier, UnifiedModifierCollection> {
+		public override UnifiedModifierCollection CreateSelf() {
+			return new UnifiedModifierCollection();
+		}
 
-        protected UnifiedModifierCollection() {}
+		protected UnifiedModifierCollection() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
-                      }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+			  		}
 }

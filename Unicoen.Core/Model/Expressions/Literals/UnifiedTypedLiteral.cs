@@ -21,27 +21,27 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    /// </summary>
-    /// <typeparam name = "T"></typeparam>
-    public abstract class UnifiedTypedLiteral<T> : UnifiedLiteral {
-        public abstract T Value { get; set; }
+	/// <summary>
+	/// </summary>
+	/// <typeparam name="T"> </typeparam>
+	public abstract class UnifiedTypedLiteral<T> : UnifiedLiteral {
+		public abstract T Value { get; set; }
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            // Deal with the bug of Mono 2.10.2
-            throw new InvalidOperationException(
-                    "You should override this method.");
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException(
+					"You should override this method.");
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            // Deal with the bug of Mono 2.10.2
-            throw new InvalidOperationException(
-                    "You should override this method.");
-        }
-    }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			// Deal with the bug of Mono 2.10.2
+			throw new InvalidOperationException(
+					"You should override this method.");
+		}
+	}
 }

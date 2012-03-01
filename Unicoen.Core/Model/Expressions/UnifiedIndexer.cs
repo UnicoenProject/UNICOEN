@@ -20,52 +20,51 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   配列の添え字を表します。
-    ///   e.g. Javaにおける<c>int x = a[10]</c>の<c>[10]</c>
-    /// </summary>
-    public class UnifiedIndexer : UnifiedElement, IUnifiedExpression {
-        private IUnifiedExpression _target;
+	/// <summary>
+	///   配列の添え字を表します。 e.g. Javaにおける <c>int x = a[10]</c> の <c>[10]</c>
+	/// </summary>
+	public class UnifiedIndexer : UnifiedExpression {
+		private UnifiedExpression _target;
 
-        public IUnifiedExpression Target {
-            get { return _target; }
-            set { _target = SetChild(value, _target); }
-        }
+		public UnifiedExpression Target {
+			get { return _target; }
+			set { _target = SetChild(value, _target); }
+		}
 
-        private UnifiedArgumentCollection _arguments;
+		private UnifiedArgumentCollection _arguments;
 
-        public UnifiedArgumentCollection Arguments {
-            get { return _arguments; }
-            set { _arguments = SetChild(value, _arguments); }
-        }
+		public UnifiedArgumentCollection Arguments {
+			get { return _arguments; }
+			set { _arguments = SetChild(value, _arguments); }
+		}
 
-        private UnifiedIndexer() {}
+		private UnifiedIndexer() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedIndexer Create(
-                IUnifiedExpression current = null,
-                UnifiedArgumentCollection create = null) {
-            return new UnifiedIndexer {
-                    Target = current,
-                    Arguments = create
-            };
-        }
-    }
+		public static UnifiedIndexer Create(
+				UnifiedExpression current = null,
+				UnifiedArgumentCollection create = null) {
+			return new UnifiedIndexer {
+					Target = current,
+					Arguments = create
+			};
+		}
+	}
 }

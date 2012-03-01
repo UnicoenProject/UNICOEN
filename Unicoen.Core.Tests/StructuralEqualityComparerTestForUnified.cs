@@ -26,7 +26,7 @@ namespace Unicoen.Tests {
         [Test]
         public void compares_different_blocks() {
             var o1 = UnifiedBlock.Create(
-                    new IUnifiedExpression[] {
+                    new UnifiedExpression[] {
                             UnifiedBinaryExpression.Create(
                                     UnifiedVariableIdentifier.Create("n"),
                                     UnifiedBinaryOperator.Create(
@@ -37,7 +37,7 @@ namespace Unicoen.Tests {
                                     UnifiedInt32Literal.Create(2)),
                     });
             var o2 = UnifiedBlock.Create(
-                    new IUnifiedExpression[] {
+                    new UnifiedExpression[] {
                             UnifiedBinaryExpression.Create(
                                     UnifiedVariableIdentifier.Create("n"),
                                     UnifiedBinaryOperator.Create(
@@ -174,7 +174,7 @@ namespace Unicoen.Tests {
         [Test]
         public void compares_equal_blocks() {
             var o1 = UnifiedBlock.Create(
-                    new IUnifiedExpression[] {
+                    new UnifiedExpression[] {
                             UnifiedBinaryExpression.Create(
                                     UnifiedVariableIdentifier.Create("n"),
                                     UnifiedBinaryOperator.Create(
@@ -185,7 +185,7 @@ namespace Unicoen.Tests {
                                     UnifiedInt32Literal.Create(2)),
                     });
             var o2 = UnifiedBlock.Create(
-                    new IUnifiedExpression[] {
+                    new UnifiedExpression[] {
                             UnifiedBinaryExpression.Create(
                                     UnifiedVariableIdentifier.Create("n"),
                                     UnifiedBinaryOperator.Create(
@@ -233,7 +233,7 @@ namespace Unicoen.Tests {
         [Test]
         public void compares_same_blocks() {
             var o1 = UnifiedBlock.Create(
-                    new IUnifiedExpression[] {
+                    new UnifiedExpression[] {
                             UnifiedBinaryExpression.Create(
                                     UnifiedVariableIdentifier.Create("n"),
                                     UnifiedBinaryOperator.Create(

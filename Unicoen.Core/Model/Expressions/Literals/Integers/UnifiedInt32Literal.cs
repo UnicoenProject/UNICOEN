@@ -22,40 +22,39 @@ using Paraiba.Numerics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   整数のリテラルを表します。
-    ///   e.g. Javaにおける<c>int i = 10;</c>の<c>10</c>の部分
-    /// </summary>
-    public class UnifiedInt32Literal : UnifiedIntegerLiteral {
-        public override BigInteger Value {
-            get { return _value; }
-            set { _value = value.ToForceInt32(); }
-        }
+	/// <summary>
+	///   整数のリテラルを表します。 e.g. Javaにおける <c>int i = 10;</c> の <c>10</c> の部分
+	/// </summary>
+	public class UnifiedInt32Literal : UnifiedIntegerLiteral {
+		public override BigInteger Value {
+			get { return _value; }
+			set { _value = value.ToForceInt32(); }
+		}
 
-        protected UnifiedInt32Literal() {}
+		protected UnifiedInt32Literal() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public static UnifiedInt32Literal Create(BigInteger value) {
-            return new UnifiedInt32Literal {
-                    Value = value,
-            };
-        }
-    }
+		public static UnifiedInt32Literal Create(BigInteger value) {
+			return new UnifiedInt32Literal {
+					Value = value,
+			};
+		}
+	}
 }

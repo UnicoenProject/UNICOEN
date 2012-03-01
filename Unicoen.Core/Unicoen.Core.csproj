@@ -152,6 +152,7 @@
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Model\Collections\UnifiedExpressionCollectionBase.cs" />
     <Compile Include="Model\Collections\UnifiedCommentCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
@@ -160,7 +161,6 @@
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructorLike.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedCheckedBlock.cs" />
-    <Compile Include="Model\Expressions\Blocks\Specials\IUnifiedUsingPart.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedUncheckedBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedProc.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedFixBlock.cs" />
@@ -255,6 +255,7 @@
     <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinitionList.cs" />
     <Compile Include="Extensions\ModelGenerator.cs" />
     <Compile Include="Extensions\SafeModelSweeper.cs" />
+    <Compile Include="Model\ICopiable.cs" />
     <Compile Include="Model\IUnifiedCreatable.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedDefaultConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedEigenConstrain.cs" />
@@ -309,7 +310,7 @@
     <Compile Include="Model\Expressions\Operators\UnifiedBinaryExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCall.cs" />
     <Compile Include="Model\Expressions\Blocks\Loops\UnifiedDoWhile.cs" />
-    <Compile Include="Model\Expressions\IUnifiedExpression.cs" />
+    <Compile Include="Model\Expressions\UnifiedExpression.cs" />
     <Compile Include="Model\Expressions\UnifiedCast.cs" />
     <Compile Include="Model\Collections\UnifiedCatchCollection.cs" />
     <Compile Include="Model\Collections\UnifiedExpressionCollection.cs" />
@@ -331,7 +332,6 @@
     <Compile Include="Processor\StructuralEqualityComparer.cs" />
     <Compile Include="Extensions\ModelSweeper.cs" />
     <Compile Include="Extensions\ModelExtensionsForVisitor.cs" />
-    <Compile Include="Model\IUnifiedElement.cs" />
     <Compile Include="Model\Collections\IUnifiedElementCollection.cs" />
     <Compile Include="Model\UnifiedArgument.cs" />
     <Compile Include="Model\Collections\UnifiedArgumentCollection.cs" />
@@ -339,7 +339,7 @@
     <Compile Include="Model\UnifiedCase.cs" />
     <Compile Include="Model\Collections\UnifiedCaseCollection.cs" />
     <Compile Include="Model\UnifiedElement.cs" />
-    <Compile Include="Model\Collections\UnifiedElementCollection.cs" />
+    <Compile Include="Model\Collections\UnifiedElementCollectionBase.cs" />
     <Compile Include="Model\Expressions\Specials\UnifiedImport.cs" />
     <Compile Include="Model\UnifiedModifier.cs" />
     <Compile Include="Model\Collections\UnifiedModifierCollection.cs" />

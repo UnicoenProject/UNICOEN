@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,37 +24,37 @@ using Unicoen.CodeGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.ProgramGenerators {
-    public abstract class UnifiedProgramGenerator {
-        /// <summary>
-        ///   解析対象の言語のソースコードの拡張子を取得します．
-        /// </summary>
-        public abstract IEnumerable<string> Extensions { get; }
+	public abstract class UnifiedProgramGenerator {
+		/// <summary>
+		///   解析対象の言語のソースコードの拡張子を取得します．
+		/// </summary>
+		public abstract IEnumerable<string> Extensions { get; }
 
-        /// <summary>
-        ///   解析対象の言語のソースコードのコード生成器を取得します．
-        /// </summary>
-        public abstract UnifiedCodeGenerator CodeGenerator { get; }
+		/// <summary>
+		///   解析対象の言語のソースコードのコード生成器を取得します．
+		/// </summary>
+		public abstract UnifiedCodeGenerator CodeGenerator { get; }
 
-        public abstract UnifiedProgram GenerateWithoutNormalizing(string code);
+		public abstract UnifiedProgram GenerateWithoutNormalizing(string code);
 
-        public virtual UnifiedProgram GenerateFromFile(
-                string filePath, Encoding encoding) {
-            var code = File.ReadAllText(filePath, encoding);
-            return Generate(code);
-        }
+		public virtual UnifiedProgram GenerateFromFile(
+				string filePath, Encoding encoding) {
+			var code = File.ReadAllText(filePath, encoding);
+			return Generate(code);
+		}
 
-        public virtual UnifiedProgram GenerateFromFile(string filePath) {
-            var code = GuessEncoding.ReadAllText(filePath);
-            return Generate(code);
-        }
+		public virtual UnifiedProgram GenerateFromFile(string filePath) {
+			var code = GuessEncoding.ReadAllText(filePath);
+			return Generate(code);
+		}
 
-        public UnifiedProgram Generate(string code) {
-            if (string.IsNullOrWhiteSpace(code)) {
-                return UnifiedProgram.Create(UnifiedBlock.Create());
-            }
-            var model = GenerateWithoutNormalizing(code);
-            model.Normalize();
-            return model;
-        }
-    }
+		public UnifiedProgram Generate(string code) {
+			if (string.IsNullOrWhiteSpace(code)) {
+				return UnifiedProgram.Create(UnifiedBlock.Create());
+			}
+			var model = GenerateWithoutNormalizing(code);
+			model.Normalize();
+			return model;
+		}
+	}
 }

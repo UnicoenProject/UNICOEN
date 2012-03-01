@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,10 +23,9 @@ namespace Unicoen.Languages.C.CodeGenerators {
 	// CCodeFactoryVisitorのうち、コレクションに関する処理を行います
 	public partial class CCodeFactoryVisitor {
 		// コレクションオブジェクトをファイルに出力するための共通な処理を提供します
-		protected void VisitCollection<T, TSelf>(
-				UnifiedElementCollection<T, TSelf> elements, VisitorArgument arg)
-				where T : class, IUnifiedElement
-				where TSelf : UnifiedElementCollection<T, TSelf> {
+		protected void VisitCollection<T>(
+				IUnifiedElementCollection<T> elements, VisitorArgument arg)
+				where T : UnifiedElement {
 			var decoration = arg.Decoration;
 			Writer.Write(decoration.MostLeft);
 			var splitter = "";
@@ -116,7 +115,7 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			foreach (var e in element) {
 				if (isFirst) {
 					e.Modifiers.TryAccept(this, arg);
-							// TODO なぜか修飾子の後で改行される問題を調査する
+					// TODO なぜか修飾子の後で改行される問題を調査する
 					commonTypeStr = GetString(e.Type, arg);
 					Writer.Write(commonTypeStr + " ");
 					e.Name.TryAccept(this, arg);

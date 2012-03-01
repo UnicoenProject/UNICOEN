@@ -27,15 +27,15 @@ namespace Unicoen.Apps.Metrics.Core {
             get { return "LOC(lines of code)"; }
         }
 
-        protected override IEnumerable<IUnifiedElement>
+        protected override IEnumerable<UnifiedElement>
                 ProtectedGetTargetElements(
-                IUnifiedElement codeObject) {
+                UnifiedElement codeObject) {
             return GetTargetElements(codeObject);
         }
 
-        public static IEnumerable<IUnifiedElement> GetTargetElements(
-                IUnifiedElement codeObject) {
-            return codeObject.Descendants<IUnifiedExpression>()
+        public static IEnumerable<UnifiedElement> GetTargetElements(
+                UnifiedElement codeObject) {
+            return codeObject.Descendants<UnifiedExpression>()
                     .Where(e => e.Parent is UnifiedBlock);
         }
     }

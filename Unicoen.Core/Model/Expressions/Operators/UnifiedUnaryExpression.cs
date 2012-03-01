@@ -20,77 +20,72 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   単項式を表します。
-    ///   e.g. Javaにおける<c>a++</c>
-    ///   e.g. Javaにおける<c>-b</c>
-    ///   e.g. Javaにおける<c>!c</c>
-    /// </summary>
-    public class UnifiedUnaryExpression : UnifiedElement, IUnifiedExpression {
-        private UnifiedUnaryOperator _operator;
+	/// <summary>
+	///   単項式を表します。 e.g. Javaにおける <c>a++</c> e.g. Javaにおける <c>-b</c> e.g. Javaにおける <c>!c</c>
+	/// </summary>
+	public class UnifiedUnaryExpression : UnifiedExpression {
+		private UnifiedUnaryOperator _operator;
 
-        /// <summary>
-        ///   単項式の演算式を表します
-        ///   e.g. Javaにおける<c>a++</c>の<c>++</c>
-        /// </summary>
-        public UnifiedUnaryOperator Operator {
-            get { return _operator; }
-            set { _operator = SetChild(value, _operator); }
-        }
+		/// <summary>
+		///   単項式の演算式を表します e.g. Javaにおける <c>a++</c> の <c>++</c>
+		/// </summary>
+		public UnifiedUnaryOperator Operator {
+			get { return _operator; }
+			set { _operator = SetChild(value, _operator); }
+		}
 
-        private IUnifiedExpression _operand;
+		private UnifiedExpression _operand;
 
-        /// <summary>
-        ///   単項式のオペランドを表します
-        ///   e.g. Javaにおける<c>a++</c>の<c>a</c>
-        /// </summary>
-        public IUnifiedExpression Operand {
-            get { return _operand; }
-            set { _operand = SetChild(value, _operand); }
-        }
+		/// <summary>
+		///   単項式のオペランドを表します e.g. Javaにおける <c>a++</c> の <c>a</c>
+		/// </summary>
+		public UnifiedExpression Operand {
+			get { return _operand; }
+			set { _operand = SetChild(value, _operand); }
+		}
 
-        private UnifiedUnaryExpression() {}
+		private UnifiedUnaryExpression() {}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor,
-                TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor,
+				TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
 
-        public override IUnifiedElement Normalize() {
-            NormalizeChildren();
-            var operand = Operand as UnifiedIntegerLiteral;
-            if (operand != null) {
-                if (Operator.Kind == UnifiedUnaryOperatorKind.UnaryPlus) {
-                    return operand;
-                }
-                if (Operator.Kind == UnifiedUnaryOperatorKind.Negate) {
-                    operand.Value = -operand.Value;
-                    return operand;
-                }
-            }
-            return this;
-        }
+		public override UnifiedElement Normalize() {
+			NormalizeChildren();
+			var operand = Operand as UnifiedIntegerLiteral;
+			if (operand != null) {
+				if (Operator.Kind == UnifiedUnaryOperatorKind.UnaryPlus) {
+					return operand;
+				}
+				if (Operator.Kind == UnifiedUnaryOperatorKind.Negate) {
+					operand.Value = -operand.Value;
+					return operand;
+				}
+			}
+			return this;
+		}
 
-        public static UnifiedUnaryExpression Create(
-                IUnifiedExpression operand,
-                UnifiedUnaryOperator unaryOperator) {
-            return new UnifiedUnaryExpression {
-                    Operand = operand,
-                    Operator = unaryOperator,
-            };
-        }
-    }
+		public static UnifiedUnaryExpression Create(
+				UnifiedExpression operand,
+				UnifiedUnaryOperator unaryOperator) {
+			return new UnifiedUnaryExpression {
+					Operand = operand,
+					Operator = unaryOperator,
+			};
+		}
+	}
 }

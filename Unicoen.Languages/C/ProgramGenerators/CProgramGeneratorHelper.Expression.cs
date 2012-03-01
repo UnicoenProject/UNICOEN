@@ -46,7 +46,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return UnifiedArgumentCollection.Create(arguments);
 		}
 
-		public static IUnifiedExpression CreateAdditiveExpression(XElement node) {
+		public static UnifiedExpression CreateAdditiveExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "additive_expression");
 			/*
@@ -58,7 +58,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateMultiplicativeExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateMultiplicativeExpression(
+		public static UnifiedExpression CreateMultiplicativeExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "multiplicative_expression");
@@ -71,7 +71,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateCastExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateCastExpression(XElement node) {
+		public static UnifiedExpression CreateCastExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "cast_expression");
 			/*
@@ -90,7 +90,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedExpression CreateUnaryExpression(XElement node) {
+		public static UnifiedExpression CreateUnaryExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "unary_expression");
 			/*
@@ -130,7 +130,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateUnaryExpression, Sign2PrefixUnaryOperator);
 		}
 
-		public static IUnifiedExpression CreatePostfixExpression(XElement node) {
+		public static UnifiedExpression CreatePostfixExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "postfix_expression");
 			/*
@@ -210,7 +210,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return result;
 		}
 
-		public static IUnifiedExpression CreatePrimaryExpression(XElement node) {
+		public static UnifiedExpression CreatePrimaryExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "primary_expression");
 			/*
@@ -234,7 +234,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedExpression CreateConstant(XElement node) {
+		public static UnifiedExpression CreateConstant(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "constant");
 			/*
@@ -274,7 +274,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 		}
 
 		// いろいろなところから呼ばれるが、返り値はIEnumerable<IUnifiedExpression>でいいのか
-		public static IEnumerable<IUnifiedExpression> CreateExpression(
+		public static IEnumerable<UnifiedExpression> CreateExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression");
@@ -287,7 +287,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 							CreateAssignmentExpression);
 		}
 
-		public static IUnifiedExpression CreateConstantExpression(XElement node) {
+		public static UnifiedExpression CreateConstantExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "constant_expression");
 			/*
@@ -298,7 +298,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return CreateConditionalExpression(node.FirstElement());
 		}
 
-		public static IUnifiedExpression CreateAssignmentExpression(
+		public static UnifiedExpression CreateAssignmentExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "assignment_expression");
@@ -321,7 +321,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new InvalidOperationException();
 		}
 
-		public static IUnifiedExpression CreateLvalue(XElement node) {
+		public static UnifiedExpression CreateLvalue(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "lvalue");
 			/*
@@ -332,7 +332,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return CreateUnaryExpression(node.ElementAt(0));
 		}
 
-		public static IUnifiedExpression CreateConditionalExpression(
+		public static UnifiedExpression CreateConditionalExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "conditional_expression");
@@ -351,7 +351,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					CreateConditionalExpression(node.NthElement(4)));
 		}
 
-		public static IUnifiedExpression CreateLogicalOrExpression(
+		public static UnifiedExpression CreateLogicalOrExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logical_or_expression");
@@ -364,7 +364,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateLogicalAndExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateLogicalAndExpression(
+		public static UnifiedExpression CreateLogicalAndExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "logical_and_expression");
@@ -377,7 +377,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateInclusiveOrExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateInclusiveOrExpression(
+		public static UnifiedExpression CreateInclusiveOrExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "inclusive_or_expression");
@@ -390,7 +390,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateExclusiveOrExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateExclusiveOrExpression(
+		public static UnifiedExpression CreateExclusiveOrExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "exclusive_or_expression");
@@ -402,7 +402,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateAndExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateAndExpression(XElement node) {
+		public static UnifiedExpression CreateAndExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "and_expression");
 			/*
@@ -413,7 +413,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateEqualityExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateEqualityExpression(XElement node) {
+		public static UnifiedExpression CreateEqualityExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "equality_expression");
 			/*
@@ -424,7 +424,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateRelationalExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateRelationalExpression(
+		public static UnifiedExpression CreateRelationalExpression(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "relational_expression");
@@ -436,7 +436,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					node, CreateShiftExpression, Sign2BinaryOperator);
 		}
 
-		public static IUnifiedExpression CreateShiftExpression(XElement node) {
+		public static UnifiedExpression CreateShiftExpression(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "shift_expression");
 			/*

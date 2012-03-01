@@ -28,9 +28,9 @@ namespace Unicoen.Apps.RefactoringDSL.NamespaceDetector {
         /// <param name="nsString"> 完全修飾氏名文字列 </param>
         /// <param name="element"> 検索するトップノード </param>
         /// <returns> 検出されたコードオブジェクトの配列（通常，要素数は0または1です） </returns>
-        public static IEnumerable<IUnifiedElement> FindUnifiedElementByNamespace
-                (string nsString, IUnifiedElement element) {
-            var result = new List<IUnifiedElement>();
+        public static IEnumerable<UnifiedElement> FindUnifiedElementByNamespace
+                (string nsString, UnifiedElement element) {
+            var result = new List<UnifiedElement>();
             foreach (var e in element.Descendants()) {
                 var ns = Detector.Dispatcher(e);
                 if (ns != null) {

@@ -31,7 +31,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CProgramGeneratorHelper {
 		// labeled_statementは２つのExpressionを必要とするので、
 		// それに合わせてこの関数の返り値はIEnumerable<IUnifiedExpression>になります。
-		public static IEnumerable<IUnifiedExpression> CreateStatement(
+		public static IEnumerable<UnifiedExpression> CreateStatement(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
@@ -72,7 +72,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateLabeledStatement(
+		public static IEnumerable<UnifiedExpression> CreateLabeledStatement(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labeled_statement");
@@ -84,7 +84,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 */
 
 			// ラベルに関わるオブジェクトは、それぞれが必要となる箇所で直接生成されます。
-			// case文はIUnifiedElementであり、CreateStatementの型をIEnumerable<IUnifiedElement>にすることを防ぐため
+			// case文はUnifiedElementであり、CreateStatementの型をIEnumerable<UnifiedElement>にすることを防ぐため
 			throw new InvalidOperationException();
 		}
 
@@ -109,7 +109,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return block;
 		}
 
-		public static IEnumerable<IUnifiedExpression> CreateStatementList(
+		public static IEnumerable<UnifiedExpression> CreateStatementList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
@@ -119,7 +119,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return node.Elements("statement").SelectMany(CreateStatement);
 		}
 
-		public static IUnifiedExpression CreateExpressionStatement(
+		public static UnifiedExpression CreateExpressionStatement(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression_statement");
@@ -134,7 +134,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 						   ? CreateExpression(first).First() : null;
 		}
 
-		public static IUnifiedExpression CreateSelectionStatement(XElement node) {
+		public static UnifiedExpression CreateSelectionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "selection_statement");
 			/*
@@ -218,7 +218,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static IUnifiedExpression CreateIterationStatement(XElement node) {
+		public static UnifiedExpression CreateIterationStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iteration_statement");
 			/*
@@ -265,7 +265,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static IUnifiedExpression CreateJumpStatement(XElement node) {
+		public static UnifiedExpression CreateJumpStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "jump_statement");
 			/* jump_statement
