@@ -83,6 +83,7 @@
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Code2Xml.Core, Version=1.3.1.62, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Paraiba, Version=1.0.0.10, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Paraiba.1.0.0.10\lib\net40\Paraiba.dll</HintPath>
@@ -100,12 +101,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Types.cs" />
-    <Compile Include="CodePosition.cs" />
     <Compile Include="Extensions\ModelSweeperGenericsForElement.cs" />
     <Compile Include="Extensions\ModelSweeperGenerics.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\ModelFactoryForExpressions.cs" />
     <Compile Include="Extensions\ModelFactoryForModel.cs" />
+    <Compile Include="Model\Collections\UnifiedCommentCollection.cs" />
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />

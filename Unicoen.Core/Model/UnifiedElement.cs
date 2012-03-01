@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Code2Xml.Core.Position;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
@@ -81,7 +82,7 @@ namespace Unicoen.Model {
         /// <summary>
         ///   ソースコード上の位置情報を取得もしくは設定します．
         /// </summary>
-        public CodePosition Position { get; protected internal set; }
+        public CodePosition Position { get; set; }
 
         /// <summary>
         ///   ビジターを適用してコードモデルを走査します。

@@ -20,56 +20,66 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
-    /// <summary>
-    ///   ブログラム全体を表します。
-    /// </summary>
-    public class UnifiedProgram : UnifiedElement {
-        private UnifiedComment _comments;
+	/// <summary>
+	///   ブログラム全体を表します。
+	/// </summary>
+	public class UnifiedProgram : UnifiedElement {
+		private UnifiedComment _magicComment;
+		private UnifiedCommentCollection _comments;
 
-        /// <summary>
-        ///   ソースコードの先頭に表記されたマジックコメントを取得もしくは設定します．
-        ///   e.g. Pythonにおける<c># -*- coding: utf-8 -*-</c>
-        /// </summary>
-        public UnifiedComment Comments {
-            get { return _comments; }
-            set { _comments = SetChild(value, _comments); }
-        }
+		/// <summary>
+		///   ソースコードの先頭に表記されたマジックコメントを取得もしくは設定します． e.g. Pythonにおける <c># -*- coding: utf-8 -*-</c>
+		/// </summary>
+		public UnifiedComment MagicComment {
+			get { return _magicComment; }
+			set { _magicComment = SetChild(value, _magicComment); }
+		}
 
-        private UnifiedBlock _body;
+		/// <summary>
+		///   ソースコード中に表記された全てのコメントを取得もしくは設定します．
+		/// </summary>
+		public UnifiedCommentCollection Comments {
+			get { return _comments; }
+			set { _comments = SetChild(value, _comments); }
+		}
 
-        /// <summary>
-        ///   プログラム全体を構成するブロックを取得もしくは設定します．
-        /// </summary>
-        public UnifiedBlock Body {
-            get { return _body; }
-            set { _body = SetChild(value, _body); }
-        }
+		private UnifiedBlock _body;
 
-        protected UnifiedProgram() {}
+		/// <summary>
+		///   プログラム全体を構成するブロックを取得もしくは設定します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
-        [DebuggerStepThrough]
-        public override void Accept(IUnifiedVisitor visitor) {
-            visitor.Visit(this);
-        }
+		protected UnifiedProgram() {}
 
-        [DebuggerStepThrough]
-        public override void Accept<TArg>(
-                IUnifiedVisitor<TArg> visitor, TArg arg) {
-            visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept(IUnifiedVisitor visitor) {
+			visitor.Visit(this);
+		}
 
-        [DebuggerStepThrough]
-        public override TResult Accept<TArg, TResult>(
-                IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
-            return visitor.Visit(this, arg);
-        }
+		[DebuggerStepThrough]
+		public override void Accept<TArg>(
+				IUnifiedVisitor<TArg> visitor, TArg arg) {
+			visitor.Visit(this, arg);
+		}
 
-        public static UnifiedProgram Create(
-                UnifiedBlock body, UnifiedComment comments = null) {
-            return new UnifiedProgram {
-                    Body = body,
-                    Comments = comments,
-            };
-        }
-    }
+		[DebuggerStepThrough]
+		public override TResult Accept<TArg, TResult>(
+				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+			return visitor.Visit(this, arg);
+		}
+
+		public static UnifiedProgram Create(
+				UnifiedBlock body, UnifiedComment magicComments = null,
+				UnifiedCommentCollection comments = null) {
+			return new UnifiedProgram {
+					Body = body,
+					MagicComment = magicComments,
+					Comments = comments,
+			};
+		}
+	}
 }

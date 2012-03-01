@@ -29,9 +29,7 @@ namespace Unicoen.Model {
         /// </summary>
         public string Content { get; set; }
 
-        private UnifiedComment() {}
-
-        [DebuggerStepThrough]
+    	[DebuggerStepThrough]
         public override void Accept(IUnifiedVisitor visitor) {
             visitor.Visit(this);
         }
@@ -47,10 +45,6 @@ namespace Unicoen.Model {
         public override TResult Accept<TArg, TResult>(
                 IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
             return visitor.Visit(this, arg);
-        }
-
-        public static UnifiedComment Create(string comment) {
-            return new UnifiedComment { Content = comment };
         }
     }
 }

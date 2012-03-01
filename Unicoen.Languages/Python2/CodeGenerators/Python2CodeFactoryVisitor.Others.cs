@@ -25,7 +25,7 @@ namespace Unicoen.Languages.Python2.CodeGenerators {
         #region program, namespace, class, method, filed ...
 
         public override bool Visit(UnifiedProgram element, VisitorArgument arg) {
-            element.Comments.TryAccept(this, arg);
+            element.MagicComment.TryAccept(this, arg);
             Writer.WriteLine();
             element.Body.TryAccept(this, arg);
             return false;

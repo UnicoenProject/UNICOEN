@@ -94,6 +94,19 @@ namespace Unicoen.Model {
             return UnifiedCatchCollection.Create(singleton);
         }
 
+        public static UnifiedCommentCollection ToCollection(
+                this IEnumerable<UnifiedComment> collection) {
+            return UnifiedCommentCollection.Create(collection);
+        }
+
+        public static UnifiedCommentCollection ToCollection(
+                this UnifiedComment singleton) {
+            if (singleton == null) {
+                return UnifiedCommentCollection.Create();
+            }
+            return UnifiedCommentCollection.Create(singleton);
+        }
+
         public static UnifiedExpressionCollection ToCollection(
                 this IEnumerable<IUnifiedExpression> collection) {
             return UnifiedExpressionCollection.Create(collection);

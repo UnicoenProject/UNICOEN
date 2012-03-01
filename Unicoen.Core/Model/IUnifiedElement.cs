@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using Code2Xml.Core.Position;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
