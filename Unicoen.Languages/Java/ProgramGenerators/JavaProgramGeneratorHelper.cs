@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Numerics;
@@ -26,9 +27,25 @@ using Code2Xml.Core;
 using Code2Xml.Core.Position;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
+using PostSharp.Aspects;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.ProgramGenerators;
+
+[Serializable]
+public class CodePositionAttribute : OnMethodBoundaryAspect
+{
+	/// <summary>
+	/// Method invoked after successfull execution of the method to which the current
+	/// aspect is applied.
+	/// </summary>
+	/// <param name="args">Information about the method being executed.</param>
+	public override void OnSuccess( MethodExecutionArgs args ) {
+		((UnifiedElement)args.ReturnValue).Position =
+				CodePositionAnalyzer.Create((XElement)args.Arguments[0]);
+
+	}
+}
 
 // ReSharper disable InvocationIsSkipped
 
@@ -80,15 +97,18 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 				var typeDeclaration = CreateTypeDeclaration(e);
 				expressions.AddRange(typeDeclaration);
 			}
-			program.Comments = node.Elements(Constants.CommentNodeName)
-					.Select(
-							e => new UnifiedComment {
-									Content = e.Value,
-									Position = CodePositionAnalyzer.Create(e),
-							})
+			program.Comments = node.Elements(Code2XmlConstants.CommentName)
+					.Select(CreateComment)
 					.ToCollection();
 
 			return program;
+		}
+
+		[CodePositionAttribute]
+		public static UnifiedComment CreateComment(XElement element) {
+			return new UnifiedComment {
+					Content = element.Value,
+			};
 		}
 
 		public static UnifiedClassLikeDefinition CreatePackageDeclaration(
@@ -121,10 +141,10 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					idStrs.Select(UnifiedVariableIdentifier.Create).
 							ToProperty(".");
 			var modifiers = node.HasElementByContent("static")
-			                		? UnifiedModifier.Create(
-			                				node.NthElement(1).Value).
-			                		  		ToCollection()
-			                		: null;
+									? UnifiedModifier.Create(
+											node.NthElement(1).Value).
+											ToCollection()
+									: null;
 
 			return UnifiedImport.Create(name, null, null, modifiers);
 		}
@@ -250,9 +270,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					CreateModifiers(node.Element("modifiers"));
 			var name = node.NthElement(2).Value;
 			var typeParameters = node.HasElement("typeParameters")
-			                     		? CreateTypeParameters(
-			                     				node.Element("typeParameters"))
-			                     		: null;
+										? CreateTypeParameters(
+												node.Element("typeParameters"))
+										: null;
 			var constrains = UnifiedTypeConstrainCollection.Create();
 			if (node.HasElement("type")) {
 				constrains.Add(
@@ -327,12 +347,12 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var name = node.NthElement(2).Value;
 			var typeListNode = node.Element("typeList");
 			var constrains = typeListNode != null
-			                 		? CreateTypeList(typeListNode)
-			                 		  		.Select(
-			                 		  				UnifiedImplementsConstrain
-			                 		  						.Create)
-			                 		  		.ToCollection()
-			                 		: null;
+									? CreateTypeList(typeListNode)
+											.Select(
+													UnifiedImplementsConstrain
+															.Create)
+											.ToCollection()
+									: null;
 			var enumBody = CreateEnumBody(node.Element("enumBody"));
 			return UnifiedEnumDefinition.Create(
 					annotationsAndModifiers.Item1,
@@ -389,15 +409,15 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var argumentsNode = node.Element("arguments");
 			var classBodyNode = node.Element("classBody");
 			var annotations = annotationsNode != null
-			                  		? CreateAnnotations(annotationsNode)
-			                  		: null;
+									? CreateAnnotations(annotationsNode)
+									: null;
 			var name = node.ElementByContent().Value;
 			var arguments = argumentsNode != null
-			                		? CreateArguments(argumentsNode)
-			                		: null;
+									? CreateArguments(argumentsNode)
+									: null;
 			var body = classBodyNode != null
-			           		? CreateClassBody(classBodyNode)
-			           		: null;
+							? CreateClassBody(classBodyNode)
+							: null;
 
 			return UnifiedVariableDefinition.Create(
 					annotations,
@@ -453,17 +473,17 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					node.NthElement(2).Value);
 			var typeParametersNode = node.Element("typeParameters");
 			var typeParameters = typeParametersNode != null
-			                     		? CreateTypeParameters(
-			                     				typeParametersNode)
-			                     		: null;
+										? CreateTypeParameters(
+												typeParametersNode)
+										: null;
 			var typeListNode = node.Element("typeList");
 			var constrains = typeListNode != null
-			                 		? UnifiedTypeConstrainCollection.Create(
-			                 				CreateTypeList(typeListNode).Select
-			                 						(
-			                 								UnifiedExtendConstrain
-			                 										.Create))
-			                 		: null;
+									? UnifiedTypeConstrainCollection.Create(
+											CreateTypeList(typeListNode).Select
+													(
+															UnifiedExtendConstrain
+																	.Create))
+									: null;
 			var body = CreateInterfaceBody(node.Element("interfaceBody"));
 
 			return UnifiedInterfaceDefinition.Create(
@@ -524,8 +544,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			if (node.HasElement("block")) {
 				//case static initializer
 				var modifier = node.HasContent("static")
-				               		? UnifiedModifier.Create("static")
-				               		: null;
+									? UnifiedModifier.Create("static")
+									: null;
 				yield return UnifiedStaticInitializer.Create(
 						CreateBlock(node.Element("block")), null,
 						UnifiedModifierCollection.Create(modifier));
@@ -583,9 +603,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					UnifiedVariableIdentifier.Create(
 							node.Element("IDENTIFIER").Value);
 			var typeParameters = node.HasElement("typeParameters")
-			                     		? CreateTypeParameters(
-			                     				node.Element("typeParameters"))
-			                     		: null;
+										? CreateTypeParameters(
+												node.Element("typeParameters"))
+										: null;
 			var type = CreateType(node.Element("type"));
 			//コンストラクタの場合はnullになるがどうせ使わない
 			var dimension = node.ElementsByContent("[").Count();
@@ -596,26 +616,26 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var parameters =
 					CreateFormalParameters(node.Element("formalParameters"));
 			var throws = node.HasElement("qualifiedNameList")
-			             		? CreateQualifiedNameList(
-			             				node.Element("qualifiedNameList"))
-			             		  		.Select(UnifiedType.Create)
-			             		  		.ToCollection()
-			             		: null;
+								? CreateQualifiedNameList(
+										node.Element("qualifiedNameList"))
+										.Select(UnifiedType.Create)
+										.ToCollection()
+								: null;
 			var body = node.HasElement("block")
-			           		? CreateBlock(node.Element("block")) : null;
+							? CreateBlock(node.Element("block")) : null;
 
 			if (!node.HasElement("type") && !node.HasElementByContent("void")) {
 				//case constructor
 				var invocationNode =
 						node.Element("explicitConstructorInvocation");
 				var invocations = invocationNode != null
-				                  		? Enumerable.Repeat(
-				                  				CreateExplicitConstructorInvocation
-				                  						(
-				                  								invocationNode),
-				                  				1)
-				                  		: Enumerable.Empty<IUnifiedExpression>
-				                  		  		();
+										? Enumerable.Repeat(
+												CreateExplicitConstructorInvocation
+														(
+																invocationNode),
+												1)
+										: Enumerable.Empty<IUnifiedExpression>
+												();
 				var block =
 						invocations.Concat(
 								node.Elements("blockStatement")
@@ -675,10 +695,10 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 * :   IDENTIFIER ('[' ']')* ('=' variableInitializer)? 
 			 */
 			var initializer = node.HasElement("variableInitializer")
-			                  		? CreateVariableInitializer(
-			                  				node.Element(
-			                  						"variableInitializer"))
-			                  		: null;
+									? CreateVariableInitializer(
+											node.Element(
+													"variableInitializer"))
+									: null;
 			var dimension = node.ElementsByContent("[").Count();
 			type = type.WrapArrayRepeatedly(dimension);
 
@@ -734,9 +754,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var annotationsAndModifiers =
 					CreateModifiers(node.Element("modifiers"));
 			var typeParameters = node.HasElement("typeParameters")
-			                     		? CreateTypeParameters(
-			                     				node.Element("typeParameters"))
-			                     		: null;
+										? CreateTypeParameters(
+												node.Element("typeParameters"))
+										: null;
 			var type = CreateType(node.Element("type"));
 			var dimension = node.ElementsByContent("[").Count();
 			type = type.WrapArrayRepeatedly(dimension);
@@ -747,12 +767,12 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					CreateFormalParameters(node.Element("formalParameters"));
 
 			var throws = node.HasElement("qualifiedNameList")
-			             		? UnifiedTypeCollection.Create(
-			             				CreateQualifiedNameList(
-			             						node.Element(
-			             								"qualifiedNameList"))
-			             						.Select(UnifiedType.Create))
-			             		: null;
+								? UnifiedTypeCollection.Create(
+										CreateQualifiedNameList(
+												node.Element(
+														"qualifiedNameList"))
+												.Select(UnifiedType.Create))
+								: null;
 
 			return UnifiedFunctionDefinition.Create(
 					annotationsAndModifiers.Item1,
@@ -831,20 +851,20 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 							e => {
 								var typeArgumentsNode = e.NextElementOrDefault();
 								var typeArguments = typeArgumentsNode != null &&
-								                    typeArgumentsNode.Name()
-								                    == "typeArguments"
-								                    		? CreateTypeArguments
-								                    		  		(
-								                    		  				typeArgumentsNode)
-								                    		: null;
+													typeArgumentsNode.Name()
+													== "typeArguments"
+															? CreateTypeArguments
+																	(
+																			typeArgumentsNode)
+															: null;
 								return Tuple.Create(e.Value, typeArguments);
 							}).ToList();
 
 			var simpleType = UnifiedType.Create(innerTypes[0].Item1);
 			var firstType = innerTypes[0].Item2 == null
-			                		? simpleType
-			                		: simpleType.WrapGeneric(
-			                				innerTypes[0].Item2);
+									? simpleType
+									: simpleType.WrapGeneric(
+											innerTypes[0].Item2);
 
 			return innerTypes
 					.Skip(1)
@@ -856,9 +876,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 												tuple.Item1));
 								var newType = UnifiedType.Create(prop);
 								return tuple.Item2 == null
-								       		? newType
-								       		: newType.WrapGeneric(
-								       				tuple.Item2);
+											? newType
+											: newType.WrapGeneric(
+													tuple.Item2);
 							});
 		}
 
@@ -957,8 +977,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					.OddIndexElements()
 					.Select(
 							e => e.Name() == "normalParameterDecl"
-							     		? CreateNormalParameterDecl(e)
-							     		: CreateEllipsisParameterDecl(e))
+										? CreateNormalParameterDecl(e)
+										: CreateEllipsisParameterDecl(e))
 					.ToCollection();
 		}
 
@@ -1014,10 +1034,10 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 
 			var aruguments = CreateArguments(node.Element("arguments"));
 			var typeArguments = node.HasElement("nonWildcardTypeArguments")
-			                    		? CreateNonWildcardTypeArguments(
-			                    				node.Element(
-			                    						"nonWildcardTypeArguments"))
-			                    		: null;
+										? CreateNonWildcardTypeArguments(
+												node.Element(
+														"nonWildcardTypeArguments"))
+										: null;
 
 			if (node.FirstElement().Name() == "primary") {
 				var prop = UnifiedProperty.Create(
@@ -1028,9 +1048,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			}
 
 			var target = node.FirstElement().Value == "this"
-			             		? (IUnifiedExpression)
-			             		  UnifiedThisIdentifier.Create("this")
-			             		: UnifiedSuperIdentifier.Create("super");
+								? (IUnifiedExpression)
+								  UnifiedThisIdentifier.Create("this")
+								: UnifiedSuperIdentifier.Create("super");
 			return UnifiedCall.Create(target, aruguments, typeArguments);
 		}
 
@@ -1071,9 +1091,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					UnifiedType.Create(CreateQualifiedName(node.NthElement(1))),
 					elementNode != null
 							? elementNode.Name() == "elementValuePairs"
-							  		? CreateElementValuePairs(elementNode)
-							  		: CreateElementValue(elementNode).
-							  		  		ToArgument().ToCollection()
+									? CreateElementValuePairs(elementNode)
+									: CreateElementValue(elementNode).
+											ToArgument().ToCollection()
 							: null
 					);
 		}
@@ -1226,8 +1246,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					UnifiedVariableIdentifier.Create(node.NthElement(2).Value),
 					arguments: UnifiedArgumentCollection.Create(),
 					initialValue: elementValueNode != null
-					              		? CreateElementValue(elementValueNode)
-					              		: null
+										? CreateElementValue(elementValueNode)
+										: null
 					).ToVariableDefinitionList();
 		}
 
@@ -1451,13 +1471,13 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 			var body = CreateBlock(node.NthElement(1));
 			var catches = node.HasElement("catches")
-			              		? CreateCatches(node.Element("catches"))
-			              		: null;
+								? CreateCatches(node.Element("catches"))
+								: null;
 			var finallyBlock = node.HasElement("FINALLY")
-			                   		? CreateBlock(
-			                   				node.Elements("block").ElementAt(
-			                   						1))
-			                   		: null;
+									? CreateBlock(
+											node.Elements("block").ElementAt(
+													1))
+									: null;
 			return UnifiedTry.Create(body, catches, null, finallyBlock);
 		}
 
@@ -1542,18 +1562,18 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 						);
 			}
 			var forInit = node.HasElement("forInit")
-			              		? CreateForInit(node.Element("forInit"))
-			              		: null;
+								? CreateForInit(node.Element("forInit"))
+								: null;
 			var condition = node.HasElement("expression")
-			                		? CreateExpression(
-			                				node.Element("expression"))
-			                		: null;
+									? CreateExpression(
+											node.Element("expression"))
+									: null;
 			var step = node.HasElement("expressionList")
-			           // TODO tuple?
-			           		? CreateExpressionList(
-			           				node.Element("expressionList"))
-			           		  		.ToTupleLiteral()
-			           		: null;
+					   // TODO tuple?
+							? CreateExpressionList(
+									node.Element("expressionList"))
+									.ToTupleLiteral()
+							: null;
 			var body =
 					UnifiedBlock.Create(
 							CreateStatement(node.Element("statement")));
@@ -1815,9 +1835,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 									ope,
 									ope == "++"
 											? UnifiedUnaryOperatorKind.
-											  		PostIncrementAssign
+													PostIncrementAssign
 											: UnifiedUnaryOperatorKind.
-											  		PostDecrementAssign));
+													PostDecrementAssign));
 				}
 				return result;
 			}
@@ -1875,16 +1895,16 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 								: Enumerable.Repeat(
 										(UnifiedIdentifier)
 										UnifiedThisIdentifier.Create("this"), 1)
-								  		.Concat(
-								  				prefix.Skip(1).Select(
-								  						UnifiedVariableIdentifier
-								  								.Create));
+										.Concat(
+												prefix.Skip(1).Select(
+														UnifiedVariableIdentifier
+																.Create));
 				var prefixProp = identifiers.ToProperty(".");
 				var identifierSuffixNode = node.Element("identifierSuffix");
 				return identifierSuffixNode == null
-				       		? prefixProp
-				       		: CreateIdentifierSuffix(
-				       				prefixProp, identifierSuffixNode);
+							? prefixProp
+							: CreateIdentifierSuffix(
+									prefixProp, identifierSuffixNode);
 			}
 			if (first.HasContent("super")) {
 				var super = UnifiedVariableIdentifier.Create("super");
@@ -1929,12 +1949,12 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			}
 			var typeArgumentsNode = node.Element("typeArguments");
 			var typeArguments = typeArgumentsNode != null
-			                    		? CreateTypeArguments(typeArgumentsNode)
-			                    		: null;
+										? CreateTypeArguments(typeArgumentsNode)
+										: null;
 			var argumentsNode = node.Element("arguments");
 			var arguments = argumentsNode != null
-			                		? CreateArguments(argumentsNode)
-			                		: null;
+									? CreateArguments(argumentsNode)
+									: null;
 			var property = UnifiedProperty.Create(
 					".", prefix,
 					UnifiedVariableIdentifier.Create(
@@ -1981,17 +2001,17 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 						.Select(CreateExpression)
 						.Aggregate(
 								prefixProp, (current, exp) =>
-								            UnifiedIndexer.Create(
-								            		current,
-								            		UnifiedArgumentCollection.
-								            				Create(
-								            						UnifiedArgument
-								            								.
-								            								Create
-								            								(
-								            										exp,
-								            										null,
-								            										null)))
+											UnifiedIndexer.Create(
+													current,
+													UnifiedArgumentCollection.
+															Create(
+																	UnifiedArgument
+																			.
+																			Create
+																			(
+																					exp,
+																					null,
+																					null)))
 						);
 			}
 			// '.' 'class'				// java.lang.String.class
@@ -2150,13 +2170,13 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			type = node.Elements("expression")
 					.Aggregate(
 							type, (current, exp) => current
-							                        		.WrapArray(
-							                        				CreateExpression
-							                        						(
-							                        								exp)
-							                        						.
-							                        						ToArgument
-							                        						()));
+															.WrapArray(
+																	CreateExpression
+																			(
+																					exp)
+																			.
+																			ToArgument
+																			()));
 			{
 				var dimension = node.ElementsByContent("[")
 						.Where(e => e.NextElement().Value == "]")
@@ -2232,18 +2252,18 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			// X . new <T> Sample <E> (1,2){}
 
 			var typeArguments = node.HasElement("typeArguments")
-			                    		? CreateTypeArguments(
-			                    				node.Element("typeArguments"))
-			                    		: null;
+										? CreateTypeArguments(
+												node.Element("typeArguments"))
+										: null;
 			var type = UnifiedType.Create(
 					node.Element("IDENTIFIER").Value).WrapGeneric(typeArguments);
 			var creatorRest =
 					CreateClassCreatorRest(node.Element("classCreatorRest"));
 			var typeParameters = node.HasElement("nonWildcardTypeArguments")
-			                     		? CreateNonWildcardTypeArguments(
-			                     				node.Element(
-			                     						"nonWildcardTypeArguments"))
-			                     		: null;
+										? CreateNonWildcardTypeArguments(
+												node.Element(
+														"nonWildcardTypeArguments"))
+										: null;
 			var prop = UnifiedNew.Create(
 					type, creatorRest.Item1, typeParameters, null,
 					creatorRest.Item2);
@@ -2261,8 +2281,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 
 			var body = node.HasElement("classBody")
-			           		? CreateClassBody(node.Element("classBody"))
-			           		: null;
+							? CreateClassBody(node.Element("classBody"))
+							: null;
 			return
 					new Tuple<UnifiedArgumentCollection, UnifiedBlock>(
 							CreateArguments(node.Element("arguments")), body);
@@ -2460,7 +2480,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 *     
 			 * fragment 
 			 * Exponent    
-			 * :   ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ 
+			 * :   ( 'element' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ 
 			 */
 			if (value.Count() > 1 && (value[1] == 'x' || value[1] == 'X')) {
 				return ParseHexFraction(value);
