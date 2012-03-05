@@ -30,8 +30,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 		/// </summary>
 		/// <param name="args"> Information about the method being executed. </param>
 		public override void OnSuccess(MethodExecutionArgs args) {
-			((UnifiedElement)args.ReturnValue).Position =
-					CodePositionAnalyzer.Create((XElement)args.Arguments[0]);
+			//((UnifiedElement)args.ReturnValue).Position =
+			//        CodePositionAnalyzer.Create((XElement)args.Arguments[0]);
 		}
 	}
 }

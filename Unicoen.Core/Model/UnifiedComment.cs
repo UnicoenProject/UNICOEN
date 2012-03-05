@@ -17,6 +17,7 @@
 #endregion
 
 using System.Diagnostics;
+using Code2Xml.Core.Position;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
@@ -28,6 +29,11 @@ namespace Unicoen.Model {
 		///   コメントの文字列表現です．
 		/// </summary>
 		public string Content { get; set; }
+
+		/// <summary>
+		///   ソースコード上の位置情報を取得もしくは設定します．
+		/// </summary>
+		public CodePosition Position { get; set; }
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {

@@ -38,7 +38,7 @@ namespace Unicoen.Model {
 		protected List<TElement> ElementList;
 
 		protected UnifiedElementCollectionBase() {
-			Debug.Assert(typeof(TSelf) == GetType());
+			Debug.Assert(typeof(TSelf) == GetType(), "TSelf should equal itself class.");
 			ElementList = new List<TElement>();
 		}
 
@@ -70,9 +70,9 @@ namespace Unicoen.Model {
 		/// </summary>
 		/// <returns> 子要素 </returns>
 		public override IEnumerable<UnifiedElement> Elements() {
-			// base.GetElementList(): このクラスが持つ共通表現の要素のプロパティから得られる要素列
-			// ElementList: 共通表現の要素集合として持つ子要素列
-			Debug.Assert(!base.Elements().Any());
+			Debug.Assert(
+					!base.Elements().Any(),
+					"UnifiedElementCollectionBase can't have properties without ElementList");
 			return ElementList;
 		}
 
