@@ -273,7 +273,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		// いろいろなところから呼ばれるが、返り値はIEnumerable<IUnifiedExpression>でいいのか
+		// いろいろなところから呼ばれるが、返り値はIEnumerable<UnifiedExpression>でいいのか
 		public static IEnumerable<UnifiedExpression> CreateExpression(
 				XElement node) {
 			Contract.Requires(node != null);

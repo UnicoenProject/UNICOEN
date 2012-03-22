@@ -56,7 +56,7 @@ namespace Unicoen.Apps.RefactoringDSL {
 
             var list = targetClass.Body.DeepCopy();
             // 元の要素群とアクセッサを結合
-            // var list = new List<IUnifiedExpression>();
+            // var list = new List<UnifiedExpression>();
             foreach (var getter in getters) {
                 list.Add(getter);
             }

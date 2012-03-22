@@ -796,7 +796,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			var expressions = node.Elements("assignmentExpression")
 					.Select(CreateAssignmentExpression)
 					.ToList();
-			// 式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
+			// 式が１つの場合はUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
 			if (expressions.Count == 1) {
 				return expressions[0];
 			}
@@ -813,7 +813,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			var expressions = node.Elements("assignmentExpressionNoIn")
 					.Select(CreateAssignmentExpressionNoIn)
 					.ToList();
-			// 式が１つの場合はIUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
+			// 式が１つの場合はUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
 			if (expressions.Count == 1) {
 				return expressions[0];
 			}
