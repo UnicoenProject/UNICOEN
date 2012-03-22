@@ -36,7 +36,7 @@ namespace Unicoen.Model {
 		}
 
 		public static T SetPosition<T>(this T element, XElement e)
-				where T : UnifiedComment {
+				where T : UnifiedElement {
 			element.Position = CodePositionAnalyzer.Create(e);
 			return element;
 		}
