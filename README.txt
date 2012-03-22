@@ -1,8 +1,8 @@
-﻿* Title
+* Title
 UNICOEN
 
 * Version
-1.0.0
+1.0.4.56
 
 * Description
 UNICOEN is a UNIfied COde ENgineering framework which provides a language-independent model to analyze and transform source code supporting multiple programming languages.
@@ -17,6 +17,7 @@ The UNICOEN Project
   Tomoyuki KAMIYA
 
 * Requirements
+Enable NuGet Package Restore
 Code Contracts
 http://research.microsoft.com/en-us/projects/contracts/
 Download (Academic License)
