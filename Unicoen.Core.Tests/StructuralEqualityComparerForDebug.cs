@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,34 +23,34 @@ using Unicoen.Processor;
 using Unicoen.TestUtils;
 
 namespace Unicoen.Tests {
-    public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
-        public static StructuralEqualityComparerForDebug Instance =
-                new StructuralEqualityComparerForDebug();
+	public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
+		public static StructuralEqualityComparerForDebug Instance =
+				new StructuralEqualityComparerForDebug();
 
-        #region IEqualityComparer<object> Members
+		#region IEqualityComparer<object> Members
 
-        bool IEqualityComparer<object>.Equals(object x, object y) {
-            var result = StructuralEqualityComparer.StructuralEquals(x, y);
-            if (result) {
-                return true;
-            }
-            var x2 = x as UnifiedElement;
-            if (x2 != null) {
-                File.WriteAllText(
-                        FixtureUtil.GetOutputPath("model1.txt"), x2.ToString());
-            }
-            var y2 = y as UnifiedElement;
-            if (y2 != null) {
-                File.WriteAllText(
-                        FixtureUtil.GetOutputPath("model2.txt"), y2.ToString());
-            }
-            return false;
-        }
+		bool IEqualityComparer<object>.Equals(object x, object y) {
+			var result = StructuralEqualityComparer.StructuralEquals(x, y);
+			if (result) {
+				return true;
+			}
+			var x2 = x as UnifiedElement;
+			if (x2 != null) {
+				File.WriteAllText(
+						FixtureUtil.GetOutputPath("model1.txt"), x2.ToString());
+			}
+			var y2 = y as UnifiedElement;
+			if (y2 != null) {
+				File.WriteAllText(
+						FixtureUtil.GetOutputPath("model2.txt"), y2.ToString());
+			}
+			return false;
+		}
 
-        public int GetHashCode(object obj) {
-            return StructuralEqualityComparer.Instance.GetHashCode(obj);
-        }
+		public int GetHashCode(object obj) {
+			return StructuralEqualityComparer.Instance.GetHashCode(obj);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }
