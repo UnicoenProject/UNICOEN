@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011-2012 The Unicoen Project
+// Copyright (C) 2011 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Unicoen.Core")]
 [assembly:
-		AssemblyDescription(
-				"UNICOEN is a UNIfied COde ENgineering framework which provides a language-independent model to analyze and transform source code supporting multiple programming languages."
-				)]
+        AssemblyDescription(
+                "UNICOEN is a UNIfied COde ENgineering framework which provides a language-independent model to analyze and transform source code supporting multiple programming languages."
+                )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The UNICOEN Project")]
 [assembly: AssemblyProduct("Unicoen.Core")]
@@ -56,5 +56,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.3.76")]
-[assembly: AssemblyFileVersion("1.0.3.76")]
+[assembly: AssemblyVersion("1.0.4.54")]
+[assembly: AssemblyFileVersion("1.0.4.54")]

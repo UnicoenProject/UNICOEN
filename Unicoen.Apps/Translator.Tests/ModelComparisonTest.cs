@@ -23,6 +23,7 @@ using Paraiba.Text;
 using Unicoen.Languages.C;
 using Unicoen.Languages.Java;
 using Unicoen.Languages.JavaScript;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
 
 namespace Unicoen.Apps.Translator.Tests {

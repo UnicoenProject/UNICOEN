@@ -22,6 +22,7 @@ using System.Text;
 using System.Xml;
 using NUnit.Framework;
 using Unicoen.Languages.JavaScript;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
 
 namespace Unicoen.Apps.Translator.Tests {

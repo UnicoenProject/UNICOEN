@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -31,7 +32,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 	public static partial class CProgramGeneratorHelper {
 		// labeled_statementは２つのExpressionを必要とするので、
 		// それに合わせてこの関数の返り値はIEnumerable<IUnifiedExpression>になります。
-		public static IEnumerable<UnifiedExpression> CreateStatement(
+		public static IEnumerable<IUnifiedExpression> CreateStatement(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement");
@@ -47,10 +48,14 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			switch (first.Name.LocalName) {
 			case "labeled_statement":
 				var label = first.FirstElement();
-				if (label.Name == "IDENTIFIER") {
-					yield return UnifiedLabel.Create(label.Value);
-					yield return CreateStatement(first.NthElement(2)).First();
-				}
+                if (label.Name == "IDENTIFIER") {
+                    label = label;
+                }
+				Debug.Assert(
+						label.Name == "IDENTIFIER",
+						"case statements should be handled in CreateSelectionStatement");
+				yield return UnifiedLabel.Create(label.Value);
+				yield return CreateStatement(first.NthElement(2)).First();
 				yield break;
 			case "compound_statement":
 				yield return CreateCompoundStatement(first);
@@ -70,22 +75,6 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			default:
 				throw new InvalidOperationException();
 			}
-		}
-
-		public static IEnumerable<UnifiedExpression> CreateLabeledStatement(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "labeled_statement");
-			/*
-			labeled_statement
-			: IDENTIFIER ':' statement
-			| 'case' constant_expression ':' statement
-			| 'default' ':' statement
-			 */
-
-			// ラベルに関わるオブジェクトは、それぞれが必要となる箇所で直接生成されます。
-			// case文はUnifiedElementであり、CreateStatementの型をIEnumerable<UnifiedElement>にすることを防ぐため
-			throw new InvalidOperationException();
 		}
 
 		public static UnifiedBlock CreateCompoundStatement(XElement node) {
@@ -109,7 +98,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return block;
 		}
 
-		public static IEnumerable<UnifiedExpression> CreateStatementList(
+		public static IEnumerable<IUnifiedExpression> CreateStatementList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "statement_list");
@@ -119,7 +108,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return node.Elements("statement").SelectMany(CreateStatement);
 		}
 
-		public static UnifiedExpression CreateExpressionStatement(
+		public static IUnifiedExpression CreateExpressionStatement(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "expression_statement");
@@ -134,7 +123,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 						   ? CreateExpression(first).First() : null;
 		}
 
-		public static UnifiedExpression CreateSelectionStatement(XElement node) {
+		public static IUnifiedExpression CreateSelectionStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "selection_statement");
 			/*
@@ -144,9 +133,10 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			*/
 
 			// TODO switch文のstatementについて、{}がないと単一のstatementしか取得できないため対応を考える
+			// TODO switchNest.c
 
-			var first = node.FirstElement();
-			if (first.Value == "if") {
+			switch (node.FirstElement().Value) {
+			case "if":
 				var statements = node.Elements("statement");
 				var trueBlock = CreateStatement(statements.ElementAt(0));
 				// statementが２つある場合はelse文がある
@@ -162,17 +152,16 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 						UnifiedIf.Create(
 								CreateExpression(node.NthElement(2)).First(),
 								trueBlock.ToBlock());
-			}
-
-			if (first.Value == "switch") {
+			case "switch":
 				// statementの中身を解析して、この関数内で直接UnifiedCaseを生成します。
 				// labeled_statementから辿って、このノードに到達するまでにlabeled_statementがなければ、
 				// そのlabeled_statementはこのノードのケース文です
-
 				var cases = UnifiedCaseCollection.Create();
-				var labels = node.DescendantsAndSelf("labeled_statement").
-						Where(e => e.FirstElement().Name != "IDENTIFIER").
-						Where(
+				var labels = node.DescendantsAndSelf("labeled_statement")
+						// Ignore label statements for goto
+						.Where(e => e.FirstElement().Name != "IDENTIFIER")
+						// Ignore label statements of nested switches
+						.Where(
 								e =>
 								!e.AncestorsUntil(node).Any(
 										e2 =>
@@ -186,13 +175,15 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 						UnifiedSwitch.Create(
 								CreateExpression(node.NthElement(2)).First(),
 								cases);
+			default:
+				throw new InvalidOperationException();
 			}
-			throw new InvalidOperationException();
 		}
 
 		private static UnifiedCase CreateCaseOrDefault(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "labeled_statement");
+			Contract.Requires(node.FirstElement().Name != "IDENTIFIER");
 			/*
 			labeled_statement
 			: IDENTIFIER ':' statement
@@ -200,8 +191,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| 'default' ':' statement
 			 */
 
-			var first = node.FirstElement();
-			switch (first.Value) {
+			switch (node.FirstElement().Value) {
 			case "case":
 				return
 						UnifiedCase.Create(
@@ -218,7 +208,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static UnifiedExpression CreateIterationStatement(XElement node) {
+		public static IUnifiedExpression CreateIterationStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "iteration_statement");
 			/*
@@ -265,7 +255,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static UnifiedExpression CreateJumpStatement(XElement node) {
+		public static IUnifiedExpression CreateJumpStatement(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "jump_statement");
 			/* jump_statement

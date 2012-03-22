@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,86 +18,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Paraiba.Collections.Generic;
-using Paraiba.Text;
-using Unicoen.Languages.C;
-using Unicoen.Languages.CSharp;
 using Unicoen.Languages.Java;
-using Unicoen.Languages.JavaScript;
-using Unicoen.Languages.Python2;
-using Unicoen.Languages.Ruby18.Model;
 using Unicoen.Model;
 
 namespace Unicoen.Apps.Metrics.Utils {
     public static class CodeAnalyzer {
-        public static UnifiedProgram CreateCodeObject(string ext, string code) {
-            switch (ext.ToLower()) {
-            case ".c":
-                return CFactory.GenerateModel(code);
-            case ".vb":
-                return CSharpFactory.GenerateModel(code);
-            case ".cs":
-                return CSharpFactory.GenerateModel(code);
-            case ".java":
-                return JavaFactory.GenerateModel(code);
-            case ".js":
-                return JavaScriptFactory.GenerateModel(code);
-            case ".py":
-                return Python2Factory.GenerateModel(code);
-            case ".rb":
-                return Ruby18ProgramGenerator.Instance.Generate(code);
-            }
-            return null;
-        }
-
-        public static UnifiedProgram CreateCodeObjectOrDefault(
-                string ext, string code) {
-            try {
-                switch (ext.ToLower()) {
-                case ".c":
-                    return CFactory.GenerateModel(code);
-                case ".vb":
-                    return CSharpFactory.GenerateModel(code);
-                case ".cs":
-                    return CSharpFactory.GenerateModel(code);
-                case ".java":
-                    return JavaFactory.GenerateModel(code);
-                case ".js":
-                    return JavaScriptFactory.GenerateModel(code);
-                case ".py":
-                    return Python2Factory.GenerateModel(code);
-                case ".rb":
-                    return Ruby18ProgramGenerator.Instance.Generate(code);
-                }
-            } catch {}
-            return null;
-        }
-
-        public static UnifiedProgram CreateCodeObjectOrDefault(string filePath) {
-            try {
-                var code = GuessEncoding.ReadAllText(filePath);
-                switch ((Path.GetExtension(filePath) ?? "").ToLower()) {
-                case ".c":
-                    return CFactory.GenerateModel(code);
-                case ".vb":
-                    return CSharpFactory.GenerateModel(code);
-                case ".cs":
-                    return CSharpFactory.GenerateModel(code);
-                case ".java":
-                    return JavaFactory.GenerateModel(code);
-                case ".js":
-                    return JavaScriptFactory.GenerateModel(code);
-                case ".py":
-                    return Python2Factory.GenerateModel(code);
-                case ".rb":
-                    return Ruby18ProgramGenerator.Instance.Generate(code);
-                }
-            } catch {}
-            return null;
-        }
-
         private static void InitializeCounter(
                 UnifiedElement model,
                 IDictionary<string, int> counter) {
@@ -178,14 +105,12 @@ namespace Unicoen.Apps.Metrics.Utils {
                         getTargetElementsFunc) {
             try {
                 var counts = new Dictionary<string, int>();
-                var ext = Path.GetExtension(filePath);
-                var code = File.ReadAllText(filePath, XEncoding.SJIS);
-                var model = CreateCodeObject(ext, code);
-                if (model == null) {
+                var prog = UnifiedGenerators.GenerateProgramFromFile(filePath);
+                if (prog == null) {
                     return new Dictionary<string, int>();
                 }
-                InitializeCounter(model, counts);
-                CountElements(getTargetElementsFunc(model), counts);
+                InitializeCounter(prog, counts);
+                CountElements(getTargetElementsFunc(prog), counts);
                 return counts;
             } catch {
                 return new Dictionary<string, int>();

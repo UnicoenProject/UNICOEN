@@ -24,6 +24,7 @@ using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {

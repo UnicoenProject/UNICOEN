@@ -26,8 +26,8 @@ using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
-using Unicoen.Utils;
 
 namespace Unicoen.Languages.Java.Tests {
     /// <summary>

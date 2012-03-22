@@ -25,8 +25,8 @@ using System.Linq;
 using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.ProgramGenerators;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
-using Unicoen.Utils;
 
 namespace Unicoen.Languages.Tests {
     public abstract class Fixture {

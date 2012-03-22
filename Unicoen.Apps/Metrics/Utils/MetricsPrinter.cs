@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,11 +46,6 @@ namespace Unicoen.Apps.Metrics.Utils {
         /// </summary>
         /// <param name="filePath"> a target file path </param>
         protected virtual void PrintMetrics(string filePath) {
-            var codeObject = CodeAnalyzer.CreateCodeObjectOrDefault(filePath);
-            if (codeObject == null) {
-                return;
-            }
-
             Console.WriteLine("**** " + MeticName + " of " + filePath + " ****");
 
             var result = CodeAnalyzer.Measure(
@@ -69,12 +64,12 @@ namespace Unicoen.Apps.Metrics.Utils {
                 IEnumerable<string> paths) {
             return paths.SelectMany(
                     path => {
-                        // do a given path indicate directory?
+                        // Does a given path indicate directory?
                         if (Directory.Exists(path)) {
                             return Directory.EnumerateFiles(
                                     path, "*", SearchOption.AllDirectories);
                         }
-                        // or do a given path indicate file?
+                        // Does a given path indicate file?
                         if (File.Exists(path)) {
                             return Enumerable.Repeat(path, 1);
                         }

@@ -22,6 +22,7 @@ using System.Text;
 using NUnit.Framework;
 using Unicoen.Languages.Java;
 using Unicoen.Model;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
         //
 

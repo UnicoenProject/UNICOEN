@@ -22,6 +22,7 @@ using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
 
 namespace Unicoen.Languages.C.Tests {
@@ -51,20 +52,20 @@ namespace Unicoen.Languages.C.Tests {
             get {
                 // 必要に応じて以下の要素をコメントアウト
                 return new[] {
-                        //"fibonacci",
-                        //"fibonacci2",
-                        //"empty",
-                        //"assignment",
-                        //"Block1",
-                        //"Block2",
-                        //"Block3",
-                        //"hello",
-                        //"test",
-                        //"fact",
-                        //"LineDriveController",
+                        "fibonacci",
+                        "fibonacci2",
+                        "empty",
+                        "assignment",
+                        "Block1",
+                        "Block2",
+                        "Block3",
+                        "hello",
+                        "test",
+                        "fact",
+                        "LineDriveController",
                         "ActionController",
-                        //"switchNest",
-                        //"pointer",
+                        "switchNest",
+                        "pointer",
                 }
                         .Select(
                                 s =>

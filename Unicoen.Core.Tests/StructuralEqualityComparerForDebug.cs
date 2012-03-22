@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using Unicoen.Model;
 using Unicoen.Processor;
+using Unicoen.TestUtils;
 
 namespace Unicoen.Tests {
     public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
 
 namespace Unicoen.Apps.Findbug {

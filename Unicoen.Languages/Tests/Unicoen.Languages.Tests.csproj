@@ -37,6 +37,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Paraiba, Version=1.0.1.19, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Paraiba.1.0.1.19\lib\net40\Paraiba.dll</HintPath>
+    </Reference>
     <Reference Include="Paraiba.Experiment, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Paraiba.Experiment.1.0.0.11\lib\net40\Paraiba.Experiment.dll</HintPath>
@@ -51,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\fixture\Unicoen.TestUtils\Unicoen.TestUtils.csproj">
+      <Project>{C9320776-3FB7-4C69-92C6-CB5F74DAA836}</Project>
+      <Name>Unicoen.TestUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Unicoen.Core.Tests\Unicoen.Core.Tests.csproj">
       <Project>{78B5FF26-BD0A-4955-8273-6629B2A7B71A}</Project>
       <Name>Unicoen.Core.Tests</Name>
@@ -58,10 +66,6 @@
     <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Unicoen.Utils\Unicoen.Utils.csproj">
-      <Project>{C5722D52-DD9D-4FD8-9316-B6F5442080A3}</Project>
-      <Name>Unicoen.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
