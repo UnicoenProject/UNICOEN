@@ -171,16 +171,6 @@
             Statement reachability analysis.
             </summary>
         </member>
-        <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.IsInside(ICSharpCode.NRefactory.TextLocation)">
-            <summary>
-            Returns true, if the given coordinates are in the node.
-            </summary>
-        </member>
-        <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.IsInside(System.Int32,System.Int32)">
-            <summary>
-            Returns true, if the given coordinates (line, column) are in the node.
-            </summary>
-        </member>
         <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.GetRegion">
             <summary>
             Gets the region from StartLocation to EndLocation for this node.
@@ -220,6 +210,46 @@
             Gets the node specified by T at location. This is useful for getting a specific node from the tree. For example searching
             the current method declaration.
             </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.GetText(ICSharpCode.NRefactory.CSharp.CSharpFormattingOptions)">
+            <summary>
+            Gets the node as formatted C# output.
+            </summary>
+            <param name='formattingOptions'>
+            Formatting options.
+            </param>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.Contains(System.Int32,System.Int32)">
+            <summary>
+            Returns true, if the given coordinates (line, column) are in the node.
+            </summary>
+            <returns>
+            True, if the given coordinates are between StartLocation and EndLocation (exclusive); otherwise, false.
+            </returns>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.Contains(ICSharpCode.NRefactory.TextLocation)">
+            <summary>
+            Returns true, if the given coordinates are in the node.
+            </summary>
+            <returns>
+            True, if location is between StartLocation and EndLocation (exclusive); otherwise, false.
+            </returns>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.IsInside(System.Int32,System.Int32)">
+            <summary>
+            Returns true, if the given coordinates (line, column) are in the node.
+            </summary>
+            <returns>
+            True, if the given coordinates are between StartLocation and EndLocation (inclusive); otherwise, false.
+            </returns>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.CSharp.AstNode.IsInside(ICSharpCode.NRefactory.TextLocation)">
+            <summary>
+            Returns true, if the given coordinates are in the node.
+            </summary>
+            <returns>
+            True, if location is between StartLocation and EndLocation (inclusive); otherwise, false.
+            </returns>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.AstNode.Ancestors">
             <summary>
@@ -298,6 +328,16 @@
             Builds an expression that can be used to access a static member on this type.
             </summary>
         </member>
+        <member name="M:ICSharpCode.NRefactory.CSharp.AstType.MemberType(System.String,ICSharpCode.NRefactory.CSharp.AstType[])">
+            <summary>
+            Builds an expression that can be used to access a static member on this type.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.CSharp.AstType.MemberType(System.String,System.Collections.Generic.IEnumerable{ICSharpCode.NRefactory.CSharp.AstType})">
+            <summary>
+            Builds an expression that can be used to access a static member on this type.
+            </summary>
+        </member>
         <member name="M:ICSharpCode.NRefactory.CSharp.AstType.Invoke(System.String,System.Collections.Generic.IEnumerable{ICSharpCode.NRefactory.CSharp.Expression})">
             <summary>
             Builds an invocation expression using this type as target.
@@ -311,6 +351,49 @@
         <member name="M:ICSharpCode.NRefactory.CSharp.AstType.Invoke(System.String,System.Collections.Generic.IEnumerable{ICSharpCode.NRefactory.CSharp.AstType},System.Collections.Generic.IEnumerable{ICSharpCode.NRefactory.CSharp.Expression})">
             <summary>
             Builds an invocation expression using this type as target.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.DocumentationReference">
+            <summary>
+            Represents a 'cref' reference in XML documentation.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.DocumentationReference.EntityType">
+            <summary>
+            Gets/Sets the entity type.
+            Possible values are:
+              <c>EntityType.Operator</c> for operators,
+              <c>EntityType.Indexer</c> for indexers,
+              <c>EntityType.TypeDefinition</c> for references to primitive types,
+              and <c>EntityType.None</c> for everything else.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.DocumentationReference.OperatorType">
+            <summary>
+            Gets/Sets the operator type.
+            This property is only used when EntityType==Operator.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.DocumentationReference.HasParameterList">
+            <summary>
+            Gets/Sets whether a parameter list was provided.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.DocumentationReference.DeclaringType">
+            <summary>
+            Gets/Sets the declaring type.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.DocumentationReference.MemberName">
+            <summary>
+            Gets/sets the member name.
+            This property is only used when EntityType==None.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.DocumentationReference.ConversionOperatorReturnType">
+            <summary>
+            Gets/Sets the return type of conversion operators.
+            This property is only used when EntityType==Operator and OperatorType is explicit or implicit.
             </summary>
         </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.IdentifierExpressionBackreference">
@@ -332,6 +415,34 @@
         <member name="T:ICSharpCode.NRefactory.CSharp.ArraySpecifier">
             <summary>
             [,,,]
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.CSharpTokenNode">
+            <summary>
+            Represents a token in C#. Note that the type of the token is defined through the TokenRole.
+            </summary>
+            <remarks>
+            In all non null c# token nodes the Role of a CSharpToken must be a TokenRole.
+            </remarks>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.DepthFirstAstVisitor">
+            <summary>
+            AST visitor with a default implementation that visits all node depth-first.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.IAstVisitor">
+            <summary>
+            AST visitor.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.DepthFirstAstVisitor`1">
+            <summary>
+            AST visitor with a default implementation that visits all node depth-first.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.IAstVisitor`1">
+            <summary>
+            AST visitor.
             </summary>
         </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.ErrorNode">
@@ -774,6 +885,11 @@
             Inactive code (code in non-taken "#if")
             </summary>
         </member>
+        <member name="F:ICSharpCode.NRefactory.CSharp.CommentType.MultiLineDocumentation">
+            <summary>
+            "/** */" comment
+            </summary>
+        </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.Constraint">
             <summary>
             where TypeParameter : BaseTypes
@@ -1018,28 +1134,27 @@
             get/set/add/remove
             </summary>
         </member>
-        <member name="P:ICSharpCode.NRefactory.CSharp.ConstructorDeclaration.Name">
+        <member name="P:ICSharpCode.NRefactory.CSharp.CustomEventDeclaration.PrivateImplementationType">
             <summary>
-            Gets/Sets the name of the class containing the constructor.
-            This property can be used to inform the output visitor about the class name when writing a constructor declaration
-            without writing the complete type declaration. It is ignored when the constructor has a type declaration as parent.
-            </summary>
-        </member>
-        <member name="P:ICSharpCode.NRefactory.CSharp.DestructorDeclaration.Name">
-            <summary>
-            Gets/Sets the name of the class containing the destructor.
-            This property can be used to inform the output visitor about the class name when writing a destructor declaration
-            without writing the complete type declaration. It is ignored when the destructor has a type declaration as parent.
-            </summary>
-        </member>
-        <member name="P:ICSharpCode.NRefactory.CSharp.MemberDeclaration.PrivateImplementationType">
-            <summary>
-            Only supported on members that can be declared in an interface.
+            Gets/Sets the type reference of the interface that is explicitly implemented.
+            Null node if this member is not an explicit interface implementation.
             </summary>
         </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.FixedVariableInitializer">
             <summary>
             Name [ CountExpression ]
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.IndexerDeclaration.PrivateImplementationType">
+            <summary>
+            Gets/Sets the type reference of the interface that is explicitly implemented.
+            Null node if this member is not an explicit interface implementation.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.MethodDeclaration.PrivateImplementationType">
+            <summary>
+            Gets/Sets the type reference of the interface that is explicitly implemented.
+            Null node if this member is not an explicit interface implementation.
             </summary>
         </member>
         <member name="M:ICSharpCode.NRefactory.CSharp.OperatorDeclaration.GetOperatorType(System.String)">
@@ -1055,6 +1170,12 @@
         <member name="M:ICSharpCode.NRefactory.CSharp.OperatorDeclaration.GetToken(ICSharpCode.NRefactory.CSharp.OperatorType)">
             <summary>
             Gets the token for the operator type ("+", "implicit", etc.)
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.PropertyDeclaration.PrivateImplementationType">
+            <summary>
+            Gets/Sets the type reference of the interface that is explicitly implemented.
+            Null node if this member is not an explicit interface implementation.
             </summary>
         </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.CodeDomConvertVisitor">
@@ -1195,7 +1316,7 @@
             Writes an optional semicolon, e.g. at the end of a type or namespace declaration.
             </summary>
         </member>
-        <member name="M:ICSharpCode.NRefactory.CSharp.CSharpOutputVisitor.WriteKeyword(System.String,ICSharpCode.NRefactory.Role{ICSharpCode.NRefactory.CSharp.CSharpTokenNode})">
+        <member name="M:ICSharpCode.NRefactory.CSharp.CSharpOutputVisitor.WriteKeyword(ICSharpCode.NRefactory.CSharp.TokenRole)">
             <summary>
             Writes a keyword, and all specials up to
             </summary>
@@ -1748,12 +1869,6 @@
         <member name="T:Mono.CSharp.AttributeTester">
             <summary>
             Helper class for attribute verification routine.
-            </summary>
-        </member>
-        <member name="M:Mono.CSharp.AttributeTester.AreOverloadedMethodParamsClsCompliant(Mono.CSharp.AParametersCollection,Mono.CSharp.AParametersCollection)">
-            <summary>
-            Returns true if parameters of two compared methods are CLS-Compliant.
-            It tests differing only in ref or out, or in array rank.
             </summary>
         </member>
         <member name="M:Mono.CSharp.AttributeTester.Report_ObsoleteMessage(System.ObsoleteAttribute,System.String,Mono.CSharp.Location,Mono.CSharp.Report)">
@@ -3080,6 +3195,13 @@
             The offset of the replace.
             </value>
         </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TextReplaceAction.DependsOn">
+            <summary>
+            Gets or sets the text replace action where this action depends on.
+            For example inserting a '{' ... '}' pair would require to insert the '}' when '{' is inserted.
+            Therefore the both actions depend on each other.
+            </summary>
+        </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TextReplaceAction.RemovedChars">
             <summary>
             Gets or sets the numer of chars to removed.
@@ -3132,45 +3254,59 @@
             <param name="startIndex">Index of first type argument to add</param>
             <param name="endIndex">Index after last type argument to add</param>
         </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.AddAnnotations">
+            <summary>
+            Specifies whether the ast builder should add annotations to type references.
+            The default value is <c>false</c>.
+            </summary>
+        </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.ShowAccessibility">
             <summary>
             Controls the accessibility modifiers are shown.
+            The default value is <c>true</c>.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.ShowModifiers">
             <summary>
             Controls the non-accessibility modifiers are shown.
+            The default value is <c>true</c>.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.ShowBaseTypes">
             <summary>
             Controls whether base type references are shown.
+            The default value is <c>true</c>.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.ShowTypeParameters">
             <summary>
             Controls whether type parameter declarations are shown.
+            The default value is <c>true</c>.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.ShowTypeParameterConstraints">
             <summary>
             Controls whether contraints on type parameter declarations are shown.
             Has no effect if ShowTypeParameters is false.
+            The default value is <c>true</c>.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.ShowParameterNames">
             <summary>
             Controls whether the names of parameters are shown.
+            The default value is <c>true</c>.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.ShowConstantValues">
             <summary>
             Controls whether to show default values of optional parameters, and the values of constant fields.
+            The default value is <c>true</c>.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.CSharp.Refactoring.TypeSystemAstBuilder.AlwaysUseShortTypeNames">
             <summary>
             Controls whether to use fully-qualified type names or short type names.
+            The default value is <c>false</c>.
             </summary>
         </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.Resolver.IResolveVisitorNavigator">
@@ -4476,6 +4612,11 @@
             Represents an array creation (as used within an attribute argument)
             </summary>
         </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.TypeSystem.CSharpDocumentationComment">
+            <summary>
+            DocumentationComment with C# cref lookup.
+            </summary>
+        </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.TypeSystem.CSharpParsedFile">
             <summary>
             Represents a file that was parsed and converted for the type system.
@@ -4544,6 +4685,12 @@
             The default value is a new <see cref="T:ICSharpCode.NRefactory.TypeSystem.Implementation.SimpleInterningProvider"/> instance.
             </summary>
         </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.TypeSystem.TypeSystemConvertVisitor.SkipXmlDocumentation">
+            <summary>
+            Gets/Sets whether to ignore XML documentation.
+            The default value is false.
+            </summary>
+        </member>
         <member name="T:ICSharpCode.NRefactory.CSharp.TypeSystem.UsingScope">
             <summary>
             Represents a scope that contains "using" statements.
@@ -4581,6 +4728,21 @@
         <member name="T:ICSharpCode.NRefactory.CSharp.Completion.CSharpCompletionEngineBase">
             <summary>
             Acts as a common base between code completion and parameter completion.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.CSharp.TokenRole">
+            <summary>
+            A specific role only used for C# tokens
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.TokenRole.Token">
+            <summary>
+            Gets the token as string. Note that the token Name and Token value may differ.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.CSharp.TokenRole.Length">
+            <summary>
+            Gets the char length of the token.
             </summary>
         </member>
     </members>

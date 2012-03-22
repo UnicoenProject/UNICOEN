@@ -95,7 +95,11 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			return null;
 		}
 
-		public IUnifiedElement VisitTypeParameterDeclaration(
+	    public IUnifiedElement VisitDocumentationReference(DocumentationReference documentationReference, object data) {
+	        throw new NotImplementedException();
+	    }
+
+	    public IUnifiedElement VisitTypeParameterDeclaration(
 				TypeParameterDeclaration dec, object data) {
 			var type = UnifiedType.Create(dec.Name);
 			var modifiers = null as UnifiedModifierCollection;

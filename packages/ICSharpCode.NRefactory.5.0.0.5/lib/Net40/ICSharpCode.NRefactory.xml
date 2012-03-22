@@ -4,15 +4,83 @@
         <name>ICSharpCode.NRefactory</name>
     </assembly>
     <members>
-        <member name="T:ICSharpCode.NRefactory.Documentation.IDStringProvider">
+        <member name="T:ICSharpCode.NRefactory.Documentation.DocumentationComment">
             <summary>
-            Provides ID strings for entities. (C# 4.0 spec, §A.3.1)
-            ID strings are used to identify members in XML documentation files.
+            Represents a documentation comment.
             </summary>
         </member>
-        <member name="M:ICSharpCode.NRefactory.Documentation.IDStringProvider.GetIDString(ICSharpCode.NRefactory.TypeSystem.IEntity)">
+        <member name="M:ICSharpCode.NRefactory.Documentation.DocumentationComment.#ctor(ICSharpCode.NRefactory.Editor.ITextSource,ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext)">
             <summary>
-            Gets the ID string (C# 4.0 spec, §A.3.1) for the specified entity.
+            Creates a new DocumentationComment.
+            </summary>
+            <param name="xml">The XML text.</param>
+            <param name="context">Context for resolving cref attributes.</param>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.DocumentationComment.#ctor(System.String,ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext)">
+            <summary>
+            Creates a new DocumentationComment.
+            </summary>
+            <param name="xml">The XML text.</param>
+            <param name="context">Context for resolving cref attributes.</param>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.DocumentationComment.ResolveCref(System.String)">
+            <summary>
+            Resolves the given cref value to an entity.
+            Returns null if the entity is not found, or if the cref attribute is syntactically invalid.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.Documentation.DocumentationComment.Xml">
+            <summary>
+            Gets the XML code for this documentation comment.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.Documentation.GetPotentiallyNestedClassTypeReference">
+            <summary>
+            A type reference of the form 'Some.Namespace.TopLevelType.NestedType`n'.
+            We do not know the boundary between namespace name and top level type, so we have to try
+            all possibilities.
+            The type parameter count only applies to the innermost type, all outer types must be non-generic.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.TypeSystem.ITypeReference">
+            <summary>
+            Represents a reference to a type.
+            Must be resolved before it can be used as type.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.TypeSystem.ITypeReference.Resolve(ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext)">
+            <summary>
+            Resolves this type reference.
+            </summary>
+            <returns>
+            Returns the resolved type.
+            In case of an error, returns <see cref="F:ICSharpCode.NRefactory.TypeSystem.SpecialType.UnknownType"/>.
+            Never returns null.
+            </returns>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.Documentation.IDocumentationProvider">
+            <summary>
+            Provides XML documentation for entities.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.IDocumentationProvider.GetDocumentation(ICSharpCode.NRefactory.TypeSystem.IEntity)">
+            <summary>
+            Gets the XML documentation for the specified entity.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.Documentation.IUnresolvedDocumentationProvider">
+            <summary>
+            Provides XML documentation for entities.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.IUnresolvedDocumentationProvider.GetDocumentation(ICSharpCode.NRefactory.TypeSystem.IUnresolvedEntity)">
+            <summary>
+            Gets the XML documentation for the specified entity.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.IUnresolvedDocumentationProvider.GetDocumentation(ICSharpCode.NRefactory.TypeSystem.IUnresolvedEntity,ICSharpCode.NRefactory.TypeSystem.IEntity)">
+            <summary>
+            Gets the XML documentation for the specified entity.
             </summary>
         </member>
         <member name="T:ICSharpCode.NRefactory.Editor.IDocument">
@@ -74,6 +142,15 @@
             </summary>
             <exception cref="T:System.ArgumentOutOfRangeException">offset or length is outside the valid range.</exception>
         </member>
+        <member name="M:ICSharpCode.NRefactory.Editor.ITextSource.IndexOf(System.Char,System.Int32,System.Int32)">
+            <summary>
+            Gets the index of the first occurrence of the character in the specified array.
+            </summary>
+            <param name="c">Character to search for</param>
+            <param name="startIndex">Start index of the area to search.</param>
+            <param name="count">Length of the area to search.</param>
+            <returns>The first index where the character was found; or -1 if no occurrence was found.</returns>
+        </member>
         <member name="M:ICSharpCode.NRefactory.Editor.ITextSource.IndexOfAny(System.Char[],System.Int32,System.Int32)">
             <summary>
             Gets the index of the first occurrence of any character in the specified array.
@@ -93,6 +170,17 @@
             <param name="comparisonType">String comparison to use.</param>
             <returns>The first index where the search term was found; or -1 if no occurrence was found.</returns>
         </member>
+        <member name="M:ICSharpCode.NRefactory.Editor.ITextSource.LastIndexOf(System.Char,System.Int32,System.Int32)">
+            <summary>
+            Gets the index of the last occurrence of the specified character in this text source.
+            </summary>
+            <param name="c">The search character</param>
+            <param name="startIndex">Start index of the area to search.</param>
+            <param name="count">Length of the area to search.</param>
+            <returns>The last index where the search term was found; or -1 if no occurrence was found.</returns>
+            <remarks>The search proceeds backwards from (startIndex+count) to startIndex.
+            This is different than the meaning of the parameters on string.LastIndexOf!</remarks>
+        </member>
         <member name="M:ICSharpCode.NRefactory.Editor.ITextSource.LastIndexOf(System.String,System.Int32,System.Int32,System.StringComparison)">
             <summary>
             Gets the index of the last occurrence of the specified search text in this text source.
@@ -102,6 +190,8 @@
             <param name="count">Length of the area to search.</param>
             <param name="comparisonType">String comparison to use.</param>
             <returns>The last index where the search term was found; or -1 if no occurrence was found.</returns>
+            <remarks>The search proceeds backwards from (startIndex+count) to startIndex.
+            This is different than the meaning of the parameters on string.LastIndexOf!</remarks>
         </member>
         <member name="P:ICSharpCode.NRefactory.Editor.ITextSource.Version">
             <summary>
@@ -537,10 +627,16 @@
         <member name="M:ICSharpCode.NRefactory.Editor.ReadOnlyDocument.GetText(ICSharpCode.NRefactory.Editor.ISegment)">
             <inheritdoc/>
         </member>
+        <member name="M:ICSharpCode.NRefactory.Editor.ReadOnlyDocument.IndexOf(System.Char,System.Int32,System.Int32)">
+            <inheritdoc/>
+        </member>
         <member name="M:ICSharpCode.NRefactory.Editor.ReadOnlyDocument.IndexOfAny(System.Char[],System.Int32,System.Int32)">
             <inheritdoc/>
         </member>
         <member name="M:ICSharpCode.NRefactory.Editor.ReadOnlyDocument.IndexOf(System.String,System.Int32,System.Int32,System.StringComparison)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Editor.ReadOnlyDocument.LastIndexOf(System.Char,System.Int32,System.Int32)">
             <inheritdoc/>
         </member>
         <member name="M:ICSharpCode.NRefactory.Editor.ReadOnlyDocument.LastIndexOf(System.String,System.Int32,System.Int32,System.StringComparison)">
@@ -586,10 +682,16 @@
         <member name="M:ICSharpCode.NRefactory.Editor.StringTextSource.GetText(ICSharpCode.NRefactory.Editor.ISegment)">
             <inheritdoc/>
         </member>
+        <member name="M:ICSharpCode.NRefactory.Editor.StringTextSource.IndexOf(System.Char,System.Int32,System.Int32)">
+            <inheritdoc/>
+        </member>
         <member name="M:ICSharpCode.NRefactory.Editor.StringTextSource.IndexOfAny(System.Char[],System.Int32,System.Int32)">
             <inheritdoc/>
         </member>
         <member name="M:ICSharpCode.NRefactory.Editor.StringTextSource.IndexOf(System.String,System.Int32,System.Int32,System.StringComparison)">
+            <inheritdoc/>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Editor.StringTextSource.LastIndexOf(System.Char,System.Int32,System.Int32)">
             <inheritdoc/>
         </member>
         <member name="M:ICSharpCode.NRefactory.Editor.StringTextSource.LastIndexOf(System.String,System.Int32,System.Int32,System.StringComparison)">
@@ -771,17 +873,9 @@
             <remarks>
             This class first creates an in-memory index of the .xml file, and then uses that to read only the requested members.
             This way, we avoid keeping all the documentation in memory.
+            The .xml file is only opened when necessary, the file handle is not kept open all the time.
+            If the .xml file is changed, the index will automatically be recreated.
             </remarks>
-        </member>
-        <member name="T:ICSharpCode.NRefactory.TypeSystem.IDocumentationProvider">
-            <summary>
-            Provides XML documentation for members.
-            </summary>
-        </member>
-        <member name="M:ICSharpCode.NRefactory.TypeSystem.IDocumentationProvider.GetDocumentation(ICSharpCode.NRefactory.TypeSystem.IEntity)">
-            <summary>
-            Gets the XML documentation for the specified entity.
-            </summary>
         </member>
         <member name="M:ICSharpCode.NRefactory.Documentation.XmlDocumentationProvider.#ctor(System.String)">
             <summary>
@@ -795,13 +889,13 @@
             Returns null if no XML documentation file is found.
             </summary>
         </member>
-        <member name="M:ICSharpCode.NRefactory.Documentation.XmlDocumentationProvider.GetDocumentation(ICSharpCode.NRefactory.TypeSystem.IEntity)">
-            <inheritdoc/>
-        </member>
         <member name="M:ICSharpCode.NRefactory.Documentation.XmlDocumentationProvider.GetDocumentation(System.String)">
             <summary>
             Get the documentation for the member with the specified documentation key.
             </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.XmlDocumentationProvider.GetDocumentation(ICSharpCode.NRefactory.TypeSystem.IEntity)">
+            <inheritdoc/>
         </member>
         <member name="F:ICSharpCode.NRefactory.Documentation.XmlDocumentationProvider.IndexEntry.HashCode">
             <summary>
@@ -926,9 +1020,19 @@
             The numeric conversion of a constant expression.
             </summary>
         </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.Conversion.TryCast">
+            <summary>
+            C# 'as' cast.
+            </summary>
+        </member>
         <member name="P:ICSharpCode.NRefactory.Semantics.Conversion.IsValid">
             <summary>
             Gets whether the conversion is valid.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.Semantics.Conversion.IsTryCast">
+            <summary>
+            Gets whether the conversion is an '<c>as</c>' cast.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.Semantics.Conversion.IsLifted">
@@ -994,6 +1098,50 @@
             For method-group conversions, this is the method that was chosen from the group.
             </summary>
         </member>
+        <member name="T:ICSharpCode.NRefactory.Semantics.ForEachResolveResult">
+            <summary>
+            Resolve result representing a 'foreach' loop.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.ForEachResolveResult.GetEnumeratorCall">
+            <summary>
+            Gets the semantic tree for the call to GetEnumerator.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.ForEachResolveResult.CollectionType">
+            <summary>
+            Gets the collection type.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.ForEachResolveResult.EnumeratorType">
+            <summary>
+            Gets the enumerator type.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.ForEachResolveResult.ElementType">
+            <summary>
+            Gets the element type.
+            This is the type that would be inferred for an implicitly-typed element variable.
+            For explicitly-typed element variables, this type may differ from <c>ElementVariable.Type</c>.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.ForEachResolveResult.ElementVariable">
+            <summary>
+            Gets the element variable.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.ForEachResolveResult.CurrentProperty">
+            <summary>
+            Gets the Current property on the IEnumerator.
+            Returns null if the property is not found.
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.ForEachResolveResult.MoveNextMethod">
+            <summary>
+            Gets the MoveNext() method on the IEnumerator.
+            Returns null if the method is not found.
+            </summary>
+        </member>
         <member name="T:ICSharpCode.NRefactory.Semantics.InvocationResolveResult">
             <summary>
             Represents the result of a method invocation.
@@ -1050,6 +1198,17 @@
             <summary>
             Represents the 'this' reference.
             Also used for the 'base' reference.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.Semantics.TypeIsResolveResult">
+            <summary>
+            Resolve result for a C# 'is' expression.
+            "Input is TargetType".
+            </summary>
+        </member>
+        <member name="F:ICSharpCode.NRefactory.Semantics.TypeIsResolveResult.TargetType">
+            <summary>
+            Type that is being compared with.
             </summary>
         </member>
         <member name="T:ICSharpCode.NRefactory.Semantics.TypeOfResolveResult">
@@ -1442,7 +1601,8 @@
             The filter is tested on the original method definitions (before specialization).</param>
             <param name="options">Specified additional options for the GetMembers() operation.</param>
             <remarks>
-            <para>The result does not include constructors in base classes or static constructors.</para>
+            <para>The result does not include static constructors.
+            Constructors in base classes are not returned by default, as GetMemberOptions.IgnoreInheritedMembers is the default value.</para>
             <para>
             For methods on parameterized types, type substitution will be performed on the method signature,
             and the appropriate <see cref="T:ICSharpCode.NRefactory.TypeSystem.Implementation.SpecializedMethod"/> will be returned.
@@ -1707,7 +1867,7 @@
             This property never returns <c>null</c>.
             </summary>
         </member>
-        <member name="P:ICSharpCode.NRefactory.TypeSystem.IMember.InterfaceImplementations">
+        <member name="P:ICSharpCode.NRefactory.TypeSystem.IMember.ImplementedInterfaceMembers">
             <summary>
             Gets the interface members implemented by this member (both implicitly and explicitly).
             </summary>
@@ -1747,22 +1907,6 @@
             <summary>
             Represents an array type.
             </summary>
-        </member>
-        <member name="T:ICSharpCode.NRefactory.TypeSystem.ITypeReference">
-            <summary>
-            Represents a reference to a type.
-            Must be resolved before it can be used as type.
-            </summary>
-        </member>
-        <member name="M:ICSharpCode.NRefactory.TypeSystem.ITypeReference.Resolve(ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext)">
-            <summary>
-            Resolves this type reference.
-            </summary>
-            <returns>
-            Returns the resolved type.
-            In case of an error, returns <see cref="F:ICSharpCode.NRefactory.TypeSystem.SpecialType.UnknownType"/>.
-            Never returns null.
-            </returns>
         </member>
         <member name="T:ICSharpCode.NRefactory.TypeSystem.ISupportsInterning">
             <summary>
@@ -2082,6 +2226,21 @@
             Gets the named arguments passed to the attribute.
             </summary>
         </member>
+        <member name="T:ICSharpCode.NRefactory.TypeSystem.ComHelper">
+            <summary>
+            Helper methods for COM.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.TypeSystem.ComHelper.IsComImport(ICSharpCode.NRefactory.TypeSystem.ITypeDefinition)">
+            <summary>
+            Gets whether the specified type is imported from COM.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.TypeSystem.ComHelper.GetCoClass(ICSharpCode.NRefactory.TypeSystem.ITypeDefinition)">
+            <summary>
+            Gets the CoClass of the specified COM interface.
+            </summary>
+        </member>
         <member name="M:ICSharpCode.NRefactory.TypeSystem.DomRegion.IsInside(System.Int32,System.Int32)">
             <remarks>
             Returns true, if the given coordinates (line, column) are in the region.
@@ -2129,6 +2288,7 @@
         <member name="M:ICSharpCode.NRefactory.TypeSystem.ExtensionMethods.GetAllBaseTypeDefinitions(ICSharpCode.NRefactory.TypeSystem.IType)">
             <summary>
             Gets all base type definitions.
+            The output is ordered so that base types occur before derived types.
             </summary>
             <remarks>
             This is equivalent to type.GetAllBaseTypes().Select(t => t.GetDefinition()).Where(d => d != null).Distinct().
@@ -2136,7 +2296,7 @@
         </member>
         <member name="M:ICSharpCode.NRefactory.TypeSystem.ExtensionMethods.IsDerivedFrom(ICSharpCode.NRefactory.TypeSystem.ITypeDefinition,ICSharpCode.NRefactory.TypeSystem.ITypeDefinition)">
             <summary>
-            Gets whether this type definition is derived from the base type defintiion.
+            Gets whether this type definition is derived from the base type definition.
             </summary>
         </member>
         <member name="M:ICSharpCode.NRefactory.TypeSystem.ExtensionMethods.IsOpen(ICSharpCode.NRefactory.TypeSystem.IType)">
@@ -2283,9 +2443,9 @@
             Show the definition key word (class, struct, Sub, Function, etc.)
             </summary>
         </member>
-        <member name="F:ICSharpCode.NRefactory.TypeSystem.ConversionFlags.UseFullyQualifiedMemberNames">
+        <member name="F:ICSharpCode.NRefactory.TypeSystem.ConversionFlags.ShowDeclaringType">
             <summary>
-            Show the fully qualified name for the member
+            Show the declaring type for the member
             </summary>
         </member>
         <member name="F:ICSharpCode.NRefactory.TypeSystem.ConversionFlags.ShowModifiers">
@@ -2300,7 +2460,7 @@
         </member>
         <member name="F:ICSharpCode.NRefactory.TypeSystem.ConversionFlags.UseFullyQualifiedTypeNames">
             <summary>
-            Use fully qualified names for return type and parameters.
+            Use fully qualified names for types.
             </summary>
         </member>
         <member name="F:ICSharpCode.NRefactory.TypeSystem.ConversionFlags.ShowTypeParameterList">
@@ -2330,15 +2490,21 @@
             Gets the type resolve context that specifies this compilation and no current assembly or entity.
             </summary>
         </member>
+        <member name="P:ICSharpCode.NRefactory.TypeSystem.ICompilation.Assemblies">
+            <summary>
+            Gets the list of all assemblies in the compilation.
+            </summary>
+        </member>
         <member name="P:ICSharpCode.NRefactory.TypeSystem.ICompilation.ReferencedAssemblies">
             <summary>
             Gets the referenced assemblies.
-            This list does not include the current assembly.
+            This list does not include the main assembly.
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.TypeSystem.ICompilation.RootNamespace">
             <summary>
             Gets the root namespace of this compilation.
+            This is a merged .
             </summary>
         </member>
         <member name="P:ICSharpCode.NRefactory.TypeSystem.ICompilation.NameComparer">
@@ -3863,8 +4029,8 @@
             Parses a reflection name into a type reference.
             </summary>
             <param name="reflectionTypeName">The reflection name of the type.</param>
-            <exception cref="T:ICSharpCode.NRefactory.TypeSystem.ReflectionNameParseException">The syntax of the reflection type name is invalid</exception>
             <returns>A type reference that represents the reflection name.</returns>
+            <exception cref="T:ICSharpCode.NRefactory.TypeSystem.ReflectionNameParseException">The syntax of the reflection type name is invalid</exception>
             <remarks>
             If the type is open (contains type parameters '`0' or '``0'),
             an <see cref="T:ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext"/> with the appropriate CurrentTypeDefinition/CurrentMember is required
@@ -3872,7 +4038,8 @@
             For looking up closed, assembly qualified type names, the root type resolve context for the compilation
             is sufficient.
             When looking up a type name that isn't assembly qualified, the type reference will look in
-            <see cref="P:ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext.CurrentAssembly"/> first, and .
+            <see cref="P:ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext.CurrentAssembly"/> first, and if the type is not found there,
+            it will look in all other assemblies of the compilation.
             </remarks>
         </member>
         <member name="T:ICSharpCode.NRefactory.TypeSystem.ReflectionHelper.Null">
@@ -4229,6 +4396,96 @@
             <summary>
             The region of the error.
             </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.Completion.IParameterDataProvider">
+            <summary>
+            Provides intellisense information for a collection of parametrized members.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Completion.IParameterDataProvider.GetHeading(System.Int32,System.String[],System.Int32)">
+            <summary>
+            Returns the markup to use to represent the specified method overload
+            in the parameter information window.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Completion.IParameterDataProvider.GetDescription(System.Int32,System.Int32)">
+            <summary>
+            Returns the markup for the description to use to represent the specified method overload
+            in the parameter information window.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Completion.IParameterDataProvider.GetParameterDescription(System.Int32,System.Int32)">
+            <summary>
+            Returns the text to use to represent the specified parameter
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Completion.IParameterDataProvider.GetParameterCount(System.Int32)">
+            <summary>
+            Returns the number of parameters of the specified method
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Completion.IParameterDataProvider.AllowParameterList(System.Int32)">
+            <summary>
+            Used for the params lists. (for example "params" in c#).
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.Completion.IParameterDataProvider.Count">
+            <summary>
+            Gets the overload count.
+            </summary>
+        </member>
+        <member name="P:ICSharpCode.NRefactory.Completion.IParameterDataProvider.StartOffset">
+            <summary>
+            Gets the start offset of the parameter expression node.
+            </summary>
+        </member>
+        <member name="T:ICSharpCode.NRefactory.Documentation.IdStringProvider">
+            <summary>
+            Provides ID strings for entities. (C# 4.0 spec, §A.3.1)
+            ID strings are used to identify members in XML documentation files.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.IdStringProvider.GetIdString(ICSharpCode.NRefactory.TypeSystem.IEntity)">
+            <summary>
+            Gets the ID string (C# 4.0 spec, §A.3.1) for the specified entity.
+            </summary>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.IdStringProvider.ParseMemberIdString(System.String)">
+            <summary>
+            Parse the ID string into a member reference.
+            </summary>
+            <param name="memberIdString">The ID string representing the member (with "M:", "F:", "P:" or "E:" prefix).</param>
+            <returns>A member reference that represents the ID string.</returns>
+            <exception cref="T:ICSharpCode.NRefactory.TypeSystem.ReflectionNameParseException">The syntax of the ID string is invalid</exception>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.IdStringProvider.ParseTypeName(System.String)">
+            <summary>
+            Parse the ID string type name into a type reference.
+            </summary>
+            <param name="typeName">The ID string representing the type (the "T:" prefix is optional).</param>
+            <returns>A type reference that represents the ID string.</returns>
+            <exception cref="T:ICSharpCode.NRefactory.TypeSystem.ReflectionNameParseException">The syntax of the ID string is invalid</exception>
+            <remarks>
+            <para>
+            The type reference will look in <see cref="P:ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext.CurrentAssembly"/> first,
+            and if the type is not found there,
+            it will look in all other assemblies of the compilation.
+            </para>
+            <para>
+            If the type is open (contains type parameters '`0' or '``0'),
+            an <see cref="T:ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext"/> with the appropriate CurrentTypeDefinition/CurrentMember is required
+            to resolve the reference to the ITypeParameter.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:ICSharpCode.NRefactory.Documentation.IdStringProvider.FindEntity(System.String,ICSharpCode.NRefactory.TypeSystem.ITypeResolveContext)">
+            <summary>
+            Finds the entity in the given type resolve context.
+            </summary>
+            <param name="idString">ID string of the entity.</param>
+            <param name="context">Type resolve context</param>
+            <returns>Returns the entity, or null if it is not found.</returns>
+            <exception cref="T:ICSharpCode.NRefactory.TypeSystem.ReflectionNameParseException">The syntax of the ID string is invalid</exception>
         </member>
     </members>
 </doc>
