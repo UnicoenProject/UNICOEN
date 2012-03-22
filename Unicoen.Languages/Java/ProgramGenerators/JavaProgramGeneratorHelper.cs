@@ -27,25 +27,9 @@ using Code2Xml.Core;
 using Code2Xml.Core.Position;
 using Paraiba.Linq;
 using Paraiba.Xml.Linq;
-using PostSharp.Aspects;
 using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.ProgramGenerators;
-
-[Serializable]
-public class CodePositionAttribute : OnMethodBoundaryAspect
-{
-	/// <summary>
-	/// Method invoked after successfull execution of the method to which the current
-	/// aspect is applied.
-	/// </summary>
-	/// <param name="args">Information about the method being executed.</param>
-	public override void OnSuccess( MethodExecutionArgs args ) {
-		((UnifiedElement)args.ReturnValue).Position =
-				CodePositionAnalyzer.Create((XElement)args.Arguments[0]);
-
-	}
-}
 
 // ReSharper disable InvocationIsSkipped
 
@@ -104,7 +88,6 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return program;
 		}
 
-		[CodePositionAttribute]
 		public static UnifiedComment CreateComment(XElement element) {
 			return new UnifiedComment {
 					Content = element.Value,
