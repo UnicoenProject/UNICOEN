@@ -29,8 +29,8 @@ using Unicoen.CodeGenerators;
 using Unicoen.Languages.Java.Tests;
 using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
-using Unicoen.Utils;
 
 namespace Unicoen.Languages.JavaScript.Tests {
     public partial class JavaScriptFixture : Fixture {

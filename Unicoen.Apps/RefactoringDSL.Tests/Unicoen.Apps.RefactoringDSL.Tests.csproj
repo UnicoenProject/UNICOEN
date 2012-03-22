@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\fixture\Unicoen.TestUtils\Unicoen.TestUtils.csproj">
+      <Project>{C9320776-3FB7-4C69-92C6-CB5F74DAA836}</Project>
+      <Name>Unicoen.TestUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RefactoringDSL\Unicoen.Apps.RefactoringDSL.csproj">
       <Project>{B47D51ED-5D1F-45E2-B88D-452332AD58EA}</Project>
       <Name>Unicoen.Apps.RefactoringDSL</Name>

@@ -18,6 +18,7 @@
 
 using NUnit.Framework;
 using Unicoen.Apps.Loc.Util;
+using Unicoen.TestUtils;
 using Unicoen.Tests;
 
 namespace Unicoen.Apps.Loc.Tests {

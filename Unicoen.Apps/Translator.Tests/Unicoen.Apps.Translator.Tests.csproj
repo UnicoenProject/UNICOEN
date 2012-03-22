@@ -53,6 +53,10 @@
     <Compile Include="XmlGeneratorTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\fixture\Unicoen.TestUtils\Unicoen.TestUtils.csproj">
+      <Project>{C9320776-3FB7-4C69-92C6-CB5F74DAA836}</Project>
+      <Name>Unicoen.TestUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Translator\Unicoen.Apps.Translator.csproj">
       <Project>{87A5C023-95DB-40D4-A638-28D578D06572}</Project>
       <Name>Unicoen.Apps.Translator</Name>
