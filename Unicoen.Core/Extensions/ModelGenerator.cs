@@ -37,7 +37,7 @@ namespace Unicoen.Model {
 
 		public static T SetPosition<T>(this T element, XElement e)
 				where T : UnifiedElement {
-			element.Position = CodePositionAnalyzer.Create(e);
+			element.Position = CodePositions.New(e);
 			return element;
 		}
 	}

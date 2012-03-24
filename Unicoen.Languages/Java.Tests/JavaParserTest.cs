@@ -17,9 +17,9 @@ namespace Unicoen.Languages.Java.Tests
 			var pos = comment.Position;
 			Assert.That(comment.Content, Is.EqualTo("//abc"));
 			Assert.That(pos.StartLine, Is.EqualTo(1));
-			Assert.That(pos.StartPos, Is.EqualTo(12));
+			Assert.That(pos.StartPosition, Is.EqualTo(12));
 			Assert.That(pos.EndLine, Is.EqualTo(1));
-			Assert.That(pos.EndPos, Is.EqualTo(17));
+			Assert.That(pos.EndPosition, Is.EqualTo(17));
 		}
 	}
 }

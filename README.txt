@@ -17,7 +17,11 @@ The UNICOEN Project
   Tomoyuki KAMIYA
 
 * Requirements
-Enable NuGet Package Restore
-Code Contracts
+- Code Contracts
 http://research.microsoft.com/en-us/projects/contracts/
 Download (Academic License)
+
+* How to compile?
+1. Right click for the solution icon in the Solution Explorer.
+2. Click 'Enable NuGet Package Restore'.
+3. Build the solution.
