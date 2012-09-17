@@ -21,8 +21,7 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.CodeGenerators {
-	public abstract partial class JavaLikeCodeFactoryVisitor
-			: ExplicitDefaultUnifiedVisitor<VisitorArgument, bool> {
+	public abstract partial class JavaLikeCodeFactoryVisitor {
 		/// <summary>
 		///   Expressionが括弧を付けるためのDecorationです
 		/// </summary>

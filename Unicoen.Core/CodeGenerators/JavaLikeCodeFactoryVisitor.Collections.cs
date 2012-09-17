@@ -21,36 +21,36 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.CodeGenerators {
-	public partial class JavaLikeCodeFactoryVisitor {
+	public partial class JavaLikeCodeFactoryVisitor : UnifiedVisitor<VisitorArgument, bool> {
 		public override bool Visit(
-				UnifiedParameterCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedParameter> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
 		public override bool Visit(
-				UnifiedModifierCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedModifier> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(SpaceEachRight));
 			return false;
 		}
 
 		// e.g. throws E1, E2 ...
 		public override bool Visit(
-				UnifiedTypeCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedType> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Throws));
 			return false;
 		}
 
 		// e.g. {...}catch(Exception1 e1){...}catch{Exception2 e2}{....}... ?
 		public override bool Visit(
-				UnifiedCatchCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedCatch> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(NewLineDelimiter));
 			return false;
 		}
 
 		// e.g. Foo<A, B> ?
 		public override bool Visit(
-				UnifiedGenericParameterCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedGenericParameter> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
@@ -62,7 +62,7 @@ namespace Unicoen.CodeGenerators {
 		/// <param name="arg"></param>
 		/// <returns></returns>
 		public override bool Visit(
-				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedTypeConstrain> element, VisitorArgument arg) {
 			UnifiedTypeConstrain last = null;
 			foreach (var current in element) {
 				if (last == null || last.GetType() != current.GetType()) {
@@ -77,31 +77,31 @@ namespace Unicoen.CodeGenerators {
 		}
 
 		public override bool Visit(
-				UnifiedIdentifierCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedIdentifier> element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
 		public override bool Visit(
-				UnifiedArgumentCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedArgument> element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
 		public override bool Visit(
-				UnifiedExpressionCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedExpression> element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
 		public override bool Visit(
-				UnifiedGenericArgumentCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedGenericArgument> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			return false;
 		}
 
 		public override bool Visit(
-				UnifiedCaseCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedCase> element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
 				WriteIndent(arg.IndentDepth);
@@ -120,7 +120,7 @@ namespace Unicoen.CodeGenerators {
 		}
 
 		public override bool Visit(
-				UnifiedAnnotationCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedAnnotation> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(SpaceEachRight));
 			return false;
 		}

@@ -94,11 +94,11 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * )
 			 */
 
-			UnifiedModifierCollection modifiers = null;
+			UnifiedSet<UnifiedModifier> modifiers = null;
 			UnifiedType type = null;
-			UnifiedGenericParameterCollection genericParameters = null;
+			UnifiedSet<UnifiedGenericParameter> genericParameters = null;
 			UnifiedIdentifier name = null;
-			UnifiedParameterCollection parameters = null;
+			UnifiedSet<UnifiedParameter> parameters = null;
 			UnifiedBlock body = null;
 
 			var first = node.FirstElement();
@@ -173,7 +173,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static Tuple<UnifiedModifierCollection, UnifiedExpression>
+		public static Tuple<UnifiedSet<UnifiedModifier>, UnifiedExpression>
 				CreateDeclarationSpecifiers(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declaration_specifiers");
@@ -182,7 +182,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 *       |   type_specifier
 			 *       |   type_qualifier      )+
 			 */
-			var modifiers = UnifiedModifierCollection.Create();
+			var modifiers = UnifiedSet<UnifiedModifier>.Create();
 			IList<UnifiedType> types = new List<UnifiedType>();
 			UnifiedExpression declaration = null;
 
@@ -410,7 +410,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return variables;
 		}
 
-		public static Tuple<UnifiedModifierCollection, UnifiedType>
+		public static Tuple<UnifiedSet<UnifiedModifier>, UnifiedType>
 				CreateSpecifierQualifierList(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "specifier_qualifier_list");
@@ -418,7 +418,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * specifier_qualifier_list
 			 * : ( type_qualifier | type_specifier )+
 			 */
-			var modifiers = UnifiedModifierCollection.Create();
+			var modifiers = UnifiedSet<UnifiedModifier>.Create();
 			var types = new List<UnifiedType>();
 			foreach (var e in node.Elements()) {
 				switch (e.Name()) {
@@ -561,7 +561,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return UnifiedModifier.Create(node.FirstElement().Name());
 		}
 
-		public static Tuple<UnifiedIdentifier, UnifiedParameterCollection>
+		public static Tuple<UnifiedIdentifier, UnifiedSet<UnifiedParameter>>
 				CreateDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator");
@@ -585,7 +585,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			}
 		}
 
-		public static Tuple<UnifiedIdentifier, UnifiedParameterCollection>
+		public static Tuple<UnifiedIdentifier, UnifiedSet<UnifiedParameter>>
 				CreateDirectDeclarator(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "direct_declarator");
@@ -604,7 +604,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				throw new InvalidOperationException();
 			}
 
-			UnifiedParameterCollection parameters = null;
+			UnifiedSet<UnifiedParameter> parameters = null;
 			if (node.Elements("declarator_suffix").Count() > 1) {
 				// TODO test()()となるケースが未検出
 				throw new NotImplementedException();
@@ -617,7 +617,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			return Tuple.Create(name, parameters);
 		}
 
-		public static UnifiedParameterCollection CreateDeclaratorSuffix(
+		public static UnifiedSet<UnifiedParameter> CreateDeclaratorSuffix(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "declarator_suffix");
@@ -631,7 +631,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			*/
 
 			// 空のパラメータリストを生成する
-			var parameters = UnifiedParameterCollection.Create();
+			var parameters = UnifiedSet<UnifiedParameter>.Create();
 			// ()の場合
 			if (node.FirstElement().Value.Equals("(")
 				&& node.LastElement().Value.Equals(")")) {
@@ -667,7 +667,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			throw new NotImplementedException();
 		}
 
-		public static UnifiedParameterCollection CreateParameterTypeList(
+		public static UnifiedSet<UnifiedParameter> CreateParameterTypeList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameter_type_list");
@@ -681,13 +681,13 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				parameters.Add(
 						UnifiedParameter.Create(
 								modifiers:
-										UnifiedModifierCollection.Create(
+										UnifiedSet<UnifiedModifier>.Create(
 												UnifiedModifier.Create("..."))));
 			}
 			return parameters;
 		}
 
-		public static UnifiedParameterCollection CreateParameterList(
+		public static UnifiedSet<UnifiedParameter> CreateParameterList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "parameter_list");
@@ -696,7 +696,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			: parameter_declaration (',' parameter_declaration)*
 			*/
 
-			var parameters = UnifiedParameterCollection.Create();
+			var parameters = UnifiedSet<UnifiedParameter>.Create();
 			foreach (var parameterNode in node.Elements("parameter_declaration")
 					) {
 				parameters.Add(CreateParameterDeclaration(parameterNode));
@@ -713,7 +713,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 */
 
 			UnifiedIdentifier name;
-			UnifiedParameterCollection parameters;
+			UnifiedSet<UnifiedParameter> parameters;
 
 			var modifiersAndType =
 					CreateDeclarationSpecifiers(
@@ -737,7 +737,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			else if (declarators.Count() == 1) {
 				// 多分declarator自体は１つしか現れないはず( // TODO 未検証)
 				return UnifiedParameter.Create(
-						null, modifiers, type, declarator.Item1.ToCollection());
+						null, modifiers, type, declarator.Item1.ToSet());
 			} else if (node.Element("declarator") != null) {
 				parameters = declarator.Item2;
 				name = declarator.Item1;
@@ -751,7 +751,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					modifiers = null;
 				}
 				return UnifiedParameter.Create(
-						null, modifiers, type, name.ToCollection(), null);
+						null, modifiers, type, name.ToSet(), null);
 			}
 			throw new InvalidOperationException();
 		}

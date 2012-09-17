@@ -50,7 +50,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException(
@@ -59,7 +59,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException(
 					"You should override this method.");

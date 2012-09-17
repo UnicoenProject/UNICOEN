@@ -23,17 +23,17 @@ using Unicoen.Processor;
 namespace Unicoen.Model {
 	public abstract class UnifiedClassLikeDefinition
 			: UnifiedExpression {
-		protected UnifiedAnnotationCollection _annotations;
-		protected UnifiedModifierCollection _modifiers;
+		protected UnifiedSet<UnifiedAnnotation> _annotations;
+		protected UnifiedSet<UnifiedModifier> _modifiers;
 		protected UnifiedExpression _name;
-		protected UnifiedGenericParameterCollection _genericParameters;
-		protected UnifiedTypeConstrainCollection _constrains;
+		protected UnifiedSet<UnifiedGenericParameter> _genericParameters;
+		protected UnifiedSet<UnifiedTypeConstrain> _constrains;
 		protected UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
@@ -41,7 +41,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   修飾子の集合を取得もしくは設定します。 e.g. Java, C#における <c>public class A { ... }</c> の <c>public</c>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -57,7 +57,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   総称型（ジェネリクスタイプ）のパラメータやテンプレートのパラメータを取得もしくは設定します。 e.g. Java, C#における <c>class A&lt;T&gt;</c> の <c>&lt;T&gt;</c>
 		/// </summary>
-		public UnifiedGenericParameterCollection GenericParameters {
+		public UnifiedSet<UnifiedGenericParameter> GenericParameters {
 			get { return _genericParameters; }
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
@@ -65,7 +65,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   継承関係を取得もしくは設定します。 e.g. Javaにおける <c>class A extends B { }</c> の <c>extends B</c>
 		/// </summary>
-		public UnifiedTypeConstrainCollection Constrains {
+		public UnifiedSet<UnifiedTypeConstrain> Constrains {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
 		}
@@ -83,11 +83,11 @@ namespace Unicoen.Model {
 			: UnifiedClassLikeDefinition, IUnifiedCreatable<T>
 			where T : UnifiedBlockDefinition<T> {
 		public static T Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedExpression name = null,
-				UnifiedGenericParameterCollection genericParameters = null,
-				UnifiedTypeConstrainCollection constrains = null,
+				UnifiedSet<UnifiedGenericParameter> genericParameters = null,
+				UnifiedSet<UnifiedTypeConstrain> constrains = null,
 				UnifiedBlock body = null) {
 			var ret = UnifiedFactory<T>.Create();
 			ret.Annotations = annotations;
@@ -103,7 +103,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException(
@@ -112,7 +112,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			// Deal with the bug of Mono 2.10.2
 			throw new InvalidOperationException(
 					"You should override this method.");

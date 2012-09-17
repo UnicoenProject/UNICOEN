@@ -27,7 +27,7 @@ namespace Unicoen.Model {
 		#region fields
 
 		private UnifiedIdentifier _name;
-		private UnifiedParameterCollection _parameters;
+		private UnifiedSet<UnifiedParameter> _parameters;
 		private UnifiedBlock _body;
 
 		public UnifiedIdentifier Name {
@@ -35,7 +35,7 @@ namespace Unicoen.Model {
 			set { _name = SetChild(value, _name); }
 		}
 
-		public UnifiedParameterCollection Parameters {
+		public UnifiedSet<UnifiedParameter> Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
 		}
@@ -53,26 +53,26 @@ namespace Unicoen.Model {
 		private UnifiedLambda() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedLambda Create(
 				UnifiedIdentifier name = null,
-				UnifiedParameterCollection parameters = null,
+				UnifiedSet<UnifiedParameter> parameters = null,
 				UnifiedBlock body = null) {
 			return new UnifiedLambda {
 					Name = name,

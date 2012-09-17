@@ -26,18 +26,18 @@ namespace Unicoen.Model {
 	public class UnifiedPropertyDefinition : UnifiedExpression {
 		#region fields & properties
 
-		private UnifiedAnnotationCollection _annotations;
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedAnnotation> _annotations;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 		private UnifiedType _type;
 		private UnifiedIdentifier _name;
-		private UnifiedParameterCollection _parameters;
+		private UnifiedSet<UnifiedParameter> _parameters;
 		private UnifiedPropertyDefinitionPart _getter;
 		private UnifiedPropertyDefinitionPart _setter;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します． e.g. C#における <c>[Pure] int Value { get; set; }</c> の <c>[Pure]</c>
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
@@ -45,7 +45,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   付与されている修飾子の集合を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>public</c>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -69,7 +69,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   パラメータ（仮引数）の集合を取得もしくは設定します． e.g. C#における <c>public int Table[int x, int y] { get; set; }</c> の <c>int x, int y</c>
 		/// </summary>
-		public UnifiedParameterCollection Parameters {
+		public UnifiedSet<UnifiedParameter> Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
 		}
@@ -95,27 +95,27 @@ namespace Unicoen.Model {
 		protected UnifiedPropertyDefinition() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedPropertyDefinition Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedType type = null, UnifiedIdentifier name = null,
-				UnifiedParameterCollection parameters = null,
+				UnifiedSet<UnifiedParameter> parameters = null,
 				UnifiedPropertyDefinitionPart getter = null,
 				UnifiedPropertyDefinitionPart setter = null) {
 			return new UnifiedPropertyDefinition {

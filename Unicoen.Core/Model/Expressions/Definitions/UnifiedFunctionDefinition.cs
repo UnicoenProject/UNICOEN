@@ -27,22 +27,22 @@ namespace Unicoen.Model {
 			: UnifiedExpression, IDynamicFunctionDefinition {
 		#region fields & properties
 
-		private UnifiedAnnotationCollection _annotations;
+		private UnifiedSet<UnifiedAnnotation> _annotations;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 
 		/// <summary>
 		///   付与されている修飾子の集合を取得もしくは設定します． e.g. Javaにおける <c>public static void method(int a){...}</c> の <c>public static</c>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -57,9 +57,9 @@ namespace Unicoen.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedGenericParameterCollection _genericParameters;
+		private UnifiedSet<UnifiedGenericParameter> _genericParameters;
 
-		public UnifiedGenericParameterCollection GenericParameters {
+		public UnifiedSet<UnifiedGenericParameter> GenericParameters {
 			get { return _genericParameters; }
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
@@ -71,16 +71,16 @@ namespace Unicoen.Model {
 			set { _name = SetChild(value, _name); }
 		}
 
-		private UnifiedParameterCollection _parameters;
+		private UnifiedSet<UnifiedParameter> _parameters;
 
-		public UnifiedParameterCollection Parameters {
+		public UnifiedSet<UnifiedParameter> Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		private UnifiedTypeCollection _throws;
+		private UnifiedSet<UnifiedType> _throws;
 
-		public UnifiedTypeCollection Throws {
+		public UnifiedSet<UnifiedType> Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
@@ -110,31 +110,31 @@ namespace Unicoen.Model {
 		protected UnifiedFunctionDefinition() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedFunctionDefinition Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedType type = null,
-				UnifiedGenericParameterCollection genericParameters = null,
+				UnifiedSet<UnifiedGenericParameter> genericParameters = null,
 				UnifiedIdentifier name = null,
-				UnifiedParameterCollection parameters = null,
-				UnifiedTypeCollection throws = null,
+				UnifiedSet<UnifiedParameter> parameters = null,
+				UnifiedSet<UnifiedType> throws = null,
 				UnifiedBlock body = null,
 				UnifiedExpression annotationExpression = null) {
 			return new UnifiedFunctionDefinition {

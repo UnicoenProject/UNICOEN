@@ -24,22 +24,22 @@ namespace Unicoen.Model {
 	///   仮引数(パラメータ)を表します。 e.g. Javaにおける <code>public void method(int a)</code> の <code>int a</code>
 	/// </summary>
 	public class UnifiedParameter : UnifiedElement {
-		private UnifiedAnnotationCollection _annotations;
+		private UnifiedSet<UnifiedAnnotation> _annotations;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 
 		/// <summary>
 		///   仮引数の修飾子を表します e.g. Javaにおける <code>public void method(final int a)</code> の <code>final</code>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -54,12 +54,12 @@ namespace Unicoen.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedIdentifierCollection _names;
+		private UnifiedSet<UnifiedIdentifier> _names;
 
 		/// <summary>
 		///   仮引数の引数名を表します。 e.g. Javaにおける <c>method(int a)</c> の <c>a</c> e.g. Pythonにおける <c>def f((a,b)=[1,2], c)</c> の <c>a,b</c> と <c>c</c>
 		/// </summary>
-		public UnifiedIdentifierCollection Names {
+		public UnifiedSet<UnifiedIdentifier> Names {
 			get { return _names; }
 			set { _names = SetChild(value, _names); }
 		}
@@ -87,28 +87,28 @@ namespace Unicoen.Model {
 		private UnifiedParameter() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedParameter Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedType type = null,
-				UnifiedIdentifierCollection names = null,
+				UnifiedSet<UnifiedIdentifier> names = null,
 				UnifiedExpression defaultValue = null,
 				UnifiedExpression annotationExpression = null) {
 			return new UnifiedParameter {

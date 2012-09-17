@@ -25,37 +25,37 @@ namespace Unicoen.Model {
 	public abstract class UnifiedConstructorLike<TSelf>
 			: UnifiedExpression, IUnifiedCreatable<TSelf>
 			where TSelf : UnifiedConstructorLike<TSelf> {
-		protected UnifiedAnnotationCollection _annotations;
-		protected UnifiedModifierCollection _modifiers;
-		protected UnifiedParameterCollection _parameters;
-		protected UnifiedGenericParameterCollection _genericParameters;
-		protected UnifiedTypeCollection _throws;
+		protected UnifiedSet<UnifiedAnnotation> _annotations;
+		protected UnifiedSet<UnifiedModifier> _modifiers;
+		protected UnifiedSet<UnifiedParameter> _parameters;
+		protected UnifiedSet<UnifiedGenericParameter> _genericParameters;
+		protected UnifiedSet<UnifiedType> _throws;
 		protected UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
 
-		public UnifiedParameterCollection Parameters {
+		public UnifiedSet<UnifiedParameter> Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
 		}
 
-		public UnifiedGenericParameterCollection GenericParameters {
+		public UnifiedSet<UnifiedGenericParameter> GenericParameters {
 			get { return _genericParameters; }
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
 
-		public UnifiedTypeCollection Throws {
+		public UnifiedSet<UnifiedType> Throws {
 			get { return _throws; }
 			set { _throws = SetChild(value, _throws); }
 		}
@@ -70,11 +70,11 @@ namespace Unicoen.Model {
 
 		public static TSelf Create(
 				UnifiedBlock body = null,
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedParameterCollection parameters = null,
-				UnifiedGenericParameterCollection genericParameters = null,
-				UnifiedTypeCollection throws = null) {
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
+				UnifiedSet<UnifiedParameter> parameters = null,
+				UnifiedSet<UnifiedGenericParameter> genericParameters = null,
+				UnifiedSet<UnifiedType> throws = null) {
 			var ret = UnifiedFactory<TSelf>.Create();
 			ret.Body = body;
 			ret.Annotations = annotations;

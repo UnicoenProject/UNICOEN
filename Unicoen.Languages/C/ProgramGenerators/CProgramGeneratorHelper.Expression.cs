@@ -31,7 +31,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 	// for Expressions
 	public static partial class CProgramGeneratorHelper {
 		// Expressions
-		public static UnifiedArgumentCollection CreateArgumentExpressionList(
+		public static UnifiedSet<UnifiedArgument> CreateArgumentExpressionList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "argument_expression_list");
@@ -43,7 +43,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			var arguments = node.Elements("assignment_expression").
 					Select(CreateAssignmentExpression).
 					Select(e => UnifiedArgument.Create(e));
-			return UnifiedArgumentCollection.Create(arguments);
+			return UnifiedSet<UnifiedArgument>.Create(arguments);
 		}
 
 		public static UnifiedExpression CreateAdditiveExpression(XElement node) {
@@ -156,7 +156,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				case "[":
 					result = UnifiedIndexer.Create(
 							result,
-							UnifiedArgumentCollection.Create(
+							UnifiedSet<UnifiedArgument>.Create(
 									UnifiedArgument.Create(
 											CreateExpression(
 													elements.ElementAt(i++)).
@@ -171,7 +171,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 										elements.ElementAt(i++)));
 					} else {
 						result = UnifiedCall.Create(
-								result, UnifiedArgumentCollection.Create());
+								result, UnifiedSet<UnifiedArgument>.Create());
 					}
 					i++; // ')'読み飛ばし
 					break;

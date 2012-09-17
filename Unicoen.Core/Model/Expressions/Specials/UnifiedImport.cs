@@ -54,9 +54,9 @@ namespace Unicoen.Model {
 			set { _alias = SetChild(value, _alias); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -64,27 +64,27 @@ namespace Unicoen.Model {
 		private UnifiedImport() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedImport Create(
 				UnifiedExpression name = null, string alias = null,
 				UnifiedExpression member = null,
-				UnifiedModifierCollection modifiers = null) {
+				UnifiedSet<UnifiedModifier> modifiers = null) {
 			return new UnifiedImport {
 					Member = member,
 					Name = name,

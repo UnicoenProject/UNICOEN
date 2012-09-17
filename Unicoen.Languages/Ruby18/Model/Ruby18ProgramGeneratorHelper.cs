@@ -60,7 +60,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             return UnifiedProgram.Create(CreateSmartBlock(node));
         }
 
-        public static UnifiedParameterCollection CreateArgs(XElement node) {
+        public static UnifiedSet<UnifiedParameter> CreateArgs(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "args");
             Contract.Requires(
@@ -68,7 +68,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                             e => e.Name() == "Symbol" || e.Name() == "block"));
             var args = node.Elements("Symbol")
                     .Select(e => e.Value.ToVariableIdentifier().ToParameter())
-                    .ToCollection();
+                    .ToSet();
             if (args.Count > 0 && node.LastElement().Name() == "block") {
                 // デフォルト引数付き
                 var asgnNodes = node.LastElement().Elements();
@@ -98,12 +98,12 @@ namespace Unicoen.Languages.Ruby18.Model {
                     .Select(CreateSymbol);
         }
 
-        public static UnifiedArgumentCollection CreateArglist(XElement node) {
+        public static UnifiedSet<UnifiedArgument> CreateArglist(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "arglist");
             return node.Elements()
                     .Select(e => CreateExpresion(e).ToArgument())
-                    .ToCollection();
+                    .ToSet();
         }
 
         private static UnifiedBlock CreateSmartBlock(XElement node) {

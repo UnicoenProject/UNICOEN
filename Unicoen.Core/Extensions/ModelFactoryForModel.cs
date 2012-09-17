@@ -31,13 +31,13 @@ namespace Unicoen.Model {
 		public static UnifiedParameter ToParameter(
 				this UnifiedIdentifier expression) {
 			return UnifiedParameter.Create(
-					null, null, null, expression.ToCollection());
+					null, null, null, expression.ToSet());
 		}
 
 		public static UnifiedParameter ToParameter(
 				this UnifiedIdentifier expression, UnifiedType type) {
 			return UnifiedParameter.Create(
-					null, null, type, expression.ToCollection());
+					null, null, type, expression.ToSet());
 		}
 
 		public static UnifiedExpression ToProperty(

@@ -88,7 +88,7 @@ namespace Unicoen.Model {
 		///   ビジターを適用してコードモデルを走査します。
 		/// </summary>
 		/// <param name="visitor"> </param>
-		public abstract void Accept(IUnifiedVisitor visitor);
+		public abstract void Accept(UnifiedVisitor visitor);
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -96,7 +96,7 @@ namespace Unicoen.Model {
 		/// <param name="visitor"> </param>
 		/// <param name="arg"> </param>
 		public abstract void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg);
+				UnifiedVisitor<TArg> visitor, TArg arg);
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -107,7 +107,7 @@ namespace Unicoen.Model {
 		/// <param name="arg"> </param>
 		/// <returns> </returns>
 		public abstract TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg);
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg);
 
 		/// <summary>
 		///   子要素を列挙します。

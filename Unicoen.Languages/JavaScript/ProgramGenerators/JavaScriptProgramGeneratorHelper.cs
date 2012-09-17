@@ -112,7 +112,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			var body = CreateFunctionBody(node.Element("functionBody"));
 
 			return UnifiedFunctionDefinition.Create(
-					null, UnifiedModifierCollection.Create(), null, null,
+					null, UnifiedSet<UnifiedModifier>.Create(), null, null,
 					UnifiedVariableIdentifier.Create(name), parameters,
 					null, body);
 			//関数定義をnewするとオブジェクトが生成されるが、
@@ -141,7 +141,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 					body);
 		}
 
-		public static UnifiedParameterCollection CreateFormalParameterList(
+		public static UnifiedSet<UnifiedParameter> CreateFormalParameterList(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameterList");
@@ -156,9 +156,9 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 									null,
 									null, null,
 									UnifiedVariableIdentifier.Create(e.Value).
-											ToCollection(),
+											ToSet<UnifiedIdentifier>(),
 									null)).
-							ToCollection();
+							ToSet();
 			return parameters;
 		}
 
@@ -675,7 +675,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			return UnifiedSwitch.Create(value, cases);
 		}
 
-		public static UnifiedCaseCollection CreateCaseBlock(XElement node) {
+		public static UnifiedSet<UnifiedCase> CreateCaseBlock(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "caseBlock");
 			/*
@@ -683,7 +683,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			 *		: '{' (LT!* caseClause)* (LT!* defaultClause (LT!* caseClause)*)? LT!* '}'
 			 */
 
-			var cases = UnifiedCaseCollection.Create();
+			var cases = UnifiedSet<UnifiedCase>.Create();
 
 			foreach (
 					var e in
@@ -758,7 +758,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			return UnifiedTry.Create(body, catches, null, finallyBody);
 		}
 
-		public static UnifiedCatchCollection CreateCatchClause(XElement node) {
+		public static UnifiedSet<UnifiedCatch> CreateCatchClause(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "catchClause");
 			/*
@@ -772,7 +772,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			var body = CreateStatementBlock(node.Element("statementBlock"));
 			var catchClause = UnifiedCatch.Create(null, name, body);
 
-			return catchClause.ToCollection();
+			return catchClause.ToSet();
 		}
 
 		public static UnifiedBlock CreateFinallyClause(XElement node) {
@@ -1023,7 +1023,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			}
 		}
 
-		public static UnifiedArgumentCollection CreateArguments(XElement node) {
+		public static UnifiedSet<UnifiedArgument> CreateArguments(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arguments");
 			/*
@@ -1035,7 +1035,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 					e =>
 					UnifiedArgument.Create(
 							CreateAssignmentExpression(e), null, null)).
-					ToCollection();
+					ToSet();
 		}
 
 		public static UnifiedIndexer CreateIndexSuffix(
@@ -1052,7 +1052,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 					UnifiedArgument.Create(
 							CreateExpression(node.Element("expression")), null,
 							null).
-							ToCollection());
+							ToSet());
 		}
 
 		public static UnifiedProperty CreatePropertyReferenceSuffix(

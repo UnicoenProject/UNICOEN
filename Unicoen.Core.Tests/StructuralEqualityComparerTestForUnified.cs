@@ -57,7 +57,7 @@ namespace Unicoen.Tests {
 			var o1 =
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
-							UnifiedArgumentCollection.Create(
+							UnifiedSet<UnifiedArgument>.Create(
 									UnifiedArgument.Create(
 											UnifiedVariableIdentifier.Create(
 													"a"), null, null),
@@ -76,7 +76,7 @@ namespace Unicoen.Tests {
 			var o2 =
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
-							UnifiedArgumentCollection.Create(
+							UnifiedSet<UnifiedArgument>.Create(
 									UnifiedArgument.Create(
 											UnifiedVariableIdentifier.Create(
 													"a"), null, null),
@@ -133,7 +133,7 @@ namespace Unicoen.Tests {
 			var o1 =
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
-							UnifiedArgumentCollection.Create(
+							UnifiedSet<UnifiedArgument>.Create(
 									UnifiedArgument.Create(
 											UnifiedVariableIdentifier.Create(
 													"a"), null, null),
@@ -151,7 +151,7 @@ namespace Unicoen.Tests {
 			var o2 =
 					UnifiedCall.Create(
 							UnifiedVariableIdentifier.Create("f"),
-							UnifiedArgumentCollection.Create(
+							UnifiedSet<UnifiedArgument>.Create(
 									UnifiedArgument.Create(
 											UnifiedVariableIdentifier.Create(
 													"a"), null, null),

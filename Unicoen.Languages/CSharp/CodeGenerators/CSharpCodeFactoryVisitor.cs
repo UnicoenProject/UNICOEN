@@ -69,7 +69,7 @@ namespace Unicoen.Languages.CSharp.CodeGenerators {
 
 		// e.g. Foo<T1, T2> where T1 : string
 		public override bool Visit(
-				UnifiedGenericParameterCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedGenericParameter> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			foreach (var genericParameter in element) {
 				if (genericParameter.Constrains != null) {
@@ -92,7 +92,7 @@ namespace Unicoen.Languages.CSharp.CodeGenerators {
 		}
 
 		public override bool Visit(
-				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedTypeConstrain> element, VisitorArgument arg) {
 			UnifiedTypeConstrain last = null;
 			foreach (var current in element) {
 				if (last == null) {

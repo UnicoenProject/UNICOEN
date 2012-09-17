@@ -156,7 +156,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				// statementの中身を解析して、この関数内で直接UnifiedCaseを生成します。
 				// labeled_statementから辿って、このノードに到達するまでにlabeled_statementがなければ、
 				// そのlabeled_statementはこのノードのケース文です
-				var cases = UnifiedCaseCollection.Create();
+				var cases = UnifiedSet<UnifiedCase>.Create();
 				var labels = node.DescendantsAndSelf("labeled_statement")
 						// Ignore label statements for goto
 						.Where(e => e.FirstElement().Name != "IDENTIFIER")

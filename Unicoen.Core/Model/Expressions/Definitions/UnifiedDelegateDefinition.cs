@@ -28,7 +28,7 @@ namespace Unicoen.Model {
 	public class UnifiedDelegateDefinition : UnifiedExpression {
 		#region fields & properties
 
-		private UnifiedAnnotationCollection _annotations;
+		private UnifiedSet<UnifiedAnnotation> _annotations;
 
 		/// <summary>
 		/// Gets or sets the annotations.
@@ -36,12 +36,12 @@ namespace Unicoen.Model {
 		/// in <c>[Pure] public delegate void Delegate&lt;T&gt;(T v);</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 
 		/// <summary>
 		/// Gets or sets the modifiers.
@@ -49,7 +49,7 @@ namespace Unicoen.Model {
 		/// in <c>[Pure] public delegate void Delegate&lt;T&gt;(T v);</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -67,7 +67,7 @@ namespace Unicoen.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedGenericParameterCollection _genericParameters;
+		private UnifiedSet<UnifiedGenericParameter> _genericParameters;
 
 		/// <summary>
 		/// Gets or sets the type of the generic parameters.
@@ -75,7 +75,7 @@ namespace Unicoen.Model {
 		/// in <c>[Pure] public delegate void Delegate&lt;T&gt;(T v);</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedGenericParameterCollection GenericParameters {
+		public UnifiedSet<UnifiedGenericParameter> GenericParameters {
 			get { return _genericParameters; }
 			set { _genericParameters = SetChild(value, _genericParameters); }
 		}
@@ -93,7 +93,7 @@ namespace Unicoen.Model {
 			set { _name = SetChild(value, _name); }
 		}
 
-		private UnifiedParameterCollection _parameters;
+		private UnifiedSet<UnifiedParameter> _parameters;
 
 		/// <summary>
 		/// Gets or sets the parameters.
@@ -101,7 +101,7 @@ namespace Unicoen.Model {
 		/// in <c>[Pure] public delegate void Delegate&lt;T&gt;(T v);</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedParameterCollection Parameters {
+		public UnifiedSet<UnifiedParameter> Parameters {
 			get { return _parameters; }
 			set { _parameters = SetChild(value, _parameters); }
 		}
@@ -111,30 +111,30 @@ namespace Unicoen.Model {
 		protected UnifiedDelegateDefinition() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedDelegateDefinition Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedType type = null,
-				UnifiedGenericParameterCollection genericParameters = null,
+				UnifiedSet<UnifiedGenericParameter> genericParameters = null,
 				UnifiedIdentifier name = null,
-				UnifiedParameterCollection parameters = null) {
+				UnifiedSet<UnifiedParameter> parameters = null) {
 			return new UnifiedDelegateDefinition {
 					Name = name,
 					Annotations = annotations,

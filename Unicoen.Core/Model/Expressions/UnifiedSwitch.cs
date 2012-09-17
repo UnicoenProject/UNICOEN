@@ -34,12 +34,12 @@ namespace Unicoen.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		private UnifiedCaseCollection _cases;
+		private UnifiedSet<UnifiedCase> _cases;
 
 		/// <summary>
 		///   switch文に付随するcase節の集合を表します
 		/// </summary>
-		public UnifiedCaseCollection Cases {
+		public UnifiedSet<UnifiedCase> Cases {
 			get { return _cases; }
 			set { _cases = SetChild(value, _cases); }
 		}
@@ -52,26 +52,26 @@ namespace Unicoen.Model {
 		}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedSwitch Create(
 				UnifiedExpression value = null,
-				UnifiedCaseCollection cases = null) {
+				UnifiedSet<UnifiedCase> cases = null) {
 			return new UnifiedSwitch {
 					Value = value,
 					Cases = cases,

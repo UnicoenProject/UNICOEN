@@ -56,7 +56,7 @@ namespace Unicoen.Model {
 			return new UnifiedArrayType {
 					Type = this,
 					// argumentがnullの場合でもコレクションの要素にしたいため
-					Arguments = Enumerable.Repeat(argument, 1).ToCollection(),
+					Arguments = Enumerable.Repeat(argument, 1).ToSet(),
 			};
 		}
 
@@ -66,12 +66,12 @@ namespace Unicoen.Model {
 					Type = this,
 					Arguments =
 							Enumerable.Repeat<UnifiedArgument>(null, dimension).
-									ToCollection(),
+									ToSet(),
 			};
 		}
 
 		public UnifiedType WrapRectangleArray(
-				UnifiedArgumentCollection arguments = null) {
+				UnifiedSet<UnifiedArgument> arguments = null) {
 			return new UnifiedArrayType {
 					Type = this,
 					Arguments = arguments,
@@ -79,7 +79,7 @@ namespace Unicoen.Model {
 		}
 
 		public UnifiedType WrapGeneric(
-				UnifiedGenericArgumentCollection arguments = null) {
+				UnifiedSet<UnifiedGenericArgument> arguments = null) {
 			return new UnifiedGenericType {
 					Type = this,
 					Arguments = arguments,

@@ -25,7 +25,7 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedProgram : UnifiedElement {
 		private UnifiedComment _magicComment;
-		private UnifiedCommentCollection _comments;
+		private UnifiedSet<UnifiedComment> _comments;
 
 		/// <summary>
 		///   ソースコードの先頭に表記されたマジックコメントを取得もしくは設定します． e.g. Pythonにおける <c># -*- coding: utf-8 -*-</c>
@@ -38,7 +38,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   ソースコード中に表記された全てのコメントを取得もしくは設定します．
 		/// </summary>
-		public UnifiedCommentCollection Comments {
+		public UnifiedSet<UnifiedComment> Comments {
 			get { return _comments; }
 			set { _comments = SetChild(value, _comments); }
 		}
@@ -56,25 +56,25 @@ namespace Unicoen.Model {
 		protected UnifiedProgram() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedProgram Create(
 				UnifiedBlock body, UnifiedComment magicComments = null,
-				UnifiedCommentCollection comments = null) {
+				UnifiedSet<UnifiedComment> comments = null) {
 			return new UnifiedProgram {
 					Body = body,
 					MagicComment = magicComments,

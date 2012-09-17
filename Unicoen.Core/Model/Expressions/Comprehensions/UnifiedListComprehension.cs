@@ -27,25 +27,25 @@ namespace Unicoen.Model {
 		private UnifiedListComprehension() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedListComprehension Create(
 				UnifiedExpression element,
-				UnifiedExpressionCollection generator) {
+				UnifiedSet<UnifiedExpression> generator) {
 			return new UnifiedListComprehension {
 					Element = element,
 					Generator = generator,

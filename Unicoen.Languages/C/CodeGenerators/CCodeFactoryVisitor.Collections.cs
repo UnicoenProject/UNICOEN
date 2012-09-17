@@ -39,39 +39,39 @@ namespace Unicoen.Languages.C.CodeGenerators {
 			Writer.Write(decoration.MostRight);
 		}
 
-		// 修飾子(UnifiedModifierCollection)
+		// 修飾子(UnifiedSet<UnifiedModifier>)
 		public override bool Visit(
-				UnifiedModifierCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedModifier> element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		// 実引数(UnifiedArgumentCollection)
+		// 実引数(UnifiedSet<UnifiedArgument>)
 		public override bool Visit(
-				UnifiedArgumentCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedArgument> element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		// パラメータ(UnifiedParameterCollection)
+		// パラメータ(UnifiedSet<UnifiedParameter>)
 		public override bool Visit(
-				UnifiedParameterCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedParameter> element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(Paren));
 			return false;
 		}
 
-		// パラメータ名(UnifiedIdentifierCollection)
+		// パラメータ名(UnifiedSet<UnifiedIdentifier>)
 		// Python向けにパラメータは複数の識別子を保持できるようになっているが、
-		// C言語ではUnifiedIdentifierCollectionが持つ要素は1つのみである
+		// C言語ではUnifiedSet<UnifiedIdentifier>が持つ要素は1つのみである
 		public override bool Visit(
-				UnifiedIdentifierCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedIdentifier> element, VisitorArgument arg) {
 			VisitCollection(element, arg);
 			return false;
 		}
 
-		// Case文(UnifiedCaseCollection)
+		// Case文(UnifiedSet<UnifiedCase>)
 		public override bool Visit(
-				UnifiedCaseCollection element, VisitorArgument arg) {
+				UnifiedSet<UnifiedCase> element, VisitorArgument arg) {
 			arg = arg.IncrementDepth();
 			foreach (var caseElement in element) {
 				WriteIndent(arg.IndentDepth);

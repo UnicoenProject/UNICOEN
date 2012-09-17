@@ -24,12 +24,12 @@ namespace Unicoen.Model {
 	///   ジェネリクスパラメータなど型に対する実引数を表します。 e.g. Javaにおける <c>HashMap&lt;String, Integer&gt; map;</c> の <c>&lt;String, Integer&gt;</c>
 	/// </summary>
 	public class UnifiedGenericArgument : UnifiedElement {
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 
 		/// <summary>
 		///   修飾子の集合を表します
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -41,9 +41,9 @@ namespace Unicoen.Model {
 			set { _value = SetChild(value, _value); }
 		}
 
-		private UnifiedTypeConstrainCollection _constrains;
+		private UnifiedSet<UnifiedTypeConstrain> _constrains;
 
-		public UnifiedTypeConstrainCollection Constrains {
+		public UnifiedSet<UnifiedTypeConstrain> Constrains {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
 		}
@@ -51,27 +51,27 @@ namespace Unicoen.Model {
 		private UnifiedGenericArgument() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedGenericArgument Create(
 				UnifiedExpression type = null,
-				UnifiedModifierCollection modifiers = null,
-				UnifiedTypeConstrainCollection
+				UnifiedSet<UnifiedModifier> modifiers = null,
+				UnifiedSet<UnifiedTypeConstrain>
 						constrains = null) {
 			return new UnifiedGenericArgument {
 					Value = type,

@@ -82,7 +82,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			// Pick up comment nodes which are in last children of the root node
 			program.Comments = node.Elements(Code2XmlConstants.CommentName)
 					.Select(CreateComment)
-					.ToCollection();
+					.ToSet();
 
 			return program;
 		}
@@ -125,7 +125,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var modifiers = node.HasElementByContent("static")
 									? UnifiedModifier.Create(
 											node.NthElement(1).Value).
-											ToCollection()
+											ToSet()
 									: null;
 
 			return UnifiedImport.Create(name, null, null, modifiers);
@@ -168,7 +168,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 		}
 
 		public static
-				Tuple<UnifiedAnnotationCollection, UnifiedModifierCollection>
+				Tuple<UnifiedSet<UnifiedAnnotation>, UnifiedSet<UnifiedModifier>>
 				CreateModifiers(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "modifiers");
@@ -189,8 +189,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 * |   'strictfp'
 			 * )* 
 			 */
-			var annotations = UnifiedAnnotationCollection.Create();
-			var modifiers = UnifiedModifierCollection.Create();
+			var annotations = UnifiedSet<UnifiedAnnotation>.Create();
+			var modifiers = UnifiedSet<UnifiedModifier>.Create();
 			foreach (var e in node.Elements()) {
 				if (e.Name() == "annotation") {
 					annotations.Add(CreateAnnotation(e));
@@ -202,7 +202,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 		}
 
 		public static
-				Tuple<UnifiedAnnotationCollection, UnifiedModifierCollection>
+				Tuple<UnifiedSet<UnifiedAnnotation>, UnifiedSet<UnifiedModifier>>
 				CreateVariableModifiers(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableModifiers");
@@ -210,8 +210,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 * variableModifiers 
 			 * :   ( 'final' | annotation )* 
 			 */
-			var annotations = UnifiedAnnotationCollection.Create();
-			var modifiers = UnifiedModifierCollection.Create();
+			var annotations = UnifiedSet<UnifiedAnnotation>.Create();
+			var modifiers = UnifiedSet<UnifiedModifier>.Create();
 			foreach (var e in node.Elements()) {
 				if (e.Name() == "annotation") {
 					annotations.Add(CreateAnnotation(e));
@@ -255,7 +255,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 										? CreateTypeParameters(
 												node.Element("typeParameters"))
 										: null;
-			var constrains = UnifiedTypeConstrainCollection.Create();
+			var constrains = UnifiedSet<UnifiedTypeConstrain>.Create();
 			if (node.HasElement("type")) {
 				constrains.Add(
 						UnifiedExtendConstrain.Create(
@@ -274,7 +274,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					constrains, body);
 		}
 
-		public static UnifiedGenericParameterCollection CreateTypeParameters(
+		public static UnifiedSet<UnifiedGenericParameter> CreateTypeParameters(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeParameters");
@@ -284,7 +284,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 			return node.Elements("typeParameter")
 					.Select(CreateTypeParameter)
-					.ToCollection();
+					.ToSet();
 		}
 
 		public static UnifiedGenericParameter CreateTypeParameter(XElement node) {
@@ -301,7 +301,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			}
 			return UnifiedGenericParameter.Create(
 					UnifiedType.Create(node.FirstElement().Value),
-					UnifiedTypeConstrainCollection.Create(
+					UnifiedSet<UnifiedTypeConstrain>.Create(
 							CreateTypeBound(node.LastElement())
 									.Select(UnifiedExtendConstrain.Create))
 					);
@@ -333,7 +333,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 											.Select(
 													UnifiedImplementsConstrain
 															.Create)
-											.ToCollection()
+											.ToSet<UnifiedTypeConstrain>()
 									: null;
 			var enumBody = CreateEnumBody(node.Element("enumBody"));
 			return UnifiedEnumDefinition.Create(
@@ -460,7 +460,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 										: null;
 			var typeListNode = node.Element("typeList");
 			var constrains = typeListNode != null
-									? UnifiedTypeConstrainCollection.Create(
+									? UnifiedSet<UnifiedTypeConstrain>.Create(
 											CreateTypeList(typeListNode).Select
 													(
 															UnifiedExtendConstrain
@@ -530,7 +530,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 									: null;
 				yield return UnifiedStaticInitializer.Create(
 						CreateBlock(node.Element("block")), null,
-						UnifiedModifierCollection.Create(modifier));
+						UnifiedSet<UnifiedModifier>.Create(modifier));
 			}
 			if (node.HasElement("memberDecl")) {
 				yield return CreateMemberDecl(node.Element("memberDecl"));
@@ -601,7 +601,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 								? CreateQualifiedNameList(
 										node.Element("qualifiedNameList"))
 										.Select(UnifiedType.Create)
-										.ToCollection()
+										.ToSet()
 								: null;
 			var body = node.HasElement("block")
 							? CreateBlock(node.Element("block")) : null;
@@ -668,8 +668,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 
 		public static UnifiedVariableDefinition CreateVariableDeclarator
 				(
-				XElement node, UnifiedAnnotationCollection annotations,
-				UnifiedModifierCollection modifiers, UnifiedType type) {
+				XElement node, UnifiedSet<UnifiedAnnotation> annotations,
+				UnifiedSet<UnifiedModifier> modifiers, UnifiedType type) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "variableDeclarator");
 			/*
@@ -749,7 +749,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					CreateFormalParameters(node.Element("formalParameters"));
 
 			var throws = node.HasElement("qualifiedNameList")
-								? UnifiedTypeCollection.Create(
+								? UnifiedSet<UnifiedType>.Create(
 										CreateQualifiedNameList(
 												node.Element(
 														"qualifiedNameList"))
@@ -874,7 +874,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return UnifiedType.Create(node.Value);
 		}
 
-		public static UnifiedGenericArgumentCollection CreateTypeArguments(
+		public static UnifiedSet<UnifiedGenericArgument> CreateTypeArguments(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "typeArguments");
@@ -884,7 +884,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 			return node.Elements("typeArgument")
 					.Select(CreateTypeArgument)
-					.ToCollection();
+					.ToSet();
 		}
 
 		public static UnifiedGenericArgument CreateTypeArgument(XElement node) {
@@ -913,7 +913,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 							UnifiedSuperConstrain.Create(CreateType(typeNode));
 				}
 				return UnifiedGenericArgument.Create(
-						anyType, null, constrain.ToCollection());
+						anyType, null, constrain.ToSet());
 			}
 			return UnifiedGenericArgument.Create(anyType);
 		}
@@ -929,7 +929,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return node.Elements("qualifiedName").Select(CreateQualifiedName);
 		}
 
-		public static UnifiedParameterCollection CreateFormalParameters(
+		public static UnifiedSet<UnifiedParameter> CreateFormalParameters(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameters");
@@ -940,12 +940,12 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var element = node.Element("formalParameterDecls");
 			if (element == null) {
 				// ()が付いているので空集合を返す
-				return UnifiedParameterCollection.Create();
+				return UnifiedSet<UnifiedParameter>.Create();
 			}
 			return CreateFormalParameterDecls(element);
 		}
 
-		public static UnifiedParameterCollection CreateFormalParameterDecls(
+		public static UnifiedSet<UnifiedParameter> CreateFormalParameterDecls(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "formalParameterDecls");
@@ -961,7 +961,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 							e => e.Name() == "normalParameterDecl"
 										? CreateNormalParameterDecl(e)
 										: CreateEllipsisParameterDecl(e))
-					.ToCollection();
+					.ToSet();
 		}
 
 		public static UnifiedParameter CreateNormalParameterDecl(XElement node) {
@@ -981,7 +981,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					annotationsAndModifiers.Item2,
 					type,
 					UnifiedVariableIdentifier.Create(node.NthElement(2).Value).
-							ToCollection());
+							ToSet<UnifiedIdentifier>());
 		}
 
 		public static UnifiedParameter CreateEllipsisParameterDecl(
@@ -1001,7 +1001,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					annotationsAndModifiers.Item2,
 					type,
 					UnifiedVariableIdentifier.Create(node.NthElement(3).Value).
-							ToCollection());
+							ToSet<UnifiedIdentifier>());
 		}
 
 		public static UnifiedExpression CreateExplicitConstructorInvocation(
@@ -1050,7 +1050,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return ids.ToProperty(".");
 		}
 
-		public static UnifiedAnnotationCollection CreateAnnotations(
+		public static UnifiedSet<UnifiedAnnotation> CreateAnnotations(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "annotations");
@@ -1058,7 +1058,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 * annotations 
 			 * :   (annotation)+ 
 			 */
-			return node.Elements().Select(CreateAnnotation).ToCollection();
+			return node.Elements().Select(CreateAnnotation).ToSet();
 		}
 
 		public static UnifiedAnnotation CreateAnnotation(XElement node) {
@@ -1075,12 +1075,12 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 							? elementNode.Name() == "elementValuePairs"
 									? CreateElementValuePairs(elementNode)
 									: CreateElementValue(elementNode).
-											ToArgument().ToCollection()
+											ToArgument().ToSet()
 							: null
 					);
 		}
 
-		public static UnifiedArgumentCollection CreateElementValuePairs(
+		public static UnifiedSet<UnifiedArgument> CreateElementValuePairs(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "elementValuePairs");
@@ -1091,7 +1091,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return
 					node.Elements().OddIndexElements().Select(
 							CreateElementValuePair).
-							ToCollection();
+							ToSet();
 		}
 
 		public static UnifiedArgument CreateElementValuePair(XElement node) {
@@ -1226,7 +1226,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 					annotationsAndModifiers.Item1, annotationsAndModifiers.Item2,
 					CreateType(node.NthElement(1)),
 					UnifiedVariableIdentifier.Create(node.NthElement(2).Value),
-					arguments: UnifiedArgumentCollection.Create(),
+					arguments: UnifiedSet<UnifiedArgument>.Create(),
 					initialValue: elementValueNode != null
 										? CreateElementValue(elementValueNode)
 										: null
@@ -1402,7 +1402,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			}
 		}
 
-		public static UnifiedCaseCollection CreateSwitchBlockStatementGroups(
+		public static UnifiedSet<UnifiedCase> CreateSwitchBlockStatementGroups(
 				XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "switchBlockStatementGroups");
@@ -1412,7 +1412,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 			return node.Elements("switchBlockStatementGroup")
 					.Select(CreateSwitchBlockStatementGroup)
-					.ToCollection();
+					.ToSet();
 		}
 
 		public static UnifiedCase CreateSwitchBlockStatementGroup(XElement node) {
@@ -1463,7 +1463,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return UnifiedTry.Create(body, catches, null, finallyBlock);
 		}
 
-		public static UnifiedCatchCollection CreateCatches(XElement node) {
+		public static UnifiedSet<UnifiedCatch> CreateCatches(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "catches");
 			/*
@@ -1472,7 +1472,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 			return node.Elements("catchClause")
 					.Select(CreateCatchClause)
-					.ToCollection();
+					.ToSet();
 		}
 
 		public static UnifiedCatch CreateCatchClause(XElement node) {
@@ -1484,7 +1484,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 			var t = CreateFormalParameter(node.Element("formalParameter"));
 			return UnifiedCatch.Create(
-					t.Item2.ToCollection(),
+					t.Item2.ToSet(),
 					t.Item3,
 					CreateBlock(node.Element("block")),
 					t.Item1.Item1,
@@ -1494,8 +1494,8 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 		public static
 				Tuple<
 						Tuple<
-								UnifiedAnnotationCollection,
-								UnifiedModifierCollection>,
+								UnifiedSet<UnifiedAnnotation>,
+								UnifiedSet<UnifiedModifier>>,
 						UnifiedType,
 						UnifiedVariableIdentifier>
 				CreateFormalParameter(
@@ -1985,7 +1985,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 								prefixProp, (current, exp) =>
 											UnifiedIndexer.Create(
 													current,
-													UnifiedArgumentCollection.
+													UnifiedSet<UnifiedArgument>.
 															Create(
 																	UnifiedArgument
 																			.
@@ -2088,7 +2088,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 						prefix,
 						UnifiedArgument.Create(
 								CreateExpression(secondElement), null, null).
-								ToCollection());
+								ToSet());
 			}
 
 			throw new InvalidOperationException();
@@ -2253,7 +2253,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return UnifiedProperty.Create(".", prefix, prop);
 		}
 
-		public static Tuple<UnifiedArgumentCollection, UnifiedBlock>
+		public static Tuple<UnifiedSet<UnifiedArgument>, UnifiedBlock>
 				CreateClassCreatorRest(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "classCreatorRest");
@@ -2266,11 +2266,11 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 							? CreateClassBody(node.Element("classBody"))
 							: null;
 			return
-					new Tuple<UnifiedArgumentCollection, UnifiedBlock>(
+					new Tuple<UnifiedSet<UnifiedArgument>, UnifiedBlock>(
 							CreateArguments(node.Element("arguments")), body);
 		}
 
-		public static UnifiedGenericArgumentCollection
+		public static UnifiedSet<UnifiedGenericArgument>
 				CreateNonWildcardTypeArguments(
 				XElement node) {
 			Contract.Requires(node != null);
@@ -2281,7 +2281,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			 */
 
 			var typeList = CreateTypeList(node.NthElement(1));
-			var typeArguments = UnifiedGenericArgumentCollection.Create();
+			var typeArguments = UnifiedSet<UnifiedGenericArgument>.Create();
 
 			foreach (var type in typeList) {
 				var argument = UnifiedGenericArgument.Create(type);
@@ -2290,7 +2290,7 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			return typeArguments;
 		}
 
-		public static UnifiedArgumentCollection CreateArguments(XElement node) {
+		public static UnifiedSet<UnifiedArgument> CreateArguments(XElement node) {
 			Contract.Requires(node != null);
 			Contract.Requires(node.Name() == "arguments");
 			/*
@@ -2299,12 +2299,12 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var expressionListNode = node.Element("expressionList");
 			if (expressionListNode == null) {
 				// ()がついているので空集合を返す
-				return UnifiedArgumentCollection.Create();
+				return UnifiedSet<UnifiedArgument>.Create();
 			}
 
 			return CreateExpressionList(expressionListNode)
 					.Select(value => UnifiedArgument.Create(value, null, null))
-					.ToCollection();
+					.ToSet();
 		}
 
 		public static UnifiedLiteral CreateLiteral(XElement node) {

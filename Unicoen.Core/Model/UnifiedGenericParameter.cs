@@ -34,19 +34,19 @@ namespace Unicoen.Model {
 			set { _type = SetChild(value, _type); }
 		}
 
-		private UnifiedTypeConstrainCollection _constrains;
+		private UnifiedSet<UnifiedTypeConstrain> _constrains;
 
 		/// <summary>
 		///   型が持つ制約の集合を表します
 		/// </summary>
-		public UnifiedTypeConstrainCollection Constrains {
+		public UnifiedSet<UnifiedTypeConstrain> Constrains {
 			get { return _constrains; }
 			set { _constrains = SetChild(value, _constrains); }
 		}
 
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -54,27 +54,27 @@ namespace Unicoen.Model {
 		private UnifiedGenericParameter() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedGenericParameter Create(
 				UnifiedType type = null,
-				UnifiedTypeConstrainCollection constrains = null,
-				UnifiedModifierCollection modifiers = null) {
+				UnifiedSet<UnifiedTypeConstrain> constrains = null,
+				UnifiedSet<UnifiedModifier> modifiers = null) {
 			return new UnifiedGenericParameter {
 					Type = type,
 					Constrains = constrains,

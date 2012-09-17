@@ -25,8 +25,8 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedCall : UnifiedExpression {
 		private UnifiedExpression _function;
-		private UnifiedGenericArgumentCollection _genericArguments;
-		private UnifiedArgumentCollection _arguments;
+		private UnifiedSet<UnifiedGenericArgument> _genericArguments;
+		private UnifiedSet<UnifiedArgument> _arguments;
 		private UnifiedProc _proc;
 
 		public UnifiedExpression Function {
@@ -34,7 +34,7 @@ namespace Unicoen.Model {
 			set { _function = SetChild(value, _function); }
 		}
 
-		public UnifiedGenericArgumentCollection GenericArguments {
+		public UnifiedSet<UnifiedGenericArgument> GenericArguments {
 			get { return _genericArguments; }
 			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
@@ -42,7 +42,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   実引数の集合を表します e.g. Javaにおける <c>method(a, b, c)</c> の <c>a, b, c</c> の部分
 		/// </summary>
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedSet<UnifiedArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
@@ -58,27 +58,27 @@ namespace Unicoen.Model {
 		private UnifiedCall() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedCall Create(
 				UnifiedExpression target = null,
-				UnifiedArgumentCollection args = null,
-				UnifiedGenericArgumentCollection genericArguments = null,
+				UnifiedSet<UnifiedArgument> args = null,
+				UnifiedSet<UnifiedGenericArgument> genericArguments = null,
 				UnifiedProc proc = null) {
 			return new UnifiedCall {
 					Function = target,

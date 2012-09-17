@@ -34,12 +34,12 @@ namespace Unicoen.Model {
 			set { _element = SetChild(value, _element); }
 		}
 
-		private UnifiedExpressionCollection _generator;
+		private UnifiedSet<UnifiedExpression> _generator;
 
 		/// <summary>
 		///   辞書内包表記の集合を生成する式を表します．
 		/// </summary>
-		public UnifiedExpressionCollection Generator {
+		public UnifiedSet<UnifiedExpression> Generator {
 			get { return _generator; }
 			set { _generator = SetChild(value, _generator); }
 		}
@@ -47,25 +47,25 @@ namespace Unicoen.Model {
 		private UnifiedMapComprehension() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedMapComprehension Create(
 				UnifiedKeyValue element = null,
-				UnifiedExpressionCollection generator = null) {
+				UnifiedSet<UnifiedExpression> generator = null) {
 			return new UnifiedMapComprehension {
 					Element = element,
 					Generator = generator,

@@ -34,12 +34,12 @@ namespace Unicoen.Model {
 			set { _name = SetChild(value, _name); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
+		private UnifiedSet<UnifiedArgument> _arguments;
 
 		/// <summary>
 		///   実引数の集合を表します e.g. Javaにおける <c>method(a, b, c)</c> の <c>a, b, c</c> の部分
 		/// </summary>
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedSet<UnifiedArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
@@ -52,25 +52,25 @@ namespace Unicoen.Model {
 		private UnifiedAnnotation() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedAnnotation Create(
 				UnifiedExpression name = null,
-				UnifiedArgumentCollection arguments = null) {
+				UnifiedSet<UnifiedArgument> arguments = null) {
 			return new UnifiedAnnotation {
 					Name = name,
 					Arguments = arguments,

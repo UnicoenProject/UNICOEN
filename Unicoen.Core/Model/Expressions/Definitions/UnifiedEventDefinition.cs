@@ -29,10 +29,10 @@ namespace Unicoen.Model {
 	public class UnifiedEventDefinition : UnifiedExpression {
 		#region fields & properties
 
-		private UnifiedAnnotationCollection _annotations;
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedAnnotation> _annotations;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 		private UnifiedType _type;
-		private UnifiedIdentifierCollection _names;
+		private UnifiedSet<UnifiedIdentifier> _names;
 		private UnifiedPropertyDefinitionPart _adder;
 		private UnifiedPropertyDefinitionPart _remover;
 
@@ -42,7 +42,7 @@ namespace Unicoen.Model {
 		/// <c>[Pure] public event KeyboadEventHandler OnKeyDown</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
@@ -53,7 +53,7 @@ namespace Unicoen.Model {
 		/// <c>[Pure] public event KeyboadEventHandler OnKeyDown</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -75,7 +75,7 @@ namespace Unicoen.Model {
 		/// in <c>[Pure] public event KeyboadEventHandler OnKeyDown, OnKeyPush</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedIdentifierCollection Names {
+		public UnifiedSet<UnifiedIdentifier> Names {
 			get { return _names; }
 			set { _names = SetChild(value, _names); }
 		}
@@ -107,27 +107,27 @@ namespace Unicoen.Model {
 		protected UnifiedEventDefinition() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedEventDefinition Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedType type = null,
-				UnifiedIdentifierCollection names = null,
+				UnifiedSet<UnifiedIdentifier> names = null,
 				UnifiedPropertyDefinitionPart adder = null,
 				UnifiedPropertyDefinitionPart remover = null) {
 			return new UnifiedEventDefinition {

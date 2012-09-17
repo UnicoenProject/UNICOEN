@@ -22,7 +22,7 @@ using Unicoen.Processor;
 
 namespace Unicoen.Languages.C.CodeGenerators {
     public partial class CCodeFactoryVisitor :
-            ExplicitDefaultUnifiedVisitor<VisitorArgument, bool> {
+            UnifiedVisitor<VisitorArgument, bool> {
         protected string IndentSign;
 
         // constructor

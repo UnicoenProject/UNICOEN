@@ -22,12 +22,12 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	public class UnifiedGenericType : UnifiedWrapType {
-		private UnifiedGenericArgumentCollection _arguments;
+		private UnifiedSet<UnifiedGenericArgument> _arguments;
 
 		/// <summary>
 		///   ジェネリックタイプにおける実引数の集合を表します e.g. Javaにおける <c>HashMap&lt;Integer, String&gt;</c> の <c>Integer, String</c>
 		/// </summary>
-		public UnifiedGenericArgumentCollection Arguments {
+		public UnifiedSet<UnifiedGenericArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
@@ -35,19 +35,19 @@ namespace Unicoen.Model {
 		internal UnifiedGenericType() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
@@ -60,7 +60,7 @@ namespace Unicoen.Model {
 			yield return
 					ElementReference.Create(
 							() => Arguments,
-							v => Arguments = (UnifiedGenericArgumentCollection)v)
+							v => Arguments = (UnifiedSet<UnifiedGenericArgument>)v)
 					;
 			yield return
 					ElementReference.Create(
@@ -74,7 +74,7 @@ namespace Unicoen.Model {
 					ElementReference.Create(
 							() => _arguments,
 							v =>
-							_arguments = (UnifiedGenericArgumentCollection)v);
+							_arguments = (UnifiedSet<UnifiedGenericArgument>)v);
 			yield return
 					ElementReference.Create(
 							() => _type, v => _type = (UnifiedType)v);

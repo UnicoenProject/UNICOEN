@@ -24,19 +24,19 @@ namespace Unicoen.Model {
 	///   コンストラクタの定義を表します． e.g. Javaにおける <c>public T1() { ... }</c>
 	/// </summary>
 	public class UnifiedDestructor : UnifiedExpression {
-		protected UnifiedAnnotationCollection _annotations;
-		protected UnifiedModifierCollection _modifiers;
+		protected UnifiedSet<UnifiedAnnotation> _annotations;
+		protected UnifiedSet<UnifiedModifier> _modifiers;
 		protected UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します．
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
 
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -50,25 +50,25 @@ namespace Unicoen.Model {
 		}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedDestructor Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedBlock body = null) {
 			return new UnifiedDestructor {
 					Annotations = annotations,

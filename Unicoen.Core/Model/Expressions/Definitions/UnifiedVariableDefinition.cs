@@ -24,19 +24,19 @@ namespace Unicoen.Model {
 	///   変数宣言における１変数部分を表します。 e.g. Javaにおける <c>int[] a[][], b[], c;</c> の <c>int[] a[][]</c>
 	/// </summary>
 	public class UnifiedVariableDefinition : UnifiedElement {
-		private UnifiedAnnotationCollection _annotations;
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedAnnotation> _annotations;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 		private UnifiedType _type;
 		private UnifiedIdentifier _name;
 		private UnifiedIntegerLiteral _bitField;
 		private UnifiedExpression _initialValue;
-		private UnifiedArgumentCollection _arguments;
+		private UnifiedSet<UnifiedArgument> _arguments;
 		private UnifiedBlock _body;
 
 		/// <summary>
 		///   アノテーションの集合を取得または設定します．
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
@@ -44,7 +44,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   修飾子の集合を取得または設定します． e.g. Javaにおける <c>public static int a</c> の <c>public static</c>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -84,7 +84,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   変数を初期化するコンストラクタ呼び出しの引数を表します。 e.g. C++における <c>Class c(1);</c>
 		/// </summary>
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedSet<UnifiedArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
@@ -105,30 +105,30 @@ namespace Unicoen.Model {
 		protected UnifiedVariableDefinition() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedVariableDefinition Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedType type = null,
 				UnifiedIdentifier name = null,
 				UnifiedExpression initialValue = null,
-				UnifiedArgumentCollection arguments = null,
+				UnifiedSet<UnifiedArgument> arguments = null,
 				UnifiedIntegerLiteral bitField = null,
 				UnifiedBlock body = null) {
 			return new UnifiedVariableDefinition {

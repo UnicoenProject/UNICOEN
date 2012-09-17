@@ -24,7 +24,7 @@ namespace Unicoen.Model {
 	///   try文を表します。 e.g. Javaにおける <c>try { ... } catch(Exception e) { ... }</c>
 	/// </summary>
 	public class UnifiedTry : UnifiedExpression {
-		private UnifiedCatchCollection _catches;
+		private UnifiedSet<UnifiedCatch> _catches;
 		private UnifiedBlock _body;
 		private UnifiedBlock _elseBody;
 		private UnifiedBlock _finallyBody;
@@ -32,7 +32,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   catch節の集合を取得もしくは設定します． e.g. Javaにおける <c>try { ... } catch(Exception e) { ... }</c> の <c>catch(Exception e) { ... }</c>
 		/// </summary>
-		public UnifiedCatchCollection Catches {
+		public UnifiedSet<UnifiedCatch> Catches {
 			get { return _catches; }
 			set { _catches = SetChild(value, _catches); }
 		}
@@ -64,26 +64,26 @@ namespace Unicoen.Model {
 		private UnifiedTry() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedTry Create(
 				UnifiedBlock body = null,
-				UnifiedCatchCollection catches = null,
+				UnifiedSet<UnifiedCatch> catches = null,
 				UnifiedBlock elseBody = null,
 				UnifiedBlock finallyBody = null) {
 			return new UnifiedTry {

@@ -31,9 +31,9 @@ namespace Unicoen.Model {
 			set { _target = SetChild(value, _target); }
 		}
 
-		private UnifiedArgumentCollection _arguments;
+		private UnifiedSet<UnifiedArgument> _arguments;
 
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedSet<UnifiedArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
@@ -41,26 +41,26 @@ namespace Unicoen.Model {
 		private UnifiedIndexer() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedIndexer Create(
 				UnifiedExpression current = null,
-				UnifiedArgumentCollection create = null) {
+				UnifiedSet<UnifiedArgument> create = null) {
 			return new UnifiedIndexer {
 					Target = current,
 					Arguments = create

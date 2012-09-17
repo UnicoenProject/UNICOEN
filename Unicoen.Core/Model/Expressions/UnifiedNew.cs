@@ -25,8 +25,8 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedNew : UnifiedExpression {
 		private UnifiedExpression _target;
-		private UnifiedArgumentCollection _arguments;
-		private UnifiedGenericArgumentCollection _genericArguments;
+		private UnifiedSet<UnifiedArgument> _arguments;
+		private UnifiedSet<UnifiedGenericArgument> _genericArguments;
 		private UnifiedArrayLiteral _initialValue;
 		private UnifiedBlock _body;
 
@@ -35,12 +35,12 @@ namespace Unicoen.Model {
 			set { _target = SetChild(value, _target); }
 		}
 
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedSet<UnifiedArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
 
-		public UnifiedGenericArgumentCollection GenericArguments {
+		public UnifiedSet<UnifiedGenericArgument> GenericArguments {
 			get { return _genericArguments; }
 			set { _genericArguments = SetChild(value, _genericArguments); }
 		}
@@ -64,27 +64,27 @@ namespace Unicoen.Model {
 		private UnifiedNew() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedNew Create(
 				UnifiedExpression target = null,
-				UnifiedArgumentCollection arguments = null,
-				UnifiedGenericArgumentCollection genericArguments = null,
+				UnifiedSet<UnifiedArgument> arguments = null,
+				UnifiedSet<UnifiedGenericArgument> genericArguments = null,
 				UnifiedArrayLiteral initialValues = null,
 				UnifiedBlock body = null) {
 			return new UnifiedNew {

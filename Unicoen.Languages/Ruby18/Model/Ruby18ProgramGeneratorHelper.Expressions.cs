@@ -113,7 +113,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     node.Elements()
                             .Select(CreateExpresion)
                             .Select(e => UnifiedArgument.Create(e))
-                            .ToCollection()
+                            .ToSet()
                     );
         }
 

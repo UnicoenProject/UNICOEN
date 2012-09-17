@@ -29,12 +29,12 @@ namespace Unicoen.Model {
 			set { _element = SetChild(value, _element); }
 		}
 
-		protected UnifiedExpressionCollection _generator;
+		protected UnifiedSet<UnifiedExpression> _generator;
 
 		/// <summary>
 		///   リスト内包表記の集合部分の式を表します．
 		/// </summary>
-		public UnifiedExpressionCollection Generator {
+		public UnifiedSet<UnifiedExpression> Generator {
 			get { return _generator; }
 			set { _generator = SetChild(value, _generator); }
 		}

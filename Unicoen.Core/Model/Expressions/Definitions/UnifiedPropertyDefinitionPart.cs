@@ -26,14 +26,14 @@ namespace Unicoen.Model {
 	public class UnifiedPropertyDefinitionPart : UnifiedElement {
 		#region fields & properties
 
-		private UnifiedAnnotationCollection _annotations;
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedAnnotation> _annotations;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 		private UnifiedBlock _body;
 
 		/// <summary>
 		///   付与されているアノテーションを取得もしくは設定します． e.g. C#における <c>public int Value { [Pure] get; set; }</c> の <c>[Pure]</c>
 		/// </summary>
-		public UnifiedAnnotationCollection Annotations {
+		public UnifiedSet<UnifiedAnnotation> Annotations {
 			get { return _annotations; }
 			set { _annotations = SetChild(value, _annotations); }
 		}
@@ -41,7 +41,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   付与されている修飾子の集合を取得もしくは設定します． e.g. C#における <c>public int Value { private get; set; }</c> の <c>private</c>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -59,25 +59,25 @@ namespace Unicoen.Model {
 		protected UnifiedPropertyDefinitionPart() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedPropertyDefinitionPart Create(
-				UnifiedAnnotationCollection annotations = null,
-				UnifiedModifierCollection modifiers = null,
+				UnifiedSet<UnifiedAnnotation> annotations = null,
+				UnifiedSet<UnifiedModifier> modifiers = null,
 				UnifiedBlock body = null) {
 			return new UnifiedPropertyDefinitionPart {
 					Annotations = annotations,

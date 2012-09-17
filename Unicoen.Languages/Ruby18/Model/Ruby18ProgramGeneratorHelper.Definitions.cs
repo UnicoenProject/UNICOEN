@@ -65,7 +65,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                                     : null;
             return UnifiedClassDefinition.Create(
                     null, null, CreateSymbol(node.NthElement(0)), null,
-                    constrain.ToCollection(),
+                    constrain.ToSet<UnifiedTypeConstrain>(),
                     CreateScope(node.NthElement(2)));
         }
 
@@ -85,7 +85,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     null, null, null, null,
                     UnifiedEigenConstrain.Create(
                             CreateExpresion(node.NthElement(0))).
-                            ToCollection(),
+                            ToSet<UnifiedTypeConstrain>(),
                     CreateScope(node.NthElement(1)));
         }
     }

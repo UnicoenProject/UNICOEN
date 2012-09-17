@@ -353,7 +353,7 @@ namespace Unicoen.Languages.JavaScript.CodeGenerators {
 
         //継承 : JavaScriptでは出現しない
         public override bool Visit(
-                UnifiedTypeConstrainCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedTypeConstrain> element, VisitorArgument arg) {
             return false;
         }
 

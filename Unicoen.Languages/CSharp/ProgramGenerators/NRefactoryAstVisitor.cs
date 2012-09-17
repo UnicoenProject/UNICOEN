@@ -127,13 +127,13 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 				TypeParameterDeclaration dec, object data)
 		{
 			var type = UnifiedType.Create(dec.Name);
-			var modifiers = null as UnifiedModifierCollection;
+			var modifiers = null as UnifiedSet<UnifiedModifier>;
 			switch (dec.Variance) {
 				case VarianceModifier.Contravariant:
-					modifiers = UnifiedModifier.Create("in").ToCollection();
+					modifiers = UnifiedModifier.Create("in").ToSet();
 					break;
 				case VarianceModifier.Covariant:
-					modifiers = UnifiedModifier.Create("out").ToCollection();
+					modifiers = UnifiedModifier.Create("out").ToSet();
 					break;
 			}
 			return UnifiedGenericParameter.Create(
@@ -272,7 +272,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		public UnifiedElement VisitDirectionExpression(
 				DirectionExpression expr, object data)
 		{
-			var mods = LookupModifier(expr.FieldDirection).ToCollection();
+			var mods = LookupModifier(expr.FieldDirection).ToSet();
 			var value = expr.Expression.TryAcceptForExpression(this);
 			return UnifiedArgument.Create(value, null, mods);
 		}
@@ -574,7 +574,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 					.Select(a => a.AcceptVisitor(this, data))
 					.OfType<UnifiedAnnotation>()
 					.Select(setAttr)
-					.ToCollection();
+					.ToSet();
 		}
 
 		#endregion
@@ -647,7 +647,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 						foreach (var c in dic[tName]) {
 							if (generic.Constrains == null) {
 								generic.Constrains =
-										UnifiedTypeConstrainCollection.Create();
+										UnifiedSet<UnifiedTypeConstrain>.Create();
 							}
 							generic.Constrains.Add(c.DeepCopy());
 						}
@@ -662,7 +662,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 					foreach (var c in dic[tName]) {
 						if (generic.Constrains == null) {
 							generic.Constrains =
-									UnifiedTypeConstrainCollection.Create();
+									UnifiedSet<UnifiedTypeConstrain>.Create();
 						}
 						generic.Constrains.Add(c.DeepCopy());
 					}
@@ -862,7 +862,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 				SwitchStatement stmt, object data)
 		{
 			var uExpr = stmt.Expression.TryAcceptForExpression(this);
-			var caseCollection = UnifiedCaseCollection.Create();
+			var caseCollection = UnifiedSet<UnifiedCase>.Create();
 			foreach (var sec in stmt.SwitchSections) {
 				var body = sec.Statements
 						.Select(s => s.TryAcceptForExpression(this))
@@ -907,7 +907,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 					.CatchClauses
 					.Select(c => c.AcceptVisitor(this, data))
 					.Cast<UnifiedCatch>()
-					.ToCollection();
+					.ToSet();
 			var nFinally = tryCatchStatement.FinallyBlock;
 			var uFinally = nFinally == null
 								   ? null
@@ -920,7 +920,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 			var type = LookupType(catchClause.Type);
 			var name = UnifiedVariableIdentifier.Create(catchClause.VariableName);
 			var body = catchClause.Body.TryAcceptForExpression(this).ToBlock();
-			return UnifiedCatch.Create(type.ToCollection(), name, body);
+			return UnifiedCatch.Create(type.ToSet(), name, body);
 		}
 
 		public UnifiedElement VisitUncheckedStatement(
@@ -939,7 +939,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		{
 			var target = stmt.ResourceAcquisition.TryAcceptForExpression(this);
 			var body = stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
-			return UnifiedUsing.Create(target.ToCollection(), body);
+			return UnifiedUsing.Create(target.ToSet(), body);
 		}
 
 		public UnifiedElement VisitVariableDeclarationStatement(
@@ -1017,7 +1017,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 			var attrs = destructorDeclaration.Attributes.AcceptVisitorAsAttrs(this, data);
 			var body = destructorDeclaration.Body.AcceptVisitor(this, data) as UnifiedBlock;
 
-			return UnifiedDestructor.Create(body, attrs, mods);
+			return UnifiedDestructor.Create(attrs, mods, body);
 		}
 
 		public UnifiedElement VisitEnumMemberDeclaration(
@@ -1036,7 +1036,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 				EventDeclaration eventDeclaration, object data) {
 			var names =
 					eventDeclaration.Variables.Select(prop => prop.Name.ToVariableIdentifier())
-							.ToCollection();
+							.ToSet<UnifiedIdentifier>();
 			return UnifiedEventDefinition.Create(
 			        annotations: null,
 			        modifiers: LookupModifiers(eventDeclaration.Modifiers),
@@ -1051,7 +1051,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 				annotations: null,
 				modifiers: LookupModifiers(customEventDeclaration.Modifiers),
 				type: LookupType(customEventDeclaration.ReturnType),
-				names: customEventDeclaration.Name.ToVariableIdentifier().ToCollection(),
+				names: customEventDeclaration.Name.ToVariableIdentifier().ToSet<UnifiedIdentifier>(),
 				adder:customEventDeclaration.AddAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart,
 				remover:customEventDeclaration.RemoveAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart);
 		}
@@ -1131,9 +1131,9 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 				ParameterDeclaration dec, object data)
 		{
 			var attrs = dec.Attributes.AcceptVisitorAsAttrs(this, data);
-			var mods = LookupModifier(dec.ParameterModifier).ToCollection();
+			var mods = LookupModifier(dec.ParameterModifier).ToSet();
 			var type = LookupType(dec.Type);
-			var names = dec.Name.ToVariableIdentifier().ToCollection();
+			var names = dec.Name.ToVariableIdentifier().ToSet<UnifiedIdentifier>();
 			var defaultValue = dec.DefaultExpression.TryAcceptForExpression(
 					this);
 			return UnifiedParameter.Create(

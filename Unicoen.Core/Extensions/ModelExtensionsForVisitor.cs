@@ -24,7 +24,7 @@ namespace Unicoen.Model {
 	public static class ModelExtensionsForVisitor {
 		[DebuggerStepThrough]
 		public static void TryAcceptAllChildren<TElement>(
-				this TElement element, IUnifiedVisitor visitor)
+				this TElement element, UnifiedVisitor visitor)
 				where TElement : UnifiedElement {
 			foreach (var child in element.Elements()) {
 				child.TryAccept(visitor);
@@ -33,7 +33,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public static void TryAcceptAllChildren<TElement, TArg>(
-				this TElement element, IUnifiedVisitor<TArg> visitor, TArg arg)
+				this TElement element, UnifiedVisitor<TArg> visitor, TArg arg)
 				where TElement : UnifiedElement {
 			foreach (var child in element.Elements()) {
 				child.TryAccept(visitor, arg);
@@ -42,7 +42,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public static void TryAcceptAllChildren<TElement, TArg, TResult>(
-				this TElement element, IUnifiedVisitor<TArg, TResult> visitor,
+				this TElement element, UnifiedVisitor<TArg, TResult> visitor,
 				TArg arg)
 				where TElement : UnifiedElement {
 			foreach (var child in element.Elements()) {
@@ -52,7 +52,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public static void TryAccept<TElement>(
-				this TElement element, IUnifiedVisitor visitor)
+				this TElement element, UnifiedVisitor visitor)
 				where TElement : UnifiedElement {
 			if (element != null) {
 				element.Accept(visitor);
@@ -61,7 +61,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public static void TryAccept<TElement, TArg>(
-				this TElement element, IUnifiedVisitor<TArg> visitor, TArg arg)
+				this TElement element, UnifiedVisitor<TArg> visitor, TArg arg)
 				where TElement : UnifiedElement {
 			if (element != null) {
 				element.Accept(visitor, arg);
@@ -70,7 +70,7 @@ namespace Unicoen.Model {
 
 		[DebuggerStepThrough]
 		public static TResult TryAccept<TElement, TArg, TResult>(
-				this TElement element, IUnifiedVisitor<TArg, TResult> visitor,
+				this TElement element, UnifiedVisitor<TArg, TResult> visitor,
 				TArg arg)
 				where TElement : UnifiedElement {
 			if (element == null) {

@@ -24,12 +24,12 @@ namespace Unicoen.Model {
 	///   実引数を表します。 e.g. Javaにおける <c>method(a, b, c)</c> の <c>a</c>
 	/// </summary>
 	public class UnifiedArgument : UnifiedElement {
-		private UnifiedModifierCollection _modifiers;
+		private UnifiedSet<UnifiedModifier> _modifiers;
 
 		/// <summary>
 		///   実引数の修飾子を表します． e.g. C#における <code>method(out v);</code> の <code>out</code>
 		/// </summary>
-		public UnifiedModifierCollection Modifiers {
+		public UnifiedSet<UnifiedModifier> Modifiers {
 			get { return _modifiers; }
 			set { _modifiers = SetChild(value, _modifiers); }
 		}
@@ -58,26 +58,26 @@ namespace Unicoen.Model {
 		private UnifiedArgument() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedArgument Create(
 				UnifiedExpression value, UnifiedIdentifier target = null,
-				UnifiedModifierCollection modifiers = null) {
+				UnifiedSet<UnifiedModifier> modifiers = null) {
 			return new UnifiedArgument {
 					Modifiers = modifiers,
 					Value = value,

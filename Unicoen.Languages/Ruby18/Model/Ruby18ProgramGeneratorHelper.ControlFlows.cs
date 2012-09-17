@@ -74,13 +74,13 @@ namespace Unicoen.Languages.Ruby18.Model {
             var block = CreateSmartBlock(node.LastElement());
             if (children.Count == 0) {
                 return UnifiedCatch.Create(
-                        UnifiedTypeCollection.Create(), null, block);
+                        UnifiedSet<UnifiedType>.Create(), null, block);
             }
             var assign = CreateExpresion(children.Last().FirstElement());
             var types = children.SkipLast()
                     .Select(CreateConst)
                     .Select(UnifiedType.Create)
-                    .ToCollection();
+                    .ToSet();
             return UnifiedCatch.Create(types, assign, block);
         }
 
@@ -93,7 +93,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                                     : null;
             return UnifiedTry.Create(
                     CreateSmartBlock(node.FirstElement()),
-                    node.Elements("resbody").Select(CreateResbody).ToCollection(
+                    node.Elements("resbody").Select(CreateResbody).ToSet(
                             ),
                     elseBlock);
         }
@@ -152,7 +152,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                                      ? CreateLasgnOrMasgnOrNil(
                                              node.NthElement(1))
                                                .Select(e => e.ToParameter())
-                                               .ToCollection()
+                                               .ToSet()
                                      : null;
             var block = CreateBlock(node.NthElement(2));
             call.Proc = UnifiedProc.Create(parameters, block);
@@ -193,7 +193,7 @@ namespace Unicoen.Languages.Ruby18.Model {
                     CreateExpresion(node.NthElement(0)),
                     node.Elements().Skip(1)
                             .SelectMany(CreateWhenAndDefault)
-                            .ToCollection()
+                            .ToSet()
                     );
         }
 

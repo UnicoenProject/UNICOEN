@@ -25,12 +25,12 @@ namespace Unicoen.Model {
 	///   Javaにおける <c>int[10] a;</c> の <c>[10]</c> 部分、 <c>int[] a;</c> の <c>[]</c> 部分などが該当します。
 	/// </summary>
 	public class UnifiedArrayType : UnifiedWrapType {
-		private UnifiedArgumentCollection _arguments;
+		private UnifiedSet<UnifiedArgument> _arguments;
 
 		/// <summary>
 		///   実引数の集合を取得します． e.g. Cにおける <c>new int[10]</c> の <c>10</c>
 		/// </summary>
-		public UnifiedArgumentCollection Arguments {
+		public UnifiedSet<UnifiedArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
 		}
@@ -45,19 +45,19 @@ namespace Unicoen.Model {
 		internal UnifiedArrayType() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor, TArg arg) {
+				UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
@@ -70,7 +70,7 @@ namespace Unicoen.Model {
 			yield return
 					ElementReference.Create(
 							() => Arguments,
-							v => Arguments = (UnifiedArgumentCollection)v);
+							v => Arguments = (UnifiedSet<UnifiedArgument>)v);
 			yield return
 					ElementReference.Create(
 							() => Type, v => Type = (UnifiedType)v);
@@ -82,7 +82,7 @@ namespace Unicoen.Model {
 			yield return
 					ElementReference.Create(
 							() => _arguments,
-							v => _arguments = (UnifiedArgumentCollection)v);
+							v => _arguments = (UnifiedSet<UnifiedArgument>)v);
 			yield return
 					ElementReference.Create(
 							() => _type, v => _type = (UnifiedType)v);

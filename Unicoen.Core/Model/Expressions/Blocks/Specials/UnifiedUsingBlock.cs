@@ -25,13 +25,13 @@ namespace Unicoen.Model {
 	/// </summary>
 	public class UnifiedUsing
 			: UnifiedExpression {
-		private UnifiedExpressionCollection _expressions;
+		private UnifiedSet<UnifiedExpression> _expressions;
 		private UnifiedBlock _body;
 
 		/// <summary>
 		///   リソース管理の対象となる式の集合を取得もしくは設定します． e.g. C#における <c>using(var r = new StreamReader(path)){...}</c> の <c>var r = new StreamReader(path)</c> e.g. Pythonにおける <c>with file(p1) as f1, file(p2) as f2:</c> の <c>file(p1) as f1, file(p2) as f2</c> なお，Pythonにおける <c>file(p1) as f1</c> は <c>f1 = file(p1)</c> という代入式だと見なします
 		/// </summary>
-		public UnifiedExpressionCollection Expressions {
+		public UnifiedSet<UnifiedExpression> Expressions {
 			get { return _expressions; }
 			set { _expressions = SetChild(value, _expressions); }
 		}
@@ -47,25 +47,25 @@ namespace Unicoen.Model {
 		private UnifiedUsing() {}
 
 		[DebuggerStepThrough]
-		public override void Accept(IUnifiedVisitor visitor) {
+		public override void Accept(UnifiedVisitor visitor) {
 			visitor.Visit(this);
 		}
 
 		[DebuggerStepThrough]
 		public override void Accept<TArg>(
-				IUnifiedVisitor<TArg> visitor,
+				UnifiedVisitor<TArg> visitor,
 				TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
 		public override TResult Accept<TArg, TResult>(
-				IUnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 
 		public static UnifiedUsing Create(
-				UnifiedExpressionCollection expressions = null,
+				UnifiedSet<UnifiedExpression> expressions = null,
 				UnifiedBlock body = null) {
 			return new UnifiedUsing {
 					Expressions = expressions,

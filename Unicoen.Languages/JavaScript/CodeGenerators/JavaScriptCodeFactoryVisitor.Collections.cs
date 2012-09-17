@@ -23,31 +23,31 @@ using Unicoen.Processor;
 namespace Unicoen.Languages.JavaScript.CodeGenerators {
     public partial class JavaScriptCodeFactoryVisitor {
         public override bool Visit(
-                UnifiedArgumentCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedArgument> element, VisitorArgument arg) {
             VisitCollection(element, arg);
             return false;
         }
 
         public override bool Visit(
-                UnifiedParameterCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedParameter> element, VisitorArgument arg) {
             VisitCollection(element, arg.Set(Paren));
             return false;
         }
 
         //JavaScriptでは修飾子は出現しない
         public override bool Visit(
-                UnifiedModifierCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedModifier> element, VisitorArgument arg) {
             return false;
         }
 
         //JavaScriptではジェネリックタイプは出現しない
         public override bool Visit(
-                UnifiedGenericArgumentCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedGenericArgument> element, VisitorArgument arg) {
             return false;
         }
 
         public override bool Visit(
-                UnifiedCatchCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedCatch> element, VisitorArgument arg) {
             //TODO VisitCollection()に置き換えられるか確認
 
             Writer.Write(arg.Decoration.MostLeft);
@@ -63,12 +63,12 @@ namespace Unicoen.Languages.JavaScript.CodeGenerators {
 
         //現在は使用されていない
         public override bool Visit(
-                UnifiedExpressionCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedExpression> element, VisitorArgument arg) {
             throw new InvalidOperationException();
         }
 
         public override bool Visit(
-                UnifiedCaseCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedCase> element, VisitorArgument arg) {
             arg = arg.IncrementDepth();
             foreach (var caseElement in element) {
                 WriteIndent(arg.IndentDepth);
@@ -79,18 +79,18 @@ namespace Unicoen.Languages.JavaScript.CodeGenerators {
 
         //JavaScriptでは例外型の列挙は出現しない
         public override bool Visit(
-                UnifiedTypeCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedType> element, VisitorArgument arg) {
             return false;
         }
 
         //JavaScriptでは型パラメータは出現しない
         public override bool Visit(
-                UnifiedGenericParameterCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedGenericParameter> element, VisitorArgument arg) {
             return false;
         }
 
         public override bool Visit(
-                UnifiedIdentifierCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedIdentifier> element, VisitorArgument arg) {
             VisitCollection(element, arg.Set(CommaDelimiter));
             return false;
         }
@@ -102,7 +102,7 @@ namespace Unicoen.Languages.JavaScript.CodeGenerators {
         }
 
         public override bool Visit(
-                UnifiedAnnotationCollection element, VisitorArgument arg) {
+                UnifiedSet<UnifiedAnnotation> element, VisitorArgument arg) {
             return false;
         }
 

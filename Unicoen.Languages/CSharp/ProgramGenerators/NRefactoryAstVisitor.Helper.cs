@@ -27,9 +27,9 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 	internal partial class NRefactoryAstVisitor {
 		#region Lookups
 
-		private static UnifiedModifierCollection LookupModifiers(Modifiers mods) {
+		private static UnifiedSet<UnifiedModifier> LookupModifiers(Modifiers mods) {
 			Contract.Ensures(
-					Contract.Result<UnifiedModifierCollection>() != null);
+					Contract.Result<UnifiedSet<UnifiedModifier>>() != null);
 
 			var pairs = new[] {
 					new { Mod = Modifiers.Public, Name = "public" },
@@ -54,7 +54,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 					from pair in pairs
 					where (mods & pair.Mod) != 0
 					select UnifiedModifier.Create(pair.Name);
-			return UnifiedModifierCollection.Create(uMods);
+			return UnifiedSet<UnifiedModifier>.Create(uMods);
 		}
 
 		private static UnifiedModifier LookupModifier(ParameterModifier mod) {
@@ -332,71 +332,71 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			return node.AcceptVisitor(visitor, null) as UnifiedExpression;
 		}
 
-		internal static UnifiedAnnotationCollection AcceptVisitorAsAttrs
+		internal static UnifiedSet<UnifiedAnnotation> AcceptVisitorAsAttrs
 				<T, TResult>(
 				this IEnumerable<AttributeSection> attrs,
 				IAstVisitor<T, TResult> visitor, T data) {
 			return attrs
 					.Select(a => a.AcceptVisitor(visitor, data))
-					.OfType<UnifiedAnnotationCollection>()
+					.OfType<UnifiedSet<UnifiedAnnotation>>()
 					.Merge();
 		}
 
-		internal static UnifiedParameterCollection AcceptVisitorAsParams
+		internal static UnifiedSet<UnifiedParameter> AcceptVisitorAsParams
 				<T, TResult>(
 				this IEnumerable<ParameterDeclaration> parameters,
 				IAstVisitor<T, TResult> visitor, T data) {
 			return parameters
 					.Select(p => p.AcceptVisitor(visitor, data))
 					.OfType<UnifiedParameter>()
-					.ToCollection();
+					.ToSet();
 		}
 
-		internal static UnifiedGenericParameterCollection
+		internal static UnifiedSet<UnifiedGenericParameter>
 				AcceptVisitorAsTypeParams<T, TResult>(
 				this IEnumerable<TypeParameterDeclaration> types,
 				IAstVisitor<T, TResult> visitor, T data) {
 			return types
 					.Select(p => p.AcceptVisitor(visitor, data))
 					.OfType<UnifiedGenericParameter>()
-					.ToCollection();
+					.ToSet();
 		}
 
-		internal static UnifiedTypeConstrainCollection AcceptVisitorAsTypeParams
+		internal static UnifiedSet<UnifiedTypeConstrain> AcceptVisitorAsTypeParams
 				<T, TResult>(
 				this IEnumerable<Constraint> constraints,
 				IAstVisitor<T, TResult> visitor, T data) {
 			return constraints
 					.Select(p => p.AcceptVisitor(visitor, data))
 					.OfType<UnifiedTypeConstrain>()
-					.ToCollection();
+					.ToSet();
 		}
 
-		internal static UnifiedGenericArgumentCollection AcceptVisitorAsTypeArgs
+		internal static UnifiedSet<UnifiedGenericArgument> AcceptVisitorAsTypeArgs
 				<T, TResult>(
 				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor,
 				T data) {
 			return types
 					.Select(NRefactoryAstVisitor.LookupType)
 					.Select(t => UnifiedGenericArgument.Create(t))
-					.ToCollection();
+					.ToSet();
 		}
 
-		internal static UnifiedTypeConstrainCollection AcceptVisitorAsConstrains
+		internal static UnifiedSet<UnifiedTypeConstrain> AcceptVisitorAsConstrains
 				<T, TResult>(
 				this IEnumerable<AstType> types, IAstVisitor<T, TResult> visitor,
 				T data) {
 			return types
 					.Select(NRefactoryAstVisitor.LookupType)
 					.Select(UnifiedExtendConstrain.Create)
-					.ToCollection();
+					.ToSet<UnifiedTypeConstrain>();
 		}
 
-		internal static UnifiedArgumentCollection AcceptVisitorAsArgs
+		internal static UnifiedSet<UnifiedArgument> AcceptVisitorAsArgs
 				<T, TResult>(
 				this IEnumerable<Expression> args,
 				IAstVisitor<T, TResult> visitor, T data) {
-			var uArgs = UnifiedArgumentCollection.Create();
+			var uArgs = UnifiedSet<UnifiedArgument>.Create();
 			foreach (var arg in args) {
 				var value = arg.AcceptVisitor(visitor, data);
 				var uArg = value as UnifiedArgument;
