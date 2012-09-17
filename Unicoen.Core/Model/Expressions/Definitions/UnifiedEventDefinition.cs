@@ -32,7 +32,7 @@ namespace Unicoen.Model {
 		private UnifiedAnnotationCollection _annotations;
 		private UnifiedModifierCollection _modifiers;
 		private UnifiedType _type;
-		private UnifiedIdentifier _name;
+		private UnifiedIdentifierCollection _names;
 		private UnifiedPropertyDefinitionPart _adder;
 		private UnifiedPropertyDefinitionPart _remover;
 
@@ -71,13 +71,13 @@ namespace Unicoen.Model {
 
 		/// <summary>
 		/// 名前を取得もしくは設定します．
-		/// e.g. <c>OnKeyDown</c>
-		/// in <c>OnKeyDown { add {} remove {} }</c>
+		/// e.g. <c>OnKeyDown, OnKeyPush</c>
+		/// in <c>[Pure] public event KeyboadEventHandler OnKeyDown, OnKeyPush</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedIdentifier Name {
-			get { return _name; }
-			set { _name = SetChild(value, _name); }
+		public UnifiedIdentifierCollection Names {
+			get { return _names; }
+			set { _names = SetChild(value, _names); }
 		}
 
 		/// <summary>
@@ -127,14 +127,14 @@ namespace Unicoen.Model {
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null,
-				UnifiedIdentifier name = null,
+				UnifiedIdentifierCollection names = null,
 				UnifiedPropertyDefinitionPart adder = null,
 				UnifiedPropertyDefinitionPart remover = null) {
 			return new UnifiedEventDefinition {
 					Annotations = annotations,
 					Modifiers = modifiers,
 					Type = type,
-					Name = name,
+					Names = names,
 					Adder = adder,
 					Remover = remover,
 			};
