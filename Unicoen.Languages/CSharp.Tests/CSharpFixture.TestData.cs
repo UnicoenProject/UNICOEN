@@ -40,7 +40,18 @@ namespace Unicoen.Languages.CSharp.Tests {
 						//"class A { }",
 						//"public class A { }",
 						"public class A { } public class B<T : A> { }",
-						"public class A { public event KeyboadEventHandler OnKeyDown; }",
+
+						"public class A {" +
+						"	public event KeyboadEventHandler" +
+						"		OnKeyUp {" +
+						"			add { System.Console.WriteLine('a'); }"+
+						"			remove{ System.Console.WriteLine('r'); }" +
+						"		},"+
+						"		OnKeyDown {" +
+						"			add { System.Console.WriteLine('a'); }"+
+						"			remove{ System.Console.WriteLine('r'); }" +
+						"		};"+
+						"}",
 				}.Select(s => new TestCaseData(s)));
 
 				return result;
