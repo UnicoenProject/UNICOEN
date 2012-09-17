@@ -30,7 +30,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		#region IAstVisitor<object,UnifiedElement> Members
 
 		public UnifiedElement VisitCompilationUnit(
-				CompilationUnit unit, object data) {
+				SyntaxTree unit, object data) {
 			var prog = UnifiedProgram.Create(UnifiedBlock.Create());
 			foreach (var child in unit.Children) {
 				var elem = child.TryAcceptForExpression(this);
@@ -39,6 +39,10 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 				}
 			}
 			return prog;
+		}
+
+		public UnifiedElement VisitSyntaxTree(SyntaxTree syntaxTree, object data) {
+			throw new NotImplementedException();
 		}
 
 		public UnifiedElement VisitSimpleType(
@@ -87,6 +91,18 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 		public UnifiedElement VisitComment(Comment comment, object data) {
 			// コメントは無視する
 			return null;
+		}
+
+		public UnifiedElement VisitNewLine(NewLineNode newLineNode, object data) {
+			throw new NotImplementedException();
+		}
+
+		public UnifiedElement VisitWhitespace(WhitespaceNode whitespaceNode, object data) {
+			throw new NotImplementedException();
+		}
+
+		public UnifiedElement VisitText(TextNode textNode, object data) {
+			throw new NotImplementedException();
 		}
 
 		public UnifiedElement VisitPreProcessorDirective(
@@ -279,7 +295,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
 		public UnifiedElement VisitNamedArgumentExpression(
 				NamedArgumentExpression expr, object data) {
-			var name = UnifiedVariableIdentifier.Create(expr.Identifier);
+			var name = UnifiedVariableIdentifier.Create(expr.Name);
 			var value = expr.Expression.TryAcceptForExpression(this);
 			return UnifiedArgument.Create(value: value, target: name);
 		}
