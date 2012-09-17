@@ -29,20 +29,15 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			: IAstVisitor<object, UnifiedElement> {
 		#region IAstVisitor<object,UnifiedElement> Members
 
-		public UnifiedElement VisitCompilationUnit(
-				SyntaxTree unit, object data) {
+		public UnifiedElement VisitSyntaxTree(SyntaxTree syntaxTree, object data) {
 			var prog = UnifiedProgram.Create(UnifiedBlock.Create());
-			foreach (var child in unit.Children) {
+			foreach (var child in syntaxTree.Children) {
 				var elem = child.TryAcceptForExpression(this);
 				if (elem != null) {
 					prog.Body.Add(elem);
 				}
 			}
 			return prog;
-		}
-
-		public UnifiedElement VisitSyntaxTree(SyntaxTree syntaxTree, object data) {
-			throw new NotImplementedException();
 		}
 
 		public UnifiedElement VisitSimpleType(
