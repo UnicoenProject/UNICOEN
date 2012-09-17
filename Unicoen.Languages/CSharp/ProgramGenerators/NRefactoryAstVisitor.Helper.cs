@@ -254,6 +254,12 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 			case UnaryOperatorType.PostDecrement:
 				return UnifiedUnaryOperator.Create(
 						"--", UnifiedUnaryOperatorKind.PostDecrementAssign);
+			case UnaryOperatorType.AddressOf:
+				return UnifiedUnaryOperator.Create(
+						"&", UnifiedUnaryOperatorKind.Address);
+			case UnaryOperatorType.Dereference:
+				return UnifiedUnaryOperator.Create(
+						"*", UnifiedUnaryOperatorKind.Indirect);
 			}
 			throw new ArgumentException("Unknown operator: " + op);
 		}

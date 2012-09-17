@@ -72,7 +72,10 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { return SetUpUnicoen().Concat(SetUpKurogane()); }
+			get { return SetUpUnicoen()
+				.Concat(SetUpKurogane())
+				.Concat(SetUpSqlite());
+			}
 		}
 
 		private IEnumerable<TestCaseData> SetUpKurogane() {
@@ -86,6 +89,17 @@ namespace Unicoen.Languages.CSharp.Tests {
 					compileAction);
 		}
 
+		private IEnumerable<TestCaseData> SetUpSqlite() {
+			Action<string, string> compileAction = (s1, s2) => { };
+			return SetUpTestCaseData(
+					"SQLite",
+					path =>
+					DownloadAndUnzip(
+							"http://csharp-sqlite.googlecode.com/files/csharp-sqlite_3_7_7_1_71.zip",
+							path),
+					compileAction);
+		}
+		
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
 			get { yield break; }
 		}
