@@ -16,6 +16,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -37,7 +38,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 				result = result.Concat(new[] {
 						//"class A { }",
 						//"public class A { }",
-						"public class A { void method() { var a = 0; a += 1; } }",
+						"public class A { public event KeyboadEventHandler OnKeyDown; }",
 				}.Select(s => new TestCaseData(s)));
 
 				return result;
@@ -71,7 +72,18 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get { return SetUpUnicoen(); }
+			get { return SetUpUnicoen().Concat(SetUpKurogane()); }
+		}
+
+		private IEnumerable<TestCaseData> SetUpKurogane() {
+			Action<string, string> compileAction = (s1, s2) => { };
+			return SetUpTestCaseData(
+					"Kurogane",
+					path =>
+					DownloadAndUnzip(
+							"https://github.com/irxground/kurogane/zipball/master",
+							path),
+					compileAction);
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
