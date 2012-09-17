@@ -178,6 +178,7 @@ namespace Unicoen.Processor {
 				where TElement : UnifiedElement;
 
 		void Visit(UnifiedDelegateDefinition element);
+		void Visit(UnifiedDestructor element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -339,6 +340,7 @@ namespace Unicoen.Processor {
 				where TElement : UnifiedElement;
 
 		void Visit(UnifiedDelegateDefinition element, TArg arg);
+		void Visit(UnifiedDestructor element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -500,5 +502,6 @@ namespace Unicoen.Processor {
 				where TElement : UnifiedElement;
 
 		TResult Visit(UnifiedDelegateDefinition element, TArg arg);
+		TResult Visit(UnifiedDestructor element, TArg arg);
 	}
 }

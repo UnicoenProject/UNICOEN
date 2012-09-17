@@ -358,7 +358,7 @@ namespace Unicoen.Languages.Tests {
 						obj3,
 						Is.EqualTo(obj2).Using(
 								StructuralEqualityComparerForDebug.Instance));
-			} catch {
+			} catch (Exception e) {
 				var outPath = FixtureUtil.GetOutputPath();
 				File.WriteAllText(
 						Path.Combine(outPath, "orgignal.txt"), orgCode);
@@ -370,7 +370,7 @@ namespace Unicoen.Languages.Tests {
 					File.WriteAllText(
 							Path.Combine(outPath, "regenerate.txt"), code3);
 				}
-				throw;
+				throw e;
 			}
 		}
 

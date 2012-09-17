@@ -644,6 +644,10 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
+		public virtual void Visit(UnifiedDestructor element) {
+			throw new NotImplementedException();
+		}
+
 		#endregion
 	}
 
@@ -1281,6 +1285,10 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedDelegateDefinition element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual void Visit(UnifiedDestructor element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1934,6 +1942,10 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedDelegateDefinition element, TArg arg) {
+			throw new NotImplementedException();
+		}
+
+		public virtual TResult Visit(UnifiedDestructor element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

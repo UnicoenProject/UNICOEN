@@ -171,6 +171,7 @@
     <Compile Include="Model\Collections\UnifiedAnnotationCollection.cs" />
     <Compile Include="Model\Collections\UnifiedOrderByKeyCollection.cs" />
     <Compile Include="Model\Collections\UnifiedSet.cs" />
+    <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedDestructor.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedInstanceInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
