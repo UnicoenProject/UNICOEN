@@ -210,5 +210,18 @@ namespace Unicoen.Model {
 			}
 			return UnifiedGenericParameterCollection.Create(singleton);
 		}
+
+		public static UnifiedSet<T> ToSet<T>(this IEnumerable<T> collection)
+				where T : UnifiedElement {
+			return UnifiedSet<T>.Create(collection);
+		}
+
+		public static UnifiedSet<T> ToSet<T>(this T singleton)
+				where T : UnifiedElement {
+			if (singleton == null) {
+				return UnifiedSet<T>.Create();
+			}
+			return UnifiedSet<T>.Create(singleton);
+		}
 	}
 }

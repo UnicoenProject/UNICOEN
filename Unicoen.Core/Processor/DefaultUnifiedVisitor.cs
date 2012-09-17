@@ -643,6 +643,10 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
+		public virtual void Visit(UnifiedDelegateDefinition element) {
+			element.TryAcceptAllChildren(this);
+		}
+
 		#endregion
 	}
 
@@ -1280,6 +1284,10 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual void Visit(UnifiedEventDefinitionPart element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+		}
+
+		public virtual void Visit(UnifiedDelegateDefinition element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
@@ -2087,6 +2095,11 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(UnifiedEventDefinitionPart element, TArg arg) {
+			element.TryAcceptAllChildren(this, arg);
+			return default(TResult);
+		}
+
+		public virtual TResult Visit(UnifiedDelegateDefinition element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}

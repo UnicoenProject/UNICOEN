@@ -183,6 +183,7 @@
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedLockBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedWithBlock.cs" />
     <Compile Include="Model\Expressions\Definitions\ClassLikes\UnifiedEigenClassDefinition.cs" />
+    <Compile Include="Model\Expressions\Definitions\UnifiedDelegateDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinitionPart.cs" />
     <Compile Include="Model\Expressions\Definitions\IDynamicFunctionDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedEventDefinition.cs" />
