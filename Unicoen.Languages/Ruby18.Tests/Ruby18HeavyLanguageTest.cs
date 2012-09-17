@@ -34,28 +34,28 @@ namespace Unicoen.Languages.Ruby18.Tests {
 		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-		/// <param name="compiledRootRelativePaths">使用しません</param>
-		/// <param name="compileAction"> 使用しません </param>
+		/// <param name="relativePathsForBinaryFiles">使用しません</param>
+		/// <param name="compileActionWithWorkDirPath"> 使用しません </param>
 		[Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyCodeObjectFeatureUsingProject(
-				string dirPath, IList<string> compiledRootRelativePaths,
-				Action<string, string> compileAction) {
+				string dirPath, IList<string> relativePathsForBinaryFiles,
+				Action<string> compileActionWithWorkDirPath) {
 			Test.VerifyCodeObjectFeatureUsingProject(
-					dirPath, compiledRootRelativePaths, compileAction);
+					dirPath, relativePathsForBinaryFiles, compileActionWithWorkDirPath);
 		}
 
 		/// <summary>
 		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-		/// <param name="compiledRootRelativePaths">コンパイル済みコードのルートディレクトリの相対パスの配列</param>
-		/// <param name="compileAction"> コンパイル処理 </param>
+		/// <param name="relativePathsForBinaryFiles">コンパイル済みコードのルートディレクトリの相対パスの配列</param>
+		/// <param name="compileActionWithWorkDirPath"> コンパイル処理 </param>
 		[Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyRegenerateCodeUsingProject(
-				string dirPath, IList<string> compiledRootRelativePaths,
-				Action<string, string> compileAction) {
+				string dirPath, IList<string> relativePathsForBinaryFiles,
+				Action<string> compileActionWithWorkDirPath) {
 			Test.VerifyRegenerateCodeUsingProject(
-					dirPath, compiledRootRelativePaths, compileAction);
+					dirPath, relativePathsForBinaryFiles, compileActionWithWorkDirPath);
 		}
 	}
 }

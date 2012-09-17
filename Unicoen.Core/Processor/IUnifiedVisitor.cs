@@ -173,6 +173,11 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedUncheckedBlock element);
 		void Visit(UnifiedCheckedBlock element);
 		void Visit(UnifiedCommentCollection element);
+
+		void Visit<TElement>(UnifiedSet<TElement> element)
+				where TElement : UnifiedElement;
+
+		void Visit(UnifiedEventDefinitionPart element);
 	}
 
 	public interface IUnifiedVisitor<in TArg> {
@@ -329,6 +334,11 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedUncheckedBlock element, TArg arg);
 		void Visit(UnifiedCheckedBlock element, TArg arg);
 		void Visit(UnifiedCommentCollection element, TArg arg);
+
+		void Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
+				where TElement : UnifiedElement;
+
+		void Visit(UnifiedEventDefinitionPart element, TArg arg);
 	}
 
 	public interface IUnifiedVisitor<in TArg, out TResult> {
@@ -485,5 +495,10 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedUncheckedBlock element, TArg arg);
 		TResult Visit(UnifiedCheckedBlock element, TArg arg);
 		TResult Visit(UnifiedCommentCollection element, TArg arg);
+
+		TResult Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
+				where TElement : UnifiedElement;
+
+		TResult Visit(UnifiedEventDefinitionPart element, TArg arg);
 	}
 }

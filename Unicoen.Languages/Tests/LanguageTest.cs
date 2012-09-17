@@ -86,10 +86,11 @@ namespace Unicoen.Languages.Tests {
 		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-		/// <param name="compiledRootRelativePaths">使用しません</param>
-		/// <param name="compileAction">使用しません</param>
+		/// <param name="relativePathsForBinaryFiles">使用しません</param>
+		/// <param name="compileActionWithWorkDirPath">使用しません</param>
 		public void VerifyCodeObjectFeatureUsingProject(
-				string dirPath, IList<string> compiledRootRelativePaths, Action<string, string> compileAction) {
+				string dirPath, IList<string> relativePathsForBinaryFiles,
+				Action<string> compileActionWithWorkDirPath) {
 			var paths = Fixture.GetAllSourceFilePaths(dirPath);
 			foreach (var path in paths) {
 				var codeAndObject = GenerateCodeObject(path);
@@ -152,20 +153,21 @@ namespace Unicoen.Languages.Tests {
 		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-		/// <param name="compiledRootRelativePaths">コンパイル済みコードのルートディレクトリの相対パス</param>
-		/// <param name="compileActionByWorkAndDirPath"> コンパイル処理 </param>
+		/// <param name="relativePathsForBinaryFiles">バイナリファイルが存在するディレクトリの相対パスのリスト</param>
+		/// <param name="compileActionByWorkDirPath"> コンパイル処理 </param>
 		public void VerifyRegenerateCodeUsingProject(
 				string dirPath,
-				IList<string> compiledRootRelativePaths,
-				Action<string, string> compileActionByWorkAndDirPath) {
+				IList<string> relativePathsForBinaryFiles,
+				Action<string> compileActionByWorkDirPath) {
 			// コンパイル用の作業ディレクトリの取得
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			// 作業ディレクトリ内にソースコードを配置
 			FileUtility.CopyRecursively(dirPath, workPath);
 			// 作業ディレクトリ内でコンパイル
-			compileActionByWorkAndDirPath(workPath, dirPath);
+			compileActionByWorkDirPath(workPath);
 			// コンパイル結果の取得
-			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath, compiledRootRelativePaths);
+			var orgByteCode1 = Fixture.GetAllCompiledCode(
+					workPath, relativePathsForBinaryFiles);
 			var codePaths = Fixture.GetAllSourceFilePaths(workPath);
 			foreach (var codePath in codePaths) {
 				var orgCode1 = GuessEncoding.ReadAllText(codePath);
@@ -178,9 +180,9 @@ namespace Unicoen.Languages.Tests {
 				File.WriteAllText(codePath, code2, XEncoding.SJIS);
 			}
 			// 再生成したソースコードのコンパイル結果の取得
-			compileActionByWorkAndDirPath(workPath, dirPath);
+			compileActionByWorkDirPath(workPath);
 			var byteCode2 =
-					Fixture.GetAllCompiledCode(workPath, compiledRootRelativePaths);
+					Fixture.GetAllCompiledCode(workPath, relativePathsForBinaryFiles);
 			AssertFuzzyEquals(byteCode2, orgByteCode1);
 		}
 
@@ -385,17 +387,32 @@ namespace Unicoen.Languages.Tests {
 			// 作業ディレクトリ内にソースコードを配置
 			var srcPath = FixtureUtil.GetOutputPath(fileName);
 			File.WriteAllText(srcPath, orgCode, XEncoding.SJIS);
-			// 作業ディレクトリ内でコンパイル
-			Fixture.Compile(workPath, srcPath);
+			try {
+				// 作業ディレクトリ内でコンパイル
+				Fixture.Compile(workPath, srcPath);
+			} catch (Exception e) {
+				throw new Exception("Fail to compile the following code:\n" + orgCode, e);
+			}
 			// コンパイル結果の取得
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
 			// 再生成したソースコードを配置
 			var code2 = Fixture.CodeGenerator.Generate(codeObject);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
-			// 再生成したソースコードのコンパイル結果の取得
-			Fixture.Compile(workPath, srcPath);
+			try {
+				// 再生成したソースコードのコンパイル結果の取得
+				Fixture.Compile(workPath, srcPath);
+			} catch (Exception e) {
+				throw new Exception("Fail to compile the following code:\n" + code2, e);
+			}
 			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
-			AssertFuzzyEquals(byteCode2, orgByteCode1);
+			try {
+				AssertFuzzyEquals(byteCode2, orgByteCode1);
+			} catch (Exception e) {
+				var line = "------------------------";
+				throw new Exception(
+						"Differencies exist:\n" + line + "regenerated code" + line + "\n" + code2
+						+ line + "original code" + line + "\n" + orgCode, e);
+			}
 		}
 
 		/// <summary>

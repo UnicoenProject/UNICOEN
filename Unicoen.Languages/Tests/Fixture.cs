@@ -179,11 +179,11 @@ namespace Unicoen.Languages.Tests {
 		///   コンパイル済みのコードを全て取得します．
 		/// </summary>
 		/// <param name="workPath"> コンパイル時の作業ディレクトリのパス </param>
-		/// <param name="compiledRootRelativePaths"> コンパイル済みコードが格納されているディレクトリのパス </param>
+		/// <param name="relativePathsForBinaryFiles"> コンパイル済みコードが格納されているディレクトリのパス </param>
 		/// <returns> </returns>
 		public IList<Tuple<string, object>> GetAllCompiledCode(
-				string workPath, IList<string> compiledRootRelativePaths) {
-			return compiledRootRelativePaths
+				string workPath, IList<string> relativePathsForBinaryFiles) {
+			return relativePathsForBinaryFiles
 					.Select(relativePath => Path.Combine(workPath, relativePath))
 					.SelectMany(PrivateGetAllCompiledCode)
 					.ToList();
@@ -210,73 +210,99 @@ namespace Unicoen.Languages.Tests {
 									GetCompiledByteCode(dirPath, path)));
 		}
 
+		/// <summary>
+		/// テストケースデータを生成します．
+		/// 主にダウンロードスクリプトを含んだコンパイル手順を含んだテストケースの生成で使用されます．
+		/// </summary>
+		/// <param name="dirName">ソースコードを配置するディレクトリ名</param>
+		/// <param name="deploySource">指定したディレクトリにソースコードを配置するアクション</param>
+		/// <param name="relativePathsForBinaryFiles">バイナリファイルが存在するディレクトリの相対パスのリスト</param>
+		/// <returns>テストケースデータのシーケンス（ソースコードの配置に失敗した場合は空）</returns>
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName,
 				Action<string> deploySource,
-				params string[] compiledRootRelativePaths) {
+				params string[] relativePathsForBinaryFiles) {
 			return SetUpTestCaseData(
-					dirName, path => {
-						deploySource(path);
+					dirName, 
+					deployPath => {
+						deploySource(deployPath);
 						return true;
-					}, null, compiledRootRelativePaths);
+					}, null, relativePathsForBinaryFiles);
 		}
 
+		/// <summary>
+		/// テストケースデータを生成します．
+		/// 主にダウンロードスクリプトを含んだコンパイル手順を含んだテストケースの生成で使用されます．
+		/// </summary>
+		/// <param name="dirName">ソースコードを配置するディレクトリ名</param>
+		/// <param name="deploySource">指定したディレクトリにソースコードを配置するアクション</param>
+		/// <param name="compileActionWithWorkDirPath">作業ディレクトリと</param>
+		/// <param name="relativePathsForBinaryFiles">バイナリファイルが存在するディレクトリの相対パスのリスト</param>
+		/// <returns>テストケースデータのシーケンス（ソースコードの配置に失敗した場合は空）</returns>
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName,
 				Action<string> deploySource,
-				Action<string, string> compileActionByWorkAndDirPath,
-				params string[] compiledRootRelativePaths) {
+				Action<string> compileActionWithWorkDirPath,
+				params string[] relativePathsForBinaryFiles) {
 			return SetUpTestCaseData(
-					dirName, path => {
+					dirName,
+					path => {
 						deploySource(path);
 						return true;
-					}, compileActionByWorkAndDirPath, compiledRootRelativePaths);
+					},
+					compileActionWithWorkDirPath,
+					relativePathsForBinaryFiles);
 		}
 
-		protected IEnumerable<TestCaseData> SetUpTestCaseData(
-				string dirName,
-				Action<string> deploySource,
-				Action<string> compileActionByWork,
-				params string[] compiledRootRelativePaths) {
-			return SetUpTestCaseData(
-					dirName, path => {
-						deploySource(path);
-						return true;
-					}, (workDirPath, inDirPath) => compileActionByWork(workDirPath),
-					compiledRootRelativePaths);
-		}
-
+		/// <summary>
+		/// テストケースデータを生成します．
+		/// 主にダウンロードスクリプトを含んだコンパイル手順を含んだテストケースの生成で使用されます．
+		/// </summary>
+		/// <param name="dirName">ソースコードを配置するディレクトリ名</param>
+		/// <param name="deploySource">指定したディレクトリにソースコードを配置するアクション</param>
+		/// <param name="relativePathsForBinaryFiles">バイナリファイルが存在するディレクトリの相対パスのリスト</param>
+		/// <returns>テストケースデータのシーケンス（ソースコードの配置に失敗した場合は空）</returns>
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName,
 				Func<string, bool> deploySource,
-				params string[] compiledRootRelativePaths) {
+				params string[] relativePathsForBinaryFiles) {
 			return SetUpTestCaseData(
-					dirName, deploySource, null, compiledRootRelativePaths);
+					dirName, deploySource, null, relativePathsForBinaryFiles);
 		}
 
+		/// <summary>
+		/// テストケースデータを生成します．
+		/// 主にダウンロードスクリプトを含んだコンパイル手順を含んだテストケースの生成で使用されます．
+		/// </summary>
+		/// <param name="dirName">ソースコードを配置するディレクトリ名</param>
+		/// <param name="deploySource">指定したディレクトリにソースコードを配置するアクション</param>
+		/// <param name="compileActionWithWorkDirPath">作業ディレクトリと</param>
+		/// <param name="relativePathsForBinaryFiles">バイナリファイルが存在するディレクトリの相対パスのリスト</param>
+		/// <returns>テストケースデータのシーケンス（ソースコードの配置に失敗した場合は空）</returns>
 		protected IEnumerable<TestCaseData> SetUpTestCaseData(
 				string dirName,
 				Func<string, bool> deploySource,
-				Action<string, string> compileActionByWorkAndDirPath,
-				params string[] compiledRootRelativePaths) {
-			var path = FixtureUtil.GetDownloadPath(LanguageName, dirName);
-			// compiledRootRelativePathsの正規化
-			if (compiledRootRelativePaths == null
-			    || compiledRootRelativePaths.Length == 0) {
-				compiledRootRelativePaths = new[] { dirName };
+				Action<string> compileActionWithWorkDirPath,
+				params string[] relativePathsForBinaryFiles) {
+			var deployPath = FixtureUtil.GetDownloadPath(LanguageName, dirName);
+			// relativePathsForBinaryFilesの正規化
+			if (relativePathsForBinaryFiles == null
+			    || relativePathsForBinaryFiles.Length == 0) {
+				relativePathsForBinaryFiles = new[] { dirName };
 			}
 			var testCase = new TestCaseData(
-					path, compiledRootRelativePaths,
-					compileActionByWorkAndDirPath ?? ((a, b) => { }));
-			if (Directory.Exists(path)
+					deployPath, relativePathsForBinaryFiles,
+					compileActionWithWorkDirPath ?? (workDirPath => { }));
+			if (Directory.Exists(deployPath)
 			    &&
 			    Directory.EnumerateFiles(
-			    		path, "*" + Extension, SearchOption.AllDirectories).Any()) {
+			    		deployPath, "*" + Extension, SearchOption.AllDirectories).Any()) {
 				yield return testCase;
 				yield break;
 			}
-			Directory.CreateDirectory(path);
-			if (deploySource(path)) {
+			Directory.CreateDirectory(deployPath);
+			// ソースコードの配置に成功した場合のみテストケースデータを生成する
+			if (deploySource(deployPath)) {
 				yield return testCase;
 			}
 		}

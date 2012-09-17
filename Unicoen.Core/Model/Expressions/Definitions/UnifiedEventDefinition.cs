@@ -16,12 +16,15 @@
 
 #endregion
 
+using System;
 using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   イベントの宣言を表す共通表現です。 e.g. C#における <c>public int Value { get; set; }</c>
+	/// A class representing an event declaration for C#.
+	/// e.g. <c>public event KeyboadEventHandler OnKeyDown { add {} remove {} }, OnKeyPush { add {} remove {} }</c>
+	/// for C#.
 	/// </summary>
 	public class UnifiedEventDefinition : UnifiedExpression {
 		#region fields & properties
@@ -29,13 +32,13 @@ namespace Unicoen.Model {
 		private UnifiedAnnotationCollection _annotations;
 		private UnifiedModifierCollection _modifiers;
 		private UnifiedType _type;
-		private UnifiedIdentifier _name;
-		private UnifiedParameterCollection _parameters;
-		private UnifiedPropertyDefinitionPart _adder;
-		private UnifiedPropertyDefinitionPart _remover;
+		private UnifiedSet<UnifiedEventDefinitionPart> _parts;
 
 		/// <summary>
-		///   付与されているアノテーションを取得もしくは設定します． e.g. C#における <c>[Pure] int Value { get; set; }</c> の <c>[Pure]</c>
+		/// 付与されているアノテーションを取得もしくは設定します．
+		/// e.g. <c>[Pure]</c> in 
+		/// <c>[Pure] public event KeyboadEventHandler OnKeyDown</c>
+		/// for C#.
 		/// </summary>
 		public UnifiedAnnotationCollection Annotations {
 			get { return _annotations; }
@@ -43,7 +46,10 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		///   付与されている修飾子の集合を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>public</c>
+		/// 付与されている修飾子の集合を取得もしくは設定します．
+		/// e.g. <c>public</c> in 
+		/// <c>[Pure] public event KeyboadEventHandler OnKeyDown</c>
+		/// for C#.
 		/// </summary>
 		public UnifiedModifierCollection Modifiers {
 			get { return _modifiers; }
@@ -51,7 +57,10 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		///   プロパティが表す値の型を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>int</c>
+		/// プロパティが表す値の型を取得もしくは設定します．
+		/// e.g. <c>KeyboadEventHandler</c> in 
+		/// <c>[Pure] public event KeyboadEventHandler OnKeyDown</c>
+		/// for C#.
 		/// </summary>
 		public UnifiedType Type {
 			get { return _type; }
@@ -59,35 +68,14 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		///   名前を取得もしくは設定します． e.g. C#における <c>public int Value { get; set; }</c> の <c>Value</c>
+		/// プロパティが表す値の型を取得もしくは設定します．
+		/// e.g. <c>OnKeyDown { add {} remove {} }, OnKeyPush { add {} remove {} }</c>
+		/// in <c>public event KeyboadEventHandler OnKeyDown { add {} remove {} }, OnKeyPush { add {} remove {} }</c>
+		/// for C#.
 		/// </summary>
-		public UnifiedIdentifier Name {
-			get { return _name; }
-			set { _name = SetChild(value, _name); }
-		}
-
-		/// <summary>
-		///   パラメータ（仮引数）の集合を取得もしくは設定します． e.g. C#における <c>public int Table[int x, int y] { get; set; }</c> の <c>int x, int y</c>
-		/// </summary>
-		public UnifiedParameterCollection Parameters {
-			get { return _parameters; }
-			set { _parameters = SetChild(value, _parameters); }
-		}
-
-		/// <summary>
-		///   イベントの追加処理の定義を取得もしくは設定します． e.g. C#における <c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c> の <c>add { _events.Add(value); }</c>
-		/// </summary>
-		public UnifiedPropertyDefinitionPart Adder {
-			get { return _adder; }
-			set { _adder = SetChild(value, _adder); }
-		}
-
-		/// <summary>
-		///   イベントの削除処理の定義を取得もしくは設定します． e.g. C#における <c>public int Events { add { _events.Add(value); } remove { _events.Remove(value); } }</c> の <c>remove { _events.Remove(value); }</c>
-		/// </summary>
-		public UnifiedPropertyDefinitionPart Remover {
-			get { return _remover; }
-			set { _remover = SetChild(value, _remover); }
+		public UnifiedSet<UnifiedEventDefinitionPart> Parts {
+			get { return _parts; }
+			set { _parts = SetChild(value, _parts); }
 		}
 
 		#endregion
@@ -114,18 +102,13 @@ namespace Unicoen.Model {
 		public static UnifiedEventDefinition Create(
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
-				UnifiedType type = null, UnifiedIdentifier name = null,
-				UnifiedParameterCollection parameters = null,
-				UnifiedPropertyDefinitionPart adder = null,
-				UnifiedPropertyDefinitionPart remover = null) {
+				UnifiedType type = null,
+				UnifiedSet<UnifiedEventDefinitionPart> parts = null) {
 			return new UnifiedEventDefinition {
 					Annotations = annotations,
 					Modifiers = modifiers,
 					Type = type,
-					Name = name,
-					Parameters = parameters,
-					Adder = adder,
-					Remover = remover,
+					Parts = parts,
 			};
 		}
 	}

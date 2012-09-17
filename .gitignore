@@ -29,11 +29,13 @@ _ReSharper*/
 *.sdf
 ipch/
 target
-output
-download
+*.swp
+
 *.docstates
 *.dotCover
 nuspec
-/Experiments/AntlrSurvey/lib
 packages
-.nuget
+
+/Experiments/AntlrSurvey/lib
+output
+download

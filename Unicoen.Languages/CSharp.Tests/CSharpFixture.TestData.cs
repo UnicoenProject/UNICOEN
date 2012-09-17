@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Unicoen.TestUtils;
@@ -38,6 +39,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 				result = result.Concat(new[] {
 						//"class A { }",
 						//"public class A { }",
+						"public class A { } public class B<T : A> { }",
 						"public class A { public event KeyboadEventHandler OnKeyDown; }",
 				}.Select(s => new TestCaseData(s)));
 
@@ -78,8 +80,12 @@ namespace Unicoen.Languages.CSharp.Tests {
 			}
 		}
 
+		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
+			get { yield break; }
+		}
+
 		private IEnumerable<TestCaseData> SetUpKurogane() {
-			Action<string, string> compileAction = (s1, s2) => { };
+			Action<string> compileAction = workDirPath => { };
 			return SetUpTestCaseData(
 					"Kurogane",
 					path =>
@@ -90,18 +96,42 @@ namespace Unicoen.Languages.CSharp.Tests {
 		}
 
 		private IEnumerable<TestCaseData> SetUpSqlite() {
-			Action<string, string> compileAction = (s1, s2) => { };
+			Action<string> doNothing = _ => { };
 			return SetUpTestCaseData(
 					"SQLite",
 					path =>
 					DownloadAndUnzip(
 							"http://csharp-sqlite.googlecode.com/files/csharp-sqlite_3_7_7_1_71.zip",
 							path),
-					compileAction);
+					doNothing);
 		}
 		
-		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
-			get { yield break; }
+		public IEnumerable<TestCaseData> SetUpUnicoen() {
+			Action<string> compileActionWithWorkDirPath = workDirPath => { };
+			//yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileActionWithWorkDirPath);
+			yield return
+					new TestCaseData(
+							Path.Combine(FixtureUtil.RootPath, "Unicoen.Core"),
+							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(
+//									FixtureUtil.RootPath, "Unicoen.Core.Tests"),
+//							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(
+//									FixtureUtil.RootPath, "Unicoen.Languages"),
+//							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(FixtureUtil.RootPath, "Unicoen.Utils"),
+//							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(
+//									FixtureUtil.RootPath, "Unicoen.WebApps"),
+//							compileActionWithWorkDirPath);
 		}
 	}
 }

@@ -1025,11 +1025,11 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 			return UnifiedEventDefinition.Create(
 					annotations: null,
 					modifiers: LookupModifiers(eventDeclaration.Modifiers),
-					type: LookupType(eventDeclaration.ReturnType),
-					name: UnifiedVariableIdentifier.Create(eventDeclaration.Name),
-					parameters: null,
-					adder: null,
-					remover: null
+					type: LookupType(eventDeclaration.ReturnType)
+					//name: UnifiedVariableIdentifier.Create(eventDeclaration.Name),
+					//parameters: null,
+					//adder: null,
+					//remover: null
 					);
 		}
 
