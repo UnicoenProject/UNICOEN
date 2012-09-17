@@ -391,24 +391,27 @@ namespace Unicoen.Languages.Tests {
 				// 作業ディレクトリ内でコンパイル
 				Fixture.Compile(workPath, srcPath);
 			} catch (Exception e) {
-				throw new Exception("Fail to compile the following code:\n" + orgCode, e);
+				throw new Exception("Fail to compile the original code:\n" + orgCode, e);
 			}
 			// コンパイル結果の取得
 			var orgByteCode1 = Fixture.GetAllCompiledCode(workPath);
 			// 再生成したソースコードを配置
 			var code2 = Fixture.CodeGenerator.Generate(codeObject);
 			File.WriteAllText(srcPath, code2, XEncoding.SJIS);
+			const string line = "------------------------";
 			try {
 				// 再生成したソースコードのコンパイル結果の取得
 				Fixture.Compile(workPath, srcPath);
 			} catch (Exception e) {
-				throw new Exception("Fail to compile the following code:\n" + code2, e);
+				throw new Exception(
+						"Fail to compile the regenerated code:\n" + line + "regenerated code" + line
+						+ "\n" + code2
+						+ line + "original code" + line + "\n" + orgCode, e);
 			}
 			var byteCode2 = Fixture.GetAllCompiledCode(workPath);
 			try {
 				AssertFuzzyEquals(byteCode2, orgByteCode1);
 			} catch (Exception e) {
-				var line = "------------------------";
 				throw new Exception(
 						"Differencies exist:\n" + line + "regenerated code" + line + "\n" + code2
 						+ line + "original code" + line + "\n" + orgCode, e);

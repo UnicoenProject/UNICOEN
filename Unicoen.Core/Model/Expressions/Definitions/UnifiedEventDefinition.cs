@@ -23,7 +23,7 @@ using Unicoen.Processor;
 namespace Unicoen.Model {
 	/// <summary>
 	/// A class representing an event declaration for C#.
-	/// e.g. <c>public event KeyboadEventHandler OnKeyDown { add {} remove {} }, OnKeyPush { add {} remove {} }</c>
+	/// e.g. <c>public event KeyboadEventHandler OnKeyDown { add {} remove {} }</c>
 	/// for C#.
 	/// </summary>
 	public class UnifiedEventDefinition : UnifiedExpression {
@@ -32,7 +32,9 @@ namespace Unicoen.Model {
 		private UnifiedAnnotationCollection _annotations;
 		private UnifiedModifierCollection _modifiers;
 		private UnifiedType _type;
-		private UnifiedSet<UnifiedEventDefinitionPart> _parts;
+		private UnifiedIdentifier _name;
+		private UnifiedPropertyDefinitionPart _adder;
+		private UnifiedPropertyDefinitionPart _remover;
 
 		/// <summary>
 		/// 付与されているアノテーションを取得もしくは設定します．
@@ -68,14 +70,36 @@ namespace Unicoen.Model {
 		}
 
 		/// <summary>
-		/// プロパティが表す値の型を取得もしくは設定します．
-		/// e.g. <c>OnKeyDown { add {} remove {} }, OnKeyPush { add {} remove {} }</c>
-		/// in <c>public event KeyboadEventHandler OnKeyDown { add {} remove {} }, OnKeyPush { add {} remove {} }</c>
+		/// 名前を取得もしくは設定します．
+		/// e.g. <c>OnKeyDown</c>
+		/// in <c>OnKeyDown { add {} remove {} }</c>
 		/// for C#.
 		/// </summary>
-		public UnifiedSet<UnifiedEventDefinitionPart> Parts {
-			get { return _parts; }
-			set { _parts = SetChild(value, _parts); }
+		public UnifiedIdentifier Name {
+			get { return _name; }
+			set { _name = SetChild(value, _name); }
+		}
+
+		/// <summary>
+		/// イベントの追加処理の定義を取得もしくは設定します．
+		/// e.g. <c>add {}</c>
+		/// in <c>OnKeyDown { add {} remove {} }</c>
+		/// for C#.
+		/// </summary>
+		public UnifiedPropertyDefinitionPart Adder {
+			get { return _adder; }
+			set { _adder = SetChild(value, _adder); }
+		}
+
+		/// <summary>
+		/// イベントの追加処理の定義を取得もしくは設定します．
+		/// e.g. <c>remove {}</c>
+		/// in <c>OnKeyDown { add {} remove {} }</c>
+		/// for C#.
+		/// </summary>
+		public UnifiedPropertyDefinitionPart Remover {
+			get { return _remover; }
+			set { _remover = SetChild(value, _remover); }
 		}
 
 		#endregion
@@ -103,12 +127,16 @@ namespace Unicoen.Model {
 				UnifiedAnnotationCollection annotations = null,
 				UnifiedModifierCollection modifiers = null,
 				UnifiedType type = null,
-				UnifiedSet<UnifiedEventDefinitionPart> parts = null) {
+				UnifiedIdentifier name = null,
+				UnifiedPropertyDefinitionPart adder = null,
+				UnifiedPropertyDefinitionPart remover = null) {
 			return new UnifiedEventDefinition {
 					Annotations = annotations,
 					Modifiers = modifiers,
 					Type = type,
-					Parts = parts,
+					Name = name,
+					Adder = adder,
+					Remover = remover,
 			};
 		}
 	}

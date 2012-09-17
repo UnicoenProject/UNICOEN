@@ -640,10 +640,6 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedEventDefinitionPart element) {
-			throw new NotImplementedException();
-		}
-
 		public virtual void Visit(UnifiedDelegateDefinition element) {
 			throw new NotImplementedException();
 		}
@@ -1281,10 +1277,6 @@ namespace Unicoen.Processor {
 
 		public virtual void Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement {
-			throw new NotImplementedException();
-		}
-
-		public virtual void Visit(UnifiedEventDefinitionPart element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1938,10 +1930,6 @@ namespace Unicoen.Processor {
 
 		public virtual TResult Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement {
-			throw new NotImplementedException();
-		}
-
-		public virtual TResult Visit(UnifiedEventDefinitionPart element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

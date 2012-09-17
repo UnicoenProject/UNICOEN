@@ -66,6 +66,9 @@ namespace Unicoen.CodeGenerators {
 		protected static readonly Decoration SemiColonDelimiter =
 				new Decoration { Delimiter = ";" };
 
+		protected static readonly Decoration ColonDelimiter =
+				new Decoration { Delimiter = " : " };
+
 		protected static readonly Decoration ForBlock =
 				new Decoration
 				{ MostLeft = "{", EachRight = "\n", MostRight = "}" };

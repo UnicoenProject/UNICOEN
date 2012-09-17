@@ -39,7 +39,7 @@ namespace Unicoen.Languages.CSharp.Tests {
 				result = result.Concat(new[] {
 						//"class A { }",
 						//"public class A { }",
-						"public class A { } public class B<T : A> { }",
+						"public class A { } public class B<T> where T : A { }",
 						"public class A { public event KeyboadEventHandler OnKeyDown; }",
 				}.Select(s => new TestCaseData(s)));
 

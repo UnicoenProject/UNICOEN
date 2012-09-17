@@ -330,7 +330,6 @@ namespace Unicoen.Processor {
 		public virtual void Visit<TElement>(UnifiedSet<TElement> element)
 				where TElement : UnifiedElement {}
 
-		public virtual void Visit(UnifiedEventDefinitionPart element) {}
 		public virtual void Visit(UnifiedDelegateDefinition element) {}
 
 		#endregion
@@ -657,7 +656,6 @@ namespace Unicoen.Processor {
 		public virtual void Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement {}
 
-		public virtual void Visit(UnifiedEventDefinitionPart element, TArg arg) {}
 		public virtual void Visit(UnifiedDelegateDefinition element, TArg arg) {}
 
 		#endregion
@@ -1308,10 +1306,6 @@ namespace Unicoen.Processor {
 
 		public virtual TResult Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement {
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedEventDefinitionPart element, TArg arg) {
 			return default(TResult);
 		}
 

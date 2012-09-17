@@ -22,106 +22,129 @@ using Unicoen.Model;
 using Unicoen.Processor;
 
 namespace Unicoen.Languages.CSharp.CodeGenerators {
-    public class CSharpCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
-        public CSharpCodeFactoryVisitor(TextWriter writer, string indentSign)
-                : base(writer, indentSign) {
-            ForeachKeyword = "foreach";
-            ForeachDelimiter = " in ";
-            ImportKeyword = "using ";
-        }
+	public class CSharpCodeFactoryVisitor : JavaLikeCodeFactoryVisitor {
 
-        public override bool Visit(
-                UnifiedFunctionDefinition element, VisitorArgument arg) {
-            element.Annotations.TryAccept(this, arg);
-            element.Modifiers.TryAccept(this, arg);
-            element.Type.TryAccept(this, arg);
-            Writer.Write(" ");
-            element.Name.TryAccept(this, arg);
-            element.GenericParameters.TryAccept(this, arg);
-            element.Parameters.TryAccept(this, arg);
-            element.Throws.TryAccept(this, arg);
-            element.Body.TryAccept(this, arg.Set(ForBlock));
-            return element.Body == null;
-        }
+		public CSharpCodeFactoryVisitor(TextWriter writer, string indentSign)
+				: base(writer, indentSign) {
+			ForeachKeyword = "foreach";
+			ForeachDelimiter = " in ";
+			ImportKeyword = "using ";
+		}
 
-        public override bool Visit(UnifiedLambda element, VisitorArgument arg) {
-            element.Parameters.TryAccept(this, arg);
-            Writer.Write(" => ");
-            element.Body.Accept(this, arg);
-            return true;
-        }
+		public override bool Visit(
+				UnifiedFunctionDefinition element, VisitorArgument arg) {
+			element.Annotations.TryAccept(this, arg);
+			element.Modifiers.TryAccept(this, arg);
+			element.Type.TryAccept(this, arg);
+			Writer.Write(" ");
+			element.Name.TryAccept(this, arg);
+			element.GenericParameters.TryAccept(this, arg);
+			element.Parameters.TryAccept(this, arg);
+			element.Throws.TryAccept(this, arg);
+			element.Body.TryAccept(this, arg.Set(ForBlock));
+			return element.Body == null;
+		}
 
-        public override bool Visit(
-                UnifiedNamespaceDefinition element, VisitorArgument arg) {
-            element.Annotations.TryAccept(this, arg);
-            Writer.Write("namespace ");
-            element.Name.Accept(this, arg);
-            Writer.Write(" ");
-            element.Body.Accept(this, arg.Set(ForBlock));
-            return false;
-        }
+		public override bool Visit(UnifiedLambda element, VisitorArgument arg) {
+			element.Parameters.TryAccept(this, arg);
+			Writer.Write(" => ");
+			element.Body.Accept(this, arg);
+			return true;
+		}
 
-        public override bool Visit(
-                UnifiedStructDefinition element, VisitorArgument arg) {
-            return Visit(element, arg, "struct");
-        }
+		public override bool Visit(
+				UnifiedNamespaceDefinition element, VisitorArgument arg) {
+			element.Annotations.TryAccept(this, arg);
+			Writer.Write("namespace ");
+			element.Name.Accept(this, arg);
+			Writer.Write(" ");
+			element.Body.Accept(this, arg.Set(ForBlock));
+			return false;
+		}
 
-        public override bool Visit(
-                UnifiedTypeConstrainCollection element, VisitorArgument arg) {
-            var token = " : ";
-            var delimiter = arg.Decoration.Delimiter;
-            arg.Decoration.Delimiter = "";
-            foreach (var current in element) {
-                Writer.Write(token);
-                current.TryAccept(this, arg);
-                token = delimiter;
-            }
-            return false;
-        }
+		public override bool Visit(
+				UnifiedStructDefinition element, VisitorArgument arg) {
+			return Visit(element, arg, "struct");
+		}
 
-        #region literal suffix
+		// e.g. Foo<T1, T2> where T1 : string
+		public override bool Visit(
+				UnifiedGenericParameterCollection element, VisitorArgument arg) {
+			VisitCollection(element, arg.Set(InequalitySignParen));
+			foreach (var genericParameter in element) {
+				foreach (var constrain in genericParameter.Constrains) {
+					Writer.Write(" where ");
+					constrain.TryAccept(this, arg);
+				}
+			}
+			return false;
+		}
 
-        public override bool Visit(
-                UnifiedBigIntLiteral element, VisitorArgument arg) {
-            Writer.Write(element.Value);
-            return false;
-        }
+		// e.g. <T1, T2>
+		public override bool Visit(
+				UnifiedGenericParameter element, VisitorArgument arg) {
+			element.Modifiers.TryAccept(this, arg);
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
 
-        public override bool Visit(
-                UnifiedUInt8Literal element, VisitorArgument arg) {
-            Writer.Write(element.Value);
-            Writer.Write("u");
-            return false;
-        }
+		public override bool Visit(
+				UnifiedTypeConstrainCollection element, VisitorArgument arg) {
+			UnifiedTypeConstrain last = null;
+			foreach (var current in element) {
+				if (last == null) {
+					current.TryAccept(this, arg.Set(NullDelimiter));
+				} else {
+					current.TryAccept(this, arg);
+				}
+				last = current;
+			}
+			return false;
+		}
 
-        public override bool Visit(
-                UnifiedUInt16Literal element, VisitorArgument arg) {
-            Writer.Write(element.Value);
-            Writer.Write("u");
-            return false;
-        }
+		#region literal suffix
 
-        public override bool Visit(
-                UnifiedUInt32Literal element, VisitorArgument arg) {
-            Writer.Write(element.Value);
-            Writer.Write("u");
-            return false;
-        }
+		public override bool Visit(
+				UnifiedBigIntLiteral element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			return false;
+		}
 
-        public override bool Visit(
-                UnifiedUInt64Literal element, VisitorArgument arg) {
-            Writer.Write(element.Value);
-            Writer.Write("ul");
-            return false;
-        }
+		public override bool Visit(
+				UnifiedUInt8Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("u");
+			return false;
+		}
 
-        public override bool Visit(
-                UnifiedInt64Literal element, VisitorArgument arg) {
-            Writer.Write(element.Value);
-            Writer.Write("l");
-            return false;
-        }
+		public override bool Visit(
+				UnifiedUInt16Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("u");
+			return false;
+		}
 
-        #endregion
-    }
+		public override bool Visit(
+				UnifiedUInt32Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("u");
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedUInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("ul");
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedInt64Literal element, VisitorArgument arg) {
+			Writer.Write(element.Value);
+			Writer.Write("l");
+			return false;
+		}
+
+		#endregion
+	}
 }

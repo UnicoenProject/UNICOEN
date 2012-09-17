@@ -177,7 +177,6 @@ namespace Unicoen.Processor {
 		void Visit<TElement>(UnifiedSet<TElement> element)
 				where TElement : UnifiedElement;
 
-		void Visit(UnifiedEventDefinitionPart element);
 		void Visit(UnifiedDelegateDefinition element);
 	}
 
@@ -339,7 +338,6 @@ namespace Unicoen.Processor {
 		void Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement;
 
-		void Visit(UnifiedEventDefinitionPart element, TArg arg);
 		void Visit(UnifiedDelegateDefinition element, TArg arg);
 	}
 
@@ -501,7 +499,6 @@ namespace Unicoen.Processor {
 		TResult Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement;
 
-		TResult Visit(UnifiedEventDefinitionPart element, TArg arg);
 		TResult Visit(UnifiedDelegateDefinition element, TArg arg);
 	}
 }

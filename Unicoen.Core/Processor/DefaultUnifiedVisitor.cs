@@ -639,10 +639,6 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
-		public virtual void Visit(UnifiedEventDefinitionPart element) {
-			element.TryAcceptAllChildren(this);
-		}
-
 		public virtual void Visit(UnifiedDelegateDefinition element) {
 			element.TryAcceptAllChildren(this);
 		}
@@ -1280,10 +1276,6 @@ namespace Unicoen.Processor {
 
 		public virtual void Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement {
-			element.TryAcceptAllChildren(this, arg);
-		}
-
-		public virtual void Visit(UnifiedEventDefinitionPart element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
@@ -2090,11 +2082,6 @@ namespace Unicoen.Processor {
 
 		public virtual TResult Visit<TElement>(UnifiedSet<TElement> element, TArg arg)
 				where TElement : UnifiedElement {
-			element.TryAcceptAllChildren(this, arg);
-			return default(TResult);
-		}
-
-		public virtual TResult Visit(UnifiedEventDefinitionPart element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}

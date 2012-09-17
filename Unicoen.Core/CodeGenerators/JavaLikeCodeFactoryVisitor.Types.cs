@@ -82,5 +82,26 @@ namespace Unicoen.CodeGenerators {
 			Writer.Write("]");
 			return false;
 		}
+
+		public override bool Visit(
+				UnifiedExtendConstrain element, VisitorArgument arg) {
+			Writer.Write(arg.Decoration.Delimiter ?? " extends ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedImplementsConstrain element, VisitorArgument arg) {
+			Writer.Write(arg.Decoration.Delimiter ?? " implements ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedSuperConstrain element, VisitorArgument arg) {
+			Writer.Write(arg.Decoration.Delimiter ?? " super ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
 	}
 }
