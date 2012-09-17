@@ -194,49 +194,10 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators {
 
 		public UnifiedElement VisitAssignmentExpression(
 				AssignmentExpression assign, object data) {
-			var op = CreateFromAssignType(assign.Operator);
+			var op = LookupAssignOperator(assign.Operator);
 			var left = assign.Left.TryAcceptForExpression(this);
 			var right = assign.Right.TryAcceptForExpression(this);
 			return UnifiedBinaryExpression.Create(left, op, right);
-		}
-
-		private UnifiedBinaryOperator CreateFromAssignType(AssignmentOperatorType type) {
-			switch (type) {
-			case AssignmentOperatorType.Assign:
-				return UnifiedBinaryOperator.Create(
-					"=", UnifiedBinaryOperatorKind.Assign);
-			case AssignmentOperatorType.Add:
-				return UnifiedBinaryOperator.Create(
-					"+=", UnifiedBinaryOperatorKind.AddAssign);
-			case AssignmentOperatorType.Subtract:
-				return UnifiedBinaryOperator.Create(
-					"-=", UnifiedBinaryOperatorKind.SubtractAssign);
-			case AssignmentOperatorType.Multiply:
-				return UnifiedBinaryOperator.Create(
-					"*=", UnifiedBinaryOperatorKind.MultiplyAssign);
-			case AssignmentOperatorType.Divide:
-				return UnifiedBinaryOperator.Create(
-					"/=", UnifiedBinaryOperatorKind.DivideAssign);
-			case AssignmentOperatorType.Modulus:
-				return UnifiedBinaryOperator.Create(
-					"%=", UnifiedBinaryOperatorKind.ModuloAssign);
-			case AssignmentOperatorType.ShiftLeft:
-				return UnifiedBinaryOperator.Create(
-					"<<=", UnifiedBinaryOperatorKind.ArithmeticLeftShiftAssign);
-			case AssignmentOperatorType.ShiftRight:
-				return UnifiedBinaryOperator.Create(
-					">>=", UnifiedBinaryOperatorKind.ArithmeticRightShiftAssign);
-			case AssignmentOperatorType.BitwiseAnd:
-				return UnifiedBinaryOperator.Create(
-					"&=", UnifiedBinaryOperatorKind.AndAssign);
-			case AssignmentOperatorType.BitwiseOr:
-				return UnifiedBinaryOperator.Create(
-					"|=", UnifiedBinaryOperatorKind.OrAssign);
-			case AssignmentOperatorType.ExclusiveOr:
-				return UnifiedBinaryOperator.Create(
-					"^=", UnifiedBinaryOperatorKind.ExclusiveOrAssign);
-			}
-			throw new NotImplementedException();
 		}
 
 		public UnifiedElement VisitBaseReferenceExpression(
