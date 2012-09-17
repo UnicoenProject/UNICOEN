@@ -86,9 +86,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		}
 
 		public UnifiedElement VisitPrimitiveType(
-				PrimitiveType primitiveType, object data)
-		{
-			throw new NotImplementedException("PrimitiveType");
+				PrimitiveType primitiveType, object data) {
+			return UnifiedType.Create(primitiveType.Keyword); 
 		}
 
 		public UnifiedElement VisitComment(Comment comment, object data)
@@ -1013,9 +1012,12 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		}
 
 		public UnifiedElement VisitDestructorDeclaration(
-				DestructorDeclaration destructorDeclaration, object data)
-		{
-			throw new NotImplementedException("DestructorDeclaration");
+				DestructorDeclaration destructorDeclaration, object data) {
+			var mods = LookupModifiers(destructorDeclaration.Modifiers);
+			var attrs = destructorDeclaration.Attributes.AcceptVisitorAsAttrs(this, data);
+			var body = destructorDeclaration.Body.AcceptVisitor(this, data) as UnifiedBlock;
+
+			return UnifiedDestructor.Create(body, attrs, mods);
 		}
 
 		public UnifiedElement VisitEnumMemberDeclaration(
