@@ -23,7 +23,7 @@ namespace Unicoen.Model {
 	/// <summary>
 	///   switch文におけるcase式を表します。 e.g. Javaにおける <c>switch(sw){case 1: BLOCK1 ...}</c> の <c>case 1: BLOCK1</c>
 	/// </summary>
-	public class UnifiedCase : UnifiedElement {
+	public class UnifiedCase : UnifiedExpression {
 		private UnifiedExpression _condition;
 
 		/// <summary>

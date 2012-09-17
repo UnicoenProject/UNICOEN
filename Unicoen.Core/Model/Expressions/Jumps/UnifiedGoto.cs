@@ -16,17 +16,17 @@
 
 #endregion
 
-using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	public class UnifiedGoto : UnifiedExpression {
-		private UnifiedIdentifier _value;
+		private UnifiedExpression _target;
 
-		public UnifiedIdentifier Value {
-			get { return _value; }
-			set { _value = SetChild(value, _value); }
+		public UnifiedExpression Target {
+			get { return _target; }
+			set { _target = SetChild(value, _target); }
 		}
 
 		protected UnifiedGoto() {}
@@ -48,19 +48,24 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedGoto Create(string label) {
-			if (label == null) {
-				throw new ArgumentNullException("label is null");
-			}
+		public static UnifiedGoto Create(UnifiedLabelIdentifier target) {
+			Contract.Requires(target != null);
 			return new UnifiedGoto {
-					Value = UnifiedLabelIdentifier.Create(label),
+					Target = target,
 			};
 		}
 
-		public static UnifiedGoto Create(
-				UnifiedIdentifier value = null) {
+		public static UnifiedGoto Create(string target) {
+			Contract.Requires(target != null);
 			return new UnifiedGoto {
-					Value = value,
+					Target = UnifiedLabelIdentifier.Create(target),
+			};
+		}
+
+		public static UnifiedGoto Create(UnifiedCase target) {
+			Contract.Requires(target != null);
+			return new UnifiedGoto {
+					Target = target,
 			};
 		}
 	}

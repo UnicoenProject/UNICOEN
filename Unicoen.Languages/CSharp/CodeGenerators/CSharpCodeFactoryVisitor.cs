@@ -95,7 +95,7 @@ namespace Unicoen.Languages.CSharp.CodeGenerators {
 				if (last == null) {
 					current.TryAccept(this, arg.Set(NullDelimiter));
 				} else {
-					current.TryAccept(this, arg);
+					current.TryAccept(this, arg.Set(ColonDelimiter));
 				}
 				last = current;
 			}

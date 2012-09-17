@@ -72,7 +72,7 @@ namespace Unicoen.Languages.JavaScript.CodeGenerators {
         public override bool Visit(UnifiedGoto element, VisitorArgument arg) {
             //JavaScriptではgoto文はサポートされていない
             Writer.Write("/* goto ");
-            element.Value.TryAccept(this, arg);
+            element.Target.TryAccept(this, arg);
             Writer.Write("*/");
             return true;
         }

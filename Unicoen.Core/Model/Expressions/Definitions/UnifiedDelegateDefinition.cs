@@ -57,7 +57,7 @@ namespace Unicoen.Model {
 		private UnifiedType _type;
 
 		/// <summary>
-		/// Gets or sets the type of the return value.
+		/// Gets or sets the type of the return target.
 		/// e.g. <c>void</c>
 		/// in <c>[Pure] public delegate void Delegate&lt;T&gt;(T v);</c>
 		/// for C#.

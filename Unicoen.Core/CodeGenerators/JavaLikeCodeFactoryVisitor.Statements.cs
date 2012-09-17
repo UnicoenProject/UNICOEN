@@ -195,7 +195,7 @@ namespace Unicoen.CodeGenerators {
 
 		public override bool Visit(UnifiedGoto element, VisitorArgument arg) {
 			Writer.Write("goto ");
-			element.Value.TryAccept(this, arg);
+			element.Target.TryAccept(this, arg);
 			return true;
 		}
 
