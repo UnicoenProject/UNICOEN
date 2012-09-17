@@ -16,39 +16,31 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using Paraiba.Core;
-using Unicoen.CodeGenerators;
-using Unicoen.Languages.Tests;
-using Unicoen.ProgramGenerators;
 using Unicoen.TestUtils;
-using Unicoen.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
-	public partial class CSharpFixture : Fixture {
-
+	public partial class CSharpFixture {
 		/// <summary>
 		///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。 Java言語であれば， <c>class A { public void M1() { ... } }</c> の...部分に このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
-				var statements = new[] {
-						"M1();",
-						"new A();",
-				}.Select(s => new TestCaseData(DecorateToCompile(s)));
+				var result = Enumerable.Empty<TestCaseData>();
+				//result = result.Concat(new[] {
+				//        "M1();",
+				//        "new A();",
+				//}.Select(s => new TestCaseData(DecorateToCompile(s))));
 
-				var codes = new[] {
-						"class A { }",
-						"public class A { }",
-				}.Select(s => new TestCaseData(s));
+				result = result.Concat(new[] {
+						//"class A { }",
+						//"public class A { }",
+						"public class A { void method() { var a = 0; a += 1; } }",
+				}.Select(s => new TestCaseData(s)));
 
-				return statements.Concat(codes);
+				return result;
 			}
 		}
 
@@ -79,14 +71,11 @@ namespace Unicoen.Languages.CSharp.Tests {
 		///   テスト時に入力するプロジェクトファイルのパスとコンパイル処理の組み合わせの集合です．
 		/// </summary>
 		public override IEnumerable<TestCaseData> TestProjectInfos {
-			get {
-				return SetUpUnicoen();
-			}
+			get { return SetUpUnicoen(); }
 		}
 
 		public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
 			get { yield break; }
 		}
-
 	}
 }
