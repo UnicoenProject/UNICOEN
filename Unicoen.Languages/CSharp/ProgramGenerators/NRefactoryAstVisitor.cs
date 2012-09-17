@@ -1018,25 +1018,31 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		}
 
 		public UnifiedElement VisitEventDeclaration(
-				EventDeclaration eventDeclaration, object data)
-		{
-			// NOTE eventDeclaration.Name == String.Empty
-
+				EventDeclaration eventDeclaration, object data) {
+			var parts =
+			        from prop in eventDeclaration.Variables
+			        let name = prop.Name.ToVariableIdentifier()
+			        select UnifiedEventDefinitionPart.Create(name);
 			return UnifiedEventDefinition.Create(
-					annotations: null,
-					modifiers: LookupModifiers(eventDeclaration.Modifiers),
-					type: LookupType(eventDeclaration.ReturnType)
-					//name: UnifiedVariableIdentifier.Create(eventDeclaration.Name),
-					//parameters: null,
-					//adder: null,
-					//remover: null
-					);
+			        annotations: null,
+			        modifiers: LookupModifiers(eventDeclaration.Modifiers),
+			        type: LookupType(eventDeclaration.ReturnType),
+			        parts: parts.ToSet());
 		}
 
 		public UnifiedElement VisitCustomEventDeclaration(
-				CustomEventDeclaration customEventDeclaration, object data)
-		{
-			throw new NotImplementedException("CustomEventDeclaration");
+				CustomEventDeclaration customEventDeclaration, object data) {
+
+			var parts = UnifiedEventDefinitionPart.Create(
+					name: customEventDeclaration.Name.ToVariableIdentifier(),
+					adder:customEventDeclaration.AddAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart,
+					remover:customEventDeclaration.RemoveAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart);
+			// NOTE how can it be parsed ?
+			return UnifiedEventDefinition.Create(
+				annotations: null,
+				modifiers: LookupModifiers(customEventDeclaration.Modifiers),
+				type: LookupType(customEventDeclaration.ReturnType),
+				parts:parts.ToSet());
 		}
 
 		public UnifiedElement VisitFieldDeclaration(
