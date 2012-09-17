@@ -74,7 +74,7 @@ namespace Unicoen.Languages.CSharp.CodeGenerators {
 			foreach (var genericParameter in element) {
 				foreach (var constrain in genericParameter.Constrains) {
 					Writer.Write(" where ");
-					constrain.TryAccept(this, arg);
+					constrain.TryAccept(this, arg.Set(ColonDelimiter));
 				}
 			}
 			return false;
@@ -99,6 +99,38 @@ namespace Unicoen.Languages.CSharp.CodeGenerators {
 				}
 				last = current;
 			}
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedExtendConstrain element, VisitorArgument arg) {
+			Writer.Write(arg.Decoration.Delimiter ?? " : ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedImplementsConstrain element, VisitorArgument arg) {
+			Writer.Write(arg.Decoration.Delimiter ?? " : ");
+			element.Type.TryAccept(this, arg);
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedConstructorConstrain element, VisitorArgument arg) {
+			Writer.Write(" : new()");
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedClassConstrain element, VisitorArgument arg) {
+			Writer.Write(" : class");
+			return false;
+		}
+
+		public override bool Visit(
+				UnifiedStructConstrain element, VisitorArgument arg) {
+			Writer.Write(" : struct");
 			return false;
 		}
 

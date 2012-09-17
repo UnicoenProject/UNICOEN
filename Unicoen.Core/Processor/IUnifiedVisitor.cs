@@ -135,9 +135,9 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedConstructorConstrain element);
 		void Visit(UnifiedExtendConstrain element);
 		void Visit(UnifiedImplementsConstrain element);
-		void Visit(UnifiedReferenceConstrain element);
+		void Visit(UnifiedClassConstrain element);
 		void Visit(UnifiedSuperConstrain element);
-		void Visit(UnifiedValueConstrain element);
+		void Visit(UnifiedStructConstrain element);
 		void Visit(UnifiedSuperIdentifier element);
 		void Visit(UnifiedThisIdentifier element);
 		void Visit(UnifiedLabelIdentifier element);
@@ -296,9 +296,9 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedConstructorConstrain element, TArg arg);
 		void Visit(UnifiedExtendConstrain element, TArg arg);
 		void Visit(UnifiedImplementsConstrain element, TArg arg);
-		void Visit(UnifiedReferenceConstrain element, TArg arg);
+		void Visit(UnifiedClassConstrain element, TArg arg);
 		void Visit(UnifiedSuperConstrain element, TArg arg);
-		void Visit(UnifiedValueConstrain element, TArg arg);
+		void Visit(UnifiedStructConstrain element, TArg arg);
 		void Visit(UnifiedSuperIdentifier element, TArg arg);
 		void Visit(UnifiedThisIdentifier element, TArg arg);
 		void Visit(UnifiedLabelIdentifier element, TArg arg);
@@ -457,9 +457,9 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedConstructorConstrain element, TArg arg);
 		TResult Visit(UnifiedExtendConstrain element, TArg arg);
 		TResult Visit(UnifiedImplementsConstrain element, TArg arg);
-		TResult Visit(UnifiedReferenceConstrain element, TArg arg);
+		TResult Visit(UnifiedClassConstrain element, TArg arg);
 		TResult Visit(UnifiedSuperConstrain element, TArg arg);
-		TResult Visit(UnifiedValueConstrain element, TArg arg);
+		TResult Visit(UnifiedStructConstrain element, TArg arg);
 		TResult Visit(UnifiedSuperIdentifier element, TArg arg);
 		TResult Visit(UnifiedThisIdentifier element, TArg arg);
 		TResult Visit(UnifiedLabelIdentifier element, TArg arg);

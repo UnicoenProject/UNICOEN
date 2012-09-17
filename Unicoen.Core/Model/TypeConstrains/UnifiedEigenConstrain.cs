@@ -21,7 +21,8 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   特異クラスに所属するオブジェクトを表します． e.g. Rubyにおける <c>class &lt;&lt; obj ... end</c> の <c>obj</c>
+	/// 特異クラスに所属するオブジェクトを表します．
+	/// e.g. Rubyにおける <c>class &lt;&lt; obj ... end</c> の <c>obj</c>
 	/// </summary>
 	public class UnifiedEigenConstrain : UnifiedTypeConstrain {
 		private UnifiedExpression _eigenObject;

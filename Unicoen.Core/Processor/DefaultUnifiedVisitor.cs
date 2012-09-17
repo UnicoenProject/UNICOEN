@@ -482,7 +482,7 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
-		public virtual void Visit(UnifiedReferenceConstrain element) {
+		public virtual void Visit(UnifiedClassConstrain element) {
 			element.TryAcceptAllChildren(this);
 		}
 
@@ -490,7 +490,7 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this);
 		}
 
-		public virtual void Visit(UnifiedValueConstrain element) {
+		public virtual void Visit(UnifiedStructConstrain element) {
 			element.TryAcceptAllChildren(this);
 		}
 
@@ -1120,7 +1120,7 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
-		public virtual void Visit(UnifiedReferenceConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedClassConstrain element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
@@ -1128,7 +1128,7 @@ namespace Unicoen.Processor {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
-		public virtual void Visit(UnifiedValueConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedStructConstrain element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 		}
 
@@ -2023,7 +2023,7 @@ namespace Unicoen.Processor {
 		}
 
 		public virtual TResult Visit(
-				UnifiedReferenceConstrain element, TArg arg) {
+				UnifiedClassConstrain element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}
@@ -2033,7 +2033,7 @@ namespace Unicoen.Processor {
 			return default(TResult);
 		}
 
-		public virtual TResult Visit(UnifiedValueConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedStructConstrain element, TArg arg) {
 			element.TryAcceptAllChildren(this, arg);
 			return default(TResult);
 		}
