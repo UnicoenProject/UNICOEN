@@ -132,7 +132,7 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedStaticInitializer element);
 		void Visit(UnifiedInstanceInitializer element);
 		void Visit(UnifiedLambda element);
-		void Visit(UnifiedDefaultConstrain element);
+		void Visit(UnifiedConstructorConstrain element);
 		void Visit(UnifiedExtendConstrain element);
 		void Visit(UnifiedImplementsConstrain element);
 		void Visit(UnifiedReferenceConstrain element);
@@ -288,7 +288,7 @@ namespace Unicoen.Processor {
 		void Visit(UnifiedStaticInitializer element, TArg arg);
 		void Visit(UnifiedInstanceInitializer element, TArg arg);
 		void Visit(UnifiedLambda element, TArg arg);
-		void Visit(UnifiedDefaultConstrain element, TArg arg);
+		void Visit(UnifiedConstructorConstrain element, TArg arg);
 		void Visit(UnifiedExtendConstrain element, TArg arg);
 		void Visit(UnifiedImplementsConstrain element, TArg arg);
 		void Visit(UnifiedReferenceConstrain element, TArg arg);
@@ -444,7 +444,7 @@ namespace Unicoen.Processor {
 		TResult Visit(UnifiedStaticInitializer element, TArg arg);
 		TResult Visit(UnifiedInstanceInitializer element, TArg arg);
 		TResult Visit(UnifiedLambda element, TArg arg);
-		TResult Visit(UnifiedDefaultConstrain element, TArg arg);
+		TResult Visit(UnifiedConstructorConstrain element, TArg arg);
 		TResult Visit(UnifiedExtendConstrain element, TArg arg);
 		TResult Visit(UnifiedImplementsConstrain element, TArg arg);
 		TResult Visit(UnifiedReferenceConstrain element, TArg arg);

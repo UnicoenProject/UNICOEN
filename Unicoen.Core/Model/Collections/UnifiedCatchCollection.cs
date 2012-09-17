@@ -21,7 +21,8 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   catch節の集合を表します。 e.g. Javaにおける <c>try { ... } catch(E1 e1) { ... } catch(E2 e2) { ... }</c> の <c>catch(E1 e1) { ... } catch(E2 e2) { ... }</c>
+	/// catch節の集合を表します。
+	/// e.g. Javaにおける <c>try { ... } catch(E1 e1) { ... } catch(E2 e2) { ... }</c> の <c>catch(E1 e1) { ... } catch(E2 e2) { ... }</c>
 	/// </summary>
 	public class UnifiedCatchCollection
 			: UnifiedElementCollectionBase<UnifiedCatch, UnifiedCatchCollection> {

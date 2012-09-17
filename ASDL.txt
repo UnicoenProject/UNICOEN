@@ -28,7 +28,7 @@ TypeConstrain
 | ImplementsConstrain(Type type)
 | ExtendConstrain(Type type)
 | EigenConstrain(Type type)
-| DefaultConstrain(Type type)
+| ConstructorConstrain(Type type)
 
 ElementCollection
 = AnnotationCollection(IList<Annotation> elements)

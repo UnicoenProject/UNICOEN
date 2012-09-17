@@ -95,9 +95,10 @@ namespace Unicoen.Languages.CSharp.Tests {
 		/// <summary>
 		///   コンパイル済みのコードのバイト列を取得します．
 		/// </summary>
+		/// <param name="rootPath">コンパイル済みコードのルートディレクトリ</param>
 		/// <param name="path"> コンパイル済みのコードのパス </param>
 		/// <returns> コンパイル済みのコードのバイト列 </returns>
-		public override object GetCompiledByteCode(string path) {
+		public override object GetCompiledByteCode(string rootPath, string path) {
 			var ildasmPath = IldasmPaths.First(File.Exists);
 			var args = new[] { "/text", path };
 			var info = new ProcessStartInfo {

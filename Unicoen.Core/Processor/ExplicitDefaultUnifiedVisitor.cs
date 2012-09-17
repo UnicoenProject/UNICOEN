@@ -471,7 +471,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDefaultConstrain element) {
+		public virtual void Visit(UnifiedConstructorConstrain element) {
 			throw new NotImplementedException();
 		}
 
@@ -1100,7 +1100,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual void Visit(UnifiedDefaultConstrain element, TArg arg) {
+		public virtual void Visit(UnifiedConstructorConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 
@@ -1850,7 +1850,7 @@ namespace Unicoen.Processor {
 			throw new NotImplementedException();
 		}
 
-		public virtual TResult Visit(UnifiedDefaultConstrain element, TArg arg) {
+		public virtual TResult Visit(UnifiedConstructorConstrain element, TArg arg) {
 			throw new NotImplementedException();
 		}
 

@@ -266,7 +266,7 @@
     <Compile Include="Extensions\SafeModelSweeper.cs" />
     <Compile Include="Model\ICopiable.cs" />
     <Compile Include="Model\IUnifiedCreatable.cs" />
-    <Compile Include="Model\TypeConstrains\UnifiedDefaultConstrain.cs" />
+    <Compile Include="Model\TypeConstrains\UnifiedConstructorConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedEigenConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedExtendConstrain.cs" />
     <Compile Include="Model\TypeConstrains\UnifiedImplementsConstrain.cs" />

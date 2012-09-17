@@ -91,12 +91,13 @@ namespace Unicoen.Languages.JavaScript.Tests {
             CompileWithArguments(workPath, CompileCommand, arguments);
         }
 
-        /// <summary>
-        ///   コンパイル済みのコードのバイト列を取得します．
-        /// </summary>
-        /// <param name="path"> コンパイル済みのコードのパス </param>
-        /// <returns> コンパイル済みのコードのバイト列 </returns>
-        public override object GetCompiledByteCode(string path) {
+    	/// <summary>
+    	///   コンパイル済みのコードのバイト列を取得します．
+    	/// </summary>
+    	/// <param name="rootPath">コンパイル済みコードのルートディレクトリ</param>
+    	/// <param name="path"> コンパイル済みのコードのパス </param>
+    	/// <returns> コンパイル済みのコードのバイト列 </returns>
+    	public override object GetCompiledByteCode(string rootPath, string path) {
             var args = new[] { "-c", path };
             var info = new ProcessStartInfo {
                     FileName = DisassembleCommand,

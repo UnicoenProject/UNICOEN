@@ -21,10 +21,11 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   継承関係やデフォルトコンストラクタの存在などの制約を表します。 なお、継承関係を表す場合、対象の型の個数は１つです。 e.g. Javaにおける継承関係の制約( <c>class C extends P { ... }</c> の <c>extends P</c> 部分) e.g. C#におけるデフォルトコンストラクタの制約( <c>where A : new()</c> の <c>: new()</c> 部分)
+	/// デフォルトコンストラクタを持つという制約を表現します．
+	/// e.g. C#における<c>where A : new()</c> の <c>: new()</c> 部分
 	/// </summary>
-	public class UnifiedDefaultConstrain : UnifiedTypeConstrain {
-		protected UnifiedDefaultConstrain() {}
+	public class UnifiedConstructorConstrain : UnifiedTypeConstrain {
+		protected UnifiedConstructorConstrain() {}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -43,9 +44,8 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public static UnifiedDefaultConstrain Create(
-				UnifiedType type) {
-			return new UnifiedDefaultConstrain { };
+		public static UnifiedConstructorConstrain Create() {
+			return new UnifiedConstructorConstrain { };
 		}
 	}
 }

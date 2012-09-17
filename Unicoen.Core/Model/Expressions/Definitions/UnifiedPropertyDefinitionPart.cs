@@ -20,6 +20,9 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	/// プロパティを構成するゲッターもしくはセッターを表します．
+	/// </summary>
 	public class UnifiedPropertyDefinitionPart : UnifiedElement {
 		#region fields & properties
 

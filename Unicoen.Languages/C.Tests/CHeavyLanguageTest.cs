@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,38 +17,45 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
 namespace Unicoen.Languages.C.Tests {
-    [TestFixture]
-    public class CHeavyLanguageTest : LanguageTestBase {
-        private Fixture _fixture;
+	[TestFixture]
+	public class CHeavyLanguageTest : LanguageTestBase {
+		private Fixture _fixture;
 
-        protected override Fixture Fixture {
-            get { return _fixture ?? (_fixture = new CFixture()); }
-        }
+		protected override Fixture Fixture {
+			get { return _fixture ?? (_fixture = new CFixture()); }
+		}
 
-        /// <summary>
-        ///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
-        /// </summary>
-        /// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-        /// <param name="compileAction"> 使用しません </param>
-        [Test, TestCaseSource("TestHeavyProjectInfos")]
-        public void VerifyCodeObjectFeatureUsingProject(
-                string dirPath, Action<string, string> compileAction) {
-            Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);
-        }
+		/// <summary>
+		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// </summary>
+		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
+		/// <param name="compiledRootRelativePaths">使用しません</param>
+		/// <param name="compileAction"> 使用しません </param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public void VerifyCodeObjectFeatureUsingProject(
+				string dirPath, IList<string> compiledRootRelativePaths,
+				Action<string, string> compileAction) {
+			Test.VerifyCodeObjectFeatureUsingProject(
+					dirPath, compiledRootRelativePaths, compileAction);
+		}
 
-        /// <summary>
-        ///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
-        /// </summary>
-        /// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
-        /// <param name="compileAction"> コンパイル処理 </param>
-        [Test, TestCaseSource("TestHeavyProjectInfos")]
-        public void VerifyRegenerateCodeUsingProject(
-                string dirPath, Action<string, string> compileAction) {
-            Test.VerifyRegenerateCodeUsingProject(dirPath, compileAction);
-        }
-    }
+		/// <summary>
+		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// </summary>
+		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
+		/// <param name="compiledRootRelativePaths">コンパイル済みコードのルートディレクトリの相対パスの配列</param>
+		/// <param name="compileAction"> コンパイル処理 </param>
+		[Test, TestCaseSource("TestProjectInfos")]
+		public void VerifyRegenerateCodeUsingProject(
+				string dirPath, IList<string> compiledRootRelativePaths,
+				Action<string, string> compileAction) {
+			Test.VerifyRegenerateCodeUsingProject(
+					dirPath, compiledRootRelativePaths, compileAction);
+		}
+	}
 }

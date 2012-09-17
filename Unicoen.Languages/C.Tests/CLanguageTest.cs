@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011 The Unicoen Project
+// Copyright (C) 2011-2012 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Unicoen.Languages.Tests;
 
@@ -36,8 +37,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// </summary>
 		/// <param name="orgPath"> 再生成するソースコードのパス </param>
 		[Test, TestCaseSource("TestFilePaths")]
-		public void VerifyAssertCompareCompiledCode(string orgPath)
-		{
+		public void VerifyAssertCompareCompiledCode(string orgPath) {
 			Test.VerifyAssertCompareCompiledCode(orgPath);
 		}
 
@@ -46,8 +46,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// </summary>
 		/// <param name="orgPath"> 再生成するソースコードのパス </param>
 		[Test, TestCaseSource("TestFilePaths")]
-		public void VerifyAssertCompareModel(string orgPath)
-		{
+		public void VerifyAssertCompareModel(string orgPath) {
 			Test.VerifyAssertCompareModel(orgPath);
 		}
 
@@ -56,8 +55,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// </summary>
 		/// <param name="path"> 検査対象のソースコードのパス </param>
 		[Test, TestCaseSource("TestFilePaths")]
-		public void VerifyRegenerateCodeUsingFile(string path)
-		{
+		public void VerifyRegenerateCodeUsingFile(string path) {
 			Test.VerifyRegenerateCodeUsingFile(path);
 		}
 
@@ -66,11 +64,10 @@ namespace Unicoen.Languages.C.Tests {
 		/// </summary>
 		/// <param name="path"> 検査対象のソースコードのパス </param>
 		[Test, TestCaseSource("TestFilePaths")]
-		public void VerifyCodeObjectFeatureUsingFile(string path)
-		{
+		public void VerifyCodeObjectFeatureUsingFile(string path) {
 			Test.VerifyCodeObjectFeatureUsingFile(path);
 		}
-		
+
 		#endregion
 
 		#region TestCodes
@@ -80,8 +77,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// </summary>
 		/// <param name="code"> 検査対象のソースコード </param>
 		[Test, TestCaseSource("TestCodes")]
-		public void VerifyCodeObjectFeatureUsingCode(string code)
-		{
+		public void VerifyCodeObjectFeatureUsingCode(string code) {
 			Test.VerifyCodeObjectFeatureUsingCode(code);
 		}
 
@@ -90,8 +86,7 @@ namespace Unicoen.Languages.C.Tests {
 		/// </summary>
 		/// <param name="code"> 検査対象のソースコード </param>
 		[Test, TestCaseSource("TestCodes")]
-		public void VerifyRegenerateCodeUsingCode(string code)
-		{
+		public void VerifyRegenerateCodeUsingCode(string code) {
 			Test.VerifyRegenerateCodeUsingCode(code);
 		}
 
@@ -103,24 +98,30 @@ namespace Unicoen.Languages.C.Tests {
 		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
+		/// <param name="compiledRootRelativePaths">使用しません</param>
 		/// <param name="compileAction"> 使用しません </param>
 		[Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyCodeObjectFeatureUsingProject(
-				string dirPath, Action<string, string> compileAction) {
-			Test.VerifyCodeObjectFeatureUsingProject(dirPath, compileAction);
+				string dirPath, IList<string> compiledRootRelativePaths,
+				Action<string, string> compileAction) {
+			Test.VerifyCodeObjectFeatureUsingProject(
+					dirPath, compiledRootRelativePaths, compileAction);
 		}
 
 		/// <summary>
 		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
+		/// <param name="compiledRootRelativePaths">コンパイル済みコードのルートディレクトリの相対パスの配列</param>
 		/// <param name="compileAction"> コンパイル処理 </param>
 		[Test, TestCaseSource("TestProjectInfos")]
 		public void VerifyRegenerateCodeUsingProject(
-				string dirPath, Action<string, string> compileAction) {
-			Test.VerifyRegenerateCodeUsingProject(dirPath, compileAction);
+				string dirPath, IList<string> compiledRootRelativePaths,
+				Action<string, string> compileAction) {
+			Test.VerifyRegenerateCodeUsingProject(
+					dirPath, compiledRootRelativePaths, compileAction);
 		}
- 
-		#endregion   
+
+		#endregion
 	}
 }

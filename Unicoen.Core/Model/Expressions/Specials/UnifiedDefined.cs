@@ -20,6 +20,9 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	/// Ruby
+	/// </summary>
 	public class UnifiedDefined : UnifiedExpression {
 		private UnifiedExpression _value;
 

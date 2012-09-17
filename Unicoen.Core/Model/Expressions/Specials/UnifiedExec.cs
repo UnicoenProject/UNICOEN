@@ -20,6 +20,9 @@ using System.Diagnostics;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
+	/// <summary>
+	/// Python
+	/// </summary>
 	public class UnifiedExec : UnifiedExpression {
 		private UnifiedExpression _value;
 

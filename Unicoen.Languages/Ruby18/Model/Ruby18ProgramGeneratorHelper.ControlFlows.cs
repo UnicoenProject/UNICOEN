@@ -109,7 +109,7 @@ namespace Unicoen.Languages.Ruby18.Model {
         private static UnifiedExpression CreateRetry(XElement node) {
             Contract.Requires(node != null);
             Contract.Requires(node.Name() == "retry");
-            return UnifiedRedo.Create();
+            return UnifiedRetry.Create();
         }
 
         private static UnifiedExpression CreateRedo(XElement node) {

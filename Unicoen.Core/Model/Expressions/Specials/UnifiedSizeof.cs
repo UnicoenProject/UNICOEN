@@ -21,7 +21,7 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   Sizeof式を表します。 e.g. Javaにおける <c>(int)a</c>
+	///   Sizeof式を表します。 e.g. Cにおける <c>sizeof(a)</c>
 	/// </summary>
 	public class UnifiedSizeof : UnifiedExpression {
 		private UnifiedExpression _value;
