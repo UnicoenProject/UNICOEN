@@ -376,7 +376,9 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 				PointerReferenceExpression pointerReferenceExpression,
 				object data)
 		{
-			throw new NotImplementedException("PointerReferenceExpression");
+			var target = pointerReferenceExpression.Target.TryAcceptForExpression(this);
+			var name = pointerReferenceExpression.MemberName.ToVariableIdentifier();
+			return UnifiedProperty.Create("->", target, name);
 		}
 
 		public UnifiedElement VisitPrimitiveExpression(
@@ -390,6 +392,9 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 			}
 			if (prim.Value is int) {
 				return UnifiedIntegerLiteral.CreateInt32((int)prim.Value);
+			}
+			if (prim.Value is Int64) {
+				return UnifiedIntegerLiteral.CreateInt64((Int64)prim.Value);
 			}
 			if (prim.Value is UInt64) {
 				return UnifiedIntegerLiteral.CreateUInt64((UInt64)prim.Value);
@@ -413,9 +418,8 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		}
 
 		public UnifiedElement VisitSizeOfExpression(
-				SizeOfExpression sizeOfExpression, object data)
-		{
-			throw new NotImplementedException("SizeOfExpression");
+				SizeOfExpression sizeOfExpression, object data) {
+			return UnifiedSizeof.Create(sizeOfExpression.Type.TryAcceptForExpression(this));
 		}
 
 		public UnifiedElement VisitStackAllocExpression(
@@ -758,9 +762,7 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 			var name = stmt.VariableName.ToVariableIdentifier();
 			var set = stmt.InExpression.TryAcceptForExpression(this);
 			var body =
-					stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock(
-
-							);
+					stmt.EmbeddedStatement.TryAcceptForExpression(this).ToBlock();
 
 			var varDec = UnifiedVariableDefinition.Create(
 					type: type, name: name);
@@ -914,7 +916,6 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		{
 			var stmts = uncheckedStatement.Body.TryAcceptForExpression(this).ToBlock();
 			return UnifiedUncheckedBlock.Create(stmts);
-			throw new NotImplementedException("UncheckedStatement");
 		}
 
 		public UnifiedElement VisitUnsafeStatement(UnsafeStatement unsafeStatement, object data)
