@@ -390,8 +390,11 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 			if (prim.Value is bool) {
 				return UnifiedBooleanLiteral.Create((bool)prim.Value);
 			}
-			if (prim.Value is int) {
-				return UnifiedIntegerLiteral.CreateInt32((int)prim.Value);
+			if (prim.Value is Int32) {
+				return UnifiedIntegerLiteral.CreateInt32((Int32)prim.Value);
+			}
+			if (prim.Value is UInt32) {
+				return UnifiedIntegerLiteral.CreateUInt32((UInt32)prim.Value);
 			}
 			if (prim.Value is Int64) {
 				return UnifiedIntegerLiteral.CreateInt64((Int64)prim.Value);
@@ -580,9 +583,20 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		#region top-level declaration
 
 		public UnifiedElement VisitDelegateDeclaration(
-				DelegateDeclaration delegateDeclaration, object data)
-		{
-			throw new NotImplementedException("DelegateDeclaration");
+				DelegateDeclaration delegateDeclaration, object data) {
+
+			var generics = delegateDeclaration.TypeParameters.AcceptVisitorAsTypeParams(this, data);
+			if (generics.IsEmptyOrNull()) {
+				generics = null;
+			}
+
+			return UnifiedDelegateDefinition.Create(
+					annotations: null, 
+					modifiers: LookupModifiers(delegateDeclaration.Modifiers), 
+					type: LookupType(delegateDeclaration.ReturnType), 
+					genericParameters: generics, 
+					name: delegateDeclaration.Name.ToVariableIdentifier(), 
+					parameters: delegateDeclaration.Parameters.AcceptVisitorAsParams(this, data));
 		}
 
 		public UnifiedElement VisitNamespaceDeclaration(
@@ -789,15 +803,14 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 		}
 
 		public UnifiedElement VisitGotoCaseStatement(
-				GotoCaseStatement gotoCaseStatement, object data)
-		{
-			throw new NotImplementedException("GotoCaseStatement");
+				GotoCaseStatement gotoCaseStatement, object data) {
+			return UnifiedGoto.Create(UnifiedCase.Create(gotoCaseStatement.LabelExpression.TryAcceptForExpression(this)));
 		}
 
 		public UnifiedElement VisitGotoDefaultStatement(
 				GotoDefaultStatement gotoDefaultStatement, object data)
 		{
-			throw new NotImplementedException("GotoDefaultStatement");
+			return UnifiedGoto.Create(UnifiedCase.CreateDefault());
 		}
 
 		public UnifiedElement VisitGotoStatement(
@@ -1019,30 +1032,26 @@ namespace Unicoen.Languages.CSharp.ProgramGenerators
 
 		public UnifiedElement VisitEventDeclaration(
 				EventDeclaration eventDeclaration, object data) {
-			var parts =
-			        from prop in eventDeclaration.Variables
-			        let name = prop.Name.ToVariableIdentifier()
-			        select UnifiedEventDefinitionPart.Create(name);
+			var names =
+					eventDeclaration.Variables.Select(prop => prop.Name.ToVariableIdentifier())
+							.ToCollection();
 			return UnifiedEventDefinition.Create(
 			        annotations: null,
 			        modifiers: LookupModifiers(eventDeclaration.Modifiers),
 			        type: LookupType(eventDeclaration.ReturnType),
-			        parts: parts.ToSet());
+			        names: names);
 		}
 
 		public UnifiedElement VisitCustomEventDeclaration(
 				CustomEventDeclaration customEventDeclaration, object data) {
 
-			var parts = UnifiedEventDefinitionPart.Create(
-					name: customEventDeclaration.Name.ToVariableIdentifier(),
-					adder:customEventDeclaration.AddAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart,
-					remover:customEventDeclaration.RemoveAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart);
-			// NOTE how can it be parsed ?
 			return UnifiedEventDefinition.Create(
 				annotations: null,
 				modifiers: LookupModifiers(customEventDeclaration.Modifiers),
 				type: LookupType(customEventDeclaration.ReturnType),
-				parts:parts.ToSet());
+				names: customEventDeclaration.Name.ToVariableIdentifier().ToCollection(),
+				adder:customEventDeclaration.AddAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart,
+				remover:customEventDeclaration.RemoveAccessor.AcceptVisitor(this, data) as UnifiedPropertyDefinitionPart);
 		}
 
 		public UnifiedElement VisitFieldDeclaration(
