@@ -23,8 +23,31 @@ namespace Unicoen.Model {
 	/// <summary>
 	///   コンストラクタの定義を表します． e.g. Javaにおける <c>public T1() { ... }</c>
 	/// </summary>
-	public class UnifiedDestructor : UnifiedConstructorLike<UnifiedDestructor> {
-		protected UnifiedDestructor() {}
+	public class UnifiedDestructor : UnifiedExpression {
+		protected UnifiedAnnotationCollection _annotations;
+		protected UnifiedModifierCollection _modifiers;
+		protected UnifiedBlock _body;
+
+		/// <summary>
+		///   付与されているアノテーションを取得もしくは設定します．
+		/// </summary>
+		public UnifiedAnnotationCollection Annotations {
+			get { return _annotations; }
+			set { _annotations = SetChild(value, _annotations); }
+		}
+
+		public UnifiedModifierCollection Modifiers {
+			get { return _modifiers; }
+			set { _modifiers = SetChild(value, _modifiers); }
+		}
+
+		/// <summary>
+		///   ブロックを取得します．
+		/// </summary>
+		public UnifiedBlock Body {
+			get { return _body; }
+			set { _body = SetChild(value, _body); }
+		}
 
 		[DebuggerStepThrough]
 		public override void Accept(IUnifiedVisitor visitor) {
@@ -43,8 +66,15 @@ namespace Unicoen.Model {
 			return visitor.Visit(this, arg);
 		}
 
-		public override UnifiedDestructor CreateSelf() {
-			return new UnifiedDestructor();
+		public static UnifiedDestructor Create(
+				UnifiedAnnotationCollection annotations = null,
+				UnifiedModifierCollection modifiers = null,
+				UnifiedBlock body = null) {
+			return new UnifiedDestructor {
+					Annotations = annotations,
+					Modifiers = modifiers,
+					Body = body,
+			};
 		}
 	}
 }

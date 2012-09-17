@@ -72,9 +72,12 @@ namespace Unicoen.Languages.CSharp.CodeGenerators {
 				UnifiedGenericParameterCollection element, VisitorArgument arg) {
 			VisitCollection(element, arg.Set(InequalitySignParen));
 			foreach (var genericParameter in element) {
-				foreach (var constrain in genericParameter.Constrains) {
-					Writer.Write(" where ");
-					constrain.TryAccept(this, arg.Set(ColonDelimiter));
+				if (genericParameter.Constrains != null) {
+					foreach (var constrain in genericParameter.Constrains) {
+						Writer.Write(" where ");
+						genericParameter.Type.TryAccept(this, arg);
+						constrain.TryAccept(this, arg.Set(ColonDelimiter));
+					}
 				}
 			}
 			return false;
