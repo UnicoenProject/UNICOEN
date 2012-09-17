@@ -48,9 +48,9 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			switch (first.Name.LocalName) {
 			case "labeled_statement":
 				var label = first.FirstElement();
-                if (label.Name == "IDENTIFIER") {
-                    label = label;
-                }
+				if (label.Name == "IDENTIFIER") {
+					label = label;
+				}
 				Debug.Assert(
 						label.Name == "IDENTIFIER",
 						"case statements should be handled in CreateSelectionStatement");

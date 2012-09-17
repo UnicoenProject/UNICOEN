@@ -147,26 +147,26 @@ namespace Unicoen.Languages.Java.Tests {
 			const string srcDirName = "src";
 			return SetUpTestCaseData(
 					"junit4.8.2",
-					path => {
+					deployPath => {
 						DownloadAndUnzip(
 								"https://github.com/downloads/KentBeck/junit/junit4.8.2.zip",
-								path);
-						var srcDirPath = Path.Combine(path, srcDirName);
+								deployPath);
+						var srcDirPath = Path.Combine(deployPath, srcDirName);
 						var arcPath = Path.Combine(
-								path, "junit4.8.2", "junit-4.8.2-src.jar");
+								deployPath, "junit4.8.2", "junit-4.8.2-src.jar");
 						Extractor.Unzip(arcPath, srcDirPath);
 						return true;
 					},
-					(workPath, inPath) => {
-						var depPath = Path.Combine(workPath, "junit4.8.2", "temp.hamcrest.source");
-						workPath = Path.Combine(workPath, srcDirName);
-						foreach (var srcPath in GetAllSourceFilePaths(workPath)) {
+					workDirPath => {
+						var depPath = Path.Combine(workDirPath, "junit4.8.2", "temp.hamcrest.source");
+						workDirPath = Path.Combine(workDirPath, srcDirName);
+						foreach (var srcPath in GetAllSourceFilePaths(workDirPath)) {
 							var args = new[] {
 									"-cp",
 									".;\"" + depPath + "\"",
 									"\"" + srcPath + "\"",
 							};
-							CompileWithArguments(workPath, CompileCommand, string.Join(" ", args));
+							CompileWithArguments(workDirPath, CompileCommand, string.Join(" ", args));
 						}
 					},
 					"src", Path.Combine("junit4.8.2", "temp.hamcrest.source")
@@ -176,7 +176,7 @@ namespace Unicoen.Languages.Java.Tests {
 		private IEnumerable<TestCaseData> SetUpJdk() {
 			return SetUpTestCaseData(
 					"jdk",
-					path => {
+					deployPath => {
 						var jdkPath = Directory.GetDirectories(
 								@"C:\Program Files\Java\")
 								.LastOrDefault(
@@ -186,7 +186,7 @@ namespace Unicoen.Languages.Java.Tests {
 							return false;
 						}
 						var arcPath = Path.Combine(jdkPath, "src.zip");
-						Extractor.Unzip(arcPath, path);
+						Extractor.Unzip(arcPath, deployPath);
 						return true;
 					});
 		}
@@ -194,57 +194,57 @@ namespace Unicoen.Languages.Java.Tests {
 		private IEnumerable<TestCaseData> SetUpCraftBukkit() {
 			return SetUpTestCaseData(
 					"CraftBukkit",
-					path =>
+					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/Bukkit/CraftBukkit/zipball/master",
-							path),
+							deployPath),
 					CompileMaven);
 		}
 
 		private IEnumerable<TestCaseData> SetUpBukkit() {
 			return SetUpTestCaseData(
 					"Bukkit",
-					path =>
+					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/Bukkit/Bukkit/zipball/master",
-							path),
+							deployPath),
 					CompileMaven);
 		}
 
 		private IEnumerable<TestCaseData> SetUpJenkins() {
 			return SetUpTestCaseData(
 					"jenkins-1.418",
-					path =>
+					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/jenkinsci/jenkins/zipball/jenkins-1.418",
-							path));
+							deployPath));
 		}
 
 		private IEnumerable<TestCaseData> SetUpGameOfLife() {
 			return SetUpTestCaseData(
 					"game-of-life_release-candidate-44",
-					path =>
+					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/wakaleo/game-of-life/zipball/release-candidate-44",
-							path));
+							deployPath));
 		}
 
 		private IEnumerable<TestCaseData> SetUpJedis() {
 			return SetUpTestCaseData(
 					"jedis-2.0.0",
-					path =>
+					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/xetorthio/jedis/zipball/jedis-2.0.0",
-							path));
+							deployPath));
 		}
 
 		private IEnumerable<TestCaseData> SetUpZoie() {
 			return SetUpTestCaseData(
 					"zoie-3.0.0",
-					path =>
+					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/javasoze/zoie/zipball/release-3.0.0",
-							path),
+							deployPath),
 					"");
 		}
 	}

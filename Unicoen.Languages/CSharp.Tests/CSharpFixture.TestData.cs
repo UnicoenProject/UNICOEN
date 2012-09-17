@@ -44,8 +44,9 @@ namespace Unicoen.Languages.CSharp.Tests {
 				}.Select(s => new TestCaseData(DecorateToCompile(s)));
 
 				var codes = new[] {
-						"class A { }",
-						"public class A { }",
+						//"class A { }",
+						//"public class A { }",
+						"public class A { } public class B<T : A> { }",
 				}.Select(s => new TestCaseData(s));
 
 				return statements.Concat(codes);
@@ -88,5 +89,32 @@ namespace Unicoen.Languages.CSharp.Tests {
 			get { yield break; }
 		}
 
+		public IEnumerable<TestCaseData> SetUpUnicoen() {
+			Action<string> compileActionWithWorkDirPath = workDirPath => { };
+			//yield return new TestCaseData(Path.Combine(FixtureUtil.RootPath, "Unicoen.Apps"), compileActionWithWorkDirPath);
+			yield return
+					new TestCaseData(
+							Path.Combine(FixtureUtil.RootPath, "Unicoen.Core"),
+							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(
+//									FixtureUtil.RootPath, "Unicoen.Core.Tests"),
+//							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(
+//									FixtureUtil.RootPath, "Unicoen.Languages"),
+//							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(FixtureUtil.RootPath, "Unicoen.Utils"),
+//							compileActionWithWorkDirPath);
+//			yield return
+//					new TestCaseData(
+//							Path.Combine(
+//									FixtureUtil.RootPath, "Unicoen.WebApps"),
+//							compileActionWithWorkDirPath);
+		}
 	}
 }
