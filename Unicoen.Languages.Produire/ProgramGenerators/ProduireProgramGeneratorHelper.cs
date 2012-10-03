@@ -29,15 +29,18 @@ using Unicoen.ProgramGenerators;
 
 // ReSharper disable InvocationIsSkipped
 
-namespace Unicoen.Languages.Produire.ProgramGenerators {
-	public static class ProduireProgramGeneratorHelper {
+namespace Unicoen.Languages.Produire.ProgramGenerators
+{
+	public static class ProduireProgramGeneratorHelper
+	{
 		public static Dictionary<string, UnifiedBinaryOperator>
 				Sign2BinaryOperator;
 
 		public static Dictionary<string, UnifiedUnaryOperator>
 				Sign2PrefixUnaryOperator;
 
-		static ProduireProgramGeneratorHelper() {
+		static ProduireProgramGeneratorHelper()
+		{
 			Sign2BinaryOperator =
 					UnifiedProgramGeneratorHelper.CreateBinaryOperatorDictionary
 							();
@@ -46,7 +49,8 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 							CreatePrefixUnaryOperatorDictionaryForJava();
 		}
 
-		public static UnifiedProgram CreateProgram(ProduireFile rdr) {
+		public static UnifiedProgram CreateProgram(ProduireFile rdr)
+		{
 			var program = UnifiedProgram.Create(UnifiedBlock.Create());
 			ParseClass(rdr.Global, program.Body);
 			foreach (var construct in rdr.GetConstructs()) {
@@ -55,7 +59,8 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 			return program;
 		}
 
-		private static void ParseClass(Construct construct, UnifiedBlock block) { // コードの取得
+		private static void ParseClass(Construct construct, UnifiedBlock block)
+		{ // コードの取得
 			// ステートメントの取得
 			foreach (var procedure in construct.GetProcedures()) {
 				foreach (var statement in procedure.Statements) {
@@ -68,29 +73,47 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 			}
 		}
 
-		private static UnifiedExpression CreateField(IPField field) {
+		private static UnifiedExpression CreateField(IPField field)
+		{
 			throw new NotImplementedException();
 		}
 
 		public static UnifiedClassDefinition CreateClassDefinition(
-				Construct construct) {
+				Construct construct)
+		{
 			var klass = UnifiedClassDefinition.Create();
 			ParseClass(construct, klass.Body);
 			return klass;
 		}
 
-		private static UnifiedExpression CreateStatement(IStatement statement) {
+		private static UnifiedExpression CreateStatement(IStatement statement)
+		{
 			return TypeDispatcher<UnifiedExpression>.Create(statement)
 					.Case<AssignStatement>(CreateAssignStatement)
 					.Case<IfStatement>(CreateIfStatement)
 					.Case<SwitchStatement>(CreateSwitchStatement)
+					.Case<ForLoopStatement>(CreateForStatement)
 					.Result();
 		}
 
-		private static UnifiedExpression CreateForStatement(ForLoopStatement statement) {
+		private static UnifiedExpression CreateForStatement(ForLoopStatement statement)
+		{
+			switch (statement.ForLoopType) {
+				case ForLoopStatement.ForTypes.Count:
+					return UnifiedCountedLoop.Create(CreatePhrase(statement.LoopCount), CreateStatementCollection(statement.Statements));
+				case ForLoopStatement.ForTypes.Until:
+
+				case ForLoopStatement.ForTypes.While:
+				case ForLoopStatement.ForTypes.ToNumber:
+				case ForLoopStatement.ForTypes.Infinity:
+				case ForLoopStatement.ForTypes.Each:
+					throw new NotImplementedException();
+			}
+			throw new NotImplementedException();
 		}
 
-		private static UnifiedExpression CreateSwitchStatement(SwitchStatement statement) {
+		private static UnifiedExpression CreateSwitchStatement(SwitchStatement statement)
+		{
 			var cases =
 					statement.CodeList.Cast<SwitchCaseBase>().Select(
 							sc =>
@@ -101,11 +124,13 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 			return UnifiedSwitch.Create(CreatePhrase(statement.Expression), cases);
 		}
 
-		private static UnifiedBlock CreateStatementCollection(StatementCollection statements) {
+		private static UnifiedBlock CreateStatementCollection(StatementCollection statements)
+		{
 			return statements.Select(CreateStatement).ToBlock();
 		}
 
-		private static UnifiedExpression CreateIfStatement(IfStatement statement) {
+		private static UnifiedExpression CreateIfStatement(IfStatement statement)
+		{
 			var ifs =
 					statement.CaseList.Select(
 							c =>
@@ -117,7 +142,8 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 		}
 
 		private static UnifiedExpression CreateAssignStatement(
-				AssignStatement statement) {
+				AssignStatement statement)
+		{
 			return UnifiedBinaryExpression.Create(
 					CreatePhrase(statement.Left),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
@@ -125,53 +151,67 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 		}
 
 		private static UnifiedExpression CreatePhrase(IPhrase phrase) {
-			var super = phrase.GetType().BaseType;
+			var g = phrase.GetType().GetGenericArguments();
+			if (g.Length == 1 && g[0] == typeof(Int32)) {
+				var value = Int32.Parse(phrase.Text);
+				return UnifiedIntegerLiteral.CreateInt32(value);
+			}
+
 			var pType = phrase.GetPType();
 			return TypeDispatcher<UnifiedExpression>.Create(phrase)
 					.Case<VariableToken>(CreateVariableToken)
 					.Result();
 		}
 
-		private static UnifiedExpression CreateVariableToken(VariableToken token) {
+		private static UnifiedExpression CreateVariableToken(VariableToken token)
+		{
 			return UnifiedIdentifier.CreateVariable(token.Variable.Name);
 		}
 	}
 
-	public static class TypeDispatcher<TResult> {
-		public static TypeDispatcher<TBase, TResult> Create<TBase>(TBase obj) {
+	public static class TypeDispatcher<TResult>
+	{
+		public static TypeDispatcher<TBase, TResult> Create<TBase>(TBase obj)
+		{
 			return new TypeDispatcher<TBase, TResult>(obj);
 		}
 	}
 
-	public class TypeDispatcher<TBase, TResult> {
+	public class TypeDispatcher<TBase, TResult>
+	{
 		private readonly TBase _obj;
 		private TResult _result;
 		private bool _completed;
 
-		public TypeDispatcher(TBase obj) {
+		public TypeDispatcher(TBase obj)
+		{
 			_obj = obj;
 		}
 
-		public TResult Result() {
+		public TResult Result()
+		{
 			if (!_completed) {
 				throw new InvalidOperationException("Processing is not completed.");
 			}
 			return _result;
 		}
 
-		public TResult ResultOrDefault(TResult defaultValue) {
+		public TResult ResultOrDefault(TResult defaultValue)
+		{
 			if (!_completed) {
 				return defaultValue;
 			}
 			return _result;
 		}
 
-		public TResult ResultOrDefault() {
+		public TResult ResultOrDefault()
+		{
 			return ResultOrDefault(default(TResult));
 		}
 
 		public TypeDispatcher<TBase, TResult> Case<T>(Func<T, TResult> f)
-				where T : TBase {
+				where T : TBase
+		{
 			if (_completed) {
 				return this;
 			}

@@ -241,6 +241,17 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedSet<UnifiedParameter> element) { throw new NotImplementedException(); }
 		public virtual void Visit(UnifiedSet<UnifiedType> element) { throw new NotImplementedException(); }
 		public virtual void Visit(UnifiedSet<UnifiedTypeConstrain> element) { throw new NotImplementedException(); }
+		public virtual void Visit(UnifiedSet<UnifiedCountedLoop> element) { throw new NotImplementedException(); }
+		public virtual void Visit(UnifiedSet<UnifiedLoop> element) { throw new NotImplementedException(); }
+
+		internal void Visit(UnifiedCountedLoop unifiedCountedLoop)
+		{
+			throw new NotImplementedException();
+		}
+
+		public object Visit(UnifiedLoop unifiedCountedLoop) {
+			throw new NotImplementedException();
+		}
 	}
 
 	public class UnifiedVisitor<TArg> {
@@ -465,6 +476,16 @@ namespace Unicoen.Processor {
 		public virtual void Visit(UnifiedSet<UnifiedOrderByKey> element, TArg arg) { throw new NotImplementedException(); }
 		public virtual void Visit(UnifiedSet<UnifiedComment> element, TArg arg) { throw new NotImplementedException(); }
 
+
+		internal void Visit(UnifiedCountedLoop unifiedCountedLoop, object arg)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal void Visit(UnifiedLoop unifiedLoop, object arg)
+		{
+			throw new NotImplementedException();
+		}
 	}
 
 	public class UnifiedVisitor<TArg, TResult> {
@@ -689,5 +710,15 @@ namespace Unicoen.Processor {
 		public virtual TResult Visit(UnifiedSet<UnifiedTypeConstrain> element, TArg arg) { throw new NotImplementedException(); }
 		public virtual TResult Visit(UnifiedSet<UnifiedAnnotation> element, TArg arg) { throw new NotImplementedException(); }
 
+
+		public virtual  TResult Visit(UnifiedCountedLoop unifiedCountedLoop, TArg arg)
+		{
+			throw new NotImplementedException();
+		}
+
+		public virtual  TResult Visit(UnifiedLoop unifiedLoop, TArg arg)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

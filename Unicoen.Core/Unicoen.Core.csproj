@@ -173,6 +173,8 @@
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedStaticInitializer.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructor.cs" />
     <Compile Include="Model\Expressions\Blocks\Constructors\UnifiedConstructorLike.cs" />
+    <Compile Include="Model\Expressions\Blocks\Loops\UnifiedCountedLoop.cs" />
+    <Compile Include="Model\Expressions\Blocks\Loops\UnifiedLoop.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedCheckedBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\Specials\UnifiedUncheckedBlock.cs" />
     <Compile Include="Model\Expressions\Blocks\UnifiedProc.cs" />
