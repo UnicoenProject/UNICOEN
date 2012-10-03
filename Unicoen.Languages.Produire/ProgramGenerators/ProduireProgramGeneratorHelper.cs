@@ -92,11 +92,13 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 					.Case<IfStatement>(CreateIfStatement)
 					.Case<SwitchStatement>(CreateSwitchStatement)
 					.Case<ForLoopStatement>(CreateForStatement)
-					.Case<NewLineToken>(CreateNewLineToken)
+					.Case<StaticCallExpression>(CreateCallExpression)
+					.Case<NewLineToken>(Skip)
+					.Case<SpaceToken>(Skip)
 					.Result();
 		}
 
-		private static IEnumerable<UnifiedExpression> CreateNewLineToken(NewLineToken arg) {
+		private static IEnumerable<UnifiedExpression> Skip(IStatement arg) {
 			yield break;
 		}
 
@@ -175,6 +177,8 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 		private static UnifiedExpression CreateVariableToken(VariableToken token) {
 			return UnifiedIdentifier.CreateVariable(token.Variable.Name);
 		}
+
+		public static Func<StaticCallExpression, IEnumerable<UnifiedExpression>> CreateCallExpression { get; set; }
 	}
 
 	public static class TypeDispatcher<TResult>
