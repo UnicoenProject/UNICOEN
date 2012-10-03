@@ -15,5 +15,11 @@ namespace Unicoen.Languages.Produire.Tests
 			new ProduireProgramGenerator().GenerateFromFile(
 					@"C:\Users\exKAZUu\Projects\Produire\produire\サンプル\もし.rdr");
 		}
+
+		[Test]
+		public void Test2() {
+			new ProduireProgramGenerator().GenerateFromFile(
+					@"C:\Users\exKAZUu\Projects\Produire\ProduireCodeModel\WindowsFormsApplication1\test.rdr");
+		}
 	}
 }
