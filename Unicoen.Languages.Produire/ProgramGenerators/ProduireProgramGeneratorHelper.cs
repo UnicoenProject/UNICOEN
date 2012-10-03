@@ -59,7 +59,7 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 			// ステートメントの取得
 			foreach (var procedure in construct.GetProcedures()) {
 				foreach (var statement in procedure.Statements) {
-					block.Add(CreateStatement(statement));
+					block.AddRange(CreateStatement(statement));
 				}
 			}
 			// フィールドの取得
@@ -79,18 +79,24 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 			return klass;
 		}
 
-		private static UnifiedExpression CreateStatement(IStatement statement) {
-			return TypeDispatcher<UnifiedExpression>.Create(statement)
+		private static IEnumerable<UnifiedExpression> CreateStatement(IStatement statement) {
+			return TypeDispatcher<IEnumerable<UnifiedExpression>>.Create(statement)
 					.Case<AssignStatement>(CreateAssignStatement)
 					.Case<IfStatement>(CreateIfStatement)
 					.Case<SwitchStatement>(CreateSwitchStatement)
+					.Case<NewLineToken>(CreateNewLineToken)
 					.Result();
 		}
 
-		private static UnifiedExpression CreateForStatement(ForLoopStatement statement) {
+		private static IEnumerable<UnifiedExpression> CreateNewLineToken(NewLineToken arg) {
+			yield break;
 		}
 
-		private static UnifiedExpression CreateSwitchStatement(SwitchStatement statement) {
+		private static IEnumerable<UnifiedExpression> CreateForStatement(ForLoopStatement statement) {
+			return null;
+		}
+
+		private static IEnumerable<UnifiedExpression> CreateSwitchStatement(SwitchStatement statement) {
 			var cases =
 					statement.CodeList.Cast<SwitchCaseBase>().Select(
 							sc =>
@@ -98,14 +104,14 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 									CreatePhrase(sc.CaseLabel), CreateStatementCollection(sc.Statements)))
 							.ToSet();
 			cases.Add(UnifiedCase.CreateDefault(CreateStatementCollection(statement.ElseCase.Statements)));
-			return UnifiedSwitch.Create(CreatePhrase(statement.Expression), cases);
+			yield return UnifiedSwitch.Create(CreatePhrase(statement.Expression), cases);
 		}
 
 		private static UnifiedBlock CreateStatementCollection(StatementCollection statements) {
-			return statements.Select(CreateStatement).ToBlock();
+			return statements.SelectMany(CreateStatement).ToBlock();
 		}
 
-		private static UnifiedExpression CreateIfStatement(IfStatement statement) {
+		private static IEnumerable<UnifiedExpression> CreateIfStatement(IfStatement statement) {
 			var ifs =
 					statement.CaseList.Select(
 							c =>
@@ -113,12 +119,12 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 									CreatePhrase(c.Condition),
 									CreateStatementCollection(c.Statements)));
 			var els = CreateStatementCollection(statement.ElseCase.Statements);
-			return UnifiedIf.Create(ifs, els);
+			yield return UnifiedIf.Create(ifs, els);
 		}
 
-		private static UnifiedExpression CreateAssignStatement(
+		private static IEnumerable<UnifiedExpression> CreateAssignStatement(
 				AssignStatement statement) {
-			return UnifiedBinaryExpression.Create(
+			yield return UnifiedBinaryExpression.Create(
 					CreatePhrase(statement.Left),
 					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
 					CreatePhrase(statement.Right));
@@ -129,7 +135,12 @@ namespace Unicoen.Languages.Produire.ProgramGenerators {
 			var pType = phrase.GetPType();
 			return TypeDispatcher<UnifiedExpression>.Create(phrase)
 					.Case<VariableToken>(CreateVariableToken)
+					.Case<StringConstPhrase>(CreateStringConstPhrase)
 					.Result();
+		}
+
+		private static UnifiedExpression CreateStringConstPhrase(StringConstPhrase phrase) {
+			return UnifiedStringLiteral.Create(phrase.Text);
 		}
 
 		private static UnifiedExpression CreateVariableToken(VariableToken token) {
