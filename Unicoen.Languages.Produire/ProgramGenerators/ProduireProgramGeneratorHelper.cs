@@ -87,7 +87,10 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 			return klass;
 		}
 
-		private static IEnumerable<UnifiedExpression> CreateStatement(IStatement statement) {
+		private static IEnumerable<UnifiedExpression> Skip(IStatement arg) { yield break; }
+
+		private static IEnumerable<UnifiedExpression> CreateStatement(IStatement statement)
+		{
 			return TypeDispatcher<IEnumerable<UnifiedExpression>>.Create(statement)
 					.Case<ProcessAndAssignStatement>(CreateProcessAndAssignStatement)
 					.Case<AssignStatement>(CreateAssignStatement)
@@ -97,15 +100,20 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 					.Case<StaticCallExpression>(CreateCallExpression)
 					.Case<NewLineToken>(Skip)
 					.Case<SpaceToken>(Skip)
+					.Case<BlockEndStatement>(Skip)
 					.Result();
 		}
 
-		private static IEnumerable<UnifiedExpression> CreateCallExpression(StaticCallExpression arg) {
-			throw new NotImplementedException();
-		}
-
-		private static IEnumerable<UnifiedExpression> Skip(IStatement arg) {
-			yield break;
+		private static IEnumerable<UnifiedExpression> CreateCallExpression(StaticCallExpression statement)
+		{
+			var args =
+					from ph in statement.Phrases.OfType<ActualComplementPhrase>()
+					let arg = CreatePhrase(ph.PrefixExpression)
+					let sfx = ph.Particle.Text
+					select UnifiedArgument.Create(arg, UnifiedIdentifier.CreateVariable(sfx));
+			yield return
+					UnifiedCall.Create(
+							UnifiedIdentifier.CreateVariable(statement.MethodInfo.Name), args.ToSet());
 		}
 
 		private static IEnumerable<UnifiedExpression> CreateForStatement(ForLoopStatement statement)
@@ -113,14 +121,27 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 			switch (statement.ForLoopType) {
 				case ForLoopStatement.ForTypes.Count:
 					yield return UnifiedCountedLoop.Create(CreatePhrase(statement.LoopCount), CreateStatementCollection(statement.Statements));
-				break;
+					break;
 				case ForLoopStatement.ForTypes.Until:
 				case ForLoopStatement.ForTypes.While:
 				case ForLoopStatement.ForTypes.ToNumber:
+					yield return ToNumberForStatement(statement);
+				break;
 				case ForLoopStatement.ForTypes.Infinity:
 				case ForLoopStatement.ForTypes.Each:
 					throw new NotImplementedException();
 			}
+		}
+
+		private static UnifiedExpression ToNumberForStatement(ForLoopStatement statement) {
+			var phrases = statement.Header.Phrases.Cast<ActualComplementPhrase>();
+			Func<string, UnifiedExpression> findFromParticle = particle => phrases.Where(ph => ph.Particle.Text == particle).Select(
+							ph => CreatePhrase(ph.PrefixExpression)).FirstOrDefault();
+			var fromValue = findFromParticle("から");
+			var stepValue = findFromParticle("ずつ");
+			var toValue = findFromParticle("まで");
+			var variable = findFromParticle("を");
+
 			throw new NotImplementedException();
 		}
 
@@ -169,7 +190,8 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 					CreatePhrase(statement.Right));
 		}
 
-		private static UnifiedExpression CreatePhrase(IPhrase phrase) {
+		private static UnifiedExpression CreatePhrase(IPhrase phrase)
+		{
 			//var g = phrase.GetType().GetGenericArguments();
 			//if (g.Length == 1 && g[0] == typeof(Int32)) {
 			//    var value = Int32.Parse(phrase.Text);
@@ -272,7 +294,8 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 			return UnifiedStringLiteral.Create(phrase.Text);
 		}
 
-		private static UnifiedExpression CreateVariableToken(VariableToken token) {
+		private static UnifiedExpression CreateVariableToken(VariableToken token)
+		{
 			return UnifiedIdentifier.CreateVariable(token.Variable.Name);
 		}
 	}
