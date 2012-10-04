@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Produire;
 using Produire.Model;
@@ -88,6 +89,7 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 
 		private static IEnumerable<UnifiedExpression> CreateStatement(IStatement statement) {
 			return TypeDispatcher<IEnumerable<UnifiedExpression>>.Create(statement)
+					.Case<ProcessAndAssignStatement>(CreateProcessAndAssignStatement)
 					.Case<AssignStatement>(CreateAssignStatement)
 					.Case<IfStatement>(CreateIfStatement)
 					.Case<SwitchStatement>(CreateSwitchStatement)
@@ -96,6 +98,10 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 					.Case<NewLineToken>(Skip)
 					.Case<SpaceToken>(Skip)
 					.Result();
+		}
+
+		private static IEnumerable<UnifiedExpression> CreateCallExpression(StaticCallExpression arg) {
+			throw new NotImplementedException();
 		}
 
 		private static IEnumerable<UnifiedExpression> Skip(IStatement arg) {
@@ -143,8 +149,15 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 							Tuple.Create(
 									CreatePhrase(c.Condition),
 									CreateStatementCollection(c.Statements)));
-			var els = CreateStatementCollection(statement.ElseCase.Statements);
+			var els = statement.ElseCase != null ? CreateStatementCollection(statement.ElseCase.Statements):null;
 			yield return UnifiedIf.Create(ifs, els);
+		}
+
+		private static IEnumerable<UnifiedExpression> CreateProcessAndAssignStatement(ProcessAndAssignStatement statement) {
+			yield return UnifiedBinaryExpression.Create(
+					CreatePhrase(statement.VariablePhrase),
+					UnifiedBinaryOperator.Create("=", UnifiedBinaryOperatorKind.Assign),
+					CreatePhrase(statement.ValuePhrase));
 		}
 
 		private static IEnumerable<UnifiedExpression> CreateAssignStatement(
@@ -157,17 +170,102 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 		}
 
 		private static UnifiedExpression CreatePhrase(IPhrase phrase) {
-			var g = phrase.GetType().GetGenericArguments();
-			if (g.Length == 1 && g[0] == typeof(Int32)) {
-				var value = Int32.Parse(phrase.Text);
-				return UnifiedIntegerLiteral.CreateInt32(value);
-			}
+			//var g = phrase.GetType().GetGenericArguments();
+			//if (g.Length == 1 && g[0] == typeof(Int32)) {
+			//    var value = Int32.Parse(phrase.Text);
+			//    return UnifiedIntegerLiteral.CreateInt32(value);
+			//}
 
-			var pType = phrase.GetPType();
 			return TypeDispatcher<UnifiedExpression>.Create(phrase)
 					.Case<VariableToken>(CreateVariableToken)
+					.Case<NumberToken<sbyte>>(CreateNumberToken)
+					.Case<NumberToken<short>>(CreateNumberToken)
+					.Case<NumberToken<int>>(CreateNumberToken)
+					.Case<NumberToken<long>>(CreateNumberToken)
+					.Case<NumberToken<byte>>(CreateNumberToken)
+					.Case<NumberToken<ushort>>(CreateNumberToken)
+					.Case<NumberToken<uint>>(CreateNumberToken)
+					.Case<NumberToken<ulong>>(CreateNumberToken)
 					.Case<StringConstPhrase>(CreateStringConstPhrase)
+					.Case<MathFunctionStylePhrase>(CreateMathFunctionStylePhrase)
+					.Case<ConditionSentenceSuffix>(CreateConditionSentenceSuffix)
 					.Result();
+		}
+
+		private static UnifiedExpression CreateConditionSentenceSuffix(ConditionSentenceSuffix phrase) {
+			Debug.Assert(phrase.SuffixPhrase.CompareType != CompareTypes.Not);
+			Debug.Assert(phrase.SuffixPhrase.CompareType != CompareTypes.None);
+			return UnifiedBinaryExpression.Create(
+					CreatePhrase(phrase.LeftPhrase),
+					CreateConditionSuffixToken(phrase.SuffixPhrase),
+					CreatePhrase(phrase.RightPhrase));
+		}
+
+		private static UnifiedBinaryOperator CreateConditionSuffixToken(ConditionSuffixToken token) {
+			switch (token.CompareType) {
+			case CompareTypes.Equal:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.Equal);
+			case CompareTypes.NotEqual:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.NotEqual);
+			case CompareTypes.LargerThan:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.GreaterThan);
+			case CompareTypes.LargerEqual:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.GreaterThanOrEqual);
+			case CompareTypes.SmallerThan:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.LessThan);
+			case CompareTypes.SmallEqual:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.LessThanOrEqual);
+			case CompareTypes.And:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.And);
+			case CompareTypes.Or:
+				return UnifiedBinaryOperator.Create(
+						token.Text, UnifiedBinaryOperatorKind.Or);
+			default:
+				throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<byte> token) {
+			return UnifiedIntegerLiteral.CreateUInt8(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<ushort> token) {
+			return UnifiedIntegerLiteral.CreateUInt16(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<uint> token) {
+			return UnifiedIntegerLiteral.CreateUInt32(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<ulong> token) {
+			return UnifiedIntegerLiteral.CreateUInt64(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<sbyte> token) {
+			return UnifiedIntegerLiteral.CreateInt8(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<short> token) {
+			return UnifiedIntegerLiteral.CreateInt16(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<int> token) {
+			return UnifiedIntegerLiteral.CreateInt32(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateNumberToken(NumberToken<long> token) {
+			return UnifiedIntegerLiteral.CreateInt64(token.NumberValue);
+		}
+
+		private static UnifiedExpression CreateMathFunctionStylePhrase(MathFunctionStylePhrase phrase) {
+			return UnifiedIndexer.Create(CreatePhrase(phrase.ParameterPhrase));
 		}
 
 		private static UnifiedExpression CreateStringConstPhrase(StringConstPhrase phrase) {
@@ -177,8 +275,6 @@ namespace Unicoen.Languages.Produire.ProgramGenerators
 		private static UnifiedExpression CreateVariableToken(VariableToken token) {
 			return UnifiedIdentifier.CreateVariable(token.Variable.Name);
 		}
-
-		public static Func<StaticCallExpression, IEnumerable<UnifiedExpression>> CreateCallExpression { get; set; }
 	}
 
 	public static class TypeDispatcher<TResult>

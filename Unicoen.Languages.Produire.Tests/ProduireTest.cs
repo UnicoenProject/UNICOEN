@@ -17,9 +17,23 @@ namespace Unicoen.Languages.Produire.Tests
 		}
 
 		[Test]
-		public void Test2() {
-			new ProduireProgramGenerator().GenerateFromFile(
-					@"C:\Users\exKAZUu\Projects\Produire\ProduireCodeModel\WindowsFormsApplication1\test.rdr");
+		public void TestIf() {
+			new ProduireProgramGenerator().Generate(@"
+得点は、70
+合格点は、60
+もし得点が合格点以上なら
+　　「合格」を表示
+もし終わり");
+		}
+
+		[Test]
+		public void TestArray() {
+			new ProduireProgramGenerator().Generate(@"
+Aを10とする
+A=120
+果物（A）は、「りんご」
+果物（１）は、「りんご」
+果物（４）を表示する");
 		}
 	}
 }

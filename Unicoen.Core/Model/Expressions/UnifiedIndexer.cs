@@ -21,7 +21,9 @@ using Unicoen.Processor;
 
 namespace Unicoen.Model {
 	/// <summary>
-	///   配列の添え字を表します。 e.g. Javaにおける <c>int x = a[10]</c> の <c>[10]</c>
+	/// 配列の添え字を表します。
+	/// e.g. Javaにおける <c>int x = a[10][5]</c> の <c>[10][5]</c>
+	/// e.g. C#における <c>int x = a[1, 2]</c> の <c>[1, 2]</c>
 	/// </summary>
 	public class UnifiedIndexer : UnifiedExpression {
 		private UnifiedExpression _target;
@@ -33,6 +35,11 @@ namespace Unicoen.Model {
 
 		private UnifiedSet<UnifiedArgument> _arguments;
 
+		/// <summary>
+		/// 配列の添え字を表します。
+		/// e.g. Javaにおける <c>a[10][5]</c> の <c>[10]</c>と<c>[5]</c>
+		/// e.g. C#における <c>a[1, 2]</c> の <c>[1, 2]</c>
+		/// </summary>
 		public UnifiedSet<UnifiedArgument> Arguments {
 			get { return _arguments; }
 			set { _arguments = SetChild(value, _arguments); }
