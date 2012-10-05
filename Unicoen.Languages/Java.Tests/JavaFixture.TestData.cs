@@ -203,10 +203,10 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private IEnumerable<TestCaseData> SetUpBukkit() {
 			return SetUpTestCaseData(
-					"Bukkit",
+					"Bukkit-Bukkit-ddb9039",
 					deployPath =>
 					DownloadAndUnzip(
-							"https://github.com/Bukkit/Bukkit/zipball/master",
+							"https://github.com/Bukkit/Bukkit/zipball/1.3.2-R1.0",
 							deployPath),
 					CompileMaven);
 		}
@@ -222,7 +222,7 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private IEnumerable<TestCaseData> SetUpGameOfLife() {
 			return SetUpTestCaseData(
-					"game-of-life_release-candidate-44",
+					"wakaleo-game-of-life-e9af441",
 					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/wakaleo/game-of-life/zipball/release-candidate-44",
@@ -231,7 +231,7 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private IEnumerable<TestCaseData> SetUpJedis() {
 			return SetUpTestCaseData(
-					"jedis-2.0.0",
+					"xetorthio-jedis-2741483",
 					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/xetorthio/jedis/zipball/jedis-2.0.0",
@@ -240,7 +240,7 @@ namespace Unicoen.Languages.Java.Tests {
 
 		private IEnumerable<TestCaseData> SetUpZoie() {
 			return SetUpTestCaseData(
-					"zoie-3.0.0",
+					"javasoze-zoie-ef7b454",
 					deployPath =>
 					DownloadAndUnzip(
 							"https://github.com/javasoze/zoie/zipball/release-3.0.0",

@@ -110,6 +110,7 @@
   <ItemGroup>
     <Compile Include="JavaFixture.TestData.cs" />
     <Compile Include="JavaFixture.cs" />
+    <Compile Include="JavaLanguageHeavyTest.cs" />
     <Compile Include="JavaLanguageTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JavaParserTest.cs" />

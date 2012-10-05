@@ -19,12 +19,11 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using Unicoen.Languages.Java.Tests;
 using Unicoen.Languages.Tests;
 
-namespace Unicoen.Languages.Java.Heavy.Tests {
+namespace Unicoen.Languages.Java.Tests {
 	[TestFixture]
-	public class JavaHeavyLanguageTest : LanguageTestBase {
+	public class JavaLanguageHeavyTest : LanguageTestBase {
 		private Fixture _fixture;
 
 		protected override Fixture Fixture {
@@ -37,7 +36,7 @@ namespace Unicoen.Languages.Java.Heavy.Tests {
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
 		/// <param name="relativePathsForBinaryFiles">使用しません</param>
 		/// <param name="compileActionWithWorkDirPath"> 使用しません </param>
-		[Test, TestCaseSource("TestProjectInfos")]
+		[Test, TestCaseSource("TestHeavyProjectInfos")]
 		public void VerifyCodeObjectFeatureUsingProject(
 				string dirPath, IList<string> relativePathsForBinaryFiles,
 				Action<string> compileActionWithWorkDirPath) {
@@ -51,7 +50,7 @@ namespace Unicoen.Languages.Java.Heavy.Tests {
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
 		/// <param name="relativePathsForBinaryFiles">コンパイル済みコードのルートディレクトリの相対パスの配列</param>
 		/// <param name="compileActionWithWorkDirPath"> コンパイル処理 </param>
-		[Test, TestCaseSource("TestProjectInfos")]
+		[Test, TestCaseSource("TestHeavyProjectInfos")]
 		public void VerifyRegenerateCodeUsingProject(
 				string dirPath, IList<string> relativePathsForBinaryFiles,
 				Action<string> compileActionWithWorkDirPath) {
