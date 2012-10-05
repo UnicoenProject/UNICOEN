@@ -98,10 +98,10 @@ namespace Unicoen.Languages.Java.Tests {
 				}
 						.Select(
 								o => {
-									Action<string, string> action =
-											(s1, s2) =>
+									Action<string> action =
+											workPath =>
 											CompileWithArguments(
-													s1, o.Command, o.Arguments);
+													workPath, o.Command, o.Arguments);
 									return
 											new TestCaseData(
 													FixtureUtil.GetInputPath(
@@ -138,7 +138,7 @@ namespace Unicoen.Languages.Java.Tests {
 			}
 			Directory.CreateDirectory(path);
 			DownloadAndUntgz(
-					"http://ftp.kddilabs.jp/infosystems/apache//maven/binaries/apache-maven-3.0.4-bin.tar.gz",
+					"http://ftp.kddilabs.jp/infosystems/apache/maven/maven-3/3.0.4/binaries/apache-maven-3.0.4-bin.tar.gz",
 					path);
 			return exePath;
 		}
