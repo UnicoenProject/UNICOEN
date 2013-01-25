@@ -162,7 +162,7 @@ namespace Unicoen.Languages.Tests {
 			// コンパイル用の作業ディレクトリの取得
 			var workPath = FixtureUtil.CleanOutputAndGetOutputPath();
 			// 作業ディレクトリ内にソースコードを配置
-			FileUtility.CopyRecursively(dirPath, workPath);
+			ParaibaFile.CopyRecursively(dirPath, workPath);
 			// 作業ディレクトリ内でコンパイル
 			compileActionByWorkDirPath(workPath);
 			// コンパイル結果の取得

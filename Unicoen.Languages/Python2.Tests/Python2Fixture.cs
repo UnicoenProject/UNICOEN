@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011-2012 The Unicoen Project
+// Copyright (C) 2011-2013 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,8 +26,7 @@ using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public partial class Python2Fixture : Fixture {
-		private static readonly string CompileCommand =
-				ParserUtil.GetPythonInstallPath("2.") ?? "python";
+		private static readonly string CompileCommand = ParserUtils.GetPythonPath(2) ?? "python";
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
@@ -83,30 +82,15 @@ namespace Unicoen.Languages.Python2.Tests {
 			return SetUpTestCaseData(
 					"PyPy",
 					path => {
-						DownloadAndUntbz(
-								"https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2",
-								path);
+						DownloadAndUntbz("https://bitbucket.org/pypy/pypy/downloads/pypy-1.5-src.tar.bz2", path);
+						File.Delete(
+								Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\lib2to3\tests\data\py3_test_grammar.py"));
 						File.Delete(
 								Path.Combine(
-										path,
-										@"pypy-1.5-src\lib-python\2.7\lib2to3\tests\data\py3_test_grammar.py"));
-						File.Delete(
-								Path.Combine(
-										path,
-										@"pypy-1.5-src\lib-python\modified-2.7\lib2to3\tests\data\py3_test_grammar.py"));
-						File.Delete(
-								Path.Combine(
-										path,
-										@"pypy-1.5-src\lib_pypy\distributed\socklayer.py"));
-						File.Delete(
-								Path.Combine(
-										path,
-										@"pypy-1.5-src\pypy\translator\goal\old_queries.py"));
-						Directory.Delete(
-								Path.Combine(
-										path,
-										@"pypy-1.5-src\lib-python\2.7\test"),
-								true);
+										path, @"pypy-1.5-src\lib-python\modified-2.7\lib2to3\tests\data\py3_test_grammar.py"));
+						File.Delete(Path.Combine(path, @"pypy-1.5-src\lib_pypy\distributed\socklayer.py"));
+						File.Delete(Path.Combine(path, @"pypy-1.5-src\pypy\translator\goal\old_queries.py"));
+						Directory.Delete(Path.Combine(path, @"pypy-1.5-src\lib-python\2.7\test"), true);
 					});
 		}
 
@@ -122,10 +106,7 @@ namespace Unicoen.Languages.Python2.Tests {
 		private IEnumerable<TestCaseData> SetUpTornade() {
 			return SetUpTestCaseData(
 					"tornade-2.0.0",
-					path =>
-					DownloadAndUnzip(
-							"https://github.com/facebook/tornado/zipball/v2.0.0",
-							path));
+					path => DownloadAndUnzip("https://github.com/facebook/tornado/zipball/v2.0.0", path));
 		}
 	}
 }
