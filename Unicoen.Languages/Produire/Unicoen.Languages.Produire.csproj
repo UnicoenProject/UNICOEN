@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,21 +27,20 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL" />
     <Reference Include="Paraiba">
-      <HintPath>..\packages\Paraiba.1.0.5.66\lib\net40\Paraiba.dll</HintPath>
+      <HintPath>..\packages\Paraiba.1.0.3.58\lib\net40\Paraiba.dll</HintPath>
     </Reference>
     <Reference Include="Paraiba.Experiment">
-      <HintPath>..\packages\Paraiba.Experiment.1.0.2.39\lib\net40\Paraiba.Experiment.dll</HintPath>
+      <HintPath>..\packages\Paraiba.Experiment.1.0.2.34\lib\net40\Paraiba.Experiment.dll</HintPath>
     </Reference>
     <Reference Include="Produire.Core">
-      <HintPath>..\lib\Produire.Core.dll</HintPath>
+      <HintPath>..\..\lib\Produire.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -52,11 +51,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="utopiat.Control">
-      <HintPath>..\lib\utopiat.Control.dll</HintPath>
-    </Reference>
     <Reference Include="utopiat.Host">
-      <HintPath>..\lib\utopiat.Host.dll</HintPath>
+      <HintPath>..\..\lib\utopiat.Host.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -65,11 +61,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
+    <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Languages\Java\Unicoen.Languages.Java.csproj">
+    <ProjectReference Include="..\Java\Unicoen.Languages.Java.csproj">
       <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
       <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>

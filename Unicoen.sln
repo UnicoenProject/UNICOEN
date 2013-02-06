@@ -45,9 +45,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Sematics.Tests", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.TestUtils", "fixture\Unicoen.TestUtils\Unicoen.TestUtils.csproj", "{C9320776-3FB7-4C69-92C6-CB5F74DAA836}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Produire", "Unicoen.Languages.Produire\Unicoen.Languages.Produire.csproj", "{76E00FF6-E557-475A-B41A-D3AB77B0FDDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Produire", "Unicoen.Languages\Produire\Unicoen.Languages.Produire.csproj", "{76E00FF6-E557-475A-B41A-D3AB77B0FDDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Produire.Tests", "Unicoen.Languages.Produire.Tests\Unicoen.Languages.Produire.Tests.csproj", "{6BA45394-1F28-4AB2-AF00-43B77DCE5368}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Produire.Tests", "Unicoen.Languages\Produire.Tests\Unicoen.Languages.Produire.Tests.csproj", "{6BA45394-1F28-4AB2-AF00-43B77DCE5368}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

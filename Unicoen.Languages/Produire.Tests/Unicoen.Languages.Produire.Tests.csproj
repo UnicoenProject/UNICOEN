@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,14 +27,18 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Produire.Core">
+      <HintPath>..\..\lib\Produire.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,19 +47,30 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="utopiat.Host">
+      <HintPath>..\..\lib\utopiat.Host.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProduireTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unicoen.Core\Unicoen.Core.csproj">
+    <ProjectReference Include="..\..\fixture\Unicoen.TestUtils\Unicoen.TestUtils.csproj">
+      <Project>{C9320776-3FB7-4C69-92C6-CB5F74DAA836}</Project>
+      <Name>Unicoen.TestUtils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Unicoen.Core\Unicoen.Core.csproj">
       <Project>{5FC5512D-0C61-4F25-8541-0F364E70DBC1}</Project>
       <Name>Unicoen.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unicoen.Languages.Produire\Unicoen.Languages.Produire.csproj">
+    <ProjectReference Include="..\Produire\Unicoen.Languages.Produire.csproj">
       <Project>{76E00FF6-E557-475A-B41A-D3AB77B0FDDB}</Project>
       <Name>Unicoen.Languages.Produire</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Java\Unicoen.Languages.Java.csproj">
+      <Project>{6036EB4E-B2F4-462D-9DD0-3DF2681A4A1D}</Project>
+      <Name>Unicoen.Languages.Java</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

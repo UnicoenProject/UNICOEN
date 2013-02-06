@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (C) 2011-2012 The Unicoen Project
+// Copyright (C) 2011-2013 The Unicoen Project
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -92,10 +92,10 @@ namespace Unicoen.Languages.Java.Tests {
 		/// <param name="path"> コンパイル済みコードのパス </param>
 		/// <returns> コンパイル済みのコードのバイト列 </returns>
 		public override object GetCompiledByteCode(string rootPath, string path) {
-			var relativePath = XPath.GetRelativePath(path, rootPath);
-			relativePath =
-					relativePath.Substring(0, relativePath.Length - 6).Replace('\\', '.').
-							Replace('/', '.');
+			var relativePath = ParaibaPath.GetRelativePath(path, rootPath);
+			relativePath = relativePath.Substring(0, relativePath.Length - 6)
+					.Replace('\\', '.')
+					.Replace('/', '.');
 			var args = new[] { "-c", "-private", relativePath };
 			var info = new ProcessStartInfo {
 					FileName = DisassembleCommand,
