@@ -13,6 +13,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -34,6 +36,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Core">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.C">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.C.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.CSharp">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Java">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.Java.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.JavaScript">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Lua">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.Lua.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Python2">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.Python2.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Python3">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.Python3.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Ruby18">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.Ruby18.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.Ruby19">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.Ruby19.dll</HintPath>
+    </Reference>
+    <Reference Include="Code2Xml.Languages.SrcML">
+      <HintPath>..\..\packages\Code2Xml.1.6.7.64\lib\Code2Xml.Languages.SrcML.dll</HintPath>
+    </Reference>
+    <Reference Include="Paraiba">
+      <HintPath>..\..\packages\Paraiba.1.1.0.90\lib\net40\Paraiba.dll</HintPath>
+    </Reference>
+    <Reference Include="Paraiba.Experiment">
+      <HintPath>..\..\packages\Paraiba.Experiment.1.1.0.42\lib\net40\Paraiba.Experiment.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,7 +90,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
