@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.C", "Unicoen.Languages\C\Unicoen.Languages.C.csproj", "{161EB3E2-D62F-4D7D-91F6-A495275C08FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.CSharp", "Unicoen.Languages\CSharp\Unicoen.Languages.CSharp.csproj", "{2B706EC6-51C7-463F-962B-375A5036E40B}"
@@ -49,9 +49,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Produire"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Produire.Tests", "Unicoen.Languages\Produire.Tests\Unicoen.Languages.Produire.Tests.csproj", "{6BA45394-1F28-4AB2-AF00-43B77DCE5368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Cpp", "Unicoen.Languages.Cpp\Unicoen.Languages.Cpp.csproj", "{346009B9-6036-42E4-80B5-2595FD7B3F22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Cpp", "Unicoen.Languages\Cpp\Unicoen.Languages.Cpp.csproj", "{346009B9-6036-42E4-80B5-2595FD7B3F22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Cpp.Tests", "Unicoen.Languages.Cpp.Tests\Unicoen.Languages.Cpp.Tests.csproj", "{23133934-5D21-4B8A-8A35-57DF2F2B1BF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unicoen.Languages.Cpp.Tests", "Unicoen.Languages\Cpp.Tests\Unicoen.Languages.Cpp.Tests.csproj", "{23133934-5D21-4B8A-8A35-57DF2F2B1BF1}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
