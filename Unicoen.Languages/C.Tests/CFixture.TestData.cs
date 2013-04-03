@@ -19,15 +19,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
-using Unicoen.ProgramGenerators;
 using Unicoen.TestUtils;
-using Unicoen.Tests;
 
 namespace Unicoen.Languages.C.Tests {
     public partial class CFixture : Fixture {
-
         /// <summary>
         ///   テスト時に入力されるA.xxxファイルのメソッド宣言の中身です。 Java言語であれば， <c>class A { public void M1() { ... } }</c> の...部分に このプロパティで指定されたコード断片を埋め込んでA.javaファイルが生成されます。
         /// </summary>
@@ -62,16 +58,16 @@ namespace Unicoen.Languages.C.Tests {
                         "hello",
                         "test",
                         "fact",
-                        "LineDriveController",
-                        "ActionController",
+                        //"LineDriveController",
+                        //"ActionController",
                         "switchNest",
                         "pointer",
                 }
                         .Select(
                                 s =>
-                                new TestCaseData(
-                                        FixtureUtil.GetInputPath(
-                                                "C", s + Extension)));
+                                        new TestCaseData(
+                                                FixtureUtil.GetInputPath(
+                                                        "C", s + Extension)));
             }
         }
 
@@ -85,6 +81,5 @@ namespace Unicoen.Languages.C.Tests {
         public override IEnumerable<TestCaseData> TestHeavyProjectInfos {
             get { yield break; }
         }
-
     }
 }

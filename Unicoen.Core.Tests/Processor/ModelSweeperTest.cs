@@ -23,18 +23,18 @@ using Unicoen.Languages.Java.ProgramGenerators;
 using Unicoen.Model;
 
 namespace Unicoen.Core.Tests.Processor {
-	[TestFixture]
-	public class ModelSweeperTest {
-		[Test]
-		public void DescendantUntil() {
-			var ast = JavaCodeToXml.Instance
-					.Generate(
-							"{ {int j = 0;} { j = 1; } }",
-							p => p.block());
-			var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
-			Assert.That(
-					codeObject.DescendantsUntil(e => e is UnifiedBlock).Count(),
-					Is.EqualTo(0));
-		}
-	}
+    [TestFixture]
+    public class ModelSweeperTest {
+        [Test]
+        public void DescendantUntil() {
+            var ast = JavaCodeToXml.Instance
+                    .Generate(
+                            "{ {int j = 0;} { j = 1; } }",
+                            p => p.block());
+            var codeObject = JavaProgramGeneratorHelper.CreateBlock(ast);
+            Assert.That(
+                    codeObject.DescendantsUntil(e => e is UnifiedBlock).Count(),
+                    Is.EqualTo(0));
+        }
+    }
 }

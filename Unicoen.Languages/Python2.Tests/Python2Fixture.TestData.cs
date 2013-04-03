@@ -25,7 +25,6 @@ using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
 using Unicoen.TestUtils;
-using Unicoen.Tests;
 
 namespace Unicoen.Languages.Python2.Tests {
     public partial class Python2Fixture : Fixture {

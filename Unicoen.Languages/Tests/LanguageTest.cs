@@ -25,9 +25,9 @@ using NUnit.Framework;
 using Paraiba.IO;
 using Paraiba.Linq;
 using Paraiba.Text;
+using Unicoen.Core.Tests;
 using Unicoen.Model;
 using Unicoen.TestUtils;
-using Unicoen.Tests;
 
 namespace Unicoen.Languages.Tests {
 	public class LanguageTest {
@@ -65,7 +65,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   指定したソースコードから統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// 指定したソースコードから統一コードオブジェクトを生成して，
+		/// 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name="code"> 検査対象のソースコード </param>
 		public void VerifyCodeObjectFeatureUsingCode(string code) {
@@ -74,7 +75,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// 指定したパスのソースコードの統一コードオブジェクトを生成して， 
+		/// 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name="path"> 検査対象のソースコードのパス </param>
 		public void VerifyCodeObjectFeatureUsingFile(string path) {
@@ -83,7 +85,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   指定したパスのソースコードの統一コードオブジェクトを生成して， 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// 指定したパスのソースコードの統一コードオブジェクトを生成して， 
+		/// 生成した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
 		/// <param name="relativePathsForBinaryFiles">使用しません</param>
@@ -99,7 +102,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   再生成を行わずAssertCompareModelが正常に動作するかテストします。 全く同じコードから生成したモデル同士で比較します。
+		/// 再生成を行わずAssertCompareModelが正常に動作するかテストします。 
+		/// 全く同じコードから生成したモデル同士で比較します。
 		/// </summary>
 		/// <param name="orgPath"> 再生成するソースコードのパス </param>
 		public void VerifyAssertCompareModel(string orgPath) {
@@ -112,7 +116,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   再生成を行わずAssertCompareCompiledCodeが正常に動作するかテストします。 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
+		/// 再生成を行わずAssertCompareCompiledCodeが正常に動作するかテストします。 
+		/// 全く同じコードをコンパイルしたバイナリファイル同士で比較します。
 		/// </summary>
 		/// <param name="orgPath"> 再生成するソースコードのパス </param>
 		public void VerifyAssertCompareCompiledCode(string orgPath) {
@@ -128,7 +133,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   指定したソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// 指定したソースコードから統一コードオブジェクトを生成して， 
+		/// ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name="code"> 検査対象のソースコード </param>
 		public void VerifyRegenerateCodeUsingCode(string code) {
@@ -138,7 +144,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   指定したパスのソースコードの統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// 指定したパスのソースコードの統一コードオブジェクトを生成して， 
+		/// ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name="path"> 検査対象のソースコードのパス </param>
 		public void VerifyRegenerateCodeUsingFile(string path) {
@@ -150,7 +157,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して， ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
+		/// 指定したディレクトリ内のソースコードから統一コードオブジェクトを生成して，
+		/// ソースコードと統一コードオブジェクトを正常に再生成できるか検査します．
 		/// </summary>
 		/// <param name="dirPath"> 検査対象のソースコードが格納されているディレクトリのパス </param>
 		/// <param name="relativePathsForBinaryFiles">バイナリファイルが存在するディレクトリの相対パスのリスト</param>
@@ -187,7 +195,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   指定した統一コードオブジェクトが適切な性質を備えているか検査します．
+		/// 指定した統一コードオブジェクトが適切な性質を備えているか検査します．
 		/// </summary>
 		/// <param name="codeObject"> 検査対象の統一コードオブジェクト </param>
 		/// <param name="message"> アサーションに違反した際のエラーメッセージ </param>
@@ -224,7 +232,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   子要素の列挙機能が正常に動作するかソースーコードを指定して検査します。
+		/// 子要素の列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name="codeObject"> 検査対象のモデル </param>
 		/// <param name="message"> アサーションに違反した際のエラーメッセージ </param>
@@ -271,7 +279,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   子要素とセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
+		/// 子要素とセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name="codeObject"> 検査対象のモデル </param>
 		/// <param name="message"> アサーションに違反した際のエラーメッセージ </param>
@@ -293,7 +301,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
+		/// 子要素とプロパティを介さないセッターの列挙機能が正常に動作するかソースーコードを指定して検査します。
 		/// </summary>
 		/// <param name="codeObject"> 検査対象のモデル </param>
 		/// <param name="message"> アサーションに違反した際のエラーメッセージ </param>
@@ -315,7 +323,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   親要素に不適切な要素がないかソースコードを指定して検査します。
+		/// 親要素に不適切な要素がないかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name="codeObject"> 検査対象のモデル </param>
 		/// <param name="message"> アサーションに違反した際のエラーメッセージ </param>
@@ -330,7 +338,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   全要素の文字列情報を取得できるかソースコードを指定して検査します。
+		/// 全要素の文字列情報を取得できるかソースコードを指定して検査します。
 		/// </summary>
 		/// <param name="codeObject"> 検査対象のモデル </param>
 		/// <param name="message"> アサーションに違反した際のエラーメッセージ </param>
@@ -342,7 +350,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   モデルを通した再生成したコードが変化しないか検査します。 元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。 モデル2とモデル3を比較します。
+		/// モデルを通した再生成したコードが変化しないか検査します。 
+		/// 元コード1→モデル1→コード2→モデル2→コード3→モデル3と再生成します。モデル2とモデル3を比較します。
 		/// </summary>
 		/// <param name="orgCode"> 検査対象のソースコード </param>
 		/// <param name="codeObject"> 検査対象のモデル </param>
@@ -375,7 +384,8 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   コンパイル結果を通して再生成したコードが変化しないかテストします。 元コード1→モデル1→コード2と再生成します。 コンパイルしたアセンブリファイルの逆コンパイル結果を通して、 元コード1とコード2を比較します。
+		/// コンパイル結果を通して再生成したコードが変化しないかテストします。元コード1→モデル1→コード2と再生成します。
+		///  コンパイルしたアセンブリファイルの逆コンパイル結果を通して、元コード1とコード2を比較します。
 		/// </summary>
 		/// <param name="orgCode"> 検査対象のソースコード </param>
 		/// <param name="fileName"> 再生成するソースコードのファイル名 </param>
@@ -419,7 +429,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
+		/// 閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
 		/// </summary>
 		/// <param name="actual"> </param>
 		/// <param name="expected"> </param>
@@ -445,7 +455,7 @@ namespace Unicoen.Languages.Tests {
 		}
 
 		/// <summary>
-		///   閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
+		/// 閾値（許容する不一致文字の数）を設けてバイトコード同士を比較します．
 		/// </summary>
 		/// <param name="actual"> </param>
 		/// <param name="expected"> </param>
