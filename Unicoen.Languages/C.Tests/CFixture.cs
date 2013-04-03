@@ -22,10 +22,11 @@ using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
-using Unicoen.Tests;
 
 namespace Unicoen.Languages.C.Tests {
     public partial class CFixture : Fixture {
+        private const string CompileCommand = "gcc";
+
         /// <summary>
         ///   対応する言語のソースコードの拡張子を取得します．
         /// </summary>
@@ -37,7 +38,7 @@ namespace Unicoen.Languages.C.Tests {
         ///   対応する言語のソースコードの拡張子を取得します．
         /// </summary>
         public override string CompiledExtension {
-            get { return ".exe"; }
+            get { return ".s"; }
         }
 
         /// <summary>
@@ -63,15 +64,13 @@ namespace Unicoen.Languages.C.Tests {
         /// </summary>
         /// <param name="workPath"> コンパイル対象のソースコードが格納されているディレクトリのパス </param>
         /// <param name="srcPath"> コンパイル対象のソースコードのファイル名 </param>
-        public override void Compile(string workPath, string srcPath) {}
-
-        /// <summary>
-        ///   セマンティクスの変化がないか比較するためにソースコードを指定したコマンドと引数でコンパイルします．
-        /// </summary>
-        /// <param name="workPath"> コマンドを実行する作業ディレクトリのパス </param>
-        /// <param name="command"> コンパイルのコマンド </param>
-        /// <param name="arguments"> コマンドの引数 </param>
-        public override void CompileWithArguments(
-                string workPath, string command, string arguments) {}
+        public override void Compile(string workPath, string srcPath) {
+			var args = new[] {
+                    "-S",
+					"\"" + srcPath + "\"",
+			};
+			var arguments = string.Join(" ", args);
+			CompileWithArguments(workPath, CompileCommand, arguments);
+        }
     }
 }

@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Unicoen.Processor;
 
-namespace Unicoen.Tests {
+namespace Unicoen.Core.Tests {
 	[TestFixture]
 	public class StructuralEqualityComparerTestForPrimitive {
 		[Test]

@@ -28,7 +28,6 @@ using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
 using Unicoen.ProgramGenerators;
 using Unicoen.TestUtils;
-using Unicoen.Tests;
 
 namespace Unicoen.Languages.CSharp.Tests {
 	public partial class CSharpFixture : Fixture {

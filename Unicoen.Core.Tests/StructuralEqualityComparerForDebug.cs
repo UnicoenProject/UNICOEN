@@ -22,7 +22,7 @@ using Unicoen.Model;
 using Unicoen.Processor;
 using Unicoen.TestUtils;
 
-namespace Unicoen.Tests {
+namespace Unicoen.Core.Tests {
 	public class StructuralEqualityComparerForDebug : IEqualityComparer<object> {
 		public static StructuralEqualityComparerForDebug Instance =
 				new StructuralEqualityComparerForDebug();
