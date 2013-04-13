@@ -167,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="C.g" />
+    <None Include="C_old.g" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
