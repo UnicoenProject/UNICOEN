@@ -1,4 +1,6 @@
-﻿#region License
+﻿using Code2Xml.Languages.Lua.CodeToXmls;
+
+#region License
 
 // Copyright (C) 2011 The Unicoen Project
 // 
@@ -35,7 +37,7 @@ namespace Unicoen.Languages.Lua.ProgramGenerators {
         }
 
         public override UnifiedProgram GenerateWithoutNormalizing(string code) {
-            var ast = JavaCodeToXml.Instance.Generate(code, true);
+            var ast = LuaCodeToXml.Instance.Generate(code, true);
             return LuaProgramGeneratorHelper.CreateChunk(ast);
         }
     }
