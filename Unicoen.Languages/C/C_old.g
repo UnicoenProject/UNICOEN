@@ -36,12 +36,11 @@ options {
 	memoize=true;
 	k=2;
 	output=AST;
-	language=CSharp3;
+	language=CSharp2;
 }
 
 scope Symbols {
-	// only track types in order to get parser working
-	HashSet<string> types; 
+	Set types; // only track types in order to get parser working
 }
 
 @members {
@@ -59,7 +58,7 @@ scope Symbols {
 translation_unit
 scope Symbols; // entire file is a scope
 @init {
-  $Symbols::types = new HashSet<string>();
+  $Symbols::types = new HashSet();
 }
 	: external_declaration+
 	;
@@ -87,7 +86,7 @@ options {k=1;}
 function_definition
 scope Symbols; // put parameters and locals into same scope for now
 @init {
-  $Symbols::types = new HashSet<string>();
+  $Symbols::types = new HashSet();
 }
 	:	declaration_specifiers? declarator
 		(	declaration+ compound_statement	// K&R style
@@ -102,7 +101,7 @@ scope {
 @init {
   $declaration::isTypedef = false;
 }
-	: gcc_extension_specifier? 'typedef' declaration_specifiers? { $declaration::isTypedef = true; }  // for gcc
+	: 'typedef' declaration_specifiers? {$declaration::isTypedef=true;}
 	  init_declarator_list ';' // special case, looking for typedef	
 	| declaration_specifiers init_declarator_list? ';'
 	;
@@ -111,8 +110,6 @@ declaration_specifiers
 	:   (   storage_class_specifier
 		|   type_specifier
 		|   type_qualifier
-		|   gcc_function_specifier
-		|   gcc_declaration_specifier
 		)+
 	;
 
@@ -144,7 +141,6 @@ type_specifier
 	| struct_or_union_specifier
 	| enum_specifier
 	| type_id
-	| gcc_typeof
 	;
 
 type_id
@@ -156,10 +152,10 @@ struct_or_union_specifier
 options {k=3;}
 scope Symbols; // structs are scopes
 @init {
-  $Symbols::types = new HashSet<string>();
+  $Symbols::types = new HashSet();
 }
-	: struct_or_union gcc_attribute_list? IDENTIFIER? '{' struct_declaration_list '}'
-	| struct_or_union gcc_attribute_list? IDENTIFIER
+	: struct_or_union IDENTIFIER? '{' struct_declaration_list '}'
+	| struct_or_union IDENTIFIER
 	;
 
 struct_or_union
@@ -173,11 +169,10 @@ struct_declaration_list
 
 struct_declaration
 	: specifier_qualifier_list struct_declarator_list ';'
-	| ';' // for gcc
 	;
 
 specifier_qualifier_list
-	: ( type_qualifier | type_specifier | gcc_declaration_specifier)+
+	: ( type_qualifier | type_specifier )+
 	;
 
 struct_declarator_list
@@ -185,14 +180,15 @@ struct_declarator_list
 	;
 
 struct_declarator
-	: declarator
-	| declarator? ':' constant_expression gcc_attribute_list?
+	: declarator (':' constant_expression)?
+	| ':' constant_expression
 	;
 
 enum_specifier
-options {k=4;}
-	: 'enum' gcc_attribute_list? IDENTIFIER? '{' enumerator_list '}'
-	| 'enum' gcc_attribute_list? IDENTIFIER
+options {k=3;}
+	: 'enum' '{' enumerator_list '}'
+	| 'enum' IDENTIFIER '{' enumerator_list '}'
+	| 'enum' IDENTIFIER
 	;
 
 enumerator_list
@@ -206,29 +202,22 @@ enumerator
 type_qualifier
 	: 'const'
 	| 'volatile'
-	| 'restrict'		// for gcc
-	| '__const'			// for gcc
-	| '__volatile'		// for gcc
-	| '__restrict'		// for gcc
-	| '__const__'		// for gcc
-	| '__volatile__'	// for gcc
-	| '__restrict__'	// for gcc
 	;
 
 declarator
-	: pointer? direct_declarator gcc_asm_expression? gcc_attribute_list?
+	: pointer? direct_declarator
 	| pointer
 	;
 
 direct_declarator
 	:   (	IDENTIFIER
 			{
-			if ($declaration.size() > 0 && $declaration::isTypedef) {
+			if ($declaration.size()>0&&$declaration::isTypedef) {
 				$Symbols::types.add($IDENTIFIER.text);
-				//Console.WriteLine("define type "+$IDENTIFIER.text);
+				System.out.println("define type "+$IDENTIFIER.text);
 			}
 			}
-		|	'(' gcc_attribute_list? declarator ')'
+		|	'(' declarator ')'
 		)
 		declarator_suffix*
 	;
@@ -241,8 +230,10 @@ declarator_suffix
 	|   '(' ')'
 	;
 
-pointer		// for gcc
-	: ('*' (type_qualifier | gcc_attribute)*)+
+pointer
+	: '*' type_qualifier+ pointer?
+	| '*' pointer
+	| '*'
 	;
 
 parameter_type_list
@@ -266,18 +257,19 @@ type_name
 	;
 
 abstract_declarator
-	: pointer
-	| pointer? direct_abstract_declarator gcc_asm_expression? gcc_attribute_list?
+	: pointer direct_abstract_declarator?
+	| direct_abstract_declarator
 	;
 
 direct_abstract_declarator
-	: ( '(' gcc_attribute_list? abstract_declarator ')' | abstract_declarator_suffix ) abstract_declarator_suffix*
+	:	( '(' abstract_declarator ')' | abstract_declarator_suffix ) abstract_declarator_suffix*
 	;
 
 abstract_declarator_suffix
-	:	'[' gcc_array_type_modifier* constant_expression? ']'
-	|	'[' gcc_array_type_modifier* '*' ']'
-	|	'(' parameter_type_list? ')'
+	:	'[' ']'
+	|	'[' constant_expression ']'
+	|	'(' ')'
+	|	'(' parameter_type_list ')'
 	;
 	
 initializer
@@ -286,21 +278,8 @@ initializer
 	;
 
 initializer_list
-	: designation?
-	  initializer
-	  (',' designation? initializer)*
+	: initializer (',' initializer)*
 	;
-
-designation
-	: designator+ '=' ;
-
-designator
-	: '[' constant_expression ']'
-	| '.' IDENTIFIER
-	  // GCC extension
-	| '[' constant_expression '...' constant_expression ']'
-	;
-
 
 // E x p r e s s i o n s
 
@@ -328,10 +307,6 @@ unary_expression
 	| unary_operator cast_expression
 	| 'sizeof' unary_expression
 	| 'sizeof' '(' type_name ')'
-	// gcc extension
-	| '__alignof__' unary_expression
-	| '__alignof__' '(' type_name ')'
-	| gcc_extension_specifier cast_expression
 	;
 
 postfix_expression
@@ -344,8 +319,6 @@ postfix_expression
 		|   '++'
 		|   '--'
 		)*
-	| gcc_builtin_va_arg
-	| gcc_builtin_offsetof
 	;
 
 unary_operator
@@ -361,7 +334,6 @@ primary_expression
 	: IDENTIFIER
 	| constant
 	| '(' expression ')'
-	| gcc_statement_expression
 	;
 
 constant
@@ -390,7 +362,7 @@ character_literal
 	;
 
 string_literal
-	:	STRING_LITERAL+
+	:	STRING_LITERAL
 	;
 
 floating_point_literal
@@ -432,8 +404,6 @@ assignment_operator
 
 conditional_expression
 	: logical_or_expression ('?' expression ':' conditional_expression)?
-	// gcc extension
-	| logical_or_expression '?' ':' conditional_expression
 	;
 
 logical_or_expression
@@ -476,7 +446,6 @@ statement
 	| selection_statement
 	| iteration_statement
 	| jump_statement
-	| gcc_asm_statement
 	;
 
 labeled_statement
@@ -488,13 +457,13 @@ labeled_statement
 compound_statement
 scope Symbols; // blocks have a scope of symbols
 @init {
-  $Symbols::types = new HashSet<string>();
+  $Symbols::types = new HashSet();
 }
-	: '{' block_item* '}'
+	: '{' declaration* statement_list? '}'
 	;
 
-block_item
-	: declaration | statement
+statement_list
+	: statement+
 	;
 
 expression_statement
@@ -520,102 +489,6 @@ jump_statement
 	| 'return' ';'
 	| 'return' expression ';'
 	;
-
-// -------------------------------- start gcc extension --------------------------------
-
-gcc_function_specifier
-	: 'inline'
-	| '__inline__'
-	| '__inline'
-	| '__builtin_va_list'
-	;
-
-gcc_extension_specifier
-	: '__extension__'
-	;
-
-gcc_declaration_specifier
-	: gcc_attribute
-	| gcc_extension_specifier
-	;
-
-gcc_attribute_list
-	: gcc_attribute+
-	;
-
-gcc_attribute
-	: '__attribute__' '(' '(' gcc_attribute_parameter_list ')' ')'
-	;
-
-gcc_attribute_parameter_list
-	: gcc_attribute_parameter (',' gcc_attribute_parameter)*
-	;
-
-gcc_attribute_parameter
-	: gcc_attribute_name
-	| gcc_attribute_name '(' (assignment_expression (',' assignment_expression)*)? ')'
-	;
-
-gcc_attribute_name
-	: IDENTIFIER
-	| storage_class_specifier
-	| type_specifier
-	| type_qualifier
-	| gcc_function_specifier
-	;
-
-gcc_asm_statement :   gcc_asm_expression ';' ;
-
-gcc_asm_expression :   ( '__asm__' | 'asm' )
-					   ( type_qualifier )?
-					   '('
-					   expression expression?
-						 (
-						  ':' ( gcc_asm_operand ( ',' gcc_asm_operand )* )?
-							(
-							 ':' ( gcc_asm_operand ( ',' gcc_asm_operand )* )?
-							   (
-								':'   gcc_asm_clobber ( ',' gcc_asm_clobber )*
-							   )?
-							)?
-						 )?
-					   ')'
-				   ;
-
-gcc_asm_operand :   ( '[' IDENTIFIER ']' )? string_literal '(' expression ')' ;
-
-gcc_asm_clobber :   string_literal ;
-
-
-gcc_statement_expression
-	: '(' compound_statement ')'
-	;
-
-gcc_array_type_modifier_list
-	: gcc_array_type_modifier+
-	;
-
-gcc_array_type_modifier
-	: type_qualifier
-	| gcc_attribute
-	;
-
-gcc_builtin_va_arg
-	: '__builtin_va_arg' '(' assignment_expression ',' type_name ')'
-	;
-
-gcc_typeof
-	: 'typeof' '(' ( type_name | assignment_expression ) ')'
-	;
-
-gcc_builtin_offsetof
-	: '__builtin_offsetof' '(' type_name ',' offsetof_member_designator ')'
-	;
-	 
-offsetof_member_designator
-	: IDENTIFIER ('.' IDENTIFIER | '[' expression ']')*
-	;
-// --------------------------------- end gcc extension ---------------------------------
 
 IDENTIFIER
 	:	LETTER (LETTER|'0'..'9')*
@@ -650,7 +523,6 @@ fragment
 IntegerTypeSuffix
 	:	('u'|'U')? ('l'|'L')
 	|	('u'|'U')  ('l'|'L')?
-	|	('u'|'U')? ('l'|'L') ('l'|'L')
 	;
 
 FLOATING_POINT_LITERAL
@@ -684,7 +556,7 @@ UnicodeEscape
 	:   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
 	;
 
-WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') {Skip();}
+WS  :  (' '|'\r'|'\t'|'\u000C'|'\n') {$channel=HIDDEN;}
 	;
 
 COMMENT
@@ -697,5 +569,5 @@ LINE_COMMENT
 
 // ignore #line info for now
 LINE_COMMAND 
-	: '#' ~('\n'|'\r')* '\r'? '\n' {Skip();}
+	: '#' ~('\n'|'\r')* '\r'? '\n' {$channel=HIDDEN;}
 	;
