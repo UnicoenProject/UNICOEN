@@ -793,14 +793,12 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			 * expression
 			 *		: assignmentExpression (LT!* ',' LT!* assignmentExpression)*
 			 */
-			var expressions = node.Elements("assignmentExpression")
+
+			// 式が１つの場合はUnifiedExpressionとして、複数の場合はUnifiedExpressionListとして返す
+			return node.Elements("assignmentExpression")
 					.Select(CreateAssignmentExpression)
-					.ToList();
-			// 式が１つの場合はUnifiedExpressionとして、複数の場合はUnifiedBlockとして返す
-			if (expressions.Count == 1) {
-				return expressions[0];
-			}
-			return UnifiedBlock.Create(expressions);
+					.ToList()
+                    .ToSmartExpressionList();
 		}
 
 		public static UnifiedExpression CreateExpressionNoIn(XElement node) {
@@ -1581,7 +1579,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 			var value = node.Value;
 			if (value.StartsWith("0x") || value.Contains("0X")) {
 				return UnifiedIntegerLiteral.CreateBigInteger(
-						LiteralFuzzyParser.ParseHexicalBigInteger(
+						NumberParser.ParseHexicalBigInteger(
 								value.Substring(2)));
 			}
 			if (value.Contains(".") || value.Contains("e")
@@ -1589,7 +1587,7 @@ namespace Unicoen.Languages.JavaScript.ProgramGenerators {
 				return double.Parse(value).ToLiteral();
 			}
 			return UnifiedIntegerLiteral.CreateBigInteger(
-					LiteralFuzzyParser.ParseBigInteger(value));
+					NumberParser.ParseBigInteger(value));
 		}
 
 		public static UnifiedLiteral CreateStringliteral(XElement node) {

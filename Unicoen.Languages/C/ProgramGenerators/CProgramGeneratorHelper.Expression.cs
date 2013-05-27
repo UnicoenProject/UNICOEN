@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Xml.Linq;
@@ -28,72 +27,69 @@ using Unicoen.ProgramGenerators;
 // ReSharper disable InvocationIsSkipped
 
 namespace Unicoen.Languages.C.ProgramGenerators {
-	// for Expressions
-	public static partial class CProgramGeneratorHelper {
-		// Expressions
-		public static UnifiedSet<UnifiedArgument> CreateArgumentExpressionList(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "argument_expression_list");
-			/*
+    // for Expressions
+    public static partial class CProgramGeneratorHelper {
+        // Expressions
+        public static UnifiedSet<UnifiedArgument> CreateArgumentExpressionList(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "argument_expression_list");
+            /*
 			argument_expression_list
 			:   assignment_expression (',' assignment_expression)*
 			*/
 
-			var arguments = node.Elements("assignment_expression").
-					Select(CreateAssignmentExpression).
-					Select(e => UnifiedArgument.Create(e));
-			return UnifiedSet<UnifiedArgument>.Create(arguments);
-		}
+            var arguments = node.Elements("assignment_expression").
+                    Select(CreateAssignmentExpression).
+                    Select(e => UnifiedArgument.Create(e));
+            return UnifiedSet<UnifiedArgument>.Create(arguments);
+        }
 
-		public static UnifiedExpression CreateAdditiveExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "additive_expression");
-			/*
+        public static UnifiedExpression CreateAdditiveExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "additive_expression");
+            /*
 			additive_expression
-			: (multiplicative_expression) ('+' multiplicative_expression | '-' multiplicative_expression)*
+			: multiplicative_expression ('+' multiplicative_expression | '-' multiplicative_expression)*
 			*/
 
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateMultiplicativeExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateMultiplicativeExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateMultiplicativeExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "multiplicative_expression");
-			/*
+        public static UnifiedExpression CreateMultiplicativeExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "multiplicative_expression");
+            /*
 			multiplicative_expression
-			: (cast_expression) ('*' cast_expression | '/' cast_expression | '%' cast_expression)*
+			: cast_expression ('*' cast_expression | '/' cast_expression | '%' cast_expression)*
 			*/
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateCastExpression, Sign2BinaryOperator);
+        }
 
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateCastExpression, Sign2BinaryOperator);
-		}
-
-		public static UnifiedExpression CreateCastExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "cast_expression");
-			/*
+        public static UnifiedExpression CreateCastExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "cast_expression");
+            /*
 			cast_expression
 			: '(' type_name ')' cast_expression
 			| unary_expression
 			*/
-			if (node.Element("cast_expression") != null) {
-				return UnifiedCast.Create(
-						CreateTypeName(node.Element("type_name")),
-						CreateCastExpression(node.Element("cast_expression")));
-			}
-			if (node.Element("unary_expression") != null) {
-				return CreateUnaryExpression(node.Element("unary_expression"));
-			}
-			throw new InvalidOperationException();
-		}
+            var first = node.FirstElement();
+            if (first.Name != "unary_expression") {
+                return UnifiedCast.Create(
+                        CreateTypeName(node.NthElement(1)),
+                        CreateCastExpression(node.NthElement(3)));
+            }
+            return CreateUnaryExpression(first);
+        }
 
-		public static UnifiedExpression CreateUnaryExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "unary_expression");
-			/*
+        public static UnifiedExpression CreateUnaryExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "unary_expression");
+            /*
 			unary_expression
 			: postfix_expression
 			| '++' unary_expression
@@ -102,38 +98,29 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			| 'sizeof' unary_expression
 			| 'sizeof' '(' type_name ')'
 			 */
-			var first = node.FirstElement();
-			if (first.Name == "postfix_expression") {
-				return
-						CreatePostfixExpression(
-								node.Element("postfix_expression"));
-			}
-			if (first.Value == "sizeof") {
-				var expression = node.NthElement(1).Name == "unary_expression" ?
-																					   CreateUnaryExpression
-																							   (
-																									   node
-																											   .
-																											   NthElement
-																											   (
-																													   1))
-										 : CreateTypeName(node.NthElement(2));
-				UnifiedSizeof.Create(expression);
-			}
-			if (first.Name == "unary_operator") {
-				return UnifiedProgramGeneratorHelper.CreatePrefixUnaryExpression
-						(
-								node, CreateCastExpression,
-								Sign2PrefixUnaryOperator);
-			}
-			return UnifiedProgramGeneratorHelper.CreatePrefixUnaryExpression(
-					node, CreateUnaryExpression, Sign2PrefixUnaryOperator);
-		}
+            var first = node.FirstElement();
+            if (first.Name == "postfix_expression") {
+                return CreatePostfixExpression(node);
+            }
+            var second = node.NthElement(1);
+            if (first.Value == "sizeof") {
+                var expression = second.Name == "unary_expression"
+                        ? CreateUnaryExpression(second)
+                        : CreateTypeName(node.NthElement(2));
+                return UnifiedSizeof.Create(expression);
+            }
+            if (first.Name == "unary_operator") {
+                return UnifiedProgramGeneratorHelper.CreatePrefixUnaryExpression(
+                        node, CreateCastExpression, Sign2PrefixUnaryOperator);
+            }
+            return UnifiedProgramGeneratorHelper.CreatePrefixUnaryExpression(
+                    node, CreateUnaryExpression, Sign2PrefixUnaryOperator);
+        }
 
-		public static UnifiedExpression CreatePostfixExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "postfix_expression");
-			/*
+        public static UnifiedExpression CreatePostfixExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "postfix_expression");
+            /*
 			postfix_expression
 			:   primary_expression
 				(   '[' expression ']'
@@ -146,98 +133,87 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 				)*
 			*/
 
-			var result =
-					CreatePrimaryExpression(node.Element("primary_expression"));
-			var elements = node.Elements().Skip(1); //先頭以外のすべての要素を取得
-			var length = elements.Count();
+            var result = CreatePrimaryExpression(node.FirstElement());
+            var elements = node.Elements().Skip(1).ToList(); //先頭以外のすべての要素を取得
+            var length = elements.Count();
 
-			for (var i = 0; i < length; i++) {
-				switch (elements.ElementAt(i++).Value) {
-				case "[":
-					result = UnifiedIndexer.Create(
-							result,
-							UnifiedSet<UnifiedArgument>.Create(
-									UnifiedArgument.Create(
-											CreateExpression(
-													elements.ElementAt(i++)).
-													ElementAt(0))));
-					i++; // ']'読み飛ばし
-					break;
-				case "(":
-					if (elements.ElementAt(i).Name == "argument_expression_list") {
-						result = UnifiedCall.Create(
-								result,
-								CreateArgumentExpressionList(
-										elements.ElementAt(i++)));
-					} else {
-						result = UnifiedCall.Create(
-								result, UnifiedSet<UnifiedArgument>.Create());
-					}
-					i++; // ')'読み飛ばし
-					break;
-				case ".":
-					result = UnifiedProperty.Create(
-							".", result,
-							UnifiedIdentifier.CreateVariable(
-									elements.ElementAt(i++).Value));
-					break;
-				case "->":
-					result = UnifiedProperty.Create(
-							"->", result,
-							UnifiedIdentifier.CreateVariable(
-									elements.ElementAt(i++).Value));
-					// TODO ポインタ型に展開してから処理するのか？
-					break;
-				case "++":
-					result = UnifiedUnaryExpression.Create(
-							result,
-							UnifiedUnaryOperator.Create(
-									"++",
-									UnifiedUnaryOperatorKind.PostIncrementAssign));
-					break;
-				case "--":
-					result = UnifiedUnaryExpression.Create(
-							result,
-							UnifiedUnaryOperator.Create(
-									"--",
-									UnifiedUnaryOperatorKind.PostDecrementAssign));
-					break;
-				default:
-					throw new InvalidOperationException();
-				}
-			}
+            for (var i = 0; i < length;) {
+                switch (elements[i++].Value) {
+                case "[":
+                    result = UnifiedIndexer.Create(
+                            result,
+                            CreateExpression(elements[i++])
+                                    .ToArgument().ToSet());
+                    i++; // Skip ']'
+                    break;
+                case "(":
+                    var args = elements[i].Name == "argument_expression_list"
+                            ? CreateArgumentExpressionList(elements[i++])
+                            : UnifiedSet<UnifiedArgument>.Create();
+                    result = UnifiedCall.Create(result, args);
+                    i++; // Skip ')'
+                    break;
+                case ".":
+                    result = UnifiedProperty.Create(
+                            ".", result,
+                            UnifiedIdentifier.CreateVariable(elements[i++].Value));
+                    break;
+                case "->":
+                    result = UnifiedProperty.Create(
+                            "->", result,
+                            UnifiedIdentifier.CreateVariable(elements[i++].Value));
+                    // TODO ポインタ型に展開してから処理するのか？
+                    break;
+                case "++":
+                    result = UnifiedUnaryExpression.Create(
+                            result,
+                            UnifiedUnaryOperator.Create(
+                                    "++",
+                                    UnifiedUnaryOperatorKind.PostIncrementAssign));
+                    break;
+                case "--":
+                    result = UnifiedUnaryExpression.Create(
+                            result,
+                            UnifiedUnaryOperator.Create(
+                                    "--",
+                                    UnifiedUnaryOperatorKind.PostDecrementAssign));
+                    break;
+                default:
+                    throw new InvalidOperationException();
+                }
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		public static UnifiedExpression CreatePrimaryExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "primary_expression");
-			/*
+        public static UnifiedExpression CreatePrimaryExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "primary_expression");
+            /*
 			primary_expression
 			: IDENTIFIER
 			| constant
 			| '(' expression ')'
 			*/
 
-			var first = node.FirstElement();
-			if (first.Name == "IDENTIFIER") {
-				return UnifiedVariableIdentifier.Create(first.Value);
-			}
-			if (first.Name == "constant") {
-				return CreateConstant(first);
-			}
-			var second = node.NthElement(1);
-			if (second.Name == "expression") {
-				return CreateExpression(second).ElementAt(0);
-			}
-			throw new InvalidOperationException();
-		}
+            var first = node.FirstElement();
+            if (first.Name == "IDENTIFIER") {
+                return UnifiedVariableIdentifier.Create(first.Value);
+            }
+            if (first.Name == "constant") {
+                return CreateConstant(first);
+            }
+            var second = node.NthElement(1);
+            if (second.Name == "expression") {
+                return CreateExpression(second);
+            }
+            throw new InvalidOperationException();
+        }
 
-		public static UnifiedExpression CreateConstant(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "constant");
-			/*
+        public static UnifiedExpression CreateConstant(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "constant");
+            /*
 			 * constant
 			 * :   hex_literal
 			 * |   octal_literal
@@ -254,197 +230,196 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 			 * string_literal :	STRING_LITERAL	;
 			 * floating_point_literal :	FLOATING_POINT_LITERAL	;
 			 * */
-			var first = node.FirstElement().FirstElement();
-			switch (first.Name()) {
-			case "HEX_LITERAL":
-				return CreateHexLiteral(first);
-			case "OCTAL_LITERAL":
-				return CreateOctalLiteral(first);
-			case "DECIMAL_LITERAL":
-				return CreateDecimalLiteral(first);
-			case "CHARACTER_LITERAL":
-				return CreateCharacterLiteral(first);
-			case "STRING_LITERAL":
-				return CreateStringLiteral(first);
-			case "FLOATING_POINT_LITERAL":
-				return CreateFloatingPointLiteral(first);
-			default:
-				throw new InvalidOperationException();
-			}
-		}
+            var first = node.FirstElement().FirstElement();
+            switch (first.Name()) {
+            case "HEX_LITERAL":
+                return CreateHexLiteral(first);
+            case "OCTAL_LITERAL":
+                return CreateOctalLiteral(first);
+            case "DECIMAL_LITERAL":
+                return CreateDecimalLiteral(first);
+            case "CHARACTER_LITERAL":
+                return CreateCharacterLiteral(first);
+            case "STRING_LITERAL":
+                return CreateStringLiteral(first);
+            case "FLOATING_POINT_LITERAL":
+                return CreateFloatingPointLiteral(first);
+            default:
+                throw new InvalidOperationException();
+            }
+        }
 
-		// いろいろなところから呼ばれるが、返り値はIEnumerable<UnifiedExpression>でいいのか
-		public static IEnumerable<UnifiedExpression> CreateExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "expression");
-			/* expression
+        // いろいろなところから呼ばれるが、返り値はIEnumerable<UnifiedExpression>でいいのか
+        public static UnifiedExpression CreateExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "expression");
+            /* expression
 			 * : assignment_expression (',' assignment_expression)*
 			 */
+            return node.Elements("assignment_expression")
+                    .Select(CreateAssignmentExpression)
+                    .ToSmartExpressionList();
+        }
 
-			return
-					node.Elements("assignment_expression").Select(
-							CreateAssignmentExpression);
-		}
-
-		public static UnifiedExpression CreateConstantExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "constant_expression");
-			/*
+        public static UnifiedExpression CreateConstantExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "constant_expression");
+            /*
 			constant_expression
 			: conditional_expression
 			 */
 
-			return CreateConditionalExpression(node.FirstElement());
-		}
+            return CreateConditionalExpression(node.FirstElement());
+        }
 
-		public static UnifiedExpression CreateAssignmentExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "assignment_expression");
-			/*
+        public static UnifiedExpression CreateAssignmentExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "assignment_expression");
+            /*
 			assignment_expression
 			: lvalue assignment_operator assignment_expression
 			| conditional_expression
 			 */
-			var first = node.FirstElement();
+            var first = node.FirstElement();
 
-			if (first.Name == "conditional_expression") {
-				return CreateConditionalExpression(first);
-			}
-			if (first.Name == "lvalue") {
-				return UnifiedBinaryExpression.Create(
-						CreateLvalue(first),
-						CreateAssignmentOperator(node.ElementAt(1)),
-						CreateAssignmentExpression(node.ElementAt(2)));
-			}
-			throw new InvalidOperationException();
-		}
+            if (first.Name == "conditional_expression") {
+                return CreateConditionalExpression(first);
+            }
+            if (first.Name == "lvalue") {
+                return UnifiedBinaryExpression.Create(
+                        CreateLvalue(first),
+                        CreateAssignmentOperator(node.ElementAt(1)),
+                        CreateAssignmentExpression(node.ElementAt(2)));
+            }
+            throw new InvalidOperationException();
+        }
 
-		public static UnifiedExpression CreateLvalue(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "lvalue");
-			/*
+        public static UnifiedExpression CreateLvalue(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "lvalue");
+            /*
 			lvalue
 			:	unary_expression
 			*/
 
-			return CreateUnaryExpression(node.ElementAt(0));
-		}
+            return CreateUnaryExpression(node.ElementAt(0));
+        }
 
-		public static UnifiedExpression CreateConditionalExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "conditional_expression");
-			/*
+        public static UnifiedExpression CreateConditionalExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "conditional_expression");
+            /*
 			conditional_expression
 			: logical_or_expression ('?' expression ':' conditional_expression)?
 			*/
 
-			if (node.Elements().Count() == 1) {
-				return CreateLogicalOrExpression(node.FirstElement());
-			}
+            if (node.Elements().Count() == 1) {
+                return CreateLogicalOrExpression(node.FirstElement());
+            }
 
-			return UnifiedTernaryExpression.Create(
-					CreateLogicalOrExpression(node.ElementAt(0)),
-					CreateExpression(node.NthElement(2)).First(),
-					CreateConditionalExpression(node.NthElement(4)));
-		}
+            return UnifiedTernaryExpression.Create(
+                    CreateLogicalOrExpression(node.ElementAt(0)),
+                    CreateExpression(node.NthElement(2)),
+                    CreateConditionalExpression(node.NthElement(4)));
+        }
 
-		public static UnifiedExpression CreateLogicalOrExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "logical_or_expression");
-			/*
+        public static UnifiedExpression CreateLogicalOrExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "logical_or_expression");
+            /*
 			logical_or_expression
 			: logical_and_expression ('||' logical_and_expression)*
 			 */
 
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateLogicalAndExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateLogicalAndExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateLogicalAndExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "logical_and_expression");
-			/*
+        public static UnifiedExpression CreateLogicalAndExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "logical_and_expression");
+            /*
 			logical_and_expression
 			: inclusive_or_expression ('&&' inclusive_or_expression)*
 			 */
 
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateInclusiveOrExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateInclusiveOrExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateInclusiveOrExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "inclusive_or_expression");
-			/*
+        public static UnifiedExpression CreateInclusiveOrExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "inclusive_or_expression");
+            /*
 			inclusive_or_expression
 			: exclusive_or_expression ('|' exclusive_or_expression)*
 			*/
 
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateExclusiveOrExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateExclusiveOrExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateExclusiveOrExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "exclusive_or_expression");
-			/*
+        public static UnifiedExpression CreateExclusiveOrExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "exclusive_or_expression");
+            /*
 			exclusive_or_expression
 			: and_expression ('^' and_expression)*
 			*/
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateAndExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateAndExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateAndExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "and_expression");
-			/*
+        public static UnifiedExpression CreateAndExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "and_expression");
+            /*
 			and_expression
 			: equality_expression ('&' equality_expression)*
 			 */
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateEqualityExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateEqualityExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateEqualityExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "equality_expression");
-			/*
+        public static UnifiedExpression CreateEqualityExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "equality_expression");
+            /*
 			equality_expression
 			: relational_expression (('=='|'!=') relational_expression)*
 			*/
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateRelationalExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateRelationalExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateRelationalExpression(
-				XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "relational_expression");
-			/*
+        public static UnifiedExpression CreateRelationalExpression(
+                XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "relational_expression");
+            /*
 			relational_expression
 			: shift_expression (('<'|'>'|'<='|'>=') shift_expression)*
 			*/
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateShiftExpression, Sign2BinaryOperator);
-		}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateShiftExpression, Sign2BinaryOperator);
+        }
 
-		public static UnifiedExpression CreateShiftExpression(XElement node) {
-			Contract.Requires(node != null);
-			Contract.Requires(node.Name() == "shift_expression");
-			/*
+        public static UnifiedExpression CreateShiftExpression(XElement node) {
+            Contract.Requires(node != null);
+            Contract.Requires(node.Name() == "shift_expression");
+            /*
 			shift_expression
 			: additive_expression (('<<'|'>>') additive_expression)*
 			*/
-			return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
-					node, CreateAdditiveExpression, Sign2BinaryOperator);
-		}
-	}
+            return UnifiedProgramGeneratorHelper.CreateBinaryExpression(
+                    node, CreateAdditiveExpression, Sign2BinaryOperator);
+        }
+    }
 }

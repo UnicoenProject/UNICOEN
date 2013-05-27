@@ -2393,14 +2393,14 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			BigInteger result = 0;
 			if (value != "0") {
 				if (value[0] != '0') {
-					result = LiteralFuzzyParser.ParseBigInteger(value);
+					result = NumberParser.ParseBigInteger(value);
 				} else if (value[1] == 'x' || value[1] == 'X') {
 					result =
-							LiteralFuzzyParser.ParseHexicalBigInteger(
+							NumberParser.ParseHexicalBigInteger(
 									value.Substring(2));
 				} else {
 					result =
-							LiteralFuzzyParser.ParseOcatleBigInteger(
+							NumberParser.ParseOcatleBigInteger(
 									value.Substring(1));
 				}
 			}
@@ -2475,9 +2475,9 @@ namespace Unicoen.Languages.Java.ProgramGenerators {
 			var numAndExp = value.Split('p');
 			var number = numAndExp[0].Split('.');
 			var n =
-					LiteralFuzzyParser.ParseHexicalIntegerDouble(
+					NumberParser.ParseHexicalIntegerDouble(
 							number[0].Substring(2));
-			var f = LiteralFuzzyParser.ParseHexicalFractionDouble(number[1]);
+			var f = NumberParser.ParseHexicalFractionDouble(number[1]);
 			var result = n + f;
 			if (numAndExp[1].Length != 0) {
 				var exp = int.Parse(numAndExp[1]);

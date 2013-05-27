@@ -58,18 +58,18 @@ namespace Unicoen.Languages.Ruby18.Model {
                         new[] { "..." }, StringSplitOptions.None);
                 return UnifiedRange.CreateNotContainingMax(
                         UnifiedIntegerLiteral.CreateInt32(
-                                LiteralFuzzyParser.ParseBigInteger(numbers[0])),
+                                NumberParser.ParseBigInteger(numbers[0])),
                         UnifiedIntegerLiteral.CreateInt32(
-                                LiteralFuzzyParser.ParseBigInteger(numbers[1])));
+                                NumberParser.ParseBigInteger(numbers[1])));
             }
             {
                 var numbers = node.Value.Split(
                         new[] { ".." }, StringSplitOptions.None);
                 return UnifiedRange.Create(
                         UnifiedIntegerLiteral.CreateInt32(
-                                LiteralFuzzyParser.ParseBigInteger(numbers[0])),
+                                NumberParser.ParseBigInteger(numbers[0])),
                         UnifiedIntegerLiteral.CreateInt32(
-                                LiteralFuzzyParser.ParseBigInteger(numbers[1])));
+                                NumberParser.ParseBigInteger(numbers[1])));
             }
         }
 
@@ -137,7 +137,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             Contract.Requires(node.Name() == "Bignum");
             return
                     UnifiedInt32Literal.Create(
-                            LiteralFuzzyParser.ParseBigInteger(node.Value));
+                            NumberParser.ParseBigInteger(node.Value));
         }
 
         public static UnifiedExpression CreateFixnum(XElement node) {
@@ -145,7 +145,7 @@ namespace Unicoen.Languages.Ruby18.Model {
             Contract.Requires(node.Name() == "Fixnum");
             return
                     UnifiedInt32Literal.Create(
-                            LiteralFuzzyParser.ParseInt32(node.Value));
+                            NumberParser.ParseInt32(node.Value));
         }
 
         public static UnifiedBooleanLiteral CreateTrue(XElement node) {

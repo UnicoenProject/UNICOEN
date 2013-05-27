@@ -16,50 +16,42 @@
 
 #endregion
 
-using System.Collections.Generic;
-using Unicoen.Core.Visitors;
+using System.Diagnostics;
+using Unicoen.Model;
+using Unicoen.Processor;
 
-namespace Unicoen.Core.Model {
-	/// <summary>
-	///   自分自身が式である式の集合を表します。
-	///   C 言語における return 1,2; の 1,2 など
-	/// </summary>
-	public class UnifiedExpressionList
-			: UnifiedElementCollection<IUnifiedExpression, UnifiedExpressionList>,
-			  IUnifiedExpression {
-		protected UnifiedExpressionList() {}
+namespace Unicoen.Model {
+    /// <summary>
+    ///   自分自身が式である式の集合を表します。
+    ///   C 言語における return 1,2; の 1,2 など
+    /// </summary>
+    public class UnifiedExpressionList
+            : UnifiedExpressionCollectionBase<UnifiedExpression, UnifiedExpressionList> {
+        /// <summary>
+        ///   レシーバーと同じ型のオブジェクトを生成します．
+        /// </summary>
+        /// <returns> 生成したオブジェクト </returns>
+        public override UnifiedExpressionList CreateSelf() {
+            return new UnifiedExpressionList();
+        }
 
-		protected UnifiedExpressionList(
-				IEnumerable<IUnifiedExpression> expressions)
-				: base(expressions) {}
+        protected UnifiedExpressionList() {}
 
-		public override void Accept(IUnifiedModelVisitor visitor) {
-			visitor.Visit(this);
-		}
+        [DebuggerStepThrough]
+        public override void Accept(UnifiedVisitor visitor) {
+            visitor.Visit(this);
+        }
 
-		public override void Accept<TData>(
-				IUnifiedModelVisitor<TData> visitor,
-				TData state) {
-			visitor.Visit(this, state);
-		}
+        [DebuggerStepThrough]
+        public override void Accept<TArg>(
+                UnifiedVisitor<TArg> visitor, TArg arg) {
+            visitor.Visit(this, arg);
+        }
 
-		public override TResult Accept<TData, TResult>(
-				IUnifiedModelVisitor<TData, TResult> visitor, TData state) {
-			return visitor.Visit(this, state);
-		}
-
-		public static UnifiedExpressionList Create() {
-			return new UnifiedExpressionList();
-		}
-
-		public static UnifiedExpressionList Create(
-				params IUnifiedExpression[] elements) {
-			return new UnifiedExpressionList(elements);
-		}
-
-		public static UnifiedExpressionList Create(
-				IEnumerable<IUnifiedExpression> elements) {
-			return new UnifiedExpressionList(elements);
-		}
-			  }
+        [DebuggerStepThrough]
+        public override TResult Accept<TArg, TResult>(
+                UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+            return visitor.Visit(this, arg);
+        }
+    }
 }

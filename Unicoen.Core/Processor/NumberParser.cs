@@ -20,10 +20,10 @@ using System;
 using System.Numerics;
 
 namespace Unicoen.Processor {
-	public static class LiteralFuzzyParser {
+	public static class NumberParser {
 		private static readonly int[] Char2Int;
 
-		static LiteralFuzzyParser() {
+		static NumberParser() {
 			Char2Int = new int[128];
 			Char2Int['0'] = 0;
 			Char2Int['1'] = 1;

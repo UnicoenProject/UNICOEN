@@ -21,8 +21,22 @@ namespace Unicoen.Model {
 	///   浮動小数点の種類を表します
 	/// </summary>
 	public enum UnifiedFractionLiteralKind {
+        /// <summary>
+        /// 32 bit
+        /// </summary>
 		Single,
+        /// <summary>
+        /// 64 bit
+        /// </summary>
 		Double,
+        /// <summary>
+        /// 80 bit
+        /// </summary>
+        Double80,
+        /// <summary>
+        /// 128 bit
+        /// </summary>
+        Double128,
 		Imaginary,
 	}
 }

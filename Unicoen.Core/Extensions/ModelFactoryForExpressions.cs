@@ -46,6 +46,19 @@ namespace Unicoen.Model {
 			return UnifiedProgram.Create(singleton.ToBlock());
 		}
 
+		public static UnifiedExpressionList ToExpressionList(
+				this IEnumerable<UnifiedExpression> collection) {
+			return UnifiedExpressionList.Create(collection);
+		}
+
+		public static UnifiedExpressionList ToExpressionList(
+				this UnifiedExpression singleton) {
+			if (singleton == null) {
+				return UnifiedExpressionList.Create();
+			}
+			return UnifiedExpressionList.Create(singleton);
+		}
+
 		public static UnifiedVariableDefinitionList ToVariableDefinitionList(
 				this IEnumerable<UnifiedVariableDefinition> expressions) {
 			return UnifiedVariableDefinitionList.Create(expressions);
@@ -122,76 +135,6 @@ namespace Unicoen.Model {
 				return UnifiedTupleLiteral.Create();
 			}
 			return UnifiedTupleLiteral.Create(singleton);
-		}
-
-		public static UnifiedExpression ToSmartListLiteral(
-				this IEnumerable<UnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1) {
-				return list[0];
-			}
-			return UnifiedListLiteral.Create(list);
-		}
-
-		public static UnifiedExpression ToSmartListLiteral(
-				this UnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static UnifiedExpression ToSmartArrayLiteral(
-				this IEnumerable<UnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1) {
-				return list[0];
-			}
-			return UnifiedArrayLiteral.Create(list);
-		}
-
-		public static UnifiedExpression ToSmartArrayLiteral(
-				this UnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static UnifiedExpression ToSmartSetLiteral(
-				this IEnumerable<UnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1) {
-				return list[0];
-			}
-			return UnifiedSetLiteral.Create(list);
-		}
-
-		public static UnifiedExpression ToSmartSetLiteral(
-				this UnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static UnifiedExpression ToSmartLazyListLiteral(
-				this IEnumerable<UnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1) {
-				return list[0];
-			}
-			return UnifiedIterableLiteral.Create(list);
-		}
-
-		public static UnifiedExpression ToSmartLazyListLiteral(
-				this UnifiedExpression singleton) {
-			return singleton;
-		}
-
-		public static UnifiedExpression ToSmartTupleLiteral(
-				this IEnumerable<UnifiedExpression> expressions) {
-			var list = expressions.ToList();
-			if (list.Count == 1) {
-				return list[0];
-			}
-			return UnifiedTupleLiteral.Create(list);
-		}
-
-		public static UnifiedExpression ToSmartTupleLiteral(
-				this UnifiedExpression singleton) {
-			return singleton;
 		}
 
 		public static UnifiedLinqExpression ToLinqExpression(

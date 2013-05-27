@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Types.cs" />
+    <Compile Include="Extensions\ModelFactoryForSmartExpressions.cs" />
     <Compile Include="Extensions\ModelSweeperGenericsForElement.cs" />
     <Compile Include="Extensions\ModelSweeperGenerics.cs" />
     <Compile Include="Extensions\ModelExtensions.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Model\Expressions\Types\UnifiedArrayType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedGenericType.cs" />
     <Compile Include="Model\Expressions\Types\UnifiedType.cs" />
+    <Compile Include="Model\Expressions\UnifiedExpressionList.cs" />
     <Compile Include="Model\Expressions\UnifiedSlice.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinition.cs" />
     <Compile Include="Model\Expressions\Definitions\UnifiedVariableDefinitionList.cs" />
@@ -278,7 +280,7 @@
     <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.cs" />
     <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Others.cs" />
     <Compile Include="CodeGenerators\JavaLikeCodeFactoryVisitor.Statements.cs" />
-    <Compile Include="Processor\LiteralFuzzyParser.cs" />
+    <Compile Include="Processor\NumberParser.cs" />
     <Compile Include="Processor\UnifiedFactory.cs" />
     <Compile Include="CodeGenerators\UnifiedCodeGenerator.cs" />
     <Compile Include="Processor\Decoration.cs" />

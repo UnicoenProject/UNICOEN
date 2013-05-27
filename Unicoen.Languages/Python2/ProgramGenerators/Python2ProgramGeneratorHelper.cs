@@ -1055,12 +1055,12 @@ namespace Unicoen.Languages.Python2.ProgramGenerators {
 				}
 				if (value.StartsWith("0x")) {
 					return UnifiedIntegerLiteral.CreateBigInteger(
-							LiteralFuzzyParser.ParseHexicalBigInteger(
+							NumberParser.ParseHexicalBigInteger(
 									value.Substring(2)));
 				}
 				if (value.StartsWith("0o")) {
 					return UnifiedIntegerLiteral.CreateBigInteger(
-							LiteralFuzzyParser.ParseOcatleBigInteger(
+							NumberParser.ParseOcatleBigInteger(
 									value.Substring(2)));
 				}
 				if (value.EndsWith("j")) {
@@ -1084,7 +1084,7 @@ namespace Unicoen.Languages.Python2.ProgramGenerators {
 					return d.ToLiteral();
 				}
 				return UnifiedIntegerLiteral.CreateBigInteger(
-						LiteralFuzzyParser.ParseBigInteger(value));
+						NumberParser.ParseBigInteger(value));
 			case "STRING":
 				return UnifiedStringLiteral.Create(first.Value);
 			}
