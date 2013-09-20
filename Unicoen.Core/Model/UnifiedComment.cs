@@ -17,7 +17,6 @@
 #endregion
 
 using System.Diagnostics;
-using Code2Xml.Core.Position;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
@@ -36,15 +35,12 @@ namespace Unicoen.Model {
 		}
 
 		[DebuggerStepThrough]
-		public override void Accept<TArg>(
-				UnifiedVisitor<TArg> visitor,
-				TArg arg) {
+		public override void Accept<TArg>(UnifiedVisitor<TArg> visitor, TArg arg) {
 			visitor.Visit(this, arg);
 		}
 
 		[DebuggerStepThrough]
-		public override TResult Accept<TArg, TResult>(
-				UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
+		public override TResult Accept<TArg, TResult>(UnifiedVisitor<TArg, TResult> visitor, TArg arg) {
 			return visitor.Visit(this, arg);
 		}
 	}

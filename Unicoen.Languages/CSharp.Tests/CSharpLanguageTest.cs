@@ -30,6 +30,11 @@ namespace Unicoen.Languages.CSharp.Tests {
 			get { return _fixture ?? (_fixture = new CSharpFixture()); }
 		}
 
+		[Test]
+		public void ParseUsing() {
+			CSharpFactory.GenerateModel("using System.Windows.Forms;");
+		}
+
 		#region TestFilePaths
 
 		/// <summary>

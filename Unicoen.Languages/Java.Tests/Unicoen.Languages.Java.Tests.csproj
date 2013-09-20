@@ -33,53 +33,44 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Core, Version=1.7.1.66, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Code2Xml.Core, Version=1.8.2.69, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Core.dll</HintPath>
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.C, Version=1.1.0.71, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.C.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.C">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.C.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.CSharp, Version=1.1.0.51, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.CSharp.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.CSharp">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Code2Xml.Languages.Java, Version=1.1.0.57, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.Java.dll</HintPath>
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.Java.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.JavaScript, Version=1.1.0.60, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.JavaScript">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.JavaScript.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.Lua, Version=1.1.0.44, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.Lua.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.Lua">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.Lua.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.Python2, Version=1.1.0.50, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.Python2.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.Python2">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.Python2.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.Python3, Version=1.1.0.52, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.Python3.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.Python3">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.Python3.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.Ruby18, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.Ruby18.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.Ruby18">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.Ruby18.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.Ruby19, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.Ruby19.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.Ruby19">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.Ruby19.dll</HintPath>
     </Reference>
-    <Reference Include="Code2Xml.Languages.SrcML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Code2Xml.1.7.1.66\lib\Code2Xml.Languages.SrcML.dll</HintPath>
+    <Reference Include="Code2Xml.Languages.SrcML">
+      <HintPath>..\..\packages\Code2Xml.1.8.2.69\lib\Code2Xml.Languages.SrcML.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>

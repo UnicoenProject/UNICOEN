@@ -31,14 +31,14 @@ namespace Unicoen.Languages.CSharp.Tests {
 		public override IEnumerable<TestCaseData> TestCodes {
 			get {
 				var result = Enumerable.Empty<TestCaseData>();
-				//result = result.Concat(new[] {
-				//        "M1();",
-				//        "new A();",
-				//}.Select(s => new TestCaseData(DecorateToCompile(s))));
+				result = result.Concat(new[] {
+				        "M1();",
+				        "new A();",
+				}.Select(s => new TestCaseData(DecorateToCompile(s))));
 
 				result = result.Concat(new[] {
-						//"class A { }",
-						//"public class A { }",
+						"class A { }",
+						"public class A { }",
 						"public class A { } public class B<T> where T : A { }",
 						"public class A {" +
 						"	public event KeyboadEventHandler" +

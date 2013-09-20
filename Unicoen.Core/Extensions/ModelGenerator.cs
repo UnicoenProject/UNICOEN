@@ -17,7 +17,7 @@
 #endregion
 
 using System.Xml.Linq;
-using Code2Xml.Core.Position;
+using Code2Xml.Core.Location;
 
 namespace Unicoen.Model {
 	public static class ModelGenerator {
@@ -27,17 +27,15 @@ namespace Unicoen.Model {
 		/// <typeparam name="T"> </typeparam>
 		/// <param name="self"> </param>
 		/// <returns> </returns>
-		public static T DeepCopy<T>(this T self)
-				where T : UnifiedElement, ICopiable {
+		public static T DeepCopy<T>(this T self) where T : UnifiedElement, ICopiable {
 			if (self == null) {
 				return null;
 			}
 			return (T)self.PrivateDeepCopy();
 		}
 
-		public static T SetPosition<T>(this T element, XElement e)
-				where T : UnifiedElement {
-			element.Position = CodePositions.Create(e);
+		public static T SetPosition<T>(this T element, XElement e) where T : UnifiedElement {
+			element.Position = CodeRange.Locate(e);
 			return element;
 		}
 	}

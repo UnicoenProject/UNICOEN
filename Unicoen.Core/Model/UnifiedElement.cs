@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Code2Xml.Core.Position;
+using Code2Xml.Core.Location;
 using Unicoen.Processor;
 
 namespace Unicoen.Model {
@@ -43,10 +43,7 @@ namespace Unicoen.Model {
 			return GetType().GetProperties()
 					.Where(p => p.Name != "Parent")
 					.Where(p => p.GetIndexParameters().Length == 0)
-					.Where(
-							p =>
-							typeof(UnifiedElement).IsAssignableFrom(
-									p.PropertyType))
+					.Where(p => typeof(UnifiedElement).IsAssignableFrom(p.PropertyType))
 					.ToList();
 		}
 
@@ -58,17 +55,10 @@ namespace Unicoen.Model {
 		public IList<FieldInfo> FieldInfos {
 			get {
 				if (_fieldInfos == null) {
-					_fieldInfos =
-							GetType().GetFields(
-									BindingFlags.Instance
-									| BindingFlags.NonPublic
-									| BindingFlags.SetField)
-									.Where(
-											p =>
-											typeof(UnifiedElement).
-													IsAssignableFrom(
-															p.FieldType))
-									.ToList();
+					_fieldInfos = GetType()
+							.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.SetField)
+							.Where(p => typeof(UnifiedElement).IsAssignableFrom(p.FieldType))
+							.ToList();
 				}
 				return _fieldInfos;
 			}
@@ -82,7 +72,7 @@ namespace Unicoen.Model {
 		/// <summary>
 		///   ソースコード上の位置情報を取得もしくは設定します．
 		/// </summary>
-		public CodePosition Position { get; set; }
+		public CodeRange Position { get; set; }
 
 		/// <summary>
 		///   ビジターを適用してコードモデルを走査します。
@@ -134,9 +124,8 @@ namespace Unicoen.Model {
 		/// <returns> 子要素 </returns>
 		public virtual IEnumerable<ElementReference>
 				ElementReferencesOfFields() {
-			return FieldInfos.Select(
-					f => ElementReference.Create(
-							() => (UnifiedElement)f.GetValue(this),
+			return FieldInfos.Select(f =>
+					ElementReference.Create(() => (UnifiedElement)f.GetValue(this),
 							e => f.SetValue(this, e)));
 		}
 

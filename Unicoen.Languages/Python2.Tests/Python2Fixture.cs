@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Code2Xml.Core;
+using Code2Xml.Core.Processors;
 using NUnit.Framework;
 using Unicoen.CodeGenerators;
 using Unicoen.Languages.Tests;
@@ -26,7 +27,7 @@ using Unicoen.ProgramGenerators;
 
 namespace Unicoen.Languages.Python2.Tests {
 	public partial class Python2Fixture : Fixture {
-		private static readonly string CompileCommand = ParserUtils.GetPythonPath(2) ?? "python";
+		private static readonly string CompileCommand = ExternalProgramUtils.GetPythonPath("2") ?? "python";
 
 		/// <summary>
 		///   対応する言語のソースコードの拡張子を取得します．
