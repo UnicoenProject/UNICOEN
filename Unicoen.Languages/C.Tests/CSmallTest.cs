@@ -15,6 +15,7 @@ namespace Unicoen.Languages.C.Tests
         public void ParseReturn() {
             var code = "int main() { return 0; }";
             var prog = CProgramGenerator.Instance.Generate(code);
+			Console.WriteLine(prog.ToXml());
             var returns = prog.Descendants<UnifiedReturn>();
             Assert.That(returns.Count(), Is.EqualTo(1));
         }

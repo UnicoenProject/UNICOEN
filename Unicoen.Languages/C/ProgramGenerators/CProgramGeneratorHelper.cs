@@ -193,7 +193,7 @@ namespace Unicoen.Languages.C.ProgramGenerators {
 					break;
 				case "type_specifier":
 					var typeSpecifier = CreateTypeSpecifier(e);
-					if (typeSpecifier.GetType().Equals(typeof(UnifiedType))) {
+					if (typeSpecifier.GetType() == typeof(UnifiedType)) {
 						types.Add((UnifiedType)CreateTypeSpecifier(e));
 					} else {
 						declaration = typeSpecifier;
